@@ -1,0 +1,13 @@
+.DS_Store
+.project
+.pydevproject
+.settings
+
+*.pyc
+*.pyo
+
+.idea/
+docs/sphinx/build/
+docs/sphinx/source/resources/packages/
+references/
+releases/
