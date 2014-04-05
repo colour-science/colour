@@ -8,8 +8,6 @@ Module Attributes
 
 .. attribute:: color.colorspaces.LOGGER
 
-.. attribute:: color.colorspaces.COLORSPACE
-
 .. attribute:: color.colorspaces.CIE_RGB_PRIMARIES
 
 .. attribute:: color.colorspaces.CIE_RGB_WHITEPOINT
@@ -104,8 +102,10 @@ Module Attributes
 
 .. attribute:: color.colorspaces.POINTER_GAMUT_DATA
 
-Functions
----------
+Classes
+-------
 
-.. autofunction:: colorspace
+.. autoclass:: Colorspace
+	:show-inheritance:
+	:members:
 

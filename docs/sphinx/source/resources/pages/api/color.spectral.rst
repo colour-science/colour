@@ -22,6 +22,13 @@ Module Attributes
 
 .. attribute:: color.spectral.ILLUMINANTS_RELATIVE_SPD
 
+.. attribute:: color.spectral.D_ILLUMINANTS_S_DISTRIBUTIONS
+
+Functions
+---------
+
+.. autofunction:: D_illuminantRelativeSpectralPowerDistribution
+
 Classes
 -------
 

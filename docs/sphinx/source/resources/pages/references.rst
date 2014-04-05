@@ -124,6 +124,8 @@ Illuminants Relative Spectral Power Distributions
 
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
+Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
 Temperature
 ***********
 
