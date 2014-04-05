@@ -11,6 +11,7 @@ Contents:
  Installation <resources/pages/installation>
  Usage <resources/pages/usage>
  Api <resources/pages/api>
+ Acknowledgements <resources/pages/acknowledgements>
  Changes <resources/pages/changes>
  References <resources/pages/references>
  About <resources/pages/about>
