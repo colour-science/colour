@@ -23,11 +23,11 @@ from __future__ import unicode_literals
 #***    External imports.
 #**********************************************************************************************************************
 import numpy
-from collections import namedtuple
 
 #**********************************************************************************************************************
 #***	Internal Imports.
 #**********************************************************************************************************************
+import color.exceptions
 import color.illuminants
 import color.verbose
 
@@ -42,7 +42,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "COLORSPACE",
+		   "Colorspace",
 		   "CIE_RGB_PRIMARIES",
 		   "CIE_RGB_WHITEPOINT",
 		   "CIE_RGB_TO_XYZ_MATRIX",
@@ -93,18 +93,299 @@ __all__ = ["LOGGER",
 		   "DCI_P3_INVERSE_TRANSFER_FUNCTION",
 		   "DCI_P3_COLORSPACE",
 		   "COLORSPACES",
-		   "POINTER_GAMUT_DATA",
-		   "colorspace"]
+		   "POINTER_GAMUT_DATA"]
 
 LOGGER = color.verbose.installLogger()
 
-COLORSPACE = namedtuple("Colorspace", ("name",
-									   "primaries",
-									   "whitepoint",
-									   "toXYZ",
-									   "fromXYZ",
-									   "transferFunction",
-									   "inverseTransferFunction"))
+#**********************************************************************************************************************
+#***	Module classes and definitions.
+#**********************************************************************************************************************
+class Colorspace(object):
+	"""
+	Defines a colorspace object.
+	"""
+
+	def __init__(self,
+				name,
+				primaries,
+				whitepoint,
+				toXYZ=None,
+				fromXYZ=None,
+				transferFunction=None,
+				inverseTransferFunction=None):
+		"""
+		Initializes the class.
+
+		:param name: Colorspace name.
+		:type name: str or unicode
+		:param primaries: Colorspace primaries.
+		:type primaries: Matrix
+		:param whitepoint: Colorspace whitepoint.
+		:type whitepoint: tuple or Matrix
+		:param toXYZ: Transformation matrix from colorspace to *CIE XYZ* colorspace.
+		:type toXYZ: Matrix
+		:param fromXYZ: Transformation matrix from *CIE XYZ* colorspace to colorspace.
+		:type fromXYZ: Matrix
+		:param transferFunction: Colorspace transfer function.
+		:type transferFunction: object
+		:param inverseTransferFunction: Colorspace inverse transfer function.
+		:type inverseTransferFunction: object
+		"""
+
+		# --- Setting class attributes. ---
+		self.__name = None
+		self.name = name
+		self.__primaries = None
+		self.primaries = primaries
+		self.__whitepoint = None
+		self.whitepoint = whitepoint
+		self.__toXYZ = None
+		self.toXYZ = toXYZ
+		self.__fromXYZ = None
+		self.fromXYZ = fromXYZ
+		self.__transferFunction = None
+		self.transferFunction = transferFunction
+		self.__inverseTransferFunction = None
+		self.inverseTransferFunction = inverseTransferFunction
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def name(self):
+		"""
+		Property for **self.__name** attribute.
+
+		:return: self.__name.
+		:rtype: str or unicode
+		"""
+
+		return self.__name
+
+	@name.setter
+	def name(self, value):
+		"""
+		Setter for **self.__name** attribute.
+
+		:param value: Attribute value.
+		:type value: str or unicode
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
+				"name", value)
+		self.__name = value
+
+	@name.deleter
+	def name(self):
+		"""
+		Deleter for **self.__name** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
+
+	@property
+	def primaries(self):
+		"""
+		Property for **self.__primaries** attribute.
+
+		:return: self.__primaries.
+		:rtype: Matrix
+		"""
+
+		return self.__primaries
+
+	@primaries.setter
+	def primaries(self, value):
+		"""
+		Setter for **self.__primaries** attribute.
+
+		:param value: Attribute value.
+		:type value: Matrix
+		"""
+
+		if value is not None:
+			assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("primaries",
+																							value)
+		self.__primaries = value
+
+	@primaries.deleter
+	def primaries(self):
+		"""
+		Deleter for **self.__primaries** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "primaries"))
+
+	@property
+	def whitepoint(self):
+		"""
+		Property for **self.__whitepoint** attribute.
+
+		:return: self.__whitepoint.
+		:rtype: Matrix
+		"""
+
+		return self.__whitepoint
+
+	@whitepoint.setter
+	def whitepoint(self, value):
+		"""
+		Setter for **self.__whitepoint** attribute.
+
+		:param value: Attribute value.
+		:type value: Matrix
+		"""
+
+		if value is not None:
+			assert type(value) in (tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format("whitepoint",
+																							value)
+		self.__whitepoint = value
+
+	@whitepoint.deleter
+	def whitepoint(self):
+		"""
+		Deleter for **self.__whitepoint** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "whitepoint"))
+
+	@property
+	def toXYZ(self):
+		"""
+		Property for **self.__toXYZ** attribute.
+
+		:return: self.__toXYZ.
+		:rtype: Matrix
+		"""
+
+		return self.__toXYZ
+
+	@toXYZ.setter
+	def toXYZ(self, value):
+		"""
+		Setter for **self.__toXYZ** attribute.
+
+		:param value: Attribute value.
+		:type value: Matrix
+		"""
+
+		if value is not None:
+			assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("toXYZ",
+																							value)
+		self.__toXYZ = value
+
+	@toXYZ.deleter
+	def toXYZ(self):
+		"""
+		Deleter for **self.__toXYZ** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "toXYZ"))
+
+	@property
+	def fromXYZ(self):
+		"""
+		Property for **self.__fromXYZ** attribute.
+
+		:return: self.__fromXYZ.
+		:rtype: Matrix
+		"""
+
+		return self.__fromXYZ
+
+	@fromXYZ.setter
+	def fromXYZ(self, value):
+		"""
+		Setter for **self.__fromXYZ** attribute.
+
+		:param value: Attribute value.
+		:type value: Matrix
+		"""
+
+		if value is not None:
+			assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("fromXYZ",
+																							value)
+		self.__fromXYZ = value
+
+	@fromXYZ.deleter
+	def fromXYZ(self):
+		"""
+		Deleter for **self.__fromXYZ** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fromXYZ"))
+
+	@property
+	def transferFunction(self):
+		"""
+		Property for **self.__transferFunction** attribute.
+
+		:return: self.__transferFunction.
+		:rtype: object
+		"""
+
+		return self.__transferFunction
+
+	@transferFunction.setter
+	def transferFunction(self, value):
+		"""
+		Setter for **self.__transferFunction** attribute.
+
+		:param value: Attribute value.
+		:type value: object
+		"""
+
+		if value is not None:
+			assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format("transferFunction", value)
+		self.__transferFunction = value
+
+	@transferFunction.deleter
+	def transferFunction(self):
+		"""
+		Deleter for **self.__transferFunction** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "transferFunction"))
+
+	@property
+	def inverseTransferFunction(self):
+		"""
+		Property for **self.__inverseTransferFunction** attribute.
+
+		:return: self.__inverseTransferFunction.
+		:rtype: object
+		"""
+
+		return self.__inverseTransferFunction
+
+	@inverseTransferFunction.setter
+	def inverseTransferFunction(self, value):
+		"""
+		Setter for **self.__inverseTransferFunction** attribute.
+
+		:param value: Attribute value.
+		:type value: object
+		"""
+
+		if value is not None:
+			assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format("inverseTransferFunction", value)
+		self.__inverseTransferFunction = value
+
+	@inverseTransferFunction.deleter
+	def inverseTransferFunction(self):
+		"""
+		Deleter for **self.__inverseTransferFunction** attribute.
+		"""
+
+		raise color.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "inverseTransferFunction"))
 
 #**********************************************************************************************************************
 #*** *CIE RGB*
@@ -126,7 +407,7 @@ CIE_RGB_TRANSFER_FUNCTION = lambda x: x
 
 CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x
 
-CIE_RGB_COLORSPACE = COLORSPACE("CIE RGB",
+CIE_RGB_COLORSPACE = Colorspace("CIE RGB",
 								CIE_RGB_PRIMARIES,
 								CIE_RGB_WHITEPOINT,
 								CIE_RGB_TO_XYZ_MATRIX,
@@ -156,7 +437,7 @@ ACES_RGB_TRANSFER_FUNCTION = lambda x: x
 
 ACES_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x
 
-ACES_RGB_COLORSPACE = COLORSPACE("ACES RGB",
+ACES_RGB_COLORSPACE = Colorspace("ACES RGB",
 								 ACES_RGB_PRIMARIES,
 								 ACES_RGB_WHITEPOINT,
 								 ACES_RGB_TO_XYZ_MATRIX,
@@ -250,7 +531,7 @@ REC_709_TRANSFER_FUNCTION = __rec709TransferFunction
 
 REC_709_INVERSE_TRANSFER_FUNCTION = __rec709InverseTransferFunction
 
-sRGB_COLORSPACE = COLORSPACE("sRGB",
+sRGB_COLORSPACE = Colorspace("sRGB",
 							 sRGB_PRIMARIES,
 							 sRGB_WHITEPOINT,
 							 sRGB_TO_XYZ_MATRIX,
@@ -258,7 +539,7 @@ sRGB_COLORSPACE = COLORSPACE("sRGB",
 							 sRGB_TRANSFER_FUNCTION,
 							 sRGB_INVERSE_TRANSFER_FUNCTION)
 
-REC_709_COLORSPACE = COLORSPACE("Rec. 709",
+REC_709_COLORSPACE = Colorspace("Rec. 709",
 								sRGB_PRIMARIES,
 								sRGB_WHITEPOINT,
 								sRGB_TO_XYZ_MATRIX,
@@ -317,7 +598,7 @@ ADOBE_RGB_1998_TRANSFER_FUNCTION = __adobe1998TransferFunction
 
 ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = __adobe1998InverseTransferFunction
 
-ADOBE_RGB_1998_COLORSPACE = COLORSPACE("Adobe RGB 1998",
+ADOBE_RGB_1998_COLORSPACE = Colorspace("Adobe RGB 1998",
 									   ADOBE_RGB_1998_PRIMARIES,
 									   ADOBE_RGB_1998_WHITEPOINT,
 									   ADOBE_RGB_1998_TO_XYZ_MATRIX,
@@ -391,7 +672,7 @@ PROPHOTO_RGB_TRANSFER_FUNCTION = __prophotoRgbTransferFunction
 
 PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = __prophotoRgbInverseTransferFunction
 
-PROPHOTO_RGB_COLORSPACE = COLORSPACE("ProPhoto RGB",
+PROPHOTO_RGB_COLORSPACE = Colorspace("ProPhoto RGB",
 									 PROPHOTO_RGB_PRIMARIES,
 									 PROPHOTO_RGB_WHITEPOINT,
 									 PROPHOTO_RGB_TO_XYZ_MATRIX,
@@ -419,7 +700,7 @@ DCI_P3_TRANSFER_FUNCTION = lambda x: x
 
 DCI_P3_INVERSE_TRANSFER_FUNCTION = lambda x: x
 
-DCI_P3_COLORSPACE = COLORSPACE("DCI-P3",
+DCI_P3_COLORSPACE = Colorspace("DCI-P3",
 							   DCI_P3_PRIMARIES,
 							   DCI_P3_WHITEPOINT,
 							   DCI_P3_TO_XYZ_MATRIX,
@@ -471,36 +752,3 @@ POINTER_GAMUT_DATA = ((0.659, 0.316),
 					  (0.393, 0.165),
 					  (0.451, 0.199),
 					  (0.508, 0.226))
-
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
-def colorspace(name=None,
-			   primaries=None,
-			   whitepoint=None,
-			   toXYZ=None,
-			   fromXYZ=None,
-			   transferFunction=None,
-			   inverseTransferFunction=None):
-	"""
-	Defines a factory for :data:`color.colorspaces.COLORSPACE` attribute.
-
-	:param name: Colorspace name.
-	:type name: unicode
-	:param primaries: Primaries matrix.
-	:type primaries: Matrix (3x3)
-	:param whitepoint: Reference whitepoint / illuminant.
-	:type whitepoint: tuple
-	:param toXYZ: Matrix to convert from colorspace to *CIE XYZ* colorspace.
-	:type toXYZ: Matrix (3x3)
-	:param fromXYZ: Matrix to convert from *CIE XYZ* colorspace to colorspace.
-	:type fromXYZ: Matrix (3x3)
-	:param transferFunction: Transfer function to convert values from linear to screen.
-	:type transferFunction: object
-	:param inverseTransferFunction: Inverse transfer function to convert values from screen to linear.
-	:type inverseTransferFunction: object
-	:return: Colorspace.
-	:rtype: Colorspace
-	"""
-
-	return COLORSPACE(name, primaries, whitepoint, toXYZ, fromXYZ, transferFunction, inverseTransferFunction)

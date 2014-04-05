@@ -9,14 +9,14 @@ from numpy import matrix
 import color
 
 # Displaying :attr:`color.colorspaces.COLORSPACES` data.
-name, primaries, whitepoint, toXYZ, fromXYZ, transferFunction, inverseTransferFunction = color.COLORSPACES["ACES RGB"]
+colorspace = color.COLORSPACES["ACES RGB"]
 
-print("Name: '{0}'".format(name))
-print("Primaries: '{0}'".format(primaries))
-print("Normalized primary matrix to 'CIE XYZ': '{0}'".format(toXYZ))
-print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(fromXYZ))
-print("Transfer function: '{0}'".format(transferFunction))
-print("Inverse transfer function: '{0}'".format(inverseTransferFunction))
+print("Name: '{0}'".format(colorspace.name))
+print("Primaries: '{0}'".format(colorspace.primaries))
+print("Normalized primary matrix to 'CIE XYZ': '{0}'".format(colorspace.toXYZ))
+print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(colorspace.fromXYZ))
+print("Transfer function: '{0}'".format(colorspace.transferFunction))
+print("Inverse transfer function: '{0}'".format(colorspace.inverseTransferFunction))
 
 # Calculating *ACES RGB* to *sRGB* transformation matrix.
 print("'ACES RGB' colorspace to 'sRGB' colorspace matrix:")

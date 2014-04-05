@@ -272,9 +272,9 @@ colorspaces_CIE_1931_chromaticityDiagramPlot(["sRGB", "ACES RGB", "Adobe RGB 199
 #**********************************************************************************************************************
 #***	Plotting a single custom colorspace in *CIE 1931 Chromaticity Diagram*.
 #**********************************************************************************************************************
-color.COLORSPACES["Awful RGB"] = color.color.colorspace("Awful RGB",
-														primaries=matrix([[0.1, 0.2], [0.3, 0.15], [0.05, 0.6]]),
-														whitepoint=(1. / 3., 1. / 3.))
+color.COLORSPACES["Awful RGB"] = color.Colorspace("Awful RGB",
+												  primaries=matrix([[0.1, 0.2], [0.3, 0.15], [0.05, 0.6]]),
+												  whitepoint=(1. / 3., 1. / 3.))
 print(sorted(color.COLORSPACES.keys()))
 colorspaces_CIE_1931_chromaticityDiagramPlot(["sRGB", "Awful RGB"])
 
