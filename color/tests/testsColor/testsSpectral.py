@@ -1873,7 +1873,7 @@ class D_illuminantRelativeSpectralPowerDistributionTestCase(unittest.TestCase):
 	Defines :func:`color.spectral.D_illuminantRelativeSpectralPowerDistribution` definition units tests methods.
 	"""
 
-	def testBlackbodyPowerSpectralDistribution(self):
+	def testD_illuminantRelativeSpectralPowerDistribution(self):
 		"""
 		Tests :func:`color.spectral.D_illuminantRelativeSpectralPowerDistribution` definition.
 		"""
