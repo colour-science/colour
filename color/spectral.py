@@ -68,7 +68,7 @@ class SpectralPowerDistribution(object):
 		Initializes the class.
 
 		:param name: Spectral distribution name.
-		:type name: unicode
+		:type name: str or unicode
 		:param spd: Spectral distribution.
 		:type spd: dict
 		"""
@@ -88,7 +88,7 @@ class SpectralPowerDistribution(object):
 		Property for **self.__name** attribute.
 
 		:return: self.__name.
-		:rtype: unicode
+		:rtype: str or unicode
 		"""
 
 		return self.__name
@@ -99,7 +99,7 @@ class SpectralPowerDistribution(object):
 		Setter for **self.__name** attribute.
 
 		:param value: Attribute value.
-		:type value: unicode
+		:type value: str or unicode
 		"""
 
 		if value is not None:
@@ -378,7 +378,7 @@ class AbstractColorMatchingFunctions(object):
 		Initializes the class.
 
 		:param name: Standard observer color matching functions name.
-		:type name: unicode
+		:type name: str or unicode
 		:param cmfs: Standard observer color matching functions.
 		:type cmfs: dict
 		:param mapping: Standard observer color matching functions attributes mapping.
@@ -404,7 +404,7 @@ class AbstractColorMatchingFunctions(object):
 		Property for **self.__name** attribute.
 
 		:return: self.__name.
-		:rtype: unicode
+		:rtype: str or unicode
 		"""
 
 		return self.__name
@@ -415,7 +415,7 @@ class AbstractColorMatchingFunctions(object):
 		Setter for **self.__name** attribute.
 
 		:param value: Attribute value.
-		:type value: unicode
+		:type value: str or unicode
 		"""
 
 		if value is not None:
