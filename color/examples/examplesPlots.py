@@ -44,7 +44,7 @@ singleIlluminantRelativeSpdPlot("F1")
 #***	Plotting multiple illuminants relative spectral power distributions.
 #**********************************************************************************************************************
 print(sorted(color.ILLUMINANTS_RELATIVE_SPD.keys()))
-multiIlluminantsRelativeSpdPlot(["A", "C", "D50", "D55", "D65", "D75", "F1"])
+multiIlluminantsRelativeSpdPlot(["A", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
 #**********************************************************************************************************************
 #***	Plotting an arbitrary single spectral power distribution.

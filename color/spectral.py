@@ -51,7 +51,9 @@ __all__ = ["LOGGER",
 		   "STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS",
 		   "STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS",
 		   "ILLUMINANTS_RELATIVE_SPD_DATA",
-		   "ILLUMINANTS_RELATIVE_SPD"]
+		   "ILLUMINANTS_RELATIVE_SPD",
+		   "D_ILLUMINANTS_S_DISTRIBUTIONS",
+		   "D_illuminantRelativeSpectralPowerDistribution"]
 
 LOGGER = color.verbose.installLogger()
 
@@ -343,7 +345,7 @@ class SpectralPowerDistribution(object):
 		wavelengths, values = zip(*[(wavelength, value) for wavelength, value in self])
 
 		self.__spd = dict([(wavelength, numpy.interp(wavelength, wavelengths, values, 0., 0.)) \
-						   for wavelength in numpy.arange(start, end + 1, steps)])
+						   for wavelength in numpy.arange(start, end + steps, steps)])
 
 		return self
 
@@ -364,7 +366,7 @@ class SpectralPowerDistribution(object):
 		start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
 
 		self.__spd = dict(
-			[(wavelength, self.get(wavelength, 0.)) for wavelength in numpy.arange(start, end + 1, steps)])
+			[(wavelength, self.get(wavelength, 0.)) for wavelength in numpy.arange(start, end + steps, steps)])
 
 		return self
 
@@ -8711,3 +8713,211 @@ ILLUMINANTS_RELATIVE_SPD = {
 	"F10": SpectralPowerDistribution("F10", ILLUMINANTS_RELATIVE_SPD_DATA.get("F10")),
 	"F11": SpectralPowerDistribution("F11", ILLUMINANTS_RELATIVE_SPD_DATA.get("F11")),
 	"F12": SpectralPowerDistribution("F12", ILLUMINANTS_RELATIVE_SPD_DATA.get("F12"))}
+
+# *CIE D-Illuminant* Sn(λ) distributions.
+# http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
+D_ILLUMINANTS_S_DISTRIBUTIONS = {
+	"S0": {
+		300: 0.04,
+		310: 6.00,
+		320: 29.60,
+		330: 55.30,
+		340: 57.30,
+		350: 61.80,
+		360: 61.50,
+		370: 68.80,
+		380: 63.40,
+		390: 65.80,
+		400: 94.80,
+		410: 104.80,
+		420: 105.90,
+		430: 96.80,
+		440: 113.90,
+		450: 125.60,
+		460: 125.50,
+		470: 121.30,
+		480: 121.30,
+		490: 113.50,
+		500: 113.10,
+		510: 110.80,
+		520: 106.50,
+		530: 108.80,
+		540: 105.30,
+		550: 104.40,
+		560: 100.00,
+		570: 96.00,
+		580: 95.10,
+		590: 89.10,
+		600: 90.50,
+		610: 90.30,
+		620: 88.40,
+		630: 84.00,
+		640: 85.10,
+		650: 81.90,
+		660: 82.60,
+		670: 84.90,
+		680: 81.30,
+		690: 71.90,
+		700: 74.30,
+		710: 76.40,
+		720: 63.30,
+		730: 71.70,
+		740: 77.00,
+		750: 65.20,
+		760: 47.70,
+		770: 68.60,
+		780: 65.00,
+		790: 66.00,
+		800: 61.00,
+		810: 53.30,
+		820: 58.90,
+		830: 61.90
+	},
+	"S1": {
+		300: 0.02,
+		310: 4.50,
+		320: 22.40,
+		330: 42.00,
+		340: 40.60,
+		350: 41.60,
+		360: 38.00,
+		370: 43.40,
+		380: 38.50,
+		390: 35.00,
+		400: 43.40,
+		410: 46.30,
+		420: 43.90,
+		430: 37.10,
+		440: 36.70,
+		450: 35.90,
+		460: 32.60,
+		470: 27.90,
+		480: 24.30,
+		490: 20.10,
+		500: 16.20,
+		510: 13.20,
+		520: 8.60,
+		530: 6.10,
+		540: 4.20,
+		550: 1.90,
+		560: 0.00,
+		570: -1.60,
+		580: -3.50,
+		590: -3.50,
+		600: -5.80,
+		610: -7.20,
+		620: -8.60,
+		630: -9.50,
+		640: -10.90,
+		650: -10.70,
+		660: -12.00,
+		670: -14.00,
+		680: -13.60,
+		690: -12.00,
+		700: -13.30,
+		710: -12.90,
+		720: -10.60,
+		730: -11.60,
+		740: -12.20,
+		750: -10.20,
+		760: -7.80,
+		770: -11.20,
+		780: -10.40,
+		790: -10.60,
+		800: -9.70,
+		810: -8.30,
+		820: -9.30,
+		830: -9.80
+	},
+	"S2": {
+		300: 0.0,
+		310: 2.0,
+		320: 4.0,
+		330: 8.5,
+		340: 7.8,
+		350: 6.7,
+		360: 5.3,
+		370: 6.1,
+		380: 3.0,
+		390: 1.2,
+		400: -1.1,
+		410: -0.5,
+		420: -0.7,
+		430: -1.2,
+		440: -2.6,
+		450: -2.9,
+		460: -2.8,
+		470: -2.6,
+		480: -2.6,
+		490: -1.8,
+		500: -1.5,
+		510: -1.3,
+		520: -1.2,
+		530: -1.0,
+		540: -0.5,
+		550: -0.3,
+		560: 0.0,
+		570: 0.2,
+		580: 0.5,
+		590: 2.1,
+		600: 3.2,
+		610: 4.1,
+		620: 4.7,
+		630: 5.1,
+		640: 6.7,
+		650: 7.3,
+		660: 8.6,
+		670: 9.8,
+		680: 10.2,
+		690: 8.3,
+		700: 9.6,
+		710: 8.5,
+		720: 7.0,
+		730: 7.6,
+		740: 8.0,
+		750: 6.7,
+		760: 5.2,
+		770: 7.4,
+		780: 6.8,
+		790: 7.0,
+		800: 6.4,
+		810: 5.5,
+		820: 6.1,
+		830: 6.5}}
+
+def D_illuminantRelativeSpectralPowerDistribution(xy, name=None):
+	"""
+	Returns the relative spectral power distribution of given *CIE D Illuminant* *xy* chromaticity coordinates.
+
+	Reference: http://www.brucelindbloom.com/Eqn_DIlluminant.html
+
+	Usage::
+
+		>>> D_illuminantRelativeSpectralPowerDistribution((0.34567, 0.35850))
+		<color.spectral.SpectralPowerDistribution object at 0x101023590>
+
+	:param xy: *xy* chromaticity coordinate.
+	:type xy: tuple
+	:param name: *CIE D Illuminant* name.
+	:type name: str or unicode
+	:return: *CIE D Illuminant* relative spectral power distribution.
+	:rtype: SpectralPowerDistribution
+	"""
+
+	M = 0.0241 + 0.2562 * xy[0] - 0.7341 * xy[1]
+	M1 = (-1.3515 - 1.7703 * xy[0] + 5.9114 * xy[1]) / M
+	M2 = (0.0300 - 31.4424 * xy[0] + 30.0717 * xy[1]) / M
+
+	distribution = {}
+	start, end, steps = SpectralPowerDistribution("Spd", D_ILLUMINANTS_S_DISTRIBUTIONS.get("S0")).shape
+	for i in numpy.arange(start, end + steps, steps):
+		S0 = D_ILLUMINANTS_S_DISTRIBUTIONS.get("S0").get(i)
+		S1 = D_ILLUMINANTS_S_DISTRIBUTIONS.get("S1").get(i)
+		S2 = D_ILLUMINANTS_S_DISTRIBUTIONS.get("S2").get(i)
+		distribution[i] = S0 + M1*S1 + M2 * S2
+
+	return SpectralPowerDistribution(name, distribution)
+
+# Add calculated *CIE D60 Illuminant* relative spectral power distribution.
+# xy = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D60")
+ILLUMINANTS_RELATIVE_SPD["D60"] = D_illuminantRelativeSpectralPowerDistribution((0.32168, 0.33767), "D60")
