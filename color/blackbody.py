@@ -118,4 +118,4 @@ def blackbodySpectralPowerDistribution(temperature, start=None, end=None, steps=
 													spd=dict(
 														(wavelength,
 														 blackbodySpectralRadiance(wavelength * 1e-9, temperature)) \
-														for wavelength in numpy.arange(start, end + 1, steps)))
+														for wavelength in numpy.arange(start, end + steps, steps)))

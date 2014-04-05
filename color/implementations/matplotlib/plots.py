@@ -543,7 +543,7 @@ def singleSpectralPowerDistributionPlot(spd,
 
 	start, end, steps = cmfs.shape
 	spd.resample(start, end, steps)
-	wavelengths = numpy.arange(start, end + 1, steps)
+	wavelengths = numpy.arange(start, end + steps, steps)
 
 	colors = []
 	y1 = []
@@ -801,7 +801,7 @@ def visibleSpectrumPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	cmfs.resample(360, 830)
 
 	start, end, steps = cmfs.shape
-	wavelengths = numpy.arange(start, end, steps)
+	wavelengths = numpy.arange(start, end + steps, steps)
 
 	colors = []
 	for i in wavelengths:
@@ -1089,7 +1089,7 @@ def planckianLocus_CIE_1931_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
 
 	start, end = 1667, 100000
 	x, y = zip(*map(lambda x: color.transformations.UVW_uv_to_xy(color.temperature.cct_to_uv(x, 0., cmfs)),
-					numpy.arange(start, end + 1, 250)))
+					numpy.arange(start, end + 250, 250)))
 
 	pylab.plot(x, y, color="black", linewidth=2.)
 
@@ -1314,7 +1314,7 @@ def planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(illuminants=["A", "C", "
 			color.transformations.xy_to_XYZ(x)))
 
 	start, end = 1667, 100000
-	u, v = zip(*map(lambda x: color.temperature.cct_to_uv(x, 0., cmfs),	numpy.arange(start, end + 1, 250)))
+	u, v = zip(*map(lambda x: color.temperature.cct_to_uv(x, 0., cmfs),	numpy.arange(start, end + 250, 250)))
 
 	pylab.plot(u, v, color="black", linewidth=2.)
 
@@ -1685,7 +1685,7 @@ def blackbodyColorsPlot(start=1000,
 	colors = []
 	temperatures = []
 
-	for temperature in numpy.arange(start, end, steps):
+	for temperature in numpy.arange(start, end + steps, steps):
 		spd = color.blackbody.blackbodySpectralPowerDistribution(temperature, *cmfs.shape)
 
 		XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)

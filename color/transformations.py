@@ -159,7 +159,7 @@ def spectral_to_XYZ(spd,
 
 	if illuminant is None:
 		start, end, steps = cmfs.shape
-		range = numpy.arange(start, end + 1, steps)
+		range = numpy.arange(start, end + steps, steps)
 		illuminant = color.spectral.SpectralPowerDistribution(name="1.0",
 															  spd=dict(zip(*(list(range),
 																			 [1.] * len(range)))))
