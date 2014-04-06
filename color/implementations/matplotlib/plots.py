@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package plotting objects.
+	Defines **Color** package **matplotlib** plotting objects.
 
 **Others:**
 
