@@ -35,7 +35,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"COLORSPACES"]
+		   "COLORSPACES"]
 
 LOGGER = color.verbose.installLogger()
 
@@ -46,6 +46,8 @@ from color.colorspaces.colorspace import *
 from color.colorspaces.acesRgb import *
 from color.colorspaces.adobeRgb1998 import *
 from color.colorspaces.appleRgb import *
+from color.colorspaces.bestRgb import *
+from color.colorspaces.betaRgb import *
 from color.colorspaces.cieRgb import *
 from color.colorspaces.dciP3 import *
 from color.colorspaces.pointerGamut import *
@@ -57,6 +59,8 @@ from color.colorspaces import colorspace
 from color.colorspaces import acesRgb
 from color.colorspaces import adobeRgb1998
 from color.colorspaces import appleRgb
+from color.colorspaces import bestRgb
+from color.colorspaces import betaRgb
 from color.colorspaces import cieRgb
 from color.colorspaces import dciP3
 from color.colorspaces import pointerGamut
@@ -68,6 +72,8 @@ __all__.extend(colorspace.__all__)
 __all__.extend(acesRgb.__all__)
 __all__.extend(adobeRgb1998.__all__)
 __all__.extend(appleRgb.__all__)
+__all__.extend(bestRgb.__all__)
+__all__.extend(betaRgb.__all__)
 __all__.extend(cieRgb.__all__)
 __all__.extend(dciP3.__all__)
 __all__.extend(pointerGamut.__all__)
@@ -81,6 +87,8 @@ __all__ = map(str, __all__)
 COLORSPACES = {"ACES RGB": ACES_RGB_COLORSPACE,
 			   "Adobe RGB 1998": ADOBE_RGB_1998_COLORSPACE,
 			   "Apple RGB": APPLE_RGB_COLORSPACE,
+			   "Best RGB": BEST_RGB_COLORSPACE,
+			   "Beta RGB": BETA_RGB_COLORSPACE,
 			   "CIE RGB": CIE_RGB_COLORSPACE,
 			   "DCI-P3": DCI_P3_COLORSPACE,
 			   "ProPhoto RGB": PROPHOTO_RGB_COLORSPACE,
