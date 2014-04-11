@@ -53,6 +53,7 @@ from color.colorspaces.dciP3 import *
 from color.colorspaces.pointerGamut import *
 from color.colorspaces.proPhotoRgb import *
 from color.colorspaces.rec709 import *
+from color.colorspaces.russellRgb import *
 from color.colorspaces.sRgb import *
 
 from color.colorspaces import colorspace
@@ -66,6 +67,7 @@ from color.colorspaces import dciP3
 from color.colorspaces import pointerGamut
 from color.colorspaces import proPhotoRgb
 from color.colorspaces import rec709
+from color.colorspaces import russellRgb
 from color.colorspaces import sRgb
 
 __all__.extend(colorspace.__all__)
@@ -79,6 +81,7 @@ __all__.extend(dciP3.__all__)
 __all__.extend(pointerGamut.__all__)
 __all__.extend(proPhotoRgb.__all__)
 __all__.extend(rec709.__all__)
+__all__.extend(russellRgb.__all__)
 __all__.extend(sRgb.__all__)
 
 # Oddly need to convert from *unicode* to *str* here.
@@ -92,5 +95,6 @@ COLORSPACES = {"ACES RGB": ACES_RGB_COLORSPACE,
 			   "CIE RGB": CIE_RGB_COLORSPACE,
 			   "DCI-P3": DCI_P3_COLORSPACE,
 			   "ProPhoto RGB": PROPHOTO_RGB_COLORSPACE,
-			   "sRGB": sRGB_COLORSPACE,
-			   "Rec. 709": REC_709_COLORSPACE}
+			   "Rec. 709": REC_709_COLORSPACE,
+			   "Russell RGB": RUSSELL_RGB_COLORSPACE,
+			   "sRGB": sRGB_COLORSPACE}
