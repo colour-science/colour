@@ -27,6 +27,7 @@ import numpy
 #**********************************************************************************************************************
 #***	Internal Imports.
 #**********************************************************************************************************************
+import color.derivation
 import color.exceptions
 import color.illuminants
 import color.verbose
@@ -63,9 +64,7 @@ APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,
 
 APPLE_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
 
-APPLE_RGB_TO_XYZ_MATRIX = numpy.matrix([0.44965881, 0.31626366, 0.18450607,
-										0.24461439, 0.67206028, 0.08332532,
-										0.02518089, 0.14118914, 0.92253034]).reshape((3, 3))
+APPLE_RGB_TO_XYZ_MATRIX = color.derivation.getNormalizedPrimaryMatrix(APPLE_RGB_PRIMARIES, APPLE_RGB_WHITEPOINT)
 
 XYZ_TO_APPLE_RGB_MATRIX = APPLE_RGB_TO_XYZ_MATRIX.getI()
 
