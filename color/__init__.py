@@ -62,6 +62,7 @@ from colorspaces import *
 from derivation import *
 from difference import *
 from illuminants import *
+from luminance import *
 from matrix import *
 from spectral import *
 from temperature import *
