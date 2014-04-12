@@ -247,6 +247,8 @@ RGB Colorspaces
 
 `Don RGB 4 Colorspace <http://www.hutchcolor.com/profiles/DonRGB4.zip>`_ (Last accessed 12 April 2014)
 
+`Max RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+
 `Pointer's Gamut <http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls>`_ (Last accessed 24 February 2014)
 
 `ProPhoto RGB Colorspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
