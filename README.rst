@@ -203,6 +203,8 @@ RGB Colorspaces
 
 `sRGB Colorspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
 
+`Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+
 Colorspace Derivation
 *********************
 

@@ -58,6 +58,7 @@ from color.colorspaces.proPhotoRgb import *
 from color.colorspaces.rec709 import *
 from color.colorspaces.russellRgb import *
 from color.colorspaces.sRgb import *
+from color.colorspaces.xtremeRgb import *
 
 from color.colorspaces import colorspace
 from color.colorspaces import acesRgb
@@ -75,6 +76,7 @@ from color.colorspaces import proPhotoRgb
 from color.colorspaces import rec709
 from color.colorspaces import russellRgb
 from color.colorspaces import sRgb
+from color.colorspaces import xtremeRgb
 
 __all__.extend(colorspace.__all__)
 __all__.extend(acesRgb.__all__)
@@ -92,8 +94,8 @@ __all__.extend(proPhotoRgb.__all__)
 __all__.extend(rec709.__all__)
 __all__.extend(russellRgb.__all__)
 __all__.extend(sRgb.__all__)
+__all__.extend(xtremeRgb.__all__)
 
-# Oddly need to convert from *unicode* to *str* here.
 __all__ = map(str, __all__)
 
 COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
@@ -109,4 +111,5 @@ COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
 			   PROPHOTO_RGB_COLORSPACE.name: PROPHOTO_RGB_COLORSPACE,
 			   REC_709_COLORSPACE.name: REC_709_COLORSPACE,
 			   RUSSELL_RGB_COLORSPACE.name: RUSSELL_RGB_COLORSPACE,
-			   sRGB_COLORSPACE.name: sRGB_COLORSPACE}
+			   sRGB_COLORSPACE.name: sRGB_COLORSPACE,
+			   XTREME_RGB_COLORSPACE.name: XTREME_RGB_COLORSPACE}
