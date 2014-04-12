@@ -185,6 +185,8 @@ RGB Colorspaces
 
 `CIE RGB Colorspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
 
+`ColorMatch Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 12 April 2014)
+
 `DCI-P3 Colorspace <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_ (Last accessed 24 February 2014)
 
 `Pointer's Gamut <http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls>`_ (Last accessed 24 February 2014)

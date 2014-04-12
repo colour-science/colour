@@ -49,6 +49,7 @@ from color.colorspaces.appleRgb import *
 from color.colorspaces.bestRgb import *
 from color.colorspaces.betaRgb import *
 from color.colorspaces.cieRgb import *
+from color.colorspaces.colorMatchRgb import *
 from color.colorspaces.dciP3 import *
 from color.colorspaces.pointerGamut import *
 from color.colorspaces.proPhotoRgb import *
@@ -63,6 +64,7 @@ from color.colorspaces import appleRgb
 from color.colorspaces import bestRgb
 from color.colorspaces import betaRgb
 from color.colorspaces import cieRgb
+from color.colorspaces import colorMatchRgb
 from color.colorspaces import dciP3
 from color.colorspaces import pointerGamut
 from color.colorspaces import proPhotoRgb
@@ -77,6 +79,7 @@ __all__.extend(appleRgb.__all__)
 __all__.extend(bestRgb.__all__)
 __all__.extend(betaRgb.__all__)
 __all__.extend(cieRgb.__all__)
+__all__.extend(colorMatchRgb.__all__)
 __all__.extend(dciP3.__all__)
 __all__.extend(pointerGamut.__all__)
 __all__.extend(proPhotoRgb.__all__)
@@ -87,14 +90,15 @@ __all__.extend(sRgb.__all__)
 # Oddly need to convert from *unicode* to *str* here.
 __all__ = map(str, __all__)
 
-COLORSPACES = {"ACES RGB": ACES_RGB_COLORSPACE,
-			   "Adobe RGB 1998": ADOBE_RGB_1998_COLORSPACE,
-			   "Apple RGB": APPLE_RGB_COLORSPACE,
-			   "Best RGB": BEST_RGB_COLORSPACE,
-			   "Beta RGB": BETA_RGB_COLORSPACE,
-			   "CIE RGB": CIE_RGB_COLORSPACE,
-			   "DCI-P3": DCI_P3_COLORSPACE,
-			   "ProPhoto RGB": PROPHOTO_RGB_COLORSPACE,
-			   "Rec. 709": REC_709_COLORSPACE,
-			   "Russell RGB": RUSSELL_RGB_COLORSPACE,
-			   "sRGB": sRGB_COLORSPACE}
+COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
+			   ADOBE_RGB_1998_COLORSPACE.name: ADOBE_RGB_1998_COLORSPACE,
+			   APPLE_RGB_COLORSPACE.name: APPLE_RGB_COLORSPACE,
+			   BEST_RGB_COLORSPACE.name: BEST_RGB_COLORSPACE,
+			   BETA_RGB_COLORSPACE.name: BETA_RGB_COLORSPACE,
+			   CIE_RGB_COLORSPACE.name: CIE_RGB_COLORSPACE,
+			   COLOR_MATCH_RGB_COLORSPACE.name: COLOR_MATCH_RGB_COLORSPACE,
+			   DCI_P3_COLORSPACE.name: DCI_P3_COLORSPACE,
+			   PROPHOTO_RGB_COLORSPACE.name: PROPHOTO_RGB_COLORSPACE,
+			   REC_709_COLORSPACE.name: REC_709_COLORSPACE,
+			   RUSSELL_RGB_COLORSPACE.name: RUSSELL_RGB_COLORSPACE,
+			   sRGB_COLORSPACE.name: sRGB_COLORSPACE}
