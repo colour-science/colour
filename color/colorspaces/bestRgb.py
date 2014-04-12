@@ -57,7 +57,7 @@ LOGGER = color.verbose.installLogger()
 #**********************************************************************************************************************
 #*** *Best RGB*
 #**********************************************************************************************************************
-# http://www.brucelindbloom.com/WorkingSpaceInfo.html
+# http://www.hutchcolor.com/profiles/BestRGB.zip
 BEST_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
 								   0.2150, 0.7750,
 								   0.1300, 0.0350]).reshape((3, 2))

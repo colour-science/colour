@@ -179,7 +179,7 @@ RGB Colorspaces
 
 `Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
-`Best RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
+`Best RGB Colorspace <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)
 
 `Beta RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
