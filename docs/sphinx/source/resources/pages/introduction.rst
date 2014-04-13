@@ -18,10 +18,11 @@ Here are some features:
 -  Illuminants spectral data:
 
   -  A
-  -  D65
   -  C
   -  D50
   -  D55
+  -  D60
+  -  D65
   -  D75
   -  F1
   -  F2
@@ -50,6 +51,7 @@ Here are some features:
   -  Von Kries.
   -  CAT02.
 
+-  Luminance, Munsell value and Lightness calculations.
 -  RGB Colorspaces support:
 
   -  CIE RGB.
