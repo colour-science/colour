@@ -79,7 +79,7 @@ def __adobeWideGamutRgbTransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
+	RGB = map(lambda x: x ** (1 / (563. / 256.)), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 def __adobeWideGamutRgbInverseTransferFunction(RGB):
@@ -92,7 +92,7 @@ def __adobeWideGamutRgbInverseTransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
+	RGB = map(lambda x: x ** (563. / 256.), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __adobeWideGamutRgbTransferFunction
