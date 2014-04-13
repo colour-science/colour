@@ -91,6 +91,7 @@ Here are some features:
   -  Rec. 709
   -  Rec. 2020
   -  Russell RGB
+  -  S-Log
   -  SMPTE-C RGB
   -  Xtreme RGB
   -  sRGB
@@ -266,6 +267,8 @@ RGB Colorspaces
 `Rec. 2020 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
 `Russell RGB Colorspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
+
+`S-Log Colorspace <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
 
 `SMPTE-C RGB Colorspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
 
