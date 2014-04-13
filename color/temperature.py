@@ -63,10 +63,10 @@ __all__ = ["LOGGER",
 		   "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES",
 		   "getPlanckianTable",
 		   "getPlanckianTableMinimalDistanceIndex",
-		   "ohno_uv_to_cct",
-		   "ohno_cct_to_uv",
-		   "robertson_uv_to_cct",
-		   "robertson_cct_to_uv",
+		   "uv_to_cct_ohno",
+		   "cct_to_uv_ohno",
+		   "uv_to_cct_robertson",
+		   "cct_to_uv_robertson",
 		   "uv_to_cct",
 		   "cct_to_uv"]
 
@@ -190,7 +190,7 @@ def getPlanckianTableMinimalDistanceIndex(planckianTable):
 	distances = map(lambda x: x.di, planckianTable)
 	return distances.index(min(distances))
 
-def ohno_uv_to_cct(uv,
+def uv_to_cct_ohno(uv,
 				   cmfs=color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
 					   "Standard CIE 1931 2 Degree Observer"),
 				   start=CCT_MINIMAL,
@@ -206,7 +206,7 @@ def ohno_uv_to_cct(uv,
 	Usage::
 
 		>>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
-		>>> ohno_uv_to_cct((0.1978, 0.3122), cmfs)
+		>>> uv_to_cct_ohno((0.1978, 0.3122), cmfs)
 		(6507.4342201047066, 0.003223690901512735)
 
 	:param uv: *uv* chromaticity coordinates.
@@ -276,7 +276,7 @@ def ohno_uv_to_cct(uv,
 
 	return T, Duv
 
-def ohno_cct_to_uv(cct,
+def cct_to_uv_ohno(cct,
 				   Duv=0.,
 				   cmfs=color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
 					   "Standard CIE 1931 2 Degree Observer")):
@@ -287,7 +287,7 @@ def ohno_cct_to_uv(cct,
 	Usage::
 
 		>>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
-		>>> ohno_cct_to_uv(6507.4342201047066, 0.003223690901512735, cmfs)
+		>>> cct_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs)
 		(0.19779977151790701, 0.31219970605380082)
 
 	:param cct: Correlated color temperature.
@@ -325,7 +325,7 @@ def ohno_cct_to_uv(cct,
 
 		return u, v
 
-def robertson_uv_to_cct(uv):
+def uv_to_cct_robertson(uv):
 	"""
 	Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates using
 	*Wyszecki & Roberston* calculation method.
@@ -335,7 +335,7 @@ def robertson_uv_to_cct(uv):
 
 	Usage::
 
-		>>> robertson_uv_to_cct((0.19374137599822966, 0.31522104394059397))
+		>>> uv_to_cct_robertson((0.19374137599822966, 0.31522104394059397))
 		(6500.016287949829, 0.008333328983860189)
 
 	:param uv: *uv* chromaticity coordinates.
@@ -399,7 +399,7 @@ def robertson_uv_to_cct(uv):
 
 	return T, -Duv
 
-def robertson_cct_to_uv(cct, Duv=0.):
+def cct_to_uv_robertson(cct, Duv=0.):
 	"""
 	Returns the *CIE UVW* colorspace *uv* chromaticity coordinates from given correlated color temperature and Duv using
 	*Wyszecki & Roberston* calculation method.
@@ -409,7 +409,7 @@ def robertson_cct_to_uv(cct, Duv=0.):
 
 	Usage::
 
-		>>> robertson_cct_to_uv(6500.0081378199056, 0.0083333312442250979)
+		>>> cct_to_uv_robertson(6500.0081378199056, 0.0083333312442250979)
 		(0.19374137599822966, 0.31522104394059397)
 
 	:param cct: Correlated color temperature.
@@ -456,55 +456,55 @@ def robertson_cct_to_uv(cct, Duv=0.):
 
 			return u, v
 
-def uv_to_cct(uv, method="ohno", **kwargs):
+def uv_to_cct(uv, method="Yoshi Ohno", **kwargs):
 	"""
 	Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates and method.
-	Defines a wrapper for :func:`ohno_uv_to_cct` and :func:`robertson_uv_to_cct` definitions.
+	Defines a wrapper for :func:`uv_to_cct_ohno` and :func:`uv_to_cct_robertson` definitions.
 
 	:param uv: *uv* chromaticity coordinates.
 	:type uv: tuple
 	:param method: Calculation method.
-	:type method: unicode ("ohno", "robertson")
+	:type method: unicode ("Yoshi Ohno", "Wyszecki Robertson")
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Correlated color temperature, Duv.
 	:rtype: tuple
 	"""
 
-	if method == "ohno":
-		return ohno_uv_to_cct(uv, **kwargs)
+	if method == "Yoshi Ohno":
+		return uv_to_cct_ohno(uv, **kwargs)
 	else:
 		if "cmfs" in kwargs:
 			if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
 				raise color.exceptions.ProgrammingError(
 					"Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
 
-		return robertson_uv_to_cct(uv)
+		return uv_to_cct_robertson(uv)
 
-def cct_to_uv(cct, Duv=0., method="ohno", **kwargs):
+def cct_to_uv(cct, Duv=0., method="Yoshi Ohno", **kwargs):
 	"""
 	Returns the *CIE UVW* colorspace *uv* chromaticity coordinates from given correlated color temperature
 	and Duv using given method.
-	Defines a wrapper for :func:`ohno_cct_to_uv` and :func:`robertson_cct_to_uv` definitions.
+	Defines a wrapper for :func:`cct_to_uv_ohno` and :func:`cct_to_uv_robertson` definitions.
 
 	:param cct: Correlated color temperature.
 	:type cct: float
 	:param Duv: Duv.
 	:type Duv: float
 	:param method: Calculation method.
-	:type method: unicode ("ohno", "robertson")
+	:type method: unicode ("Yoshi Ohno", "Wyszecki Robertson")
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: *uv* chromaticity coordinates.
 	:rtype: tuple
 	"""
 
-	if method == "ohno":
-		return ohno_cct_to_uv(cct, Duv, **kwargs)
+	if method == "Yoshi Ohno":
+		return cct_to_uv_ohno(cct, Duv, **kwargs)
 	else:
 		if "cmfs" in kwargs:
 			if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
 				raise color.exceptions.ProgrammingError(
 					"Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
 
-		return robertson_cct_to_uv(cct, Duv)
+		return cct_to_uv_robertson(cct, Duv)
