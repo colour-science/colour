@@ -60,13 +60,27 @@ Here are some features:
 -  Luminance, Munsell value and Lightness calculations.
 -  RGB Colorspaces support:
 
-  -  CIE RGB.
-  -  ACES RGB.
-  -  sRGB.
-  -  Rec. 709.
-  -  Adobe RGB 1998.
-  -  ProPhoto RGB.
-  -  DCI-P3.
+  -  ACES RGB
+  -  Adobe RGB 1998
+  -  Adobe Wide Gamut RGB
+  -  Apple RGB
+  -  Best RGB
+  -  Beta RGB
+  -  CIE RGB
+  -  ColorMatch RGB
+  -  DCI-P3
+  -  Don RGB 4
+  -  ECI RGB v2
+  -  Ekta Space PS 5
+  -  Max RGB
+  -  NTSC RGB
+  -  Pal/Secam RGB
+  -  ProPhoto RGB
+  -  Rec. 709
+  -  Russell RGB
+  -  SMPTE-C RGB
+  -  Xtreme RGB
+  -  sRGB
 
 -  Colorspaces transformation and conversion:
 

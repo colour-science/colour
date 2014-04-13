@@ -5,10 +5,17 @@
 Shows some **Color** package *colorspaces* related examples.
 """
 
-from numpy import matrix
+import pprint
 import color
 
-# Displaying :attr:`color.colorspaces.COLORSPACES` data.
+#**********************************************************************************************************************
+#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
+#**********************************************************************************************************************
+pprint.pprint(sorted(color.COLORSPACES.keys()))
+
+#**********************************************************************************************************************
+#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
+#**********************************************************************************************************************
 colorspace = color.COLORSPACES["ACES RGB"]
 
 print("Name: '{0}'".format(colorspace.name))
@@ -18,7 +25,9 @@ print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(colorspace.fromXY
 print("Transfer function: '{0}'".format(colorspace.transferFunction))
 print("Inverse transfer function: '{0}'".format(colorspace.inverseTransferFunction))
 
-# Calculating *ACES RGB* to *sRGB* transformation matrix.
+#**********************************************************************************************************************
+#***	Calculating *ACES RGB* to *sRGB* transformation matrix.
+#**********************************************************************************************************************
 print("'ACES RGB' colorspace to 'sRGB' colorspace matrix:")
 cat = color.getChromaticAdaptationMatrix(color.xy_to_XYZ(color.ACES_RGB_WHITEPOINT),
 										 color.xy_to_XYZ(color.sRGB_WHITEPOINT))

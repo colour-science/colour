@@ -11,6 +11,7 @@ Modules Summary:
    color.colorCheckers <api/color.colorCheckers>
    color.colorspaces.acesRgb <api/color.colorspaces.acesRgb>
    color.colorspaces.adobeRgb1998 <api/color.colorspaces.adobeRgb1998>
+   color.colorspaces.adobeWideGamutRgb <api/color.colorspaces.adobeWideGamutRgb>
    color.colorspaces.appleRgb <api/color.colorspaces.appleRgb>
    color.colorspaces.bestRgb <api/color.colorspaces.bestRgb>
    color.colorspaces.betaRgb <api/color.colorspaces.betaRgb>
@@ -20,12 +21,16 @@ Modules Summary:
    color.colorspaces.dciP3 <api/color.colorspaces.dciP3>
    color.colorspaces.donRgb4 <api/color.colorspaces.donRgb4>
    color.colorspaces.eciRgbV2 <api/color.colorspaces.eciRgbV2>
+   color.colorspaces.ektaSpacePs5 <api/color.colorspaces.ektaSpacePs5>
    color.colorspaces.maxRgb <api/color.colorspaces.maxRgb>
+   color.colorspaces.ntscRgb <api/color.colorspaces.ntscRgb>
+   color.colorspaces.palSecamRgb <api/color.colorspaces.palSecamRgb>
    color.colorspaces.pointerGamut <api/color.colorspaces.pointerGamut>
    color.colorspaces.proPhotoRgb <api/color.colorspaces.proPhotoRgb>
    color.colorspaces.rec709 <api/color.colorspaces.rec709>
    color.colorspaces.russellRgb <api/color.colorspaces.russellRgb>
    color.colorspaces.sRgb <api/color.colorspaces.sRgb>
+   color.colorspaces.smptecRgb <api/color.colorspaces.smptecRgb>
    color.colorspaces.xtremeRgb <api/color.colorspaces.xtremeRgb>
    color.commands <api/color.commands>
    color.dataStructures <api/color.dataStructures>
