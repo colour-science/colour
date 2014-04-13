@@ -67,7 +67,7 @@ REC_2020_TO_XYZ_MATRIX = color.derivation.getNormalizedPrimaryMatrix(REC_2020_PR
 
 XYZ_TO_REC_2020_MATRIX = REC_2020_TO_XYZ_MATRIX.getI()
 
-def __rec2020TransferFunction(RGB, is10bitSystem=True):
+def __rec2020TransferFunction(RGB, is10bitsSystem=True):
 	"""
 	Defines the *Rec. 2020* colorspace transfer function.
 
@@ -75,17 +75,19 @@ def __rec2020TransferFunction(RGB, is10bitSystem=True):
 
 	:param RGB: RGB Matrix.
 	:type RGB: Matrix (3x1)
+	:param is10bitsSystem: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
+	:type is10bitsSystem: bool
 	:return: Companded RGB Matrix.
 	:rtype: Matrix (3x1)
 	"""
 
-	alpha = 1.099 if is10bitSystem else 1.0993
-	beta = 0.018 if is10bitSystem else 0.0181
+	alpha = 1.099 if is10bitsSystem else 1.0993
+	beta = 0.018 if is10bitsSystem else 0.0181
 
 	RGB = map(lambda x: x * 4.5 if x < beta else alpha * (x ** 0.45) - (alpha - 1.), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
-def __rec2020InverseTransferFunction(RGB, is10bitSystem=True):
+def __rec2020InverseTransferFunction(RGB, is10bitsSystem=True):
 	"""
 	Defines the *Rec. 2020* colorspace inverse transfer function.
 
@@ -93,12 +95,14 @@ def __rec2020InverseTransferFunction(RGB, is10bitSystem=True):
 
 	:param RGB: RGB Matrix.
 	:type RGB: Matrix (3x1)
+	:param is10bitsSystem: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
+	:type is10bitsSystem: bool
 	:return: Companded RGB Matrix.
 	:rtype: Matrix (3x1)
 	"""
 
-	alpha = 1.099 if is10bitSystem else 1.0993
-	beta = 0.018 if is10bitSystem else 0.0181
+	alpha = 1.099 if is10bitsSystem else 1.0993
+	beta = 0.018 if is10bitsSystem else 0.0181
 
 	RGB = map(lambda x: x / 4.5 if x < beta else ((x + (alpha - 1.)) / alpha) ** (1 / 0.45), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
