@@ -24,10 +24,11 @@ Here are some features:
 -  Illuminants spectral data:
 
   -  A
-  -  D65
   -  C
   -  D50
   -  D55
+  -  D60
+  -  D65
   -  D75
   -  F1
   -  F2
@@ -56,6 +57,7 @@ Here are some features:
   -  Von Kries.
   -  CAT02.
 
+-  Luminance, Munsell value and Lightness calculations.
 -  RGB Colorspaces support:
 
   -  CIE RGB.
@@ -169,6 +171,29 @@ Color Rendition Charts
 **********************
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
+
+Luminance, Munsell value, Lightness
+***********************************
+
+`Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
+
+`Luminance 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Lightness 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+Charles Poynton, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
 
 RGB Colorspaces
 ***************
