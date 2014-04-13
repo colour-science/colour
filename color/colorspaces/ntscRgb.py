@@ -57,10 +57,10 @@ LOGGER = color.verbose.installLogger()
 #**********************************************************************************************************************
 #*** *NTSC RGB*
 #**********************************************************************************************************************
-# http://www.brucelindbloom.com/WorkingSpaceInfo.html
-NTSC_RGB_PRIMARIES = numpy.matrix([0.6700, 0.3300,
-								   0.2100, 0.7100,
-								   0.1400, 0.0800]).reshape((3, 2))
+# http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+NTSC_RGB_PRIMARIES = numpy.matrix([0.67, 0.33,
+								   0.21, 0.71,
+								   0.14, 0.08]).reshape((3, 2))
 
 NTSC_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("C")
 

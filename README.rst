@@ -222,7 +222,7 @@ RGB Colorspaces
 
 `Max RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
-`NTSC RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 13 April 2014)
+`NTSC RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
 `Pal/Secam RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
