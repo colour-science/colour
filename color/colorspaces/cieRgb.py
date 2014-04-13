@@ -57,9 +57,9 @@ LOGGER = color.verbose.installLogger()
 #*** *CIE RGB*
 #**********************************************************************************************************************
 # http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
-CIE_RGB_PRIMARIES = numpy.matrix([1., 0.,
-								  0., 1.,
-								  0., 0.]).reshape((3, 2))
+CIE_RGB_PRIMARIES = numpy.matrix([0.7350, 0.2650,
+								  0.2740, 0.7170,
+								  0.1670, 0.0090]).reshape((3, 2))
 
 CIE_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
@@ -69,9 +69,35 @@ CIE_RGB_TO_XYZ_MATRIX = 1 / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,
 
 XYZ_TO_CIE_RGB_MATRIX = CIE_RGB_TO_XYZ_MATRIX.getI()
 
-CIE_RGB_TRANSFER_FUNCTION = lambda x: x
+def __cieRgbTransferFunction(RGB):
+	"""
+	Defines the *CIE RGB* colorspace transfer function.
 
-CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x
+	:param RGB: RGB Matrix.
+	:type RGB: Matrix (3x1)
+	:return: Companded RGB Matrix.
+	:rtype: Matrix (3x1)
+	"""
+
+	RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
+	return numpy.matrix(RGB).reshape((3, 1))
+
+def __cieRgbInverseTransferFunction(RGB):
+	"""
+	Defines the *CIE RGB* colorspace inverse transfer function.
+
+	:param RGB: RGB Matrix.
+	:type RGB: Matrix (3x1)
+	:return: Companded RGB Matrix.
+	:rtype: Matrix (3x1)
+	"""
+
+	RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
+	return numpy.matrix(RGB).reshape((3, 1))
+
+CIE_RGB_TRANSFER_FUNCTION = __cieRgbTransferFunction
+
+CIE_RGB_INVERSE_TRANSFER_FUNCTION = __cieRgbInverseTransferFunction
 
 CIE_RGB_COLORSPACE = Colorspace("CIE RGB",
 								CIE_RGB_PRIMARIES,
