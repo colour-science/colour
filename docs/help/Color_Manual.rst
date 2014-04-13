@@ -95,6 +95,7 @@ Here are some features:
   -  ACES RGB
   -  Adobe RGB 1998
   -  Adobe Wide Gamut RGB
+  -  ALEXA Wide Gamut RGB
   -  Apple RGB
   -  Best RGB
   -  Beta RGB
@@ -284,7 +285,9 @@ RGB Colorspaces
 
 `Adobe RGB 1998 Colorspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
 
-`Adobe Wide Gamut Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+`Adobe Wide Gamut RGB Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+
+`ALEXA Wide Gamut RGB Colorspace <http://www.arri.com/?eID=registration&file_uid=8026>`_ (Last accessed 13 April 2014)
 
 `Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
