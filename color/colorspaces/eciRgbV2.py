@@ -58,9 +58,9 @@ LOGGER = color.verbose.installLogger()
 #*** *ECI RGB v2*
 #**********************************************************************************************************************
 # http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
-ECI_RGB_V2_PRIMARIES = numpy.matrix([0.6700, 0.3300,
-									 0.2100, 0.7100,
-									 0.1400, 0.0800]).reshape((3, 2))
+ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
+									 0.20990566037735847, 0.70990566037735836,
+									 0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
 
 ECI_RGB_V2_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 

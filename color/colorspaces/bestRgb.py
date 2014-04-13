@@ -58,9 +58,9 @@ LOGGER = color.verbose.installLogger()
 #*** *Best RGB*
 #**********************************************************************************************************************
 # http://www.hutchcolor.com/profiles/BestRGB.zip
-BEST_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
-								   0.2150, 0.7750,
-								   0.1300, 0.0350]).reshape((3, 2))
+BEST_RGB_PRIMARIES = numpy.matrix([0.73519163763066209, 0.26480836236933797,
+								   0.2153361344537815, 0.77415966386554624,
+								   0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
 
 BEST_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 

@@ -58,9 +58,9 @@ LOGGER = color.verbose.installLogger()
 #*** *Don RGB 4*
 #**********************************************************************************************************************
 # http://www.hutchcolor.com/profiles/DonRGB4.zip
-DON_RGB_4_PRIMARIES = numpy.matrix([0.6960, 0.3000,
-									0.2150, 0.7650,
-									0.1300, 0.0350]).reshape((3, 2))
+DON_RGB_4_PRIMARIES = numpy.matrix([0.69612068965517238, 0.29956896551724138,
+									0.21468298109010012, 0.7652947719688542,
+									0.12993762993762992, 0.035343035343035345]).reshape((3, 2))
 
 DON_RGB_4_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
