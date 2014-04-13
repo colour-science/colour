@@ -258,6 +258,8 @@ RGB Colorspaces
 
 `Adobe RGB 1998 Colorspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
 
+`Adobe Wide Gamut Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+
 `Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
 `Best RGB Colorspace <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)

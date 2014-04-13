@@ -45,6 +45,7 @@ LOGGER = color.verbose.installLogger()
 from color.colorspaces.colorspace import *
 from color.colorspaces.acesRgb import *
 from color.colorspaces.adobeRgb1998 import *
+from color.colorspaces.adobeWideGamutRgb import *
 from color.colorspaces.appleRgb import *
 from color.colorspaces.bestRgb import *
 from color.colorspaces.betaRgb import *
@@ -68,6 +69,7 @@ from color.colorspaces.xtremeRgb import *
 from color.colorspaces import colorspace
 from color.colorspaces import acesRgb
 from color.colorspaces import adobeRgb1998
+from color.colorspaces import adobeWideGamutRgb
 from color.colorspaces import appleRgb
 from color.colorspaces import bestRgb
 from color.colorspaces import betaRgb
@@ -91,6 +93,7 @@ from color.colorspaces import xtremeRgb
 __all__.extend(colorspace.__all__)
 __all__.extend(acesRgb.__all__)
 __all__.extend(adobeRgb1998.__all__)
+__all__.extend(adobeWideGamutRgb.__all__)
 __all__.extend(appleRgb.__all__)
 __all__.extend(bestRgb.__all__)
 __all__.extend(betaRgb.__all__)
@@ -115,6 +118,7 @@ __all__ = map(str, __all__)
 
 COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
 			   ADOBE_RGB_1998_COLORSPACE.name: ADOBE_RGB_1998_COLORSPACE,
+			   ADOBE_WIDE_GAMUT_RGB_COLORSPACE.name: ADOBE_WIDE_GAMUT_RGB_COLORSPACE,
 			   APPLE_RGB_COLORSPACE.name: APPLE_RGB_COLORSPACE,
 			   BEST_RGB_COLORSPACE.name: BEST_RGB_COLORSPACE,
 			   BETA_RGB_COLORSPACE.name: BETA_RGB_COLORSPACE,
