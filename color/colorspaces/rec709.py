@@ -46,7 +46,7 @@ __all__ = ["LOGGER",
 		   "REC_709_PRIMARIES",
 		   "REC_709_WHITEPOINT",
 		   "REC_709_TO_XYZ_MATRIX",
-		   "XYZ_TO_sRGB_MATRIX",
+		   "XYZ_TO_REC_709_MATRIX",
 		   "REC_709_TRANSFER_FUNCTION",
 		   "REC_709_INVERSE_TRANSFER_FUNCTION",
 		   "REC_709_COLORSPACE"]
@@ -68,7 +68,7 @@ REC_709_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
 									  0.21263682, 0.71518298, 0.0721802,
 									  0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
 
-XYZ_TO_sRGB_MATRIX = REC_709_TO_XYZ_MATRIX.getI()
+XYZ_TO_REC_709_MATRIX = REC_709_TO_XYZ_MATRIX.getI()
 
 def __rec709TransferFunction(RGB):
 	"""
@@ -82,7 +82,7 @@ def __rec709TransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x * 4.5 if x <= 0.018 else 1.099 * (x ** 0.45) - 0.099, numpy.ravel(RGB))
+	RGB = map(lambda x: x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099, numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 def __rec709InverseTransferFunction(RGB):
@@ -97,7 +97,7 @@ def __rec709InverseTransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x / 4.5 if x <= 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45), numpy.ravel(RGB))
+	RGB = map(lambda x: x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 REC_709_TRANSFER_FUNCTION = __rec709TransferFunction
@@ -108,6 +108,6 @@ REC_709_COLORSPACE = Colorspace("Rec. 709",
 								REC_709_PRIMARIES,
 								REC_709_WHITEPOINT,
 								REC_709_TO_XYZ_MATRIX,
-								XYZ_TO_sRGB_MATRIX,
+								XYZ_TO_REC_709_MATRIX,
 								REC_709_TRANSFER_FUNCTION,
 								REC_709_INVERSE_TRANSFER_FUNCTION)
