@@ -55,6 +55,7 @@ from color.colorspaces.donRgb4 import *
 from color.colorspaces.eciRgbV2 import *
 from color.colorspaces.ektaSpacePs5 import *
 from color.colorspaces.maxRgb import *
+from color.colorspaces.ntscRgb import *
 from color.colorspaces.pointerGamut import *
 from color.colorspaces.proPhotoRgb import *
 from color.colorspaces.rec709 import *
@@ -75,6 +76,7 @@ from color.colorspaces import donRgb4
 from color.colorspaces import eciRgbV2
 from color.colorspaces import ektaSpacePs5
 from color.colorspaces import maxRgb
+from color.colorspaces import ntscRgb
 from color.colorspaces import pointerGamut
 from color.colorspaces import proPhotoRgb
 from color.colorspaces import rec709
@@ -95,6 +97,7 @@ __all__.extend(donRgb4.__all__)
 __all__.extend(eciRgbV2.__all__)
 __all__.extend(ektaSpacePs5.__all__)
 __all__.extend(maxRgb.__all__)
+__all__.extend(ntscRgb.__all__)
 __all__.extend(pointerGamut.__all__)
 __all__.extend(proPhotoRgb.__all__)
 __all__.extend(rec709.__all__)
@@ -116,6 +119,7 @@ COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
 			   ECI_RGB_V2_COLORSPACE.name: ECI_RGB_V2_COLORSPACE,
 			   EKTA_SPACE_PS_5_COLORSPACE.name: EKTA_SPACE_PS_5_COLORSPACE,
 			   MAX_RGB_COLORSPACE.name: MAX_RGB_COLORSPACE,
+			   NTSC_RGB_COLORSPACE.name: NTSC_RGB_COLORSPACE,
 			   PROPHOTO_RGB_COLORSPACE.name: PROPHOTO_RGB_COLORSPACE,
 			   REC_709_COLORSPACE.name: REC_709_COLORSPACE,
 			   RUSSELL_RGB_COLORSPACE.name: RUSSELL_RGB_COLORSPACE,
