@@ -82,7 +82,7 @@ def __adobe1998TransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x ** (1 / 2.19921875), numpy.ravel(RGB))
+	RGB = map(lambda x: x ** (1 / (563. / 256.)), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 def __adobe1998InverseTransferFunction(RGB):
@@ -97,7 +97,7 @@ def __adobe1998InverseTransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	RGB = map(lambda x: x ** 2.19921875, numpy.ravel(RGB))
+	RGB = map(lambda x: x ** (563. / 256.), numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 ADOBE_RGB_1998_TRANSFER_FUNCTION = __adobe1998TransferFunction
