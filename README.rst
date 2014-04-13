@@ -234,6 +234,8 @@ RGB Colorspaces
 
 `Russell RGB Colorspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
 
+`SMPTE-C RGB Colorspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
+
 `sRGB Colorspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
 
 `Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
