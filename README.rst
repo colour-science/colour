@@ -57,7 +57,18 @@ Here are some features:
   -  Von Kries.
   -  CAT02.
 
--  Luminance, Munsell value and Lightness calculations.
+-  Luminance, Munsell value and Lightness calculations:
+
+  -  Luminance 1943
+  -  Munsell Value 1920
+  -  Munsell Value 1933
+  -  Munsell Value 1943
+  -  Munsell Value 1944
+  -  Munsell Value 1955
+  -  Lightness 1958
+  -  Lightness 1964
+  -  Lightness 1976
+
 -  RGB Colorspaces support:
 
   -  ACES RGB
