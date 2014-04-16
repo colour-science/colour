@@ -42,6 +42,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
+		   "CIE_E",
+		   "CIE_K",
 		   "getLuminanceEquation",
 		   "getLuminance",
 		   "luminance_1943",
@@ -59,6 +61,9 @@ __all__ = ["LOGGER",
 		   "getLightness"]
 
 LOGGER = color.verbose.installLogger()
+
+CIE_E = 216. / 24389.0
+CIE_K = 24389. / 27.0
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
@@ -337,7 +342,7 @@ def lightness_1976(Y, Yn=100.):
 	"""
 
 	ratio = Y / Yn
-	Lstar = 903.3 * ratio if ratio <= 0.008856 else 116. * ratio ** (1. / 3.) - 16
+	Lstar = CIE_K * ratio if ratio <= CIE_E else 116. * ratio ** (1. / 3.) - 16
 
 	return Lstar
 
