@@ -49,6 +49,7 @@ __status__ = "Production"
 __all__ = ["GetLuminanceEquationTestCase",
 		   "GetLuminanceTestCase",
 		   "Luminance_1943Case",
+		   "Luminance_1976Case",
 		   "Munsell_value_1920Case",
 		   "Munsell_value_1933Case",
 		   "Munsell_value_1943Case",
@@ -135,6 +136,20 @@ class Luminance_1943Case(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.luminance_1943(3.74629715382), 10.4089874577, places=7)
 		self.assertAlmostEqual(color.lightness.luminance_1943(8.64728711385), 71.3174801757, places=7)
 		self.assertAlmostEqual(color.lightness.luminance_1943(1.52569021578), 2.06998750444, places=7)
+
+class Luminance_1976Case(unittest.TestCase):
+	"""
+	Defines :func:`color.lightness.luminance_1976` definition units tests methods.
+	"""
+
+	def testLuminance_1976(self):
+		"""
+		Tests :func:`color.lightness.luminance_1976` definition.
+		"""
+
+		self.assertAlmostEqual(color.lightness.luminance_1976(37.9856290977, 100.), 10.08, places=7)
+		self.assertAlmostEqual(color.lightness.luminance_1976(80.0444155585, 100.), 56.76, places=7)
+		self.assertAlmostEqual(color.lightness.luminance_1976(99.3467279026, 100.), 98.32, places=7)
 
 class Munsell_value_1920Case(unittest.TestCase):
 	"""
