@@ -51,6 +51,7 @@ from color.colorspaces.appleRgb import *
 from color.colorspaces.bestRgb import *
 from color.colorspaces.betaRgb import *
 from color.colorspaces.cieRgb import *
+from color.colorspaces.cLog import *
 from color.colorspaces.colorMatchRgb import *
 from color.colorspaces.dciP3 import *
 from color.colorspaces.donRgb4 import *
@@ -78,6 +79,7 @@ from color.colorspaces import appleRgb
 from color.colorspaces import bestRgb
 from color.colorspaces import betaRgb
 from color.colorspaces import cieRgb
+from color.colorspaces import cLog
 from color.colorspaces import colorMatchRgb
 from color.colorspaces import dciP3
 from color.colorspaces import donRgb4
@@ -105,6 +107,7 @@ __all__.extend(appleRgb.__all__)
 __all__.extend(bestRgb.__all__)
 __all__.extend(betaRgb.__all__)
 __all__.extend(cieRgb.__all__)
+__all__.extend(cLog.__all__)
 __all__.extend(colorMatchRgb.__all__)
 __all__.extend(dciP3.__all__)
 __all__.extend(donRgb4.__all__)
@@ -133,6 +136,7 @@ COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
 			   BEST_RGB_COLORSPACE.name: BEST_RGB_COLORSPACE,
 			   BETA_RGB_COLORSPACE.name: BETA_RGB_COLORSPACE,
 			   CIE_RGB_COLORSPACE.name: CIE_RGB_COLORSPACE,
+			   C_LOG_COLORSPACE.name: C_LOG_COLORSPACE,
 			   COLOR_MATCH_RGB_COLORSPACE.name: COLOR_MATCH_RGB_COLORSPACE,
 			   DCI_P3_COLORSPACE.name: DCI_P3_COLORSPACE,
 			   DON_RGB_4_COLORSPACE.name: DON_RGB_4_COLORSPACE,
