@@ -30,6 +30,7 @@ import numpy
 import color.derivation
 import color.exceptions
 import color.illuminants
+import color.lightness
 import color.verbose
 from color.colorspaces.colorspace import Colorspace
 
@@ -78,9 +79,7 @@ def __eciRgbV2TransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	# TODO: *ECI RGB v2* TRC should be *L\**.
-	LOGGER.warning("!> {0} | 'ECI RGB v2' colorspace transfer function is not implemented!".format(__name__))
-	RGB = map(lambda x: x ** (1 / 1.8), numpy.ravel(RGB))
+	RGB = map(lambda x: color.lightness.lightness_1976(x * 100.) / 100., numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 def __eciRgbV2InverseTransferFunction(RGB):
@@ -93,9 +92,7 @@ def __eciRgbV2InverseTransferFunction(RGB):
 	:rtype: Matrix (3x1)
 	"""
 
-	# TODO: *ECI RGB v2* TRC should be inverse *L\**.
-	LOGGER.warning("!> {0} | 'ECI RGB v2' colorspace inverse transfer function is not implemented!".format(__name__))
-	RGB = map(lambda x: x ** 1.8, numpy.ravel(RGB))
+	RGB = map(lambda x: color.lightness.luminance_1976(x * 100.) / 100., numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
 ECI_RGB_V2_TRANSFER_FUNCTION = __eciRgbV2TransferFunction
