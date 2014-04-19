@@ -259,6 +259,27 @@ visibleSpectrumPlot("Standard CIE 1931 2 Degree Observer")
 visibleSpectrumPlot("Standard CIE 2006 2 Degree Observer")
 
 #**********************************************************************************************************************
+#***	Plotting photopic luminous efficiency functions.
+#**********************************************************************************************************************
+multiSpectralPowerDistributionPlot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),
+								   title="Luminous Efficiency Functions",
+								   yLabel="Luminous Efficiency",
+								   legendLocation="upper right",
+								   tightenY=True,
+								   margins=[0., 150., 0., .1])
+
+#**********************************************************************************************************************
+#***	Comparing photopic and scotopic luminous efficiency functions.
+#**********************************************************************************************************************
+multiSpectralPowerDistributionPlot([color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer"],
+									color.SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Wald & Crawford CIE 1951 2 Degree Observer"]],
+								   title="Photopic & Scotopic Luminous Efficiency Functions",
+								   yLabel="Luminous Efficiency",
+								   legendLocation="upper right",
+								   tightenY=True,
+								   margins=[0., 150., 0., .1])
+
+#**********************************************************************************************************************
 #***	Plotting *CIE 1931 Chromaticity Diagram*.
 #**********************************************************************************************************************
 CIE_1931_chromaticityDiagramPlot()

@@ -63,6 +63,7 @@ from derivation import *
 from difference import *
 from illuminants import *
 from lightness import *
+from luminosity import *
 from matrix import *
 from spectral import *
 from temperature import *

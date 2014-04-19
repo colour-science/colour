@@ -11,7 +11,6 @@ Introduction
 
 Here are some features:
 
--  Standard observers 2° and 10° support.
 -  RGB and XYZ color matching functions spectral data:
 
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
@@ -43,6 +42,15 @@ Here are some features:
   -  F11
   -  F12
 
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 2 Degree Observer
+  -  Judd Modified CIE 1951 2 Degree Observer
+  -  Judd-Vos Modified CIE 1978 2 Degree Observer
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
+  -  Wald & Crawford CIE 1951 2 Degree Observer
+
 -  Correlated color temperature calculation:
 
   -  Wyszecki & Roberston method implementation.
@@ -60,6 +68,7 @@ Here are some features:
 -  Luminance, Munsell value and Lightness calculations:
 
   -  Luminance 1943
+  -  Luminance 1976
   -  Munsell Value 1920
   -  Munsell Value 1933
   -  Munsell Value 1943
@@ -356,6 +365,21 @@ Illuminants Relative Spectral Power Distributions
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
 Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
+Luminous Efficiency Functions
+*****************************
+
+`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Temperature
 ***********
