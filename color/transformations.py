@@ -71,7 +71,7 @@ __all__ = ["LOGGER",
 		   "XYZ_to_Lab",
 		   "Lab_to_XYZ",
 		   "Lab_to_LCHab",
-		   "LCHab_to_Lab", ]
+		   "LCHab_to_Lab"]
 
 LOGGER = color.verbose.installLogger()
 
@@ -145,7 +145,7 @@ def spectral_to_XYZ(spd,
 	:return: *CIE XYZ* matrix.
 	:rtype: Matrix
 
-	:Note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
+	:note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
 	"""
 
 	if spd.shape != cmfs.shape:
