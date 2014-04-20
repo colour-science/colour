@@ -39,22 +39,22 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "isIdentity", "linearInterpolateMatrices"]
+__all__ = ["LOGGER", "is_identity", "linear_interpolate_matrices"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
 #**********************************************************************************************************************
-def isIdentity(matrix, n=3):
+def is_identity(matrix, n=3):
 	"""
 	Returns if given matrix is an identity matrix.
 
 	Usage::
 
-		>>> isIdentity(numpy.matrix([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+		>>> is_identity(numpy.matrix([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
 		True
-		>>> isIdentity(numpy.matrix([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+		>>> is_identity(numpy.matrix([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
 		False
 
 	:param matrix: Matrix.
@@ -67,7 +67,7 @@ def isIdentity(matrix, n=3):
 
 	return numpy.array_equal(numpy.identity(n), matrix)
 
-def linearInterpolateMatrices(a, b, matrix1, matrix2, c):
+def linear_interpolate_matrices(a, b, matrix_1, matrix_2, c):
 	"""
 	Interpolates linearly given matrices and given base values using given interpolation value.
 
@@ -75,10 +75,10 @@ def linearInterpolateMatrices(a, b, matrix1, matrix2, c):
 
 		>>> a = 2850
 		>>> b = 7500
-		>>> matrix1 = numpy.matrix([0.5309, -0.0229, -0.0336, -0.6241, 1.3265, 0.3337, -0.0817, 0.1215, 0.6664]).reshape((3, 3))
-		>>> matrix2 = numpy.matrix([0.4716, 0.0603, -0.083, -0.7798, 1.5474, 0.248, -0.1496, 0.1937, 0.6651]).reshape((3, 3))
+		>>> matrix_1 = numpy.matrix([0.5309, -0.0229, -0.0336, -0.6241, 1.3265, 0.3337, -0.0817, 0.1215, 0.6664]).reshape((3, 3))
+		>>> matrix_2 = numpy.matrix([0.4716, 0.0603, -0.083, -0.7798, 1.5474, 0.248, -0.1496, 0.1937, 0.6651]).reshape((3, 3))
 		>>> c = 6500
-		>>> linearInterpolateMatrices(a, b, matrix1, matrix2, c)
+		>>> linear_interpolate_matrices(a, b, matrix_1, matrix_2, c)
 		matrix([[ 0.48435269,  0.04240753, -0.07237634],
 			[-0.74631613,  1.49989462,  0.26643011],
 			[-0.13499785,  0.17817312,  0.66537957]])
@@ -87,10 +87,10 @@ def linearInterpolateMatrices(a, b, matrix1, matrix2, c):
 	:type a: float
 	:param b: B value.
 	:type b: float
-	:param matrix1: Matrix 1.
-	:type matrix1: Matrix (N)
-	:param matrix2: Matrix 2.
-	:type matrix2: Matrix (N)
+	:param matrix_1: Matrix 1.
+	:type matrix_1: Matrix (N)
+	:param matrix_2: Matrix 2.
+	:type matrix_2: Matrix (N)
 	:param c: Interpolation value.
 	:type c: float
 	:return: Matrix.
@@ -98,13 +98,13 @@ def linearInterpolateMatrices(a, b, matrix1, matrix2, c):
 	"""
 
 	if a == b:
-		return matrix1
+		return matrix_1
 
-	shape = matrix1.shape
-	length = matrix1.size
-	matrix1, matrix2 = numpy.ravel(matrix1), numpy.ravel(matrix2)
+	shape = matrix_1.shape
+	length = matrix_1.size
+	matrix_1, matrix_2 = numpy.ravel(matrix_1), numpy.ravel(matrix_2)
 
 	# TODO: Investigate numpy implementation issues when c < a or c > b.
-	# return numpy.matrix([numpy.interp(c, (a, b), zip(matrix1, matrix2)[i]) for i in range(length)]).reshape(shape)
+	# return numpy.matrix([numpy.interp(c, (a, b), zip(matrix_1, matrix_2)[i]) for i in range(length)]).reshape(shape)
 
-	return numpy.matrix([matrix1[i] + (c - a) * ((matrix2[i] - matrix1[i]) / (b - a)) for i in range(length)]).reshape(shape)
+	return numpy.matrix([matrix_1[i] + (c - a) * ((matrix_2[i] - matrix_1[i]) / (b - a)) for i in range(length)]).reshape(shape)

@@ -47,17 +47,17 @@ __status__ = "Production"
 
 __all__ = ["LOGGER"]
 
-LOGGER = installLogger()
+LOGGER = install_logger()
 
-getLoggingConsoleHandler()
-setVerbosityLevel(Constants.verbosityLevel)
+get_logging_console_handler()
+set_verbosity_level(Constants.verbosity_level)
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 from blackbody import *
-from chromaticAdaptation import *
-from colorCheckers import *
+from chromatic_adaptation import *
+from color_checkers import *
 from colorspaces import *
 from derivation import *
 from difference import *

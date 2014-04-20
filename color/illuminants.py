@@ -39,7 +39,7 @@ __all__ = ["LOGGER",
 		   "ILLUMINANTS_STANDARD_CIE_1964_10_DEGREE_OBSERVER_CHROMATICITY_COORDINATES",
 		   "ILLUMINANTS"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 # http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 ILLUMINANTS_STANDARD_CIE_1931_2_DEGREE_OBSERVER_CHROMATICITY_COORDINATES = {"A": (0.44757, 0.40745),

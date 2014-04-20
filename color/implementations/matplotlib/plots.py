@@ -34,7 +34,7 @@ from collections import namedtuple
 #***	Internal Imports.
 #**********************************************************************************************************************
 import color.blackbody
-import color.colorCheckers
+import color.color_checkers
 import color.colorspaces
 import color.illuminants
 import color.exceptions
@@ -43,7 +43,7 @@ import color.matrix
 import color.spectral
 import color.temperature
 import color.transformations
-import color.dataStructures
+import color.data_structures
 import color.verbose
 
 #**********************************************************************************************************************
@@ -61,41 +61,41 @@ __all__ = ["LOGGER",
 		   "DEFAULT_FIGURE_SIZE",
 		   "COLOR_PARAMETER",
 		   "XYZ_to_sRGB",
-		   "figureSize",
+           "figure_size",
 		   "aspect",
-		   "boundingBox",
+		   "bounding_box",
 		   "display",
-		   "colorParameter",
-		   "colorParametersPlot",
-		   "singleColorPlot",
-		   "multiColorPlot",
-		   "colorCheckerPlot",
-		   "singleSpectralPowerDistributionPlot",
-		   "multiSpectralPowerDistributionPlot",
-		   "singleColorMatchingFunctionsPlot",
-		   "multiColorMatchingFunctionsPlot",
-		   "singleIlluminantRelativeSpdPlot",
-		   "multiIlluminantsRelativeSpdPlot",
-		   "visibleSpectrumPlot",
-		   "CIE_1931_chromaticityDiagramColorsPlot",
-		   "CIE_1931_chromaticityDiagramPlot",
-		   "colorspaces_CIE_1931_chromaticityDiagramPlot",
-		   "planckianLocus_CIE_1931_chromaticityDiagramPlot",
-		   "CIE_1960_UCS_chromaticityDiagramColorsPlot",
-		   "CIE_1960_UCS_chromaticityDiagramPlot",
-		   "planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot",
-		   "CIE_1976_UCS_chromaticityDiagramColorsPlot",
-		   "CIE_1976_UCS_chromaticityDiagramPlot",
-		   "singleMunsellValueFunctionPlot",
-		   "multiMunsellValueFunctionPlot",
-		   "singleLightnessFunctionPlot",
-		   "multiLightnessFunctionPlot",
-		   "singleTransferFunctionPlot",
-		   "multiTransferFunctionPlot",
-		   "blackbodySpectralRadiancePlot",
-		   "blackbodyColorsPlot"]
+		   "color_parameter",
+		   "color_parameters_plot",
+		   "single_color_plot",
+		   "multi_color_plot",
+		   "color_checker_plot",
+		   "single_spectral_power_distribution_plot",
+		   "multi_spectral_power_distribution_plot",
+		   "single_color_matching_functions_plot",
+		   "multi_color_matching_functions_plot",
+		   "single_illuminant_relative_spd_plot",
+		   "multi_illuminants_relative_spd_plot",
+		   "visible_spectrum_plot",
+		   "CIE_1931_chromaticity_diagram_colors_plot",
+		   "CIE_1931_chromaticity_diagram_plot",
+		   "colorspaces_CIE_1931_chromaticity_diagram_plot",
+		   "planckian_locus_CIE_1931_chromaticity_diagram_plot",
+		   "CIE_1960_UCS_chromaticity_diagram_colors_plot",
+		   "CIE_1960_UCS_chromaticity_diagram_plot",
+		   "planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot",
+		   "CIE_1976_UCS_chromaticity_diagram_colors_plot",
+		   "CIE_1976_UCS_chromaticity_diagram_plot",
+		   "single_munsell_value_function_plot",
+		   "multi_munsell_value_function_plot",
+		   "single_lightness_function_plot",
+		   "multi_lightness_function_plot",
+		   "single_transfer_function_plot",
+		   "multi_transfer_function_plot",
+		   "blackbody_spectral_radiance_plot",
+		   "blackbody_colors_plot"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources")
 
@@ -128,10 +128,10 @@ def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
 											illuminant,
 											color.colorspaces.sRGB_COLORSPACE.whitepoint,
 											"CAT02",
-											color.colorspaces.sRGB_COLORSPACE.fromXYZ,
-											color.colorspaces.sRGB_COLORSPACE.transferFunction)
+											color.colorspaces.sRGB_COLORSPACE.from_XYZ,
+											color.colorspaces.sRGB_COLORSPACE.transfer_function)
 
-def figureSize(size=DEFAULT_FIGURE_SIZE):
+def figure_size(size=DEFAULT_FIGURE_SIZE):
 	"""
 	Sets figures sizes.
 
@@ -141,7 +141,7 @@ def figureSize(size=DEFAULT_FIGURE_SIZE):
 	:rtype: object
 	"""
 
-	def figureSizeDecorator(object):
+	def figure_size_decorator(object):
 		"""
 		Sets figures sizes.
 
@@ -152,7 +152,7 @@ def figureSize(size=DEFAULT_FIGURE_SIZE):
 		"""
 
 		@functools.wraps(object)
-		def figureSizeWrapper(*args, **kwargs):
+		def figure_size_wrapper(*args, **kwargs):
 			"""
 			Sets figures sizes.
 
@@ -164,17 +164,17 @@ def figureSize(size=DEFAULT_FIGURE_SIZE):
 			:rtype: object
 			"""
 
-			pylab.rcParams["figure.figsize"] = kwargs.get("figureSize") if kwargs.get(
-				"figureSize") is not None else size
+			pylab.rcParams["figure.figsize"] = kwargs.get("figure_size") if kwargs.get(
+				"figure_size") is not None else size
 
 			try:
 				return object(*args, **kwargs)
 			finally:
 				pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 
-		return figureSizeWrapper
+		return figure_size_wrapper
 
-	return figureSizeDecorator
+	return figure_size_decorator
 
 def aspect(**kwargs):
 	"""
@@ -186,40 +186,40 @@ def aspect(**kwargs):
 	:rtype: bool
 	"""
 
-	settings = color.dataStructures.Structure(**{"title": None,
-												 "xLabel": None,
-												 "yLabel": None,
+	settings = color.data_structures.Structure(**{"title": None,
+												 "x_label": None,
+												 "y_label": None,
 												 "legend": False,
-												 "legendLocation": "upper right",
-												 "tickerX": False,
-												 "tickerY": False,
-												 "tickerXlocator": matplotlib.ticker.AutoMinorLocator(2),
-												 "tickerYlocator": matplotlib.ticker.AutoMinorLocator(2),
-												 "noTicks": False,
+												 "legend_location": "upper right",
+												 "x_ticker": False,
+												 "y_ticker": False,
+												 "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+												 "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+												 "no_ticks": False,
 												 "grid": False,
-												 "gridAxis": "both",
-												 "axisXLine": False,
-												 "axisYLine": False,
+												 "axis_grid": "both",
+												 "x_axis_line": False,
+												 "y_axis_line": False,
 												 "aspect": None})
 	settings.update(kwargs)
 
 	settings.title and pylab.title(settings.title)
-	settings.xLabel and pylab.xlabel(settings.xLabel)
-	settings.yLabel and pylab.ylabel(settings.yLabel)
-	settings.legend and pylab.legend(loc=settings.legendLocation)
-	settings.tickerX and matplotlib.pyplot.gca().xaxis.set_minor_locator(settings.tickerXlocator)
-	settings.tickerY and matplotlib.pyplot.gca().yaxis.set_minor_locator(settings.tickerYlocator)
-	if settings.noTicks:
+	settings.x_label and pylab.xlabel(settings.x_label)
+	settings.y_label and pylab.ylabel(settings.y_label)
+	settings.legend and pylab.legend(loc=settings.legend_location)
+	settings.x_ticker and matplotlib.pyplot.gca().xaxis.set_minor_locator(settings.x_ticker_locator)
+	settings.y_ticker and matplotlib.pyplot.gca().yaxis.set_minor_locator(settings.y_ticker_locator)
+	if settings.no_ticks:
 		matplotlib.pyplot.gca().set_xticks([])
 		matplotlib.pyplot.gca().set_yticks([])
-	settings.grid and pylab.grid(which=settings.gridAxis)
-	settings.axisXLine and pylab.axvline(0, color="black", linestyle="--")
-	settings.axisYLine and pylab.axhline(0, color="black", linestyle="--")
+	settings.grid and pylab.grid(which=settings.axis_grid)
+	settings.x_axis_line and pylab.axvline(0, color="black", linestyle="--")
+	settings.y_axis_line and pylab.axhline(0, color="black", linestyle="--")
 	settings.aspect and matplotlib.pyplot.axes().set_aspect(settings.aspect)
 
 	return True
 
-def boundingBox(**kwargs):
+def bounding_box(**kwargs):
 	"""
 	Sets the plot bounding box.
 
@@ -229,21 +229,21 @@ def boundingBox(**kwargs):
 	:rtype: bool
 	"""
 
-	settings = color.dataStructures.Structure(**{"boundingBox": None,
-												 "tightenX": False,
-												 "tightenY": False,
+	settings = color.data_structures.Structure(**{"bounding_box": None,
+												 "x_tighten": False,
+												 "y_tighten": False,
 												 "limits": [0., 1., 0., 1.],
 												 "margins": [0., 0., 0., 0.]})
 	settings.update(kwargs)
 
-	if settings.boundingBox is None:
-		xLimitMin, xLimitMax, yLimitMin, yLimitMax = settings.limits
-		xMarginMin, xMarginMax, yMarginMin, yMarginMax = settings.margins
-		settings.tightenX and pylab.xlim(xLimitMin + xMarginMin, xLimitMax + xMarginMax)
-		settings.tightenY and pylab.ylim(yLimitMin + yMarginMin, yLimitMax + yMarginMax)
+	if settings.bounding_box is None:
+		x_limit_min, x_limit_max, y_limit_min, y_limit_max = settings.limits
+		x_margin_min, x_margin_max, y_margin_min, y_margin_max = settings.margins
+		settings.x_tighten and pylab.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
+		settings.y_tighten and pylab.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
 	else:
-		pylab.xlim(settings.boundingBox[0], settings.boundingBox[1])
-		pylab.ylim(settings.boundingBox[2], settings.boundingBox[3])
+		pylab.xlim(settings.bounding_box[0], settings.bounding_box[1])
+		pylab.ylim(settings.bounding_box[2], settings.bounding_box[3])
 
 	return True
 
@@ -257,7 +257,7 @@ def display(**kwargs):
 	:rtype: bool
 	"""
 
-	settings = color.dataStructures.Structure(**{"standalone": True,
+	settings = color.data_structures.Structure(**{"standalone": True,
 												 "filename": None})
 	settings.update(kwargs)
 
@@ -270,7 +270,7 @@ def display(**kwargs):
 
 	return True
 
-def colorParameter(name=None, RGB=None, x=None, y0=None, y1=None):
+def color_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
 	"""
 	Defines a factory for :attr:`color.implementations.matplotlib.plots.COLOR_PARAMETER` attribute.
 
@@ -290,115 +290,113 @@ def colorParameter(name=None, RGB=None, x=None, y0=None, y1=None):
 
 	return COLOR_PARAMETER(name, RGB, x, y0, y1)
 
-def colorParametersPlot(colorParameters,
-						plotY0=True,
-						plotY1=True,
+def color_parameters_plot(color_parameters,
+						y0_plot=True,
+						y1_plot=True,
 						**kwargs):
 	"""
-	Plots given color colorParameters.
+	Plots given color color_parameters.
 
 	Usage::
 
-		>>> cp1 = colorParameter(x=390, RGB=[0.03009021, 0., 0.12300545])
-		>>> cp2 = colorParameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
-		>>> cp3 = colorParameter(x=392, RGB=[0.03826312, 0., 0.14276247], y0=0, y1=0.35)
-		>>> cp4 = colorParameter(x=393, RGB=[0.04191844, 0., 0.15158707], y0=0, y1=0.05)
-		>>> cp5 = colorParameter(x=394, RGB=[0.04535085, 0., 0.15986838], y0=0, y1=-.25)
-		>>> colorParametersPlot([cp1, cp2, cp3, cp3, cp4, cp5])
+		>>> cp1 = color_parameter(x=390, RGB=[0.03009021, 0., 0.12300545])
+		>>> cp2 = color_parameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
+		>>> cp3 = color_parameter(x=392, RGB=[0.03826312, 0., 0.14276247], y0=0, y1=0.35)
+		>>> cp4 = color_parameter(x=393, RGB=[0.04191844, 0., 0.15158707], y0=0, y1=0.05)
+		>>> cp5 = color_parameter(x=394, RGB=[0.04535085, 0., 0.15986838], y0=0, y1=-.25)
+		>>> color_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
 		True
 
-	:param colorParameters: ColorParameter sequence.
-	:type colorParameters: list
-	:param plotY0: Plot y0 line.
-	:type plotY0: bool
-	:param plotY1: Plot y1 line.
-	:type plotY1: bool
+	:param color_parameters: ColorParameter sequence.
+	:type color_parameters: list
+	:param y0_plot: Plot y0 line.
+	:type y0_plot: bool
+	:param y1_plot: Plot y1 line.
+	:type y1_plot: bool
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Definition success.
 	:rtype: bool
 	"""
 
-	for i in xrange(len(colorParameters) - 1):
-		x0 = colorParameters[i].x
-		x01 = colorParameters[i + 1].x
-		y0 = 0. if colorParameters[i].y0 is None else colorParameters[i].y0
-		y1 = 1. if colorParameters[i].y1 is None else colorParameters[i].y1
-		y01 = 0. if colorParameters[i].y0 is None else colorParameters[i + 1].y0
-		y11 = 1. if colorParameters[i].y1 is None else colorParameters[i + 1].y1
-		polygonX = [x0, x01, x01, x0]
-		polygonY = [y0, y01, y11, y1]
-		pylab.fill(polygonX, polygonY, color=colorParameters[i].RGB, edgecolor=colorParameters[i].RGB)
+	for i in xrange(len(color_parameters) - 1):
+		x0 = color_parameters[i].x
+		x01 = color_parameters[i + 1].x
+		y0 = 0. if color_parameters[i].y0 is None else color_parameters[i].y0
+		y1 = 1. if color_parameters[i].y1 is None else color_parameters[i].y1
+		y01 = 0. if color_parameters[i].y0 is None else color_parameters[i + 1].y0
+		y11 = 1. if color_parameters[i].y1 is None else color_parameters[i + 1].y1
+		x_polygon = [x0, x01, x01, x0]
+		y_polygon = [y0, y01, y11, y1]
+		pylab.fill(x_polygon, y_polygon, color=color_parameters[i].RGB, edgecolor=color_parameters[i].RGB)
 
-	if all(map(lambda x: x.y0 is not None, colorParameters)):
-		plotY0 and pylab.plot(map(lambda x: x.x, colorParameters), map(lambda x: x.y0, colorParameters), color="black",
+	if all(map(lambda x: x.y0 is not None, color_parameters)):
+		y0_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y0, color_parameters), color="black",
 							  linewidth=2.)
 
-	if all(map(lambda x: x.y1 is not None, colorParameters)):
-		plotY1 and pylab.plot(map(lambda x: x.x, colorParameters), map(lambda x: x.y1, colorParameters), color="black",
+	if all(map(lambda x: x.y1 is not None, color_parameters)):
+		y1_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y1, color_parameters), color="black",
 							  linewidth=2.)
 
-	yLimitMin0, yLimitMax0 = min(map(lambda x: 0. if x.y0 is None else x.y0, colorParameters)), \
-							 max(map(lambda x: 1. if x.y0 is None else x.y0, colorParameters))
-	yLimitMin1, yLimitMax1 = min(map(lambda x: 0. if x.y1 is None else x.y1, colorParameters)), \
-							 max(map(lambda x: 1. if x.y1 is None else x.y1, colorParameters))
+	y_limit_min0, y_limit_max0 = min(map(lambda x: 0. if x.y0 is None else x.y0, color_parameters)), \
+							 max(map(lambda x: 1. if x.y0 is None else x.y0, color_parameters))
+	y_limit_min1, y_limit_max1 = min(map(lambda x: 0. if x.y1 is None else x.y1, color_parameters)), \
+							 max(map(lambda x: 1. if x.y1 is None else x.y1, color_parameters))
 
-	settings = {"xLabel": "Parameter",
-				"yLabel": "Color",
-				"limits": [min(map(lambda x: 0. if x.x is None else x.x, colorParameters)),
-						   max(map(lambda x: 1. if x.x is None else x.x, colorParameters)),
-						   yLimitMin0,
-						   yLimitMax1]}
+	settings = {"x_label": "Parameter",
+				"y_label": "Color",
+				"limits": [min(map(lambda x: 0. if x.x is None else x.x, color_parameters)),
+						   max(map(lambda x: 1. if x.x is None else x.x, color_parameters)),
+						   y_limit_min0,
+						   y_limit_max1]}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleColorPlot(colorParameter,
+def single_color_plot(color_parameter,
 					**kwargs):
 	"""
 	Plots given color.
 
 	Usage::
 
-		>>> singleColorPlot(colorParameter(RGB=(0.32315746, 0.32983556, 0.33640183)))
+		>>> single_color_plot(color_parameter(RGB=(0.32315746, 0.32983556, 0.33640183)))
 		True
 
-	:param colorParameter: ColorParameter.
-	:type colorParameter: ColorParameter
-	:param displayText: Display color text.
-	:type displayText: bool
+	:param color_parameter: ColorParameter.
+	:type color_parameter: ColorParameter
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Definition success.
 	:rtype: bool
 	"""
 
-	return multiColorPlot([colorParameter], **kwargs)
+	return multi_color_plot([color_parameter], **kwargs)
 
-def multiColorPlot(colorParameters,
+def multi_color_plot(color_parameters,
 				   width=1.,
 				   height=1.,
 				   spacing=0.,
 				   across=3,
-				   displayText=True,
-				   textSize="large",
-				   textOffset=0.075,
+				   text_display=True,
+				   text_size="large",
+				   text_offset=0.075,
 				   **kwargs):
 	"""
 	Plots given colors.
 
 	Usage::
 
-		>>> cp1 = colorParameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-		>>> cp2 = colorParameter(RGB=(0.77875824, 0.5772645,  0.50453169)
-		>>> multiColorPlot([cp1, cp2])
+		>>> cp1 = color_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
+		>>> cp2 = color_parameter(RGB=(0.77875824, 0.5772645,  0.50453169)
+		>>> multi_color_plot([cp1, cp2])
 		True
 
-	:param colorParameters: ColorParameter sequence.
-	:type colorParameters: list
+	:param color_parameters: ColorParameter sequence.
+	:type color_parameters: list
 	:param width: Color polygon width.
 	:type width: float
 	:param height: Color polygon height.
@@ -407,12 +405,12 @@ def multiColorPlot(colorParameters,
 	:type spacing: float
 	:param across: Color polygons count per row.
 	:type across: int
-	:param displayText: Display color text.
-	:type displayText: bool
-	:param textSize: Color text size.
-	:type textSize: float
-	:param textOffset: Color text offset.
-	:type textOffset: float
+	:param text_display: Display color text.
+	:type text_display: bool
+	:param text_size: Color text size.
+	:type text_size: float
+	:param text_offset: Color text offset.
+	:type text_offset: float
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Definition success.
@@ -420,8 +418,8 @@ def multiColorPlot(colorParameters,
 	"""
 
 	offsetX = offsetY = 0
-	xLimitMin, xLimitMax, yLimitMin, yLimitMax = 0, width, 0, height
-	for i, colorParameter in enumerate(colorParameters):
+	x_limit_min, x_limit_max, y_limit_min, y_limit_max = 0, width, 0, height
+	for i, color_parameter in enumerate(color_parameters):
 		if i % across == 0 and i != 0:
 			offsetX = 0
 			offsetY -= height + spacing
@@ -431,65 +429,65 @@ def multiColorPlot(colorParameters,
 		y0 = offsetY
 		y1 = offsetY + height
 
-		polygonX = [x0, x1, x1, x0]
-		polygonY = [y0, y0, y1, y1]
-		pylab.fill(polygonX, polygonY, color=colorParameters[i].RGB)
-		if colorParameter.name is not None and displayText:
-			pylab.text(x0 + textOffset, y0 + textOffset, colorParameter.name, size=textSize)
+		x_polygon = [x0, x1, x1, x0]
+		y_polygon = [y0, y0, y1, y1]
+		pylab.fill(x_polygon, y_polygon, color=color_parameters[i].RGB)
+		if color_parameter.name is not None and text_display:
+			pylab.text(x0 + text_offset, y0 + text_offset, color_parameter.name, size=text_size)
 
 		offsetX += width + spacing
 
-	xLimitMax = min(len(colorParameters), across)
-	xLimitMax = xLimitMax * width + xLimitMax * spacing - spacing
-	yLimitMin = offsetY
+	x_limit_max = min(len(color_parameters), across)
+	x_limit_max = x_limit_max * width + x_limit_max * spacing - spacing
+	y_limit_min = offsetY
 
-	settings = {"tightenX": True,
-				"tightenY": True,
-				"noTicks": True,
-				"limits": [xLimitMin, xLimitMax, yLimitMin, yLimitMax],
+	settings = {"x_tighten": True,
+				"y_tighten": True,
+				"no_ticks": True,
+				"limits": [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
 				"aspect": "equal"}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def colorCheckerPlot(colorChecker="ColorChecker 2005",
+def color_checker_plot(color_checker="ColorChecker 2005",
 					 **kwargs):
 	"""
 	Plots given color checker.
 
 	Usage::
 
-		>>> colorCheckerPlot()
+		>>> color_checker_plot()
 		True
 
-	:param colorChecker: Color checker name.
-	:type colorChecker: unicode
+	:param color_checker: Color checker name.
+	:type color_checker: unicode
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Definition success.
 	:rtype: bool
 	"""
 
-	colorChecker, name = color.colorCheckers.COLORCHECKERS.get(colorChecker), colorChecker
-	if colorChecker is None:
+	color_checker, name = color.color_checkers.COLORCHECKERS.get(color_checker), color_checker
+	if color_checker is None:
 		raise color.exceptions.ProgrammingError(
 			"Color checker '{0}' not found in color checkers: '{1}'.".format(name,
 																			 sorted(
-																				 color.colorCheckers.COLORCHECKERS.keys())))
+																				 color.color_checkers.COLORCHECKERS.keys())))
 
-	_, data, illuminant = colorChecker
-	colorParameters = []
+	_, data, illuminant = color_checker
+	color_parameters = []
 	for index, label, x, y, Y in data:
 		XYZ = color.transformations.xyY_to_XYZ((x, y, Y))
 		RGB = XYZ_to_sRGB(XYZ, illuminant)
 
-		colorParameters.append(colorParameter(label.title(), numpy.clip(numpy.ravel(RGB), 0, 1)))
+		color_parameters.append(color_parameter(label.title(), numpy.clip(numpy.ravel(RGB), 0, 1)))
 
-	backgroundColor = "0.1"
-	matplotlib.pyplot.gca().patch.set_facecolor(backgroundColor)
+	background_color = "0.1"
+	matplotlib.pyplot.gca().patch.set_facecolor(background_color)
 
 	width = height = 1.0
 	spacing = 0.25
@@ -503,28 +501,28 @@ def colorCheckerPlot(colorChecker="ColorChecker 2005",
 				"margins": [-0.125, 0.125, -0.5, 0.125]}
 	settings.update(kwargs)
 
-	multiColorPlot(colorParameters, **settings)
+	multi_color_plot(color_parameters, **settings)
 
-	textX = width * (across / 2) + (across * (spacing / 2)) - spacing / 2
-	textY = -(len(colorParameters) / across + spacing / 2)
+	text_x = width * (across / 2) + (across * (spacing / 2)) - spacing / 2
+	text_y = -(len(color_parameters) / across + spacing / 2)
 
-	pylab.text(textX,
-			   textY,
+	pylab.text(text_x,
+			   text_y,
 			   "{0} - {1} - Color Rendition Chart".format(name, color.colorspaces.sRGB_COLORSPACE.name),
 			   color="0.95",
 			   ha="center")
 
 	settings.update({"title": name,
-					 "facecolor": backgroundColor,
+					 "facecolor": background_color,
 					 "edgecolor": None,
 					 "standalone": True})
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleSpectralPowerDistributionPlot(spd,
+def single_spectral_power_distribution_plot(spd,
 										cmfs=color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
 											"Standard CIE 1931 2 Degree Observer"),
 										**kwargs):
@@ -534,7 +532,7 @@ def singleSpectralPowerDistributionPlot(spd,
 	Usage::
 
 		>>> spd = color.SpectralPowerDistribution(name="Custom", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
-		>>> singleSpectralPowerDistributionPlot(spd)
+		>>> single_spectral_power_distribution_plot(spd)
 		True
 
 	:param spd: Spectral power distribution to plot.
@@ -564,17 +562,17 @@ def singleSpectralPowerDistributionPlot(spd,
 	colors = numpy.clip(colors, 0, 1)
 
 	settings = {"title": "'{0}' - {1}".format(spd.name, cmfs.name),
-				"xLabel": u"Wavelength λ (nm)",
-				"yLabel": "Spectral Power Distribution",
-				"tightenX": True,
-				"tickerX": True,
-				"tickerY": True}
+				"x_label": u"Wavelength λ (nm)",
+				"y_label": "Spectral Power Distribution",
+				"x_tighten": True,
+				"x_ticker": True,
+				"y_ticker": True}
 
 	settings.update(kwargs)
-	return colorParametersPlot(map(lambda x: colorParameter(x=x[0], y1=x[1], RGB=x[2]), zip(wavelengths, y1, colors)),
+	return color_parameters_plot(map(lambda x: color_parameter(x=x[0], y1=x[1], RGB=x[2]), zip(wavelengths, y1, colors)),
 							   **settings)
 
-def multiSpectralPowerDistributionPlot(spds,
+def multi_spectral_power_distribution_plot(spds,
 									   **kwargs):
 	"""
 	Plots given spectral power distributions.
@@ -583,7 +581,7 @@ def multiSpectralPowerDistributionPlot(spds,
 
 		>>> spd1 = color.SpectralPowerDistribution(name="Custom1", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
 		>>> spd2 = color.SpectralPowerDistribution(name="Custom2", spd={400: 0.134, 420: 0.789, 440: 1.289})
-		>>> multiSpectralPowerDistributionPlot([spd1, spd2]))
+		>>> multi_spectral_power_distribution_plot([spd1, spd2]))
 		True
 
 	:param spds: Spectral power distributions to plot.
@@ -594,40 +592,40 @@ def multiSpectralPowerDistributionPlot(spds,
 	:rtype: bool
 	"""
 
-	xLimitMin, xLimitMax, yLimitMin, yLimitMax = [], [], [], []
+	x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 	for spd in spds:
 		wavelengths, values = zip(*[(key, value) for key, value in spd])
 
 		start, end, steps = spd.shape
-		xLimitMin.append(start)
-		xLimitMax.append(end)
-		yLimitMin.append(min(values))
-		yLimitMax.append(max(values))
+		x_limit_min.append(start)
+		x_limit_max.append(end)
+		y_limit_min.append(min(values))
+		y_limit_max.append(max(values))
 
 		pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
 
-	settings = {"xLabel": u"Wavelength λ (nm)",
-				"yLabel": "Spectral Power Distribution",
-				"tightenX": True,
+	settings = {"x_label": u"Wavelength λ (nm)",
+				"y_label": "Spectral Power Distribution",
+				"x_tighten": True,
 				"legend": True,
-				"legendLocation": "upper left",
-				"tickerX": True,
-				"tickerY": True,
-				"limits": [min(xLimitMin), max(xLimitMax), min(yLimitMin), max(yLimitMax)]}
+				"legend_location": "upper left",
+				"x_ticker": True,
+				"y_ticker": True,
+				"limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleColorMatchingFunctionsPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def single_color_matching_functions_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots given standard observer *CIE XYZ* color matching functions.
 
 	Usage::
 
-		>>> singleColorMatchingFunctionsPlot("Standard CIE 1931 2 Degree Observer")
+		>>> single_color_matching_functions_plot("Standard CIE 1931 2 Degree Observer")
 		True
 
 	:param cmfs: Standard observer color matching functions to plot.
@@ -641,9 +639,9 @@ def singleColorMatchingFunctionsPlot(cmfs="Standard CIE 1931 2 Degree Observer",
 	settings = {"title": "'{0}' - Color Matching Functions".format(cmfs)}
 	settings.update(kwargs)
 
-	return multiColorMatchingFunctionsPlot([cmfs], **settings)
+	return multi_color_matching_functions_plot([cmfs], **settings)
 
-def multiColorMatchingFunctionsPlot(cmfss=["Standard CIE 1931 2 Degree Observer",
+def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Observer",
 										   "Standard CIE 1964 10 Degree Observer"],
 									**kwargs):
 	"""
@@ -651,7 +649,7 @@ def multiColorMatchingFunctionsPlot(cmfss=["Standard CIE 1931 2 Degree Observer"
 
 	Usage::
 
-		>>> multiColorMatchingFunctionsPlot(["Standard CIE 1931 2 Degree Observer", "Standard CIE 1964 10 Degree Observer"])
+		>>> multi_color_matching_functions_plot(["Standard CIE 1931 2 Degree Observer", "Standard CIE 1964 10 Degree Observer"])
 		True
 
 	:param cmfss: Standard observers color matching functions to plot.
@@ -662,7 +660,7 @@ def multiColorMatchingFunctionsPlot(cmfss=["Standard CIE 1931 2 Degree Observer"
 	:rtype: bool
 	"""
 
-	xLimitMin, xLimitMax, yLimitMin, yLimitMax = [], [], [], []
+	x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 	for axis, rgb in (("x", [1., 0., 0.]),
 					  ("y", [0., 1., 0.]),
 					  ("z", [0., 0., 1.])):
@@ -679,39 +677,39 @@ def multiColorMatchingFunctionsPlot(cmfss=["Standard CIE 1931 2 Degree Observer"
 			wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
 
 			start, end, steps = cmfs.shape
-			xLimitMin.append(start)
-			xLimitMax.append(end)
-			yLimitMin.append(min(values))
-			yLimitMax.append(max(values))
+			x_limit_min.append(start)
+			x_limit_max.append(end)
+			y_limit_min.append(min(values))
+			y_limit_max.append(max(values))
 
 			pylab.plot(wavelengths, values, color=rgb, label=u"{0} - {1}".format(cmfs.labels.get(axis), cmfs.name),
 					   linewidth=2.)
 
 	settings = {"title": "{0} - Color Matching Functions".format(", ".join(cmfss)),
-				"xLabel": u"Wavelength λ (nm)",
-				"yLabel": "Tristimulus Values",
-				"tightenX": True,
+				"x_label": u"Wavelength λ (nm)",
+				"y_label": "Tristimulus Values",
+				"x_tighten": True,
 				"legend": True,
-				"legendLocation": "upper right",
-				"tickerX": True,
-				"tickerY": True,
+				"legend_location": "upper right",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
-				"axisYLine": True,
-				"limits": [min(xLimitMin), max(xLimitMax), min(yLimitMin), max(yLimitMax)]}
+				"y_axis_line": True,
+				"limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleIlluminantRelativeSpdPlot(illuminant="A", cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots given single illuminant relative spectral power distribution.
 
 	Usage::
 
-		>>> singleIlluminantRelativeSpdPlot("A")
+		>>> single_illuminant_relative_spd_plot("A")
 		True
 
 	:param illuminant: Factory illuminant to plot.
@@ -741,18 +739,18 @@ def singleIlluminantRelativeSpdPlot(illuminant="A", cmfs="Standard CIE 1931 2 De
 																												  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
 	settings = {"title": title,
-				"yLabel": "Relative Spectral Power Distribution"}
+				"y_label": "Relative Spectral Power Distribution"}
 	settings.update(kwargs)
 
-	return singleSpectralPowerDistributionPlot(illuminant, **settings)
+	return single_spectral_power_distribution_plot(illuminant, **settings)
 
-def multiIlluminantsRelativeSpdPlot(illuminants=["A", "C", "D50"], **kwargs):
+def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs):
 	"""
 	Plots given illuminants relative spectral power distributions.
 
 	Usage::
 
-		>>> multiIlluminantsRelativeSpdPlot(["A", "C", "D50"])
+		>>> multi_illuminants_relative_spd_plot(["A", "C", "D50"])
 		True
 
 	:param illuminants: Factory illuminants to plot.
@@ -775,18 +773,18 @@ def multiIlluminantsRelativeSpdPlot(illuminants=["A", "C", "D50"], **kwargs):
 		spds.append(illuminant)
 
 	settings = {"title": "{0}- Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
-				"yLabel": "Relative Spectral Power Distribution"}
+				"y_label": "Relative Spectral Power Distribution"}
 	settings.update(kwargs)
 
-	return multiSpectralPowerDistributionPlot(spds, **settings)
+	return multi_spectral_power_distribution_plot(spds, **settings)
 
-def visibleSpectrumPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots the visible colors spectrum using given standard observer *CIE XYZ* color matching functions.
 
 	Usage::
 
-		>>> visibleSpectrumPlot("Standard CIE 1931 2 Degree Observer")
+		>>> visible_spectrum_plot("Standard CIE 1931 2 Degree Observer")
 		True
 
 	:param cmfs: Standard observer color matching functions used for spectrum creation.
@@ -819,14 +817,14 @@ def visibleSpectrumPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	colors = numpy.clip(colors, 0, 1)
 
 	settings = {"title": "The Visible Spectrum - {0}".format(name),
-				"xLabel": u"Wavelength λ (nm)",
-				"tightenX": True}
+				"x_label": u"Wavelength λ (nm)",
+				"x_tighten": True}
 	settings.update(kwargs)
 
-	return colorParametersPlot(map(lambda x: colorParameter(x=x[0], RGB=x[1]), zip(wavelengths, colors)), **settings)
+	return color_parameters_plot(map(lambda x: color_parameter(x=x[0], RGB=x[1]), zip(wavelengths, colors)), **settings)
 
-@figureSize((32, 32))
-def CIE_1931_chromaticityDiagramColorsPlot(surface=1.25,
+@figure_size((32, 32))
+def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
 										   spacing=0.00075,
 										   cmfs="Standard CIE 1931 2 Degree Observer",
 										   **kwargs):
@@ -835,7 +833,7 @@ def CIE_1931_chromaticityDiagramColorsPlot(surface=1.25,
 
 	Usage::
 
-		>>> CIE_1931_chromaticityDiagramColorsPlot()
+		>>> CIE_1931_chromaticity_diagram_colors_plot()
 		True
 
 	:param surface: Generated markers surface.
@@ -864,12 +862,12 @@ def CIE_1931_chromaticityDiagramColorsPlot(surface=1.25,
 	x, y = zip(*(map(lambda x: color.transformations.XYZ_to_xy(x), XYZs)))
 
 	path = matplotlib.path.Path(zip(x, y))
-	dotX, dotY, colors = [], [], []
+	x_dot, y_dot, colors = [], [], []
 	for i in numpy.arange(0., 1., spacing):
 		for j in numpy.arange(0., 1., spacing):
 			if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-				dotX.append(i)
-				dotY.append(j)
+				x_dot.append(i)
+				y_dot.append(j)
 
 				XYZ = color.transformations.xy_to_XYZ((i, j))
 				RGB = XYZ_to_sRGB(XYZ, illuminant)
@@ -880,27 +878,27 @@ def CIE_1931_chromaticityDiagramColorsPlot(surface=1.25,
 
 				colors.append(RGB)
 
-	pylab.scatter(dotX, dotY, color=colors, s=surface)
+	pylab.scatter(x_dot, y_dot, color=colors, s=surface)
 
-	settings = {"noTicks": True,
-				"boundingBox": [0., 1., 0., 1.],
+	settings = {"no_ticks": True,
+				"bounding_box": [0., 1., 0., 1.],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def CIE_1931_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+@figure_size((8, 8))
+def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots the *CIE 1931 Chromaticity Diagram*.
 
 	Usage::
 
-		>>> CIE_1931_chromaticityDiagramPlot()
+		>>> CIE_1931_chromaticity_diagram_plot()
 		True
 
 	:param cmfs: Standard observer color matching functions used for diagram bounds.
@@ -926,34 +924,34 @@ def CIE_1931_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observer",
 	labels = [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700]
 
 	wavelengths = cmfs.wavelengths
-	equalEnergy = numpy.array([1. / 3.] * 2)
+	equal_energy = numpy.array([1. / 3.] * 2)
 
 	XYZs = [value for key, value in cmfs]
 
 	x, y = zip(*(map(lambda x: color.transformations.XYZ_to_xy(x), XYZs)))
 
-	wavelengthsChromaticityCoordinates = dict(zip(wavelengths, zip(x, y)))
+	wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(x, y)))
 
 	pylab.plot(x, y, color="black", linewidth=2.)
 	pylab.plot((x[-1], x[0]), (y[-1], y[0]), color="black", linewidth=2.)
 
 	for label in labels:
-		x, y = wavelengthsChromaticityCoordinates.get(label)
+		x, y = wavelengths_chromaticity_coordinates.get(label)
 		pylab.plot(x, y, "o", color="black", linewidth=2.)
 
 		index = bisect.bisect(wavelengths, label)
 		left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
 		right = wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
 
-		dx = wavelengthsChromaticityCoordinates.get(right)[0] - wavelengthsChromaticityCoordinates.get(left)[0]
-		dy = wavelengthsChromaticityCoordinates.get(right)[1] - wavelengthsChromaticityCoordinates.get(left)[1]
+		dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
+		dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
 		normalize = lambda x: x / numpy.linalg.norm(x)
 
 		xy = numpy.array([x, y])
 		direction = numpy.array((-dy, dx))
 
-		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(xy - equalEnergy),
+		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(xy - equal_energy),
 													 normalize(direction)) > 0 else numpy.array((dy, -dx))
 		normal = normalize(normal)
 		normal /= 25
@@ -963,23 +961,23 @@ def CIE_1931_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observer",
 				   fontdict={"size": "small"})
 
 	settings = {"title": "CIE 1931 Chromaticity Diagram - {0}".format(name),
-				"xLabel": "CIE x",
-				"yLabel": "CIE y",
-				"tickerX": True,
-				"tickerY": True,
+				"x_label": "CIE x",
+				"y_label": "CIE y",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
-				"boundingBox": [-0.1, 0.9, -0.1, 0.9],
+				"bounding_box": [-0.1, 0.9, -0.1, 0.9],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def colorspaces_CIE_1931_chromaticityDiagramPlot(colorspaces=["sRGB", "ACES RGB", "Pointer Gamut"],
+@figure_size((8, 8))
+def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RGB", "Pointer Gamut"],
 												 cmfs="Standard CIE 1931 2 Degree Observer",
 												 **kwargs):
 	"""
@@ -987,7 +985,7 @@ def colorspaces_CIE_1931_chromaticityDiagramPlot(colorspaces=["sRGB", "ACES RGB"
 
 	Usage::
 
-		>>> colorspaces_CIE_1931_chromaticityDiagramPlot(["sRGB", "ACES RGB"])
+		>>> colorspaces_CIE_1931_chromaticity_diagram_plot(["sRGB", "ACES RGB"])
 		True
 
 	:param colorspaces: Colorspaces to plot.
@@ -1010,10 +1008,10 @@ def colorspaces_CIE_1931_chromaticityDiagramPlot(colorspaces=["sRGB", "ACES RGB"
 				"standalone": False}
 	settings.update(kwargs)
 
-	if not CIE_1931_chromaticityDiagramPlot(**settings):
+	if not CIE_1931_chromaticity_diagram_plot(**settings):
 		return
 
-	xLimitMin, xLimitMax, yLimitMin, yLimitMax = [-0.1], [0.9], [-0.1], [0.9]
+	x_limit_min, x_limit_max, y_limit_min, y_limit_max = [-0.1], [0.9], [-0.1], [0.9]
 	for colorspace in colorspaces:
 		if colorspace == "Pointer Gamut":
 			x, y = zip(*color.colorspaces.POINTER_GAMUT_DATA)
@@ -1027,8 +1025,8 @@ def colorspaces_CIE_1931_chromaticityDiagramPlot(colorspaces=["sRGB", "ACES RGB"
 																						 sorted(
 																							 color.colorspaces.COLORSPACES.keys())))
 
-			randomColor = lambda: float(random.randint(64, 224)) / 255
-			r, g, b = randomColor(), randomColor(), randomColor()
+			random_color = lambda: float(random.randint(64, 224)) / 255
+			r, g, b = random_color(), random_color(), random_color()
 
 			primaries = colorspace.primaries
 			whitepoint = colorspace.whitepoint
@@ -1044,33 +1042,33 @@ def colorspaces_CIE_1931_chromaticityDiagramPlot(colorspaces=["sRGB", "ACES RGB"
 			pylab.plot([primaries[2, 0], primaries[0, 0]], [primaries[2, 1], primaries[0, 1]], "o-", color=(r, g, b),
 					   linewidth=2.)
 
-			xLimitMin.append(numpy.amin(primaries[:, 0]))
-			yLimitMin.append(numpy.amin(primaries[:, 1]))
-			xLimitMax.append(numpy.amax(primaries[:, 0]))
-			yLimitMax.append(numpy.amax(primaries[:, 1]))
+			x_limit_min.append(numpy.amin(primaries[:, 0]))
+			y_limit_min.append(numpy.amin(primaries[:, 1]))
+			x_limit_max.append(numpy.amax(primaries[:, 0]))
+			y_limit_max.append(numpy.amax(primaries[:, 1]))
 
 	settings.update({"legend": True,
-					 "legendLocation": "upper right",
-					 "tightenX": True,
-					 "tightenY": True,
-					 "limits": [min(xLimitMin), max(xLimitMax), min(yLimitMin), max(yLimitMax)],
+					 "legend_location": "upper right",
+					 "x_tighten": True,
+					 "y_tighten": True,
+					 "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)],
 					 "margins": [-0.05, 0.05, -0.05, 0.05],
 					 "standalone": True})
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def planckianLocus_CIE_1931_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
+@figure_size((8, 8))
+def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E"],
 													**kwargs):
 	"""
 	Plots the planckian locus and given illuminants in *CIE 1931 Chromaticity Diagram*.
 
 	Usage::
 
-		>>> planckianLocus_CIE_1931_chromaticityDiagramPlot(["A", "C", "E"])
+		>>> planckian_locus_CIE_1931_chromaticity_diagram_plot(["A", "C", "E"])
 		True
 
 	:param illuminants: Factory illuminants to plot.
@@ -1090,7 +1088,7 @@ def planckianLocus_CIE_1931_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
 	"standalone": False}
 	settings.update(kwargs)
 
-	if not CIE_1931_chromaticityDiagramPlot(**settings):
+	if not CIE_1931_chromaticity_diagram_plot(**settings):
 		return
 
 	start, end = 1667, 100000
@@ -1130,8 +1128,8 @@ def planckianLocus_CIE_1931_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
 
 	return display(**settings)
 
-@figureSize((32, 32))
-def CIE_1960_UCS_chromaticityDiagramColorsPlot(surface=1.25,
+@figure_size((32, 32))
+def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 											   spacing=0.00075,
 											   cmfs="Standard CIE 1931 2 Degree Observer",
 											   **kwargs):
@@ -1140,7 +1138,7 @@ def CIE_1960_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 
 	Usage::
 
-		>>> CIE_1960_UCS_chromaticityDiagramColorsPlot()
+		>>> CIE_1960_UCS_chromaticity_diagram_colors_plot()
 		True
 
 	:param surface: Generated markers surface.
@@ -1169,12 +1167,12 @@ def CIE_1960_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 	u, v = zip(*(map(lambda x: color.transformations.UVW_to_uv(x), UVWs)))
 
 	path = matplotlib.path.Path(zip(u, v))
-	dotX, dotY, colors = [], [], []
+	x_dot, y_dot, colors = [], [], []
 	for i in numpy.arange(0., 1., spacing):
 		for j in numpy.arange(0., 1., spacing):
 			if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-				dotX.append(i)
-				dotY.append(j)
+				x_dot.append(i)
+				y_dot.append(j)
 
 				XYZ = color.transformations.xy_to_XYZ(color.transformations.UVW_uv_to_xy((i, j)))
 				RGB = XYZ_to_sRGB(XYZ, illuminant)
@@ -1185,27 +1183,27 @@ def CIE_1960_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 
 				colors.append(RGB)
 
-	pylab.scatter(dotX, dotY, color=colors, s=surface)
+	pylab.scatter(x_dot, y_dot, color=colors, s=surface)
 
-	settings = {"noTicks": True,
-				"boundingBox": [0., 1., 0., 1.],
+	settings = {"no_ticks": True,
+				"bounding_box": [0., 1., 0., 1.],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def CIE_1960_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+@figure_size((8, 8))
+def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
 	Usage::
 
-		>>> CIE_1960_UCS_chromaticityDiagramPlot()
+		>>> CIE_1960_UCS_chromaticity_diagram_plot()
 		True
 
 	:param cmfs: Standard observer color matching functions used for diagram bounds.
@@ -1232,34 +1230,34 @@ def CIE_1960_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 			  630, 640, 680]
 
 	wavelengths = cmfs.wavelengths
-	equalEnergy = numpy.array([1. / 3.] * 2)
+	equal_energy = numpy.array([1. / 3.] * 2)
 
 	UVWs = [color.transformations.XYZ_to_UVW(value) for key, value in cmfs]
 
 	u, v = zip(*(map(lambda x: color.transformations.UVW_to_uv(x), UVWs)))
 
-	wavelengthsChromaticityCoordinates = dict(zip(wavelengths, zip(u, v)))
+	wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(u, v)))
 
 	pylab.plot(u, v, color="black", linewidth=2.)
 	pylab.plot((u[-1], u[0]), (v[-1], v[0]), color="black", linewidth=2.)
 
 	for label in labels:
-		u, v = wavelengthsChromaticityCoordinates.get(label)
+		u, v = wavelengths_chromaticity_coordinates.get(label)
 		pylab.plot(u, v, "o", color="black", linewidth=2.)
 
 		index = bisect.bisect(wavelengths, label)
 		left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
 		right = wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
 
-		dx = wavelengthsChromaticityCoordinates.get(right)[0] - wavelengthsChromaticityCoordinates.get(left)[0]
-		dy = wavelengthsChromaticityCoordinates.get(right)[1] - wavelengthsChromaticityCoordinates.get(left)[1]
+		dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
+		dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
 		normalize = lambda x: x / numpy.linalg.norm(x)
 
 		uv = numpy.array([u, v])
 		direction = numpy.array((-dy, dx))
 
-		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equalEnergy),
+		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equal_energy),
 													 normalize(direction)) > 0 else numpy.array((dy, -dx))
 		normal = normalize(normal)
 		normal /= 25
@@ -1269,30 +1267,30 @@ def CIE_1960_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 				   fontdict={"size": "small"})
 
 	settings = {"title": "CIE 1960 UCS Chromaticity Diagram - {0}".format(name),
-				"xLabel": "CIE u",
-				"yLabel": "CIE v",
-				"tickerX": True,
-				"tickerY": True,
+				"x_label": "CIE u",
+				"y_label": "CIE v",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
-				"boundingBox": [-0.075, 0.675, -0.15, 0.6],
+				"bounding_box": [-0.075, 0.675, -0.15, 0.6],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
+@figure_size((8, 8))
+def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C", "E"],
 														**kwargs):
 	"""
 	Plots the planckian locus and given illuminants in *CIE 1960 UCS Chromaticity Diagram*.
 
 	Usage::
 
-		>>> planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(["A", "C", "E"])
+		>>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(["A", "C", "E"])
 		True
 
 	:param illuminants: Factory illuminants to plot.
@@ -1312,7 +1310,7 @@ def planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(illuminants=["A", "C", "
 	"standalone": False}
 	settings.update(kwargs)
 
-	if not CIE_1960_UCS_chromaticityDiagramPlot(**settings):
+	if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
 		return
 
 	xy_to_uv = lambda x: color.transformations.UVW_to_uv(
@@ -1355,8 +1353,8 @@ def planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(illuminants=["A", "C", "
 
 	return display(**settings)
 
-@figureSize((32, 32))
-def CIE_1976_UCS_chromaticityDiagramColorsPlot(surface=1.25,
+@figure_size((32, 32))
+def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 											   spacing=0.00075,
 											   cmfs="Standard CIE 1931 2 Degree Observer",
 											   **kwargs):
@@ -1365,7 +1363,7 @@ def CIE_1976_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 
 	Usage::
 
-		>>> CIE_1976_UCS_chromaticityDiagramColorsPlot()
+		>>> CIE_1976_UCS_chromaticity_diagram_colors_plot()
 		True
 
 	:param surface: Generated markers surface.
@@ -1394,12 +1392,12 @@ def CIE_1976_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 	u, v = zip(*(map(lambda x: color.transformations.Luv_to_uv(x), Luvs)))
 
 	path = matplotlib.path.Path(zip(u, v))
-	dotX, dotY, colors = [], [], []
+	x_dot, y_dot, colors = [], [], []
 	for i in numpy.arange(0., 1., spacing):
 		for j in numpy.arange(0., 1., spacing):
 			if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-				dotX.append(i)
-				dotY.append(j)
+				x_dot.append(i)
+				y_dot.append(j)
 
 				XYZ = color.transformations.xy_to_XYZ(color.transformations.Luv_uv_to_xy((i, j)))
 				RGB = XYZ_to_sRGB(XYZ, illuminant)
@@ -1410,27 +1408,27 @@ def CIE_1976_UCS_chromaticityDiagramColorsPlot(surface=1.25,
 
 				colors.append(RGB)
 
-	pylab.scatter(dotX, dotY, color=colors, s=surface)
+	pylab.scatter(x_dot, y_dot, color=colors, s=surface)
 
-	settings = {"noTicks": True,
-				"boundingBox": [0., 1., 0., 1.],
+	settings = {"no_ticks": True,
+				"bounding_box": [0., 1., 0., 1.],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-@figureSize((8, 8))
-def CIE_1976_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+@figure_size((8, 8))
+def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	"""
 	Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
 	Usage::
 
-		>>> CIE_1976_UCS_chromaticityDiagramPlot()
+		>>> CIE_1976_UCS_chromaticity_diagram_plot()
 		True
 
 	:param cmfs: Standard observer color matching functions used for diagram bounds.
@@ -1457,7 +1455,7 @@ def CIE_1976_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 			  630, 640, 680]
 
 	wavelengths = cmfs.wavelengths
-	equalEnergy = numpy.array([1. / 3.] * 2)
+	equal_energy = numpy.array([1. / 3.] * 2)
 
 	illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
@@ -1465,28 +1463,28 @@ def CIE_1976_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 
 	u, v = zip(*(map(lambda x: color.transformations.Luv_to_uv(x), Luvs)))
 
-	wavelengthsChromaticityCoordinates = dict(zip(wavelengths, zip(u, v)))
+	wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(u, v)))
 
 	pylab.plot(u, v, color="black", linewidth=2.)
 	pylab.plot((u[-1], u[0]), (v[-1], v[0]), color="black", linewidth=2.)
 
 	for label in labels:
-		u, v = wavelengthsChromaticityCoordinates.get(label)
+		u, v = wavelengths_chromaticity_coordinates.get(label)
 		pylab.plot(u, v, "o", color="black", linewidth=2.)
 
 		index = bisect.bisect(wavelengths, label)
 		left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
 		right = wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
 
-		dx = wavelengthsChromaticityCoordinates.get(right)[0] - wavelengthsChromaticityCoordinates.get(left)[0]
-		dy = wavelengthsChromaticityCoordinates.get(right)[1] - wavelengthsChromaticityCoordinates.get(left)[1]
+		dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
+		dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
 		normalize = lambda x: x / numpy.linalg.norm(x)
 
 		uv = numpy.array([u, v])
 		direction = numpy.array((-dy, dx))
 
-		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equalEnergy),
+		normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equal_energy),
 													 normalize(direction)) > 0 else numpy.array((dy, -dx))
 		normal = normalize(normal)
 		normal /= 25
@@ -1496,29 +1494,29 @@ def CIE_1976_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 				   fontdict={"size": "small"})
 
 	settings = {"title": "CIE 1976 UCS Chromaticity Diagram - {0}".format(name),
-				"xLabel": "CIE u'",
-				"yLabel": "CIE v'",
-				"tickerX": True,
-				"tickerY": True,
+				"x_label": "CIE u'",
+				"y_label": "CIE v'",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
-				"boundingBox": [-0.1, .7, -.1, .7],
+				"bounding_box": [-0.1, .7, -.1, .7],
 				"bbox_inches": "tight",
 				"pad_inches": 0}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleMunsellValueFunctionPlot(function="Munsell Value 1955",
+def single_munsell_value_function_plot(function="Munsell Value 1955",
 								   **kwargs):
 	"""
 	Plots given *Lightness* function.
 
 	Usage::
 
-		>>> singleMunsellValueFunctionPlot("Munsell Value 1955")
+		>>> single_munsell_value_function_plot("Munsell Value 1955")
 		True
 
 	:param function: *Munsell value* function to plot.
@@ -1532,17 +1530,17 @@ def singleMunsellValueFunctionPlot(function="Munsell Value 1955",
 	settings = {"title": "{0} - Munsell Value Function".format(function)}
 	settings.update(kwargs)
 
-	return multiMunsellValueFunctionPlot([function], **settings)
+	return multi_munsell_value_function_plot([function], **settings)
 
-@figureSize((8, 8))
-def multiMunsellValueFunctionPlot(functions=["Munsell Value 1955", "Munsell Value 1944"],
+@figure_size((8, 8))
+def multi_munsell_value_function_plot(functions=["Munsell Value 1955", "Munsell Value 1944"],
 								  **kwargs):
 	"""
 	Plots given *Munsell value* functions.
 
 	Usage::
 
-		>>> multiTransferFunctionPlot(["Lightness 1976", "Lightness 1964"])
+		>>> multi_transfer_function_plot(["Lightness 1976", "Lightness 1964"])
 		True
 
 	:param functions: *Munsell value* functions to plot.
@@ -1565,31 +1563,31 @@ def multiMunsellValueFunctionPlot(functions=["Munsell Value 1955", "Munsell Valu
 		pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
 	settings = {"title": "{0} - Munsell Functions".format(", ".join(functions)),
-				"xLabel": "Luminance Y",
-				"yLabel": "Munsell Value V",
-				"tightenX": True,
+				"x_label": "Luminance Y",
+				"y_label": "Munsell Value V",
+				"x_tighten": True,
 				"legend": True,
-				"legendLocation": "upper left",
-				"tickerX": True,
-				"tickerY": True,
+				"legend_location": "upper left",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
 				"limits": [0., 100., 0., 100.]}
 
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleLightnessFunctionPlot(function="Lightness 1976",
+def single_lightness_function_plot(function="Lightness 1976",
 								**kwargs):
 	"""
 	Plots given *Lightness* function.
 
 	Usage::
 
-		>>> singleTransferFunctionPlot("Lightness 1976")
+		>>> single_transfer_function_plot("Lightness 1976")
 		True
 
 	:param function: *Lightness* function to plot.
@@ -1603,17 +1601,17 @@ def singleLightnessFunctionPlot(function="Lightness 1976",
 	settings = {"title": "{0} - Lightness Function".format(function)}
 	settings.update(kwargs)
 
-	return multiLightnessFunctionPlot([function], **settings)
+	return multi_lightness_function_plot([function], **settings)
 
-@figureSize((8, 8))
-def multiLightnessFunctionPlot(functions=["Lightness 1976", "Lightness 1964", "Lightness 1958"],
+@figure_size((8, 8))
+def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness 1964", "Lightness 1958"],
 							   **kwargs):
 	"""
 	Plots given *Lightness* functions.
 
 	Usage::
 
-		>>> multiTransferFunctionPlot(["Lightness 1976", "Lightness 1964"])
+		>>> multi_transfer_function_plot(["Lightness 1976", "Lightness 1964"])
 		True
 
 	:param functions: *Lightness* functions to plot.
@@ -1636,31 +1634,31 @@ def multiLightnessFunctionPlot(functions=["Lightness 1976", "Lightness 1964", "L
 		pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
 	settings = {"title": "{0} - Lightness Functions".format(", ".join(functions)),
-				"xLabel": "Luminance Y",
-				"yLabel": "Lightness L*",
-				"tightenX": True,
+				"x_label": "Luminance Y",
+				"y_label": "Lightness L*",
+				"x_tighten": True,
 				"legend": True,
-				"legendLocation": "upper left",
-				"tickerX": True,
-				"tickerY": True,
+				"legend_location": "upper left",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
 				"limits": [0., 100., 0., 100.]}
 
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def singleTransferFunctionPlot(colorspace="sRGB",
+def single_transfer_function_plot(colorspace="sRGB",
 							   **kwargs):
 	"""
 	Plots given colorspace transfer function.
 
 	Usage::
 
-		>>> singleTransferFunctionPlot("sRGB")
+		>>> single_transfer_function_plot("sRGB")
 		True
 
 	:param colorspace: Colorspace transfer function to plot.
@@ -1674,10 +1672,10 @@ def singleTransferFunctionPlot(colorspace="sRGB",
 	settings = {"title": "{0} - Transfer Function".format(colorspace)}
 	settings.update(kwargs)
 
-	return multiTransferFunctionPlot([colorspace], **settings)
+	return multi_transfer_function_plot([colorspace], **settings)
 
-@figureSize((8, 8))
-def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
+@figure_size((8, 8))
+def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
 							  inverse=False,
 							  **kwargs):
 	"""
@@ -1685,7 +1683,7 @@ def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
 
 	Usage::
 
-		>>> multiTransferFunctionPlot(["sRGB", "Rec. 709"])
+		>>> multi_transfer_function_plot(["sRGB", "Rec. 709"])
 		True
 
 	:param colorspaces: Colorspaces transfer functions to plot.
@@ -1707,7 +1705,7 @@ def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
 																					 sorted(
 																						 color.colorspaces.COLORSPACES.keys())))
 
-		RGBs = numpy.array(map(colorspace.inverseTransferFunction if inverse else colorspace.transferFunction,
+		RGBs = numpy.array(map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function,
 							   zip(samples, samples, samples)))
 		for j, data in enumerate((("R", [1., 0., 0.]),
 								  ("G", [0., 1., 0.]),
@@ -1719,22 +1717,22 @@ def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
 					   linewidth=2.)
 
 	settings = {"title": "{0} - Transfer Functions".format(", ".join(colorspaces)),
-				"tightenX": True,
+				"x_tighten": True,
 				"legend": True,
-				"legendLocation": "upper left",
-				"tickerX": True,
-				"tickerY": True,
+				"legend_location": "upper left",
+				"x_ticker": True,
+				"y_ticker": True,
 				"grid": True,
 				"limits": [0., 1., 0., 1.]}
 
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 
 	return display(**settings)
 
-def blackbodySpectralRadiancePlot(temperature=3500,
+def blackbody_spectral_radiance_plot(temperature=3500,
 								  cmfs="Standard CIE 1931 2 Degree Observer",
 								  blackbody="VY Canis Major",
 								  **kwargs):
@@ -1743,7 +1741,7 @@ def blackbodySpectralRadiancePlot(temperature=3500,
 
 	Usage::
 
-		>>> blackbodySpectralRadiancePlot(3500)
+		>>> blackbody_spectral_radiance_plot(3500)
 		True
 
 	:param temperature: Blackbody temperature.
@@ -1767,17 +1765,17 @@ def blackbodySpectralRadiancePlot(temperature=3500,
 
 	matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
-	spd = color.blackbody.blackbodySpectralPowerDistribution(temperature, *cmfs.shape)
+	spd = color.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
 	matplotlib.pyplot.figure(1)
 	matplotlib.pyplot.subplot(211)
 
 	settings = {"title": "{0} - Spectral Radiance".format(blackbody),
-				"yLabel": u"W / (sr m²) / m",
+				"y_label": u"W / (sr m²) / m",
 				"standalone": False}
 	settings.update(kwargs)
 
-	singleSpectralPowerDistributionPlot(spd, cmfs, **settings)
+	single_spectral_power_distribution_plot(spd, cmfs, **settings)
 
 	XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
 	RGB = XYZ_to_sRGB(XYZ)
@@ -1786,21 +1784,21 @@ def blackbodySpectralRadiancePlot(temperature=3500,
 	matplotlib.pyplot.subplot(212)
 
 	settings = {"title": "{0} - Color".format(blackbody),
-				"xLabel": "{0}K".format(temperature),
-				"yLabel": "",
+				"x_label": "{0}K".format(temperature),
+				"y_label": "",
 				"aspect": None,
 				"standalone": False}
 
-	singleColorPlot(colorParameter(name="", RGB=RGB), **settings)
+	single_color_plot(color_parameter(name="", RGB=RGB), **settings)
 
 	settings = {"standalone": True}
 	settings.update(kwargs)
 
-	boundingBox(**settings)
+	bounding_box(**settings)
 	aspect(**settings)
 	return display(**settings)
 
-def blackbodyColorsPlot(start=1000,
+def blackbody_colors_plot(start=1000,
 						end=15000,
 						steps=25,
 						cmfs="Standard CIE 1931 2 Degree Observer",
@@ -1810,7 +1808,7 @@ def blackbodyColorsPlot(start=1000,
 
 	Usage::
 
-		>>> blackbodyColorsPlot()
+		>>> blackbody_colors_plot()
 		True
 
 	:param start: Temperature range start in kelvins.
@@ -1838,7 +1836,7 @@ def blackbodyColorsPlot(start=1000,
 	temperatures = []
 
 	for temperature in numpy.arange(start, end + steps, steps):
-		spd = color.blackbody.blackbodySpectralPowerDistribution(temperature, *cmfs.shape)
+		spd = color.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
 		XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
 		RGB = XYZ_to_sRGB(XYZ)
@@ -1851,12 +1849,12 @@ def blackbodyColorsPlot(start=1000,
 		temperatures.append(temperature)
 
 	settings = {"title": "Blackbody Colors",
-				"xLabel": "Temperature K",
-				"yLabel": "",
-				"tightenX": True,
-				"tickerX": True,
-				"tickerY": False}
+				"x_label": "Temperature K",
+				"y_label": "",
+				"x_tighten": True,
+				"x_ticker": True,
+				"y_ticker": False}
 
 	settings.update(kwargs)
-	return colorParametersPlot(map(lambda x: colorParameter(x=x[0], RGB=x[1]), zip(temperatures, colors)),
+	return color_parameters_plot(map(lambda x: color_parameter(x=x[0], RGB=x[1]), zip(temperatures, colors)),
 							   **settings)

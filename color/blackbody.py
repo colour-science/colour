@@ -47,11 +47,11 @@ __all__ = ["LOGGER",
 		   "PLANCK_CONSTANT",
 		   "BOLTZMANN_CONSTANT",
 		   "E_CONSTANT",
-		   "planckLaw",
-		   "blackbodySpectralRadiance",
-		   "blackbodySpectralPowerDistribution"]
+		   "planck_law",
+		   "blackbody_spectral_radiance",
+		   "blackbody_spectral_power_distribution"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 LIGHT_SPEED_CONSTANT = 299792458
 PLANCK_CONSTANT = 6.62607e-34
@@ -61,7 +61,7 @@ E_CONSTANT = math.exp(1)
 #**********************************************************************************************************************
 #***    Module classes and definitions.
 #**********************************************************************************************************************
-def planckLaw(wavelength, temperature):
+def planck_law(wavelength, temperature):
 	"""
 	Returns electromagnetic radiation emitted by a *blackbody* in thermal equilibrium at a definite temperature.
 	The following form implementation is expressed in term of wavelength. The SI unit of radiance is watts per steradian per square metre.
@@ -70,7 +70,7 @@ def planckLaw(wavelength, temperature):
 
 	Usage::
 
-		>>> planckLaw(500 * 1e-9, 5500)
+		>>> planck_law(500 * 1e-9, 5500)
 		5.50833496314e+13
 
 	:param wavelength: Wavelength in meters.
@@ -96,9 +96,9 @@ def planckLaw(wavelength, temperature):
 	except (OverflowError, RuntimeWarning) as error:
 		return 0.0
 
-blackbodySpectralRadiance = planckLaw
+blackbody_spectral_radiance = planck_law
 
-def blackbodySpectralPowerDistribution(temperature, start=None, end=None, steps=None):
+def blackbody_spectral_power_distribution(temperature, start=None, end=None, steps=None):
 	"""
 	Returns the spectral power distribution of the *blackbody* for given temperature.
 
@@ -117,5 +117,5 @@ def blackbodySpectralPowerDistribution(temperature, start=None, end=None, steps=
 	return color.spectral.SpectralPowerDistribution(name="Blackbody",
 													spd=dict(
 														(wavelength,
-														 blackbodySpectralRadiance(wavelength * 1e-9, temperature)) \
+														 blackbody_spectral_radiance(wavelength * 1e-9, temperature)) \
 														for wavelength in numpy.arange(start, end + steps, steps)))

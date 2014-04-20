@@ -41,7 +41,7 @@ __all__ = ["LOGGER",
 		   "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA",
 		   "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.

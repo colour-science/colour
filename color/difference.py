@@ -46,7 +46,7 @@ __all__ = ["LOGGER",
 		   "delta_E_CIE_2000",
 		   "delta_E_CMC"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
@@ -116,19 +116,19 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 	sC = 1 + k1 * C1
 	sH = 1 + k2 * C1
 
-	deltaL = L1 - L2
-	deltaC = C1 - C2
-	deltaA = a1 - a2
-	deltaB = b1 - b2
+	delta_L = L1 - L2
+	delta_C = C1 - C2
+	delta_A = a1 - a2
+	delta_B = b1 - b2
 
 	try:
-		deltaH = math.sqrt(deltaA ** 2 + deltaB ** 2 - deltaC ** 2)
+		delta_H = math.sqrt(delta_A ** 2 + delta_B ** 2 - delta_C ** 2)
 	except ValueError:
-		deltaH = 0.0
+		delta_H = 0.0
 
-	L = (deltaL / (kL * sL)) ** 2
-	C = (deltaC / (kC * sC)) ** 2
-	H = (deltaH / (kH * sH)) ** 2
+	L = (delta_L / (kL * sL)) ** 2
+	C = (delta_C / (kC * sC)) ** 2
+	H = (delta_H / (kH * sH)) ** 2
 
 	return math.sqrt(L + C + H)
 
@@ -160,59 +160,59 @@ def delta_E_CIE_2000(lab1, lab2):
 	kC = 1.
 	kH = 1.
 
-	lBarPrime = 0.5 * (L1 + L2)
+	l_bar_prime = 0.5 * (L1 + L2)
 
 	c1 = math.sqrt(a1 * a1 + b1 * b1)
 	c2 = math.sqrt(a2 * a2 + b2 * b2)
 
-	cBar = 0.5 * (c1 + c2)
-	cBar7 = cBar * cBar * cBar * cBar * cBar * cBar * cBar
+	c_bar = 0.5 * (c1 + c2)
+	c_bar7 = math.pow(c_bar, 7)
 
-	g = 0.5 * (1. - math.sqrt(cBar7 / (cBar7 + 25. ** 7)))
+	g = 0.5 * (1. - math.sqrt(c_bar7 / (c_bar7 + 25. ** 7)))
 
-	a1Prime = a1 * (1. + g)
-	a2Prime = a2 * (1. + g)
-	c1Prime = math.sqrt(a1Prime * a1Prime + b1 * b1)
-	c2Prime = math.sqrt(a2Prime * a2Prime + b2 * b2)
-	cBarPrime = 0.5 * (c1Prime + c2Prime)
+	a1_prime = a1 * (1. + g)
+	a2_prime = a2 * (1. + g)
+	c1_prime = math.sqrt(a1_prime * a1_prime + b1 * b1)
+	c2_prime = math.sqrt(a2_prime * a2_prime + b2 * b2)
+	c_bar_prime = 0.5 * (c1_prime + c2_prime)
 
-	h1Prime = (math.atan2(b1, a1Prime) * 180.) / math.pi
-	if h1Prime < 0.:
-		h1Prime += 360.
+	h1_prime = (math.atan2(b1, a1_prime) * 180.) / math.pi
+	if h1_prime < 0.:
+		h1_prime += 360.
 
-	h2Prime = (math.atan2(b2, a2Prime) * 180.) / math.pi
-	if h2Prime < 0.0:
-		h2Prime += 360.
+	h2_prime = (math.atan2(b2, a2_prime) * 180.) / math.pi
+	if h2_prime < 0.0:
+		h2_prime += 360.
 
-	hBarPrime = 0.5 * (h1Prime + h2Prime + 360.) if math.fabs(h1Prime - h2Prime) > 180. else 0.5 * (h1Prime + h2Prime)
-	t = 1. - 0.17 * math.cos(math.pi * (hBarPrime - 30.) / 180.) + 0.24 * math.cos(math.pi * (2. * hBarPrime) / 180.) + \
-		0.32 * math.cos(math.pi * (3. * hBarPrime + 6.) / 180.) - 0.20 * math.cos(
-		math.pi * (4. * hBarPrime - 63.) / 180.)
+	h_bar_prime = 0.5 * (h1_prime + h2_prime + 360.) if math.fabs(h1_prime - h2_prime) > 180. else 0.5 * (h1_prime + h2_prime)
+	t = 1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) + 0.24 * math.cos(math.pi * (2. * h_bar_prime) / 180.) + \
+		0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) - 0.20 * math.cos(
+		math.pi * (4. * h_bar_prime - 63.) / 180.)
 
-	if math.fabs(h2Prime - h1Prime) <= 180.:
-		deltahPrime = h2Prime - h1Prime
+	if math.fabs(h2_prime - h1_prime) <= 180.:
+		delta_h_prime = h2_prime - h1_prime
 	else:
-		deltahPrime = h2Prime - h1Prime + 360. if h2Prime <= h1Prime else h2Prime - h1Prime - 360.
+		delta_h_prime = h2_prime - h1_prime + 360. if h2_prime <= h1_prime else h2_prime - h1_prime - 360.
 
-	deltaLPrime = L2 - L1
-	deltaCPrime = c2Prime - c1Prime
-	deltaHPrime = 2. * math.sqrt(c1Prime * c2Prime) * math.sin(math.pi * (0.5 * deltahPrime) / 180.)
+	delta_L_prime = L2 - L1
+	delta_C_prime = c2_prime - c1_prime
+	delta_H_prime = 2. * math.sqrt(c1_prime * c2_prime) * math.sin(math.pi * (0.5 * delta_h_prime) / 180.)
 
-	sL = 1. + ((0.015 * (lBarPrime - 50.) * (lBarPrime - 50.)) / math.sqrt(20. + (lBarPrime - 50.) * (lBarPrime - 50.)))
-	sC = 1. + 0.045 * cBarPrime
-	sH = 1. + 0.015 * cBarPrime * t
+	sL = 1. + ((0.015 * (l_bar_prime - 50.) * (l_bar_prime - 50.)) / math.sqrt(20. + (l_bar_prime - 50.) * (l_bar_prime - 50.)))
+	sC = 1. + 0.045 * c_bar_prime
+	sH = 1. + 0.015 * c_bar_prime * t
 
-	deltaTheta = 30. * math.exp(-((hBarPrime - 275.) / 25.) * ((hBarPrime - 275.) / 25.))
+	delta_theta = 30. * math.exp(-((h_bar_prime - 275.) / 25.) * ((h_bar_prime - 275.) / 25.))
 
-	cBarPrime7 = cBarPrime * cBarPrime * cBarPrime * cBarPrime * cBarPrime * cBarPrime * cBarPrime
+	c_bar_prime7 = c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime
 
-	rC = math.sqrt(cBarPrime7 / (cBarPrime7 + 25. ** 7))
-	rT = -2. * rC * math.sin(math.pi * (2. * deltaTheta) / 180.)
+	rC = math.sqrt(c_bar_prime7 / (c_bar_prime7 + 25. ** 7))
+	rT = -2. * rC * math.sin(math.pi * (2. * delta_theta) / 180.)
 
-	return math.sqrt((deltaLPrime / (kL * sL)) * (deltaLPrime / (kL * sL)) + \
-					 (deltaCPrime / (kC * sC)) * (deltaCPrime / (kC * sC)) + \
-					 (deltaHPrime / (kH * sH)) * (deltaHPrime / (kH * sH)) + \
-					 (deltaCPrime / (kC * sC)) * (deltaHPrime / (kH * sH)) * rT)
+	return math.sqrt((delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) + \
+					 (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) + \
+					 (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) + \
+					 (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
 
 def delta_E_CMC(lab1, lab2, l=2., c=1.):
 	"""
@@ -262,14 +262,14 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 	f = math.sqrt(c4 / (c4 + 1900.))
 	sh = sc * (f * t + 1. - f)
 
-	deltaL = L1 - L2
-	deltaC = c1 - c2
-	deltaA = a1 - a2
-	deltaB = b1 - b2
-	deltaH2 = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC
+	delta_L = L1 - L2
+	delta_C = c1 - c2
+	delta_A = a1 - a2
+	delta_B = b1 - b2
+	delta_H2 = delta_A * delta_A + delta_B * delta_B - delta_C * delta_C
 
-	v1 = deltaL / (l * sl)
-	v2 = deltaC / (c * sc)
+	v1 = delta_L / (l * sl)
+	v2 = delta_C / (c * sc)
 	v3 = sh
 
-	return math.sqrt(v1 * v1 + v2 * v2 + (deltaH2 / (v3 * v3)))
+	return math.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))

@@ -34,13 +34,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["installLogger",
-		   "getLoggingConsoleHandler",
-		   "setVerbosityLevel"]
+__all__ = ["install_logger",
+		   "get_logging_console_handler",
+		   "set_verbosity_level"]
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
 #**********************************************************************************************************************
-installLogger = foundations.verbose.installLogger
-getLoggingConsoleHandler = foundations.verbose.getLoggingConsoleHandler
-setVerbosityLevel = foundations.verbose.setVerbosityLevel
+install_logger = foundations.verbose.install_logger
+get_logging_console_handler = foundations.verbose.get_logging_console_handler
+set_verbosity_level = foundations.verbose.set_verbosity_level

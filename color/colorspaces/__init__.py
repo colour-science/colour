@@ -37,94 +37,94 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		   "COLORSPACES"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 from color.colorspaces.colorspace import *
-from color.colorspaces.acesRgb import *
-from color.colorspaces.adobeRgb1998 import *
-from color.colorspaces.adobeWideGamutRgb import *
-from color.colorspaces.alexaWideGamutRgb import *
-from color.colorspaces.appleRgb import *
-from color.colorspaces.bestRgb import *
-from color.colorspaces.betaRgb import *
-from color.colorspaces.cieRgb import *
-from color.colorspaces.cLog import *
-from color.colorspaces.colorMatchRgb import *
-from color.colorspaces.dciP3 import *
-from color.colorspaces.donRgb4 import *
-from color.colorspaces.eciRgbV2 import *
-from color.colorspaces.ektaSpacePs5 import *
-from color.colorspaces.maxRgb import *
-from color.colorspaces.ntscRgb import *
-from color.colorspaces.palSecamRgb import *
-from color.colorspaces.pointerGamut import *
-from color.colorspaces.proPhotoRgb import *
-from color.colorspaces.rec709 import *
-from color.colorspaces.rec2020 import *
-from color.colorspaces.russellRgb import *
-from color.colorspaces.sLog import *
-from color.colorspaces.smptecRgb import *
-from color.colorspaces.sRgb import *
-from color.colorspaces.xtremeRgb import *
+from color.colorspaces.aces_rgb import *
+from color.colorspaces.adobe_rgb_1998 import *
+from color.colorspaces.adobe_wide_gamut_rgb import *
+from color.colorspaces.alexa_wide_gamut_rgb import *
+from color.colorspaces.apple_rgb import *
+from color.colorspaces.best_rgb import *
+from color.colorspaces.beta_rgb import *
+from color.colorspaces.cie_rgb import *
+from color.colorspaces.c_log import *
+from color.colorspaces.color_match_rgb import *
+from color.colorspaces.dci_p3 import *
+from color.colorspaces.don_rgb_4 import *
+from color.colorspaces.eci_rgb_v2 import *
+from color.colorspaces.ekta_space_ps5 import *
+from color.colorspaces.max_rgb import *
+from color.colorspaces.ntsc_rgb import *
+from color.colorspaces.pal_secam_rgb import *
+from color.colorspaces.pointer_gamut import *
+from color.colorspaces.prophoto_rgb import *
+from color.colorspaces.rec_709 import *
+from color.colorspaces.rec_2020 import *
+from color.colorspaces.russell_rgb import *
+from color.colorspaces.s_log import *
+from color.colorspaces.smptec_rgb import *
+from color.colorspaces.srgb import *
+from color.colorspaces.xtreme_rgb import *
 
 from color.colorspaces import colorspace
-from color.colorspaces import acesRgb
-from color.colorspaces import adobeRgb1998
-from color.colorspaces import adobeWideGamutRgb
-from color.colorspaces import alexaWideGamutRgb
-from color.colorspaces import appleRgb
-from color.colorspaces import bestRgb
-from color.colorspaces import betaRgb
-from color.colorspaces import cieRgb
-from color.colorspaces import cLog
-from color.colorspaces import colorMatchRgb
-from color.colorspaces import dciP3
-from color.colorspaces import donRgb4
-from color.colorspaces import eciRgbV2
-from color.colorspaces import ektaSpacePs5
-from color.colorspaces import maxRgb
-from color.colorspaces import ntscRgb
-from color.colorspaces import palSecamRgb
-from color.colorspaces import pointerGamut
-from color.colorspaces import proPhotoRgb
-from color.colorspaces import rec709
-from color.colorspaces import rec2020
-from color.colorspaces import russellRgb
-from color.colorspaces import sLog
-from color.colorspaces import smptecRgb
-from color.colorspaces import sRgb
-from color.colorspaces import xtremeRgb
+from color.colorspaces import aces_rgb
+from color.colorspaces import adobe_rgb_1998
+from color.colorspaces import adobe_wide_gamut_rgb
+from color.colorspaces import alexa_wide_gamut_rgb
+from color.colorspaces import apple_rgb
+from color.colorspaces import best_rgb
+from color.colorspaces import beta_rgb
+from color.colorspaces import cie_rgb
+from color.colorspaces import c_log
+from color.colorspaces import color_match_rgb
+from color.colorspaces import dci_p3
+from color.colorspaces import don_rgb_4
+from color.colorspaces import eci_rgb_v2
+from color.colorspaces import ekta_space_ps5
+from color.colorspaces import max_rgb
+from color.colorspaces import ntsc_rgb
+from color.colorspaces import pal_secam_rgb
+from color.colorspaces import pointer_gamut
+from color.colorspaces import prophoto_rgb
+from color.colorspaces import rec_709
+from color.colorspaces import rec_2020
+from color.colorspaces import russell_rgb
+from color.colorspaces import s_log
+from color.colorspaces import smptec_rgb
+from color.colorspaces import srgb
+from color.colorspaces import xtreme_rgb
 
 __all__.extend(colorspace.__all__)
-__all__.extend(acesRgb.__all__)
-__all__.extend(adobeRgb1998.__all__)
-__all__.extend(adobeWideGamutRgb.__all__)
-__all__.extend(alexaWideGamutRgb.__all__)
-__all__.extend(appleRgb.__all__)
-__all__.extend(bestRgb.__all__)
-__all__.extend(betaRgb.__all__)
-__all__.extend(cieRgb.__all__)
-__all__.extend(cLog.__all__)
-__all__.extend(colorMatchRgb.__all__)
-__all__.extend(dciP3.__all__)
-__all__.extend(donRgb4.__all__)
-__all__.extend(eciRgbV2.__all__)
-__all__.extend(ektaSpacePs5.__all__)
-__all__.extend(maxRgb.__all__)
-__all__.extend(ntscRgb.__all__)
-__all__.extend(palSecamRgb.__all__)
-__all__.extend(pointerGamut.__all__)
-__all__.extend(proPhotoRgb.__all__)
-__all__.extend(rec709.__all__)
-__all__.extend(rec2020.__all__)
-__all__.extend(russellRgb.__all__)
-__all__.extend(sLog.__all__)
-__all__.extend(smptecRgb.__all__)
-__all__.extend(sRgb.__all__)
-__all__.extend(xtremeRgb.__all__)
+__all__.extend(aces_rgb.__all__)
+__all__.extend(adobe_rgb_1998.__all__)
+__all__.extend(adobe_wide_gamut_rgb.__all__)
+__all__.extend(alexa_wide_gamut_rgb.__all__)
+__all__.extend(apple_rgb.__all__)
+__all__.extend(best_rgb.__all__)
+__all__.extend(beta_rgb.__all__)
+__all__.extend(cie_rgb.__all__)
+__all__.extend(c_log.__all__)
+__all__.extend(color_match_rgb.__all__)
+__all__.extend(dci_p3.__all__)
+__all__.extend(don_rgb_4.__all__)
+__all__.extend(eci_rgb_v2.__all__)
+__all__.extend(ekta_space_ps5.__all__)
+__all__.extend(max_rgb.__all__)
+__all__.extend(ntsc_rgb.__all__)
+__all__.extend(pal_secam_rgb.__all__)
+__all__.extend(pointer_gamut.__all__)
+__all__.extend(prophoto_rgb.__all__)
+__all__.extend(rec_709.__all__)
+__all__.extend(rec_2020.__all__)
+__all__.extend(russell_rgb.__all__)
+__all__.extend(s_log.__all__)
+__all__.extend(smptec_rgb.__all__)
+__all__.extend(srgb.__all__)
+__all__.extend(xtreme_rgb.__all__)
 
 __all__ = map(str, __all__)
 

@@ -33,7 +33,7 @@ import numpy
 #**********************************************************************************************************************
 #***	Internal Imports.
 #**********************************************************************************************************************
-import color.chromaticAdaptation
+import color.chromatic_adaptation
 import color.illuminants
 import color.temperature
 import color.transformations
@@ -55,12 +55,12 @@ __all__ = ["LOGGER",
 		   "DEFAULT_ARGUMENTS_VALUES",
 		   "ManualAction",
 		   "ParseListAction",
-		   "systemExit",
+		   "system_exit",
 		   "commands",
-		   "getCommandLineArguments",
+		   "get_command_line_arguments",
 		   "main"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 DEFAULT_ARGUMENTS_VALUES = {"x": 0.5,
 							"y": 0.5,
@@ -110,7 +110,7 @@ SYNOPSIS
           [--getChromaticityCoordinates]
           [--XYZ_to_xy]
           [--xy_to_XYZ]
-          [--getChromaticAdaptationMatrix]
+          [--get_chromatic_adaptation_matrix]
           [--displayDefaultArgumentsValues]
           [--displayWyszeckiRoberstonTable]
 
@@ -151,10 +151,10 @@ ARGUMENTS
     --targetXyzMatrix TARGETXYZMATRIX
       'Target 'CIE XYZ' matrix for 'Chromatic Adaptation' matrix calculations.'
 
-    --calibrationIlluminant1 CALIBRATIONILLUMINANT1
+    --calibration_illuminant_1 CALIBRATIONILLUMINANT1
       'Calibration Illuminant 1.'
 
-    --calibrationIlluminant2 CALIBRATIONILLUMINANT2
+    --calibration_illuminant_2 CALIBRATIONILLUMINANT2
       'Calibration Illuminant 2.'
 
     --getTemperature
@@ -169,7 +169,7 @@ ARGUMENTS
     --xy_to_XYZ
       'Returns 'CIE XYZ' matrix values from given chromaticity coordinates.'
 
-    --getChromaticAdaptationMatrix
+    --get_chromatic_adaptation_matrix
       'Returns Chromatic Adaptation matrix using given 'CIE XYZ' source and target matrices values.'
 
     --displayDefaultArgumentsValues
@@ -216,7 +216,7 @@ EXAMPLES
 
     Retrieving the 'Chromatic Adaptation' matrix values from given 'CIE XYZ' matrices values:
 
-        > color --color.chromaticAdaptation.getChromaticAdaptationMatrix --sourceXyzMatrix "(0.5, 0.5, 0.5)" --targetXyzMatrix "(0.25, 0.25, 0.25)"
+        > color --color.chromatic_adaptation.get_chromatic_adaptation_matrix --sourceXyzMatrix "(0.5, 0.5, 0.5)" --targetXyzMatrix "(0.25, 0.25, 0.25)"
         matrix([[  5.00000000e-01,  -7.19910243e-17,   0.00000000e+00],
                 [  2.02881332e-17,   5.00000000e-01,   0.00000000e+00],
                 [ -6.50521303e-19,   0.00000000e+00,   5.00000000e-01]])
@@ -245,7 +245,7 @@ class ParseListAction(argparse.Action):
 
 		setattr(namespace, self.dest, ast.literal_eval(values))
 
-def systemExit(object):
+def system_exit(object):
 	"""
 	Handles proper system exit in case of critical exception.
 
@@ -256,7 +256,7 @@ def systemExit(object):
 	"""
 
 	@functools.wraps(object)
-	def systemExitWrapper(*args, **kwargs):
+	def system_exit_wrapper(*args, **kwargs):
 		"""
 		Handles proper system exit in case of critical exception.
 
@@ -273,7 +273,7 @@ def systemExit(object):
 			traceback.print_exc()
 			sys.exit(1)
 
-	return systemExitWrapper
+	return system_exit_wrapper
 
 def commands(args):
 	"""
@@ -285,13 +285,13 @@ def commands(args):
 	:rtype: bool
 	"""
 
-	title = "{0} - {1}".format(Constants.applicationName, Constants.version)
+	title = "{0} - {1}".format(Constants.application_name, Constants.version)
 
 	verbose = args.details
 
 	if verbose:
-		LOGGER.info(Constants.loggingSeparators)
-		LOGGER.info("{0} | Starting commands processing ...".format(Constants.applicationName))
+		LOGGER.info(Constants.logging_separators)
+		LOGGER.info("{0} | Starting commands processing ...".format(Constants.application_name))
 
 	if args.version:
 		if not verbose:
@@ -336,17 +336,17 @@ def commands(args):
 			LOGGER.info("(x, y):\n{0}".format((args.x, args.y)))
 			LOGGER.info("'CIE XYZ' matrix:\n{0}".format(repr(xyzMatrix)))
 
-	if args.getChromaticAdaptationMatrix:
-		chromaticAdaptationMatrix = color.chromaticAdaptation.getChromaticAdaptationMatrix(
+	if args.get_chromatic_adaptation_matrix:
+		chromatic_adaptationMatrix = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
 			numpy.matrix(args.sourceXyzMatrix).reshape((3, 1)),
 			numpy.matrix(args.targetXyzMatrix).reshape((3, 1)))
 		if not verbose:
-			print(repr(chromaticAdaptationMatrix))
+			print(repr(chromatic_adaptationMatrix))
 		else:
 			LOGGER.info("'Chromatic adaptation' matrix from given 'CIE XYZ' matrices values:")
 			LOGGER.info("Source 'CIE XYZ' matrix:\n{0}".format(args.sourceXyzMatrix))
 			LOGGER.info("Target 'CIE XYZ' matrix:\n{0}".format(args.targetXyzMatrix))
-			LOGGER.info("'Chromatic adaptation' matrix:\n{0}".format(repr(chromaticAdaptationMatrix)))
+			LOGGER.info("'Chromatic adaptation' matrix:\n{0}".format(repr(chromatic_adaptationMatrix)))
 
 	if args.displayDefaultArgumentsValues:
 		if not verbose:
@@ -363,12 +363,12 @@ def commands(args):
 			pprint.pformat(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
 
 	if verbose:
-		LOGGER.info("{0} | Ending commands processing ...".format(Constants.applicationName))
-		LOGGER.info(Constants.loggingSeparators)
+		LOGGER.info("{0} | Ending commands processing ...".format(Constants.application_name))
+		LOGGER.info(Constants.logging_separators)
 
 	return True
 
-def getCommandLineArguments():
+def get_command_line_arguments():
 	"""
 	Retrieves command line arguments.
 
@@ -467,9 +467,9 @@ def getCommandLineArguments():
 						dest="xy_to_XYZ",
 						help="'Returns 'CIE XYZ' matrix values from given chromaticity coordinates.'")
 
-	parser.add_argument("--getChromaticAdaptationMatrix",
+	parser.add_argument("--get_chromatic_adaptation_matrix",
 						action="store_true",
-						dest="getChromaticAdaptationMatrix",
+						dest="get_chromatic_adaptation_matrix",
 						help="'Returns Chromatic Adaptation matrix using given 'CIE XYZ' source and target matrices values.'")
 
 	parser.add_argument("--displayDefaultArgumentsValues",
@@ -488,7 +488,7 @@ def getCommandLineArguments():
 
 	return parser.parse_args()
 
-@systemExit
+@system_exit
 def main():
 	"""
 	Starts the application.
@@ -497,7 +497,7 @@ def main():
 	:rtype: bool
 	"""
 
-	return commands(getCommandLineArguments())
+	return commands(get_command_line_arguments())
 
 if __name__ == "__main__":
 	main()

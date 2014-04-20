@@ -44,8 +44,8 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		   "CIE_E",
 		   "CIE_K",
-		   "getLuminanceEquation",
-		   "getLuminance",
+		   "get_luminance_equation",
+		   "get_luminance",
 		   "luminance_1943",
 		   "luminance_1976",
 		   "munsell_value_1920",
@@ -58,10 +58,10 @@ __all__ = ["LOGGER",
 		   "lightness_1976",
 		   "MUNSELL_VALUE_FUNCTIONS",
 		   "LIGHTNESS_FUNCTIONS",
-		   "getMunsellValue",
-		   "getLightness"]
+		   "get_munsell_value",
+		   "get_lightness"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
@@ -69,7 +69,7 @@ CIE_K = 24389. / 27.0
 #**********************************************************************************************************************
 #***    Module classes and definitions.
 #**********************************************************************************************************************
-def getLuminanceEquation(primaries, whitepoint):
+def get_luminance_equation(primaries, whitepoint):
 	"""
 	Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
 
@@ -79,7 +79,7 @@ def getLuminanceEquation(primaries, whitepoint):
 
 		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
 		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminanceEquation(primaries, whitepoint)
+		>>> get_luminance_equation(primaries, whitepoint)
 		Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
 	:param primaries: Primaries chromaticity coordinate matrix.
@@ -91,9 +91,9 @@ def getLuminanceEquation(primaries, whitepoint):
 	"""
 
 	return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-		*numpy.ravel(color.derivation.getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6])
+		*numpy.ravel(color.derivation.get_normalized_primary_matrix(primaries, whitepoint))[3:6])
 
-def getLuminance(RGB, primaries, whitepoint):
+def get_luminance(RGB, primaries, whitepoint):
 	"""
 	Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
 
@@ -104,7 +104,7 @@ def getLuminance(RGB, primaries, whitepoint):
 		>>> RGB = numpy.matrix([40.6, 4.2, 67.4]).reshape((3, 1))
 		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
 		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminance(primaries, whitepoint)
+		>>> get_luminance(primaries, whitepoint)
 		12.1616018403
 
 	:param RGB: *RGB* chromaticity coordinate matrix.
@@ -118,7 +118,7 @@ def getLuminance(RGB, primaries, whitepoint):
 	"""
 
 	R, G, B = numpy.ravel(RGB)
-	X, Y, Z = numpy.ravel(color.derivation.getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6]
+	X, Y, Z = numpy.ravel(color.derivation.get_normalized_primary_matrix(primaries, whitepoint))[3:6]
 
 	return X * R + Y * G + Z * B
 
@@ -314,9 +314,9 @@ def lightness_1958(Y):
 	:note: *L\** has a range of 0 to 100.
 	"""
 
-	Lstar = 25.29 * (Y ** (1. / 3.)) - 18.38
+	L_star = 25.29 * (Y ** (1. / 3.)) - 18.38
 
-	return Lstar
+	return L_star
 
 def lightness_1964(Y):
 	"""
@@ -384,7 +384,7 @@ LIGHTNESS_FUNCTIONS = {"Lightness 1958": lightness_1958,
 					   "Lightness 1964": lightness_1964,
 					   "Lightness 1976": lightness_1976}
 
-def getLightness(Y, Yn=100., method="Lightness 1976"):
+def get_lightness(Y, Yn=100., method="Lightness 1976"):
 	"""
 	Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
@@ -392,7 +392,7 @@ def getLightness(Y, Yn=100., method="Lightness 1976"):
 
 	Usage::
 
-		>>> getLightness(10.08, 100)
+		>>> get_lightness(10.08, 100)
 		37.9856290977
 
 	:param Y: *Luminance* *Y*.
@@ -413,7 +413,7 @@ def getLightness(Y, Yn=100., method="Lightness 1976"):
 	else:
 		return lightness_1976(Y, Yn)
 
-def getMunsellValue(Y, method="Munsell Value 1955"):
+def get_munsell_value(Y, method="Munsell Value 1955"):
 	"""
 	Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
 
@@ -421,7 +421,7 @@ def getMunsellValue(Y, method="Munsell Value 1955"):
 
 	Usage::
 
-		>>> getMunsellValue(10.08)
+		>>> get_munsell_value(10.08)
 		3.69528622419
 
 	:param Y: *Luminance* *Y*.
@@ -437,7 +437,7 @@ def getMunsellValue(Y, method="Munsell Value 1955"):
 
 	return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
 
-def getLightness(Y, Yn=100., method="Lightness 1976"):
+def get_lightness(Y, Yn=100., method="Lightness 1976"):
 	"""
 	Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
@@ -445,7 +445,7 @@ def getLightness(Y, Yn=100., method="Lightness 1976"):
 
 	Usage::
 
-		>>> getLightness(10.08, 100)
+		>>> get_lightness(10.08, 100)
 		37.9856290977
 
 	:param Y: *Luminance* *Y*.

@@ -39,27 +39,27 @@ class Constants():
 	Defines **Color** package default constants.
 	"""
 
-	applicationName = "Color"
+	application_name = "Color"
 	"""
-	:param applicationName: Package Application name.
-	:type applicationName: unicode
+	:param application_name: Package Application name.
+	:type application_name: unicode
 	"""
-	majorVersion = "0"
+	major_version = "0"
 	"""
-	:param majorVersion: Package major version.
-	:type majorVersion: unicode
+	:param major_version: Package major version.
+	:type major_version: unicode
 	"""
-	minorVersion = "1"
+	minor_version = "1"
 	"""
-	:param minorVersion: Package minor version.
-	:type minorVersion: unicode
+	:param minor_version: Package minor version.
+	:type minor_version: unicode
 	"""
-	changeVersion = "0"
+	change_version = "0"
 	"""
-	:param changeVersion: Package change version.
-	:type changeVersion: unicode
+	:param change_version: Package change version.
+	:type change_version: unicode
 	"""
-	version = ".".join((majorVersion, minorVersion, changeVersion))
+	version = ".".join((major_version, minor_version, change_version))
 	"""
 	:param version: Package version.
 	:type version: unicode
@@ -70,34 +70,34 @@ class Constants():
 	:param logger: Package logger name.
 	:type logger: unicode
 	"""
-	verbosityLevel = 3
+	verbosity_level = 3
 	"""
-	:param verbosityLevel: Default logging verbosity level.
-	:type verbosityLevel: int
+	:param verbosity_level: Default logging verbosity level.
+	:type verbosity_level: int
 	"""
-	verbosityLabels = ("Critical", "Error", "Warning", "Info", "Debug")
+	verbosity_labels = ("Critical", "Error", "Warning", "Info", "Debug")
 	"""
-	:param verbosityLabels: Logging verbosity labels.
-	:type verbosityLabels: tuple
+	:param verbosity_labels: Logging verbosity labels.
+	:type verbosity_labels: tuple
 	"""
-	loggingDefaultFormatter = "Default"
+	logging_default_formatter = "Default"
 	"""
-	:param loggingDefaultFormatter: Default logging formatter name.
-	:type loggingDefaultFormatter: unicode
+	:param logging_default_formatter: Default logging formatter name.
+	:type logging_default_formatter: unicode
 	"""
-	loggingSeparators = "*" * 96
+	logging_separators = "*" * 96
 	"""
-	:param loggingSeparators: Logging separators.
-	:type loggingSeparators: unicode
+	:param logging_separators: Logging separators.
+	:type logging_separators: unicode
 	"""
 
-	encodingCodec = "utf-8"
+	default_codec = "utf-8"
 	"""
-	:param encodingCodec: Default encoding codec.
-	:type encodingCodec: unicode
+	:param default_codec: Default encoding codec.
+	:type default_codec: unicode
 	"""
-	encodingError = "ignore"
+	codec_error = "ignore"
 	"""
-	:param encodingError: Default encoding error behavior.
-	:type encodingError: unicode
+	:param codec_error: Default encoding error behavior.
+	:type codec_error: unicode
 	"""

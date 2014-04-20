@@ -29,7 +29,7 @@ import numpy
 #**********************************************************************************************************************
 #***	Internal Imports.
 #**********************************************************************************************************************
-import color.chromaticAdaptation
+import color.chromatic_adaptation
 import color.illuminants
 import color.exceptions
 import color.lightness
@@ -73,7 +73,7 @@ __all__ = ["LOGGER",
 		   "Lab_to_LCHab",
 		   "LCHab_to_Lab"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
@@ -115,7 +115,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
 	leftXYZ = numpy.matrix(cmfs.get(left)).reshape((3, 1))
 	rightXYZ = numpy.matrix(cmfs.get(right)).reshape((3, 1))
 
-	return color.matrix.linearInterpolateMatrices(left, right, leftXYZ, rightXYZ, wavelength)
+	return color.matrix.linear_interpolate_matrices(left, right, leftXYZ, rightXYZ, wavelength)
 
 def spectral_to_XYZ(spd,
 					cmfs,
@@ -168,13 +168,13 @@ def spectral_to_XYZ(spd,
 	illuminant = illuminant.values
 	spd = spd.values
 
-	barX, barY, barZ = zip(*cmfs.values)
+	x_bar, y_bar, z_bar = zip(*cmfs.values)
 
-	denominator = barY * illuminant
+	denominator = y_bar * illuminant
 	spd = spd * illuminant
-	xNumerator = spd * barX
-	yNumerator = spd * barY
-	zNumerator = spd * barZ
+	xNumerator = spd * x_bar
+	yNumerator = spd * y_bar
+	zNumerator = spd * z_bar
 
 	XYZ = numpy.matrix([xNumerator.sum() / denominator.sum(),
 						yNumerator.sum() / denominator.sum(),
@@ -278,11 +278,11 @@ def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 19
 	return xyY[0], xyY[1]
 
 def XYZ_to_RGB(XYZ,
-			   illuminantXYZ,
-			   illuminantRGB,
-			   chromaticAdaptationMethod,
-			   fromXYZ,
-			   transferFunction=None):
+			   illuminant_XYZ,
+			   illuminant_RGB,
+			   chromatic_adaptation_method,
+			   from_XYZ,
+			   transfer_function=None):
 	"""
 	Converts from *CIE XYZ* colorspace to *RGB* colorspace using given *CIE XYZ* matrix, *illuminants*,
 	*chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
@@ -290,42 +290,42 @@ def XYZ_to_RGB(XYZ,
 	Usage::
 
 		>>> XYZ = numpy.matrix([11.51847498, 10.08, 5.08937252]).reshape((3, 1))
-		>>> illuminantXYZ =  (0.34567, 0.35850)
-		>>> illuminantRGB =  (0.31271, 0.32902)
-		>>> chromaticAdaptationMethod =  "Bradford"
-		>>> fromXYZ =  numpy.matrix([3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3))
-		>>> XYZ_to_RGB(XYZ, illuminantXYZ, illuminantRGB, chromaticAdaptationMethod, fromXYZ)
+		>>> illuminant_XYZ =  (0.34567, 0.35850)
+		>>> illuminant_RGB =  (0.31271, 0.32902)
+		>>> chromatic_adaptation_method =  "Bradford"
+		>>> from_XYZ =  numpy.matrix([3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3))
+		>>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, chromatic_adaptation_method, from_XYZ)
 		matrix([[ 17.303501],
 			[ 8.8211033],
 			[ 5.5672498]])
 
 	:param XYZ: *CIE XYZ* colorspace matrix.
 	:type XYZ: Matrix (3x1)
-	:param illuminantXYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantXYZ: tuple
-	:param illuminantRGB: *RGB* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantRGB: tuple
-	:param chromaticAdaptationMethod: *Chromatic adaptation* method.
-	:type chromaticAdaptationMethod: unicode
-	:param fromXYZ: *Normalized primary matrix*.
-	:type fromXYZ: Matrix (3x3)
-	:param transferFunction: *Transfer function*.
-	:type transferFunction: object
+	:param illuminant_XYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_XYZ: tuple
+	:param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_RGB: tuple
+	:param chromatic_adaptation_method: *Chromatic adaptation* method.
+	:type chromatic_adaptation_method: unicode
+	:param from_XYZ: *Normalized primary matrix*.
+	:type from_XYZ: Matrix (3x3)
+	:param transfer_function: *Transfer function*.
+	:type transfer_function: object
 	:return: *RGB* colorspace matrix.
 	:rtype: Matrix (3x1)
 	"""
 
-	cat = color.chromaticAdaptation.getChromaticAdaptationMatrix(
-		xy_to_XYZ(illuminantXYZ),
-		xy_to_XYZ(illuminantRGB),
-		method=chromaticAdaptationMethod)
+	cat = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
+		xy_to_XYZ(illuminant_XYZ),
+		xy_to_XYZ(illuminant_RGB),
+		method=chromatic_adaptation_method)
 
 	adaptedXYZ = cat * XYZ
 
-	RGB = fromXYZ * adaptedXYZ
+	RGB = from_XYZ * adaptedXYZ
 
-	if transferFunction is not None:
-		RGB = transferFunction(RGB)
+	if transfer_function is not None:
+		RGB = transfer_function(RGB)
 
 	LOGGER.debug("'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
 	LOGGER.debug("Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
@@ -334,11 +334,11 @@ def XYZ_to_RGB(XYZ,
 	return RGB
 
 def RGB_to_XYZ(RGB,
-			   illuminantRGB,
-			   illuminantXYZ,
-			   chromaticAdaptationMethod,
-			   toXYZ,
-			   inverseTransferFunction=None):
+			   illuminant_RGB,
+			   illuminant_XYZ,
+			   chromatic_adaptation_method,
+			   to_XYZ,
+			   inverse_transfer_function=None):
 	"""
 	Converts from *RGB* colorspace to *CIE XYZ* colorspace using given *RGB* matrix, *illuminants*,
 	*chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
@@ -346,40 +346,40 @@ def RGB_to_XYZ(RGB,
 	Usage::
 
 		>>> RGB = numpy.matrix([17.303501, 8.211033, 5.672498]).reshape((3, 1))
-		>>> illuminantRGB = (0.31271, 0.32902)
-		>>> illuminantXYZ = (0.34567, 0.35850)
-		>>> chromaticAdaptationMethod =  "Bradford"
-		>>> toXYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
-		>>> RGB_to_XYZ(RGB, illuminantRGB, illuminantXYZ, chromaticAdaptationMethod, toXYZ)
+		>>> illuminant_RGB = (0.31271, 0.32902)
+		>>> illuminant_XYZ = (0.34567, 0.35850)
+		>>> chromatic_adaptation_method =  "Bradford"
+		>>> to_XYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
+		>>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, chromatic_adaptation_method, to_XYZ)
 		matrix([[ 11.51847498],
 			[ 10.0799999 ],
 			[  5.08937278]])
 
 	:param RGB: *RGB* colorspace matrix.
 	:type RGB: Matrix (3x1)
-	:param illuminantRGB: *RGB* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantRGB: tuple
-	:param illuminantXYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantXYZ: tuple
-	:param chromaticAdaptationMethod: *Chromatic adaptation* method.
-	:type chromaticAdaptationMethod: unicode
-	:param toXYZ: *Normalized primary matrix*.
-	:type toXYZ: Matrix (3x3)
-	:param inverseTransferFunction: *Inverse transfer function*.
-	:type inverseTransferFunction: object
+	:param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_RGB: tuple
+	:param illuminant_XYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_XYZ: tuple
+	:param chromatic_adaptation_method: *Chromatic adaptation* method.
+	:type chromatic_adaptation_method: unicode
+	:param to_XYZ: *Normalized primary matrix*.
+	:type to_XYZ: Matrix (3x3)
+	:param inverse_transfer_function: *Inverse transfer function*.
+	:type inverse_transfer_function: object
 	:return: *CIE XYZ* colorspace matrix.
 	:rtype: Matrix (3x1)
 	"""
 
-	if inverseTransferFunction is not None:
-		RGB = inverseTransferFunction(RGB)
+	if inverse_transfer_function is not None:
+		RGB = inverse_transfer_function(RGB)
 
-	XYZ = toXYZ * RGB
+	XYZ = to_XYZ * RGB
 
-	cat = color.chromaticAdaptation.getChromaticAdaptationMatrix(
-		xy_to_XYZ(illuminantRGB),
-		xy_to_XYZ(illuminantXYZ),
-		method=chromaticAdaptationMethod)
+	cat = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
+		xy_to_XYZ(illuminant_RGB),
+		xy_to_XYZ(illuminant_XYZ),
+		method=chromatic_adaptation_method)
 
 	adaptedXYZ = cat * XYZ
 
@@ -390,11 +390,11 @@ def RGB_to_XYZ(RGB,
 	return adaptedXYZ
 
 def xyY_to_RGB(xyY,
-			   illuminantxyY,
-			   illuminantRGB,
-			   chromaticAdaptationMethod,
-			   fromXYZ,
-			   transferFunction=None):
+			   illuminant_xyY,
+			   illuminant_RGB,
+			   chromatic_adaptation_method,
+			   from_XYZ,
+			   transfer_function=None):
 	"""
 	Converts from *CIE xyY* colorspace to *RGB* colorspace using given *CIE xyY* matrix, *illuminants*,
 	*chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
@@ -402,44 +402,44 @@ def xyY_to_RGB(xyY,
 	Usage::
 
 		>>> xyY = numpy.matrix([0.4316, 0.3777, 10.08]).reshape((3, 1))
-		>>> illuminantxyY = (0.34567, 0.35850)
-		>>> illuminantRGB = (0.31271, 0.32902)
-		>>> chromaticAdaptationMethod =  "Bradford"
-		>>> fromXYZ = numpy.matrix([ 3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3)))
-		>>> xyY_to_RGB(xyY, illuminantxyY, illuminantRGB, chromaticAdaptationMethod, fromXYZ)
+		>>> illuminant_xyY = (0.34567, 0.35850)
+		>>> illuminant_RGB = (0.31271, 0.32902)
+		>>> chromatic_adaptation_method =  "Bradford"
+		>>> from_XYZ = numpy.matrix([ 3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3)))
+		>>> xyY_to_RGB(xyY, illuminant_xyY, illuminant_RGB, chromatic_adaptation_method, from_XYZ)
 		matrix([[ 17.30350095],
 			[  8.21103314],
 			[  5.67249761]])
 
 	:param xyY: *CIE xyY* matrix.
 	:type xyY: Matrix (3x1)
-	:param illuminantxyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantxyY: tuple
-	:param illuminantRGB: *RGB* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantRGB: tuple
-	:param chromaticAdaptationMethod: *Chromatic adaptation* method.
-	:type chromaticAdaptationMethod: unicode
-	:param fromXYZ: *Normalized primary matrix*.
-	:type fromXYZ: Matrix (3x3)
-	:param transferFunction: *Transfer function*.
-	:type transferFunction: object
+	:param illuminant_xyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_xyY: tuple
+	:param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_RGB: tuple
+	:param chromatic_adaptation_method: *Chromatic adaptation* method.
+	:type chromatic_adaptation_method: unicode
+	:param from_XYZ: *Normalized primary matrix*.
+	:type from_XYZ: Matrix (3x3)
+	:param transfer_function: *Transfer function*.
+	:type transfer_function: object
 	:return: *RGB* colorspace matrix.
 	:rtype: Matrix (3x1)
 	"""
 
 	return XYZ_to_RGB(xyY_to_XYZ(xyY),
-					  illuminantxyY,
-					  illuminantRGB,
-					  chromaticAdaptationMethod,
-					  fromXYZ,
-					  transferFunction)
+					  illuminant_xyY,
+					  illuminant_RGB,
+					  chromatic_adaptation_method,
+					  from_XYZ,
+					  transfer_function)
 
 def RGB_to_xyY(RGB,
-			   illuminantRGB,
-			   illuminantxyY,
-			   chromaticAdaptationMethod,
-			   toXYZ,
-			   inverseTransferFunction=None):
+			   illuminant_RGB,
+			   illuminant_xyY,
+			   chromatic_adaptation_method,
+			   to_XYZ,
+			   inverse_transfer_function=None):
 	"""
 	Converts from *RGB* colorspace to *CIE xyY* colorspace using given *RGB* matrix, *illuminants*,
 	*chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
@@ -447,37 +447,37 @@ def RGB_to_xyY(RGB,
 	Usage::
 
 		>>> RGB = numpy.matrix([17.303501, 8.211033, 5.672498]).reshape((3, 1))
-		>>> illuminantRGB = (0.31271, 0.32902)
-		>>> illuminantxyY = (0.34567, 0.35850)
-		>>> chromaticAdaptationMethod = "Bradford"
-		>>> toXYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
-		>>> RGB_to_xyY(RGB, illuminantRGB, illuminantxyY, chromaticAdaptationMethod, toXYZ)
+		>>> illuminant_RGB = (0.31271, 0.32902)
+		>>> illuminant_xyY = (0.34567, 0.35850)
+		>>> chromatic_adaptation_method = "Bradford"
+		>>> to_XYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
+		>>> RGB_to_xyY(RGB, illuminant_RGB, illuminant_xyY, chromatic_adaptation_method, to_XYZ)
 		matrix([[  0.4316    ],
 			[  0.37769999],
 			[ 10.0799999 ]])
 
 	:param RGB: *RGB* colorspace matrix.
 	:type RGB: Matrix (3x1)
-	:param illuminantRGB: *RGB* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantRGB: tuple
-	:param illuminantxyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
-	:type illuminantxyY: tuple
-	:param chromaticAdaptationMethod: *Chromatic adaptation* method.
-	:type chromaticAdaptationMethod: unicode
-	:param toXYZ: *Normalized primary* matrix.
-	:type toXYZ: Matrix (3x3)
-	:param inverseTransferFunction: *Inverse transfer* function.
-	:type inverseTransferFunction: object
+	:param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_RGB: tuple
+	:param illuminant_xyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
+	:type illuminant_xyY: tuple
+	:param chromatic_adaptation_method: *Chromatic adaptation* method.
+	:type chromatic_adaptation_method: unicode
+	:param to_XYZ: *Normalized primary* matrix.
+	:type to_XYZ: Matrix (3x3)
+	:param inverse_transfer_function: *Inverse transfer* function.
+	:type inverse_transfer_function: object
 	:return: *CIE XYZ* matrix.
 	:rtype: Matrix (3x1)
 	"""
 
 	return XYZ_to_xyY(RGB_to_XYZ(RGB,
-								 illuminantRGB,
-								 illuminantxyY,
-								 chromaticAdaptationMethod,
-								 toXYZ,
-								 inverseTransferFunction))
+								 illuminant_RGB,
+								 illuminant_xyY,
+								 chromatic_adaptation_method,
+								 to_XYZ,
+								 inverse_transfer_function))
 
 def XYZ_to_UVW(XYZ):
 	"""

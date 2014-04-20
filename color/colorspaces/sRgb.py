@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**sRgb.py**
+**srgb.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
@@ -51,7 +51,7 @@ __all__ = ["LOGGER",
 		   "sRGB_INVERSE_TRANSFER_FUNCTION",
 		   "sRGB_COLORSPACE"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #*** *sRGB*
@@ -70,7 +70,7 @@ sRGB_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
 
 XYZ_TO_sRGB_MATRIX = sRGB_TO_XYZ_MATRIX.getI()
 
-def __sRGBTransferFunction(RGB):
+def __srgb_transfer_function(RGB):
 	"""
 	Defines the *sRGB* colorspace transfer function.
 
@@ -85,7 +85,7 @@ def __sRGBTransferFunction(RGB):
 	RGB = map(lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055, numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
-def __sRGBInverseTransferFunction(RGB):
+def __srgb_inverse_transfer_function(RGB):
 	"""
 	Defines the *sRGB* colorspace inverse transfer function.
 
@@ -100,9 +100,9 @@ def __sRGBInverseTransferFunction(RGB):
 	RGB = map(lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4, numpy.ravel(RGB))
 	return numpy.matrix(RGB).reshape((3, 1))
 
-sRGB_TRANSFER_FUNCTION = __sRGBTransferFunction
+sRGB_TRANSFER_FUNCTION = __srgb_transfer_function
 
-sRGB_INVERSE_TRANSFER_FUNCTION = __sRGBInverseTransferFunction
+sRGB_INVERSE_TRANSFER_FUNCTION = __srgb_inverse_transfer_function
 
 sRGB_COLORSPACE = Colorspace("sRGB",
 							 sRGB_PRIMARIES,

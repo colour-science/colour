@@ -11,7 +11,7 @@
 	Defines **Color** package *correlated color temperature* manipulation objects.
 
 **Others:**
-	:func:`color.temperature.getPlanckianTable`, :func:`color.temperature.getPlanckianTableMinimalDistanceIndex`,
+	:func:`color.temperature.get_planckian_table`, :func:`color.temperature.get_planckian_table_minimal_distance_index`,
 	:func:`color.temperature.uv_to_cct`, :func:`color.temperature.cct_to_uv`, :func:`color.temperature.XYZ_to_cct`,
 	and :func:`color.temperature.cct_to_XYZ` definitions implement **Yoshi Ohno**,
 	`Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ paper.
@@ -61,8 +61,8 @@ __all__ = ["LOGGER",
 		   "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA",
 		   "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT",
 		   "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES",
-		   "getPlanckianTable",
-		   "getPlanckianTableMinimalDistanceIndex",
+		   "get_planckian_table",
+		   "get_planckian_table_minimal_distance_index",
 		   "uv_to_cct_ohno",
 		   "cct_to_uv_ohno",
 		   "uv_to_cct_robertson",
@@ -70,7 +70,7 @@ __all__ = ["LOGGER",
 		   "uv_to_cct",
 		   "cct_to_uv"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTableTuvdi", ("Ti", "ui", "vi", "di"))
 
@@ -122,7 +122,7 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTE
 #**********************************************************************************************************************
 #***    Module classes and definitions.
 #**********************************************************************************************************************
-def getPlanckianTable(uv, cmfs, start, end, count):
+def get_planckian_table(uv, cmfs, start, end, count):
 	"""
 	Returns a planckian table from given *CIE UVW* colorspace *uv* chromaticity coordinates, color matching functions and
 	temperature range  using *Yoshi Ohno* calculation methods.
@@ -131,7 +131,7 @@ def getPlanckianTable(uv, cmfs, start, end, count):
 
 		>>> import pprint
 		>>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
-		>>> pprint.pprint(getPlanckianTable((0.1978, 0.3122), cmfs, 1000, 1010, 10))
+		>>> pprint.pprint(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
 		[PlanckianTableTuvdi(Ti=1000.0, ui=0.44800695592713469, vi=0.35462532232761207, di=0.2537783063402483),
 		 PlanckianTableTuvdi(Ti=1001.1111111111111, ui=0.44774688726773565, vi=0.3546478595072966, di=0.25352567371290297),
 		 PlanckianTableTuvdi(Ti=1002.2222222222222, ui=0.44748712505363253, vi=0.35467035108531186, di=0.2532733526031864),
@@ -159,35 +159,35 @@ def getPlanckianTable(uv, cmfs, start, end, count):
 
 	ux, vx = uv
 
-	planckianTable = []
+	planckian_table = []
 	for Ti in numpy.linspace(start, end, count):
-		spd = color.blackbody.blackbodySpectralPowerDistribution(Ti, *cmfs.shape)
+		spd = color.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
 		XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
 		XYZ *= 1. / numpy.max(XYZ)
 		UVW = color.transformations.XYZ_to_UVW(XYZ)
 		ui, vi = color.transformations.UVW_to_uv(UVW)
 		di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
-		planckianTable.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
+		planckian_table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
-	return planckianTable
+	return planckian_table
 
-def getPlanckianTableMinimalDistanceIndex(planckianTable):
+def get_planckian_table_minimal_distance_index(planckian_table):
 	"""
 	Returns the shortest distance index in given planckian table using *Yoshi Ohno* calculation methods.
 
 	Usage::
 
 		>>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
-		>>> getPlanckianTableMinimalDistanceIndex(getPlanckianTable((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
+		>>> get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
 		9
 
-	:param planckianTable: Planckian table.
-	:type planckianTable: list
+	:param planckian_table: Planckian table.
+	:type planckian_table: list
 	:return: Shortest distance index.
 	:rtype: int
 	"""
 
-	distances = map(lambda x: x.di, planckianTable)
+	distances = map(lambda x: x.di, planckian_table)
 	return distances.index(min(distances))
 
 def uv_to_cct_ohno(uv,
@@ -231,25 +231,25 @@ def uv_to_cct_ohno(uv,
 
 	# Planckian table creation through cascade expansion.
 	for i in range(iterations):
-		planckianTable = getPlanckianTable(uv, cmfs, start, end, count)
-		index = getPlanckianTableMinimalDistanceIndex(planckianTable)
+		planckian_table = get_planckian_table(uv, cmfs, start, end, count)
+		index = get_planckian_table_minimal_distance_index(planckian_table)
 		if index == 0:
 			LOGGER.warning(
 				"!> {0} | Minimal distance index is on lowest planckian table bound, unpredictable results may occur!".format(
 					__name__))
 			index += 1
-		elif index == len(planckianTable) - 1:
+		elif index == len(planckian_table) - 1:
 			LOGGER.warning(
 				"!> {0} | Minimal distance index is on highest planckian table bound, unpredictable results may occur!".format(
 					__name__))
 			index -= 1
 
-		start = planckianTable[index - 1].Ti
-		end = planckianTable[index + 1].Ti
+		start = planckian_table[index - 1].Ti
+		end = planckian_table[index + 1].Ti
 
 	ux, vx = uv
 
-	Tuvdip, Tuvdi, Tuvdin = planckianTable[index - 1], planckianTable[index], planckianTable[index + 1]
+	Tuvdip, Tuvdi, Tuvdin = planckian_table[index - 1], planckian_table[index], planckian_table[index + 1]
 	Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
 	Ti, ui, vi, di = Tuvdi.Ti, Tuvdi.ui, Tuvdi.vi, Tuvdi.di
 	Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
@@ -302,7 +302,7 @@ def cct_to_uv_ohno(cct,
 
 	delta = 0.01
 
-	spd = color.blackbody.blackbodySpectralPowerDistribution(cct, *cmfs.shape)
+	spd = color.blackbody.blackbody_spectral_power_distribution(cct, *cmfs.shape)
 	XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
 	XYZ *= 1. / numpy.max(XYZ)
 	UVW = color.transformations.XYZ_to_UVW(XYZ)
@@ -311,7 +311,7 @@ def cct_to_uv_ohno(cct,
 	if Duv == 0.:
 		return u0, v0
 	else:
-		spd = color.blackbody.blackbodySpectralPowerDistribution(cct + delta, *cmfs.shape)
+		spd = color.blackbody.blackbody_spectral_power_distribution(cct + delta, *cmfs.shape)
 		XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
 		XYZ *= 1. / numpy.max(XYZ)
 		UVW = color.transformations.XYZ_to_UVW(XYZ)
@@ -346,22 +346,22 @@ def uv_to_cct_robertson(uv):
 
 	u, v = uv
 
-	lastDt = lastDv = lastDu = 0.0
+	last_dt = last_dv = last_du = 0.0
 
 	for i in range(1, 31):
-		wrRuvt, wrRuvtPrevious = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
+		wr_ruvt, wr_ruvt_previous = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
 								 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i - 1]
 
 		du = 1.0
-		dv = wrRuvt.t
+		dv = wr_ruvt.t
 
 		len = math.sqrt(1. + dv * dv)
 
 		du /= len
 		dv /= len
 
-		uu = u - wrRuvt.u
-		vv = v - wrRuvt.v
+		uu = u - wr_ruvt.u
+		vv = v - wr_ruvt.v
 
 		dt = -uu * dv + vv * du
 
@@ -374,15 +374,15 @@ def uv_to_cct_robertson(uv):
 			if i == 1:
 				f = 0.0
 			else:
-				f = dt / (lastDt + dt)
+				f = dt / (last_dt + dt)
 
-			T = 1.0e6 / (wrRuvtPrevious.r * f + wrRuvt.r * (1. - f))
+			T = 1.0e6 / (wr_ruvt_previous.r * f + wr_ruvt.r * (1. - f))
 
-			uu = u - (wrRuvtPrevious.u * f + wrRuvt.u * (1. - f))
-			vv = v - (wrRuvtPrevious.v * f + wrRuvt.v * (1. - f))
+			uu = u - (wr_ruvt_previous.u * f + wr_ruvt.u * (1. - f))
+			vv = v - (wr_ruvt_previous.v * f + wr_ruvt.v * (1. - f))
 
-			du = du * (1. - f) + lastDu * f
-			dv = dv * (1. - f) + lastDv * f
+			du = du * (1. - f) + last_du * f
+			dv = dv * (1. - f) + last_dv * f
 
 			len = math.sqrt(du * du + dv * dv)
 
@@ -393,9 +393,9 @@ def uv_to_cct_robertson(uv):
 
 			break
 
-		lastDt = dt
-		lastDu = du
-		lastDv = dv
+		last_dt = dt
+		last_du = du
+		last_dv = dv
 
 	return T, -Duv
 
@@ -423,17 +423,17 @@ def cct_to_uv_robertson(cct, Duv=0.):
 	r = 1.0e6 / cct
 
 	for i in range(30):
-		wrRuvt, wrRuvtNext = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[
-			i + 1]
+		wr_ruvt, wr_ruvt_next = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
+                                WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i + 1]
 
-		if r < wrRuvtNext.r or i == 29:
-			f = (wrRuvtNext.r - r) / (wrRuvtNext.r - wrRuvt.r)
+		if r < wr_ruvt_next.r or i == 29:
+			f = (wr_ruvt_next.r - r) / (wr_ruvt_next.r - wr_ruvt.r)
 
-			u = wrRuvt.u * f + wrRuvtNext.u * (1. - f)
-			v = wrRuvt.v * f + wrRuvtNext.v * (1. - f)
+			u = wr_ruvt.u * f + wr_ruvt_next.u * (1. - f)
+			v = wr_ruvt.v * f + wr_ruvt_next.v * (1. - f)
 
 			uu1 = uu2 = 1.0
-			vv1, vv2 = wrRuvt.t, wrRuvtNext.t
+			vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
 			len1, len2 = math.sqrt(1. + vv1 * vv1), math.sqrt(1. + vv2 * vv2)
 

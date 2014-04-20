@@ -38,7 +38,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		   "ProgrammingError"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.

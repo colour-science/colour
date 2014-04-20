@@ -53,9 +53,9 @@ __all__ = ["LOGGER",
 		   "ILLUMINANTS_RELATIVE_SPD_DATA",
 		   "ILLUMINANTS_RELATIVE_SPD",
 		   "D_ILLUMINANTS_S_DISTRIBUTIONS",
-		   "D_illuminantRelativeSpectralPowerDistribution"]
+		   "D_illuminant_relative_spectral_power_distribution"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -891,9 +891,9 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 		AbstractColorMatchingFunctions.__init__(self,
 												name,
 												cmfs,
-												mapping={"x": "barR",
-														 "y": "barG",
-														 "z": "barB"},
+												mapping={"x": "r_bar",
+														 "y": "g_bar",
+														 "z": "b_bar"},
 												labels={"x": "r\u0304",
 														"y": "g\u0304",
 														"z": "b\u0304"})
@@ -902,100 +902,100 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def barR(self):
+	def r_bar(self):
 		"""
-		Property for **self.__barR** attribute.
+		Property for **self.__r_bar** attribute.
 
-		:return: self.__barR.
+		:return: self.__r_bar.
 		:rtype: unicode
 		"""
 
 		return self.x
 
-	@barR.setter
-	def barR(self, value):
+	@r_bar.setter
+	def r_bar(self, value):
 		"""
-		Setter for **self.__barR** attribute.
+		Setter for **self.__r_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barR"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
-	@barR.deleter
-	def barR(self):
+	@r_bar.deleter
+	def r_bar(self):
 		"""
-		Deleter for **self.__barR** attribute.
+		Deleter for **self.__r_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barR"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
 
 	@property
-	def barG(self):
+	def g_bar(self):
 		"""
-		Property for **self.__barG** attribute.
+		Property for **self.__g_bar** attribute.
 
-		:return: self.__barG.
+		:return: self.__g_bar.
 		:rtype: unicode
 		"""
 
 		return self.y
 
-	@barG.setter
-	def barG(self, value):
+	@g_bar.setter
+	def g_bar(self, value):
 		"""
-		Setter for **self.__barG** attribute.
+		Setter for **self.__g_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barG"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
-	@barG.deleter
-	def barG(self):
+	@g_bar.deleter
+	def g_bar(self):
 		"""
-		Deleter for **self.__barG** attribute.
+		Deleter for **self.__g_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barG"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
 
 	@property
-	def barB(self):
+	def b_bar(self):
 		"""
-		Property for **self.__barB** attribute.
+		Property for **self.__b_bar** attribute.
 
-		:return: self.__barB.
+		:return: self.__b_bar.
 		:rtype: unicode
 		"""
 
 		return self.z
 
-	@barB.setter
-	def barB(self, value):
+	@b_bar.setter
+	def b_bar(self, value):
 		"""
-		Setter for **self.__barB** attribute.
+		Setter for **self.__b_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barB"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
 
-	@barB.deleter
-	def barB(self):
+	@b_bar.deleter
+	def b_bar(self):
 		"""
-		Deleter for **self.__barB** attribute.
+		Deleter for **self.__b_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barB"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
 
 class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 	"""
@@ -1015,9 +1015,9 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 		AbstractColorMatchingFunctions.__init__(self,
 												name,
 												cmfs,
-												mapping={"x": "barX",
-														 "y": "barY",
-														 "z": "barZ"},
+												mapping={"x": "x_bar",
+														 "y": "y_bar",
+														 "z": "z_bar"},
 												labels={"x": "x\u0304",
 														"y": "y\u0304",
 														"z": "z\u0304"})
@@ -1026,100 +1026,100 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def barX(self):
+	def x_bar(self):
 		"""
-		Property for **self.__barX** attribute.
+		Property for **self.__x_bar** attribute.
 
-		:return: self.__barX.
+		:return: self.__x_bar.
 		:rtype: unicode
 		"""
 
 		return self.x
 
-	@barX.setter
-	def barX(self, value):
+	@x_bar.setter
+	def x_bar(self, value):
 		"""
-		Setter for **self.__barX** attribute.
+		Setter for **self.__x_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barX"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
-	@barX.deleter
-	def barX(self):
+	@x_bar.deleter
+	def x_bar(self):
 		"""
-		Deleter for **self.__barX** attribute.
+		Deleter for **self.__x_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barX"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
 
 	@property
-	def barY(self):
+	def y_bar(self):
 		"""
-		Property for **self.__barY** attribute.
+		Property for **self.__y_bar** attribute.
 
-		:return: self.__barY.
+		:return: self.__y_bar.
 		:rtype: unicode
 		"""
 
 		return self.y
 
-	@barY.setter
-	def barY(self, value):
+	@y_bar.setter
+	def y_bar(self, value):
 		"""
-		Setter for **self.__barY** attribute.
+		Setter for **self.__y_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barY"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
-	@barY.deleter
-	def barY(self):
+	@y_bar.deleter
+	def y_bar(self):
 		"""
-		Deleter for **self.__barY** attribute.
+		Deleter for **self.__y_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barY"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
 
 	@property
-	def barZ(self):
+	def z_bar(self):
 		"""
-		Property for **self.__barZ** attribute.
+		Property for **self.__z_bar** attribute.
 
-		:return: self.__barZ.
+		:return: self.__z_bar.
 		:rtype: unicode
 		"""
 
 		return self.z
 
-	@barZ.setter
-	def barZ(self, value):
+	@z_bar.setter
+	def z_bar(self, value):
 		"""
-		Setter for **self.__barZ** attribute.
+		Setter for **self.__z_bar** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "barZ"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
 
-	@barZ.deleter
-	def barZ(self):
+	@z_bar.deleter
+	def z_bar(self):
 		"""
-		Deleter for **self.__barZ** attribute.
+		Deleter for **self.__z_bar** attribute.
 		"""
 
 		raise color.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "barZ"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -1129,7 +1129,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 # http://www.cvrl.org/stilesburch10_ind.htm
 STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 "Stiles & Burch 1955 2 Degree Observer": {
-"barR": {390: 1.83970e-003,
+"r_bar": {390: 1.83970e-003,
 		 395: 4.61530e-003,
 		 400: 9.62640e-003,
 		 405: 1.89790e-002,
@@ -1199,7 +1199,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 725: 4.53770e-003,
 		 730: 3.17420e-003,
 },
-"barG": {390: -4.53930e-004,
+"g_bar": {390: -4.53930e-004,
 		 395: -1.04640e-003,
 		 400: -2.16890e-003,
 		 405: -4.43040e-003,
@@ -1269,7 +1269,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 725: -3.90030e-005,
 		 730: -2.65110e-005,
 },
-"barB": {390: 1.21520e-002,
+"b_bar": {390: 1.21520e-002,
 		 395: 3.11100e-002,
 		 400: 6.23710e-002,
 		 405: 1.31610e-001,
@@ -1341,7 +1341,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 }
 },
 "Stiles & Burch 1959 10 Degree Observer": {
-"barR": {390: 1.5000E-03,
+"r_bar": {390: 1.5000E-03,
 		 395: 3.8000E-03,
 		 400: 8.9000E-03,
 		 405: 1.8800E-02,
@@ -1431,7 +1431,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 825: 6.0900E-06,
 		 830: 4.5500E-06,
 },
-"barG": {390: -4.0000E-04,
+"g_bar": {390: -4.0000E-04,
 		 395: -1.0000E-03,
 		 400: -2.5000E-03,
 		 405: -5.9000E-03,
@@ -1521,7 +1521,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 825: -5.7000E-09,
 		 830: -2.7700E-09,
 },
-"barB": {390: 6.2000E-03,
+"b_bar": {390: 6.2000E-03,
 		 395: 1.6100E-02,
 		 400: 4.0000E-02,
 		 405: 9.0600E-02,
@@ -1629,7 +1629,7 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS = {
 # http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
 STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 "Standard CIE 1931 2 Degree Observer": {
-"barX": {360: 0.000129900000,
+"x_bar": {360: 0.000129900000,
 		 361: 0.000145847000,
 		 362: 0.000163802100,
 		 363: 0.000184003700,
@@ -2100,7 +2100,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 828: 0.000001439440,
 		 829: 0.000001341977,
 		 830: 0.000001251141},
-"barY": {360: 0.000003917000,
+"y_bar": {360: 0.000003917000,
 		 361: 0.000004393581,
 		 362: 0.000004929604,
 		 363: 0.000005532136,
@@ -2571,7 +2571,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 828: 0.000000519808,
 		 829: 0.000000484612,
 		 830: 0.000000451810},
-"barZ": {360: 0.000606100000,
+"z_bar": {360: 0.000606100000,
 		 361: 0.000680879200,
 		 362: 0.000765145600,
 		 363: 0.000860012400,
@@ -3044,7 +3044,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 830: 0.000000000000}
 },
 "Standard CIE 1964 10 Degree Observer": {
-"barX": {360: 0.000000122200,
+"x_bar": {360: 0.000000122200,
 		 361: 0.000000185138,
 		 362: 0.000000278830,
 		 363: 0.000000417470,
@@ -3515,7 +3515,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 828: 0.000001746500,
 		 829: 0.000001647100,
 		 830: 0.000001553140},
-"barY": {360: 0.000000013398,
+"y_bar": {360: 0.000000013398,
 		 361: 0.000000020294,
 		 362: 0.000000030560,
 		 363: 0.000000045740,
@@ -3986,7 +3986,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 828: 0.000000707440,
 		 829: 0.000000667480,
 		 830: 0.000000629700},
-"barZ": {360: 0.000000535027,
+"z_bar": {360: 0.000000535027,
 		 361: 0.000000810720,
 		 362: 0.000001221200,
 		 363: 0.000001828700,
@@ -4459,7 +4459,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 830: 0.000000000000}
 },
 "Standard CIE 2006 2 Degree Observer": {
-"barX": {390: 3.769647e-03,
+"x_bar": {390: 3.769647e-03,
 		 391: 4.532416e-03,
 		 392: 5.446553e-03,
 		 393: 6.538868e-03,
@@ -4901,7 +4901,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 829: 1.867268e-06,
 		 830: 1.762465e-06,
 },
-"barY": {390: 4.146161e-04,
+"y_bar": {390: 4.146161e-04,
 		 391: 5.028333e-04,
 		 392: 6.084991e-04,
 		 393: 7.344436e-04,
@@ -5343,7 +5343,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 829: 7.470770e-07,
 		 830: 7.053860e-07,
 },
-"barZ": {390: 1.847260e-02,
+"z_bar": {390: 1.847260e-02,
 		 391: 2.221101e-02,
 		 392: 2.669819e-02,
 		 393: 3.206937e-02,
@@ -5787,7 +5787,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 }
 },
 "Standard CIE 2006 10 Degree Observer": {
-"barX": {390: 2.952420e-03,
+"x_bar": {390: 2.952420e-03,
 		 391: 3.577275e-03,
 		 392: 4.332146e-03,
 		 393: 5.241609e-03,
@@ -6229,7 +6229,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 829: 1.673086e-06,
 		 830: 1.579199e-06,
 },
-"barY": {390: 4.076779e-04,
+"y_bar": {390: 4.076779e-04,
 		 391: 4.977769e-04,
 		 392: 6.064754e-04,
 		 393: 7.370040e-04,
@@ -6671,7 +6671,7 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 		 829: 6.720421e-07,
 		 830: 6.345380e-07,
 },
-"barZ": {390: 1.318752e-02,
+"z_bar": {390: 1.318752e-02,
 		 391: 1.597879e-02,
 		 392: 1.935758e-02,
 		 393: 2.343758e-02,
@@ -8885,7 +8885,7 @@ D_ILLUMINANTS_S_DISTRIBUTIONS = {
 		820: 6.1,
 		830: 6.5}}
 
-def D_illuminantRelativeSpectralPowerDistribution(xy, name=None):
+def D_illuminant_relative_spectral_power_distribution(xy, name=None):
 	"""
 	Returns the relative spectral power distribution of given *CIE D Illuminant* *xy* chromaticity coordinates.
 
@@ -8893,7 +8893,7 @@ def D_illuminantRelativeSpectralPowerDistribution(xy, name=None):
 
 	Usage::
 
-		>>> D_illuminantRelativeSpectralPowerDistribution((0.34567, 0.35850))
+		>>> D_illuminant_relative_spectral_power_distribution((0.34567, 0.35850))
 		<color.spectral.SpectralPowerDistribution object at 0x101023590>
 
 	:param xy: *xy* chromaticity coordinate.
@@ -8920,4 +8920,4 @@ def D_illuminantRelativeSpectralPowerDistribution(xy, name=None):
 
 # Add calculated *CIE D60 Illuminant* relative spectral power distribution.
 # xy = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D60")
-ILLUMINANTS_RELATIVE_SPD["D60"] = D_illuminantRelativeSpectralPowerDistribution((0.32168, 0.33767), "D60")
+ILLUMINANTS_RELATIVE_SPD["D60"] = D_illuminant_relative_spectral_power_distribution((0.32168, 0.33767), "D60")

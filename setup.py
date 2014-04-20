@@ -41,12 +41,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["getLongDescription"]
+__all__ = ["get_long_description"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def getLongDescription():
+def get_long_description():
 	"""
 	Returns the Package long description.
 
@@ -66,7 +66,7 @@ def getLongDescription():
 			description.append(line)
 	return "".join(description)
 
-setup(name=color.globals.constants.Constants.applicationName,
+setup(name=color.globals.constants.Constants.application_name,
 	version=color.globals.constants.Constants.version,
 	author=color.globals.constants.__author__,
 	author_email=color.globals.constants.__email__,
@@ -76,7 +76,7 @@ setup(name=color.globals.constants.Constants.applicationName,
 	url="",
 	license="",
 	description="Color package implements color transformations objects.",
-	long_description=getLongDescription(),
+	long_description=get_long_description(),
 	install_requires=["Foundations>=2.1.0", "matplotlib>=1.3.1", "numpy>=1.8.1"],
 	classifiers=["Development Status :: 5 - Production/Stable",
 				"Environment :: Console",

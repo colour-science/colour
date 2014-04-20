@@ -56,7 +56,7 @@ copyright = u"2013 - 2014, Thomas Mansencal"
 # built documents.
 #
 # The short X.Y version.
-version = str(Constants.majorVersion)
+version = str(Constants.major_version)
 # The full version, including alpha/beta/rc tags.
 release = str(Constants.version)
 

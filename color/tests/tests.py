@@ -39,12 +39,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["testsSuite"]
+__all__ = ["tests_suite"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def _setPackageDirectory():
+def _set_package_directory():
 	"""
 	Sets the package directory in the path.
 
@@ -52,13 +52,13 @@ def _setPackageDirectory():
 	:rtype: bool
 	"""
 
-	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
-	packageDirectory not in sys.path and sys.path.append(packageDirectory)
+	package_directory = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
+	package_directory not in sys.path and sys.path.append(package_directory)
 	return True
 
-_setPackageDirectory()
+_set_package_directory()
 
-def testsSuite():
+def tests_suite():
 	"""
 	Runs the tests suite.
 
@@ -66,8 +66,8 @@ def testsSuite():
 	:rtype: TestSuite
 	"""
 
-	testsLoader = unittest.TestLoader()
-	return testsLoader.discover(os.path.dirname(__file__))
+	tests_loader = unittest.TestLoader()
+	return tests_loader.discover(os.path.dirname(__file__))
 
 if __name__ == "__main__":
-	unittest.TextTestRunner(verbosity=2).run(testsSuite())
+	unittest.TextTestRunner(verbosity=2).run(tests_suite())

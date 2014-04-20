@@ -41,9 +41,9 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 		   "xy_to_z",
-		   "getNormalizedPrimaryMatrix"]
+		   "get_normalized_primary_matrix"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
@@ -67,7 +67,7 @@ def xy_to_z(xy):
 
 	return 1 - xy[0] - xy[1]
 
-def getNormalizedPrimaryMatrix(primaries, whitepoint):
+def get_normalized_primary_matrix(primaries, whitepoint):
 	"""
 	Returns the *normalized primary matrix* using given *primaries* and *whitepoint* matrices.
 
@@ -77,7 +77,7 @@ def getNormalizedPrimaryMatrix(primaries, whitepoint):
 
 		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
 		>>> whitepoint = (0.32168, 0.33767)
-		>>> getNormalizedPrimaryMatrix(primaries, whitepoint)
+		>>> get_normalized_primary_matrix(primaries, whitepoint)
 		matrix([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
 			[  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
 			[  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
