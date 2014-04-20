@@ -32,6 +32,7 @@ import numpy
 import color.chromaticAdaptation
 import color.illuminants
 import color.exceptions
+import color.lightness
 import color.matrix
 import color.spectral
 import color.verbose
@@ -47,8 +48,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "CIE_E",
-		   "CIE_K",
 		   "wavelength_to_XYZ",
 		   "spectral_to_XYZ",
 		   "XYZ_to_xyY",
@@ -72,12 +71,9 @@ __all__ = ["LOGGER",
 		   "XYZ_to_Lab",
 		   "Lab_to_XYZ",
 		   "Lab_to_LCHab",
-		   "LCHab_to_Lab", ]
+		   "LCHab_to_Lab"]
 
 LOGGER = color.verbose.installLogger()
-
-CIE_E = 216. / 24389.0
-CIE_K = 24389. / 27.0
 
 #**********************************************************************************************************************
 #***    Module classes and definitions.
@@ -149,7 +145,7 @@ def spectral_to_XYZ(spd,
 	:return: *CIE XYZ* matrix.
 	:rtype: Matrix
 
-	:Note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
+	:note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
 	"""
 
 	if spd.shape != cmfs.shape:
@@ -159,7 +155,7 @@ def spectral_to_XYZ(spd,
 
 	if illuminant is None:
 		start, end, steps = cmfs.shape
-		range = numpy.arange(start, end + 1, steps)
+		range = numpy.arange(start, end + steps, steps)
 		illuminant = color.spectral.SpectralPowerDistribution(name="1.0",
 															  spd=dict(zip(*(list(range),
 																			 [1.] * len(range)))))
@@ -595,7 +591,7 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
 	yr = Y / Yr
 
-	L = 116. * yr ** (1. / 3.) - 16. if yr > CIE_E else CIE_K * yr
+	L = 116. * yr ** (1. / 3.) - 16. if yr > color.lightness.CIE_E else color.lightness.CIE_K * yr
 	u = 13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) - (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))
 	v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
 
@@ -625,7 +621,7 @@ def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 	L, u, v = numpy.ravel(Luv)
 	Xr, Yr, Zr = numpy.ravel(xy_to_XYZ(illuminant))
 
-	Y = ((L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
+	Y = ((L + 16.) / 116.) ** 3. if L > color.lightness.CIE_E * color.lightness.CIE_K else L / color.lightness.CIE_K
 
 	a = 1. / 3. * ((52. * L / (u + 13. * L * (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))) - 1.)
 	b = -5. * Y
@@ -757,9 +753,9 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 	yr = Y / Yr
 	zr = Z / Zr
 
-	fx = xr ** (1. / 3.) if xr > CIE_E else (CIE_K * xr + 16.) / 116.
-	fy = yr ** (1. / 3.) if yr > CIE_E else (CIE_K * yr + 16.) / 116.
-	fz = zr ** (1. / 3.) if zr > CIE_E else (CIE_K * zr + 16.) / 116.
+	fx = xr ** (1. / 3.) if xr > color.lightness.CIE_E else (color.lightness.CIE_K * xr + 16.) / 116.
+	fy = yr ** (1. / 3.) if yr > color.lightness.CIE_E else (color.lightness.CIE_K * yr + 16.) / 116.
+	fz = zr ** (1. / 3.) if zr > color.lightness.CIE_E else (color.lightness.CIE_K * zr + 16.) / 116.
 
 	L = 116. * fy - 16.
 	a = 500. * (fx - fy)
@@ -795,9 +791,9 @@ def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 	fx = a / 500. + fy
 	fz = fy - b / 200.
 
-	xr = fx ** 3. if fx ** 3. > CIE_E else (116. * fx - 16.) / CIE_K
-	yr = ((L + 16.) / 116.) ** 3. if L > CIE_K * CIE_E else L / CIE_K
-	zr = fz ** 3. if fz ** 3. > CIE_E else (116. * fz - 16.) / CIE_K
+	xr = fx ** 3. if fx ** 3. > color.lightness.CIE_E else (116. * fx - 16.) / color.lightness.CIE_K
+	yr = ((L + 16.) / 116.) ** 3. if L > color.lightness.CIE_K * color.lightness.CIE_E else L / color.lightness.CIE_K
+	zr = fz ** 3. if fz ** 3. > color.lightness.CIE_E else (116. * fz - 16.) / color.lightness.CIE_K
 
 	X = xr * Xr
 	Y = yr * Yr

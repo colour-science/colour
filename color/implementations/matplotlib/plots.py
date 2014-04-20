@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package plotting objects.
+	Defines **Color** package **matplotlib** plotting objects.
 
 **Others:**
 
@@ -38,6 +38,7 @@ import color.colorCheckers
 import color.colorspaces
 import color.illuminants
 import color.exceptions
+import color.lightness
 import color.matrix
 import color.spectral
 import color.temperature
@@ -61,6 +62,7 @@ __all__ = ["LOGGER",
 		   "COLOR_PARAMETER",
 		   "XYZ_to_sRGB",
 		   "figureSize",
+		   "aspect",
 		   "boundingBox",
 		   "display",
 		   "colorParameter",
@@ -84,8 +86,12 @@ __all__ = ["LOGGER",
 		   "planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot",
 		   "CIE_1976_UCS_chromaticityDiagramColorsPlot",
 		   "CIE_1976_UCS_chromaticityDiagramPlot",
-		   "multiTransferFunctionPlot",
+		   "singleMunsellValueFunctionPlot",
+		   "multiMunsellValueFunctionPlot",
+		   "singleLightnessFunctionPlot",
+		   "multiLightnessFunctionPlot",
 		   "singleTransferFunctionPlot",
+		   "multiTransferFunctionPlot",
 		   "blackbodySpectralRadiancePlot",
 		   "blackbodyColorsPlot"]
 
@@ -224,10 +230,10 @@ def boundingBox(**kwargs):
 	"""
 
 	settings = color.dataStructures.Structure(**{"boundingBox": None,
-													   "tightenX": False,
-													   "tightenY": False,
-													   "limits": [0., 1., 0., 1.],
-													   "margins": [0., 0., 0., 0.]})
+												 "tightenX": False,
+												 "tightenY": False,
+												 "limits": [0., 1., 0., 1.],
+												 "margins": [0., 0., 0., 0.]})
 	settings.update(kwargs)
 
 	if settings.boundingBox is None:
@@ -252,7 +258,7 @@ def display(**kwargs):
 	"""
 
 	settings = color.dataStructures.Structure(**{"standalone": True,
-													   "filename": None})
+												 "filename": None})
 	settings.update(kwargs)
 
 	if settings.standalone:
@@ -543,7 +549,7 @@ def singleSpectralPowerDistributionPlot(spd,
 
 	start, end, steps = cmfs.shape
 	spd.resample(start, end, steps)
-	wavelengths = numpy.arange(start, end + 1, steps)
+	wavelengths = numpy.arange(start, end + steps, steps)
 
 	colors = []
 	y1 = []
@@ -801,7 +807,7 @@ def visibleSpectrumPlot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 	cmfs.resample(360, 830)
 
 	start, end, steps = cmfs.shape
-	wavelengths = numpy.arange(start, end, steps)
+	wavelengths = numpy.arange(start, end + steps, steps)
 
 	colors = []
 	for i in wavelengths:
@@ -1089,7 +1095,7 @@ def planckianLocus_CIE_1931_chromaticityDiagramPlot(illuminants=["A", "C", "E"],
 
 	start, end = 1667, 100000
 	x, y = zip(*map(lambda x: color.transformations.UVW_uv_to_xy(color.temperature.cct_to_uv(x, 0., cmfs)),
-					numpy.arange(start, end + 1, 250)))
+					numpy.arange(start, end + 250, 250)))
 
 	pylab.plot(x, y, color="black", linewidth=2.)
 
@@ -1314,7 +1320,7 @@ def planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot(illuminants=["A", "C", "
 			color.transformations.xy_to_XYZ(x)))
 
 	start, end = 1667, 100000
-	u, v = zip(*map(lambda x: color.temperature.cct_to_uv(x, 0., cmfs),	numpy.arange(start, end + 1, 250)))
+	u, v = zip(*map(lambda x: color.temperature.cct_to_uv(x, 0., cmfs), numpy.arange(start, end + 250, 250)))
 
 	pylab.plot(u, v, color="black", linewidth=2.)
 
@@ -1505,6 +1511,148 @@ def CIE_1976_UCS_chromaticityDiagramPlot(cmfs="Standard CIE 1931 2 Degree Observ
 
 	return display(**settings)
 
+def singleMunsellValueFunctionPlot(function="Munsell Value 1955",
+								   **kwargs):
+	"""
+	Plots given *Lightness* function.
+
+	Usage::
+
+		>>> singleMunsellValueFunctionPlot("Munsell Value 1955")
+		True
+
+	:param function: *Munsell value* function to plot.
+	:type function: unicode
+	:param \*\*kwargs: Keywords arguments.
+	:type \*\*kwargs: \*\*
+	:return: Definition success.
+	:rtype: bool
+	"""
+
+	settings = {"title": "{0} - Munsell Value Function".format(function)}
+	settings.update(kwargs)
+
+	return multiMunsellValueFunctionPlot([function], **settings)
+
+@figureSize((8, 8))
+def multiMunsellValueFunctionPlot(functions=["Munsell Value 1955", "Munsell Value 1944"],
+								  **kwargs):
+	"""
+	Plots given *Munsell value* functions.
+
+	Usage::
+
+		>>> multiTransferFunctionPlot(["Lightness 1976", "Lightness 1964"])
+		True
+
+	:param functions: *Munsell value* functions to plot.
+	:type functions: list
+	:param \*\*kwargs: Keywords arguments.
+	:type \*\*kwargs: \*\*
+	:return: Definition success.
+	:rtype: bool
+	"""
+
+	samples = numpy.linspace(0., 100., 1000)
+	for i, function in enumerate(functions):
+		function, name = color.lightness.MUNSELL_VALUE_FUNCTIONS.get(function), function
+		if function is None:
+			raise color.exceptions.ProgrammingError(
+				"'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
+																									   sorted(
+																										   color.lightness.MUNSELL_VALUE_FUNCTIONS.keys())))
+
+		pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
+
+	settings = {"title": "{0} - Munsell Functions".format(", ".join(functions)),
+				"xLabel": "Luminance Y",
+				"yLabel": "Munsell Value V",
+				"tightenX": True,
+				"legend": True,
+				"legendLocation": "upper left",
+				"tickerX": True,
+				"tickerY": True,
+				"grid": True,
+				"limits": [0., 100., 0., 100.]}
+
+	settings.update(kwargs)
+
+	boundingBox(**settings)
+	aspect(**settings)
+
+	return display(**settings)
+
+def singleLightnessFunctionPlot(function="Lightness 1976",
+								**kwargs):
+	"""
+	Plots given *Lightness* function.
+
+	Usage::
+
+		>>> singleTransferFunctionPlot("Lightness 1976")
+		True
+
+	:param function: *Lightness* function to plot.
+	:type function: unicode
+	:param \*\*kwargs: Keywords arguments.
+	:type \*\*kwargs: \*\*
+	:return: Definition success.
+	:rtype: bool
+	"""
+
+	settings = {"title": "{0} - Lightness Function".format(function)}
+	settings.update(kwargs)
+
+	return multiLightnessFunctionPlot([function], **settings)
+
+@figureSize((8, 8))
+def multiLightnessFunctionPlot(functions=["Lightness 1976", "Lightness 1964", "Lightness 1958"],
+							   **kwargs):
+	"""
+	Plots given *Lightness* functions.
+
+	Usage::
+
+		>>> multiTransferFunctionPlot(["Lightness 1976", "Lightness 1964"])
+		True
+
+	:param functions: *Lightness* functions to plot.
+	:type functions: list
+	:param \*\*kwargs: Keywords arguments.
+	:type \*\*kwargs: \*\*
+	:return: Definition success.
+	:rtype: bool
+	"""
+
+	samples = numpy.linspace(0., 100., 1000)
+	for i, function in enumerate(functions):
+		function, name = color.lightness.LIGHTNESS_FUNCTIONS.get(function), function
+		if function is None:
+			raise color.exceptions.ProgrammingError(
+				"'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
+																							   sorted(
+																								   color.lightness.LIGHTNESS_FUNCTIONS.keys())))
+
+		pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
+
+	settings = {"title": "{0} - Lightness Functions".format(", ".join(functions)),
+				"xLabel": "Luminance Y",
+				"yLabel": "Lightness L*",
+				"tightenX": True,
+				"legend": True,
+				"legendLocation": "upper left",
+				"tickerX": True,
+				"tickerY": True,
+				"grid": True,
+				"limits": [0., 100., 0., 100.]}
+
+	settings.update(kwargs)
+
+	boundingBox(**settings)
+	aspect(**settings)
+
+	return display(**settings)
+
 def singleTransferFunctionPlot(colorspace="sRGB",
 							   **kwargs):
 	"""
@@ -1530,6 +1678,7 @@ def singleTransferFunctionPlot(colorspace="sRGB",
 
 @figureSize((8, 8))
 def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
+							  inverse=False,
 							  **kwargs):
 	"""
 	Plots given colorspaces transfer functions.
@@ -1541,13 +1690,15 @@ def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
 
 	:param colorspaces: Colorspaces transfer functions to plot.
 	:type colorspaces: list
+	:param inverse: Plot inverse transfer functions.
+	:type inverse: bool
 	:param \*\*kwargs: Keywords arguments.
 	:type \*\*kwargs: \*\*
 	:return: Definition success.
 	:rtype: bool
 	"""
 
-	samples = numpy.linspace(0., 1., 100)
+	samples = numpy.linspace(0., 1., 1000)
 	for i, colorspace in enumerate(colorspaces):
 		colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
 		if colorspace is None:
@@ -1556,7 +1707,8 @@ def multiTransferFunctionPlot(colorspaces=["sRGB", "Rec. 709"],
 																					 sorted(
 																						 color.colorspaces.COLORSPACES.keys())))
 
-		RGBs = numpy.array(map(colorspace.inverseTransferFunction, zip(samples, samples, samples)))
+		RGBs = numpy.array(map(colorspace.inverseTransferFunction if inverse else colorspace.transferFunction,
+							   zip(samples, samples, samples)))
 		for j, data in enumerate((("R", [1., 0., 0.]),
 								  ("G", [0., 1., 0.]),
 								  ("B", [0., 0., 1.]))):
@@ -1685,7 +1837,7 @@ def blackbodyColorsPlot(start=1000,
 	colors = []
 	temperatures = []
 
-	for temperature in numpy.arange(start, end, steps):
+	for temperature in numpy.arange(start, end + steps, steps):
 		spd = color.blackbody.blackbodySpectralPowerDistribution(temperature, *cmfs.shape)
 
 		XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)

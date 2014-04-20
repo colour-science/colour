@@ -41,8 +41,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 		   "xy_to_z",
-		   "getNormalizedPrimaryMatrix",
-		   "getLuminanceEquation"]
+		   "getNormalizedPrimaryMatrix"]
 
 LOGGER = color.verbose.installLogger()
 
@@ -113,27 +112,3 @@ def getNormalizedPrimaryMatrix(primaries, whitepoint):
 	LOGGER.debug("Normalized primary matrix':\n{0}".format(repr(npm)))
 
 	return npm
-
-def getLuminanceEquation(primaries, whitepoint):
-	"""
-	Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
-
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.8
-
-	Usage::
-
-		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
-		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminanceEquation(primaries, whitepoint)
-		Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
-
-	:param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-	:type primaries: Matrix
-	:param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-	:type whitepoint: tuple
-	:return: Luminance equation.
-	:rtype: unicode
-	"""
-
-	return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-		*numpy.ravel(getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6])

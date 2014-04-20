@@ -44,7 +44,7 @@ singleIlluminantRelativeSpdPlot("F1")
 #***	Plotting multiple illuminants relative spectral power distributions.
 #**********************************************************************************************************************
 print(sorted(color.ILLUMINANTS_RELATIVE_SPD.keys()))
-multiIlluminantsRelativeSpdPlot(["A", "C", "D50", "D55", "D65", "D75", "F1"])
+multiIlluminantsRelativeSpdPlot(["A", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
 #**********************************************************************************************************************
 #***	Plotting an arbitrary single spectral power distribution.
@@ -259,6 +259,27 @@ visibleSpectrumPlot("Standard CIE 1931 2 Degree Observer")
 visibleSpectrumPlot("Standard CIE 2006 2 Degree Observer")
 
 #**********************************************************************************************************************
+#***	Plotting photopic luminous efficiency functions.
+#**********************************************************************************************************************
+multiSpectralPowerDistributionPlot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),
+								   title="Luminous Efficiency Functions",
+								   yLabel="Luminous Efficiency",
+								   legendLocation="upper right",
+								   tightenY=True,
+								   margins=[0., 150., 0., .1])
+
+#**********************************************************************************************************************
+#***	Comparing photopic and scotopic luminous efficiency functions.
+#**********************************************************************************************************************
+multiSpectralPowerDistributionPlot([color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer"],
+									color.SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Wald & Crawford CIE 1951 2 Degree Observer"]],
+								   title="Photopic & Scotopic Luminous Efficiency Functions",
+								   yLabel="Luminous Efficiency",
+								   legendLocation="upper right",
+								   tightenY=True,
+								   margins=[0., 150., 0., .1])
+
+#**********************************************************************************************************************
 #***	Plotting *CIE 1931 Chromaticity Diagram*.
 #**********************************************************************************************************************
 CIE_1931_chromaticityDiagramPlot()
@@ -272,9 +293,9 @@ colorspaces_CIE_1931_chromaticityDiagramPlot(["sRGB", "ACES RGB", "Adobe RGB 199
 #**********************************************************************************************************************
 #***	Plotting a single custom colorspace in *CIE 1931 Chromaticity Diagram*.
 #**********************************************************************************************************************
-color.COLORSPACES["Awful RGB"] = color.color.colorspace("Awful RGB",
-														primaries=matrix([[0.1, 0.2], [0.3, 0.15], [0.05, 0.6]]),
-														whitepoint=(1. / 3., 1. / 3.))
+color.COLORSPACES["Awful RGB"] = color.Colorspace("Awful RGB",
+												  primaries=matrix([[0.1, 0.2], [0.3, 0.15], [0.05, 0.6]]),
+												  whitepoint=(1. / 3., 1. / 3.))
 print(sorted(color.COLORSPACES.keys()))
 colorspaces_CIE_1931_chromaticityDiagramPlot(["sRGB", "Awful RGB"])
 
@@ -297,6 +318,26 @@ planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot()
 #***	Plotting *CIE 1976 UCS Chromaticity Diagram*.
 #**********************************************************************************************************************
 CIE_1976_UCS_chromaticityDiagramPlot()
+
+#**********************************************************************************************************************
+#***	Plotting a single *Munsell value* function.
+#**********************************************************************************************************************
+singleMunsellValueFunctionPlot("Munsell Value 1955")
+
+#**********************************************************************************************************************
+#***	Plotting multiple *Munsell value* functions.
+#**********************************************************************************************************************
+multiMunsellValueFunctionPlot(["Munsell Value 1955", "Munsell Value 1944"])
+
+#**********************************************************************************************************************
+#***	Plotting a single *Lightness* function.
+#**********************************************************************************************************************
+singleLightnessFunctionPlot("Lightness 1976")
+
+#**********************************************************************************************************************
+#***	Plotting multiple *Lightness* functions.
+#**********************************************************************************************************************
+multiLightnessFunctionPlot(["Lightness 1976", "Lightness 1958"])
 
 #**********************************************************************************************************************
 #***	Plotting a single colorspace transfer function.

@@ -15,5 +15,3 @@ Functions
 
 .. autofunction:: getNormalizedPrimaryMatrix
 
-.. autofunction:: getLuminanceEquation
-

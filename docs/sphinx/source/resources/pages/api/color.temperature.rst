@@ -31,13 +31,13 @@ Functions
 
 .. autofunction:: getPlanckianTableMinimalDistanceIndex
 
-.. autofunction:: ohno_uv_to_cct
+.. autofunction:: uv_to_cct_ohno
 
-.. autofunction:: ohno_cct_to_uv
+.. autofunction:: cct_to_uv_ohno
 
-.. autofunction:: robertson_uv_to_cct
+.. autofunction:: uv_to_cct_robertson
 
-.. autofunction:: robertson_cct_to_uv
+.. autofunction:: cct_to_uv_robertson
 
 .. autofunction:: uv_to_cct
 

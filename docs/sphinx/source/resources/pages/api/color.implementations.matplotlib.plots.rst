@@ -69,6 +69,14 @@ Functions
 
 .. autofunction:: CIE_1976_UCS_chromaticityDiagramPlot
 
+.. autofunction:: singleMunsellValueFunctionPlot
+
+.. autofunction:: multiMunsellValueFunctionPlot
+
+.. autofunction:: singleLightnessFunctionPlot
+
+.. autofunction:: multiLightnessFunctionPlot
+
 .. autofunction:: singleTransferFunctionPlot
 
 .. autofunction:: multiTransferFunctionPlot

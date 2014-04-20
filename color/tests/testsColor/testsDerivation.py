@@ -47,8 +47,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["xy_to_zTestCase",
-		   "GetNormalizedPrimaryMatrixTestCase",
-		   "GetLuminanceEquationTestCase"]
+		   "GetNormalizedPrimaryMatrixTestCase"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -104,30 +103,6 @@ class GetNormalizedPrimaryMatrixTestCase(unittest.TestCase):
 						  0.21263901, 0.71516868, 0.07219232,
 						  0.01933082, 0.11919478, 0.95053215]).reshape((3, 3)),
 			decimal=7)
-
-class GetLuminanceEquationTestCase(unittest.TestCase):
-	"""
-	Defines :func:`color.derivation.getLuminanceEquation` definition units tests methods.
-	"""
-
-	def testGetLuminanceEquation(self):
-		"""
-		Tests :func:`color.derivation.getLuminanceEquation` definition.
-		"""
-
-		self.assertIsInstance(color.derivation.getLuminanceEquation(
-			numpy.matrix([0.73470, 0.26530,
-						  0.00000, 1.00000,
-						  0.00010, -0.07700]).reshape(
-				(3, 2)),
-			(0.32168, 0.33767)), unicode)
-
-		self.assertTrue(re.match(
-			r"Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)",
-			color.derivation.getLuminanceEquation(numpy.matrix([0.73470, 0.26530,
-																0.00000, 1.00000,
-																0.00010, -0.07700]).reshape((3, 2)),
-												  (0.32168, 0.33767))))
 
 if __name__ == "__main__":
 	unittest.main()

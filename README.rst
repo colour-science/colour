@@ -2,7 +2,7 @@ Color
 =====
 
 ..  image:: https://secure.travis-ci.org/KelSolaar/Color.png?branch=master
-..  image:: https://gemnasium.com/KelSolaar/Color.png  
+..  image:: https://gemnasium.com/KelSolaar/Color.png
 
 Introduction
 ------------
@@ -11,7 +11,6 @@ Introduction
 
 Here are some features:
 
--  Standard observers 2° and 10° support.
 -  RGB and XYZ color matching functions spectral data:
 
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
@@ -24,10 +23,11 @@ Here are some features:
 -  Illuminants spectral data:
 
   -  A
-  -  D65
   -  C
   -  D50
   -  D55
+  -  D60
+  -  D65
   -  D75
   -  F1
   -  F2
@@ -41,6 +41,15 @@ Here are some features:
   -  F10
   -  F11
   -  F12
+
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 2 Degree Observer
+  -  Judd Modified CIE 1951 2 Degree Observer
+  -  Judd-Vos Modified CIE 1978 2 Degree Observer
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
+  -  Wald & Crawford CIE 1951 2 Degree Observer
 
 -  Correlated color temperature calculation:
 
@@ -56,15 +65,45 @@ Here are some features:
   -  Von Kries.
   -  CAT02.
 
+-  Luminance, Munsell value and Lightness calculations:
+
+  -  Luminance 1943
+  -  Luminance 1976
+  -  Munsell Value 1920
+  -  Munsell Value 1933
+  -  Munsell Value 1943
+  -  Munsell Value 1944
+  -  Munsell Value 1955
+  -  Lightness 1958
+  -  Lightness 1964
+  -  Lightness 1976
+
 -  RGB Colorspaces support:
 
-  -  CIE RGB.
-  -  ACES RGB.
-  -  sRGB.
-  -  Rec. 709.
-  -  Adobe RGB 1998.
-  -  ProPhoto RGB.
-  -  DCI-P3.
+  -  ACES RGB
+  -  Adobe RGB 1998
+  -  Adobe Wide Gamut RGB
+  -  ALEXA Wide Gamut RGB
+  -  Apple RGB
+  -  Best RGB
+  -  Beta RGB
+  -  CIE RGB
+  -  ColorMatch RGB
+  -  DCI-P3
+  -  Don RGB 4
+  -  ECI RGB v2
+  -  Ekta Space PS 5
+  -  Max RGB
+  -  NTSC RGB
+  -  Pal/Secam RGB
+  -  ProPhoto RGB
+  -  Rec. 709
+  -  Rec. 2020
+  -  Russell RGB
+  -  S-Log
+  -  SMPTE-C RGB
+  -  Xtreme RGB
+  -  sRGB
 
 -  Colorspaces transformation and conversion:
 
@@ -131,6 +170,13 @@ Usage
 Api
 ---
 
+Acknowledgements
+----------------
+
+-  **Yoshi Ohno** for helping me pinpointing the root cause of calculation discrepancies in my implementation of his CCT & Duv calculation method.
+-  **Charles Poynton** for taking time to reply to my questions.
+-  **Michael Parsons** for all the continuous technical advices.
+
 References
 ----------
 
@@ -163,24 +209,85 @@ Color Rendition Charts
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
 
+Luminance, Munsell value, Lightness
+***********************************
+
+`Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
+
+`Luminance 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Luminance 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+
+`Munsell Value 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Munsell Value 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Lightness 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+`Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+
+Charles Poynton, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+
 RGB Colorspaces
 ***************
 
-`CIE RGB Colorspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
-
 `ACES RGB Colorspace <http://www.oscars.org/science-technology/council/projects/aces.html>`_ (Last accessed 24 February 2014)
-
-`sRGB Colorspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
-
-`Rec.709 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
 
 `Adobe RGB 1998 Colorspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
 
-`ProPhoto RGB Colorspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
+`Adobe Wide Gamut RGB Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+
+`ALEXA Wide Gamut RGB Colorspace <http://www.arri.com/?eID=registration&file_uid=8026>`_ (Last accessed 13 April 2014)
+
+`Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
+
+`Best RGB Colorspace <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)
+
+`Beta RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
+
+`CIE RGB Colorspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
+
+`C-Log Colorspace <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_ (Last accessed 18 April 2014)
+
+`ColorMatch Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 12 April 2014)
 
 `DCI-P3 Colorspace <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_ (Last accessed 24 February 2014)
 
+`Don RGB 4 Colorspace <http://www.hutchcolor.com/profiles/DonRGB4.zip>`_ (Last accessed 12 April 2014)
+
+`ECI RGB v2 Colorspace <http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip>`_ (Last accessed 13 April 2014)
+
+`Ekta Space PS 5 Colorspace <http://www.josephholmes.com/Ekta_Space.zip>`_ (Last accessed 13 April 2014)
+
+`Max RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+
+`NTSC RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+
+`Pal/Secam RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+
 `Pointer's Gamut <http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls>`_ (Last accessed 24 February 2014)
+
+`ProPhoto RGB Colorspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
+
+`Rec. 709 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
+
+`Rec. 2020 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+
+`Russell RGB Colorspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
+
+`S-Log Colorspace <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
+
+`SMPTE-C RGB Colorspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
+
+`sRGB Colorspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
+
+`Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
 Colorspace Derivation
 *********************
@@ -256,6 +363,23 @@ Illuminants Relative Spectral Power Distributions
 `F11 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
+Luminous Efficiency Functions
+*****************************
+
+`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Temperature
 ***********

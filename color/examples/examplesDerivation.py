@@ -18,6 +18,5 @@ print(color.getNormalizedPrimaryMatrix(matrix([[0.73470, 0.26530],
 print(color.getNormalizedPrimaryMatrix(color.ACES_RGB_COLORSPACE.primaries, color.ACES_RGB_COLORSPACE.whitepoint))
 
 # Retrieving *normalized primary matrix* from *CIE XYZ* colorspace to *ACES RGB* colorspace.
-print(
-color.getNormalizedPrimaryMatrix(color.ACES_RGB_COLORSPACE.primaries, color.ACES_RGB_COLORSPACE.whitepoint).getI())
-
+print(color.getNormalizedPrimaryMatrix(color.ACES_RGB_COLORSPACE.primaries,
+									   color.ACES_RGB_COLORSPACE.whitepoint).getI())

@@ -5,20 +5,29 @@
 Shows some **Color** package *colorspaces* related examples.
 """
 
-from numpy import matrix
+import pprint
 import color
 
-# Displaying :attr:`color.colorspaces.COLORSPACES` data.
-name, primaries, whitepoint, toXYZ, fromXYZ, transferFunction, inverseTransferFunction = color.COLORSPACES["ACES RGB"]
+#**********************************************************************************************************************
+#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
+#**********************************************************************************************************************
+pprint.pprint(sorted(color.COLORSPACES.keys()))
 
-print("Name: '{0}'".format(name))
-print("Primaries: '{0}'".format(primaries))
-print("Normalized primary matrix to 'CIE XYZ': '{0}'".format(toXYZ))
-print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(fromXYZ))
-print("Transfer function: '{0}'".format(transferFunction))
-print("Inverse transfer function: '{0}'".format(inverseTransferFunction))
+#**********************************************************************************************************************
+#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
+#**********************************************************************************************************************
+colorspace = color.COLORSPACES["ACES RGB"]
 
-# Calculating *ACES RGB* to *sRGB* transformation matrix.
+print("Name: '{0}'".format(colorspace.name))
+print("Primaries: '{0}'".format(colorspace.primaries))
+print("Normalized primary matrix to 'CIE XYZ': '{0}'".format(colorspace.toXYZ))
+print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(colorspace.fromXYZ))
+print("Transfer function: '{0}'".format(colorspace.transferFunction))
+print("Inverse transfer function: '{0}'".format(colorspace.inverseTransferFunction))
+
+#**********************************************************************************************************************
+#***	Calculating *ACES RGB* to *sRGB* transformation matrix.
+#**********************************************************************************************************************
 print("'ACES RGB' colorspace to 'sRGB' colorspace matrix:")
 cat = color.getChromaticAdaptationMatrix(color.xy_to_XYZ(color.ACES_RGB_WHITEPOINT),
 										 color.xy_to_XYZ(color.sRGB_WHITEPOINT))
