@@ -5,10 +5,10 @@
 **exceptions.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package exceptions and others exception handling related objects.
+    Defines **Color** package exceptions and others exception handling related objects.
 
 **Others:**
 
@@ -27,7 +27,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "ProgrammingError"]
+           "ProgrammingError"]
 
 LOGGER = color.verbose.install_logger()
 

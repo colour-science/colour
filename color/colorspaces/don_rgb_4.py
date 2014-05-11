@@ -5,10 +5,10 @@
 **don_rgb_4.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *Don RGB 4* colorspace.
+    Defines **Color** package *Don RGB 4* colorspace.
 
 **Others:**
 
@@ -32,20 +32,20 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "DON_RGB_4_PRIMARIES",
-		   "DON_RGB_4_WHITEPOINT",
-		   "DON_RGB_4_TO_XYZ_MATRIX",
-		   "XYZ_TO_DON_RGB_4_MATRIX",
-		   "DON_RGB_4_TRANSFER_FUNCTION",
-		   "DON_RGB_4_INVERSE_TRANSFER_FUNCTION",
-		   "DON_RGB_4_COLORSPACE"]
+           "DON_RGB_4_PRIMARIES",
+           "DON_RGB_4_WHITEPOINT",
+           "DON_RGB_4_TO_XYZ_MATRIX",
+           "XYZ_TO_DON_RGB_4_MATRIX",
+           "DON_RGB_4_TRANSFER_FUNCTION",
+           "DON_RGB_4_INVERSE_TRANSFER_FUNCTION",
+           "DON_RGB_4_COLORSPACE"]
 
 LOGGER = color.verbose.install_logger()
 
 # http://www.hutchcolor.com/profiles/DonRGB4.zip
 DON_RGB_4_PRIMARIES = numpy.matrix([0.69612068965517238, 0.29956896551724138,
-									0.21468298109010012, 0.7652947719688542,
-									0.12993762993762992, 0.035343035343035345]).reshape((3, 2))
+                                    0.21468298109010012, 0.7652947719688542,
+                                    0.12993762993762992, 0.035343035343035345]).reshape((3, 2))
 
 DON_RGB_4_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
@@ -54,39 +54,39 @@ DON_RGB_4_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(DON_RGB
 XYZ_TO_DON_RGB_4_MATRIX = DON_RGB_4_TO_XYZ_MATRIX.getI()
 
 def __don_rgb_4_transfer_function(RGB):
-	"""
-	Defines the *Don RGB 4* colorspace transfer function.
+    """
+    Defines the *Don RGB 4* colorspace transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 def __don_rgb_4_inverse_transfer_function(RGB):
-	"""
-	Defines the *Don RGB 4* colorspace inverse transfer function.
+    """
+    Defines the *Don RGB 4* colorspace inverse transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 DON_RGB_4_TRANSFER_FUNCTION = __don_rgb_4_transfer_function
 
 DON_RGB_4_INVERSE_TRANSFER_FUNCTION = __don_rgb_4_inverse_transfer_function
 
 DON_RGB_4_COLORSPACE = Colorspace("Don RGB 4",
-								  DON_RGB_4_PRIMARIES,
-								  DON_RGB_4_WHITEPOINT,
-								  DON_RGB_4_TO_XYZ_MATRIX,
-								  XYZ_TO_DON_RGB_4_MATRIX,
-								  DON_RGB_4_TRANSFER_FUNCTION,
-								  DON_RGB_4_INVERSE_TRANSFER_FUNCTION)
+                                  DON_RGB_4_PRIMARIES,
+                                  DON_RGB_4_WHITEPOINT,
+                                  DON_RGB_4_TO_XYZ_MATRIX,
+                                  XYZ_TO_DON_RGB_4_MATRIX,
+                                  DON_RGB_4_TRANSFER_FUNCTION,
+                                  DON_RGB_4_INVERSE_TRANSFER_FUNCTION)

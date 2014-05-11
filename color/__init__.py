@@ -5,10 +5,10 @@
 **__init__.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package initialisation.
+    Defines **Color** package initialisation.
 
 **Others:**
 

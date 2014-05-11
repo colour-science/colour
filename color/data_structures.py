@@ -5,10 +5,10 @@
 **data_structures.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package data structures objects.
+    Defines **Color** package data structures objects.
 
 **Others:**
 
@@ -27,7 +27,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "Structure"]
+           "Structure"]
 
 LOGGER = color.verbose.install_logger()
 

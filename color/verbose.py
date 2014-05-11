@@ -5,10 +5,10 @@
 **verbose.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package verbose and logging objects.
+    Defines **Color** package verbose and logging objects.
 
 **Others:**
 
@@ -26,8 +26,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["install_logger",
-		   "get_logging_console_handler",
-		   "set_verbosity_level"]
+           "get_logging_console_handler",
+           "set_verbosity_level"]
 
 install_logger = foundations.verbose.install_logger
 get_logging_console_handler = foundations.verbose.get_logging_console_handler

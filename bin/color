@@ -5,10 +5,10 @@
 **color**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	This module starts the **Color** package **color** command line Application.
+    This module starts the **Color** package **color** command line Application.
 
 **Others:**
 
@@ -20,12 +20,12 @@ import os
 import sys
 
 def _setApplicationPackageDirectory():
-	"""
-	This definition sets the Application package directory in the path.
-	"""
+    """
+    This definition sets the Application package directory in the path.
+    """
 
-	applicationPackageDirectory = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-	applicationPackageDirectory not in sys.path and sys.path.append(applicationPackageDirectory)
+    applicationPackageDirectory = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    applicationPackageDirectory not in sys.path and sys.path.append(applicationPackageDirectory)
 
 _setApplicationPackageDirectory()
 
@@ -41,4 +41,4 @@ __status__ = "Production"
 __all__ = []
 
 if __name__ == "__main__":
-	main()
+    main()

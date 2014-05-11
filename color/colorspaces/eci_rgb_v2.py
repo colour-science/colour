@@ -5,10 +5,10 @@
 **eci_rgb_v2.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *ECI RGB v2* colorspace.
+    Defines **Color** package *ECI RGB v2* colorspace.
 
 **Others:**
 
@@ -33,20 +33,20 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "ECI_RGB_V2_PRIMARIES",
-		   "ECI_RGB_V2_WHITEPOINT",
-		   "ECI_RGB_V2_TO_XYZ_MATRIX",
-		   "XYZ_TO_ECI_RGB_V2_MATRIX",
-		   "ECI_RGB_V2_TRANSFER_FUNCTION",
-		   "ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION",
-		   "ECI_RGB_V2_COLORSPACE"]
+           "ECI_RGB_V2_PRIMARIES",
+           "ECI_RGB_V2_WHITEPOINT",
+           "ECI_RGB_V2_TO_XYZ_MATRIX",
+           "XYZ_TO_ECI_RGB_V2_MATRIX",
+           "ECI_RGB_V2_TRANSFER_FUNCTION",
+           "ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION",
+           "ECI_RGB_V2_COLORSPACE"]
 
 LOGGER = color.verbose.install_logger()
 
 # http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
-									 0.20990566037735847, 0.70990566037735836,
-									 0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
+                                     0.20990566037735847, 0.70990566037735836,
+                                     0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
 
 ECI_RGB_V2_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
@@ -55,39 +55,39 @@ ECI_RGB_V2_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(ECI_RG
 XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()
 
 def __eci_rgb_v2_transfer_function(RGB):
-	"""
-	Defines the *ECI RGB v2* colorspace transfer function.
+    """
+    Defines the *ECI RGB v2* colorspace transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: color.lightness.lightness_1976(x * 100.) / 100., numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: color.lightness.lightness_1976(x * 100.) / 100., numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 def __eci_rgb_v2_inverse_transfer_function(RGB):
-	"""
-	Defines the *ECI RGB v2* colorspace inverse transfer function.
+    """
+    Defines the *ECI RGB v2* colorspace inverse transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: color.lightness.luminance_1976(x * 100.) / 100., numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: color.lightness.luminance_1976(x * 100.) / 100., numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 ECI_RGB_V2_TRANSFER_FUNCTION = __eci_rgb_v2_transfer_function
 
 ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = __eci_rgb_v2_inverse_transfer_function
 
 ECI_RGB_V2_COLORSPACE = Colorspace("ECI RGB v2",
-								   ECI_RGB_V2_PRIMARIES,
-								   ECI_RGB_V2_WHITEPOINT,
-								   ECI_RGB_V2_TO_XYZ_MATRIX,
-								   XYZ_TO_ECI_RGB_V2_MATRIX,
-								   ECI_RGB_V2_TRANSFER_FUNCTION,
-								   ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)
+                                   ECI_RGB_V2_PRIMARIES,
+                                   ECI_RGB_V2_WHITEPOINT,
+                                   ECI_RGB_V2_TO_XYZ_MATRIX,
+                                   XYZ_TO_ECI_RGB_V2_MATRIX,
+                                   ECI_RGB_V2_TRANSFER_FUNCTION,
+                                   ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)

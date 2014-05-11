@@ -5,10 +5,10 @@
 **srgb.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *sRGB* colorspace.
+    Defines **Color** package *sRGB* colorspace.
 
 **Others:**
 
@@ -31,68 +31,68 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "sRGB_PRIMARIES",
-		   "sRGB_WHITEPOINT",
-		   "sRGB_TO_XYZ_MATRIX",
-		   "XYZ_TO_sRGB_MATRIX",
-		   "sRGB_TRANSFER_FUNCTION",
-		   "sRGB_INVERSE_TRANSFER_FUNCTION",
-		   "sRGB_COLORSPACE"]
+           "sRGB_PRIMARIES",
+           "sRGB_WHITEPOINT",
+           "sRGB_TO_XYZ_MATRIX",
+           "XYZ_TO_sRGB_MATRIX",
+           "sRGB_TRANSFER_FUNCTION",
+           "sRGB_INVERSE_TRANSFER_FUNCTION",
+           "sRGB_COLORSPACE"]
 
 LOGGER = color.verbose.install_logger()
 
 # http://www.color.org/srgb.pdf
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion
 sRGB_PRIMARIES = numpy.matrix([0.6400, 0.3300,
-							   0.3000, 0.6000,
-							   0.1500, 0.0600]).reshape((3, 2))
+                               0.3000, 0.6000,
+                               0.1500, 0.0600]).reshape((3, 2))
 
 sRGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
 
 sRGB_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
-								   0.21263682, 0.71518298, 0.0721802,
-								   0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
+                                   0.21263682, 0.71518298, 0.0721802,
+                                   0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
 
 XYZ_TO_sRGB_MATRIX = sRGB_TO_XYZ_MATRIX.getI()
 
 def __srgb_transfer_function(RGB):
-	"""
-	Defines the *sRGB* colorspace transfer function.
+    """
+    Defines the *sRGB* colorspace transfer function.
 
-	Reference: http://www.color.org/srgb.pdf
+    Reference: http://www.color.org/srgb.pdf
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055, numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055, numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 def __srgb_inverse_transfer_function(RGB):
-	"""
-	Defines the *sRGB* colorspace inverse transfer function.
+    """
+    Defines the *sRGB* colorspace inverse transfer function.
 
-	Reference: http://www.color.org/srgb.pdf
+    Reference: http://www.color.org/srgb.pdf
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4, numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4, numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 sRGB_TRANSFER_FUNCTION = __srgb_transfer_function
 
 sRGB_INVERSE_TRANSFER_FUNCTION = __srgb_inverse_transfer_function
 
 sRGB_COLORSPACE = Colorspace("sRGB",
-							 sRGB_PRIMARIES,
-							 sRGB_WHITEPOINT,
-							 sRGB_TO_XYZ_MATRIX,
-							 XYZ_TO_sRGB_MATRIX,
-							 sRGB_TRANSFER_FUNCTION,
-							 sRGB_INVERSE_TRANSFER_FUNCTION)
+                             sRGB_PRIMARIES,
+                             sRGB_WHITEPOINT,
+                             sRGB_TO_XYZ_MATRIX,
+                             XYZ_TO_sRGB_MATRIX,
+                             sRGB_TRANSFER_FUNCTION,
+                             sRGB_INVERSE_TRANSFER_FUNCTION)

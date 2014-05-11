@@ -5,10 +5,10 @@
 **commands.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Exposes various **Color** package objects for command line execution.
+    Exposes various **Color** package objects for command line execution.
 
 **Others:**
 
@@ -40,44 +40,44 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "DEFAULT_ARGUMENTS_VALUES",
-		   "ManualAction",
-		   "ParseListAction",
-		   "system_exit",
-		   "commands",
-		   "get_command_line_arguments",
-		   "main"]
+           "DEFAULT_ARGUMENTS_VALUES",
+           "ManualAction",
+           "ParseListAction",
+           "system_exit",
+           "commands",
+           "get_command_line_arguments",
+           "main"]
 
 LOGGER = color.verbose.install_logger()
 
 DEFAULT_ARGUMENTS_VALUES = {"x": 0.5,
-							"y": 0.5,
-							"Temperature": 6500,
-							"Tint": 0,
-							"XYZ Matrix": (0.5, 0.5, 0.5),
-							"Source XYZ Matrix": (0.5, 0.5, 0.5),
-							"Target XYZ Matrix": (0.5, 0.5, 0.5), }
+                            "y": 0.5,
+                            "Temperature": 6500,
+                            "Tint": 0,
+                            "XYZ Matrix": (0.5, 0.5, 0.5),
+                            "Source XYZ Matrix": (0.5, 0.5, 0.5),
+                            "Target XYZ Matrix": (0.5, 0.5, 0.5), }
 
 class ManualAction(argparse.Action):
-	"""
-	Handles conversion of '-m/--manual' argument in order to provide detailed manual with usage examples.
-	"""
+    """
+    Handles conversion of '-m/--manual' argument in order to provide detailed manual with usage examples.
+    """
 
-	def __call__(self, parser, namespace, values, option_string=None):
-		"""
-		Reimplements the :meth:`argparse.Action.__call__` method.
+    def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Reimplements the :meth:`argparse.Action.__call__` method.
 
-		:param parser: Parser.
-		:type parser: object
-		:param namespace: Namespace.
-		:type namespace: object
-		:param values: Values.
-		:type values: object
-		:param option_string: Option string.
-		:type option_string: object
-		"""
+        :param parser: Parser.
+        :type parser: object
+        :param namespace: Namespace.
+        :type namespace: object
+        :param values: Values.
+        :type values: object
+        :param option_string: Option string.
+        :type option_string: object
+        """
 
-		print("""'color' Commands Manual
+        print("""'color' Commands Manual
 
 NAME
     color -- Implements 'Color' package command line support.
@@ -207,282 +207,282 @@ EXAMPLES
                 [ -6.50521303e-19,   0.00000000e+00,   5.00000000e-01]])
 """)
 
-		sys.exit(0)
+        sys.exit(0)
 
 class ParseListAction(argparse.Action):
-	"""
-	Handles conversion of various arguments in order to convert strings to lists.
-	"""
+    """
+    Handles conversion of various arguments in order to convert strings to lists.
+    """
 
-	def __call__(self, parser, namespace, values, option_string=None):
-		"""
-		Reimplements the :meth:`argparse.Action.__call__` method.
+    def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Reimplements the :meth:`argparse.Action.__call__` method.
 
-		:param parser: Parser.
-		:type parser: object
-		:param namespace: Namespace.
-		:type namespace: object
-		:param values: Values.
-		:type values: object
-		:param option_string: Option string.
-		:type option_string: object
-		"""
+        :param parser: Parser.
+        :type parser: object
+        :param namespace: Namespace.
+        :type namespace: object
+        :param values: Values.
+        :type values: object
+        :param option_string: Option string.
+        :type option_string: object
+        """
 
-		setattr(namespace, self.dest, ast.literal_eval(values))
+        setattr(namespace, self.dest, ast.literal_eval(values))
 
 def system_exit(object):
-	"""
-	Handles proper system exit in case of critical exception.
+    """
+    Handles proper system exit in case of critical exception.
 
-	:param object: Object to decorate.
-	:type object: object
-	:return: Object.
-	:rtype: object
-	"""
+    :param object: Object to decorate.
+    :type object: object
+    :return: Object.
+    :rtype: object
+    """
 
-	@functools.wraps(object)
-	def system_exit_wrapper(*args, **kwargs):
-		"""
-		Handles proper system exit in case of critical exception.
+    @functools.wraps(object)
+    def system_exit_wrapper(*args, **kwargs):
+        """
+        Handles proper system exit in case of critical exception.
 
-		:param \*args: Arguments.
-		:type \*args: \*
-		:param \*\*kwargs: Keywords arguments.
-		:type \*\*kwargs: \*\*
-		"""
+        :param \*args: Arguments.
+        :type \*args: \*
+        :param \*\*kwargs: Keywords arguments.
+        :type \*\*kwargs: \*\*
+        """
 
-		try:
-			if object(*args, **kwargs):
-				sys.exit()
-		except Exception as error:
-			traceback.print_exc()
-			sys.exit(1)
+        try:
+            if object(*args, **kwargs):
+                sys.exit()
+        except Exception as error:
+            traceback.print_exc()
+            sys.exit(1)
 
-	return system_exit_wrapper
+    return system_exit_wrapper
 
 def commands(args):
-	"""
-	Implements relevant definitions and methods from **Color** package for independent usage.
+    """
+    Implements relevant definitions and methods from **Color** package for independent usage.
 
-	:param args: Arguments namespace.
-	:type args: Namespace
-	:return: Definition success.
-	:rtype: bool
-	"""
+    :param args: Arguments namespace.
+    :type args: Namespace
+    :return: Definition success.
+    :rtype: bool
+    """
 
-	title = "{0} - {1}".format(Constants.application_name, Constants.version)
+    title = "{0} - {1}".format(Constants.application_name, Constants.version)
 
-	verbose = args.details
+    verbose = args.details
 
-	if verbose:
-		LOGGER.info(Constants.logging_separators)
-		LOGGER.info("{0} | Starting commands processing ...".format(Constants.application_name))
+    if verbose:
+        LOGGER.info(Constants.logging_separators)
+        LOGGER.info("{0} | Starting commands processing ...".format(Constants.application_name))
 
-	if args.version:
-		if not verbose:
-			print(title)
-		else:
-			LOGGER.info("Application release version: {0}".format(title))
+    if args.version:
+        if not verbose:
+            print(title)
+        else:
+            LOGGER.info("Application release version: {0}".format(title))
 
-	if args.getTemperature:
-		cct, tint = Temperature().setChromaticityCoordinates((args.x, args.y))
-		if not verbose:
-			print((cct, tint))
-		else:
-			LOGGER.info("Correlated color temperature and tint values from chromaticity coordinates:")
-			LOGGER.info("(x, y):\n{0}".format((args.x, args.y)))
-			LOGGER.info("(Temperature, Tint):\n{0}".format((cct, tint)))
+    if args.getTemperature:
+        cct, tint = Temperature().setChromaticityCoordinates((args.x, args.y))
+        if not verbose:
+            print((cct, tint))
+        else:
+            LOGGER.info("Correlated color temperature and tint values from chromaticity coordinates:")
+            LOGGER.info("(x, y):\n{0}".format((args.x, args.y)))
+            LOGGER.info("(Temperature, Tint):\n{0}".format((cct, tint)))
 
-	if args.getChromaticityCoordinates:
-		chromaticityCoordinates = Temperature(args.temperature,
-											  args.tint).getChromaticityCoordinates()
-		if not verbose:
-			print(chromaticityCoordinates)
-		else:
-			LOGGER.info("Chromaticity coordinates from correlated color temperature and tint values:")
-			LOGGER.info("(Temperature, Tint):\n{0}".format((args.temperature, args.tint)))
-			LOGGER.info("(x, y):\n{0}".format(chromaticityCoordinates))
+    if args.getChromaticityCoordinates:
+        chromaticityCoordinates = Temperature(args.temperature,
+                                              args.tint).getChromaticityCoordinates()
+        if not verbose:
+            print(chromaticityCoordinates)
+        else:
+            LOGGER.info("Chromaticity coordinates from correlated color temperature and tint values:")
+            LOGGER.info("(Temperature, Tint):\n{0}".format((args.temperature, args.tint)))
+            LOGGER.info("(x, y):\n{0}".format(chromaticityCoordinates))
 
-	if args.XYZ_to_xy:
-		chromaticityCoordinates = color.transformations.XYZ_to_xy(args.xyzMatrix)
-		if not verbose:
-			print(chromaticityCoordinates)
-		else:
-			LOGGER.info("Chromaticity coordinates from 'CIE XYZ' matrix:")
-			LOGGER.info("'CIE XYZ' matrix:\n{0}".format(args.xyzMatrix))
-			LOGGER.info("(x, y):\n{0}".format(chromaticityCoordinates))
+    if args.XYZ_to_xy:
+        chromaticityCoordinates = color.transformations.XYZ_to_xy(args.xyzMatrix)
+        if not verbose:
+            print(chromaticityCoordinates)
+        else:
+            LOGGER.info("Chromaticity coordinates from 'CIE XYZ' matrix:")
+            LOGGER.info("'CIE XYZ' matrix:\n{0}".format(args.xyzMatrix))
+            LOGGER.info("(x, y):\n{0}".format(chromaticityCoordinates))
 
-	if args.xy_to_XYZ:
-		xyzMatrix = color.transformations.xy_to_XYZ((args.x, args.y))
-		if not verbose:
-			print(repr(xyzMatrix))
-		else:
-			LOGGER.info("'CIE XYZ' matrix from chromaticity coordinates:")
-			LOGGER.info("(x, y):\n{0}".format((args.x, args.y)))
-			LOGGER.info("'CIE XYZ' matrix:\n{0}".format(repr(xyzMatrix)))
+    if args.xy_to_XYZ:
+        xyzMatrix = color.transformations.xy_to_XYZ((args.x, args.y))
+        if not verbose:
+            print(repr(xyzMatrix))
+        else:
+            LOGGER.info("'CIE XYZ' matrix from chromaticity coordinates:")
+            LOGGER.info("(x, y):\n{0}".format((args.x, args.y)))
+            LOGGER.info("'CIE XYZ' matrix:\n{0}".format(repr(xyzMatrix)))
 
-	if args.get_chromatic_adaptation_matrix:
-		chromatic_adaptationMatrix = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
-			numpy.matrix(args.sourceXyzMatrix).reshape((3, 1)),
-			numpy.matrix(args.targetXyzMatrix).reshape((3, 1)))
-		if not verbose:
-			print(repr(chromatic_adaptationMatrix))
-		else:
-			LOGGER.info("'Chromatic adaptation' matrix from given 'CIE XYZ' matrices values:")
-			LOGGER.info("Source 'CIE XYZ' matrix:\n{0}".format(args.sourceXyzMatrix))
-			LOGGER.info("Target 'CIE XYZ' matrix:\n{0}".format(args.targetXyzMatrix))
-			LOGGER.info("'Chromatic adaptation' matrix:\n{0}".format(repr(chromatic_adaptationMatrix)))
+    if args.get_chromatic_adaptation_matrix:
+        chromatic_adaptationMatrix = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
+            numpy.matrix(args.sourceXyzMatrix).reshape((3, 1)),
+            numpy.matrix(args.targetXyzMatrix).reshape((3, 1)))
+        if not verbose:
+            print(repr(chromatic_adaptationMatrix))
+        else:
+            LOGGER.info("'Chromatic adaptation' matrix from given 'CIE XYZ' matrices values:")
+            LOGGER.info("Source 'CIE XYZ' matrix:\n{0}".format(args.sourceXyzMatrix))
+            LOGGER.info("Target 'CIE XYZ' matrix:\n{0}".format(args.targetXyzMatrix))
+            LOGGER.info("'Chromatic adaptation' matrix:\n{0}".format(repr(chromatic_adaptationMatrix)))
 
-	if args.displayDefaultArgumentsValues:
-		if not verbose:
-			pprint.pprint(DEFAULT_ARGUMENTS_VALUES)
-		else:
-			LOGGER.info("Default arguments values:")
-			pprint.pformat(DEFAULT_ARGUMENTS_VALUES)
+    if args.displayDefaultArgumentsValues:
+        if not verbose:
+            pprint.pprint(DEFAULT_ARGUMENTS_VALUES)
+        else:
+            LOGGER.info("Default arguments values:")
+            pprint.pformat(DEFAULT_ARGUMENTS_VALUES)
 
-	if args.displayWyszeckiRoberstonTable:
-		if not verbose:
-			pprint.pprint(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
-		else:
-			LOGGER.info("(Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinates 'u', CIE 1960 Chromaticity Coordinates 'v', Slope)")
-			pprint.pformat(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
+    if args.displayWyszeckiRoberstonTable:
+        if not verbose:
+            pprint.pprint(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
+        else:
+            LOGGER.info("(Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinates 'u', CIE 1960 Chromaticity Coordinates 'v', Slope)")
+            pprint.pformat(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
 
-	if verbose:
-		LOGGER.info("{0} | Ending commands processing ...".format(Constants.application_name))
-		LOGGER.info(Constants.logging_separators)
+    if verbose:
+        LOGGER.info("{0} | Ending commands processing ...".format(Constants.application_name))
+        LOGGER.info(Constants.logging_separators)
 
-	return True
+    return True
 
 def get_command_line_arguments():
-	"""
-	Retrieves command line arguments.
+    """
+    Retrieves command line arguments.
 
-	:return: Namespace.
-	:rtype: Namespace
-	"""
+    :return: Namespace.
+    :rtype: Namespace
+    """
 
-	parser = argparse.ArgumentParser(add_help=False)
+    parser = argparse.ArgumentParser(add_help=False)
 
-	parser.add_argument("-v",
-						"--version",
-						action="store_true",
-						dest="version",
-						help="'Displays application release version.'")
+    parser.add_argument("-v",
+                        "--version",
+                        action="store_true",
+                        dest="version",
+                        help="'Displays application release version.'")
 
-	parser.add_argument("-h",
-						"--help",
-						action="help",
-						help="'Displays this help message and exit. Please use -m/--manual for examples.'")
+    parser.add_argument("-h",
+                        "--help",
+                        action="help",
+                        help="'Displays this help message and exit. Please use -m/--manual for examples.'")
 
-	parser.add_argument("-m",
-						"--manual",
-						action=ManualAction,
-						help="'Displays detailed manual with usage examples.'",
-						nargs=0)
+    parser.add_argument("-m",
+                        "--manual",
+                        action=ManualAction,
+                        help="'Displays detailed manual with usage examples.'",
+                        nargs=0)
 
-	parser.add_argument("-d",
-						"--details",
-						action="store_true",
-						dest="details",
-						help="'Displays detailed messages.'")
+    parser.add_argument("-d",
+                        "--details",
+                        action="store_true",
+                        dest="details",
+                        help="'Displays detailed messages.'")
 
-	parser.add_argument("-x",
-						action="store",
-						type=float,
-						dest="x",
-						default=DEFAULT_ARGUMENTS_VALUES.get("x"),
-						help="'X Chromaticity Coordinate.'")
+    parser.add_argument("-x",
+                        action="store",
+                        type=float,
+                        dest="x",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("x"),
+                        help="'X Chromaticity Coordinate.'")
 
-	parser.add_argument("-y",
-						action="store",
-						type=float,
-						dest="y",
-						default=DEFAULT_ARGUMENTS_VALUES.get("y"),
-						help="'Y Chromaticity Coordinate.'")
+    parser.add_argument("-y",
+                        action="store",
+                        type=float,
+                        dest="y",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("y"),
+                        help="'Y Chromaticity Coordinate.'")
 
-	parser.add_argument("--temperature",
-						action="store",
-						type=float,
-						dest="temperature",
-						default=DEFAULT_ARGUMENTS_VALUES.get("Temperature"),
-						help="'Temperature.'")
+    parser.add_argument("--temperature",
+                        action="store",
+                        type=float,
+                        dest="temperature",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("Temperature"),
+                        help="'Temperature.'")
 
-	parser.add_argument("--tint",
-						action="store",
-						type=float,
-						dest="tint",
-						default=DEFAULT_ARGUMENTS_VALUES.get("Tint"),
-						help="'Tint.'")
+    parser.add_argument("--tint",
+                        action="store",
+                        type=float,
+                        dest="tint",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("Tint"),
+                        help="'Tint.'")
 
-	parser.add_argument("--xyzMatrix",
-						action=ParseListAction,
-						dest="xyzMatrix",
-						default=DEFAULT_ARGUMENTS_VALUES.get("XYZ Matrix"),
-						help="'XYZ matrix.'")
+    parser.add_argument("--xyzMatrix",
+                        action=ParseListAction,
+                        dest="xyzMatrix",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("XYZ Matrix"),
+                        help="'XYZ matrix.'")
 
-	parser.add_argument("--sourceXyzMatrix",
-						action=ParseListAction,
-						dest="sourceXyzMatrix",
-						default=DEFAULT_ARGUMENTS_VALUES.get("Source XYZ Matrix"),
-						help="'Source 'CIE XYZ' matrix for 'Chromatic Adaptation' matrix calculations.'")
+    parser.add_argument("--sourceXyzMatrix",
+                        action=ParseListAction,
+                        dest="sourceXyzMatrix",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("Source XYZ Matrix"),
+                        help="'Source 'CIE XYZ' matrix for 'Chromatic Adaptation' matrix calculations.'")
 
-	parser.add_argument("--targetXyzMatrix",
-						action=ParseListAction,
-						dest="targetXyzMatrix",
-						default=DEFAULT_ARGUMENTS_VALUES.get("Target XYZ Matrix"),
-						help="'Target 'CIE XYZ' matrix for 'Chromatic Adaptation' matrix calculations.'")
+    parser.add_argument("--targetXyzMatrix",
+                        action=ParseListAction,
+                        dest="targetXyzMatrix",
+                        default=DEFAULT_ARGUMENTS_VALUES.get("Target XYZ Matrix"),
+                        help="'Target 'CIE XYZ' matrix for 'Chromatic Adaptation' matrix calculations.'")
 
-	parser.add_argument("--getTemperature",
-						action="store_true",
-						dest="getTemperature",
-						help="'Returns correlated color temperature and tint from given chromaticity coordinates.'")
+    parser.add_argument("--getTemperature",
+                        action="store_true",
+                        dest="getTemperature",
+                        help="'Returns correlated color temperature and tint from given chromaticity coordinates.'")
 
-	parser.add_argument("--getChromaticityCoordinates",
-						action="store_true",
-						dest="getChromaticityCoordinates",
-						help="'Returns chromaticity coordinates from given correlated color temperature and tint values.'")
+    parser.add_argument("--getChromaticityCoordinates",
+                        action="store_true",
+                        dest="getChromaticityCoordinates",
+                        help="'Returns chromaticity coordinates from given correlated color temperature and tint values.'")
 
-	parser.add_argument("--XYZ_to_xy",
-						action="store_true",
-						dest="XYZ_to_xy",
-						help="'Returns chromaticity coordinates from given 'CIE XYZ' matrix values.'")
+    parser.add_argument("--XYZ_to_xy",
+                        action="store_true",
+                        dest="XYZ_to_xy",
+                        help="'Returns chromaticity coordinates from given 'CIE XYZ' matrix values.'")
 
-	parser.add_argument("--xy_to_XYZ",
-						action="store_true",
-						dest="xy_to_XYZ",
-						help="'Returns 'CIE XYZ' matrix values from given chromaticity coordinates.'")
+    parser.add_argument("--xy_to_XYZ",
+                        action="store_true",
+                        dest="xy_to_XYZ",
+                        help="'Returns 'CIE XYZ' matrix values from given chromaticity coordinates.'")
 
-	parser.add_argument("--get_chromatic_adaptation_matrix",
-						action="store_true",
-						dest="get_chromatic_adaptation_matrix",
-						help="'Returns Chromatic Adaptation matrix using given 'CIE XYZ' source and target matrices values.'")
+    parser.add_argument("--get_chromatic_adaptation_matrix",
+                        action="store_true",
+                        dest="get_chromatic_adaptation_matrix",
+                        help="'Returns Chromatic Adaptation matrix using given 'CIE XYZ' source and target matrices values.'")
 
-	parser.add_argument("--displayDefaultArgumentsValues",
-						action="store_true",
-						dest="displayDefaultArgumentsValues",
-						help="'Displays default arguments values.'")
+    parser.add_argument("--displayDefaultArgumentsValues",
+                        action="store_true",
+                        dest="displayDefaultArgumentsValues",
+                        help="'Displays default arguments values.'")
 
-	parser.add_argument("--displayWyszeckiRoberstonTable",
-						action="store_true",
-						dest="displayWyszeckiRoberstonTable",
-						help="'Displays Wyszecki & Roberston table.'")
+    parser.add_argument("--displayWyszeckiRoberstonTable",
+                        action="store_true",
+                        dest="displayWyszeckiRoberstonTable",
+                        help="'Displays Wyszecki & Roberston table.'")
 
-	if len(sys.argv) == 1:
-		parser.print_help()
-		sys.exit(1)
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
 
-	return parser.parse_args()
+    return parser.parse_args()
 
 @system_exit
 def main():
-	"""
-	Starts the application.
+    """
+    Starts the application.
 
-	:return: Definition success.
-	:rtype: bool
-	"""
+    :return: Definition success.
+    :rtype: bool
+    """
 
-	return commands(get_command_line_arguments())
+    return commands(get_command_line_arguments())
 
 if __name__ == "__main__":
-	main()
+    main()

@@ -5,10 +5,10 @@
 **russell_rgb.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *Russell RGB* colorspace.
+    Defines **Color** package *Russell RGB* colorspace.
 
 **Others:**
 
@@ -32,20 +32,20 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "RUSSELL_RGB_PRIMARIES",
-		   "RUSSELL_RGB_WHITEPOINT",
-		   "RUSSELL_RGB_TO_XYZ_MATRIX",
-		   "XYZ_TO_RUSSELL_RGB_MATRIX",
-		   "RUSSELL_RGB_TRANSFER_FUNCTION",
-		   "RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION",
-		   "RUSSELL_RGB_COLORSPACE"]
+           "RUSSELL_RGB_PRIMARIES",
+           "RUSSELL_RGB_WHITEPOINT",
+           "RUSSELL_RGB_TO_XYZ_MATRIX",
+           "XYZ_TO_RUSSELL_RGB_MATRIX",
+           "RUSSELL_RGB_TRANSFER_FUNCTION",
+           "RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION",
+           "RUSSELL_RGB_COLORSPACE"]
 
 LOGGER = color.verbose.install_logger()
 
 # http://www.russellcottrell.com/photo/RussellRGB.htm
 RUSSELL_RGB_PRIMARIES = numpy.matrix([0.6900, 0.3100,
-									  0.1800, 0.7700,
-									  0.1000, 0.0200]).reshape((3, 2))
+                                      0.1800, 0.7700,
+                                      0.1000, 0.0200]).reshape((3, 2))
 
 RUSSELL_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D55")
 
@@ -54,39 +54,39 @@ RUSSELL_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(RUSSE
 XYZ_TO_RUSSELL_RGB_MATRIX = RUSSELL_RGB_TO_XYZ_MATRIX.getI()
 
 def __russell_rgb_transfer_function(RGB):
-	"""
-	Defines the *Russell RGB* colorspace transfer function.
+    """
+    Defines the *Russell RGB* colorspace transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 def __russell_rgb_inverse_transfer_function(RGB):
-	"""
-	Defines the *Russell RGB* colorspace inverse transfer function.
+    """
+    Defines the *Russell RGB* colorspace inverse transfer function.
 
-	:param RGB: RGB Matrix.
-	:type RGB: Matrix (3x1)
-	:return: Companded RGB Matrix.
-	:rtype: Matrix (3x1)
-	"""
+    :param RGB: RGB Matrix.
+    :type RGB: Matrix (3x1)
+    :return: Companded RGB Matrix.
+    :rtype: Matrix (3x1)
+    """
 
-	RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-	return numpy.matrix(RGB).reshape((3, 1))
+    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
+    return numpy.matrix(RGB).reshape((3, 1))
 
 RUSSELL_RGB_TRANSFER_FUNCTION = __russell_rgb_transfer_function
 
 RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = __russell_rgb_inverse_transfer_function
 
 RUSSELL_RGB_COLORSPACE = Colorspace("Russell RGB",
-									RUSSELL_RGB_PRIMARIES,
-									RUSSELL_RGB_WHITEPOINT,
-									RUSSELL_RGB_TO_XYZ_MATRIX,
-									XYZ_TO_RUSSELL_RGB_MATRIX,
-									RUSSELL_RGB_TRANSFER_FUNCTION,
-									RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)
+                                    RUSSELL_RGB_PRIMARIES,
+                                    RUSSELL_RGB_WHITEPOINT,
+                                    RUSSELL_RGB_TO_XYZ_MATRIX,
+                                    XYZ_TO_RUSSELL_RGB_MATRIX,
+                                    RUSSELL_RGB_TRANSFER_FUNCTION,
+                                    RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)
