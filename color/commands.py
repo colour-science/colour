@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External Imports.
-#**********************************************************************************************************************
 import argparse
 import ast
 import functools
@@ -30,9 +24,6 @@ import sys
 import traceback
 import numpy
 
-#**********************************************************************************************************************
-#***	Internal Imports.
-#**********************************************************************************************************************
 import color.chromatic_adaptation
 import color.illuminants
 import color.temperature
@@ -41,9 +32,6 @@ import color.verbose
 from color.globals.constants import Constants
 # from color.temperature import Temperature
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -70,9 +58,6 @@ DEFAULT_ARGUMENTS_VALUES = {"x": 0.5,
 							"Source XYZ Matrix": (0.5, 0.5, 0.5),
 							"Target XYZ Matrix": (0.5, 0.5, 0.5), }
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ManualAction(argparse.Action):
 	"""
 	Handles conversion of '-m/--manual' argument in order to provide detailed manual with usage examples.

@@ -14,9 +14,6 @@
 
 """
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import bisect
 import functools
 import matplotlib
@@ -30,9 +27,6 @@ import pylab
 import random
 from collections import namedtuple
 
-#**********************************************************************************************************************
-#***	Internal Imports.
-#**********************************************************************************************************************
 import color.blackbody
 import color.color_checkers
 import color.colorspaces
@@ -46,9 +40,6 @@ import color.transformations
 import color.data_structures
 import color.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -103,9 +94,6 @@ DEFAULT_FIGURE_SIZE = 14, 7
 
 COLOR_PARAMETER = namedtuple("ColorParameter", ("name", "RGB", "x", "y0", "y1"))
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 # Defining default figure size.
 pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 

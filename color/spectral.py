@@ -14,26 +14,14 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import itertools
 import numpy
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import color.exceptions
 import color.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -57,9 +45,6 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class SpectralPowerDistribution(object):
 	"""
 	Defines a spectral power distribution object.
@@ -81,9 +66,6 @@ class SpectralPowerDistribution(object):
 		self.__spd = None
 		self.spd = spd
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def name(self):
 		"""
@@ -250,9 +232,6 @@ class SpectralPowerDistribution(object):
 		raise color.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __getitem__(self, wavelength):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.
@@ -397,9 +376,6 @@ class AbstractColorMatchingFunctions(object):
 		self.cmfs = cmfs
 		self.__labels = labels
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def name(self):
 		"""
@@ -752,9 +728,6 @@ class AbstractColorMatchingFunctions(object):
 		raise color.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __getitem__(self, wavelength):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.
@@ -898,9 +871,6 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 														"y": "g\u0304",
 														"z": "b\u0304"})
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def r_bar(self):
 		"""
@@ -1022,9 +992,6 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 														"y": "y\u0304",
 														"z": "z\u0304"})
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def x_bar(self):
 		"""
@@ -1121,9 +1088,6 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
 		raise color.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 # *CIE RGB* color matching functions for standard observers at 5 nm steps.
 # http://www.cvrl.org/stilesburch2_ind.htm
 # http://www.cvrl.org/stilesburch10_ind.htm

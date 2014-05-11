@@ -9,16 +9,12 @@ from numpy import matrix
 from numpy import ravel
 import color
 
-#**********************************************************************************************************************
-#***	Retrieving *luminance* of given *RGB* components.
-#**********************************************************************************************************************
+# Retrieving *luminance* of given *RGB* components.
 print color.get_luminance(matrix([56., 16., 100.]).reshape((3, 1)),
 						 color.sRGB_COLORSPACE.primaries,
 						 color.sRGB_COLORSPACE.whitepoint)
 
-#**********************************************************************************************************************
-#***	Retrieving *Munsell value* and *Lightness* of given *xyY* components.
-#**********************************************************************************************************************
+# Retrieving *Munsell value* and *Lightness* of given *xyY* components.
 xyY = color.COLORCHECKER_2005_DATA[0][2:5]
 Y =  ravel(xyY)[2] * 100.
 # Scaled *luminance* *Y* reference:

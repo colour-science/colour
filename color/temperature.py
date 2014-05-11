@@ -21,30 +21,18 @@
 	from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import math
 import numpy
 from collections import namedtuple
 
-#**********************************************************************************************************************
-#***	Internal Imports.
-#**********************************************************************************************************************
 import color.blackbody
 import color.spectral
 import color.transformations
 import color.exceptions
 import color.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -119,9 +107,6 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRoberstonRuvt
 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT(*x),
 											  WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
 
-#**********************************************************************************************************************
-#***    Module classes and definitions.
-#**********************************************************************************************************************
 def get_planckian_table(uv, cmfs, start, end, count):
 	"""
 	Returns a planckian table from given *CIE UVW* colorspace *uv* chromaticity coordinates, color matching functions and

@@ -8,14 +8,10 @@ Shows some **Color** package *colorspaces* related examples.
 import pprint
 import color
 
-#**********************************************************************************************************************
-#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
-#**********************************************************************************************************************
+# Displaying :attr:`color.colorspaces.COLORSPACES` data.
 pprint.pprint(sorted(color.COLORSPACES.keys()))
 
-#**********************************************************************************************************************
-#***	Displaying :attr:`color.colorspaces.COLORSPACES` data.
-#**********************************************************************************************************************
+# Displaying :attr:`color.colorspaces.COLORSPACES` data.
 colorspace = color.COLORSPACES["ACES RGB"]
 
 print("Name: '{0}'".format(colorspace.name))
@@ -25,9 +21,7 @@ print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(colorspace.from_X
 print("Transfer function: '{0}'".format(colorspace.transfer_function))
 print("Inverse transfer function: '{0}'".format(colorspace.inverse_transfer_function))
 
-#**********************************************************************************************************************
-#***	Calculating *ACES RGB* to *sRGB* transformation matrix.
-#**********************************************************************************************************************
+# Calculating *ACES RGB* to *sRGB* transformation matrix.
 print("'ACES RGB' colorspace to 'sRGB' colorspace matrix:")
 cat = color.get_chromatic_adaptation_matrix(color.xy_to_XYZ(color.ACES_RGB_WHITEPOINT),
 										 color.xy_to_XYZ(color.sRGB_WHITEPOINT))

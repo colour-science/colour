@@ -9,23 +9,17 @@ from numpy import matrix
 import color
 from color.implementations.matplotlib.plots import *
 
-#**********************************************************************************************************************
-#***	Plotting a single color.
-#**********************************************************************************************************************
+# Plotting a single color.
 single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)),
 				text_size=32.)
 
-#**********************************************************************************************************************
-#***	Plotting multiples colors.
-#**********************************************************************************************************************
+# Plotting multiples colors.
 multi_color_plot([color_parameter(name="Dark Skin", RGB=(0.45293517, 0.31732158, 0.26414773)),
 				color_parameter(name="Light Skin", RGB=(0.77875824, 0.5772645, 0.50453169))],
 			   spacing=0.,
 			   text_size=32.)
 
-#**********************************************************************************************************************
-#***	Plotting color checkers.
-#**********************************************************************************************************************
+# Plotting color checkers.
 print(sorted(color.COLORCHECKERS.keys()))
 color_checker_plot("ColorChecker 1976")
 color_checker_plot("BabelColor Average",
@@ -35,20 +29,14 @@ color_checker_plot("ColorChecker 1976",
 color_checker_plot("ColorChecker 2005",
 				 text_display=False)
 
-#**********************************************************************************************************************
-#***	Plotting a single illuminant relative spectral power distribution.
-#**********************************************************************************************************************
+# Plotting a single illuminant relative spectral power distribution.
 single_illuminant_relative_spd_plot("F1")
 
-#**********************************************************************************************************************
-#***	Plotting multiple illuminants relative spectral power distributions.
-#**********************************************************************************************************************
+# Plotting multiple illuminants relative spectral power distributions.
 print(sorted(color.ILLUMINANTS_RELATIVE_SPD.keys()))
 multi_illuminants_relative_spd_plot(["A", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
-#**********************************************************************************************************************
-#***	Plotting an arbitrary single spectral power distribution.
-#**********************************************************************************************************************
+# Plotting an arbitrary single spectral power distribution.
 sample_spd_data = {360: 0.0000,
 				 380: 0.0000,
 				 400: 0.0641,
@@ -220,18 +208,14 @@ single_spectral_power_distribution_plot(color.SpectralPowerDistribution(name="Cu
 single_spectral_power_distribution_plot(color.SpectralPowerDistribution(name="Boron",
 																	spd=boron_spd))
 
-#**********************************************************************************************************************
-#***	Plotting multiple relative spectral power distributions.
-#**********************************************************************************************************************
+# Plotting multiple relative spectral power distributions.
 multi_spectral_power_distribution_plot([color.SpectralPowerDistribution(name="Boron",
 																	spd=boron_spd),
 									color.SpectralPowerDistribution(name="Carbon",
 																	spd=carbon_spd)],
 								   y_label="Ei (eV)")
 
-#**********************************************************************************************************************
-#***	Plotting given single standard observer 'CIE XYZ' or 'CIE RGB' color matching functions.
-#**********************************************************************************************************************
+# Plotting given single standard observer 'CIE XYZ' or 'CIE RGB' color matching functions.
 print(sorted(color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys()))
 single_color_matching_functions_plot("Standard CIE 1931 2 Degree Observer")
 single_color_matching_functions_plot("Standard CIE 1964 10 Degree Observer")
@@ -242,9 +226,7 @@ single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree Observer",
 								 legend_location="upper left",
 								 bounding_box=[390, 830, -0.5, 3.5])
 
-#**********************************************************************************************************************
-#***	Comparing given multiple standard observers degrees 'CIE XYZ* color matching functions.
-#**********************************************************************************************************************
+# Comparing given multiple standard observers degrees 'CIE XYZ* color matching functions.
 multi_color_matching_functions_plot(["Standard CIE 1931 2 Degree Observer",
 								 "Standard CIE 1964 10 Degree Observer"])
 multi_color_matching_functions_plot(["Standard CIE 2006 10 Degree Observer",
@@ -252,15 +234,11 @@ multi_color_matching_functions_plot(["Standard CIE 2006 10 Degree Observer",
 multi_color_matching_functions_plot(["Stiles & Burch 1955 2 Degree Observer",
 								 "Stiles & Burch 1959 10 Degree Observer"])
 
-#**********************************************************************************************************************
-#***	Plotting visible colors under given standard observer.
-#**********************************************************************************************************************
+# Plotting visible colors under given standard observer.
 visible_spectrum_plot("Standard CIE 1931 2 Degree Observer")
 visible_spectrum_plot("Standard CIE 2006 2 Degree Observer")
 
-#**********************************************************************************************************************
-#***	Plotting photopic luminous efficiency functions.
-#**********************************************************************************************************************
+# Plotting photopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),
 								   title="Luminous Efficiency Functions",
 								   y_label="Luminous Efficiency",
@@ -268,9 +246,7 @@ multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTI
 								   y_tighten=True,
 								   margins=[0., 150., 0., .1])
 
-#**********************************************************************************************************************
-#***	Comparing photopic and scotopic luminous efficiency functions.
-#**********************************************************************************************************************
+# Comparing photopic and scotopic luminous efficiency functions.
 multi_spectral_power_distribution_plot([color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer"],
 									color.SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Wald & Crawford CIE 1951 2 Degree Observer"]],
 								   title="Photopic & Scotopic Luminous Efficiency Functions",
@@ -279,86 +255,56 @@ multi_spectral_power_distribution_plot([color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCT
 								   y_tighten=True,
 								   margins=[0., 150., 0., .1])
 
-#**********************************************************************************************************************
-#***	Plotting *CIE 1931 Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting *CIE 1931 Chromaticity Diagram*.
 CIE_1931_chromaticity_diagram_plot()
 
-#**********************************************************************************************************************
-#***	Plotting colorspaces in *CIE 1931 Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting colorspaces in *CIE 1931 Chromaticity Diagram*.
 print(sorted(color.COLORSPACES.keys()))
 colorspaces_CIE_1931_chromaticity_diagram_plot(["sRGB", "ACES RGB", "Adobe RGB 1998"])
 
-#**********************************************************************************************************************
-#***	Plotting a single custom colorspace in *CIE 1931 Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting a single custom colorspace in *CIE 1931 Chromaticity Diagram*.
 color.COLORSPACES["Awful RGB"] = color.Colorspace("Awful RGB",
 												  primaries=matrix([[0.1, 0.2], [0.3, 0.15], [0.05, 0.6]]),
 												  whitepoint=(1. / 3., 1. / 3.))
 print(sorted(color.COLORSPACES.keys()))
 colorspaces_CIE_1931_chromaticity_diagram_plot(["sRGB", "Awful RGB"])
 
-#**********************************************************************************************************************
-#***	Plotting planckian locus in *CIE 1931 Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting planckian locus in *CIE 1931 Chromaticity Diagram*.
 planckian_locus_CIE_1931_chromaticity_diagram_plot()
 
-#**********************************************************************************************************************
-#***	Plotting *CIE 1960 UCS Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting *CIE 1960 UCS Chromaticity Diagram*.
 CIE_1960_UCS_chromaticity_diagram_plot()
 
-#**********************************************************************************************************************
-#***	Plotting planckian locus in *CIE 1960 UCS Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting planckian locus in *CIE 1960 UCS Chromaticity Diagram*.
 planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot()
 
-#**********************************************************************************************************************
-#***	Plotting *CIE 1976 UCS Chromaticity Diagram*.
-#**********************************************************************************************************************
+# Plotting *CIE 1976 UCS Chromaticity Diagram*.
 CIE_1976_UCS_chromaticity_diagram_plot()
 
-#**********************************************************************************************************************
-#***	Plotting a single *Munsell value* function.
-#**********************************************************************************************************************
+# Plotting a single *Munsell value* function.
 single_munsell_value_function_plot("Munsell Value 1955")
 
-#**********************************************************************************************************************
-#***	Plotting multiple *Munsell value* functions.
-#**********************************************************************************************************************
+# Plotting multiple *Munsell value* functions.
 multi_munsell_value_function_plot(["Munsell Value 1955", "Munsell Value 1944"])
 
-#**********************************************************************************************************************
-#***	Plotting a single *Lightness* function.
-#**********************************************************************************************************************
+# Plotting a single *Lightness* function.
 single_lightness_function_plot("Lightness 1976")
 
-#**********************************************************************************************************************
-#***	Plotting multiple *Lightness* functions.
-#**********************************************************************************************************************
+# Plotting multiple *Lightness* functions.
 multi_lightness_function_plot(["Lightness 1976", "Lightness 1958"])
 
-#**********************************************************************************************************************
-#***	Plotting a single colorspace transfer function.
-#**********************************************************************************************************************
+# Plotting a single colorspace transfer function.
 single_transfer_function_plot("sRGB")
 
-#**********************************************************************************************************************
-#***	Plotting multiple colorspaces transfer functions.
-#**********************************************************************************************************************
+# Plotting multiple colorspaces transfer functions.
 multi_transfer_function_plot(["sRGB", "Rec. 709"])
 
-#**********************************************************************************************************************
-#***	Plotting various blackbody spectral radiance.
-#**********************************************************************************************************************
+# Plotting various blackbody spectral radiance.
 blackbody_spectral_radiance_plot(temperature=3500, blackbody="VY Canis Major")
 blackbody_spectral_radiance_plot(temperature=5778, blackbody="The Sun")
 blackbody_spectral_radiance_plot(temperature=12130, blackbody="Rigel")
 
-#**********************************************************************************************************************
-#***	Comparing theoretical and experiment *Sun* spectral distributions.
-#**********************************************************************************************************************
+# Comparing theoretical and experiment *Sun* spectral distributions.
 ASTM_G_173 = {280.0: 8.2000e-02,
 			  280.5: 9.9000e-02,
 			  281.0: 1.5000e-01,
@@ -2376,7 +2322,5 @@ multi_spectral_power_distribution_plot([ASTM_G_173_spd, blackbody_spd],
 								   y_label=u"W / (sr m²) / m",
 								   legend_location="upper right")
 
-#**********************************************************************************************************************
-#***	Plotting blackbody colors.
-#**********************************************************************************************************************
+# Plotting blackbody colors.
 blackbody_colors_plot()
