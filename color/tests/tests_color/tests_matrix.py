@@ -45,7 +45,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["COLOR_MATRIX_1", "COLOR_MATRIX_2", "IsIdentityTestCase", "InterpolateMatricesTestCase"]
+__all__ = ["COLOR_MATRIX_1", "COLOR_MATRIX_2", "TestIsIdentity", "TestInterpolateMatrices"]
 
 COLOR_MATRIX_1 = numpy.matrix([0.5309, -0.0229, -0.0336,
 							   -0.6241, 1.3265, 0.3337,
@@ -57,7 +57,7 @@ COLOR_MATRIX_2 = numpy.matrix([0.4716, 0.0603, -0.083,
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class IsIdentityTestCase(unittest.TestCase):
+class TestIsIdentity(unittest.TestCase):
 	"""
 	Defines :func:`color.matrix.is_identity` definition units tests methods.
 	"""
@@ -72,7 +72,7 @@ class IsIdentityTestCase(unittest.TestCase):
 		self.assertTrue(color.matrix.is_identity(numpy.matrix([1, 0, 0, 1]).reshape(2, 2), n=2))
 		self.assertFalse(color.matrix.is_identity(numpy.matrix([1, 2, 0, 1]).reshape(2, 2), n=2))
 
-class LinearInterpolateMatricesTestCase(unittest.TestCase):
+class TestLinearInterpolateMatrices(unittest.TestCase):
 	"""
 	Defines :func:`color.matrix.linear_interpolate_matrices` definition units tests methods.
 	"""

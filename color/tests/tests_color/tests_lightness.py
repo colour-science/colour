@@ -46,23 +46,23 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["GetLuminanceEquationTestCase",
-		   "GetLuminanceTestCase",
-           "Luminance1943TestCase",
-           "Luminance1976TestCase",
-           "MunsellValue1920TestCase",
-           "MunsellValue1933TestCase",
-           "MunsellValue1943TestCase",
-           "MunsellValue1944TestCase",
-           "MunsellValue1955TestCase",
-           "Lightness1958TestCase",
-           "Lightness1964TestCase",
-           "Lightness1976TestCase"]
+__all__ = ["TestGetLuminanceEquation",
+		   "TestGetLuminance",
+           "TestLuminance1943",
+           "TestLuminance1976",
+           "TestMunsellValue1920",
+           "TestMunsellValue1933",
+           "TestMunsellValue1943",
+           "TestMunsellValue1944",
+           "TestMunsellValue1955",
+           "TestLightness1958",
+           "TestLightness1964",
+           "TestLightness1976"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class GetLuminanceEquationTestCase(unittest.TestCase):
+class TestGetLuminanceEquation(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.get_luminance_equation` definition units tests methods.
 	"""
@@ -86,7 +86,7 @@ class GetLuminanceEquationTestCase(unittest.TestCase):
 															   0.00010, -0.07700]).reshape((3, 2)),
 												 (0.32168, 0.33767))))
 
-class GetLuminanceTestCase(unittest.TestCase):
+class TestGetLuminance(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.get_luminance` definition units tests methods.
 	"""
@@ -123,7 +123,7 @@ class GetLuminanceTestCase(unittest.TestCase):
 							   12.1616018403,
 							   places=7)
 
-class Luminance1943TestCase(unittest.TestCase):
+class TestLuminance1943(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.luminance_1943` definition units tests methods.
 	"""
@@ -137,7 +137,7 @@ class Luminance1943TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.luminance_1943(8.64728711385), 71.3174801757, places=7)
 		self.assertAlmostEqual(color.lightness.luminance_1943(1.52569021578), 2.06998750444, places=7)
 
-class Luminance1976TestCase(unittest.TestCase):
+class TestLuminance1976(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.luminance_1976` definition units tests methods.
 	"""
@@ -151,7 +151,7 @@ class Luminance1976TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.luminance_1976(80.0444155585, 100.), 56.76, places=7)
 		self.assertAlmostEqual(color.lightness.luminance_1976(99.3467279026, 100.), 98.32, places=7)
 
-class MunsellValue1920TestCase(unittest.TestCase):
+class TestMunsellValue1920(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.munsell_value_1920` definition units tests methods.
 	"""
@@ -165,7 +165,7 @@ class MunsellValue1920TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.munsell_value_1920(56.76), 7.53392328073, places=7)
 		self.assertAlmostEqual(color.lightness.munsell_value_1920(98.32), 9.91564420499, places=7)
 
-class MunsellValue1933TestCase(unittest.TestCase):
+class TestMunsellValue1933(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.munsell_value_1933` definition units tests methods.
 	"""
@@ -179,7 +179,7 @@ class MunsellValue1933TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.munsell_value_1933(56.76), 8.27013181776, places=7)
 		self.assertAlmostEqual(color.lightness.munsell_value_1933(98.32), 9.95457710587, places=7)
 
-class MunsellValue1943TestCase(unittest.TestCase):
+class TestMunsellValue1943(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.munsell_value_1943` definition units tests methods.
 	"""
@@ -193,7 +193,7 @@ class MunsellValue1943TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.munsell_value_1943(56.76), 7.8225814259, places=7)
 		self.assertAlmostEqual(color.lightness.munsell_value_1943(98.32), 9.88538236116, places=7)
 
-class MunsellValue1944TestCase(unittest.TestCase):
+class TestMunsellValue1944(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.munsell_value_1944` definition units tests methods.
 	"""
@@ -207,7 +207,7 @@ class MunsellValue1944TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.munsell_value_1944(56.76), 7.89881184275, places=7)
 		self.assertAlmostEqual(color.lightness.munsell_value_1944(98.32), 9.85197100995, places=7)
 
-class MunsellValue1955TestCase(unittest.TestCase):
+class TestMunsellValue1955(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.munsell_value_1955` definition units tests methods.
 	"""
@@ -221,7 +221,7 @@ class MunsellValue1955TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.munsell_value_1955(56.76), 7.84875137062, places=7)
 		self.assertAlmostEqual(color.lightness.munsell_value_1955(98.32), 9.75492813681, places=7)
 
-class Lightness1958TestCase(unittest.TestCase):
+class TestLightness1958(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.lightness_1958` definition units tests methods.
 	"""
@@ -235,7 +235,7 @@ class Lightness1958TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.lightness_1958(56.76), 78.8117999039, places=7)
 		self.assertAlmostEqual(color.lightness.lightness_1958(98.32), 98.3447052593, places=7)
 
-class Lightness1964TestCase(unittest.TestCase):
+class TestLightness1964(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.lightness_1964` definition units tests methods.
 	"""
@@ -249,7 +249,7 @@ class Lightness1964TestCase(unittest.TestCase):
 		self.assertAlmostEqual(color.lightness.lightness_1964(56.76), 79.0773031869, places=7)
 		self.assertAlmostEqual(color.lightness.lightness_1964(98.32), 98.3862250488, places=7)
 
-class Lightness1976TestCase(unittest.TestCase):
+class TestLightness1976(unittest.TestCase):
 	"""
 	Defines :func:`color.lightness.lightness_1976` definition units tests methods.
 	"""

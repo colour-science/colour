@@ -47,8 +47,8 @@ __status__ = "Production"
 
 __all__ = ["PLANCK_LAW_DATA",
 		   "BLACKBODY_SPD_DATA",
-		   "PlanckLawTestCase",
-		   "BlackbodySpectralPowerDistributionTestCase"]
+		   "TestPlanckLaw",
+		   "TestBlackbodySpectralPowerDistribution"]
 
 PLANCK_LAW_DATA = {1667: {10: 0.0,
 						  20: 1.4208346175621505e-165,
@@ -4522,7 +4522,7 @@ BLACKBODY_SPD_DATA = numpy.array([6.655174524134172851562500e+12,
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class PlanckLawTestCase(unittest.TestCase):
+class TestPlanckLaw(unittest.TestCase):
 	"""
 	Defines :func:`color.blackbody.planck_law` definition units tests methods.
 	"""
@@ -4538,7 +4538,7 @@ class PlanckLawTestCase(unittest.TestCase):
 												  radiance,
 												  decimal=7)
 
-class BlackbodySpectralPowerDistributionTestCase(unittest.TestCase):
+class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
 	"""
 	Defines :func:`color.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
 	"""

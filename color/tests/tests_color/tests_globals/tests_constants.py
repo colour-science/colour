@@ -43,12 +43,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["ConstantsTestCase"]
+__all__ = ["TestConstants"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class ConstantsTestCase(unittest.TestCase):
+class TestConstants(unittest.TestCase):
 	"""
 	Defines :class:`color.globals.constants.Constants` class units tests methods.
 	"""

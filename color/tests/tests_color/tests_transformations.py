@@ -51,29 +51,29 @@ __all__ = ["RELATIVE_SPD_DATA",
 		   "sRGB_TRANSFER_FUNCTION",
 		   "sRGB_INVERSE_TRANSFER_FUNCTION",
 		   "ACES_COLORCHECKER_2005",
-		   "Wavelength_to_XYZTestCase",
-		   "Spectral_to_XYZTestCase",
-		   "XYZ_to_xyYTestCase",
-		   "xyY_to_XYZTestCase",
-		   "xy_to_XYZTestCase",
-		   "XYZ_to_xyTestCase",
-		   "XYZ_to_RGBTestCase",
-		   "RGB_to_XYZTestCase",
-		   "xyY_to_RGBTestCase",
-		   "RGB_to_xyYTestCase",
-		   "XYZ_to_UVWTestCase",
-		   "UVW_to_XYZTestCase",
-		   "UVW_to_uvTestCase",
-		   "UVW_uv_to_xyTestCase",
-		   "XYZ_to_LuvTestCase",
-		   "Luv_to_XYZTestCase",
-		   "Luv_to_uvTestCase",
-		   "Luv_to_LCHuvTestCase",
-		   "LCHuv_to_LuvTestCase",
-		   "XYZ_to_LabTestCase",
-		   "Lab_to_XYZTestCase",
-		   "Lab_to_LCHabTestCase",
-		   "LCHab_to_LabTestCase"]
+		   "TestWavelength_to_XYZ",
+		   "TestSpectral_to_XYZ",
+		   "TestXYZ_to_xyY",
+		   "TestxyY_to_XYZ",
+		   "Testxy_to_XYZ",
+		   "TestXYZ_to_xy",
+		   "TestXYZ_to_RGB",
+		   "TestRGB_to_XYZ",
+		   "TestxyY_to_RGB",
+		   "TestRGB_to_xyY",
+		   "TestXYZ_to_UVW",
+		   "TestUVW_to_XYZ",
+		   "TestUVW_to_uv",
+		   "TestUVW_uv_to_xy",
+		   "TestXYZ_to_Luv",
+		   "TestLuv_to_XYZ",
+		   "TestLuv_to_uv",
+		   "TestLuv_to_LCHuv",
+		   "TestLCHuv_to_Luv",
+		   "TestXYZ_to_Lab",
+		   "TestLab_to_XYZ",
+		   "TestLab_to_LCHab",
+		   "TestLCHab_to_Lab"]
 
 RELATIVE_SPD_DATA = color.spectral.SpectralPowerDistribution("Custom", {340: 0.0000,
 																		345: 0.0000,
@@ -426,7 +426,7 @@ ACES_COLORCHECKER_2005 = [[[0.4316, 0.3777, 0.1008],
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Wavelength_to_XYZTestCase(unittest.TestCase):
+class TestWavelength_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.wavelength_to_XYZ` definition units tests methods.
 	"""
@@ -457,7 +457,7 @@ class Wavelength_to_XYZTestCase(unittest.TestCase):
 			numpy.matrix([0.4458068, 0.18187505, 0.]).reshape((3, 1)),
 			decimal=7)
 
-class Spectral_to_XYZTestCase(unittest.TestCase):
+class TestSpectral_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.spectral_to_XYZ` definition units tests methods.
 	"""
@@ -495,7 +495,7 @@ class Spectral_to_XYZTestCase(unittest.TestCase):
 			numpy.matrix([0.11578308, 0.0998745, 0.03953965]).reshape((3, 1)),
 			decimal=7)
 
-class XYZ_to_xyYTestCase(unittest.TestCase):
+class TestXYZ_to_xyY(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_xyY` definition units tests methods.
 	"""
@@ -520,7 +520,7 @@ class XYZ_to_xyYTestCase(unittest.TestCase):
 			numpy.matrix([0.34567, 0.35850, 0]).reshape((3, 1)),
 			decimal=7)
 
-class xyY_to_XYZTestCase(unittest.TestCase):
+class TestxyY_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.xyY_to_XYZ` definition units tests methods.
 	"""
@@ -551,7 +551,7 @@ class xyY_to_XYZTestCase(unittest.TestCase):
 						  0.]).reshape((3, 1)),
 			decimal=7)
 
-class xy_to_XYZTestCase(unittest.TestCase):
+class Testxy_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.xy_to_XYZ` definition units tests methods.
 	"""
@@ -585,7 +585,7 @@ class xy_to_XYZTestCase(unittest.TestCase):
 						  0.356]).reshape((3, 1)),
 			decimal=7)
 
-class XYZ_to_xyTestCase(unittest.TestCase):
+class TestXYZ_to_xy(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_xy` definition units tests methods.
 	"""
@@ -613,7 +613,7 @@ class XYZ_to_xyTestCase(unittest.TestCase):
 										  (0.4474327628361859, 0.4074979625101875),
 										  decimal=7)
 
-class XYZ_to_RGBTestCase(unittest.TestCase):
+class TestXYZ_to_RGB(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_RGB` definition units tests methods.
 	"""
@@ -655,7 +655,7 @@ class XYZ_to_RGBTestCase(unittest.TestCase):
 											  RGB,
 											  decimal=7)
 
-class RGB_to_XYZTestCase(unittest.TestCase):
+class TestRGB_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.RGB_to_XYZ` definition units tests methods.
 	"""
@@ -695,7 +695,7 @@ class RGB_to_XYZTestCase(unittest.TestCase):
 											  numpy.matrix(XYZ).reshape((3, 1)),
 											  decimal=7)
 
-class xyY_to_RGBTestCase(unittest.TestCase):
+class TestxyY_to_RGB(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.xyY_to_RGB` definition units tests methods.
 	"""
@@ -737,7 +737,7 @@ class xyY_to_RGBTestCase(unittest.TestCase):
 											  RGB,
 											  decimal=7)
 
-class RGB_to_xyYTestCase(unittest.TestCase):
+class TestRGB_to_xyY(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.RGB_to_xyY` definition units tests methods.
 	"""
@@ -777,7 +777,7 @@ class RGB_to_xyYTestCase(unittest.TestCase):
 											  numpy.matrix(xyY).reshape((3, 1)),
 											  decimal=7)
 
-class XYZ_to_UVWTestCase(unittest.TestCase):
+class TestXYZ_to_UVW(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_UVW` definition units tests methods.
 	"""
@@ -802,7 +802,7 @@ class XYZ_to_UVWTestCase(unittest.TestCase):
 			numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1)),
 			decimal=7)
 
-class UVW_to_XYZTestCase(unittest.TestCase):
+class TestUVW_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.UVW_to_XYZ` definition units tests methods.
 	"""
@@ -827,7 +827,7 @@ class UVW_to_XYZTestCase(unittest.TestCase):
 			numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1)),
 			decimal=7)
 
-class UVW_to_uvTestCase(unittest.TestCase):
+class TestUVW_to_uv(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.UVW_to_uv` definition units tests methods.
 	"""
@@ -852,7 +852,7 @@ class UVW_to_uvTestCase(unittest.TestCase):
 			(0.20048615319251942, 0.31032692311386395),
 			decimal=7)
 
-class UVW_uv_to_xyTestCase(unittest.TestCase):
+class TestUVW_uv_to_xy(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.UVW_uv_to_xy` definition units tests methods.
 	"""
@@ -876,7 +876,7 @@ class UVW_uv_to_xyTestCase(unittest.TestCase):
 			(0.4474327628361858, 0.40749796251018744),
 			decimal=7)
 
-class XYZ_to_LuvTestCase(unittest.TestCase):
+class TestXYZ_to_Luv(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_Luv` definition units tests methods.
 	"""
@@ -925,7 +925,7 @@ class XYZ_to_LuvTestCase(unittest.TestCase):
 										  numpy.matrix([100., -21.44928374, -85.33481874]).reshape((3, 1)),
 										  decimal=7)
 
-class Luv_to_XYZTestCase(unittest.TestCase):
+class TestLuv_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Luv_to_XYZ` definition units tests methods.
 	"""
@@ -977,7 +977,7 @@ class Luv_to_XYZTestCase(unittest.TestCase):
 										  numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
 										  decimal=7)
 
-class Luv_to_uvTestCase(unittest.TestCase):
+class TestLuv_to_uv(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Luv_to_uv` definition units tests methods.
 	"""
@@ -1027,7 +1027,7 @@ class Luv_to_uvTestCase(unittest.TestCase):
 										  (0.1813300004870092, 0.4026899999798475),
 										  decimal=7)
 
-class Luv_to_LCHuvTestCase(unittest.TestCase):
+class TestLuv_to_LCHuv(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Luv_to_LCHuv` definition units tests methods.
 	"""
@@ -1058,7 +1058,7 @@ class Luv_to_LCHuvTestCase(unittest.TestCase):
 										  numpy.matrix([100., 116.74777618, 251.94795555]).reshape((3, 1)),
 										  decimal=7)
 
-class LCHuv_to_LuvTestCase(unittest.TestCase):
+class TestLCHuv_to_Luv(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.LCHuv_to_Luv` definition units tests methods.
 	"""
@@ -1089,7 +1089,7 @@ class LCHuv_to_LuvTestCase(unittest.TestCase):
 										  numpy.matrix([100., -36.17788915, -111.00091702]).reshape((3, 1)),
 										  decimal=7)
 
-class Luv_uv_to_xyTestCase(unittest.TestCase):
+class TestLuv_uv_to_xy(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Luv_uv_to_xy` definition units tests methods.
 	"""
@@ -1113,7 +1113,7 @@ class Luv_uv_to_xyTestCase(unittest.TestCase):
 										  (0.2455958975694641, 0.2424039944946324),
 										  decimal=7)
 
-class XYZ_to_LabTestCase(unittest.TestCase):
+class TestXYZ_to_Lab(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.XYZ_to_Lab` definition units tests methods.
 	"""
@@ -1162,7 +1162,7 @@ class XYZ_to_LabTestCase(unittest.TestCase):
 										  numpy.matrix([100., 10.76832763, -49.42733157]).reshape((3, 1)),
 										  decimal=7)
 
-class Lab_to_XYZTestCase(unittest.TestCase):
+class TestLab_to_XYZ(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Lab_to_XYZ` definition units tests methods.
 	"""
@@ -1215,7 +1215,7 @@ class Lab_to_XYZTestCase(unittest.TestCase):
 										  numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
 										  decimal=7)
 
-class Lab_to_LCHabTestCase(unittest.TestCase):
+class TestLab_to_LCHab(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.Lab_to_LCHab` definition units tests methods.
 	"""
@@ -1246,7 +1246,7 @@ class Lab_to_LCHabTestCase(unittest.TestCase):
 										  numpy.matrix([100., 74.05216981, 276.45318193]).reshape((3, 1)),
 										  decimal=7)
 
-class LCHab_to_LabTestCase(unittest.TestCase):
+class TestLCHab_to_Lab(unittest.TestCase):
 	"""
 	Defines :func:`color.transformations.LCHab_to_Lab` definition units tests methods.
 	"""

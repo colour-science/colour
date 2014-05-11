@@ -54,11 +54,11 @@ __all__ = ["SAMPLE_SPD_DATA",
 		   "SPARSE_SAMPLE_SPD_DATA",
 		   "STANDARD_CIE_1931_2_DEGREE_OBSERVER",
 		   "CMFS_DATA",
-		   "SpectralDistributionTestCase",
-		   "AbstractColorMatchingFunctionsTestCase",
-		   "RGB_ColorMatchingFunctionsTestCase",
-		   "XYZ_ColorMatchingFunctionsTestCase",
-           "D_illuminantRelativeSpectralPowerDistributionTestCase"]
+		   "TestSpectralDistribution",
+		   "TestAbstractColorMatchingFunctions",
+		   "TestRGB_ColorMatchingFunctions",
+		   "TestXYZ_ColorMatchingFunctions",
+           "TestD_illuminantRelativeSpectralPowerDistribution"]
 
 SAMPLE_SPD_DATA = {340: 0.0000,
 				   360: 0.0000,
@@ -1435,7 +1435,7 @@ D60_SPD_DATA = {300: 0.029370758174922885,
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class SpectralDistributionTestCase(unittest.TestCase):
+class TestSpectralDistribution(unittest.TestCase):
 	"""
 	Defines :class:`color.spectral.SpectralDistribution` class units tests methods.
 	"""
@@ -1568,7 +1568,7 @@ class SpectralDistributionTestCase(unittest.TestCase):
 		numpy.testing.assert_almost_equal(spd.resparse(steps=1).values,
 										  SPARSE_SAMPLE_SPD_DATA)
 
-class AbstractColorMatchingFunctionsTestCase(unittest.TestCase):
+class TestAbstractColorMatchingFunctions(unittest.TestCase):
 	"""
 	Defines :class:`color.spectral.AbstractColorMatchingFunctions` class units tests methods.
 	"""
@@ -1790,7 +1790,7 @@ class AbstractColorMatchingFunctionsTestCase(unittest.TestCase):
 		for i in mapping.iterkeys():
 			numpy.testing.assert_almost_equal(getattr(cmfs, i).values, SPARSE_SAMPLE_SPD_DATA)
 
-class RGB_ColorMatchingFunctionsTestCase(unittest.TestCase):
+class TestRGB_ColorMatchingFunctions(unittest.TestCase):
 	"""
 	Defines :class:`color.spectral.RGB_ColorMatchingFunctions` class units tests methods.
 	"""
@@ -1829,7 +1829,7 @@ class RGB_ColorMatchingFunctionsTestCase(unittest.TestCase):
 		for method in required_methods:
 			self.assertIn(method, dir(RGB_ColorMatchingFunctions))
 
-class XYZ_ColorMatchingFunctionsTestCase(unittest.TestCase):
+class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
 	"""
 	Defines :class:`color.spectral.XYZ_ColorMatchingFunctions` class units tests methods.
 	"""
@@ -1868,7 +1868,7 @@ class XYZ_ColorMatchingFunctionsTestCase(unittest.TestCase):
 		for method in required_methods:
 			self.assertIn(method, dir(XYZ_ColorMatchingFunctions))
 
-class D_illuminantRelativeSpectralPowerDistributionTestCase(unittest.TestCase):
+class TestD_illuminantRelativeSpectralPowerDistribution(unittest.TestCase):
 	"""
 	Defines :func:`color.spectral.D_illuminant_relative_spectral_power_distribution` definition units tests methods.
 	"""

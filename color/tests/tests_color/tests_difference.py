@@ -45,15 +45,15 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Delta_E_CIE_1976TestCase",
-		   "Delta_E_CIE_1994TestCase",
-		   "Delta_E_CIE_2000TestCase",
-		   "Delta_E_CMCTestCase"]
+__all__ = ["TestDelta_E_CIE_1976",
+		   "TestDelta_E_CIE_1994",
+		   "TestDelta_E_CIE_2000",
+		   "TestDelta_E_CMC"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Delta_E_CIE_1976TestCase(unittest.TestCase):
+class TestDelta_E_CIE_1976(unittest.TestCase):
 	"""
 	Defines :func:`color.difference.delta_E_CIE_1976` definition units tests methods.
 	"""
@@ -81,7 +81,7 @@ class Delta_E_CIE_1976TestCase(unittest.TestCase):
 			346.064891718,
 			places=7)
 
-class Delta_E_CIE_1994TestCase(unittest.TestCase):
+class TestDelta_E_CIE_1994(unittest.TestCase):
 	"""
 	Defines :func:`color.difference.delta_E_CIE_1994` definition units tests methods.
 	"""
@@ -130,7 +130,7 @@ class Delta_E_CIE_1994TestCase(unittest.TestCase):
 			57.5354537067,
 			places=7)
 
-class Delta_E_CIE_2000TestCase(unittest.TestCase):
+class TestDelta_E_CIE_2000(unittest.TestCase):
 	"""
 	Defines :func:`color.difference.delta_E_CIE_2000` definition units tests methods.
 	"""
@@ -158,7 +158,7 @@ class Delta_E_CIE_2000TestCase(unittest.TestCase):
 			68.2309487895,
 			places=7)
 
-class Delta_E_CMCTestCase(unittest.TestCase):
+class TestDelta_E_CMC(unittest.TestCase):
 	"""
 	Defines :func:`color.difference.delta_E_CMC` definition units tests methods.
 	"""

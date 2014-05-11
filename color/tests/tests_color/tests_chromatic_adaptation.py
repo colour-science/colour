@@ -45,12 +45,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["GetChromaticAdaptationMatrixTestCase"]
+__all__ = ["TestGetChromaticAdaptationMatrix"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class GetChromaticAdaptationMatrixTestCase(unittest.TestCase):
+class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 	"""
 	Defines :func:`color.chromatic_adaptation.get_chromatic_adaptation_matrix` definition units tests methods.
 	"""

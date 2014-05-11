@@ -46,12 +46,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["GetPlanckianTableTestCase",
-		   "GetPlanckianTableMinimalDistanceIndexTestCase",
-		   "uv_to_cct_ohnoTestCase",
-		   "cct_to_uv_ohnoTestCase",
-		   "uv_to_cct_robertsonTestCase",
-		   "cct_to_uv_robertsonTestCase"]
+__all__ = ["TestGetPlanckianTable",
+		   "TestGetPlanckianTableMinimalDistanceIndex",
+		   "Testuv_to_cct_ohno",
+		   "Testcct_to_uv_ohno",
+		   "Testuv_to_cct_robertson",
+		   "Testcct_to_uv_robertson"]
 
 PLANCKIAN_TABLE = [color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44800695592713469,
 														  vi=0.35462532232761207, di=0.2537783063402483),
@@ -178,7 +178,7 @@ TEMPERATURE_DUV_TO_UV = {(2000, -0.05): (0.3094482846381184, 0.309263824757947),
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class GetPlanckianTableTestCase(unittest.TestCase):
+class TestGetPlanckianTable(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.get_planckian_table` definition units tests methods.
 	"""
@@ -194,7 +194,7 @@ class GetPlanckianTableTestCase(unittest.TestCase):
 			map(toList, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
 			map(toList, PLANCKIAN_TABLE))
 
-class GetPlanckianTableMinimalDistanceIndexTestCase(unittest.TestCase):
+class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.get_planckian_table_minimal_distance_index` definition units tests methods.
 	"""
@@ -209,7 +209,7 @@ class GetPlanckianTableMinimalDistanceIndexTestCase(unittest.TestCase):
 			color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
 						 9)
 
-class uv_to_cct_ohnoTestCase(unittest.TestCase):
+class Testuv_to_cct_ohno(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.uv_to_cct_ohno` definition units tests methods.
 	"""
@@ -230,7 +230,7 @@ class uv_to_cct_ohnoTestCase(unittest.TestCase):
 										  (2452.1523812904848, -0.084369988398089582),
 										  decimal=7)
 
-class cct_to_uv_ohnoTestCase(unittest.TestCase):
+class Testcct_to_uv_ohno(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.cct_to_uv_ohno` definition units tests methods.
 	"""
@@ -254,7 +254,7 @@ class cct_to_uv_ohnoTestCase(unittest.TestCase):
 			(0.29256486, 0.27221745),
 			decimal=7)
 
-class uv_to_cct_robertsonTestCase(unittest.TestCase):
+class Testuv_to_cct_robertson(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.uv_to_cct_robertson` definition units tests methods.
 	"""
@@ -267,7 +267,7 @@ class uv_to_cct_robertsonTestCase(unittest.TestCase):
 		for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
 			numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_robertson(value), key, decimal=0)
 
-class cct_to_uv_robertsonTestCase(unittest.TestCase):
+class Testcct_to_uv_robertson(unittest.TestCase):
 	"""
 	Defines :func:`color.temperature.cct_to_uv_robertson` definition units tests methods.
 	"""

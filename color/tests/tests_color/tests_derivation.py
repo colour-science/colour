@@ -46,13 +46,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["xy_to_zTestCase",
-		   "GetNormalizedPrimaryMatrixTestCase"]
+__all__ = ["Testxy_to_z",
+		   "TestGetNormalizedPrimaryMatrix"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class xy_to_zTestCase(unittest.TestCase):
+class Testxy_to_z(unittest.TestCase):
 	"""
 	Defines :func:`color.derivation.xy_to_z` definition units tests methods.
 	"""
@@ -74,7 +74,7 @@ class xy_to_zTestCase(unittest.TestCase):
 										  0.00000,
 										  decimal=7)
 
-class GetNormalizedPrimaryMatrixTestCase(unittest.TestCase):
+class TestGetNormalizedPrimaryMatrix(unittest.TestCase):
 	"""
 	Defines :func:`color.derivation.get_normalized_primary_matrix` definition units tests methods.
 	"""
