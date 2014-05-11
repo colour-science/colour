@@ -58,6 +58,7 @@ DEFAULT_ARGUMENTS_VALUES = {"x": 0.5,
                             "Source XYZ Matrix": (0.5, 0.5, 0.5),
                             "Target XYZ Matrix": (0.5, 0.5, 0.5), }
 
+
 class ManualAction(argparse.Action):
     """
     Handles conversion of '-m/--manual' argument in order to provide detailed manual with usage examples.
@@ -209,6 +210,7 @@ EXAMPLES
 
         sys.exit(0)
 
+
 class ParseListAction(argparse.Action):
     """
     Handles conversion of various arguments in order to convert strings to lists.
@@ -229,6 +231,7 @@ class ParseListAction(argparse.Action):
         """
 
         setattr(namespace, self.dest, ast.literal_eval(values))
+
 
 def system_exit(object):
     """
@@ -259,6 +262,7 @@ def system_exit(object):
             sys.exit(1)
 
     return system_exit_wrapper
+
 
 def commands(args):
     """
@@ -344,7 +348,8 @@ def commands(args):
         if not verbose:
             pprint.pprint(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
         else:
-            LOGGER.info("(Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinates 'u', CIE 1960 Chromaticity Coordinates 'v', Slope)")
+            LOGGER.info(
+                "(Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinates 'u', CIE 1960 Chromaticity Coordinates 'v', Slope)")
             pprint.pformat(color.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
 
     if verbose:
@@ -352,6 +357,7 @@ def commands(args):
         LOGGER.info(Constants.logging_separators)
 
     return True
+
 
 def get_command_line_arguments():
     """
@@ -473,6 +479,7 @@ def get_command_line_arguments():
 
     return parser.parse_args()
 
+
 @system_exit
 def main():
     """
@@ -483,6 +490,7 @@ def main():
     """
 
     return commands(get_command_line_arguments())
+
 
 if __name__ == "__main__":
     main()

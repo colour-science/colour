@@ -31,6 +31,7 @@ __all__ = ["LOGGER", "is_identity", "linear_interpolate_matrices"]
 
 LOGGER = color.verbose.install_logger()
 
+
 def is_identity(matrix, n=3):
     """
     Returns if given matrix is an identity matrix.
@@ -51,6 +52,7 @@ def is_identity(matrix, n=3):
     """
 
     return numpy.array_equal(numpy.identity(n), matrix)
+
 
 def linear_interpolate_matrices(a, b, matrix_1, matrix_2, c):
     """
@@ -92,4 +94,5 @@ def linear_interpolate_matrices(a, b, matrix_1, matrix_2, c):
     # TODO: Investigate numpy implementation issues when c < a or c > b.
     # return numpy.matrix([numpy.interp(c, (a, b), zip(matrix_1, matrix_2)[i]) for i in range(length)]).reshape(shape)
 
-    return numpy.matrix([matrix_1[i] + (c - a) * ((matrix_2[i] - matrix_1[i]) / (b - a)) for i in range(length)]).reshape(shape)
+    return numpy.matrix(
+        [matrix_1[i] + (c - a) * ((matrix_2[i] - matrix_1[i]) / (b - a)) for i in range(length)]).reshape(shape)

@@ -33,6 +33,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
+
 def xy_to_z(xy):
     """
     Returns the *z* coordinate using given *chromaticity coordinates*.
@@ -51,6 +52,7 @@ def xy_to_z(xy):
     """
 
     return 1 - xy[0] - xy[1]
+
 
 def get_normalized_primary_matrix(primaries, whitepoint):
     """

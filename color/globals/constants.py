@@ -25,6 +25,7 @@ __status__ = "Production"
 
 __all__ = ["Constants"]
 
+
 class Constants():
     """
     Defines **Color** package default constants.

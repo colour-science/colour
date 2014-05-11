@@ -17,6 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
@@ -33,6 +34,7 @@ __status__ = "Production"
 
 __all__ = ["TestConstants"]
 
+
 class TestConstants(unittest.TestCase):
     """
     Defines :class:`color.globals.constants.Constants` class units tests methods.
@@ -44,17 +46,17 @@ class TestConstants(unittest.TestCase):
         """
 
         required_attributes = ("application_name",
-                                "major_version",
-                                "minor_version",
-                                "change_version",
-                                "version",
-                                "logger",
-                                "verbosity_level",
-                                "verbosity_labels",
-                                "logging_default_formatter",
-                                "logging_separators",
-                                "default_codec",
-                                "codec_error")
+                               "major_version",
+                               "minor_version",
+                               "change_version",
+                               "version",
+                               "logger",
+                               "verbosity_level",
+                               "verbosity_labels",
+                               "logging_default_formatter",
+                               "logging_separators",
+                               "default_codec",
+                               "codec_error")
 
         for attribute in required_attributes:
             self.assertIn(attribute, Constants.__dict__)
@@ -139,8 +141,8 @@ class TestConstants(unittest.TestCase):
         """
 
         valid_encodings = ("ascii",
-                        "utf-8",
-                        "cp1252")
+                           "utf-8",
+                           "cp1252")
 
         self.assertIn(Constants.default_codec, valid_encodings)
 
@@ -150,11 +152,12 @@ class TestConstants(unittest.TestCase):
         """
 
         valid_encodings = ("strict",
-                        "ignore",
-                        "replace",
-                        "xmlcharrefreplace")
+                           "ignore",
+                           "replace",
+                           "xmlcharrefreplace")
 
         self.assertIn(Constants.codec_error, valid_encodings)
+
 
 if __name__ == "__main__":
     unittest.main()

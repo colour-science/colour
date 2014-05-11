@@ -63,6 +63,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
+
 def wavelength_to_XYZ(wavelength, cmfs):
     """
     Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
@@ -101,6 +102,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
     rightXYZ = numpy.matrix(cmfs.get(right)).reshape((3, 1))
 
     return color.matrix.linear_interpolate_matrices(left, right, leftXYZ, rightXYZ, wavelength)
+
 
 def spectral_to_XYZ(spd,
                     cmfs,
@@ -167,6 +169,7 @@ def spectral_to_XYZ(spd,
 
     return XYZ.reshape((3, 1))
 
+
 def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE xyY* colorspace using given matrix and reference *illuminant*.
@@ -195,6 +198,7 @@ def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     else:
         return numpy.matrix([X / (X + Y + Z), Y / (X + Y + Z), Y]).reshape((3, 1))
 
+
 def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colorspace to *CIE XYZ* colorspace using given matrix.
@@ -221,6 +225,7 @@ def xyY_to_XYZ(xyY):
     else:
         return numpy.matrix([x * Y / y, Y, (1. - x - y) * Y / y]).reshape((3, 1))
 
+
 def xy_to_XYZ(xy):
     """
     Returns the *CIE XYZ* matrix from given *xy* chromaticity coordinates.
@@ -239,6 +244,7 @@ def xy_to_XYZ(xy):
     """
 
     return xyY_to_XYZ(numpy.matrix([xy[0], xy[1], 1.]).reshape((3, 1)))
+
 
 def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
@@ -261,6 +267,7 @@ def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 19
 
     xyY = numpy.ravel(XYZ_to_xyY(XYZ, illuminant))
     return xyY[0], xyY[1]
+
 
 def XYZ_to_RGB(XYZ,
                illuminant_XYZ,
@@ -318,6 +325,7 @@ def XYZ_to_RGB(XYZ,
 
     return RGB
 
+
 def RGB_to_XYZ(RGB,
                illuminant_RGB,
                illuminant_XYZ,
@@ -374,6 +382,7 @@ def RGB_to_XYZ(RGB,
 
     return adaptedXYZ
 
+
 def xyY_to_RGB(xyY,
                illuminant_xyY,
                illuminant_RGB,
@@ -418,6 +427,7 @@ def xyY_to_RGB(xyY,
                       chromatic_adaptation_method,
                       from_XYZ,
                       transfer_function)
+
 
 def RGB_to_xyY(RGB,
                illuminant_RGB,
@@ -464,6 +474,7 @@ def RGB_to_xyY(RGB,
                                  to_XYZ,
                                  inverse_transfer_function))
 
+
 def XYZ_to_UVW(XYZ):
     """
     Converts from *CIE XYZ* colorspace to *CIE UVW* colorspace using given matrix.
@@ -486,6 +497,7 @@ def XYZ_to_UVW(XYZ):
     X, Y, Z = numpy.ravel(XYZ)
 
     return numpy.matrix([2. / 3. * X, Y, 1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
+
 
 def UVW_to_XYZ(UVW):
     """
@@ -510,6 +522,7 @@ def UVW_to_XYZ(UVW):
 
     return numpy.matrix([3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
 
+
 def UVW_to_uv(UVW):
     """
     Returns the *uv* chromaticity coordinates from given *CIE UVW* matrix.
@@ -531,6 +544,7 @@ def UVW_to_uv(UVW):
 
     return U / (U + V + W), V / (U + V + W)
 
+
 def UVW_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE UVW* colorspace *uv* chromaticity coordinates.
@@ -549,6 +563,7 @@ def UVW_uv_to_xy(uv):
     """
 
     return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), 2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)
+
 
 def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
@@ -581,6 +596,7 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
 
     return numpy.matrix([L, u, v]).reshape((3, 1))
+
 
 def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
@@ -618,6 +634,7 @@ def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
     return numpy.matrix([X, Y, Z]).reshape((3, 1))
 
+
 def Luv_to_uv(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* matrix.
@@ -641,6 +658,7 @@ def Luv_to_uv(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 19
 
     return 4. * X / (X + 15. * Y + 3. * Z), 9. * Y / (X + 15. * Y + 3. * Z)
 
+
 def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colorspace *u'v'* chromaticity coordinates.
@@ -659,6 +677,7 @@ def Luv_uv_to_xy(uv):
     """
 
     return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (6. * uv[0] - 16. * uv[1] + 12.)
+
 
 def Luv_to_LCHuv(Luv):
     """
@@ -687,6 +706,7 @@ def Luv_to_LCHuv(Luv):
 
     return numpy.matrix([L, math.sqrt(u ** 2 + v ** 2), H]).reshape((3, 1))
 
+
 def LCHuv_to_Luv(LCHuv):
     """
     Converts from *CIE LCHuv* colorspace to *CIE Luv* colorspace using given matrix.
@@ -709,6 +729,7 @@ def LCHuv_to_Luv(LCHuv):
     L, C, H = numpy.ravel(LCHuv)
 
     return numpy.matrix([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
+
 
 def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
@@ -748,6 +769,7 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
     return numpy.matrix([L, a, b]).reshape((3, 1))
 
+
 def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
     Converts from *CIE Lab* colorspace to *CIE XYZ* colorspace using given matrix.
@@ -786,6 +808,7 @@ def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
     return numpy.matrix([X, Y, Z]).reshape((3, 1))
 
+
 def Lab_to_LCHab(Lab):
     """
     Converts from *CIE Lab* colorspace to *CIE LCHab* colorspace using given matrix.
@@ -812,6 +835,7 @@ def Lab_to_LCHab(Lab):
         H += 360.
 
     return numpy.matrix([L, math.sqrt(a ** 2 + b ** 2), H]).reshape((3, 1))
+
 
 def LCHab_to_Lab(LCHab):
     """

@@ -54,6 +54,7 @@ S_LOG_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(S_LOG_PRIMA
 
 XYZ_TO_S_LOG_MATRIX = S_LOG_TO_XYZ_MATRIX.getI()
 
+
 def __s_log_transfer_function(RGB):
     """
     Defines the *S-Log* colorspace transfer function.
@@ -67,6 +68,7 @@ def __s_log_transfer_function(RGB):
     RGB = map(lambda x: (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __s_log_inverse_transfer_function(RGB):
     """
     Defines the *S-Log* colorspace inverse transfer function.
@@ -79,6 +81,7 @@ def __s_log_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: (math.pow(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 S_LOG_TRANSFER_FUNCTION = __s_log_transfer_function
 

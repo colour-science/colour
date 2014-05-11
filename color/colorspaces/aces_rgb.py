@@ -49,7 +49,8 @@ ACES_RGB_PRIMARIES = numpy.matrix([0.73470, 0.26530,
 
 ACES_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D60")
 
-# https://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf: 4.1.4 Converting ACES RGB values to CIE XYZ values
+# https://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
+# 4.1.4 Converting ACES RGB values to CIE XYZ values
 ACES_RGB_TO_XYZ_MATRIX = numpy.matrix([9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
                                        3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
                                        0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3))

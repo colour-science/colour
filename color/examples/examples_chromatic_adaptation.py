@@ -23,5 +23,5 @@ A_illuminant = color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["A"]
 D60_illuminant = color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D60"]
 
 print(color.get_chromatic_adaptation_matrix(color.xy_to_XYZ(A_illuminant),
-                                         color.xy_to_XYZ(D60_illuminant),
-                                         method="Von Kries"))
+                                            color.xy_to_XYZ(D60_illuminant),
+                                            method="Von Kries"))

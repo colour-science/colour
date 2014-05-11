@@ -100,6 +100,7 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 # Defining an alternative font that can display scientific notations.
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
 
+
 def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
     """
     Converts from *CIE XYZ* colorspace to *sRGB* colorspace.
@@ -118,6 +119,7 @@ def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
                                             "CAT02",
                                             color.colorspaces.sRGB_COLORSPACE.from_XYZ,
                                             color.colorspaces.sRGB_COLORSPACE.transfer_function)
+
 
 def figure_size(size=DEFAULT_FIGURE_SIZE):
     """
@@ -164,6 +166,7 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
 
     return figure_size_decorator
 
+
 def aspect(**kwargs):
     """
     Sets the figure aspect.
@@ -175,20 +178,20 @@ def aspect(**kwargs):
     """
 
     settings = color.data_structures.Structure(**{"title": None,
-                                                 "x_label": None,
-                                                 "y_label": None,
-                                                 "legend": False,
-                                                 "legend_location": "upper right",
-                                                 "x_ticker": False,
-                                                 "y_ticker": False,
-                                                 "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-                                                 "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-                                                 "no_ticks": False,
-                                                 "grid": False,
-                                                 "axis_grid": "both",
-                                                 "x_axis_line": False,
-                                                 "y_axis_line": False,
-                                                 "aspect": None})
+                                                  "x_label": None,
+                                                  "y_label": None,
+                                                  "legend": False,
+                                                  "legend_location": "upper right",
+                                                  "x_ticker": False,
+                                                  "y_ticker": False,
+                                                  "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+                                                  "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+                                                  "no_ticks": False,
+                                                  "grid": False,
+                                                  "axis_grid": "both",
+                                                  "x_axis_line": False,
+                                                  "y_axis_line": False,
+                                                  "aspect": None})
     settings.update(kwargs)
 
     settings.title and pylab.title(settings.title)
@@ -207,6 +210,7 @@ def aspect(**kwargs):
 
     return True
 
+
 def bounding_box(**kwargs):
     """
     Sets the plot bounding box.
@@ -218,10 +222,10 @@ def bounding_box(**kwargs):
     """
 
     settings = color.data_structures.Structure(**{"bounding_box": None,
-                                                 "x_tighten": False,
-                                                 "y_tighten": False,
-                                                 "limits": [0., 1., 0., 1.],
-                                                 "margins": [0., 0., 0., 0.]})
+                                                  "x_tighten": False,
+                                                  "y_tighten": False,
+                                                  "limits": [0., 1., 0., 1.],
+                                                  "margins": [0., 0., 0., 0.]})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -235,6 +239,7 @@ def bounding_box(**kwargs):
 
     return True
 
+
 def display(**kwargs):
     """
     Sets the figure display.
@@ -246,7 +251,7 @@ def display(**kwargs):
     """
 
     settings = color.data_structures.Structure(**{"standalone": True,
-                                                 "filename": None})
+                                                  "filename": None})
     settings.update(kwargs)
 
     if settings.standalone:
@@ -257,6 +262,7 @@ def display(**kwargs):
         pylab.close()
 
     return True
+
 
 def color_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
     """
@@ -278,10 +284,11 @@ def color_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
 
     return COLOR_PARAMETER(name, RGB, x, y0, y1)
 
+
 def color_parameters_plot(color_parameters,
-                        y0_plot=True,
-                        y1_plot=True,
-                        **kwargs):
+                          y0_plot=True,
+                          y1_plot=True,
+                          **kwargs):
     """
     Plots given color color_parameters.
 
@@ -319,17 +326,19 @@ def color_parameters_plot(color_parameters,
         pylab.fill(x_polygon, y_polygon, color=color_parameters[i].RGB, edgecolor=color_parameters[i].RGB)
 
     if all(map(lambda x: x.y0 is not None, color_parameters)):
-        y0_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y0, color_parameters), color="black",
-                              linewidth=2.)
+        y0_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y0, color_parameters),
+                               color="black",
+                               linewidth=2.)
 
     if all(map(lambda x: x.y1 is not None, color_parameters)):
-        y1_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y1, color_parameters), color="black",
-                              linewidth=2.)
+        y1_plot and pylab.plot(map(lambda x: x.x, color_parameters), map(lambda x: x.y1, color_parameters),
+                               color="black",
+                               linewidth=2.)
 
     y_limit_min0, y_limit_max0 = min(map(lambda x: 0. if x.y0 is None else x.y0, color_parameters)), \
-                             max(map(lambda x: 1. if x.y0 is None else x.y0, color_parameters))
+                                 max(map(lambda x: 1. if x.y0 is None else x.y0, color_parameters))
     y_limit_min1, y_limit_max1 = min(map(lambda x: 0. if x.y1 is None else x.y1, color_parameters)), \
-                             max(map(lambda x: 1. if x.y1 is None else x.y1, color_parameters))
+                                 max(map(lambda x: 1. if x.y1 is None else x.y1, color_parameters))
 
     settings = {"x_label": "Parameter",
                 "y_label": "Color",
@@ -344,8 +353,9 @@ def color_parameters_plot(color_parameters,
 
     return display(**settings)
 
+
 def single_color_plot(color_parameter,
-                    **kwargs):
+                      **kwargs):
     """
     Plots given color.
 
@@ -364,15 +374,16 @@ def single_color_plot(color_parameter,
 
     return multi_color_plot([color_parameter], **kwargs)
 
+
 def multi_color_plot(color_parameters,
-                   width=1.,
-                   height=1.,
-                   spacing=0.,
-                   across=3,
-                   text_display=True,
-                   text_size="large",
-                   text_offset=0.075,
-                   **kwargs):
+                     width=1.,
+                     height=1.,
+                     spacing=0.,
+                     across=3,
+                     text_display=True,
+                     text_size="large",
+                     text_offset=0.075,
+                     **kwargs):
     """
     Plots given colors.
 
@@ -441,8 +452,9 @@ def multi_color_plot(color_parameters,
 
     return display(**settings)
 
+
 def color_checker_plot(color_checker="ColorChecker 2005",
-                     **kwargs):
+                       **kwargs):
     """
     Plots given color checker.
 
@@ -510,10 +522,11 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
     return display(**settings)
 
+
 def single_spectral_power_distribution_plot(spd,
-                                        cmfs=color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                            "Standard CIE 1931 2 Degree Observer"),
-                                        **kwargs):
+                                            cmfs=color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
+                                                "Standard CIE 1931 2 Degree Observer"),
+                                            **kwargs):
     """
     Plots given spectral power distribution.
 
@@ -557,11 +570,13 @@ def single_spectral_power_distribution_plot(spd,
                 "y_ticker": True}
 
     settings.update(kwargs)
-    return color_parameters_plot(map(lambda x: color_parameter(x=x[0], y1=x[1], RGB=x[2]), zip(wavelengths, y1, colors)),
-                               **settings)
+    return color_parameters_plot(
+        map(lambda x: color_parameter(x=x[0], y1=x[1], RGB=x[2]), zip(wavelengths, y1, colors)),
+        **settings)
+
 
 def multi_spectral_power_distribution_plot(spds,
-                                       **kwargs):
+                                           **kwargs):
     """
     Plots given spectral power distributions.
 
@@ -607,6 +622,7 @@ def multi_spectral_power_distribution_plot(spds,
 
     return display(**settings)
 
+
 def single_color_matching_functions_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
     """
     Plots given standard observer *CIE XYZ* color matching functions.
@@ -629,9 +645,10 @@ def single_color_matching_functions_plot(cmfs="Standard CIE 1931 2 Degree Observ
 
     return multi_color_matching_functions_plot([cmfs], **settings)
 
+
 def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Observer",
-                                           "Standard CIE 1964 10 Degree Observer"],
-                                    **kwargs):
+                                               "Standard CIE 1964 10 Degree Observer"],
+                                        **kwargs):
     """
     Plots given standard observers *CIE XYZ* color matching functions.
 
@@ -691,6 +708,7 @@ def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Obser
 
     return display(**settings)
 
+
 def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
@@ -732,6 +750,7 @@ def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 
 
     return single_spectral_power_distribution_plot(illuminant, **settings)
 
+
 def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
@@ -765,6 +784,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs)
     settings.update(kwargs)
 
     return multi_spectral_power_distribution_plot(spds, **settings)
+
 
 def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
     """
@@ -811,11 +831,12 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 
     return color_parameters_plot(map(lambda x: color_parameter(x=x[0], RGB=x[1]), zip(wavelengths, colors)), **settings)
 
+
 @figure_size((32, 32))
 def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
-                                           spacing=0.00075,
-                                           cmfs="Standard CIE 1931 2 Degree Observer",
-                                           **kwargs):
+                                              spacing=0.00075,
+                                              cmfs="Standard CIE 1931 2 Degree Observer",
+                                              **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram* colors.
 
@@ -878,6 +899,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
     aspect(**settings)
 
     return display(**settings)
+
 
 @figure_size((8, 8))
 def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
@@ -964,10 +986,11 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer
 
     return display(**settings)
 
+
 @figure_size((8, 8))
 def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RGB", "Pointer Gamut"],
-                                                 cmfs="Standard CIE 1931 2 Degree Observer",
-                                                 **kwargs):
+                                                   cmfs="Standard CIE 1931 2 Degree Observer",
+                                                   **kwargs):
     """
     Plots given colorspaces in *CIE 1931 Chromaticity Diagram*.
 
@@ -1048,9 +1071,10 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
 
     return display(**settings)
 
+
 @figure_size((8, 8))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E"],
-                                                    **kwargs):
+                                                       **kwargs):
     """
     Plots the planckian locus and given illuminants in *CIE 1931 Chromaticity Diagram*.
 
@@ -1070,10 +1094,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
     cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
 
     settings = {
-    "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
-        ", ".join(
-            illuminants)) if illuminants else "Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
-    "standalone": False}
+        "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
+            ", ".join(
+                illuminants)) if illuminants else "Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
+        "standalone": False}
     settings.update(kwargs)
 
     if not CIE_1931_chromaticity_diagram_plot(**settings):
@@ -1116,11 +1140,12 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
 
     return display(**settings)
 
+
 @figure_size((32, 32))
 def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
-                                               spacing=0.00075,
-                                               cmfs="Standard CIE 1931 2 Degree Observer",
-                                               **kwargs):
+                                                  spacing=0.00075,
+                                                  cmfs="Standard CIE 1931 2 Degree Observer",
+                                                  **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colors.
 
@@ -1183,6 +1208,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
     aspect(**settings)
 
     return display(**settings)
+
 
 @figure_size((8, 8))
 def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
@@ -1270,9 +1296,10 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
 
     return display(**settings)
 
+
 @figure_size((8, 8))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C", "E"],
-                                                        **kwargs):
+                                                           **kwargs):
     """
     Plots the planckian locus and given illuminants in *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -1292,10 +1319,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
 
     settings = {
-    "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
-        ", ".join(
-            illuminants)) if illuminants else "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
-    "standalone": False}
+        "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
+            ", ".join(
+                illuminants)) if illuminants else "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
+        "standalone": False}
     settings.update(kwargs)
 
     if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
@@ -1341,11 +1368,12 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
 
     return display(**settings)
 
+
 @figure_size((32, 32))
 def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
-                                               spacing=0.00075,
-                                               cmfs="Standard CIE 1931 2 Degree Observer",
-                                               **kwargs):
+                                                  spacing=0.00075,
+                                                  cmfs="Standard CIE 1931 2 Degree Observer",
+                                                  **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colors.
 
@@ -1408,6 +1436,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
     aspect(**settings)
 
     return display(**settings)
+
 
 @figure_size((8, 8))
 def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
@@ -1497,8 +1526,9 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
 
     return display(**settings)
 
+
 def single_munsell_value_function_plot(function="Munsell Value 1955",
-                                   **kwargs):
+                                       **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -1520,9 +1550,10 @@ def single_munsell_value_function_plot(function="Munsell Value 1955",
 
     return multi_munsell_value_function_plot([function], **settings)
 
+
 @figure_size((8, 8))
 def multi_munsell_value_function_plot(functions=["Munsell Value 1955", "Munsell Value 1944"],
-                                  **kwargs):
+                                      **kwargs):
     """
     Plots given *Munsell value* functions.
 
@@ -1568,8 +1599,9 @@ def multi_munsell_value_function_plot(functions=["Munsell Value 1955", "Munsell 
 
     return display(**settings)
 
+
 def single_lightness_function_plot(function="Lightness 1976",
-                                **kwargs):
+                                   **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -1591,9 +1623,10 @@ def single_lightness_function_plot(function="Lightness 1976",
 
     return multi_lightness_function_plot([function], **settings)
 
+
 @figure_size((8, 8))
 def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness 1964", "Lightness 1958"],
-                               **kwargs):
+                                  **kwargs):
     """
     Plots given *Lightness* functions.
 
@@ -1639,8 +1672,9 @@ def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness 1964",
 
     return display(**settings)
 
+
 def single_transfer_function_plot(colorspace="sRGB",
-                               **kwargs):
+                                  **kwargs):
     """
     Plots given colorspace transfer function.
 
@@ -1662,10 +1696,11 @@ def single_transfer_function_plot(colorspace="sRGB",
 
     return multi_transfer_function_plot([colorspace], **settings)
 
+
 @figure_size((8, 8))
 def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
-                              inverse=False,
-                              **kwargs):
+                                 inverse=False,
+                                 **kwargs):
     """
     Plots given colorspaces transfer functions.
 
@@ -1720,10 +1755,11 @@ def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
 
     return display(**settings)
 
+
 def blackbody_spectral_radiance_plot(temperature=3500,
-                                  cmfs="Standard CIE 1931 2 Degree Observer",
-                                  blackbody="VY Canis Major",
-                                  **kwargs):
+                                     cmfs="Standard CIE 1931 2 Degree Observer",
+                                     blackbody="VY Canis Major",
+                                     **kwargs):
     """
     Plots given blackbody spectral radiance.
 
@@ -1786,11 +1822,12 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     aspect(**settings)
     return display(**settings)
 
+
 def blackbody_colors_plot(start=1000,
-                        end=15000,
-                        steps=25,
-                        cmfs="Standard CIE 1931 2 Degree Observer",
-                        **kwargs):
+                          end=15000,
+                          steps=25,
+                          cmfs="Standard CIE 1931 2 Degree Observer",
+                          **kwargs):
     """
     Plots blackbody colors.
 
@@ -1845,4 +1882,4 @@ def blackbody_colors_plot(start=1000,
 
     settings.update(kwargs)
     return color_parameters_plot(map(lambda x: color_parameter(x=x[0], RGB=x[1]), zip(temperatures, colors)),
-                               **settings)
+                                 **settings)

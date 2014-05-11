@@ -61,6 +61,7 @@ CHROMATIC_ADAPTATION_METHODS = {"XYZ Scaling": XYZ_SCALING_MATRIX,
                                 "Von Kries": VON_KRIES_MATRIX,
                                 "CAT02": CAT02_MATRIX}
 
+
 def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     """
     Returns the *chromatic adaptation* matrix from given source and target *CIE XYZ* matrices.
@@ -94,7 +95,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
                                                                                                  CHROMATIC_ADAPTATION_METHODS.keys()))
 
     pyb_source, pyb_target = numpy.ravel(method_matrix * XYZ1), \
-                           numpy.ravel(method_matrix * XYZ2)
+                             numpy.ravel(method_matrix * XYZ2)
     crd = numpy.diagflat(numpy.matrix([[pyb_target[0] / pyb_source[0],
                                         pyb_target[1] / pyb_source[1],
                                         pyb_target[2] / pyb_source[2]]])).reshape((3, 3))

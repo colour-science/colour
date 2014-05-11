@@ -4507,6 +4507,7 @@ BLACKBODY_SPD_DATA = numpy.array([6.655174524134172851562500e+12,
                                   9.758504986300298828125000e+12,
                                   9.741820343689539062500000e+12])
 
+
 class TestPlanckLaw(unittest.TestCase):
     """
     Defines :func:`color.blackbody.planck_law` definition units tests methods.
@@ -4523,6 +4524,7 @@ class TestPlanckLaw(unittest.TestCase):
                                                   radiance,
                                                   decimal=7)
 
+
 class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
     Defines :func:`color.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
@@ -4533,9 +4535,11 @@ class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
         Tests :func:`color.blackbody.blackbody_spectral_power_distribution` definition.
         """
 
-        numpy.testing.assert_almost_equal(color.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
-                                          BLACKBODY_SPD_DATA,
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            color.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
+            BLACKBODY_SPD_DATA,
+            decimal=7)
+
 
 if __name__ == "__main__":
     unittest.main()

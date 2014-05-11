@@ -53,6 +53,7 @@ APPLE_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(APPLE_R
 
 XYZ_TO_APPLE_RGB_MATRIX = APPLE_RGB_TO_XYZ_MATRIX.getI()
 
+
 def __apple_rgb_transfer_function(RGB):
     """
     Defines the *Apple RGB* colorspace transfer function.
@@ -66,6 +67,7 @@ def __apple_rgb_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / 1.8), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __apple_rgb_inverse_transfer_function(RGB):
     """
     Defines the *Apple RGB* colorspace inverse transfer function.
@@ -78,6 +80,7 @@ def __apple_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** 1.8, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 APPLE_RGB_TRANSFER_FUNCTION = __apple_rgb_transfer_function
 

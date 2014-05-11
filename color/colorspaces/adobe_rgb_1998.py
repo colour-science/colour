@@ -55,6 +55,7 @@ ADOBE_RGB_1998_TO_XYZ_MATRIX = numpy.matrix([0.57666809, 0.18556195, 0.1881985,
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX = ADOBE_RGB_1998_TO_XYZ_MATRIX.getI()
 
+
 def __adobe_1998_transfer_function(RGB):
     """
     Defines the *Adobe RGB 1998* colorspace transfer function.
@@ -70,6 +71,7 @@ def __adobe_1998_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / (563. / 256.)), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __adobe_1998_inverse_transfer_function(RGB):
     """
     Defines the *Adobe RGB 1998* colorspace inverse transfer function.
@@ -84,6 +86,7 @@ def __adobe_1998_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** (563. / 256.), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 ADOBE_RGB_1998_TRANSFER_FUNCTION = __adobe_1998_transfer_function
 

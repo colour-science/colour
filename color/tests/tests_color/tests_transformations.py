@@ -411,6 +411,7 @@ ACES_COLORCHECKER_2005 = [[[0.4316, 0.3777, 0.1008],
                                          [0.03126787],
                                          [0.03256784]])]]
 
+
 class TestWavelength_to_XYZ(unittest.TestCase):
     """
     Defines :func:`color.transformations.wavelength_to_XYZ` definition units tests methods.
@@ -441,6 +442,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
                                                         "Standard CIE 2006 2 Degree Observer")),
             numpy.matrix([0.4458068, 0.18187505, 0.]).reshape((3, 1)),
             decimal=7)
+
 
 class TestSpectral_to_XYZ(unittest.TestCase):
     """
@@ -480,6 +482,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
             numpy.matrix([0.11578308, 0.0998745, 0.03953965]).reshape((3, 1)),
             decimal=7)
 
+
 class TestXYZ_to_xyY(unittest.TestCase):
     """
     Defines :func:`color.transformations.XYZ_to_xyY` definition units tests methods.
@@ -504,6 +507,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
             color.transformations.XYZ_to_xyY(numpy.matrix([0, 0, 0]).reshape((3, 1)), (0.34567, 0.35850)),
             numpy.matrix([0.34567, 0.35850, 0]).reshape((3, 1)),
             decimal=7)
+
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
@@ -535,6 +539,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
                           0.,
                           0.]).reshape((3, 1)),
             decimal=7)
+
 
 class Testxy_to_XYZ(unittest.TestCase):
     """
@@ -570,6 +575,7 @@ class Testxy_to_XYZ(unittest.TestCase):
                           0.356]).reshape((3, 1)),
             decimal=7)
 
+
 class TestXYZ_to_xy(unittest.TestCase):
     """
     Defines :func:`color.transformations.XYZ_to_xy` definition units tests methods.
@@ -597,6 +603,7 @@ class TestXYZ_to_xy(unittest.TestCase):
                                                                            0.356)),
                                           (0.4474327628361859, 0.4074979625101875),
                                           decimal=7)
+
 
 class TestXYZ_to_RGB(unittest.TestCase):
     """
@@ -640,6 +647,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                                               RGB,
                                               decimal=7)
 
+
 class TestRGB_to_XYZ(unittest.TestCase):
     """
     Defines :func:`color.transformations.RGB_to_XYZ` definition units tests methods.
@@ -679,6 +687,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                                                                                    (3, 3))),
                                               numpy.matrix(XYZ).reshape((3, 1)),
                                               decimal=7)
+
 
 class TestxyY_to_RGB(unittest.TestCase):
     """
@@ -722,6 +731,7 @@ class TestxyY_to_RGB(unittest.TestCase):
                                               RGB,
                                               decimal=7)
 
+
 class TestRGB_to_xyY(unittest.TestCase):
     """
     Defines :func:`color.transformations.RGB_to_xyY` definition units tests methods.
@@ -762,6 +772,7 @@ class TestRGB_to_xyY(unittest.TestCase):
                                               numpy.matrix(xyY).reshape((3, 1)),
                                               decimal=7)
 
+
 class TestXYZ_to_UVW(unittest.TestCase):
     """
     Defines :func:`color.transformations.XYZ_to_UVW` definition units tests methods.
@@ -786,6 +797,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
             color.transformations.XYZ_to_UVW(numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1))),
             numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1)),
             decimal=7)
+
 
 class TestUVW_to_XYZ(unittest.TestCase):
     """
@@ -812,6 +824,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
             numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1)),
             decimal=7)
 
+
 class TestUVW_to_uv(unittest.TestCase):
     """
     Defines :func:`color.transformations.UVW_to_uv` definition units tests methods.
@@ -837,6 +850,7 @@ class TestUVW_to_uv(unittest.TestCase):
             (0.20048615319251942, 0.31032692311386395),
             decimal=7)
 
+
 class TestUVW_uv_to_xy(unittest.TestCase):
     """
     Defines :func:`color.transformations.UVW_uv_to_xy` definition units tests methods.
@@ -860,6 +874,7 @@ class TestUVW_uv_to_xy(unittest.TestCase):
             color.transformations.UVW_uv_to_xy((0.25585459629500179, 0.34952813701502972)),
             (0.4474327628361858, 0.40749796251018744),
             decimal=7)
+
 
 class TestXYZ_to_Luv(unittest.TestCase):
     """
@@ -909,6 +924,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
                                                                            (0.31271, 0.32902)),
                                           numpy.matrix([100., -21.44928374, -85.33481874]).reshape((3, 1)),
                                           decimal=7)
+
 
 class TestLuv_to_XYZ(unittest.TestCase):
     """
@@ -962,6 +978,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
                                           numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
                                           decimal=7)
 
+
 class TestLuv_to_uv(unittest.TestCase):
     """
     Defines :func:`color.transformations.Luv_to_uv` definition units tests methods.
@@ -1012,6 +1029,7 @@ class TestLuv_to_uv(unittest.TestCase):
                                           (0.1813300004870092, 0.4026899999798475),
                                           decimal=7)
 
+
 class TestLuv_to_LCHuv(unittest.TestCase):
     """
     Defines :func:`color.transformations.Luv_to_LCHuv` definition units tests methods.
@@ -1042,6 +1060,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
             (3, 1))),
                                           numpy.matrix([100., 116.74777618, 251.94795555]).reshape((3, 1)),
                                           decimal=7)
+
 
 class TestLCHuv_to_Luv(unittest.TestCase):
     """
@@ -1074,6 +1093,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
                                           numpy.matrix([100., -36.17788915, -111.00091702]).reshape((3, 1)),
                                           decimal=7)
 
+
 class TestLuv_uv_to_xy(unittest.TestCase):
     """
     Defines :func:`color.transformations.Luv_uv_to_xy` definition units tests methods.
@@ -1097,6 +1117,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
                                                                               0.40268999998517152)),
                                           (0.2455958975694641, 0.2424039944946324),
                                           decimal=7)
+
 
 class TestXYZ_to_Lab(unittest.TestCase):
     """
@@ -1146,6 +1167,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
                                                                            (0.31271, 0.32902)),
                                           numpy.matrix([100., 10.76832763, -49.42733157]).reshape((3, 1)),
                                           decimal=7)
+
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
@@ -1200,6 +1222,7 @@ class TestLab_to_XYZ(unittest.TestCase):
                                           numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
                                           decimal=7)
 
+
 class TestLab_to_LCHab(unittest.TestCase):
     """
     Defines :func:`color.transformations.Lab_to_LCHab` definition units tests methods.
@@ -1231,6 +1254,7 @@ class TestLab_to_LCHab(unittest.TestCase):
                                           numpy.matrix([100., 74.05216981, 276.45318193]).reshape((3, 1)),
                                           decimal=7)
 
+
 class TestLCHab_to_Lab(unittest.TestCase):
     """
     Defines :func:`color.transformations.LCHab_to_Lab` definition units tests methods.
@@ -1243,7 +1267,8 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(color.transformations.LCHab_to_Lab(numpy.matrix([100.,
                                                                                            21.57210357,
-                                                                                           272.2281935]).reshape((3, 1))),
+                                                                                           272.2281935]).reshape(
+            (3, 1))),
                                           numpy.matrix([100.,
                                                         0.83871284,
                                                         -21.55579303]).reshape((3, 1)),
@@ -1251,7 +1276,8 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(color.transformations.LCHab_to_Lab(numpy.matrix([100.,
                                                                                            426.67945353,
-                                                                                           72.39590835]).reshape((3, 1))),
+                                                                                           72.39590835]).reshape(
+            (3, 1))),
                                           numpy.matrix([100.,
                                                         129.04406346,
                                                         406.69765889]).reshape((3, 1)),
@@ -1259,11 +1285,13 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(color.transformations.LCHab_to_Lab(numpy.matrix([100.,
                                                                                            74.05216981,
-                                                                                           276.45318193]).reshape((3, 1))),
+                                                                                           276.45318193]).reshape(
+            (3, 1))),
                                           numpy.matrix([100.,
                                                         8.32281957,
                                                         -73.58297716]).reshape((3, 1)),
                                           decimal=7)
+
 
 if __name__ == "__main__":
     unittest.main()

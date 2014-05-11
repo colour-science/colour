@@ -55,6 +55,7 @@ C_LOG_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(C_LOG_PRIMA
 
 XYZ_TO_C_LOG_MATRIX = C_LOG_TO_XYZ_MATRIX.getI()
 
+
 def __c_log_transfer_function(RGB):
     """
     Defines the *C-Log* colorspace transfer function.
@@ -68,6 +69,7 @@ def __c_log_transfer_function(RGB):
     RGB = map(lambda x: 0.529136 * math.log10(10.1596 * x + 1) + 0.0730597, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __c_log_inverse_transfer_function(RGB):
     """
     Defines the *C-Log* colorspace inverse transfer function.
@@ -80,6 +82,7 @@ def __c_log_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x)), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 C_LOG_TRANSFER_FUNCTION = __c_log_transfer_function
 

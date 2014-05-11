@@ -50,9 +50,10 @@ COLOR_MATCH_RGB_PRIMARIES = numpy.matrix([0.6300, 0.3400,
 COLOR_MATCH_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(COLOR_MATCH_RGB_PRIMARIES,
-                                                                            COLOR_MATCH_RGB_WHITEPOINT)
+                                                                               COLOR_MATCH_RGB_WHITEPOINT)
 
 XYZ_TO_COLOR_MATCH_RGB_MATRIX = COLOR_MATCH_RGB_TO_XYZ_MATRIX.getI()
+
 
 def __color_match_rgb_transfer_function(RGB):
     """
@@ -67,6 +68,7 @@ def __color_match_rgb_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / 1.8), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __color_match_rgb_inverse_transfer_function(RGB):
     """
     Defines the *ColorMatch RGB* colorspace inverse transfer function.
@@ -79,6 +81,7 @@ def __color_match_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** 1.8, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 COLOR_MATCH_RGB_TRANSFER_FUNCTION = __color_match_rgb_transfer_function
 

@@ -45,6 +45,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
+
 def getDagPath(node):
     """
     Returns a dag path from given node.
@@ -61,6 +62,7 @@ def getDagPath(node):
     selectionList.getDagPath(0, dagPath)
     return dagPath
 
+
 def getMPoint(point):
     """
     Converts a tuple to MPoint.
@@ -72,6 +74,7 @@ def getMPoint(point):
     """
 
     return OpenMaya.MPoint(point[0], point[1], point[2])
+
 
 def getShapes(object, fullPath=False, noIntermediate=True):
     """
@@ -94,6 +97,7 @@ def getShapes(object, fullPath=False, noIntermediate=True):
 
     return objectShapes
 
+
 def setAttributes(attributes):
     """
     Sets given attributes.
@@ -108,6 +112,7 @@ def setAttributes(attributes):
         cmds.setAttr(attribute, value)
     return True
 
+
 def RGB_to_Lab(RGB, colorspace):
     return color.transformations.XYZ_to_Lab(color.transformations.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
                                                                              colorspace.whitepoint,
@@ -118,6 +123,7 @@ def RGB_to_Lab(RGB, colorspace):
                                                                              colorspace.to_XYZ,
                                                                              colorspace.inverse_transfer_function),
                                             colorspace.whitepoint)
+
 
 def RGB_identityCube(name, density=20):
     """
@@ -131,7 +137,8 @@ def RGB_identityCube(name, density=20):
     :rtype: unicode
     """
 
-    cube = foundations.common.get_first_item(cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False))
+    cube = foundations.common.get_first_item(
+        cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False))
     setAttributes({"{0}.translateX".format(cube): .5,
                    "{0}.translateY".format(cube): .5,
                    "{0}.translateZ".format(cube): .5})
@@ -150,6 +157,7 @@ def RGB_identityCube(name, density=20):
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     cmds.xform(cube, a=True, rotatePivot=(0., 0., 0.), scalePivot=(0., 0., 0.))
     return cmds.rename(cube, name)
+
 
 def Lab_colorspaceCube(colorspace, density=20):
     """
@@ -175,6 +183,7 @@ def Lab_colorspaceCube(colorspace, density=20):
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     return cube
 
+
 def Lab_coordinatesSystemRepresentation():
     """
     Creates a **CIE Lab** coordinates system representation.
@@ -197,9 +206,9 @@ def Lab_coordinatesSystemRepresentation():
     cmds.nurbsToPolygonsPref(polyType=1, chordHeightRatio=0.975)
 
     for label, position, name in (("-a*", (-350, 0), "minus_a"),
-                                 ("+a*", (350, 0), "plus_a"),
-                                 ("-b*", (0, 350), "minus_b"),
-                                 ("+b*", (0, -350), "plus_b")):
+                                  ("+a*", (350, 0), "plus_a"),
+                                  ("-b*", (0, 350), "minus_b"),
+                                  ("+b*", (0, -350), "plus_b")):
         curves = cmds.listRelatives(foundations.common.get_first_item(cmds.textCurves(f="Arial Black Bold", t=label)))
         mesh = foundations.common.get_first_item(
             cmds.polyUnite(*map(lambda x: cmds.planarSrf(x, ch=False, o=True, po=1), curves), ch=False))

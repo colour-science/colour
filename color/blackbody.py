@@ -46,6 +46,7 @@ PLANCK_CONSTANT = 6.62607e-34
 BOLTZMANN_CONSTANT = 1.38065e-23
 E_CONSTANT = math.exp(1)
 
+
 def planck_law(wavelength, temperature):
     """
     Returns electromagnetic radiation emitted by a *blackbody* in thermal equilibrium at a definite temperature.
@@ -81,7 +82,9 @@ def planck_law(wavelength, temperature):
     except (OverflowError, RuntimeWarning) as error:
         return 0.0
 
+
 blackbody_spectral_radiance = planck_law
+
 
 def blackbody_spectral_power_distribution(temperature, start=None, end=None, steps=None):
     """
@@ -102,5 +105,5 @@ def blackbody_spectral_power_distribution(temperature, start=None, end=None, ste
     return color.spectral.SpectralPowerDistribution(name="Blackbody",
                                                     spd=dict(
                                                         (wavelength,
-                                                         blackbody_spectral_radiance(wavelength * 1e-9, temperature)) \
+                                                         blackbody_spectral_radiance(wavelength * 1e-9, temperature))
                                                         for wavelength in numpy.arange(start, end + steps, steps)))

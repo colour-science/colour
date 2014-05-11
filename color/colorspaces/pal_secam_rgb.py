@@ -50,9 +50,10 @@ PAL_SECAM_RGB_PRIMARIES = numpy.matrix([0.64, 0.33,
 PAL_SECAM_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
 
 PAL_SECAM_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(PAL_SECAM_RGB_PRIMARIES,
-                                                                          PAL_SECAM_RGB_WHITEPOINT)
+                                                                             PAL_SECAM_RGB_WHITEPOINT)
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX = PAL_SECAM_RGB_TO_XYZ_MATRIX.getI()
+
 
 def __pal_secam_rgb_transfer_function(RGB):
     """
@@ -67,6 +68,7 @@ def __pal_secam_rgb_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / 2.8), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __pal_secam_rgb_inverse_transfer_function(RGB):
     """
     Defines the *Pal/Secam RGB* colorspace inverse transfer function.
@@ -79,6 +81,7 @@ def __pal_secam_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** 2.8, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 PAL_SECAM_RGB_TRANSFER_FUNCTION = __pal_secam_rgb_transfer_function
 

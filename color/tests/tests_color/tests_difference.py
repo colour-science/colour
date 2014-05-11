@@ -38,6 +38,7 @@ __all__ = ["TestDelta_E_CIE_1976",
            "TestDelta_E_CIE_2000",
            "TestDelta_E_CMC"]
 
+
 class TestDelta_E_CIE_1976(unittest.TestCase):
     """
     Defines :func:`color.difference.delta_E_CIE_1976` definition units tests methods.
@@ -65,6 +66,7 @@ class TestDelta_E_CIE_1976(unittest.TestCase):
                                               numpy.matrix([100., 8.32281957, -73.58297716]).reshape((3, 1))),
             346.064891718,
             places=7)
+
 
 class TestDelta_E_CIE_1994(unittest.TestCase):
     """
@@ -115,6 +117,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             57.5354537067,
             places=7)
 
+
 class TestDelta_E_CIE_2000(unittest.TestCase):
     """
     Defines :func:`color.difference.delta_E_CIE_2000` definition units tests methods.
@@ -142,6 +145,7 @@ class TestDelta_E_CIE_2000(unittest.TestCase):
                                               numpy.matrix([100., 8.32281957, -73.58297716]).reshape((3, 1))),
             68.2309487895,
             places=7)
+
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
@@ -191,6 +195,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                                          l=1.),
             121.718414791,
             places=7)
+
 
 if __name__ == "__main__":
     unittest.main()

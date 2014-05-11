@@ -31,6 +31,7 @@ __status__ = "Production"
 
 __all__ = ["get_long_description"]
 
+
 def get_long_description():
     """
     Returns the Package long description.
@@ -51,22 +52,23 @@ def get_long_description():
             description.append(line)
     return "".join(description)
 
+
 setup(name=color.globals.constants.Constants.application_name,
-    version=color.globals.constants.Constants.version,
-    author=color.globals.constants.__author__,
-    author_email=color.globals.constants.__email__,
-    include_package_data=True,
-    packages=find_packages(),
-    scripts=[],
-    url="",
-    license="",
-    description="Color package implements color transformations objects.",
-    long_description=get_long_description(),
-    install_requires=["Foundations>=2.1.0", "matplotlib>=1.3.1", "numpy>=1.8.1"],
-    classifiers=["Development Status :: 5 - Production/Stable",
-                "Environment :: Console",
-                "Intended Audience :: Developers",
-                "Natural Language :: English",
-                "Operating System :: OS Independent",
-                "Programming Language :: Python :: 2.7",
-                "Topic :: Utilities"])
+      version=color.globals.constants.Constants.version,
+      author=color.globals.constants.__author__,
+      author_email=color.globals.constants.__email__,
+      include_package_data=True,
+      packages=find_packages(),
+      scripts=[],
+      url="",
+      license="",
+      description="Color package implements color transformations objects.",
+      long_description=get_long_description(),
+      install_requires=["Foundations>=2.1.0", "matplotlib>=1.3.1", "numpy>=1.8.1"],
+      classifiers=["Development Status :: 5 - Production/Stable",
+                   "Environment :: Console",
+                   "Intended Audience :: Developers",
+                   "Natural Language :: English",
+                   "Operating System :: OS Independent",
+                   "Programming Language :: Python :: 2.7",
+                   "Topic :: Utilities"])

@@ -53,6 +53,7 @@ XTREME_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(XTREME
 
 XYZ_TO_XTREME_RGB_MATRIX = XTREME_RGB_TO_XYZ_MATRIX.getI()
 
+
 def __xtreme_rgb_transfer_function(RGB):
     """
     Defines the *Xtreme RGB* colorspace transfer function.
@@ -66,6 +67,7 @@ def __xtreme_rgb_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __xtreme_rgb_inverse_transfer_function(RGB):
     """
     Defines the *Xtreme RGB* colorspace inverse transfer function.
@@ -78,6 +80,7 @@ def __xtreme_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 XTREME_RGB_TRANSFER_FUNCTION = __xtreme_rgb_transfer_function
 

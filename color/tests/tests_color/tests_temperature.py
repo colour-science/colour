@@ -163,6 +163,7 @@ TEMPERATURE_DUV_TO_UV = {(2000, -0.05): (0.3094482846381184, 0.309263824757947),
                          (49500, 0.02500000000000001): (0.1572039322443694, 0.2750114221468309),
                          (49500, 0.05): (0.13306271297358735, 0.2815076927785103)}
 
+
 class TestGetPlanckianTable(unittest.TestCase):
     """
     Defines :func:`color.temperature.get_planckian_table` definition units tests methods.
@@ -173,11 +174,13 @@ class TestGetPlanckianTable(unittest.TestCase):
         Tests :func:`color.temperature.get_planckian_table` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
+            "Standard CIE 1931 2 Degree Observer")
         toList = lambda x: (x.Ti, x.ui, x.vi, x.di)
         numpy.testing.assert_almost_equal(
             map(toList, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
             map(toList, PLANCKIAN_TABLE))
+
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
@@ -189,10 +192,12 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
         Tests :func:`color.temperature.get_planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
+            "Standard CIE 1931 2 Degree Observer")
         self.assertEqual(color.temperature.get_planckian_table_minimal_distance_index(
             color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
                          9)
+
 
 class Testuv_to_cct_ohno(unittest.TestCase):
     """
@@ -204,7 +209,8 @@ class Testuv_to_cct_ohno(unittest.TestCase):
         Tests :func:`color.temperature.uv_to_cct_ohno` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
+            "Standard CIE 1931 2 Degree Observer")
         numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.1978, 0.3122), cmfs),
                                           (6507.4342201047066, 0.003223690901512735),
                                           decimal=7)
@@ -214,6 +220,7 @@ class Testuv_to_cct_ohno(unittest.TestCase):
         numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.2927, 0.2722), cmfs, iterations=4),
                                           (2452.1523812904848, -0.084369988398089582),
                                           decimal=7)
+
 
 class Testcct_to_uv_ohno(unittest.TestCase):
     """
@@ -225,7 +232,8 @@ class Testcct_to_uv_ohno(unittest.TestCase):
         Tests :func:`color.temperature.cct_to_uv_ohno` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
+            "Standard CIE 1931 2 Degree Observer")
         numpy.testing.assert_almost_equal(
             color.temperature.cct_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),
             (0.19779977, 0.31219971),
@@ -239,6 +247,7 @@ class Testcct_to_uv_ohno(unittest.TestCase):
             (0.29256486, 0.27221745),
             decimal=7)
 
+
 class Testuv_to_cct_robertson(unittest.TestCase):
     """
     Defines :func:`color.temperature.uv_to_cct_robertson` definition units tests methods.
@@ -251,6 +260,7 @@ class Testuv_to_cct_robertson(unittest.TestCase):
 
         for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
             numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_robertson(value), key, decimal=0)
+
 
 class Testcct_to_uv_robertson(unittest.TestCase):
     """
@@ -267,6 +277,7 @@ class Testcct_to_uv_robertson(unittest.TestCase):
                 numpy.testing.assert_almost_equal(color.temperature.cct_to_uv_robertson(i, j),
                                                   TEMPERATURE_DUV_TO_UV.get((i, j)),
                                                   decimal=7)
+
 
 if __name__ == "__main__":
     unittest.main()

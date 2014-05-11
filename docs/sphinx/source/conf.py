@@ -11,7 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys
+import os
 import sphinx_rtd_theme
 
 from color.globals.constants import Constants
@@ -29,11 +30,11 @@ from color.globals.constants import Constants
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named "sphinx.ext.*") or your custom ones.
 extensions = ["sphinx.ext.autodoc",
-                "sphinx.ext.intersphinx",
-                "sphinx.ext.todo",
-                "sphinx.ext.coverage",
-                "sphinx.ext.ifconfig",
-                "sphinx.ext.viewcode"]
+              "sphinx.ext.intersphinx",
+              "sphinx.ext.todo",
+              "sphinx.ext.coverage",
+              "sphinx.ext.ifconfig",
+              "sphinx.ext.viewcode"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = [".templates"]
@@ -184,8 +185,8 @@ htmlhelp_basename = "ColorDoc"
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ("index", "Color.tex", u"Color Documentation",
-   u"Thomas Mansencal", "manual"),
+    ("index", "Color.tex", u"Color Documentation",
+     u"Thomas Mansencal", "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

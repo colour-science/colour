@@ -36,6 +36,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
+
 def delta_E_CIE_1976(lab1, lab2):
     """
     Returns the difference between two given *CIE Lab* colors using *CIE 1976* recommendation.
@@ -61,6 +62,7 @@ def delta_E_CIE_1976(lab1, lab2):
     L2, a2, b2 = numpy.ravel(lab2)
 
     return math.sqrt((L1 - L2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2)
+
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
     """
@@ -117,6 +119,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     return math.sqrt(L + C + H)
 
+
 def delta_E_CIE_2000(lab1, lab2):
     """
     Returns the difference between two given *CIE Lab* colors using *CIE 2000* recommendation.
@@ -169,8 +172,10 @@ def delta_E_CIE_2000(lab1, lab2):
     if h2_prime < 0.0:
         h2_prime += 360.
 
-    h_bar_prime = 0.5 * (h1_prime + h2_prime + 360.) if math.fabs(h1_prime - h2_prime) > 180. else 0.5 * (h1_prime + h2_prime)
-    t = 1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) + 0.24 * math.cos(math.pi * (2. * h_bar_prime) / 180.) + \
+    h_bar_prime = 0.5 * (h1_prime + h2_prime + 360.) if math.fabs(h1_prime -
+                                                                  h2_prime) > 180. else 0.5 * (h1_prime + h2_prime)
+    t = 1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) + 0.24 * math.cos(
+        math.pi * (2. * h_bar_prime) / 180.) + \
         0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) - 0.20 * math.cos(
         math.pi * (4. * h_bar_prime - 63.) / 180.)
 
@@ -183,7 +188,8 @@ def delta_E_CIE_2000(lab1, lab2):
     delta_C_prime = c2_prime - c1_prime
     delta_H_prime = 2. * math.sqrt(c1_prime * c2_prime) * math.sin(math.pi * (0.5 * delta_h_prime) / 180.)
 
-    sL = 1. + ((0.015 * (l_bar_prime - 50.) * (l_bar_prime - 50.)) / math.sqrt(20. + (l_bar_prime - 50.) * (l_bar_prime - 50.)))
+    sL = 1. + ((0.015 * (l_bar_prime - 50.) * (l_bar_prime - 50.)) /
+               math.sqrt(20. + (l_bar_prime - 50.) * (l_bar_prime - 50.)))
     sC = 1. + 0.045 * c_bar_prime
     sH = 1. + 0.015 * c_bar_prime * t
 
@@ -194,10 +200,11 @@ def delta_E_CIE_2000(lab1, lab2):
     rC = math.sqrt(c_bar_prime7 / (c_bar_prime7 + 25. ** 7))
     rT = -2. * rC * math.sin(math.pi * (2. * delta_theta) / 180.)
 
-    return math.sqrt((delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) + \
-                     (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) + \
-                     (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) + \
+    return math.sqrt((delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
+                     (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
+                     (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
                      (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
+
 
 def delta_E_CMC(lab1, lab2, l=2., c=1.):
     """

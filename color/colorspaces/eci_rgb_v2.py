@@ -54,6 +54,7 @@ ECI_RGB_V2_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(ECI_RG
 
 XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()
 
+
 def __eci_rgb_v2_transfer_function(RGB):
     """
     Defines the *ECI RGB v2* colorspace transfer function.
@@ -67,6 +68,7 @@ def __eci_rgb_v2_transfer_function(RGB):
     RGB = map(lambda x: color.lightness.lightness_1976(x * 100.) / 100., numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __eci_rgb_v2_inverse_transfer_function(RGB):
     """
     Defines the *ECI RGB v2* colorspace inverse transfer function.
@@ -79,6 +81,7 @@ def __eci_rgb_v2_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: color.lightness.luminance_1976(x * 100.) / 100., numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 ECI_RGB_V2_TRANSFER_FUNCTION = __eci_rgb_v2_transfer_function
 

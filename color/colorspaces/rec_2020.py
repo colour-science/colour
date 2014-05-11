@@ -55,6 +55,7 @@ XYZ_TO_REC_2020_MATRIX = REC_2020_TO_XYZ_MATRIX.getI()
 __alpha = lambda x: 1.099 if x else 1.0993
 __beta = lambda x: 0.018 if x else 0.0181
 
+
 def __rec_2020_transfer_function(RGB, is10bitsSystem=True):
     """
     Defines the *Rec. 2020* colorspace transfer function.
@@ -69,9 +70,10 @@ def __rec_2020_transfer_function(RGB, is10bitsSystem=True):
     :rtype: Matrix (3x1)
     """
 
-    RGB = map(lambda x: x * 4.5 if x < __beta(is10bitsSystem) else \
-        __alpha(is10bitsSystem) * (x ** 0.45) - (__alpha(is10bitsSystem) - 1.), numpy.ravel(RGB))
+    RGB = map(lambda x: x * 4.5 if x < __beta(is10bitsSystem) else
+    __alpha(is10bitsSystem) * (x ** 0.45) - (__alpha(is10bitsSystem) - 1.), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 def __rec_2020_inverse_transfer_function(RGB, is10bitsSystem=True):
     """
@@ -87,9 +89,10 @@ def __rec_2020_inverse_transfer_function(RGB, is10bitsSystem=True):
     :rtype: Matrix (3x1)
     """
 
-    RGB = map(lambda x: x / 4.5 if x < __beta(is10bitsSystem) else \
-        ((x + (__alpha(is10bitsSystem) - 1.)) / __alpha(is10bitsSystem)) ** (1 / 0.45), numpy.ravel(RGB))
+    RGB = map(lambda x: x / 4.5 if x < __beta(is10bitsSystem) else
+    ((x + (__alpha(is10bitsSystem) - 1.)) / __alpha(is10bitsSystem)) ** (1 / 0.45), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function
 

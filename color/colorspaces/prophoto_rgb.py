@@ -54,6 +54,7 @@ PROPHOTO_RGB_TO_XYZ_MATRIX = numpy.matrix([7.97667235e-01, 1.35192231e-01, 3.135
 
 XYZ_TO_PROPHOTO_RGB_MATRIX = PROPHOTO_RGB_TO_XYZ_MATRIX.getI()
 
+
 def __prophoto_rgb_transfer_function(RGB):
     """
     Defines the *Prophoto RGB* colorspace transfer function.
@@ -66,10 +67,11 @@ def __prophoto_rgb_transfer_function(RGB):
     :rtype: Matrix (3x1)
     """
 
-    RGB = map(lambda x: 0.003473 + 0.0622829 * x if x < 0.03125 else 0.003473 + 0.996527 * x ** ( 1 / 1.8 ),
+    RGB = map(lambda x: 0.003473 + 0.0622829 * x if x < 0.03125 else 0.003473 + 0.996527 * x ** (1 / 1.8),
               numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __prophoto_rgb_transfer_function(RGB):
     """
     Defines the *Prophoto RGB* colorspace transfer function.
@@ -82,8 +84,9 @@ def __prophoto_rgb_transfer_function(RGB):
     :rtype: Matrix (3x1)
     """
 
-    RGB = map(lambda x: x * 16 if x < 0.001953 else x ** ( 1 / 1.8), numpy.ravel(RGB))
+    RGB = map(lambda x: x * 16 if x < 0.001953 else x ** (1 / 1.8), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 def __prophoto_rgb_inverse_transfer_function(RGB):
     """
@@ -99,6 +102,7 @@ def __prophoto_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x / 16 if x < 0.001953 else x ** 1.8, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 PROPHOTO_RGB_TRANSFER_FUNCTION = __prophoto_rgb_transfer_function
 

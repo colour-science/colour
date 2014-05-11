@@ -33,19 +33,20 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
+
 class Colorspace(object):
     """
     Defines a colorspace object.
     """
 
     def __init__(self,
-                name,
-                primaries,
-                whitepoint,
-                to_XYZ=None,
-                from_XYZ=None,
-                transfer_function=None,
-                inverse_transfer_function=None):
+                 name,
+                 primaries,
+                 whitepoint,
+                 to_XYZ=None,
+                 from_XYZ=None,
+                 transfer_function=None,
+                 inverse_transfer_function=None):
         """
         Initializes the class.
 
@@ -137,7 +138,7 @@ class Colorspace(object):
 
         if value is not None:
             assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("primaries",
-                                                                                            value)
+                                                                                                            value)
         self.__primaries = value
 
     @primaries.deleter
@@ -170,8 +171,9 @@ class Colorspace(object):
         """
 
         if value is not None:
-            assert type(value) in (tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format("whitepoint",
-                                                                                            value)
+            assert type(value) in (
+            tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format("whitepoint",
+                                                                                                          value)
         self.__whitepoint = value
 
     @whitepoint.deleter
@@ -205,7 +207,7 @@ class Colorspace(object):
 
         if value is not None:
             assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("to_XYZ",
-                                                                                            value)
+                                                                                                            value)
         self.__to_XYZ = value
 
     @to_XYZ.deleter
@@ -239,7 +241,7 @@ class Colorspace(object):
 
         if value is not None:
             assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("from_XYZ",
-                                                                                            value)
+                                                                                                            value)
         self.__from_XYZ = value
 
     @from_XYZ.deleter
@@ -272,7 +274,8 @@ class Colorspace(object):
         """
 
         if value is not None:
-            assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format("transfer_function", value)
+            assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format(
+                "transfer_function", value)
         self.__transfer_function = value
 
     @transfer_function.deleter
@@ -305,7 +308,8 @@ class Colorspace(object):
         """
 
         if value is not None:
-            assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format("inverse_transfer_function", value)
+            assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format(
+                "inverse_transfer_function", value)
         self.__inverse_transfer_function = value
 
     @inverse_transfer_function.deleter

@@ -107,6 +107,7 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRoberstonRuvt
 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT(*x),
                                               WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
 
+
 def get_planckian_table(uv, cmfs, start, end, count):
     """
     Returns a planckian table from given *CIE UVW* colorspace *uv* chromaticity coordinates, color matching functions and
@@ -156,6 +157,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
 
     return planckian_table
 
+
 def get_planckian_table_minimal_distance_index(planckian_table):
     """
     Returns the shortest distance index in given planckian table using *Yoshi Ohno* calculation methods.
@@ -174,6 +176,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
     distances = map(lambda x: x.di, planckian_table)
     return distances.index(min(distances))
+
 
 def uv_to_cct_ohno(uv,
                    cmfs=color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
@@ -242,9 +245,9 @@ def uv_to_cct_ohno(uv,
     # Triangular solution.
     l = math.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
     x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
-    T = Tip + (Tin - Tip) * ( x / l )
+    T = Tip + (Tin - Tip) * (x / l)
 
-    vtx = vip + (vin - vip) * ( x / l )
+    vtx = vip + (vin - vip) * (x / l)
     sign = 1. if vx - vtx >= 0. else -1.
     Duv = (dip ** 2 - x ** 2) ** (1. / 2.) * sign
 
@@ -260,6 +263,7 @@ def uv_to_cct_ohno(uv,
         Duv = sign * (a * T ** 2 + b * T + c)
 
     return T, Duv
+
 
 def cct_to_uv_ohno(cct,
                    Duv=0.,
@@ -310,6 +314,7 @@ def cct_to_uv_ohno(cct,
 
         return u, v
 
+
 def uv_to_cct_robertson(uv):
     """
     Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates using
@@ -335,7 +340,7 @@ def uv_to_cct_robertson(uv):
 
     for i in range(1, 31):
         wr_ruvt, wr_ruvt_previous = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
-                                 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i - 1]
+                                    WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i - 1]
 
         du = 1.0
         dv = wr_ruvt.t
@@ -383,6 +388,7 @@ def uv_to_cct_robertson(uv):
         last_dv = dv
 
     return T, -Duv
+
 
 def cct_to_uv_robertson(cct, Duv=0.):
     """
@@ -441,6 +447,7 @@ def cct_to_uv_robertson(cct, Duv=0.):
 
             return u, v
 
+
 def uv_to_cct(uv, method="Yoshi Ohno", **kwargs):
     """
     Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates and method.
@@ -465,6 +472,7 @@ def uv_to_cct(uv, method="Yoshi Ohno", **kwargs):
                     "Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
 
         return uv_to_cct_robertson(uv)
+
 
 def cct_to_uv(cct, Duv=0., method="Yoshi Ohno", **kwargs):
     """

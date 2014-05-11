@@ -49,9 +49,11 @@ SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,
 
 SMPTE_C_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
 
-SMPTE_C_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
+SMPTE_C_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(
+    SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
 
 XYZ_TO_SMPTE_C_RGB_MATRIX = SMPTE_C_RGB_TO_XYZ_MATRIX.getI()
+
 
 def __smptec_rgb_transfer_function(RGB):
     """
@@ -66,6 +68,7 @@ def __smptec_rgb_transfer_function(RGB):
     RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
 
+
 def __smptec_rgb_inverse_transfer_function(RGB):
     """
     Defines the *SMPTE-C RGB* colorspace inverse transfer function.
@@ -78,6 +81,7 @@ def __smptec_rgb_inverse_transfer_function(RGB):
 
     RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
     return numpy.matrix(RGB).reshape((3, 1))
+
 
 SMPTE_C_RGB_TRANSFER_FUNCTION = __smptec_rgb_transfer_function
 

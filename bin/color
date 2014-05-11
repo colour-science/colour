@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 import os
 import sys
 
+
 def _setApplicationPackageDirectory():
     """
     This definition sets the Application package directory in the path.
@@ -26,6 +27,7 @@ def _setApplicationPackageDirectory():
 
     applicationPackageDirectory = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     applicationPackageDirectory not in sys.path and sys.path.append(applicationPackageDirectory)
+
 
 _setApplicationPackageDirectory()
 

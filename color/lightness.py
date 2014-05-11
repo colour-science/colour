@@ -54,6 +54,7 @@ LOGGER = color.verbose.install_logger()
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
 
+
 def get_luminance_equation(primaries, whitepoint):
     """
     Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
@@ -77,6 +78,7 @@ def get_luminance_equation(primaries, whitepoint):
 
     return "Y = {0}(R) + {1}(G) + {2}(B)".format(
         *numpy.ravel(color.derivation.get_normalized_primary_matrix(primaries, whitepoint))[3:6])
+
 
 def get_luminance(RGB, primaries, whitepoint):
     """
@@ -107,6 +109,7 @@ def get_luminance(RGB, primaries, whitepoint):
 
     return X * R + Y * G + Z * B
 
+
 def luminance_1943(V):
     """
     Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
@@ -131,8 +134,8 @@ def luminance_1943(V):
 
     return Y
 
-def luminance_1976(L, Yn=100.):
 
+def luminance_1976(L, Yn=100.):
     """
     Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
 
@@ -157,6 +160,7 @@ def luminance_1976(L, Yn=100.):
     Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
 
     return Y
+
 
 def munsell_value_1920(Y):
     """
@@ -183,6 +187,7 @@ def munsell_value_1920(Y):
 
     return V
 
+
 def munsell_value_1933(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
@@ -203,9 +208,10 @@ def munsell_value_1933(Y):
     :note: *V* has a range of 0 to 10.
     """
 
-    V = math.sqrt(1.4742 * Y - 0.004743 * ( Y * Y ))
+    V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
     return V
+
 
 def munsell_value_1943(Y):
     """
@@ -231,6 +237,7 @@ def munsell_value_1943(Y):
 
     return V
 
+
 def munsell_value_1944(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
@@ -254,6 +261,7 @@ def munsell_value_1944(Y):
     V = 2.357 * (Y ** 0.343) - 1.52
 
     return V
+
 
 def munsell_value_1955(Y):
     """
@@ -279,6 +287,7 @@ def munsell_value_1955(Y):
 
     return V
 
+
 def lightness_1958(Y):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
@@ -302,6 +311,7 @@ def lightness_1958(Y):
     L_star = 25.29 * (Y ** (1. / 3.)) - 18.38
 
     return L_star
+
 
 def lightness_1964(Y):
     """
@@ -332,6 +342,7 @@ def lightness_1964(Y):
 
     return W
 
+
 def lightness_1976(Y, Yn=100.):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
@@ -359,6 +370,7 @@ def lightness_1976(Y, Yn=100.):
 
     return L
 
+
 MUNSELL_VALUE_FUNCTIONS = {"Munsell Value 1920": munsell_value_1920,
                            "Munsell Value 1933": munsell_value_1933,
                            "Munsell Value 1943": munsell_value_1943,
@@ -368,6 +380,7 @@ MUNSELL_VALUE_FUNCTIONS = {"Munsell Value 1920": munsell_value_1920,
 LIGHTNESS_FUNCTIONS = {"Lightness 1958": lightness_1958,
                        "Lightness 1964": lightness_1964,
                        "Lightness 1976": lightness_1976}
+
 
 def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
@@ -398,6 +411,7 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     else:
         return lightness_1976(Y, Yn)
 
+
 def get_munsell_value(Y, method="Munsell Value 1955"):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
@@ -421,6 +435,7 @@ def get_munsell_value(Y, method="Munsell Value 1955"):
     """
 
     return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
+
 
 def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
