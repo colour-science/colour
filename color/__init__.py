@@ -5,39 +5,24 @@
 **__init__.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package initialisation.
+    Defines **Color** package initialisation.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.globals.constants
 from globals.constants import Constants
 
-#**********************************************************************************************************************
-#***	Dependencies globals manipulation.
-#**********************************************************************************************************************
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 from color.verbose import *
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -47,17 +32,14 @@ __status__ = "Production"
 
 __all__ = ["LOGGER"]
 
-LOGGER = installLogger()
+LOGGER = install_logger()
 
-getLoggingConsoleHandler()
-setVerbosityLevel(Constants.verbosityLevel)
+get_logging_console_handler()
+set_verbosity_level(Constants.verbosity_level)
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 from blackbody import *
-from chromaticAdaptation import *
-from colorCheckers import *
+from chromatic_adaptation import *
+from color_checkers import *
 from colorspaces import *
 from derivation import *
 from difference import *

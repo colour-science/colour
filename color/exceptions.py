@@ -5,29 +5,20 @@
 **exceptions.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package exceptions and others exception handling related objects.
+    Defines **Color** package exceptions and others exception handling related objects.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***    Internal imports.
-#**********************************************************************************************************************
 import color.verbose
 import foundations.exceptions
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -36,11 +27,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "ProgrammingError"]
+           "ProgrammingError"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***    Module classes and definitions.
-#**********************************************************************************************************************
 ProgrammingError = foundations.exceptions.ProgrammingError

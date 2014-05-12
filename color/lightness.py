@@ -5,35 +5,23 @@
 **lightness.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *luminance*, *Munsell value* and *Lightness* manipulation objects.
+    Defines **Color** package *luminance*, *Munsell value* and *Lightness* manipulation objects.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import math
 import numpy
 
-#**********************************************************************************************************************
-#***	Internal Imports.
-#**********************************************************************************************************************
 import color.derivation
 import color.verbose
 
-#**********************************************************************************************************************
-#***    Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -42,426 +30,438 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "CIE_E",
-		   "CIE_K",
-		   "getLuminanceEquation",
-		   "getLuminance",
-		   "luminance_1943",
-		   "luminance_1976",
-		   "munsell_value_1920",
-		   "munsell_value_1933",
-		   "munsell_value_1943",
-		   "munsell_value_1944",
-		   "munsell_value_1955",
-		   "lightness_1958",
-		   "lightness_1964",
-		   "lightness_1976",
-		   "MUNSELL_VALUE_FUNCTIONS",
-		   "LIGHTNESS_FUNCTIONS",
-		   "getMunsellValue",
-		   "getLightness"]
+           "CIE_E",
+           "CIE_K",
+           "get_luminance_equation",
+           "get_luminance",
+           "luminance_1943",
+           "luminance_1976",
+           "munsell_value_1920",
+           "munsell_value_1933",
+           "munsell_value_1943",
+           "munsell_value_1944",
+           "munsell_value_1955",
+           "lightness_1958",
+           "lightness_1964",
+           "lightness_1976",
+           "MUNSELL_VALUE_FUNCTIONS",
+           "LIGHTNESS_FUNCTIONS",
+           "get_munsell_value",
+           "get_lightness"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
 
-#**********************************************************************************************************************
-#***    Module classes and definitions.
-#**********************************************************************************************************************
-def getLuminanceEquation(primaries, whitepoint):
-	"""
-	Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
 
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.8
+def get_luminance_equation(primaries, whitepoint):
+    """
+    Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
 
-	Usage::
+    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.8
 
-		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
-		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminanceEquation(primaries, whitepoint)
-		Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
+    Usage::
 
-	:param primaries: Primaries chromaticity coordinate matrix.
-	:type primaries: Matrix (3x2)
-	:param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-	:type whitepoint: tuple
-	:return: *Luminance* equation.
-	:rtype: unicode
-	"""
+        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> whitepoint = (0.32168, 0.33767)
+        >>> get_luminance_equation(primaries, whitepoint)
+        Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
-	return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-		*numpy.ravel(color.derivation.getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6])
+    :param primaries: Primaries chromaticity coordinate matrix.
+    :type primaries: Matrix (3x2)
+    :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
+    :type whitepoint: tuple
+    :return: *Luminance* equation.
+    :rtype: unicode
+    """
 
-def getLuminance(RGB, primaries, whitepoint):
-	"""
-	Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
+    return "Y = {0}(R) + {1}(G) + {2}(B)".format(
+        *numpy.ravel(color.derivation.get_normalized_primary_matrix(primaries, whitepoint))[3:6])
 
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
 
-	Usage::
+def get_luminance(RGB, primaries, whitepoint):
+    """
+    Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
 
-		>>> RGB = numpy.matrix([40.6, 4.2, 67.4]).reshape((3, 1))
-		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
-		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminance(primaries, whitepoint)
-		12.1616018403
+    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
 
-	:param RGB: *RGB* chromaticity coordinate matrix.
-	:type RGB: Matrix (3x1)
-	:param primaries: Primaries chromaticity coordinate matrix.
-	:type primaries: Matrix (3x2)
-	:param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-	:type whitepoint: tuple
-	:return: *Luminance*.
-	:rtype: float
-	"""
+    Usage::
 
-	R, G, B = numpy.ravel(RGB)
-	X, Y, Z = numpy.ravel(color.derivation.getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6]
+        >>> RGB = numpy.matrix([40.6, 4.2, 67.4]).reshape((3, 1))
+        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> whitepoint = (0.32168, 0.33767)
+        >>> get_luminance(primaries, whitepoint)
+        12.1616018403
 
-	return X * R + Y * G + Z * B
+    :param RGB: *RGB* chromaticity coordinate matrix.
+    :type RGB: Matrix (3x1)
+    :param primaries: Primaries chromaticity coordinate matrix.
+    :type primaries: Matrix (3x2)
+    :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
+    :type whitepoint: tuple
+    :return: *Luminance*.
+    :rtype: float
+    """
+
+    R, G, B = numpy.ravel(RGB)
+    X, Y, Z = numpy.ravel(color.derivation.get_normalized_primary_matrix(primaries, whitepoint))[3:6]
+
+    return X * R + Y * G + Z * B
+
 
 def luminance_1943(V):
-	"""
-	Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
+    """
+    Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> luminance_1943(3.74629715382)
-		10.4089874577
+        >>> luminance_1943(3.74629715382)
+        10.4089874577
 
-	:param V: *Munsell value* *V*.
-	:type V: float
-	:return: *Luminance* *Y*.
-	:rtype: float
+    :param V: *Munsell value* *V*.
+    :type V: float
+    :return: *Luminance* *Y*.
+    :rtype: float
 
-	:note: *V* has a range of 0 to 10.
-	:note: *Y* has a range of 0 to 100.
-	"""
+    :note: *V* has a range of 0 to 10.
+    :note: *Y* has a range of 0 to 100.
+    """
 
-	Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (V ** 4) + 0.0008404 * (V ** 5)
+    Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (V ** 4) + 0.0008404 * (V ** 5)
 
-	return Y
+    return Y
+
 
 def luminance_1976(L, Yn=100.):
+    """
+    Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
 
-	"""
-	Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
+    Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
 
-	Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
+    Usage::
 
-	Usage::
+        >>> luminance_1976(37.9856290977)
+        10.08
 
-		>>> luminance_1976(37.9856290977)
-		10.08
+    :param L: *Lightness* (*L\**)
+    :type L: float
+    :param Yn: White reference *luminance*.
+    :type Yn: float
+    :return: *Luminance* *Y*.
+    :rtype: float
 
-	:param L: *Lightness* (*L\**)
-	:type L: float
-	:param Yn: White reference *luminance*.
-	:type Yn: float
-	:return: *Luminance* *Y*.
-	:rtype: float
+    :note: *L* has a range of 0 to 10.
+    :note: *Yn* has a range of 0 to 100.
+    """
 
-	:note: *L* has a range of 0 to 10.
-	:note: *Yn* has a range of 0 to 100.
-	"""
+    Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
 
-	Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
+    return Y
 
-	return Y
 
 def munsell_value_1920(Y):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> munsell_value_1920(10.08)
-		3.17490157328
+        >>> munsell_value_1920(10.08)
+        3.17490157328
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:return: *Munsell value* *V*.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	Y /= 100.
-	V = 10. * math.sqrt(Y)
+    Y /= 100.
+    V = 10. * math.sqrt(Y)
 
-	return V
+    return V
+
 
 def munsell_value_1933(Y):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> munsell_value_1933(10.08)
-		3.79183555086
+        >>> munsell_value_1933(10.08)
+        3.79183555086
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:return: *Munsell value* *V*.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	V = math.sqrt(1.4742 * Y - 0.004743 * ( Y * Y ))
+    V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
-	return V
+    return V
+
 
 def munsell_value_1943(Y):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> munsell_value_1943(10.08)
-		3.74629715382
+        >>> munsell_value_1943(10.08)
+        3.74629715382
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:return: *Munsell value* *V*.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	V = 1.4 * Y ** 0.426
+    V = 1.4 * Y ** 0.426
 
-	return V
+    return V
+
 
 def munsell_value_1944(Y):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> munsell_value_1944(10.08)
-		3.68650805994
+        >>> munsell_value_1944(10.08)
+        3.68650805994
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:return: *Munsell value* *V*.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	V = 2.357 * (Y ** 0.343) - 1.52
+    V = 2.357 * (Y ** 0.343) - 1.52
 
-	return V
+    return V
+
 
 def munsell_value_1955(Y):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> munsell_value_1955(10.08)
-		3.69528622419
+        >>> munsell_value_1955(10.08)
+        3.69528622419
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:return: *Munsell value* *V*.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	V = 2.468 * (Y ** (1. / 3.)) - 1.636
+    V = 2.468 * (Y ** (1. / 3.)) - 1.636
 
-	return V
+    return V
+
 
 def lightness_1958(Y):
-	"""
-	Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
+    """
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> lightness_1958(10.08)
-		36.2505626458
+        >>> lightness_1958(10.08)
+        36.2505626458
 
-	:param Y: Luminance.
-	:type Y: float
-	:return: *Lightness* *L\**.
-	:rtype: float
+    :param Y: Luminance.
+    :type Y: float
+    :return: *Lightness* *L\**.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *L\** has a range of 0 to 100.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *L\** has a range of 0 to 100.
+    """
 
-	Lstar = 25.29 * (Y ** (1. / 3.)) - 18.38
+    L_star = 25.29 * (Y ** (1. / 3.)) - 18.38
 
-	return Lstar
+    return L_star
+
 
 def lightness_1964(Y):
-	"""
-	Returns the *Lightness* (*W\**) of given *luminance* *Y* using 1964 *Wyszecki* method.
+    """
+    Returns the *Lightness* (*W\**) of given *luminance* *Y* using 1964 *Wyszecki* method.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+    Usage::
 
-		>>> lightness_1964(10.08)
-		37.0041149128
+        >>> lightness_1964(10.08)
+        37.0041149128
 
-	:param Y: Luminance.
-	:type Y: float
-	:return: *Lightness* *W\**.
-	:rtype: float
+    :param Y: Luminance.
+    :type Y: float
+    :return: *Lightness* *W\**.
+    :rtype: float
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *W\** has a range of 0 to 100.
-	"""
+    :note: *Y* has a range of 0 to 100.
+    :note: *W\** has a range of 0 to 100.
+    """
 
-	if not 1. < Y < 98.:
-		LOGGER.warning(
-			"!> {0} | 'W*' lightness calculation is only applicable for 1% < 'Y' < 98%, unpredictable results may occur!".format(
-				__name__))
+    if not 1. < Y < 98.:
+        LOGGER.warning(
+            "!> {0} | 'W*' lightness calculation is only applicable for 1% < 'Y' < 98%, unpredictable results may occur!".format(
+                __name__))
 
-	W = 25. * (Y ** (1. / 3.)) - 17.
+    W = 25. * (Y ** (1. / 3.)) - 17.
 
-	return W
+    return W
+
 
 def lightness_1976(Y, Yn=100.):
-	"""
-	Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
+    """
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-	Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
+    Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
 
-	Usage::
+    Usage::
 
-		>>> lightness_1976(10.08, 100.)
-		37.9856290977
+        >>> lightness_1976(10.08, 100.)
+        37.9856290977
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:param Yn: White reference *luminance*.
-	:type Yn: float
-	:return: *Lightness* *L\**.
-	:rtype: float
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :param Yn: White reference *luminance*.
+    :type Yn: float
+    :return: *Lightness* *L\**.
+    :rtype: float
 
-	:note: *Y* and *Yn* have a range of 0 to 100.
-	:note: *L\** has a range of 0 to 100.
-	"""
+    :note: *Y* and *Yn* have a range of 0 to 100.
+    :note: *L\** has a range of 0 to 100.
+    """
 
-	ratio = Y / Yn
-	L = CIE_K * ratio if ratio <= CIE_E else 116. * ratio ** (1. / 3.) - 16
+    ratio = Y / Yn
+    L = CIE_K * ratio if ratio <= CIE_E else 116. * ratio ** (1. / 3.) - 16
 
-	return L
+    return L
+
 
 MUNSELL_VALUE_FUNCTIONS = {"Munsell Value 1920": munsell_value_1920,
-						   "Munsell Value 1933": munsell_value_1933,
-						   "Munsell Value 1943": munsell_value_1943,
-						   "Munsell Value 1944": munsell_value_1944,
-						   "Munsell Value 1955": munsell_value_1955}
+                           "Munsell Value 1933": munsell_value_1933,
+                           "Munsell Value 1943": munsell_value_1943,
+                           "Munsell Value 1944": munsell_value_1944,
+                           "Munsell Value 1955": munsell_value_1955}
 
 LIGHTNESS_FUNCTIONS = {"Lightness 1958": lightness_1958,
-					   "Lightness 1964": lightness_1964,
-					   "Lightness 1976": lightness_1976}
+                       "Lightness 1964": lightness_1964,
+                       "Lightness 1976": lightness_1976}
 
-def getLightness(Y, Yn=100., method="Lightness 1976"):
-	"""
-	Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-	Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
+def get_lightness(Y, Yn=100., method="Lightness 1976"):
+    """
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-	Usage::
+    Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
 
-		>>> getLightness(10.08, 100)
-		37.9856290977
+    Usage::
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:param Yn: White reference *luminance*.
-	:type Yn: float
-	:return: *Lightness* *L\**.
-	:type method: unicode ("Lightness 1958", "Lightness 1964", "Lightness 1976")
-	:return: *Munsell value* *V*.
-	:rtype: float
+        >>> get_lightness(10.08, 100)
+        37.9856290977
 
-	:note: *Y* and *Yn* have a range of 0 to 100.
-	:note: *L\** has a range of 0 to 100.
-	"""
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :param Yn: White reference *luminance*.
+    :type Yn: float
+    :return: *Lightness* *L\**.
+    :type method: unicode ("Lightness 1958", "Lightness 1964", "Lightness 1976")
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-	if Yn is None:
-		return LIGHTNESS_FUNCTIONS.get(method)(Y)
-	else:
-		return lightness_1976(Y, Yn)
+    :note: *Y* and *Yn* have a range of 0 to 100.
+    :note: *L\** has a range of 0 to 100.
+    """
 
-def getMunsellValue(Y, method="Munsell Value 1955"):
-	"""
-	Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
+    if Yn is None:
+        return LIGHTNESS_FUNCTIONS.get(method)(Y)
+    else:
+        return lightness_1976(Y, Yn)
 
-	Reference: http://en.wikipedia.org/wiki/Lightness
 
-	Usage::
+def get_munsell_value(Y, method="Munsell Value 1955"):
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
 
-		>>> getMunsellValue(10.08)
-		3.69528622419
+    Reference: http://en.wikipedia.org/wiki/Lightness
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:param method: *Luminance* *Y*.
-	:type method: unicode ("Munsell Value 1920", "Munsell Value 1933", "Munsell Value 1943", "Munsell Value 1944", "Munsell Value 1955")
-	:return: *Munsell value* *V*.
-	:rtype: float
+    Usage::
 
-	:note: *Y* has a range of 0 to 100.
-	:note: *V* has a range of 0 to 10.
-	"""
+        >>> get_munsell_value(10.08)
+        3.69528622419
 
-	return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :param method: *Luminance* *Y*.
+    :type method: unicode ("Munsell Value 1920", "Munsell Value 1933", "Munsell Value 1943", "Munsell Value 1944", "Munsell Value 1955")
+    :return: *Munsell value* *V*.
+    :rtype: float
 
-def getLightness(Y, Yn=100., method="Lightness 1976"):
-	"""
-	Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
+    :note: *Y* has a range of 0 to 100.
+    :note: *V* has a range of 0 to 10.
+    """
 
-	Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
+    return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
 
-	Usage::
 
-		>>> getLightness(10.08, 100)
-		37.9856290977
+def get_lightness(Y, Yn=100., method="Lightness 1976"):
+    """
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-	:param Y: *Luminance* *Y*.
-	:type Y: float
-	:param Yn: White reference *luminance*.
-	:type Yn: float
-	:return: *Lightness* *L\**.
-	:type method: unicode ("Lightness 1958", "Lightness 1964", "Lightness 1976")
-	:return: *Munsell value* *V*.
-	:rtype: float
+    Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
 
-	:note: *Y* and *Yn* have a range of 0 to 100.
-	:note: *L\** has a range of 0 to 100.
-	"""
+    Usage::
 
-	if Yn is None:
-		return LIGHTNESS_FUNCTIONS.get(method)(Y)
-	else:
-		return lightness_1976(Y, Yn)
+        >>> get_lightness(10.08, 100)
+        37.9856290977
+
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :param Yn: White reference *luminance*.
+    :type Yn: float
+    :return: *Lightness* *L\**.
+    :type method: unicode ("Lightness 1958", "Lightness 1964", "Lightness 1976")
+    :return: *Munsell value* *V*.
+    :rtype: float
+
+    :note: *Y* and *Yn* have a range of 0 to 100.
+    :note: *L\** has a range of 0 to 100.
+    """
+
+    if Yn is None:
+        return LIGHTNESS_FUNCTIONS.get(method)(Y)
+    else:
+        return lightness_1976(Y, Yn)

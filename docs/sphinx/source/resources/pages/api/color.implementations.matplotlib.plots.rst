@@ -19,7 +19,7 @@ Functions
 
 .. autofunction:: XYZ_to_sRGB
 
-.. autofunction:: figureSize
+.. autofunction:: figure_size
 
 .. autofunction:: aspect
 
