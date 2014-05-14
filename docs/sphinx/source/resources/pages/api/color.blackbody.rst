@@ -16,12 +16,12 @@ Module Attributes
 
 .. attribute:: color.blackbody.E_CONSTANT
 
-.. attribute:: color.blackbody.blackbodySpectralRadiance
+.. attribute:: color.blackbody.blackbody_spectral_radiance
 
 Functions
 ---------
 
-.. autofunction:: planckLaw
+.. autofunction:: planck_law
 
-.. autofunction:: blackbodySpectralPowerDistribution
+.. autofunction:: blackbody_spectral_power_distribution
 

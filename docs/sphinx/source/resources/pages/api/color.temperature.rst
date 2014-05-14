@@ -27,9 +27,9 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: getPlanckianTable
+.. autofunction:: get_planckian_table
 
-.. autofunction:: getPlanckianTableMinimalDistanceIndex
+.. autofunction:: get_planckian_table_minimal_distance_index
 
 .. autofunction:: uv_to_cct_ohno
 
