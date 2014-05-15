@@ -159,13 +159,13 @@ def spectral_to_XYZ(spd,
 
     denominator = y_bar * illuminant
     spd = spd * illuminant
-    xNumerator = spd * x_bar
-    yNumerator = spd * y_bar
-    zNumerator = spd * z_bar
+    x_numerator = spd * x_bar
+    y_numerator = spd * y_bar
+    z_numerator = spd * z_bar
 
-    XYZ = numpy.matrix([xNumerator.sum() / denominator.sum(),
-                        yNumerator.sum() / denominator.sum(),
-                        zNumerator.sum() / denominator.sum()])
+    XYZ = numpy.matrix([x_numerator.sum() / denominator.sum(),
+                        y_numerator.sum() / denominator.sum(),
+                        z_numerator.sum() / denominator.sum()])
 
     return XYZ.reshape((3, 1))
 
