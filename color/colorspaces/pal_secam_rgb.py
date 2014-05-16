@@ -54,38 +54,9 @@ PAL_SECAM_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(PAL
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX = PAL_SECAM_RGB_TO_XYZ_MATRIX.getI()
 
+PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
 
-def __pal_secam_rgb_transfer_function(RGB):
-    """
-    Defines the *Pal/Secam RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.8), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __pal_secam_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *Pal/Secam RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.8, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-PAL_SECAM_RGB_TRANSFER_FUNCTION = __pal_secam_rgb_transfer_function
-
-PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = __pal_secam_rgb_inverse_transfer_function
+PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
 
 PAL_SECAM_RGB_COLORSPACE = Colorspace("Pal/Secam RGB",
                                       PAL_SECAM_RGB_PRIMARIES,

@@ -55,42 +55,9 @@ sRGB_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
 
 XYZ_TO_sRGB_MATRIX = sRGB_TO_XYZ_MATRIX.getI()
 
+sRGB_TRANSFER_FUNCTION = lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055
 
-def __srgb_transfer_function(RGB):
-    """
-    Defines the *sRGB* colorspace transfer function.
-
-    Reference: http://www.color.org/srgb.pdf
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __srgb_inverse_transfer_function(RGB):
-    """
-    Defines the *sRGB* colorspace inverse transfer function.
-
-    Reference: http://www.color.org/srgb.pdf
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-sRGB_TRANSFER_FUNCTION = __srgb_transfer_function
-
-sRGB_INVERSE_TRANSFER_FUNCTION = __srgb_inverse_transfer_function
+sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4
 
 sRGB_COLORSPACE = Colorspace("sRGB",
                              sRGB_PRIMARIES,

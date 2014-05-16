@@ -53,38 +53,9 @@ DON_RGB_4_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(DON_RGB
 
 XYZ_TO_DON_RGB_4_MATRIX = DON_RGB_4_TO_XYZ_MATRIX.getI()
 
+DON_RGB_4_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __don_rgb_4_transfer_function(RGB):
-    """
-    Defines the *Don RGB 4* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __don_rgb_4_inverse_transfer_function(RGB):
-    """
-    Defines the *Don RGB 4* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-DON_RGB_4_TRANSFER_FUNCTION = __don_rgb_4_transfer_function
-
-DON_RGB_4_INVERSE_TRANSFER_FUNCTION = __don_rgb_4_inverse_transfer_function
+DON_RGB_4_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 DON_RGB_4_COLORSPACE = Colorspace("Don RGB 4",
                                   DON_RGB_4_PRIMARIES,

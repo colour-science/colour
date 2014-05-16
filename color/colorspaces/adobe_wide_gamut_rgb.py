@@ -55,37 +55,9 @@ ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_mat
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX.getI()
 
 
-def __adobe_wide_gamut_rgb_transfer_function(RGB):
-    """
-    Defines the *Adobe Wide Gamut RGB* colorspace transfer function.
+ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
 
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / (563. / 256.)), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __adobe_wide_gamut_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *Adobe Wide Gamut RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (563. / 256.), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __adobe_wide_gamut_rgb_transfer_function
-
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = __adobe_wide_gamut_rgb_inverse_transfer_function
+ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
 
 ADOBE_WIDE_GAMUT_RGB_COLORSPACE = Colorspace("Adobe Wide Gamut RGB",
                                              ADOBE_WIDE_GAMUT_RGB_PRIMARIES,

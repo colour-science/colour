@@ -55,42 +55,9 @@ REC_709_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
 
 XYZ_TO_REC_709_MATRIX = REC_709_TO_XYZ_MATRIX.getI()
 
+REC_709_TRANSFER_FUNCTION = lambda x: x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099
 
-def __rec_709_transfer_function(RGB):
-    """
-    Defines the *Rec. 709* colorspace transfer function.
-
-    Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __rec_709_inverse_transfer_function(RGB):
-    """
-    Defines the *Rec. 709* colorspace inverse transfer function.
-
-    Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-REC_709_TRANSFER_FUNCTION = __rec_709_transfer_function
-
-REC_709_INVERSE_TRANSFER_FUNCTION = __rec_709_inverse_transfer_function
+REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45)
 
 REC_709_COLORSPACE = Colorspace("Rec. 709",
                                 REC_709_PRIMARIES,

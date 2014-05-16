@@ -54,38 +54,9 @@ COLOR_MATCH_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(C
 
 XYZ_TO_COLOR_MATCH_RGB_MATRIX = COLOR_MATCH_RGB_TO_XYZ_MATRIX.getI()
 
+COLOR_MATCH_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
 
-def __color_match_rgb_transfer_function(RGB):
-    """
-    Defines the *ColorMatch RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 1.8), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __color_match_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *ColorMatch RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 1.8, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-COLOR_MATCH_RGB_TRANSFER_FUNCTION = __color_match_rgb_transfer_function
-
-COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = __color_match_rgb_inverse_transfer_function
+COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
 
 COLOR_MATCH_RGB_COLORSPACE = Colorspace("ColorMatch RGB",
                                         COLOR_MATCH_RGB_PRIMARIES,

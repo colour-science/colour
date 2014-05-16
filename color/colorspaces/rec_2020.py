@@ -58,44 +58,42 @@ REC_2020_CONSTANTS = color.data_structures.Structure(alpha=lambda x: 1.099 if x 
                                                      beta=lambda x: 0.018 if x else 0.0181)
 
 
-def __rec_2020_transfer_function(RGB, is_10_bits_system=True):
+def __rec_2020_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colorspace transfer function.
 
     Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf: Signal Format
 
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
+    :param value: value.
+    :type value: float
     :param is_10_bits_system: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
     :type is_10_bits_system: bool
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
+    :return: Companded value.
+    :rtype: float
     """
 
-    RGB = map(lambda x: x * 4.5 if x < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-    REC_2020_CONSTANTS.alpha(is_10_bits_system) * (x ** 0.45) - (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.),
-              numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
+    return value * 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
+        REC_2020_CONSTANTS.alpha(is_10_bits_system) * (value ** 0.45) - (
+            REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)
 
 
-def __rec_2020_inverse_transfer_function(RGB, is_10_bits_system=True):
+def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colorspace inverse transfer function.
 
     Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf: Signal Format
 
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
+    :param value: value.
+    :type value: float
     :param is_10_bits_system: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
     :type is_10_bits_system: bool
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
+    :return: Companded value.
+    :rtype: float
     """
 
-    RGB = map(lambda x: x / 4.5 if x < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-    ((x + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) / REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (
-    1 / 0.45), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
+    return value / 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
+        ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) / REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** \
+        (1. / 0.45)
 
 
 REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function

@@ -60,9 +60,9 @@ class Colorspace(object):
         :type to_XYZ: Matrix
         :param from_XYZ: Transformation matrix from *CIE XYZ* colorspace to colorspace.
         :type from_XYZ: Matrix
-        :param transfer_function: Colorspace transfer function.
+        :param transfer_function: Colorspace transfer function from linear to colorspace.
         :type transfer_function: object
-        :param inverse_transfer_function: Colorspace inverse transfer function.
+        :param inverse_transfer_function: Colorspace inverse transfer function from colorspace to linear.
         :type inverse_transfer_function: object
         """
 

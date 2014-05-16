@@ -317,7 +317,7 @@ def XYZ_to_RGB(XYZ,
     RGB = from_XYZ * adaptedXYZ
 
     if transfer_function is not None:
-        RGB = transfer_function(RGB)
+        RGB = numpy.matrix(map(lambda x: transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
     LOGGER.debug("'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
     LOGGER.debug("Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
@@ -365,7 +365,7 @@ def RGB_to_XYZ(RGB,
     """
 
     if inverse_transfer_function is not None:
-        RGB = inverse_transfer_function(RGB)
+        RGB = numpy.matrix(map(lambda x: inverse_transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
     XYZ = to_XYZ * RGB
 

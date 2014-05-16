@@ -174,49 +174,47 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.matrix([0.638008, 0.214704, 0.097744,
 XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX.getI()
 
 
-def __alexa_wide_gamut_rgb_transfer_function(RGB, firmware="SUP 3.x", method="Linear Scene Exposure Factor", EI=800):
+def __alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor", EI=800):
     """
-    Defines the *ALEXA Wide Gamut RGB* colorspace transfer function.
+    Defines the *ALEXA Wide Gamut value* colorspace transfer function.
 
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
+    :param value: value.
+    :type value: float
     :param firmware: Alexa firmware version.
     :type firmware: unicode ("SUP 2.x", "SUP 3.x")
     :param method: Conversion method.
     :type method: unicode ("Linear Scene Exposure Factor", "Normalized Sensor Signal")
     :param EI: Ei.
     :type EI: int
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
+    :return: Companded value.
+    :rtype: float
     """
 
     cut, a, b, c, d, e, f, ecutf = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI)
 
-    RGB = map(lambda x: c * math.log10(a * x + b) + d if x > cut else ecutf, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
+    return c * math.log10(a * value + b) + d if value > cut else ecutf
 
 
-def __alexa_wide_gamut_rgb_inverse_transfer_function(RGB, firmware="SUP 3.x", method="Linear Scene Exposure Factor",
+def __alexa_wide_gamut_rgb_inverse_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor",
                                                      EI=800):
     """
-    Defines the *ALEXA Wide Gamut RGB* colorspace inverse transfer function.
+    Defines the *ALEXA Wide Gamut value* colorspace inverse transfer function.
 
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
+    :param value: value.
+    :type value: float
     :param firmware: Alexa firmware version.
     :type firmware: unicode ("SUP 2.x", "SUP 3.x")
     :param method: Conversion method.
     :type method: unicode ("Linear Scene Exposure Factor", "Normalized Sensor Signal")
     :param EI: Ei.
     :type EI: int
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
+    :return: Companded value.
+    :rtype: float
     """
 
     cut, a, b, c, d, e, f, ecutf = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI)
 
-    RGB = map(lambda t: (math.pow(10, (t - d) / c) - b) / a if t > ecutf else (t - f) / e, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
+    return (math.pow(10, (value - d) / c) - b) / a if value > ecutf else (value - f) / e
 
 
 ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_transfer_function

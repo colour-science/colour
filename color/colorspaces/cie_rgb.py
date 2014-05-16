@@ -54,38 +54,9 @@ CIE_RGB_TO_XYZ_MATRIX = 1 / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,
 
 XYZ_TO_CIE_RGB_MATRIX = CIE_RGB_TO_XYZ_MATRIX.getI()
 
+CIE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __cie_rgb_transfer_function(RGB):
-    """
-    Defines the *CIE RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __cie_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *CIE RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-CIE_RGB_TRANSFER_FUNCTION = __cie_rgb_transfer_function
-
-CIE_RGB_INVERSE_TRANSFER_FUNCTION = __cie_rgb_inverse_transfer_function
+CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 CIE_RGB_COLORSPACE = Colorspace("CIE RGB",
                                 CIE_RGB_PRIMARIES,
