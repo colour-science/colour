@@ -16,8 +16,10 @@
 
 from __future__ import unicode_literals
 
+import math
 import numpy
 
+import color.data_structures
 import color.exceptions
 import color.illuminants
 import color.verbose
@@ -37,7 +39,10 @@ __all__ = ["LOGGER",
            "XYZ_TO_ACES_RGB_MATRIX",
            "ACES_RGB_TRANSFER_FUNCTION",
            "ACES_RGB_INVERSE_TRANSFER_FUNCTION",
-           "ACES_RGB_COLORSPACE"]
+           "ACES_RGB_COLORSPACE",
+           "ACES_RGB_LOG_TRANSFER_FUNCTION",
+           "ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION",
+           "ACES_RGB_LOG_COLORSPACE"]
 
 LOGGER = color.verbose.install_logger()
 
@@ -68,3 +73,68 @@ ACES_RGB_COLORSPACE = Colorspace("ACES RGB",
                                  XYZ_TO_ACES_RGB_MATRIX,
                                  ACES_RGB_TRANSFER_FUNCTION,
                                  ACES_RGB_INVERSE_TRANSFER_FUNCTION)
+
+ACES_RGB_LOG_CONSTANTS = color.data_structures.Structure(log_unity=32768,
+                                                         log_xperstop=2048,
+                                                         denorm_trans=math.pow(2., -15),
+                                                         denorm_fake0=math.pow(2., -16))
+
+
+def __aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
+    """
+    Defines the *ACES RGB Log* colorspace transfer function.
+
+    Reference: https://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesLog/acesLog32f_to_aces.ctl
+
+    :param value: value.
+    :type value: float
+    :param is_16_bit_integer: Is value 16 bit integer.
+    :type is_16_bit_integer: bool
+    :return: Companded value.
+    :rtype: float
+    """
+
+    if value < 0.:
+        return 0.
+
+    if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
+        value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2.)
+
+    value = (math.log10(value) / math.log10(2)) * ACES_RGB_LOG_CONSTANTS.log_xperstop + ACES_RGB_LOG_CONSTANTS.log_unity
+
+    if is_16_bit_integer:
+        value = min(math.floor(value) + 0.5, 65535)
+
+    return value
+
+
+def __aces_rgb_log_inverse_transfer_function(value):
+    """
+    Defines the *ACES RGB Log* colorspace inverse transfer function.
+
+    Reference: https://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesLog/acesLog32f_to_aces.ctl
+
+    :param value: value.
+    :type value: float
+    :return: Companded value.
+    :rtype: float
+    """
+
+    value = math.pow(2., (value - ACES_RGB_LOG_CONSTANTS.log_unity) / ACES_RGB_LOG_CONSTANTS.log_xperstop)
+    if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
+        value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2.
+
+    return value
+
+
+ACES_RGB_LOG_TRANSFER_FUNCTION = __aces_rgb_log_transfer_function
+
+ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = __aces_rgb_log_inverse_transfer_function
+
+ACES_RGB_LOG_COLORSPACE = Colorspace("ACES RGB LOG",
+                                     ACES_RGB_PRIMARIES,
+                                     ACES_RGB_WHITEPOINT,
+                                     ACES_RGB_TO_XYZ_MATRIX,
+                                     XYZ_TO_ACES_RGB_MATRIX,
+                                     ACES_RGB_LOG_TRANSFER_FUNCTION,
+                                     ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
