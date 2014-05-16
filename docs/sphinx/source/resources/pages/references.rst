@@ -5,6 +5,8 @@ Wyszecki & Stiles, *Color Science - Concepts and Methods Data and Formulae - Sec
 
 Edward J. Giorgianni & Thomas E. Madden, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley published November 2008, ISBN: 978-0-470-99436-8
 
+Charles Poynton, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics published 2 December 2012, ISBN: 978-0123919267
+
 Charles Poynton, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
 Charles Poynton, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
@@ -37,6 +39,8 @@ Luminance, Munsell value, Lightness
 
 `Luminance 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 
+`Luminance 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+
 `Munsell Value 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 
 `Munsell Value 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
@@ -60,7 +64,9 @@ RGB Colorspaces
 
 `Adobe RGB 1998 Colorspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
 
-`Adobe Wide Gamut Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+`Adobe Wide Gamut RGB Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+
+`ALEXA Wide Gamut RGB Colorspace <http://www.arri.com/?eID=registration&file_uid=8026>`_ (Last accessed 13 April 2014)
 
 `Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
@@ -69,6 +75,8 @@ RGB Colorspaces
 `Beta RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
 `CIE RGB Colorspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
+
+`C-Log Colorspace <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_ (Last accessed 18 April 2014)
 
 `ColorMatch Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 12 April 2014)
 
@@ -90,9 +98,13 @@ RGB Colorspaces
 
 `ProPhoto RGB Colorspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
 
-`Rec.709 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
+`Rec. 709 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
+
+`Rec. 2020 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
 `Russell RGB Colorspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
+
+`S-Log Colorspace <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
 
 `SMPTE-C RGB Colorspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
 
@@ -176,6 +188,21 @@ Illuminants Relative Spectral Power Distributions
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
 Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
+Luminous Efficiency Functions
+*****************************
+
+`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Temperature
 ***********

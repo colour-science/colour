@@ -54,38 +54,9 @@ EKTA_SPACE_PS_5_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(E
 
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX = EKTA_SPACE_PS_5_TO_XYZ_MATRIX.getI()
 
+EKTA_SPACE_PS_5_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __ekta_space_ps5_transfer_function(RGB):
-    """
-    Defines the *Ekta Space PS 5* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __ekta_space_ps5_inverse_transfer_function(RGB):
-    """
-    Defines the *Ekta Space PS 5* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-EKTA_SPACE_PS_5_TRANSFER_FUNCTION = __ekta_space_ps5_transfer_function
-
-EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = __ekta_space_ps5_inverse_transfer_function
+EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 EKTA_SPACE_PS_5_COLORSPACE = Colorspace("Ekta Space PS 5",
                                         EKTA_SPACE_PS_5_PRIMARIES,

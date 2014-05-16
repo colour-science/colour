@@ -53,38 +53,9 @@ BEST_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(BEST_RGB
 
 XYZ_TO_BEST_RGB_MATRIX = BEST_RGB_TO_XYZ_MATRIX.getI()
 
+BEST_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __best_rgb_transfer_function(RGB):
-    """
-    Defines the *Best RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __best_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *Best RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-BEST_RGB_TRANSFER_FUNCTION = __best_rgb_transfer_function
-
-BEST_RGB_INVERSE_TRANSFER_FUNCTION = __best_rgb_inverse_transfer_function
+BEST_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 BEST_RGB_COLORSPACE = Colorspace("Best RGB",
                                  BEST_RGB_PRIMARIES,

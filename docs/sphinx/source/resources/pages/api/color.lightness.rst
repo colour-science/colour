@@ -8,6 +8,10 @@ Module Attributes
 
 .. attribute:: color.lightness.LOGGER
 
+.. attribute:: color.lightness.CIE_E
+
+.. attribute:: color.lightness.CIE_K
+
 .. attribute:: color.lightness.MUNSELL_VALUE_FUNCTIONS
 
 .. attribute:: color.lightness.LIGHTNESS_FUNCTIONS
@@ -15,11 +19,13 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: getLuminanceEquation
+.. autofunction:: get_luminance_equation
 
-.. autofunction:: getLuminance
+.. autofunction:: get_luminance
 
 .. autofunction:: luminance_1943
+
+.. autofunction:: luminance_1976
 
 .. autofunction:: munsell_value_1920
 
@@ -37,7 +43,7 @@ Functions
 
 .. autofunction:: lightness_1976
 
-.. autofunction:: getMunsellValue
+.. autofunction:: get_lightness
 
-.. autofunction:: getLightness
+.. autofunction:: get_munsell_value
 

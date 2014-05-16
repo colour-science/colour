@@ -53,38 +53,9 @@ BETA_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(BETA_RGB
 
 XYZ_TO_BETA_RGB_MATRIX = BETA_RGB_TO_XYZ_MATRIX.getI()
 
+BETA_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __beta_rgb_transfer_function(RGB):
-    """
-    Defines the *Beta RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __beta_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *Beta RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-BETA_RGB_TRANSFER_FUNCTION = __beta_rgb_transfer_function
-
-BETA_RGB_INVERSE_TRANSFER_FUNCTION = __beta_rgb_inverse_transfer_function
+BETA_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 BETA_RGB_COLORSPACE = Colorspace("Beta RGB",
                                  BETA_RGB_PRIMARIES,

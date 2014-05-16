@@ -5,7 +5,6 @@ _`Introduction`
 
 Here are some features:
 
--  Standard observers 2° and 10° support.
 -  RGB and XYZ color matching functions spectral data:
 
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
@@ -37,6 +36,15 @@ Here are some features:
   -  F11
   -  F12
 
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 2 Degree Observer
+  -  Judd Modified CIE 1951 2 Degree Observer
+  -  Judd-Vos Modified CIE 1978 2 Degree Observer
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
+  -  Wald & Crawford CIE 1951 2 Degree Observer
+
 -  Correlated color temperature calculation:
 
   -  Wyszecki & Roberston method implementation.
@@ -51,12 +59,25 @@ Here are some features:
   -  Von Kries.
   -  CAT02.
 
--  Luminance, Munsell value and Lightness calculations.
+-  Luminance, Munsell value and Lightness calculations:
+
+  -  Luminance 1943
+  -  Luminance 1976
+  -  Munsell Value 1920
+  -  Munsell Value 1933
+  -  Munsell Value 1943
+  -  Munsell Value 1944
+  -  Munsell Value 1955
+  -  Lightness 1958
+  -  Lightness 1964
+  -  Lightness 1976
+
 -  RGB Colorspaces support:
 
   -  ACES RGB
   -  Adobe RGB 1998
   -  Adobe Wide Gamut RGB
+  -  ALEXA Wide Gamut RGB
   -  Apple RGB
   -  Best RGB
   -  Beta RGB
@@ -71,7 +92,9 @@ Here are some features:
   -  Pal/Secam RGB
   -  ProPhoto RGB
   -  Rec. 709
+  -  Rec. 2020
   -  Russell RGB
+  -  S-Log
   -  SMPTE-C RGB
   -  Xtreme RGB
   -  sRGB

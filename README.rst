@@ -184,6 +184,8 @@ Wyszecki & Stiles, *Color Science - Concepts and Methods Data and Formulae - Sec
 
 Edward J. Giorgianni & Thomas E. Madden, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley published November 2008, ISBN: 978-0-470-99436-8
 
+Charles Poynton, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics published 2 December 2012, ISBN: 978-0123919267
+
 Charles Poynton, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
 Charles Poynton, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_

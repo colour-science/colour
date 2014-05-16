@@ -6,9 +6,9 @@ _`color.verbose`
 Module Attributes
 -----------------
 
-.. attribute:: color.verbose.installLogger
+.. attribute:: color.verbose.install_logger
 
-.. attribute:: color.verbose.getLoggingConsoleHandler
+.. attribute:: color.verbose.get_logging_console_handler
 
-.. attribute:: color.verbose.setVerbosityLevel
+.. attribute:: color.verbose.set_verbosity_level
 

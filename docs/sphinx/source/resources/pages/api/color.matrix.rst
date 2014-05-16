@@ -11,7 +11,7 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: isIdentity
+.. autofunction:: is_identity
 
-.. autofunction:: linearInterpolateMatrices
+.. autofunction:: linear_interpolate_matrices
 

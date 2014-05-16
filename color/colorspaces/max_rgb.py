@@ -53,38 +53,9 @@ MAX_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(MAX_RGB_P
 
 XYZ_TO_MAX_RGB_MATRIX = MAX_RGB_TO_XYZ_MATRIX.getI()
 
+MAX_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
-def __max_rgb_transfer_function(RGB):
-    """
-    Defines the *Max RGB* colorspace transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** (1 / 2.2), numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-def __max_rgb_inverse_transfer_function(RGB):
-    """
-    Defines the *Max RGB* colorspace inverse transfer function.
-
-    :param RGB: RGB Matrix.
-    :type RGB: Matrix (3x1)
-    :return: Companded RGB Matrix.
-    :rtype: Matrix (3x1)
-    """
-
-    RGB = map(lambda x: x ** 2.2, numpy.ravel(RGB))
-    return numpy.matrix(RGB).reshape((3, 1))
-
-
-MAX_RGB_TRANSFER_FUNCTION = __max_rgb_transfer_function
-
-MAX_RGB_INVERSE_TRANSFER_FUNCTION = __max_rgb_inverse_transfer_function
+MAX_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 MAX_RGB_COLORSPACE = Colorspace("Max RGB",
                                 MAX_RGB_PRIMARIES,

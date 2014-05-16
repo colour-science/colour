@@ -27,7 +27,7 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: D_illuminantRelativeSpectralPowerDistribution
+.. autofunction:: D_illuminant_relative_spectral_power_distribution
 
 Classes
 -------

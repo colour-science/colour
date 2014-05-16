@@ -8,10 +8,6 @@ Module Attributes
 
 .. attribute:: color.transformations.LOGGER
 
-.. attribute:: color.transformations.CIE_E
-
-.. attribute:: color.transformations.CIE_K
-
 Functions
 ---------
 

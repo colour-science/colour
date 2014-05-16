@@ -1728,16 +1728,8 @@ def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
                                                                                      sorted(
                                                                                          color.colorspaces.COLORSPACES.keys())))
 
-        RGBs = numpy.array(map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function,
-                               zip(samples, samples, samples)))
-        for j, data in enumerate((("R", [1., 0., 0.]),
-                                  ("G", [0., 1., 0.]),
-                                  ("B", [0., 0., 1.]))):
-            axis, rgb = data
-            rgb = map(lambda x: reduce(lambda y, _: y * 0.25, xrange(i), x), rgb)
-            pylab.plot(samples, RGBs[:, j], color=rgb,
-                       label=u"{0} - {1}".format(axis, colorspace.name),
-                       linewidth=2.)
+        RGBs = numpy.array(map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function, samples))
+        pylab.plot(samples, RGBs, label=u"{0}".format(colorspace.name), linewidth=2.)
 
     settings = {"title": "{0} - Transfer Functions".format(", ".join(colorspaces)),
                 "x_tighten": True,

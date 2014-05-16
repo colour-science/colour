@@ -1,998 +1,882 @@
 <?xml version="1.0" encoding="utf-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/"/>
-    <title></title>
-    <style type="text/css">
-        /*<![CDATA[*/
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
+		<title></title>
+		<style type="text/css">
+/*<![CDATA[*/
 
-        body {
-            background-color: rgb(252, 252, 252);
-            color: rgb(64, 64, 64);
-            font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-            text-align: justify;
-            margin: 10px 10px 10px 10px;
-        }
+		body {
+		background-color: rgb(252, 252, 252);
+		color: rgb(64, 64, 64);
+		font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+		text-align: justify;
+		margin: 10px 10px 10px 10px;
+		}
 
-        A:link {
-            color: rgb(41, 128, 185);
-            text-decoration: none;
-        }
+		A:link {
+		color: rgb(41, 128, 185);
+		text-decoration: none;
+		}
 
-        A:visited {
-            text-decoration: none;
-            color: rgb(155, 89, 182);
-        }
+		A:visited {
+		text-decoration: none;
+		color: rgb(155, 89, 182);
+		}
 
-        A:active {
-            text-decoration: none;
-            color: rgb(41, 128, 185);
-        }
+		A:active {
+		text-decoration: none;
+		color: rgb(41, 128, 185);
+		}
 
-        A:hover {
-            text-decoration: underline;
-            color: rgb(48, 145, 209);
-        }
+		A:hover {
+		text-decoration: underline;
+		color: rgb(48, 145, 209);
+		}
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
-            font-weight: 700;
-            margin-top: 0;
-        }
+		h1, h2, h3, h4, h5, h6 {
+		font-family: "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
+		font-weight: 700;
+		margin-top: 0;
+		}
 
-        p {
-            font-size: 16px;
-            line-height: 24px;
-            margin: 0;
-            margin-bottom: 24px;
-        }
+		p {
+		font-size: 16px;
+		line-height: 24px;
+		margin: 0;
+		margin-bottom: 24px;
+		}
 
-        table {
-            border-color: rgb(225, 228, 229);
-            border-collapse: collapse;
-            border-style: solid;
-            border-width: 1px;
-        }
+		table {
+		border-color: rgb(225, 228, 229);
+		border-collapse: collapse;
+		border-style: solid;
+		border-width: 1px;
+		}
 
-        tt {
-            background-color: rgb(255, 255, 255);
-            color: rgb(80, 80, 80);
-            padding: 5px;
-            white-space: -moz-pre-wrap !important;
-        }
+		tt {
+		background-color: rgb(255, 255, 255);
+		color: rgb(80, 80, 80);
+		padding: 5px;
+		white-space: -moz-pre-wrap !important;
+		}
 
-        pre {
-            background: rgb(255, 255, 255);
-            border: 1px solid rgb(225, 228, 229);
-            display: block;
-            font-size: 12px;
-            font-family: "Incosolata", "Consolata", "Monaco", monospace;
-            line-height: 1.5;
-            margin: 1px 0px 24px 0px;
-            overflow: auto;
-            padding: 12px 12px;
-            white-space: pre;
-        }
-
-        /*]]>*/
-    </style>
-</head>
-<body>
-<div class="document">
-<div class="section" id="color-manual-help-file">
-    <h1>
-        Color - Manual - Help File
-    </h1><br/>
-</div>
-<div class="section" id="table-of-content">
-    <h1>
-        Table Of Content
-    </h1><!-- .tocTree -->
-    <ul class="simple">
-        <li>
-            <a class="reference internal" href="#introduction">Introduction</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#installation">Installation</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#usage">Usage</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#api">Api</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#acknowledgements">Acknowledgements</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#changes">Changes</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#references">References</a>
-        </li>
-        <li>
-            <a class="reference internal" href="#about">About</a>
-        </li>
-    </ul>
-    <br/>
-    <!-- .introduction -->
-</div>
-<div class="section" id="id1">
-<h1>
-    <span class="target" id="introduction">Introduction</span>
-</h1>
-
-<p>
-    <strong>Color</strong> is a <strong>Python</strong> color science package implementing a comprehensive number of
-    color transformations and manipulations objects.
-</p>
-
-<p>
-    Here are some features:
-</p>
-<ul class="simple">
-    <li>Standard observers 2° and 10° support.
-    </li>
-    <li>RGB and XYZ color matching functions spectral data:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>Stiles &amp; Burch 1955 2° Observer RGB color matching functions.
-        </li>
-        <li>Stiles &amp; Burch 1959 10° Observer RGB color matching functions.
-        </li>
-        <li>Standard CIE 1931 2° Observer XYZ color matching functions.
-        </li>
-        <li>Standard CIE 1964 10° Observer XYZ color matching functions.
-        </li>
-        <li>Standard CIE 2006 2° Observer XYZ color matching functions.
-        </li>
-        <li>Standard CIE 2006 10° Observer XYZ color matching functions.
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Illuminants spectral data:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>A
-        </li>
-        <li>C
-        </li>
-        <li>D50
-        </li>
-        <li>D55
-        </li>
-        <li>D60
-        </li>
-        <li>D65
-        </li>
-        <li>D75
-        </li>
-        <li>F1
-        </li>
-        <li>F2
-        </li>
-        <li>F3
-        </li>
-        <li>F4
-        </li>
-        <li>F5
-        </li>
-        <li>F6
-        </li>
-        <li>F7
-        </li>
-        <li>F8
-        </li>
-        <li>F9
-        </li>
-        <li>F10
-        </li>
-        <li>F11
-        </li>
-        <li>F12
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Correlated color temperature calculation:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>Wyszecki &amp; Roberston method implementation.
-        </li>
-        <li>Yoshi Ohno method implementation.
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Spectral power distribution data manipulation and conversion to color.
-    </li>
-    <li>Blackbody spectral radiance calculation.
-    </li>
-    <li>Chromatic adaptation with following methods:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>XYZ Scaling.
-        </li>
-        <li>Bradford.
-        </li>
-        <li>Von Kries.
-        </li>
-        <li>CAT02.
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Luminance, Munsell value and Lightness calculations.
-    </li>
-    <li>RGB Colorspaces support:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>ACES RGB
-        </li>
-        <li>Adobe RGB 1998
-        </li>
-        <li>Adobe Wide Gamut RGB
-        </li>
-        <li>Apple RGB
-        </li>
-        <li>Best RGB
-        </li>
-        <li>Beta RGB
-        </li>
-        <li>CIE RGB
-        </li>
-        <li>ColorMatch RGB
-        </li>
-        <li>DCI-P3
-        </li>
-        <li>Don RGB 4
-        </li>
-        <li>ECI RGB v2
-        </li>
-        <li>Ekta Space PS 5
-        </li>
-        <li>Max RGB
-        </li>
-        <li>NTSC RGB
-        </li>
-        <li>Pal/Secam RGB
-        </li>
-        <li>ProPhoto RGB
-        </li>
-        <li>Rec. 709
-        </li>
-        <li>Russell RGB
-        </li>
-        <li>SMPTE-C RGB
-        </li>
-        <li>Xtreme RGB
-        </li>
-        <li>sRGB
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Colorspaces transformation and conversion:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>Wavelength to XYZ.
-        </li>
-        <li>Spectral to XYZ.
-        </li>
-        <li>XYZ to xyY.
-        </li>
-        <li>xyY to XYZ.
-        </li>
-        <li>xy to XYZ.
-        </li>
-        <li>XYZ to xy.
-        </li>
-        <li>XYZ to RGB.
-        </li>
-        <li>RGB to XYZ.
-        </li>
-        <li>xyY to RGB.
-        </li>
-        <li>RGB to xyY.
-        </li>
-        <li>XYZ to UVW.
-        </li>
-        <li>UVW to XYZ.
-        </li>
-        <li>UVW to uv.
-        </li>
-        <li>UVW uv to xy.
-        </li>
-        <li>XYZ to Luv.
-        </li>
-        <li>Luv to XYZ.
-        </li>
-        <li>Luv to uv.
-        </li>
-        <li>Luv uv to xy.
-        </li>
-        <li>Luv to LCHuv.
-        </li>
-        <li>LCHuv to Luv.
-        </li>
-        <li>XYZ to Lab.
-        </li>
-        <li>Lab to XYZ.
-        </li>
-        <li>Lab to LCHab.
-        </li>
-        <li>LCHab to Lab.
-        </li>
-        <li>uv to cct, duv.
-        </li>
-        <li>cct, duv to uv.
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Illuminants chromaticity coordinates data.
-    </li>
-    <li>Correlated color temperature calculation.
-    </li>
-    <li>Colorspaces derivation.
-    </li>
-    <li>Color difference calculation with following methods:
-    </li>
-</ul>
-<blockquote>
-    <ul class="simple">
-        <li>ΔE CIE 1976.
-        </li>
-        <li>ΔE CIE 1994.
-        </li>
-        <li>ΔE CIE 2000.
-        </li>
-        <li>ΔE CMC.
-        </li>
-    </ul>
-</blockquote>
-<ul class="simple">
-    <li>Color rendition chart data.
-    </li>
-    <li>Comprehensive plotting capabilities.
-    </li>
-</ul>
-<br/>
-<!-- .installation -->
-</div>
-<div class="section" id="id2">
-    <h1>
-        <span class="target" id="installation">Installation</span>
-    </h1>
-
-    <p>
-        The following dependencies are needed:
-    </p>
-    <ul class="simple">
-        <li>
-            <strong>Python 2.6.7</strong> or <strong>Python 2.7.3</strong>: <a class="reference external"
-                                                                               href="http://www.python.org/">http://www.python.org/</a>
-        </li>
-    </ul>
-    <p>
-        You can install directly from <a class="reference external" href="http://github.com/KelSolaar/Color">Github</a>
-        source repository:
-    </p>
+		pre {
+		background: rgb(255, 255, 255);
+		border: 1px solid rgb(225, 228, 229);
+		display: block;
+		font-size: 12px;
+		font-family: "Incosolata", "Consolata", "Monaco", monospace;
+		line-height: 1.5;
+		margin: 1px 0px 24px 0px;
+		overflow: auto;
+		padding: 12px 12px;
+		white-space: pre;
+		}
+		/*]]>*/
+		</style>
+	</head>
+	<body>
+		<div class="document">
+			<div class="section" id="color-manual-help-file">
+				<h1>
+					Color - Manual - Help File
+				</h1><br />
+			</div>
+			<div class="section" id="table-of-content">
+				<h1>
+					Table Of Content
+				</h1><!-- .tocTree -->
+				<ul class="simple">
+					<li>
+						<a class="reference internal" href="#introduction">Introduction</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#installation">Installation</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#usage">Usage</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#api">Api</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#acknowledgements">Acknowledgements</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#changes">Changes</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#references">References</a>
+					</li>
+					<li>
+						<a class="reference internal" href="#about">About</a>
+					</li>
+				</ul><br />
+				<!-- .introduction -->
+			</div>
+			<div class="section" id="id1">
+				<h1>
+					<span class="target" id="introduction">Introduction</span>
+				</h1>
+				<p>
+					<strong>Color</strong> is a <strong>Python</strong> color science package implementing a comprehensive number of color transformations and manipulations objects.
+				</p>
+				<p>
+					Here are some features:
+				</p>
+				<ul class="simple">
+					<li>RGB and XYZ color matching functions spectral data:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>Stiles &amp; Burch 1955 2° Observer RGB color matching functions.
+						</li>
+						<li>Stiles &amp; Burch 1959 10° Observer RGB color matching functions.
+						</li>
+						<li>Standard CIE 1931 2° Observer XYZ color matching functions.
+						</li>
+						<li>Standard CIE 1964 10° Observer XYZ color matching functions.
+						</li>
+						<li>Standard CIE 2006 2° Observer XYZ color matching functions.
+						</li>
+						<li>Standard CIE 2006 10° Observer XYZ color matching functions.
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Illuminants spectral data:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>A
+						</li>
+						<li>C
+						</li>
+						<li>D50
+						</li>
+						<li>D55
+						</li>
+						<li>D60
+						</li>
+						<li>D65
+						</li>
+						<li>D75
+						</li>
+						<li>F1
+						</li>
+						<li>F2
+						</li>
+						<li>F3
+						</li>
+						<li>F4
+						</li>
+						<li>F5
+						</li>
+						<li>F6
+						</li>
+						<li>F7
+						</li>
+						<li>F8
+						</li>
+						<li>F9
+						</li>
+						<li>F10
+						</li>
+						<li>F11
+						</li>
+						<li>F12
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Photopic &amp; Scotopic luminous efficiency functions spectral data:
+						<ul>
+							<li>CIE 1924 2 Degree Observer
+							</li>
+							<li>Judd Modified CIE 1951 2 Degree Observer
+							</li>
+							<li>Judd-Vos Modified CIE 1978 2 Degree Observer
+							</li>
+							<li>Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe
+							</li>
+							<li>Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer
+							</li>
+							<li>Wald &amp; Crawford CIE 1951 2 Degree Observer
+							</li>
+						</ul>
+					</li>
+					<li>Correlated color temperature calculation:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>Wyszecki &amp; Roberston method implementation.
+						</li>
+						<li>Yoshi Ohno method implementation.
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Spectral power distribution data manipulation and conversion to color.
+					</li>
+					<li>Blackbody spectral radiance calculation.
+					</li>
+					<li>Chromatic adaptation with following methods:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>XYZ Scaling.
+						</li>
+						<li>Bradford.
+						</li>
+						<li>Von Kries.
+						</li>
+						<li>CAT02.
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Luminance, Munsell value and Lightness calculations:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>Luminance 1943
+						</li>
+						<li>Luminance 1976
+						</li>
+						<li>Munsell Value 1920
+						</li>
+						<li>Munsell Value 1933
+						</li>
+						<li>Munsell Value 1943
+						</li>
+						<li>Munsell Value 1944
+						</li>
+						<li>Munsell Value 1955
+						</li>
+						<li>Lightness 1958
+						</li>
+						<li>Lightness 1964
+						</li>
+						<li>Lightness 1976
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>RGB Colorspaces support:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>ACES RGB
+						</li>
+						<li>Adobe RGB 1998
+						</li>
+						<li>Adobe Wide Gamut RGB
+						</li>
+						<li>ALEXA Wide Gamut RGB
+						</li>
+						<li>Apple RGB
+						</li>
+						<li>Best RGB
+						</li>
+						<li>Beta RGB
+						</li>
+						<li>CIE RGB
+						</li>
+						<li>ColorMatch RGB
+						</li>
+						<li>DCI-P3
+						</li>
+						<li>Don RGB 4
+						</li>
+						<li>ECI RGB v2
+						</li>
+						<li>Ekta Space PS 5
+						</li>
+						<li>Max RGB
+						</li>
+						<li>NTSC RGB
+						</li>
+						<li>Pal/Secam RGB
+						</li>
+						<li>ProPhoto RGB
+						</li>
+						<li>Rec. 709
+						</li>
+						<li>Rec. 2020
+						</li>
+						<li>Russell RGB
+						</li>
+						<li>S-Log
+						</li>
+						<li>SMPTE-C RGB
+						</li>
+						<li>Xtreme RGB
+						</li>
+						<li>sRGB
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Colorspaces transformation and conversion:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>Wavelength to XYZ.
+						</li>
+						<li>Spectral to XYZ.
+						</li>
+						<li>XYZ to xyY.
+						</li>
+						<li>xyY to XYZ.
+						</li>
+						<li>xy to XYZ.
+						</li>
+						<li>XYZ to xy.
+						</li>
+						<li>XYZ to RGB.
+						</li>
+						<li>RGB to XYZ.
+						</li>
+						<li>xyY to RGB.
+						</li>
+						<li>RGB to xyY.
+						</li>
+						<li>XYZ to UVW.
+						</li>
+						<li>UVW to XYZ.
+						</li>
+						<li>UVW to uv.
+						</li>
+						<li>UVW uv to xy.
+						</li>
+						<li>XYZ to Luv.
+						</li>
+						<li>Luv to XYZ.
+						</li>
+						<li>Luv to uv.
+						</li>
+						<li>Luv uv to xy.
+						</li>
+						<li>Luv to LCHuv.
+						</li>
+						<li>LCHuv to Luv.
+						</li>
+						<li>XYZ to Lab.
+						</li>
+						<li>Lab to XYZ.
+						</li>
+						<li>Lab to LCHab.
+						</li>
+						<li>LCHab to Lab.
+						</li>
+						<li>uv to cct, duv.
+						</li>
+						<li>cct, duv to uv.
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Illuminants chromaticity coordinates data.
+					</li>
+					<li>Correlated color temperature calculation.
+					</li>
+					<li>Colorspaces derivation.
+					</li>
+					<li>Color difference calculation with following methods:
+					</li>
+				</ul>
+				<blockquote>
+					<ul class="simple">
+						<li>ΔE CIE 1976.
+						</li>
+						<li>ΔE CIE 1994.
+						</li>
+						<li>ΔE CIE 2000.
+						</li>
+						<li>ΔE CMC.
+						</li>
+					</ul>
+				</blockquote>
+				<ul class="simple">
+					<li>Color rendition chart data.
+					</li>
+					<li>Comprehensive plotting capabilities.
+					</li>
+				</ul><br />
+				<!-- .installation -->
+			</div>
+			<div class="section" id="id2">
+				<h1>
+					<span class="target" id="installation">Installation</span>
+				</h1>
+				<p>
+					The following dependencies are needed:
+				</p>
+				<ul class="simple">
+					<li>
+						<strong>Python 2.6.7</strong> or <strong>Python 2.7.3</strong>: <a class="reference external" href="http://www.python.org/">http://www.python.org/</a>
+					</li>
+				</ul>
+				<p>
+					You can install directly from <a class="reference external" href="http://github.com/KelSolaar/Color">Github</a> source repository:
+				</p>
 				<pre class="literal-block">
 git clone git://github.com/KelSolaar/Color.git
 cd Color
 python setup.py install
 </pre>
-    <p>
-        If you want to build the documentation you will also need:
-    </p>
-    <ul class="simple">
-        <li>
-            <strong>Tidy</strong> <a class="reference external" href="http://tidy.sourceforge.net/">http://tidy.sourceforge.net/</a>
-        </li>
-    </ul>
-    <br/>
-    <!-- .usage -->
-</div>
-<div class="section" id="id3">
-    <h1>
-        <span class="target" id="usage">Usage</span>
-    </h1><br/>
-    <!-- .api -->
-</div>
-<div class="section" id="id4">
-    <h1>
-        <span class="target" id="api">Api</span>
-    </h1><br/>
-    <!-- .changes -->
-</div>
-<div class="section" id="id5">
-    <h1>
-        <span class="target" id="changes">Changes</span>
-    </h1><br/>
-    <!-- .acknowledgements -->
-</div>
-<div class="section" id="id6">
-    <h1>
-        <span class="target" id="acknowledgements">Acknowledgements</span>
-    </h1>
-    <ul class="simple">
-        <li>
-            <strong>Yoshi Ohno</strong> for helping me pinpointing the root cause of calculation discrepancies in my
-            implementation of his CCT &amp; Duv calculation method.
-        </li>
-        <li>
-            <strong>Charles Poynton</strong> for taking time to reply to my questions.
-        </li>
-        <li>
-            <strong>Michael Parsons</strong> for all the continuous technical advices.
-        </li>
-    </ul>
-    <!-- .references -->
-</div>
-<div class="section" id="id7">
-<h1>
-    <span class="target" id="references">References</span>
-</h1>
-
-<p>
-    Wyszecki &amp; Stiles, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley
-    Classics Library Edition published 2000, ISBN: 0-471-39918-3
-</p>
-
-<p>
-    Edward J. Giorgianni &amp; Thomas E. Madden, <em>Digital Color Management: Encoding Solutions - Second Edition</em>,
-    Wiley published November 2008, ISBN: 978-0-470-99436-8
-</p>
-
-<p>
-    Charles Poynton, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
-</p>
-
-<p>
-    Charles Poynton, <a class="reference external" href="http://www.poynton.com/GammaFAQ.html">Gamma FAQ</a>
-</p>
-
-<div class="section" id="planc-s-law">
-    <h2>
-        Planc's Law
-    </h2>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Planck's_law">Planck's Law</a> (Last accessed
-        24 February 2014)
-    </p>
-</div>
-<div class="section" id="chromatic-adaptation">
-    <h2>
-        Chromatic Adaptation
-    </h2>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling
-        Chromatic Adaptation</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford
-        Chromatic Adaptation</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries
-        Chromatic Adaptation</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIECAM02#CAT0">CAT02 Chromatic Adaptation</a>
-        (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="color-rendition-charts">
-    <h2>
-        Color Rendition Charts
-    </h2>
-
-    <p>
-        <a class="reference external" href="http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls">Babel
-            Color ColorChecker RGB and Spectral Data</a> (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="luminance-munsell-value-lightness">
-    <h2>
-        Luminance, Munsell value, Lightness
-    </h2>
-
-    <p>
-        <a class="reference external"
-           href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Luminance</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Luminance 1943</a> (Last accessed 13
-        April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1920</a> (Last
-        accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1933</a> (Last
-        accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1943</a> (Last
-        accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1944</a> (Last
-        accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1955</a> (Last
-        accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1958</a> (Last accessed 13
-        April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1964</a> (Last accessed 13
-        April 2014)
-    </p>
-
-    <p>
-        Charles Poynton, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness
-        1976</a> (Last accessed 12 April 2014)
-    </p>
-</div>
-<div class="section" id="rgb-colorspaces">
-    <h2>
-        RGB Colorspaces
-    </h2>
-
-    <p>
-        <a class="reference external" href="http://www.oscars.org/science-technology/council/projects/aces.html">ACES
-            RGB Colorspace</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf">Adobe RGB 1998
-            Colorspace</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space">Adobe Wide Gamut
-            Colorspace</a> (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">Apple RGB
-            Colorspace</a> (Last accessed 11 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.hutchcolor.com/profiles/BestRGB.zip">Best RGB Colorspace</a>
-        (Last accessed 11 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">Beta RGB Colorspace</a>
-        (Last accessed 11 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data">CIE
-            RGB Colorspace</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">ColorMatch
-            Colorspace</a> (Last accessed 12 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf">DCI-P3
-            Colorspace</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.hutchcolor.com/profiles/DonRGB4.zip">Don RGB 4 Colorspace</a>
-        (Last accessed 12 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip">ECI
-            RGB v2 Colorspace</a> (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.josephholmes.com/Ekta_Space.zip">Ekta Space PS 5 Colorspace</a>
-        (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.hutchcolor.com/profiles/MaxRGB.zip">Max RGB Colorspace</a> (Last
-        accessed 12 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf">NTSC RGB Colorspace</a>
-        (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf">Pal/Secam RGB
-            Colorspace</a> (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls">Pointer's
-            Gamut</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.color.org/ROMMRGB.pdf">ProPhoto RGB Colorspace</a> (Last accessed
-        24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf">Rec.709 Colorspace</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.russellcottrell.com/photo/RussellRGB.htm">Russell RGB
-            Colorspace</a> (Last accessed 11 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external"
-           href="http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf">SMPTE-C RGB
-            Colorspace</a> (Last accessed 13 April 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.color.org/srgb.pdf">sRGB Colorspace</a> (Last accessed 24
-        February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.hutchcolor.com/profiles/MaxRGB.zip">Xtreme RGB Colorspace</a>
-        (Last accessed 12 April 2014)
-    </p>
-</div>
-<div class="section" id="colorspace-derivation">
-    <h2>
-        Colorspace Derivation
-    </h2>
-
-    <p>
-        <a class="reference external"
-           href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Colorspace
-            Derivation</a> (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="color-difference">
-    <h2>
-        Color Difference
-    </h2>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE
-        1976</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE
-        1994</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE
-        2000</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a>
-        (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="illuminants-chromaticity-coordinates">
-    <h2>
-        Illuminants Chromaticity Coordinates
-    </h2>
-
-    <p>
-        <a class="reference external"
-           href="http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants">Illuminants
-            chromaticity coordinates</a> (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="color-matching-functions">
-    <h2>
-        Color Matching Functions
-    </h2>
-
-    <p>
-        <a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2 Degree
-            Observer</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10 Degree
-            Observer</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1931 2 Degree Observer</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1964 10 Degree Observer</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 2 Degree
-            Observer</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 10 Degree
-            Observer</a> (Last accessed 24 February 2014)
-    </p>
-</div>
-<div class="section" id="illuminants-relative-spectral-power-distributions">
-    <h2>
-        Illuminants Relative Spectral Power Distributions
-    </h2>
-
-    <p>
-        <a class="reference external" href="http://files.cie.co.at/204.xls">A</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://files.cie.co.at/204.xls">D65</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">C</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D50</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D55</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D75</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F1</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F2</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F3</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F4</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F5</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F6</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F7</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F8</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F9</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F10</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F11</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F12</a>
-        (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a>
-        (Last accessed 5 April 2014)
-    </p>
-</div>
-<div class="section" id="temperature">
-    <h2>
-        Temperature
-    </h2>
-
-    <p>
-        Yoshi Ohno, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use
-        and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
-    </p>
-</div>
-<div class="section" id="transformations">
-    <h2>
-        Transformations
-    </h2>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_Spect_to_XYZ.html">Spectral
-        to XYZ</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html">XYZ to
-        xyY</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html">xyY to
-        XYZ</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to
-            UVW</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to
-            XYZ</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to
-            uv</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW uv
-            to xy</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_XYZ_to_Luv.html">XYZ to
-        Luv</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_Luv_to_XYZ.html">Luv to
-        XYZ</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation">Luv to
-            uv</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        <a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation">Luv uv to
-            xy</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html">Luv to
-        LCHuv</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html">LCHuv to
-        Luv</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html">XYZ to
-        Lab</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html">Lab to
-        XYZ</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html">Lab to
-        LCHab</a> (Last accessed 24 February 2014)
-    </p>
-
-    <p>
-        Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to
-        Lab</a> (Last accessed 24 February 2014)
-    </p><br/>
-    <!-- .about -->
-</div>
-</div>
-<div class="section" id="id10">
-    <h1>
-        <span class="target" id="about">About</span>
-    </h1>
-
-    <div class="line-block">
-        <div class="line">
-            <strong>Color</strong> by Thomas Mansencal - Michael Parsons - 2013 - 2014
-        </div>
-        <div class="line">
-            Copyright © 2013 - 2014 – Thomas Mansencal – <a class="reference external"
-                                                            href="mailto:thomas.mansencal&#64;gmail.com">thomas.mansencal&#64;gmail.com</a>
-        </div>
-        <div class="line">
-            This software is released under terms of GNU GPL V3 license: <a class="reference external"
-                                                                            href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>
-        </div>
-        <div class="line">
-            <a class="reference external" href="http://www.thomasmansencal.com/">http://www.thomasmansencal.com/</a>
-        </div>
-    </div>
-</div>
-</div>
-</body>
+				<p>
+					If you want to build the documentation you will also need:
+				</p>
+				<ul class="simple">
+					<li>
+						<strong>Tidy</strong> <a class="reference external" href="http://tidy.sourceforge.net/">http://tidy.sourceforge.net/</a>
+					</li>
+				</ul><br />
+				<!-- .usage -->
+			</div>
+			<div class="section" id="id3">
+				<h1>
+					<span class="target" id="usage">Usage</span>
+				</h1><br />
+				<!-- .api -->
+			</div>
+			<div class="section" id="id4">
+				<h1>
+					<span class="target" id="api">Api</span>
+				</h1><br />
+				<!-- .changes -->
+			</div>
+			<div class="section" id="id5">
+				<h1>
+					<span class="target" id="changes">Changes</span>
+				</h1><br />
+				<!-- .acknowledgements -->
+			</div>
+			<div class="section" id="id6">
+				<h1>
+					<span class="target" id="acknowledgements">Acknowledgements</span>
+				</h1>
+				<ul class="simple">
+					<li>
+						<strong>Yoshi Ohno</strong> for helping me pinpointing the root cause of calculation discrepancies in my implementation of his CCT &amp; Duv calculation method.
+					</li>
+					<li>
+						<strong>Charles Poynton</strong> for taking time to reply to my questions.
+					</li>
+					<li>
+						<strong>Michael Parsons</strong> for all the continuous technical advices.
+					</li>
+				</ul><!-- .references -->
+			</div>
+			<div class="section" id="id7">
+				<h1>
+					<span class="target" id="references">References</span>
+				</h1>
+				<p>
+					Wyszecki &amp; Stiles, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition published 2000, ISBN: 0-471-39918-3
+				</p>
+				<p>
+					Edward J. Giorgianni &amp; Thomas E. Madden, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley published November 2008, ISBN: 978-0-470-99436-8
+				</p>
+				<p>
+					Charles Poynton, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics published 2 December 2012, ISBN: 978-0123919267
+				</p>
+				<p>
+					Charles Poynton, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
+				</p>
+				<p>
+					Charles Poynton, <a class="reference external" href="http://www.poynton.com/GammaFAQ.html">Gamma FAQ</a>
+				</p>
+				<div class="section" id="planc-s-law">
+					<h2>
+						Planc's Law
+					</h2>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Planck's_law">Planck's Law</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="chromatic-adaptation">
+					<h2>
+						Chromatic Adaptation
+					</h2>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIECAM02#CAT0">CAT02 Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-rendition-charts">
+					<h2>
+						Color Rendition Charts
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls">Babel Color ColorChecker RGB and Spectral Data</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="luminance-munsell-value-lightness">
+					<h2>
+						Luminance, Munsell value, Lightness
+					</h2>
+					<p>
+						<a class="reference external" href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Luminance</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Luminance 1943</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Luminance 1976</a> (Last accessed 12 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1920</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1933</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1943</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1944</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1955</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1958</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1964</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						Charles Poynton, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
+					</p>
+				</div>
+				<div class="section" id="rgb-colorspaces">
+					<h2>
+						RGB Colorspaces
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.oscars.org/science-technology/council/projects/aces.html">ACES RGB Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf">Adobe RGB 1998 Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space">Adobe Wide Gamut RGB Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.arri.com/?eID=registration&amp;file_uid=8026">ALEXA Wide Gamut RGB Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">Apple RGB Colorspace</a> (Last accessed 11 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.hutchcolor.com/profiles/BestRGB.zip">Best RGB Colorspace</a> (Last accessed 11 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">Beta RGB Colorspace</a> (Last accessed 11 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data">CIE RGB Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf">C-Log Colorspace</a> (Last accessed 18 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.brucelindbloom.com/WorkingSpaceInfo.html">ColorMatch Colorspace</a> (Last accessed 12 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf">DCI-P3 Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.hutchcolor.com/profiles/DonRGB4.zip">Don RGB 4 Colorspace</a> (Last accessed 12 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip">ECI RGB v2 Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.josephholmes.com/Ekta_Space.zip">Ekta Space PS 5 Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.hutchcolor.com/profiles/MaxRGB.zip">Max RGB Colorspace</a> (Last accessed 12 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf">NTSC RGB Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf">Pal/Secam RGB Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls">Pointer's Gamut</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.color.org/ROMMRGB.pdf">ProPhoto RGB Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf">Rec. 709 Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf">Rec. 2020 Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.russellcottrell.com/photo/RussellRGB.htm">Russell RGB Colorspace</a> (Last accessed 11 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf">S-Log Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf">SMPTE-C RGB Colorspace</a> (Last accessed 13 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.color.org/srgb.pdf">sRGB Colorspace</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.hutchcolor.com/profiles/MaxRGB.zip">Xtreme RGB Colorspace</a> (Last accessed 12 April 2014)
+					</p>
+				</div>
+				<div class="section" id="colorspace-derivation">
+					<h2>
+						Colorspace Derivation
+					</h2>
+					<p>
+						<a class="reference external" href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Colorspace Derivation</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-difference">
+					<h2>
+						Color Difference
+					</h2>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE 1976</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE 1994</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE 2000</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="illuminants-chromaticity-coordinates">
+					<h2>
+						Illuminants Chromaticity Coordinates
+					</h2>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants">Illuminants chromaticity coordinates</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-matching-functions">
+					<h2>
+						Color Matching Functions
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1931 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1964 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="illuminants-relative-spectral-power-distributions">
+					<h2>
+						Illuminants Relative Spectral Power Distributions
+					</h2>
+					<p>
+						<a class="reference external" href="http://files.cie.co.at/204.xls">A</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://files.cie.co.at/204.xls">D65</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">C</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D50</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D55</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D75</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F1</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F2</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F3</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F4</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F5</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F6</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F7</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F8</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F9</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F10</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F11</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F12</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a> (Last accessed 5 April 2014)
+					</p>
+				</div>
+				<div class="section" id="luminous-efficiency-functions">
+					<h2>
+						Luminous Efficiency Functions
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1924 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd Modified CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd-Vos Modified CIE 1978 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Wald &amp; Crawford CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+				</div>
+				<div class="section" id="temperature">
+					<h2>
+						Temperature
+					</h2>
+					<p>
+						Yoshi Ohno, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
+					</p>
+				</div>
+				<div class="section" id="transformations">
+					<h2>
+						Transformations
+					</h2>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_Spect_to_XYZ.html">Spectral to XYZ</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html">XYZ to xyY</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html">xyY to XYZ</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to UVW</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to XYZ</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to uv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW uv to xy</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_XYZ_to_Luv.html">XYZ to Luv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_Luv_to_XYZ.html">Luv to XYZ</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation">Luv to uv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation">Luv uv to xy</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html">Luv to LCHuv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html">LCHuv to Luv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html">XYZ to Lab</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html">Lab to XYZ</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html">Lab to LCHab</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to Lab</a> (Last accessed 24 February 2014)
+					</p><br />
+					<!-- .about -->
+				</div>
+			</div>
+			<div class="section" id="id10">
+				<h1>
+					<span class="target" id="about">About</span>
+				</h1>
+				<div class="line-block">
+					<div class="line">
+						<strong>Color</strong> by Thomas Mansencal - Michael Parsons - 2013 - 2014
+					</div>
+					<div class="line">
+						Copyright © 2013 - 2014 – Thomas Mansencal – <a class="reference external" href="mailto:thomas.mansencal&#64;gmail.com">thomas.mansencal&#64;gmail.com</a>
+					</div>
+					<div class="line">
+						This software is released under terms of GNU GPL V3 license: <a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>
+					</div>
+					<div class="line">
+						<a class="reference external" href="http://www.thomasmansencal.com/">http://www.thomasmansencal.com/</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

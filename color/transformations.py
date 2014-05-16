@@ -159,13 +159,13 @@ def spectral_to_XYZ(spd,
 
     denominator = y_bar * illuminant
     spd = spd * illuminant
-    xNumerator = spd * x_bar
-    yNumerator = spd * y_bar
-    zNumerator = spd * z_bar
+    x_numerator = spd * x_bar
+    y_numerator = spd * y_bar
+    z_numerator = spd * z_bar
 
-    XYZ = numpy.matrix([xNumerator.sum() / denominator.sum(),
-                        yNumerator.sum() / denominator.sum(),
-                        zNumerator.sum() / denominator.sum()])
+    XYZ = numpy.matrix([x_numerator.sum() / denominator.sum(),
+                        y_numerator.sum() / denominator.sum(),
+                        z_numerator.sum() / denominator.sum()])
 
     return XYZ.reshape((3, 1))
 
@@ -317,7 +317,7 @@ def XYZ_to_RGB(XYZ,
     RGB = from_XYZ * adaptedXYZ
 
     if transfer_function is not None:
-        RGB = transfer_function(RGB)
+        RGB = numpy.matrix(map(lambda x: transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
     LOGGER.debug("'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
     LOGGER.debug("Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
@@ -365,7 +365,7 @@ def RGB_to_XYZ(RGB,
     """
 
     if inverse_transfer_function is not None:
-        RGB = inverse_transfer_function(RGB)
+        RGB = numpy.matrix(map(lambda x: inverse_transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
     XYZ = to_XYZ * RGB
 
