@@ -93,7 +93,7 @@ def __aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     """
     Defines the *ACES RGB Log* colorspace transfer function.
 
-    Reference: http://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesLog/aces_to_acesLog32f.ctl
+    Reference: http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf
 
     :param value: value.
     :type value: float
@@ -121,7 +121,7 @@ def __aces_rgb_log_inverse_transfer_function(value):
     """
     Defines the *ACES RGB Log* colorspace inverse transfer function.
 
-    Reference: http://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesLog/acesLog32f_to_aces.ctl
+    Reference: http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf
 
     :param value: value.
     :type value: float
@@ -168,7 +168,7 @@ def __aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colorspace transfer function.
 
-    Reference: http://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesProxy/aces_to_acesProxy10.ctl
+    Reference: http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf
 
     :param value: value.
     :type value: float
@@ -191,7 +191,7 @@ def __aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colorspace inverse transfer function.
 
-    Reference: http://github.com/ampas/aces-dev/blob/master/transforms/ctl/acesProxy/acesProxy10_to_aces.ctl
+    Reference: http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf
 
     :param value: value.
     :type value: float
