@@ -284,11 +284,9 @@ sRGB_LINEAR_COLORCHECKER_2005 = [[[0.4316, 0.3777, 0.1008],
                                                 [0.19371002],
                                                 [0.19903915]])]]
 
-sRGB_TRANSFER_FUNCTION = lambda y: numpy.matrix(
-    map(lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055, numpy.ravel(y))).reshape((3, 1))
+sRGB_TRANSFER_FUNCTION = lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055
 
-sRGB_INVERSE_TRANSFER_FUNCTION = lambda y: numpy.matrix(
-    map(lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4, numpy.ravel(y))).reshape((3, 1))
+sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4
 
 ACES_COLORCHECKER_2005 = [[[0.4316, 0.3777, 0.1008],
                            (0.11518474980142972, 0.1008, 0.050893725178713274),
