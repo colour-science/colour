@@ -152,6 +152,8 @@ Here are some features:
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
+  -  RGB to HSV.
+  -  HSV to RGB.
   -  uv to cct, duv.
   -  cct, duv to uv.
 
@@ -486,6 +488,10 @@ Bruce Lindbloom, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>
 Bruce Lindbloom, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 
 Bruce Lindbloom, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
+
+`RGB to HSV <http://www.easyrgb.com/index.php?X=MATH&H=20#text20>`_
+
+`HSV to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_
 
 .. raw:: html
 

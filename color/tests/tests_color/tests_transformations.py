@@ -61,7 +61,9 @@ __all__ = ["RELATIVE_SPD_DATA",
            "TestXYZ_to_Lab",
            "TestLab_to_XYZ",
            "TestLab_to_LCHab",
-           "TestLCHab_to_Lab"]
+           "TestLCHab_to_Lab",
+           "TestRGB_to_HSV",
+           "TestHSV_to_RGB"]
 
 RELATIVE_SPD_DATA = color.spectral.SpectralPowerDistribution("Custom", {340: 0.0000,
                                                                         345: 0.0000,
@@ -1290,6 +1292,66 @@ class TestLCHab_to_Lab(unittest.TestCase):
                                                         -73.58297716]).reshape((3, 1)),
                                           decimal=7)
 
+
+class TestRGB_to_HSV(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.RGB_to_HSV` definition units tests methods.
+    """
+
+    def test_RGB_to_HSV(self):
+        """
+        Tests :func:`color.transformations.RGB_to_HSV` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSV(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
+            numpy.matrix([0.27272727,
+                          0.91666667,
+                          0.6]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSV(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          0.]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSV(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          1.]).reshape((3, 1)),
+            decimal=7)
+
+class TestHSV_to_RGB(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.HSV_to_RGB` definition units tests methods.
+    """
+
+    def test_HSV_to_RGB(self):
+        """
+        Tests :func:`color.transformations.HSV_to_RGB` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSV_to_RGB(numpy.matrix([0.27272727, 0.91666667, 0.6]).reshape((3, 1))),
+            numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSV_to_RGB(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          0.]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSV_to_RGB(numpy.matrix([0., 0., 1.]).reshape((3, 1))),
+            numpy.matrix([1.,
+                          1.,
+                          1.]).reshape((3, 1)),
+            decimal=7)
 
 if __name__ == "__main__":
     unittest.main()

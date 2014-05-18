@@ -59,3 +59,7 @@ Functions
 
 .. autofunction:: LCHab_to_Lab
 
+.. autofunction:: RGB_to_HSV
+
+.. autofunction:: HSV_to_RGB
+
