@@ -12,12 +12,12 @@ Charles Poynton, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 Charles Poynton, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
 
 Planc's Law
-***********
+-----------
 
 `Planck's Law <http://en.wikipedia.org/wiki/Planck's_law>`_ (Last accessed 24 February 2014)
 
 Chromatic Adaptation
-********************
+--------------------
 
 Bruce Lindbloom, `XYZ Scaling Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 
@@ -28,12 +28,12 @@ Bruce Lindbloom, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_
 `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
 
 Color Rendition Charts
-**********************
+----------------------
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
 
 Luminance, Munsell value, Lightness
-***********************************
+-----------------------------------
 
 `Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
 
@@ -58,7 +58,7 @@ Luminance, Munsell value, Lightness
 Charles Poynton, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
 
 RGB Colorspaces
-***************
+---------------
 
 `ACES RGB Colorspace <http://www.oscars.org/science-technology/council/projects/aces.html>`_ (Last accessed 24 February 2014)
 
@@ -119,12 +119,12 @@ RGB Colorspaces
 `Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
 Colorspace Derivation
-*********************
+---------------------
 
 `Colorspace Derivation <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
 
 Color Difference
-****************
+----------------
 
 Bruce Lindbloom, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
 
@@ -135,12 +135,12 @@ Bruce Lindbloom, `ΔE CIE 2000 <http://brucelindbloom.com/Eqn_DeltaE_CIE2000.htm
 Bruce Lindbloom, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
 
 Illuminants Chromaticity Coordinates
-************************************
+------------------------------------
 
-`Illuminants chromaticity coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
+`Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
 Color Matching Functions
-************************
+------------------------
 
 `Stiles & Burch 1955 2 Degree Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
 
@@ -155,7 +155,7 @@ Color Matching Functions
 `Standard CIE 2006 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
 Illuminants Relative Spectral Power Distributions
-*************************************************
+-------------------------------------------------
 
 `A <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
 
@@ -196,7 +196,7 @@ Illuminants Relative Spectral Power Distributions
 Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
 
 Luminous Efficiency Functions
-*****************************
+-----------------------------
 
 `CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
@@ -211,12 +211,12 @@ Luminous Efficiency Functions
 `Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Temperature
-***********
+-----------
 
 Yoshi Ohno, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 
 Transformations
-***************
+---------------
 
 Bruce Lindbloom, `Spectral to XYZ <http://brucelindbloom.com/Eqn_Spect_to_XYZ.html>`_ (Last accessed 24 February 2014)
 

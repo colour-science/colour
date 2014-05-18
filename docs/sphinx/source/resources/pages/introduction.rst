@@ -3,7 +3,17 @@ _`Introduction`
 
 **Color** is a **Python** color science package implementing a comprehensive number of color transformations and manipulations objects.
 
-Here are some features:
+_`History`
+----------
+
+**Color** started as a raw conversion building block for `The Moving Picture Company <http://www.moving-picture.com>`_ stills ingestion pipeline.
+
+Generic objects have been extracted, reorganised and are now provided as a nice packaged API while keeping the undisclosable code private. The original `MPC <http://www.moving-picture.com>`_ *camelCase* naming convention and code style has been changed for *Pep8* compliance.
+
+Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ **Python** package.
+
+_`Highlights`
+-------------
 
 -  RGB and XYZ color matching functions spectral data:
 
@@ -75,6 +85,9 @@ Here are some features:
 -  RGB Colorspaces support:
 
   -  ACES RGB
+  -  ACES RGB Log
+  -  ACES RGB Proxy 10
+  -  ACES RGB Proxy 12
   -  Adobe RGB 1998
   -  Adobe Wide Gamut RGB
   -  ALEXA Wide Gamut RGB
