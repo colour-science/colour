@@ -63,7 +63,8 @@ __all__ = ["RELATIVE_SPD_DATA",
            "TestLab_to_LCHab",
            "TestLCHab_to_Lab",
            "TestRGB_to_HSV",
-           "TestHSV_to_RGB"]
+           "TestHSV_to_RGB",
+           "TestRGB_to_HSL"]
 
 RELATIVE_SPD_DATA = color.spectral.SpectralPowerDistribution("Custom", {340: 0.0000,
                                                                         345: 0.0000,
@@ -1324,6 +1325,7 @@ class TestRGB_to_HSV(unittest.TestCase):
                           1.]).reshape((3, 1)),
             decimal=7)
 
+
 class TestHSV_to_RGB(unittest.TestCase):
     """
     Defines :func:`color.transformations.HSV_to_RGB` definition units tests methods.
@@ -1352,6 +1354,69 @@ class TestHSV_to_RGB(unittest.TestCase):
                           1.,
                           1.]).reshape((3, 1)),
             decimal=7)
+
+
+class TestRGB_to_HSL(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.RGB_to_HSL` definition units tests methods.
+    """
+
+    def test_RGB_to_HSL(self):
+        """
+        Tests :func:`color.transformations.RGB_to_HSL` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSL(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
+            numpy.matrix([0.27272727,
+                          0.84615385,
+                          0.325]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSL(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          0.]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.RGB_to_HSL(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          1.]).reshape((3, 1)),
+            decimal=7)
+
+
+class TestHSL_to_RGB(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.HSL_to_RGB` definition units tests methods.
+    """
+
+    def test_HSL_to_RGB(self):
+        """
+        Tests :func:`color.transformations.HSL_to_RGB` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSL_to_RGB(numpy.matrix([0.27272727, 0.84615385, 0.325]).reshape((3, 1))),
+            numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSL_to_RGB(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
+            numpy.matrix([0.,
+                          0.,
+                          0.]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.HSL_to_RGB(numpy.matrix([0., 0., 1.]).reshape((3, 1))),
+            numpy.matrix([1.,
+                          1.,
+                          1.]).reshape((3, 1)),
+            decimal=7)
+
 
 if __name__ == "__main__":
     unittest.main()

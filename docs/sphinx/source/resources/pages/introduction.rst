@@ -127,6 +127,8 @@ Here are some features:
   -  LCHab to Lab.
   -  RGB to HSV.
   -  HSV to RGB.
+  -  RGB to HSL.
+  -  HSL to RGB.
   -  uv to cct, duv.
   -  cct, duv to uv.
 

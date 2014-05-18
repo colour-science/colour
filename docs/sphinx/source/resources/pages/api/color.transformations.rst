@@ -63,3 +63,7 @@ Functions
 
 .. autofunction:: HSV_to_RGB
 
+.. autofunction:: RGB_to_HSL
+
+.. autofunction:: HSL_to_RGB
+

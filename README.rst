@@ -133,6 +133,8 @@ Here are some features:
   -  LCHab to Lab.
   -  RGB to HSV.
   -  HSV to RGB.
+  -  RGB to HSL.
+  -  HSL to RGB.
   -  uv to cct, duv.
   -  cct, duv to uv.
 
@@ -433,9 +435,13 @@ Bruce Lindbloom, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.htm
 
 Bruce Lindbloom, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
 
-`RGB to HSV <http://www.easyrgb.com/index.php?X=MATH&H=20#text20>`_
+`RGB to HSV <http://www.easyrgb.com/index.php?X=MATH&H=20#text20>`_ (Last accessed 18 May 2014)
 
-`HSV to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_
+`HSV to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
+
+`RGB to HSL <http://www.easyrgb.com/index.php?X=MATH&H=18#text18>`_ (Last accessed 18 May 2014)
+
+`HSL to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
 
 About
 -----

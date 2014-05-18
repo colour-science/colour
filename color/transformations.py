@@ -61,7 +61,9 @@ __all__ = ["LOGGER",
            "Lab_to_LCHab",
            "LCHab_to_Lab",
            "RGB_to_HSV",
-           "HSV_to_RGB"]
+           "HSV_to_RGB",
+           "RGB_to_HSL",
+           "HSL_to_RGB"]
 
 LOGGER = color.verbose.install_logger()
 
@@ -918,6 +920,7 @@ def RGB_to_HSV(RGB):
 
     return numpy.matrix([H, S, V]).reshape((3, 1))
 
+
 def HSV_to_RGB(HSV):
     """
     Converts from *HSV* colorspace to *RGB* colorspace using given matrix.
@@ -979,5 +982,113 @@ def HSV_to_RGB(HSV):
             R = V
             G = j
             B = k
+
+    return numpy.matrix([R, G, B]).reshape((3, 1))
+
+
+def RGB_to_HSL(RGB):
+    """
+    Converts from *RGB* colorspace to *HSL* colorspace using given matrix.
+
+    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+
+    Usage::
+
+        >>> RGB_to_HSL(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
+        matrix([[ 0.27867384]
+        [ 0.94897959]
+        [ 0.61568627]]])
+
+    :param RGB: *RGB* colorspace matrix.
+    :type RGB: Matrix (3x1)
+    :return: *HSL* matrix.
+    :rtype: Matrix (3x1)
+
+    :note: *RGB* is in domain [0, 1].
+    :note: *HSL* is in domain [0, 1].
+    """
+
+    R, G, B = numpy.ravel(RGB)
+
+    minimum = min(R, G, B)
+    maximum = max(R, G, B)
+    delta = maximum - minimum
+
+    L = (maximum + minimum) / 2
+
+    if delta == 0:
+        H = 0.
+        S = 0.
+    else:
+
+        S = delta / (maximum + minimum) if L < 0.5 else delta / (2 - maximum - minimum)
+
+        delta_R = (((maximum - R) / 6.) + (delta / 2.)) / delta
+        delta_G = (((maximum - G) / 6.) + (delta / 2.)) / delta
+        delta_B = (((maximum - B) / 6.) + (delta / 2.)) / delta
+
+        if R == maximum:
+            H = delta_B - delta_G
+        elif G == maximum:
+            H = (1. / 3.) + delta_R - delta_B
+        elif B == maximum:
+            H = (2. / 3.) + delta_G - delta_R
+
+        if H < 0:
+            H += 1
+        if H > 1:
+            H -= 1
+
+    return numpy.matrix([H, S, L]).reshape((3, 1))
+
+
+def HSL_to_RGB(HSL):
+    """
+    Converts from *HSL* colorspace to *RGB* colorspace using given matrix.
+
+    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+
+    Usage::
+
+        >>> HSL_to_RGB(numpy.matrix([0.27867384, 0.94897959, 0.61568627]).reshape((3, 1)))
+        matrix([[ 0.49019605]
+        [ 0.98039216]
+        [ 0.25098038]]
+
+    :param HSL: *HSL* colorspace matrix.
+    :type HSL: Matrix (3x1)
+    :return: *RGB* matrix.
+    :rtype: Matrix (3x1)
+
+    :note: *HSL* is in domain [0, 1].
+    :note: *RGB* is in domain [0, 1].
+    """
+
+    H, S, L = numpy.ravel(HSL)
+
+    if S == 1:
+        R = L
+        G = L
+        B = L
+    else:
+        def H_to_RGB(vi, vj, vH):
+            if vH < 0:
+                vH += 1
+            if vH > 1:
+                vH -= 1
+            if 6 * vH < 1:
+                return vi + (vj - vi) * 6. * vH
+            if 2 * vH < 1:
+                return vj
+            if 3 * vH < 2:
+                return vi + (vj - vi) * ((2. / 3.) - vH) * 6.
+            return vi
+
+        j = L * (1. + S) if L < 0.5 else (L + S) - (S * L)
+        i = 2 * L - j
+
+        R = H_to_RGB(i, j, H + (1. / 3.))
+        G = H_to_RGB(i, j, H)
+        B = H_to_RGB(i, j, H - (1. / 3.))
 
     return numpy.matrix([R, G, B]).reshape((3, 1))
