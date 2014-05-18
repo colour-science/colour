@@ -63,7 +63,11 @@ __all__ = ["LOGGER",
            "RGB_to_HSV",
            "HSV_to_RGB",
            "RGB_to_HSL",
-           "HSL_to_RGB"]
+           "HSL_to_RGB",
+           "RGB_to_CMY",
+           "CMY_to_RGB",
+           "CMY_to_CMYK",
+           "CMYK_to_CMY"]
 
 LOGGER = color.verbose.install_logger()
 
@@ -78,8 +82,8 @@ def wavelength_to_XYZ(wavelength, cmfs):
 
         >>> wavelength_to_XYZ(480, color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer"))
         matrix([[ 0.09564],
-            [ 0.13902],
-            [ 0.81295]])
+                [ 0.13902],
+                [ 0.81295]])
 
     :param wavelength: Wavelength in nm.
     :type wavelength: float
@@ -124,8 +128,8 @@ def spectral_to_XYZ(spd,
         >>> illuminant = color.ILLUMINANTS_RELATIVE_SPD.get("D50").resparse(*cmfs.shape)
         >>> spectral_to_XYZ(spd, cmfs, illuminant)
         matrix([[  4.57648522e-06],
-            [  1.29648668e-07],
-            [  2.16158075e-05]])
+                [  1.29648668e-07],
+                [  2.16158075e-05]])
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
@@ -176,7 +180,7 @@ def spectral_to_XYZ(spd,
 
 def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
-    Converts from *CIE XYZ* colorspace to *CIE xyY* colorspace using given matrix and reference *illuminant*.
+    Converts from *CIE XYZ* colorspace to *CIE xyY* colorspace and reference *illuminant*.
 
     Reference: http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 
@@ -184,8 +188,8 @@ def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
         >>> XYZ_to_xyY(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
         matrix([[  0.4325],
-            [  0.3788],
-            [ 10.34  ]])
+                [  0.3788],
+                [ 10.34  ]])
 
     :param XYZ: *CIE XYZ* matrix.
     :type XYZ: Matrix (3x1)
@@ -205,7 +209,7 @@ def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
 def xyY_to_XYZ(xyY):
     """
-    Converts from *CIE xyY* colorspace to *CIE XYZ* colorspace using given matrix.
+    Converts from *CIE xyY* colorspace to *CIE XYZ* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 
@@ -213,8 +217,8 @@ def xyY_to_XYZ(xyY):
 
         >>> xyY_to_XYZ(numpy.matrix([0.4325, 0.3788, 10.34]).reshape((3, 1)))
         matrix([[ 11.80583421],
-            [ 10.34      ],
-            [  5.15089229]])
+                [ 10.34      ],
+                [  5.15089229]])
 
     :param xyY: *CIE xyY* matrix.
     :type xyY: Matrix (3x1)
@@ -238,8 +242,8 @@ def xy_to_XYZ(xy):
 
         >>> xy_to_XYZ((0.25, 0.25))
         matrix([[ 1.],
-            [ 1.],
-            [ 2.]])
+                [ 1.],
+                [ 2.]])
 
     :param xy: *xy* chromaticity coordinate.
     :type xy: tuple
@@ -292,8 +296,8 @@ def XYZ_to_RGB(XYZ,
         >>> from_XYZ =  numpy.matrix([3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3))
         >>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, chromatic_adaptation_method, from_XYZ)
         matrix([[ 17.303501],
-            [ 8.8211033],
-            [ 5.5672498]])
+                [ 8.8211033],
+                [ 5.5672498]])
 
     :param XYZ: *CIE XYZ* colorspace matrix.
     :type XYZ: Matrix (3x1)
@@ -349,8 +353,8 @@ def RGB_to_XYZ(RGB,
         >>> to_XYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
         >>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, chromatic_adaptation_method, to_XYZ)
         matrix([[ 11.51847498],
-            [ 10.0799999 ],
-            [  5.08937278]])
+                [ 10.0799999 ],
+                [  5.08937278]])
 
     :param RGB: *RGB* colorspace matrix.
     :type RGB: Matrix (3x1)
@@ -406,8 +410,8 @@ def xyY_to_RGB(xyY,
         >>> from_XYZ = numpy.matrix([ 3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3)))
         >>> xyY_to_RGB(xyY, illuminant_xyY, illuminant_RGB, chromatic_adaptation_method, from_XYZ)
         matrix([[ 17.30350095],
-            [  8.21103314],
-            [  5.67249761]])
+                [  8.21103314],
+                [  5.67249761]])
 
     :param xyY: *CIE xyY* matrix.
     :type xyY: Matrix (3x1)
@@ -452,8 +456,8 @@ def RGB_to_xyY(RGB,
         >>> to_XYZ = numpy.matrix([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
         >>> RGB_to_xyY(RGB, illuminant_RGB, illuminant_xyY, chromatic_adaptation_method, to_XYZ)
         matrix([[  0.4316    ],
-            [  0.37769999],
-            [ 10.0799999 ]])
+                [  0.37769999],
+                [ 10.0799999 ]])
 
     :param RGB: *RGB* colorspace matrix.
     :type RGB: Matrix (3x1)
@@ -481,7 +485,7 @@ def RGB_to_xyY(RGB,
 
 def XYZ_to_UVW(XYZ):
     """
-    Converts from *CIE XYZ* colorspace to *CIE UVW* colorspace using given matrix.
+    Converts from *CIE XYZ* colorspace to *CIE UVW* colorspace.
 
     Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
@@ -489,8 +493,8 @@ def XYZ_to_UVW(XYZ):
 
         >>> XYZ_to_UVW(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
         matrix([[  7.87055614]
-            [ 10.34      ]
-            [ 12.18252904]])
+                [ 10.34      ]
+                [ 12.18252904]])
 
     :param XYZ: *CIE XYZ* matrix.
     :type XYZ: Matrix (3x1)
@@ -505,7 +509,7 @@ def XYZ_to_UVW(XYZ):
 
 def UVW_to_XYZ(UVW):
     """
-    Converts from *CIE UVW* colorspace to *CIE XYZ* colorspace using given matrix.
+    Converts from *CIE UVW* colorspace to *CIE XYZ* colorspace.
 
     Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
@@ -513,8 +517,8 @@ def UVW_to_XYZ(UVW):
 
         >>> UVW_to_XYZ(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
         matrix([[  7.87055614]
-            [ 10.34      ]
-            [ 12.18252904]])
+                [ 10.34      ]
+                [ 12.18252904]])
 
     :param UVW: *CIE UVW* matrix.
     :type UVW: Matrix (3x1)
@@ -571,7 +575,7 @@ def UVW_uv_to_xy(uv):
 
 def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
-    Converts from *CIE XYZ* colorspace to *CIE Luv* colorspace using given matrix.
+    Converts from *CIE XYZ* colorspace to *CIE Luv* colorspace.
 
     Reference: http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
 
@@ -579,8 +583,8 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
         >>> XYZ_to_Luv(numpy.matrix([0.92193107, 1., 1.03744246]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [ -20.04304247]
-            [ -45.09684555]])
+                [ -20.04304247]
+                [ -45.09684555]])
 
     :param XYZ: *CIE XYZ* matrix.
     :type XYZ: Matrix (3x1)
@@ -604,7 +608,7 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
 def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
-    Converts from *CIE Luv* colorspace to *CIE XYZ* colorspace using given matrix.
+    Converts from *CIE Luv* colorspace to *CIE XYZ* colorspace.
 
     Reference: http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
@@ -612,8 +616,8 @@ def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
         >>> Luv_to_XYZ(numpy.matrix([100., -20.04304247, -19.81676035]).reshape((3, 1)))
         matrix([[ 0.92193107]
-            [ 1.        ]
-            [ 1.03744246]])
+                [ 1.        ]
+                [ 1.03744246]])
 
     :param Luv: *CIE Luv* matrix.
     :type Luv: Matrix (3x1)
@@ -685,7 +689,7 @@ def Luv_uv_to_xy(uv):
 
 def Luv_to_LCHuv(Luv):
     """
-    Converts from *CIE Luv* colorspace to *CIE LCHuv* colorspace using given matrix.
+    Converts from *CIE Luv* colorspace to *CIE LCHuv* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
 
@@ -693,8 +697,8 @@ def Luv_to_LCHuv(Luv):
 
         >>> Luv_to_LCHuv(numpy.matrix([100., -20.04304247, -19.81676035]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [  28.18559104]
-            [ 224.6747382 ]])
+                [  28.18559104]
+                [ 224.6747382 ]])
 
     :param Luv: *CIE Luv* matrix.
     :type Luv: Matrix (3x1)
@@ -713,7 +717,7 @@ def Luv_to_LCHuv(Luv):
 
 def LCHuv_to_Luv(LCHuv):
     """
-    Converts from *CIE LCHuv* colorspace to *CIE Luv* colorspace using given matrix.
+    Converts from *CIE LCHuv* colorspace to *CIE Luv* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
 
@@ -721,8 +725,8 @@ def LCHuv_to_Luv(LCHuv):
 
         >>> LCHuv_to_Luv(numpy.matrix([100., 28.18559104, 224.6747382]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [ -20.04304247]
-            [ -19.81676035]])
+                [ -20.04304247]
+                [ -19.81676035]])
 
     :param LCHuv: *CIE LCHuv* matrix.
     :type LCHuv: Matrix (3x1)
@@ -737,7 +741,7 @@ def LCHuv_to_Luv(LCHuv):
 
 def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
-    Converts from *CIE XYZ* colorspace to *CIE Lab* colorspace using given matrix.
+    Converts from *CIE XYZ* colorspace to *CIE Lab* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
@@ -745,8 +749,8 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
         >>> XYZ_to_Lab(numpy.matrix([0.92193107, 1., 1.03744246]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [  -7.41787844]
-            [ -15.85742105]])
+                [  -7.41787844]
+                [ -15.85742105]])
 
     :param XYZ: *CIE XYZ* matrix.
     :type XYZ: Matrix (3x1)
@@ -776,7 +780,7 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
 def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
     """
-    Converts from *CIE Lab* colorspace to *CIE XYZ* colorspace using given matrix.
+    Converts from *CIE Lab* colorspace to *CIE XYZ* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
 
@@ -784,8 +788,8 @@ def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
         >>> Lab_to_XYZ(numpy.matrix([100., -7.41787844, -15.85742105]).reshape((3, 1)))
         matrix([[ 0.92193107]
-            [ 0.11070565]
-            [ 1.03744246]])
+                [ 0.11070565]
+                [ 1.03744246]])
 
     :param Lab: *CIE Lab* matrix.
     :type Lab: Matrix (3x1)
@@ -815,7 +819,7 @@ def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
 
 def Lab_to_LCHab(Lab):
     """
-    Converts from *CIE Lab* colorspace to *CIE LCHab* colorspace using given matrix.
+    Converts from *CIE Lab* colorspace to *CIE LCHab* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
 
@@ -823,8 +827,8 @@ def Lab_to_LCHab(Lab):
 
         >>> Lab_to_LCHab(numpy.matrix([100., -7.41787844, -15.85742105]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [  17.50664796]
-            [ 244.93046842]])
+                [  17.50664796]
+                [ 244.93046842]])
 
     :param Lab: *CIE Lab* matrix.
     :type Lab: Matrix (3x1)
@@ -843,7 +847,7 @@ def Lab_to_LCHab(Lab):
 
 def LCHab_to_Lab(LCHab):
     """
-    Converts from *CIE LCHab* colorspace to *CIE Lab* colorspace using given matrix.
+    Converts from *CIE LCHab* colorspace to *CIE Lab* colorspace.
 
     Reference: http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
 
@@ -851,8 +855,8 @@ def LCHab_to_Lab(LCHab):
 
         >>> LCHab_to_Lab(numpy.matrix([100., 17.50664796, 244.93046842]).reshape((3, 1)))
         matrix([[ 100.        ]
-            [  -7.41787844]
-            [ -15.85742105]])
+                [  -7.41787844]
+                [ -15.85742105]])
 
     :param LCHab: *CIE LCHab* matrix.
     :type LCHab: Matrix (3x1)
@@ -867,7 +871,7 @@ def LCHab_to_Lab(LCHab):
 
 def RGB_to_HSV(RGB):
     """
-    Converts from *RGB* colorspace to *HSV* colorspace using given matrix.
+    Converts from *RGB* colorspace to *HSV* colorspace.
 
     Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=20#text20
 
@@ -875,8 +879,8 @@ def RGB_to_HSV(RGB):
 
         >>> RGB_to_HSV(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
         matrix([[ 0.27867384],
-        [ 0.744     ],
-        [ 0.98039216]])
+                [ 0.744     ],
+                [ 0.98039216]])
 
     :param RGB: *RGB* colorspace matrix.
     :type RGB: Matrix (3x1)
@@ -923,7 +927,7 @@ def RGB_to_HSV(RGB):
 
 def HSV_to_RGB(HSV):
     """
-    Converts from *HSV* colorspace to *RGB* colorspace using given matrix.
+    Converts from *HSV* colorspace to *RGB* colorspace.
 
     Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 
@@ -931,8 +935,8 @@ def HSV_to_RGB(HSV):
 
         >>> HSV_to_RGB(numpy.matrix([0.27867384, 0.744, 0.98039216]).reshape((3, 1)))
         matrix([[ 0.49019606]
-        [ 0.98039216]
-        [ 0.25098039]])
+                [ 0.98039216]
+                [ 0.25098039]])
 
     :param HSV: *HSV* colorspace matrix.
     :type HSV: Matrix (3x1)
@@ -988,7 +992,7 @@ def HSV_to_RGB(HSV):
 
 def RGB_to_HSL(RGB):
     """
-    Converts from *RGB* colorspace to *HSL* colorspace using given matrix.
+    Converts from *RGB* colorspace to *HSL* colorspace.
 
     Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=18#text18
 
@@ -996,8 +1000,8 @@ def RGB_to_HSL(RGB):
 
         >>> RGB_to_HSL(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
         matrix([[ 0.27867384]
-        [ 0.94897959]
-        [ 0.61568627]]])
+                [ 0.94897959]
+                [ 0.61568627]])
 
     :param RGB: *RGB* colorspace matrix.
     :type RGB: Matrix (3x1)
@@ -1044,7 +1048,7 @@ def RGB_to_HSL(RGB):
 
 def HSL_to_RGB(HSL):
     """
-    Converts from *HSL* colorspace to *RGB* colorspace using given matrix.
+    Converts from *HSL* colorspace to *RGB* colorspace.
 
     Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 
@@ -1052,8 +1056,8 @@ def HSL_to_RGB(HSL):
 
         >>> HSL_to_RGB(numpy.matrix([0.27867384, 0.94897959, 0.61568627]).reshape((3, 1)))
         matrix([[ 0.49019605]
-        [ 0.98039216]
-        [ 0.25098038]]
+                [ 0.98039216]
+                [ 0.25098038]])
 
     :param HSL: *HSL* colorspace matrix.
     :type HSL: Matrix (3x1)
@@ -1092,3 +1096,115 @@ def HSL_to_RGB(HSL):
         B = H_to_RGB(i, j, H - (1. / 3.))
 
     return numpy.matrix([R, G, B]).reshape((3, 1))
+
+
+def RGB_to_CMY(RGB):
+    """
+    Converts from *RGB* colorspace to *CMY* colorspace.
+
+    Reference: http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+
+    Usage::
+
+        >>> RGB_to_CMY(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
+        matrix([[ 0.50980392]
+                [ 0.01960784]
+                [ 0.74901961]])
+
+    :param RGB: *RGB* colorspace matrix.
+    :type RGB: Matrix (3x1)
+    :return: *CMY* matrix.
+    :rtype: Matrix (3x1)
+    """
+
+    R, G, B = numpy.ravel(RGB)
+    return numpy.matrix([1. - R, 1. - G, 1. - B]).reshape((3, 1))
+
+
+def CMY_to_RGB(CMY):
+    """
+    Converts from *CMY* colorspace to *CMY* colorspace.
+
+    Reference: http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+
+    Usage::
+
+        >>> CMY_to_RGB(numpy.matrix([0.50980392, 0.01960784, 0.74901961]).reshape((3, 1)))
+        matrix([[ 0.49019608]
+                [ 0.98039216]
+                [ 0.25098039]])
+
+    :param CMY: *CMY* colorspace matrix.
+    :type CMY: Matrix (3x1)
+    :return: *RGB* matrix.
+    :rtype: Matrix (3x1)
+    """
+
+    C, M, Y = numpy.ravel(CMY)
+    return numpy.matrix([1. - C, 1. - M, 1. - Y]).reshape((3, 1))
+
+
+def CMY_to_CMYK(CMY):
+    """
+    Converts from *CMY* colorspace to *CMYK* colorspace.
+
+    Reference: http://www.easyrgb.com/index.php?X=MATH&H=13#text13
+
+    Usage::
+
+        >>> CMY_to_CMYK(numpy.matrix([0.50980392, 0.01960784, 0.74901961]).reshape((3, 1)))
+        matrix([[ 0.5       ]
+                [ 0.        ]
+                [ 0.744     ]
+                [ 0.01960784]])
+
+    :param CMY: *CMY* colorspace matrix.
+    :type CMY: Matrix (3x1)
+    :return: *CMYK* matrix.
+    :rtype: Matrix (4x1)
+    """
+
+    C, M, Y = numpy.ravel(CMY)
+
+    K = 1.
+
+    if C < K:
+        K = C
+    if M < K:
+        K = M
+    if Y < K:
+        K = Y
+    if K == 1:
+        C = 0.
+        M = 0.
+        Y = 0.
+    else:
+        C = (C - K) / (1. - K)
+        M = (M - K) / (1. - K)
+        Y = (Y - K) / (1. - K)
+
+    return numpy.matrix([C, M, Y, K]).reshape((4, 1))
+
+
+def CMYK_to_CMY(CMYK):
+    """
+    Converts from *CMYK* colorspace to *CMY* colorspace.
+
+    Reference: http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+
+    Usage::
+
+        >>> CMYK_to_CMY(numpy.matrix([0.5, 0.,0.744, 0.01960784]).reshape((4, 1)))
+        matrix([[ 0.50980392]
+                [ 0.01960784]
+                [ 0.74901961]])
+
+    :param CMYK: *CMYK* colorspace matrix.
+    :type CMYK: Matrix (4x1)
+    :return: *CMY* matrix.
+    :rtype: Matrix (3x1)
+    """
+
+    C, M, Y, K = numpy.ravel(CMYK)
+
+    return numpy.matrix([C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))

@@ -67,3 +67,11 @@ Functions
 
 .. autofunction:: HSL_to_RGB
 
+.. autofunction:: RGB_to_CMY
+
+.. autofunction:: CMY_to_RGB
+
+.. autofunction:: CMY_to_CMYK
+
+.. autofunction:: CMYK_to_CMY
+

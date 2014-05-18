@@ -129,6 +129,10 @@ Here are some features:
   -  HSV to RGB.
   -  RGB to HSL.
   -  HSL to RGB.
+  -  RGB to CMY.
+  -  CMY to CMYK.
+  -  CMYK to CMY.
+  -  CMY to RGB.
   -  uv to cct, duv.
   -  cct, duv to uv.
 

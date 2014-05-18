@@ -135,6 +135,10 @@ Here are some features:
   -  HSV to RGB.
   -  RGB to HSL.
   -  HSL to RGB.
+  -  RGB to CMY.
+  -  CMY to RGB.
+  -  CMY to CMYK.
+  -  CMYK to CMY.
   -  uv to cct, duv.
   -  cct, duv to uv.
 
@@ -442,6 +446,14 @@ Bruce Lindbloom, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.htm
 `RGB to HSL <http://www.easyrgb.com/index.php?X=MATH&H=18#text18>`_ (Last accessed 18 May 2014)
 
 `HSL to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
+
+`RGB to CMY <http://www.easyrgb.com/index.php?X=MATH&H=11#text11>`_ (Last accessed 18 May 2014)
+
+`CMY to RGB <http://www.easyrgb.com/index.php?X=MATH&H=12#text12>`_ (Last accessed 18 May 2014)
+
+`CMY to CMYK <http://www.easyrgb.com/index.php?X=MATH&H=13#text13>`_ (Last accessed 18 May 2014)
+
+`CMYK to CMY <http://www.easyrgb.com/index.php?X=MATH&H=14#text14>`_ (Last accessed 18 May 2014)
 
 About
 -----
