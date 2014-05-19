@@ -17,16 +17,9 @@
 
 from __future__ import unicode_literals
 
-import bisect
 import math
 import numpy
 
-import color.chromatic_adaptation
-import color.illuminants
-import color.exceptions
-import color.lightness
-import color.matrix
-import color.spectral
 import color.verbose
 
 __author__ = "Thomas Mansencal"
@@ -47,6 +40,7 @@ __all__ = ["LOGGER",
            "CMYK_to_CMY"]
 
 LOGGER = color.verbose.install_logger()
+
 
 def RGB_to_HSV(RGB):
     """
