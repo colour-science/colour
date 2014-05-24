@@ -160,6 +160,8 @@ _`Highlights`
   -  ΔE CMC.
 
 -  Color rendition chart data.
+-  Colorspaces visualisation within **Autodesk Maya**.
+-  First order color fit.
 -  Comprehensive plotting capabilities.
 
 .. raw:: html
