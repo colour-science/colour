@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.matrix` module.
+    Defines units tests for :mod:`color.algebra.matrix` module.
 
 **Others:**
 
@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.matrix
+import color.algebra.matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -45,31 +45,31 @@ COLOR_MATRIX_2 = numpy.matrix([0.4716, 0.0603, -0.083,
 
 class TestIsIdentity(unittest.TestCase):
     """
-    Defines :func:`color.matrix.is_identity` definition units tests methods.
+    Defines :func:`color.algebra.matrix.is_identity` definition units tests methods.
     """
 
     def test_is_identity(self):
         """
-        Tests :func:`color.matrix.is_identity` definition.
+        Tests :func:`color.algebra.matrix.is_identity` definition.
         """
 
-        self.assertTrue(color.matrix.is_identity(numpy.matrix([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertFalse(color.matrix.is_identity(numpy.matrix([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertTrue(color.matrix.is_identity(numpy.matrix([1, 0, 0, 1]).reshape(2, 2), n=2))
-        self.assertFalse(color.matrix.is_identity(numpy.matrix([1, 2, 0, 1]).reshape(2, 2), n=2))
+        self.assertTrue(color.algebra.matrix.is_identity(numpy.matrix([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertFalse(color.algebra.matrix.is_identity(numpy.matrix([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertTrue(color.algebra.matrix.is_identity(numpy.matrix([1, 0, 0, 1]).reshape(2, 2), n=2))
+        self.assertFalse(color.algebra.matrix.is_identity(numpy.matrix([1, 2, 0, 1]).reshape(2, 2), n=2))
 
 
 class TestLinearInterpolateMatrices(unittest.TestCase):
     """
-    Defines :func:`color.matrix.linear_interpolate_matrices` definition units tests methods.
+    Defines :func:`color.algebra.matrix.linear_interpolate_matrices` definition units tests methods.
     """
 
     def test_linear_interpolate_matrices(self):
         """
-        Tests :func:`color.matrix.linear_interpolate_matrices` definition.
+        Tests :func:`color.algebra.matrix.linear_interpolate_matrices` definition.
         """
 
-        numpy.testing.assert_almost_equal(color.matrix.linear_interpolate_matrices(2850,
+        numpy.testing.assert_almost_equal(color.algebra.matrix.linear_interpolate_matrices(2850,
                                                                                    7500,
                                                                                    COLOR_MATRIX_1,
                                                                                    COLOR_MATRIX_2,
@@ -78,7 +78,7 @@ class TestLinearInterpolateMatrices(unittest.TestCase):
                                                         -0.74631613, 1.49989462, 0.26643011,
                                                         -0.13499785, 0.17817312, 0.66537957]).reshape((3, 3)),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(color.matrix.linear_interpolate_matrices(2850,
+        numpy.testing.assert_almost_equal(color.algebra.matrix.linear_interpolate_matrices(2850,
                                                                                    7500,
                                                                                    COLOR_MATRIX_1,
                                                                                    COLOR_MATRIX_2,
@@ -87,7 +87,7 @@ class TestLinearInterpolateMatrices(unittest.TestCase):
                                                         -0.56215484, 1.23861505, 0.3677957,
                                                         -0.05468602, 0.09277527, 0.6669172]).reshape((3, 3)),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(color.matrix.linear_interpolate_matrices(2850,
+        numpy.testing.assert_almost_equal(color.algebra.matrix.linear_interpolate_matrices(2850,
                                                                                    7500,
                                                                                    COLOR_MATRIX_1,
                                                                                    COLOR_MATRIX_2,
@@ -97,7 +97,7 @@ class TestLinearInterpolateMatrices(unittest.TestCase):
                                                         -0.7701914, 0.85359247, 0.65321828]).reshape((3, 3)),
                                           decimal=7)
 
-        numpy.testing.assert_almost_equal(color.matrix.linear_interpolate_matrices(2850,
+        numpy.testing.assert_almost_equal(color.algebra.matrix.linear_interpolate_matrices(2850,
                                                                                    2850,
                                                                                    COLOR_MATRIX_1,
                                                                                    COLOR_MATRIX_2,

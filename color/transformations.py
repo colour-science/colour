@@ -20,11 +20,11 @@ import bisect
 import math
 import numpy
 
+import color.algebra.matrix
 import color.chromatic_adaptation
 import color.illuminants
 import color.exceptions
 import color.lightness
-import color.matrix
 import color.spectral
 import color.verbose
 
@@ -101,7 +101,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
     leftXYZ = numpy.matrix(cmfs.get(left)).reshape((3, 1))
     rightXYZ = numpy.matrix(cmfs.get(right)).reshape((3, 1))
 
-    return color.matrix.linear_interpolate_matrices(left, right, leftXYZ, rightXYZ, wavelength)
+    return color.algebra.matrix.linear_interpolate_matrices(left, right, leftXYZ, rightXYZ, wavelength)
 
 
 def spectral_to_XYZ(spd,

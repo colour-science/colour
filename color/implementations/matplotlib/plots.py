@@ -27,13 +27,13 @@ import pylab
 import random
 from collections import namedtuple
 
+import color.algebra.matrix
 import color.blackbody
 import color.color_checkers
 import color.colorspaces
 import color.illuminants
 import color.exceptions
 import color.lightness
-import color.matrix
 import color.spectral
 import color.temperature
 import color.transformations
