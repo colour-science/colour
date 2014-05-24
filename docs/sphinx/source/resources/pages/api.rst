@@ -6,6 +6,8 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
+   color.algebra.matrix <api/color.algebra.matrix>
+   color.algebra.regression <api/color.algebra.regression>
    color.blackbody <api/color.blackbody>
    color.chromatic_adaptation <api/color.chromatic_adaptation>
    color.color_checkers <api/color.color_checkers>
@@ -41,7 +43,6 @@ Modules Summary:
    color.derivation <api/color.derivation>
    color.difference <api/color.difference>
    color.exceptions <api/color.exceptions>
-   color.fit <api/color.fit>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
    color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
@@ -49,7 +50,6 @@ Modules Summary:
    color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
    color.lightness <api/color.lightness>
    color.luminosity <api/color.luminosity>
-   color.matrix <api/color.matrix>
    color.spectral <api/color.spectral>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
