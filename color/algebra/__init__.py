@@ -30,3 +30,4 @@ __all__ = ["LOGGER"]
 LOGGER = color.verbose.install_logger()
 
 from color.algebra.matrix import *
+from color.algebra.regression import *
