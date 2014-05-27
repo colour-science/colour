@@ -1446,7 +1446,7 @@ class TestSpectralDistribution(unittest.TestCase):
         """
 
         required_methods = ("get",
-                            "resparse",
+                            "zeros",
                             "resample")
 
         for method in required_methods:
@@ -1544,14 +1544,14 @@ class TestSpectralDistribution(unittest.TestCase):
         numpy.testing.assert_almost_equal(spd.resample(steps=1).values,
                                           RESAMPLE_SAMPLE_SPD_DATA)
 
-    def test_resparse(self):
+    def test_zeros(self):
         """
-        Tests :func:`color.spectral.SpectralDistribution.resparse` method.
+        Tests :func:`color.spectral.SpectralDistribution.zeros` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
 
-        numpy.testing.assert_almost_equal(spd.resparse(steps=1).values,
+        numpy.testing.assert_almost_equal(spd.zeros(steps=1).values,
                                           SPARSE_SAMPLE_SPD_DATA)
 
 
@@ -1586,7 +1586,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
         required_methods = ("get",
                             "resample",
-                            "resparse")
+                            "zeros")
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractColorMatchingFunctions))
@@ -1755,9 +1755,9 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         for i in mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(cmfs, i).values, RESAMPLE_SAMPLE_SPD_DATA)
 
-    def test_resparse(self):
+    def test_zeros(self):
         """
-        Tests :func:`color.spectral.AbstractColorMatchingFunctions.resparse` method.
+        Tests :func:`color.spectral.AbstractColorMatchingFunctions.zeros` method.
         """
 
         mapping = {"x": "x_bar",
@@ -1773,7 +1773,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                                                       "y": "y_bar",
                                                       "z": "z_bar"})
 
-        cmfs.resparse(steps=1)
+        cmfs.zeros(steps=1)
         for i in mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(cmfs, i).values, SPARSE_SAMPLE_SPD_DATA)
 
@@ -1812,7 +1812,7 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
 
         required_methods = ("get",
                             "resample",
-                            "resparse")
+                            "zeros")
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_ColorMatchingFunctions))
@@ -1852,7 +1852,7 @@ class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
 
         required_methods = ("get",
                             "resample",
-                            "resparse")
+                            "zeros")
 
         for method in required_methods:
             self.assertIn(method, dir(XYZ_ColorMatchingFunctions))

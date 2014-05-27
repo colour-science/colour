@@ -488,7 +488,7 @@ Yoshi Ohno, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.
 Transformations
 ---------------
 
-Bruce Lindbloom, `Spectral to XYZ <http://brucelindbloom.com/Eqn_Spect_to_XYZ.html>`_ (Last accessed 24 February 2014)
+Spectral to XYZ, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158. (Last accessed 27 May 2014)
 
 Bruce Lindbloom, `XYZ to xyY <http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html>`_ (Last accessed 24 February 2014)
 

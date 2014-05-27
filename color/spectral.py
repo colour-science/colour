@@ -329,9 +329,9 @@ class SpectralPowerDistribution(object):
 
         return self
 
-    def resparse(self, start=None, end=None, steps=None):
+    def zeros(self, start=None, end=None, steps=None):
         """
-        Resparses the spectral power distribution: Missing values will be replaced with zeroes to fit the defined range.
+        Zeros fills the spectral power distribution: Missing values will be replaced with zeroes to fit the defined range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -339,7 +339,7 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resparsed spectral power distribution.
+        :return: Filled spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -829,9 +829,9 @@ class AbstractColorMatchingFunctions(object):
 
         return self
 
-    def resparse(self, start=None, end=None, steps=None):
+    def zeros(self, start=None, end=None, steps=None):
         """
-        Resparses the color matching functions: Missing values will be replaced with zeroes to fit the defined range.
+        Zeros fills the color matching functions: Missing values will be replaced with zeroes to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -839,12 +839,12 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resparsed color matching functions.
+        :return: Filled color matching functions.
         :rtype: AbstractColorMatchingFunctions
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).resparse(start, end, steps)
+            getattr(self, i).zeros(start, end, steps)
 
         return self
 

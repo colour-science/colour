@@ -119,8 +119,8 @@ cmfs = color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS["Standard CIE 1931 2 De
 illuminant = color.ILLUMINANTS_RELATIVE_SPD["A"]
 
 # Aligning Spectral power distribution and illuminant shapes.
-spd = spd.resparse(*cmfs.shape)
-illuminant = illuminant.resparse(*cmfs.shape)
+spd = spd.zeros(*cmfs.shape)
+illuminant = illuminant.zeros(*cmfs.shape)
 
 print(color.spectral_to_XYZ(spd,
                             cmfs,

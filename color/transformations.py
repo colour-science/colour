@@ -111,17 +111,17 @@ def spectral_to_XYZ(spd,
     Converts given relative spectral power distribution to *CIE XYZ* colorspace using given color
     matching functions and illuminant.
 
-    Reference: http://brucelindbloom.com/Eqn_Spect_to_XYZ.html
+    Reference: **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
     Usage::
 
         >>> cmfs = color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
-        >>> spd = color.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).resparse(*cmfs.shape)
-        >>> illuminant = color.ILLUMINANTS_RELATIVE_SPD.get("D50").resparse(*cmfs.shape)
+        >>> spd = color.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).zeros(*cmfs.shape)
+        >>> illuminant = color.ILLUMINANTS_RELATIVE_SPD.get("D50").zeros(*cmfs.shape)
         >>> spectral_to_XYZ(spd, cmfs, illuminant)
-        matrix([[  4.57648522e-06],
-                [  1.29648668e-07],
-                [  2.16158075e-05]])
+        matrix([[  4.57648522e-04]
+                [  1.29648668e-05]
+                [  2.16158075e-03]])
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
@@ -155,17 +155,17 @@ def spectral_to_XYZ(spd,
     illuminant = illuminant.values
     spd = spd.values
 
-    x_bar, y_bar, z_bar = zip(*cmfs.values)
+    x_bar, y_bar, z_bar = cmfs.x_bar.values, cmfs.y_bar.values, cmfs.z_bar.values
 
-    denominator = y_bar * illuminant
-    spd = spd * illuminant
-    x_numerator = spd * x_bar
-    y_numerator = spd * y_bar
-    z_numerator = spd * z_bar
+    x_products = spd * x_bar * illuminant
+    y_products = spd * y_bar * illuminant
+    z_products = spd * z_bar * illuminant
 
-    XYZ = numpy.matrix([x_numerator.sum() / denominator.sum(),
-                        y_numerator.sum() / denominator.sum(),
-                        z_numerator.sum() / denominator.sum()])
+    normalising_factor = 100. / (y_bar * illuminant).sum()
+
+    XYZ = numpy.matrix([normalising_factor * x_products.sum(),
+                        normalising_factor * y_products.sum(),
+                        normalising_factor * z_products.sum()])
 
     return XYZ.reshape((3, 1))
 
