@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import copy
-
 import color.verbose
 
 __author__ = "Thomas Mansencal"
@@ -36,7 +34,7 @@ LOGGER = color.verbose.install_logger()
 ALPHA_STEARNS = 0.083
 
 
-def bandpass_correction_stearns(spd, in_place=False):
+def bandpass_correction_stearns(spd):
     """
     Implements spectral bandpass correction on given relative spectral power distribution using *Stearns and Stearns (1998)* method.
 
@@ -51,8 +49,6 @@ def bandpass_correction_stearns(spd, in_place=False):
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
-    :param in_place: Correction will happen in place and will modify original spectral power distribution.
-    :type in_place: bool
     :return: Corrected spectral power distribution.
     :rtype: SpectralPowerDistribution
     """
@@ -64,21 +60,16 @@ def bandpass_correction_stearns(spd, in_place=False):
         values[i] = -ALPHA_STEARNS * values[i - 1] + (1. + 2. * ALPHA_STEARNS) * values[i] - ALPHA_STEARNS * values[
             i + 1]
 
-    if in_place is False:
-        spd = copy.deepcopy(spd)
-
     for i, (wavelength, value) in enumerate(spd):
         spd[wavelength] = values[i]
     return spd
 
-def bandpass_correction(spd, in_place=False, method="Stearns"):
+def bandpass_correction(spd, method="Stearns"):
     """
     Implements spectral bandpass correction on given relative spectral power distribution using given method.
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
-    :param in_place: Correction will happen in place and will modify original spectral power distribution.
-    :type in_place: bool
     :param method: Correction method.
     :type method: unicode ("Stearns",)
     :return: Corrected spectral power distribution.
@@ -86,4 +77,4 @@ def bandpass_correction(spd, in_place=False, method="Stearns"):
     """
 
     if method == "Stearns":
-        return bandpass_correction_stearns(spd, in_place=in_place)
+        return bandpass_correction_stearns(spd)
