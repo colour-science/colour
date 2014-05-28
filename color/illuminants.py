@@ -80,9 +80,9 @@ ILLUMINANTS = {
     "Standard CIE 1964 10 Degree Observer": ILLUMINANTS_STANDARD_CIE_1964_10_DEGREE_OBSERVER_CHROMATICITY_COORDINATES}
 
 # Add calculated *CIE D60 Illuminant* *xy* chromaticity coordinates for *Standard CIE 1964 10 Degree Observer*.
-# cmfs=color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1964 10 Degree Observer")
-# spd=color.spectral.ILLUMINANTS_RELATIVE_SPD.get("D60")
-# spd.resparse(*cmfs.shape)
-# xy = color.transformations.XYZ_to_xy(color.transformations.spectral_to_XYZ(spd, cmfs))
+# cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1964 10 Degree Observer")
+# spd=color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get("D60")
+# spd.zeros(*cmfs.shape)
+# xy = color.transformations.XYZ_to_xy(color.spectral.transformations.spectral_to_XYZ(spd, cmfs))
 ILLUMINANTS_STANDARD_CIE_1964_10_DEGREE_OBSERVER_CHROMATICITY_COORDINATES[
     "D60"] = (0.32299152277736748, 0.33912831290965012)

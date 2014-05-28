@@ -16,6 +16,8 @@ Module Attributes
 
 .. attribute:: color.colorspaces.rec_2020.XYZ_TO_REC_2020_MATRIX
 
+.. attribute:: color.colorspaces.rec_2020.REC_2020_CONSTANTS
+
 .. attribute:: color.colorspaces.rec_2020.REC_2020_TRANSFER_FUNCTION
 
 .. attribute:: color.colorspaces.rec_2020.REC_2020_INVERSE_TRANSFER_FUNCTION

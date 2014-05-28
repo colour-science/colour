@@ -1,12 +1,12 @@
-_`color.matrix`
-===============
+_`color.algebra.matrix`
+=======================
 
-.. automodule:: color.matrix
+.. automodule:: color.algebra.matrix
 
 Module Attributes
 -----------------
 
-.. attribute:: color.matrix.LOGGER
+.. attribute:: color.algebra.matrix.LOGGER
 
 Functions
 ---------

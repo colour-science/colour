@@ -215,6 +215,13 @@ multi_spectral_power_distribution_plot([color.SpectralPowerDistribution(name="Bo
                                                                         spd=carbon_spd)],
                                        y_label="Ei (eV)")
 
+# Spectral bandpass correction.
+bandpass_corrected_carbon_spd = color.bandpass_correction(
+    color.SpectralPowerDistribution("Carbon (Bandpass Corrected)", carbon_spd), method="Stearns")
+multi_spectral_power_distribution_plot([color.SpectralPowerDistribution("Carbon", carbon_spd),
+                                        bandpass_corrected_carbon_spd],
+                                       title="Stearns Bandpass Correction")
+
 # Plotting given single standard observer 'CIE XYZ' or 'CIE RGB' color matching functions.
 print(sorted(color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys()))
 single_color_matching_functions_plot("Standard CIE 1931 2 Degree Observer")
@@ -2309,7 +2316,7 @@ ASTM_G_173 = {280.0: 8.2000e-02,
               3995.0: 8.7000e-03,
               4000.0: 8.6800e-03}
 
-# ASTM_G_173 scaling factor calculated with :def:`color.transformations.spectral_to_XYZ` definition.
+# ASTM_G_173 scaling factor calculated with :def:`color.spectral.transformations.spectral_to_XYZ` definition.
 for key, value in ASTM_G_173.iteritems():
     ASTM_G_173[key] = value * 1.37905559e+13
 

@@ -27,8 +27,27 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-           "ProgrammingError"]
+           "AbstractError",
+           "ProgrammingError",
+           "AbstractAlgebraError",
+           "LinearRegressionError"]
 
 LOGGER = color.verbose.install_logger()
 
+AbstractError = foundations.exceptions.AbstractError
 ProgrammingError = foundations.exceptions.ProgrammingError
+
+class AbstractAlgebraError(AbstractError):
+    """
+    Defines the abstract base class for algebra exception.
+    """
+
+    pass
+
+
+class LinearRegressionError(AbstractAlgebraError):
+    """
+    Defines linear regression exception.
+    """
+
+    pass

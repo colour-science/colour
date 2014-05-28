@@ -27,14 +27,16 @@ import pylab
 import random
 from collections import namedtuple
 
-import color.blackbody
+import color.algebra.matrix
 import color.color_checkers
 import color.colorspaces
 import color.illuminants
 import color.exceptions
 import color.lightness
-import color.matrix
-import color.spectral
+import color.spectral.blackbody
+import color.spectral.cmfs
+import color.spectral.illuminants
+import color.spectral.transformations
 import color.temperature
 import color.transformations
 import color.data_structures
@@ -524,7 +526,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
 
 def single_spectral_power_distribution_plot(spd,
-                                            cmfs=color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
+                                            cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
                                                 "Standard CIE 1931 2 Degree Observer"),
                                             **kwargs):
     """
@@ -554,7 +556,7 @@ def single_spectral_power_distribution_plot(spd,
     y1 = []
 
     for wavelength, value in spd:
-        XYZ = color.transformations.wavelength_to_XYZ(wavelength, cmfs)
+        XYZ = color.spectral.transformations.wavelength_to_XYZ(wavelength, cmfs)
         colors.append(XYZ_to_sRGB(XYZ))
         y1.append(value)
 
@@ -670,13 +672,13 @@ def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Obser
                       ("y", [0., 1., 0.]),
                       ("z", [0., 0., 1.])):
         for i, cmfs in enumerate(cmfss):
-            cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+            cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
             if cmfs is None:
                 raise color.exceptions.ProgrammingError(
                     "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(
                         name,
                         sorted(
-                            color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                            color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
             rgb = map(lambda x: reduce(lambda y, _: y * 0.25, xrange(i), x), rgb)
             wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
@@ -730,19 +732,19 @@ def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 
 
     title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
 
-    illuminant, name = color.spectral.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
+    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
     if illuminant is None:
         raise color.exceptions.ProgrammingError(
             "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
                                                                                sorted(
-                                                                                   color.spectral.ILLUMINANTS_RELATIVE_SPD.keys())))
+                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     settings = {"title": title,
                 "y_label": "Relative Spectral Power Distribution"}
@@ -770,12 +772,12 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs)
 
     spds = []
     for illuminant in illuminants:
-        illuminant = color.spectral.ILLUMINANTS_RELATIVE_SPD.get(illuminant)
+        illuminant = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant)
         if illuminant is None:
             raise color.exceptions.ProgrammingError(
                 "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant.name,
                                                                                    sorted(
-                                                                                       color.spectral.ILLUMINANTS_RELATIVE_SPD.keys())))
+                                                                                       color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
 
         spds.append(illuminant)
 
@@ -803,12 +805,12 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     cmfs.resample(360, 830)
 
@@ -817,7 +819,7 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 
     colors = []
     for i in wavelengths:
-        XYZ = color.transformations.wavelength_to_XYZ(i, cmfs)
+        XYZ = color.spectral.transformations.wavelength_to_XYZ(i, cmfs)
         colors.append(XYZ_to_sRGB(XYZ))
 
     colors = numpy.array(map(numpy.ravel, colors))
@@ -857,12 +859,12 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
@@ -919,12 +921,12 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1931_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1009,12 +1011,12 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
     settings = {"title": "{0} - {1}".format(", ".join(colorspaces), name),
                 "standalone": False}
     settings.update(kwargs)
@@ -1091,7 +1093,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
     :rtype: bool
     """
 
-    cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
@@ -1166,12 +1168,12 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
@@ -1228,12 +1230,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1316,7 +1318,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     :rtype: bool
     """
 
-    cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
@@ -1399,7 +1401,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
@@ -1461,7 +1463,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1728,7 +1730,8 @@ def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
                                                                                      sorted(
                                                                                          color.colorspaces.COLORSPACES.keys())))
 
-        RGBs = numpy.array(map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function, samples))
+        RGBs = numpy.array(
+            map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function, samples))
         pylab.plot(samples, RGBs, label=u"{0}".format(colorspace.name), linewidth=2.)
 
     settings = {"title": "{0} - Transfer Functions".format(", ".join(colorspaces)),
@@ -1772,16 +1775,16 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
-    spd = color.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
+    spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
     matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
@@ -1793,7 +1796,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
 
     single_spectral_power_distribution_plot(spd, cmfs, **settings)
 
-    XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
+    XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
     RGB = XYZ_to_sRGB(XYZ)
     RGB *= 1. / numpy.max(RGB)
 
@@ -1842,20 +1845,20 @@ def blackbody_colors_plot(start=1000,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
         raise color.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
     colors = []
     temperatures = []
 
     for temperature in numpy.arange(start, end + steps, steps):
-        spd = color.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
+        spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
-        XYZ = color.transformations.spectral_to_XYZ(spd, cmfs)
+        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
         RGB = XYZ_to_sRGB(XYZ)
 
         RGB = numpy.ravel(RGB)

@@ -11,19 +11,19 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: getDagPath
+.. autofunction:: get_dag_path
 
-.. autofunction:: getMPoint
+.. autofunction:: get_mpoint
 
-.. autofunction:: getShapes
+.. autofunction:: get_shapes
 
-.. autofunction:: setAttributes
+.. autofunction:: set_attributes
 
 .. autofunction:: RGB_to_Lab
 
-.. autofunction:: RGB_identityCube
+.. autofunction:: RGB_identity_cube
 
-.. autofunction:: Lab_colorspaceCube
+.. autofunction:: Lab_colorspace_cube
 
-.. autofunction:: Lab_coordinatesSystemRepresentation
+.. autofunction:: Lab_coordinates_system_representation
 

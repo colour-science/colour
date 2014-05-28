@@ -22,3 +22,29 @@ Module Attributes
 
 .. attribute:: color.colorspaces.aces_rgb.ACES_RGB_COLORSPACE
 
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_LOG_CONSTANTS
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_LOG_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_LOG_COLORSPACE
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_10_CONSTANTS
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_12_CONSTANTS
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_CONSTANTS
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_10_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_12_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_10_COLORSPACE
+
+.. attribute:: color.colorspaces.aces_rgb.ACES_RGB_PROXY_12_COLORSPACE
+

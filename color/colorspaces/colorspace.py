@@ -172,8 +172,9 @@ class Colorspace(object):
 
         if value is not None:
             assert type(value) in (
-            tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format("whitepoint",
-                                                                                                          value)
+                tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format(
+                "whitepoint",
+                value)
         self.__whitepoint = value
 
     @whitepoint.deleter

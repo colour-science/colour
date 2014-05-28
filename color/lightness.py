@@ -126,8 +126,8 @@ def luminance_1943(V):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *V* has a range of 0 to 10.
-    :note: *Y* has a range of 0 to 100.
+    :note: *V* is in domain [0, 10].
+    :note: *Y* is in domain [0, 100].
     """
 
     Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (V ** 4) + 0.0008404 * (V ** 5)
@@ -153,8 +153,8 @@ def luminance_1976(L, Yn=100.):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *L* has a range of 0 to 10.
-    :note: *Yn* has a range of 0 to 100.
+    :note: *L* is in domain [0, 10].
+    :note: *Yn* is in domain [0, 100].
     """
 
     Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
@@ -178,8 +178,8 @@ def munsell_value_1920(Y):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     Y /= 100.
@@ -204,8 +204,8 @@ def munsell_value_1933(Y):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
@@ -229,8 +229,8 @@ def munsell_value_1943(Y):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     V = 1.4 * Y ** 0.426
@@ -254,8 +254,8 @@ def munsell_value_1944(Y):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     V = 2.357 * (Y ** 0.343) - 1.52
@@ -279,8 +279,8 @@ def munsell_value_1955(Y):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     V = 2.468 * (Y ** (1. / 3.)) - 1.636
@@ -304,8 +304,8 @@ def lightness_1958(Y):
     :return: *Lightness* *L\**.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *L\** has a range of 0 to 100.
+    :note: *Y* is in domain [0, 100].
+    :note: *L\** is in domain [0, 100].
     """
 
     L_star = 25.29 * (Y ** (1. / 3.)) - 18.38
@@ -329,8 +329,8 @@ def lightness_1964(Y):
     :return: *Lightness* *W\**.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *W\** has a range of 0 to 100.
+    :note: *Y* is in domain [0, 100].
+    :note: *W\** is in domain [0, 100].
     """
 
     if not 1. < Y < 98.:
@@ -361,8 +361,8 @@ def lightness_1976(Y, Yn=100.):
     :return: *Lightness* *L\**.
     :rtype: float
 
-    :note: *Y* and *Yn* have a range of 0 to 100.
-    :note: *L\** has a range of 0 to 100.
+    :note: *Y* and *Yn* are in domain [0, 100].
+    :note: *L\** is in domain [0, 100].
     """
 
     ratio = Y / Yn
@@ -402,8 +402,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* and *Yn* have a range of 0 to 100.
-    :note: *L\** has a range of 0 to 100.
+    :note: *Y* and *Yn* are in domain [0, 100].
+    :note: *L\** is in domain [0, 100].
     """
 
     if Yn is None:
@@ -430,8 +430,8 @@ def get_munsell_value(Y, method="Munsell Value 1955"):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* has a range of 0 to 100.
-    :note: *V* has a range of 0 to 10.
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
     """
 
     return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
@@ -457,8 +457,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     :return: *Munsell value* *V*.
     :rtype: float
 
-    :note: *Y* and *Yn* have a range of 0 to 100.
-    :note: *L\** has a range of 0 to 100.
+    :note: *Y* and *Yn* are in domain [0, 100].
+    :note: *L\** is in domain [0, 100].
     """
 
     if Yn is None:

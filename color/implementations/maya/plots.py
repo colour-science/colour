@@ -34,19 +34,19 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-           "getDagPath",
-           "getMPoint",
-           "getShapes",
-           "setAttributes",
+           "get_dag_path",
+           "get_mpoint",
+           "get_shapes",
+           "set_attributes",
            "RGB_to_Lab",
-           "RGB_identityCube",
-           "Lab_colorspaceCube",
-           "Lab_coordinatesSystemRepresentation"]
+           "RGB_identity_cube",
+           "Lab_colorspace_cube",
+           "Lab_coordinates_system_representation"]
 
 LOGGER = color.verbose.install_logger()
 
 
-def getDagPath(node):
+def get_dag_path(node):
     """
     Returns a dag path from given node.
 
@@ -56,14 +56,14 @@ def getDagPath(node):
     :rtype: MDagPath
     """
 
-    selectionList = OpenMaya.MSelectionList()
-    selectionList.add(node)
-    dagPath = OpenMaya.MDagPath()
-    selectionList.getDagPath(0, dagPath)
-    return dagPath
+    selection_list = OpenMaya.MSelectionList()
+    selection_list.add(node)
+    dag_path = OpenMaya.MDagPath()
+    selection_list.getDagPath(0, dag_path)
+    return dag_path
 
 
-def getMPoint(point):
+def get_mpoint(point):
     """
     Converts a tuple to MPoint.
 
@@ -76,29 +76,29 @@ def getMPoint(point):
     return OpenMaya.MPoint(point[0], point[1], point[2])
 
 
-def getShapes(object, fullPath=False, noIntermediate=True):
+def get_shapes(object, full_path=False, no_intermediate=True):
     """
     Returns shapes of given object.
 
     :param object: Current object.
     :type object: str or unicode
-    :param fullPath: Current full path state.
-    :type fullPath: bool
-    :param noIntermediate: Current no intermediate state.
-    :type noIntermediate: bool
+    :param full_path: Current full path state.
+    :type full_path: bool
+    :param no_intermediate: Current no intermediate state.
+    :type no_intermediate: bool
     :return: Objects shapes.
     :rtype: list
     """
 
-    objectShapes = []
-    shapes = cmds.listRelatives(object, fullPath=fullPath, shapes=True, noIntermediate=noIntermediate)
-    if shapes != None:
-        objectShapes = shapes
+    object_shapes = []
+    shapes = cmds.listRelatives(object, fullPath=full_path, shapes=True, noIntermediate=no_intermediate)
+    if shapes is not None:
+        object_shapes = shapes
 
-    return objectShapes
+    return object_shapes
 
 
-def setAttributes(attributes):
+def set_attributes(attributes):
     """
     Sets given attributes.
 
@@ -114,6 +114,17 @@ def setAttributes(attributes):
 
 
 def RGB_to_Lab(RGB, colorspace):
+    """
+    Converts given *RGB* value from given colorspace to *CIE Lab* colorspace.
+
+    :param RGB: *RGB* value.
+    :type RGB: tuple or matrix
+    :param colorspace: *RGB* value colorspace.
+    :type colorspace: unicode
+    :return: Definition success.
+    :rtype: bool
+    """
+
     return color.transformations.XYZ_to_Lab(color.transformations.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
                                                                              colorspace.whitepoint,
                                                                              color.illuminants.ILLUMINANTS.get(
@@ -125,7 +136,7 @@ def RGB_to_Lab(RGB, colorspace):
                                             colorspace.whitepoint)
 
 
-def RGB_identityCube(name, density=20):
+def RGB_identity_cube(name, density=20):
     """
     Creates an RGB identity cube with given name and geometric density.
 
@@ -139,27 +150,27 @@ def RGB_identityCube(name, density=20):
 
     cube = foundations.common.get_first_item(
         cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False))
-    setAttributes({"{0}.translateX".format(cube): .5,
+    set_attributes({"{0}.translateX".format(cube): .5,
                    "{0}.translateY".format(cube): .5,
                    "{0}.translateZ".format(cube): .5})
     cmds.setAttr("{0}.displayColors".format(cube), True)
 
-    vertexColorArray = OpenMaya.MColorArray()
-    vertexIndexArray = OpenMaya.MIntArray()
-    pointArray = OpenMaya.MPointArray()
-    fnMesh = OpenMaya.MFnMesh(getDagPath(foundations.common.get_first_item(getShapes(cube))))
-    fnMesh.getPoints(pointArray, OpenMaya.MSpace.kWorld)
-    for i in range(pointArray.length()):
-        vertexColorArray.append(pointArray[i][0], pointArray[i][1], pointArray[i][2])
-        vertexIndexArray.append(i)
-    fnMesh.setVertexColors(vertexColorArray, vertexIndexArray, None)
+    vertex_color_array = OpenMaya.MColorArray()
+    vertex_index_array = OpenMaya.MIntArray()
+    point_array = OpenMaya.MPointArray()
+    fn_mesh = OpenMaya.MFnMesh(get_dag_path(foundations.common.get_first_item(get_shapes(cube))))
+    fn_mesh.getPoints(point_array, OpenMaya.MSpace.kWorld)
+    for i in range(point_array.length()):
+        vertex_color_array.append(point_array[i][0], point_array[i][1], point_array[i][2])
+        vertex_index_array.append(i)
+    fn_mesh.setVertexColors(vertex_color_array, vertex_index_array, None)
 
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     cmds.xform(cube, a=True, rotatePivot=(0., 0., 0.), scalePivot=(0., 0., 0.))
     return cmds.rename(cube, name)
 
 
-def Lab_colorspaceCube(colorspace, density=20):
+def Lab_colorspace_cube(colorspace, density=20):
     """
     Creates a **CIE Lab** colorspace cube with geometric density.
 
@@ -171,20 +182,20 @@ def Lab_colorspaceCube(colorspace, density=20):
     :rtype: unicode
     """
 
-    cube = RGB_identityCube(colorspace.name, density)
-    itMeshVertex = OpenMaya.MItMeshVertex(getDagPath(cube))
-    while not itMeshVertex.isDone():
-        position = itMeshVertex.position(OpenMaya.MSpace.kObject)
-        itMeshVertex.setPosition(getMPoint(list(numpy.ravel(RGB_to_Lab((position[0], position[1], position[2],),
+    cube = RGB_identity_cube(colorspace.name, density)
+    it_mesh_vertex = OpenMaya.MItMeshVertex(get_dag_path(cube))
+    while not it_mesh_vertex.isDone():
+        position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
+        it_mesh_vertex.setPosition(get_mpoint(list(numpy.ravel(RGB_to_Lab((position[0], position[1], position[2],),
                                                                        colorspace)))))
-        itMeshVertex.next()
-    setAttributes({"{0}.rotateX".format(cube): 180,
+        it_mesh_vertex.next()
+    set_attributes({"{0}.rotateX".format(cube): 180,
                    "{0}.rotateZ".format(cube): 90})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     return cube
 
 
-def Lab_coordinatesSystemRepresentation():
+def Lab_coordinates_system_representation():
     """
     Creates a **CIE Lab** coordinates system representation.
 
@@ -195,13 +206,13 @@ def Lab_coordinatesSystemRepresentation():
     group = cmds.createNode("transform")
 
     cube = foundations.common.get_first_item(cmds.polyCube(w=600, h=100, d=600, sx=12, sy=2, sz=12, ch=False))
-    setAttributes({"{0}.translateY".format(cube): 50,
+    set_attributes({"{0}.translateY".format(cube): 50,
                    "{0}.overrideEnabled".format(cube): True,
                    "{0}.overrideDisplayType".format(cube): 2,
                    "{0}.overrideShading".format(cube): False})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     cmds.select(["{0}.f[0:167]".format(cube), "{0}.f[336:359]".format(cube)])
-    mel.eval("doDelete;")
+    cmds.delete()
 
     cmds.nurbsToPolygonsPref(polyType=1, chordHeightRatio=0.975)
 
@@ -217,7 +228,7 @@ def Lab_coordinatesSystemRepresentation():
         cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
         cmds.select(mesh)
         cmds.polyColorPerVertex(rgb=(0, 0, 0), cdo=True)
-        setAttributes({"{0}.translateX".format(mesh): position[0],
+        set_attributes({"{0}.translateX".format(mesh): position[0],
                        "{0}.translateZ".format(mesh): position[1],
                        "{0}.rotateX".format(mesh): -90,
                        "{0}.scaleX".format(mesh): 50,
@@ -232,6 +243,6 @@ def Lab_coordinatesSystemRepresentation():
 
     cube = cmds.rename(cube, "grid")
     cmds.parent(cube, group)
-    cmds.rename(group, "Lab_coordinatesSystemRepresentation")
+    cmds.rename(group, "Lab_coordinates_system_representation")
 
     return True

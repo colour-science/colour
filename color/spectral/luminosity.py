@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package *luminosity* data and manipulation objects.
+    Defines **Color** package *luminous efficiency functions*.
 
 **Others:**
 
@@ -18,6 +18,8 @@ from __future__ import unicode_literals
 
 import color.spectral
 import color.verbose
+
+from color.spectral.spd import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -1844,25 +1846,25 @@ PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
 
 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS = {
     "CIE 1924 2 Degree Observer":
-        color.spectral.SpectralPowerDistribution("CIE 1924 2 Degree Observer",
-                                                 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "CIE 1924 2 Degree Observer")),
+        SpectralPowerDistribution("CIE 1924 2 Degree Observer",
+                                                     PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "CIE 1924 2 Degree Observer")),
     "Judd Modified CIE 1951 2 Degree Observer":
-        color.spectral.SpectralPowerDistribution("Judd Modified CIE 1951 2 Degree Observer",
-                                                 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "Judd Modified CIE 1951 2 Degree Observer")),
+        SpectralPowerDistribution("Judd Modified CIE 1951 2 Degree Observer",
+                                                     PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "Judd Modified CIE 1951 2 Degree Observer")),
     "Judd-Vos Modified CIE 1978 2 Degree Observer":
-        color.spectral.SpectralPowerDistribution("Judd-Vos Modified CIE 1978 2 Degree Observer",
-                                                 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "Judd-Vos Modified CIE 1978 2 Degree Observer")),
+        SpectralPowerDistribution("Judd-Vos Modified CIE 1978 2 Degree Observer",
+                                                     PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "Judd-Vos Modified CIE 1978 2 Degree Observer")),
     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer":
-        color.spectral.SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer",
-                                                 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer")),
+        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer",
+                                                     PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer")),
     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer":
-        color.spectral.SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer",
-                                                 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer"))
+        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer",
+                                                     PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer"))
 }
 
 SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
@@ -2273,7 +2275,7 @@ SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
 
 SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS = {
     "Wald & Crawford CIE 1951 2 Degree Observer":
-        color.spectral.SpectralPowerDistribution("Wald & Crawford CIE 1951 2 Degree Observer",
-                                                 SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                                     "Wald & Crawford CIE 1951 2 Degree Observer")),
+        SpectralPowerDistribution("Wald & Crawford CIE 1951 2 Degree Observer",
+                                                     SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                                         "Wald & Crawford CIE 1951 2 Degree Observer")),
 }

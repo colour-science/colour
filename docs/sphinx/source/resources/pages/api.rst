@@ -6,7 +6,8 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
-   color.blackbody <api/color.blackbody>
+   color.algebra.matrix <api/color.algebra.matrix>
+   color.algebra.regression <api/color.algebra.regression>
    color.chromatic_adaptation <api/color.chromatic_adaptation>
    color.color_checkers <api/color.color_checkers>
    color.colorspaces.aces_rgb <api/color.colorspaces.aces_rgb>
@@ -37,6 +38,7 @@ Modules Summary:
    color.colorspaces.srgb <api/color.colorspaces.srgb>
    color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
    color.data_structures <api/color.data_structures>
+   color.deprecated <api/color.deprecated>
    color.derivation <api/color.derivation>
    color.difference <api/color.difference>
    color.exceptions <api/color.exceptions>
@@ -46,9 +48,13 @@ Modules Summary:
    color.implementations.maya.plots <api/color.implementations.maya.plots>
    color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
    color.lightness <api/color.lightness>
-   color.luminosity <api/color.luminosity>
-   color.matrix <api/color.matrix>
-   color.spectral <api/color.spectral>
+   color.spectral.blackbody <api/color.spectral.blackbody>
+   color.spectral.cmfs <api/color.spectral.cmfs>
+   color.spectral.correction <api/color.spectral.correction>
+   color.spectral.illuminants <api/color.spectral.illuminants>
+   color.spectral.luminosity <api/color.spectral.luminosity>
+   color.spectral.spd <api/color.spectral.spd>
+   color.spectral.transformations <api/color.spectral.transformations>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
    color.verbose <api/color.verbose>
