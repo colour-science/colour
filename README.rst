@@ -59,6 +59,7 @@ Highlights:
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
 -  Spectral bandpass correction.
+-  Sprague interpolation.
 -  Chromatic adaptation with following methods:
 
   -  XYZ Scaling.
@@ -219,6 +220,10 @@ References
 
 **Charles Poynton**, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
 
+Algebra
+-------
+
+`Sprague Interpolation <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 33. (Last accessed 28 May 2014)
 
 Chromatic Adaptation
 --------------------

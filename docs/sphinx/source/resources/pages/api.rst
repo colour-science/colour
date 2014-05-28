@@ -6,6 +6,7 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
+   color.algebra.interpolation <api/color.algebra.interpolation>
    color.algebra.matrix <api/color.algebra.matrix>
    color.algebra.regression <api/color.algebra.regression>
    color.chromatic_adaptation <api/color.chromatic_adaptation>

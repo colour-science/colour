@@ -29,11 +29,14 @@ __all__ = ["LOGGER"]
 
 LOGGER = color.verbose.install_logger()
 
+from .interpolation import *
 from .matrix import *
 from .regression import *
+from . import interpolation
 from . import matrix
 from . import regression
 
+__all__.extend(interpolation.__all__)
 __all__.extend(matrix.__all__)
 __all__.extend(regression.__all__)
 __all__ = map(lambda x: x.encode("ascii"), __all__)
