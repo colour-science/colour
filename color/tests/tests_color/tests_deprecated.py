@@ -280,13 +280,13 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             color.deprecated.HEX_to_RGB("#3f990c"), numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
-            decimal=7)
+            decimal=2)
         numpy.testing.assert_almost_equal(
             color.deprecated.HEX_to_RGB("#000000"), numpy.matrix([0., 0., 0.]).reshape((3, 1)),
-            decimal=7)
+            decimal=2)
         numpy.testing.assert_almost_equal(
-            color.deprecated.HEX_to_RGB(["#ffffff"]), numpy.matrix([1., 1., 1.]).reshape((3, 1)),
-            decimal=7)
+            color.deprecated.HEX_to_RGB("#ffffff"), numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            decimal=2)
 
 
 if __name__ == "__main__":
