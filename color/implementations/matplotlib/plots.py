@@ -549,7 +549,7 @@ def single_spectral_power_distribution_plot(spd,
     """
 
     start, end, steps = cmfs.shape
-    spd.resample(start, end, steps)
+    spd.interpolate(start, end, steps)
     wavelengths = numpy.arange(start, end + steps, steps)
 
     colors = []
@@ -812,7 +812,7 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
                                                                                                               sorted(
                                                                                                                   color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
 
-    cmfs.resample(360, 830)
+    cmfs.interpolate(360, 830)
 
     start, end, steps = cmfs.shape
     wavelengths = numpy.arange(start, end + steps, steps)

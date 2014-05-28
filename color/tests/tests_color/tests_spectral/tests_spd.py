@@ -24,7 +24,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.spectral
+import copy
+
 from color.spectral import AbstractColorMatchingFunctions
 from color.spectral import RGB_ColorMatchingFunctions
 from color.spectral import SpectralPowerDistribution
@@ -1390,8 +1391,9 @@ class TestSpectralDistribution(unittest.TestCase):
         """
 
         required_methods = ("get",
-                            "zeros",
-                            "resample")
+                            "extrapolate",
+                            "interpolate",
+                            "zeros")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralPowerDistribution))
@@ -1478,14 +1480,25 @@ class TestSpectralDistribution(unittest.TestCase):
         self.assertEqual(spd.get(820), 0.)
         self.assertEqual(spd.get(900, -1), -1)
 
-    def test_resample(self):
+    def test_extrapolate(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.resample` method.
+        Tests :func:`color.spectral.spd.SpectralDistribution.extrapolate` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
+        spd.extrapolate(10, 50)
+
+        self.assertEqual(spd[10], 0)
+        self.assertEqual(spd[50], 1)
+
+    def test_interpolate(self):
+        """
+        Tests :func:`color.spectral.spd.SpectralDistribution.interpolate` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
 
-        numpy.testing.assert_almost_equal(spd.resample(steps=1).values,
+        numpy.testing.assert_almost_equal(spd.interpolate(steps=1).values,
                                           RESAMPLE_SAMPLE_SPD_DATA)
 
     def test_zeros(self):
@@ -1529,7 +1542,8 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         """
 
         required_methods = ("get",
-                            "resample",
+                            "extrapolate",
+                            "interpolate",
                             "zeros")
 
         for method in required_methods:
@@ -1677,9 +1691,38 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         self.assertTupleEqual(cmfs.get(700), (0.011359, 0.004102, 0.))
         self.assertTupleEqual(cmfs.get(900, (0, 0, 0)), (0, 0, 0))
 
-    def test_resample(self):
+    def test_extrapolate(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.resample` method.
+        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.extrapolate` method.
+        """
+
+        mapping = {"x": "x_bar",
+                   "y": "y_bar",
+                   "z": "z_bar"}
+
+        spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping=mapping,
+                                              cmfs={"x_bar": copy.deepcopy(spd_data),
+                                                    "y_bar": copy.deepcopy(spd_data),
+                                                    "z_bar": copy.deepcopy(spd_data)},
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        cmfs.extrapolate(10, 50)
+
+        self.assertEqual(cmfs.x[10], 0)
+        self.assertEqual(cmfs.y[10], 0)
+        self.assertEqual(cmfs.z[10], 0)
+
+        self.assertEqual(cmfs.x[50], 1)
+        self.assertEqual(cmfs.y[50], 1)
+        self.assertEqual(cmfs.z[50], 1)
+
+    def test_interpolate(self):
+        """
+        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.interpolate` method.
         """
 
         mapping = {"x": "x_bar",
@@ -1695,7 +1738,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                                                       "y": "y_bar",
                                                       "z": "z_bar"})
 
-        cmfs.resample(steps=1)
+        cmfs.interpolate(steps=1)
         for i in mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(cmfs, i).values, RESAMPLE_SAMPLE_SPD_DATA)
 
@@ -1755,7 +1798,8 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
         """
 
         required_methods = ("get",
-                            "resample",
+                            "extrapolate",
+                            "interpolate",
                             "zeros")
 
         for method in required_methods:
@@ -1795,7 +1839,8 @@ class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
         """
 
         required_methods = ("get",
-                            "resample",
+                            "extrapolate",
+                            "interpolate",
                             "zeros")
 
         for method in required_methods:

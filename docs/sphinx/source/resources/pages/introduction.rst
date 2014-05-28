@@ -17,8 +17,8 @@ _`Highlights`
 
 -  RGB and XYZ color matching functions spectral data:
 
-  -  Stiles & Burch 1955 2° Observer RGB color matching functions.
-  -  Stiles & Burch 1959 10° Observer RGB color matching functions.
+  -  **Stiles & Burch** 1955 2° Observer RGB color matching functions.
+  -  **Stiles & Burch** 1959 10° Observer RGB color matching functions.
   -  Standard CIE 1931 2° Observer XYZ color matching functions.
   -  Standard CIE 1964 10° Observer XYZ color matching functions.
   -  Standard CIE 2006 2° Observer XYZ color matching functions.
@@ -49,16 +49,16 @@ _`Highlights`
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 2 Degree Observer
-  -  Judd Modified CIE 1951 2 Degree Observer
-  -  Judd-Vos Modified CIE 1978 2 Degree Observer
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
-  -  Wald & Crawford CIE 1951 2 Degree Observer
+  -  **Judd** Modified CIE 1951 2 Degree Observer
+  -  **Judd-Vos** Modified CIE 1978 2 Degree Observer
+  -  **Stockman, Jagle, Pirzer & Sharpe** CIE 2008 2 Degree Observe
+  -  **Stockman, Jagle, Pirzer & Sharpe** CIE 2008 10 Degree Observer
+  -  **Wald & Crawford** CIE 1951 2 Degree Observer
 
 -  Correlated color temperature calculation:
 
-  -  Wyszecki & Roberston method implementation.
-  -  Yoshi Ohno method implementation.
+  -  **Wyszecki & Roberston** method implementation.
+  -  **Yoshi Ohno** method implementation.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.

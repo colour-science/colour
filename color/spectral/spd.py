@@ -298,9 +298,34 @@ class SpectralPowerDistribution(object):
         except KeyError as error:
             return default
 
-    def resample(self, start=None, end=None, steps=None):
+    def extrapolate(self, start, end):
         """
-        Resamples the spectral power distribution: Values will be linearly interpolated to fit the defined range.
+        Extrapolates the spectral power distribution according to *CIE 15:2004* recommendation.
+
+        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :return: Extrapolated spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        start_wavelength, end_wavelength, steps = self.shape
+
+        minimum, maximum = self.get(start_wavelength), self.get(end_wavelength)
+        for i in numpy.arange(start_wavelength, start - steps, -steps):
+            self[i] = minimum
+        for i in numpy.arange(end_wavelength, end + steps, steps):
+            self[i] = maximum
+
+        return self
+
+
+    def interpolate(self, start=None, end=None, steps=None):
+        """
+        Interpolates the spectral power distribution: Values will be linearly interpolated to fit the defined range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -308,7 +333,7 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resampled spectral power distribution.
+        :return: Interpolated spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -331,7 +356,7 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Filled spectral power distribution.
+        :return: Zeros filled spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -802,9 +827,28 @@ class AbstractColorMatchingFunctions(object):
         except KeyError as error:
             return default
 
-    def resample(self, start=None, end=None, steps=None):
+    def extrapolate(self, start=None, end=None):
         """
-        Resamples the color matching functions: Values will be linearly interpolated to fit the defined range.
+        Extrapolates the color matching functions according to *CIE 15:2004* recommendation.
+
+        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :return: Extrapolated color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).extrapolate(start, end)
+
+        return self
+
+    def interpolate(self, start=None, end=None, steps=None):
+        """
+        Interpolates the color matching functions: Values will be linearly interpolated to fit the defined range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -812,18 +856,18 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resampled color matching functions.
+        :return: Interpolated color matching functions.
         :rtype: AbstractColorMatchingFunctions
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).resample(start, end, steps)
+            getattr(self, i).interpolate(start, end, steps)
 
         return self
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the color matching functions: Missing values will be replaced with zeroes to fit the defined range.
+        Zeros fills the color matching functions: Missing values will be replaced with zeros to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -831,7 +875,7 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Filled color matching functions.
+        :return: Zeros filled color matching functions.
         :rtype: AbstractColorMatchingFunctions
         """
 
