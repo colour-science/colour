@@ -6,20 +6,55 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
-   color.blackbody <api/color.blackbody>
-   color.chromaticAdaptation <api/color.chromaticAdaptation>
-   color.colorCheckers <api/color.colorCheckers>
-   color.colorspaces <api/color.colorspaces>
-   color.commands <api/color.commands>
-   color.dataStructures <api/color.dataStructures>
+   color.algebra.matrix <api/color.algebra.matrix>
+   color.algebra.regression <api/color.algebra.regression>
+   color.chromatic_adaptation <api/color.chromatic_adaptation>
+   color.color_checkers <api/color.color_checkers>
+   color.colorspaces.aces_rgb <api/color.colorspaces.aces_rgb>
+   color.colorspaces.adobe_rgb_1998 <api/color.colorspaces.adobe_rgb_1998>
+   color.colorspaces.adobe_wide_gamut_rgb <api/color.colorspaces.adobe_wide_gamut_rgb>
+   color.colorspaces.alexa_wide_gamut_rgb <api/color.colorspaces.alexa_wide_gamut_rgb>
+   color.colorspaces.apple_rgb <api/color.colorspaces.apple_rgb>
+   color.colorspaces.best_rgb <api/color.colorspaces.best_rgb>
+   color.colorspaces.beta_rgb <api/color.colorspaces.beta_rgb>
+   color.colorspaces.c_log <api/color.colorspaces.c_log>
+   color.colorspaces.cie_rgb <api/color.colorspaces.cie_rgb>
+   color.colorspaces.color_match_rgb <api/color.colorspaces.color_match_rgb>
+   color.colorspaces.colorspace <api/color.colorspaces.colorspace>
+   color.colorspaces.dci_p3 <api/color.colorspaces.dci_p3>
+   color.colorspaces.don_rgb_4 <api/color.colorspaces.don_rgb_4>
+   color.colorspaces.eci_rgb_v2 <api/color.colorspaces.eci_rgb_v2>
+   color.colorspaces.ekta_space_ps5 <api/color.colorspaces.ekta_space_ps5>
+   color.colorspaces.max_rgb <api/color.colorspaces.max_rgb>
+   color.colorspaces.ntsc_rgb <api/color.colorspaces.ntsc_rgb>
+   color.colorspaces.pal_secam_rgb <api/color.colorspaces.pal_secam_rgb>
+   color.colorspaces.pointer_gamut <api/color.colorspaces.pointer_gamut>
+   color.colorspaces.prophoto_rgb <api/color.colorspaces.prophoto_rgb>
+   color.colorspaces.rec_2020 <api/color.colorspaces.rec_2020>
+   color.colorspaces.rec_709 <api/color.colorspaces.rec_709>
+   color.colorspaces.russell_rgb <api/color.colorspaces.russell_rgb>
+   color.colorspaces.s_log <api/color.colorspaces.s_log>
+   color.colorspaces.smptec_rgb <api/color.colorspaces.smptec_rgb>
+   color.colorspaces.srgb <api/color.colorspaces.srgb>
+   color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
+   color.data_structures <api/color.data_structures>
+   color.deprecated <api/color.deprecated>
    color.derivation <api/color.derivation>
    color.difference <api/color.difference>
    color.exceptions <api/color.exceptions>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
    color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
-   color.matrix <api/color.matrix>
-   color.spectral <api/color.spectral>
+   color.implementations.maya.plots <api/color.implementations.maya.plots>
+   color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
+   color.lightness <api/color.lightness>
+   color.spectral.blackbody <api/color.spectral.blackbody>
+   color.spectral.cmfs <api/color.spectral.cmfs>
+   color.spectral.correction <api/color.spectral.correction>
+   color.spectral.illuminants <api/color.spectral.illuminants>
+   color.spectral.luminosity <api/color.spectral.luminosity>
+   color.spectral.spd <api/color.spectral.spd>
+   color.spectral.transformations <api/color.spectral.transformations>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
    color.verbose <api/color.verbose>

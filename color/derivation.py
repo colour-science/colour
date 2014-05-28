@@ -5,33 +5,21 @@
 **derivation.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Color** package *derivation* objects.
+    Defines **Color** package *derivation* objects.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***    External imports.
-#**********************************************************************************************************************
 import numpy
 
-#**********************************************************************************************************************
-#***	Internal Imports.
-#**********************************************************************************************************************
 import color.verbose
 
-#**********************************************************************************************************************
-#***    Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -40,100 +28,74 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		   "xy_to_z",
-		   "getNormalizedPrimaryMatrix",
-		   "getLuminanceEquation"]
+           "xy_to_z",
+           "get_normalized_primary_matrix"]
 
-LOGGER = color.verbose.installLogger()
+LOGGER = color.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***    Module classes and definitions.
-#**********************************************************************************************************************
+
 def xy_to_z(xy):
-	"""
-	Returns the *z* coordinate using given *chromaticity coordinates*.
+    """
+    Returns the *z* coordinate using given *chromaticity coordinates*.
 
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.2
+    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.2
 
-	Usage::
+    Usage::
 
-		>>> xy_to_z((0.25, 0.25))
-		0.5
+        >>> xy_to_z((0.25, 0.25))
+        0.5
 
-	:param xy: X, y chromaticity coordinate.
-	:type xy: tuple
-	:return: Z coordinate.
-	:rtype: float
-	"""
+    :param xy: X, y chromaticity coordinate.
+    :type xy: tuple
+    :return: Z coordinate.
+    :rtype: float
+    """
 
-	return 1 - xy[0] - xy[1]
+    return 1 - xy[0] - xy[1]
 
-def getNormalizedPrimaryMatrix(primaries, whitepoint):
-	"""
-	Returns the *normalized primary matrix* using given *primaries* and *whitepoint* matrices.
 
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
+def get_normalized_primary_matrix(primaries, whitepoint):
+    """
+    Returns the *normalized primary matrix* using given *primaries* and *whitepoint* matrices.
 
-	Usage::
+    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
 
-		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
-		>>> whitepoint = (0.32168, 0.33767)
-		>>> getNormalizedPrimaryMatrix(primaries, whitepoint)
-		matrix([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
-			[  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
-			[  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
+    Usage::
 
-	:param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-	:type primaries: Matrix
-	:param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-	:type whitepoint: tuple
-	:return: Normalized primary matrix.
-	:rtype: float (3x3)
-	"""
+        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> whitepoint = (0.32168, 0.33767)
+        >>> get_normalized_primary_matrix(primaries, whitepoint)
+        matrix([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
+            [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
+            [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
 
-	# Add 'z' coordinates to the primaries and transposing the matrix.
-	primaries = numpy.hstack((primaries,
-							  numpy.matrix(
-								  map(lambda x: xy_to_z(numpy.ravel(x)), primaries)).reshape(
-								  (3, 1))))
-	primaries = numpy.transpose(primaries)
+    :param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
+    :type primaries: Matrix
+    :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
+    :type whitepoint: tuple
+    :return: Normalized primary matrix.
+    :rtype: float (3x3)
+    """
 
-	whitepoint = numpy.matrix(
-		[whitepoint[0] / whitepoint[1], 1, xy_to_z(whitepoint) / whitepoint[1]]).reshape(
-		(3, 1))
+    # Add 'z' coordinates to the primaries and transposing the matrix.
+    primaries = numpy.hstack((primaries,
+                              numpy.matrix(
+                                  map(lambda x: xy_to_z(numpy.ravel(x)), primaries)).reshape(
+                                  (3, 1))))
+    primaries = numpy.transpose(primaries)
 
-	coefficients = primaries.getI() * whitepoint
-	coefficients = numpy.diagflat(coefficients)
+    whitepoint = numpy.matrix(
+        [whitepoint[0] / whitepoint[1], 1, xy_to_z(whitepoint) / whitepoint[1]]).reshape(
+        (3, 1))
 
-	npm = primaries * coefficients
+    coefficients = primaries.getI() * whitepoint
+    coefficients = numpy.diagflat(coefficients)
 
-	LOGGER.debug("Transposed primaries:\n{0}".format(repr(primaries)))
-	LOGGER.debug("Whitepoint:\n{0}".format(repr(whitepoint)))
-	LOGGER.debug("Coefficients:\n{0}".format(repr(coefficients)))
-	LOGGER.debug("Normalized primary matrix':\n{0}".format(repr(npm)))
+    npm = primaries * coefficients
 
-	return npm
+    LOGGER.debug("Transposed primaries:\n{0}".format(repr(primaries)))
+    LOGGER.debug("Whitepoint:\n{0}".format(repr(whitepoint)))
+    LOGGER.debug("Coefficients:\n{0}".format(repr(coefficients)))
+    LOGGER.debug("Normalized primary matrix':\n{0}".format(repr(npm)))
 
-def getLuminanceEquation(primaries, whitepoint):
-	"""
-	Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
-
-	Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.8
-
-	Usage::
-
-		>>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
-		>>> whitepoint = (0.32168, 0.33767)
-		>>> getLuminanceEquation(primaries, whitepoint)
-		Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
-
-	:param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-	:type primaries: Matrix
-	:param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-	:type whitepoint: tuple
-	:return: Luminance equation.
-	:rtype: unicode
-	"""
-
-	return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-		*numpy.ravel(getNormalizedPrimaryMatrix(primaries, whitepoint))[3:6])
+    return npm

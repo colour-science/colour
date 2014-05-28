@@ -19,61 +19,69 @@ Functions
 
 .. autofunction:: XYZ_to_sRGB
 
-.. autofunction:: figureSize
+.. autofunction:: figure_size
 
 .. autofunction:: aspect
 
-.. autofunction:: boundingBox
+.. autofunction:: bounding_box
 
 .. autofunction:: display
 
-.. autofunction:: colorParameter
+.. autofunction:: color_parameter
 
-.. autofunction:: colorParametersPlot
+.. autofunction:: color_parameters_plot
 
-.. autofunction:: singleColorPlot
+.. autofunction:: single_color_plot
 
-.. autofunction:: multiColorPlot
+.. autofunction:: multi_color_plot
 
-.. autofunction:: colorCheckerPlot
+.. autofunction:: color_checker_plot
 
-.. autofunction:: singleSpectralPowerDistributionPlot
+.. autofunction:: single_spectral_power_distribution_plot
 
-.. autofunction:: multiSpectralPowerDistributionPlot
+.. autofunction:: multi_spectral_power_distribution_plot
 
-.. autofunction:: singleColorMatchingFunctionsPlot
+.. autofunction:: single_color_matching_functions_plot
 
-.. autofunction:: multiColorMatchingFunctionsPlot
+.. autofunction:: multi_color_matching_functions_plot
 
-.. autofunction:: singleIlluminantRelativeSpdPlot
+.. autofunction:: single_illuminant_relative_spd_plot
 
-.. autofunction:: multiIlluminantsRelativeSpdPlot
+.. autofunction:: multi_illuminants_relative_spd_plot
 
-.. autofunction:: visibleSpectrumPlot
+.. autofunction:: visible_spectrum_plot
 
-.. autofunction:: CIE_1931_chromaticityDiagramColorsPlot
+.. autofunction:: CIE_1931_chromaticity_diagram_colors_plot
 
-.. autofunction:: CIE_1931_chromaticityDiagramPlot
+.. autofunction:: CIE_1931_chromaticity_diagram_plot
 
-.. autofunction:: colorspaces_CIE_1931_chromaticityDiagramPlot
+.. autofunction:: colorspaces_CIE_1931_chromaticity_diagram_plot
 
-.. autofunction:: planckianLocus_CIE_1931_chromaticityDiagramPlot
+.. autofunction:: planckian_locus_CIE_1931_chromaticity_diagram_plot
 
-.. autofunction:: CIE_1960_UCS_chromaticityDiagramColorsPlot
+.. autofunction:: CIE_1960_UCS_chromaticity_diagram_colors_plot
 
-.. autofunction:: CIE_1960_UCS_chromaticityDiagramPlot
+.. autofunction:: CIE_1960_UCS_chromaticity_diagram_plot
 
-.. autofunction:: planckianLocus_CIE_1960_UCS_chromaticityDiagramPlot
+.. autofunction:: planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot
 
-.. autofunction:: CIE_1976_UCS_chromaticityDiagramColorsPlot
+.. autofunction:: CIE_1976_UCS_chromaticity_diagram_colors_plot
 
-.. autofunction:: CIE_1976_UCS_chromaticityDiagramPlot
+.. autofunction:: CIE_1976_UCS_chromaticity_diagram_plot
 
-.. autofunction:: singleTransferFunctionPlot
+.. autofunction:: single_munsell_value_function_plot
 
-.. autofunction:: multiTransferFunctionPlot
+.. autofunction:: multi_munsell_value_function_plot
 
-.. autofunction:: blackbodySpectralRadiancePlot
+.. autofunction:: single_lightness_function_plot
 
-.. autofunction:: blackbodyColorsPlot
+.. autofunction:: multi_lightness_function_plot
+
+.. autofunction:: single_transfer_function_plot
+
+.. autofunction:: multi_transfer_function_plot
+
+.. autofunction:: blackbody_spectral_radiance_plot
+
+.. autofunction:: blackbody_colors_plot
 

@@ -27,17 +27,17 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: getPlanckianTable
+.. autofunction:: get_planckian_table
 
-.. autofunction:: getPlanckianTableMinimalDistanceIndex
+.. autofunction:: get_planckian_table_minimal_distance_index
 
-.. autofunction:: ohno_uv_to_cct
+.. autofunction:: uv_to_cct_ohno
 
-.. autofunction:: ohno_cct_to_uv
+.. autofunction:: cct_to_uv_ohno
 
-.. autofunction:: robertson_uv_to_cct
+.. autofunction:: uv_to_cct_robertson
 
-.. autofunction:: robertson_cct_to_uv
+.. autofunction:: cct_to_uv_robertson
 
 .. autofunction:: uv_to_cct
 

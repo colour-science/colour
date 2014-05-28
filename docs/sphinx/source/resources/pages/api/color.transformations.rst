@@ -8,16 +8,8 @@ Module Attributes
 
 .. attribute:: color.transformations.LOGGER
 
-.. attribute:: color.transformations.CIE_E
-
-.. attribute:: color.transformations.CIE_K
-
 Functions
 ---------
-
-.. autofunction:: wavelength_to_XYZ
-
-.. autofunction:: spectral_to_XYZ
 
 .. autofunction:: XYZ_to_xyY
 

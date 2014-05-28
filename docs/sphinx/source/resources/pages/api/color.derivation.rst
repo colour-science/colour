@@ -13,7 +13,5 @@ Functions
 
 .. autofunction:: xy_to_z
 
-.. autofunction:: getNormalizedPrimaryMatrix
-
-.. autofunction:: getLuminanceEquation
+.. autofunction:: get_normalized_primary_matrix
 
