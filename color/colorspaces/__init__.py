@@ -30,61 +30,61 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
-from color.colorspaces.colorspace import *
-from color.colorspaces.aces_rgb import *
-from color.colorspaces.adobe_rgb_1998 import *
-from color.colorspaces.adobe_wide_gamut_rgb import *
-from color.colorspaces.alexa_wide_gamut_rgb import *
-from color.colorspaces.apple_rgb import *
-from color.colorspaces.best_rgb import *
-from color.colorspaces.beta_rgb import *
-from color.colorspaces.cie_rgb import *
-from color.colorspaces.c_log import *
-from color.colorspaces.color_match_rgb import *
-from color.colorspaces.dci_p3 import *
-from color.colorspaces.don_rgb_4 import *
-from color.colorspaces.eci_rgb_v2 import *
-from color.colorspaces.ekta_space_ps5 import *
-from color.colorspaces.max_rgb import *
-from color.colorspaces.ntsc_rgb import *
-from color.colorspaces.pal_secam_rgb import *
-from color.colorspaces.pointer_gamut import *
-from color.colorspaces.prophoto_rgb import *
-from color.colorspaces.rec_709 import *
-from color.colorspaces.rec_2020 import *
-from color.colorspaces.russell_rgb import *
-from color.colorspaces.s_log import *
-from color.colorspaces.smptec_rgb import *
-from color.colorspaces.srgb import *
-from color.colorspaces.xtreme_rgb import *
+from .colorspace import *
+from .aces_rgb import *
+from .adobe_rgb_1998 import *
+from .adobe_wide_gamut_rgb import *
+from .alexa_wide_gamut_rgb import *
+from .apple_rgb import *
+from .best_rgb import *
+from .beta_rgb import *
+from .cie_rgb import *
+from .c_log import *
+from .color_match_rgb import *
+from .dci_p3 import *
+from .don_rgb_4 import *
+from .eci_rgb_v2 import *
+from .ekta_space_ps5 import *
+from .max_rgb import *
+from .ntsc_rgb import *
+from .pal_secam_rgb import *
+from .pointer_gamut import *
+from .prophoto_rgb import *
+from .rec_709 import *
+from .rec_2020 import *
+from .russell_rgb import *
+from .s_log import *
+from .smptec_rgb import *
+from .srgb import *
+from .xtreme_rgb import *
 
-from color.colorspaces import colorspace
-from color.colorspaces import aces_rgb
-from color.colorspaces import adobe_rgb_1998
-from color.colorspaces import adobe_wide_gamut_rgb
-from color.colorspaces import alexa_wide_gamut_rgb
-from color.colorspaces import apple_rgb
-from color.colorspaces import best_rgb
-from color.colorspaces import beta_rgb
-from color.colorspaces import cie_rgb
-from color.colorspaces import c_log
-from color.colorspaces import color_match_rgb
-from color.colorspaces import dci_p3
-from color.colorspaces import don_rgb_4
-from color.colorspaces import eci_rgb_v2
-from color.colorspaces import ekta_space_ps5
-from color.colorspaces import max_rgb
-from color.colorspaces import ntsc_rgb
-from color.colorspaces import pal_secam_rgb
-from color.colorspaces import pointer_gamut
-from color.colorspaces import prophoto_rgb
-from color.colorspaces import rec_709
-from color.colorspaces import rec_2020
-from color.colorspaces import russell_rgb
-from color.colorspaces import s_log
-from color.colorspaces import smptec_rgb
-from color.colorspaces import srgb
-from color.colorspaces import xtreme_rgb
+from . import colorspace
+from . import aces_rgb
+from . import adobe_rgb_1998
+from . import adobe_wide_gamut_rgb
+from . import alexa_wide_gamut_rgb
+from . import apple_rgb
+from . import best_rgb
+from . import beta_rgb
+from . import cie_rgb
+from . import c_log
+from . import color_match_rgb
+from . import dci_p3
+from . import don_rgb_4
+from . import eci_rgb_v2
+from . import ekta_space_ps5
+from . import max_rgb
+from . import ntsc_rgb
+from . import pal_secam_rgb
+from . import pointer_gamut
+from . import prophoto_rgb
+from . import rec_709
+from . import rec_2020
+from . import russell_rgb
+from . import s_log
+from . import smptec_rgb
+from . import srgb
+from . import xtreme_rgb
 
 __all__.extend(colorspace.__all__)
 __all__.extend(aces_rgb.__all__)
@@ -113,8 +113,7 @@ __all__.extend(s_log.__all__)
 __all__.extend(smptec_rgb.__all__)
 __all__.extend(srgb.__all__)
 __all__.extend(xtreme_rgb.__all__)
-
-__all__ = map(str, __all__)
+__all__ = map(lambda x: x.encode("ascii"), __all__)
 
 COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
                ACES_RGB_LOG_COLORSPACE.name: ACES_RGB_LOG_COLORSPACE,

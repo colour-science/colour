@@ -2309,7 +2309,7 @@ ASTM_G_173 = {280.0: 8.2000e-02,
               3995.0: 8.7000e-03,
               4000.0: 8.6800e-03}
 
-# ASTM_G_173 scaling factor calculated with :def:`color.transformations.spectral_to_XYZ` definition.
+# ASTM_G_173 scaling factor calculated with :def:`color.spectral.transformations.spectral_to_XYZ` definition.
 for key, value in ASTM_G_173.iteritems():
     ASTM_G_173[key] = value * 1.37905559e+13
 

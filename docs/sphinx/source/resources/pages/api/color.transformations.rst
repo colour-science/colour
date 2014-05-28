@@ -11,10 +11,6 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: wavelength_to_XYZ
-
-.. autofunction:: spectral_to_XYZ
-
 .. autofunction:: XYZ_to_xyY
 
 .. autofunction:: xyY_to_XYZ

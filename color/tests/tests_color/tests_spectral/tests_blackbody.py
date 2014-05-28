@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.blackbody` module.
+    Defines units tests for :mod:`color.spectral.blackbody` module.
 
 **Others:**
 
@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.blackbody
+import color.spectral.blackbody
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -4510,33 +4510,33 @@ BLACKBODY_SPD_DATA = numpy.array([6.655174524134172851562500e+12,
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`color.blackbody.planck_law` definition units tests methods.
+    Defines :func:`color.spectral.blackbody.planck_law` definition units tests methods.
     """
 
     def test_planck_law(self):
         """
-        Tests :func:`color.blackbody.planck_law` definition.
+        Tests :func:`color.spectral.blackbody.planck_law` definition.
         """
 
         for temperature, wavelengths in sorted(PLANCK_LAW_DATA.iteritems()):
             for wavelength, radiance in sorted(wavelengths.iteritems()):
-                numpy.testing.assert_almost_equal(color.blackbody.planck_law(wavelength * 1e-9, temperature),
+                numpy.testing.assert_almost_equal(color.spectral.blackbody.planck_law(wavelength * 1e-9, temperature),
                                                   radiance,
                                                   decimal=7)
 
 
 class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :func:`color.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
+    Defines :func:`color.spectral.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
     """
 
     def test_blackbody_power_spectral_distribution(self):
         """
-        Tests :func:`color.blackbody.blackbody_spectral_power_distribution` definition.
+        Tests :func:`color.spectral.blackbody.blackbody_spectral_power_distribution` definition.
         """
 
         numpy.testing.assert_almost_equal(
-            color.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
+            color.spectral.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
             BLACKBODY_SPD_DATA,
             decimal=7)
 
