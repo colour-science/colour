@@ -248,6 +248,8 @@
 						</li>
 						<li>Blackbody spectral radiance calculation.
 						</li>
+						<li>Spectral bandpass correction.
+						</li>
 						<li>Chromatic adaptation with following methods:
 						</li>
 					</ul>
@@ -545,13 +547,16 @@ python setup.py install
 					<span class="target" id="references">References</span>
 				</h1>
 				<p>
-					Wyszecki &amp; Stiles, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition published 2000, ISBN: 0-471-39918-3
+					Wyszecki &amp; Stiles, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
 				</p>
 				<p>
-					Edward J. Giorgianni &amp; Thomas E. Madden, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley published November 2008, ISBN: 978-0-470-99436-8
+					Stephen Westland, Caterina Ripamonti, Vien Cheung, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
 				</p>
 				<p>
-					Charles Poynton, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics published 2 December 2012, ISBN: 978-0123919267
+					Edward J. Giorgianni &amp; Thomas E. Madden, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+				</p>
+				<p>
+					Charles Poynton, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
 				</p>
 				<p>
 					Charles Poynton, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
@@ -559,14 +564,6 @@ python setup.py install
 				<p>
 					Charles Poynton, <a class="reference external" href="http://www.poynton.com/GammaFAQ.html">Gamma FAQ</a>
 				</p>
-				<div class="section" id="planc-s-law">
-					<h2>
-						Planc's Law
-					</h2>
-					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/Planck's_law">Planck's Law</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
 				<div class="section" id="chromatic-adaptation">
 					<h2>
 						Chromatic Adaptation
@@ -590,6 +587,153 @@ python setup.py install
 					</h2>
 					<p>
 						<a class="reference external" href="http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls">Babel Color ColorChecker RGB and Spectral Data</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="colorspace-derivation">
+					<h2>
+						Colorspace Derivation
+					</h2>
+					<p>
+						<a class="reference external" href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Colorspace Derivation</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-difference">
+					<h2>
+						Color Difference
+					</h2>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE 1976</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE 1994</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE 2000</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-matching-functions">
+					<h2>
+						Color Matching Functions
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1931 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1964 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 2 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 10 Degree Observer</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="deprecated-transformations">
+					<h2>
+						Deprecated Transformations
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=20#text20">RGB to HSV</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=21#text21">HSV to RGB</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=18#text18">RGB to HSL</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=21#text21">HSL to RGB</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=11#text11">RGB to CMY</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=12#text12">CMY to RGB</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=13#text13">CMY to CMYK</a> (Last accessed 18 May 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=14#text14">CMYK to CMY</a> (Last accessed 18 May 2014)
+					</p>
+				</div>
+				<div class="section" id="illuminants-relative-spectral-power-distributions">
+					<h2>
+						Illuminants Relative Spectral Power Distributions
+					</h2>
+					<p>
+						<a class="reference external" href="http://files.cie.co.at/204.xls">A</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://files.cie.co.at/204.xls">D65</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">C</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D50</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D55</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D75</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F1</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F2</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F3</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F4</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F5</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F6</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F7</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F8</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F9</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F10</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F11</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F12</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a> (Last accessed 5 April 2014)
+					</p>
+				</div>
+				<div class="section" id="illuminants-chromaticity-coordinates">
+					<h2>
+						Illuminants Chromaticity Coordinates
+					</h2>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants">Illuminants Chromaticity Coordinates</a> (Last accessed 24 February 2014)
 					</p>
 				</div>
 				<div class="section" id="luminance-munsell-value-lightness">
@@ -628,6 +772,37 @@ python setup.py install
 					</p>
 					<p>
 						Charles Poynton, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
+					</p>
+				</div>
+				<div class="section" id="luminous-efficiency-functions">
+					<h2>
+						Luminous Efficiency Functions
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1924 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd Modified CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd-Vos Modified CIE 1978 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Wald &amp; Crawford CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+					</p>
+				</div>
+				<div class="section" id="planc-s-law">
+					<h2>
+						Planc's Law
+					</h2>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Planck's_law">Planck's Law</a> (Last accessed 24 February 2014)
 					</p>
 				</div>
 				<div class="section" id="rgb-colorspaces">
@@ -722,145 +897,15 @@ python setup.py install
 						<a class="reference external" href="http://www.hutchcolor.com/profiles/MaxRGB.zip">Xtreme RGB Colorspace</a> (Last accessed 12 April 2014)
 					</p>
 				</div>
-				<div class="section" id="colorspace-derivation">
+				<div class="section" id="spectral">
 					<h2>
-						Colorspace Derivation
+						Spectral
 					</h2>
 					<p>
-						<a class="reference external" href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Colorspace Derivation</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
-				<div class="section" id="color-difference">
-					<h2>
-						Color Difference
-					</h2>
-					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE 1976</a> (Last accessed 24 February 2014)
+						Spectral to XYZ, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 158.
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE 1994</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE 2000</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
-				<div class="section" id="illuminants-chromaticity-coordinates">
-					<h2>
-						Illuminants Chromaticity Coordinates
-					</h2>
-					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants">Illuminants Chromaticity Coordinates</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
-				<div class="section" id="color-matching-functions">
-					<h2>
-						Color Matching Functions
-					</h2>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1931 2 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">Standard CIE 1964 10 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 2 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">Standard CIE 2006 10 Degree Observer</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
-				<div class="section" id="illuminants-relative-spectral-power-distributions">
-					<h2>
-						Illuminants Relative Spectral Power Distributions
-					</h2>
-					<p>
-						<a class="reference external" href="http://files.cie.co.at/204.xls">A</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://files.cie.co.at/204.xls">D65</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">C</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D50</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D55</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">D75</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F1</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F2</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F3</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F4</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F5</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F6</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F7</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F8</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F9</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F10</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F11</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F12</a> (Last accessed 24 February 2014)
-					</p>
-					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a> (Last accessed 5 April 2014)
-					</p>
-				</div>
-				<div class="section" id="luminous-efficiency-functions">
-					<h2>
-						Luminous Efficiency Functions
-					</h2>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1924 2 Degree Observer</a> (Last accessed 19 April 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd Modified CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd-Vos Modified CIE 1978 2 Degree Observer</a> (Last accessed 19 April 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe</a> (Last accessed 19 April 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer</a> (Last accessed 19 April 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Wald &amp; Crawford CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+						Spectral Bandpass Correction, Stearns, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 38.
 					</p>
 				</div>
 				<div class="section" id="temperature">
@@ -875,9 +920,6 @@ python setup.py install
 					<h2>
 						Transformations
 					</h2>
-					<p>
-						Spectral to XYZ, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 158. (Last accessed 27 May 2014)
-					</p>
 					<p>
 						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html">XYZ to xyY</a> (Last accessed 24 February 2014)
 					</p>
@@ -925,35 +967,6 @@ python setup.py install
 					</p>
 					<p>
 						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to Lab</a> (Last accessed 24 February 2014)
-					</p>
-				</div>
-				<div class="section" id="deprecated-transformations">
-					<h2>
-						Deprecated Transformations
-					</h2>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=20#text20">RGB to HSV</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=21#text21">HSV to RGB</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=18#text18">RGB to HSL</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=21#text21">HSL to RGB</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=11#text11">RGB to CMY</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=12#text12">CMY to RGB</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=13#text13">CMY to CMYK</a> (Last accessed 18 May 2014)
-					</p>
-					<p>
-						<a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=14#text14">CMYK to CMY</a> (Last accessed 18 May 2014)
 					</p><br />
 					<!-- .about -->
 				</div>

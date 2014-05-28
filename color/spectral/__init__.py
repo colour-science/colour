@@ -31,6 +31,7 @@ LOGGER = color.verbose.install_logger()
 
 from .blackbody import *
 from .cmfs import *
+from .correction import *
 from .illuminants import *
 from .luminosity import *
 from .spd import *
@@ -38,15 +39,17 @@ from .transformations import *
 
 from . import blackbody
 from . import cmfs
+from . import correction
 from . import illuminants
 from . import luminosity
 from . import spd
 from . import transformations
 
 __all__.extend(blackbody.__all__)
+__all__.extend(cmfs.__all__)
+__all__.extend(correction.__all__)
 __all__.extend(illuminants.__all__)
 __all__.extend(luminosity.__all__)
-__all__.extend(cmfs.__all__)
 __all__.extend(spd.__all__)
 __all__.extend(transformations.__all__)
 

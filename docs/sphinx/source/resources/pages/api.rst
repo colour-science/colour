@@ -50,6 +50,7 @@ Modules Summary:
    color.lightness <api/color.lightness>
    color.spectral.blackbody <api/color.spectral.blackbody>
    color.spectral.cmfs <api/color.spectral.cmfs>
+   color.spectral.correction <api/color.spectral.correction>
    color.spectral.illuminants <api/color.spectral.illuminants>
    color.spectral.luminosity <api/color.spectral.luminosity>
    color.spectral.spd <api/color.spectral.spd>

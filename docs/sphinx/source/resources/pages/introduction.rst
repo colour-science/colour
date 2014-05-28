@@ -62,6 +62,7 @@ _`Highlights`
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
+-  Spectral bandpass correction.
 -  Chromatic adaptation with following methods:
 
   -  XYZ Scaling.

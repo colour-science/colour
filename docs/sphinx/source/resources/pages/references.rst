@@ -1,20 +1,18 @@
 _`References`
 =============
 
-Wyszecki & Stiles, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition published 2000, ISBN: 0-471-39918-3
+Wyszecki & Stiles, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
 
-Edward J. Giorgianni & Thomas E. Madden, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley published November 2008, ISBN: 978-0-470-99436-8
+Stephen Westland, Caterina Ripamonti, Vien Cheung, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
 
-Charles Poynton, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics published 2 December 2012, ISBN: 978-0123919267
+Edward J. Giorgianni & Thomas E. Madden, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+
+Charles Poynton, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
 
 Charles Poynton, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
 Charles Poynton, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
 
-Planc's Law
------------
-
-`Planck's Law <http://en.wikipedia.org/wiki/Planck's_law>`_ (Last accessed 24 February 2014)
 
 Chromatic Adaptation
 --------------------
@@ -31,6 +29,102 @@ Color Rendition Charts
 ----------------------
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
+
+Colorspace Derivation
+---------------------
+
+`Colorspace Derivation <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
+
+Color Difference
+----------------
+
+Bruce Lindbloom, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
+
+Bruce Lindbloom, `ΔE CIE 1994 <http://brucelindbloom.com/Eqn_DeltaE_CIE94.html>`_ (Last accessed 24 February 2014)
+
+Bruce Lindbloom, `ΔE CIE 2000 <http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html>`_ (Last accessed 24 February 2014)
+
+Bruce Lindbloom, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
+
+Color Matching Functions
+------------------------
+
+`Stiles & Burch 1955 2 Degree Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
+
+`Stiles & Burch 1959 10 Degree Observer <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
+
+`Standard CIE 1931 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+
+`Standard CIE 1964 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+
+`Standard CIE 2006 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+`Standard CIE 2006 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+Deprecated Transformations
+--------------------------
+
+`RGB to HSV <http://www.easyrgb.com/index.php?X=MATH&H=20#text20>`_ (Last accessed 18 May 2014)
+
+`HSV to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
+
+`RGB to HSL <http://www.easyrgb.com/index.php?X=MATH&H=18#text18>`_ (Last accessed 18 May 2014)
+
+`HSL to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
+
+`RGB to CMY <http://www.easyrgb.com/index.php?X=MATH&H=11#text11>`_ (Last accessed 18 May 2014)
+
+`CMY to RGB <http://www.easyrgb.com/index.php?X=MATH&H=12#text12>`_ (Last accessed 18 May 2014)
+
+`CMY to CMYK <http://www.easyrgb.com/index.php?X=MATH&H=13#text13>`_ (Last accessed 18 May 2014)
+
+`CMYK to CMY <http://www.easyrgb.com/index.php?X=MATH&H=14#text14>`_ (Last accessed 18 May 2014)
+
+Illuminants Relative Spectral Power Distributions
+-------------------------------------------------
+
+`A <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
+
+`D65 <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
+
+`C <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`D50 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`D55 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`D75 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F1 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F2 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F3 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F4 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F5 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F6 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F7 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F8 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F9 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F10 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F11 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
+Illuminants Chromaticity Coordinates
+------------------------------------
+
+`Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
 Luminance, Munsell value, Lightness
 -----------------------------------
@@ -56,6 +150,26 @@ Luminance, Munsell value, Lightness
 `Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 
 Charles Poynton, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+
+Luminous Efficiency Functions
+-----------------------------
+
+`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+Planc's Law
+-----------
+
+`Planck's Law <http://en.wikipedia.org/wiki/Planck's_law>`_ (Last accessed 24 February 2014)
 
 RGB Colorspaces
 ---------------
@@ -118,97 +232,12 @@ RGB Colorspaces
 
 `Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
-Colorspace Derivation
----------------------
+Spectral
+--------
 
-`Colorspace Derivation <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
+Spectral to XYZ, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
-Color Difference
-----------------
-
-Bruce Lindbloom, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
-
-Bruce Lindbloom, `ΔE CIE 1994 <http://brucelindbloom.com/Eqn_DeltaE_CIE94.html>`_ (Last accessed 24 February 2014)
-
-Bruce Lindbloom, `ΔE CIE 2000 <http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html>`_ (Last accessed 24 February 2014)
-
-Bruce Lindbloom, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
-
-Illuminants Chromaticity Coordinates
-------------------------------------
-
-`Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
-
-Color Matching Functions
-------------------------
-
-`Stiles & Burch 1955 2 Degree Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
-
-`Stiles & Burch 1959 10 Degree Observer <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
-
-`Standard CIE 1931 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
-
-`Standard CIE 1964 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
-
-`Standard CIE 2006 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
-
-`Standard CIE 2006 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
-
-Illuminants Relative Spectral Power Distributions
--------------------------------------------------
-
-`A <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
-
-`D65 <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
-
-`C <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`D50 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`D55 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`D75 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F1 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F2 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F3 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F4 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F5 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F6 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F7 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F8 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F9 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F10 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F11 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-`F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
-
-Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
-
-Luminous Efficiency Functions
------------------------------
-
-`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
-
-`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
-
-`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
-
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
-
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
-
-`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+Spectral Bandpass Correction, Stearns, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
 
 Temperature
 -----------
@@ -217,8 +246,6 @@ Yoshi Ohno, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.
 
 Transformations
 ---------------
-
-Spectral to XYZ, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158. (Last accessed 27 May 2014)
 
 Bruce Lindbloom, `XYZ to xyY <http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html>`_ (Last accessed 24 February 2014)
 
@@ -251,25 +278,6 @@ Bruce Lindbloom, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>
 Bruce Lindbloom, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 
 Bruce Lindbloom, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
-
-Deprecated Transformations
---------------------------
-
-`RGB to HSV <http://www.easyrgb.com/index.php?X=MATH&H=20#text20>`_ (Last accessed 18 May 2014)
-
-`HSV to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
-
-`RGB to HSL <http://www.easyrgb.com/index.php?X=MATH&H=18#text18>`_ (Last accessed 18 May 2014)
-
-`HSL to RGB <http://www.easyrgb.com/index.php?X=MATH&H=21#text21>`_ (Last accessed 18 May 2014)
-
-`RGB to CMY <http://www.easyrgb.com/index.php?X=MATH&H=11#text11>`_ (Last accessed 18 May 2014)
-
-`CMY to RGB <http://www.easyrgb.com/index.php?X=MATH&H=12#text12>`_ (Last accessed 18 May 2014)
-
-`CMY to CMYK <http://www.easyrgb.com/index.php?X=MATH&H=13#text13>`_ (Last accessed 18 May 2014)
-
-`CMYK to CMY <http://www.easyrgb.com/index.php?X=MATH&H=14#text14>`_ (Last accessed 18 May 2014)
 
 .. raw:: html
 
