@@ -37,7 +37,9 @@ __all__ = ["LOGGER",
            "RGB_to_CMY",
            "CMY_to_RGB",
            "CMY_to_CMYK",
-           "CMYK_to_CMY"]
+           "CMYK_to_CMY",
+           "RGB_to_HEX",
+           "HEX_to_RGB"]
 
 LOGGER = color.verbose.install_logger()
 
@@ -381,3 +383,49 @@ def CMYK_to_CMY(CMYK):
     C, M, Y, K = numpy.ravel(CMYK)
 
     return numpy.matrix([C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
+
+
+def RGB_to_HEX(RGB):
+    """
+    Converts from *RGB* colorspace to hex triplet representation.
+
+    Usage::
+
+        >>> RGB_to_HEX(numpy.matrix([0.66666667, 0.86666667, 1.]).reshape((3, 1)))
+        #aaddff
+
+    :param RGB: *RGB* colorspace matrix.
+    :type RGB: Matrix (3x1)
+    :return: Hex triplet representation.
+    :rtype: unicode
+
+    :note: *RGB* is in domain [0, 1].
+    """
+
+    RGB = numpy.ravel(RGB)
+    R, G, B = map(int, RGB * 255.)
+    return "#{0:02x}{1:02x}{2:02x}".format(R, G, B)
+
+
+def HEX_to_RGB(HEX):
+    """
+    Converts from hex triplet representation to *RGB* colorspace.
+
+    Usage::
+
+        >>> HEX_to_RGB("#aaddff")
+        [[ 0.66666667]
+        [ 0.86666667]
+        [ 1.        ]]
+
+    :param HEX: Hex triplet representation.
+    :type HEX: unicode
+    :return: *RGB* colorspace matrix.
+    :rtype: Matrix (3x1)
+
+    :note: *RGB* is in domain [0, 1].
+    """
+
+    HEX = HEX.lstrip("#")
+    length = len(HEX)
+    return numpy.matrix([int(HEX[i:i + length / 3], 16) for i in range(0, length, length / 3)]).reshape((3, 1)) / 255.

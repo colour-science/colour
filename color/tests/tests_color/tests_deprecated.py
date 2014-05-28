@@ -33,14 +33,16 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["RELATIVE_SPD_DATA",
-           "TestRGB_to_HSV",
+__all__ = ["TestRGB_to_HSV",
            "TestHSV_to_RGB",
            "TestRGB_to_HSL",
+           "TestHSL_to_RGB",
            "TestRGB_to_CMY",
            "TestCMY_to_RGB",
            "TestCMY_to_CMYK",
-           "TestCMYK_to_CMY"]
+           "TestCMYK_to_CMY",
+           "TestRGB_to_HEX",
+           "TestHEX_to_RGB"]
 
 
 class TestRGB_to_HSV(unittest.TestCase):
@@ -248,6 +250,42 @@ class TestCMYK_to_CMY(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             color.deprecated.CMYK_to_CMY(numpy.matrix([0.15, 0., 0., 0.]).reshape((4, 1))),
             numpy.matrix([0.15, 0., 0.]).reshape((3, 1)),
+            decimal=7)
+
+
+class TestRGB_to_HEX(unittest.TestCase):
+    """
+    Defines :func:`color.deprecated.RGB_to_HEX` definition units tests methods.
+    """
+
+    def test_RGB_to_HEX(self):
+        """
+        Tests :func:`color.deprecated.RGB_to_HEX` definition.
+        """
+
+        self.assertEqual(color.deprecated.RGB_to_HEX(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))), "#3f990c")
+        self.assertEqual(color.deprecated.RGB_to_HEX(numpy.matrix([0., 0., 0.]).reshape((3, 1))), "#000000")
+        self.assertEqual(color.deprecated.RGB_to_HEX(numpy.matrix([1., 1., 1.]).reshape((3, 1))), "#ffffff")
+
+
+class TestHEX_to_RGB(unittest.TestCase):
+    """
+    Defines :func:`color.deprecated.HEX_to_RGB` definition units tests methods.
+    """
+
+    def test_HEX_to_RGB(self):
+        """
+        Tests :func:`color.deprecated.HEX_to_RGB` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.deprecated.HEX_to_RGB("#3f990c"), numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            decimal=7)
+        numpy.testing.assert_almost_equal(
+            color.deprecated.HEX_to_RGB("#000000"), numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            decimal=7)
+        numpy.testing.assert_almost_equal(
+            color.deprecated.HEX_to_RGB(["#ffffff"]), numpy.matrix([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
 

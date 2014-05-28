@@ -113,7 +113,7 @@ _`Highlights`
   -  Xtreme RGB
   -  sRGB
 
--  Colorspaces transformation and conversion:
+-  Colorspaces transformations:
 
   -  Wavelength to XYZ.
   -  Spectral to XYZ.
@@ -139,16 +139,21 @@ _`Highlights`
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
+  -  uv to cct, duv.
+  -  cct, duv to uv.
+
+Convenience deprecated transformations:
+
   -  RGB to HSV.
   -  HSV to RGB.
   -  RGB to HSL.
   -  HSL to RGB.
   -  RGB to CMY.
+  -  CMY to RGB.
   -  CMY to CMYK.
   -  CMYK to CMY.
-  -  CMY to RGB.
-  -  uv to cct, duv.
-  -  cct, duv to uv.
+  -  RGB to HEX.
+  -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
 -  Correlated color temperature calculation.
