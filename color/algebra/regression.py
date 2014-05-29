@@ -55,7 +55,7 @@ def linear_regression(y, x=None, additional_statistics=False):
         >>> linear_regression(y, zip(x1, x2), additional_statistics=True)
         (array([ 0.09980023,  0.08762575, -4.83038079]), array([ 2.13762499]))
 
-    :param y: Dependent and already known *y* values used to curve fit an ideal trend line.
+    :param y: Dependent and already known *y* variable values used to curve fit an ideal trend line.
     :type y: Array
     :param x: Independent *x* variable(s) values corresponding with *y*.
     :type x: Array
