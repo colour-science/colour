@@ -64,6 +64,7 @@ def bandpass_correction_stearns(spd):
         spd[wavelength] = values[i]
     return spd
 
+
 def bandpass_correction(spd, method="Stearns"):
     """
     Implements spectral bandpass correction on given relative spectral power distribution using given method.

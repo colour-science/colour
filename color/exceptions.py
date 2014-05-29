@@ -37,6 +37,7 @@ LOGGER = color.verbose.install_logger()
 AbstractError = foundations.exceptions.AbstractError
 ProgrammingError = foundations.exceptions.ProgrammingError
 
+
 class AbstractAlgebraError(AbstractError):
     """
     Defines the abstract base class for algebra exception.

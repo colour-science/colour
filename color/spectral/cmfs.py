@@ -530,9 +530,11 @@ STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA = {
 
 STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS = {
     "Stiles & Burch 1955 2 Degree Observer": RGB_ColorMatchingFunctions("Stiles & Burch 1955 2 Degree Observer",
-        STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA.get("Stiles & Burch 1955 2 Degree Observer")),
+                                                                        STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                            "Stiles & Burch 1955 2 Degree Observer")),
     "Stiles & Burch 1959 10 Degree Observer": RGB_ColorMatchingFunctions("Stiles & Burch 1959 10 Degree Observer",
-        STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA.get("Stiles & Burch 1959 10 Degree Observer")),
+                                                                         STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                             "Stiles & Burch 1959 10 Degree Observer")),
 }
 
 # *CIE XYZ* color matching functions for standard observers at 1 nm steps.
@@ -6030,13 +6032,17 @@ STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA = {
 
 STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS = {
     "Standard CIE 1931 2 Degree Observer": XYZ_ColorMatchingFunctions("Standard CIE 1931 2 Degree Observer",
-        STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get("Standard CIE 1931 2 Degree Observer")),
+                                                                      STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                          "Standard CIE 1931 2 Degree Observer")),
     "Standard CIE 1964 10 Degree Observer": XYZ_ColorMatchingFunctions("Standard CIE 1964 10 Degree Observer",
-        STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get("Standard CIE 1964 10 Degree Observer")),
+                                                                       STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                           "Standard CIE 1964 10 Degree Observer")),
     "Standard CIE 2006 2 Degree Observer": XYZ_ColorMatchingFunctions("Standard CIE 2006 2 Degree Observer",
-        STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get("Standard CIE 2006 2 Degree Observer")),
+                                                                      STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                          "Standard CIE 2006 2 Degree Observer")),
     "Standard CIE 2006 10 Degree Observer": XYZ_ColorMatchingFunctions("Standard CIE 2006 10 Degree Observer",
-        STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get("Standard CIE 2006 10 Degree Observer")),
+                                                                       STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS_DATA.get(
+                                                                           "Standard CIE 2006 10 Degree Observer")),
 }
 
 STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS = STANDARD_OBSERVERS_RGB_COLOR_MATCHING_FUNCTIONS

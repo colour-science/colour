@@ -151,8 +151,8 @@ def RGB_identity_cube(name, density=20):
     cube = foundations.common.get_first_item(
         cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False))
     set_attributes({"{0}.translateX".format(cube): .5,
-                   "{0}.translateY".format(cube): .5,
-                   "{0}.translateZ".format(cube): .5})
+                    "{0}.translateY".format(cube): .5,
+                    "{0}.translateZ".format(cube): .5})
     cmds.setAttr("{0}.displayColors".format(cube), True)
 
     vertex_color_array = OpenMaya.MColorArray()
@@ -187,10 +187,10 @@ def Lab_colorspace_cube(colorspace, density=20):
     while not it_mesh_vertex.isDone():
         position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
         it_mesh_vertex.setPosition(get_mpoint(list(numpy.ravel(RGB_to_Lab((position[0], position[1], position[2],),
-                                                                       colorspace)))))
+                                                                          colorspace)))))
         it_mesh_vertex.next()
     set_attributes({"{0}.rotateX".format(cube): 180,
-                   "{0}.rotateZ".format(cube): 90})
+                    "{0}.rotateZ".format(cube): 90})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     return cube
 
@@ -207,9 +207,9 @@ def Lab_coordinates_system_representation():
 
     cube = foundations.common.get_first_item(cmds.polyCube(w=600, h=100, d=600, sx=12, sy=2, sz=12, ch=False))
     set_attributes({"{0}.translateY".format(cube): 50,
-                   "{0}.overrideEnabled".format(cube): True,
-                   "{0}.overrideDisplayType".format(cube): 2,
-                   "{0}.overrideShading".format(cube): False})
+                    "{0}.overrideEnabled".format(cube): True,
+                    "{0}.overrideDisplayType".format(cube): 2,
+                    "{0}.overrideShading".format(cube): False})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     cmds.select(["{0}.f[0:167]".format(cube), "{0}.f[336:359]".format(cube)])
     cmds.delete()
@@ -229,13 +229,13 @@ def Lab_coordinates_system_representation():
         cmds.select(mesh)
         cmds.polyColorPerVertex(rgb=(0, 0, 0), cdo=True)
         set_attributes({"{0}.translateX".format(mesh): position[0],
-                       "{0}.translateZ".format(mesh): position[1],
-                       "{0}.rotateX".format(mesh): -90,
-                       "{0}.scaleX".format(mesh): 50,
-                       "{0}.scaleY".format(mesh): 50,
-                       "{0}.scaleY".format(mesh): 50,
-                       "{0}.overrideEnabled".format(mesh): True,
-                       "{0}.overrideDisplayType".format(mesh): 2})
+                        "{0}.translateZ".format(mesh): position[1],
+                        "{0}.rotateX".format(mesh): -90,
+                        "{0}.scaleX".format(mesh): 50,
+                        "{0}.scaleY".format(mesh): 50,
+                        "{0}.scaleY".format(mesh): 50,
+                        "{0}.overrideEnabled".format(mesh): True,
+                        "{0}.overrideDisplayType".format(mesh): 2})
         cmds.delete(cmds.listRelatives(curves, parent=True))
         cmds.makeIdentity(mesh, apply=True, t=True, r=True, s=True)
         mesh = cmds.rename(mesh, name)
