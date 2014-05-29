@@ -47,9 +47,9 @@ class SpectralPowerDistribution(object):
         """
         Initializes the class.
 
-        :param name: Spectral distribution name.
+        :param name: Spectral power distribution name.
         :type name: str or unicode
-        :param spd: Spectral distribution.
+        :param spd: Spectral power distribution data.
         :type spd: dict
         """
 
@@ -200,8 +200,7 @@ class SpectralPowerDistribution(object):
         :rtype: tuple
         """
 
-        wavelengths = self.wavelengths
-        steps = set([wavelengths[i + 1] - wavelengths[i] for i in range(len(wavelengths) - 1)])
+        steps = self.__steps()
         return min(self.spd.keys()), max(self.spd.keys()), min(steps)
 
     @shape.setter
@@ -253,7 +252,7 @@ class SpectralPowerDistribution(object):
         """
         Reimplements the :meth:`object.__iter__` method.
 
-        :return: Spectral distribution iterator.
+        :return: Spectral power distribution iterator.
         :rtype: object
         """
 
@@ -281,6 +280,17 @@ class SpectralPowerDistribution(object):
 
         return len(self.__spd)
 
+    def __steps(self):
+        """
+        Returns the spectral power distribution steps.
+
+        :return: Steps.
+        :rtype: float
+        """
+
+        wavelengths = self.wavelengths
+        return set([wavelengths[i + 1] - wavelengths[i] for i in range(len(wavelengths) - 1)])
+
     def get(self, wavelength, default=None):
         """
         Returns given wavelength value.
@@ -297,6 +307,17 @@ class SpectralPowerDistribution(object):
             return self.__getitem__(wavelength)
         except KeyError as error:
             return default
+
+    def is_uniform(self):
+        """
+        Returns if the spectral power distribution has uniformly spaced data.
+
+        :return: Is uniform.
+        :rtype: bool
+        """
+
+        return True if len(self.__steps()) == 1 else False
+
 
     def extrapolate(self, start, end):
         """
@@ -809,6 +830,19 @@ class AbstractColorMatchingFunctions(object):
         """
 
         return len(self.x)
+
+    def is_uniform(self):
+        """
+        Returns if the color matching functions have uniformly spaced data.
+
+        :return: Is uniform.
+        :rtype: bool
+        """
+
+        for i in self.__mapping.keys():
+            if not getattr(self, i).is_uniform():
+                return False
+        return True
 
     def get(self, wavelength, default=None):
         """
