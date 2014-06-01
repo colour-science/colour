@@ -20,6 +20,7 @@ import itertools
 import numpy
 
 import color.exceptions
+import color.utilities.common
 import color.verbose
 
 __author__ = "Thomas Mansencal"
@@ -200,7 +201,7 @@ class SpectralPowerDistribution(object):
         :rtype: tuple
         """
 
-        steps = self.__steps()
+        steps = color.utilities.common.get_steps(self.wavelengths)
         return min(self.spd.keys()), max(self.spd.keys()), min(steps)
 
     @shape.setter
@@ -280,17 +281,6 @@ class SpectralPowerDistribution(object):
 
         return len(self.__spd)
 
-    def __steps(self):
-        """
-        Returns the spectral power distribution steps.
-
-        :return: Steps.
-        :rtype: float
-        """
-
-        wavelengths = self.wavelengths
-        return set([wavelengths[i + 1] - wavelengths[i] for i in range(len(wavelengths) - 1)])
-
     def get(self, wavelength, default=None):
         """
         Returns given wavelength value.
@@ -316,8 +306,7 @@ class SpectralPowerDistribution(object):
         :rtype: bool
         """
 
-        return True if len(self.__steps()) == 1 else False
-
+        return color.utilities.common.is_uniform(self.wavelengths)
 
     def extrapolate(self, start, end):
         """
