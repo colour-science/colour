@@ -96,11 +96,11 @@ def first_order_color_fit(m1, m2):
          [ 0.22483693 -0.07672362  1.04960133]]
 
     :param m1: Reference matrix the matrix *m2* will be color fitted against.
-    :type m1: Matrix (3xn)
+    :type m1: matrix (3xn)
     :param m1: Matrix to fit.
-    :type m1: Matrix (3xn)
+    :type m1: matrix (3xn)
     :return: Fitting color matrix.
-    :rtype: Matrix (3x3)
+    :rtype: matrix (3x3)
     """
 
     x_coefficients = color.algebra.regression.linear_regression(m1[:, 0], m2)

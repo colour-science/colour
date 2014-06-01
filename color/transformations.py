@@ -74,11 +74,11 @@ def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
                 [ 10.34  ]])
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *CIE xyY* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -103,9 +103,9 @@ def xyY_to_XYZ(xyY):
                 [  5.15089229]])
 
     :param xyY: *CIE xyY* matrix.
-    :type xyY: Matrix (3x1)
+    :type xyY: matrix (3x1)
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     x, y, Y = numpy.ravel(xyY)
@@ -130,7 +130,7 @@ def xy_to_XYZ(xy):
     :param xy: *xy* chromaticity coordinate.
     :type xy: tuple
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     return xyY_to_XYZ(numpy.matrix([xy[0], xy[1], 1.]).reshape((3, 1)))
@@ -148,7 +148,7 @@ def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 19
         (0.32207410281368043, 0.33156550013623531)
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *xy* chromaticity coordinates.
@@ -182,7 +182,7 @@ def XYZ_to_RGB(XYZ,
                 [ 5.5672498]])
 
     :param XYZ: *CIE XYZ* colorspace matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant_XYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
     :type illuminant_XYZ: tuple
     :param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
@@ -190,11 +190,11 @@ def XYZ_to_RGB(XYZ,
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
     :param from_XYZ: *Normalized primary matrix*.
-    :type from_XYZ: Matrix (3x3)
+    :type from_XYZ: matrix (3x3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
     :return: *RGB* colorspace matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     cat = color.chromatic_adaptation.get_chromatic_adaptation_matrix(
@@ -239,7 +239,7 @@ def RGB_to_XYZ(RGB,
                 [  5.08937278]])
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
     :type illuminant_RGB: tuple
     :param illuminant_XYZ: *CIE XYZ* colorspace *illuminant* chromaticity coordinates.
@@ -247,11 +247,11 @@ def RGB_to_XYZ(RGB,
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
     :param to_XYZ: *Normalized primary matrix*.
-    :type to_XYZ: Matrix (3x3)
+    :type to_XYZ: matrix (3x3)
     :param inverse_transfer_function: *Inverse transfer function*.
     :type inverse_transfer_function: object
     :return: *CIE XYZ* colorspace matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     if inverse_transfer_function is not None:
@@ -296,7 +296,7 @@ def xyY_to_RGB(xyY,
                 [  5.67249761]])
 
     :param xyY: *CIE xyY* matrix.
-    :type xyY: Matrix (3x1)
+    :type xyY: matrix (3x1)
     :param illuminant_xyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
     :type illuminant_xyY: tuple
     :param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
@@ -304,11 +304,11 @@ def xyY_to_RGB(xyY,
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
     :param from_XYZ: *Normalized primary matrix*.
-    :type from_XYZ: Matrix (3x3)
+    :type from_XYZ: matrix (3x3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
     :return: *RGB* colorspace matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     return XYZ_to_RGB(xyY_to_XYZ(xyY),
@@ -342,7 +342,7 @@ def RGB_to_xyY(RGB,
                 [ 10.0799999 ]])
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :param illuminant_RGB: *RGB* colorspace *illuminant* chromaticity coordinates.
     :type illuminant_RGB: tuple
     :param illuminant_xyY: *CIE xyY* colorspace *illuminant* chromaticity coordinates.
@@ -350,11 +350,11 @@ def RGB_to_xyY(RGB,
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
     :param to_XYZ: *Normalized primary* matrix.
-    :type to_XYZ: Matrix (3x3)
+    :type to_XYZ: matrix (3x3)
     :param inverse_transfer_function: *Inverse transfer* function.
     :type inverse_transfer_function: object
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     return XYZ_to_xyY(RGB_to_XYZ(RGB,
@@ -379,9 +379,9 @@ def XYZ_to_UVW(XYZ):
                 [ 12.18252904]])
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :return: *CIE UVW* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -403,9 +403,9 @@ def UVW_to_XYZ(UVW):
                 [ 12.18252904]])
 
     :param UVW: *CIE UVW* matrix.
-    :type UVW: Matrix (3x1)
+    :type UVW: matrix (3x1)
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     U, V, W = numpy.ravel(UVW)
@@ -425,7 +425,7 @@ def UVW_to_uv(UVW):
         (0.43249999995420702, 0.378800000065942)
 
     :param UVW: *CIE UVW* matrix.
-    :type UVW: Matrix (3x1)
+    :type UVW: matrix (3x1)
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
     """
@@ -469,11 +469,11 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
                 [ -45.09684555]])
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *CIE Luv* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -502,11 +502,11 @@ def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
                 [ 1.03744246]])
 
     :param Luv: *CIE Luv* matrix.
-    :type Luv: Matrix (3x1)
+    :type Luv: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -537,7 +537,7 @@ def Luv_to_uv(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 19
         (0.19374142100850045, 0.47283165896209456)
 
     :param Luv: *CIE Luv* matrix.
-    :type Luv: Matrix (3x1)
+    :type Luv: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *u'v'* chromaticity coordinates.
@@ -583,9 +583,9 @@ def Luv_to_LCHuv(Luv):
                 [ 224.6747382 ]])
 
     :param Luv: *CIE Luv* matrix.
-    :type Luv: Matrix (3x1)
+    :type Luv: matrix (3x1)
     :return: *CIE LCHuv* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -611,9 +611,9 @@ def LCHuv_to_Luv(LCHuv):
                 [ -19.81676035]])
 
     :param LCHuv: *CIE LCHuv* matrix.
-    :type LCHuv: Matrix (3x1)
+    :type LCHuv: matrix (3x1)
     :return: *CIE Luv* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, C, H = numpy.ravel(LCHuv)
@@ -635,11 +635,11 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
                 [ -15.85742105]])
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *CIE Lab* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -674,11 +674,11 @@ def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
                 [ 1.03744246]])
 
     :param Lab: *CIE Lab* matrix.
-    :type Lab: Matrix (3x1)
+    :type Lab: matrix (3x1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: tuple
     :return: *CIE Lab* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -713,9 +713,9 @@ def Lab_to_LCHab(Lab):
                 [ 244.93046842]])
 
     :param Lab: *CIE Lab* matrix.
-    :type Lab: Matrix (3x1)
+    :type Lab: matrix (3x1)
     :return: *CIE LCHab* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -741,9 +741,9 @@ def LCHab_to_Lab(LCHab):
                 [ -15.85742105]])
 
     :param LCHab: *CIE LCHab* matrix.
-    :type LCHab: Matrix (3x1)
+    :type LCHab: matrix (3x1)
     :return: *CIE Lab* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     L, C, H = numpy.ravel(LCHab)

@@ -70,7 +70,7 @@ def get_normalized_primary_matrix(primaries, whitepoint):
             [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
 
     :param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-    :type primaries: Matrix
+    :type primaries: matrix
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: Normalized primary matrix.

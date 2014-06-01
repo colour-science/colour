@@ -44,7 +44,7 @@ def is_identity(matrix, n=3):
         False
 
     :param matrix: Matrix.
-    :type matrix: Matrix (N)
+    :type matrix: matrix (N)
     :param n: Matrix dimension.
     :type n: int
     :return: Is identity matrix.
@@ -75,13 +75,13 @@ def linear_interpolate_matrices(a, b, matrix_1, matrix_2, c):
     :param b: B value.
     :type b: float
     :param matrix_1: Matrix 1.
-    :type matrix_1: Matrix (N)
+    :type matrix_1: matrix (N)
     :param matrix_2: Matrix 2.
-    :type matrix_2: Matrix (N)
+    :type matrix_2: matrix (N)
     :param c: Interpolation value.
     :type c: float
     :return: Matrix.
-    :rtype: Matrix (N)
+    :rtype: matrix (N)
     """
 
     if a == b:

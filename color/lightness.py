@@ -69,7 +69,7 @@ def get_luminance_equation(primaries, whitepoint):
         Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: Matrix (3x2)
+    :type primaries: matrix (3x2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance* equation.
@@ -95,9 +95,9 @@ def get_luminance(RGB, primaries, whitepoint):
         12.1616018403
 
     :param RGB: *RGB* chromaticity coordinate matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: Matrix (3x2)
+    :type primaries: matrix (3x2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance*.

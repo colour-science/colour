@@ -58,9 +58,9 @@ def RGB_to_HSV(RGB):
                 [ 0.98039216]])
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :return: *HSV* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
 
     :note: *RGB* is in domain [0, 1].
     :note: *HSV* is in domain [0, 1].
@@ -114,9 +114,9 @@ def HSV_to_RGB(HSV):
                 [ 0.25098039]])
 
     :param HSV: *HSV* colorspace matrix.
-    :type HSV: Matrix (3x1)
+    :type HSV: matrix (3x1)
     :return: *RGB* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
 
     :note: *HSV* is in domain [0, 1].
     :note: *RGB* is in domain [0, 1].
@@ -179,9 +179,9 @@ def RGB_to_HSL(RGB):
                 [ 0.61568627]])
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :return: *HSL* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
 
     :note: *RGB* is in domain [0, 1].
     :note: *HSL* is in domain [0, 1].
@@ -235,9 +235,9 @@ def HSL_to_RGB(HSL):
                 [ 0.25098038]])
 
     :param HSL: *HSL* colorspace matrix.
-    :type HSL: Matrix (3x1)
+    :type HSL: matrix (3x1)
     :return: *RGB* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
 
     :note: *HSL* is in domain [0, 1].
     :note: *RGB* is in domain [0, 1].
@@ -287,9 +287,9 @@ def RGB_to_CMY(RGB):
                 [ 0.74901961]])
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :return: *CMY* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -310,9 +310,9 @@ def CMY_to_RGB(CMY):
                 [ 0.25098039]])
 
     :param CMY: *CMY* colorspace matrix.
-    :type CMY: Matrix (3x1)
+    :type CMY: matrix (3x1)
     :return: *RGB* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -334,9 +334,9 @@ def CMY_to_CMYK(CMY):
                 [ 0.01960784]])
 
     :param CMY: *CMY* colorspace matrix.
-    :type CMY: Matrix (3x1)
+    :type CMY: matrix (3x1)
     :return: *CMYK* matrix.
-    :rtype: Matrix (4x1)
+    :rtype: matrix (4x1)
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -375,9 +375,9 @@ def CMYK_to_CMY(CMYK):
                 [ 0.74901961]])
 
     :param CMYK: *CMYK* colorspace matrix.
-    :type CMYK: Matrix (4x1)
+    :type CMYK: matrix (4x1)
     :return: *CMY* matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     C, M, Y, K = numpy.ravel(CMYK)
@@ -395,7 +395,7 @@ def RGB_to_HEX(RGB):
         #aaddff
 
     :param RGB: *RGB* colorspace matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :return: Hex triplet representation.
     :rtype: unicode
 
@@ -421,7 +421,7 @@ def HEX_to_RGB(HEX):
     :param HEX: Hex triplet representation.
     :type HEX: unicode
     :return: *RGB* colorspace matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
 
     :note: *RGB* is in domain [0, 1].
     """

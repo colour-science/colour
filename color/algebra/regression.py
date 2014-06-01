@@ -56,13 +56,13 @@ def linear_regression(y, x=None, additional_statistics=False):
         (array([ 0.09980023,  0.08762575, -4.83038079]), array([ 2.13762499]))
 
     :param y: Dependent and already known *y* variable values used to curve fit an ideal trend line.
-    :type y: Array
-    :param x: Independent *x* variable(s) values corresponding with *y*.
-    :type x: Array
+    :type y: ndarray
+    :param x: Independent *x* variable(s) values corresponding with *y* variable.
+    :type x: ndarray
     :param additional_statistics: Output additional regression statistics, by default only the *b* variable and *m* coefficients are returned.
-    :type additional_statistics: Array
+    :type additional_statistics: ndarray
     :return: Regression statistics.
-    :rtype: Array ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
+    :rtype: ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
     """
 
     if x is None:

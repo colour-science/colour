@@ -56,7 +56,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
     :param cmfs: Standard observer color matching functions.
     :type cmfs: dict
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix
+    :rtype: matrix
     """
 
     start, end, steps = cmfs.shape
@@ -104,7 +104,7 @@ def spectral_to_XYZ(spd,
     :param illuminant: *Illuminant* spectral power distribution.
     :type illuminant: SpectralPowerDistribution
     :return: *CIE XYZ* matrix.
-    :rtype: Matrix
+    :rtype: matrix
 
     :note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
     """

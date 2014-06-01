@@ -108,11 +108,11 @@ def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
     Converts from *CIE XYZ* colorspace to *sRGB* colorspace.
 
     :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: Matrix (3x1)
+    :type XYZ: matrix (3x1)
     :param illuminant: Source illuminant chromaticity coordinates.
     :type illuminant: tuple
     :return: *sRGB* color matrix.
-    :rtype: Matrix (3x1)
+    :rtype: matrix (3x1)
     """
 
     return color.transformations.XYZ_to_RGB(XYZ,
@@ -273,7 +273,7 @@ def color_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
     :param name: Color name.
     :type name: unicode
     :param RGB: RGB Color.
-    :type RGB: Matrix
+    :type RGB: matrix
     :param x: X data.
     :type x: float
     :param y0: Y0 data.

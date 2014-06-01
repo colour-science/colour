@@ -53,13 +53,13 @@ class Colorspace(object):
         :param name: Colorspace name.
         :type name: str or unicode
         :param primaries: Colorspace primaries.
-        :type primaries: Matrix
+        :type primaries: matrix
         :param whitepoint: Colorspace whitepoint.
         :type whitepoint: tuple or Matrix
         :param to_XYZ: Transformation matrix from colorspace to *CIE XYZ* colorspace.
-        :type to_XYZ: Matrix
+        :type to_XYZ: matrix
         :param from_XYZ: Transformation matrix from *CIE XYZ* colorspace to colorspace.
-        :type from_XYZ: Matrix
+        :type from_XYZ: matrix
         :param transfer_function: Colorspace transfer function from linear to colorspace.
         :type transfer_function: object
         :param inverse_transfer_function: Colorspace inverse transfer function from colorspace to linear.
@@ -122,7 +122,7 @@ class Colorspace(object):
         Property for **self.__primaries** attribute.
 
         :return: self.__primaries.
-        :rtype: Matrix
+        :rtype: matrix
         """
 
         return self.__primaries
@@ -133,7 +133,7 @@ class Colorspace(object):
         Setter for **self.__primaries** attribute.
 
         :param value: Attribute value.
-        :type value: Matrix
+        :type value: matrix
         """
 
         if value is not None:
@@ -156,7 +156,7 @@ class Colorspace(object):
         Property for **self.__whitepoint** attribute.
 
         :return: self.__whitepoint.
-        :rtype: Matrix
+        :rtype: matrix
         """
 
         return self.__whitepoint
@@ -167,7 +167,7 @@ class Colorspace(object):
         Setter for **self.__whitepoint** attribute.
 
         :param value: Attribute value.
-        :type value: Matrix
+        :type value: matrix
         """
 
         if value is not None:
@@ -192,7 +192,7 @@ class Colorspace(object):
         Property for **self.__to_XYZ** attribute.
 
         :return: self.__to_XYZ.
-        :rtype: Matrix
+        :rtype: matrix
         """
 
         return self.__to_XYZ
@@ -203,7 +203,7 @@ class Colorspace(object):
         Setter for **self.__to_XYZ** attribute.
 
         :param value: Attribute value.
-        :type value: Matrix
+        :type value: matrix
         """
 
         if value is not None:
@@ -226,7 +226,7 @@ class Colorspace(object):
         Property for **self.__from_XYZ** attribute.
 
         :return: self.__from_XYZ.
-        :rtype: Matrix
+        :rtype: matrix
         """
 
         return self.__from_XYZ
@@ -237,7 +237,7 @@ class Colorspace(object):
         Setter for **self.__from_XYZ** attribute.
 
         :param value: Attribute value.
-        :type value: Matrix
+        :type value: matrix
         """
 
         if value is not None:

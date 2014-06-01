@@ -78,13 +78,13 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
             [ 0.0080207 ,  0.02826367,  3.06023196]])
 
     :param XYZ1: *CIE XYZ* source matrix.
-    :type XYZ1: Matrix (3x1)
+    :type XYZ1: matrix (3x1)
     :param XYZ2: *CIE XYZ* target matrix.
-    :type XYZ2: Matrix (3x1)
+    :type XYZ2: matrix (3x1)
     :param method: Chromatic adaptation method.
     :type method: unicode
     :return: Chromatic adaptation matrix.
-    :rtype: Matrix (3x3)
+    :rtype: matrix (3x3)
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)

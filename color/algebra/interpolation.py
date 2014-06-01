@@ -60,11 +60,11 @@ def sprague_interpolation(y, sampling_rate=10):
           86.05      ]
 
     :param y: Dependent and already known *y* variable values to interpolate.
-    :type y: Array
+    :type y: ndarray
     :param sampling_rate: Sampling rate, sampling_rate=2 doubles *y* sampling rate, sampling_rate=3 triples *y* sampling rate, and so on.
     :type sampling_rate: int
     :return: Interpolated *y* variable.
-    :rtype: Array
+    :rtype: ndarray
     """
 
     if len(y) < 6:
