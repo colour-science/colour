@@ -17,7 +17,6 @@
 from __future__ import unicode_literals
 
 import numpy
-import re
 import sys
 
 if sys.version_info[:2] <= (2, 6):
