@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -22,6 +22,7 @@ import numpy
 import color.exceptions
 import color.utilities.common
 import color.verbose
+from color.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -332,10 +333,9 @@ class SpectralPowerDistribution(object):
 
         return self
 
-
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the spectral power distribution: Values will be linearly interpolated to fit the defined range.
+        Interpolates the spectral power distribution following *CIE* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -349,10 +349,31 @@ class SpectralPowerDistribution(object):
 
         start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
 
-        wavelengths, values = zip(*[(wavelength, value) for wavelength, value in self])
+        start_wavelength, end_wavelength, wavelength_steps = self.shape
 
-        self.__spd = dict([(wavelength, numpy.interp(wavelength, wavelengths, values, 0., 0.))
-                           for wavelength in numpy.arange(start, end + steps, steps)])
+        if wavelength_steps != steps:
+            wavelengths, values = self.wavelengths, self.values
+
+            if self.is_uniform():
+                sprague_interpolator = SpragueInterpolator(wavelengths, values)
+                interpolant = lambda x: sprague_interpolator(x)
+            else:
+                try:
+                    from scipy.interpolate import interp1d
+
+                    spline_interpolator = interp1d(wavelengths, values, kind="cubic")
+                    interpolant = lambda x: spline_interpolator(x)
+                except ImportError as error:
+                    LOGGER.warning(
+                        "!> {0} | 'Scipy' is unavailable, using 'numpy.interp' interpolator!".format(
+                            self.__class__.__name__))
+
+                    interpolant = lambda x: numpy.interp(x, wavelengths, values, 0., 0.)
+
+            self.__spd = dict([(wavelength, interpolant(wavelength))
+                               for wavelength in numpy.arange(start, end + steps, steps)])
+
+        self.extrapolate(start, end)
 
         return self
 
