@@ -17,6 +17,7 @@
 from __future__ import unicode_literals
 
 import itertools
+import math
 import numpy
 
 import color.exceptions
@@ -335,7 +336,11 @@ class SpectralPowerDistribution(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the spectral power distribution following *CIE* recommendations.
+        Interpolates the spectral power distribution following *CIE* recommendations: the method developed
+        by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable and
+        a cubic spline method for non-uniformly spaced independent variable.
+
+        Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=47
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -361,6 +366,7 @@ class SpectralPowerDistribution(object):
                 try:
                     from scipy.interpolate import interp1d
 
+                    start, end = math.ceil(start), math.floor(end)
                     spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                     interpolant = lambda x: spline_interpolator(x)
                 except ImportError as error:

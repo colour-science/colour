@@ -8,10 +8,10 @@ Module Attributes
 
 .. attribute:: color.algebra.interpolation.LOGGER
 
-.. attribute:: color.algebra.interpolation.SPRAGUE_C_COEFFICIENTS
+Classes
+-------
 
-Functions
----------
-
-.. autofunction:: sprague_interpolation
+.. autoclass:: SpragueInterpolator
+	:show-inheritance:
+	:members:
 

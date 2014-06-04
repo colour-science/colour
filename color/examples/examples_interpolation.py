@@ -5,8 +5,10 @@
 Shows some **Color** package *interpolation* related examples.
 """
 
+import pylab
+
 import color
-from color.implementations.matplotlib.plots import multi_spectral_power_distribution_plot
+import color.implementations.matplotlib.plots
 
 
 # Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation methods.
@@ -36,8 +38,8 @@ uniform_spd_data = {340: 0.0000,
                     800: 0.0000,
                     820: 0.0000}
 
-non_uniform_spd_data = {340: 0.0000,
-                        361: 0.0000,
+non_uniform_spd_data = {340.1: 0.0000,
+                        360: 0.0000,
                         380: 0.0000,
                         400: 0.0641,
                         420: 0.0645,
@@ -60,9 +62,9 @@ non_uniform_spd_data = {340: 0.0000,
                         760: 0.0000,
                         780: 0.0000,
                         800: 0.0000,
-                        820: 0.0000}
+                        820.9: 0.0000}
 
-base_spd = color.SpectralPowerDistribution("Reference", uniform_spd_data)
+base_spd = color.SpectralPowerDistribution("Reference Spd", uniform_spd_data)
 uniform_interpolated_spd = color.SpectralPowerDistribution("Uniform - Sprague Interpolation",
                                                            uniform_spd_data)
 non_uniform_interpolated_spd = color.SpectralPowerDistribution("Non Uniform - Cubic Spline Interpolation",
@@ -71,4 +73,37 @@ non_uniform_interpolated_spd = color.SpectralPowerDistribution("Non Uniform - Cu
 uniform_interpolated_spd.interpolate(steps=1)
 non_uniform_interpolated_spd.interpolate(steps=1)
 
-multi_spectral_power_distribution_plot([base_spd, uniform_interpolated_spd, non_uniform_interpolated_spd])
+start, end, steps = base_spd.shape
+x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
+
+pylab.plot(base_spd.wavelengths,
+           base_spd.values,
+           "ro-",
+           label=base_spd.name,
+           linewidth=2.)
+pylab.plot(uniform_interpolated_spd.wavelengths,
+           uniform_interpolated_spd.values,
+           label=uniform_interpolated_spd.name,
+           linewidth=2.)
+pylab.plot(non_uniform_interpolated_spd.wavelengths,
+           non_uniform_interpolated_spd.values,
+           label=non_uniform_interpolated_spd.name,
+           linewidth=2.)
+
+x_limit_min.append(start)
+x_limit_max.append(end)
+y_limit_min.append(min(base_spd.values))
+y_limit_max.append(max(base_spd.values))
+
+settings = {"x_label": u"Wavelength λ (nm)",
+            "y_label": "Spectral Power Distribution",
+            "x_tighten": True,
+            "legend": True,
+            "legend_location": "upper left",
+            "x_ticker": True,
+            "y_ticker": True,
+            "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
+
+color.implementations.matplotlib.plots.bounding_box(**settings)
+color.implementations.matplotlib.plots.aspect(**settings)
+color.implementations.matplotlib.plots.display(**settings)
