@@ -352,21 +352,23 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
+        shape_start, shape_end, shape_steps = self.shape
+        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps),
+                                                                                  (
+                                                                                      shape_start, shape_end,
+                                                                                      shape_steps)))
 
-        start_wavelength, end_wavelength, wavelength_steps = self.shape
-
-        if wavelength_steps != steps:
+        if shape_steps != steps:
             wavelengths, values = self.wavelengths, self.values
 
             if self.is_uniform():
                 sprague_interpolator = SpragueInterpolator(wavelengths, values)
                 interpolant = lambda x: sprague_interpolator(x)
             else:
+                shape_start, shape_end = math.ceil(shape_start), math.floor(shape_end)
                 try:
                     from scipy.interpolate import interp1d
 
-                    start, end = math.ceil(start), math.floor(end)
                     spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                     interpolant = lambda x: spline_interpolator(x)
                 except ImportError as error:
@@ -375,12 +377,15 @@ class SpectralPowerDistribution(object):
                             self.__class__.__name__))
 
                     interpolant = lambda x: numpy.interp(x, wavelengths, values, 0., 0.)
-
+            LOGGER.info(
+                "{0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
+                                                                                          self.name,
+                                                                                          (shape_start, shape_end,
+                                                                                           steps)))
             self.__spd = dict([(wavelength, interpolant(wavelength))
-                               for wavelength in numpy.arange(start, end + steps, steps)])
-
-        self.extrapolate(start, end)
-
+                               for wavelength in numpy.arange(max(start, shape_start),
+                                                              min(end, shape_end) + steps,
+                                                              steps)])
         return self
 
     def zeros(self, start=None, end=None, steps=None):
