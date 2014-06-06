@@ -334,11 +334,11 @@ class SpectralPowerDistribution(object):
 
         return self
 
-    def interpolate(self, start=None, end=None, steps=None):
+    def interpolate(self, start=None, end=None, steps=None, interpolator=None):
         """
         Interpolates the spectral power distribution following *CIE* recommendations: the method developed
         by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable and
-        a cubic spline method for non-uniformly spaced independent variable.
+        a *Cubic Spline* method for non-uniformly spaced independent variable.
 
         Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=47
 
@@ -348,8 +348,13 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
+        :param interpolator: Interpolator to enforce usage.
+        :type interpolator: unicode ("Sprague", "Cubic Spline", "Linear")
         :return: Interpolated spectral power distribution.
         :rtype: SpectralPowerDistribution
+
+        :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced independent variable.
+        :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
         """
 
         shape_start, shape_end, shape_steps = self.shape
@@ -361,27 +366,59 @@ class SpectralPowerDistribution(object):
         if shape_steps != steps:
             wavelengths, values = self.wavelengths, self.values
 
-            if self.is_uniform():
+            is_uniform = self.is_uniform()
+            # Initialising *Sprague* interpolant.
+            if is_uniform:
                 sprague_interpolator = SpragueInterpolator(wavelengths, values)
-                interpolant = lambda x: sprague_interpolator(x)
+                sprague_interpolant = lambda x: sprague_interpolator(x)
             else:
-                shape_start, shape_end = math.ceil(shape_start), math.floor(shape_end)
-                try:
-                    from scipy.interpolate import interp1d
+                sprague_interpolant = sprague_interpolator = None
 
-                    spline_interpolator = interp1d(wavelengths, values, kind="cubic")
-                    interpolant = lambda x: spline_interpolator(x)
-                except ImportError as error:
-                    LOGGER.warning(
-                        "!> {0} | 'Scipy' is unavailable, using 'numpy.interp' interpolator!".format(
+            # Initialising *Linear* interpolant.
+            linear_interpolant = lambda x: numpy.interp(x, wavelengths, values)
+
+            # Initialising *Cubic Spline* interpolant.
+            try:
+                from scipy.interpolate import interp1d
+
+                spline_interpolator = interp1d(wavelengths, values, kind="cubic")
+                spline_interpolant = lambda x: spline_interpolator(x)
+            except ImportError as error:
+                LOGGER.warning(
+                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                        self.__class__.__name__))
+                spline_interpolant,  spline_interpolator = linear_interpolant, None
+
+            # Defining proper interpolation bounds.
+            # TODO: Provide support for fractional steps like 0.1, etc...
+            shape_start, shape_end = math.ceil(shape_start), math.floor(shape_end)
+
+            if interpolator is None:
+                if is_uniform:
+                    interpolant = sprague_interpolant
+                else:
+                    interpolant = spline_interpolant
+            elif interpolator == "Sprague":
+                if is_uniform:
+                    interpolant = sprague_interpolant
+                else:
+                    raise color.exceptions.ProgrammingError(
+                        "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
+            elif interpolator == "Cubic Spline":
+                interpolant = spline_interpolant
+            elif interpolator == "Linear":
+                interpolant = linear_interpolant
+            else:
+                raise color.exceptions.ProgrammingError(
+                        "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
-                    interpolant = lambda x: numpy.interp(x, wavelengths, values, 0., 0.)
             LOGGER.info(
                 "{0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
                                                                                           self.name,
                                                                                           (shape_start, shape_end,
                                                                                            steps)))
+
             self.__spd = dict([(wavelength, interpolant(wavelength))
                                for wavelength in numpy.arange(max(start, shape_start),
                                                               min(end, shape_end) + steps,
