@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**spd.py**
+**cmfs.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.

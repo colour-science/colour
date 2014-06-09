@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**spd.py**
+**illuminants.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.
