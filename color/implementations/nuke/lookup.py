@@ -120,8 +120,8 @@ def get_curve_data(file):
     :rtype: list
     """
 
-    with open(file, "rb") as csvFile:
-        return list(csv.reader(csvFile, delimiter=","))
+    with open(file, "rb") as csv_file:
+        return list(csv.reader(csv_file, delimiter=","))
 
 
 def parse_curve_data_header(header):

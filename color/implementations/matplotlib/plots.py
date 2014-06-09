@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -26,6 +26,7 @@ import os
 import pylab
 import random
 from collections import namedtuple
+from copy import deepcopy
 
 import color.algebra.matrix
 import color.color_checkers
@@ -101,6 +102,67 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 
 # Defining an alternative font that can display scientific notations.
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
+
+
+def __get_cmfs(cmfs):
+    """
+    Returns the color matching functions with given name.
+
+    :param cmfs: Color matching functions name.
+    :type cmfs: Unicode
+    :return: Color matching functions.
+    :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
+    :note: The returned color matching functions are a *deepcopy* from original data.
+    """
+
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    if cmfs is None:
+        raise color.exceptions.ProgrammingError(
+            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
+                                                                                                              sorted(
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    return deepcopy(cmfs)
+
+
+def __get_illuminant(illuminant):
+    """
+    Returns the illuminant with given name.
+
+    :param illuminant: Illuminant name.
+    :type illuminant: Unicode
+    :return: Illuminant.
+    :rtype: SpectralPowerDistribution
+    :note: The returned illuminant is a *deepcopy* from original data.
+    """
+
+    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
+    if illuminant is None:
+        raise color.exceptions.ProgrammingError(
+            "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
+                                                                               sorted(
+                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
+
+    return deepcopy(illuminant)
+
+
+def __get_colorspace(colorspace):
+    """
+    Returns the colorspace with given name.
+
+    :param colorspace: Colorspace name.
+    :type colorspace: Unicode
+    :return: Colorspace.
+    :rtype: Colorspace
+    """
+
+    colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
+    if colorspace is None:
+        raise color.exceptions.ProgrammingError(
+            "'{0}' colorspace not found in supported colorspaces: '{1}'.".format(name,
+                                                                                 sorted(
+                                                                                     color.colorspaces.COLORSPACES.keys())))
+
+    return colorspace
 
 
 def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
@@ -526,8 +588,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
 
 def single_spectral_power_distribution_plot(spd,
-                                            cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                "Standard CIE 1931 2 Degree Observer"),
+                                            cmfs="Standard CIE 1931 2 Degree Observer",
                                             **kwargs):
     """
     Plots given spectral power distribution.
@@ -541,12 +602,14 @@ def single_spectral_power_distribution_plot(spd,
     :param spd: Spectral power distribution to plot.
     :type spd: SpectralPowerDistribution
     :param cmfs: Standard observer color matching functions used for spectrum creation.
-    :type cmfs: XYZ_ColorMatchingFunctions
+    :type cmfs: unicode
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Definition success.
     :rtype: bool
     """
+
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     start, end, steps = cmfs.shape
     spd.interpolate(start, end, steps)
@@ -578,6 +641,8 @@ def single_spectral_power_distribution_plot(spd,
 
 
 def multi_spectral_power_distribution_plot(spds,
+                                           cmfs="Standard CIE 1931 2 Degree Observer",
+                                           use_spds_colors=False,
                                            **kwargs):
     """
     Plots given spectral power distributions.
@@ -591,11 +656,19 @@ def multi_spectral_power_distribution_plot(spds,
 
     :param spds: Spectral power distributions to plot.
     :type spds: list
+    :param cmfs: Standard observer color matching functions used for spectrum creation.
+    :type cmfs: unicode
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Definition success.
     :rtype: bool
     """
+
+    cmfs, name = __get_cmfs(cmfs), cmfs
+
+    if use_spds_colors:
+        illuminant = deepcopy(color.ILLUMINANTS_RELATIVE_SPD.get("D65"))
+        illuminant.zeros(*cmfs.shape)
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -607,7 +680,18 @@ def multi_spectral_power_distribution_plot(spds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
+        if use_spds_colors:
+            spd = deepcopy(spd)
+            spd.zeros(*cmfs.shape)
+
+            XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs, illuminant)
+            XYZ /= 100.
+            RGB = XYZ_to_sRGB(XYZ)
+            RGB = numpy.clip(RGB, 0., 1.)
+
+            pylab.plot(wavelengths, values, label=spd.name, linewidth=2., color=RGB)
+        else:
+            pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
 
     settings = {"x_label": u"Wavelength λ (nm)",
                 "y_label": "Spectral Power Distribution",
@@ -672,13 +756,7 @@ def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Obser
                       ("y", [0., 1., 0.]),
                       ("z", [0., 0., 1.])):
         for i, cmfs in enumerate(cmfss):
-            cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-            if cmfs is None:
-                raise color.exceptions.ProgrammingError(
-                    "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(
-                        name,
-                        sorted(
-                            color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+            cmfs, name = __get_cmfs(cmfs), cmfs
 
             rgb = map(lambda x: reduce(lambda y, _: y * 0.25, xrange(i), x), rgb)
             wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
@@ -732,19 +810,8 @@ def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 
 
     title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
 
-    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
-    if illuminant is None:
-        raise color.exceptions.ProgrammingError(
-            "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
-                                                                               sorted(
-                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
-
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    illuminant, name = __get_illuminant(illuminant), illuminant
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     settings = {"title": title,
                 "y_label": "Relative Spectral Power Distribution"}
@@ -772,14 +839,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs)
 
     spds = []
     for illuminant in illuminants:
-        illuminant = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant)
-        if illuminant is None:
-            raise color.exceptions.ProgrammingError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant.name,
-                                                                                   sorted(
-                                                                                       color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
-
-        spds.append(illuminant)
+        spds.append(__get_illuminant(illuminant))
 
     settings = {"title": "{0}- Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
                 "y_label": "Relative Spectral Power Distribution"}
@@ -805,12 +865,7 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     cmfs.interpolate(360, 830)
 
@@ -859,12 +914,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
@@ -921,12 +971,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1931_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1011,12 +1056,8 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
+
     settings = {"title": "{0} - {1}".format(", ".join(colorspaces), name),
                 "standalone": False}
     settings.update(kwargs)
@@ -1031,12 +1072,7 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:
-            colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
-            if colorspace is None:
-                raise color.exceptions.ProgrammingError(
-                    "'{0}' colorspace not found in supported colorspaces: '{1}'.".format(name,
-                                                                                         sorted(
-                                                                                             color.colorspaces.COLORSPACES.keys())))
+            colorspace, name = __get_colorspace(colorspace), colorspace
 
             random_color = lambda: float(random.randint(64, 224)) / 255
             r, g, b = random_color(), random_color(), random_color()
@@ -1168,12 +1204,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
@@ -1230,12 +1261,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1396,12 +1422,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
 
@@ -1458,12 +1479,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1723,12 +1739,7 @@ def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
 
     samples = numpy.linspace(0., 1., 1000)
     for i, colorspace in enumerate(colorspaces):
-        colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
-        if colorspace is None:
-            raise color.exceptions.ProgrammingError(
-                "'{0}' colorspace not found in supported colorspaces: '{1}'.".format(name,
-                                                                                     sorted(
-                                                                                         color.colorspaces.COLORSPACES.keys())))
+        colorspace, name = __get_colorspace(colorspace), colorspace
 
         RGBs = numpy.array(
             map(colorspace.inverse_transfer_function if inverse else colorspace.transfer_function, samples))
@@ -1775,12 +1786,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
@@ -1794,7 +1800,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
                 "standalone": False}
     settings.update(kwargs)
 
-    single_spectral_power_distribution_plot(spd, cmfs, **settings)
+    single_spectral_power_distribution_plot(spd, name, **settings)
 
     XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
     RGB = XYZ_to_sRGB(XYZ)
@@ -1845,12 +1851,7 @@ def blackbody_colors_plot(start=1000,
     :rtype: bool
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
-    if cmfs is None:
-        raise color.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+    cmfs, name = __get_cmfs(cmfs), cmfs
 
     colors = []
     temperatures = []

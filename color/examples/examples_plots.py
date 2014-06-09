@@ -216,6 +216,12 @@ multi_spectral_power_distribution_plot([color.SpectralPowerDistribution(name="Bo
                                                                         spd=carbon_spd_data)],
                                        y_label="Ei (eV)")
 
+# Plotting multiple *ColorChecker* relative spectral power distributions.
+multi_spectral_power_distribution_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
+                                        sorted(color.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+                                       use_spds_colors=True,
+                                       title="BabelColor Average - Relative Spectral Power Distributions")
+
 # Spectral bandpass correction.
 bandpass_corrected_carbon_spd = color.bandpass_correction(
     color.SpectralPowerDistribution("Carbon (Bandpass Corrected)", deepcopy(carbon_spd_data)), method="Stearns")

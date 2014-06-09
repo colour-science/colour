@@ -46,6 +46,7 @@ _`Highlights`
   -  F11
   -  F12
 
+- Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 2 Degree Observer

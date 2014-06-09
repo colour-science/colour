@@ -35,6 +35,8 @@ Color Rendition Charts
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
 
+**N. Ohta**, `ColorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
+
 Colorspace Derivation
 ---------------------
 
