@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -16,13 +16,7 @@
 
 from __future__ import unicode_literals
 
-import itertools
-import os
-import socket
-import urllib2
-
 import foundations.verbose
-from foundations.globals.constants import Constants
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
