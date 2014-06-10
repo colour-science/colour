@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -35,6 +35,9 @@ __all__ = ["LOGGER",
            "PLANCK_CONSTANT",
            "BOLTZMANN_CONSTANT",
            "E_CONSTANT",
+           "C1_CONSTANT",
+           "C2_CONSTANT",
+           "N_CONSTANT",
            "planck_law",
            "blackbody_spectral_radiance",
            "blackbody_spectral_power_distribution"]
@@ -45,14 +48,17 @@ LIGHT_SPEED_CONSTANT = 299792458
 PLANCK_CONSTANT = 6.62607e-34
 BOLTZMANN_CONSTANT = 1.38065e-23
 E_CONSTANT = math.exp(1)
+C1_CONSTANT = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT ** 2
+C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CONSTANT
+N_CONSTANT = 1.
 
 
-def planck_law(wavelength, temperature):
+def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
-    Returns electromagnetic radiation emitted by a *blackbody* in thermal equilibrium at a definite temperature.
+    Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.
     The following form implementation is expressed in term of wavelength. The SI unit of radiance is watts per steradian per square metre.
 
-    Reference: http://en.wikipedia.org/wiki/Planck's_law
+    Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, Appendix E.
 
     Usage::
 
@@ -63,22 +69,23 @@ def planck_law(wavelength, temperature):
     :type wavelength: float
     :param temperature: Temperature in kelvins.
     :type temperature: float
+    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
+    :type c1: float
+    :param c2: Since T is measured on the International Temperature Scale, the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
+    :type c2: float
+    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, containing 0,03 percent by volume of carbon dioxide, it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
+    :type n: float
     :return: Radiance.
     :rtype: float
     """
 
     t = temperature
     l = wavelength
-    c = LIGHT_SPEED_CONSTANT
-    h = PLANCK_CONSTANT
-    k = BOLTZMANN_CONSTANT
-    e = E_CONSTANT
 
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error")
-            return ((2 * h * c ** 2) / l ** 5) * \
-                   (1 / (e ** (((h * c) / (l * k * t))) - 1))
+            return ((c1 * n ** -2 * l ** -5) / math.pi) * (math.exp(c2 / (n * l * t)) - 1) ** -1
     except (OverflowError, RuntimeWarning) as error:
         return 0.0
 
@@ -86,7 +93,13 @@ def planck_law(wavelength, temperature):
 blackbody_spectral_radiance = planck_law
 
 
-def blackbody_spectral_power_distribution(temperature, start=None, end=None, steps=None):
+def blackbody_spectral_power_distribution(temperature,
+                                          start=None,
+                                          end=None,
+                                          steps=None,
+                                          c1=C1_CONSTANT,
+                                          c2=C2_CONSTANT,
+                                          n=N_CONSTANT):
     """
     Returns the spectral power distribution of the *blackbody* for given temperature.
 
@@ -98,6 +111,12 @@ def blackbody_spectral_power_distribution(temperature, start=None, end=None, ste
     :type end: float
     :param steps: Wavelengths range steps.
     :type steps: float
+    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
+    :type c1: float
+    :param c2: Since T is measured on the International Temperature Scale, the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
+    :type c2: float
+    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, containing 0,03 percent by volume of carbon dioxide, it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
+    :type n: float
     :return: Blackbody spectral power distribution.
     :rtype: SpectralPowerDistribution
     """
@@ -105,5 +124,9 @@ def blackbody_spectral_power_distribution(temperature, start=None, end=None, ste
     return color.spectral.SpectralPowerDistribution(name="Blackbody",
                                                     spd=dict(
                                                         (wavelength,
-                                                         blackbody_spectral_radiance(wavelength * 1e-9, temperature))
+                                                         blackbody_spectral_radiance(wavelength * 1e-9,
+                                                                                     temperature,
+                                                                                     c1,
+                                                                                     c2,
+                                                                                     n))
                                                         for wavelength in numpy.arange(start, end + steps, steps)))

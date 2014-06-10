@@ -61,7 +61,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
-PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTableTuvdi", ("Ti", "ui", "vi", "di"))
+PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTable_Tuvdi", ("Ti", "ui", "vi", "di"))
 
 CCT_MINIMAL = 1000
 CCT_MAXIMAL = 100000
@@ -103,7 +103,7 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
                                                 (575, 0.32931, 0.36038, -40.770),
                                                 (600, 0.33724, 0.36051, -116.45))
 
-WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRoberstonRuvt", ("r", "u", "v", "t"))
+WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRoberston_ruvt", ("r", "u", "v", "t"))
 
 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT(*x),
                                               WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -41,26 +41,26 @@ __all__ = ["TestGetPlanckianTable",
            "Testuv_to_cct_robertson",
            "Testcct_to_uv_robertson"]
 
-PLANCKIAN_TABLE = [color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44800695592713469,
-                                                          vi=0.35462532232761207, di=0.2537783063402483),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1001.1111111111111, ui=0.44774688726773565,
-                                                          vi=0.3546478595072966, di=0.25352567371290297),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1002.2222222222222, ui=0.44748712505363253,
-                                                          vi=0.35467035108531186, di=0.2532733526031864),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1003.3333333333334, ui=0.44722766912561784,
-                                                          vi=0.35469279704978462, di=0.2530213428281355),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1004.4444444444445, ui=0.44696851932239223,
-                                                          vi=0.35471519738915419, di=0.2527696442026852),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1005.5555555555555, ui=0.44670967548058027,
-                                                          vi=0.35473755209217106, di=0.25251825653968457),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1006.6666666666666, ui=0.4464511374347529,
-                                                          vi=0.35475986114789521, di=0.25226717964991896),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1007.7777777777778, ui=0.44619290501744918,
-                                                          vi=0.3547821245456938, di=0.2520164133421324),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1008.8888888888889, ui=0.44593497805919297,
-                                                          vi=0.35480434227524021, di=0.251765957423044),
-                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1010.0, ui=0.4456773563885123,
-                                                          vi=0.35482651432651208, di=0.251515811697368)]
+PLANCKIAN_TABLE = [color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786,
+                                                          vi=0.35462498085812383, di=0.25378213254223697),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1001.1111111111111, ui=0.44775082571296082,
+                                                          vi=0.35464751834928576, di=0.25352949944454956),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1002.2222222222222, ui=0.4474910632226583,
+                                                          vi=0.35467001024049455, di=0.25327717785676873),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1003.3333333333334, ui=0.44723160701057407,
+                                                          vi=0.35469245651987269, di=0.253025167595974),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1004.4444444444445, ui=0.44697245691544729,
+                                                          vi=0.35471485717585538, di=0.2527734684771403),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1005.5555555555555, ui=0.44671361277394045,
+                                                          vi=0.35473721219718934, di=0.25252208031315576),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1006.6666666666666, ui=0.44645507442066867,
+                                                          vi=0.35475952157292978, di=0.2522710029148514),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1007.7777777777778, ui=0.446196841688206,
+                                                          vi=0.35478178529244025, di=0.2520202360910075),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1008.8888888888889, ui=0.44593891440711669,
+                                                          vi=0.35480400334538981, di=0.2517697796483851),
+                   color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1010.0, ui=0.44568129240596821,
+                                                          vi=0.35482617572175207, di=0.25151963339173905)]
 
 TEMPERATURE_DUV_TO_UV = {(2000, -0.05): (0.3094482846381184, 0.309263824757947),
                          (2000, -0.025): (0.3072491423190592, 0.3341669123789735),
@@ -176,10 +176,10 @@ class TestGetPlanckianTable(unittest.TestCase):
 
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
-        toList = lambda x: (x.Ti, x.ui, x.vi, x.di)
+        to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
         numpy.testing.assert_almost_equal(
-            map(toList, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
-            map(toList, PLANCKIAN_TABLE))
+        map(to_list, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+            map(to_list, PLANCKIAN_TABLE))
 
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
@@ -195,7 +195,7 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
         self.assertEqual(color.temperature.get_planckian_table_minimal_distance_index(
-            color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+        color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
                          9)
 
 
@@ -212,13 +212,13 @@ class Testuv_to_cct_ohno(unittest.TestCase):
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
         numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.1978, 0.3122), cmfs),
-                                          (6507.4342201047066, 0.003223690901512735),
+                                          (6507.5470349001507, 0.0032236908012382953),
                                           decimal=7)
         numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.4328, 0.2883), cmfs),
-                                          (1041.849524611546, -0.067377582728534946),
+                                          (1041.8672179878763, -0.067377582642145384),
                                           decimal=7)
         numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.2927, 0.2722), cmfs, iterations=4),
-                                          (2452.1523812904848, -0.084369988398089582),
+                                          (2452.1932942782669, -0.084369982045528508),
                                           decimal=7)
 
 
@@ -235,16 +235,16 @@ class Testcct_to_uv_ohno(unittest.TestCase):
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
         numpy.testing.assert_almost_equal(
-            color.temperature.cct_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),
-            (0.19779977, 0.31219971),
+        color.temperature.cct_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),
+            (0.19780034881616862, 0.31220050291046603),
             decimal=7)
         numpy.testing.assert_almost_equal(
             color.temperature.cct_to_uv_ohno(1041.849524611546, -0.067377582728534946, cmfs),
-            (0.43279867, 0.28830008),
+            (0.43280250331413772, 0.28829975758516474),
             decimal=7)
         numpy.testing.assert_almost_equal(
             color.temperature.cct_to_uv_ohno(2448.9489053326438, -0.084324704634692743, cmfs),
-            (0.29256486, 0.27221745),
+            (0.29256616302348853, 0.27221773141874955),
             decimal=7)
 
 
