@@ -24,8 +24,6 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import copy
-
 from color.spectral import AbstractColorMatchingFunctions
 from color.spectral import RGB_ColorMatchingFunctions
 from color.spectral import SpectralPowerDistribution
