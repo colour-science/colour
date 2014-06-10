@@ -158,10 +158,11 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  XYZ to UCS.
+  -  UCS to XYZ.
+  -  UCS to uv.
+  -  UCS uv to xy.
   -  XYZ to UVW.
-  -  UVW to XYZ.
-  -  UVW to uv.
-  -  UVW uv to xy.
   -  XYZ to Luv.
   -  Luv to XYZ.
   -  Luv to uv.
@@ -538,13 +539,15 @@ Transformations
 
 **Bruce Lindbloom**, `xyY to XYZ <http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html>`_ (Last accessed 24 February 2014)
 
-`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`XYZ to UCS <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+
+`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1964_color_space>`_ (Last accessed 10 June 2014)
 
 **Bruce Lindbloom**, `XYZ to Luv <http://brucelindbloom.com/Eqn_XYZ_to_Luv.html>`_ (Last accessed 24 February 2014)
 

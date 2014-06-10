@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -45,10 +45,11 @@ __all__ = ["sRGB_LINEAR_COLORCHECKER_2005",
            "TestRGB_to_XYZ",
            "TestxyY_to_RGB",
            "TestRGB_to_xyY",
+           "TestXYZ_to_UCS",
+           "TestUCS_to_XYZ",
+           "TestUCS_to_uv",
+           "TestUCS_uv_to_xy",
            "TestXYZ_to_UVW",
-           "TestUVW_to_XYZ",
-           "TestUVW_to_uv",
-           "TestUVW_uv_to_xy",
            "TestXYZ_to_Luv",
            "TestLuv_to_XYZ",
            "TestLuv_to_uv",
@@ -596,6 +597,109 @@ class TestRGB_to_xyY(unittest.TestCase):
                                               decimal=7)
 
 
+class TestXYZ_to_UCS(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.XYZ_to_UCS` definition units tests methods.
+    """
+
+    def test_XYZ_to_UCS(self):
+        """
+        Tests :func:`color.transformations.XYZ_to_UCS` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.XYZ_to_UCS(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1))),
+            numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.XYZ_to_UCS(numpy.matrix([3.08690042, 3.2, 2.68925666]).reshape((3, 1))),
+            numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.XYZ_to_UCS(numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1))),
+            numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1)),
+            decimal=7)
+
+
+class TestUCS_to_XYZ(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.UCS_to_XYZ` definition units tests methods.
+    """
+
+    def test_UCS_to_XYZ(self):
+        """
+        Tests :func:`color.transformations.UCS_to_XYZ` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_XYZ(numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1))),
+            numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_XYZ(numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1))),
+            numpy.matrix([3.08690042, 3.2, 2.68925666]).reshape((3, 1)),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_XYZ(numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1))),
+            numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1)),
+            decimal=7)
+
+
+class TestUCS_to_uv(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.UCS_to_uv` definition units tests methods.
+    """
+
+    def test_UCS_to_uv(self):
+        """
+        Tests :func:`color.transformations.UCS_to_uv` definition.
+        """
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_uv(numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1))),
+            (0.25895877609618834, 0.34020896328103534),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_uv(numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1))),
+            (0.20873418076173886, 0.32457285074301517),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_to_uv(numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1))),
+            (0.20048615319251942, 0.31032692311386395),
+            decimal=7)
+
+
+class TestUCS_uv_to_xy(unittest.TestCase):
+    """
+    Defines :func:`color.transformations.UCS_uv_to_xy` definition units tests methods.
+    """
+
+    def test_UCS_uv_to_xy(self):
+        """
+        Tests :func:`color.transformations.UCS_uv_to_xy` definition.
+        """
+
+        numpy.testing.assert_almost_equal(color.transformations.UCS_uv_to_xy((0.2033733344733139, 0.3140500001549052)),
+                                          (0.32207410281368043, 0.33156550013623537),
+                                          decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_uv_to_xy((0.20873418102926322, 0.32457285063327812)),
+            (0.3439000000209443, 0.35650000010917804),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            color.transformations.UCS_uv_to_xy((0.25585459629500179, 0.34952813701502972)),
+            (0.4474327628361858, 0.40749796251018744),
+            decimal=7)
+
+
 class TestXYZ_to_UVW(unittest.TestCase):
     """
     Defines :func:`color.transformations.XYZ_to_UVW` definition units tests methods.
@@ -606,97 +710,44 @@ class TestXYZ_to_UVW(unittest.TestCase):
         Tests :func:`color.transformations.XYZ_to_UVW` definition.
         """
 
-        numpy.testing.assert_almost_equal(
-            color.transformations.XYZ_to_UVW(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1))),
-            numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1)),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.XYZ_to_UVW(numpy.matrix([3.08690042, 3.2, 2.68925666]).reshape((3, 1))),
-            numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1)),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.XYZ_to_UVW(numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1))),
-            numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1)),
-            decimal=7)
-
-
-class TestUVW_to_XYZ(unittest.TestCase):
-    """
-    Defines :func:`color.transformations.UVW_to_XYZ` definition units tests methods.
-    """
-
-    def test_UVW_to_XYZ(self):
-        """
-        Tests :func:`color.transformations.UVW_to_XYZ` definition.
-        """
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_XYZ(numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1))),
-            numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_XYZ(numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1))),
-            numpy.matrix([3.08690042, 3.2, 2.68925666]).reshape((3, 1)),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_XYZ(numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1))),
-            numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1)),
-            decimal=7)
-
-
-class TestUVW_to_uv(unittest.TestCase):
-    """
-    Defines :func:`color.transformations.UVW_to_uv` definition units tests methods.
-    """
-
-    def test_UVW_to_uv(self):
-        """
-        Tests :func:`color.transformations.UVW_to_uv` definition.
-        """
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_uv(numpy.matrix([7.87055614, 10.34, 12.18252904]).reshape((3, 1))),
-            (0.25895877609618834, 0.34020896328103534),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_uv(numpy.matrix([2.05793361, 3.2, 4.60117812]).reshape((3, 1))),
-            (0.20873418076173886, 0.32457285074301517),
-            decimal=7)
-
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_to_uv(numpy.matrix([0.64604821, 1., 1.57635992]).reshape((3, 1))),
-            (0.20048615319251942, 0.31032692311386395),
-            decimal=7)
-
-
-class TestUVW_uv_to_xy(unittest.TestCase):
-    """
-    Defines :func:`color.transformations.UVW_uv_to_xy` definition units tests methods.
-    """
-
-    def test_UVW_uv_to_xy(self):
-        """
-        Tests :func:`color.transformations.UVW_uv_to_xy` definition.
-        """
-
-        numpy.testing.assert_almost_equal(color.transformations.UVW_uv_to_xy((0.2033733344733139, 0.3140500001549052)),
-                                          (0.32207410281368043, 0.33156550013623537),
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([0.96907232,
+                                                                                         1.,
+                                                                                         1.12179215]).reshape((3, 1))),
+                                          numpy.matrix([-0.90199113, -1.56588889, 8.]).reshape((3, 1)),
                                           decimal=7)
 
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_uv_to_xy((0.20873418102926322, 0.32457285063327812)),
-            (0.3439000000209443, 0.35650000010917804),
-            decimal=7)
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([1.92001986,
+                                                                                         1.,
+                                                                                         -0.1241347]).reshape((3, 1))),
+                                          numpy.matrix([26.5159289, 3.8694711, 8.]).reshape((3, 1)),
+                                          decimal=7)
 
-        numpy.testing.assert_almost_equal(
-            color.transformations.UVW_uv_to_xy((0.25585459629500179, 0.34952813701502972)),
-            (0.4474327628361858, 0.40749796251018744),
-            decimal=7)
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([1.0131677,
+                                                                                         1.,
+                                                                                         2.11217686]).reshape((3, 1))),
+                                          numpy.matrix([-2.89423113, -5.92004891, 8.]).reshape((3, 1)),
+                                          decimal=7)
+
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([1.0131677,
+                                                                                         1.,
+                                                                                         2.11217686]).reshape((3, 1)),
+                                                                           (0.44757, 0.40745)),
+                                          numpy.matrix([-7.76195429, -8.43122502, 8.]).reshape((3, 1)),
+                                          decimal=7)
+
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([1.0131677,
+                                                                                         1.,
+                                                                                         2.11217686]).reshape((3, 1)),
+                                                                           (1. / 3., 1. / 3.)),
+                                          numpy.matrix([-3.03641679, -4.92226526, 8.]).reshape((3, 1)),
+                                          decimal=7)
+
+        numpy.testing.assert_almost_equal(color.transformations.XYZ_to_UVW(numpy.matrix([1.0131677,
+                                                                                         1.,
+                                                                                         2.11217686]).reshape((3, 1)),
+                                                                           (0.31271, 0.32902)),
+                                          numpy.matrix([-1.7159427, -4.55119033, 8]).reshape((3, 1)),
+                                          decimal=7)
 
 
 class TestXYZ_to_Luv(unittest.TestCase):

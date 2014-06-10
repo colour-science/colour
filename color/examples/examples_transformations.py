@@ -68,17 +68,20 @@ print(color.RGB_to_xyY(matrix([[3.40552203], [2.48159742], [2.11932818]]),
                        color.sRGB_COLORSPACE.to_XYZ,
                        color.sRGB_COLORSPACE.inverse_transfer_function))
 
+# From *CIE XYZ* colorspace to *CIE UCS* colorspace.
+print(color.XYZ_to_UCS(matrix([[0.92193107], [1.], [1.03744246]])))
+
+# From *CIE UCS* colorspace to *CIE XYZ* colorspace.
+print(color.UCS_to_XYZ(matrix([[0.61462071], [1.], [1.55775569]])))
+
+# From *CIE UCS* colorspace to *uv* chromaticity coordinates.
+print(color.UCS_to_uv(matrix([[0.61462071], [1.], [1.55775569]])))
+
+# From *CIE UCS* colorspace *uv* chromaticity coordinates to *xy* chromaticity coordinates.
+print(color.UCS_uv_to_xy((0.19374142046952561, 0.31522110680182841)))
+
 # From *CIE XYZ* colorspace to *CIE UVW* colorspace.
 print(color.XYZ_to_UVW(matrix([[0.92193107], [1.], [1.03744246]])))
-
-# From *CIE UVW* colorspace to *CIE XYZ* colorspace.
-print(color.UVW_to_XYZ(matrix([[0.61462071], [1.], [1.55775569]])))
-
-# From *CIE UVW* colorspace to *uv* chromaticity coordinates.
-print(color.UVW_to_uv(matrix([[0.61462071], [1.], [1.55775569]])))
-
-# From *CIE UVW* colorspace *uv* chromaticity coordinates to *xy* chromaticity coordinates.
-print(color.UVW_uv_to_xy((0.19374142046952561, 0.31522110680182841)))
 
 # From *CIE XYZ* colorspace to *CIE Luv* colorspace.
 print(color.XYZ_to_Luv(matrix([[0.92193107], [1.], [1.03744246]])))

@@ -1142,14 +1142,14 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
         return
 
     start, end = 1667, 100000
-    x, y = zip(*map(lambda x: color.transformations.UVW_uv_to_xy(color.temperature.cct_to_uv(x, 0., cmfs)),
+    x, y = zip(*map(lambda x: color.transformations.UCS_uv_to_xy(color.temperature.cct_to_uv(x, 0., cmfs)),
                     numpy.arange(start, end + 250, 250)))
 
     pylab.plot(x, y, color="black", linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
-        x0, y0 = color.transformations.UVW_uv_to_xy(color.temperature.cct_to_uv(i, -0.025, cmfs))
-        x1, y1 = color.transformations.UVW_uv_to_xy(color.temperature.cct_to_uv(i, 0.025, cmfs))
+        x0, y0 = color.transformations.UCS_uv_to_xy(color.temperature.cct_to_uv(i, -0.025, cmfs))
+        x1, y1 = color.transformations.UCS_uv_to_xy(color.temperature.cct_to_uv(i, 0.025, cmfs))
         pylab.plot([x0, x1], [y0, y1], color="black", linewidth=2.)
         pylab.annotate("{0}K".format(i),
                        xy=(x0, y0),
@@ -1208,9 +1208,9 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
     illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
 
-    UVWs = [color.transformations.XYZ_to_UVW(value) for key, value in cmfs]
+    UVWs = [color.transformations.XYZ_to_UCS(value) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: color.transformations.UVW_to_uv(x), UVWs)))
+    u, v = zip(*(map(lambda x: color.transformations.UCS_to_uv(x), UVWs)))
 
     path = matplotlib.path.Path(zip(u, v))
     x_dot, y_dot, colors = [], [], []
@@ -1220,7 +1220,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
                 x_dot.append(i)
                 y_dot.append(j)
 
-                XYZ = color.transformations.xy_to_XYZ(color.transformations.UVW_uv_to_xy((i, j)))
+                XYZ = color.transformations.xy_to_XYZ(color.transformations.UCS_uv_to_xy((i, j)))
                 RGB = XYZ_to_sRGB(XYZ, illuminant)
 
                 RGB = numpy.ravel(RGB)
@@ -1274,9 +1274,9 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
     wavelengths = cmfs.wavelengths
     equal_energy = numpy.array([1. / 3.] * 2)
 
-    UVWs = [color.transformations.XYZ_to_UVW(value) for key, value in cmfs]
+    UVWs = [color.transformations.XYZ_to_UCS(value) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: color.transformations.UVW_to_uv(x), UVWs)))
+    u, v = zip(*(map(lambda x: color.transformations.UCS_to_uv(x), UVWs)))
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(u, v)))
 
@@ -1356,8 +1356,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
         return
 
-    xy_to_uv = lambda x: color.transformations.UVW_to_uv(
-        color.transformations.XYZ_to_UVW(
+    xy_to_uv = lambda x: color.transformations.UCS_to_uv(
+        color.transformations.XYZ_to_UCS(
             color.transformations.xy_to_XYZ(x)))
 
     start, end = 1667, 100000

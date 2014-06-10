@@ -111,7 +111,7 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTE
 
 def get_planckian_table(uv, cmfs, start, end, count):
     """
-    Returns a planckian table from given *CIE UVW* colorspace *uv* chromaticity coordinates, color matching functions and
+    Returns a planckian table from given *CIE UCS* colorspace *uv* chromaticity coordinates, color matching functions and
     temperature range  using *Yoshi Ohno* calculation methods.
 
     Usage::
@@ -151,8 +151,8 @@ def get_planckian_table(uv, cmfs, start, end, count):
         spd = color.spectral.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
         XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
-        UVW = color.transformations.XYZ_to_UVW(XYZ)
-        ui, vi = color.transformations.UVW_to_uv(UVW)
+        UVW = color.transformations.XYZ_to_UCS(XYZ)
+        ui, vi = color.transformations.UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
         planckian_table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
@@ -187,7 +187,7 @@ def uv_to_cct_ohno(uv,
                    count=CCT_SAMPLES,
                    iterations=CCT_CALCULATION_ITERATIONS):
     """
-    | Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates,
+    | Returns the correlated color temperature and Duv from given *CIE UCS* colorspace *uv* chromaticity coordinates,
         color matching functions and temperature range using *Yoshi Ohno* calculation methods.
     | The iterations parameter defines the calculations precision: The higher its value, the more planckian tables
         will be generated through cascade expansion in order to converge to the exact solution.
@@ -271,7 +271,7 @@ def cct_to_uv_ohno(cct,
                    cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
                        "Standard CIE 1931 2 Degree Observer")):
     """
-    Returns the *CIE UVW* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
+    Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
     color matching functions using *Yoshi Ohno* calculation methods.
 
     Usage::
@@ -295,8 +295,8 @@ def cct_to_uv_ohno(cct,
     spd = color.spectral.blackbody.blackbody_spectral_power_distribution(cct, *cmfs.shape)
     XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
     XYZ *= 1. / numpy.max(XYZ)
-    UVW = color.transformations.XYZ_to_UVW(XYZ)
-    u0, v0 = color.transformations.UVW_to_uv(UVW)
+    UVW = color.transformations.XYZ_to_UCS(XYZ)
+    u0, v0 = color.transformations.UCS_to_uv(UVW)
 
     if Duv == 0.:
         return u0, v0
@@ -304,8 +304,8 @@ def cct_to_uv_ohno(cct,
         spd = color.spectral.blackbody.blackbody_spectral_power_distribution(cct + delta, *cmfs.shape)
         XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
-        UVW = color.transformations.XYZ_to_UVW(XYZ)
-        u1, v1 = color.transformations.UVW_to_uv(UVW)
+        UVW = color.transformations.XYZ_to_UCS(XYZ)
+        u1, v1 = color.transformations.UCS_to_uv(UVW)
 
         du = u0 - u1
         dv = v0 - v1
@@ -318,7 +318,7 @@ def cct_to_uv_ohno(cct,
 
 def uv_to_cct_robertson(uv):
     """
-    Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates using
+    Returns the correlated color temperature and Duv from given *CIE UCS* colorspace *uv* chromaticity coordinates using
     *Wyszecki & Roberston* calculation method.
     This implementation is only valid for *Standard CIE 1931 2 Degree Observer*.
 
@@ -393,7 +393,7 @@ def uv_to_cct_robertson(uv):
 
 def cct_to_uv_robertson(cct, Duv=0.):
     """
-    Returns the *CIE UVW* colorspace *uv* chromaticity coordinates from given correlated color temperature and Duv using
+    Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature and Duv using
     *Wyszecki & Roberston* calculation method.
     This implementation is only valid for *Standard CIE 1931 2 Degree Observer*.
 
@@ -451,7 +451,7 @@ def cct_to_uv_robertson(cct, Duv=0.):
 
 def uv_to_cct(uv, method="Yoshi Ohno", **kwargs):
     """
-    Returns the correlated color temperature and Duv from given *CIE UVW* colorspace *uv* chromaticity coordinates and method.
+    Returns the correlated color temperature and Duv from given *CIE UCS* colorspace *uv* chromaticity coordinates and method.
     Defines a wrapper for :func:`uv_to_cct_ohno` and :func:`uv_to_cct_robertson` definitions.
 
     :param uv: *uv* chromaticity coordinates.
@@ -477,7 +477,7 @@ def uv_to_cct(uv, method="Yoshi Ohno", **kwargs):
 
 def cct_to_uv(cct, Duv=0., method="Yoshi Ohno", **kwargs):
     """
-    Returns the *CIE UVW* colorspace *uv* chromaticity coordinates from given correlated color temperature
+    Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature
     and Duv using given method.
     Defines a wrapper for :func:`cct_to_uv_ohno` and :func:`cct_to_uv_robertson` definitions.
 

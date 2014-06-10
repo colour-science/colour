@@ -13,7 +13,7 @@ import color
 cmfs = color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS["Standard CIE 1931 2 Degree Observer"]
 illuminant = color.ILLUMINANTS_RELATIVE_SPD["D65"].zeros(*cmfs.shape)
 xy = color.XYZ_to_xy(color.spectral_to_XYZ(illuminant, cmfs))
-uv = color.UVW_to_uv(color.XYZ_to_UVW(color.xy_to_XYZ(xy)))
+uv = color.UCS_to_uv(color.XYZ_to_UCS(color.xy_to_XYZ(xy)))
 print(color.uv_to_cct(uv, cmfs=cmfs))
 
 # Faster but less precise version.
