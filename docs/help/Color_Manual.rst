@@ -91,6 +91,7 @@ _`Highlights`
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
+  -  CIE D-illuminant.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
@@ -173,8 +174,9 @@ _`Highlights`
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
-  -  uv to cct, duv.
-  -  cct, duv to uv.
+  -  uv to CCT, Duv.
+  -  CCT, Duv to uv.
+  -  D-illuminant CCT to xy.
 
 Convenience deprecated transformations:
 
@@ -190,7 +192,6 @@ Convenience deprecated transformations:
   -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Correlated color temperature calculation.
 -  Colorspaces derivation.
 -  Color difference calculation with following methods:
 
@@ -199,6 +200,7 @@ Convenience deprecated transformations:
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
+-  Color rendering index calculation.
 -  Color rendition chart data.
 -  Colorspaces visualisation within **Autodesk Maya**.
 -  First order color fit.
@@ -308,6 +310,11 @@ Chromatic Adaptation
 **Bruce Lindbloom**, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 
 `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
+
+Color Rendering Index
+---------------------
+
+**Yoshi Ohno**, `Color Rendering Index <http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls>`_ (Last accessed 10 June 2014)
 
 Color Rendition Charts
 ----------------------
@@ -531,6 +538,8 @@ Temperature
 -----------
 
 **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
+
+**Bruce Lindbloom**, `D-illuminant CCT to xy <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 10 June 2014)
 
 Transformations
 ---------------

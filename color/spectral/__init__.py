@@ -36,6 +36,7 @@ from .correction import *
 from .illuminants import *
 from .luminosity import *
 from .spd import *
+from .tcs import *
 from .transformations import *
 
 from . import blackbody
@@ -45,6 +46,7 @@ from . import correction
 from . import illuminants
 from . import luminosity
 from . import spd
+from . import tcs
 from . import transformations
 
 __all__.extend(blackbody.__all__)
@@ -54,6 +56,7 @@ __all__.extend(correction.__all__)
 __all__.extend(illuminants.__all__)
 __all__.extend(luminosity.__all__)
 __all__.extend(spd.__all__)
+__all__.extend(tcs.__all__)
 __all__.extend(transformations.__all__)
 
 __all__ = map(lambda x: x.encode("ascii"), __all__)

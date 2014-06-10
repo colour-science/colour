@@ -31,15 +31,17 @@ Functions
 
 .. autofunction:: get_planckian_table_minimal_distance_index
 
-.. autofunction:: uv_to_cct_ohno
+.. autofunction:: uv_to_CCT_ohno
 
-.. autofunction:: cct_to_uv_ohno
+.. autofunction:: CCT_to_uv_ohno
 
-.. autofunction:: uv_to_cct_robertson
+.. autofunction:: uv_to_CCT_robertson
 
-.. autofunction:: cct_to_uv_robertson
+.. autofunction:: CCT_to_uv_robertson
 
-.. autofunction:: uv_to_cct
+.. autofunction:: uv_to_CCT
 
-.. autofunction:: cct_to_uv
+.. autofunction:: CCT_to_uv
+
+.. autofunction:: D_illuminant_CCT_to_xy
 

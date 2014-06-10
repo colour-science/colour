@@ -38,6 +38,7 @@ Modules Summary:
    color.colorspaces.smptec_rgb <api/color.colorspaces.smptec_rgb>
    color.colorspaces.srgb <api/color.colorspaces.srgb>
    color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
+   color.cri <api/color.cri>
    color.data_structures <api/color.data_structures>
    color.deprecated <api/color.deprecated>
    color.derivation <api/color.derivation>
@@ -56,6 +57,7 @@ Modules Summary:
    color.spectral.illuminants <api/color.spectral.illuminants>
    color.spectral.luminosity <api/color.spectral.luminosity>
    color.spectral.spd <api/color.spectral.spd>
+   color.spectral.tcs <api/color.spectral.tcs>
    color.spectral.transformations <api/color.spectral.transformations>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>

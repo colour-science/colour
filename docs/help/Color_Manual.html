@@ -243,6 +243,8 @@
 							</li>
 							<li>Yoshi Ohno method implementation.
 							</li>
+							<li>CIE D-illuminant.
+							</li>
 						</ul>
 					</blockquote>
 					<ul class="simple">
@@ -385,13 +387,15 @@
 							</li>
 							<li>RGB to xyY.
 							</li>
+							<li>XYZ to UCS.
+							</li>
+							<li>UCS to XYZ.
+							</li>
+							<li>UCS to uv.
+							</li>
+							<li>UCS uv to xy.
+							</li>
 							<li>XYZ to UVW.
-							</li>
-							<li>UVW to XYZ.
-							</li>
-							<li>UVW to uv.
-							</li>
-							<li>UVW uv to xy.
 							</li>
 							<li>XYZ to Luv.
 							</li>
@@ -413,9 +417,11 @@
 							</li>
 							<li>LCHab to Lab.
 							</li>
-							<li>uv to cct, duv.
+							<li>uv to CCT, Duv.
 							</li>
-							<li>cct, duv to uv.
+							<li>CCT, Duv to uv.
+							</li>
+							<li>D-illuminant CCT to xy.
 							</li>
 						</ul>
 					</blockquote>
@@ -449,8 +455,6 @@
 					<ul class="simple">
 						<li>Illuminants chromaticity coordinates data.
 						</li>
-						<li>Correlated color temperature calculation.
-						</li>
 						<li>Colorspaces derivation.
 						</li>
 						<li>Color difference calculation with following methods:
@@ -469,6 +473,8 @@
 						</ul>
 					</blockquote>
 					<ul class="simple">
+						<li>Color rendering index calculation.
+						</li>
 						<li>Color rendition chart data.
 						</li>
 						<li>Colorspaces visualisation within <strong>Autodesk Maya</strong>.
@@ -602,6 +608,14 @@ python setup.py install
 					</p>
 					<p>
 						<a class="reference external" href="http://en.wikipedia.org/wiki/CIECAM02#CAT0">CAT02 Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-rendering-index">
+					<h2>
+						Color Rendering Index
+					</h2>
+					<p>
+						<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls">Color Rendering Index</a> (Last accessed 10 June 2014)
 					</p>
 				</div>
 				<div class="section" id="color-rendition-charts">
@@ -944,6 +958,9 @@ python setup.py install
 					<p>
 						<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
 					</p>
+					<p>
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_T_to_xy.html">D-illuminant CCT to xy</a> (Last accessed 10 June 2014)
+					</p>
 				</div>
 				<div class="section" id="transformations">
 					<h2>
@@ -956,16 +973,19 @@ python setup.py install
 						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html">xyY to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to UVW</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to UCS</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to XYZ</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to uv</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS to uv</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW uv to xy</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS uv to xy</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1964_color_space">XYZ to UVW</a> (Last accessed 10 June 2014)
 					</p>
 					<p>
 						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_XYZ_to_Luv.html">XYZ to Luv</a> (Last accessed 24 February 2014)
@@ -1000,7 +1020,7 @@ python setup.py install
 					<!-- .about -->
 				</div>
 			</div>
-			<div class="section" id="id12">
+			<div class="section" id="id13">
 				<h1>
 					<span class="target" id="about">About</span>
 				</h1>

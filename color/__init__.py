@@ -41,6 +41,7 @@ from .algebra import *
 from .chromatic_adaptation import *
 from .color_checkers import *
 from .colorspaces import *
+from .cri import *
 from .derivation import *
 from .difference import *
 from .illuminants import *
@@ -53,6 +54,7 @@ from . import algebra
 from . import chromatic_adaptation
 from . import color_checkers
 from . import colorspaces
+from . import cri
 from . import derivation
 from . import difference
 from . import illuminants
@@ -65,6 +67,7 @@ __all__.extend(algebra.__all__)
 __all__.extend(chromatic_adaptation.__all__)
 __all__.extend(color_checkers.__all__)
 __all__.extend(colorspaces.__all__)
+__all__.extend(cri.__all__)
 __all__.extend(derivation.__all__)
 __all__.extend(difference.__all__)
 __all__.extend(illuminants.__all__)

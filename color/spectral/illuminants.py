@@ -1803,8 +1803,6 @@ def D_illuminant_relative_spectral_power_distribution(xy, name=None):
 
     :param xy: *xy* chromaticity coordinate.
     :type xy: tuple
-    :param name: *CIE D Illuminant* name.
-    :type name: str or unicode
     :return: *CIE D Illuminant* relative spectral power distribution.
     :rtype: SpectralPowerDistribution
     """
@@ -1821,8 +1819,10 @@ def D_illuminant_relative_spectral_power_distribution(xy, name=None):
         S2 = D_ILLUMINANTS_S_DISTRIBUTIONS.get("S2").get(i)
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution(name, distribution)
+    return SpectralPowerDistribution("CIE D Illuminant", distribution)
 
 # Add calculated *CIE D60 Illuminant* relative spectral power distribution.
 # xy = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D60")
-ILLUMINANTS_RELATIVE_SPD["D60"] = D_illuminant_relative_spectral_power_distribution((0.32168, 0.33767), "D60")
+__d60_illuminant_relative_spectral_power_distribution = D_illuminant_relative_spectral_power_distribution((0.32168, 0.33767))
+__d60_illuminant_relative_spectral_power_distribution.name = "D60"
+ILLUMINANTS_RELATIVE_SPD["D60"] = __d60_illuminant_relative_spectral_power_distribution

@@ -58,10 +58,7 @@ def delta_E_CIE_1976(lab1, lab2):
     :rtype: float
     """
 
-    L1, a1, b1 = numpy.ravel(lab1)
-    L2, a2, b2 = numpy.ravel(lab2)
-
-    return math.sqrt((L1 - L2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2)
+    return numpy.linalg.norm(lab1-lab2)
 
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):

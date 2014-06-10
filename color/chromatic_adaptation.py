@@ -101,6 +101,6 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
                                         pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
     cat = method_matrix.getI() * crd * method_matrix
 
-    LOGGER.debug("Chromatic adaptation matrix:\n{0}".format(repr(cat)))
+    LOGGER.debug("> Chromatic adaptation matrix:\n{0}".format(repr(cat)))
 
     return cat

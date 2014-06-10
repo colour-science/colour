@@ -16,6 +16,12 @@ Module Attributes
 
 .. attribute:: color.spectral.blackbody.E_CONSTANT
 
+.. attribute:: color.spectral.blackbody.C1_CONSTANT
+
+.. attribute:: color.spectral.blackbody.C2_CONSTANT
+
+.. attribute:: color.spectral.blackbody.N_CONSTANT
+
 .. attribute:: color.spectral.blackbody.blackbody_spectral_radiance
 
 Functions

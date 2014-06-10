@@ -30,6 +30,11 @@ Chromatic Adaptation
 
 `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
 
+Color Rendering Index
+---------------------
+
+**Yoshi Ohno**, `Color Rendering Index <http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls>`_ (Last accessed 10 June 2014)
+
 Color Rendition Charts
 ----------------------
 
@@ -253,6 +258,8 @@ Temperature
 
 **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 
+**Bruce Lindbloom**, `D-illuminant CCT to xy <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 10 June 2014)
+
 Transformations
 ---------------
 
@@ -260,13 +267,15 @@ Transformations
 
 **Bruce Lindbloom**, `xyY to XYZ <http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html>`_ (Last accessed 24 February 2014)
 
-`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`XYZ to UCS <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+
+`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1964_color_space>`_ (Last accessed 10 June 2014)
 
 **Bruce Lindbloom**, `XYZ to Luv <http://brucelindbloom.com/Eqn_XYZ_to_Luv.html>`_ (Last accessed 24 February 2014)
 

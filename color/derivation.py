@@ -93,9 +93,9 @@ def get_normalized_primary_matrix(primaries, whitepoint):
 
     npm = primaries * coefficients
 
-    LOGGER.debug("Transposed primaries:\n{0}".format(repr(primaries)))
-    LOGGER.debug("Whitepoint:\n{0}".format(repr(whitepoint)))
-    LOGGER.debug("Coefficients:\n{0}".format(repr(coefficients)))
-    LOGGER.debug("Normalized primary matrix':\n{0}".format(repr(npm)))
+    LOGGER.debug("> Transposed primaries:\n{0}".format(repr(primaries)))
+    LOGGER.debug("> Whitepoint:\n{0}".format(repr(whitepoint)))
+    LOGGER.debug("> Coefficients:\n{0}".format(repr(coefficients)))
+    LOGGER.debug("> Normalized primary matrix':\n{0}".format(repr(npm)))
 
     return npm

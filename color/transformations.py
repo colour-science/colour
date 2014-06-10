@@ -210,9 +210,9 @@ def XYZ_to_RGB(XYZ,
     if transfer_function is not None:
         RGB = numpy.matrix(map(lambda x: transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
-    LOGGER.debug("'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
-    LOGGER.debug("Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
-    LOGGER.debug("'RGB' matrix:\n{0}".format(repr(RGB)))
+    LOGGER.debug("> 'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
+    LOGGER.debug("> Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
+    LOGGER.debug("> 'RGB' matrix:\n{0}".format(repr(RGB)))
 
     return RGB
 
@@ -267,9 +267,9 @@ def RGB_to_XYZ(RGB,
 
     adaptedXYZ = cat * XYZ
 
-    LOGGER.debug("'CIE XYZ' matrix:\n{0}".format(repr(XYZ)))
-    LOGGER.debug("'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
-    LOGGER.debug("Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
+    LOGGER.debug("> 'CIE XYZ' matrix:\n{0}".format(repr(XYZ)))
+    LOGGER.debug("> 'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
+    LOGGER.debug("> Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
 
     return adaptedXYZ
 

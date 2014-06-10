@@ -82,7 +82,7 @@ def spectral_to_XYZ(spd,
                     cmfs,
                     illuminant=None):
     """
-    Converts given relative spectral power distribution to *CIE XYZ* colorspace using given color
+    Converts given spectral power distribution to *CIE XYZ* colorspace using given color
     matching functions and illuminant.
 
     Reference: **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.

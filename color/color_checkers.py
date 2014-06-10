@@ -44,7 +44,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.verbose.install_logger()
 
-COLORCHECKER_INXYY = namedtuple("ColorCheckerInxxY", ("index", "name", "x", "y", "Y"))
+COLORCHECKER_INXYY = namedtuple("ColorChecker_InxxY", ("index", "name", "x", "y", "Y"))
 
 COLORCHECKER = namedtuple("ColorChecker", ("name", "data", "illuminant"))
 

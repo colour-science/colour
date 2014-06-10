@@ -413,8 +413,8 @@ class SpectralPowerDistribution(object):
                 raise color.exceptions.ProgrammingError(
                         "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
-            LOGGER.info(
-                "{0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
+            LOGGER.debug(
+                "> {0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
                                                                                           self.name,
                                                                                           (shape_start, shape_end,
                                                                                            steps)))

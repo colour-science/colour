@@ -36,10 +36,11 @@ __status__ = "Production"
 
 __all__ = ["TestGetPlanckianTable",
            "TestGetPlanckianTableMinimalDistanceIndex",
-           "Testuv_to_cct_ohno",
-           "Testcct_to_uv_ohno",
-           "Testuv_to_cct_robertson",
-           "Testcct_to_uv_robertson"]
+           "Testuv_to_CCT_ohno",
+           "TestCCT_to_uv_ohno",
+           "Testuv_to_CCT_robertson",
+           "TestCCT_to_uv_robertson",
+           "TestD_illuminant_CCT_to_xy"]
 
 PLANCKIAN_TABLE = [color.temperature.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786,
                                                           vi=0.35462498085812383, di=0.25378213254223697),
@@ -178,7 +179,7 @@ class TestGetPlanckianTable(unittest.TestCase):
             "Standard CIE 1931 2 Degree Observer")
         to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
         numpy.testing.assert_almost_equal(
-        map(to_list, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+            map(to_list, color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
             map(to_list, PLANCKIAN_TABLE))
 
 
@@ -195,88 +196,109 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
         self.assertEqual(color.temperature.get_planckian_table_minimal_distance_index(
-        color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+            color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
                          9)
 
 
-class Testuv_to_cct_ohno(unittest.TestCase):
+class Testuv_to_CCT_ohno(unittest.TestCase):
     """
-    Defines :func:`color.temperature.uv_to_cct_ohno` definition units tests methods.
+    Defines :func:`color.temperature.uv_to_CCT_ohno` definition units tests methods.
     """
 
-    def test_uv_to_cct_ohno(self):
+    def test_uv_to_CCT_ohno(self):
         """
-        Tests :func:`color.temperature.uv_to_cct_ohno` definition.
+        Tests :func:`color.temperature.uv_to_CCT_ohno` definition.
         """
 
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
-        numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.1978, 0.3122), cmfs),
+        numpy.testing.assert_almost_equal(color.temperature.uv_to_CCT_ohno((0.1978, 0.3122), cmfs),
                                           (6507.5470349001507, 0.0032236908012382953),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.4328, 0.2883), cmfs),
+        numpy.testing.assert_almost_equal(color.temperature.uv_to_CCT_ohno((0.4328, 0.2883), cmfs),
                                           (1041.8672179878763, -0.067377582642145384),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_ohno((0.2927, 0.2722), cmfs, iterations=4),
+        numpy.testing.assert_almost_equal(color.temperature.uv_to_CCT_ohno((0.2927, 0.2722), cmfs, iterations=4),
                                           (2452.1932942782669, -0.084369982045528508),
                                           decimal=7)
 
 
-class Testcct_to_uv_ohno(unittest.TestCase):
+class TestCCT_to_uv_ohno(unittest.TestCase):
     """
-    Defines :func:`color.temperature.cct_to_uv_ohno` definition units tests methods.
+    Defines :func:`color.temperature.CCT_to_uv_ohno` definition units tests methods.
     """
 
-    def test_cct_to_uv_ohno(self):
+    def test_CCT_to_uv_ohno(self):
         """
-        Tests :func:`color.temperature.cct_to_uv_ohno` definition.
+        Tests :func:`color.temperature.CCT_to_uv_ohno` definition.
         """
 
         cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
             "Standard CIE 1931 2 Degree Observer")
         numpy.testing.assert_almost_equal(
-        color.temperature.cct_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),
+            color.temperature.CCT_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),
             (0.19780034881616862, 0.31220050291046603),
             decimal=7)
         numpy.testing.assert_almost_equal(
-            color.temperature.cct_to_uv_ohno(1041.849524611546, -0.067377582728534946, cmfs),
+            color.temperature.CCT_to_uv_ohno(1041.849524611546, -0.067377582728534946, cmfs),
             (0.43280250331413772, 0.28829975758516474),
             decimal=7)
         numpy.testing.assert_almost_equal(
-            color.temperature.cct_to_uv_ohno(2448.9489053326438, -0.084324704634692743, cmfs),
+            color.temperature.CCT_to_uv_ohno(2448.9489053326438, -0.084324704634692743, cmfs),
             (0.29256616302348853, 0.27221773141874955),
             decimal=7)
 
 
-class Testuv_to_cct_robertson(unittest.TestCase):
+class Testuv_to_CCT_robertson(unittest.TestCase):
     """
-    Defines :func:`color.temperature.uv_to_cct_robertson` definition units tests methods.
+    Defines :func:`color.temperature.uv_to_CCT_robertson` definition units tests methods.
     """
 
-    def test_uv_to_cct_robertson(self):
+    def test_uv_to_CCT_robertson(self):
         """
-        Tests :func:`color.temperature.uv_to_cct_robertson` definition.
+        Tests :func:`color.temperature.uv_to_CCT_robertson` definition.
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
-            numpy.testing.assert_almost_equal(color.temperature.uv_to_cct_robertson(value), key, decimal=0)
+            numpy.testing.assert_almost_equal(color.temperature.uv_to_CCT_robertson(value), key, decimal=0)
 
 
-class Testcct_to_uv_robertson(unittest.TestCase):
+class TestCCT_to_uv_robertson(unittest.TestCase):
     """
-    Defines :func:`color.temperature.cct_to_uv_robertson` definition units tests methods.
+    Defines :func:`color.temperature.CCT_to_uv_robertson` definition units tests methods.
     """
 
-    def test_cct_to_uv_robertson(self):
+    def test_CCT_to_uv_robertson(self):
         """
-        Tests :func:`color.temperature.cct_to_uv_robertson` definition.
+        Tests :func:`color.temperature.CCT_to_uv_robertson` definition.
         """
 
         for i in range(2000, 49501, 2500):
             for j in numpy.arange(-0.05, 0.075, 0.025):
-                numpy.testing.assert_almost_equal(color.temperature.cct_to_uv_robertson(i, j),
+                numpy.testing.assert_almost_equal(color.temperature.CCT_to_uv_robertson(i, j),
                                                   TEMPERATURE_DUV_TO_UV.get((i, j)),
                                                   decimal=7)
+
+
+class TestD_illuminant_CCT_to_xy(unittest.TestCase):
+    """
+    Defines :func:`color.temperature.D_illuminant_CCT_to_xy` definition units tests methods.
+    """
+
+    def test_D_illuminant_CCT_to_xy(self):
+        """
+        Tests :func:`color.temperature.D_illuminant_CCT_to_xy` definition.
+        """
+
+        numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(4000),
+                                          (0.38234362499999996, 0.3837662610155782),
+                                          decimal=7)
+        numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(7000),
+                                          (0.3053574314868805, 0.3216463454745523),
+                                          decimal=7)
+        numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(7000),
+                                          (0.2498536704, 0.25479946421094446),
+                                          decimal=7)
 
 
 if __name__ == "__main__":

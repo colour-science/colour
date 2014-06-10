@@ -60,6 +60,7 @@ _`Highlights`
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
+  -  CIE D-illuminant.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
@@ -127,10 +128,11 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  XYZ to UCS.
+  -  UCS to XYZ.
+  -  UCS to uv.
+  -  UCS uv to xy.
   -  XYZ to UVW.
-  -  UVW to XYZ.
-  -  UVW to uv.
-  -  UVW uv to xy.
   -  XYZ to Luv.
   -  Luv to XYZ.
   -  Luv to uv.
@@ -141,8 +143,9 @@ _`Highlights`
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
-  -  uv to cct, duv.
-  -  cct, duv to uv.
+  -  uv to CCT, Duv.
+  -  CCT, Duv to uv.
+  -  D-illuminant CCT to xy.
 
 Convenience deprecated transformations:
 
@@ -158,7 +161,6 @@ Convenience deprecated transformations:
   -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Correlated color temperature calculation.
 -  Colorspaces derivation.
 -  Color difference calculation with following methods:
 
@@ -167,6 +169,7 @@ Convenience deprecated transformations:
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
+-  Color rendering index calculation.
 -  Color rendition chart data.
 -  Colorspaces visualisation within **Autodesk Maya**.
 -  First order color fit.
