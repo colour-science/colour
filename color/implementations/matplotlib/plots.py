@@ -31,6 +31,7 @@ from copy import deepcopy
 import color.algebra.matrix
 import color.color_checkers
 import color.colorspaces
+import color.cri
 import color.illuminants
 import color.exceptions
 import color.lightness
@@ -55,6 +56,7 @@ __all__ = ["LOGGER",
            "DEFAULT_FIGURE_SIZE",
            "COLOR_PARAMETER",
            "XYZ_to_sRGB",
+           "normalize_RGB",
            "figure_size",
            "aspect",
            "bounding_box",
@@ -87,7 +89,8 @@ __all__ = ["LOGGER",
            "single_transfer_function_plot",
            "multi_transfer_function_plot",
            "blackbody_spectral_radiance_plot",
-           "blackbody_colors_plot"]
+           "blackbody_colors_plot",
+           "color_rendering_index_bars_plot"]
 
 LOGGER = color.verbose.install_logger()
 
@@ -183,6 +186,21 @@ def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
                                             "CAT02",
                                             color.colorspaces.sRGB_COLORSPACE.from_XYZ,
                                             color.colorspaces.sRGB_COLORSPACE.transfer_function)
+
+
+def normalize_RGB(RGB):
+    """
+    Normalizes given *RGB* colorspace values.
+
+    :param RGB: *RGB* colorspace matrix.
+    :type RGB: matrix (3x1)
+    :return: Normalized *RGB* colorspace matrix.
+    :rtype: matrix (3x1)
+    """
+
+    RGB = numpy.ravel(RGB)
+    RGB *= 1. / numpy.max(RGB)
+    return numpy.clip(RGB, 0., 1.)
 
 
 def figure_size(size=DEFAULT_FIGURE_SIZE):
@@ -931,11 +949,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = color.transformations.xy_to_XYZ((i, j))
-                RGB = XYZ_to_sRGB(XYZ, illuminant)
-
-                RGB = numpy.ravel(RGB)
-                RGB *= 1. / numpy.max(RGB)
-                RGB = numpy.clip(RGB, 0, 1)
+                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colors.append(RGB)
 
@@ -1221,11 +1235,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = color.transformations.xy_to_XYZ(color.transformations.UCS_uv_to_xy((i, j)))
-                RGB = XYZ_to_sRGB(XYZ, illuminant)
-
-                RGB = numpy.ravel(RGB)
-                RGB *= 1. / numpy.max(RGB)
-                RGB = numpy.clip(RGB, 0, 1)
+                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colors.append(RGB)
 
@@ -1439,11 +1449,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = color.transformations.xy_to_XYZ(color.transformations.Luv_uv_to_xy((i, j)))
-                RGB = XYZ_to_sRGB(XYZ, illuminant)
-
-                RGB = numpy.ravel(RGB)
-                RGB *= 1. / numpy.max(RGB)
-                RGB = numpy.clip(RGB, 0, 1)
+                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colors.append(RGB)
 
@@ -1803,8 +1809,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     single_spectral_power_distribution_plot(spd, name, **settings)
 
     XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
-    RGB = XYZ_to_sRGB(XYZ)
-    RGB *= 1. / numpy.max(RGB)
+    RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
 
@@ -1860,11 +1865,7 @@ def blackbody_colors_plot(start=1000,
         spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
         XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
-        RGB = XYZ_to_sRGB(XYZ)
-
-        RGB = numpy.ravel(RGB)
-        RGB *= 1. / numpy.max(RGB)
-        RGB = numpy.clip(RGB, 0, 1)
+        RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
         colors.append(RGB)
         temperatures.append(temperature)
@@ -1879,3 +1880,62 @@ def blackbody_colors_plot(start=1000,
     settings.update(kwargs)
     return color_parameters_plot(map(lambda x: color_parameter(x=x[0], RGB=x[1]), zip(temperatures, colors)),
                                  **settings)
+
+
+@figure_size((8, 8))
+def color_rendering_index_bars_plot(illuminant, **kwargs):
+    """
+    Plots the *color rendering index* of given illuminant.
+
+    Usage::
+
+        >>> blackbody_colors_plot()
+        True
+
+    :param illuminant: Illuminant to plot the *color rendering index*.
+    :type illuminant: SpectralPowerDistribution
+    :param \*\*kwargs: Keywords arguments.
+    :type \*\*kwargs: \*\*
+    :return: Definition success.
+    :rtype: bool
+    """
+
+    figure, axis = matplotlib.pyplot.subplots()
+
+    color_rendering_index, color_rendering_indexes, additional_data = color.cri.get_color_rendering_index(illuminant,
+                                                                                                          additional_data=True)
+
+    colors = [[1.] * 3] + map(lambda x: numpy.clip(XYZ_to_sRGB(x.XYZ / 100.), 0., 1.), additional_data[0])
+    x, y = zip(*sorted(color_rendering_indexes.iteritems(), key=lambda x: x[0]))
+    x, y = numpy.array([0] + list(x)), numpy.array([color_rendering_index] + list(y))
+
+    positive = True if numpy.sign(min(y)) in (0, 1) else False
+
+    width = 0.5
+    bars = pylab.bar(x, y, color=colors, width=width)
+    y_ticks_steps = 10
+    pylab.yticks(range(0 if positive else -100, 100 + y_ticks_steps, y_ticks_steps))
+    pylab.xticks(x + width / 2., ["Ra"] + map(lambda index: "R{0}".format(index), x[1:]))
+
+    def label_bars(bars):
+        for bar in bars:
+            y = bar.get_y()
+            height = bar.get_height()
+            value = height if numpy.sign(y) in (0, 1) else -height
+            axis.text(bar.get_x() + bar.get_width() / 2.,
+                      0.025 * height + height + y,
+                      "{0:.1f}".format(value),
+                      ha="center", va="bottom")
+
+    label_bars(bars)
+
+    settings = {"title": "Color Rendering Index - {0}".format(illuminant.name),
+                "grid": True,
+                "x_tighten": True,
+                "y_tighten": True,
+                "limits": [-width, 14 + width * 2., -10. if positive else -110., 110.]}
+    settings.update(kwargs)
+
+    bounding_box(**settings)
+    aspect(**settings)
+    return display(**settings)

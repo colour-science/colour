@@ -2339,3 +2339,8 @@ multi_spectral_power_distribution_plot([ASTM_G_173_spd, blackbody_spd],
 
 # Plotting blackbody colors.
 blackbody_colors_plot()
+
+# Plotting various illuminants *color rendering index*.
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("F2"))
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("F10"))
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("D50"))

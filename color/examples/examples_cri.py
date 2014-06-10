@@ -11,7 +11,7 @@ import color
 print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("F2")))
 
 # Calculating *color rendering index* of *F2* illuminant with detailed data.
-print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("F2"), tsc_data=True))
+print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("F2"), additional_data=True))
 
 # Calculating *color rendering index* of *A* illuminant.
 print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("A")))

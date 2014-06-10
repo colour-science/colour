@@ -122,7 +122,7 @@ def __get_color_rendering_indexes(test_data, reference_data):
     return color_rendering_indexes
 
 
-def get_color_rendering_index(test_spd, tsc_data=False):
+def get_color_rendering_index(test_spd, additional_data=False):
     """
     Returns the *color rendering index* of given spectral power distribution.
 
@@ -136,8 +136,8 @@ def get_color_rendering_index(test_spd, tsc_data=False):
 
     :param test_spd: Test spectral power distribution.
     :type test_spd: SpectralPowerDistribution
-    :param tsc_data: Output additional tsc data.
-    :type tsc_data: bool
+    :param additional_data: Output additional data.
+    :type additional_data: bool
     :return: Color rendering index, Tsc data.
     :rtype: float or (float, dict)
     """
@@ -172,7 +172,7 @@ def get_color_rendering_index(test_spd, tsc_data=False):
     color_rendering_index = numpy.average(
         [v for k, v in color_rendering_indexes.iteritems() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
-    if tsc_data:
+    if additional_data:
         return color_rendering_index, \
                color_rendering_indexes, \
                [test_tcs_colorimetry_data,
