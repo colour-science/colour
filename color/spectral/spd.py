@@ -425,6 +425,25 @@ class SpectralPowerDistribution(object):
                                                               steps)])
         return self
 
+    def align(self, start, end, steps):
+        """
+        Aligns the spectral power distribution to given shape: Interpolates first then extrapolates to fit the given range.
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :param steps: Wavelengths range steps.
+        :type steps: float
+        :return: Aligned spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        self.interpolate(start, end, steps)
+        self.extrapolate(start, end)
+
+        return self
+
     def zeros(self, start=None, end=None, steps=None):
         """
         Zeros fills the spectral power distribution: Missing values will be replaced with zeroes to fit the defined range.
@@ -940,7 +959,7 @@ class AbstractColorMatchingFunctions(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the color matching functions: Values will be linearly interpolated to fit the defined range.
+        Interpolates the color matching functions following *CIE* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -954,6 +973,26 @@ class AbstractColorMatchingFunctions(object):
 
         for i in self.__mapping.keys():
             getattr(self, i).interpolate(start, end, steps)
+
+        return self
+
+    def align(self, start, end, steps):
+        """
+        Aligns the color matching functions to given shape: Interpolates first then extrapolates to fit the given range.
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :param steps: Wavelengths range steps.
+        :type steps: float
+        :return: Aligned color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).interpolate(start, end, steps)
+            getattr(self, i).extrapolate(start, end)
 
         return self
 

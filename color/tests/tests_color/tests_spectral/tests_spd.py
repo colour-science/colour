@@ -1865,6 +1865,7 @@ class TestSpectralDistribution(unittest.TestCase):
                             "is_uniform",
                             "extrapolate",
                             "interpolate",
+                            "align",
                             "zeros")
 
         for method in required_methods:
@@ -1984,6 +1985,17 @@ class TestSpectralDistribution(unittest.TestCase):
         numpy.testing.assert_almost_equal(spd.interpolate(steps=1).values,
                                           INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
 
+    def test_align(self):
+        """
+        Tests :func:`color.spectral.spd.SpectralDistribution.align` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+        shape = (100, 900, 5)
+        self.assertEqual(spd.align(*shape).shape, shape)
+        shape = (600, 650, 1)
+        self.assertEqual(spd.align(*shape).shape, shape)
+
     def test_zeros(self):
         """
         Tests :func:`color.spectral.spd.SpectralDistribution.zeros` method.
@@ -2028,6 +2040,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                             "is_uniform",
                             "extrapolate",
                             "interpolate",
+                            "align",
                             "zeros")
 
         for method in required_methods:
@@ -2196,16 +2209,14 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.extrapolate` method.
         """
 
-        mapping = {"x": "x_bar",
-                   "y": "y_bar",
-                   "z": "z_bar"}
-
         spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
         cmfs = AbstractColorMatchingFunctions(name="",
-                                              mapping=mapping,
-                                              cmfs={"x_bar": copy.deepcopy(spd_data),
-                                                    "y_bar": copy.deepcopy(spd_data),
-                                                    "z_bar": copy.deepcopy(spd_data)},
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs={"x_bar": spd_data,
+                                                    "y_bar": spd_data,
+                                                    "z_bar": spd_data},
                                               labels={"x": "x_bar",
                                                       "y": "y_bar",
                                                       "z": "z_bar"})
@@ -2254,6 +2265,27 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         cmfs.interpolate(steps=1)
         for i in sorted(mapping.iterkeys()):
             numpy.testing.assert_almost_equal(getattr(cmfs, i).values, INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
+
+    def test_align(self):
+        """
+        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.align` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs={"x_bar": SAMPLE_SPD_DATA,
+                                                    "y_bar": SAMPLE_SPD_DATA,
+                                                    "z_bar": SAMPLE_SPD_DATA},
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        shape = (100, 900, 5)
+        self.assertEqual(cmfs.align(*shape).shape, shape)
+        shape = (600, 650, 1)
+        self.assertEqual(cmfs.align(*shape).shape, shape)
 
     def test_zeros(self):
         """
@@ -2313,6 +2345,7 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
         required_methods = ("get",
                             "extrapolate",
                             "interpolate",
+                            "align",
                             "zeros")
 
         for method in required_methods:
@@ -2354,6 +2387,7 @@ class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
         required_methods = ("get",
                             "extrapolate",
                             "interpolate",
+                            "align",
                             "zeros")
 
         for method in required_methods:
