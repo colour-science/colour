@@ -56,7 +56,7 @@ Highlights:
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
-  -  CIE D-illuminant.
+  -  CIE D-illuminant implementation.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.

@@ -19,6 +19,8 @@ Functions
 
 .. autofunction:: XYZ_to_sRGB
 
+.. autofunction:: normalize_RGB
+
 .. autofunction:: figure_size
 
 .. autofunction:: aspect
@@ -84,4 +86,6 @@ Functions
 .. autofunction:: blackbody_spectral_radiance_plot
 
 .. autofunction:: blackbody_colors_plot
+
+.. autofunction:: color_rendering_index_bars_plot
 

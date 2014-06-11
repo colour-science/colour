@@ -39,11 +39,9 @@ Modules Summary:
    color.colorspaces.srgb <api/color.colorspaces.srgb>
    color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
    color.cri <api/color.cri>
-   color.data_structures <api/color.data_structures>
    color.deprecated <api/color.deprecated>
    color.derivation <api/color.derivation>
    color.difference <api/color.difference>
-   color.exceptions <api/color.exceptions>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
    color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
@@ -62,4 +60,7 @@ Modules Summary:
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
    color.utilities.common <api/color.utilities.common>
-   color.verbose <api/color.verbose>
+   color.utilities.data_structures <api/color.utilities.data_structures>
+   color.utilities.decorators <api/color.utilities.decorators>
+   color.utilities.exceptions <api/color.utilities.exceptions>
+   color.utilities.verbose <api/color.utilities.verbose>
