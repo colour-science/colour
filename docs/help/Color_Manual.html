@@ -216,6 +216,8 @@
 						</ul>
 					</blockquote>
 					<ul class="simple">
+						<li>Color rendition charts spectral data.
+						</li>
 						<li>Photopic &amp; Scotopic luminous efficiency functions spectral data:
 							<ul>
 								<li>CIE 1924 2 Degree Observer
@@ -241,6 +243,8 @@
 							</li>
 							<li>Yoshi Ohno method implementation.
 							</li>
+							<li>CIE D-illuminant.
+							</li>
 						</ul>
 					</blockquote>
 					<ul class="simple">
@@ -249,6 +253,8 @@
 						<li>Blackbody spectral radiance calculation.
 						</li>
 						<li>Spectral bandpass correction.
+						</li>
+						<li>Sprague interpolation.
 						</li>
 						<li>Chromatic adaptation with following methods:
 						</li>
@@ -356,7 +362,7 @@
 						</ul>
 					</blockquote>
 					<ul class="simple">
-						<li>Colorspaces transformation and conversion:
+						<li>Colorspaces transformations:
 						</li>
 					</ul>
 					<blockquote>
@@ -381,13 +387,15 @@
 							</li>
 							<li>RGB to xyY.
 							</li>
+							<li>XYZ to UCS.
+							</li>
+							<li>UCS to XYZ.
+							</li>
+							<li>UCS to uv.
+							</li>
+							<li>UCS uv to xy.
+							</li>
 							<li>XYZ to UVW.
-							</li>
-							<li>UVW to XYZ.
-							</li>
-							<li>UVW to uv.
-							</li>
-							<li>UVW uv to xy.
 							</li>
 							<li>XYZ to Luv.
 							</li>
@@ -409,6 +417,19 @@
 							</li>
 							<li>LCHab to Lab.
 							</li>
+							<li>uv to CCT, Duv.
+							</li>
+							<li>CCT, Duv to uv.
+							</li>
+							<li>D-illuminant CCT to xy.
+							</li>
+						</ul>
+					</blockquote>
+					<p>
+						Convenience deprecated transformations:
+					</p>
+					<blockquote>
+						<ul class="simple">
 							<li>RGB to HSV.
 							</li>
 							<li>HSV to RGB.
@@ -419,22 +440,20 @@
 							</li>
 							<li>RGB to CMY.
 							</li>
+							<li>CMY to RGB.
+							</li>
 							<li>CMY to CMYK.
 							</li>
 							<li>CMYK to CMY.
 							</li>
-							<li>CMY to RGB.
+							<li>RGB to HEX.
 							</li>
-							<li>uv to cct, duv.
-							</li>
-							<li>cct, duv to uv.
+							<li>HEX to RGB.
 							</li>
 						</ul>
 					</blockquote>
 					<ul class="simple">
 						<li>Illuminants chromaticity coordinates data.
-						</li>
-						<li>Correlated color temperature calculation.
 						</li>
 						<li>Colorspaces derivation.
 						</li>
@@ -454,6 +473,8 @@
 						</ul>
 					</blockquote>
 					<ul class="simple">
+						<li>Color rendering index calculation.
+						</li>
 						<li>Color rendition chart data.
 						</li>
 						<li>Colorspaces visualisation within <strong>Autodesk Maya</strong>.
@@ -547,38 +568,54 @@ python setup.py install
 					<span class="target" id="references">References</span>
 				</h1>
 				<p>
-					Wyszecki &amp; Stiles, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
+					<strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
 				</p>
 				<p>
-					Stephen Westland, Caterina Ripamonti, Vien Cheung, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
+					<strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
 				</p>
 				<p>
-					Edward J. Giorgianni &amp; Thomas E. Madden, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+					<strong>Edward J. Giorgianni &amp; Thomas E. Madden</strong>, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley, published November 2008, ISBN: 978-0-470-99436-8
 				</p>
 				<p>
-					Charles Poynton, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
+					<strong>Charles Poynton</strong>, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
 				</p>
 				<p>
-					Charles Poynton, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
+					<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
 				</p>
 				<p>
-					Charles Poynton, <a class="reference external" href="http://www.poynton.com/GammaFAQ.html">Gamma FAQ</a>
+					<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/GammaFAQ.html">Gamma FAQ</a>
 				</p>
+				<div class="section" id="algebra">
+					<h2>
+						Algebra
+					</h2>
+					<p>
+						<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=47">Sprague Interpolation</a>, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 33. (Last accessed 28 May 2014)
+					</p>
+				</div>
 				<div class="section" id="chromatic-adaptation">
 					<h2>
 						Chromatic Adaptation
 					</h2>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling Chromatic Adaptation</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling Chromatic Adaptation</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford Chromatic Adaptation</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford Chromatic Adaptation</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries Chromatic Adaptation</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries Chromatic Adaptation</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
 						<a class="reference external" href="http://en.wikipedia.org/wiki/CIECAM02#CAT0">CAT02 Chromatic Adaptation</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="color-rendering-index">
+					<h2>
+						Color Rendering Index
+					</h2>
+					<p>
+						<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls">Color Rendering Index</a> (Last accessed 10 June 2014)
 					</p>
 				</div>
 				<div class="section" id="color-rendition-charts">
@@ -587,6 +624,9 @@ python setup.py install
 					</h2>
 					<p>
 						<a class="reference external" href="http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls">Babel Color ColorChecker RGB and Spectral Data</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<strong>N. Ohta</strong>, <a class="reference external" href="http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls">ColorChecker Spectral Data</a> (Last accessed 9 June 2014)
 					</p>
 				</div>
 				<div class="section" id="colorspace-derivation">
@@ -602,16 +642,16 @@ python setup.py install
 						Color Difference
 					</h2>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE 1976</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE76.html">ΔE CIE 1976</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE 1994</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE94.html">ΔE CIE 1994</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE 2000</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html">ΔE CIE 2000</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_DeltaE_CMC.html">ΔE CMC</a> (Last accessed 24 February 2014)
 					</p>
 				</div>
 				<div class="section" id="color-matching-functions">
@@ -725,7 +765,7 @@ python setup.py install
 						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">F12</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a> (Last accessed 5 April 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_DIlluminant.html">D60</a> (Last accessed 5 April 2014)
 					</p>
 				</div>
 				<div class="section" id="illuminants-chromaticity-coordinates">
@@ -771,7 +811,7 @@ python setup.py install
 						<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1964</a> (Last accessed 13 April 2014)
 					</p>
 					<p>
-						Charles Poynton, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
+						<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
 					</p>
 				</div>
 				<div class="section" id="luminous-efficiency-functions">
@@ -902,10 +942,13 @@ python setup.py install
 						Spectral
 					</h2>
 					<p>
-						Spectral to XYZ, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 158.
+						<strong>Spectral to XYZ</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 158.
 					</p>
 					<p>
-						Spectral Bandpass Correction, Stearns, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 38.
+						<strong>Spectral Bandpass Correction</strong>, Stearns, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 38.
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf">Extrapolation</a> (Last accessed 28 May 2014)
 					</p>
 				</div>
 				<div class="section" id="temperature">
@@ -913,7 +956,10 @@ python setup.py install
 						Temperature
 					</h2>
 					<p>
-						Yoshi Ohno, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
+						<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
+					</p>
+					<p>
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_T_to_xy.html">D-illuminant CCT to xy</a> (Last accessed 10 June 2014)
 					</p>
 				</div>
 				<div class="section" id="transformations">
@@ -921,28 +967,31 @@ python setup.py install
 						Transformations
 					</h2>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html">XYZ to xyY</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html">XYZ to xyY</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html">xyY to XYZ</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html">xyY to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to UVW</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">XYZ to UCS</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to XYZ</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW to uv</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS to uv</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UVW uv to xy</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ">UCS uv to xy</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_XYZ_to_Luv.html">XYZ to Luv</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://en.wikipedia.org/wiki/CIE_1964_color_space">XYZ to UVW</a> (Last accessed 10 June 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://brucelindbloom.com/Eqn_Luv_to_XYZ.html">Luv to XYZ</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_XYZ_to_Luv.html">XYZ to Luv</a> (Last accessed 24 February 2014)
+					</p>
+					<p>
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_Luv_to_XYZ.html">Luv to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
 						<a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation">Luv to uv</a> (Last accessed 24 February 2014)
@@ -951,27 +1000,27 @@ python setup.py install
 						<a class="reference external" href="http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation">Luv uv to xy</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html">Luv to LCHuv</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html">Luv to LCHuv</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html">LCHuv to Luv</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html">LCHuv to Luv</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html">XYZ to Lab</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html">XYZ to Lab</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html">Lab to XYZ</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html">Lab to XYZ</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html">Lab to LCHab</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html">Lab to LCHab</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						Bruce Lindbloom, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to Lab</a> (Last accessed 24 February 2014)
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to Lab</a> (Last accessed 24 February 2014)
 					</p><br />
 					<!-- .about -->
 				</div>
 			</div>
-			<div class="section" id="id12">
+			<div class="section" id="id13">
 				<h1>
 					<span class="target" id="about">About</span>
 				</h1>

@@ -17,13 +17,15 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import color.derivation
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,7 +43,7 @@ __all__ = ["LOGGER",
            "C_LOG_INVERSE_TRANSFER_FUNCTION",
            "C_LOG_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 # Assuming *sRGB* / *Rec. 709* primaries.

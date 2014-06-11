@@ -17,13 +17,15 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
-import color.data_structures
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.data_structures
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -53,7 +55,7 @@ __all__ = ["ACES_RGB_PRIMARIES",
            "ACES_RGB_PROXY_10_COLORSPACE",
            "ACES_RGB_PROXY_12_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.oscars.org/science-technology/council/projects/aces.html
 # http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf: 4.1.2 Color space chromaticities
@@ -83,7 +85,7 @@ ACES_RGB_COLORSPACE = Colorspace("ACES RGB",
                                  ACES_RGB_TRANSFER_FUNCTION,
                                  ACES_RGB_INVERSE_TRANSFER_FUNCTION)
 
-ACES_RGB_LOG_CONSTANTS = color.data_structures.Structure(log_unity=32768,
+ACES_RGB_LOG_CONSTANTS = color.utilities.data_structures.Structure(log_unity=32768,
                                                          log_xperstop=2048,
                                                          denorm_trans=math.pow(2., -15),
                                                          denorm_fake0=math.pow(2., -16))
@@ -148,13 +150,13 @@ ACES_RGB_LOG_COLORSPACE = Colorspace("ACES RGB Log",
                                      ACES_RGB_LOG_TRANSFER_FUNCTION,
                                      ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
 
-ACES_RGB_PROXY_10_CONSTANTS = color.data_structures.Structure(CV_min=0.,
+ACES_RGB_PROXY_10_CONSTANTS = color.utilities.data_structures.Structure(CV_min=0.,
                                                               CV_max=1023.,
                                                               steps_per_stop=50.,
                                                               mid_CV_offset=425.,
                                                               mid_log_offset=-2.5)
 
-ACES_RGB_PROXY_12_CONSTANTS = color.data_structures.Structure(CV_min=0.,
+ACES_RGB_PROXY_12_CONSTANTS = color.utilities.data_structures.Structure(CV_min=0.,
                                                               CV_max=4095.,
                                                               steps_per_stop=200.,
                                                               mid_CV_offset=1700.,

@@ -27,3 +27,7 @@ Functions
 
 .. autofunction:: CMYK_to_CMY
 
+.. autofunction:: RGB_to_HEX
+
+.. autofunction:: HEX_to_RGB
+

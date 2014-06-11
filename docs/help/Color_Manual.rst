@@ -77,6 +77,7 @@ _`Highlights`
   -  F11
   -  F12
 
+- Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 2 Degree Observer
@@ -90,10 +91,12 @@ _`Highlights`
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
+  -  CIE D-illuminant implementation.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
 -  Spectral bandpass correction.
+-  Sprague interpolation.
 -  Chromatic adaptation with following methods:
 
   -  XYZ Scaling.
@@ -144,7 +147,7 @@ _`Highlights`
   -  Xtreme RGB
   -  sRGB
 
--  Colorspaces transformation and conversion:
+-  Colorspaces transformations:
 
   -  Wavelength to XYZ.
   -  Spectral to XYZ.
@@ -156,10 +159,11 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  XYZ to UCS.
+  -  UCS to XYZ.
+  -  UCS to uv.
+  -  UCS uv to xy.
   -  XYZ to UVW.
-  -  UVW to XYZ.
-  -  UVW to uv.
-  -  UVW uv to xy.
   -  XYZ to Luv.
   -  Luv to XYZ.
   -  Luv to uv.
@@ -170,19 +174,24 @@ _`Highlights`
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
+  -  uv to CCT, Duv.
+  -  CCT, Duv to uv.
+  -  D-illuminant CCT to xy.
+
+Convenience deprecated transformations:
+
   -  RGB to HSV.
   -  HSV to RGB.
   -  RGB to HSL.
   -  HSL to RGB.
   -  RGB to CMY.
+  -  CMY to RGB.
   -  CMY to CMYK.
   -  CMYK to CMY.
-  -  CMY to RGB.
-  -  uv to cct, duv.
-  -  cct, duv to uv.
+  -  RGB to HEX.
+  -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Correlated color temperature calculation.
 -  Colorspaces derivation.
 -  Color difference calculation with following methods:
 
@@ -191,6 +200,7 @@ _`Highlights`
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
+-  Color rendering index calculation.
 -  Color rendition chart data.
 -  Colorspaces visualisation within **Autodesk Maya**.
 -  First order color fit.
@@ -272,34 +282,46 @@ _`Acknowledgements`
 _`References`
 =============
 
-Wyszecki & Stiles, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
+**Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
 
-Stephen Westland, Caterina Ripamonti, Vien Cheung, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
+**Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
 
-Edward J. Giorgianni & Thomas E. Madden, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN: 978-0-470-99436-8
 
-Charles Poynton, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
+**Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
 
-Charles Poynton, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
+**Charles Poynton**, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
-Charles Poynton, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
+**Charles Poynton**, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
+
+Algebra
+-------
+
+`Sprague Interpolation <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 33. (Last accessed 28 May 2014)
 
 
 Chromatic Adaptation
 --------------------
 
-Bruce Lindbloom, `XYZ Scaling Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `XYZ Scaling Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `Bradford Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `Bradford Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 
 `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
+
+Color Rendering Index
+---------------------
+
+**Yoshi Ohno**, `Color Rendering Index <http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls>`_ (Last accessed 10 June 2014)
 
 Color Rendition Charts
 ----------------------
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
+
+**N. Ohta**, `ColorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
 
 Colorspace Derivation
 ---------------------
@@ -309,13 +331,13 @@ Colorspace Derivation
 Color Difference
 ----------------
 
-Bruce Lindbloom, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `ΔE CIE 1994 <http://brucelindbloom.com/Eqn_DeltaE_CIE94.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `ΔE CIE 1994 <http://brucelindbloom.com/Eqn_DeltaE_CIE94.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `ΔE CIE 2000 <http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `ΔE CIE 2000 <http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
 
 Color Matching Functions
 ------------------------
@@ -390,7 +412,7 @@ Illuminants Relative Spectral Power Distributions
 
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+**Bruce Lindbloom**, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
 
 Illuminants Chromaticity Coordinates
 ------------------------------------
@@ -420,7 +442,7 @@ Luminance, Munsell value, Lightness
 
 `Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 
-Charles Poynton, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+**Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
 
 Luminous Efficiency Functions
 -----------------------------
@@ -506,49 +528,55 @@ RGB Colorspaces
 Spectral
 --------
 
-Spectral to XYZ, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
+**Spectral to XYZ**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
-Spectral Bandpass Correction, Stearns, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+**Spectral Bandpass Correction**, Stearns, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+
+`Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_ (Last accessed 28 May 2014)
 
 Temperature
 -----------
 
-Yoshi Ohno, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
+**Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
+
+**Bruce Lindbloom**, `D-illuminant CCT to xy <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 10 June 2014)
 
 Transformations
 ---------------
 
-Bruce Lindbloom, `XYZ to xyY <http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `XYZ to xyY <http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `xyY to XYZ <http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `xyY to XYZ <http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html>`_ (Last accessed 24 February 2014)
 
-`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`XYZ to UCS <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to XYZ <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS to uv <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-`UVW uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
+`UCS uv to xy <http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `XYZ to Luv <http://brucelindbloom.com/Eqn_XYZ_to_Luv.html>`_ (Last accessed 24 February 2014)
+`XYZ to UVW <http://en.wikipedia.org/wiki/CIE_1964_color_space>`_ (Last accessed 10 June 2014)
 
-Bruce Lindbloom, `Luv to XYZ <http://brucelindbloom.com/Eqn_Luv_to_XYZ.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `XYZ to Luv <http://brucelindbloom.com/Eqn_XYZ_to_Luv.html>`_ (Last accessed 24 February 2014)
+
+**Bruce Lindbloom**, `Luv to XYZ <http://brucelindbloom.com/Eqn_Luv_to_XYZ.html>`_ (Last accessed 24 February 2014)
 
 `Luv to uv <http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation>`_ (Last accessed 24 February 2014)
 
 `Luv uv to xy <http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `Luv to LCHuv <http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `Luv to LCHuv <http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `LCHuv to Luv <http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `LCHuv to Luv <http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `XYZ to Lab <http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `XYZ to Lab <http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 
-Bruce Lindbloom, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
+**Bruce Lindbloom**, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
 
 .. raw:: html
 

@@ -17,13 +17,15 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import color.derivation
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -43,7 +45,7 @@ __all__ = ["LOGGER",
            "ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION",
            "ALEXA_WIDE_GAMUT_RGB_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.arri.com/?eID=registration&file_uid=8026
 ALEXA_LOG_C_CURVE_BCL_DATA = {"SUP 3.x": {160: (0.0928, 0.8128),

@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -36,7 +36,7 @@ __all__ = ["LOGGER",
            "CHROMATIC_ADAPTATION_METHODS",
            "get_chromatic_adaptation_matrix"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
 XYZ_SCALING_MATRIX = numpy.matrix(numpy.identity(3)).reshape((3, 3))
@@ -78,19 +78,19 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
             [ 0.0080207 ,  0.02826367,  3.06023196]])
 
     :param XYZ1: *CIE XYZ* source matrix.
-    :type XYZ1: Matrix (3x1)
+    :type XYZ1: matrix (3x1)
     :param XYZ2: *CIE XYZ* target matrix.
-    :type XYZ2: Matrix (3x1)
+    :type XYZ2: matrix (3x1)
     :param method: Chromatic adaptation method.
     :type method: unicode
     :return: Chromatic adaptation matrix.
-    :rtype: Matrix (3x3)
+    :rtype: matrix (3x3)
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)
 
     if method_matrix is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "'{0}' chromatic adaptation method is not defined! Supported methods: '{1}'.".format(method,
                                                                                                  CHROMATIC_ADAPTATION_METHODS.keys()))
 
@@ -101,6 +101,6 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
                                         pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
     cat = method_matrix.getI() * crd * method_matrix
 
-    LOGGER.debug("Chromatic adaptation matrix:\n{0}".format(repr(cat)))
+    LOGGER.debug("> Chromatic adaptation matrix:\n{0}".format(repr(cat)))
 
     return cat

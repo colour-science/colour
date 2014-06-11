@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -31,7 +31,7 @@ __all__ = ["LOGGER",
            "xy_to_z",
            "get_normalized_primary_matrix"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def xy_to_z(xy):
@@ -70,7 +70,7 @@ def get_normalized_primary_matrix(primaries, whitepoint):
             [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
 
     :param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-    :type primaries: Matrix
+    :type primaries: matrix
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: Normalized primary matrix.
@@ -93,9 +93,9 @@ def get_normalized_primary_matrix(primaries, whitepoint):
 
     npm = primaries * coefficients
 
-    LOGGER.debug("Transposed primaries:\n{0}".format(repr(primaries)))
-    LOGGER.debug("Whitepoint:\n{0}".format(repr(whitepoint)))
-    LOGGER.debug("Coefficients:\n{0}".format(repr(coefficients)))
-    LOGGER.debug("Normalized primary matrix':\n{0}".format(repr(npm)))
+    LOGGER.debug("> Transposed primaries:\n{0}".format(repr(primaries)))
+    LOGGER.debug("> Whitepoint:\n{0}".format(repr(whitepoint)))
+    LOGGER.debug("> Coefficients:\n{0}".format(repr(coefficients)))
+    LOGGER.debug("> Normalized primary matrix':\n{0}".format(repr(npm)))
 
     return npm

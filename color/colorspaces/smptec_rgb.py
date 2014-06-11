@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import numpy
 
 import color.derivation
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
 
 __author__ = "Thomas Mansencal"
@@ -40,7 +40,7 @@ __all__ = ["LOGGER",
            "SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION",
            "SMPTE_C_RGB_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
 SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,

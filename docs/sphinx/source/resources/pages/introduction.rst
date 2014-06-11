@@ -46,6 +46,7 @@ _`Highlights`
   -  F11
   -  F12
 
+- Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 2 Degree Observer
@@ -59,10 +60,12 @@ _`Highlights`
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
+  -  CIE D-illuminant.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.
 -  Spectral bandpass correction.
+-  Sprague interpolation.
 -  Chromatic adaptation with following methods:
 
   -  XYZ Scaling.
@@ -113,7 +116,7 @@ _`Highlights`
   -  Xtreme RGB
   -  sRGB
 
--  Colorspaces transformation and conversion:
+-  Colorspaces transformations:
 
   -  Wavelength to XYZ.
   -  Spectral to XYZ.
@@ -125,10 +128,11 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  XYZ to UCS.
+  -  UCS to XYZ.
+  -  UCS to uv.
+  -  UCS uv to xy.
   -  XYZ to UVW.
-  -  UVW to XYZ.
-  -  UVW to uv.
-  -  UVW uv to xy.
   -  XYZ to Luv.
   -  Luv to XYZ.
   -  Luv to uv.
@@ -139,19 +143,24 @@ _`Highlights`
   -  Lab to XYZ.
   -  Lab to LCHab.
   -  LCHab to Lab.
+  -  uv to CCT, Duv.
+  -  CCT, Duv to uv.
+  -  D-illuminant CCT to xy.
+
+Convenience deprecated transformations:
+
   -  RGB to HSV.
   -  HSV to RGB.
   -  RGB to HSL.
   -  HSL to RGB.
   -  RGB to CMY.
+  -  CMY to RGB.
   -  CMY to CMYK.
   -  CMYK to CMY.
-  -  CMY to RGB.
-  -  uv to cct, duv.
-  -  cct, duv to uv.
+  -  RGB to HEX.
+  -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Correlated color temperature calculation.
 -  Colorspaces derivation.
 -  Color difference calculation with following methods:
 
@@ -160,6 +169,7 @@ _`Highlights`
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
+-  Color rendering index calculation.
 -  Color rendition chart data.
 -  Colorspaces visualisation within **Autodesk Maya**.
 -  First order color fit.

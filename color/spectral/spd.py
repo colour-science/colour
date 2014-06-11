@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -16,11 +16,17 @@
 
 from __future__ import unicode_literals
 
+import copy
 import itertools
+import math
+
 import numpy
 
-import color.exceptions
-import color.verbose
+import color.utilities.common
+import color.utilities.exceptions
+import color.utilities.verbose
+from color.algebra.interpolation import SpragueInterpolator
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -35,7 +41,7 @@ __all__ = ["LOGGER",
            "RGB_ColorMatchingFunctions",
            "XYZ_ColorMatchingFunctions"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 class SpectralPowerDistribution(object):
@@ -47,9 +53,9 @@ class SpectralPowerDistribution(object):
         """
         Initializes the class.
 
-        :param name: Spectral distribution name.
+        :param name: Spectral power distribution name.
         :type name: str or unicode
-        :param spd: Spectral distribution.
+        :param spd: Spectral power distribution data.
         :type spd: dict
         """
 
@@ -90,7 +96,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__name** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
@@ -124,7 +130,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__spd** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "spd"))
 
     @property
@@ -147,7 +153,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @wavelengths.deleter
@@ -156,7 +162,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__wavelengths** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
 
     @property
@@ -179,7 +185,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @values.deleter
@@ -188,7 +194,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__values** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
 
     @property
@@ -200,8 +206,7 @@ class SpectralPowerDistribution(object):
         :rtype: tuple
         """
 
-        wavelengths = self.wavelengths
-        steps = set([wavelengths[i + 1] - wavelengths[i] for i in range(len(wavelengths) - 1)])
+        steps = color.utilities.common.get_steps(self.wavelengths)
         return min(self.spd.keys()), max(self.spd.keys()), min(steps)
 
     @shape.setter
@@ -213,7 +218,7 @@ class SpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     @shape.deleter
@@ -222,7 +227,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__shape** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
@@ -253,7 +258,7 @@ class SpectralPowerDistribution(object):
         """
         Reimplements the :meth:`object.__iter__` method.
 
-        :return: Spectral distribution iterator.
+        :return: Spectral power distribution iterator.
         :rtype: object
         """
 
@@ -298,9 +303,47 @@ class SpectralPowerDistribution(object):
         except KeyError as error:
             return default
 
-    def resample(self, start=None, end=None, steps=None):
+    def is_uniform(self):
         """
-        Resamples the spectral power distribution: Values will be linearly interpolated to fit the defined range.
+        Returns if the spectral power distribution has uniformly spaced data.
+
+        :return: Is uniform.
+        :rtype: bool
+        """
+
+        return color.utilities.common.is_uniform(self.wavelengths)
+
+    def extrapolate(self, start, end):
+        """
+        Extrapolates the spectral power distribution according to *CIE 15:2004* recommendation.
+
+        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :return: Extrapolated spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        start_wavelength, end_wavelength, steps = self.shape
+
+        minimum, maximum = self.get(start_wavelength), self.get(end_wavelength)
+        for i in numpy.arange(start_wavelength, start - steps, -steps):
+            self[i] = minimum
+        for i in numpy.arange(end_wavelength, end + steps, steps):
+            self[i] = maximum
+
+        return self
+
+    def interpolate(self, start=None, end=None, steps=None, interpolator=None):
+        """
+        Interpolates the spectral power distribution following *CIE* recommendations: the method developed
+        by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable and
+        a *Cubic Spline* method for non-uniformly spaced independent variable.
+
+        Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=47
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -308,16 +351,99 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resampled spectral power distribution.
+        :param interpolator: Interpolator to enforce usage.
+        :type interpolator: unicode ("Sprague", "Cubic Spline", "Linear")
+        :return: Interpolated spectral power distribution.
+        :rtype: SpectralPowerDistribution
+
+        :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced independent variable.
+        :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+        """
+
+        shape_start, shape_end, shape_steps = self.shape
+        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps),
+                                                                                  (
+                                                                                      shape_start, shape_end,
+                                                                                      shape_steps)))
+
+        if shape_steps != steps:
+            wavelengths, values = self.wavelengths, self.values
+
+            is_uniform = self.is_uniform()
+            # Initialising *Sprague* interpolant.
+            if is_uniform:
+                sprague_interpolator = SpragueInterpolator(wavelengths, values)
+                sprague_interpolant = lambda x: sprague_interpolator(x)
+            else:
+                sprague_interpolant = sprague_interpolator = None
+
+            # Initialising *Linear* interpolant.
+            linear_interpolant = lambda x: numpy.interp(x, wavelengths, values)
+
+            # Initialising *Cubic Spline* interpolant.
+            try:
+                from scipy.interpolate import interp1d
+
+                spline_interpolator = interp1d(wavelengths, values, kind="cubic")
+                spline_interpolant = lambda x: spline_interpolator(x)
+            except ImportError as error:
+                LOGGER.warning(
+                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                        self.__class__.__name__))
+                spline_interpolant,  spline_interpolator = linear_interpolant, None
+
+            # Defining proper interpolation bounds.
+            # TODO: Provide support for fractional steps like 0.1, etc...
+            shape_start, shape_end = math.ceil(shape_start), math.floor(shape_end)
+
+            if interpolator is None:
+                if is_uniform:
+                    interpolant = sprague_interpolant
+                else:
+                    interpolant = spline_interpolant
+            elif interpolator == "Sprague":
+                if is_uniform:
+                    interpolant = sprague_interpolant
+                else:
+                    raise color.utilities.exceptions.ProgrammingError(
+                        "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
+                            self.__class__.__name__))
+            elif interpolator == "Cubic Spline":
+                interpolant = spline_interpolant
+            elif interpolator == "Linear":
+                interpolant = linear_interpolant
+            else:
+                raise color.utilities.exceptions.ProgrammingError(
+                        "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
+
+            LOGGER.debug(
+                "> {0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
+                                                                                          self.name,
+                                                                                          (shape_start, shape_end,
+                                                                                           steps)))
+
+            self.__spd = dict([(wavelength, interpolant(wavelength))
+                               for wavelength in numpy.arange(max(start, shape_start),
+                                                              min(end, shape_end) + steps,
+                                                              steps)])
+        return self
+
+    def align(self, start, end, steps):
+        """
+        Aligns the spectral power distribution to given shape: Interpolates first then extrapolates to fit the given range.
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :param steps: Wavelengths range steps.
+        :type steps: float
+        :return: Aligned spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
-
-        wavelengths, values = zip(*[(wavelength, value) for wavelength, value in self])
-
-        self.__spd = dict([(wavelength, numpy.interp(wavelength, wavelengths, values, 0., 0.))
-                           for wavelength in numpy.arange(start, end + steps, steps)])
+        self.interpolate(start, end, steps)
+        self.extrapolate(start, end)
 
         return self
 
@@ -331,7 +457,7 @@ class SpectralPowerDistribution(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Filled spectral power distribution.
+        :return: Zeros filled spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -342,6 +468,15 @@ class SpectralPowerDistribution(object):
 
         return self
 
+    def clone(self):
+        """
+        Clones the spectral power distribution.
+
+        :return: Cloned spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        return copy.deepcopy(self)
 
 class AbstractColorMatchingFunctions(object):
     """
@@ -391,7 +526,7 @@ class AbstractColorMatchingFunctions(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or'unicode'!".format(
+            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
                 "name", value)
         self.__name = value
 
@@ -401,7 +536,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__name** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
@@ -437,7 +572,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__mapping** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
@@ -491,7 +626,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__cmfs** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "cmfs"))
 
     @property
@@ -527,7 +662,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__labels** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
 
     @property
@@ -550,7 +685,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
 
     @x.deleter
@@ -559,7 +694,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__x** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
 
     @property
@@ -582,7 +717,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
 
     @y.deleter
@@ -591,7 +726,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__y** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     @property
@@ -614,7 +749,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
 
     @z.deleter
@@ -623,7 +758,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__z** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z"))
 
     @property
@@ -646,7 +781,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @wavelengths.deleter
@@ -655,7 +790,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__wavelengths** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
 
     @property
@@ -678,7 +813,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @values.deleter
@@ -687,7 +822,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__values** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
 
     @property
@@ -710,7 +845,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: tuple
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     @shape.deleter
@@ -719,7 +854,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__shape** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
@@ -729,10 +864,10 @@ class AbstractColorMatchingFunctions(object):
         :param wavelength: Wavelength.
         :type wavelength: float
         :return: Value.
-        :rtype: float
+        :rtype: ndarray
         """
 
-        return self.x[wavelength], self.y[wavelength], self.z[wavelength]
+        return numpy.array((self.x[wavelength], self.y[wavelength], self.z[wavelength]))
 
     def __setitem__(self, key, value):
         """
@@ -785,6 +920,19 @@ class AbstractColorMatchingFunctions(object):
 
         return len(self.x)
 
+    def is_uniform(self):
+        """
+        Returns if the color matching functions have uniformly spaced data.
+
+        :return: Is uniform.
+        :rtype: bool
+        """
+
+        for i in self.__mapping.keys():
+            if not getattr(self, i).is_uniform():
+                return False
+        return True
+
     def get(self, wavelength, default=None):
         """
         Returns given wavelength value.
@@ -802,9 +950,28 @@ class AbstractColorMatchingFunctions(object):
         except KeyError as error:
             return default
 
-    def resample(self, start=None, end=None, steps=None):
+    def extrapolate(self, start=None, end=None):
         """
-        Resamples the color matching functions: Values will be linearly interpolated to fit the defined range.
+        Extrapolates the color matching functions according to *CIE 15:2004* recommendation.
+
+        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :return: Extrapolated color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).extrapolate(start, end)
+
+        return self
+
+    def interpolate(self, start=None, end=None, steps=None):
+        """
+        Interpolates the color matching functions following *CIE* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -812,18 +979,38 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Resampled color matching functions.
+        :return: Interpolated color matching functions.
         :rtype: AbstractColorMatchingFunctions
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).resample(start, end, steps)
+            getattr(self, i).interpolate(start, end, steps)
+
+        return self
+
+    def align(self, start, end, steps):
+        """
+        Aligns the color matching functions to given shape: Interpolates first then extrapolates to fit the given range.
+
+        :param start: Wavelengths range start in nm.
+        :type start: float
+        :param end: Wavelengths range end in nm.
+        :type end: float
+        :param steps: Wavelengths range steps.
+        :type steps: float
+        :return: Aligned color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).interpolate(start, end, steps)
+            getattr(self, i).extrapolate(start, end)
 
         return self
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the color matching functions: Missing values will be replaced with zeroes to fit the defined range.
+        Zeros fills the color matching functions: Missing values will be replaced with zeros to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -831,7 +1018,7 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Filled color matching functions.
+        :return: Zeros filled color matching functions.
         :rtype: AbstractColorMatchingFunctions
         """
 
@@ -840,6 +1027,15 @@ class AbstractColorMatchingFunctions(object):
 
         return self
 
+    def clone(self):
+        """
+        Clones the color matching functions.
+
+        :return: Cloned color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        return copy.deepcopy(self)
 
 class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
     """
@@ -886,7 +1082,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
     @r_bar.deleter
@@ -895,7 +1091,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__r_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
 
     @property
@@ -918,7 +1114,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
     @g_bar.deleter
@@ -927,7 +1123,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__g_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
 
     @property
@@ -950,7 +1146,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
 
     @b_bar.deleter
@@ -959,7 +1155,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__b_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
 
 
@@ -1008,7 +1204,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
     @x_bar.deleter
@@ -1017,7 +1213,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__x_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
 
     @property
@@ -1040,7 +1236,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
     @y_bar.deleter
@@ -1049,7 +1245,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__y_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
 
     @property
@@ -1072,7 +1268,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
 
     @z_bar.deleter
@@ -1081,5 +1277,5 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__z_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))

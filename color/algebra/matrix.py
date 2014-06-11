@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -29,7 +29,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "is_identity", "linear_interpolate_matrices"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def is_identity(matrix, n=3):
@@ -44,7 +44,7 @@ def is_identity(matrix, n=3):
         False
 
     :param matrix: Matrix.
-    :type matrix: Matrix (N)
+    :type matrix: matrix (N)
     :param n: Matrix dimension.
     :type n: int
     :return: Is identity matrix.
@@ -75,13 +75,13 @@ def linear_interpolate_matrices(a, b, matrix_1, matrix_2, c):
     :param b: B value.
     :type b: float
     :param matrix_1: Matrix 1.
-    :type matrix_1: Matrix (N)
+    :type matrix_1: matrix (N)
     :param matrix_2: Matrix 2.
-    :type matrix_2: Matrix (N)
+    :type matrix_2: matrix (N)
     :param c: Interpolation value.
     :type c: float
     :return: Matrix.
-    :rtype: Matrix (N)
+    :rtype: matrix (N)
     """
 
     if a == b:

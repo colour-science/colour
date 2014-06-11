@@ -6,6 +6,7 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
+   color.algebra.interpolation <api/color.algebra.interpolation>
    color.algebra.matrix <api/color.algebra.matrix>
    color.algebra.regression <api/color.algebra.regression>
    color.chromatic_adaptation <api/color.chromatic_adaptation>
@@ -37,11 +38,10 @@ Modules Summary:
    color.colorspaces.smptec_rgb <api/color.colorspaces.smptec_rgb>
    color.colorspaces.srgb <api/color.colorspaces.srgb>
    color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
-   color.data_structures <api/color.data_structures>
+   color.cri <api/color.cri>
    color.deprecated <api/color.deprecated>
    color.derivation <api/color.derivation>
    color.difference <api/color.difference>
-   color.exceptions <api/color.exceptions>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
    color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
@@ -50,11 +50,17 @@ Modules Summary:
    color.lightness <api/color.lightness>
    color.spectral.blackbody <api/color.spectral.blackbody>
    color.spectral.cmfs <api/color.spectral.cmfs>
+   color.spectral.color_checkers <api/color.spectral.color_checkers>
    color.spectral.correction <api/color.spectral.correction>
    color.spectral.illuminants <api/color.spectral.illuminants>
    color.spectral.luminosity <api/color.spectral.luminosity>
    color.spectral.spd <api/color.spectral.spd>
+   color.spectral.tcs <api/color.spectral.tcs>
    color.spectral.transformations <api/color.spectral.transformations>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
-   color.verbose <api/color.verbose>
+   color.utilities.common <api/color.utilities.common>
+   color.utilities.data_structures <api/color.utilities.data_structures>
+   color.utilities.decorators <api/color.utilities.decorators>
+   color.utilities.exceptions <api/color.utilities.exceptions>
+   color.utilities.verbose <api/color.utilities.verbose>

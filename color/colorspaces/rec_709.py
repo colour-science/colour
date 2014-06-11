@@ -18,9 +18,9 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +39,7 @@ __all__ = ["LOGGER",
            "REC_709_INVERSE_TRANSFER_FUNCTION",
            "REC_709_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.color.org/srgb.pdf
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion

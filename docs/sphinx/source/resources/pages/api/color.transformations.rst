@@ -27,13 +27,15 @@ Functions
 
 .. autofunction:: RGB_to_xyY
 
+.. autofunction:: XYZ_to_UCS
+
+.. autofunction:: UCS_to_XYZ
+
+.. autofunction:: UCS_to_uv
+
+.. autofunction:: UCS_uv_to_xy
+
 .. autofunction:: XYZ_to_UVW
-
-.. autofunction:: UVW_to_XYZ
-
-.. autofunction:: UVW_to_uv
-
-.. autofunction:: UVW_uv_to_xy
 
 .. autofunction:: XYZ_to_Luv
 

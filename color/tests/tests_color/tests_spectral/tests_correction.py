@@ -55,22 +55,22 @@ SPD_DATA = numpy.array([9.3700,
                         88.1900,
                         86.0500])
 
-BANDPASS_CORRECTED_STEARNS_SPD_DATA = numpy.array([8.83893259,
-                                                   12.87341058,
-                                                   12.94225552,
-                                                   9.57625607,
-                                                   5.56121014,
-                                                   4.09411985,
-                                                   4.39463228,
-                                                   3.71965425,
-                                                   3.55967631,
-                                                   9.24920718,
-                                                   26.69337799,
-                                                   50.12780392,
-                                                   70.89460494,
-                                                   82.5245482,
-                                                   89.68223615,
-                                                   85.62243747])
+BANDPASS_CORRECTED_STEARNS_SPD_DATA = numpy.array([9.12515,
+                                                   12.57355255,
+                                                   12.69542514,
+                                                   9.54357971,
+                                                   5.75121288,
+                                                   4.21535933,
+                                                   4.33022518,
+                                                   3.79034131,
+                                                   4.03770167,
+                                                   10.11509076,
+                                                   27.10283747,
+                                                   49.88971449,
+                                                   70.2175037,
+                                                   82.14935719,
+                                                   88.88373581,
+                                                   85.87238])
 
 
 class TestBandpassCorrectionStearns(unittest.TestCase):
@@ -84,9 +84,8 @@ class TestBandpassCorrectionStearns(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution("Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
-        self.assertTrue(spd is color.spectral.correction.bandpass_correction_stearns(spd, in_place=True))
-        self.assertFalse(spd is color.spectral.correction.bandpass_correction_stearns(spd, in_place=False))
-        numpy.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA, color.spectral.correction.bandpass_correction_stearns(spd).values)
+        numpy.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA,
+                                          color.spectral.correction.bandpass_correction_stearns(spd).values)
 
 
 if __name__ == "__main__":

@@ -17,10 +17,12 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import color.derivation
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -49,7 +51,7 @@ __all__ = ["LOGGER",
            "get_munsell_value",
            "get_lightness"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
@@ -69,7 +71,7 @@ def get_luminance_equation(primaries, whitepoint):
         Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: Matrix (3x2)
+    :type primaries: matrix (3x2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance* equation.
@@ -95,9 +97,9 @@ def get_luminance(RGB, primaries, whitepoint):
         12.1616018403
 
     :param RGB: *RGB* chromaticity coordinate matrix.
-    :type RGB: Matrix (3x1)
+    :type RGB: matrix (3x1)
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: Matrix (3x2)
+    :type primaries: matrix (3x2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance*.
