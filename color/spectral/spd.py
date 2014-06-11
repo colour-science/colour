@@ -16,6 +16,7 @@
 
 from __future__ import unicode_literals
 
+import copy
 import itertools
 import math
 import numpy
@@ -465,6 +466,15 @@ class SpectralPowerDistribution(object):
 
         return self
 
+    def clone(self):
+        """
+        Clones the spectral power distribution.
+
+        :return: Cloned spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        return copy.deepcopy(self)
 
 class AbstractColorMatchingFunctions(object):
     """
@@ -1015,6 +1025,15 @@ class AbstractColorMatchingFunctions(object):
 
         return self
 
+    def clone(self):
+        """
+        Clones the color matching functions.
+
+        :return: Cloned color matching functions.
+        :rtype: AbstractColorMatchingFunctions
+        """
+
+        return copy.deepcopy(self)
 
 class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
     """

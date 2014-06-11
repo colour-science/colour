@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 from collections import namedtuple
-from copy import deepcopy
 
 import color.difference
 import color.spectral.blackbody
@@ -146,11 +145,11 @@ def get_color_rendering_index(test_spd, additional_data=False):
         "Standard CIE 1931 2 Degree Observer")
 
     start, end, steps = cmfs.shape
-    test_spd = deepcopy(test_spd).align(start, end, steps)
+    test_spd = test_spd.clone().align(start, end, steps)
 
-    tcs_spds = deepcopy(color.spectral.tcs.TCS_SPDS)
-    for index, tcs_spd in sorted(tcs_spds.iteritems()):
-        tcs_spd.align(start, end, steps)
+    tcs_spds = {}
+    for index, tcs_spd in sorted(color.spectral.tcs.TCS_SPDS.iteritems()):
+        tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
 
     XYZ = color.spectral.transformations.spectral_to_XYZ(test_spd, cmfs)
     uv = color.transformations.UCS_to_uv(color.transformations.XYZ_to_UCS(XYZ))

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -23,8 +23,6 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
-
-from copy import deepcopy
 
 import color.spectral.spd
 import color.spectral.transformations
@@ -308,8 +306,8 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("A")).zeros(
-                                                               *cmfs.shape)),
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                               "A").clone().zeros(*cmfs.shape)),
             numpy.matrix([14.46371626, 10.85832347, 2.04664796]).reshape((3, 1)),
             decimal=7)
 
@@ -317,16 +315,16 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("C")).zeros(
-                                                               *cmfs.shape)),
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                               "C").clone().zeros(*cmfs.shape)),
             numpy.matrix([10.7704252, 9.44870313, 6.62742289]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("F2")).zeros(
-                                                               *cmfs.shape)),
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                               "F2").clone().zeros(*cmfs.shape)),
             numpy.matrix([11.57830745, 9.98744967, 3.95396539]).reshape((3, 1)),
             decimal=7)
 

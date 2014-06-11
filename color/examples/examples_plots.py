@@ -5,7 +5,6 @@
 Shows some **Color** package color plotting related examples.
 """
 
-from copy import deepcopy
 from numpy import matrix
 
 import color
@@ -224,9 +223,11 @@ multi_spectral_power_distribution_plot([color.COLORCHECKERS_SPDS.get("BabelColor
                                        title="BabelColor Average - Relative Spectral Power Distributions")
 
 # Spectral bandpass correction.
-bandpass_corrected_carbon_spd = color.bandpass_correction(
-    color.SpectralPowerDistribution("Carbon (Bandpass Corrected)", deepcopy(carbon_spd_data)), method="Stearns")
-multi_spectral_power_distribution_plot([color.SpectralPowerDistribution("Carbon", carbon_spd_data),
+bandpass_corrected_carbon_spd = color.bandpass_correction(color.SpectralPowerDistribution("Carbon (Bandpass Corrected)",
+                                                                                          carbon_spd_data).clone(),
+                                                          method="Stearns")
+multi_spectral_power_distribution_plot([color.SpectralPowerDistribution("Carbon",
+                                                                        carbon_spd_data),
                                         bandpass_corrected_carbon_spd],
                                        title="Stearns Bandpass Correction")
 

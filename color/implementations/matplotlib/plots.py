@@ -26,7 +26,6 @@ import os
 import pylab
 import random
 from collections import namedtuple
-from copy import deepcopy
 
 import color.algebra.matrix
 import color.color_checkers
@@ -115,7 +114,6 @@ def __get_cmfs(cmfs):
     :type cmfs: Unicode
     :return: Color matching functions.
     :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
-    :note: The returned color matching functions are a *deepcopy* from original data.
     """
 
     cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
@@ -124,7 +122,7 @@ def __get_cmfs(cmfs):
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
                                                                                                                   color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
-    return deepcopy(cmfs)
+    return cmfs.clone()
 
 
 def __get_illuminant(illuminant):
@@ -135,7 +133,6 @@ def __get_illuminant(illuminant):
     :type illuminant: Unicode
     :return: Illuminant.
     :rtype: SpectralPowerDistribution
-    :note: The returned illuminant is a *deepcopy* from original data.
     """
 
     illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
@@ -145,7 +142,7 @@ def __get_illuminant(illuminant):
                                                                                sorted(
                                                                                    color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
 
-    return deepcopy(illuminant)
+    return illuminant.clone()
 
 
 def __get_colorspace(colorspace):
@@ -685,8 +682,7 @@ def multi_spectral_power_distribution_plot(spds,
     cmfs, name = __get_cmfs(cmfs), cmfs
 
     if use_spds_colors:
-        illuminant = deepcopy(color.ILLUMINANTS_RELATIVE_SPD.get("D65"))
-        illuminant.zeros(*cmfs.shape)
+        illuminant = color.ILLUMINANTS_RELATIVE_SPD.get("D65")
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -699,9 +695,6 @@ def multi_spectral_power_distribution_plot(spds,
         y_limit_max.append(max(values))
 
         if use_spds_colors:
-            spd = deepcopy(spd)
-            spd.zeros(*cmfs.shape)
-
             XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs, illuminant)
             XYZ /= 100.
             RGB = XYZ_to_sRGB(XYZ)

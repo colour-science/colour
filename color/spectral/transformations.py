@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-import bisect
 import numpy
 
 import color.algebra.matrix
@@ -119,22 +118,28 @@ def spectral_to_XYZ(spd,
     :note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
     """
 
+    shape = cmfs.shape
     if spd.shape != cmfs.shape:
-        raise color.exceptions.ProgrammingError(
-            "Spectral power distribution and standard observer color matching functions shapes are not aligned: '{0}', '{1}'.".format(
+        LOGGER.debug(
+            "> {0} | Spectral power distribution and standard observer color matching functions shapes are not aligned: '{1}', '{2}'.".format(
+                __name__,
                 spd.shape, cmfs.shape))
+        spd = spd.clone().zeros(*shape)
 
     if illuminant is None:
-        start, end, steps = cmfs.shape
+        start, end, steps = shape
         range = numpy.arange(start, end + steps, steps)
         illuminant = color.spectral.spd.SpectralPowerDistribution(name="1.0",
                                                                   spd=dict(zip(*(list(range),
                                                                                  [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
-            raise color.exceptions.ProgrammingError(
-                "Illuminant and standard observer color matching functions shapes are not aligned: '{0}', '{1}'.".format(
-                    illuminant.shape, cmfs.shape))
+            LOGGER.debug(
+                "> {0} | Illuminant and standard observer color matching functions shapes are not aligned: '{1}', '{2}'.".format(
+                    __name__,
+                    illuminant.shape,
+                    shape))
+            illuminant = illuminant.clone().zeros(*shape)
 
     illuminant = illuminant.values
     spd = spd.values

@@ -1864,7 +1864,8 @@ class TestSpectralDistribution(unittest.TestCase):
                             "extrapolate",
                             "interpolate",
                             "align",
-                            "zeros")
+                            "zeros",
+                            "clone")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralPowerDistribution))
@@ -2005,6 +2006,16 @@ class TestSpectralDistribution(unittest.TestCase):
                                           ZEROS_SAMPLE_SPD_DATA)
 
 
+    def test_clone(self):
+        """
+        Tests :func:`color.spectral.spd.SpectralDistribution.clone` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+
+        self.assertFalse(spd is spd.clone())
+
+
 class TestAbstractColorMatchingFunctions(unittest.TestCase):
     """
     Defines :class:`color.spectral.spd.AbstractColorMatchingFunctions` class units tests methods.
@@ -2039,7 +2050,8 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                             "extrapolate",
                             "interpolate",
                             "align",
-                            "zeros")
+                            "zeros",
+                            "clone")
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractColorMatchingFunctions))
@@ -2307,6 +2319,24 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
         for i in mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(cmfs, i).values, ZEROS_SAMPLE_SPD_DATA)
 
+    def test_clone(self):
+        """
+        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.clone` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs={"x_bar": SAMPLE_SPD_DATA,
+                                                    "y_bar": SAMPLE_SPD_DATA,
+                                                    "z_bar": SAMPLE_SPD_DATA},
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        self.assertFalse(cmfs is cmfs.clone())
+
 
 class TestRGB_ColorMatchingFunctions(unittest.TestCase):
     """
@@ -2344,7 +2374,8 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
                             "extrapolate",
                             "interpolate",
                             "align",
-                            "zeros")
+                            "zeros",
+                            "clone")
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_ColorMatchingFunctions))
@@ -2386,7 +2417,8 @@ class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
                             "extrapolate",
                             "interpolate",
                             "align",
-                            "zeros")
+                            "zeros",
+                            "clone")
 
         for method in required_methods:
             self.assertIn(method, dir(XYZ_ColorMatchingFunctions))
