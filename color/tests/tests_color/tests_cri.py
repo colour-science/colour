@@ -129,8 +129,6 @@ class TestGetColorRenderingIndex(unittest.TestCase):
         Tests :func:`color.cri.get_color_rendering_index` definition.
         """
 
-        import color
-
         self.assertAlmostEqual(
             color.cri.get_color_rendering_index(color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get("F2")),
             64.1507331494,

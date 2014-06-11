@@ -296,7 +296,7 @@ class TestD_illuminant_CCT_to_xy(unittest.TestCase):
         numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(7000),
                                           (0.3053574314868805, 0.3216463454745523),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(7000),
+        numpy.testing.assert_almost_equal(color.temperature.D_illuminant_CCT_to_xy(25000),
                                           (0.2498536704, 0.25479946421094446),
                                           decimal=7)
 

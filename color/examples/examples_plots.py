@@ -7,6 +7,7 @@ Shows some **Color** package color plotting related examples.
 
 from copy import deepcopy
 from numpy import matrix
+
 import color
 from color.implementations.matplotlib.plots import *
 

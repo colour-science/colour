@@ -146,7 +146,7 @@ def get_color_rendering_index(test_spd, additional_data=False):
         "Standard CIE 1931 2 Degree Observer")
 
     start, end, steps = cmfs.shape
-    test_spd.align(start, end, steps)
+    test_spd = deepcopy(test_spd).align(start, end, steps)
 
     tcs_spds = deepcopy(color.spectral.tcs.TCS_SPDS)
     for index, tcs_spd in sorted(tcs_spds.iteritems()):

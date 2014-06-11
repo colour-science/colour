@@ -5,14 +5,15 @@
 Shows some **Color** package correlated color temperature related examples.
 """
 
-from numpy import matrix
+from copy import deepcopy
+
 import color
 
 # From *uv* chromaticity coordinates to correlated color temperature.
 # Default to *Yoshi Ohno* implementation.
 cmfs = color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS["Standard CIE 1931 2 Degree Observer"]
-illuminant = color.ILLUMINANTS_RELATIVE_SPD["D65"].zeros(*cmfs.shape)
-xy = color.XYZ_to_xy(color.spectral_to_XYZ(illuminant, cmfs))
+illuminant = color.ILLUMINANTS_RELATIVE_SPD["D65"]
+xy = color.XYZ_to_xy(color.spectral_to_XYZ(deepcopy(illuminant).zeros(*cmfs.shape), cmfs))
 uv = color.UCS_to_uv(color.XYZ_to_UCS(color.xy_to_XYZ(xy)))
 print(color.uv_to_CCT(uv, cmfs=cmfs))
 

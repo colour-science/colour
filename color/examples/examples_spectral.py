@@ -5,6 +5,8 @@
 Shows some **Color** package color *spectral* related examples.
 """
 
+from copy import deepcopy
+
 import color
 
 # From wavelength to *CIE XYZ* colorspace.
@@ -117,13 +119,10 @@ spd = color.SpectralPowerDistribution(name="", spd=RELATIVE_SPD_DATA)
 cmfs = color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS["Standard CIE 1931 2 Degree Observer"]
 illuminant = color.ILLUMINANTS_RELATIVE_SPD["A"]
 
-# Aligning Spectral power distribution and illuminant shapes.
-spd = spd.zeros(*cmfs.shape)
-illuminant = illuminant.zeros(*cmfs.shape)
-
-print(color.spectral_to_XYZ(spd,
+# Aligning Spectral power distribution and illuminant shapes and calculating *CIE XYZ* tristimulus values.
+print(color.spectral_to_XYZ(deepcopy(spd).zeros(*cmfs.shape),
                             cmfs,
-                            illuminant))
+                            deepcopy(illuminant).zeros(*cmfs.shape)))
 
 # Calculating *A* illuminant chromaticity coordinates under *Standard CIE 1931 2 Degree Observer*.
 print(color.XYZ_to_xy(color.spectral_to_XYZ(illuminant,
