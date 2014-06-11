@@ -17,11 +17,13 @@
 from __future__ import unicode_literals
 
 import bisect
+
 import numpy
 
-import color.exceptions
 import color.utilities.common
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -33,7 +35,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
            "SpragueInterpolator"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 class SpragueInterpolator(object):
@@ -133,7 +135,7 @@ class SpragueInterpolator(object):
         Deleter for **self.__x** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
 
     @property
@@ -182,7 +184,7 @@ class SpragueInterpolator(object):
         Deleter for **self.__y** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     def __call__(self, x):
@@ -238,7 +240,7 @@ class SpragueInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise color.exceptions.ProgrammingError(
+            raise color.utilities.exceptions.ProgrammingError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 

@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import numpy
 
 import color.derivation
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
 
 __author__ = "Thomas Mansencal"
@@ -40,7 +40,7 @@ __all__ = ["LOGGER",
            "EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION",
            "EKTA_SPACE_PS_5_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.josephholmes.com/Ekta_Space.zip
 EKTA_SPACE_PS_5_PRIMARIES = numpy.matrix([0.6947368421052631, 0.30526315789473685,

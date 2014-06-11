@@ -16,8 +16,8 @@
 
 from __future__ import unicode_literals
 
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 
 from color.spectral.spd import SpectralPowerDistribution
 
@@ -33,7 +33,7 @@ __all__ = ["LOGGER",
            "TCS_SPDS_DATA",
            "TCS_SPDS"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 TCS_INDEXES_TO_NAMES = {1: "TCS01",
                         2: "TCS02",

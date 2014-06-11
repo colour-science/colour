@@ -16,8 +16,8 @@
 
 from __future__ import unicode_literals
 
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 
 from color.spectral.spd import RGB_ColorMatchingFunctions
 from color.spectral.spd import XYZ_ColorMatchingFunctions
@@ -36,7 +36,7 @@ __all__ = ["LOGGER",
            "STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS",
            "STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # *CIE RGB* color matching functions for standard observers at 5 nm steps.
 # http://www.cvrl.org/stilesburch2_ind.htm

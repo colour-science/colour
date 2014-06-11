@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import numpy
 
 import color.derivation
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
 
 __author__ = "Thomas Mansencal"
@@ -40,7 +40,7 @@ __all__ = ["LOGGER",
            "BEST_RGB_INVERSE_TRANSFER_FUNCTION",
            "BEST_RGB_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.hutchcolor.com/profiles/BestRGB.zip
 BEST_RGB_PRIMARIES = numpy.matrix([0.73519163763066209, 0.26480836236933797,

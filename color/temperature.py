@@ -24,15 +24,17 @@
 from __future__ import unicode_literals
 
 import math
-import numpy
 from collections import namedtuple
+
+import numpy
 
 import color.spectral.blackbody
 import color.spectral.cmfs
 import color.spectral.transformations
 import color.transformations
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -60,7 +62,7 @@ __all__ = ["LOGGER",
            "CCT_to_uv",
            "D_illuminant_CCT_to_xy"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTable_Tuvdi", ("Ti", "ui", "vi", "di"))
 
@@ -470,7 +472,7 @@ def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
-                raise color.exceptions.ProgrammingError(
+                raise color.utilities.exceptions.ProgrammingError(
                     "Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
 
         return uv_to_CCT_robertson(uv)
@@ -499,7 +501,7 @@ def CCT_to_uv(CCT, Duv=0., method="Yoshi Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
-                raise color.exceptions.ProgrammingError(
+                raise color.utilities.exceptions.ProgrammingError(
                     "Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
 
         return CCT_to_uv_robertson(CCT, Duv)
@@ -522,7 +524,7 @@ def D_illuminant_CCT_to_xy(CCT):
     elif 7000 < CCT <= 25000:
         x = -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 + 0.24748 * 10 ** 3 / CCT + 0.23704
     else:
-        raise color.exceptions.ProgrammingError("Correlated color temperature must be in domain [4000, 25000]!")
+        raise color.utilities.exceptions.ProgrammingError("Correlated color temperature must be in domain [4000, 25000]!")
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 

@@ -16,8 +16,9 @@
 
 from __future__ import unicode_literals
 
-import numpy
 from collections import namedtuple
+
+import numpy
 
 import color.difference
 import color.spectral.blackbody
@@ -28,7 +29,8 @@ import color.spectral.transformations
 import color.temperature
 import color.transformations
 import color.utilities.common
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,7 +43,7 @@ __all__ = ["LOGGER",
            "TSC_COLORIMETRY_DATA_NXYZUVUVW",
            "get_color_rendering_index"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple("TscColorimetryData_nXYZuvUVW", ("name", "XYZ", "uv", "UVW"))
 

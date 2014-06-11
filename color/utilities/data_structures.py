@@ -16,8 +16,10 @@
 
 from __future__ import unicode_literals
 
-import color.verbose
 import foundations.data_structures
+
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -29,6 +31,6 @@ __status__ = "Production"
 __all__ = ["LOGGER",
            "Structure"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 Structure = foundations.data_structures.Structure

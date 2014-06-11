@@ -18,9 +18,8 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.exceptions
-import color.verbose
-
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.spectral.spd import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -36,7 +35,7 @@ __all__ = ["LOGGER",
            "D_ILLUMINANTS_S_DISTRIBUTIONS",
            "D_illuminant_relative_spectral_power_distribution"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # Relative spectral power distribution for various illuminants in at 5 nm steps.
 # http://files.cie.co.at/204.xls

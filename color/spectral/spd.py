@@ -19,12 +19,14 @@ from __future__ import unicode_literals
 import copy
 import itertools
 import math
+
 import numpy
 
-import color.exceptions
 import color.utilities.common
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.algebra.interpolation import SpragueInterpolator
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,7 +41,7 @@ __all__ = ["LOGGER",
            "RGB_ColorMatchingFunctions",
            "XYZ_ColorMatchingFunctions"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 class SpectralPowerDistribution(object):
@@ -94,7 +96,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__name** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
@@ -128,7 +130,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__spd** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "spd"))
 
     @property
@@ -151,7 +153,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @wavelengths.deleter
@@ -160,7 +162,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__wavelengths** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
 
     @property
@@ -183,7 +185,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @values.deleter
@@ -192,7 +194,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__values** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
 
     @property
@@ -216,7 +218,7 @@ class SpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     @shape.deleter
@@ -225,7 +227,7 @@ class SpectralPowerDistribution(object):
         Deleter for **self.__shape** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
@@ -403,7 +405,7 @@ class SpectralPowerDistribution(object):
                 if is_uniform:
                     interpolant = sprague_interpolant
                 else:
-                    raise color.exceptions.ProgrammingError(
+                    raise color.utilities.exceptions.ProgrammingError(
                         "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
             elif interpolator == "Cubic Spline":
@@ -411,7 +413,7 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise color.exceptions.ProgrammingError(
+                raise color.utilities.exceptions.ProgrammingError(
                         "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             LOGGER.debug(
@@ -534,7 +536,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__name** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
@@ -570,7 +572,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__mapping** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
@@ -624,7 +626,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__cmfs** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "cmfs"))
 
     @property
@@ -660,7 +662,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__labels** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
 
     @property
@@ -683,7 +685,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
 
     @x.deleter
@@ -692,7 +694,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__x** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
 
     @property
@@ -715,7 +717,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
 
     @y.deleter
@@ -724,7 +726,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__y** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     @property
@@ -747,7 +749,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
 
     @z.deleter
@@ -756,7 +758,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__z** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z"))
 
     @property
@@ -779,7 +781,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @wavelengths.deleter
@@ -788,7 +790,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__wavelengths** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
 
     @property
@@ -811,7 +813,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: list
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @values.deleter
@@ -820,7 +822,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__values** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
 
     @property
@@ -843,7 +845,7 @@ class AbstractColorMatchingFunctions(object):
         :type value: tuple
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     @shape.deleter
@@ -852,7 +854,7 @@ class AbstractColorMatchingFunctions(object):
         Deleter for **self.__shape** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
@@ -1080,7 +1082,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
     @r_bar.deleter
@@ -1089,7 +1091,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__r_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
 
     @property
@@ -1112,7 +1114,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
     @g_bar.deleter
@@ -1121,7 +1123,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__g_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
 
     @property
@@ -1144,7 +1146,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
 
     @b_bar.deleter
@@ -1153,7 +1155,7 @@ class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__b_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
 
 
@@ -1202,7 +1204,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
     @x_bar.deleter
@@ -1211,7 +1213,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__x_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
 
     @property
@@ -1234,7 +1236,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
     @y_bar.deleter
@@ -1243,7 +1245,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__y_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
 
     @property
@@ -1266,7 +1268,7 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         :type value: unicode
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
 
     @z_bar.deleter
@@ -1275,5 +1277,5 @@ class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
         Deleter for **self.__z_bar** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))

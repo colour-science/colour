@@ -16,8 +16,10 @@
 
 from __future__ import unicode_literals
 
-import color.verbose
 import foundations.exceptions
+
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -32,7 +34,7 @@ __all__ = ["LOGGER",
            "AbstractAlgebraError",
            "LinearRegressionError"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 AbstractError = foundations.exceptions.AbstractError
 ProgrammingError = foundations.exceptions.ProgrammingError

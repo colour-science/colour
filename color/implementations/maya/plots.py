@@ -14,17 +14,17 @@
 
 """
 
-import maya.cmds as cmds
-import maya.mel as mel
-import maya.OpenMaya as OpenMaya
 import numpy
+import foundations.common
 
+import maya.cmds as cmds
+import maya.OpenMaya as OpenMaya
 import color.colorspaces
 import color.illuminants
 import color.transformations
-import color.data_structures
-import color.verbose
-import foundations.common
+import color.utilities.data_structures
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -43,7 +43,7 @@ __all__ = ["LOGGER",
            "Lab_colorspace_cube",
            "Lab_coordinates_system_representation"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def get_dag_path(node):

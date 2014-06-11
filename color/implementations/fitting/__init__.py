@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import color.algebra.regression
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -31,7 +31,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
            "first_order_color_fit"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def first_order_color_fit(m1, m2):

@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -36,7 +36,7 @@ __all__ = ["LOGGER",
            "CHROMATIC_ADAPTATION_METHODS",
            "get_chromatic_adaptation_matrix"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
 XYZ_SCALING_MATRIX = numpy.matrix(numpy.identity(3)).reshape((3, 3))
@@ -90,7 +90,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)
 
     if method_matrix is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "'{0}' chromatic adaptation method is not defined! Supported methods: '{1}'.".format(method,
                                                                                                  CHROMATIC_ADAPTATION_METHODS.keys()))
 

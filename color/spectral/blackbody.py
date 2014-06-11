@@ -17,11 +17,13 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 import warnings
 
 import color.spectral
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -42,7 +44,7 @@ __all__ = ["LOGGER",
            "blackbody_spectral_radiance",
            "blackbody_spectral_power_distribution"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 LIGHT_SPEED_CONSTANT = 299792458
 PLANCK_CONSTANT = 6.62607e-34

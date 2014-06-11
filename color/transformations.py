@@ -17,14 +17,16 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import color.algebra.matrix
 import color.chromatic_adaptation
 import color.illuminants
-import color.exceptions
 import color.lightness
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -58,7 +60,7 @@ __all__ = ["LOGGER",
            "Lab_to_LCHab",
            "LCHab_to_Lab"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):

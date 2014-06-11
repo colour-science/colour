@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -29,7 +29,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "is_identity", "linear_interpolate_matrices"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def is_identity(matrix, n=3):

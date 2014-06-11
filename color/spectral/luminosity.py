@@ -17,7 +17,7 @@
 from __future__ import unicode_literals
 
 import color.spectral
-import color.verbose
+import color.utilities.verbose
 
 from color.spectral.spd import SpectralPowerDistribution
 
@@ -34,7 +34,7 @@ __all__ = ["LOGGER",
            "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA",
            "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.cvrl.org/lumindex.htm
 PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {

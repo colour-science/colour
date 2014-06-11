@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 from collections import namedtuple
 
 import color.illuminants
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -42,7 +42,7 @@ __all__ = ["LOGGER",
            "COLORCHECKER_1976",
            "COLORCHECKERS"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 COLORCHECKER_INXYY = namedtuple("ColorChecker_InxxY", ("index", "name", "x", "y", "Y"))
 

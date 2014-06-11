@@ -18,9 +18,11 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,7 +43,7 @@ __all__ = ["LOGGER",
            "RGB_to_HEX",
            "HEX_to_RGB"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def RGB_to_HSV(RGB):

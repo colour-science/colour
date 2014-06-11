@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.verbose
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -31,7 +31,7 @@ __all__ = ["LOGGER",
            "xy_to_z",
            "get_normalized_primary_matrix"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def xy_to_z(xy):

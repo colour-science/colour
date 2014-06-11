@@ -16,6 +16,9 @@
 
 import bisect
 import functools
+import random
+from collections import namedtuple
+
 import matplotlib
 import matplotlib.image
 import matplotlib.path
@@ -24,15 +27,12 @@ import matplotlib.ticker
 import numpy
 import os
 import pylab
-import random
-from collections import namedtuple
 
 import color.algebra.matrix
 import color.color_checkers
 import color.colorspaces
 import color.cri
 import color.illuminants
-import color.exceptions
 import color.lightness
 import color.spectral.blackbody
 import color.spectral.cmfs
@@ -40,8 +40,10 @@ import color.spectral.illuminants
 import color.spectral.transformations
 import color.temperature
 import color.transformations
-import color.data_structures
-import color.verbose
+import color.utilities.data_structures
+import color.utilities.exceptions
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -91,7 +93,7 @@ __all__ = ["LOGGER",
            "blackbody_colors_plot",
            "color_rendering_index_bars_plot"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources")
 
@@ -118,7 +120,7 @@ def __get_cmfs(cmfs):
 
     cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
     if cmfs is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
                                                                                                                   color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
@@ -137,7 +139,7 @@ def __get_illuminant(illuminant):
 
     illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
     if illuminant is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
                                                                                sorted(
                                                                                    color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
@@ -157,7 +159,7 @@ def __get_colorspace(colorspace):
 
     colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
     if colorspace is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "'{0}' colorspace not found in supported colorspaces: '{1}'.".format(name,
                                                                                  sorted(
                                                                                      color.colorspaces.COLORSPACES.keys())))
@@ -256,7 +258,7 @@ def aspect(**kwargs):
     :rtype: bool
     """
 
-    settings = color.data_structures.Structure(**{"title": None,
+    settings = color.utilities.data_structures.Structure(**{"title": None,
                                                   "x_label": None,
                                                   "y_label": None,
                                                   "legend": False,
@@ -300,7 +302,7 @@ def bounding_box(**kwargs):
     :rtype: bool
     """
 
-    settings = color.data_structures.Structure(**{"bounding_box": None,
+    settings = color.utilities.data_structures.Structure(**{"bounding_box": None,
                                                   "x_tighten": False,
                                                   "y_tighten": False,
                                                   "limits": [0., 1., 0., 1.],
@@ -329,7 +331,7 @@ def display(**kwargs):
     :rtype: bool
     """
 
-    settings = color.data_structures.Structure(**{"standalone": True,
+    settings = color.utilities.data_structures.Structure(**{"standalone": True,
                                                   "filename": None})
     settings.update(kwargs)
 
@@ -552,7 +554,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
     color_checker, name = color.color_checkers.COLORCHECKERS.get(color_checker), color_checker
     if color_checker is None:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "Color checker '{0}' not found in color checkers: '{1}'.".format(name,
                                                                              sorted(
                                                                                  color.color_checkers.COLORCHECKERS.keys())))
@@ -1167,7 +1169,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
     for illuminant in illuminants:
         xy = color.illuminants.ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
-            raise color.exceptions.ProgrammingError(
+            raise color.utilities.exceptions.ProgrammingError(
                 "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
                                                                                    sorted(
                                                                                        color.illuminants.ILLUMINANTS.get(
@@ -1381,7 +1383,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     for illuminant in illuminants:
         uv = xy_to_uv(color.illuminants.ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
-            raise color.exceptions.ProgrammingError(
+            raise color.utilities.exceptions.ProgrammingError(
                 "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
                                                                                    sorted(
                                                                                        color.illuminants.ILLUMINANTS.get(
@@ -1591,7 +1593,7 @@ def multi_munsell_value_function_plot(functions=["Munsell Value 1955", "Munsell 
     for i, function in enumerate(functions):
         function, name = color.lightness.MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise color.exceptions.ProgrammingError(
+            raise color.utilities.exceptions.ProgrammingError(
                 "'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
                                                                                                        sorted(
                                                                                                            color.lightness.MUNSELL_VALUE_FUNCTIONS.keys())))
@@ -1664,7 +1666,7 @@ def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness 1964",
     for i, function in enumerate(functions):
         function, name = color.lightness.LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise color.exceptions.ProgrammingError(
+            raise color.utilities.exceptions.ProgrammingError(
                 "'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
                                                                                                sorted(
                                                                                                    color.lightness.LIGHTNESS_FUNCTIONS.keys())))

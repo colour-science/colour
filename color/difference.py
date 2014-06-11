@@ -17,9 +17,11 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal - Michael Parsons - The Moving picture Company"
@@ -34,7 +36,7 @@ __all__ = ["LOGGER",
            "delta_E_CIE_2000",
            "delta_E_CMC"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def delta_E_CIE_1976(lab1, lab2):

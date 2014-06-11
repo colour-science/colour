@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.exceptions
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -31,7 +31,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
            "Colorspace"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 class Colorspace(object):
@@ -113,7 +113,7 @@ class Colorspace(object):
         Deleter for **self.__name** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
@@ -147,7 +147,7 @@ class Colorspace(object):
         Deleter for **self.__primaries** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "primaries"))
 
     @property
@@ -183,7 +183,7 @@ class Colorspace(object):
         Deleter for **self.__whitepoint** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "whitepoint"))
 
     @property
@@ -217,7 +217,7 @@ class Colorspace(object):
         Deleter for **self.__to_XYZ** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "to_XYZ"))
 
     @property
@@ -251,7 +251,7 @@ class Colorspace(object):
         Deleter for **self.__from_XYZ** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "from_XYZ"))
 
     @property
@@ -285,7 +285,7 @@ class Colorspace(object):
         Deleter for **self.__transfer_function** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "transfer_function"))
 
     @property
@@ -319,5 +319,5 @@ class Colorspace(object):
         Deleter for **self.__inverse_transfer_function** attribute.
         """
 
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "inverse_transfer_function"))

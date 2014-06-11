@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import numpy
 
 import color.algebra.matrix
-import color.exceptions
 import color.spectral.spd
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.verbose
 from color.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
@@ -35,7 +35,7 @@ __all__ = ["LOGGER",
            "wavelength_to_XYZ",
            "spectral_to_XYZ"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 
 def wavelength_to_XYZ(wavelength, cmfs):
@@ -63,7 +63,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise color.exceptions.ProgrammingError(
+        raise color.utilities.exceptions.ProgrammingError(
             "'{0}' nm wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values

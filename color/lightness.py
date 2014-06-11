@@ -17,10 +17,12 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import color.derivation
-import color.verbose
+import color.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -49,7 +51,7 @@ __all__ = ["LOGGER",
            "get_munsell_value",
            "get_lightness"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0

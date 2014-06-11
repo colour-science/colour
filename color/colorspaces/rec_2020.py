@@ -18,10 +18,10 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data_structures
-import color.exceptions
 import color.illuminants
-import color.verbose
+import color.utilities.exceptions
+import color.utilities.data_structures
+import color.utilities.verbose
 from color.colorspaces.colorspace import Colorspace
 
 __author__ = "Thomas Mansencal"
@@ -41,7 +41,7 @@ __all__ = ["LOGGER",
            "REC_2020_INVERSE_TRANSFER_FUNCTION",
            "REC_2020_COLORSPACE"]
 
-LOGGER = color.verbose.install_logger()
+LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf
 REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,
@@ -54,7 +54,7 @@ REC_2020_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(REC_2020
 
 XYZ_TO_REC_2020_MATRIX = REC_2020_TO_XYZ_MATRIX.getI()
 
-REC_2020_CONSTANTS = color.data_structures.Structure(alpha=lambda x: 1.099 if x else 1.0993,
+REC_2020_CONSTANTS = color.utilities.data_structures.Structure(alpha=lambda x: 1.099 if x else 1.0993,
                                                      beta=lambda x: 0.018 if x else 0.0181)
 
 

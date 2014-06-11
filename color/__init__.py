@@ -17,11 +17,13 @@
 from __future__ import unicode_literals
 
 import foundations.globals.constants
+
 from globals.constants import Constants
+
 
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
-from .verbose import *
+from .utilities.verbose import *
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
