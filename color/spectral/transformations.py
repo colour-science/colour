@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -23,6 +23,7 @@ import color.algebra.matrix
 import color.exceptions
 import color.spectral.spd
 import color.verbose
+from color.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,8 +42,9 @@ LOGGER = color.verbose.install_logger()
 def wavelength_to_XYZ(wavelength, cmfs):
     """
     Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
-    wavelength is not available in the color matching function, its value will be calculated using linear interpolation
-    between the two closest wavelengths.
+    wavelength is not available in the color matching function, its value will be calculated using *CIE* recommendations:
+    The method developed by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced
+    independent variable and a *Cubic Spline* method for non-uniformly spaced independent variable.
 
     Usage::
 
@@ -57,6 +59,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
     :type cmfs: dict
     :return: *CIE XYZ* matrix.
     :rtype: matrix
+    :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
     """
 
     start, end, steps = cmfs.shape
@@ -64,18 +67,25 @@ def wavelength_to_XYZ(wavelength, cmfs):
         raise color.exceptions.ProgrammingError(
             "'{0}' nm wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
-    wavelengths = numpy.arange(start, end, steps)
-    index = bisect.bisect(wavelengths, wavelength)
-    if index < len(wavelengths):
-        left = wavelengths[index - 1]
-        right = wavelengths[index]
+    wavelengths, values, = cmfs.wavelengths, cmfs.values
+    if cmfs.is_uniform():
+        interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
     else:
-        left = right = wavelengths[-1]
+        try:
+            from scipy.interpolate import interp1d
 
-    left_XYZ = numpy.matrix(cmfs.get(left)).reshape((3, 1))
-    right_XYZ = numpy.matrix(cmfs.get(right)).reshape((3, 1))
+            interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
+        except ImportError as error:
+            LOGGER.warning(
+                "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                    __name__))
 
-    return color.algebra.matrix.linear_interpolate_matrices(left, right, left_XYZ, right_XYZ, wavelength)
+            x_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 0])
+            y_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 1])
+            z_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 2])
+            interpolators = (x_interpolator, y_interpolator, z_interpolator)
+
+    return numpy.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
 
 
 def spectral_to_XYZ(spd,

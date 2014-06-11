@@ -2058,9 +2058,9 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                                                       "y": "y_bar",
                                                       "z": "z_bar"})
 
-        self.assertTupleEqual(cmfs[380], (0.001368, 3.9e-05, 0.00645))
-        self.assertTupleEqual(cmfs[600], (1.0622, 0.631, 0.0008))
-        self.assertTupleEqual(cmfs[700], (0.011359, 0.004102, 0.))
+        numpy.testing.assert_almost_equal(cmfs[380], numpy.array((0.001368, 3.9e-05, 0.00645)))
+        numpy.testing.assert_almost_equal(cmfs[600], numpy.array((1.0622, 0.631, 0.0008)))
+        numpy.testing.assert_almost_equal(cmfs[700], numpy.array((0.011359, 0.004102, 0.)))
 
     def test__iter__(self):
         """
@@ -2181,10 +2181,10 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                                                       "y": "y_bar",
                                                       "z": "z_bar"})
 
-        self.assertTupleEqual(cmfs.get(380), (0.001368, 3.9e-05, 0.00645))
-        self.assertTupleEqual(cmfs.get(600), (1.0622, 0.631, 0.0008))
-        self.assertTupleEqual(cmfs.get(700), (0.011359, 0.004102, 0.))
-        self.assertTupleEqual(cmfs.get(900, (0, 0, 0)), (0, 0, 0))
+        numpy.testing.assert_almost_equal(cmfs.get(380), numpy.array((0.001368, 3.9e-05, 0.00645)))
+        numpy.testing.assert_almost_equal(cmfs.get(600), numpy.array((1.0622, 0.631, 0.0008)))
+        numpy.testing.assert_almost_equal(cmfs.get(700), numpy.array((0.011359, 0.004102, 0.)))
+        numpy.testing.assert_almost_equal(cmfs.get(900, (0, 0, 0)), numpy.array((0, 0, 0)))
 
     def test_is_uniform(self):
         """

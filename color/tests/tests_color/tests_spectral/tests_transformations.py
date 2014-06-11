@@ -24,6 +24,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
+from copy import deepcopy
+
 import color.spectral.spd
 import color.spectral.transformations
 
@@ -288,7 +290,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
             color.spectral.transformations.wavelength_to_XYZ(641.5,
                                                              color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
                                                                  "Standard CIE 2006 2 Degree Observer")),
-            numpy.matrix([0.4458068, 0.18187505, 0.]).reshape((3, 1)),
+            numpy.matrix([0.44575583, 0.18184213, 0.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -306,7 +308,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get("A").zeros(
+                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("A")).zeros(
                                                                *cmfs.shape)),
             numpy.matrix([14.46371626, 10.85832347, 2.04664796]).reshape((3, 1)),
             decimal=7)
@@ -314,18 +316,16 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1964 10 Degree Observer")
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
-                                                           color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                               "Standard CIE 1964 10 Degree Observer"),
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get("C").zeros(
+                                                           cmfs,
+                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("C")).zeros(
                                                                *cmfs.shape)),
             numpy.matrix([10.7704252, 9.44870313, 6.62742289]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
-                                                           color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                               "Standard CIE 1964 10 Degree Observer"),
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get("F2").zeros(
+                                                           cmfs,
+                                                           deepcopy(color.spectral.ILLUMINANTS_RELATIVE_SPD.get("F2")).zeros(
                                                                *cmfs.shape)),
             numpy.matrix([11.57830745, 9.98744967, 3.95396539]).reshape((3, 1)),
             decimal=7)

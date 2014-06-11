@@ -514,7 +514,7 @@ class AbstractColorMatchingFunctions(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or'unicode'!".format(
+            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
                 "name", value)
         self.__name = value
 
@@ -852,10 +852,10 @@ class AbstractColorMatchingFunctions(object):
         :param wavelength: Wavelength.
         :type wavelength: float
         :return: Value.
-        :rtype: float
+        :rtype: ndarray
         """
 
-        return self.x[wavelength], self.y[wavelength], self.z[wavelength]
+        return numpy.array((self.x[wavelength], self.y[wavelength], self.z[wavelength]))
 
     def __setitem__(self, key, value):
         """
