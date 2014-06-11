@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package *deprecated* objects related examples.
+Showcases some **Color** package *deprecated* objects related examples.
 """
 
 import color.deprecated

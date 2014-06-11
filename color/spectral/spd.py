@@ -339,7 +339,7 @@ class SpectralPowerDistribution(object):
 
     def interpolate(self, start=None, end=None, steps=None, interpolator=None):
         """
-        Interpolates the spectral power distribution following *CIE* recommendations: the method developed
+        Interpolates the spectral power distribution following *CIE 167:2005* recommendations: the method developed
         by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable and
         a *Cubic Spline* method for non-uniformly spaced independent variable.
 
@@ -971,7 +971,7 @@ class AbstractColorMatchingFunctions(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the color matching functions following *CIE* recommendations.
+        Interpolates the color matching functions following *CIE 167:2005* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float

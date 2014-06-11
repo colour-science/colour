@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package *luminance*, *Munsell value* and *Lightness* related examples.
+Showcases some **Color** package *luminance*, *Munsell value* and *Lightness* related examples.
 """
 
 from numpy import matrix

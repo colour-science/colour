@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package *interpolation* related examples.
+Showcases some **Color** package *interpolation* related examples.
 """
 
 import pylab

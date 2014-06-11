@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package *chromatic adaptation* related examples.
+Showcases some **Color** package *chromatic adaptation* related examples.
 """
 
 from numpy import matrix

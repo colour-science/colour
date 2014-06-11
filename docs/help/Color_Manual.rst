@@ -32,7 +32,7 @@ Table Of Content
 _`Introduction`
 ===============
 
-**Color** is a **Python** color science package implementing a comprehensive number of color transformations and manipulations objects.
+**Color** is a **Python** color science package implementing a comprehensive number of color theory transformations and algorithms.
 
 _`History`
 ----------

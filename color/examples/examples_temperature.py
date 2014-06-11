@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package correlated color temperature related examples.
+Showcases some **Color** package correlated color temperature related examples.
 """
 
 import color

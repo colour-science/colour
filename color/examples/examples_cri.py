@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package *color rendering index* calculation related examples.
+Showcases some **Color** package *color rendering index* calculation related examples.
 """
 
 import color

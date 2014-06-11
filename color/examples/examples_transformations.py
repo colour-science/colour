@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Shows some **Color** package color *transformations* related examples.
+Showcases some **Color** package color *transformations* related examples.
 """
 
 from numpy import matrix
