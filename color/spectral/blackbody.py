@@ -22,6 +22,7 @@ import numpy
 import warnings
 
 import color.spectral
+import color.utilities.decorators
 import color.utilities.verbose
 
 
@@ -54,7 +55,7 @@ C1_CONSTANT = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED_CONSTA
 C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CONSTANT
 N_CONSTANT = 1.
 
-
+@color.utilities.decorators.memoize(None)
 def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.

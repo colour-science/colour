@@ -21,6 +21,7 @@ import numpy
 import color.algebra.matrix
 import color.spectral.spd
 import color.utilities.exceptions
+import color.utilities.decorators
 import color.utilities.verbose
 from color.algebra.interpolation import SpragueInterpolator
 
@@ -37,7 +38,7 @@ __all__ = ["LOGGER",
 
 LOGGER = color.utilities.verbose.install_logger()
 
-
+@color.utilities.decorators.memoize(None)
 def wavelength_to_XYZ(wavelength, cmfs):
     """
     Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved

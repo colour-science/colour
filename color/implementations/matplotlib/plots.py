@@ -124,7 +124,7 @@ def __get_cmfs(cmfs):
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
                                                                                                                   color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
-    return cmfs.clone()
+    return cmfs
 
 
 def __get_illuminant(illuminant):
@@ -144,7 +144,7 @@ def __get_illuminant(illuminant):
                                                                                sorted(
                                                                                    color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
 
-    return illuminant.clone()
+    return illuminant
 
 
 def __get_colorspace(colorspace):
