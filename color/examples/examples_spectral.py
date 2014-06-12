@@ -7,9 +7,6 @@ Showcases some **Color** package color *spectral* related examples.
 
 import color
 
-# From '480 nm' wavelength to *CIE XYZ* colorspace tristimulus values.
-print(color.wavelength_to_XYZ(480, color.STANDARD_OBSERVERS_CMFS["CIE 1931 2 Degree Standard Observer"]))
-
 # Defining a sample spectral power distribution data.
 sample_spd_data = {380: 0.048,
                    385: 0.051,
@@ -125,6 +122,9 @@ print(color.spectral_to_XYZ(spd, cmfs, illuminant))
 
 # Calculating *A* illuminant chromaticity coordinates under *CIE 1931 2 Degree Standard Observer*.
 print(color.XYZ_to_xy(color.spectral_to_XYZ(illuminant, cmfs)))
+
+# From '546.1 nm' wavelength to *CIE XYZ* colorspace tristimulus values.
+print(color.wavelength_to_XYZ(546.1, color.STANDARD_OBSERVERS_CMFS["CIE 1931 2 Degree Standard Observer"]))
 
 # Correcting spectral bandpass.
 print color.bandpass_correction(spd).values

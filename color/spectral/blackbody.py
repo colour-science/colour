@@ -55,6 +55,7 @@ C1_CONSTANT = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED_CONSTA
 C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CONSTANT
 N_CONSTANT = 1.
 
+
 @color.utilities.decorators.memoize(None)
 def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
@@ -106,6 +107,12 @@ def blackbody_spectral_power_distribution(temperature,
     """
     Returns the spectral power distribution of the *blackbody* for given temperature.
 
+    Usage::
+
+        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> color.blackbody_spectral_power_distribution(5000, *cmfs.shape)
+        <color.spectral.spd.SpectralPowerDistribution at 0x10616fe90>
+
     :param temperature: Temperature in kelvins.
     :type temperature: float
     :param start: Wavelengths range start in nm.
@@ -124,12 +131,11 @@ def blackbody_spectral_power_distribution(temperature,
     :rtype: SpectralPowerDistribution
     """
 
-    return color.spectral.SpectralPowerDistribution(name="Blackbody",
-                                                    spd=dict(
-                                                        (wavelength,
-                                                         blackbody_spectral_radiance(wavelength * 1e-9,
-                                                                                     temperature,
-                                                                                     c1,
-                                                                                     c2,
-                                                                                     n))
-                                                        for wavelength in numpy.arange(start, end + steps, steps)))
+    return color.spectral.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
+                                                    spd=dict((wavelength,
+                                                              blackbody_spectral_radiance(wavelength * 1e-9,
+                                                                                          temperature,
+                                                                                          c1,
+                                                                                          c2,
+                                                                                          n))
+                                                             for wavelength in numpy.arange(start, end + steps, steps)))

@@ -33,59 +33,10 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-           "wavelength_to_XYZ",
-           "spectral_to_XYZ"]
+           "spectral_to_XYZ",
+           "wavelength_to_XYZ", ]
 
 LOGGER = color.utilities.verbose.install_logger()
-
-@color.utilities.decorators.memoize(None)
-def wavelength_to_XYZ(wavelength, cmfs):
-    """
-    Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
-    wavelength is not available in the color matching function, its value will be calculated using *CIE* recommendations:
-    The method developed by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced
-    independent variable and a *Cubic Spline* method for non-uniformly spaced independent variable.
-
-    Usage::
-
-        >>> wavelength_to_XYZ(480, color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"))
-        matrix([[ 0.09564],
-                [ 0.13902],
-                [ 0.81295]])
-
-    :param wavelength: Wavelength in nm.
-    :type wavelength: float
-    :param cmfs: Standard observer color matching functions.
-    :type cmfs: dict
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix
-    :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
-    """
-
-    start, end, steps = cmfs.shape
-    if wavelength < start or wavelength > end:
-        raise color.utilities.exceptions.ProgrammingError(
-            "'{0}' nm wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
-
-    wavelengths, values, = cmfs.wavelengths, cmfs.values
-    if cmfs.is_uniform():
-        interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
-    else:
-        try:
-            from scipy.interpolate import interp1d
-
-            interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
-        except ImportError as error:
-            LOGGER.warning(
-                "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
-                    __name__))
-
-            x_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 0])
-            y_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 1])
-            z_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 2])
-            interpolators = (x_interpolator, y_interpolator, z_interpolator)
-
-    return numpy.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
 
 
 def spectral_to_XYZ(spd,
@@ -158,3 +109,58 @@ def spectral_to_XYZ(spd,
                         normalising_factor * z_products.sum()])
 
     return XYZ.reshape((3, 1))
+
+
+@color.utilities.decorators.memoize(None)
+def wavelength_to_XYZ(wavelength, cmfs):
+    """
+    Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
+    wavelength is not available in the color matching function, its value will be calculated using *CIE* recommendations:
+    The method developed by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced
+    independent variable and a *Cubic Spline* method for non-uniformly spaced independent variable.
+
+    Usage::
+
+        >>> wavelength_to_XYZ(480, color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"))
+        matrix([[ 0.09564],
+                [ 0.13902],
+                [ 0.81295]])
+
+    :param wavelength: Wavelength in nm.
+    :type wavelength: float
+    :param cmfs: Standard observer color matching functions.
+    :type cmfs: dict
+    :return: *CIE XYZ* matrix.
+    :rtype: matrix
+    :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+    """
+
+    start, end, steps = cmfs.shape
+    if wavelength < start or wavelength > end:
+        raise color.utilities.exceptions.ProgrammingError(
+            "'{0}' nm wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
+
+    wavelengths, values, = cmfs.wavelengths, cmfs.values
+
+    if wavelength not in cmfs:
+        if cmfs.is_uniform():
+            interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
+        else:
+            try:
+                from scipy.interpolate import interp1d
+
+                interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
+            except ImportError as error:
+                LOGGER.warning(
+                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                        __name__))
+
+                x_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 0])
+                y_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 1])
+                z_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 2])
+                interpolators = (x_interpolator, y_interpolator, z_interpolator)
+
+        return numpy.matrix([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
+    else:
+        return numpy.matrix(cmfs.get(wavelength)).reshape((3, 1))
+

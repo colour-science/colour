@@ -16,6 +16,7 @@
 
 import bisect
 import functools
+import itertools
 import random
 from collections import namedtuple
 
@@ -55,6 +56,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
            "RESOURCES_DIRECTORY",
            "DEFAULT_FIGURE_SIZE",
+           "DEFAULT_COLOR_CYCLE",
            "COLOR_PARAMETER",
            "XYZ_to_sRGB",
            "normalize_RGB",
@@ -98,6 +100,8 @@ LOGGER = color.utilities.verbose.install_logger()
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources")
 
 DEFAULT_FIGURE_SIZE = 14, 7
+
+DEFAULT_COLOR_CYCLE = ("r", "g", "b", "c", "m", "y", "k")
 
 COLOR_PARAMETER = namedtuple("ColorParameter", ("name", "RGB", "x", "y0", "y1"))
 
@@ -166,6 +170,24 @@ def __get_colorspace(colorspace):
 
     return colorspace
 
+def __get_color_cycle(color_map="hsv", count=len(DEFAULT_COLOR_CYCLE)):
+    """
+    Returns a color cycle iterator using given color map.
+
+    :param color_map: Matplotlib color map.
+    :type color_map: unicode
+    :param count: Cycle length.
+    :type count: int
+    :return: Color cycle iterator.
+    :rtype: cycle
+    """
+
+    if color_map is None:
+        color_cycle = DEFAULT_COLOR_CYCLE
+    else:
+        color_cycle = getattr(matplotlib.pyplot.cm, color_map)(numpy.linspace(0., 1., count))
+
+    return itertools.cycle(color_cycle)
 
 def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
     """
@@ -198,7 +220,7 @@ def normalize_RGB(RGB):
     """
 
     RGB = numpy.ravel(RGB)
-    RGB *= 1. / numpy.max(RGB)
+    RGB /= numpy.max(RGB)
     return numpy.clip(RGB, 0., 1.)
 
 
@@ -259,20 +281,20 @@ def aspect(**kwargs):
     """
 
     settings = color.utilities.data_structures.Structure(**{"title": None,
-                                                  "x_label": None,
-                                                  "y_label": None,
-                                                  "legend": False,
-                                                  "legend_location": "upper right",
-                                                  "x_ticker": False,
-                                                  "y_ticker": False,
-                                                  "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-                                                  "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-                                                  "no_ticks": False,
-                                                  "grid": False,
-                                                  "axis_grid": "both",
-                                                  "x_axis_line": False,
-                                                  "y_axis_line": False,
-                                                  "aspect": None})
+                                                            "x_label": None,
+                                                            "y_label": None,
+                                                            "legend": False,
+                                                            "legend_location": "upper right",
+                                                            "x_ticker": False,
+                                                            "y_ticker": False,
+                                                            "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+                                                            "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
+                                                            "no_ticks": False,
+                                                            "grid": False,
+                                                            "axis_grid": "both",
+                                                            "x_axis_line": False,
+                                                            "y_axis_line": False,
+                                                            "aspect": None})
     settings.update(kwargs)
 
     settings.title and pylab.title(settings.title)
@@ -303,10 +325,10 @@ def bounding_box(**kwargs):
     """
 
     settings = color.utilities.data_structures.Structure(**{"bounding_box": None,
-                                                  "x_tighten": False,
-                                                  "y_tighten": False,
-                                                  "limits": [0., 1., 0., 1.],
-                                                  "margins": [0., 0., 0., 0.]})
+                                                            "x_tighten": False,
+                                                            "y_tighten": False,
+                                                            "limits": [0., 1., 0., 1.],
+                                                            "margins": [0., 0., 0., 0.]})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -332,7 +354,7 @@ def display(**kwargs):
     """
 
     settings = color.utilities.data_structures.Structure(**{"standalone": True,
-                                                  "filename": None})
+                                                            "filename": None})
     settings.update(kwargs)
 
     if settings.standalone:
@@ -660,6 +682,7 @@ def single_spectral_power_distribution_plot(spd,
 def multi_spectral_power_distribution_plot(spds,
                                            cmfs="CIE 1931 2 Degree Standard Observer",
                                            use_spds_colors=False,
+                                           normalize_spds_colors=False,
                                            **kwargs):
     """
     Plots given spectral power distributions.
@@ -675,6 +698,10 @@ def multi_spectral_power_distribution_plot(spds,
     :type spds: list
     :param cmfs: Standard observer color matching functions used for spectrum creation.
     :type cmfs: unicode
+    :param use_spds_colors: Use spectral power distributions colors.
+    :type use_spds_colors: bool
+    :param normalize_spds_colors: Should spectral power distributions colors normalized.
+    :type normalize_spds_colors: bool
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Definition success.
@@ -696,13 +723,16 @@ def multi_spectral_power_distribution_plot(spds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
+        matplotlib.pyplot.rc('axes', color_cycle=['r', 'g', 'b', 'y'])
+
         if use_spds_colors:
-            XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs, illuminant)
-            XYZ /= 100.
+            XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs, illuminant) / 100.
+            if normalize_spds_colors:
+                XYZ /= numpy.max(XYZ)
             RGB = XYZ_to_sRGB(XYZ)
             RGB = numpy.clip(RGB, 0., 1.)
 
-            pylab.plot(wavelengths, values, label=spd.name, linewidth=2., color=RGB)
+            pylab.plot(wavelengths, values, color=RGB, label=spd.name, linewidth=2.)
         else:
             pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
 
@@ -1803,7 +1833,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
 
     single_spectral_power_distribution_plot(spd, name, **settings)
 
-    XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
+    XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs) / 100.
     RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
@@ -1824,9 +1854,9 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     return display(**settings)
 
 
-def blackbody_colors_plot(start=1000,
-                          end=15000,
-                          steps=25,
+def blackbody_colors_plot(start=150,
+                          end=12500,
+                          steps=50,
                           cmfs="CIE 1931 2 Degree Standard Observer",
                           **kwargs):
     """
@@ -1859,7 +1889,7 @@ def blackbody_colors_plot(start=1000,
     for temperature in numpy.arange(start, end + steps, steps):
         spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
-        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
+        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs) / 100.
         RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
         colors.append(RGB)
@@ -1900,7 +1930,7 @@ def color_rendering_index_bars_plot(illuminant, **kwargs):
     color_rendering_index, color_rendering_indexes, additional_data = color.cri.get_color_rendering_index(illuminant,
                                                                                                           additional_data=True)
 
-    colors = [[1.] * 3] + map(lambda x: numpy.clip(XYZ_to_sRGB(x.XYZ / 100.), 0., 1.), additional_data[0])
+    colors = [[1.] * 3] + map(lambda x: normalize_RGB(XYZ_to_sRGB(x.XYZ / 100.)), additional_data[0])
     x, y = zip(*sorted(color_rendering_indexes.iteritems(), key=lambda x: x[0]))
     x, y = numpy.array([0] + list(x)), numpy.array([color_rendering_index] + list(y))
 
