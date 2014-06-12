@@ -31,6 +31,7 @@ Highlights:
   -  D60
   -  D65
   -  D75
+  -  E
   -  F1
   -  F2
   -  F3
@@ -43,6 +44,21 @@ Highlights:
   -  F10
   -  F11
   -  F12
+  -  FL3.1
+  -  FL3.2
+  -  FL3.3
+  -  FL3.4
+  -  FL3.5
+  -  FL3.6
+  -  FL3.7
+  -  FL3.8
+  -  FL3.9
+  -  FL3.10
+  -  FL3.11
+  -  FL3.12
+  -  FL3.13
+  -  FL3.14
+  -  FL3.15
 
 - Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
@@ -319,6 +335,8 @@ Illuminants Relative Spectral Power Distributions
 
 `D55 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
+**Bruce Lindbloom**, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+
 `D65 <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
 
 `D75 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
@@ -347,7 +365,35 @@ Illuminants Relative Spectral Power Distributions
 
 `F12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
-**Bruce Lindbloom**, `D60 <http://www.brucelindbloom.com/Eqn_DIlluminant.html>`_ (Last accessed 5 April 2014)
+`FL3.1 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.2 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.3 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.4 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.5 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.6 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.7 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.8 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.9 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.10 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.11 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.12 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.13 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.14 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`FL3.15 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
 
 Illuminants Chromaticity Coordinates
 ------------------------------------
