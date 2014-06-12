@@ -59,6 +59,11 @@ Highlights:
   -  FL3.13
   -  FL3.14
   -  FL3.15
+  -  HP1
+  -  HP2
+  -  HP3
+  -  HP4
+  -  HP5
 
 - Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
@@ -394,6 +399,16 @@ Illuminants Relative Spectral Power Distributions
 `FL3.14 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
 
 `FL3.15 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP1 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP2 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP3 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP4 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP5 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
 
 Illuminants Chromaticity Coordinates
 ------------------------------------
