@@ -24,6 +24,7 @@ Highlights:
 -  Illuminants spectral data:
 
   -  A
+  -  B
   -  C
   -  D50
   -  D55
@@ -310,13 +311,15 @@ Illuminants Relative Spectral Power Distributions
 
 `A <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
 
-`D65 <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
+`B <http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c>`_ (Last accessed 12 June 2014)
 
 `C <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
 `D50 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 
 `D55 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
+
+`D65 <http://files.cie.co.at/204.xls>`_ (Last accessed 24 February 2014)
 
 `D75 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 24 February 2014)
 

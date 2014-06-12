@@ -863,13 +863,13 @@ def single_illuminant_relative_spd_plot(illuminant="A", cmfs="CIE 1931 2 Degree 
     return single_spectral_power_distribution_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs):
+def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
     Usage::
 
-        >>> multi_illuminants_relative_spd_plot(["A", "C", "D50"])
+        >>> multi_illuminants_relative_spd_plot(["A", "B", "C"])
         True
 
     :param illuminants: Factory illuminants to plot.
