@@ -10,7 +10,6 @@ from numpy import matrix
 import color
 from color.implementations.matplotlib.plots import *
 
-
 # Plotting a single color.
 single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)),
                   text_size=32.)
@@ -37,6 +36,10 @@ single_illuminant_relative_spd_plot("F1")
 # Plotting multiple illuminants relative spectral power distributions.
 print(sorted(color.ILLUMINANTS_RELATIVE_SPDS.keys()))
 multi_illuminants_relative_spd_plot(["A", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
+
+# Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
+multi_spectral_power_distribution_plot(sorted(color.D_ILLUMINANTS_S_SPDS.values()),
+                                       title="CIE Standard Illuminant D Series - S Distributions")
 
 # Defining a sample spectral power distribution data.
 sample_spd_data = {380: 0.048,

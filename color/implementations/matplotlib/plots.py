@@ -535,7 +535,7 @@ def multi_color_plot(color_parameters,
         y_polygon = [y0, y0, y1, y1]
         pylab.fill(x_polygon, y_polygon, color=color_parameters[i].RGB)
         if color_parameter.name is not None and text_display:
-            pylab.text(x0 + text_offset, y0 + text_offset, color_parameter.name, size=text_size)
+            pylab.text(x0 + text_offset, y0 + text_offset, color_parameter.name, clip_on=True, size=text_size)
 
         offsetX += width + spacing
 
@@ -613,6 +613,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
                text_y,
                "{0} - {1} - Color Rendition Chart".format(name, color.colorspaces.sRGB_COLORSPACE.name),
                color="0.95",
+               clip_on=True,
                ha="center")
 
     settings.update({"title": name,
@@ -884,7 +885,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
     for illuminant in illuminants:
         spds.append(__get_illuminant(illuminant))
 
-    settings = {"title": "{0}- Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
+    settings = {"title": "{0} - Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
                 "y_label": "Relative Spectral Power Distribution"}
     settings.update(kwargs)
 
@@ -1053,7 +1054,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
         normal /= 25
 
         pylab.plot([x, x + normal[0] * 0.75], [y, y + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(x + normal[0], y + normal[1], label, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(x + normal[0], y + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1931 Chromaticity Diagram - {0}".format(name),
@@ -1150,14 +1151,14 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
 
 
 @figure_size((8, 8))
-def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E"],
+def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C"],
                                                        **kwargs):
     """
     Plots the planckian locus and given illuminants in *CIE 1931 Chromaticity Diagram*.
 
     Usage::
 
-        >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(["A", "C", "E"])
+        >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(["A", "B", "C"])
         True
 
     :param illuminants: Factory illuminants to plot.
@@ -1340,7 +1341,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(u + normal[0], v + normal[1], label, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1960 UCS Chromaticity Diagram - {0}".format(name),
@@ -1556,7 +1557,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(u + normal[0], v + normal[1], label, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1976 UCS Chromaticity Diagram - {0}".format(name),

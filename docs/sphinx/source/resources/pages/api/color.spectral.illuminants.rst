@@ -12,7 +12,9 @@ Module Attributes
 
 .. attribute:: color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPDS
 
-.. attribute:: color.spectral.illuminants.D_ILLUMINANTS_S_DISTRIBUTIONS
+.. attribute:: color.spectral.illuminants.D_ILLUMINANTS_S_SPDS_DATA
+
+.. attribute:: color.spectral.illuminants.D_ILLUMINANTS_S_SPDS
 
 Functions
 ---------

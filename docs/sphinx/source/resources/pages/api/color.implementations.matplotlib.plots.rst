@@ -12,6 +12,8 @@ Module Attributes
 
 .. attribute:: color.implementations.matplotlib.plots.DEFAULT_FIGURE_SIZE
 
+.. attribute:: color.implementations.matplotlib.plots.DEFAULT_COLOR_CYCLE
+
 .. attribute:: color.implementations.matplotlib.plots.COLOR_PARAMETER
 
 Functions

@@ -17,6 +17,7 @@ _`Highlights`
 
 -  RGB and XYZ color matching functions spectral data:
 
+  -  Wright & Guild 1931 2 Degree Standard Observer RGB color matching functions.
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
   -  Stiles & Burch 1959 10° Observer RGB color matching functions.
   -  Standard CIE 1931 2° Observer XYZ color matching functions.
@@ -27,12 +28,14 @@ _`Highlights`
 -  Illuminants spectral data:
 
   -  A
+  -  B
   -  C
   -  D50
   -  D55
   -  D60
   -  D65
   -  D75
+  -  E
   -  F1
   -  F2
   -  F3
@@ -45,6 +48,21 @@ _`Highlights`
   -  F10
   -  F11
   -  F12
+  -  FL3.1
+  -  FL3.2
+  -  FL3.3
+  -  FL3.4
+  -  FL3.5
+  -  FL3.6
+  -  FL3.7
+  -  FL3.8
+  -  FL3.9
+  -  FL3.10
+  -  FL3.11
+  -  FL3.12
+  -  FL3.13
+  -  FL3.14
+  -  FL3.15
 
 - Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
