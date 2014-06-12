@@ -47,7 +47,7 @@ SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,
                                       0.310, 0.595,
                                       0.155, 0.070]).reshape((3, 2))
 
-SMPTE_C_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+SMPTE_C_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 SMPTE_C_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)

@@ -131,7 +131,7 @@ def get_color_rendering_index(test_spd, additional_data=False):
 
     Usage::
 
-        >>> spd = color.ILLUMINANTS_RELATIVE_SPD.get("F2")
+        >>> spd = color.ILLUMINANTS_RELATIVE_SPDS.get("F2")
         >>> get_color_rendering_index(spd)
         64.1507331494
 
@@ -143,8 +143,7 @@ def get_color_rendering_index(test_spd, additional_data=False):
     :rtype: float or (float, dict)
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
-        "Standard CIE 1931 2 Degree Observer")
+    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     start, end, steps = cmfs.shape
     test_spd = test_spd.clone().align(start, end, steps)

@@ -47,7 +47,7 @@ APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,
                                     0.2800, 0.5950,
                                     0.1550, 0.0700]).reshape((3, 2))
 
-APPLE_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+APPLE_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 APPLE_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(APPLE_RGB_PRIMARIES, APPLE_RGB_WHITEPOINT)
 

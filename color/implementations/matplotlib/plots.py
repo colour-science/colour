@@ -118,12 +118,12 @@ def __get_cmfs(cmfs):
     :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(cmfs), cmfs
+    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise color.utilities.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys())))
+                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.keys())))
     return cmfs
 
 
@@ -137,12 +137,12 @@ def __get_illuminant(illuminant):
     :rtype: SpectralPowerDistribution
     """
 
-    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.get(illuminant), illuminant
+    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise color.utilities.exceptions.ProgrammingError(
             "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
                                                                                sorted(
-                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPD.keys())))
+                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
@@ -605,7 +605,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
 
 def single_spectral_power_distribution_plot(spd,
-                                            cmfs="Standard CIE 1931 2 Degree Observer",
+                                            cmfs="CIE 1931 2 Degree Standard Observer",
                                             **kwargs):
     """
     Plots given spectral power distribution.
@@ -658,7 +658,7 @@ def single_spectral_power_distribution_plot(spd,
 
 
 def multi_spectral_power_distribution_plot(spds,
-                                           cmfs="Standard CIE 1931 2 Degree Observer",
+                                           cmfs="CIE 1931 2 Degree Standard Observer",
                                            use_spds_colors=False,
                                            **kwargs):
     """
@@ -684,7 +684,7 @@ def multi_spectral_power_distribution_plot(spds,
     cmfs, name = __get_cmfs(cmfs), cmfs
 
     if use_spds_colors:
-        illuminant = color.ILLUMINANTS_RELATIVE_SPD.get("D65")
+        illuminant = color.ILLUMINANTS_RELATIVE_SPDS.get("D65")
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -722,13 +722,13 @@ def multi_spectral_power_distribution_plot(spds,
     return display(**settings)
 
 
-def single_color_matching_functions_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def single_color_matching_functions_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given standard observer *CIE XYZ* color matching functions.
 
     Usage::
 
-        >>> single_color_matching_functions_plot("Standard CIE 1931 2 Degree Observer")
+        >>> single_color_matching_functions_plot("CIE 1931 2 Degree Standard Observer")
         True
 
     :param cmfs: Standard observer color matching functions to plot.
@@ -745,15 +745,15 @@ def single_color_matching_functions_plot(cmfs="Standard CIE 1931 2 Degree Observ
     return multi_color_matching_functions_plot([cmfs], **settings)
 
 
-def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Observer",
-                                               "Standard CIE 1964 10 Degree Observer"],
+def multi_color_matching_functions_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
+                                               "CIE 1964 10 Degree Standard Observer"],
                                         **kwargs):
     """
     Plots given standard observers *CIE XYZ* color matching functions.
 
     Usage::
 
-        >>> multi_color_matching_functions_plot(["Standard CIE 1931 2 Degree Observer", "Standard CIE 1964 10 Degree Observer"])
+        >>> multi_color_matching_functions_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
         True
 
     :param cmfss: Standard observers color matching functions to plot.
@@ -802,7 +802,7 @@ def multi_color_matching_functions_plot(cmfss=["Standard CIE 1931 2 Degree Obser
     return display(**settings)
 
 
-def single_illuminant_relative_spd_plot(illuminant="A", cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def single_illuminant_relative_spd_plot(illuminant="A", cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
 
@@ -861,13 +861,13 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "C", "D50"], **kwargs)
     return multi_spectral_power_distribution_plot(spds, **settings)
 
 
-def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots the visible colors spectrum using given standard observer *CIE XYZ* color matching functions.
 
     Usage::
 
-        >>> visible_spectrum_plot("Standard CIE 1931 2 Degree Observer")
+        >>> visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
         True
 
     :param cmfs: Standard observer color matching functions used for spectrum creation.
@@ -905,7 +905,7 @@ def visible_spectrum_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
 @figure_size((32, 32))
 def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
                                               spacing=0.00075,
-                                              cmfs="Standard CIE 1931 2 Degree Observer",
+                                              cmfs="CIE 1931 2 Degree Standard Observer",
                                               **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram* colors.
@@ -929,7 +929,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
+    illuminant = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
     XYZs = [value for key, value in cmfs]
 
@@ -963,7 +963,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
 
 
 @figure_size((8, 8))
-def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
 
@@ -1045,7 +1045,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer
 
 @figure_size((8, 8))
 def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RGB", "Pointer Gamut"],
-                                                   cmfs="Standard CIE 1931 2 Degree Observer",
+                                                   cmfs="CIE 1931 2 Degree Standard Observer",
                                                    **kwargs):
     """
     Plots given colorspaces in *CIE 1931 Chromaticity Diagram*.
@@ -1138,12 +1138,12 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
     :rtype: bool
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
+        "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
             ", ".join(
-                illuminants)) if illuminants else "Planckian Locus\n CIE 1931 Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
+                illuminants)) if illuminants else "Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1191,7 +1191,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "C", "E
 @figure_size((32, 32))
 def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
                                                   spacing=0.00075,
-                                                  cmfs="Standard CIE 1931 2 Degree Observer",
+                                                  cmfs="CIE 1931 2 Degree Standard Observer",
                                                   **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colors.
@@ -1215,7 +1215,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("E")
+    illuminant = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
     UVWs = [color.transformations.XYZ_to_UCS(value) for key, value in cmfs]
 
@@ -1249,7 +1249,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
 
 @figure_size((8, 8))
-def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -1349,12 +1349,12 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     :rtype: bool
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer".format(
+        "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
             ", ".join(
-                illuminants)) if illuminants else "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - Standard CIE 1931 2 Degree Observer",
+                illuminants)) if illuminants else "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1405,7 +1405,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
 @figure_size((32, 32))
 def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
                                                   spacing=0.00075,
-                                                  cmfs="Standard CIE 1931 2 Degree Observer",
+                                                  cmfs="CIE 1931 2 Degree Standard Observer",
                                                   **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colors.
@@ -1429,7 +1429,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+    illuminant = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
     Luvs = [color.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
@@ -1463,7 +1463,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
 
 @figure_size((8, 8))
-def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Observer", **kwargs):
+def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -1493,7 +1493,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="Standard CIE 1931 2 Degree Obse
     wavelengths = cmfs.wavelengths
     equal_energy = numpy.array([1. / 3.] * 2)
 
-    illuminant = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+    illuminant = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
     Luvs = [color.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
@@ -1764,7 +1764,7 @@ def multi_transfer_function_plot(colorspaces=["sRGB", "Rec. 709"],
 
 
 def blackbody_spectral_radiance_plot(temperature=3500,
-                                     cmfs="Standard CIE 1931 2 Degree Observer",
+                                     cmfs="CIE 1931 2 Degree Standard Observer",
                                      blackbody="VY Canis Major",
                                      **kwargs):
     """
@@ -1827,7 +1827,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
 def blackbody_colors_plot(start=1000,
                           end=15000,
                           steps=25,
-                          cmfs="Standard CIE 1931 2 Degree Observer",
+                          cmfs="CIE 1931 2 Degree Standard Observer",
                           **kwargs):
     """
     Plots blackbody colors.

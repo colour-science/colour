@@ -51,7 +51,7 @@ C_LOG_PRIMARIES = numpy.matrix([0.6400, 0.3300,
                                 0.3000, 0.6000,
                                 0.1500, 0.0600]).reshape((3, 2))
 
-C_LOG_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+C_LOG_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 C_LOG_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(C_LOG_PRIMARIES, C_LOG_WHITEPOINT)
 

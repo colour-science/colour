@@ -272,22 +272,22 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.wavelength_to_XYZ(480,
-                                                             color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                                 "Standard CIE 1931 2 Degree Observer")),
+                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+                                                                 "CIE 1931 2 Degree Standard Observer")),
             numpy.matrix([0.09564, 0.13902, 0.81295]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.wavelength_to_XYZ(480,
-                                                             color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                                 "Standard CIE 2006 2 Degree Observer")),
+                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+                                                                 "CIE 2006 2 Degree Standard Observer")),
             numpy.matrix([0.08182895, 0.1788048, 0.7552379]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.wavelength_to_XYZ(641.5,
-                                                             color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get(
-                                                                 "Standard CIE 2006 2 Degree Observer")),
+                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+                                                                 "CIE 2006 2 Degree Standard Observer")),
             numpy.matrix([0.44575583, 0.18184213, 0.]).reshape((3, 1)),
             decimal=7)
 
@@ -302,20 +302,20 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         Tests :func:`color.spectral.transformations.spectral_to_XYZ` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "A").clone().zeros(*cmfs.shape)),
             numpy.matrix([14.46371626, 10.85832347, 2.04664796]).reshape((3, 1)),
             decimal=7)
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1964 10 Degree Observer")
+        cmfs = color.spectral.STANDARD_OBSERVERS_CMFS.get("CIE 1964 10 Degree Standard Observer")
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "C").clone().zeros(*cmfs.shape)),
             numpy.matrix([10.7704252, 9.44870313, 6.62742289]).reshape((3, 1)),
             decimal=7)
@@ -323,7 +323,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPD.get(
+                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "F2").clone().zeros(*cmfs.shape)),
             numpy.matrix([11.57830745, 9.98744967, 3.95396539]).reshape((3, 1)),
             decimal=7)

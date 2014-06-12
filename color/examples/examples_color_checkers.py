@@ -18,7 +18,7 @@ for index, name, x, y, Y in data:
 for index, name, x, y, Y in data:
     RGB = color.xyY_to_RGB(matrix([[x], [y], [Y]]),
                            illuminant,
-                           color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D65"],
+                           color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
                            "Bradford",
                            color.sRGB_COLORSPACE.from_XYZ,
                            color.sRGB_COLORSPACE.transfer_function)

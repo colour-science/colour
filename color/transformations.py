@@ -63,7 +63,7 @@ __all__ = ["LOGGER",
 LOGGER = color.utilities.verbose.install_logger()
 
 
-def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def XYZ_to_xyY(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE xyY* colorspace and reference *illuminant*.
 
@@ -139,7 +139,7 @@ def xy_to_XYZ(xy):
     return xyY_to_XYZ(numpy.matrix([xy[0], xy[1], 1.]).reshape((3, 1)))
 
 
-def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def XYZ_to_xy(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* matrix.
 
@@ -458,7 +458,7 @@ def UCS_uv_to_xy(uv):
     return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), 2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)
 
 
-def XYZ_to_UVW(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def XYZ_to_UVW(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE 1964 U\*V*\W\** colorspace.
 
@@ -490,7 +490,7 @@ def XYZ_to_UVW(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     return numpy.matrix([U, V, W]).reshape((3, 1))
 
 
-def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE Luv* colorspace.
 
@@ -523,7 +523,7 @@ def XYZ_to_Luv(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     return numpy.matrix([L, u, v]).reshape((3, 1))
 
 
-def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Luv* colorspace to *CIE XYZ* colorspace.
 
@@ -560,7 +560,7 @@ def Luv_to_XYZ(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     return numpy.matrix([X, Y, Z]).reshape((3, 1))
 
 
-def Luv_to_uv(Luv, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def Luv_to_uv(Luv, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* matrix.
 
@@ -656,7 +656,7 @@ def LCHuv_to_Luv(LCHuv):
     return numpy.matrix([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
 
 
-def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE Lab* colorspace.
 
@@ -695,7 +695,7 @@ def XYZ_to_Lab(XYZ, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1
     return numpy.matrix([L, a, b]).reshape((3, 1))
 
 
-def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")):
+def Lab_to_XYZ(Lab, illuminant=color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Lab* colorspace to *CIE XYZ* colorspace.
 

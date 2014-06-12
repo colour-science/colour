@@ -47,7 +47,7 @@ RUSSELL_RGB_PRIMARIES = numpy.matrix([0.6900, 0.3100,
                                       0.1800, 0.7700,
                                       0.1000, 0.0200]).reshape((3, 2))
 
-RUSSELL_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D55")
+RUSSELL_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D55")
 
 RUSSELL_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(RUSSELL_RGB_PRIMARIES,
                                                                            RUSSELL_RGB_WHITEPOINT)

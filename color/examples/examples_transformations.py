@@ -8,8 +8,8 @@ Showcases some **Color** package color *transformations* related examples.
 from numpy import matrix
 import color
 
-# Displaying explicit *A* illuminant chromaticity coordinates under *Standard CIE 1931 2 Degree Observer*.
-print(color.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("A"))
+# Displaying explicit *A* illuminant chromaticity coordinates under *CIE 1931 2 Degree Standard Observer*.
+print(color.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("A"))
 
 # From *CIE XYZ* colorspace to *CIE xyY* colorspace.
 print(color.XYZ_to_xyY(matrix([[11.80583421], [10.34], [5.15089229]])))
@@ -21,7 +21,7 @@ print(color.XYZ_to_xyY([11.80583421, 10.34, 5.15089229]))
 print(color.XYZ_to_xyY(matrix([[0], [0], [0]])))
 
 # Using an alternative illuminant.
-print(color.XYZ_to_xyY(matrix([[0], [0], [0]]), color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D60"]))
+print(color.XYZ_to_xyY(matrix([[0], [0], [0]]), color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D60"]))
 
 # From *CIE xyY* colorspace to *CIE XYZ* colorspace.
 print(color.xyY_to_XYZ(matrix([[0.4325], [0.3788], [10.34]])))
@@ -35,7 +35,7 @@ print(color.XYZ_to_xy(matrix([[0.97137399], [1.], [1.04462134]])))
 # From *CIE XYZ* colorspace to *RGB* colorspace.
 # From *CIE XYZ* colorspace to *sRGB* colorspace.
 print(color.XYZ_to_RGB(matrix([[11.51847498], [10.08], [5.08937252]]),
-                       color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D50"],
+                       color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                        color.sRGB_COLORSPACE.whitepoint,
                        "Bradford",
                        color.sRGB_COLORSPACE.from_XYZ,
@@ -45,7 +45,7 @@ print(color.XYZ_to_RGB(matrix([[11.51847498], [10.08], [5.08937252]]),
 # From *sRGB* colorspace to *CIE XYZ* colorspace.
 print(color.RGB_to_XYZ(matrix([[3.40552203], [2.48159742], [2.11932818]]),
                        color.sRGB_COLORSPACE.whitepoint,
-                       color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D50"],
+                       color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                        "Bradford",
                        color.sRGB_COLORSPACE.to_XYZ,
                        color.sRGB_COLORSPACE.inverse_transfer_function))
@@ -53,7 +53,7 @@ print(color.RGB_to_XYZ(matrix([[3.40552203], [2.48159742], [2.11932818]]),
 # From *CIE xyY* colorspace to *RGB* colorspace.
 # From *CIE xyY* colorspace to *sRGB* colorspace.
 print(color.xyY_to_RGB(matrix([[0.4316], [0.3777], [10.08]]),
-                       color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D50"],
+                       color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                        color.sRGB_COLORSPACE.whitepoint,
                        "Bradford",
                        color.sRGB_COLORSPACE.from_XYZ,
@@ -63,7 +63,7 @@ print(color.xyY_to_RGB(matrix([[0.4316], [0.3777], [10.08]]),
 # From *sRGB* colorspace to *CIE xyY* colorspace.
 print(color.RGB_to_xyY(matrix([[3.40552203], [2.48159742], [2.11932818]]),
                        color.sRGB_COLORSPACE.whitepoint,
-                       color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D50"],
+                       color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                        "Bradford",
                        color.sRGB_COLORSPACE.to_XYZ,
                        color.sRGB_COLORSPACE.inverse_transfer_function))

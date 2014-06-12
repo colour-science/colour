@@ -48,6 +48,7 @@ _`Highlights`
 
 -  RGB and XYZ color matching functions spectral data:
 
+  -  Wright & Guild 1931 2 Degree Standard Observer RGB color matching functions.
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
   -  Stiles & Burch 1959 10° Observer RGB color matching functions.
   -  Standard CIE 1931 2° Observer XYZ color matching functions.
@@ -342,17 +343,19 @@ Color Difference
 Color Matching Functions
 ------------------------
 
-`Stiles & Burch 1955 2 Degree Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
+`Wright & Guild 1931 2 Degree Standard Observer <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
 
-`Stiles & Burch 1959 10 Degree Observer <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1955 2 Degree Standard Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
 
-`Standard CIE 1931 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1959 10 Degree Standard Observer <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
 
-`Standard CIE 1964 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1931 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`Standard CIE 2006 2 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`Standard CIE 2006 10 Degree Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2006 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+`CIE 2006 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
 Deprecated Transformations
 --------------------------

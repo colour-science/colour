@@ -47,7 +47,7 @@ NTSC_RGB_PRIMARIES = numpy.matrix([0.67, 0.33,
                                    0.21, 0.71,
                                    0.14, 0.08]).reshape((3, 2))
 
-NTSC_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("C")
+NTSC_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("C")
 
 NTSC_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(NTSC_RGB_PRIMARIES, NTSC_RGB_WHITEPOINT)
 

@@ -128,7 +128,7 @@ def RGB_to_Lab(RGB, colorspace):
     return color.transformations.XYZ_to_Lab(color.transformations.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
                                                                              colorspace.whitepoint,
                                                                              color.illuminants.ILLUMINANTS.get(
-                                                                                 "Standard CIE 1931 2 Degree Observer").get(
+                                                                                 "CIE 1931 2 Degree Standard Observer").get(
                                                                                  "E"),
                                                                              "Bradford",
                                                                              colorspace.to_XYZ,

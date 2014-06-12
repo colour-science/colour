@@ -74,7 +74,7 @@ BABELCOLOR_AVERAGE_DATA = ((1, "dark skin", 0.4325, 0.3788, 0.1034),
                            (23, "neutral 3.5 (1.05 D)", 0.3423, 0.3576, 0.0893),
                            (24, "black 2 (1.5 D)", 0.3439, 0.3565, 0.032))
 
-BABELCOLOR_AVERAGE_ILLUMINANT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+BABELCOLOR_AVERAGE_ILLUMINANT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 BABELCOLOR_AVERAGE = map(lambda x: COLORCHECKER_INXYY(*x), BABELCOLOR_AVERAGE_DATA)
 
 COLORCHECKER_2005_DATA = ((1, "dark skin", 0.4316, 0.3777, 0.1008),
@@ -102,7 +102,7 @@ COLORCHECKER_2005_DATA = ((1, "dark skin", 0.4316, 0.3777, 0.1008),
                           (23, "neutral 3.5 (1.05 D)", 0.3401, 0.3548, 0.0883),
                           (24, "black 2 (1.5 D)", 0.3406, 0.3537, 0.0311))
 
-COLORCHECKER_2005_ILLUMINANT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+COLORCHECKER_2005_ILLUMINANT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 COLORCHECKER_2005 = map(lambda x: COLORCHECKER_INXYY(*x), COLORCHECKER_2005_DATA)
 
 COLORCHECKER_1976_DATA = ((1, "dark skin", 0.4002, 0.3504, 0.1005),
@@ -130,7 +130,7 @@ COLORCHECKER_1976_DATA = ((1, "dark skin", 0.4002, 0.3504, 0.1005),
                           (23, "neutral 3.5 (1.05 D)", 0.3101, 0.3163, 0.09),
                           (24, "black 2 (1.5 D)", 0.3101, 0.3163, 0.0313))
 
-COLORCHECKER_1976_ILLUMINANT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("C")
+COLORCHECKER_1976_ILLUMINANT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("C")
 COLORCHECKER_1976 = map(lambda x: COLORCHECKER_INXYY(*x), COLORCHECKER_1976_DATA)
 
 COLORCHECKERS = {

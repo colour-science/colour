@@ -47,7 +47,7 @@ EKTA_SPACE_PS_5_PRIMARIES = numpy.matrix([0.6947368421052631, 0.3052631578947368
                                           0.26000000000000001, 0.69999999999999996,
                                           0.10972850678733032, 0.0045248868778280547]).reshape((3, 2))
 
-EKTA_SPACE_PS_5_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+EKTA_SPACE_PS_5_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
 EKTA_SPACE_PS_5_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(EKTA_SPACE_PS_5_PRIMARIES,
                                                                                EKTA_SPACE_PS_5_WHITEPOINT)

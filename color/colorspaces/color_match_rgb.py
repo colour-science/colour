@@ -47,7 +47,7 @@ COLOR_MATCH_RGB_PRIMARIES = numpy.matrix([0.6300, 0.3400,
                                           0.2950, 0.6050,
                                           0.1500, 0.0750]).reshape((3, 2))
 
-COLOR_MATCH_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+COLOR_MATCH_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(COLOR_MATCH_RGB_PRIMARIES,
                                                                                COLOR_MATCH_RGB_WHITEPOINT)

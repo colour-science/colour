@@ -8,13 +8,13 @@ Showcases some **Color** package *color rendering index* calculation related exa
 import color
 
 # Calculating *color rendering index* of *F2* illuminant.
-print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("F2")))
+print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPDS.get("F2")))
 
 # Calculating *color rendering index* of *F2* illuminant with detailed data.
-print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("F2"), additional_data=True))
+print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPDS.get("F2"), additional_data=True))
 
 # Calculating *color rendering index* of *A* illuminant.
-print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPD.get("A")))
+print(color.get_color_rendering_index(color.ILLUMINANTS_RELATIVE_SPDS.get("A")))
 
 SAMPLE_SPD_DATA = {380: 0.005883458,
                    385: 0.003153768,

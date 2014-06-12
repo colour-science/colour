@@ -167,7 +167,7 @@ ALEXA_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.6840, 0.3130,
                                                0.2210, 0.8480,
                                                0.0861, -0.1020]).reshape((3, 2))
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.matrix([0.638008, 0.214704, 0.097744,
                                                    0.291954, 0.823841, -0.115795,

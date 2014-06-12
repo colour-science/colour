@@ -8,7 +8,7 @@ Showcases some **Color** package *illuminants* related examples.
 import color
 
 # Retrieving *D60* illuminant chromaticity coordinates.
-print(color.ILLUMINANTS["Standard CIE 1931 2 Degree Observer"]["D60"])
+print(color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D60"])
 
 # Displaying all illuminants data per standard observers.
 for observer, illuminants in color.ILLUMINANTS.iteritems():

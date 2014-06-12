@@ -46,7 +46,7 @@ PROPHOTO_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
                                        0.1596, 0.8404,
                                        0.0366, 0.0001]).reshape((3, 2))
 
-PROPHOTO_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+PROPHOTO_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = numpy.matrix([7.97667235e-01, 1.35192231e-01, 3.13525290e-02,
                                            2.88037454e-01, 7.11876883e-01, 8.56626476e-05,

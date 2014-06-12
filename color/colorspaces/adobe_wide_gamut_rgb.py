@@ -47,7 +47,7 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
                                                0.1152, 0.8264,
                                                0.1566, 0.0177]).reshape((3, 2))
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D50")
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
                                                                                     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)

@@ -1,7 +1,7 @@
 _`Introduction`
 ===============
 
-**Color** is a **Python** color science package implementing a comprehensive number of color transformations and manipulations objects.
+**Color** is a **Python** color science package implementing a comprehensive number of color theory transformations and algorithms.
 
 _`History`
 ----------
@@ -60,7 +60,7 @@ _`Highlights`
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
-  -  CIE D-illuminant.
+  -  CIE D-illuminant implementation.
 
 -  Spectral power distribution data manipulation and conversion to color.
 -  Blackbody spectral radiance calculation.

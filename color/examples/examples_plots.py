@@ -34,34 +34,91 @@ color_checker_plot("ColorChecker 2005",
 single_illuminant_relative_spd_plot("F1")
 
 # Plotting multiple illuminants relative spectral power distributions.
-print(sorted(color.ILLUMINANTS_RELATIVE_SPD.keys()))
+print(sorted(color.ILLUMINANTS_RELATIVE_SPDS.keys()))
 multi_illuminants_relative_spd_plot(["A", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
-# Plotting an arbitrary single spectral power distribution.
-sample_spd_data = {360: 0.0000,
-                   380: 0.0000,
-                   400: 0.0641,
-                   420: 0.0645,
-                   440: 0.0562,
-                   460: 0.0537,
-                   480: 0.0559,
-                   500: 0.0651,
-                   520: 0.0705,
-                   540: 0.0772,
-                   560: 0.0870,
-                   580: 0.1128,
-                   600: 0.1360,
-                   620: 0.1511,
-                   640: 0.1688,
-                   660: 0.1996,
-                   680: 0.2397,
-                   700: 0.2852,
-                   720: 0.0000,
-                   740: 0.0000,
-                   760: 0.0000,
-                   780: 0.0000,
-                   800: 0.0000,
-                   820: 0.0000}
+# Defining a sample spectral power distribution data.
+sample_spd_data = {380: 0.048,
+                   385: 0.051,
+                   390: 0.055,
+                   395: 0.06,
+                   400: 0.065,
+                   405: 0.068,
+                   410: 0.068,
+                   415: 0.067,
+                   420: 0.064,
+                   425: 0.062,
+                   430: 0.059,
+                   435: 0.057,
+                   440: 0.055,
+                   445: 0.054,
+                   450: 0.053,
+                   455: 0.053,
+                   460: 0.052,
+                   465: 0.052,
+                   470: 0.052,
+                   475: 0.053,
+                   480: 0.054,
+                   485: 0.055,
+                   490: 0.057,
+                   495: 0.059,
+                   500: 0.061,
+                   505: 0.062,
+                   510: 0.065,
+                   515: 0.067,
+                   520: 0.07,
+                   525: 0.072,
+                   530: 0.074,
+                   535: 0.075,
+                   540: 0.076,
+                   545: 0.078,
+                   550: 0.079,
+                   555: 0.082,
+                   560: 0.087,
+                   565: 0.092,
+                   570: 0.1,
+                   575: 0.107,
+                   580: 0.115,
+                   585: 0.122,
+                   590: 0.129,
+                   595: 0.134,
+                   600: 0.138,
+                   605: 0.142,
+                   610: 0.146,
+                   615: 0.15,
+                   620: 0.154,
+                   625: 0.158,
+                   630: 0.163,
+                   635: 0.167,
+                   640: 0.173,
+                   645: 0.18,
+                   650: 0.188,
+                   655: 0.196,
+                   660: 0.204,
+                   665: 0.213,
+                   670: 0.222,
+                   675: 0.231,
+                   680: 0.242,
+                   685: 0.251,
+                   690: 0.261,
+                   695: 0.271,
+                   700: 0.282,
+                   705: 0.294,
+                   710: 0.305,
+                   715: 0.318,
+                   720: 0.334,
+                   725: 0.354,
+                   730: 0.372,
+                   735: 0.392,
+                   740: 0.409,
+                   745: 0.42,
+                   750: 0.436,
+                   755: 0.45,
+                   760: 0.462,
+                   765: 0.465,
+                   770: 0.448,
+                   775: 0.432,
+                   780: 0.421}
 
 # http://physics.nist.gov/PhysRefData/ASD/lines_form.html
 # Following data is just given as example and not accurate.
@@ -203,6 +260,7 @@ carbon_spd_data = {391.898: 16.33174,
                    786.089: 8.850659,
                    805.862: 8.850659}
 
+# Plotting a sample spectral power distribution.
 single_spectral_power_distribution_plot(color.SpectralPowerDistribution(name="Custom",
                                                                         spd=sample_spd_data))
 
@@ -231,28 +289,28 @@ multi_spectral_power_distribution_plot([color.SpectralPowerDistribution("Carbon"
                                         bandpass_corrected_carbon_spd],
                                        title="Stearns Bandpass Correction")
 
-# Plotting given single standard observer 'CIE XYZ' or 'CIE RGB' color matching functions.
-print(sorted(color.STANDARD_OBSERVERS_COLOR_MATCHING_FUNCTIONS.keys()))
-single_color_matching_functions_plot("Standard CIE 1931 2 Degree Observer")
-single_color_matching_functions_plot("Standard CIE 1964 10 Degree Observer")
-single_color_matching_functions_plot("Stiles & Burch 1955 2 Degree Observer",
+# Plotting given single standard observer *CIE XYZ* or *CIE RGB* color matching functions.
+print(sorted(color.STANDARD_OBSERVERS_CMFS.keys()))
+single_color_matching_functions_plot("CIE 1931 2 Degree Standard Observer")
+single_color_matching_functions_plot("CIE 1964 10 Degree Standard Observer")
+single_color_matching_functions_plot("Stiles & Burch 1955 2 Degree Standard Observer",
                                      legend_location="upper left",
                                      bounding_box=[390, 830, -0.5, 3.5])
-single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree Observer",
+single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree Standard Observer",
                                      legend_location="upper left",
                                      bounding_box=[390, 830, -0.5, 3.5])
 
-# Comparing given multiple standard observers degrees 'CIE XYZ* color matching functions.
-multi_color_matching_functions_plot(["Standard CIE 1931 2 Degree Observer",
-                                     "Standard CIE 1964 10 Degree Observer"])
-multi_color_matching_functions_plot(["Standard CIE 2006 10 Degree Observer",
-                                     "Standard CIE 1964 10 Degree Observer"])
-multi_color_matching_functions_plot(["Stiles & Burch 1955 2 Degree Observer",
-                                     "Stiles & Burch 1959 10 Degree Observer"])
+# Comparing given multiple standard observers degrees *CIE XYZ* color matching functions.
+multi_color_matching_functions_plot(["CIE 1931 2 Degree Standard Observer",
+                                     "CIE 1964 10 Degree Standard Observer"])
+multi_color_matching_functions_plot(["CIE 2006 10 Degree Standard Observer",
+                                     "CIE 1964 10 Degree Standard Observer"])
+multi_color_matching_functions_plot(["Wright & Guild 1931 2 Degree Standard Observer",
+                                     "Stiles & Burch 1955 2 Degree Standard Observer"])
 
 # Plotting visible colors under given standard observer.
-visible_spectrum_plot("Standard CIE 1931 2 Degree Observer")
-visible_spectrum_plot("Standard CIE 2006 2 Degree Observer")
+visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
+visible_spectrum_plot("CIE 2006 2 Degree Standard Observer")
 
 # Plotting photopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),
@@ -2343,6 +2401,6 @@ multi_spectral_power_distribution_plot([ASTM_G_173_spd, blackbody_spd],
 blackbody_colors_plot()
 
 # Plotting various illuminants *color rendering index*.
-color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("F2"))
-color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("F10"))
-color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPD.get("D50"))
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPDS.get("F2"))
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPDS.get("F10"))
+color_rendering_index_bars_plot(color.ILLUMINANTS_RELATIVE_SPDS.get("D50"))

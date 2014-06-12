@@ -48,7 +48,7 @@ REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,
                                    0.170, 0.797,
                                    0.131, 0.046]).reshape((3, 2))
 
-REC_2020_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+REC_2020_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 REC_2020_TO_XYZ_MATRIX = color.derivation.get_normalized_primary_matrix(REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
 

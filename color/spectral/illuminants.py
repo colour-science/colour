@@ -30,8 +30,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-           "ILLUMINANTS_RELATIVE_SPD_DATA",
-           "ILLUMINANTS_RELATIVE_SPD",
+           "ILLUMINANTS_RELATIVE_SPDS_DATA",
+           "ILLUMINANTS_RELATIVE_SPDS",
            "D_ILLUMINANTS_S_DISTRIBUTIONS",
            "D_illuminant_relative_spectral_power_distribution"]
 
@@ -40,7 +40,7 @@ LOGGER = color.utilities.verbose.install_logger()
 # Relative spectral power distribution for various illuminants in at 5 nm steps.
 # http://files.cie.co.at/204.xls
 # https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
-ILLUMINANTS_RELATIVE_SPD_DATA = {
+ILLUMINANTS_RELATIVE_SPDS_DATA = {
     "A": {300: 0.930483,
           305: 1.128210,
           310: 1.357690,
@@ -1597,25 +1597,25 @@ ILLUMINANTS_RELATIVE_SPD_DATA = {
             780: 0.05}
 }
 
-ILLUMINANTS_RELATIVE_SPD = {
-    "A": SpectralPowerDistribution("A", ILLUMINANTS_RELATIVE_SPD_DATA.get("A")),
-    "D65": SpectralPowerDistribution("D65", ILLUMINANTS_RELATIVE_SPD_DATA.get("D65")),
-    "C": SpectralPowerDistribution("C", ILLUMINANTS_RELATIVE_SPD_DATA.get("C")),
-    "D50": SpectralPowerDistribution("D50", ILLUMINANTS_RELATIVE_SPD_DATA.get("D50")),
-    "D55": SpectralPowerDistribution("D55", ILLUMINANTS_RELATIVE_SPD_DATA.get("D55")),
-    "D75": SpectralPowerDistribution("D75", ILLUMINANTS_RELATIVE_SPD_DATA.get("D75")),
-    "F1": SpectralPowerDistribution("F1", ILLUMINANTS_RELATIVE_SPD_DATA.get("F1")),
-    "F2": SpectralPowerDistribution("F2", ILLUMINANTS_RELATIVE_SPD_DATA.get("F2")),
-    "F3": SpectralPowerDistribution("F3", ILLUMINANTS_RELATIVE_SPD_DATA.get("F3")),
-    "F4": SpectralPowerDistribution("F4", ILLUMINANTS_RELATIVE_SPD_DATA.get("F4")),
-    "F5": SpectralPowerDistribution("F5", ILLUMINANTS_RELATIVE_SPD_DATA.get("F5")),
-    "F6": SpectralPowerDistribution("F6", ILLUMINANTS_RELATIVE_SPD_DATA.get("F6")),
-    "F7": SpectralPowerDistribution("F7", ILLUMINANTS_RELATIVE_SPD_DATA.get("F7")),
-    "F8": SpectralPowerDistribution("F8", ILLUMINANTS_RELATIVE_SPD_DATA.get("F8")),
-    "F9": SpectralPowerDistribution("F9", ILLUMINANTS_RELATIVE_SPD_DATA.get("F9")),
-    "F10": SpectralPowerDistribution("F10", ILLUMINANTS_RELATIVE_SPD_DATA.get("F10")),
-    "F11": SpectralPowerDistribution("F11", ILLUMINANTS_RELATIVE_SPD_DATA.get("F11")),
-    "F12": SpectralPowerDistribution("F12", ILLUMINANTS_RELATIVE_SPD_DATA.get("F12"))}
+ILLUMINANTS_RELATIVE_SPDS = {
+    "A": SpectralPowerDistribution("A", ILLUMINANTS_RELATIVE_SPDS_DATA.get("A")),
+    "D65": SpectralPowerDistribution("D65", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D65")),
+    "C": SpectralPowerDistribution("C", ILLUMINANTS_RELATIVE_SPDS_DATA.get("C")),
+    "D50": SpectralPowerDistribution("D50", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D50")),
+    "D55": SpectralPowerDistribution("D55", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D55")),
+    "D75": SpectralPowerDistribution("D75", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D75")),
+    "F1": SpectralPowerDistribution("F1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F1")),
+    "F2": SpectralPowerDistribution("F2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F2")),
+    "F3": SpectralPowerDistribution("F3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F3")),
+    "F4": SpectralPowerDistribution("F4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F4")),
+    "F5": SpectralPowerDistribution("F5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F5")),
+    "F6": SpectralPowerDistribution("F6", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F6")),
+    "F7": SpectralPowerDistribution("F7", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F7")),
+    "F8": SpectralPowerDistribution("F8", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F8")),
+    "F9": SpectralPowerDistribution("F9", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F9")),
+    "F10": SpectralPowerDistribution("F10", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F10")),
+    "F11": SpectralPowerDistribution("F11", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F11")),
+    "F12": SpectralPowerDistribution("F12", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F12"))}
 
 # *CIE D-Illuminant* Sn(λ) distributions.
 # http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
@@ -1821,7 +1821,7 @@ def D_illuminant_relative_spectral_power_distribution(xy, name=None):
     return SpectralPowerDistribution("CIE D Illuminant", distribution)
 
 # Add calculated *CIE D60 Illuminant* relative spectral power distribution.
-# xy = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D60")
+# xy = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D60")
 __d60_illuminant_relative_spectral_power_distribution = D_illuminant_relative_spectral_power_distribution((0.32168, 0.33767))
 __d60_illuminant_relative_spectral_power_distribution.name = "D60"
-ILLUMINANTS_RELATIVE_SPD["D60"] = __d60_illuminant_relative_spectral_power_distribution
+ILLUMINANTS_RELATIVE_SPDS["D60"] = __d60_illuminant_relative_spectral_power_distribution

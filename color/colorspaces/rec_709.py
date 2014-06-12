@@ -47,7 +47,7 @@ REC_709_PRIMARIES = numpy.matrix([0.6400, 0.3300,
                                   0.3000, 0.6000,
                                   0.1500, 0.0600]).reshape((3, 2))
 
-REC_709_WHITEPOINT = color.illuminants.ILLUMINANTS.get("Standard CIE 1931 2 Degree Observer").get("D65")
+REC_709_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 REC_709_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
                                       0.21263682, 0.71518298, 0.0721802,

@@ -120,7 +120,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     Usage::
 
         >>> import pprint
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> pprint.pprint(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
         [PlanckianTableTuvdi(Ti=1000.0, ui=0.44800695592713469, vi=0.35462532232761207, di=0.2537783063402483),
          PlanckianTableTuvdi(Ti=1001.1111111111111, ui=0.44774688726773565, vi=0.3546478595072966, di=0.25352567371290297),
@@ -168,7 +168,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
         9
 
@@ -183,8 +183,8 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
 
 def uv_to_CCT_ohno(uv,
-                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
-                       "Standard CIE 1931 2 Degree Observer"),
+                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                       "CIE 1931 2 Degree Standard Observer"),
                    start=CCT_MINIMAL,
                    end=CCT_MAXIMAL,
                    count=CCT_SAMPLES,
@@ -197,7 +197,7 @@ def uv_to_CCT_ohno(uv,
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> uv_to_CCT_ohno((0.1978, 0.3122), cmfs)
         (6507.4342201047066, 0.003223690901512735)
 
@@ -271,15 +271,15 @@ def uv_to_CCT_ohno(uv,
 
 def CCT_to_uv_ohno(CCT,
                    Duv=0.,
-                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get(
-                       "Standard CIE 1931 2 Degree Observer")):
+                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                       "CIE 1931 2 Degree Standard Observer")):
     """
     Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
     color matching functions using *Yoshi Ohno* calculation methods.
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_COLOR_MATCHING_FUNCTIONS.get("Standard CIE 1931 2 Degree Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> CCT_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs)
         (0.19779977151790701, 0.31219970605380082)
 
@@ -323,7 +323,7 @@ def uv_to_CCT_robertson(uv):
     """
     Returns the correlated color temperature and Duv from given *CIE UCS* colorspace *uv* chromaticity coordinates using
     *Wyszecki & Roberston* calculation method.
-    This implementation is only valid for *Standard CIE 1931 2 Degree Observer*.
+    This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
 
     Reference: **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Set_xy_coord*
 
@@ -398,7 +398,7 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
     """
     Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature and Duv using
     *Wyszecki & Roberston* calculation method.
-    This implementation is only valid for *Standard CIE 1931 2 Degree Observer*.
+    This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
 
     Reference: **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Get_xy_coord*
 
@@ -471,9 +471,9 @@ def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
         return uv_to_CCT_ohno(uv, **kwargs)
     else:
         if "cmfs" in kwargs:
-            if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
+            if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise color.utilities.exceptions.ProgrammingError(
-                    "Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
+                    "Wyszecki & Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return uv_to_CCT_robertson(uv)
 
@@ -500,9 +500,9 @@ def CCT_to_uv(CCT, Duv=0., method="Yoshi Ohno", **kwargs):
         return CCT_to_uv_ohno(CCT, Duv, **kwargs)
     else:
         if "cmfs" in kwargs:
-            if kwargs.get("cmfs").name != "Standard CIE 1931 2 Degree Observer":
+            if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise color.utilities.exceptions.ProgrammingError(
-                    "Wyszecki & Roberston calculation method is only valid for 'Standard CIE 1931 2 Degree Observer'!")
+                    "Wyszecki & Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return CCT_to_uv_robertson(CCT, Duv)
 
