@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package spectral bandpass correction related objects.
+    Defines **Color** package spectral bandpass dependence correction related objects.
 
 **Others:**
 
@@ -36,7 +36,7 @@ ALPHA_STEARNS = 0.083
 
 def bandpass_correction_stearns(spd):
     """
-    Implements spectral bandpass correction on given relative spectral power distribution using *Stearns and Stearns (1998)* method.
+    Implements spectral bandpass dependence correction on given spectral power distribution using *Stearns and Stearns (1988)* method.
 
     Reference: **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
 
@@ -49,7 +49,7 @@ def bandpass_correction_stearns(spd):
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
-    :return: Corrected spectral power distribution.
+    :return: Spectral bandpass dependence corrected spectral power distribution.
     :rtype: SpectralPowerDistribution
     """
 
@@ -67,13 +67,13 @@ def bandpass_correction_stearns(spd):
 
 def bandpass_correction(spd, method="Stearns"):
     """
-    Implements spectral bandpass correction on given relative spectral power distribution using given method.
+    Implements spectral bandpass dependence correction on given spectral power distribution using given method.
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
     :param method: Correction method.
     :type method: unicode ("Stearns",)
-    :return: Corrected spectral power distribution.
+    :return: Spectral bandpass dependence corrected spectral power distribution.
     :rtype: SpectralPowerDistribution
     """
 
