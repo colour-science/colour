@@ -35,35 +35,37 @@ __all__ = ["LOGGER",
 
 LOGGER = color.utilities.verbose.install_logger()
 
-TCS_INDEXES_TO_NAMES = {1: "TCS01",
-                        2: "TCS02",
-                        3: "TCS03",
-                        4: "TCS04",
-                        5: "TCS05",
-                        6: "TCS06",
-                        7: "TCS07",
-                        8: "TCS08",
-                        9: "TCS09",
-                        10: "TCS10",
-                        11: "TCS11",
-                        12: "TCS12",
-                        13: "TCS13",
-                        14: "TCS14"}
+TCS_INDEXES_TO_NAMES = {
+    1: "TCS01",
+    2: "TCS02",
+    3: "TCS03",
+    4: "TCS04",
+    5: "TCS05",
+    6: "TCS06",
+    7: "TCS07",
+    8: "TCS08",
+    9: "TCS09",
+    10: "TCS10",
+    11: "TCS11",
+    12: "TCS12",
+    13: "TCS13",
+    14: "TCS14"}
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS = {"TCS01": "7,5 R 6/4",
-                                     "TCS02": "5 Y 6/4",
-                                     "TCS03": "5 GY 6/8",
-                                     "TCS04": "2,5 G 6/6",
-                                     "TCS05": "10 BG 6/4",
-                                     "TCS06": "5 PB 6/8",
-                                     "TCS07": "2,5 P 6/8",
-                                     "TCS08": "10 P 6/8",
-                                     "TCS09": "4,5 R 4/13",
-                                     "TCS10": "5 Y 8/10",
-                                     "TCS11": "4,5 G 5/8",
-                                     "TCS12": "3 PB 3/11",
-                                     "TCS13": "5 YR 8/4",
-                                     "TCS14": "5 GY 4/4"}
+TCS_APPROXIMATE_MUNSELL_NOTATIONS = {
+    "TCS01": "7,5 R 6/4",
+    "TCS02": "5 Y 6/4",
+    "TCS03": "5 GY 6/8",
+    "TCS04": "2,5 G 6/6",
+    "TCS05": "10 BG 6/4",
+    "TCS06": "5 PB 6/8",
+    "TCS07": "2,5 P 6/8",
+    "TCS08": "10 P 6/8",
+    "TCS09": "4,5 R 4/13",
+    "TCS10": "5 Y 8/10",
+    "TCS11": "4,5 G 5/8",
+    "TCS12": "3 PB 3/11",
+    "TCS13": "5 YR 8/4",
+    "TCS14": "5 GY 4/4"}
 
 # http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
 # http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730

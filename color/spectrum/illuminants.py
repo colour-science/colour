@@ -3446,8 +3446,7 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 34.58,
         770: 30.21,
         775: 19.71,
-        780: 15.61}
-}
+        780: 15.61}}
 
 ILLUMINANTS_RELATIVE_SPDS = {
     "A": SpectralPowerDistribution("A", ILLUMINANTS_RELATIVE_SPDS_DATA.get("A")),
@@ -3489,8 +3488,7 @@ ILLUMINANTS_RELATIVE_SPDS = {
     "HP2": SpectralPowerDistribution("HP2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP2")),
     "HP3": SpectralPowerDistribution("HP3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP3")),
     "HP4": SpectralPowerDistribution("HP4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP4")),
-    "HP5": SpectralPowerDistribution("HP5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP5")),
-}
+    "HP5": SpectralPowerDistribution("HP5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP5"))}
 
 # *CIE D-Illuminant* Sn(λ) distributions.
 # http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
@@ -3662,14 +3660,12 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         800: 6.4,
         810: 5.5,
         820: 6.1,
-        830: 6.5}
-}
+        830: 6.5}}
 
 D_ILLUMINANTS_S_SPDS = {
     "S0": SpectralPowerDistribution("S0", D_ILLUMINANTS_S_SPDS_DATA.get("S0")),
     "S1": SpectralPowerDistribution("S1", D_ILLUMINANTS_S_SPDS_DATA.get("S1")),
-    "S2": SpectralPowerDistribution("S2", D_ILLUMINANTS_S_SPDS_DATA.get("S2"))
-}
+    "S2": SpectralPowerDistribution("S2", D_ILLUMINANTS_S_SPDS_DATA.get("S2"))}
 
 
 def D_illuminant_relative_spectral_power_distribution(xy):
