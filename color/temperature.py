@@ -120,7 +120,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     Usage::
 
         >>> import pprint
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> pprint.pprint(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
         [PlanckianTableTuvdi(Ti=1000.0, ui=0.44800695592713469, vi=0.35462532232761207, di=0.2537783063402483),
          PlanckianTableTuvdi(Ti=1001.1111111111111, ui=0.44774688726773565, vi=0.3546478595072966, di=0.25352567371290297),
@@ -168,7 +168,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
         9
 
@@ -183,7 +183,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
 
 def uv_to_CCT_ohno(uv,
-                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get(
                        "CIE 1931 2 Degree Standard Observer"),
                    start=CCT_MINIMAL,
                    end=CCT_MAXIMAL,
@@ -197,7 +197,7 @@ def uv_to_CCT_ohno(uv,
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> uv_to_CCT_ohno((0.1978, 0.3122), cmfs)
         (6507.4342201047066, 0.003223690901512735)
 
@@ -271,7 +271,7 @@ def uv_to_CCT_ohno(uv,
 
 def CCT_to_uv_ohno(CCT,
                    Duv=0.,
-                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get(
                        "CIE 1931 2 Degree Standard Observer")):
     """
     Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
@@ -279,7 +279,7 @@ def CCT_to_uv_ohno(CCT,
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> CCT_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs)
         (0.19779977151790701, 0.31219970605380082)
 

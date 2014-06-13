@@ -143,7 +143,7 @@ def get_color_rendering_index(test_spd, additional_data=False):
     :rtype: float or (float, dict)
     """
 
-    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     start, end, steps = cmfs.shape
     test_spd = test_spd.clone().align(start, end, steps)

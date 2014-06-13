@@ -17,13 +17,13 @@ _`Highlights`
 
 -  RGB and XYZ color matching functions spectral data:
 
-  -  Wright & Guild 1931 2 Degree Standard Observer RGB color matching functions.
+  -  Wright & Guild 1931 2 Degree RGB CMFs RGB color matching functions.
   -  Stiles & Burch 1955 2° Observer RGB color matching functions.
   -  Stiles & Burch 1959 10° Observer RGB color matching functions.
   -  Standard CIE 1931 2° Observer XYZ color matching functions.
   -  Standard CIE 1964 10° Observer XYZ color matching functions.
-  -  Standard CIE 2006 2° Observer XYZ color matching functions.
-  -  Standard CIE 2006 10° Observer XYZ color matching functions.
+  -  Standard CIE 2012 2° Observer XYZ color matching functions.
+  -  Standard CIE 2012 10° Observer XYZ color matching functions.
 
 -  Illuminants spectral data:
 

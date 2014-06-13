@@ -815,27 +815,27 @@ multi_spectral_power_distribution_plot([color.COLORCHECKERS_SPDS.get("BabelColor
                                        title="BabelColor Average - Relative Spectral Power Distributions")
 
 # Plotting given single standard observer *CIE XYZ* or *CIE RGB* color matching functions.
-print(sorted(color.STANDARD_OBSERVERS_CMFS.keys()))
+print(sorted(color.CMFS.keys()))
 single_color_matching_functions_plot("CIE 1931 2 Degree Standard Observer")
 single_color_matching_functions_plot("CIE 1964 10 Degree Standard Observer")
-single_color_matching_functions_plot("Stiles & Burch 1955 2 Degree Standard Observer",
+single_color_matching_functions_plot("Stiles & Burch 1955 2 Degree RGB CMFs",
                                      legend_location="upper left",
                                      bounding_box=[390, 830, -0.5, 3.5])
-single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree Standard Observer",
+single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree RGB CMFs",
                                      legend_location="upper left",
                                      bounding_box=[390, 830, -0.5, 3.5])
 
 # Comparing given multiple standard observers degrees *CIE XYZ* color matching functions.
 multi_color_matching_functions_plot(["CIE 1931 2 Degree Standard Observer",
                                      "CIE 1964 10 Degree Standard Observer"])
-multi_color_matching_functions_plot(["CIE 2006 10 Degree Standard Observer",
+multi_color_matching_functions_plot(["CIE 2012 10 Degree Standard Observer",
                                      "CIE 1964 10 Degree Standard Observer"])
-multi_color_matching_functions_plot(["Wright & Guild 1931 2 Degree Standard Observer",
-                                     "Stiles & Burch 1955 2 Degree Standard Observer"])
+multi_color_matching_functions_plot(["Wright & Guild 1931 2 Degree RGB CMFs",
+                                     "Stiles & Burch 1955 2 Degree RGB CMFs"])
 
 # Plotting visible colors under given standard observer.
 visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
-visible_spectrum_plot("CIE 2006 2 Degree Standard Observer")
+visible_spectrum_plot("CIE 2012 2 Degree Standard Observer")
 
 # Plotting photopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),

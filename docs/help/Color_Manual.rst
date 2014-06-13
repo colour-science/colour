@@ -48,13 +48,13 @@ _`Highlights`
 
 -  RGB and XYZ color matching functions spectral data:
 
-  -  Wright & Guild 1931 2 Degree Standard Observer RGB color matching functions.
-  -  Stiles & Burch 1955 2° Observer RGB color matching functions.
-  -  Stiles & Burch 1959 10° Observer RGB color matching functions.
-  -  Standard CIE 1931 2° Observer XYZ color matching functions.
-  -  Standard CIE 1964 10° Observer XYZ color matching functions.
-  -  Standard CIE 2006 2° Observer XYZ color matching functions.
-  -  Standard CIE 2006 10° Observer XYZ color matching functions.
+  -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
+  -  Stiles & Burch 1955 2° RGB CMFs RGB color matching functions.
+  -  Stiles & Burch 1959 10° RGB CMFs RGB color matching functions.
+  -  CIE 1931 2° Standard Observer XYZ color matching functions.
+  -  CIE 1964 10° Standard Observer XYZ color matching functions.
+  -  CIE 2012 2° Standard Observer XYZ color matching functions.
+  -  CIE 2012 10° Standard Observer XYZ color matching functions.
 
 -  Illuminants spectral data:
 
@@ -365,19 +365,19 @@ Color Difference
 Color Matching Functions
 ------------------------
 
-`Wright & Guild 1931 2 Degree Standard Observer <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
+`Wright & Guild 1931 2° RGB CMFs <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
 
-`Stiles & Burch 1955 2 Degree Standard Observer <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1955 2° RGB CMFs <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
 
-`Stiles & Burch 1959 10 Degree Standard Observer <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1959 10° RGB CMFs <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1931 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1931 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1964 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2006 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2006 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
 Deprecated Transformations
 --------------------------

@@ -114,7 +114,7 @@ print(clone_spd[340], clone_spd[360])
 clone_spd.align(start=400, end=700, steps=5)
 print(clone_spd[400], clone_spd[700])
 
-cmfs = color.STANDARD_OBSERVERS_CMFS["CIE 1931 2 Degree Standard Observer"]
+cmfs = color.CMFS["CIE 1931 2 Degree Standard Observer"]
 illuminant = color.ILLUMINANTS_RELATIVE_SPDS["A"]
 
 # Calculating the sample spectral power distribution *CIE XYZ* tristimulus values.
@@ -124,7 +124,7 @@ print(color.spectral_to_XYZ(spd, cmfs, illuminant))
 print(color.XYZ_to_xy(color.spectral_to_XYZ(illuminant, cmfs)))
 
 # From '546.1 nm' wavelength to *CIE XYZ* colorspace tristimulus values.
-print(color.wavelength_to_XYZ(546.1, color.STANDARD_OBSERVERS_CMFS["CIE 1931 2 Degree Standard Observer"]))
+print(color.wavelength_to_XYZ(546.1, color.CMFS["CIE 1931 2 Degree Standard Observer"]))
 
 # Correcting spectral bandpass.
 print color.bandpass_correction(spd).values

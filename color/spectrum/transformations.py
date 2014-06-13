@@ -50,7 +50,7 @@ def spectral_to_XYZ(spd,
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> spd = color.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).zeros(*cmfs.shape)
         >>> illuminant = color.ILLUMINANTS_RELATIVE_SPDS.get("D50").zeros(*cmfs.shape)
         >>> spectral_to_XYZ(spd, cmfs, illuminant)
@@ -121,7 +121,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
 
     Usage::
 
-        >>> wavelength_to_XYZ(480, color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"))
+        >>> wavelength_to_XYZ(480, color.CMFS.get("CIE 1931 2 Degree Standard Observer"))
         matrix([[ 0.09564],
                 [ 0.13902],
                 [ 0.81295]])

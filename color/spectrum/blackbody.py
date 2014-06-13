@@ -109,7 +109,7 @@ def blackbody_spectral_power_distribution(temperature,
 
     Usage::
 
-        >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        >>> cmfs = color.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> color.blackbody_spectral_power_distribution(5000, *cmfs.shape)
         <color.spectrum.spd.SpectralPowerDistribution at 0x10616fe90>
 

@@ -122,12 +122,12 @@ def __get_cmfs(cmfs):
     :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
     """
 
-    cmfs, name = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get(cmfs), cmfs
+    cmfs, name = color.spectrum.cmfs.CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise color.utilities.exceptions.ProgrammingError(
-            "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
-                                                                                                              sorted(
-                                                                                                                  color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.keys())))
+            "'{0}' not found in factory color matching functions: '{1}'.".format(name,
+                                                                                 sorted(
+                                                                                     color.spectrum.cmfs.CMFS.keys())))
     return cmfs
 
 
@@ -144,9 +144,9 @@ def __get_illuminant(illuminant):
     illuminant, name = color.spectrum.illuminants.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise color.utilities.exceptions.ProgrammingError(
-            "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
-                                                                               sorted(
-                                                                                   color.spectrum.illuminants.ILLUMINANTS_RELATIVE_SPDS.keys())))
+            "'{0}' not found in factory illuminants: '{1}'.".format(name,
+                                                                    sorted(
+                                                                        color.spectrum.illuminants.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
@@ -164,11 +164,12 @@ def __get_colorspace(colorspace):
     colorspace, name = color.colorspaces.COLORSPACES.get(colorspace), colorspace
     if colorspace is None:
         raise color.utilities.exceptions.ProgrammingError(
-            "'{0}' colorspace not found in supported colorspaces: '{1}'.".format(name,
-                                                                                 sorted(
-                                                                                     color.colorspaces.COLORSPACES.keys())))
+            "'{0}' colorspace not found in factory colorspaces: '{1}'.".format(name,
+                                                                               sorted(
+                                                                                   color.colorspaces.COLORSPACES.keys())))
 
     return colorspace
+
 
 def __get_color_cycle(color_map="hsv", count=len(DEFAULT_COLOR_CYCLE)):
     """
@@ -188,6 +189,7 @@ def __get_color_cycle(color_map="hsv", count=len(DEFAULT_COLOR_CYCLE)):
         color_cycle = getattr(matplotlib.pyplot.cm, color_map)(numpy.linspace(0., 1., count))
 
     return itertools.cycle(color_cycle)
+
 
 def XYZ_to_sRGB(XYZ, illuminant=color.colorspaces.sRGB_COLORSPACE.whitepoint):
     """
@@ -802,7 +804,7 @@ def multi_color_matching_functions_plot(cmfss=["CIE 1931 2 Degree Standard Obser
         for i, cmfs in enumerate(cmfss):
             cmfs, name = __get_cmfs(cmfs), cmfs
 
-            rgb = map(lambda x: reduce(lambda y, _: y * 0.25, xrange(i), x), rgb)
+            rgb = map(lambda x: reduce(lambda y, _: y * 0.5, xrange(i), x), rgb)
             wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
 
             start, end, steps = cmfs.shape
@@ -1054,7 +1056,8 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
         normal /= 25
 
         pylab.plot([x, x + normal[0] * 0.75], [y, y + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(x + normal[0], y + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(x + normal[0], y + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right",
+                   va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1931 Chromaticity Diagram - {0}".format(name),
@@ -1169,7 +1172,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
     :rtype: bool
     """
 
-    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1341,7 +1344,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right",
+                   va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1960 UCS Chromaticity Diagram - {0}".format(name),
@@ -1380,7 +1384,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     :rtype: bool
     """
 
-    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1557,7 +1561,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
-        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right", va="center",
+        pylab.text(u + normal[0], v + normal[1], label, clip_on=True, ha="left" if normal[0] >= 0 else "right",
+                   va="center",
                    fontdict={"size": "small"})
 
     settings = {"title": "CIE 1976 UCS Chromaticity Diagram - {0}".format(name),
