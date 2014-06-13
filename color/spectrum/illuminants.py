@@ -20,7 +20,7 @@ import numpy
 
 import color.utilities.exceptions
 import color.utilities.verbose
-from color.spectral.spd import SpectralPowerDistribution
+from color.spectrum.spd import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -3681,7 +3681,7 @@ def D_illuminant_relative_spectral_power_distribution(xy):
     Usage::
 
         >>> D_illuminant_relative_spectral_power_distribution((0.34567, 0.35850))
-        <color.spectral.SpectralPowerDistribution object at 0x101023590>
+        <color.spectrum.SpectralPowerDistribution object at 0x101023590>
 
     :param xy: *xy* chromaticity coordinate.
     :type xy: tuple

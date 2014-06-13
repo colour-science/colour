@@ -21,7 +21,7 @@ import math
 import numpy
 import warnings
 
-import color.spectral
+import color.spectrum
 import color.utilities.decorators
 import color.utilities.verbose
 
@@ -111,7 +111,7 @@ def blackbody_spectral_power_distribution(temperature,
 
         >>> cmfs = color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> color.blackbody_spectral_power_distribution(5000, *cmfs.shape)
-        <color.spectral.spd.SpectralPowerDistribution at 0x10616fe90>
+        <color.spectrum.spd.SpectralPowerDistribution at 0x10616fe90>
 
     :param temperature: Temperature in kelvins.
     :type temperature: float
@@ -131,7 +131,7 @@ def blackbody_spectral_power_distribution(temperature,
     :rtype: SpectralPowerDistribution
     """
 
-    return color.spectral.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
+    return color.spectrum.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
                                                     spd=dict((wavelength,
                                                               blackbody_spectral_radiance(wavelength * 1e-9,
                                                                                           temperature,

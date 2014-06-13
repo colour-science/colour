@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package *spectral* related data initialisation.
+    Defines **Color** package *spectrum* related data initialisation.
 
 **Others:**
 

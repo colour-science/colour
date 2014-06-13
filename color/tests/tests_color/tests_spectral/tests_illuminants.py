@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.spectral.illuminants` module.
+    Defines units tests for :mod:`color.spectrum.illuminants` module.
 
 **Others:**
 
@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.spectral.illuminants
+import color.spectrum.illuminants
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -95,16 +95,16 @@ D60_SPD_DATA = {300: 0.029370758174922885,
 
 class TestD_illuminantRelativeSpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :func:`color.spectral.illuminants.D_illuminant_relative_spectral_power_distribution` definition units tests methods.
+    Defines :func:`color.spectrum.illuminants.D_illuminant_relative_spectral_power_distribution` definition units tests methods.
     """
 
     def test_D_illuminant_relative_spectral_power_distribution(self):
         """
-        Tests :func:`color.spectral.illuminants.D_illuminant_relative_spectral_power_distribution` definition.
+        Tests :func:`color.spectrum.illuminants.D_illuminant_relative_spectral_power_distribution` definition.
         """
 
         numpy.testing.assert_almost_equal(
-            sorted(color.spectral.illuminants.D_illuminant_relative_spectral_power_distribution(
+            sorted(color.spectrum.illuminants.D_illuminant_relative_spectral_power_distribution(
                 (0.32168, 0.33767)).spd.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)

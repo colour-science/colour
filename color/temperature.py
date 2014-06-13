@@ -28,9 +28,9 @@ from collections import namedtuple
 
 import numpy
 
-import color.spectral.blackbody
-import color.spectral.cmfs
-import color.spectral.transformations
+import color.spectrum.blackbody
+import color.spectrum.cmfs
+import color.spectrum.transformations
 import color.transformations
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -151,8 +151,8 @@ def get_planckian_table(uv, cmfs, start, end, count):
 
     planckian_table = []
     for Ti in numpy.linspace(start, end, count):
-        spd = color.spectral.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
-        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
+        spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
+        XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
         UVW = color.transformations.XYZ_to_UCS(XYZ)
         ui, vi = color.transformations.UCS_to_uv(UVW)
@@ -183,7 +183,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
 
 def uv_to_CCT_ohno(uv,
-                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
                        "CIE 1931 2 Degree Standard Observer"),
                    start=CCT_MINIMAL,
                    end=CCT_MAXIMAL,
@@ -271,7 +271,7 @@ def uv_to_CCT_ohno(uv,
 
 def CCT_to_uv_ohno(CCT,
                    Duv=0.,
-                   cmfs=color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
+                   cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get(
                        "CIE 1931 2 Degree Standard Observer")):
     """
     Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
@@ -295,8 +295,8 @@ def CCT_to_uv_ohno(CCT,
 
     delta = 0.01
 
-    spd = color.spectral.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
-    XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
+    spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
+    XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs)
     XYZ *= 1. / numpy.max(XYZ)
     UVW = color.transformations.XYZ_to_UCS(XYZ)
     u0, v0 = color.transformations.UCS_to_uv(UVW)
@@ -304,8 +304,8 @@ def CCT_to_uv_ohno(CCT,
     if Duv == 0.:
         return u0, v0
     else:
-        spd = color.spectral.blackbody.blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
-        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs)
+        spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
+        XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
         UVW = color.transformations.XYZ_to_UCS(XYZ)
         u1, v1 = color.transformations.UCS_to_uv(UVW)

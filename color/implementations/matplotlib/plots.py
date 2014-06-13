@@ -35,10 +35,10 @@ import color.colorspaces
 import color.cri
 import color.illuminants
 import color.lightness
-import color.spectral.blackbody
-import color.spectral.cmfs
-import color.spectral.illuminants
-import color.spectral.transformations
+import color.spectrum.blackbody
+import color.spectrum.cmfs
+import color.spectrum.illuminants
+import color.spectrum.transformations
 import color.temperature
 import color.transformations
 import color.utilities.data_structures
@@ -122,12 +122,12 @@ def __get_cmfs(cmfs):
     :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
     """
 
-    cmfs, name = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get(cmfs), cmfs
+    cmfs, name = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise color.utilities.exceptions.ProgrammingError(
             "Standard observer '{0}' not found in standard observers color matching functions: '{1}'.".format(name,
                                                                                                               sorted(
-                                                                                                                  color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.keys())))
+                                                                                                                  color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.keys())))
     return cmfs
 
 
@@ -141,12 +141,12 @@ def __get_illuminant(illuminant):
     :rtype: SpectralPowerDistribution
     """
 
-    illuminant, name = color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    illuminant, name = color.spectrum.illuminants.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise color.utilities.exceptions.ProgrammingError(
             "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(name,
                                                                                sorted(
-                                                                                   color.spectral.illuminants.ILLUMINANTS_RELATIVE_SPDS.keys())))
+                                                                                   color.spectrum.illuminants.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
@@ -659,7 +659,7 @@ def single_spectral_power_distribution_plot(spd,
     y1 = []
 
     for wavelength, value in spd:
-        XYZ = color.spectral.transformations.wavelength_to_XYZ(wavelength, cmfs)
+        XYZ = color.spectrum.transformations.wavelength_to_XYZ(wavelength, cmfs)
         colors.append(XYZ_to_sRGB(XYZ))
         y1.append(value)
 
@@ -727,7 +727,7 @@ def multi_spectral_power_distribution_plot(spds,
         matplotlib.pyplot.rc('axes', color_cycle=['r', 'g', 'b', 'y'])
 
         if use_spds_colors:
-            XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs, illuminant) / 100.
+            XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs, illuminant) / 100.
             if normalize_spds_colors:
                 XYZ /= numpy.max(XYZ)
             RGB = XYZ_to_sRGB(XYZ)
@@ -918,7 +918,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
 
     colors = []
     for i in wavelengths:
-        XYZ = color.spectral.transformations.wavelength_to_XYZ(i, cmfs)
+        XYZ = color.spectrum.transformations.wavelength_to_XYZ(i, cmfs)
         colors.append(XYZ_to_sRGB(XYZ))
 
     colors = numpy.array(map(numpy.ravel, colors))
@@ -1169,7 +1169,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
     :rtype: bool
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1380,7 +1380,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     :rtype: bool
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1822,7 +1822,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
-    spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
+    spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
     matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
@@ -1834,7 +1834,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
 
     single_spectral_power_distribution_plot(spd, name, **settings)
 
-    XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs) / 100.
+    XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs) / 100.
     RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
@@ -1888,9 +1888,9 @@ def blackbody_colors_plot(start=150,
     temperatures = []
 
     for temperature in numpy.arange(start, end + steps, steps):
-        spd = color.spectral.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
+        spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
-        XYZ = color.spectral.transformations.spectral_to_XYZ(spd, cmfs) / 100.
+        XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs) / 100.
         RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
 
         colors.append(RGB)

@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import color.utilities.exceptions
 import color.utilities.verbose
 
-from color.spectral.spd import SpectralPowerDistribution
+from color.spectrum.spd import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

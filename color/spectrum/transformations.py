@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import color.algebra.matrix
-import color.spectral.spd
+import color.spectrum.spd
 import color.utilities.exceptions
 import color.utilities.decorators
 import color.utilities.verbose
@@ -81,7 +81,7 @@ def spectral_to_XYZ(spd,
     if illuminant is None:
         start, end, steps = shape
         range = numpy.arange(start, end + steps, steps)
-        illuminant = color.spectral.spd.SpectralPowerDistribution(name="1.0",
+        illuminant = color.spectrum.spd.SpectralPowerDistribution(name="1.0",
                                                                   spd=dict(zip(*(list(range),
                                                                                  [1.] * len(range)))))
     else:

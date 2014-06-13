@@ -48,7 +48,7 @@ from .derivation import *
 from .difference import *
 from .illuminants import *
 from .lightness import *
-from .spectral import *
+from .spectrum import *
 from .temperature import *
 from .transformations import *
 
@@ -61,7 +61,7 @@ from . import derivation
 from . import difference
 from . import illuminants
 from . import lightness
-from . import spectral
+from . import spectrum
 from . import temperature
 from . import transformations
 
@@ -74,7 +74,7 @@ __all__.extend(derivation.__all__)
 __all__.extend(difference.__all__)
 __all__.extend(illuminants.__all__)
 __all__.extend(lightness.__all__)
-__all__.extend(spectral.__all__)
+__all__.extend(spectrum.__all__)
 __all__.extend(temperature.__all__)
 __all__.extend(transformations.__all__)
 

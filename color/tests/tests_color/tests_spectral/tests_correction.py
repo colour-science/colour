@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.spectral.correction` module.
+    Defines units tests for :mod:`color.spectrum.correction` module.
 
 **Others:**
 
@@ -24,8 +24,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.spectral.correction
-from color.spectral.spd import SpectralPowerDistribution
+import color.spectrum.correction
+from color.spectrum.spd import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -75,17 +75,17 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = numpy.array([9.12515,
 
 class TestBandpassCorrectionStearns(unittest.TestCase):
     """
-    Defines :func:`color.spectral.correction.bandpass_correction_stearns` definition units tests methods.
+    Defines :func:`color.spectrum.correction.bandpass_correction_stearns` definition units tests methods.
     """
 
     def test_bandpass_correction_stearns(self):
         """
-        Tests :func:`color.spectral.correction.bandpass_correction_stearns` definition.
+        Tests :func:`color.spectrum.correction.bandpass_correction_stearns` definition.
         """
 
         spd = SpectralPowerDistribution("Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
         numpy.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA,
-                                          color.spectral.correction.bandpass_correction_stearns(spd).values)
+                                          color.spectrum.correction.bandpass_correction_stearns(spd).values)
 
 
 if __name__ == "__main__":

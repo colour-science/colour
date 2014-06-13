@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.spectral.transformations` module.
+    Defines units tests for :mod:`color.spectrum.transformations` module.
 
 **Others:**
 
@@ -24,8 +24,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import color.spectral.spd
-import color.spectral.transformations
+import color.spectrum.spd
+import color.spectrum.transformations
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,7 +38,7 @@ __all__ = ["RELATIVE_SPD_DATA",
            "TestWavelength_to_XYZ",
            "TestSpectral_to_XYZ"]
 
-RELATIVE_SPD_DATA = color.spectral.spd.SpectralPowerDistribution("Custom", {340: 0.0000,
+RELATIVE_SPD_DATA = color.spectrum.spd.SpectralPowerDistribution("Custom", {340: 0.0000,
                                                                             345: 0.0000,
                                                                             350: 0.0000,
                                                                             355: 0.0000,
@@ -262,31 +262,31 @@ sRGB_LINEAR_COLORCHECKER_2005 = [[[0.4316, 0.3777, 0.1008],
 
 class TestWavelength_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`color.spectral.transformations.wavelength_to_XYZ` definition units tests methods.
+    Defines :func:`color.spectrum.transformations.wavelength_to_XYZ` definition units tests methods.
     """
 
     def test_wavelength_to_XYZ(self):
         """
-        Tests :func:`color.spectral.transformations.wavelength_to_XYZ` definition.
+        Tests :func:`color.spectrum.transformations.wavelength_to_XYZ` definition.
         """
 
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.wavelength_to_XYZ(480,
-                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+            color.spectrum.transformations.wavelength_to_XYZ(480,
+                                                             color.spectrum.STANDARD_OBSERVERS_CMFS.get(
                                                                  "CIE 1931 2 Degree Standard Observer")),
             numpy.matrix([0.09564, 0.13902, 0.81295]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.wavelength_to_XYZ(480,
-                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+            color.spectrum.transformations.wavelength_to_XYZ(480,
+                                                             color.spectrum.STANDARD_OBSERVERS_CMFS.get(
                                                                  "CIE 2006 2 Degree Standard Observer")),
             numpy.matrix([0.08182895, 0.1788048, 0.7552379]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.wavelength_to_XYZ(641.5,
-                                                             color.spectral.STANDARD_OBSERVERS_CMFS.get(
+            color.spectrum.transformations.wavelength_to_XYZ(641.5,
+                                                             color.spectrum.STANDARD_OBSERVERS_CMFS.get(
                                                                  "CIE 2006 2 Degree Standard Observer")),
             numpy.matrix([0.44575583, 0.18184213, 0.]).reshape((3, 1)),
             decimal=7)
@@ -294,36 +294,36 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
 class TestSpectral_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`color.spectral.transformations.spectral_to_XYZ` definition units tests methods.
+    Defines :func:`color.spectrum.transformations.spectral_to_XYZ` definition units tests methods.
     """
 
     def test_spectral_to_XYZ(self):
         """
-        Tests :func:`color.spectral.transformations.spectral_to_XYZ` definition.
+        Tests :func:`color.spectrum.transformations.spectral_to_XYZ` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+        cmfs = color.spectrum.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
+            color.spectrum.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
+                                                           color.spectrum.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "A").clone().zeros(*cmfs.shape)),
             numpy.matrix([14.46371626, 10.85832347, 2.04664796]).reshape((3, 1)),
             decimal=7)
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_CMFS.get("CIE 1964 10 Degree Standard Observer")
+        cmfs = color.spectrum.STANDARD_OBSERVERS_CMFS.get("CIE 1964 10 Degree Standard Observer")
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
+            color.spectrum.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
+                                                           color.spectrum.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "C").clone().zeros(*cmfs.shape)),
             numpy.matrix([10.7704252, 9.44870313, 6.62742289]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            color.spectral.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
+            color.spectrum.transformations.spectral_to_XYZ(RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                                                            cmfs,
-                                                           color.spectral.ILLUMINANTS_RELATIVE_SPDS.get(
+                                                           color.spectrum.ILLUMINANTS_RELATIVE_SPDS.get(
                                                                "F2").clone().zeros(*cmfs.shape)),
             numpy.matrix([11.57830745, 9.98744967, 3.95396539]).reshape((3, 1)),
             decimal=7)

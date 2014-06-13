@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`color.spectral.spd` module.
+    Defines units tests for :mod:`color.spectrum.spd` module.
 
 **Others:**
 
@@ -24,10 +24,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from color.spectral import AbstractColorMatchingFunctions
-from color.spectral import RGB_ColorMatchingFunctions
-from color.spectral import SpectralPowerDistribution
-from color.spectral import XYZ_ColorMatchingFunctions
+from color.spectrum import AbstractColorMatchingFunctions
+from color.spectrum import RGB_ColorMatchingFunctions
+from color.spectrum import SpectralPowerDistribution
+from color.spectrum import XYZ_ColorMatchingFunctions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -1837,7 +1837,7 @@ CMFS_DATA = {380: (0.001368, 3.9e-05, 0.00645),
 
 class TestSpectralDistribution(unittest.TestCase):
     """
-    Defines :class:`color.spectral.spd.SpectralDistribution` class units tests methods.
+    Defines :class:`color.spectrum.spd.SpectralDistribution` class units tests methods.
     """
 
     def test_required_attributes(self):
@@ -1872,7 +1872,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.__getitem__` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__getitem__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1883,7 +1883,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.__iter__` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__iter__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1894,7 +1894,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.__contains__` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__contains__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1905,7 +1905,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.__len__` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__len__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1914,7 +1914,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`color.spectral.spd.SpectralDistribution.wavelengths` attribute.
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.wavelengths` attribute.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1924,7 +1924,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :attr:`color.spectral.spd.SpectralDistribution.values` attribute.
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.values` attribute.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1933,7 +1933,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`color.spectral.spd.SpectralDistribution.shape` attribute.
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.shape` attribute.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1942,7 +1942,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_get(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.get` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.get` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1954,7 +1954,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_is_uniform(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.is_uniform` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.is_uniform` method.
         """
 
         self.assertFalse(SpectralPowerDistribution(name="", spd=NON_UNIFORM_SAMPLE_SPD_DATA).is_uniform())
@@ -1962,7 +1962,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_extrapolate(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.extrapolate` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.extrapolate` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
@@ -1973,7 +1973,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_interpolate(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.interpolate` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.interpolate` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1986,7 +1986,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_align(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.align` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.align` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -1997,7 +1997,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_zeros(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.zeros` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.zeros` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -2008,7 +2008,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_clone(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.clone` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.clone` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
@@ -2018,7 +2018,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
 class TestAbstractColorMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`color.spectral.spd.AbstractColorMatchingFunctions` class units tests methods.
+    Defines :class:`color.spectrum.spd.AbstractColorMatchingFunctions` class units tests methods.
     """
 
     def test_required_attributes(self):
@@ -2058,7 +2058,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.__getitem__` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__getitem__` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2076,7 +2076,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.__iter__` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__iter__` method.
         """
         cmfs = AbstractColorMatchingFunctions(name="",
                                               mapping={"x": "x_bar",
@@ -2091,7 +2091,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.__contains__` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__contains__` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2109,7 +2109,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.__len__` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__len__` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2125,7 +2125,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`color.spectral.spd.AbstractColorMatchingFunctions.wavelengths` attribute.
+        Tests :attr:`color.spectrum.spd.AbstractColorMatchingFunctions.wavelengths` attribute.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2141,7 +2141,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :attr:`color.spectral.spd.AbstractColorMatchingFunctions.values` attribute.
+        Tests :attr:`color.spectrum.spd.AbstractColorMatchingFunctions.values` attribute.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2165,7 +2165,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`color.spectral.spd.AbstractColorMatchingFunctions.shape` attribute.
+        Tests :attr:`color.spectrum.spd.AbstractColorMatchingFunctions.shape` attribute.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2181,7 +2181,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_get(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.get` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.get` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2200,7 +2200,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_is_uniform(self):
         """
-        Tests :func:`color.spectral.spd.SpectralDistribution.is_uniform` method.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.is_uniform` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2216,7 +2216,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_extrapolate(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.extrapolate` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.extrapolate` method.
         """
 
         spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
@@ -2243,7 +2243,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_interpolate(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.interpolate` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.interpolate` method.
         """
 
         mapping = {"x": "x_bar",
@@ -2278,7 +2278,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_align(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.align` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.align` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2299,7 +2299,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_zeros(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.zeros` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.zeros` method.
         """
 
         mapping = {"x": "x_bar",
@@ -2321,7 +2321,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
     def test_clone(self):
         """
-        Tests :func:`color.spectral.spd.AbstractColorMatchingFunctions.clone` method.
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.clone` method.
         """
 
         cmfs = AbstractColorMatchingFunctions(name="",
@@ -2340,7 +2340,7 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
 class TestRGB_ColorMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`color.spectral.spd.RGB_ColorMatchingFunctions` class units tests methods.
+    Defines :class:`color.spectrum.spd.RGB_ColorMatchingFunctions` class units tests methods.
     """
 
     def test_required_attributes(self):
@@ -2383,7 +2383,7 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
 
 class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`color.spectral.spd.XYZ_ColorMatchingFunctions` class units tests methods.
+    Defines :class:`color.spectrum.spd.XYZ_ColorMatchingFunctions` class units tests methods.
     """
 
     def test_required_attributes(self):

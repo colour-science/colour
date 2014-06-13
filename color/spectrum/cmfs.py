@@ -19,8 +19,8 @@ from __future__ import unicode_literals
 import color.utilities.exceptions
 import color.utilities.verbose
 
-from color.spectral.spd import RGB_ColorMatchingFunctions
-from color.spectral.spd import XYZ_ColorMatchingFunctions
+from color.spectrum.spd import RGB_ColorMatchingFunctions
+from color.spectrum.spd import XYZ_ColorMatchingFunctions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

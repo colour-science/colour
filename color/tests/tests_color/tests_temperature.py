@@ -25,7 +25,7 @@ else:
     import unittest
 
 import color.temperature
-import color.spectral
+import color.spectrum
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -175,7 +175,7 @@ class TestGetPlanckianTable(unittest.TestCase):
         Tests :func:`color.temperature.get_planckian_table` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_CMFS.get(
+        cmfs = color.spectrum.STANDARD_OBSERVERS_XYZ_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
         numpy.testing.assert_almost_equal(
@@ -193,7 +193,7 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
         Tests :func:`color.temperature.get_planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_CMFS.get(
+        cmfs = color.spectrum.STANDARD_OBSERVERS_XYZ_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         self.assertEqual(color.temperature.get_planckian_table_minimal_distance_index(
             color.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
@@ -210,7 +210,7 @@ class Testuv_to_CCT_ohno(unittest.TestCase):
         Tests :func:`color.temperature.uv_to_CCT_ohno` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_CMFS.get(
+        cmfs = color.spectrum.STANDARD_OBSERVERS_XYZ_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         numpy.testing.assert_almost_equal(color.temperature.uv_to_CCT_ohno((0.1978, 0.3122), cmfs),
                                           (6507.5470349001507, 0.0032236908012382953),
@@ -233,7 +233,7 @@ class TestCCT_to_uv_ohno(unittest.TestCase):
         Tests :func:`color.temperature.CCT_to_uv_ohno` definition.
         """
 
-        cmfs = color.spectral.STANDARD_OBSERVERS_XYZ_CMFS.get(
+        cmfs = color.spectrum.STANDARD_OBSERVERS_XYZ_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         numpy.testing.assert_almost_equal(
             color.temperature.CCT_to_uv_ohno(6507.4342201047066, 0.003223690901512735, cmfs),

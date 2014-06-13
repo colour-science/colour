@@ -21,11 +21,11 @@ from collections import namedtuple
 import numpy
 
 import color.difference
-import color.spectral.blackbody
-import color.spectral.cmfs
-import color.spectral.illuminants
-import color.spectral.tcs
-import color.spectral.transformations
+import color.spectrum.blackbody
+import color.spectrum.cmfs
+import color.spectrum.illuminants
+import color.spectrum.tcs
+import color.spectrum.transformations
 import color.temperature
 import color.transformations
 import color.utilities.common
@@ -66,18 +66,18 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
     :rtype: list
     """
 
-    test_XYZ = color.spectral.transformations.spectral_to_XYZ(test_spd, cmfs)
+    test_XYZ = color.spectrum.transformations.spectral_to_XYZ(test_spd, cmfs)
     test_uv = numpy.ravel(color.transformations.UCS_to_uv(color.transformations.XYZ_to_UCS(test_XYZ)))
     test_u, test_v = test_uv[0], test_uv[1]
 
-    reference_XYZ = color.spectral.transformations.spectral_to_XYZ(reference_spd, cmfs)
+    reference_XYZ = color.spectrum.transformations.spectral_to_XYZ(reference_spd, cmfs)
     reference_uv = numpy.ravel(color.transformations.UCS_to_uv(color.transformations.XYZ_to_UCS(reference_XYZ)))
     reference_u, reference_v = reference_uv[0], reference_uv[1]
 
     tcs_data = []
-    for key, value in sorted(color.spectral.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
+    for key, value in sorted(color.spectrum.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
         tcs_spd = tsc_spds.get(value)
-        tcs_XYZ = color.spectral.transformations.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
+        tcs_XYZ = color.spectrum.transformations.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
         tcs_xyY = numpy.ravel(color.transformations.XYZ_to_xyY(tcs_XYZ))
         tcs_uv = numpy.ravel(color.transformations.UCS_to_uv(color.transformations.XYZ_to_UCS(tcs_XYZ)))
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
@@ -143,24 +143,24 @@ def get_color_rendering_index(test_spd, additional_data=False):
     :rtype: float or (float, dict)
     """
 
-    cmfs = color.spectral.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.spectrum.cmfs.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     start, end, steps = cmfs.shape
     test_spd = test_spd.clone().align(start, end, steps)
 
     tcs_spds = {}
-    for index, tcs_spd in sorted(color.spectral.tcs.TCS_SPDS.iteritems()):
+    for index, tcs_spd in sorted(color.spectrum.tcs.TCS_SPDS.iteritems()):
         tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
 
-    XYZ = color.spectral.transformations.spectral_to_XYZ(test_spd, cmfs)
+    XYZ = color.spectrum.transformations.spectral_to_XYZ(test_spd, cmfs)
     uv = color.transformations.UCS_to_uv(color.transformations.XYZ_to_UCS(XYZ))
     CCT, Duv = color.temperature.uv_to_CCT_robertson(uv)
 
     if CCT < 5000.:
-        reference_spd = color.spectral.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
+        reference_spd = color.spectrum.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     else:
         xy = color.temperature.D_illuminant_CCT_to_xy(CCT)
-        reference_spd = color.spectral.illuminants.D_illuminant_relative_spectral_power_distribution(xy)
+        reference_spd = color.spectrum.illuminants.D_illuminant_relative_spectral_power_distribution(xy)
         reference_spd.align(start, end, steps)
 
     test_tcs_colorimetry_data = __get_tcs_colorimetry_data(test_spd, reference_spd, tcs_spds, cmfs,

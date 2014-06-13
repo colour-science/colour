@@ -83,6 +83,6 @@ ILLUMINANTS = {
 # cmfs=color.STANDARD_OBSERVERS_XYZ_CMFS.get("CIE 1964 10 Degree Standard Observer")
 # spd=color.ILLUMINANTS_RELATIVE_SPDS.get("D60")
 # spd.zeros(*cmfs.shape)
-# xy = color.XYZ_to_xy(color.spectral.transformations.spectral_to_XYZ(spd, cmfs))
+# xy = color.XYZ_to_xy(color.spectrum.transformations.spectral_to_XYZ(spd, cmfs))
 ILLUMINANTS_STANDARD_CIE_1964_10_DEGREE_OBSERVER_CHROMATICITY_COORDINATES["D60"] = (0.32299152277736748,
                                                                                     0.33912831290965012)
