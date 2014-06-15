@@ -31,14 +31,14 @@ color_checker_plot("ColorChecker 2005",
                    text_display=False)
 
 # Plotting a single illuminant relative spectral power distribution.
-single_illuminant_relative_spd_plot("F1")
+single_illuminant_relative_spectral_power_distribution_plot("F1")
 
 # Plotting multiple illuminants relative spectral power distributions.
 print(sorted(color.ILLUMINANTS_RELATIVE_SPDS.keys()))
-multi_illuminants_relative_spd_plot(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
+multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
 # Plotting *CIE Standard Illuminant A*, *B*, and *C* with their normalized colors.
-multi_illuminants_relative_spd_plot(["A", "B", "C"],
+multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C"],
                                     use_spds_colors=True,
                                     normalize_spds_colors=True)
 

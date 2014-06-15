@@ -48,7 +48,7 @@ CIE_RGB_PRIMARIES = numpy.matrix([0.7350, 0.2650,
 
 CIE_RGB_WHITEPOINT = color.illuminants.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
-CIE_RGB_TO_XYZ_MATRIX = 1 / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,
+CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,
                                                     0.17697, 0.81240, 0.01063,
                                                     0.00, 0.01, 0.99]).reshape((3, 3))
 

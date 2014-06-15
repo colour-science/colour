@@ -49,9 +49,9 @@ Functions
 
 .. autofunction:: multi_color_matching_functions_plot
 
-.. autofunction:: single_illuminant_relative_spd_plot
+.. autofunction:: single_illuminant_relative_spectral_power_distribution_plot
 
-.. autofunction:: multi_illuminants_relative_spd_plot
+.. autofunction:: multi_illuminants_relative_spectral_power_distribution_plot
 
 .. autofunction:: visible_spectrum_plot
 

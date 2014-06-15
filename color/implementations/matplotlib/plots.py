@@ -73,8 +73,8 @@ __all__ = ["LOGGER",
            "multi_spectral_power_distribution_plot",
            "single_color_matching_functions_plot",
            "multi_color_matching_functions_plot",
-           "single_illuminant_relative_spd_plot",
-           "multi_illuminants_relative_spd_plot",
+           "single_illuminant_relative_spectral_power_distribution_plot",
+           "multi_illuminants_relative_spectral_power_distribution_plot",
            "visible_spectrum_plot",
            "CIE_1931_chromaticity_diagram_colors_plot",
            "CIE_1931_chromaticity_diagram_plot",
@@ -835,13 +835,14 @@ def multi_color_matching_functions_plot(cmfss=["CIE 1931 2 Degree Standard Obser
     return display(**settings)
 
 
-def single_illuminant_relative_spd_plot(illuminant="A", cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+def single_illuminant_relative_spectral_power_distribution_plot(illuminant="A",
+                                                                cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
 
     Usage::
 
-        >>> single_illuminant_relative_spd_plot("A")
+        >>> single_illuminant_relative_spectral_power_distribution_plot("A")
         True
 
     :param illuminant: Factory illuminant to plot.
@@ -866,13 +867,13 @@ def single_illuminant_relative_spd_plot(illuminant="A", cmfs="CIE 1931 2 Degree 
     return single_spectral_power_distribution_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
+def multi_illuminants_relative_spectral_power_distribution_plot(illuminants=["A", "B", "C"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
     Usage::
 
-        >>> multi_illuminants_relative_spd_plot(["A", "B", "C"])
+        >>> multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C"])
         True
 
     :param illuminants: Factory illuminants to plot.
