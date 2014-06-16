@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "DCI_P3_PRIMARIES",
+__all__ = ["DCI_P3_PRIMARIES",
            "DCI_P3_WHITEPOINT",
            "DCI_P3_TO_XYZ_MATRIX",
            "XYZ_TO_DCI_P3_MATRIX",

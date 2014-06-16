@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "CIE_RGB_PRIMARIES",
+__all__ = ["CIE_RGB_PRIMARIES",
            "CIE_RGB_WHITEPOINT",
            "CIE_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_CIE_RGB_MATRIX",

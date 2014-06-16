@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "EKTA_SPACE_PS_5_PRIMARIES",
+__all__ = ["EKTA_SPACE_PS_5_PRIMARIES",
            "EKTA_SPACE_PS_5_WHITEPOINT",
            "EKTA_SPACE_PS_5_TO_XYZ_MATRIX",
            "XYZ_TO_EKTA_SPACE_PS_5_MATRIX",

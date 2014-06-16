@@ -32,8 +32,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "ECI_RGB_V2_PRIMARIES",
+__all__ = ["ECI_RGB_V2_PRIMARIES",
            "ECI_RGB_V2_WHITEPOINT",
            "ECI_RGB_V2_TO_XYZ_MATRIX",
            "XYZ_TO_ECI_RGB_V2_MATRIX",

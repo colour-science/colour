@@ -34,8 +34,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "ALEXA_LOG_C_CURVE_BCL_DATA",
+__all__ = ["ALEXA_LOG_C_CURVE_BCL_DATA",
            "ALEXA_LOG_C_CURVE_CONVERSION_DATA",
            "ALEXA_WIDE_GAMUT_RGB_PRIMARIES",
            "ALEXA_WIDE_GAMUT_RGB_WHITEPOINT",

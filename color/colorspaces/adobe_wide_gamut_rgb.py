@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
+__all__ = ["ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
            "ADOBE_WIDE_GAMUT_RGB_WHITEPOINT",
            "ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX",

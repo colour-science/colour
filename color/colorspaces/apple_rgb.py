@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "APPLE_RGB_PRIMARIES",
+__all__ = ["APPLE_RGB_PRIMARIES",
            "APPLE_RGB_WHITEPOINT",
            "APPLE_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_APPLE_RGB_MATRIX",

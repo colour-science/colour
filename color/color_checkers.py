@@ -28,8 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "COLORCHECKER_INXYY",
+__all__ = ["COLORCHECKER_INXYY",
            "COLORCHECKER",
            "BABELCOLOR_AVERAGE_DATA",
            "BABELCOLOR_AVERAGE_ILLUMINANT",

@@ -29,8 +29,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "ILLUMINANTS_RELATIVE_SPDS_DATA",
+__all__ = ["ILLUMINANTS_RELATIVE_SPDS_DATA",
            "ILLUMINANTS_RELATIVE_SPDS",
            "D_ILLUMINANTS_S_SPDS_DATA",
            "D_ILLUMINANTS_S_SPDS",

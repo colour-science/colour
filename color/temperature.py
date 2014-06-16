@@ -43,8 +43,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "PLANCKIAN_TABLE_TUVD",
+__all__ = ["PLANCKIAN_TABLE_TUVD",
            "CCT_MINIMAL",
            "CCT_MAXIMAL",
            "CCT_SAMPLES",

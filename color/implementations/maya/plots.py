@@ -33,8 +33,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "get_dag_path",
+__all__ = ["get_dag_path",
            "get_mpoint",
            "get_shapes",
            "set_attributes",

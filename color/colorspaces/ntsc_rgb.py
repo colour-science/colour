@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "NTSC_RGB_PRIMARIES",
+__all__ = ["NTSC_RGB_PRIMARIES",
            "NTSC_RGB_WHITEPOINT",
            "NTSC_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_NTSC_RGB_MATRIX",

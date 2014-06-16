@@ -32,8 +32,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "SpragueInterpolator"]
+__all__ = ["SpragueInterpolator"]
 
 LOGGER = color.utilities.verbose.install_logger()
 

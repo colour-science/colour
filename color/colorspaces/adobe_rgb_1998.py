@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "ADOBE_RGB_1998_PRIMARIES",
+__all__ = ["ADOBE_RGB_1998_PRIMARIES",
            "ADOBE_RGB_1998_WHITEPOINT",
            "ADOBE_RGB_1998_TO_XYZ_MATRIX",
            "XYZ_TO_ADOBE_RGB_1998_MATRIX",

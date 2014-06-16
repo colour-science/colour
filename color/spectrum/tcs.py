@@ -28,8 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "TCS_APPROXIMATE_MUNSELL_NOTATIONS",
+__all__ = ["TCS_APPROXIMATE_MUNSELL_NOTATIONS",
            "TCS_SPDS_DATA",
            "TCS_SPDS"]
 

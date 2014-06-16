@@ -39,8 +39,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "TSC_COLORIMETRY_DATA_NXYZUVUVW",
+__all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",
            "get_color_rendering_index"]
 
 LOGGER = color.utilities.verbose.install_logger()

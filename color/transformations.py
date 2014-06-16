@@ -35,8 +35,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "XYZ_to_xyY",
+__all__ = ["XYZ_to_xyY",
            "xyY_to_XYZ",
            "xy_to_XYZ",
            "XYZ_to_xy",

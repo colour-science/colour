@@ -27,8 +27,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "xy_to_z",
+__all__ = ["xy_to_z",
            "get_normalized_primary_matrix"]
 
 LOGGER = color.utilities.verbose.install_logger()

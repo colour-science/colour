@@ -21,7 +21,7 @@ import math
 import numpy
 import warnings
 
-import color.spectrum
+import color.spectrum.spd
 import color.utilities.decorators
 import color.utilities.verbose
 
@@ -33,8 +33,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "LIGHT_SPEED_CONSTANT",
+__all__ = ["LIGHT_SPEED_CONSTANT",
            "PLANCK_CONSTANT",
            "BOLTZMANN_CONSTANT",
            "E_CONSTANT",
@@ -131,7 +130,7 @@ def blackbody_spectral_power_distribution(temperature,
     :rtype: SpectralPowerDistribution
     """
 
-    return color.spectrum.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
+    return color.spectrum.spd.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
                                                     spd=dict((wavelength,
                                                               blackbody_spectral_radiance(wavelength * 1e-9,
                                                                                           temperature,

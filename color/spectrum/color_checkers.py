@@ -26,8 +26,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "COLORCHECKER_INDEXES_TO_NAMES_MAPPING",
+__all__ = ["COLORCHECKER_INDEXES_TO_NAMES_MAPPING",
            "COLORCHECKER_N_OHTA_SPDS_DATA",
            "COLORCHECKER_N_OHTA_SPDS",
            "BABELCOLOR_AVERAGE_SPDS_DATA",

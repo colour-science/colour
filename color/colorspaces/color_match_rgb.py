@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "COLOR_MATCH_RGB_PRIMARIES",
+__all__ = ["COLOR_MATCH_RGB_PRIMARIES",
            "COLOR_MATCH_RGB_WHITEPOINT",
            "COLOR_MATCH_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_COLOR_MATCH_RGB_MATRIX",

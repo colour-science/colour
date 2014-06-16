@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "REC_709_PRIMARIES",
+__all__ = ["REC_709_PRIMARIES",
            "REC_709_WHITEPOINT",
            "REC_709_TO_XYZ_MATRIX",
            "XYZ_TO_REC_709_MATRIX",

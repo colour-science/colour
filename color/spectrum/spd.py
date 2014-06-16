@@ -35,8 +35,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "SpectralPowerDistribution",
+__all__ = ["SpectralPowerDistribution",
            "AbstractColorMatchingFunctions",
            "RGB_ColorMatchingFunctions",
            "XYZ_ColorMatchingFunctions"]

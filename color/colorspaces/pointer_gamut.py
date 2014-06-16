@@ -25,8 +25,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "POINTER_GAMUT_DATA"]
+__all__ = ["POINTER_GAMUT_DATA"]
 
 LOGGER = color.utilities.verbose.install_logger()
 

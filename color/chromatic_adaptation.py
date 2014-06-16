@@ -28,8 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "XYZ_SCALING_MATRIX",
+__all__ = ["XYZ_SCALING_MATRIX",
            "BRADFORD_MATRIX",
            "VON_KRIES_MATRIX",
            "CAT02_MATRIX",

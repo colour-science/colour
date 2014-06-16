@@ -26,8 +26,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "memoize"]
+__all__ = ["memoize"]
 
 LOGGER = color.utilities.verbose.install_logger()
 

@@ -28,7 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "linear_regression"]
+__all__ = ["linear_regression"]
 
 LOGGER = color.utilities.verbose.install_logger()
 

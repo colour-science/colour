@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package *color matching functions*.
+    Defines **Color** package *color matching functions* data and manipulation objects.
 
 **Others:**
 
@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-import color.utilities.exceptions
 import color.utilities.verbose
 
 from color.spectrum.spd import RGB_ColorMatchingFunctions
@@ -29,8 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "CIE_RGB_CMFS_DATA",
+__all__ = ["CIE_RGB_CMFS_DATA",
            "CIE_RGB_CMFS",
            "STANDARD_OBSERVERS_CMFS_DATA",
            "STANDARD_OBSERVERS_CMFS",

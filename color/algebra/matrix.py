@@ -27,7 +27,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "is_identity", "linear_interpolate_matrices"]
+__all__ = ["is_identity", "linear_interpolate_matrices"]
 
 LOGGER = color.utilities.verbose.install_logger()
 

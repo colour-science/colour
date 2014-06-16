@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "CIE_E",
+__all__ = ["CIE_E",
            "CIE_K",
            "get_luminance_equation",
            "get_luminance",

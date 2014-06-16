@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "sRGB_PRIMARIES",
+__all__ = ["sRGB_PRIMARIES",
            "sRGB_WHITEPOINT",
            "sRGB_TO_XYZ_MATRIX",
            "XYZ_TO_sRGB_MATRIX",

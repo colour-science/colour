@@ -34,8 +34,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "S_LOG_PRIMARIES",
+__all__ = ["S_LOG_PRIMARIES",
            "S_LOG_WHITEPOINT",
            "S_LOG_TO_XYZ_MATRIX",
            "XYZ_TO_S_LOG_MATRIX",

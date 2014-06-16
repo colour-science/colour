@@ -25,8 +25,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "get_steps",
+__all__ = ["get_steps",
            "is_uniform"]
 
 LOGGER = foundations.verbose.install_logger()

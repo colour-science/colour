@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "DON_RGB_4_PRIMARIES",
+__all__ = ["DON_RGB_4_PRIMARIES",
            "DON_RGB_4_WHITEPOINT",
            "DON_RGB_4_TO_XYZ_MATRIX",
            "XYZ_TO_DON_RGB_4_MATRIX",

@@ -31,8 +31,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "XTREME_RGB_PRIMARIES",
+__all__ = ["XTREME_RGB_PRIMARIES",
            "XTREME_RGB_WHITEPOINT",
            "XTREME_RGB_TO_XYZ_MATRIX",
            "XYZ_TO_XTREME_RGB_MATRIX",

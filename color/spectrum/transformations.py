@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 import numpy
 
 import color.algebra.matrix
+import color.spectrum.cmfs
+import color.spectrum.lefs
 import color.spectrum.spd
 import color.utilities.exceptions
 import color.utilities.decorators
@@ -32,15 +34,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "spectral_to_XYZ",
-           "wavelength_to_XYZ", ]
+__all__ = ["spectral_to_XYZ",
+           "wavelength_to_XYZ"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
 
 def spectral_to_XYZ(spd,
-                    cmfs,
+                    cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
                     illuminant=None):
     """
     Converts given spectral power distribution to *CIE XYZ* colorspace using given color
@@ -66,8 +67,6 @@ def spectral_to_XYZ(spd,
     :type illuminant: SpectralPowerDistribution
     :return: *CIE XYZ* matrix.
     :rtype: matrix
-
-    :note: Spectral power distribution, standard observer color matching functions and illuminant shapes must be aligned.
     """
 
     shape = cmfs.shape
@@ -112,7 +111,8 @@ def spectral_to_XYZ(spd,
 
 
 @color.utilities.decorators.memoize(None)
-def wavelength_to_XYZ(wavelength, cmfs):
+def wavelength_to_XYZ(wavelength,
+                      cmfs=color.spectrum.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
     Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
     wavelength is not available in the color matching function, its value will be calculated using *CIE* recommendations:
@@ -138,7 +138,7 @@ def wavelength_to_XYZ(wavelength, cmfs):
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
         raise color.utilities.exceptions.ProgrammingError(
-            "'{0}' nm wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
+            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values
 
@@ -163,4 +163,3 @@ def wavelength_to_XYZ(wavelength, cmfs):
         return numpy.matrix([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
     else:
         return numpy.matrix(cmfs.get(wavelength)).reshape((3, 1))
-

@@ -28,8 +28,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "PHOTOPIC_LEFS_DATA",
+__all__ = ["PHOTOPIC_LEFS_DATA",
            "PHOTOPIC_LEFS",
            "SCOTOPIC_LEFS_DATA",
            "SCOTOPIC_LEFS"]

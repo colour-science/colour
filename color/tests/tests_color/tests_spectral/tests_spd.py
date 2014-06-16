@@ -24,10 +24,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from color.spectrum import AbstractColorMatchingFunctions
-from color.spectrum import RGB_ColorMatchingFunctions
-from color.spectrum import SpectralPowerDistribution
-from color.spectrum import XYZ_ColorMatchingFunctions
+from color.spectrum.spd import AbstractColorMatchingFunctions
+from color.spectrum.spd import RGB_ColorMatchingFunctions
+from color.spectrum.spd import SpectralPowerDistribution
+from color.spectrum.spd import XYZ_ColorMatchingFunctions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

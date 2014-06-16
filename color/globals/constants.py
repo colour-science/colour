@@ -41,7 +41,7 @@ class Constants():
     :param major_version: Package major version.
     :type major_version: unicode
     """
-    minor_version = "1"
+    minor_version = "2"
     """
     :param minor_version: Package minor version.
     :type minor_version: unicode

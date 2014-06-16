@@ -30,8 +30,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-           "delta_E_CIE_1976",
+__all__ = ["delta_E_CIE_1976",
            "delta_E_CIE_1994",
            "delta_E_CIE_2000",
            "delta_E_CMC"]
@@ -56,11 +55,11 @@ def delta_E_CIE_1976(lab1, lab2):
     :type lab1: matrix (3x1)
     :param lab2: *CIE Lab* color 2.
     :type lab2: matrix (3x1)
-    :return: Colors difference.
+    :return: Color difference.
     :rtype: float
     """
 
-    return numpy.linalg.norm(lab1-lab2)
+    return numpy.linalg.norm(numpy.array(lab1) - numpy.array(lab2))
 
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
@@ -82,7 +81,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     :type lab2: matrix (3x1)
     :param textiles: Application specific weights.
     :type textiles: bool
-    :return: Colors difference.
+    :return: Color difference.
     :rtype: float
     """
 
@@ -136,7 +135,7 @@ def delta_E_CIE_2000(lab1, lab2):
     :type lab1: matrix (3x1)
     :param lab2: *CIE Lab* color 2.
     :type lab2: matrix (3x1)
-    :return: Colors difference.
+    :return: Color difference.
     :rtype: float
     """
 
@@ -228,7 +227,7 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     :type l: float
     :param c: Chroma weighting factor.
     :type c: float
-    :return: Colors difference.
+    :return: Color difference.
     :rtype: float
     """
 
