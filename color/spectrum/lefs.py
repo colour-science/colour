@@ -29,16 +29,16 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-           "PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA",
-           "PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS",
-           "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA",
-           "SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS"]
+           "PHOTOPIC_LEFS_DATA",
+           "PHOTOPIC_LEFS",
+           "SCOTOPIC_LEFS_DATA",
+           "SCOTOPIC_LEFS"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
 # http://www.cvrl.org/lumindex.htm
-PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
-    "CIE 1924 2 Degree Observer": {
+PHOTOPIC_LEFS_DATA = {
+    "CIE 1924 Photopic Standard Observer": {
         360: 0.0000039170000,
         361: 0.0000043935810,
         362: 0.0000049296040,
@@ -510,7 +510,7 @@ PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
         828: 0.0000005198080,
         829: 0.0000004846123,
         830: 0.0000004518100},
-    "Judd Modified CIE 1951 2 Degree Observer": {
+    "Judd Modified CIE 1951 Photopic Standard Observer": {
         370: 0.0001,
         380: 0.0004,
         390: 0.0015,
@@ -552,7 +552,7 @@ PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
         750: 0.0001,
         760: 0.0001,
         770: 0.0000},
-    "Judd-Vos Modified CIE 1978 2 Degree Observer": {
+    "Judd-Vos Modified CIE 1978 Photopic Standard Observer": {
         380: 0.0002000000,
         381: 0.0002282100,
         382: 0.0002610900,
@@ -954,7 +954,7 @@ PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
         778: 0.0000172169,
         779: 0.0000160646,
         780: 0.0000149900},
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer": {
+    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer": {
         390: 4.14616e-04,
         391: 5.02833e-04,
         392: 6.08499e-04,
@@ -1839,30 +1839,30 @@ PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
         829: 6.72042e-07,
         830: 6.34538e-07}}
 
-PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS = {
-    "CIE 1924 2 Degree Observer":
-        SpectralPowerDistribution("CIE 1924 2 Degree Observer",
-                                  PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                      "CIE 1924 2 Degree Observer")),
-    "Judd Modified CIE 1951 2 Degree Observer":
-        SpectralPowerDistribution("Judd Modified CIE 1951 2 Degree Observer",
-                                  PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                      "Judd Modified CIE 1951 2 Degree Observer")),
-    "Judd-Vos Modified CIE 1978 2 Degree Observer":
-        SpectralPowerDistribution("Judd-Vos Modified CIE 1978 2 Degree Observer",
-                                  PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                      "Judd-Vos Modified CIE 1978 2 Degree Observer")),
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer":
-        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer",
-                                  PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                      "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer")),
+PHOTOPIC_LEFS = {
+    "CIE 1924 Photopic Standard Observer":
+        SpectralPowerDistribution("CIE 1924 Photopic Standard Observer",
+                                  PHOTOPIC_LEFS_DATA.get(
+                                      "CIE 1924 Photopic Standard Observer")),
+    "Judd Modified CIE 1951 Photopic Standard Observer":
+        SpectralPowerDistribution("Judd Modified CIE 1951 Photopic Standard Observer",
+                                  PHOTOPIC_LEFS_DATA.get(
+                                      "Judd Modified CIE 1951 Photopic Standard Observer")),
+    "Judd-Vos Modified CIE 1978 Photopic Standard Observer":
+        SpectralPowerDistribution("Judd-Vos Modified CIE 1978 Photopic Standard Observer",
+                                  PHOTOPIC_LEFS_DATA.get(
+                                      "Judd-Vos Modified CIE 1978 Photopic Standard Observer")),
+    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer":
+        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer",
+                                  PHOTOPIC_LEFS_DATA.get(
+                                      "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer")),
     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer":
         SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer",
-                                  PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
+                                  PHOTOPIC_LEFS_DATA.get(
                                       "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer"))}
 
-SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
-    "Wald & Crawford CIE 1951 2 Degree Observer": {
+SCOTOPIC_LEFS_DATA = {
+    "Wald & Crawford CIE 1951 Scotopic Standard Observer": {
         380: 0.0005890000,
         381: 0.0006650000,
         382: 0.0007520000,
@@ -2265,8 +2265,8 @@ SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA = {
         779: 0.0000001468,
         780: 0.0000001390,}}
 
-SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS = {
-    "Wald & Crawford CIE 1951 2 Degree Observer":
-        SpectralPowerDistribution("Wald & Crawford CIE 1951 2 Degree Observer",
-                                  SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS_DATA.get(
-                                      "Wald & Crawford CIE 1951 2 Degree Observer"))}
+SCOTOPIC_LEFS = {
+    "Wald & Crawford CIE 1951 Scotopic Standard Observer":
+        SpectralPowerDistribution("Wald & Crawford CIE 1951 Scotopic Standard Observer",
+                                  SCOTOPIC_LEFS_DATA.get(
+                                      "Wald & Crawford CIE 1951 Scotopic Standard Observer"))}

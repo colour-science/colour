@@ -67,12 +67,12 @@ _`Highlights`
 - Color rendition charts spectral data.
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
-  -  CIE 1924 2 Degree Observer
-  -  Judd Modified CIE 1951 2 Degree Observer
-  -  Judd-Vos Modified CIE 1978 2 Degree Observer
+  -  CIE 1924 Photopic Standard Observer
+  -  Judd Modified CIE 1951 Photopic Standard Observer
+  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
   -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
   -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
-  -  Wald & Crawford CIE 1951 2 Degree Observer
+  -  Wald & Crawford CIE 1951 Scotopic Standard Observer
 
 -  Correlated color temperature calculation:
 

@@ -46,6 +46,15 @@ Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `Colo
 _`Highlights`
 -------------
 
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 Photopic Standard Observer
+  -  Judd Modified CIE 1951 Photopic Standard Observer
+  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2° Standard Observer
+  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer
+  -  Wald & Crawford CIE 1951 Scotopic Standard Observer
+
 -  RGB and XYZ color matching functions spectral data:
 
   -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
@@ -100,16 +109,7 @@ _`Highlights`
   -  HP4
   -  HP5
 
-- Color rendition charts spectral data.
-- Photopic & Scotopic luminous efficiency functions spectral data:
-
-  -  CIE 1924 2 Degree Observer
-  -  Judd Modified CIE 1951 2 Degree Observer
-  -  Judd-Vos Modified CIE 1978 2 Degree Observer
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
-  -  Wald & Crawford CIE 1951 2 Degree Observer
-
+-  Color rendition charts spectral data.
 -  Correlated color temperature calculation:
 
   -  Wyszecki & Roberston method implementation.
@@ -516,17 +516,17 @@ Luminance, Munsell value, Lightness
 Luminous Efficiency Functions
 -----------------------------
 
-`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1924 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Judd Modified CIE 1951 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Judd-Vos Modified CIE 1978 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2° Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Wald & Crawford CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Planc's Law
 -----------

@@ -200,17 +200,17 @@ Luminance, Munsell value, Lightness
 Luminous Efficiency Functions
 -----------------------------
 
-`CIE 1924 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1924 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Judd Modified CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Judd Modified CIE 1951 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Judd-Vos Modified CIE 1978 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Judd-Vos Modified CIE 1978 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Wald & Crawford CIE 1951 2 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`Wald & Crawford CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Planc's Law
 -----------

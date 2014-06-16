@@ -838,7 +838,7 @@ visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
 visible_spectrum_plot("CIE 2012 2 Degree Standard Observer")
 
 # Plotting photopic luminous efficiency functions.
-multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS.values(),
+multi_spectral_power_distribution_plot(color.PHOTOPIC_LEFS.values(),
                                        title="Luminous Efficiency Functions",
                                        y_label="Luminous Efficiency",
                                        legend_location="upper right",
@@ -847,8 +847,8 @@ multi_spectral_power_distribution_plot(color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTI
 
 # Comparing photopic and scotopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(
-    [color.PHOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observer"],
-     color.SCOTOPIC_LUMINOUS_EFFICIENCY_FUNCTIONS["Wald & Crawford CIE 1951 2 Degree Observer"]],
+    [color.PHOTOPIC_LEFS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer"],
+     color.SCOTOPIC_LEFS["Wald & Crawford CIE 1951 Scotopic Standard Observer"]],
     title="Photopic & Scotopic Luminous Efficiency Functions",
     y_label="Luminous Efficiency",
     legend_location="upper right",
