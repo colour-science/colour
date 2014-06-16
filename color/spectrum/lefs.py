@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**luminosity.py**
+**lefs.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.

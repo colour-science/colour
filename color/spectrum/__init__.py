@@ -34,7 +34,7 @@ from .cmfs import *
 from .color_checkers import *
 from .correction import *
 from .illuminants import *
-from .luminosity import *
+from .lefs import *
 from .spd import *
 from .tcs import *
 from .transformations import *
@@ -44,7 +44,7 @@ from . import cmfs
 from . import color_checkers
 from . import correction
 from . import illuminants
-from . import luminosity
+from . import lefs
 from . import spd
 from . import tcs
 from . import transformations
@@ -54,7 +54,7 @@ __all__.extend(cmfs.__all__)
 __all__.extend(color_checkers.__all__)
 __all__.extend(correction.__all__)
 __all__.extend(illuminants.__all__)
-__all__.extend(luminosity.__all__)
+__all__.extend(lefs.__all__)
 __all__.extend(spd.__all__)
 __all__.extend(tcs.__all__)
 __all__.extend(transformations.__all__)

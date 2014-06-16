@@ -235,13 +235,15 @@ Acknowledgements
 References
 ----------
 
-**Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
+**Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3
 
-**Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
+**Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5
 
-**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+**Richard Sewall Hunter**, *The Measurement of Appearance, 2nd Edition*, published August 25, 1987, ISBN-13: 978-0471830061
 
-**Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
+**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
+
+**Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published December 2, 2012, ISBN-13: 978-0123919267
 
 **Charles Poynton**, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
