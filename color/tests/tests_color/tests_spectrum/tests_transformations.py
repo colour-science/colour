@@ -38,7 +38,9 @@ __status__ = "Production"
 
 __all__ = ["RELATIVE_SPD_DATA",
            "TestSpectral_to_XYZ",
-           "TestWavelength_to_XYZ"]
+           "TestWavelength_to_XYZ",
+           "TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
+           "TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs"]
 
 RELATIVE_SPD_DATA = color.spectrum.spd.SpectralPowerDistribution("Custom", {
     340: 0.0000,
@@ -209,6 +211,80 @@ class TestWavelength_to_XYZ(unittest.TestCase):
                                                                  "CIE 2012 2 Degree Standard Observer")),
             numpy.matrix([0.44575583, 0.18184213, 0.]).reshape((3, 1)),
             decimal=7)
+
+
+class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
+    """
+    Defines :func:`color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition units tests methods.
+    """
+
+    def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests :func:`color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
+        """
+
+        cmfs = color.spectrum.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
+                                          cmfs.get(435),
+                                          decimal=2)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
+                                          cmfs.get(545),
+                                          decimal=2)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
+                                          cmfs.get(700),
+                                          decimal=2)
+
+
+class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
+    """
+    Defines :func:`color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition units tests methods.
+    """
+
+    def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests :func:`color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
+        """
+
+        # TODO: Change tests for tolerance testing.
+        cmfs = color.spectrum.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
+                                          cmfs.get(435),
+                                          decimal=2)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
+                                          cmfs.get(545),
+                                          decimal=2)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
+                                          cmfs.get(700),
+                                          decimal=2)
+
+
+class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
+    """
+    Defines :func:`color.spectrum.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition units tests methods.
+    """
+
+    def test_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+        """
+        Tests :func:`color.spectrum.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
+        """
+
+        # TODO: Change tests for tolerance testing.
+        cmfs = color.spectrum.cmfs.CMFS.get("CIE 1964 10 Degree Standard Observer")
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
+                                          cmfs.get(435),
+                                          decimal=1)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
+                                          cmfs.get(545),
+                                          decimal=1)
+
+        numpy.testing.assert_almost_equal(color.spectrum.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
+                                          cmfs.get(700),
+                                          decimal=1)
 
 
 if __name__ == "__main__":
