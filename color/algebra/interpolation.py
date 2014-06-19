@@ -20,7 +20,7 @@ import bisect
 
 import numpy
 
-import color.utilities.common
+import color.algebra.common
 import color.utilities.exceptions
 import color.utilities.verbose
 
@@ -112,12 +112,12 @@ class SpragueInterpolator(object):
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
-            assert color.utilities.common.is_uniform(value), "'x' independent variable is not uniform!"
+            assert color.algebra.common.is_uniform(value), "'x' independent variable is not uniform!"
 
             if not issubclass(value.dtype.type, numpy.inexact):
                 value = value.astype(numpy.float_)
 
-            steps = color.utilities.common.get_steps(value)[0]
+            steps = color.algebra.common.get_steps(value)[0]
 
             xp1 = value[0] - steps * 2
             xp2 = value[0] - steps

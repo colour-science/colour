@@ -28,7 +28,7 @@ import color.spectrum.tcs
 import color.spectrum.transformations
 import color.temperature
 import color.transformations
-import color.utilities.common
+import color.algebra.common
 import color.utilities.verbose
 
 

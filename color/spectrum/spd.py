@@ -22,7 +22,7 @@ import math
 
 import numpy
 
-import color.utilities.common
+import color.algebra.common
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.algebra.interpolation import SpragueInterpolator
@@ -205,7 +205,7 @@ class SpectralPowerDistribution(object):
         :rtype: tuple
         """
 
-        steps = color.utilities.common.get_steps(self.wavelengths)
+        steps = color.algebra.common.get_steps(self.wavelengths)
         return min(self.spd.keys()), max(self.spd.keys()), min(steps)
 
     @shape.setter
@@ -310,7 +310,7 @@ class SpectralPowerDistribution(object):
         :rtype: bool
         """
 
-        return color.utilities.common.is_uniform(self.wavelengths)
+        return color.algebra.common.is_uniform(self.wavelengths)
 
     def extrapolate(self, start, end):
         """

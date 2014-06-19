@@ -21,6 +21,7 @@ from color.globals.constants import Constants
 
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
+from color.algebra.common import get_closest, get_steps, is_uniform
 from color.algebra.interpolation import SpragueInterpolator
 from color.algebra.matrix import is_identity, linear_interpolate_matrices
 from color.algebra.regression import linear_regression
@@ -72,6 +73,7 @@ from color.spectrum.color_checkers import BABELCOLOR_AVERAGE_SPDS, COLORCHECKER_
 from color.spectrum.correction import bandpass_correction, bandpass_correction_stearns
 from color.spectrum.illuminants import D_illuminant_relative_spectral_power_distribution
 from color.spectrum.illuminants import D_ILLUMINANTS_S_SPDS, ILLUMINANTS_RELATIVE_SPDS
+from color.spectrum.photometry import mesopic_weighting_function
 from color.spectrum.lefs import PHOTOPIC_LEFS, SCOTOPIC_LEFS
 from color.spectrum.spd import SpectralPowerDistribution
 from color.spectrum.spd import AbstractColorMatchingFunctions, RGB_ColorMatchingFunctions, XYZ_ColorMatchingFunctions
@@ -99,8 +101,8 @@ __status__ = "Production"
 __all__ = ["Constants"]
 
 # *color.algebra* objects.
-__all__.extend(["is_identity",
-                "linear_interpolate_matrices",
+__all__.extend(["get_closest", "get_steps", "is_uniform",
+                "is_identity", "linear_interpolate_matrices",
                 "linear_regression",
                 "SpragueInterpolator"])
 
@@ -200,6 +202,7 @@ __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_rad
                 "D_illuminant_relative_spectral_power_distribution",
                 "D_ILLUMINANTS_S_SPDS", "ILLUMINANTS_RELATIVE_SPDS",
                 "PHOTOPIC_LEFS", "SCOTOPIC_LEFS",
+                "mesopic_weighting_function",
                 "SpectralPowerDistribution",
                 "AbstractColorMatchingFunctions", "RGB_ColorMatchingFunctions", "XYZ_ColorMatchingFunctions",
                 "TCS_SPDS",

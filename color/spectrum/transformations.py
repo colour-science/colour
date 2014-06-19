@@ -192,7 +192,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(
-            "'{0} nm' wavelength not available in '{1}' color matching function with '{2}' shape!".format(wavelength,
+            "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
                                                                                                           cmfs.name,
                                                                                                           cmfs.shape))
 
@@ -240,7 +240,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(
-            "'{0} nm' wavelength not available in '{1}' color matching function with '{2}' shape!".format(wavelength,
+            "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
                                                                                                           cmfs.name,
                                                                                                           cmfs.shape))
 
