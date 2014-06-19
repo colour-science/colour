@@ -210,7 +210,7 @@ Luminous Efficiency Functions
 
 `Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Wald & Crawford CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Planc's Law
 -----------

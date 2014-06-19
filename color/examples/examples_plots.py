@@ -849,7 +849,7 @@ multi_spectral_power_distribution_plot(color.PHOTOPIC_LEFS.values(),
 # Comparing photopic and scotopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(
     [color.PHOTOPIC_LEFS["Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer"],
-     color.SCOTOPIC_LEFS["Wald & Crawford CIE 1951 Scotopic Standard Observer"]],
+     color.SCOTOPIC_LEFS["CIE 1951 Scotopic Standard Observer"]],
     title="Photopic & Scotopic Luminous Efficiency Functions",
     y_label="Luminous Efficiency",
     legend_location="upper right",

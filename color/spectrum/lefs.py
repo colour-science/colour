@@ -1861,7 +1861,7 @@ PHOTOPIC_LEFS = {
                                       "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer"))}
 
 SCOTOPIC_LEFS_DATA = {
-    "Wald & Crawford CIE 1951 Scotopic Standard Observer": {
+    "CIE 1951 Scotopic Standard Observer": {
         380: 0.0005890000,
         381: 0.0006650000,
         382: 0.0007520000,
@@ -2265,7 +2265,6 @@ SCOTOPIC_LEFS_DATA = {
         780: 0.0000001390,}}
 
 SCOTOPIC_LEFS = {
-    "Wald & Crawford CIE 1951 Scotopic Standard Observer":
-        SpectralPowerDistribution("Wald & Crawford CIE 1951 Scotopic Standard Observer",
-                                  SCOTOPIC_LEFS_DATA.get(
-                                      "Wald & Crawford CIE 1951 Scotopic Standard Observer"))}
+    "CIE 1951 Scotopic Standard Observer": SpectralPowerDistribution("CIE 1951 Scotopic Standard Observer",
+                                                                     SCOTOPIC_LEFS_DATA.get(
+                                                                         "CIE 1951 Scotopic Standard Observer"))}

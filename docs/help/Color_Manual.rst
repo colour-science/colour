@@ -53,7 +53,7 @@ _`Highlights`
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
   -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2° Standard Observer
   -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer
-  -  Wald & Crawford CIE 1951 Scotopic Standard Observer
+  -  CIE 1951 Scotopic Standard Observer
 
 -  RGB and XYZ color matching functions spectral data:
 
@@ -526,7 +526,7 @@ Luminous Efficiency Functions
 
 `Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Wald & Crawford CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 Planc's Law
 -----------
