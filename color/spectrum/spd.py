@@ -285,6 +285,88 @@ class SpectralPowerDistribution(object):
 
         return len(self.__spd)
 
+    def __eq__(self, spd):
+        """
+        Reimplements the :meth:`object.__eq__` method.
+
+        :param spd: Spectral power distribution to compare for equality.
+        :type spd: SpectralPowerDistribution
+        :return: Spectral power distribution equality.
+        :rtype: bool
+        """
+
+        for wavelength, value in self:
+            if value != spd.get(wavelength):
+                return False
+
+        return True
+
+    def __ne__(self, spd):
+        """
+        Reimplements the :meth:`object.__ne__` method.
+
+        :param spd: Spectral power distribution to compare for inequality.
+        :type spd: SpectralPowerDistribution
+        :return: Spectral power distribution inequality.
+        :rtype: bool
+        """
+
+        return not(self == spd)
+
+    def __add__(self, x):
+        """
+        Reimplements the :meth:`object.__add__` method.
+
+        :param x: Variable to add.
+        :type x: float or ndarray
+        :return: Variable added spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        self.__spd = dict(zip(self.wavelengths, self.values + x))
+
+        return self
+
+    def __sub__(self, x):
+        """
+        Reimplements the :meth:`object.__sub__` method.
+
+        :param x: Variable to subtract.
+        :type x: float or ndarray
+        :return: Variable subtracted spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        return self + (-x)
+
+    def __mul__(self, x):
+        """
+        Reimplements the :meth:`object.__mul__` method.
+
+        :param x: Variable to multiply.
+        :type x: float or ndarray
+        :return: Variable multiplied spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        self.__spd = dict(zip(self.wavelengths, self.values * x))
+
+        return self
+
+    def __div__(self, x):
+        """
+        Reimplements the :meth:`object.__div__` method.
+
+        :param x: Variable to divide.
+        :type x: float or ndarray
+        :return: Variable divided spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        self.__spd = dict(zip(self.wavelengths, self.values * (1. / x)))
+
+        return self
+
     def get(self, wavelength, default=None):
         """
         Returns given wavelength value.
@@ -466,6 +548,18 @@ class SpectralPowerDistribution(object):
             [(wavelength, self.get(wavelength, 0.)) for wavelength in numpy.arange(start, end + steps, steps)])
 
         return self
+
+    def normalize(self, factor=1.):
+        """
+        Normalizes the spectral power distribution with given normalization factor.
+
+        :param factor: Normalization factor
+        :type factor: float
+        :return: Zeros filled spectral power distribution.
+        :rtype: SpectralPowerDistribution
+        """
+
+        return (self * (1. / max(self.values))) * factor
 
     def clone(self):
         """
@@ -892,10 +986,7 @@ class AbstractColorMatchingFunctions(object):
         :rtype: object
         """
 
-        return itertools.izip(self.wavelengths,
-                              zip(*([value for key, value in self.x],
-                                    [value for key, value in self.y],
-                                    [value for key, value in self.z])))
+        return itertools.izip(self.wavelengths, self.values)
 
     def __contains__(self, wavelength):
         """
@@ -918,6 +1009,34 @@ class AbstractColorMatchingFunctions(object):
         """
 
         return len(self.x)
+
+    def __eq__(self, cmfs):
+        """
+        Reimplements the :meth:`object.__eq__` method.
+
+        :param cmfs: Color matching functions to compare for equality.
+        :type cmfs: AbstractColorMatchingFunctions
+        :return: Color matching functions equality.
+        :rtype: bool
+        """
+
+        equality = True
+        for axis in self.__mapping:
+            equality *= getattr(self, axis) == getattr(cmfs, axis)
+
+        return equality
+
+    def __ne__(self, cmfs):
+        """
+        Reimplements the :meth:`object.__eq__` method.
+
+        :param cmfs: Color matching functions to compare for inequality.
+        :type cmfs: AbstractColorMatchingFunctions
+        :return: Color matching functions inequality.
+        :rtype: bool
+        """
+
+        return not(self == cmfs)
 
     def is_uniform(self):
         """

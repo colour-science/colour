@@ -16,6 +16,7 @@
 
 from __future__ import unicode_literals
 
+import math
 import numpy
 import sys
 
@@ -40,6 +41,8 @@ __all__ = ["SAMPLE_SPD_DATA",
            "NON_UNIFORM_SAMPLE_SPD_DATA",
            "ZEROS_SAMPLE_SPD_DATA",
            "INTERPOLATED_SAMPLE_SPD_DATA",
+           "INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA"
+           "NORMALIZED_SAMPLE_SPD_DATA"
            "STANDARD_CIE_1931_2_DEGREE_OBSERVER",
            "CMFS_DATA",
            "TestSpectralDistribution",
@@ -1095,6 +1098,7 @@ INTERPOLATED_SAMPLE_SPD_DATA = numpy.array([
     0.0,
     0.0,
     0.0])
+
 INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = numpy.array([
     16.329778092653534,
     16.722912720487408,
@@ -1511,6 +1515,33 @@ INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = numpy.array([
     1335386.2420238478,
     677531.57450650295])
 
+NORMALIZED_SAMPLE_SPD_DATA = numpy.array([
+    0.0,
+    0.0,
+    0.0,
+    22.4754558205,
+    22.6157082749,
+    19.7054698457,
+    18.8288920056,
+    19.6002805049,
+    22.8260869565,
+    24.7194950912,
+    27.0687237027,
+    30.5049088359,
+    39.5511921459,
+    47.6858345021,
+    52.9803646564,
+    59.1865357644,
+    69.9859747546,
+    84.04628331,
+    100.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0, ])
+
 STANDARD_CIE_1931_2_DEGREE_OBSERVER = {
     "x_bar": {
         380: 0.001368,
@@ -1873,10 +1904,39 @@ class TestSpectralDistribution(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
+                            "normalize",
                             "clone")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralPowerDistribution))
+
+    def test_wavelengths(self):
+        """
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.wavelengths` attribute.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+
+        numpy.testing.assert_almost_equal(spd.wavelengths,
+                                          sorted(SAMPLE_SPD_DATA))
+
+    def test_values(self):
+        """
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.values` attribute.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+
+        numpy.testing.assert_almost_equal(spd.values, [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
+
+    def test_shape(self):
+        """
+        Tests :attr:`color.spectrum.spd.SpectralDistribution.shape` attribute.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+
+        self.assertTupleEqual(spd.shape, (340, 820, 20))
 
     def test__getitem__(self):
         """
@@ -1920,33 +1980,84 @@ class TestSpectralDistribution(unittest.TestCase):
 
         self.assertEqual(len(spd), 25)
 
-    def test_wavelengths(self):
+    def test__eq__(self):
         """
-        Tests :attr:`color.spectrum.spd.SpectralDistribution.wavelengths` attribute.
-        """
-
-        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
-
-        numpy.testing.assert_almost_equal(spd.wavelengths,
-                                          sorted(SAMPLE_SPD_DATA))
-
-    def test_values(self):
-        """
-        Tests :attr:`color.spectrum.spd.SpectralDistribution.values` attribute.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__eq__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+        clone_spd = spd.clone()
 
-        numpy.testing.assert_almost_equal(spd.values, [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
+        self.assertEqual(spd, clone_spd)
 
-    def test_shape(self):
+    def test__ne__(self):
         """
-        Tests :attr:`color.spectrum.spd.SpectralDistribution.shape` attribute.
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__ne__` method.
         """
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
+        clone_spd = spd.clone()
+        clone_spd[500] = 0.
 
-        self.assertTupleEqual(spd.shape, (340, 820, 20))
+        self.assertNotEqual(spd, clone_spd)
+
+    def test__add__(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__add__` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        phi = (1. + math.sqrt(5)) / 2.
+        numpy.testing.assert_almost_equal((spd + phi).values, values + phi)
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        random = numpy.random.random(len(values))
+        numpy.testing.assert_almost_equal((spd + random).values, values + random)
+
+    def test__sub__(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__sub__` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        phi = (1. + math.sqrt(5)) / 2.
+        numpy.testing.assert_almost_equal((spd - phi).values, values - phi)
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        random = numpy.random.random(len(values))
+        numpy.testing.assert_almost_equal((spd - random).values, values - random)
+
+    def test__mul__(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__mul__` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        numpy.testing.assert_almost_equal((spd * 2.).values, values * 2.)
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        random = numpy.random.random(len(values))
+        numpy.testing.assert_almost_equal((spd * random).values, values * random)
+
+    def test__div__(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralDistribution.__div__` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        numpy.testing.assert_almost_equal((spd / 2.).values, values / 2.)
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+        values = spd.values
+        random = numpy.random.random(len(values))
+        numpy.testing.assert_almost_equal((spd / random).values, values / random)
 
     def test_get(self):
         """
@@ -2010,9 +2121,16 @@ class TestSpectralDistribution(unittest.TestCase):
 
         spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA)
 
-        numpy.testing.assert_almost_equal(spd.zeros(steps=1).values,
-                                          ZEROS_SAMPLE_SPD_DATA)
+        numpy.testing.assert_almost_equal(spd.zeros(steps=1).values, ZEROS_SAMPLE_SPD_DATA)
 
+    def test_normalize(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralDistribution.normalize` method.
+        """
+
+        spd = SpectralPowerDistribution(name="", spd=SAMPLE_SPD_DATA).clone()
+
+        numpy.testing.assert_almost_equal(spd.normalize(100.).values, NORMALIZED_SAMPLE_SPD_DATA, decimal=7)
 
     def test_clone(self):
         """
@@ -2063,73 +2181,6 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractColorMatchingFunctions))
-
-    def test__getitem__(self):
-        """
-        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__getitem__` method.
-        """
-
-        cmfs = AbstractColorMatchingFunctions(name="",
-                                              mapping={"x": "x_bar",
-                                                       "y": "y_bar",
-                                                       "z": "z_bar"},
-                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
-                                              labels={"x": "x_bar",
-                                                      "y": "y_bar",
-                                                      "z": "z_bar"})
-
-        numpy.testing.assert_almost_equal(cmfs[380], numpy.array((0.001368, 3.9e-05, 0.00645)))
-        numpy.testing.assert_almost_equal(cmfs[600], numpy.array((1.0622, 0.631, 0.0008)))
-        numpy.testing.assert_almost_equal(cmfs[700], numpy.array((0.011359, 0.004102, 0.)))
-
-    def test__iter__(self):
-        """
-        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__iter__` method.
-        """
-        cmfs = AbstractColorMatchingFunctions(name="",
-                                              mapping={"x": "x_bar",
-                                                       "y": "y_bar",
-                                                       "z": "z_bar"},
-                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
-                                              labels={"x": "x_bar",
-                                                      "y": "y_bar",
-                                                      "z": "z_bar"})
-
-        self.assertEqual(dict([(key, value) for key, value in cmfs]), CMFS_DATA)
-
-    def test__contains__(self):
-        """
-        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__contains__` method.
-        """
-
-        cmfs = AbstractColorMatchingFunctions(name="",
-                                              mapping={"x": "x_bar",
-                                                       "y": "y_bar",
-                                                       "z": "z_bar"},
-                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
-                                              labels={"x": "x_bar",
-                                                      "y": "y_bar",
-                                                      "z": "z_bar"})
-
-        self.assertIn(380, cmfs)
-        self.assertIn(460, cmfs)
-        self.assertNotIn(461, cmfs)
-
-    def test__len__(self):
-        """
-        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__len__` method.
-        """
-
-        cmfs = AbstractColorMatchingFunctions(name="",
-                                              mapping={"x": "x_bar",
-                                                       "y": "y_bar",
-                                                       "z": "z_bar"},
-                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
-                                              labels={"x": "x_bar",
-                                                      "y": "y_bar",
-                                                      "z": "z_bar"})
-
-        self.assertEqual(len(cmfs), 81)
 
     def test_wavelengths(self):
         """
@@ -2186,6 +2237,108 @@ class TestAbstractColorMatchingFunctions(unittest.TestCase):
                                                       "z": "z_bar"})
 
         self.assertTupleEqual(cmfs.shape, (380, 780, 5))
+
+    def test__getitem__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__getitem__` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        numpy.testing.assert_almost_equal(cmfs[380], numpy.array((0.001368, 3.9e-05, 0.00645)))
+        numpy.testing.assert_almost_equal(cmfs[600], numpy.array((1.0622, 0.631, 0.0008)))
+        numpy.testing.assert_almost_equal(cmfs[700], numpy.array((0.011359, 0.004102, 0.)))
+
+    def test__iter__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__iter__` method.
+        """
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        self.assertEqual(dict([(key, tuple(value)) for key, value in cmfs]), CMFS_DATA)
+
+    def test__contains__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__contains__` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        self.assertIn(380, cmfs)
+        self.assertIn(460, cmfs)
+        self.assertNotIn(461, cmfs)
+
+    def test__len__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__len__` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+
+        self.assertEqual(len(cmfs), 81)
+
+    def test__eq__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__eq__` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+        clone_cmfs = cmfs.clone()
+
+        self.assertEqual(cmfs, clone_cmfs)
+
+    def test__ne__(self):
+        """
+        Tests :func:`color.spectrum.spd.AbstractColorMatchingFunctions.__ne__` method.
+        """
+
+        cmfs = AbstractColorMatchingFunctions(name="",
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              cmfs=STANDARD_CIE_1931_2_DEGREE_OBSERVER,
+                                              labels={"x": "x_bar",
+                                                      "y": "y_bar",
+                                                      "z": "z_bar"})
+        clone_cmfs = cmfs.clone()
+        clone_cmfs[500] = (0., 0., 0.)
+
+        self.assertNotEqual(cmfs, clone_cmfs)
 
     def test_get(self):
         """
