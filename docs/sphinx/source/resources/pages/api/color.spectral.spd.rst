@@ -15,7 +15,7 @@ Classes
 	:show-inheritance:
 	:members:
 
-.. autoclass:: AbstractColorMatchingFunctions
+.. autoclass:: SpectralPowerDistributionTriad
 	:show-inheritance:
 	:members:
 

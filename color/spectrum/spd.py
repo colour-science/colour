@@ -27,7 +27,6 @@ import color.utilities.exceptions
 import color.utilities.verbose
 from color.algebra.interpolation import SpragueInterpolator
 
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -36,9 +35,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["SpectralPowerDistribution",
-           "AbstractColorMatchingFunctions",
-           "RGB_ColorMatchingFunctions",
-           "XYZ_ColorMatchingFunctions"]
+           "SpectralPowerDistributionTriad"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
@@ -311,7 +308,7 @@ class SpectralPowerDistribution(object):
         :rtype: bool
         """
 
-        return not(self == spd)
+        return not (self == spd)
 
     def __add__(self, x):
         """
@@ -471,7 +468,7 @@ class SpectralPowerDistribution(object):
                 LOGGER.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         self.__class__.__name__))
-                spline_interpolant,  spline_interpolator = linear_interpolant, None
+                spline_interpolant, spline_interpolator = linear_interpolant, None
 
             # Defining proper interpolation bounds.
             # TODO: Provide support for fractional steps like 0.1, etc...
@@ -495,13 +492,13 @@ class SpectralPowerDistribution(object):
                 interpolant = linear_interpolant
             else:
                 raise color.utilities.exceptions.ProgrammingError(
-                        "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
+                    "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             LOGGER.debug(
                 "> {0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
-                                                                                          self.name,
-                                                                                          (shape_start, shape_end,
-                                                                                           steps)))
+                                                                                            self.name,
+                                                                                            (shape_start, shape_end,
+                                                                                             steps)))
 
             self.__spd = dict([(wavelength, interpolant(wavelength))
                                for wavelength in numpy.arange(max(start, shape_start),
@@ -571,22 +568,23 @@ class SpectralPowerDistribution(object):
 
         return copy.deepcopy(self)
 
-class AbstractColorMatchingFunctions(object):
+
+class SpectralPowerDistributionTriad(object):
     """
-    Defines an abstract standard observer color matching functions object implementation.
+    Defines a spectral power distribution triad implementation.
     """
 
-    def __init__(self, name, cmfs, mapping, labels):
+    def __init__(self, name, triad, mapping, labels):
         """
         Initializes the class.
 
-        :param name: Standard observer color matching functions name.
+        :param name: Spectral power distribution triad name.
         :type name: str or unicode
-        :param cmfs: Standard observer color matching functions.
-        :type cmfs: dict
-        :param mapping: Standard observer color matching functions attributes mapping.
+        :param triad: Spectral power distribution triad.
+        :type triad: dict
+        :param mapping: Spectral power distribution triad attributes mapping.
         :type mapping: dict
-        :param labels: Standard observer color matching functions axis labels mapping.
+        :param labels: Spectral power distribution triad axis labels mapping.
         :type labels: dict
         """
 
@@ -594,8 +592,8 @@ class AbstractColorMatchingFunctions(object):
         self.__name = None
         self.name = name
         self.__mapping = mapping
-        self.__cmfs = None
-        self.cmfs = cmfs
+        self.__triad = None
+        self.triad = triad
         self.__labels = labels
 
     @property
@@ -654,9 +652,9 @@ class AbstractColorMatchingFunctions(object):
 
         if value is not None:
             assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("mapping", value)
-            for cmf in ("x", "y", "z"):
-                assert cmf in value.keys(), \
-                    "'{0}' attribute: '{1}' matching function label is missing!".format("mapping", cmf)
+            for axis in ("x", "y", "z"):
+                assert axis in value.keys(), \
+                    "'{0}' attribute: '{1}' axis label is missing!".format("mapping", axis)
         self.__mapping = value
 
     @mapping.deleter
@@ -669,58 +667,56 @@ class AbstractColorMatchingFunctions(object):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
-    def cmfs(self):
+    def triad(self):
         """
-        Property for **self.__cmfs** attribute.
+        Property for **self.__triad** attribute.
 
-        :return: self.__cmfs.
+        :return: self.__triad.
         :rtype: dict
         """
 
-        return self.__cmfs
+        return self.__triad
 
-    @cmfs.setter
-    def cmfs(self, value):
+    @triad.setter
+    def triad(self, value):
         """
-        Setter for **self.__cmfs** attribute.
+        Setter for **self.__triad** attribute.
 
         :param value: Attribute value.
         :type value: dict
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("cmfs", value)
-            for cmf in ("x", "y", "z"):
-                assert self.__mapping.get(cmf) in value.keys(), \
-                    "'{0}' attribute: '{1}' matching function is missing!".format("cmfs", cmf)
+            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("triad", value)
+            for axis in ("x", "y", "z"):
+                assert self.__mapping.get(axis) in value.keys(), \
+                    "'{0}' attribute: '{1}' axis is missing!".format("triad", axis)
 
-            cmfs = {}
+            triad = {}
+            for axis in ("x", "y", "z"):
+                triad[axis] = SpectralPowerDistribution(self.__mapping.get(axis), value.get(self.__mapping.get(axis)))
 
-            cmfs["x"] = SpectralPowerDistribution(self.__mapping.get("x"), value.get(self.__mapping.get("x")))
-            cmfs["y"] = SpectralPowerDistribution(self.__mapping.get("y"), value.get(self.__mapping.get("y")))
-            cmfs["z"] = SpectralPowerDistribution(self.__mapping.get("z"), value.get(self.__mapping.get("z")))
+            numpy.testing.assert_almost_equal(triad["x"].wavelengths,
+                                              triad["y"].wavelengths,
+                                              err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
+                                                  "triad", self.__mapping.get("x"), self.__mapping.get("y")))
+            numpy.testing.assert_almost_equal(triad["x"].wavelengths,
+                                              triad["z"].wavelengths,
+                                              err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
+                                                  "triad", self.__mapping.get("x"), self.__mapping.get("z")))
 
-            numpy.testing.assert_almost_equal(cmfs["x"].wavelengths,
-                                              cmfs["y"].wavelengths,
-                                              err_msg="'{0}' attribute: '{1}' and '{2}' matching function wavelengths are different!".format(
-                                                  "cmfs", self.__mapping.get("x"), self.__mapping.get("y")))
-            numpy.testing.assert_almost_equal(cmfs["x"].wavelengths,
-                                              cmfs["z"].wavelengths,
-                                              err_msg="'{0}' attribute: '{1}' and '{2}' matching function wavelengths are different!".format(
-                                                  "cmfs", self.__mapping.get("x"), self.__mapping.get("z")))
-
-            self.__cmfs = cmfs
+            self.__triad = triad
         else:
-            self.__cmfs = None
+            self.__triad = None
 
-    @cmfs.deleter
-    def cmfs(self):
+    @triad.deleter
+    def triad(self):
         """
-        Deleter for **self.__cmfs** attribute.
+        Deleter for **self.__triad** attribute.
         """
 
         raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "cmfs"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "triad"))
 
     @property
     def labels(self):
@@ -744,9 +740,9 @@ class AbstractColorMatchingFunctions(object):
 
         if value is not None:
             assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("labels", value)
-            for cmf in ("x", "y", "z"):
-                assert cmf in value.keys(), \
-                    "'{0}' attribute: '{1}' matching function label is missing!".format("labels", cmf)
+            for axis in ("x", "y", "z"):
+                assert axis in value.keys(), \
+                    "'{0}' attribute: '{1}' axis label is missing!".format("labels", axis)
         self.__labels = value
 
     @labels.deleter
@@ -767,7 +763,7 @@ class AbstractColorMatchingFunctions(object):
         :rtype: unicode
         """
 
-        return self.__cmfs.get("x")
+        return self.__triad.get("x")
 
     @x.setter
     def x(self, value):
@@ -799,7 +795,7 @@ class AbstractColorMatchingFunctions(object):
         :rtype: unicode
         """
 
-        return self.__cmfs.get("y")
+        return self.__triad.get("y")
 
     @y.setter
     def y(self, value):
@@ -831,7 +827,7 @@ class AbstractColorMatchingFunctions(object):
         :rtype: unicode
         """
 
-        return self.__cmfs.get("z")
+        return self.__triad.get("z")
 
     @z.setter
     def z(self, value):
@@ -1010,37 +1006,95 @@ class AbstractColorMatchingFunctions(object):
 
         return len(self.x)
 
-    def __eq__(self, cmfs):
+    def __eq__(self, triad):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param cmfs: Color matching functions to compare for equality.
-        :type cmfs: AbstractColorMatchingFunctions
-        :return: Color matching functions equality.
+        :param triad: Spectral power distribution triad to compare for equality.
+        :type triad: SpectralPowerDistributionTriad
+        :return: Spectral power distribution triad equality.
         :rtype: bool
         """
 
         equality = True
         for axis in self.__mapping:
-            equality *= getattr(self, axis) == getattr(cmfs, axis)
+            equality *= getattr(self, axis) == getattr(triad, axis)
 
         return equality
 
-    def __ne__(self, cmfs):
+    def __ne__(self, triad):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param cmfs: Color matching functions to compare for inequality.
-        :type cmfs: AbstractColorMatchingFunctions
-        :return: Color matching functions inequality.
+        :param triad: Spectral power distribution triad to compare for inequality.
+        :type triad: SpectralPowerDistributionTriad
+        :return: Spectral power distribution triad inequality.
         :rtype: bool
         """
 
-        return not(self == cmfs)
+        return not (self == triad)
+
+    def __add__(self, x):
+        """
+        Reimplements the :meth:`object.__add__` method.
+
+        :param x: Variable to add.
+        :type x: float or ndarray
+        :return: Variable added spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
+        """
+
+        values = self.values + x
+
+        for i, axis in enumerate(("x", "y", "z")):
+            self.__triad[axis].spd = dict(zip(self.wavelengths, values[:, i]))
+
+        return self
+
+    def __sub__(self, x):
+        """
+        Reimplements the :meth:`object.__sub__` method.
+
+        :param x: Variable to subtract.
+        :type x: float or ndarray
+        :return: Variable subtracted spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
+        """
+
+        return self + (-x)
+
+    def __mul__(self, x):
+        """
+        Reimplements the :meth:`object.__mul__` method.
+
+        :param x: Variable to multiply.
+        :type x: float or ndarray
+        :return: Variable multiplied spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
+        """
+
+        values = self.values * x
+
+        for i, axis in enumerate(("x", "y", "z")):
+            self.__triad[axis].spd = dict(zip(self.wavelengths, values[:, i]))
+
+        return self
+
+    def __div__(self, x):
+        """
+        Reimplements the :meth:`object.__div__` method.
+
+        :param x: Variable to divide.
+        :type x: float or ndarray
+        :return: Variable divided spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
+        """
+
+        return self * (1. / x)
 
     def is_uniform(self):
         """
-        Returns if the color matching functions have uniformly spaced data.
+        Returns if the spectral power distribution triad have uniformly spaced data.
 
         :return: Is uniform.
         :rtype: bool
@@ -1070,7 +1124,7 @@ class AbstractColorMatchingFunctions(object):
 
     def extrapolate(self, start=None, end=None):
         """
-        Extrapolates the color matching functions according to *CIE 15:2004* recommendation.
+        Extrapolates the spectral power distribution triad according to *CIE 15:2004* recommendation.
 
         Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
 
@@ -1078,8 +1132,8 @@ class AbstractColorMatchingFunctions(object):
         :type start: float
         :param end: Wavelengths range end in nm.
         :type end: float
-        :return: Extrapolated color matching functions.
-        :rtype: AbstractColorMatchingFunctions
+        :return: Extrapolated spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
         """
 
         for i in self.__mapping.keys():
@@ -1089,7 +1143,7 @@ class AbstractColorMatchingFunctions(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the color matching functions following *CIE 167:2005* recommendations.
+        Interpolates the spectral power distribution triad following *CIE 167:2005* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1097,8 +1151,8 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Interpolated color matching functions.
-        :rtype: AbstractColorMatchingFunctions
+        :return: Interpolated spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
         """
 
         for i in self.__mapping.keys():
@@ -1108,7 +1162,7 @@ class AbstractColorMatchingFunctions(object):
 
     def align(self, start, end, steps):
         """
-        Aligns the color matching functions to given shape: Interpolates first then extrapolates to fit the given range.
+        Aligns the spectral power distribution triad to given shape: Interpolates first then extrapolates to fit the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1116,8 +1170,8 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Aligned color matching functions.
-        :rtype: AbstractColorMatchingFunctions
+        :return: Aligned spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
         """
 
         for i in self.__mapping.keys():
@@ -1128,7 +1182,7 @@ class AbstractColorMatchingFunctions(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the color matching functions: Missing values will be replaced with zeros to fit the defined range.
+        Zeros fills the spectral power distribution triad: Missing values will be replaced with zeros to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -1136,8 +1190,8 @@ class AbstractColorMatchingFunctions(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Zeros filled color matching functions.
-        :rtype: AbstractColorMatchingFunctions
+        :return: Zeros filled spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
         """
 
         for i in self.__mapping.keys():
@@ -1147,253 +1201,10 @@ class AbstractColorMatchingFunctions(object):
 
     def clone(self):
         """
-        Clones the color matching functions.
+        Clones the spectral power distribution triad.
 
-        :return: Cloned color matching functions.
-        :rtype: AbstractColorMatchingFunctions
+        :return: Cloned spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
         """
 
         return copy.deepcopy(self)
-
-class RGB_ColorMatchingFunctions(AbstractColorMatchingFunctions):
-    """
-    Defines a *CIE RGB* standard observer color matching functions object implementation.
-    """
-
-    def __init__(self, name, cmfs):
-        """
-        Initializes the class.
-
-        :param name: Standard observer color matching functions name.
-        :type name: unicode
-        :param cmfs: Standard observer color matching functions.
-        :type cmfs: dict
-        """
-
-        AbstractColorMatchingFunctions.__init__(self,
-                                                name,
-                                                cmfs,
-                                                mapping={"x": "r_bar",
-                                                         "y": "g_bar",
-                                                         "z": "b_bar"},
-                                                labels={"x": "r\u0304",
-                                                        "y": "g\u0304",
-                                                        "z": "b\u0304"})
-
-    @property
-    def r_bar(self):
-        """
-        Property for **self.__r_bar** attribute.
-
-        :return: self.__r_bar.
-        :rtype: unicode
-        """
-
-        return self.x
-
-    @r_bar.setter
-    def r_bar(self, value):
-        """
-        Setter for **self.__r_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
-
-    @r_bar.deleter
-    def r_bar(self):
-        """
-        Deleter for **self.__r_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
-
-    @property
-    def g_bar(self):
-        """
-        Property for **self.__g_bar** attribute.
-
-        :return: self.__g_bar.
-        :rtype: unicode
-        """
-
-        return self.y
-
-    @g_bar.setter
-    def g_bar(self, value):
-        """
-        Setter for **self.__g_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
-
-    @g_bar.deleter
-    def g_bar(self):
-        """
-        Deleter for **self.__g_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
-
-    @property
-    def b_bar(self):
-        """
-        Property for **self.__b_bar** attribute.
-
-        :return: self.__b_bar.
-        :rtype: unicode
-        """
-
-        return self.z
-
-    @b_bar.setter
-    def b_bar(self, value):
-        """
-        Setter for **self.__b_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
-
-    @b_bar.deleter
-    def b_bar(self):
-        """
-        Deleter for **self.__b_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
-
-
-class XYZ_ColorMatchingFunctions(AbstractColorMatchingFunctions):
-    """
-    Defines an *CIE XYZ* standard observer color matching functions object implementation.
-    """
-
-    def __init__(self, name, cmfs):
-        """
-        Initializes the class.
-
-        :param name: Standard observer color matching functions name.
-        :type name: unicode
-        :param cmfs: Standard observer color matching functions.
-        :type cmfs: dict
-        """
-
-        AbstractColorMatchingFunctions.__init__(self,
-                                                name,
-                                                cmfs,
-                                                mapping={"x": "x_bar",
-                                                         "y": "y_bar",
-                                                         "z": "z_bar"},
-                                                labels={"x": "x\u0304",
-                                                        "y": "y\u0304",
-                                                        "z": "z\u0304"})
-
-    @property
-    def x_bar(self):
-        """
-        Property for **self.__x_bar** attribute.
-
-        :return: self.__x_bar.
-        :rtype: unicode
-        """
-
-        return self.x
-
-    @x_bar.setter
-    def x_bar(self, value):
-        """
-        Setter for **self.__x_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
-
-    @x_bar.deleter
-    def x_bar(self):
-        """
-        Deleter for **self.__x_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
-
-    @property
-    def y_bar(self):
-        """
-        Property for **self.__y_bar** attribute.
-
-        :return: self.__y_bar.
-        :rtype: unicode
-        """
-
-        return self.y
-
-    @y_bar.setter
-    def y_bar(self, value):
-        """
-        Setter for **self.__y_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
-
-    @y_bar.deleter
-    def y_bar(self):
-        """
-        Deleter for **self.__y_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
-
-    @property
-    def z_bar(self):
-        """
-        Property for **self.__z_bar** attribute.
-
-        :return: self.__z_bar.
-        :rtype: unicode
-        """
-
-        return self.z
-
-    @z_bar.setter
-    def z_bar(self, value):
-        """
-        Setter for **self.__z_bar** attribute.
-
-        :param value: Attribute value.
-        :type value: unicode
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
-
-    @z_bar.deleter
-    def z_bar(self):
-        """
-        Deleter for **self.__z_bar** attribute.
-        """
-
-        raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))

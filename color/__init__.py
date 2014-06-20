@@ -68,6 +68,7 @@ from color.lightness import luminance_1943, luminance_1976
 from color.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
 from color.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNCTIONS
 from color.spectrum.blackbody import blackbody_spectral_power_distribution, blackbody_spectral_radiance, planck_law
+from color.spectrum.cmfs import RGB_ColorMatchingFunctions, XYZ_ColorMatchingFunctions
 from color.spectrum.cmfs import CIE_RGB_CMFS, CMFS, STANDARD_OBSERVERS_CMFS
 from color.spectrum.color_checkers import BABELCOLOR_AVERAGE_SPDS, COLORCHECKER_N_OHTA_SPDS, COLORCHECKERS_SPDS
 from color.spectrum.correction import bandpass_correction, bandpass_correction_stearns
@@ -75,8 +76,7 @@ from color.spectrum.illuminants import D_illuminant_relative_spectral_power_dist
 from color.spectrum.illuminants import D_ILLUMINANTS_S_SPDS, ILLUMINANTS_RELATIVE_SPDS
 from color.spectrum.photometry import mesopic_weighting_function
 from color.spectrum.lefs import PHOTOPIC_LEFS, SCOTOPIC_LEFS
-from color.spectrum.spd import SpectralPowerDistribution
-from color.spectrum.spd import AbstractColorMatchingFunctions, RGB_ColorMatchingFunctions, XYZ_ColorMatchingFunctions
+from color.spectrum.spd import SpectralPowerDistribution, SpectralPowerDistributionTriad
 from color.spectrum.tcs import TCS_SPDS
 from color.spectrum.transformations import spectral_to_XYZ, wavelength_to_XYZ
 from color.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
@@ -196,6 +196,7 @@ __all__.extend(["get_lightness", "get_luminance", "get_luminance_equation", "get
 
 # *color.spectrum* objects.
 __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_radiance", "planck_law",
+                "RGB_ColorMatchingFunctions", "XYZ_ColorMatchingFunctions",
                 "CIE_RGB_CMFS", "CMFS", "STANDARD_OBSERVERS_CMFS",
                 "BABELCOLOR_AVERAGE_SPDS", "COLORCHECKER_N_OHTA_SPDS", "COLORCHECKERS_SPDS",
                 "bandpass_correction", "bandpass_correction_stearns",
@@ -203,8 +204,7 @@ __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_rad
                 "D_ILLUMINANTS_S_SPDS", "ILLUMINANTS_RELATIVE_SPDS",
                 "PHOTOPIC_LEFS", "SCOTOPIC_LEFS",
                 "mesopic_weighting_function",
-                "SpectralPowerDistribution",
-                "AbstractColorMatchingFunctions", "RGB_ColorMatchingFunctions", "XYZ_ColorMatchingFunctions",
+                "SpectralPowerDistribution", "SpectralPowerDistributionTriad",
                 "TCS_SPDS",
                 "spectral_to_XYZ", "wavelength_to_XYZ"])
 

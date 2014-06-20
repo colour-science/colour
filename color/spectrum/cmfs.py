@@ -16,10 +16,10 @@
 
 from __future__ import unicode_literals
 
+import color.utilities.exceptions
 import color.utilities.verbose
 
-from color.spectrum.spd import RGB_ColorMatchingFunctions
-from color.spectrum.spd import XYZ_ColorMatchingFunctions
+from color.spectrum.spd import SpectralPowerDistributionTriad
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -28,13 +28,259 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["CIE_RGB_CMFS_DATA",
+__all__ = ["RGB_ColorMatchingFunctions",
+           "XYZ_ColorMatchingFunctions",
+           "CIE_RGB_CMFS_DATA",
            "CIE_RGB_CMFS",
            "STANDARD_OBSERVERS_CMFS_DATA",
            "STANDARD_OBSERVERS_CMFS",
            "CMFS"]
 
 LOGGER = color.utilities.verbose.install_logger()
+
+class RGB_ColorMatchingFunctions(SpectralPowerDistributionTriad):
+    """
+    Defines a *CIE RGB* standard observer color matching functions object implementation.
+    """
+
+    def __init__(self, name, triad):
+        """
+        Initializes the class.
+
+        :param name: Standard observer color matching functions name.
+        :type name: unicode
+        :param triad: Standard observer color matching functions.
+        :type triad: dict
+        """
+
+        SpectralPowerDistributionTriad.__init__(self,
+                                                name,
+                                                triad,
+                                                mapping={"x": "r_bar",
+                                                         "y": "g_bar",
+                                                         "z": "b_bar"},
+                                                labels={"x": "r\u0304",
+                                                        "y": "g\u0304",
+                                                        "z": "b\u0304"})
+
+    @property
+    def r_bar(self):
+        """
+        Property for **self.__r_bar** attribute.
+
+        :return: self.__r_bar.
+        :rtype: unicode
+        """
+
+        return self.x
+
+    @r_bar.setter
+    def r_bar(self, value):
+        """
+        Setter for **self.__r_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
+
+    @r_bar.deleter
+    def r_bar(self):
+        """
+        Deleter for **self.__r_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
+
+    @property
+    def g_bar(self):
+        """
+        Property for **self.__g_bar** attribute.
+
+        :return: self.__g_bar.
+        :rtype: unicode
+        """
+
+        return self.y
+
+    @g_bar.setter
+    def g_bar(self, value):
+        """
+        Setter for **self.__g_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
+
+    @g_bar.deleter
+    def g_bar(self):
+        """
+        Deleter for **self.__g_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
+
+    @property
+    def b_bar(self):
+        """
+        Property for **self.__b_bar** attribute.
+
+        :return: self.__b_bar.
+        :rtype: unicode
+        """
+
+        return self.z
+
+    @b_bar.setter
+    def b_bar(self, value):
+        """
+        Setter for **self.__b_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
+
+    @b_bar.deleter
+    def b_bar(self):
+        """
+        Deleter for **self.__b_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
+
+
+class XYZ_ColorMatchingFunctions(SpectralPowerDistributionTriad):
+    """
+    Defines an *CIE XYZ* standard observer color matching functions object implementation.
+    """
+
+    def __init__(self, name, triad):
+        """
+        Initializes the class.
+
+        :param name: Standard observer color matching functions name.
+        :type name: unicode
+        :param triad: Standard observer color matching functions.
+        :type triad: dict
+        """
+
+        SpectralPowerDistributionTriad.__init__(self,
+                                                name,
+                                                triad,
+                                                mapping={"x": "x_bar",
+                                                         "y": "y_bar",
+                                                         "z": "z_bar"},
+                                                labels={"x": "x\u0304",
+                                                        "y": "y\u0304",
+                                                        "z": "z\u0304"})
+
+    @property
+    def x_bar(self):
+        """
+        Property for **self.__x_bar** attribute.
+
+        :return: self.__x_bar.
+        :rtype: unicode
+        """
+
+        return self.x
+
+    @x_bar.setter
+    def x_bar(self, value):
+        """
+        Setter for **self.__x_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
+
+    @x_bar.deleter
+    def x_bar(self):
+        """
+        Deleter for **self.__x_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
+
+    @property
+    def y_bar(self):
+        """
+        Property for **self.__y_bar** attribute.
+
+        :return: self.__y_bar.
+        :rtype: unicode
+        """
+
+        return self.y
+
+    @y_bar.setter
+    def y_bar(self, value):
+        """
+        Setter for **self.__y_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
+
+    @y_bar.deleter
+    def y_bar(self):
+        """
+        Deleter for **self.__y_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
+
+    @property
+    def z_bar(self):
+        """
+        Property for **self.__z_bar** attribute.
+
+        :return: self.__z_bar.
+        :rtype: unicode
+        """
+
+        return self.z
+
+    @z_bar.setter
+    def z_bar(self, value):
+        """
+        Setter for **self.__z_bar** attribute.
+
+        :param value: Attribute value.
+        :type value: unicode
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
+
+    @z_bar.deleter
+    def z_bar(self):
+        """
+        Deleter for **self.__z_bar** attribute.
+        """
+
+        raise color.utilities.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z_bar"))
+
 
 # *CIE RGB* color matching functions for standard observers at 5 nm steps.
 # http://www.cis.rit.edu/mcsl/research/1931.php
@@ -772,6 +1018,7 @@ CIE_RGB_CMFS_DATA = {
             820: 1.5200e-10,
             825: 8.6400e-11,
             830: 4.4200e-11}}}
+
 
 CIE_RGB_CMFS = {
     "Wright & Guild 1931 2 Degree RGB CMFs": RGB_ColorMatchingFunctions(
@@ -6285,6 +6532,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             828: 0.000000e+00,
             829: 0.000000e+00,
             830: 0.000000e+00,}}}
+
 
 STANDARD_OBSERVERS_CMFS = {
     "CIE 1931 2 Degree Standard Observer": XYZ_ColorMatchingFunctions("CIE 1931 2 Degree Standard Observer",
