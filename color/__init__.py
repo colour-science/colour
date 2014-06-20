@@ -74,7 +74,7 @@ from color.spectrum.color_checkers import BABELCOLOR_AVERAGE_SPDS, COLORCHECKER_
 from color.spectrum.correction import bandpass_correction, bandpass_correction_stearns
 from color.spectrum.illuminants import D_illuminant_relative_spectral_power_distribution
 from color.spectrum.illuminants import D_ILLUMINANTS_S_SPDS, ILLUMINANTS_RELATIVE_SPDS
-from color.spectrum.photometry import mesopic_weighting_function
+from color.spectrum.lefs import mesopic_weighting_function, mesopic_luminous_efficiency_function
 from color.spectrum.lefs import PHOTOPIC_LEFS, SCOTOPIC_LEFS
 from color.spectrum.spd import SpectralPowerDistribution, SpectralPowerDistributionTriad
 from color.spectrum.tcs import TCS_SPDS
@@ -202,8 +202,8 @@ __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_rad
                 "bandpass_correction", "bandpass_correction_stearns",
                 "D_illuminant_relative_spectral_power_distribution",
                 "D_ILLUMINANTS_S_SPDS", "ILLUMINANTS_RELATIVE_SPDS",
+                "mesopic_weighting_function", "mesopic_luminous_efficiency_function",
                 "PHOTOPIC_LEFS", "SCOTOPIC_LEFS",
-                "mesopic_weighting_function",
                 "SpectralPowerDistribution", "SpectralPowerDistributionTriad",
                 "TCS_SPDS",
                 "spectral_to_XYZ", "wavelength_to_XYZ"])

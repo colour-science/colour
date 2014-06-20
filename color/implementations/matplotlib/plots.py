@@ -1187,14 +1187,14 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
         return
 
     start, end = 1667, 100000
-    x, y = zip(*map(lambda x: color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(x, 0., cmfs)),
+    x, y = zip(*map(lambda x: color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(x, 0., cmfs=cmfs)),
                     numpy.arange(start, end + 250, 250)))
 
     pylab.plot(x, y, color="black", linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
-        x0, y0 = color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(i, -0.025, cmfs))
-        x1, y1 = color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(i, 0.025, cmfs))
+        x0, y0 = color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(i, -0.025, cmfs=cmfs))
+        x1, y1 = color.transformations.UCS_uv_to_xy(color.temperature.CCT_to_uv(i, 0.025, cmfs=cmfs))
         pylab.plot([x0, x1], [y0, y1], color="black", linewidth=2.)
         pylab.annotate("{0}K".format(i),
                        xy=(x0, y0),
@@ -1403,7 +1403,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
             color.transformations.xy_to_XYZ(x)))
 
     start, end = 1667, 100000
-    u, v = zip(*map(lambda x: color.temperature.CCT_to_uv(x, 0., cmfs), numpy.arange(start, end + 250, 250)))
+    u, v = zip(*map(lambda x: color.temperature.CCT_to_uv(x, 0., cmfs=cmfs), numpy.arange(start, end + 250, 250)))
 
     pylab.plot(u, v, color="black", linewidth=2.)
 

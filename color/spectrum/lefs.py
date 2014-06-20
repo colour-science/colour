@@ -16,7 +16,9 @@
 
 from __future__ import unicode_literals
 
+import color.algebra.common
 import color.spectrum
+import color.utilities.exceptions
 import color.utilities.verbose
 
 from color.spectrum.spd import SpectralPowerDistribution
@@ -31,7 +33,10 @@ __status__ = "Production"
 __all__ = ["PHOTOPIC_LEFS_DATA",
            "PHOTOPIC_LEFS",
            "SCOTOPIC_LEFS_DATA",
-           "SCOTOPIC_LEFS"]
+           "SCOTOPIC_LEFS",
+           "MESOPIC_X_DATA",
+           "mesopic_weighting_function",
+           "mesopic_luminous_efficiency_function"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
@@ -2262,9 +2267,130 @@ SCOTOPIC_LEFS_DATA = {
         777: 0.0000001638,
         778: 0.0000001551,
         779: 0.0000001468,
-        780: 0.0000001390,}}
+        780: 0.0000001390, }}
 
 SCOTOPIC_LEFS = {
     "CIE 1951 Scotopic Standard Observer": SpectralPowerDistribution("CIE 1951 Scotopic Standard Observer",
                                                                      SCOTOPIC_LEFS_DATA.get(
                                                                          "CIE 1951 Scotopic Standard Observer"))}
+
+MESOPIC_X_DATA = {
+    0.01: {
+        "Blue Heavy": {
+            "MOVE": 0.13, "LRC": 0.04},
+        "Red Heavy": {
+            "MOVE": 0.00, "LRC": 0.01}},
+    0.1: {
+        "Blue Heavy": {
+            "MOVE": 0.42, "LRC": 0.28},
+        "Red Heavy": {
+            "MOVE": 0.34, "LRC": 0.11}},
+    1.0: {
+        "Blue Heavy": {
+            "MOVE": 0.70, "LRC": 1.00},
+        "Red Heavy": {
+            "MOVE": 0.68, "LRC": 1.00}},
+    10: {
+        "Blue Heavy": {
+            "MOVE": 0.98, "LRC": 1.00},
+        "Red Heavy": {
+            "MOVE": 0.98, "LRC": 1.00}}}
+
+
+def mesopic_weighting_function(wavelength,
+                               Lp,
+                               source="Blue Heavy",
+                               method="MOVE",
+                               photopic_lef=PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer"),
+                               scotopic_lef=SCOTOPIC_LEFS.get("CIE 1951 Scotopic Standard Observer")):
+    """
+    Converts given spectral power distribution to *CIE XYZ* colorspace using given color
+    matching functions and illuminant.
+
+    Reference: http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+
+    Usage::
+
+        >>> mesopic_weighting_function(500, 0.2)
+        0.70522
+
+    :param wavelength: Wavelength to calculate the mesopic function.
+    :type wavelength: int or float
+    :param Lp: Photopic luminance.
+    :type Lp: float
+    :param source: Light source color temperature.
+    :type source: unicode ("Blue Heavy", "Red Heavy")
+    :param method: Method to calculate the weighting factor.
+    :type method: unicode ("MOVE", "LRC")
+    :param photopic_lef: *V* photopic luminous efficiency function.
+    :type photopic_lef: SpectralPowerDistribution
+    :param scotopic_lef: *V'* scotopic luminous efficiency function.
+    :type scotopic_lef: SpectralPowerDistribution
+    :return: *CIE XYZ* matrix.
+    :rtype: matrix (3x1)
+    """
+
+    for function in (photopic_lef, scotopic_lef):
+        if function.get(wavelength) is None:
+            raise color.utilities.exceptions.ProgrammingError(
+                "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
+                    wavelength,
+                    function.name,
+                    function.shape))
+
+    mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
+    index = mesopic_x_luminance_values.index(color.algebra.common.get_closest(mesopic_x_luminance_values, Lp))
+    x = MESOPIC_X_DATA.get(mesopic_x_luminance_values[index]).get(source).get(method)
+
+    Vm = (1. - x) * scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength)
+
+    return Vm
+
+
+def mesopic_luminous_efficiency_function(Lp,
+                                         source="Blue Heavy",
+                                         method="MOVE",
+                                         photopic_lef=PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer"),
+                                         scotopic_lef=SCOTOPIC_LEFS.get("CIE 1951 Scotopic Standard Observer")):
+    """
+    Converts given spectral power distribution to *CIE XYZ* colorspace using given color
+    matching functions and illuminant.
+
+    Reference: http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+
+    Usage::
+
+        >>> mesopic_luminous_efficiency_function(0.2)
+        <color.spectrum.spd.SpectralPowerDistribution at 0x105f606d0>
+
+    :param Lp: Photopic luminance.
+    :type Lp: float
+    :param source: Light source color temperature.
+    :type source: unicode ("Blue Heavy", "Red Heavy")
+    :param method: Method to calculate the weighting factor.
+    :type method: unicode ("MOVE", "LRC")
+    :param photopic_lef: *V* photopic luminous efficiency function.
+    :type photopic_lef: SpectralPowerDistribution
+    :param scotopic_lef: *V'* scotopic luminous efficiency function.
+    :type scotopic_lef: SpectralPowerDistribution
+    :return: Mesopic luminous efficiency function.
+    :rtype: SpectralPowerDistribution
+    """
+
+    photopic_lef_shape, scotopic_lef_shape = photopic_lef.shape, scotopic_lef.shape
+    start, end, steps = max(photopic_lef_shape[0],
+                            scotopic_lef_shape[0]), \
+                        min(photopic_lef_shape[1],
+                            scotopic_lef_shape[1]), \
+                        max(photopic_lef_shape[2],
+                            scotopic_lef_shape[2])
+
+    spd_data = dict((i, color.mesopic_weighting_function(i,
+                                                         Lp,
+                                                         source,
+                                                         method,
+                                                         photopic_lef,
+                                                         scotopic_lef)) for i in range(start, end, steps))
+    spd = SpectralPowerDistribution("{0} Lp Mesopic Luminous Efficiency Function".format(Lp), spd_data)
+
+    return spd.normalize()
