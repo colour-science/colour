@@ -68,6 +68,8 @@ from color.lightness import luminance_1943, luminance_1976
 from color.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
 from color.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNCTIONS
 from color.spectrum.blackbody import blackbody_spectral_power_distribution, blackbody_spectral_radiance, planck_law
+from color.spectrum.cfs import LMS_ConeFundamentals
+from color.spectrum.cfs import LMS_CFS
 from color.spectrum.cmfs import RGB_ColorMatchingFunctions, XYZ_ColorMatchingFunctions
 from color.spectrum.cmfs import CIE_RGB_CMFS, CMFS, STANDARD_OBSERVERS_CMFS
 from color.spectrum.color_checkers import BABELCOLOR_AVERAGE_SPDS, COLORCHECKER_N_OHTA_SPDS, COLORCHECKERS_SPDS
@@ -196,6 +198,8 @@ __all__.extend(["get_lightness", "get_luminance", "get_luminance_equation", "get
 
 # *color.spectrum* objects.
 __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_radiance", "planck_law",
+                "LMS_ConeFundamentals",
+                "LMS_CFS",
                 "RGB_ColorMatchingFunctions", "XYZ_ColorMatchingFunctions",
                 "CIE_RGB_CMFS", "CMFS", "STANDARD_OBSERVERS_CMFS",
                 "BABELCOLOR_AVERAGE_SPDS", "COLORCHECKER_N_OHTA_SPDS", "COLORCHECKERS_SPDS",

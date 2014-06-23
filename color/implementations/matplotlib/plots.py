@@ -38,6 +38,7 @@ import color.cri
 import color.illuminants
 import color.lightness
 import color.spectrum.blackbody
+import color.spectrum.cfs
 import color.spectrum.cmfs
 import color.spectrum.illuminants
 import color.spectrum.transformations
@@ -70,12 +71,14 @@ __all__ = ["RESOURCES_DIRECTORY",
            "single_color_plot",
            "multi_color_plot",
            "color_checker_plot",
-           "single_spectral_power_distribution_plot",
-           "multi_spectral_power_distribution_plot",
-           "single_color_matching_functions_plot",
-           "multi_color_matching_functions_plot",
-           "single_illuminant_relative_spectral_power_distribution_plot",
-           "multi_illuminants_relative_spectral_power_distribution_plot",
+           "single_spd_plot",
+           "multi_spd_plot",
+           "single_cfs_plot",
+           "multi_cfs_plot",
+           "single_cmfs_plot",
+           "multi_cmfs_plot",
+           "single_illuminant_relative_spd_plot",
+           "multi_illuminants_relative_spd_plot",
            "visible_spectrum_plot",
            "CIE_1931_chromaticity_diagram_colors_plot",
            "CIE_1931_chromaticity_diagram_plot",
@@ -111,6 +114,25 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 
 # Defining an alternative font that can display scientific notations.
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
+
+
+def __get_cfs(cfs):
+    """
+    Returns the cone fundamentals functions with given name.
+
+    :param cfs: Cone fundamentals functions name.
+    :type cfs: Unicode
+    :return: Cone fundamentals functions.
+    :rtype: LMS_ConeFundamentals
+    """
+
+    cfs, name = color.spectrum.cfs.LMS_CFS.get(cfs), cfs
+    if cfs is None:
+        raise color.utilities.exceptions.ProgrammingError(
+            "'{0}' not found in factory cone fundamentals functions: '{1}'.".format(name,
+                                                                                    sorted(
+                                                                                        color.spectrum.cfs.LMS_CFS.keys())))
+    return cfs
 
 
 def __get_cmfs(cmfs):
@@ -630,16 +652,16 @@ def color_checker_plot(color_checker="ColorChecker 2005",
     return display(**settings)
 
 
-def single_spectral_power_distribution_plot(spd,
-                                            cmfs="CIE 1931 2 Degree Standard Observer",
-                                            **kwargs):
+def single_spd_plot(spd,
+                    cmfs="CIE 1931 2 Degree Standard Observer",
+                    **kwargs):
     """
     Plots given spectral power distribution.
 
     Usage::
 
         >>> spd = color.SpectralPowerDistribution(name="Custom", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
-        >>> single_spectral_power_distribution_plot(spd)
+        >>> single_spd_plot(spd)
         True
 
     :param spd: Spectral power distribution to plot.
@@ -683,11 +705,11 @@ def single_spectral_power_distribution_plot(spd,
         **settings)
 
 
-def multi_spectral_power_distribution_plot(spds,
-                                           cmfs="CIE 1931 2 Degree Standard Observer",
-                                           use_spds_colors=False,
-                                           normalize_spds_colors=False,
-                                           **kwargs):
+def multi_spd_plot(spds,
+                   cmfs="CIE 1931 2 Degree Standard Observer",
+                   use_spds_colors=False,
+                   normalize_spds_colors=False,
+                   **kwargs):
     """
     Plots given spectral power distributions.
 
@@ -695,7 +717,7 @@ def multi_spectral_power_distribution_plot(spds,
 
         >>> spd1 = color.SpectralPowerDistribution(name="Custom1", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
         >>> spd2 = color.SpectralPowerDistribution(name="Custom2", spd={400: 0.134, 420: 0.789, 440: 1.289})
-        >>> multi_spectral_power_distribution_plot([spd1, spd2]))
+        >>> multi_spd_plot([spd1, spd2]))
         True
 
     :param spds: Spectral power distributions to plot.
@@ -756,13 +778,94 @@ def multi_spectral_power_distribution_plot(spds,
     return display(**settings)
 
 
-def single_color_matching_functions_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+def single_cfs_plot(cfs="Stockman & Sharpe 2 Degree Cone Fundamentals", **kwargs):
+    """
+    Plots given cone fundamentals functions.
+
+    Usage::
+
+        >>> single_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals")
+        True
+
+    :param cfs: Cone fundamentals functions to plot.
+    :type cfs: unicode
+    :param \*\*kwargs: Keywords arguments.
+    :type \*\*kwargs: \*\*
+    :return: Definition success.
+    :rtype: bool
+    """
+
+    settings = {"title": "'{0}' - Color Matching Functions".format(cfs)}
+    settings.update(kwargs)
+
+    return multi_cfs_plot([cfs], **settings)
+
+
+def multi_cfs_plot(cfss=["Stockman & Sharpe 2 Degree Cone Fundamentals",
+                         "Stockman & Sharpe 10 Degree Cone Fundamentals"],
+                   **kwargs):
+    """
+    Plots given cone fundamentals functions.
+
+    Usage::
+
+        >>> multi_cfs_plot(["Stockman & Sharpe 2 Degree Cone Fundamentals", "Stockman & Sharpe 10 Degree Cone Fundamentals"])
+        True
+
+    :param cfss: Cone fundamentals functions to plot.
+    :type cfss: list
+    :param \*\*kwargs: Keywords arguments.
+    :type \*\*kwargs: \*\*
+    :return: Definition success.
+    :rtype: bool
+    """
+
+    x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
+    for axis, rgb in (("x", [1., 0., 0.]),
+                      ("y", [0., 1., 0.]),
+                      ("z", [0., 0., 1.])):
+        for i, cfs in enumerate(cfss):
+            cfs, name = __get_cfs(cfs), cfs
+
+            rgb = map(lambda x: reduce(lambda y, _: y * 0.5, xrange(i), x), rgb)
+            wavelengths, values = zip(*[(key, value) for key, value in getattr(cfs, axis)])
+
+            start, end, steps = cfs.shape
+            x_limit_min.append(start)
+            x_limit_max.append(end)
+            y_limit_min.append(min(values))
+            y_limit_max.append(max(values))
+
+            pylab.plot(wavelengths, values, color=rgb, label=u"{0} - {1}".format(cfs.labels.get(axis), cfs.name),
+                       linewidth=2.)
+
+    settings = {"title": "{0} - Cone Fundamentals".format(", ".join(cfss)),
+                "x_label": u"Wavelength λ (nm)",
+                "y_label": "Sensitivity",
+                "x_tighten": True,
+                "legend": True,
+                "legend_location": "upper right",
+                "x_ticker": True,
+                "y_ticker": True,
+                "grid": True,
+                "y_axis_line": True,
+                "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)],
+                "bounding_box": [390, 870, 0, 1.1]}
+    settings.update(kwargs)
+
+    bounding_box(**settings)
+    aspect(**settings)
+
+    return display(**settings)
+
+
+def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given standard observer *CIE XYZ* color matching functions.
 
     Usage::
 
-        >>> single_color_matching_functions_plot("CIE 1931 2 Degree Standard Observer")
+        >>> single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
         True
 
     :param cmfs: Standard observer color matching functions to plot.
@@ -776,18 +879,18 @@ def single_color_matching_functions_plot(cmfs="CIE 1931 2 Degree Standard Observ
     settings = {"title": "'{0}' - Color Matching Functions".format(cmfs)}
     settings.update(kwargs)
 
-    return multi_color_matching_functions_plot([cmfs], **settings)
+    return multi_cmfs_plot([cmfs], **settings)
 
 
-def multi_color_matching_functions_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
-                                               "CIE 1964 10 Degree Standard Observer"],
-                                        **kwargs):
+def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
+                           "CIE 1964 10 Degree Standard Observer"],
+                    **kwargs):
     """
     Plots given standard observers *CIE XYZ* color matching functions.
 
     Usage::
 
-        >>> multi_color_matching_functions_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
+        >>> multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
         True
 
     :param cmfss: Standard observers color matching functions to plot.
@@ -836,14 +939,14 @@ def multi_color_matching_functions_plot(cmfss=["CIE 1931 2 Degree Standard Obser
     return display(**settings)
 
 
-def single_illuminant_relative_spectral_power_distribution_plot(illuminant="A",
-                                                                cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+def single_illuminant_relative_spd_plot(illuminant="A",
+                                        cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
 
     Usage::
 
-        >>> single_illuminant_relative_spectral_power_distribution_plot("A")
+        >>> single_illuminant_relative_spd_plot("A")
         True
 
     :param illuminant: Factory illuminant to plot.
@@ -865,16 +968,16 @@ def single_illuminant_relative_spectral_power_distribution_plot(illuminant="A",
                 "y_label": "Relative Spectral Power Distribution"}
     settings.update(kwargs)
 
-    return single_spectral_power_distribution_plot(illuminant, **settings)
+    return single_spd_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spectral_power_distribution_plot(illuminants=["A", "B", "C"], **kwargs):
+def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
     Usage::
 
-        >>> multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C"])
+        >>> multi_illuminants_relative_spd_plot(["A", "B", "C"])
         True
 
     :param illuminants: Factory illuminants to plot.
@@ -893,7 +996,7 @@ def multi_illuminants_relative_spectral_power_distribution_plot(illuminants=["A"
                 "y_label": "Relative Spectral Power Distribution"}
     settings.update(kwargs)
 
-    return multi_spectral_power_distribution_plot(spds, **settings)
+    return multi_spd_plot(spds, **settings)
 
 
 def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
@@ -1839,7 +1942,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
                 "standalone": False}
     settings.update(kwargs)
 
-    single_spectral_power_distribution_plot(spd, name, **settings)
+    single_spd_plot(spd, name, **settings)
 
     XYZ = color.spectrum.transformations.spectral_to_XYZ(spd, cmfs) / 100.
     RGB = normalize_RGB(XYZ_to_sRGB(XYZ))

@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package *luminous efficiency functions*.
+    Defines **Color** package *luminous efficiency functions* data and manipulation objects.
 
 **Others:**
 
@@ -17,7 +17,6 @@
 from __future__ import unicode_literals
 
 import color.algebra.common
-import color.spectrum
 import color.utilities.exceptions
 import color.utilities.verbose
 

@@ -31,6 +31,11 @@ Highlights:
   -  CIE 2012 2° Standard Observer XYZ color matching functions.
   -  CIE 2012 10° Standard Observer XYZ color matching functions.
 
+-  Cone fundamentals spectral data:
+
+  -  Stockman & Sharpe 2° Cone Fundamentals.
+  -  Stockman & Sharpe 10° Cone Fundamentals.
+
 -  Illuminants spectral data:
 
   -  A
@@ -310,6 +315,13 @@ Color Matching Functions
 `CIE 2012 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
 `CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+Cone Fundamentals
+-----------------
+
+`Stockman & Sharpe 2° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
+
+`Stockman & Sharpe 10° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
 
 Deprecated Transformations
 --------------------------

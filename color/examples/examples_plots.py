@@ -12,8 +12,7 @@ import color.spectrum.color_checkers
 from color.implementations.matplotlib.plots import *
 
 # Plotting a single color.
-single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)),
-                  text_size=32.)
+single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)), text_size=32.)
 
 # Plotting multiples colors.
 multi_color_plot([color_parameter(name="Dark Skin", RGB=(0.45293517, 0.31732158, 0.26414773)),
@@ -24,28 +23,22 @@ multi_color_plot([color_parameter(name="Dark Skin", RGB=(0.45293517, 0.31732158,
 # Plotting color checkers.
 print(sorted(color.COLORCHECKERS.keys()))
 color_checker_plot("ColorChecker 1976")
-color_checker_plot("BabelColor Average",
-                   text_display=False)
-color_checker_plot("ColorChecker 1976",
-                   text_display=False)
-color_checker_plot("ColorChecker 2005",
-                   text_display=False)
+color_checker_plot("BabelColor Average", text_display=False)
+color_checker_plot("ColorChecker 1976", text_display=False)
+color_checker_plot("ColorChecker 2005", text_display=False)
 
 # Plotting a single illuminant relative spectral power distribution.
-single_illuminant_relative_spectral_power_distribution_plot("F1")
+single_illuminant_relative_spd_plot("F1")
 
 # Plotting multiple illuminants relative spectral power distributions.
 print(sorted(color.ILLUMINANTS_RELATIVE_SPDS.keys()))
-multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
+multi_illuminants_relative_spd_plot(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
 # Plotting *CIE Standard Illuminant A*, *B*, and *C* with their normalized colors.
-multi_illuminants_relative_spectral_power_distribution_plot(["A", "B", "C"],
-                                    use_spds_colors=True,
-                                    normalize_spds_colors=True)
+multi_illuminants_relative_spd_plot(["A", "B", "C"], use_spds_colors=True, normalize_spds_colors=True)
 
 # Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
-multi_spectral_power_distribution_plot(sorted(color.D_ILLUMINANTS_S_SPDS.values()),
-                                       title="CIE Standard Illuminant D Series - S Distributions")
+multi_spd_plot(sorted(color.D_ILLUMINANTS_S_SPDS.values()), title="CIE Standard Illuminant D Series - S Distributions")
 
 # Defining a sample spectral power distribution data.
 sample_spd_data = {
@@ -583,17 +576,14 @@ white_marble_spd_data = {
 }
 
 # Plotting a sample spectral power distribution.
-single_spectral_power_distribution_plot(color.SpectralPowerDistribution(name="Custom",
-                                                                        spd=sample_spd_data))
+single_spd_plot(color.SpectralPowerDistribution(name="Custom", spd=sample_spd_data))
 
-single_spectral_power_distribution_plot(color.SpectralPowerDistribution(name="Galvanized Steel Metal",
-                                                                        spd=galvanized_steel_metal_spd_data))
+single_spd_plot(color.SpectralPowerDistribution(name="Galvanized Steel Metal", spd=galvanized_steel_metal_spd_data))
 
 # Plotting multiple relative spectral power distributions.
-multi_spectral_power_distribution_plot([color.SpectralPowerDistribution(name="Galvanized Steel Metal",
-                                                                        spd=galvanized_steel_metal_spd_data),
-                                        color.SpectralPowerDistribution(name="White Marble",
-                                                                        spd=white_marble_spd_data)])
+multi_spd_plot([color.SpectralPowerDistribution(name="Galvanized Steel Metal", spd=galvanized_steel_metal_spd_data),
+                color.SpectralPowerDistribution(name="White Marble", spd=white_marble_spd_data)])
+
 # Spectral bandpass dependence correction.
 street_light_spd_data = {
     380: 8.9770000e-003,
@@ -805,49 +795,50 @@ bandpass_corrected_street_light_spd = street_light_spd.clone()
 bandpass_corrected_street_light_spd.name = "Street Light (Bandpass Corrected)"
 bandpass_corrected_street_light_spd = color.bandpass_correction(bandpass_corrected_street_light_spd, method="Stearns")
 
-multi_spectral_power_distribution_plot([street_light_spd,
-                                        bandpass_corrected_street_light_spd],
-                                       title="Stearns Bandpass Correction")
+multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd], title="Stearns Bandpass Correction")
 
 # Plotting multiple *ColorChecker* relative spectral power distributions.
-multi_spectral_power_distribution_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
-                                        sorted(color.spectrum.color_checkers.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
-                                       use_spds_colors=True,
-                                       title="BabelColor Average - Relative Spectral Power Distributions")
+multi_spd_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
+                sorted(color.spectrum.color_checkers.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+               use_spds_colors=True,
+               title="BabelColor Average - Relative Spectral Power Distributions")
+
+# Plotting given single cone fundamentals.
+single_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals")
+
+# Comparing given multiple cone fundamentals.
+multi_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals", "Stockman & Sharpe 10 Degree Cone Fundamentals")
 
 # Plotting given single standard observer *CIE XYZ* or *CIE RGB* color matching functions.
 print(sorted(color.CMFS.keys()))
-single_color_matching_functions_plot("CIE 1931 2 Degree Standard Observer")
-single_color_matching_functions_plot("CIE 1964 10 Degree Standard Observer")
-single_color_matching_functions_plot("Stiles & Burch 1955 2 Degree RGB CMFs",
-                                     legend_location="upper left",
-                                     bounding_box=[390, 830, -0.5, 3.5])
-single_color_matching_functions_plot("Stiles & Burch 1959 10 Degree RGB CMFs",
-                                     legend_location="upper left",
-                                     bounding_box=[390, 830, -0.5, 3.5])
+single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
+single_cmfs_plot("CIE 1964 10 Degree Standard Observer")
+single_cmfs_plot("Stiles & Burch 1955 2 Degree RGB CMFs",
+                 legend_location="upper left",
+                 bounding_box=[390, 830, -0.5, 3.5])
+single_cmfs_plot("Stiles & Burch 1959 10 Degree RGB CMFs",
+                 legend_location="upper left",
+                 bounding_box=[390, 830, -0.5, 3.5])
 
 # Comparing given multiple standard observers degrees *CIE XYZ* color matching functions.
-multi_color_matching_functions_plot(["CIE 1931 2 Degree Standard Observer",
-                                     "CIE 1964 10 Degree Standard Observer"])
-multi_color_matching_functions_plot(["CIE 2012 10 Degree Standard Observer",
-                                     "CIE 1964 10 Degree Standard Observer"])
-multi_color_matching_functions_plot(["Wright & Guild 1931 2 Degree RGB CMFs",
-                                     "Stiles & Burch 1955 2 Degree RGB CMFs"])
+multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
+multi_cmfs_plot(["CIE 2012 10 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
+multi_cmfs_plot(["Wright & Guild 1931 2 Degree RGB CMFs", "Stiles & Burch 1955 2 Degree RGB CMFs"])
 
 # Plotting visible colors under given standard observer.
 visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
 visible_spectrum_plot("CIE 2012 2 Degree Standard Observer")
 
 # Plotting photopic luminous efficiency functions.
-multi_spectral_power_distribution_plot(color.PHOTOPIC_LEFS.values(),
-                                       title="Luminous Efficiency Functions",
-                                       y_label="Luminous Efficiency",
-                                       legend_location="upper right",
-                                       y_tighten=True,
-                                       margins=[0., 0., 0., .1])
+multi_spd_plot(color.PHOTOPIC_LEFS.values(),
+               title="Luminous Efficiency Functions",
+               y_label="Luminous Efficiency",
+               legend_location="upper right",
+               y_tighten=True,
+               margins=[0., 0., 0., .1])
 
 # Comparing photopic and scotopic luminous efficiency functions.
-multi_spectral_power_distribution_plot(
+multi_spd_plot(
     [color.PHOTOPIC_LEFS["CIE 2008 2 Degree Physiologically Relevant LEF"],
      color.SCOTOPIC_LEFS["CIE 1951 Scotopic Standard Observer"]],
     title="Photopic & Scotopic Luminous Efficiency Functions",
@@ -859,7 +850,7 @@ multi_spectral_power_distribution_plot(
 # Plotting a mesopic luminous efficiency function with photopic luminance of 0.2.
 mesopic_luminous_efficiency_function = color.mesopic_luminous_efficiency_function(0.2)
 
-multi_spectral_power_distribution_plot(
+multi_spd_plot(
     [mesopic_luminous_efficiency_function,
      color.PHOTOPIC_LEFS["CIE 1924 Photopic Standard Observer"],
      color.SCOTOPIC_LEFS["CIE 1951 Scotopic Standard Observer"]],
@@ -1217,18 +1208,18 @@ ASTM_G_173_spd.interpolate(steps=5, interpolator="Linear")
 blackbody_spd = color.blackbody_spectral_power_distribution(5778, *ASTM_G_173_spd.shape)
 blackbody_spd.name = "The Sun - 5778K"
 
-multi_spectral_power_distribution_plot([ASTM_G_173_spd, blackbody_spd],
-                                       y_label=u"W / (sr m²) / m",
-                                       legend_location="upper right")
+multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
+               y_label=u"W / (sr m²) / m",
+               legend_location="upper right")
 
 # Plotting various *blackbodies* spectral power distributions.
 blackbodies_spds = [color.blackbody_spectral_power_distribution(i, 0, 10000, 10) for i in range(1000, 15000, 1000)]
-multi_spectral_power_distribution_plot(blackbodies_spds,
-                                       y_label=u"W / (sr m²) / m",
-                                       use_spds_colors=True,
-                                       normalize_spds_colors=True,
-                                       legend_location="upper right",
-                                       bounding_box=[0, 1250, 0, 2.5e15])
+multi_spd_plot(blackbodies_spds,
+               y_label=u"W / (sr m²) / m",
+               use_spds_colors=True,
+               normalize_spds_colors=True,
+               legend_location="upper right",
+               bounding_box=[0, 1250, 0, 2.5e15])
 
 # Plotting blackbody colors.
 blackbody_colors_plot()

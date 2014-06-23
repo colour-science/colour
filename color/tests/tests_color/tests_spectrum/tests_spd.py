@@ -2186,6 +2186,7 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
+                            "normalize",
                             "clone")
 
         for method in required_methods:
@@ -2412,6 +2413,14 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
         triad.zeros(steps=1)
         for i in self.__mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(triad, i).values, ZEROS_SAMPLE_SPD_DATA)
+
+    def test_normalize(self):
+        """
+        Tests :func:`color.spectrum.spd.SpectralPowerDistributionTriad.normalize` method.
+        """
+
+        numpy.testing.assert_almost_equal(self.__sample_triad.clone().normalize(100.).values,
+                                          numpy.array([[x] * 3 for x in NORMALIZED_SAMPLE_SPD_DATA]))
 
     def test_clone(self):
         """

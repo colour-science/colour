@@ -74,6 +74,7 @@ class TestRGB_ColorMatchingFunctions(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
+                            "normalize",
                             "clone")
 
         for method in required_methods:
@@ -117,6 +118,7 @@ class TestXYZ_ColorMatchingFunctions(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
+                            "normalize",
                             "clone")
 
         for method in required_methods:

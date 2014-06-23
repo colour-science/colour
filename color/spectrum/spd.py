@@ -552,7 +552,7 @@ class SpectralPowerDistribution(object):
 
         :param factor: Normalization factor
         :type factor: float
-        :return: Zeros filled spectral power distribution.
+        :return: Normalized spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -1196,6 +1196,21 @@ class SpectralPowerDistributionTriad(object):
 
         for i in self.__mapping.keys():
             getattr(self, i).zeros(start, end, steps)
+
+        return self
+
+    def normalize(self, factor=1.):
+        """
+        Normalizes the spectral power distribution triad with given normalization factor.
+
+        :param factor: Normalization factor
+        :type factor: float
+        :return: Normalized spectral power distribution triad.
+        :rtype: SpectralPowerDistributionTriad
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).normalize(factor)
 
         return self
 
