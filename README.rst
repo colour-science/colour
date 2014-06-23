@@ -16,8 +16,9 @@ Highlights:
   -  CIE 1924 Photopic Standard Observer
   -  Judd Modified CIE 1951 Photopic Standard Observer
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2° Standard Observer
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer
+  -  CIE 1964 Photopic 10° Standard Observer
+  -  CIE 2008 2° Standard Observer
+  -  CIE 2008 10° Standard Observer
   -  CIE 1951 Scotopic Standard Observer
 
 -  RGB and XYZ color matching functions spectral data:
@@ -451,11 +452,15 @@ Luminous Efficiency Functions
 
 `Judd-Vos Modified CIE 1978 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2° Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1964 Photopic 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10° Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 2° Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`CIE 2008 10° Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
 
 Planc's Law
 -----------
@@ -529,6 +534,8 @@ Spectral
 **Spectral to XYZ**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
 **Spectral Bandpass Correction**, Stearns, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+
+`Interpolation <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 
 `Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_ (Last accessed 28 May 2014)
 

@@ -844,7 +844,7 @@ multi_spectral_power_distribution_plot(color.PHOTOPIC_LEFS.values(),
                                        y_label="Luminous Efficiency",
                                        legend_location="upper right",
                                        y_tighten=True,
-                                       margins=[0., 150., 0., .1])
+                                       margins=[0., 0., 0., .1])
 
 # Comparing photopic and scotopic luminous efficiency functions.
 multi_spectral_power_distribution_plot(
@@ -854,7 +854,7 @@ multi_spectral_power_distribution_plot(
     y_label="Luminous Efficiency",
     legend_location="upper right",
     y_tighten=True,
-    margins=[0., 150., 0., .1])
+    margins=[0., 0., 0., .1])
 
 # Plotting a mesopic luminous efficiency function with photopic luminance of 0.2.
 mesopic_luminous_efficiency_function = color.mesopic_luminous_efficiency_function(0.2)
@@ -866,7 +866,7 @@ multi_spectral_power_distribution_plot(
     y_label="Luminous Efficiency",
     legend_location="upper right",
     y_tighten=True,
-    margins=[0., 150., 0., .1])
+    margins=[0., 0., 0., .1])
 
 # Plotting *CIE 1931 Chromaticity Diagram*.
 CIE_1931_chromaticity_diagram_plot()

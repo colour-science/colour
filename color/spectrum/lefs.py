@@ -22,6 +22,7 @@ import color.utilities.exceptions
 import color.utilities.verbose
 
 from color.spectrum.spd import SpectralPowerDistribution
+from color.spectrum.cmfs import STANDARD_OBSERVERS_CMFS_DATA
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -1856,6 +1857,10 @@ PHOTOPIC_LEFS = {
         SpectralPowerDistribution("Judd-Vos Modified CIE 1978 Photopic Standard Observer",
                                   PHOTOPIC_LEFS_DATA.get(
                                       "Judd-Vos Modified CIE 1978 Photopic Standard Observer")),
+    "CIE 1964 Photopic 10 Degree Standard Observer":
+        SpectralPowerDistribution("CIE 1964 Photopic 10 Degree Standard Observer",
+                                  STANDARD_OBSERVERS_CMFS_DATA.get(
+                                      "CIE 1964 10 Degree Standard Observer").get("y_bar")),
     "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer":
         SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer",
                                   PHOTOPIC_LEFS_DATA.get(
