@@ -803,11 +803,16 @@ multi_spd_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) fo
                use_spds_colors=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
 
-# Plotting given single cone fundamentals.
-single_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals")
+# Plotting given single *cone fundamentals* color matching functions.
+single_cmfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals",
+                 y_label="Sensitivity",
+                 bounding_box=[390, 870, 0, 1.1])
 
-# Comparing given multiple cone fundamentals.
-multi_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals", "Stockman & Sharpe 10 Degree Cone Fundamentals")
+# Comparing given multiple *cone fundamentals* color matching functionss.
+multi_cmfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals",
+                "Stockman & Sharpe 10 Degree Cone Fundamentals",
+                y_label="Sensitivity",
+                bounding_box=[390, 870, 0, 1.1])
 
 # Plotting given single standard observer *CIE XYZ* or *CIE RGB* color matching functions.
 print(sorted(color.CMFS.keys()))

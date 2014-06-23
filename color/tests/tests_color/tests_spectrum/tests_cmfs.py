@@ -23,6 +23,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
+from color.spectrum.cmfs import LMS_ConeFundamentals
 from color.spectrum.cmfs import RGB_ColorMatchingFunctions
 from color.spectrum.cmfs import XYZ_ColorMatchingFunctions
 
@@ -33,8 +34,53 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["TestRGB_ColorMatchingFunctions",
+__all__ = ["TestLMS_ConeFundamentals",
+           "TestRGB_ColorMatchingFunctions",
            "TestXYZ_ColorMatchingFunctions"]
+
+
+class TestLMS_ConeFundamentals(unittest.TestCase):
+    """
+    Defines :class:`color.spectrum.cfs.LMS_ConeFundamentals` class units tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ("name",
+                               "mapping",
+                               "labels",
+                               "triad",
+                               "x",
+                               "y",
+                               "z",
+                               "wavelengths",
+                               "values",
+                               "shape",
+                               "l_bar",
+                               "m_bar",
+                               "s_bar")
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(LMS_ConeFundamentals))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ("get",
+                            "extrapolate",
+                            "interpolate",
+                            "align",
+                            "zeros",
+                            "normalize",
+                            "clone")
+
+        for method in required_methods:
+            self.assertIn(method, dir(LMS_ConeFundamentals))
 
 
 class TestRGB_ColorMatchingFunctions(unittest.TestCase):

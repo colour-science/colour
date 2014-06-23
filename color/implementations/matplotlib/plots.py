@@ -38,7 +38,6 @@ import color.cri
 import color.illuminants
 import color.lightness
 import color.spectrum.blackbody
-import color.spectrum.cfs
 import color.spectrum.cmfs
 import color.spectrum.illuminants
 import color.spectrum.transformations
@@ -73,8 +72,6 @@ __all__ = ["RESOURCES_DIRECTORY",
            "color_checker_plot",
            "single_spd_plot",
            "multi_spd_plot",
-           "single_cfs_plot",
-           "multi_cfs_plot",
            "single_cmfs_plot",
            "multi_cmfs_plot",
            "single_illuminant_relative_spd_plot",
@@ -114,25 +111,6 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 
 # Defining an alternative font that can display scientific notations.
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
-
-
-def __get_cfs(cfs):
-    """
-    Returns the cone fundamentals functions with given name.
-
-    :param cfs: Cone fundamentals functions name.
-    :type cfs: Unicode
-    :return: Cone fundamentals functions.
-    :rtype: LMS_ConeFundamentals
-    """
-
-    cfs, name = color.spectrum.cfs.LMS_CFS.get(cfs), cfs
-    if cfs is None:
-        raise color.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory cone fundamentals functions: '{1}'.".format(name,
-                                                                                    sorted(
-                                                                                        color.spectrum.cfs.LMS_CFS.keys())))
-    return cfs
 
 
 def __get_cmfs(cmfs):
@@ -778,97 +756,16 @@ def multi_spd_plot(spds,
     return display(**settings)
 
 
-def single_cfs_plot(cfs="Stockman & Sharpe 2 Degree Cone Fundamentals", **kwargs):
-    """
-    Plots given cone fundamentals functions.
-
-    Usage::
-
-        >>> single_cfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals")
-        True
-
-    :param cfs: Cone fundamentals functions to plot.
-    :type cfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
-    """
-
-    settings = {"title": "'{0}' - Color Matching Functions".format(cfs)}
-    settings.update(kwargs)
-
-    return multi_cfs_plot([cfs], **settings)
-
-
-def multi_cfs_plot(cfss=["Stockman & Sharpe 2 Degree Cone Fundamentals",
-                         "Stockman & Sharpe 10 Degree Cone Fundamentals"],
-                   **kwargs):
-    """
-    Plots given cone fundamentals functions.
-
-    Usage::
-
-        >>> multi_cfs_plot(["Stockman & Sharpe 2 Degree Cone Fundamentals", "Stockman & Sharpe 10 Degree Cone Fundamentals"])
-        True
-
-    :param cfss: Cone fundamentals functions to plot.
-    :type cfss: list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
-    """
-
-    x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (("x", [1., 0., 0.]),
-                      ("y", [0., 1., 0.]),
-                      ("z", [0., 0., 1.])):
-        for i, cfs in enumerate(cfss):
-            cfs, name = __get_cfs(cfs), cfs
-
-            rgb = map(lambda x: reduce(lambda y, _: y * 0.5, xrange(i), x), rgb)
-            wavelengths, values = zip(*[(key, value) for key, value in getattr(cfs, axis)])
-
-            start, end, steps = cfs.shape
-            x_limit_min.append(start)
-            x_limit_max.append(end)
-            y_limit_min.append(min(values))
-            y_limit_max.append(max(values))
-
-            pylab.plot(wavelengths, values, color=rgb, label=u"{0} - {1}".format(cfs.labels.get(axis), cfs.name),
-                       linewidth=2.)
-
-    settings = {"title": "{0} - Cone Fundamentals".format(", ".join(cfss)),
-                "x_label": u"Wavelength λ (nm)",
-                "y_label": "Sensitivity",
-                "x_tighten": True,
-                "legend": True,
-                "legend_location": "upper right",
-                "x_ticker": True,
-                "y_ticker": True,
-                "grid": True,
-                "y_axis_line": True,
-                "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)],
-                "bounding_box": [390, 870, 0, 1.1]}
-    settings.update(kwargs)
-
-    bounding_box(**settings)
-    aspect(**settings)
-
-    return display(**settings)
-
-
 def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
-    Plots given standard observer *CIE XYZ* color matching functions.
+    Plots given color matching functions.
 
     Usage::
 
         >>> single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
         True
 
-    :param cmfs: Standard observer color matching functions to plot.
+    :param cmfs: Color matching functions to plot.
     :type cmfs: unicode
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
@@ -886,14 +783,14 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
                            "CIE 1964 10 Degree Standard Observer"],
                     **kwargs):
     """
-    Plots given standard observers *CIE XYZ* color matching functions.
+    Plots given color matching functions.
 
     Usage::
 
         >>> multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
         True
 
-    :param cmfss: Standard observers color matching functions to plot.
+    :param cmfss: Color matching functions to plot.
     :type cmfss: list
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*

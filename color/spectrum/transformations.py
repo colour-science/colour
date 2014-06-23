@@ -188,7 +188,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.spectrum.cmfs.CIE_RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
+    cmfs = color.spectrum.cmfs.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(
@@ -236,7 +236,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.spectrum.cmfs.CIE_RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    cmfs = color.spectrum.cmfs.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(
