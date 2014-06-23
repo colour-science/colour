@@ -208,7 +208,7 @@ Luminous Efficiency Functions
 
 `Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 10 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 

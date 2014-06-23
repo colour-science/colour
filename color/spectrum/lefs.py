@@ -959,7 +959,7 @@ PHOTOPIC_LEFS_DATA = {
         778: 0.0000172169,
         779: 0.0000160646,
         780: 0.0000149900},
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer": {
+    "CIE 2008 2 Degree Physiologically Relevant LEF": {
         390: 4.14616e-04,
         391: 5.02833e-04,
         392: 6.08499e-04,
@@ -1401,7 +1401,7 @@ PHOTOPIC_LEFS_DATA = {
         828: 7.91454e-07,
         829: 7.47077e-07,
         830: 7.05386e-07},
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer": {
+    "CIE 2008 10 Degree Physiologically Relevant LEF": {
         390: 4.07678e-04,
         391: 4.97777e-04,
         392: 6.06475e-04,
@@ -1861,14 +1861,14 @@ PHOTOPIC_LEFS = {
         SpectralPowerDistribution("CIE 1964 Photopic 10 Degree Standard Observer",
                                   STANDARD_OBSERVERS_CMFS_DATA.get(
                                       "CIE 1964 10 Degree Standard Observer").get("y_bar")),
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer":
-        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer",
+    "CIE 2008 2 Degree Physiologically Relevant LEF":
+        SpectralPowerDistribution("CIE 2008 2 Degree Physiologically Relevant LEF",
                                   PHOTOPIC_LEFS_DATA.get(
-                                      "Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Standard Observer")),
-    "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer":
-        SpectralPowerDistribution("Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer",
+                                      "CIE 2008 2 Degree Physiologically Relevant LEF")),
+    "CIE 2008 10 Degree Physiologically Relevant LEF":
+        SpectralPowerDistribution("CIE 2008 10 Degree Physiologically Relevant LEF",
                                   PHOTOPIC_LEFS_DATA.get(
-                                      "Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer"))}
+                                      "CIE 2008 10 Degree Physiologically Relevant LEF"))}
 
 SCOTOPIC_LEFS_DATA = {
     "CIE 1951 Scotopic Standard Observer": {

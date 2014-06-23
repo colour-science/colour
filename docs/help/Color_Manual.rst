@@ -52,8 +52,8 @@ _`Highlights`
   -  Judd Modified CIE 1951 Photopic Standard Observer
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
   -  CIE 1964 Photopic 10° Standard Observer
-  -  CIE 2008 2° Standard Observer
-  -  CIE 2008 10° Standard Observer
+  -  CIE 2008 2° Physiologically Relevant LEF
+  -  CIE 2008 10° Physiologically Relevant LEF
   -  CIE 1951 Scotopic Standard Observer
 
 -  RGB and XYZ color matching functions spectral data:
@@ -525,9 +525,9 @@ Luminous Efficiency Functions
 
 `CIE 1964 Photopic 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2008 2° Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 2° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`CIE 2008 10° Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 10° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 

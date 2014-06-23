@@ -71,7 +71,7 @@ _`Highlights`
   -  Judd Modified CIE 1951 Photopic Standard Observer
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
   -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 10 Degree Observer
+  -  CIE 2008 10 Degree Physiologically Relevant LEF
   -  CIE 1951 Scotopic Standard Observer
 
 -  Correlated color temperature calculation:
