@@ -1,13 +1,15 @@
 _`References`
 =============
 
-**Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
+**Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3
 
-**Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
+**Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5
 
-**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+**Richard Sewall Hunter**, *The Measurement of Appearance, 2nd Edition*, published August 25, 1987, ISBN-13: 978-0471830061
 
-**Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
+**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
+
+**Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published December 2, 2012, ISBN-13: 978-0123919267
 
 **Charles Poynton**, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
 
@@ -61,19 +63,26 @@ Color Difference
 Color Matching Functions
 ------------------------
 
-`Wright & Guild 1931 2 Degree RGB CMFs <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
+`Wright & Guild 1931 2° RGB CMFs <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
 
-`Stiles & Burch 1955 2 Degree RGB CMFs <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1955 2° RGB CMFs <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
 
-`Stiles & Burch 1959 10 Degree RGB CMFs <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1959 10° RGB CMFs <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1931 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1931 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1964 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2012 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2012 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+Cone Fundamentals
+-----------------
+
+`Stockman & Sharpe 2° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
+
+`Stockman & Sharpe 10° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
 
 Deprecated Transformations
 --------------------------
@@ -167,6 +176,16 @@ Illuminants Relative Spectral Power Distributions
 
 `FL3.15 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
 
+`HP1 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP2 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP3 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP4 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
+`HP5 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls>`_ (Last accessed 12 June 2014)
+
 Illuminants Chromaticity Coordinates
 ------------------------------------
 
@@ -206,11 +225,15 @@ Luminous Efficiency Functions
 
 `Judd-Vos Modified CIE 1978 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 1964 Photopic 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2008 10 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 2° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`CIE 2008 10° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+
+`Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
 
 Planc's Law
 -----------
@@ -284,6 +307,8 @@ Spectral
 **Spectral to XYZ**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
 **Spectral Bandpass Correction**, Stearns, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+
+`Interpolation <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 
 `Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_ (Last accessed 28 May 2014)
 

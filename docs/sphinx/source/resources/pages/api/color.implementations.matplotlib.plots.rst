@@ -45,6 +45,10 @@ Functions
 
 .. autofunction:: multi_spd_plot
 
+.. autofunction:: single_cfs_plot
+
+.. autofunction:: multi_cfs_plot
+
 .. autofunction:: single_cmfs_plot
 
 .. autofunction:: multi_cmfs_plot

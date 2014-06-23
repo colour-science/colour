@@ -15,15 +15,30 @@ Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `Colo
 _`Highlights`
 -------------
 
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 Photopic Standard Observer
+  -  Judd Modified CIE 1951 Photopic Standard Observer
+  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
+  -  CIE 1964 Photopic 10° Standard Observer
+  -  CIE 2008 2° Physiologically Relevant LEF
+  -  CIE 2008 10° Physiologically Relevant LEF
+  -  CIE 1951 Scotopic Standard Observer
+
 -  RGB and XYZ color matching functions spectral data:
 
-  -  Wright & Guild 1931 2 Degree RGB CMFs RGB color matching functions.
-  -  Stiles & Burch 1955 2° Observer RGB color matching functions.
-  -  Stiles & Burch 1959 10° Observer RGB color matching functions.
-  -  Standard CIE 1931 2° Observer XYZ color matching functions.
-  -  Standard CIE 1964 10° Observer XYZ color matching functions.
-  -  Standard CIE 2012 2° Observer XYZ color matching functions.
-  -  Standard CIE 2012 10° Observer XYZ color matching functions.
+  -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
+  -  Stiles & Burch 1955 2° RGB CMFs RGB color matching functions.
+  -  Stiles & Burch 1959 10° RGB CMFs RGB color matching functions.
+  -  CIE 1931 2° Standard Observer XYZ color matching functions.
+  -  CIE 1964 10° Standard Observer XYZ color matching functions.
+  -  CIE 2012 2° Standard Observer XYZ color matching functions.
+  -  CIE 2012 10° Standard Observer XYZ color matching functions.
+
+-  Cone fundamentals spectral data:
+
+  -  Stockman & Sharpe 2° Cone Fundamentals.
+  -  Stockman & Sharpe 10° Cone Fundamentals.
 
 -  Illuminants spectral data:
 
@@ -63,17 +78,13 @@ _`Highlights`
   -  FL3.13
   -  FL3.14
   -  FL3.15
+  -  HP1
+  -  HP2
+  -  HP3
+  -  HP4
+  -  HP5
 
-- Color rendition charts spectral data.
-- Photopic & Scotopic luminous efficiency functions spectral data:
-
-  -  CIE 1924 Photopic Standard Observer
-  -  Judd Modified CIE 1951 Photopic Standard Observer
-  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  Stockman, Jagle, Pirzer & Sharpe CIE 2008 2 Degree Observe
-  -  CIE 2008 10 Degree Physiologically Relevant LEF
-  -  CIE 1951 Scotopic Standard Observer
-
+-  Color rendition charts spectral data.
 -  Correlated color temperature calculation:
 
   -  Wyszecki & Roberston method implementation.

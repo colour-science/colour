@@ -150,24 +150,54 @@
 						<span class="target" id="highlights">Highlights</span>
 					</h2>
 					<ul class="simple">
+						<li>Photopic &amp; Scotopic luminous efficiency functions spectral data:
+							<ul>
+								<li>CIE 1924 Photopic Standard Observer
+								</li>
+								<li>Judd Modified CIE 1951 Photopic Standard Observer
+								</li>
+								<li>Judd-Vos Modified CIE 1978 Photopic Standard Observer
+								</li>
+								<li>CIE 1964 Photopic 10° Standard Observer
+								</li>
+								<li>CIE 2008 2° Physiologically Relevant LEF
+								</li>
+								<li>CIE 2008 10° Physiologically Relevant LEF
+								</li>
+								<li>CIE 1951 Scotopic Standard Observer
+								</li>
+							</ul>
+						</li>
 						<li>RGB and XYZ color matching functions spectral data:
 						</li>
 					</ul>
 					<blockquote>
 						<ul class="simple">
-							<li>Wright &amp; Guild 1931 2 Degree Standard Observer RGB color matching functions.
+							<li>Wright &amp; Guild 1931 2° RGB CMFs RGB color matching functions.
 							</li>
-							<li>Stiles &amp; Burch 1955 2° Observer RGB color matching functions.
+							<li>Stiles &amp; Burch 1955 2° RGB CMFs RGB color matching functions.
 							</li>
-							<li>Stiles &amp; Burch 1959 10° Observer RGB color matching functions.
+							<li>Stiles &amp; Burch 1959 10° RGB CMFs RGB color matching functions.
 							</li>
-							<li>Standard CIE 1931 2° Observer XYZ color matching functions.
+							<li>CIE 1931 2° Standard Observer XYZ color matching functions.
 							</li>
-							<li>Standard CIE 1964 10° Observer XYZ color matching functions.
+							<li>CIE 1964 10° Standard Observer XYZ color matching functions.
 							</li>
-							<li>Standard CIE 2006 2° Observer XYZ color matching functions.
+							<li>CIE 2012 2° Standard Observer XYZ color matching functions.
 							</li>
-							<li>Standard CIE 2006 10° Observer XYZ color matching functions.
+							<li>CIE 2012 10° Standard Observer XYZ color matching functions.
+							</li>
+						</ul>
+					</blockquote>
+					<ul class="simple">
+						<li>Cone fundamentals spectral data:
+						</li>
+					</ul>
+					<blockquote>
+						<ul class="simple">
+							<li>Stockman &amp; Sharpe 2° Cone Fundamentals.
+							</li>
+							<li>Stockman &amp; Sharpe 10° Cone Fundamentals.
 							</li>
 						</ul>
 					</blockquote>
@@ -249,26 +279,20 @@
 							</li>
 							<li>FL3.15
 							</li>
+							<li>HP1
+							</li>
+							<li>HP2
+							</li>
+							<li>HP3
+							</li>
+							<li>HP4
+							</li>
+							<li>HP5
+							</li>
 						</ul>
 					</blockquote>
 					<ul class="simple">
 						<li>Color rendition charts spectral data.
-						</li>
-						<li>Photopic &amp; Scotopic luminous efficiency functions spectral data:
-							<ul>
-								<li>CIE 1924 2 Degree Observer
-								</li>
-								<li>Judd Modified CIE 1951 2 Degree Observer
-								</li>
-								<li>Judd-Vos Modified CIE 1978 2 Degree Observer
-								</li>
-								<li>Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe
-								</li>
-								<li>Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer
-								</li>
-								<li>Wald &amp; Crawford CIE 1951 2 Degree Observer
-								</li>
-							</ul>
 						</li>
 						<li>Correlated color temperature calculation:
 						</li>
@@ -604,16 +628,19 @@ python setup.py install
 					<span class="target" id="references">References</span>
 				</h1>
 				<p>
-					<strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN: 0-471-39918-3
+					<strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3
 				</p>
 				<p>
-					<strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN: 978-0-470-66569-5
+					<strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5
 				</p>
 				<p>
-					<strong>Edward J. Giorgianni &amp; Thomas E. Madden</strong>, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley, published November 2008, ISBN: 978-0-470-99436-8
+					<strong>Richard Sewall Hunter</strong>, <em>The Measurement of Appearance, 2nd Edition</em>, published August 25, 1987, ISBN-13: 978-0471830061
 				</p>
 				<p>
-					<strong>Charles Poynton</strong>, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics, published 2 December 2012, ISBN: 978-0123919267
+					<strong>Edward J. Giorgianni &amp; Thomas E. Madden</strong>, <em>Digital Color Management: Encoding Solutions - Second Edition</em>, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
+				</p>
+				<p>
+					<strong>Charles Poynton</strong>, <em>Digital Video and HD: Algorithms and Interfaces</em>, The Morgan Kaufmann Series in Computer Graphics, published December 2, 2012, ISBN-13: 978-0123919267
 				</p>
 				<p>
 					<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/ColorFAQ.html">Color FAQ</a>
@@ -695,25 +722,36 @@ python setup.py install
 						Color Matching Functions
 					</h2>
 					<p>
-						<a class="reference external" href="http://www.cis.rit.edu/mcsl/research/1931.php">Wright &amp; Guild 1931 2 Degree Standard Observer</a> (Last accessed 12 June 2014)
+						<a class="reference external" href="http://www.cis.rit.edu/mcsl/research/1931.php">Wright &amp; Guild 1931 2° RGB CMFs</a> (Last accessed 12 June 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://www.cvrl.org/stilesburch2_ind.htm">Stiles &amp; Burch 1955 2° RGB CMFs</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://www.cvrl.org/stilesburch10_ind.htm">Stiles &amp; Burch 1959 10° RGB CMFs</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">CIE 1931 2 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">CIE 1931 2° Standard Observer</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">CIE 1964 10 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">CIE 1964 10° Standard Observer</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">CIE 2006 2 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">CIE 2012 2° Standard Observer</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">CIE 2006 10 Degree Standard Observer</a> (Last accessed 24 February 2014)
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">CIE 2012 10° Standard Observer</a> (Last accessed 24 February 2014)
+					</p>
+				</div>
+				<div class="section" id="cone-fundamentals">
+					<h2>
+						Cone Fundamentals
+					</h2>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/cones.htm">Stockman &amp; Sharpe 2° Cone Fundamentals</a> (Last accessed 23 June 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/cones.htm">Stockman &amp; Sharpe 10° Cone Fundamentals</a> (Last accessed 23 June 2014)
 					</p>
 				</div>
 				<div class="section" id="deprecated-transformations">
@@ -854,6 +892,21 @@ python setup.py install
 					<p>
 						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">FL3.15</a> (Last accessed 12 June 2014)
 					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">HP1</a> (Last accessed 12 June 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">HP2</a> (Last accessed 12 June 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">HP3</a> (Last accessed 12 June 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">HP4</a> (Last accessed 12 June 2014)
+					</p>
+					<p>
+						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls">HP5</a> (Last accessed 12 June 2014)
+					</p>
 				</div>
 				<div class="section" id="illuminants-chromaticity-coordinates">
 					<h2>
@@ -906,22 +959,28 @@ python setup.py install
 						Luminous Efficiency Functions
 					</h2>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1924 2 Degree Observer</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1924 Photopic Standard Observer</a> (Last accessed 19 April 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd Modified CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd Modified CIE 1951 Photopic Standard Observer</a> (Last accessed 19 April 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd-Vos Modified CIE 1978 2 Degree Observer</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Judd-Vos Modified CIE 1978 Photopic Standard Observer</a> (Last accessed 19 April 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 2 Degree Observe</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/cie.htm">CIE 1964 Photopic 10° Standard Observer</a> (Last accessed 24 February 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Stockman, Jagle, Pirzer &amp; Sharpe CIE 2008 10 Degree Observer</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 2008 2° Physiologically Relevant LEF</a> (Last accessed 19 April 2014)
 					</p>
 					<p>
-						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">Wald &amp; Crawford CIE 1951 2 Degree Observer</a> (Last accessed 19 April 2014)
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 2008 10° Physiologically Relevant LEF</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://www.cvrl.org/lumindex.htm">CIE 1951 Scotopic Standard Observer</a> (Last accessed 19 April 2014)
+					</p>
+					<p>
+						<a class="reference external" href="http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function">Mesopic Weighting Function</a> (Last accessed 20 June 2014)
 					</p>
 				</div>
 				<div class="section" id="planc-s-law">
@@ -1033,6 +1092,9 @@ python setup.py install
 					</p>
 					<p>
 						<strong>Spectral Bandpass Correction</strong>, Stearns, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 38.
+					</p>
+					<p>
+						<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=47">Interpolation</a> (Last accessed 28 May 2014)
 					</p>
 					<p>
 						<a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf">Extrapolation</a> (Last accessed 28 May 2014)

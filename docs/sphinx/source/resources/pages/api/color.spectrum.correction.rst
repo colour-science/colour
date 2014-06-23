@@ -1,14 +1,14 @@
-_`color.spectral.correction`
+_`color.spectrum.correction`
 ============================
 
-.. automodule:: color.spectral.correction
+.. automodule:: color.spectrum.correction
 
 Module Attributes
 -----------------
 
-.. attribute:: color.spectral.correction.LOGGER
+.. attribute:: color.spectrum.correction.LOGGER
 
-.. attribute:: color.spectral.correction.ALPHA_STEARNS
+.. attribute:: color.spectrum.correction.ALPHA_STEARNS
 
 Functions
 ---------

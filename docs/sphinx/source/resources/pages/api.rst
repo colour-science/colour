@@ -6,6 +6,7 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
+   color.algebra.common <api/color.algebra.common>
    color.algebra.interpolation <api/color.algebra.interpolation>
    color.algebra.matrix <api/color.algebra.matrix>
    color.algebra.regression <api/color.algebra.regression>
@@ -48,18 +49,18 @@ Modules Summary:
    color.implementations.maya.plots <api/color.implementations.maya.plots>
    color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
    color.lightness <api/color.lightness>
-   color.spectral.blackbody <api/color.spectral.blackbody>
-   color.spectral.cmfs <api/color.spectral.cmfs>
-   color.spectral.color_checkers <api/color.spectral.color_checkers>
-   color.spectral.correction <api/color.spectral.correction>
-   color.spectral.illuminants <api/color.spectral.illuminants>
-   color.spectral.luminosity <api/color.spectral.luminosity>
-   color.spectral.spd <api/color.spectral.spd>
-   color.spectral.tcs <api/color.spectral.tcs>
-   color.spectral.transformations <api/color.spectral.transformations>
+   color.spectrum.blackbody <api/color.spectrum.blackbody>
+   color.spectrum.cfs <api/color.spectrum.cfs>
+   color.spectrum.cmfs <api/color.spectrum.cmfs>
+   color.spectrum.color_checkers <api/color.spectrum.color_checkers>
+   color.spectrum.correction <api/color.spectrum.correction>
+   color.spectrum.illuminants <api/color.spectrum.illuminants>
+   color.spectrum.lefs <api/color.spectrum.lefs>
+   color.spectrum.spd <api/color.spectrum.spd>
+   color.spectrum.tcs <api/color.spectrum.tcs>
+   color.spectrum.transformations <api/color.spectrum.transformations>
    color.temperature <api/color.temperature>
    color.transformations <api/color.transformations>
-   color.utilities.common <api/color.utilities.common>
    color.utilities.data_structures <api/color.utilities.data_structures>
    color.utilities.decorators <api/color.utilities.decorators>
    color.utilities.exceptions <api/color.utilities.exceptions>
