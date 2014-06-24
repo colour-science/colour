@@ -1,12 +1,12 @@
-_`color.spectrum.spd`
+_`color.spectrum.data`
 =====================
 
-.. automodule:: color.spectrum.spd
+.. automodule:: color.spectrum.data
 
 Module Attributes
 -----------------
 
-.. attribute:: color.spectrum.spd.LOGGER
+.. attribute:: color.spectrum.data.LOGGER
 
 Classes
 -------

@@ -129,7 +129,7 @@ def blackbody_spectral_power_distribution(temperature,
     """
 
     return color.computation.spectrum.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
-                                                            spd=dict((wavelength,
+                                                            data=dict((wavelength,
                                                                       blackbody_spectral_radiance(wavelength * 1e-9,
                                                                                                   temperature,
                                                                                                   c1,

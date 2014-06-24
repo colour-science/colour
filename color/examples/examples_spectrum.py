@@ -91,7 +91,7 @@ sample_spd_data = {380: 0.048,
                    780: 0.421}
 
 # Creating the sample spectral power distribution.
-spd = color.SpectralPowerDistribution(name="Sample", spd=sample_spd_data)
+spd = color.SpectralPowerDistribution("Sample", sample_spd_data)
 
 # Displaying the sample spectral power distribution shape.
 print(spd.shape)

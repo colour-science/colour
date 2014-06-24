@@ -1880,10 +1880,10 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Initializes common tests attributes.
         """
 
-        self.__spd = SpectralPowerDistribution(name="Sample", spd=SAMPLE_SPD_DATA)
+        self.__spd = SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)
 
-        self.__non_uniform_sample_spd = SpectralPowerDistribution(name="Non Uniform Sample",
-                                                                  spd=NON_UNIFORM_SAMPLE_SPD_DATA)
+        self.__non_uniform_sample_spd = SpectralPowerDistribution("Non Uniform Sample",
+                                                                  NON_UNIFORM_SAMPLE_SPD_DATA)
 
         self.__phi = (1. + math.sqrt(5)) / 2.
 
@@ -1893,7 +1893,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         required_attributes = ("name",
-                               "spd",
+                               "data",
                                "wavelengths",
                                "values",
                                "shape")
@@ -2067,7 +2067,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests :func:`color.computation.spectrum.SpectralDistribution.extrapolate` method.
         """
 
-        spd = SpectralPowerDistribution(name="", spd=dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
+        spd = SpectralPowerDistribution("", dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
         spd.extrapolate(10, 50)
 
         self.assertEqual(spd[10], 0)
@@ -2137,19 +2137,19 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
 
         self.__triad = SpectralPowerDistributionTriad(name="Triad",
                                                       mapping=self.__mapping,
-                                                      triad=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+                                                      data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
                                                       labels=self.__labels)
 
         self.__sample_triad = SpectralPowerDistributionTriad(name="Sample Triad",
                                                              mapping=self.__mapping,
-                                                             triad={"x_bar": SAMPLE_SPD_DATA,
+                                                             data={"x_bar": SAMPLE_SPD_DATA,
                                                                     "y_bar": SAMPLE_SPD_DATA,
                                                                     "z_bar": SAMPLE_SPD_DATA},
                                                              labels=self.__labels)
 
         self.__non_uniform_sample_triad = SpectralPowerDistributionTriad(name="Non Uniform Sample Triad",
                                                                          mapping=self.__mapping,
-                                                                         triad={"x_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
+                                                                         data={"x_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
                                                                                 "y_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
                                                                                 "z_bar": NON_UNIFORM_SAMPLE_SPD_DATA},
                                                                          labels=self.__labels)
@@ -2164,7 +2164,7 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
         required_attributes = ("name",
                                "mapping",
                                "labels",
-                               "triad",
+                               "data",
                                "x",
                                "y",
                                "z",
@@ -2354,7 +2354,7 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
         spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
         triad = SpectralPowerDistributionTriad(name="",
                                                mapping=self.__mapping,
-                                               triad={"x_bar": spd_data,
+                                               data={"x_bar": spd_data,
                                                       "y_bar": spd_data,
                                                       "z_bar": spd_data},
                                                labels=self.__labels)
@@ -2405,7 +2405,7 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
 
         triad = SpectralPowerDistributionTriad(name="",
                                                mapping=self.__mapping,
-                                               triad={"x_bar": SAMPLE_SPD_DATA,
+                                               data={"x_bar": SAMPLE_SPD_DATA,
                                                       "y_bar": SAMPLE_SPD_DATA,
                                                       "z_bar": SAMPLE_SPD_DATA},
                                                labels=self.__labels).clone()

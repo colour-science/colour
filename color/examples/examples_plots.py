@@ -12,11 +12,11 @@ import color.dataset.color_checkers.spds
 from color.implementation.matplotlib.plots import *
 
 # Plotting a single color.
-single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)), text_size=32.)
+single_color_plot(color_parameter("Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)), text_size=32.)
 
 # Plotting multiples colors.
-multi_color_plot([color_parameter(name="Dark Skin", RGB=(0.45293517, 0.31732158, 0.26414773)),
-                  color_parameter(name="Light Skin", RGB=(0.77875824, 0.5772645, 0.50453169))],
+multi_color_plot([color_parameter("Dark Skin", RGB=(0.45293517, 0.31732158, 0.26414773)),
+                  color_parameter("Light Skin", RGB=(0.77875824, 0.5772645, 0.50453169))],
                  spacing=0.,
                  text_size=32.)
 
@@ -576,13 +576,13 @@ white_marble_spd_data = {
 }
 
 # Plotting a sample spectral power distribution.
-single_spd_plot(color.SpectralPowerDistribution(name="Custom", spd=sample_spd_data))
+single_spd_plot(color.SpectralPowerDistribution("Custom", sample_spd_data))
 
-single_spd_plot(color.SpectralPowerDistribution(name="Galvanized Steel Metal", spd=galvanized_steel_metal_spd_data))
+single_spd_plot(color.SpectralPowerDistribution("Galvanized Steel Metal", galvanized_steel_metal_spd_data))
 
 # Plotting multiple relative spectral power distributions.
-multi_spd_plot([color.SpectralPowerDistribution(name="Galvanized Steel Metal", spd=galvanized_steel_metal_spd_data),
-                color.SpectralPowerDistribution(name="White Marble", spd=white_marble_spd_data)])
+multi_spd_plot([color.SpectralPowerDistribution("Galvanized Steel Metal", galvanized_steel_metal_spd_data),
+                color.SpectralPowerDistribution("White Marble", white_marble_spd_data)])
 
 # Spectral bandpass dependence correction.
 street_light_spd_data = {
@@ -1207,7 +1207,7 @@ ASTM_G_173 = {
 for key, value in ASTM_G_173.iteritems():
     ASTM_G_173[key] = value * 1.37905559e+13
 
-ASTM_G_173_spd = color.SpectralPowerDistribution(name="ASTM G-173", spd=ASTM_G_173)
+ASTM_G_173_spd = color.SpectralPowerDistribution("ASTM G-173", ASTM_G_173)
 ASTM_G_173_spd.interpolate(steps=5, interpolator="Linear")
 
 blackbody_spd = color.blackbody_spectral_power_distribution(5778, *ASTM_G_173_spd.shape)

@@ -56,7 +56,7 @@ Modules Summary:
    color.spectrum.correction <api/color.spectrum.correction>
    color.computations.illuminants <api/color.computations.illuminants>
    color.spectrum.lefs <api/color.spectrum.lefs>
-   color.spectrum.spd <api/color.spectrum.spd>
+   color.spectrum.data <api/color.spectrum.data>
    color.dataset.tcs <api/color.dataset.tcs>
    color.spectrum.transformations <api/color.spectrum.transformations>
    color.temperature <api/color.temperature>

@@ -106,7 +106,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             sorted(color.computation.illuminants.D_illuminant_relative_spd(
-                (0.32168, 0.33767)).spd.values()),
+                (0.32168, 0.33767)).data.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)
 

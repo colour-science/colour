@@ -44,21 +44,21 @@ class SpectralPowerDistribution(object):
     Defines a spectral power distribution object.
     """
 
-    def __init__(self, name, spd):
+    def __init__(self, name, data):
         """
         Initializes the class.
 
         :param name: Spectral power distribution name.
         :type name: str or unicode
-        :param spd: Spectral power distribution data.
-        :type spd: dict
+        :param data: Spectral power distribution data.
+        :type data: dict
         """
 
         # --- Setting class attributes. ---
         self.__name = None
         self.name = name
-        self.__spd = None
-        self.spd = spd
+        self.__data = None
+        self.data = data
 
     @property
     def name(self):
@@ -95,38 +95,38 @@ class SpectralPowerDistribution(object):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
 
     @property
-    def spd(self):
+    def data(self):
         """
-        Property for **self.__spd** attribute.
+        Property for **self.__data** attribute.
 
-        :return: self.__spd.
+        :return: self.__data.
         :rtype: dict
         """
 
-        return self.__spd
+        return self.__data
 
-    @spd.setter
-    def spd(self, value):
+    @data.setter
+    def data(self, value):
         """
-        Setter for **self.__spd** attribute.
+        Setter for **self.__data** attribute.
 
         :param value: Attribute value.
         :type value: dict
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("spd",
+            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("data",
                                                                                             value)
-        self.__spd = value
+        self.__data = value
 
-    @spd.deleter
-    def spd(self):
+    @data.deleter
+    def data(self):
         """
-        Deleter for **self.__spd** attribute.
+        Deleter for **self.__data** attribute.
         """
 
         raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "spd"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
 
     @property
     def wavelengths(self):
@@ -137,7 +137,7 @@ class SpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return numpy.array(sorted(self.__spd.keys()))
+        return numpy.array(sorted(self.__data.keys()))
 
     @wavelengths.setter
     def wavelengths(self, value):
@@ -202,7 +202,7 @@ class SpectralPowerDistribution(object):
         """
 
         steps = color.algebra.common.get_steps(self.wavelengths)
-        return min(self.spd.keys()), max(self.spd.keys()), min(steps)
+        return min(self.data.keys()), max(self.data.keys()), min(steps)
 
     @shape.setter
     def shape(self, value):
@@ -235,7 +235,7 @@ class SpectralPowerDistribution(object):
         :rtype: float
         """
 
-        return self.__spd.__getitem__(wavelength)
+        return self.__data.__getitem__(wavelength)
 
     def __setitem__(self, key, value):
         """
@@ -247,7 +247,7 @@ class SpectralPowerDistribution(object):
         :type value: object
         """
 
-        self.__spd.__setitem__(key, value)
+        self.__data.__setitem__(key, value)
 
     def __iter__(self):
         """
@@ -257,7 +257,7 @@ class SpectralPowerDistribution(object):
         :rtype: object
         """
 
-        return iter(sorted(self.__spd.items()))
+        return iter(sorted(self.__data.items()))
 
     def __contains__(self, wavelength):
         """
@@ -269,7 +269,7 @@ class SpectralPowerDistribution(object):
         :rtype: bool
         """
 
-        return wavelength in self.__spd
+        return wavelength in self.__data
 
     def __len__(self):
         """
@@ -279,7 +279,7 @@ class SpectralPowerDistribution(object):
         :rtype: int
         """
 
-        return len(self.__spd)
+        return len(self.__data)
 
     def __eq__(self, spd):
         """
@@ -319,7 +319,7 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__spd = dict(zip(self.wavelengths, self.values + x))
+        self.__data = dict(zip(self.wavelengths, self.values + x))
 
         return self
 
@@ -345,7 +345,7 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__spd = dict(zip(self.wavelengths, self.values * x))
+        self.__data = dict(zip(self.wavelengths, self.values * x))
 
         return self
 
@@ -359,7 +359,7 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__spd = dict(zip(self.wavelengths, self.values * (1. / x)))
+        self.__data = dict(zip(self.wavelengths, self.values * (1. / x)))
 
         return self
 
@@ -499,7 +499,7 @@ class SpectralPowerDistribution(object):
                                                                                             (shape_start, shape_end,
                                                                                              steps)))
 
-            self.__spd = dict([(wavelength, interpolant(wavelength))
+            self.__data = dict([(wavelength, interpolant(wavelength))
                                for wavelength in numpy.arange(max(start, shape_start),
                                                               min(end, shape_end) + steps,
                                                               steps)])
@@ -540,7 +540,7 @@ class SpectralPowerDistribution(object):
 
         start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
 
-        self.__spd = dict(
+        self.__data = dict(
             [(wavelength, self.get(wavelength, 0.)) for wavelength in numpy.arange(start, end + steps, steps)])
 
         return self
@@ -573,14 +573,14 @@ class SpectralPowerDistributionTriad(object):
     Defines a spectral power distribution triad implementation.
     """
 
-    def __init__(self, name, triad, mapping, labels):
+    def __init__(self, name, data, mapping, labels):
         """
         Initializes the class.
 
         :param name: Spectral power distribution triad name.
         :type name: str or unicode
-        :param triad: Spectral power distribution triad.
-        :type triad: dict
+        :param data: Spectral power distribution triad data.
+        :type data: dict
         :param mapping: Spectral power distribution triad attributes mapping.
         :type mapping: dict
         :param labels: Spectral power distribution triad axis labels mapping.
@@ -591,8 +591,8 @@ class SpectralPowerDistributionTriad(object):
         self.__name = None
         self.name = name
         self.__mapping = mapping
-        self.__triad = None
-        self.triad = triad
+        self.__data = None
+        self.data = data
         self.__labels = labels
 
     @property
@@ -666,56 +666,56 @@ class SpectralPowerDistributionTriad(object):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
-    def triad(self):
+    def data(self):
         """
-        Property for **self.__triad** attribute.
+        Property for **self.__data** attribute.
 
-        :return: self.__triad.
+        :return: self.__data.
         :rtype: dict
         """
 
-        return self.__triad
+        return self.__data
 
-    @triad.setter
-    def triad(self, value):
+    @data.setter
+    def data(self, value):
         """
-        Setter for **self.__triad** attribute.
+        Setter for **self.__data** attribute.
 
         :param value: Attribute value.
         :type value: dict
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("triad", value)
+            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("data", value)
             for axis in ("x", "y", "z"):
                 assert self.__mapping.get(axis) in value.keys(), \
-                    "'{0}' attribute: '{1}' axis is missing!".format("triad", axis)
+                    "'{0}' attribute: '{1}' axis is missing!".format("data", axis)
 
-            triad = {}
+            data = {}
             for axis in ("x", "y", "z"):
-                triad[axis] = SpectralPowerDistribution(self.__mapping.get(axis), value.get(self.__mapping.get(axis)))
+                data[axis] = SpectralPowerDistribution(self.__mapping.get(axis), value.get(self.__mapping.get(axis)))
 
-            numpy.testing.assert_almost_equal(triad["x"].wavelengths,
-                                              triad["y"].wavelengths,
+            numpy.testing.assert_almost_equal(data["x"].wavelengths,
+                                              data["y"].wavelengths,
                                               err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                                                  "triad", self.__mapping.get("x"), self.__mapping.get("y")))
-            numpy.testing.assert_almost_equal(triad["x"].wavelengths,
-                                              triad["z"].wavelengths,
+                                                  "data", self.__mapping.get("x"), self.__mapping.get("y")))
+            numpy.testing.assert_almost_equal(data["x"].wavelengths,
+                                              data["z"].wavelengths,
                                               err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                                                  "triad", self.__mapping.get("x"), self.__mapping.get("z")))
+                                                  "data", self.__mapping.get("x"), self.__mapping.get("z")))
 
-            self.__triad = triad
+            self.__data = data
         else:
-            self.__triad = None
+            self.__data = None
 
-    @triad.deleter
-    def triad(self):
+    @data.deleter
+    def data(self):
         """
-        Deleter for **self.__triad** attribute.
+        Deleter for **self.__data** attribute.
         """
 
         raise color.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "triad"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
 
     @property
     def labels(self):
@@ -762,7 +762,7 @@ class SpectralPowerDistributionTriad(object):
         :rtype: unicode
         """
 
-        return self.__triad.get("x")
+        return self.__data.get("x")
 
     @x.setter
     def x(self, value):
@@ -794,7 +794,7 @@ class SpectralPowerDistributionTriad(object):
         :rtype: unicode
         """
 
-        return self.__triad.get("y")
+        return self.__data.get("y")
 
     @y.setter
     def y(self, value):
@@ -826,7 +826,7 @@ class SpectralPowerDistributionTriad(object):
         :rtype: unicode
         """
 
-        return self.__triad.get("z")
+        return self.__data.get("z")
 
     @z.setter
     def z(self, value):
@@ -1046,7 +1046,7 @@ class SpectralPowerDistributionTriad(object):
         values = self.values + x
 
         for i, axis in enumerate(("x", "y", "z")):
-            self.__triad[axis].spd = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
 
         return self
 
@@ -1075,7 +1075,7 @@ class SpectralPowerDistributionTriad(object):
         values = self.values * x
 
         for i, axis in enumerate(("x", "y", "z")):
-            self.__triad[axis].spd = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
 
         return self
 

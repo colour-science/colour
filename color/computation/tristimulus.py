@@ -80,8 +80,8 @@ def spectral_to_XYZ(spd,
         start, end, steps = shape
         range = numpy.arange(start, end + steps, steps)
         illuminant = color.computation.spectrum.SpectralPowerDistribution(name="1.0",
-                                                                      spd=dict(zip(*(list(range),
-                                                                                     [1.] * len(range)))))
+                                                                          data=dict(zip(*(list(range),
+                                                                                          [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
             LOGGER.debug(

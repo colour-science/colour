@@ -637,7 +637,7 @@ def single_spd_plot(spd,
 
     Usage::
 
-        >>> spd = color.SpectralPowerDistribution(name="Custom", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
+        >>> spd = color.SpectralPowerDistribution(name="Custom", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
         >>> single_spd_plot(spd)
         True
 
@@ -692,8 +692,8 @@ def multi_spd_plot(spds,
 
     Usage::
 
-        >>> spd1 = color.SpectralPowerDistribution(name="Custom1", spd={400: 0.0641, 420: 0.0645, 440: 0.0562})
-        >>> spd2 = color.SpectralPowerDistribution(name="Custom2", spd={400: 0.134, 420: 0.789, 440: 1.289})
+        >>> spd1 = color.SpectralPowerDistribution(name="Custom1", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
+        >>> spd2 = color.SpectralPowerDistribution(name="Custom2", data={400: 0.134, 420: 0.789, 440: 1.289})
         >>> multi_spd_plot([spd1, spd2]))
         True
 
