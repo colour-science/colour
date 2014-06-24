@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ EKTA_SPACE_PS_5_PRIMARIES = numpy.matrix([0.6947368421052631, 0.3052631578947368
                                           0.26000000000000001, 0.69999999999999996,
                                           0.10972850678733032, 0.0045248868778280547]).reshape((3, 2))
 
-EKTA_SPACE_PS_5_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+EKTA_SPACE_PS_5_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 EKTA_SPACE_PS_5_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(EKTA_SPACE_PS_5_PRIMARIES,

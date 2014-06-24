@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import color.computation.derivation
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.lightness
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -47,7 +47,7 @@ ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
                                      0.20990566037735847, 0.70990566037735836,
                                      0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
 
-ECI_RGB_V2_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+ECI_RGB_V2_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 ECI_RGB_V2_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(ECI_RGB_V2_PRIMARIES,

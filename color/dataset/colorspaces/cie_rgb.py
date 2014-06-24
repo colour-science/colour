@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.colorspace import Colorspace
@@ -45,7 +45,7 @@ CIE_RGB_PRIMARIES = numpy.matrix([0.7350, 0.2650,
                                   0.2740, 0.7170,
                                   0.1670, 0.0090]).reshape((3, 2))
 
-CIE_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+CIE_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("E")
 
 CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,

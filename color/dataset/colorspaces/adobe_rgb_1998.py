@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.colorspace import Colorspace
@@ -45,7 +45,7 @@ ADOBE_RGB_1998_PRIMARIES = numpy.matrix([0.6400, 0.3300,
                                          0.2100, 0.7100,
                                          0.1500, 0.0600]).reshape((3, 2))
 
-ADOBE_RGB_1998_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+ADOBE_RGB_1998_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 # http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf: 4.3.5.3 Converting RGB to normalized XYZ values

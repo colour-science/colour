@@ -22,7 +22,7 @@ import numpy
 import color.algebra.matrix
 import color.computation.chromatic_adaptation
 import color.computation.lightness
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.utilities.exceptions
 import color.utilities.verbose
 
@@ -61,7 +61,7 @@ LOGGER = color.utilities.verbose.install_logger()
 
 
 def XYZ_to_xyY(XYZ,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE xyY* colorspace and reference *illuminant*.
@@ -139,7 +139,7 @@ def xy_to_XYZ(xy):
 
 
 def XYZ_to_xy(XYZ,
-              illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+              illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* matrix.
@@ -460,7 +460,7 @@ def UCS_uv_to_xy(uv):
 
 
 def XYZ_to_UVW(XYZ,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE 1964 U\*V*\W\** colorspace.
@@ -494,7 +494,7 @@ def XYZ_to_UVW(XYZ,
 
 
 def XYZ_to_Luv(XYZ,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE Luv* colorspace.
@@ -530,7 +530,7 @@ def XYZ_to_Luv(XYZ,
 
 
 def Luv_to_XYZ(Luv,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Luv* colorspace to *CIE XYZ* colorspace.
@@ -570,7 +570,7 @@ def Luv_to_XYZ(Luv,
 
 
 def Luv_to_uv(Luv,
-              illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+              illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* matrix.
@@ -668,7 +668,7 @@ def LCHuv_to_Luv(LCHuv):
 
 
 def XYZ_to_Lab(XYZ,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colorspace to *CIE Lab* colorspace.
@@ -712,7 +712,7 @@ def XYZ_to_Lab(XYZ,
 
 
 def Lab_to_XYZ(Lab,
-               illuminant=color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+               illuminant=color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Lab* colorspace to *CIE XYZ* colorspace.

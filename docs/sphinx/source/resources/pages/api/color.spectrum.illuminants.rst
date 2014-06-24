@@ -8,9 +8,9 @@ Module Attributes
 
 .. attribute:: color.computations.illuminants.LOGGER
 
-.. attribute:: color.data.illuminants.chromaticity_coordinates.ILLUMINANTS_RELATIVE_SPDS_DATA
+.. attribute:: color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS_RELATIVE_SPDS_DATA
 
-.. attribute:: color.data.illuminants.chromaticity_coordinates.ILLUMINANTS_RELATIVE_SPDS
+.. attribute:: color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS_RELATIVE_SPDS
 
 .. attribute:: color.computations.illuminants.D_ILLUMINANTS_S_SPDS_DATA
 

@@ -20,7 +20,7 @@ import math
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -49,7 +49,7 @@ C_LOG_PRIMARIES = numpy.matrix([0.6400, 0.3300,
                                 0.3000, 0.6000,
                                 0.1500, 0.0600]).reshape((3, 2))
 
-C_LOG_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+C_LOG_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 C_LOG_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(C_LOG_PRIMARIES, C_LOG_WHITEPOINT)

@@ -422,7 +422,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.data.cmfs.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
+    cmfs = color.dataset.cmfs.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(
@@ -438,7 +438,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     y = (0.17697 * r + 0.81240 * g + 0.01063 * b) / (0.66697 * r + 1.13240 * g + 1.20063 * b)
     z = (0.00000 * r + 0.01000 * g + 0.99000 * b) / (0.66697 * r + 1.13240 * g + 1.20063 * b)
 
-    V = color.data.lefs.PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer").clone()
+    V = color.dataset.lefs.PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer").clone()
     V.align(*cmfs.shape)
     L = V.get(wavelength)
 
@@ -470,7 +470,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.data.cmfs.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    cmfs = color.dataset.cmfs.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, y_bar, z_bar):
         raise color.utilities.exceptions.ProgrammingError(

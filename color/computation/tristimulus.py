@@ -19,8 +19,8 @@ from __future__ import unicode_literals
 import numpy
 
 import color.algebra.matrix
-import color.data.cmfs
-import color.data.lefs
+import color.dataset.cmfs
+import color.dataset.lefs
 import color.utilities.exceptions
 import color.utilities.decorators
 import color.utilities.verbose
@@ -40,7 +40,7 @@ LOGGER = color.utilities.verbose.install_logger()
 
 
 def spectral_to_XYZ(spd,
-                    cmfs=color.data.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
+                    cmfs=color.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
                     illuminant=None):
     """
     Converts given spectral power distribution to *CIE XYZ* colorspace using given color
@@ -111,7 +111,7 @@ def spectral_to_XYZ(spd,
 
 @color.utilities.decorators.memoize(None)
 def wavelength_to_XYZ(wavelength,
-                      cmfs=color.data.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
+                      cmfs=color.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
     Converts given wavelength to *CIE XYZ* colorspace using given color matching functions, if the retrieved
     wavelength is not available in the color matching function, its value will be calculated using *CIE* recommendations:

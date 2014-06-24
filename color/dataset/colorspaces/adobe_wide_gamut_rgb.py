@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
                                                0.1152, 0.8264,
                                                0.1566, 0.0177]).reshape((3, 2))
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(

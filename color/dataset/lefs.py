@@ -20,7 +20,7 @@ import color.algebra.common
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.spectrum import SpectralPowerDistribution
-from color.data.cmfs import STANDARD_OBSERVERS_CMFS_DATA
+from color.dataset.cmfs import STANDARD_OBSERVERS_CMFS_DATA
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

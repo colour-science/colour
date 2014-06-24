@@ -57,42 +57,42 @@ from color.computation.transformations import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv,
 from color.computation.transformations import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from color.computation.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
-from color.data.cmfs import CMFS, LMS_ConeFundamentals, RGB_CMFS, STANDARD_OBSERVERS_CMFS
-from color.data.color_checkers.chromaticity_coordinates import COLORCHECKERS
-from color.data.color_checkers.spds import COLORCHECKERS_SPDS
-from color.data.colorspaces.aces_rgb import ACES_RGB_COLORSPACE, ACES_RGB_LOG_COLORSPACE
-from color.data.colorspaces.aces_rgb import ACES_RGB_PROXY_10_COLORSPACE, ACES_RGB_PROXY_12_COLORSPACE
-from color.data.colorspaces.adobe_rgb_1998 import ADOBE_RGB_1998_COLORSPACE
-from color.data.colorspaces.adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLORSPACE
-from color.data.colorspaces.alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLORSPACE
-from color.data.colorspaces.apple_rgb import APPLE_RGB_COLORSPACE
-from color.data.colorspaces.best_rgb import BEST_RGB_COLORSPACE
-from color.data.colorspaces.best_rgb import BEST_RGB_COLORSPACE
-from color.data.colorspaces.beta_rgb import BETA_RGB_COLORSPACE
-from color.data.colorspaces.c_log import C_LOG_COLORSPACE
-from color.data.colorspaces.cie_rgb import CIE_RGB_COLORSPACE
-from color.data.colorspaces.color_match_rgb import COLOR_MATCH_RGB_COLORSPACE
-from color.data.colorspaces.dci_p3 import DCI_P3_COLORSPACE
-from color.data.colorspaces.don_rgb_4 import DON_RGB_4_COLORSPACE
-from color.data.colorspaces.eci_rgb_v2 import ECI_RGB_V2_COLORSPACE
-from color.data.colorspaces.ekta_space_ps5 import EKTA_SPACE_PS_5_COLORSPACE
-from color.data.colorspaces.max_rgb import MAX_RGB_COLORSPACE
-from color.data.colorspaces.ntsc_rgb import NTSC_RGB_COLORSPACE
-from color.data.colorspaces.pal_secam_rgb import PAL_SECAM_RGB_COLORSPACE
-from color.data.colorspaces.pointer_gamut import POINTER_GAMUT_DATA
-from color.data.colorspaces.prophoto_rgb import PROPHOTO_RGB_COLORSPACE
-from color.data.colorspaces.rec_709 import REC_709_COLORSPACE
-from color.data.colorspaces.rec_2020 import REC_2020_COLORSPACE
-from color.data.colorspaces.russell_rgb import RUSSELL_RGB_COLORSPACE
-from color.data.colorspaces.s_log import S_LOG_COLORSPACE
-from color.data.colorspaces.smptec_rgb import SMPTE_C_RGB_COLORSPACE
-from color.data.colorspaces.srgb import sRGB_COLORSPACE
-from color.data.colorspaces.xtreme_rgb import XTREME_RGB_COLORSPACE
-from color.data.illuminants.chromaticity_coordinates import ILLUMINANTS
-from color.data.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
-from color.data.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
-from color.data.lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
-from color.data.tcs import TCS_SPDS
+from color.dataset.cmfs import CMFS, LMS_ConeFundamentals, RGB_CMFS, STANDARD_OBSERVERS_CMFS
+from color.dataset.color_checkers.chromaticity_coordinates import COLORCHECKERS
+from color.dataset.color_checkers.spds import COLORCHECKERS_SPDS
+from color.dataset.colorspaces.aces_rgb import ACES_RGB_COLORSPACE, ACES_RGB_LOG_COLORSPACE
+from color.dataset.colorspaces.aces_rgb import ACES_RGB_PROXY_10_COLORSPACE, ACES_RGB_PROXY_12_COLORSPACE
+from color.dataset.colorspaces.adobe_rgb_1998 import ADOBE_RGB_1998_COLORSPACE
+from color.dataset.colorspaces.adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLORSPACE
+from color.dataset.colorspaces.alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLORSPACE
+from color.dataset.colorspaces.apple_rgb import APPLE_RGB_COLORSPACE
+from color.dataset.colorspaces.best_rgb import BEST_RGB_COLORSPACE
+from color.dataset.colorspaces.best_rgb import BEST_RGB_COLORSPACE
+from color.dataset.colorspaces.beta_rgb import BETA_RGB_COLORSPACE
+from color.dataset.colorspaces.c_log import C_LOG_COLORSPACE
+from color.dataset.colorspaces.cie_rgb import CIE_RGB_COLORSPACE
+from color.dataset.colorspaces.color_match_rgb import COLOR_MATCH_RGB_COLORSPACE
+from color.dataset.colorspaces.dci_p3 import DCI_P3_COLORSPACE
+from color.dataset.colorspaces.don_rgb_4 import DON_RGB_4_COLORSPACE
+from color.dataset.colorspaces.eci_rgb_v2 import ECI_RGB_V2_COLORSPACE
+from color.dataset.colorspaces.ekta_space_ps5 import EKTA_SPACE_PS_5_COLORSPACE
+from color.dataset.colorspaces.max_rgb import MAX_RGB_COLORSPACE
+from color.dataset.colorspaces.ntsc_rgb import NTSC_RGB_COLORSPACE
+from color.dataset.colorspaces.pal_secam_rgb import PAL_SECAM_RGB_COLORSPACE
+from color.dataset.colorspaces.pointer_gamut import POINTER_GAMUT_DATA
+from color.dataset.colorspaces.prophoto_rgb import PROPHOTO_RGB_COLORSPACE
+from color.dataset.colorspaces.rec_709 import REC_709_COLORSPACE
+from color.dataset.colorspaces.rec_2020 import REC_2020_COLORSPACE
+from color.dataset.colorspaces.russell_rgb import RUSSELL_RGB_COLORSPACE
+from color.dataset.colorspaces.s_log import S_LOG_COLORSPACE
+from color.dataset.colorspaces.smptec_rgb import SMPTE_C_RGB_COLORSPACE
+from color.dataset.colorspaces.srgb import sRGB_COLORSPACE
+from color.dataset.colorspaces.xtreme_rgb import XTREME_RGB_COLORSPACE
+from color.dataset.illuminants.chromaticity_coordinates import ILLUMINANTS
+from color.dataset.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
+from color.dataset.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
+from color.dataset.lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
+from color.dataset.tcs import TCS_SPDS
 
 from color.implementation.fitting import first_order_color_fit
 
@@ -171,16 +171,16 @@ __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
 # *color.computation.tristimulus* objects.
 __all__.extend(["spectral_to_XYZ", "wavelength_to_XYZ"])
 
-# *color.data.cmfs* objects.
+# *color.dataset.cmfs* objects.
 __all__.extend(["CMFS", "LMS_ConeFundamentals", "RGB_CMFS", "STANDARD_OBSERVERS_CMFS"])
 
-# *color.data.color_checkers.chromaticity_coordinates* objects.
+# *color.dataset.color_checkers.chromaticity_coordinates* objects.
 __all__.extend(["COLORCHECKERS"])
 
-# *color.data.color_checkers.spds* objects.
+# *color.dataset.color_checkers.spds* objects.
 __all__.extend(["COLORCHECKERS_SPDS"])
 
-# *color.data.colorspaces* objects.
+# *color.dataset.colorspaces* objects.
 COLORSPACES = {ACES_RGB_COLORSPACE.name: ACES_RGB_COLORSPACE,
                ACES_RGB_LOG_COLORSPACE.name: ACES_RGB_LOG_COLORSPACE,
                ACES_RGB_PROXY_10_COLORSPACE.name: ACES_RGB_PROXY_10_COLORSPACE,
@@ -239,19 +239,19 @@ __all__.extend(["ACES_RGB_COLORSPACE", "ACES_RGB_LOG_COLORSPACE",
                 "XTREME_RGB_COLORSPACE",
                 "COLORSPACES"])
 
-# *color.data.illuminants.chromaticity_coordinates* objects.
+# *color.dataset.illuminants.chromaticity_coordinates* objects.
 __all__.extend(["ILLUMINANTS"])
 
-# *color.data.illuminants.d_illuminants_s_spds* objects.
+# *color.dataset.illuminants.d_illuminants_s_spds* objects.
 __all__.extend(["D_ILLUMINANTS_S_SPDS"])
 
-# *color.data.illuminants.spds* objects.
+# *color.dataset.illuminants.spds* objects.
 __all__.extend(["ILLUMINANTS_RELATIVE_SPDS"])
 
-# *color.data.lefs* objects.
+# *color.dataset.lefs* objects.
 __all__.extend(["LEFS", "PHOTOPIC_LEFS", "SCOTOPIC_LEFS"])
 
-# *color.data.tcs* objects.
+# *color.dataset.tcs* objects.
 __all__.extend(["TCS_SPDS"])
 
 # *color.implementation* objects.

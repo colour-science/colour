@@ -17,7 +17,7 @@
 from __future__ import unicode_literals
 
 import color.algebra.common
-import color.data.lefs
+import color.dataset.lefs
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.spectrum import SpectralPowerDistribution
@@ -39,9 +39,9 @@ def mesopic_weighting_function(wavelength,
                                Lp,
                                source="Blue Heavy",
                                method="MOVE",
-                               photopic_lef=color.data.lefs.PHOTOPIC_LEFS.get(
+                               photopic_lef=color.dataset.lefs.PHOTOPIC_LEFS.get(
                                    "CIE 1924 Photopic Standard Observer"),
-                               scotopic_lef=color.data.lefs.SCOTOPIC_LEFS.get(
+                               scotopic_lef=color.dataset.lefs.SCOTOPIC_LEFS.get(
                                    "CIE 1951 Scotopic Standard Observer")):
     """
     Converts given spectral power distribution to *CIE XYZ* colorspace using given color
@@ -78,9 +78,9 @@ def mesopic_weighting_function(wavelength,
                     function.name,
                     function.shape))
 
-    mesopic_x_luminance_values = sorted(color.data.lefs.MESOPIC_X_DATA.keys())
+    mesopic_x_luminance_values = sorted(color.dataset.lefs.MESOPIC_X_DATA.keys())
     index = mesopic_x_luminance_values.index(color.algebra.common.get_closest(mesopic_x_luminance_values, Lp))
-    x = color.data.lefs.MESOPIC_X_DATA.get(mesopic_x_luminance_values[index]).get(source).get(method)
+    x = color.dataset.lefs.MESOPIC_X_DATA.get(mesopic_x_luminance_values[index]).get(source).get(method)
 
     Vm = (1. - x) * scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength)
 
@@ -90,9 +90,9 @@ def mesopic_weighting_function(wavelength,
 def mesopic_luminous_efficiency_function(Lp,
                                          source="Blue Heavy",
                                          method="MOVE",
-                                         photopic_lef=color.data.lefs.PHOTOPIC_LEFS.get(
+                                         photopic_lef=color.dataset.lefs.PHOTOPIC_LEFS.get(
                                              "CIE 1924 Photopic Standard Observer"),
-                                         scotopic_lef=color.data.lefs.SCOTOPIC_LEFS.get(
+                                         scotopic_lef=color.dataset.lefs.SCOTOPIC_LEFS.get(
                                              "CIE 1951 Scotopic Standard Observer")):
     """
     Converts given spectral power distribution to *CIE XYZ* colorspace using given color

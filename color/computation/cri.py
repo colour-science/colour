@@ -26,8 +26,8 @@ import color.computation.illuminants
 import color.computation.temperature
 import color.computation.transformations
 import color.computation.tristimulus
-import color.data.cmfs
-import color.data.tcs
+import color.dataset.cmfs
+import color.dataset.tcs
 import color.utilities.verbose
 
 __author__ = "Thomas Mansencal"
@@ -74,7 +74,7 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
     reference_u, reference_v = reference_uv[0], reference_uv[1]
 
     tcs_data = []
-    for key, value in sorted(color.data.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
+    for key, value in sorted(color.dataset.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
         tcs_spd = tsc_spds.get(value)
         tcs_XYZ = color.computation.tristimulus.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
         tcs_xyY = numpy.ravel(color.computation.transformations.XYZ_to_xyY(tcs_XYZ))
@@ -143,13 +143,13 @@ def get_color_rendering_index(test_spd, additional_data=False):
     :rtype: float or (float, dict)
     """
 
-    cmfs = color.data.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     start, end, steps = cmfs.shape
     test_spd = test_spd.clone().align(start, end, steps)
 
     tcs_spds = {}
-    for index, tcs_spd in sorted(color.data.tcs.TCS_SPDS.iteritems()):
+    for index, tcs_spd in sorted(color.dataset.tcs.TCS_SPDS.iteritems()):
         tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
 
     XYZ = color.computation.tristimulus.spectral_to_XYZ(test_spd, cmfs)

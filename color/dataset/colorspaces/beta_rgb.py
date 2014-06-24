@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ BETA_RGB_PRIMARIES = numpy.matrix([0.6888, 0.3112,
                                    0.1986, 0.7551,
                                    0.1265, 0.0352]).reshape((3, 2))
 
-BETA_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+BETA_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 BETA_RGB_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(BETA_RGB_PRIMARIES,

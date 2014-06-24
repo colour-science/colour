@@ -1,12 +1,12 @@
-_`color.implementations.maya.plots`
+_`color.implementation.maya.plots`
 ===================================
 
-.. automodule:: color.implementations.maya.plots
+.. automodule:: color.implementation.maya.plots
 
 Module Attributes
 -----------------
 
-.. attribute:: color.implementations.maya.plots.LOGGER
+.. attribute:: color.implementation.maya.plots.LOGGER
 
 Functions
 ---------

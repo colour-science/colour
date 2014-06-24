@@ -1,18 +1,18 @@
-_`color.data.tcs`
+_`color.dataset.tcs`
 =====================
 
-.. automodule:: color.data.tcs
+.. automodule:: color.dataset.tcs
 
 Module Attributes
 -----------------
 
-.. attribute:: color.data.tcs.LOGGER
+.. attribute:: color.dataset.tcs.LOGGER
 
-.. attribute:: color.data.tcs.TCS_INDEXES_TO_NAMES
+.. attribute:: color.dataset.tcs.TCS_INDEXES_TO_NAMES
 
-.. attribute:: color.data.tcs.TCS_APPROXIMATE_MUNSELL_NOTATIONS
+.. attribute:: color.dataset.tcs.TCS_APPROXIMATE_MUNSELL_NOTATIONS
 
-.. attribute:: color.data.tcs.TCS_SPDS_DATA
+.. attribute:: color.dataset.tcs.TCS_SPDS_DATA
 
-.. attribute:: color.data.tcs.TCS_SPDS
+.. attribute:: color.dataset.tcs.TCS_SPDS
 

@@ -1,20 +1,20 @@
-_`color.implementations.matplotlib.plots`
+_`color.implementation.matplotlib.plots`
 =========================================
 
-.. automodule:: color.implementations.matplotlib.plots
+.. automodule:: color.implementation.matplotlib.plots
 
 Module Attributes
 -----------------
 
-.. attribute:: color.implementations.matplotlib.plots.LOGGER
+.. attribute:: color.implementation.matplotlib.plots.LOGGER
 
-.. attribute:: color.implementations.matplotlib.plots.RESOURCES_DIRECTORY
+.. attribute:: color.implementation.matplotlib.plots.RESOURCES_DIRECTORY
 
-.. attribute:: color.implementations.matplotlib.plots.DEFAULT_FIGURE_SIZE
+.. attribute:: color.implementation.matplotlib.plots.DEFAULT_FIGURE_SIZE
 
-.. attribute:: color.implementations.matplotlib.plots.DEFAULT_COLOR_CYCLE
+.. attribute:: color.implementation.matplotlib.plots.DEFAULT_COLOR_CYCLE
 
-.. attribute:: color.implementations.matplotlib.plots.COLOR_PARAMETER
+.. attribute:: color.implementation.matplotlib.plots.COLOR_PARAMETER
 
 Functions
 ---------

@@ -31,7 +31,7 @@ from collections import namedtuple
 import color.computation.blackbody
 import color.computation.transformations
 import color.computation.tristimulus
-import color.data.cmfs
+import color.dataset.cmfs
 import color.utilities.exceptions
 import color.utilities.verbose
 
@@ -181,7 +181,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
 
 def uv_to_CCT_ohno(uv,
-                   cmfs=color.data.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
+                   cmfs=color.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
                    start=CCT_MINIMAL,
                    end=CCT_MAXIMAL,
                    count=CCT_SAMPLES,
@@ -268,7 +268,7 @@ def uv_to_CCT_ohno(uv,
 
 def CCT_to_uv_ohno(CCT,
                    Duv=0.,
-                   cmfs=color.data.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
+                   cmfs=color.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
     Returns the *CIE UCS* colorspace *uv* chromaticity coordinates from given correlated color temperature, Duv and
     color matching functions using *Yoshi Ohno* calculation methods.

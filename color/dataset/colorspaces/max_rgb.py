@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ MAX_RGB_PRIMARIES = numpy.matrix([0.73413379, 0.26586621,
                                   0.10039113, 0.89960887,
                                   0.03621495, 0.]).reshape((3, 2))
 
-MAX_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+MAX_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 MAX_RGB_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(MAX_RGB_PRIMARIES,

@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,
                                       0.310, 0.595,
                                       0.155, 0.070]).reshape((3, 2))
 
-SMPTE_C_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+SMPTE_C_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 SMPTE_C_RGB_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(

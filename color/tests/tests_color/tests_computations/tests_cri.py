@@ -24,7 +24,7 @@ else:
     import unittest
 
 import color.computation.cri
-import color.data.illuminants.spds
+import color.dataset.illuminants.spds
 from color.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -132,13 +132,13 @@ class TestGetColorRenderingIndex(unittest.TestCase):
 
         self.assertAlmostEqual(
             color.computation.cri.get_color_rendering_index(
-                color.data.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("F2")),
+                color.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("F2")),
             64.1507331494,
             places=7)
 
         self.assertAlmostEqual(
             color.computation.cri.get_color_rendering_index(
-                color.data.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("A")),
+                color.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("A")),
             99.9978916846,
             places=7)
 

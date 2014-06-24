@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.colorspace import Colorspace

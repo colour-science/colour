@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.colorspace import Colorspace
@@ -45,7 +45,7 @@ PROPHOTO_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
                                        0.1596, 0.8404,
                                        0.0366, 0.0001]).reshape((3, 2))
 
-PROPHOTO_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+PROPHOTO_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = numpy.matrix([7.97667235e-01, 1.35192231e-01, 3.13525290e-02,

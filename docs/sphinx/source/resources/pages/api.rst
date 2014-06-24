@@ -45,19 +45,19 @@ Modules Summary:
    color.computations.difference <api/color.computations.difference>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
-   color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
-   color.implementations.maya.plots <api/color.implementations.maya.plots>
-   color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
+   color.implementation.matplotlib.plots <api/color.implementation.matplotlib.plots>
+   color.implementation.maya.plots <api/color.implementation.maya.plots>
+   color.implementation.nuke.lookup <api/color.implementation.nuke.lookup>
    color.lightness <api/color.lightness>
    color.computations.blackbody <api/color.computations.blackbody>
    color.spectrum.cfs <api/color.spectrum.cfs>
-   color.data.cmfs <api/color.data.cmfs>
+   color.dataset.cmfs <api/color.dataset.cmfs>
    color.spectrum.color_checkers <api/color.spectrum.color_checkers>
    color.spectrum.correction <api/color.spectrum.correction>
    color.computations.illuminants <api/color.computations.illuminants>
    color.spectrum.lefs <api/color.spectrum.lefs>
    color.spectrum.spd <api/color.spectrum.spd>
-   color.data.tcs <api/color.data.tcs>
+   color.dataset.tcs <api/color.dataset.tcs>
    color.spectrum.transformations <api/color.spectrum.transformations>
    color.temperature <api/color.temperature>
    color.computations.transformations <api/color.computations.transformations>

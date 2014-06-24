@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.verbose
 from color.computation.colorspace import Colorspace
@@ -46,7 +46,7 @@ sRGB_PRIMARIES = numpy.matrix([0.6400, 0.3300,
                                0.3000, 0.6000,
                                0.1500, 0.0600]).reshape((3, 2))
 
-sRGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+sRGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 sRGB_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,

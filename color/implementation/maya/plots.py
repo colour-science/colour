@@ -21,7 +21,7 @@ import color.computation.transformations
 
 import maya.cmds as cmds
 import maya.OpenMaya as OpenMaya
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.utilities.data_structures
 import color.utilities.verbose
 
@@ -126,7 +126,7 @@ def RGB_to_Lab(RGB, colorspace):
     return color.computation.transformations.XYZ_to_Lab(
         color.computation.transformations.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
                                                                              colorspace.whitepoint,
-                                                                             color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                             color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                                                                                  "CIE 1931 2 Degree Standard Observer").get(
                                                                                  "E"),
                                                                              "Bradford",

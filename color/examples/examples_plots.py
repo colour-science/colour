@@ -8,7 +8,7 @@ Showcases some **Color** package color plotting related examples.
 from numpy import matrix
 
 import color
-import color.data.color_checkers.spds
+import color.dataset.color_checkers.spds
 from color.implementation.matplotlib.plots import *
 
 # Plotting a single color.
@@ -799,7 +799,7 @@ multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd], title="S
 
 # Plotting multiple *ColorChecker* relative spectral power distributions.
 multi_spd_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
-                sorted(color.data.color_checkers.spds.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+                sorted(color.dataset.color_checkers.spds.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
                use_spds_colors=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
 

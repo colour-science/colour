@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.utilities.exceptions
 import color.utilities.data_structures
 import color.utilities.verbose
@@ -61,7 +61,7 @@ ACES_RGB_PRIMARIES = numpy.matrix([0.73470, 0.26530,
                                    0.00000, 1.00000,
                                    0.00010, -0.07700]).reshape((3, 2))
 
-ACES_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+ACES_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D60")
 
 # http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:

@@ -1,22 +1,22 @@
-_`color.data.cmfs`
+_`color.dataset.cmfs`
 ======================
 
-.. automodule:: color.data.cmfs
+.. automodule:: color.dataset.cmfs
 
 Module Attributes
 -----------------
 
-.. attribute:: color.data.cmfs.LOGGER
+.. attribute:: color.dataset.cmfs.LOGGER
 
-.. attribute:: color.data.cmfs.CIE_RGB_CMFS_DATA
+.. attribute:: color.dataset.cmfs.CIE_RGB_CMFS_DATA
 
-.. attribute:: color.data.cmfs.CIE_RGB_CMFS
+.. attribute:: color.dataset.cmfs.CIE_RGB_CMFS
 
-.. attribute:: color.data.cmfs.STANDARD_OBSERVERS_CMFS_DATA
+.. attribute:: color.dataset.cmfs.STANDARD_OBSERVERS_CMFS_DATA
 
-.. attribute:: color.data.cmfs.STANDARD_OBSERVERS_CMFS
+.. attribute:: color.dataset.cmfs.STANDARD_OBSERVERS_CMFS
 
-.. attribute:: color.data.cmfs.CMFS
+.. attribute:: color.dataset.cmfs.CMFS
 
 Classes
 -------

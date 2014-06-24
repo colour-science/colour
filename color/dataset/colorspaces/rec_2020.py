@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants
+import color.dataset.illuminants
 import color.utilities.exceptions
 import color.utilities.data_structures
 import color.utilities.verbose
@@ -47,7 +47,7 @@ REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,
                                    0.170, 0.797,
                                    0.131, 0.046]).reshape((3, 2))
 
-REC_2020_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+REC_2020_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 REC_2020_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(REC_2020_PRIMARIES, REC_2020_WHITEPOINT)

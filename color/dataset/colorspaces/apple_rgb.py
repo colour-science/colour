@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -46,7 +46,7 @@ APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,
                                     0.2800, 0.5950,
                                     0.1550, 0.0700]).reshape((3, 2))
 
-APPLE_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+APPLE_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 APPLE_RGB_TO_XYZ_MATRIX = color.computation.derivation.get_normalized_primary_matrix(APPLE_RGB_PRIMARIES,

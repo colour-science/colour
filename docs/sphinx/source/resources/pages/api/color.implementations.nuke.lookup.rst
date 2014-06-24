@@ -1,16 +1,16 @@
-_`color.implementations.nuke.lookup`
+_`color.implementation.nuke.lookup`
 ====================================
 
-.. automodule:: color.implementations.nuke.lookup
+.. automodule:: color.implementation.nuke.lookup
 
 Module Attributes
 -----------------
 
-.. attribute:: color.implementations.nuke.lookup.COLOR_LOOKUP_CURVES_TEMPLATE
+.. attribute:: color.implementation.nuke.lookup.COLOR_LOOKUP_CURVES_TEMPLATE
 
-.. attribute:: color.implementations.nuke.lookup.Point
+.. attribute:: color.implementation.nuke.lookup.Point
 
-.. attribute:: color.implementations.nuke.lookup.CurvesInformation
+.. attribute:: color.implementation.nuke.lookup.CurvesInformation
 
 Functions
 ---------

@@ -31,12 +31,12 @@ import pylab
 
 import color
 import color.algebra.matrix
-import color.data.cmfs
-import color.data.color_checkers.chromaticity_coordinates
-import color.data.colorspaces.pointer_gamut
-import color.data.colorspaces.srgb
-import color.data.illuminants.chromaticity_coordinates
-import color.data.illuminants.spds
+import color.dataset.cmfs
+import color.dataset.color_checkers.chromaticity_coordinates
+import color.dataset.colorspaces.pointer_gamut
+import color.dataset.colorspaces.srgb
+import color.dataset.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.spds
 import color.computation.blackbody
 import color.computation.cri
 import color.computation.lightness
@@ -122,12 +122,12 @@ def __get_cmfs(cmfs):
     :rtype: RGB_ColorMatchingFunctions or XYZ_ColorMatchingFunctions
     """
 
-    cmfs, name = color.data.cmfs.CMFS.get(cmfs), cmfs
+    cmfs, name = color.dataset.cmfs.CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise color.utilities.exceptions.ProgrammingError(
             "'{0}' not found in factory color matching functions: '{1}'.".format(name,
                                                                                  sorted(
-                                                                                     color.data.cmfs.CMFS.keys())))
+                                                                                     color.dataset.cmfs.CMFS.keys())))
     return cmfs
 
 
@@ -141,12 +141,12 @@ def __get_illuminant(illuminant):
     :rtype: SpectralPowerDistribution
     """
 
-    illuminant, name = color.data.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    illuminant, name = color.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise color.utilities.exceptions.ProgrammingError(
             "'{0}' not found in factory illuminants: '{1}'.".format(name,
                                                                     sorted(
-                                                                        color.data.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
+                                                                        color.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
@@ -191,7 +191,7 @@ def __get_color_cycle(color_map="hsv", count=len(DEFAULT_COLOR_CYCLE)):
     return itertools.cycle(color_cycle)
 
 
-def XYZ_to_sRGB(XYZ, illuminant=color.data.colorspaces.srgb.sRGB_COLORSPACE.whitepoint):
+def XYZ_to_sRGB(XYZ, illuminant=color.dataset.colorspaces.srgb.sRGB_COLORSPACE.whitepoint):
     """
     Converts from *CIE XYZ* colorspace to *sRGB* colorspace.
 
@@ -205,10 +205,10 @@ def XYZ_to_sRGB(XYZ, illuminant=color.data.colorspaces.srgb.sRGB_COLORSPACE.whit
 
     return color.computation.transformations.XYZ_to_RGB(XYZ,
                                             illuminant,
-                                            color.data.colorspaces.srgb.sRGB_COLORSPACE.whitepoint,
+                                            color.dataset.colorspaces.srgb.sRGB_COLORSPACE.whitepoint,
                                             "CAT02",
-                                            color.data.colorspaces.srgb.sRGB_COLORSPACE.from_XYZ,
-                                            color.data.colorspaces.srgb.sRGB_COLORSPACE.transfer_function)
+                                            color.dataset.colorspaces.srgb.sRGB_COLORSPACE.from_XYZ,
+                                            color.dataset.colorspaces.srgb.sRGB_COLORSPACE.transfer_function)
 
 
 def normalize_RGB(RGB):
@@ -576,12 +576,12 @@ def color_checker_plot(color_checker="ColorChecker 2005",
     :rtype: bool
     """
 
-    color_checker, name = color.data.color_checkers.chromaticity_coordinates.COLORCHECKERS.get(color_checker), color_checker
+    color_checker, name = color.dataset.color_checkers.chromaticity_coordinates.COLORCHECKERS.get(color_checker), color_checker
     if color_checker is None:
         raise color.utilities.exceptions.ProgrammingError(
             "Color checker '{0}' not found in color checkers: '{1}'.".format(name,
                                                                              sorted(
-                                                                                 color.data.color_checkers.chromaticity_coordinates.COLORCHECKERS.keys())))
+                                                                                 color.dataset.color_checkers.chromaticity_coordinates.COLORCHECKERS.keys())))
 
     _, data, illuminant = color_checker
     color_parameters = []
@@ -613,7 +613,7 @@ def color_checker_plot(color_checker="ColorChecker 2005",
 
     pylab.text(text_x,
                text_y,
-               "{0} - {1} - Color Rendition Chart".format(name, color.data.colorspaces.srgb.sRGB_COLORSPACE.name),
+               "{0} - {1} - Color Rendition Chart".format(name, color.dataset.colorspaces.srgb.sRGB_COLORSPACE.name),
                color="0.95",
                clip_on=True,
                ha="center")
@@ -963,7 +963,7 @@ def CIE_1931_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
+    illuminant = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
     XYZs = [value for key, value in cmfs]
 
@@ -1112,7 +1112,7 @@ def colorspaces_CIE_1931_chromaticity_diagram_plot(colorspaces=["sRGB", "ACES RG
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [-0.1], [0.9], [-0.1], [0.9]
     for colorspace in colorspaces:
         if colorspace == "Pointer Gamut":
-            x, y = zip(*color.data.colorspaces.pointer_gamut.POINTER_GAMUT_DATA)
+            x, y = zip(*color.dataset.colorspaces.pointer_gamut.POINTER_GAMUT_DATA)
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:
@@ -1173,7 +1173,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
     :rtype: bool
     """
 
-    cmfs = color.data.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.dataset.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1202,12 +1202,12 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
                        size="x-small")
 
     for illuminant in illuminants:
-        xy = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant)
+        xy = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
             raise color.utilities.exceptions.ProgrammingError(
                 "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
                                                                                    sorted(
-                                                                                       color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                       color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                                                                                            cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
@@ -1250,7 +1250,7 @@ def CIE_1960_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
+    illuminant = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
     UVWs = [color.computation.transformations.XYZ_to_UCS(value) for key, value in cmfs]
 
@@ -1385,7 +1385,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     :rtype: bool
     """
 
-    cmfs = color.data.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = color.dataset.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
@@ -1417,12 +1417,12 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
                        size="x-small")
 
     for illuminant in illuminants:
-        uv = xy_to_uv(color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant))
+        uv = xy_to_uv(color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
             raise color.utilities.exceptions.ProgrammingError(
                 "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
                                                                                    sorted(
-                                                                                       color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                       color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                                                                                            cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
@@ -1465,7 +1465,7 @@ def CIE_1976_UCS_chromaticity_diagram_colors_plot(surface=1.25,
 
     cmfs, name = __get_cmfs(cmfs), cmfs
 
-    illuminant = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
+    illuminant = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
     Luvs = [color.computation.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
@@ -1529,7 +1529,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     wavelengths = cmfs.wavelengths
     equal_energy = numpy.array([1. / 3.] * 2)
 
-    illuminant = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
+    illuminant = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
     Luvs = [color.computation.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 

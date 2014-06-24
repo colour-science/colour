@@ -25,7 +25,7 @@ else:
     import unittest
 
 import color.computation.cmfs
-import color.data.cmfs
+import color.dataset.cmfs
 from color.computation.cmfs import LMS_ConeFundamentals
 from color.computation.cmfs import RGB_ColorMatchingFunctions
 from color.computation.cmfs import XYZ_ColorMatchingFunctions
@@ -187,7 +187,7 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Change tests for tolerance testing.
-        cmfs = color.data.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
+        cmfs = color.dataset.cmfs.CMFS.get("CIE 1931 2 Degree Standard Observer")
         numpy.testing.assert_almost_equal(color.computation.cmfs.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
                                           cmfs.get(435),
                                           decimal=2)
@@ -212,7 +212,7 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Change tests for tolerance testing.
-        cmfs = color.data.cmfs.CMFS.get("CIE 1964 10 Degree Standard Observer")
+        cmfs = color.dataset.cmfs.CMFS.get("CIE 1964 10 Degree Standard Observer")
         numpy.testing.assert_almost_equal(color.computation.cmfs.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
                                           cmfs.get(435),
                                           decimal=1)

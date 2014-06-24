@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import color.data.illuminants.chromaticity_coordinates
+import color.dataset.illuminants.chromaticity_coordinates
 import color.computation.derivation
 import color.utilities.exceptions
 import color.utilities.verbose
@@ -164,7 +164,7 @@ ALEXA_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.6840, 0.3130,
                                                0.2210, 0.8480,
                                                0.0861, -0.1020]).reshape((3, 2))
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = color.data.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = color.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.matrix([0.638008, 0.214704, 0.097744,
