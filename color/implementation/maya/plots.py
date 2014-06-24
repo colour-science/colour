@@ -21,11 +21,9 @@ import color.computation.transformations
 
 import maya.cmds as cmds
 import maya.OpenMaya as OpenMaya
-import color.data.colorspaces
-import color.data.illuminants
+import color.data.illuminants.chromaticity_coordinates
 import color.utilities.data_structures
 import color.utilities.verbose
-
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

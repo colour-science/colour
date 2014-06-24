@@ -20,7 +20,6 @@ import foundations.exceptions
 
 import color.utilities.verbose
 
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
