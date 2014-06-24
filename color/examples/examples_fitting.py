@@ -6,7 +6,7 @@ Showcases some **Color** package color fitting related examples.
 """
 
 import numpy
-import color.implementations.fitting
+import color.implementation.fitting
 
 # Fitting measured *ColorChecker* color rendition chart data to a reference one.
 reference = numpy.array([[0.172906, 0.08205715, 0.05711951],
@@ -59,4 +59,4 @@ measured = numpy.array([[0.1557955891, 0.09715754539, 0.07514556497],
                         [0.102839753, 0.1042467952, 0.1038497463],
                         [0.04742204025, 0.04772202671, 0.04914225638]])
 
-print(color.implementations.fitting.first_order_color_fit(reference, measured))
+print(color.implementation.fitting.first_order_color_fit(reference, measured))

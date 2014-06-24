@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -17,13 +17,11 @@
 from __future__ import unicode_literals
 
 import bisect
-
 import numpy
 
 import color.algebra.common
 import color.utilities.exceptions
 import color.utilities.verbose
-
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -50,7 +48,7 @@ class SpragueInterpolator(object):
 
         >>> y = numpy.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
         >>> x = numpy.arange(len(y))
-        >>> f = SpragueInterpolator(x, y)
+        >>> f = color.SpragueInterpolator(x, y)
         <__main__.SpragueInterpolator object at 0x101845a90>
         >>> f(0.5)
         7.21850256056
@@ -215,7 +213,7 @@ class SpragueInterpolator(object):
         self.__validate_interpolation_range(x)
 
         if x in self.__x:
-            return self.__y[numpy.where(self.__x==x)][0]
+            return self.__y[numpy.where(self.__x == x)][0]
 
         i = bisect.bisect(self.__xp, x) - 1
         X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])

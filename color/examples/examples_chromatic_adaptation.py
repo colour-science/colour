@@ -18,7 +18,7 @@ print(color.get_chromatic_adaptation_matrix(source_XYZ_matrix, target_XYZ_matrix
 # Specifying *Bradford* adaptation method.
 print(color.get_chromatic_adaptation_matrix(source_XYZ_matrix, target_XYZ_matrix, method="Bradford"))
 
-# Using :mod:`color.illuminants` data and :mod:`color.transformations` transformations.
+# Using :mod:`color.illuminants` data and :mod:`color.computation.transformations` transformations.
 A_illuminant = color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["A"]
 D60_illuminant = color.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D60"]
 

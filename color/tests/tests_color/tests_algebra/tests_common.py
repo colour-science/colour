@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -16,8 +16,10 @@
 
 from __future__ import unicode_literals
 
-import numpy
 import sys
+
+import numpy
+
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest

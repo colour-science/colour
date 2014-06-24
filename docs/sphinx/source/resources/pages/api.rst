@@ -41,26 +41,26 @@ Modules Summary:
    color.colorspaces.xtreme_rgb <api/color.colorspaces.xtreme_rgb>
    color.cri <api/color.cri>
    color.deprecated <api/color.deprecated>
-   color.derivation <api/color.derivation>
-   color.difference <api/color.difference>
+   color.computations.derivation <api/color.computations.derivation>
+   color.computations.difference <api/color.computations.difference>
    color.globals.constants <api/color.globals.constants>
    color.illuminants <api/color.illuminants>
    color.implementations.matplotlib.plots <api/color.implementations.matplotlib.plots>
    color.implementations.maya.plots <api/color.implementations.maya.plots>
    color.implementations.nuke.lookup <api/color.implementations.nuke.lookup>
    color.lightness <api/color.lightness>
-   color.spectrum.blackbody <api/color.spectrum.blackbody>
+   color.computations.blackbody <api/color.computations.blackbody>
    color.spectrum.cfs <api/color.spectrum.cfs>
-   color.spectrum.cmfs <api/color.spectrum.cmfs>
+   color.data.cmfs <api/color.data.cmfs>
    color.spectrum.color_checkers <api/color.spectrum.color_checkers>
    color.spectrum.correction <api/color.spectrum.correction>
-   color.spectrum.illuminants <api/color.spectrum.illuminants>
+   color.computations.illuminants <api/color.computations.illuminants>
    color.spectrum.lefs <api/color.spectrum.lefs>
    color.spectrum.spd <api/color.spectrum.spd>
-   color.spectrum.tcs <api/color.spectrum.tcs>
+   color.data.tcs <api/color.data.tcs>
    color.spectrum.transformations <api/color.spectrum.transformations>
    color.temperature <api/color.temperature>
-   color.transformations <api/color.transformations>
+   color.computations.transformations <api/color.computations.transformations>
    color.utilities.data_structures <api/color.utilities.data_structures>
    color.utilities.decorators <api/color.utilities.decorators>
    color.utilities.exceptions <api/color.utilities.exceptions>

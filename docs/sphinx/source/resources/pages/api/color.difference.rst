@@ -1,12 +1,12 @@
-_`color.difference`
+_`color.computations.difference`
 ===================
 
-.. automodule:: color.difference
+.. automodule:: color.computations.difference
 
 Module Attributes
 -----------------
 
-.. attribute:: color.difference.LOGGER
+.. attribute:: color.computations.difference.LOGGER
 
 Functions
 ---------

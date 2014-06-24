@@ -8,7 +8,7 @@ Showcases some **Color** package *interpolation* related examples.
 import pylab
 
 import color
-import color.implementations.matplotlib.plots
+import color.implementation.matplotlib.plots
 
 
 # Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation methods.
@@ -106,9 +106,9 @@ settings = {"x_label": u"Wavelength λ (nm)",
             "y_ticker": True,
             "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
 
-color.implementations.matplotlib.plots.bounding_box(**settings)
-color.implementations.matplotlib.plots.aspect(**settings)
-color.implementations.matplotlib.plots.display(**settings)
+color.implementation.matplotlib.plots.bounding_box(**settings)
+color.implementation.matplotlib.plots.aspect(**settings)
+color.implementation.matplotlib.plots.display(**settings)
 
 # Comparing interpolation methods on problematic case.
 boron_spd_data = {
@@ -228,6 +228,6 @@ settings = {"x_label": u"Wavelength λ (nm)",
             "y_ticker": True,
             "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
 
-color.implementations.matplotlib.plots.bounding_box(**settings)
-color.implementations.matplotlib.plots.aspect(**settings)
-color.implementations.matplotlib.plots.display(**settings)
+color.implementation.matplotlib.plots.bounding_box(**settings)
+color.implementation.matplotlib.plots.aspect(**settings)
+color.implementation.matplotlib.plots.display(**settings)

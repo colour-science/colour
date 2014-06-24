@@ -6,11 +6,11 @@ _`color.spectrum.cfs`
 Module Attributes
 -----------------
 
-.. attribute:: color.spectrum.cfs.LOGGER
+.. attribute:: color.computations.cmfs.LOGGER
 
-.. attribute:: color.spectrum.cfs.LMS_CFS_DATA
+.. attribute:: color.computations.cmfs.LMS_CFS_DATA
 
-.. attribute:: color.spectrum.cfs.LMS_CFS
+.. attribute:: color.computations.cmfs.LMS_CFS
 
 Classes
 -------

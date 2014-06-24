@@ -1,28 +1,28 @@
-_`color.spectrum.blackbody`
+_`color.computations.blackbody`
 ===========================
 
-.. automodule:: color.spectrum.blackbody
+.. automodule:: color.computations.blackbody
 
 Module Attributes
 -----------------
 
-.. attribute:: color.spectrum.blackbody.LOGGER
+.. attribute:: color.computations.blackbody.LOGGER
 
-.. attribute:: color.spectrum.blackbody.LIGHT_SPEED_CONSTANT
+.. attribute:: color.computations.blackbody.LIGHT_SPEED_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.PLANCK_CONSTANT
+.. attribute:: color.computations.blackbody.PLANCK_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.BOLTZMANN_CONSTANT
+.. attribute:: color.computations.blackbody.BOLTZMANN_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.E_CONSTANT
+.. attribute:: color.computations.blackbody.E_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.C1_CONSTANT
+.. attribute:: color.computations.blackbody.C1_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.C2_CONSTANT
+.. attribute:: color.computations.blackbody.C2_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.N_CONSTANT
+.. attribute:: color.computations.blackbody.N_CONSTANT
 
-.. attribute:: color.spectrum.blackbody.blackbody_spectral_radiance
+.. attribute:: color.computations.blackbody.blackbody_spectral_radiance
 
 Functions
 ---------

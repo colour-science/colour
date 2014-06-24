@@ -8,8 +8,8 @@ Showcases some **Color** package color plotting related examples.
 from numpy import matrix
 
 import color
-import color.spectrum.color_checkers
-from color.implementations.matplotlib.plots import *
+import color.data.color_checkers.spds
+from color.implementation.matplotlib.plots import *
 
 # Plotting a single color.
 single_color_plot(color_parameter(name="Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)), text_size=32.)
@@ -799,7 +799,7 @@ multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd], title="S
 
 # Plotting multiple *ColorChecker* relative spectral power distributions.
 multi_spd_plot([color.COLORCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
-                sorted(color.spectrum.color_checkers.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+                sorted(color.data.color_checkers.spds.COLORCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
                use_spds_colors=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
 
@@ -809,8 +809,8 @@ single_cmfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals",
                  bounding_box=[390, 870, 0, 1.1])
 
 # Comparing given multiple *cone fundamentals* color matching functionss.
-multi_cmfs_plot("Stockman & Sharpe 2 Degree Cone Fundamentals",
-                "Stockman & Sharpe 10 Degree Cone Fundamentals",
+multi_cmfs_plot(["Stockman & Sharpe 2 Degree Cone Fundamentals",
+                "Stockman & Sharpe 10 Degree Cone Fundamentals"],
                 y_label="Sensitivity",
                 bounding_box=[390, 870, 0, 1.1])
 

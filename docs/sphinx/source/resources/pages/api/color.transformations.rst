@@ -1,12 +1,12 @@
-_`color.transformations`
+_`color.computations.transformations`
 ========================
 
-.. automodule:: color.transformations
+.. automodule:: color.computations.transformations
 
 Module Attributes
 -----------------
 
-.. attribute:: color.transformations.LOGGER
+.. attribute:: color.computations.transformations.LOGGER
 
 Functions
 ---------

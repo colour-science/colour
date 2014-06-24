@@ -1,12 +1,12 @@
-_`color.derivation`
+_`color.computations.derivation`
 ===================
 
-.. automodule:: color.derivation
+.. automodule:: color.computations.derivation
 
 Module Attributes
 -----------------
 
-.. attribute:: color.derivation.LOGGER
+.. attribute:: color.computations.derivation.LOGGER
 
 Functions
 ---------

@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package common utilities objects that don't fall in any specific category.
+    Defines **Color** package algebra common utilities objects that don't fall in any specific category.
 
 **Others:**
 
