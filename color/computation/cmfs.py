@@ -33,7 +33,9 @@ __all__ = ["LMS_ConeFundamentals",
            "RGB_ColorMatchingFunctions",
            "XYZ_ColorMatchingFunctions",
            "RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
-           "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs"]
+           "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs",
+           "RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
+           "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
@@ -403,7 +405,7 @@ class XYZ_ColorMatchingFunctions(SpectralPowerDistributionTriad):
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     """
-    Converts given *Wright & Guild 1931 2 Degree RGB CMFs* color matching functions into the
+    Converts *Wright & Guild 1931 2 Degree RGB CMFs* color matching functions into the
     *CIE 1931 2 Degree Standard Observer* color matching functions.
 
     Reference: Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Pages 138, 139.
@@ -411,34 +413,33 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Usage::
 
         >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
-        [[ 0.01135774]
-         [ 0.004102  ]
-         [ 0.        ]]
+        [ 0.01135774  0.004102    0.        ]
 
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
-    :rtype: matrix (3x1)
+    :rtype: ndarray (3x1)
     :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.dataset.cmfs.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
-    r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
-    if None in (r_bar, y_bar, z_bar):
+    # Accessing directly from *color* namespace to avoid circular imports issues.
+    cmfs = color.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
+    r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
+    if None in (r_bar, g_bar, b_bar):
         raise color.utilities.exceptions.ProgrammingError(
             "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
 
-    r = r_bar / (r_bar + y_bar + z_bar)
-    g = y_bar / (r_bar + y_bar + z_bar)
-    b = z_bar / (r_bar + y_bar + z_bar)
+    r = r_bar / (r_bar + g_bar + b_bar)
+    g = g_bar / (r_bar + g_bar + b_bar)
+    b = b_bar / (r_bar + g_bar + b_bar)
 
     x = (0.49000 * r + 0.31000 * g + 0.20000 * b) / (0.66697 * r + 1.13240 * g + 1.20063 * b)
     y = (0.17697 * r + 0.81240 * g + 0.01063 * b) / (0.66697 * r + 1.13240 * g + 1.20063 * b)
     z = (0.00000 * r + 0.01000 * g + 0.99000 * b) / (0.66697 * r + 1.13240 * g + 1.20063 * b)
 
-    V = color.dataset.lefs.PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer").clone()
+    V = color.PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer").clone()
     V.align(*cmfs.shape)
     L = V.get(wavelength)
 
@@ -451,7 +452,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     """
-    Converts given *Stiles & Burch 1959 10 Degree RGB CMFs* color matching
+    Converts *Stiles & Burch 1959 10 Degree RGB CMFs* color matching
     functions into the *CIE 1964 10 Degree Standard Observer* color matching functions.
 
     Reference: Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Page 141.
@@ -459,27 +460,131 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Usage::
 
         >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
-        [[ 0.01135774]
-         [ 0.004102  ]
-         [ 0.        ]]
+        [  9.64321500e-03   3.75263179e-03  -4.10788300e-06]
 
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
-    :rtype: matrix (3x1)
+    :rtype: ndarray (3x1)
     :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
-    cmfs = color.dataset.cmfs.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
-    r_bar, y_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
-    if None in (r_bar, y_bar, z_bar):
+    # Accessing directly from *color* namespace to avoid circular imports issues.
+    cmfs = color.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
+    if None in (r_bar, g_bar, b_bar):
         raise color.utilities.exceptions.ProgrammingError(
             "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
 
-    x_bar = 0.341080 * r_bar + 0.189145 * y_bar + 0.387529 * z_bar
-    y_bar = 0.139058 * r_bar + 0.837460 * y_bar + 0.073316 * z_bar
-    z_bar = 0.000000 * r_bar + 0.039553 * y_bar + 2.026200 * z_bar
+    x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
+    y_bar = 0.139058 * r_bar + 0.837460 * g_bar + 0.073316 * b_bar
+    z_bar = 0.000000 * r_bar + 0.039553 * g_bar + 2.026200 * b_bar
+
+    return numpy.array([x_bar, y_bar, z_bar])
+
+
+def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
+    """
+    Converts *Stiles & Burch 1959 10 Degree RGB CMFs* color matching
+    functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral sensitivity functions.
+
+    Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=48
+
+    Usage::
+
+        >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)
+        [ 0.00528607  0.00032528  0.        ]
+
+    :param wavelength: Wavelength in nm.
+    :type wavelength: float
+    :return: *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus values.
+    :rtype: ndarray (3x1)
+    :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, this definition is intended for educational purpose.
+    """
+
+    # Accessing directly from *color* namespace to avoid circular imports issues.
+    cmfs = color.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
+    if None in (r_bar, g_bar, z_bar):
+        raise color.utilities.exceptions.ProgrammingError(
+            "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
+                                                                                                           cmfs.name,
+                                                                                                           cmfs.shape))
+
+    l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
+    g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
+    z_bar = 0.0105107859 * g_bar + 0.991427669 * z_bar if wavelength <= 505 else 0.
+
+    return numpy.array([l_bar, g_bar, z_bar])
+
+
+def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
+    """
+    Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* color matching
+    functions into the *CIE 2012 2 Degree Standard Observer* color matching functions.
+
+    Reference: http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+
+    Usage::
+
+        >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
+        [ 0.01096778  0.00419594  0.        ]
+
+    :param wavelength: Wavelength in nm.
+    :type wavelength: float
+    :return: *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
+    :rtype: ndarray (3x1)
+    :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    """
+
+    # Accessing directly from *color* namespace to avoid circular imports issues.
+    cmfs = color.LMS_CMFS.get("Stockman & Sharpe 2 Degree Cone Fundamentals")
+    l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
+    if None in (l_bar, m_bar, s_bar):
+        raise color.utilities.exceptions.ProgrammingError(
+            "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
+                                                                                                           cmfs.name,
+                                                                                                           cmfs.shape))
+
+    x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
+    y_bar = 0.68990272 * l_bar + 0.34832189 * m_bar
+    z_bar = 1.93485343 * s_bar
+
+    return numpy.array([x_bar, y_bar, z_bar])
+
+
+def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
+    """
+    Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* color matching
+    functions into the *CIE 2012 10 Degree Standard Observer* color matching functions.
+
+    Reference: http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+
+    Usage::
+
+        >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
+        [ 0.00981623  0.00377614  0.        ]
+
+    :param wavelength: Wavelength in nm.
+    :type wavelength: float
+    :return: *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
+    :rtype: ndarray (3x1)
+    :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    """
+
+    # Accessing directly from *color* namespace to avoid circular imports issues.
+    cmfs = color.LMS_CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
+    l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
+    if None in (l_bar, m_bar, s_bar):
+        raise color.utilities.exceptions.ProgrammingError(
+            "'{0} nm' wavelength not available in '{1}' color matching functions with '{2}' shape!".format(wavelength,
+                                                                                                           cmfs.name,
+                                                                                                           cmfs.shape))
+
+    x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar
+    y_bar = 0.69283932 * l_bar + 0.34967567 * m_bar
+    z_bar = 2.14687945 * s_bar
 
     return numpy.array([x_bar, y_bar, z_bar])

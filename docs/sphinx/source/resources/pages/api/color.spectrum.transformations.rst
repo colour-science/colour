@@ -1,12 +1,12 @@
-_`color.spectrum.transformations`
+_`color`
 =================================
 
-.. automodule:: color.spectrum.transformations
+.. automodule:: color
 
 Module Attributes
 -----------------
 
-.. attribute:: color.spectrum.transformations.LOGGER
+.. attribute:: color.LOGGER
 
 Functions
 ---------

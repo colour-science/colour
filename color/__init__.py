@@ -31,7 +31,11 @@ from color.computation.blackbody import blackbody_spectral_power_distribution, b
 from color.computation.chromatic_adaptation import CHROMATIC_ADAPTATION_METHODS
 from color.computation.chromatic_adaptation import get_chromatic_adaptation_matrix
 from color.computation.cmfs import LMS_ConeFundamentals, RGB_ColorMatchingFunctions, XYZ_ColorMatchingFunctions
-from color.computation.cmfs import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs, RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
+from color.computation.cmfs import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
+from color.computation.cmfs import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
+from color.computation.cmfs import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
+from color.computation.cmfs import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
+from color.computation.cmfs import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from color.computation.colorspace import Colorspace
 from color.computation.correction import bandpass_correction, bandpass_correction_stearns
 from color.computation.cri import get_color_rendering_index
@@ -57,7 +61,7 @@ from color.computation.transformations import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv,
 from color.computation.transformations import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from color.computation.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
-from color.dataset.cmfs import CMFS, LMS_ConeFundamentals, RGB_CMFS, STANDARD_OBSERVERS_CMFS
+from color.dataset.cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
 from color.dataset.color_checkers.chromaticity_coordinates import COLORCHECKERS
 from color.dataset.color_checkers.spds import COLORCHECKERS_SPDS
 from color.dataset.colorspaces.aces_rgb import ACES_RGB_COLORSPACE, ACES_RGB_LOG_COLORSPACE
@@ -121,7 +125,11 @@ __all__.extend(["CHROMATIC_ADAPTATION_METHODS", "get_chromatic_adaptation_matrix
 
 # *color.computation.cmfs* objects.
 __all__.extend(["LMS_ConeFundamentals", "RGB_ColorMatchingFunctions", "XYZ_ColorMatchingFunctions"])
-__all__.extend(["RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs", "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs"])
+__all__.extend(["RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
+                "RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
+                "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs",
+                "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
+                "LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs"])
 
 # *color.computation.colorspaces* objects.
 __all__.extend(["Colorspace"])
@@ -172,7 +180,7 @@ __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
 __all__.extend(["spectral_to_XYZ", "wavelength_to_XYZ"])
 
 # *color.dataset.cmfs* objects.
-__all__.extend(["CMFS", "LMS_ConeFundamentals", "RGB_CMFS", "STANDARD_OBSERVERS_CMFS"])
+__all__.extend(["CMFS", "LMS_CMFS", "RGB_CMFS", "STANDARD_OBSERVERS_CMFS"])
 
 # *color.dataset.color_checkers.chromaticity_coordinates* objects.
 __all__.extend(["COLORCHECKERS"])

@@ -2136,22 +2136,22 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
                          "z": "z_bar"}
 
         self.__triad = SpectralPowerDistributionTriad(name="Triad",
-                                                      mapping=self.__mapping,
                                                       data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+                                                      mapping=self.__mapping,
                                                       labels=self.__labels)
 
         self.__sample_triad = SpectralPowerDistributionTriad(name="Sample Triad",
-                                                             mapping=self.__mapping,
                                                              data={"x_bar": SAMPLE_SPD_DATA,
                                                                     "y_bar": SAMPLE_SPD_DATA,
                                                                     "z_bar": SAMPLE_SPD_DATA},
+                                                             mapping=self.__mapping,
                                                              labels=self.__labels)
 
         self.__non_uniform_sample_triad = SpectralPowerDistributionTriad(name="Non Uniform Sample Triad",
-                                                                         mapping=self.__mapping,
                                                                          data={"x_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
                                                                                 "y_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
                                                                                 "z_bar": NON_UNIFORM_SAMPLE_SPD_DATA},
+                                                                         mapping=self.__mapping,
                                                                          labels=self.__labels)
 
         self.__phi = (1. + math.sqrt(5)) / 2.

@@ -58,7 +58,7 @@ Modules Summary:
    color.spectrum.lefs <api/color.spectrum.lefs>
    color.spectrum.data <api/color.spectrum.data>
    color.dataset.tcs <api/color.dataset.tcs>
-   color.spectrum.transformations <api/color.spectrum.transformations>
+   color <api/color>
    color.temperature <api/color.temperature>
    color.computations.transformations <api/color.computations.transformations>
    color.utilities.data_structures <api/color.utilities.data_structures>
