@@ -15,16 +15,6 @@ Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `Colo
 _`Highlights`
 -------------
 
-- Photopic & Scotopic luminous efficiency functions spectral data:
-
-  -  CIE 1924 Photopic Standard Observer
-  -  Judd Modified CIE 1951 Photopic Standard Observer
-  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  CIE 1964 Photopic 10° Standard Observer
-  -  CIE 2008 2° Physiologically Relevant LEF
-  -  CIE 2008 10° Physiologically Relevant LEF
-  -  CIE 1951 Scotopic Standard Observer
-
 -  RGB and XYZ color matching functions spectral data:
 
   -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
@@ -39,6 +29,16 @@ _`Highlights`
 
   -  Stockman & Sharpe 2° Cone Fundamentals.
   -  Stockman & Sharpe 10° Cone Fundamentals.
+
+- Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 Photopic Standard Observer
+  -  Judd Modified CIE 1951 Photopic Standard Observer
+  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
+  -  CIE 1964 Photopic 10° Standard Observer
+  -  CIE 2008 2° Physiologically Relevant LEF
+  -  CIE 2008 10° Physiologically Relevant LEF
+  -  CIE 1951 Scotopic Standard Observer
 
 -  Illuminants spectral data:
 
@@ -91,7 +91,15 @@ _`Highlights`
   -  Yoshi Ohno method implementation.
   -  CIE D-illuminant implementation.
 
--  Spectral power distribution data manipulation and conversion to color.
+-  Color matching functions conversions for educational purpose:
+
+  -  Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer
+  -  Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer
+  -  Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals
+  -  Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer
+  -  Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer
+
+-  Spectral power distribution data manipulation and conversion to tristimulus values.
 -  Blackbody spectral radiance calculation.
 -  Spectral bandpass correction.
 -  Sprague interpolation.

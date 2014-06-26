@@ -77,6 +77,16 @@ Color Matching Functions
 
 `CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
+**Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
+
+**Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
+
+`Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
+
+`Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
+
+`Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
+
 Cone Fundamentals
 -----------------
 

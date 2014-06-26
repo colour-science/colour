@@ -11,16 +11,6 @@ Introduction
 
 Highlights:
 
--  Photopic & Scotopic luminous efficiency functions spectral data:
-
-  -  CIE 1924 Photopic Standard Observer
-  -  Judd Modified CIE 1951 Photopic Standard Observer
-  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  CIE 1964 Photopic 10° Standard Observer
-  -  CIE 2008 2° Physiologically Relevant LEF
-  -  CIE 2008 10° Physiologically Relevant LEF
-  -  CIE 1951 Scotopic Standard Observer
-
 -  RGB and XYZ color matching functions spectral data:
 
   -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
@@ -35,6 +25,16 @@ Highlights:
 
   -  Stockman & Sharpe 2° Cone Fundamentals.
   -  Stockman & Sharpe 10° Cone Fundamentals.
+
+-  Photopic & Scotopic luminous efficiency functions spectral data:
+
+  -  CIE 1924 Photopic Standard Observer
+  -  Judd Modified CIE 1951 Photopic Standard Observer
+  -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
+  -  CIE 1964 Photopic 10° Standard Observer
+  -  CIE 2008 2° Physiologically Relevant LEF
+  -  CIE 2008 10° Physiologically Relevant LEF
+  -  CIE 1951 Scotopic Standard Observer
 
 -  Illuminants spectral data:
 
@@ -87,7 +87,15 @@ Highlights:
   -  Yoshi Ohno method implementation.
   -  CIE D-illuminant implementation.
 
--  Spectral power distribution data manipulation and conversion to color.
+-  Color matching functions conversions for educational purpose:
+
+  -  Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer
+  -  Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer
+  -  Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals
+  -  Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer
+  -  Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer
+
+-  Spectral power distribution data manipulation and conversion to tristimulus values.
 -  Blackbody spectral radiance calculation.
 -  Spectral bandpass correction.
 -  Sprague interpolation.
@@ -315,6 +323,18 @@ Color Matching Functions
 `CIE 2012 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
 `CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+`CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+
+**Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
+
+**Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
+
+`Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
+
+`Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
+
+`Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
 
 Cone Fundamentals
 -----------------
