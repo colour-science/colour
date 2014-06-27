@@ -26,7 +26,7 @@ else:
     import unittest
 
 from color.computation.spectrum import SpectralPowerDistribution
-from color.computation.spectrum import SpectralPowerDistributionTriad
+from color.computation.spectrum import TriSpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -44,7 +44,7 @@ __all__ = ["SAMPLE_SPD_DATA",
            "CIE_1931_2_DEGREE_STANDARD_OBSERVER",
            "CMFS_DATA",
            "TestSpectralPowerDistribution",
-           "TestSpectralPowerDistributionTriad"]
+           "TestTriSpectralPowerDistribution"]
 
 SAMPLE_SPD_DATA = {
     340: 0.0000,
@@ -2117,9 +2117,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         self.assertFalse(self.__spd is self.__spd.clone())
 
 
-class TestSpectralPowerDistributionTriad(unittest.TestCase):
+class TestTriSpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :class:`color.computation.spectrum.SpectralPowerDistributionTriad` class units tests methods.
+    Defines :class:`color.computation.spectrum.TriSpectralPowerDistribution` class units tests methods.
     """
 
     def setUp(self):
@@ -2135,22 +2135,22 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
                          "y": "y_bar",
                          "z": "z_bar"}
 
-        self.__triad = SpectralPowerDistributionTriad(name="Triad",
+        self.__tri_spd = TriSpectralPowerDistribution(name="Tri Spd",
                                                       data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
                                                       mapping=self.__mapping,
                                                       labels=self.__labels)
 
-        self.__sample_triad = SpectralPowerDistributionTriad(name="Sample Triad",
+        self.__sample_tri_spd = TriSpectralPowerDistribution(name="Sample Tri Spd",
                                                              data={"x_bar": SAMPLE_SPD_DATA,
-                                                                    "y_bar": SAMPLE_SPD_DATA,
-                                                                    "z_bar": SAMPLE_SPD_DATA},
+                                                                   "y_bar": SAMPLE_SPD_DATA,
+                                                                   "z_bar": SAMPLE_SPD_DATA},
                                                              mapping=self.__mapping,
                                                              labels=self.__labels)
 
-        self.__non_uniform_sample_triad = SpectralPowerDistributionTriad(name="Non Uniform Sample Triad",
+        self.__non_uniform_sample_tri_spd = TriSpectralPowerDistribution(name="Non Uniform Sample Tri spd",
                                                                          data={"x_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
-                                                                                "y_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
-                                                                                "z_bar": NON_UNIFORM_SAMPLE_SPD_DATA},
+                                                                               "y_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
+                                                                               "z_bar": NON_UNIFORM_SAMPLE_SPD_DATA},
                                                                          mapping=self.__mapping,
                                                                          labels=self.__labels)
 
@@ -2173,7 +2173,7 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
                                "shape")
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(SpectralPowerDistributionTriad))
+            self.assertIn(attribute, dir(TriSpectralPowerDistribution))
 
     def test_required_methods(self):
         """
@@ -2190,22 +2190,22 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
                             "clone")
 
         for method in required_methods:
-            self.assertIn(method, dir(SpectralPowerDistributionTriad))
+            self.assertIn(method, dir(TriSpectralPowerDistribution))
 
     def test_wavelengths(self):
         """
-        Tests :attr:`color.computation.spectrum.SpectralPowerDistributionTriad.wavelengths` attribute.
+        Tests :attr:`color.computation.spectrum.TriSpectralPowerDistribution.wavelengths` attribute.
         """
 
-        numpy.testing.assert_almost_equal(self.__triad.wavelengths,
+        numpy.testing.assert_almost_equal(self.__tri_spd.wavelengths,
                                           sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get("x_bar")))
 
     def test_values(self):
         """
-        Tests :attr:`color.computation.spectrum.SpectralPowerDistributionTriad.values` attribute.
+        Tests :attr:`color.computation.spectrum.TriSpectralPowerDistribution.values` attribute.
         """
 
-        numpy.testing.assert_almost_equal(self.__triad.values,
+        numpy.testing.assert_almost_equal(self.__tri_spd.values,
                                           numpy.array(zip(*([v for k, v in sorted(
                                               CIE_1931_2_DEGREE_STANDARD_OBSERVER.get("x_bar").items())],
                                                             [v for k, v in sorted(
@@ -2217,217 +2217,217 @@ class TestSpectralPowerDistributionTriad(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`color.computation.spectrum.SpectralPowerDistributionTriad.shape` attribute.
+        Tests :attr:`color.computation.spectrum.TriSpectralPowerDistribution.shape` attribute.
         """
 
-        self.assertTupleEqual(self.__triad.shape, (380, 780, 5))
+        self.assertTupleEqual(self.__tri_spd.shape, (380, 780, 5))
 
     def test__getitem__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__getitem__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__getitem__` method.
         """
 
-        numpy.testing.assert_almost_equal(self.__triad[380], numpy.array((0.001368, 3.9e-05, 0.00645)))
-        numpy.testing.assert_almost_equal(self.__triad[600], numpy.array((1.0622, 0.631, 0.0008)))
-        numpy.testing.assert_almost_equal(self.__triad[700], numpy.array((0.011359, 0.004102, 0.)))
+        numpy.testing.assert_almost_equal(self.__tri_spd[380], numpy.array((0.001368, 3.9e-05, 0.00645)))
+        numpy.testing.assert_almost_equal(self.__tri_spd[600], numpy.array((1.0622, 0.631, 0.0008)))
+        numpy.testing.assert_almost_equal(self.__tri_spd[700], numpy.array((0.011359, 0.004102, 0.)))
 
     def test__iter__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__iter__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__iter__` method.
         """
 
-        self.assertEqual(dict([(key, tuple(value)) for key, value in self.__triad]), CMFS_DATA)
+        self.assertEqual(dict([(key, tuple(value)) for key, value in self.__tri_spd]), CMFS_DATA)
 
     def test__contains__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__contains__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__contains__` method.
         """
 
-        self.assertIn(380, self.__triad)
-        self.assertIn(460, self.__triad)
-        self.assertNotIn(461, self.__triad)
+        self.assertIn(380, self.__tri_spd)
+        self.assertIn(460, self.__tri_spd)
+        self.assertNotIn(461, self.__tri_spd)
 
     def test__len__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__len__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__len__` method.
         """
 
-        self.assertEqual(len(self.__triad), 81)
+        self.assertEqual(len(self.__tri_spd), 81)
 
     def test__eq__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__eq__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__eq__` method.
         """
 
-        clone_triad = self.__triad.clone()
+        clone_tri_spd = self.__tri_spd.clone()
 
-        self.assertEqual(self.__triad, clone_triad)
+        self.assertEqual(self.__tri_spd, clone_tri_spd)
 
     def test__ne__(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.__ne__` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.__ne__` method.
         """
 
-        clone_triad = self.__triad.clone()
-        clone_triad[500] = (0., 0., 0.)
+        clone_tri_spd = self.__tri_spd.clone()
+        clone_tri_spd[500] = (0., 0., 0.)
 
-        self.assertNotEqual(self.__triad, clone_triad)
+        self.assertNotEqual(self.__tri_spd, clone_tri_spd)
 
     def test__add__(self):
         """
         Tests :func:`color.computation.spectrum.SpectralDistribution.__add__` method.
         """
 
-        triad = self.__triad.clone()
-        values = triad.values
-        numpy.testing.assert_almost_equal((triad + self.__phi).values, values + self.__phi)
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        numpy.testing.assert_almost_equal((tri_spd + self.__phi).values, values + self.__phi)
 
-        triad = self.__triad.clone()
-        values = triad.values
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
         random = numpy.random.random(values.shape)
-        numpy.testing.assert_almost_equal((triad + random).values, values + random)
+        numpy.testing.assert_almost_equal((tri_spd + random).values, values + random)
 
     def test__sub__(self):
         """
         Tests :func:`color.computation.spectrum.SpectralDistribution.__sub__` method.
         """
 
-        triad = self.__triad.clone()
-        values = triad.values
-        numpy.testing.assert_almost_equal((triad - self.__phi).values, values - self.__phi)
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        numpy.testing.assert_almost_equal((tri_spd - self.__phi).values, values - self.__phi)
 
-        triad = self.__triad.clone()
-        values = triad.values
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
         random = numpy.random.random(values.shape)
-        numpy.testing.assert_almost_equal((triad - random).values, values - random)
+        numpy.testing.assert_almost_equal((tri_spd - random).values, values - random)
 
     def test__mul__(self):
         """
         Tests :func:`color.computation.spectrum.SpectralDistribution.__mul__` method.
         """
 
-        triad = self.__triad.clone()
-        values = triad.values
-        numpy.testing.assert_almost_equal((triad * self.__phi).values, values * self.__phi)
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        numpy.testing.assert_almost_equal((tri_spd * self.__phi).values, values * self.__phi)
 
-        triad = self.__triad.clone()
-        values = triad.values
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
         random = numpy.random.random(values.shape)
-        numpy.testing.assert_almost_equal((triad * random).values, values * random)
+        numpy.testing.assert_almost_equal((tri_spd * random).values, values * random)
 
     def test__div__(self):
         """
         Tests :func:`color.computation.spectrum.SpectralDistribution.__div__` method.
         """
 
-        triad = self.__triad.clone()
-        values = triad.values
-        numpy.testing.assert_almost_equal((triad / self.__phi).values, values / self.__phi)
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        numpy.testing.assert_almost_equal((tri_spd / self.__phi).values, values / self.__phi)
 
-        triad = self.__triad.clone()
-        values = triad.values
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
         random = numpy.random.random(values.shape)
-        numpy.testing.assert_almost_equal((triad / random).values, values / random)
+        numpy.testing.assert_almost_equal((tri_spd / random).values, values / random)
 
     def test_get(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.get` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.get` method.
         """
 
-        numpy.testing.assert_almost_equal(self.__triad.get(380), numpy.array((0.001368, 3.9e-05, 0.00645)))
-        numpy.testing.assert_almost_equal(self.__triad.get(600), numpy.array((1.0622, 0.631, 0.0008)))
-        numpy.testing.assert_almost_equal(self.__triad.get(700), numpy.array((0.011359, 0.004102, 0.)))
-        numpy.testing.assert_almost_equal(self.__triad.get(900, (0, 0, 0)), numpy.array((0, 0, 0)))
+        numpy.testing.assert_almost_equal(self.__tri_spd.get(380), numpy.array((0.001368, 3.9e-05, 0.00645)))
+        numpy.testing.assert_almost_equal(self.__tri_spd.get(600), numpy.array((1.0622, 0.631, 0.0008)))
+        numpy.testing.assert_almost_equal(self.__tri_spd.get(700), numpy.array((0.011359, 0.004102, 0.)))
+        numpy.testing.assert_almost_equal(self.__tri_spd.get(900, (0, 0, 0)), numpy.array((0, 0, 0)))
 
     def test_is_uniform(self):
         """
         Tests :func:`color.computation.spectrum.SpectralDistribution.is_uniform` method.
         """
 
-        self.assertTrue(self.__triad.is_uniform())
+        self.assertTrue(self.__tri_spd.is_uniform())
 
     def test_extrapolate(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.extrapolate` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.extrapolate` method.
         """
 
         spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
-        triad = SpectralPowerDistributionTriad(name="",
+        tri_spd = TriSpectralPowerDistribution(name="",
                                                mapping=self.__mapping,
                                                data={"x_bar": spd_data,
-                                                      "y_bar": spd_data,
-                                                      "z_bar": spd_data},
+                                                     "y_bar": spd_data,
+                                                     "z_bar": spd_data},
                                                labels=self.__labels)
 
-        triad.extrapolate(10, 50)
+        tri_spd.extrapolate(10, 50)
 
-        self.assertEqual(triad.x[10], 0)
-        self.assertEqual(triad.y[10], 0)
-        self.assertEqual(triad.z[10], 0)
+        self.assertEqual(tri_spd.x[10], 0)
+        self.assertEqual(tri_spd.y[10], 0)
+        self.assertEqual(tri_spd.z[10], 0)
 
-        self.assertEqual(triad.x[50], 1)
-        self.assertEqual(triad.y[50], 1)
-        self.assertEqual(triad.z[50], 1)
+        self.assertEqual(tri_spd.x[50], 1)
+        self.assertEqual(tri_spd.y[50], 1)
+        self.assertEqual(tri_spd.z[50], 1)
 
     def test_interpolate(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.interpolate` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.interpolate` method.
         """
 
-        triad = self.__sample_triad.clone()
+        tri_spd = self.__sample_tri_spd.clone()
 
-        triad.interpolate(steps=1)
+        tri_spd.interpolate(steps=1)
         for i in sorted(self.__mapping.iterkeys()):
-            numpy.testing.assert_almost_equal(getattr(triad, i).values, INTERPOLATED_SAMPLE_SPD_DATA)
+            numpy.testing.assert_almost_equal(getattr(tri_spd, i).values, INTERPOLATED_SAMPLE_SPD_DATA)
 
-        triad = self.__non_uniform_sample_triad.clone()
+        tri_spd = self.__non_uniform_sample_tri_spd.clone()
 
-        triad.interpolate(steps=1)
+        tri_spd.interpolate(steps=1)
         for i in sorted(self.__mapping.iterkeys()):
-            numpy.testing.assert_almost_equal(getattr(triad, i).values, INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
+            numpy.testing.assert_almost_equal(getattr(tri_spd, i).values, INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
 
     def test_align(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.align` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.align` method.
         """
 
-        triad = self.__sample_triad.clone()
+        tri_spd = self.__sample_tri_spd.clone()
 
         shape = (100, 900, 5)
-        self.assertEqual(triad.align(*shape).shape, shape)
+        self.assertEqual(tri_spd.align(*shape).shape, shape)
         shape = (600, 650, 1)
-        self.assertEqual(triad.align(*shape).shape, shape)
+        self.assertEqual(tri_spd.align(*shape).shape, shape)
 
     def test_zeros(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.zeros` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.zeros` method.
         """
 
-        triad = SpectralPowerDistributionTriad(name="",
+        tri_spd = TriSpectralPowerDistribution(name="",
                                                mapping=self.__mapping,
                                                data={"x_bar": SAMPLE_SPD_DATA,
-                                                      "y_bar": SAMPLE_SPD_DATA,
-                                                      "z_bar": SAMPLE_SPD_DATA},
+                                                     "y_bar": SAMPLE_SPD_DATA,
+                                                     "z_bar": SAMPLE_SPD_DATA},
                                                labels=self.__labels).clone()
 
-        triad.zeros(steps=1)
+        tri_spd.zeros(steps=1)
         for i in self.__mapping.iterkeys():
-            numpy.testing.assert_almost_equal(getattr(triad, i).values, ZEROS_SAMPLE_SPD_DATA)
+            numpy.testing.assert_almost_equal(getattr(tri_spd, i).values, ZEROS_SAMPLE_SPD_DATA)
 
     def test_normalize(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.normalize` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.normalize` method.
         """
 
-        numpy.testing.assert_almost_equal(self.__sample_triad.clone().normalize(100.).values,
+        numpy.testing.assert_almost_equal(self.__sample_tri_spd.clone().normalize(100.).values,
                                           numpy.array([[x] * 3 for x in NORMALIZED_SAMPLE_SPD_DATA]))
 
     def test_clone(self):
         """
-        Tests :func:`color.computation.spectrum.SpectralPowerDistributionTriad.clone` method.
+        Tests :func:`color.computation.spectrum.TriSpectralPowerDistribution.clone` method.
         """
 
-        self.assertFalse(self.__triad is self.__triad.clone())
+        self.assertFalse(self.__tri_spd is self.__tri_spd.clone())
 
 
 if __name__ == "__main__":

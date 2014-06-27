@@ -15,7 +15,7 @@ Classes
 	:show-inheritance:
 	:members:
 
-.. autoclass:: SpectralPowerDistributionTriad
+.. autoclass:: TriSpectralPowerDistribution
 	:show-inheritance:
 	:members:
 

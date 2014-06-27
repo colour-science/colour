@@ -48,7 +48,7 @@ from color.computation.lightness import lightness_1958, lightness_1964, lightnes
 from color.computation.lightness import luminance_1943, luminance_1976
 from color.computation.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
 from color.computation.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNCTIONS
-from color.computation.spectrum import SpectralPowerDistribution, SpectralPowerDistributionTriad
+from color.computation.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from color.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
 from color.computation.temperature import uv_to_CCT, uv_to_CCT_ohno, uv_to_CCT_robertson
 from color.computation.temperature import D_illuminant_CCT_to_xy
@@ -160,7 +160,7 @@ __all__.extend(["munsell_value_1920", "munsell_value_1933", "munsell_value_1943"
 __all__.extend(["LIGHTNESS_FUNCTIONS", "MUNSELL_VALUE_FUNCTIONS"])
 
 # *color.computation.spectrum* objects.
-__all__.extend(["SpectralPowerDistribution", "SpectralPowerDistributionTriad"])
+__all__.extend(["SpectralPowerDistribution", "TriSpectralPowerDistribution"])
 
 # *color.computation.temperature* objects.
 __all__.extend(["CCT_to_uv", "CCT_to_uv_ohno", "CCT_to_uv_robertson",

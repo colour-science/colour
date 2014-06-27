@@ -34,7 +34,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["SpectralPowerDistribution",
-           "SpectralPowerDistributionTriad"]
+           "TriSpectralPowerDistribution"]
 
 LOGGER = color.utilities.verbose.install_logger()
 
@@ -500,9 +500,9 @@ class SpectralPowerDistribution(object):
                                                                                              steps)))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
-                               for wavelength in numpy.arange(max(start, shape_start),
-                                                              min(end, shape_end) + steps,
-                                                              steps)])
+                                for wavelength in numpy.arange(max(start, shape_start),
+                                                               min(end, shape_end) + steps,
+                                                               steps)])
         return self
 
     def align(self, start, end, steps):
@@ -568,22 +568,22 @@ class SpectralPowerDistribution(object):
         return copy.deepcopy(self)
 
 
-class SpectralPowerDistributionTriad(object):
+class TriSpectralPowerDistribution(object):
     """
-    Defines a spectral power distribution triad implementation.
+    Defines a tri-spectral power distribution implementation.
     """
 
     def __init__(self, name, data, mapping, labels):
         """
         Initializes the class.
 
-        :param name: Spectral power distribution triad name.
+        :param name: Tri-spectral power distribution name.
         :type name: str or unicode
-        :param data: Spectral power distribution triad data.
+        :param data: Tri-spectral power distribution data.
         :type data: dict
-        :param mapping: Spectral power distribution triad attributes mapping.
+        :param mapping: Tri-spectral power distribution attributes mapping.
         :type mapping: dict
-        :param labels: Spectral power distribution triad axis labels mapping.
+        :param labels: Tri-spectral power distribution axis labels mapping.
         :type labels: dict
         """
 
@@ -1005,33 +1005,33 @@ class SpectralPowerDistributionTriad(object):
 
         return len(self.x)
 
-    def __eq__(self, triad):
+    def __eq__(self, tri_spd):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param triad: Spectral power distribution triad to compare for equality.
-        :type triad: SpectralPowerDistributionTriad
-        :return: Spectral power distribution triad equality.
+        :param tri_spd: Tri-spectral power distribution to compare for equality.
+        :type tri_spd: TriSpectralPowerDistribution
+        :return: Tri-spectral power distribution equality.
         :rtype: bool
         """
 
         equality = True
         for axis in self.__mapping:
-            equality *= getattr(self, axis) == getattr(triad, axis)
+            equality *= getattr(self, axis) == getattr(tri_spd, axis)
 
         return equality
 
-    def __ne__(self, triad):
+    def __ne__(self, tri_spd):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param triad: Spectral power distribution triad to compare for inequality.
-        :type triad: SpectralPowerDistributionTriad
-        :return: Spectral power distribution triad inequality.
+        :param tri_spd: Tri-spectral power distribution to compare for inequality.
+        :type tri_spd: TriSpectralPowerDistribution
+        :return: Tri-spectral power distribution inequality.
         :rtype: bool
         """
 
-        return not (self == triad)
+        return not (self == tri_spd)
 
     def __add__(self, x):
         """
@@ -1039,8 +1039,8 @@ class SpectralPowerDistributionTriad(object):
 
         :param x: Variable to add.
         :type x: float or ndarray
-        :return: Variable added spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Variable added tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         values = self.values + x
@@ -1056,8 +1056,8 @@ class SpectralPowerDistributionTriad(object):
 
         :param x: Variable to subtract.
         :type x: float or ndarray
-        :return: Variable subtracted spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Variable subtracted tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         return self + (-x)
@@ -1068,8 +1068,8 @@ class SpectralPowerDistributionTriad(object):
 
         :param x: Variable to multiply.
         :type x: float or ndarray
-        :return: Variable multiplied spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Variable multiplied tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         values = self.values * x
@@ -1085,15 +1085,15 @@ class SpectralPowerDistributionTriad(object):
 
         :param x: Variable to divide.
         :type x: float or ndarray
-        :return: Variable divided spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Variable divided tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         return self * (1. / x)
 
     def is_uniform(self):
         """
-        Returns if the spectral power distribution triad have uniformly spaced data.
+        Returns if the tri-spectral power distribution have uniformly spaced data.
 
         :return: Is uniform.
         :rtype: bool
@@ -1123,7 +1123,7 @@ class SpectralPowerDistributionTriad(object):
 
     def extrapolate(self, start=None, end=None):
         """
-        Extrapolates the spectral power distribution triad according to *CIE 15:2004* recommendation.
+        Extrapolates the tri-spectral power distribution according to *CIE 15:2004* recommendation.
 
         Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
 
@@ -1131,8 +1131,8 @@ class SpectralPowerDistributionTriad(object):
         :type start: float
         :param end: Wavelengths range end in nm.
         :type end: float
-        :return: Extrapolated spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Extrapolated tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
@@ -1142,7 +1142,7 @@ class SpectralPowerDistributionTriad(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the spectral power distribution triad following *CIE 167:2005* recommendations.
+        Interpolates the tri-spectral power distribution following *CIE 167:2005* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1150,8 +1150,8 @@ class SpectralPowerDistributionTriad(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Interpolated spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Interpolated tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
@@ -1161,7 +1161,7 @@ class SpectralPowerDistributionTriad(object):
 
     def align(self, start, end, steps):
         """
-        Aligns the spectral power distribution triad to given shape: Interpolates first then extrapolates to fit the given range.
+        Aligns the tri-spectral power distribution to given shape: Interpolates first then extrapolates to fit the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1169,8 +1169,8 @@ class SpectralPowerDistributionTriad(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Aligned spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Aligned tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
@@ -1181,7 +1181,7 @@ class SpectralPowerDistributionTriad(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the spectral power distribution triad: Missing values will be replaced with zeros to fit the defined range.
+        Zeros fills the tri-spectral power distribution: Missing values will be replaced with zeros to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -1189,8 +1189,8 @@ class SpectralPowerDistributionTriad(object):
         :type end: float
         :param steps: Wavelengths range steps.
         :type steps: float
-        :return: Zeros filled spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Zeros filled tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
@@ -1200,12 +1200,12 @@ class SpectralPowerDistributionTriad(object):
 
     def normalize(self, factor=1.):
         """
-        Normalizes the spectral power distribution triad with given normalization factor.
+        Normalizes the tri-spectral power distribution with given normalization factor.
 
         :param factor: Normalization factor
         :type factor: float
-        :return: Normalized spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Normalized tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
@@ -1215,10 +1215,10 @@ class SpectralPowerDistributionTriad(object):
 
     def clone(self):
         """
-        Clones the spectral power distribution triad.
+        Clones the tri-spectral power distribution.
 
-        :return: Cloned spectral power distribution triad.
-        :rtype: SpectralPowerDistributionTriad
+        :return: Cloned tri-spectral power distribution.
+        :rtype: TriSpectralPowerDistribution
         """
 
         return copy.deepcopy(self)

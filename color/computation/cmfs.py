@@ -20,7 +20,7 @@ import numpy
 
 import color.utilities.exceptions
 import color.utilities.verbose
-from color.computation.spectrum import SpectralPowerDistributionTriad
+from color.computation.spectrum import TriSpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -40,24 +40,24 @@ __all__ = ["LMS_ConeFundamentals",
 LOGGER = color.utilities.verbose.install_logger()
 
 
-class LMS_ConeFundamentals(SpectralPowerDistributionTriad):
+class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
     Defines a *LMS* cone fundamentals implementation object.
     """
 
-    def __init__(self, name, triad):
+    def __init__(self, name, data):
         """
         Initializes the class.
 
         :param name: Standard observer color matching functions name.
         :type name: unicode
-        :param triad: Standard observer color matching functions.
-        :type triad: dict
+        :param data: Standard observer color matching functions.
+        :type data: dict
         """
 
-        SpectralPowerDistributionTriad.__init__(self,
+        TriSpectralPowerDistribution.__init__(self,
                                                 name,
-                                                triad,
+                                                data,
                                                 mapping={"x": "l_bar",
                                                          "y": "m_bar",
                                                          "z": "s_bar"},
@@ -162,24 +162,24 @@ class LMS_ConeFundamentals(SpectralPowerDistributionTriad):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "s_bar"))
 
 
-class RGB_ColorMatchingFunctions(SpectralPowerDistributionTriad):
+class RGB_ColorMatchingFunctions(TriSpectralPowerDistribution):
     """
     Defines a *CIE RGB* standard observer color matching functions object implementation.
     """
 
-    def __init__(self, name, triad):
+    def __init__(self, name, data):
         """
         Initializes the class.
 
         :param name: Standard observer color matching functions name.
         :type name: unicode
-        :param triad: Standard observer color matching functions.
-        :type triad: dict
+        :param data: Standard observer color matching functions.
+        :type data: dict
         """
 
-        SpectralPowerDistributionTriad.__init__(self,
+        TriSpectralPowerDistribution.__init__(self,
                                                 name,
-                                                triad,
+                                                data,
                                                 mapping={"x": "r_bar",
                                                          "y": "g_bar",
                                                          "z": "b_bar"},
@@ -284,24 +284,24 @@ class RGB_ColorMatchingFunctions(SpectralPowerDistributionTriad):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
 
 
-class XYZ_ColorMatchingFunctions(SpectralPowerDistributionTriad):
+class XYZ_ColorMatchingFunctions(TriSpectralPowerDistribution):
     """
     Defines an *CIE XYZ* standard observer color matching functions object implementation.
     """
 
-    def __init__(self, name, triad):
+    def __init__(self, name, data):
         """
         Initializes the class.
 
         :param name: Standard observer color matching functions name.
         :type name: unicode
-        :param triad: Standard observer color matching functions.
-        :type triad: dict
+        :param data: Standard observer color matching functions.
+        :type data: dict
         """
 
-        SpectralPowerDistributionTriad.__init__(self,
+        TriSpectralPowerDistribution.__init__(self,
                                                 name,
-                                                triad,
+                                                data,
                                                 mapping={"x": "x_bar",
                                                          "y": "y_bar",
                                                          "z": "z_bar"},
