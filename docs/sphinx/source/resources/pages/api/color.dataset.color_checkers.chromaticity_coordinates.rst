@@ -8,7 +8,7 @@ Module Attributes
 
 .. attribute:: color.dataset.color_checkers.chromaticity_coordinates.LOGGER
 
-.. attribute:: color.dataset.color_checkers.chromaticity_coordinates.COLORCHECKER_INXYY
+.. attribute:: color.dataset.color_checkers.chromaticity_coordinates.COLOURCHECKER_INXYY
 
 .. attribute:: color.dataset.color_checkers.chromaticity_coordinates.COLORCHECKER
 

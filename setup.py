@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Color** package setup file.
+    Defines **Colour** package setup file.
 
 **Others:**
 
@@ -21,7 +21,7 @@ import re
 from setuptools import setup
 from setuptools import find_packages
 
-import color.globals.constants
+import colour.globals.constants
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -43,8 +43,8 @@ def get_long_description():
 
     description = []
     with codecs.open("README.rst",
-                     encoding=color.globals.constants.Constants.default_codec,
-                     errors=color.globals.constants.Constants.codec_error) as file:
+                     encoding=colour.globals.constants.Constants.default_codec,
+                     errors=colour.globals.constants.Constants.codec_error) as file:
         for line in file:
             if ".. code:: python" in line and len(description) >= 2:
                 blockLine = description[-2]
@@ -56,16 +56,16 @@ def get_long_description():
     return "".join(description)
 
 
-setup(name="{0}Science".format(color.globals.constants.Constants.application_name),
-      version=color.globals.constants.Constants.version,
-      author=color.globals.constants.__author__,
-      author_email=color.globals.constants.__email__,
+setup(name="{0}Science".format(colour.globals.constants.Constants.application_name),
+      version=colour.globals.constants.Constants.version,
+      author=colour.globals.constants.__author__,
+      author_email=colour.globals.constants.__email__,
       include_package_data=True,
       packages=find_packages(),
       scripts=[],
-      url="https://github.com/KelSolaar/Color",
+      url="https://github.com/KelSolaar/Colour",
       license="",
-      description="Color is a Python color science package implementing a comprehensive number of color transformations and manipulations objects.",
+      description="Colour is a Python colour science package implementing a comprehensive number of colour transformations and manipulations objects.",
       long_description=get_long_description(),
       install_requires=["Foundations>=2.1.0", "matplotlib>=1.3.1", "numpy>=1.8.1"],
       classifiers=["Development Status :: 5 - Production/Stable",

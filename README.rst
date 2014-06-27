@@ -1,39 +1,39 @@
-Color
-=====
+Colour
+======
 
-..  image:: https://secure.travis-ci.org/KelSolaar/Color.png?branch=master
-..  image:: https://gemnasium.com/KelSolaar/Color.png
+..  image:: https://secure.travis-ci.org/KelSolaar/Colour.png?branch=master
+..  image:: https://gemnasium.com/KelSolaar/Colour.png
 
 Introduction
 ------------
 
-**Color** is a **Python** color science package implementing a comprehensive number of color theory transformations and algorithms.
+**Colour** is a **Python** colour science package implementing a comprehensive number of colour theory transformations and algorithms.
 
 Highlights:
 
--  RGB and XYZ color matching functions spectral data:
+-  RGB and XYZ colour matching functions spectral data:
 
-  -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
-  -  Stiles & Burch 1955 2° RGB CMFs RGB color matching functions.
-  -  Stiles & Burch 1959 10° RGB CMFs RGB color matching functions.
-  -  CIE 1931 2° Standard Observer XYZ color matching functions.
-  -  CIE 1964 10° Standard Observer XYZ color matching functions.
-  -  CIE 2012 2° Standard Observer XYZ color matching functions.
-  -  CIE 2012 10° Standard Observer XYZ color matching functions.
+  -  Wright & Guild 1931 2 Degree RGB CMFs RGB colour matching functions.
+  -  Stiles & Burch 1955 2 Degree RGB CMFs RGB colour matching functions.
+  -  Stiles & Burch 1959 10 Degree RGB CMFs RGB colour matching functions.
+  -  CIE 1931 2 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 1964 10 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 2012 2 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 2012 10 Degree Standard Observer XYZ colour matching functions.
 
 -  Cone fundamentals spectral data:
 
-  -  Stockman & Sharpe 2° Cone Fundamentals.
-  -  Stockman & Sharpe 10° Cone Fundamentals.
+  -  Stockman & Sharpe 2 Degree Cone Fundamentals.
+  -  Stockman & Sharpe 10 Degree Cone Fundamentals.
 
 -  Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 Photopic Standard Observer
   -  Judd Modified CIE 1951 Photopic Standard Observer
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  CIE 1964 Photopic 10° Standard Observer
-  -  CIE 2008 2° Physiologically Relevant LEF
-  -  CIE 2008 10° Physiologically Relevant LEF
+  -  CIE 1964 Photopic 10 Degree Standard Observer
+  -  CIE 2008 2 Degree Physiologically Relevant LEF
+  -  CIE 2008 10 Degree Physiologically Relevant LEF
   -  CIE 1951 Scotopic Standard Observer
 
 -  Illuminants spectral data:
@@ -80,20 +80,20 @@ Highlights:
   -  HP4
   -  HP5
 
--  Color rendition charts spectral data.
--  Correlated color temperature calculation:
+-  Colour rendition charts spectral data.
+-  Correlated colour temperature calculation:
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
   -  CIE D-illuminant implementation.
 
--  Color matching functions conversions for educational purpose:
+-  Colour matching functions conversions for educational purpose:
 
-  -  Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer
-  -  Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer
-  -  Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals
-  -  Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer
-  -  Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer
+  -  Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer
+  -  Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer
+  -  Stiles & Burch 1959 10 Degree RGB CMFs to Stockman & Sharpe 10 Degree Cone Fundamentals
+  -  Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer
+  -  Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer
 
 -  Spectral power distribution data manipulation and conversion to tristimulus values.
 -  Blackbody spectral radiance calculation.
@@ -119,7 +119,7 @@ Highlights:
   -  Lightness 1964
   -  Lightness 1976
 
--  RGB Colorspaces support:
+-  RGB Colourspaces support:
 
   -  ACES RGB
   -  ACES RGB Log
@@ -149,7 +149,7 @@ Highlights:
   -  Xtreme RGB
   -  sRGB
 
--  Colorspaces transformations:
+-  Colourspaces transformations:
 
   -  Wavelength to XYZ.
   -  Spectral to XYZ.
@@ -194,18 +194,18 @@ Convenience deprecated transformations:
   -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Colorspaces derivation.
--  Color difference calculation with following methods:
+-  Colourspaces derivation.
+-  Colour difference calculation with following methods:
 
   -  ΔE CIE 1976.
   -  ΔE CIE 1994.
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
--  Color rendering index calculation.
--  Color rendition chart data.
--  Colorspaces visualisation within **Autodesk Maya**.
--  First order color fit.
+-  Colour rendering index calculation.
+-  Colour rendition chart data.
+-  Colourspaces visualisation within **Autodesk Maya**.
+-  First order colour fit.
 -  Comprehensive plotting capabilities.
 
 Installation
@@ -215,18 +215,18 @@ The following dependencies are needed:
 
 -  **Python 2.6.7** or **Python 2.7.3**: http://www.python.org/
 
-To install **Color** from the `Python Package Index <http://pypi.python.org/pypi/ColorScience>`_ you can issue this command in a shell::
+To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/ColourScience>`_ you can issue this command in a shell::
 
-    pip install ColorScience
+    pip install ColourScience
 
 or this alternative command::
 
-    easy_install ColorScience
+    easy_install ColourScience
 
-You can also install directly from `Github <http://github.com/KelSolaar/Color>`_ source repository::
+You can also install directly from `Github <http://github.com/KelSolaar/Colour>`_ source repository::
 
-	git clone git://github.com/KelSolaar/Color.git
-	cd Color
+	git clone git://github.com/KelSolaar/Colour.git
+	cd Colour
 	python setup.py install
 
 If you want to build the documentation you will also need:
@@ -255,11 +255,11 @@ References
 
 **Richard Sewall Hunter**, *The Measurement of Appearance, 2nd Edition*, published August 25, 1987, ISBN-13: 978-0471830061
 
-**Edward J. Giorgianni & Thomas E. Madden**, *Digital Color Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
+**Edward J. Giorgianni & Thomas E. Madden**, *Digital Colour Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
 
 **Charles Poynton**, *Digital Video and HD: Algorithms and Interfaces*, The Morgan Kaufmann Series in Computer Graphics, published December 2, 2012, ISBN-13: 978-0123919267
 
-**Charles Poynton**, `Color FAQ <http://www.poynton.com/ColorFAQ.html>`_
+**Charles Poynton**, `Color FAQ <http://www.poynton.com/ColourFAQ.html>`_
 
 **Charles Poynton**, `Gamma FAQ <http://www.poynton.com/GammaFAQ.html>`_
 
@@ -279,25 +279,25 @@ Chromatic Adaptation
 
 `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
 
-Color Rendering Index
----------------------
-
-**Yoshi Ohno**, `Color Rendering Index <http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls>`_ (Last accessed 10 June 2014)
-
-Color Rendition Charts
+Colour Rendering Index
 ----------------------
+
+**Yoshi Ohno**, `Colour Rendering Index <http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls>`_ (Last accessed 10 June 2014)
+
+Colour Rendition Charts
+-----------------------
 
 `Babel Color ColorChecker RGB and Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
 
 **N. Ohta**, `ColorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
 
-Colorspace Derivation
----------------------
+Colourspace Derivation
+----------------------
 
-`Colorspace Derivation <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
+`Colourspace Derivation <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
 
-Color Difference
-----------------
+Colour Difference
+-----------------
 
 **Bruce Lindbloom**, `ΔE CIE 1976 <http://brucelindbloom.com/Eqn_DeltaE_CIE76.html>`_ (Last accessed 24 February 2014)
 
@@ -307,41 +307,41 @@ Color Difference
 
 **Bruce Lindbloom**, `ΔE CMC <http://brucelindbloom.com/Eqn_DeltaE_CMC.html>`_ (Last accessed 24 February 2014)
 
-Color Matching Functions
-------------------------
+Colour Matching Functions
+-------------------------
 
-`Wright & Guild 1931 2° RGB CMFs <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
+`Wright & Guild 1931 2 Degree RGB CMFs <http://www.cis.rit.edu/mcsl/research/1931.php>`_ (Last accessed 12 June 2014)
 
-`Stiles & Burch 1955 2° RGB CMFs <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1955 2 Degree RGB CMFs <http://www.cvrl.org/stilesburch2_ind.htm>`_ (Last accessed 24 February 2014)
 
-`Stiles & Burch 1959 10° RGB CMFs <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
+`Stiles & Burch 1959 10 Degree RGB CMFs <http://www.cvrl.org/stilesburch10_ind.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1931 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1931 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 1964 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2012 2° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2012 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
+`CIE 2012 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 
-**Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
+**Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
 
-**Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
+**Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
 
-`Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
+`Stiles & Burch 1959 10 Degree RGB CMFs to Stockman & Sharpe 10 Degree Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
 
-`Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
+`Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
 
-`Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
+`Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
 
 Cone Fundamentals
 -----------------
 
-`Stockman & Sharpe 2° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
+`Stockman & Sharpe 2 Degree Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
 
-`Stockman & Sharpe 10° Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
+`Stockman & Sharpe 10 Degree Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
 
 Deprecated Transformations
 --------------------------
@@ -484,11 +484,11 @@ Luminous Efficiency Functions
 
 `Judd-Vos Modified CIE 1978 Photopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`CIE 1964 Photopic 10° Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
+`CIE 1964 Photopic 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 
-`CIE 2008 2° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 2 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
-`CIE 2008 10° Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
+`CIE 2008 10 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
 `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 
@@ -499,66 +499,66 @@ Planc's Law
 
 `Planck's Law <http://en.wikipedia.org/wiki/Planck's_law>`_ (Last accessed 24 February 2014)
 
-RGB Colorspaces
----------------
+RGB Colourspaces
+----------------
 
-`ACES RGB Colorspace <http://www.oscars.org/science-technology/council/projects/aces.html>`_ (Last accessed 24 February 2014)
+`ACES RGB Colourspace <http://www.oscars.org/science-technology/council/projects/aces.html>`_ (Last accessed 24 February 2014)
 
-`ACES RGB Log Colorspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_ (Last accessed 17 May 2014)
+`ACES RGB Log Colourspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_ (Last accessed 17 May 2014)
 
-`ACES RGB Proxy 10 Colorspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_ (Last accessed 17 May 2014)
+`ACES RGB Proxy 10 Colourspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_ (Last accessed 17 May 2014)
 
-`ACES RGB Proxy 12 Colorspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_ (Last accessed 17 May 2014)
+`ACES RGB Proxy 12 Colourspace <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_ (Last accessed 17 May 2014)
 
-`Adobe RGB 1998 Colorspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
+`Adobe RGB 1998 Colourspace <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_ (Last accessed 24 February 2014)
 
-`Adobe Wide Gamut RGB Colorspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
+`Adobe Wide Gamut RGB Colourspace <http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space>`_ (Last accessed 13 April 2014)
 
-`ALEXA Wide Gamut RGB Colorspace <http://www.arri.com/?eID=registration&file_uid=8026>`_ (Last accessed 13 April 2014)
+`ALEXA Wide Gamut RGB Colourspace <http://www.arri.com/?eID=registration&file_uid=8026>`_ (Last accessed 13 April 2014)
 
-`Apple RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
+`Apple RGB Colourspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
-`Best RGB Colorspace <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)
+`Best RGB Colourspace <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)
 
-`Beta RGB Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
+`Beta RGB Colourspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 
-`CIE RGB Colorspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
+`CIE RGB Colourspace <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
 
-`C-Log Colorspace <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_ (Last accessed 18 April 2014)
+`C-Log Colourspace <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_ (Last accessed 18 April 2014)
 
 `ColorMatch Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 12 April 2014)
 
-`DCI-P3 Colorspace <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_ (Last accessed 24 February 2014)
+`DCI-P3 Colourspace <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_ (Last accessed 24 February 2014)
 
-`Don RGB 4 Colorspace <http://www.hutchcolor.com/profiles/DonRGB4.zip>`_ (Last accessed 12 April 2014)
+`Don RGB 4 Colourspace <http://www.hutchcolor.com/profiles/DonRGB4.zip>`_ (Last accessed 12 April 2014)
 
-`ECI RGB v2 Colorspace <http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip>`_ (Last accessed 13 April 2014)
+`ECI RGB v2 Colourspace <http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip>`_ (Last accessed 13 April 2014)
 
-`Ekta Space PS 5 Colorspace <http://www.josephholmes.com/Ekta_Space.zip>`_ (Last accessed 13 April 2014)
+`Ekta Space PS 5 Colourspace <http://www.josephholmes.com/Ekta_Space.zip>`_ (Last accessed 13 April 2014)
 
-`Max RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+`Max RGB Colourspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
-`NTSC RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+`NTSC RGB Colourspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
-`Pal/Secam RGB Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+`Pal/Secam RGB Colourspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
 `Pointer's Gamut <http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls>`_ (Last accessed 24 February 2014)
 
-`ProPhoto RGB Colorspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
+`ProPhoto RGB Colourspace <http://www.color.org/ROMMRGB.pdf>`_ (Last accessed 24 February 2014)
 
-`Rec. 709 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
+`Rec. 709 Colourspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
 
-`Rec. 2020 Colorspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
+`Rec. 2020 Colourspace <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_ (Last accessed 13 April 2014)
 
-`Russell RGB Colorspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
+`Russell RGB Colourspace <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
 
-`S-Log Colorspace <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
+`S-Log Colourspace <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
 
-`SMPTE-C RGB Colorspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
+`SMPTE-C RGB Colourspace <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
 
-`sRGB Colorspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
+`sRGB Colourspace <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
 
-`Xtreme RGB Colorspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+`Xtreme RGB Colourspace <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
 
 Spectral
 --------
@@ -618,7 +618,7 @@ Transformations
 About
 -----
 
-| **Color** by Thomas Mansencal - Michael Parsons - 2013 - 2014
+| **Colour** by Thomas Mansencal - Michael Parsons - 2013 - 2014
 | Copyright © 2013 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
 | `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_

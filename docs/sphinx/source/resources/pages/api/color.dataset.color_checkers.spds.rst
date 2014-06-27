@@ -8,7 +8,7 @@ Module Attributes
 
 .. attribute:: color.dataset.color_checkers.spds.LOGGER
 
-.. attribute:: color.dataset.color_checkers.spds.COLORCHECKER_INDEXES_TO_NAMES_MAPPING
+.. attribute:: color.dataset.color_checkers.spds.COLOURCHECKER_INDEXES_TO_NAMES_MAPPING
 
 .. attribute:: color.dataset.color_checkers.spds.COLORCHECKER_N_OHTA_SPDS_DATA
 

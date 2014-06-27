@@ -31,9 +31,9 @@ Functions
 
 .. autofunction:: display
 
-.. autofunction:: color_parameter
+.. autofunction:: colour_parameter
 
-.. autofunction:: color_parameters_plot
+.. autofunction:: colour_parameters_plot
 
 .. autofunction:: single_color_plot
 

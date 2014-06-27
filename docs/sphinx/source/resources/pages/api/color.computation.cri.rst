@@ -13,5 +13,5 @@ Module Attributes
 Functions
 ---------
 
-.. autofunction:: get_color_rendering_index
+.. autofunction:: get_colour_rendering_index
 

@@ -20,5 +20,5 @@ Module Attributes
 
 .. attribute:: color.dataset.colorspaces.dci_p3.DCI_P3_INVERSE_TRANSFER_FUNCTION
 
-.. attribute:: color.dataset.colorspaces.dci_p3.DCI_P3_COLORSPACE
+.. attribute:: color.dataset.colorspaces.dci_p3.DCI_P3_COLOURSPACE
 
