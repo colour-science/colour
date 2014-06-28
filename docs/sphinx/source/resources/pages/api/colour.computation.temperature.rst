@@ -43,5 +43,11 @@ Functions
 
 .. autofunction:: CCT_to_uv
 
+.. autofunction:: xy_to_CCT_mccamy
+
+.. autofunction:: xy_to_CCT_lee
+
 .. autofunction:: CCT_to_xy_D_illuminant
+
+.. autofunction:: xy_to_CCT
 

@@ -89,7 +89,9 @@ _`Highlights`
 
   -  Roberston method implementation.
   -  Yoshi Ohno method implementation.
-  -  CIE D-illuminant implementation.
+  -  McCamy method implementation.
+  -  Hernandez-Andres, Lee & Romero method implementation.
+  -  CIE Illuminant D Series implementation.
 
 -  Colour matching functions conversions for educational purpose:
 
@@ -182,7 +184,6 @@ _`Highlights`
   -  LCHab to Lab.
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
-  -  D-illuminant CCT to xy.
 
 Convenience deprecated transformations:
 

@@ -299,11 +299,15 @@
 					</ul>
 					<blockquote>
 						<ul class="simple">
-							<li>Wyszecki &amp; Roberston method implementation.
+							<li>Roberston method implementation.
 							</li>
 							<li>Yoshi Ohno method implementation.
 							</li>
-							<li>CIE D-illuminant implementation.
+							<li>McCamy method implementation.
+							</li>
+							<li>Hernandez-Andres, Lee &amp; Romero method implementation.
+							</li>
+							<li>CIE Illuminant D Series implementation.
 							</li>
 						</ul>
 					</blockquote>
@@ -498,8 +502,6 @@
 							<li>uv to CCT, Duv.
 							</li>
 							<li>CCT, Duv to uv.
-							</li>
-							<li>D-illuminant CCT to xy.
 							</li>
 						</ul>
 					</blockquote>
@@ -785,6 +787,26 @@ python setup.py install
 					</p>
 					<p>
 						<a class="reference external" href="http://www.cvrl.org/cones.htm">Stockman &amp; Sharpe 10 Degree Cone Fundamentals</a> (Last accessed 23 June 2014)
+					</p>
+				</div>
+				<div class="section" id="correlated-colour-temperature">
+					<h2>
+						Correlated Colour Temperature
+					</h2>
+					<p>
+						<strong>A. R. Roberston</strong>, <strong>Adobe DNG SDK 1.3.0.0</strong>: <em>dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp</em> (Last accessed 2 Decembr 2013)
+					</p>
+					<p>
+						<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
+					</p>
+					<p>
+						<strong>C. S. McCamy</strong>, <a class="reference external" href="http://en.wikipedia.org/wiki/Color_temperature#Approximation">Correlated Colour Temperature Approximation</a> (Last accessed 28 June 2014)
+					</p>
+					<p>
+						<strong>Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero</strong>, <a class="reference external" href="http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf">Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities</a> (Last accessed 28 June 2014)
+					</p>
+					<p>
+						<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_T_to_xy.html">CIE Illuminant D Series Temperature</a> (Last accessed 9 June 2014)
 					</p>
 				</div>
 				<div class="section" id="deprecated-transformations">
@@ -1202,7 +1224,7 @@ python setup.py install
 					<!-- .about -->
 				</div>
 			</div>
-			<div class="section" id="id13">
+			<div class="section" id="id14">
 				<h1>
 					<span class="target" id="about">About</span>
 				</h1>

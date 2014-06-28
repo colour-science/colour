@@ -425,7 +425,7 @@ Correlated Colour Temperature
 **Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across
 the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
 
-**Bruce Lindbloom**, `CIE Illuminant D Series Temperature< http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 9 June 2014)
+**Bruce Lindbloom**, `CIE Illuminant D Series Temperature <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 9 June 2014)
 
 Deprecated Transformations
 --------------------------
