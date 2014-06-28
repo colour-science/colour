@@ -65,7 +65,7 @@ class SpragueInterpolator(object):
 
     def __init__(self, x=None, y=None):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param x: Independent *x* variable values corresponding with *y* variable.
         :type x: ndarray

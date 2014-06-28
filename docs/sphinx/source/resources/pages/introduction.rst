@@ -1,43 +1,43 @@
 _`Introduction`
 ===============
 
-**Color** is a **Python** color science package implementing a comprehensive number of color theory transformations and algorithms.
+**Colour** is a **Python** colour science package implementing a comprehensive number of colour theory transformations and algorithms.
 
 _`History`
 ----------
 
-**Color** started as a raw conversion building block for `The Moving Picture Company <http://www.moving-picture.com>`_ stills ingestion pipeline.
+**Colour** started as a raw conversion building block for `The Moving Picture Company <http://www.moving-picture.com>`_ stills ingestion pipeline.
 
 Generic objects have been extracted, reorganised and are now provided as a nice packaged API while keeping the undisclosable code private. The original `MPC <http://www.moving-picture.com>`_ *camelCase* naming convention and code style has been changed for *Pep8* compliance.
 
-Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ **Python** package.
+Matplotlib implementation idea is coming from the excellent *Mark Kness*'s `ColorPy <http://markkness.net/colorpy/ColourPy.html>`_ **Python** package.
 
 _`Highlights`
 -------------
 
--  RGB and XYZ color matching functions spectral data:
+-  RGB and XYZ colour matching functions spectral data:
 
-  -  Wright & Guild 1931 2° RGB CMFs RGB color matching functions.
-  -  Stiles & Burch 1955 2° RGB CMFs RGB color matching functions.
-  -  Stiles & Burch 1959 10° RGB CMFs RGB color matching functions.
-  -  CIE 1931 2° Standard Observer XYZ color matching functions.
-  -  CIE 1964 10° Standard Observer XYZ color matching functions.
-  -  CIE 2012 2° Standard Observer XYZ color matching functions.
-  -  CIE 2012 10° Standard Observer XYZ color matching functions.
+  -  Wright & Guild 1931 2 Degree RGB CMFs RGB colour matching functions.
+  -  Stiles & Burch 1955 2 Degree RGB CMFs RGB colour matching functions.
+  -  Stiles & Burch 1959 10 Degree RGB CMFs RGB colour matching functions.
+  -  CIE 1931 2 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 1964 10 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 2012 2 Degree Standard Observer XYZ colour matching functions.
+  -  CIE 2012 10 Degree Standard Observer XYZ colour matching functions.
 
 -  Cone fundamentals spectral data:
 
-  -  Stockman & Sharpe 2° Cone Fundamentals.
-  -  Stockman & Sharpe 10° Cone Fundamentals.
+  -  Stockman & Sharpe 2 Degree Cone Fundamentals.
+  -  Stockman & Sharpe 10 Degree Cone Fundamentals.
 
 - Photopic & Scotopic luminous efficiency functions spectral data:
 
   -  CIE 1924 Photopic Standard Observer
   -  Judd Modified CIE 1951 Photopic Standard Observer
   -  Judd-Vos Modified CIE 1978 Photopic Standard Observer
-  -  CIE 1964 Photopic 10° Standard Observer
-  -  CIE 2008 2° Physiologically Relevant LEF
-  -  CIE 2008 10° Physiologically Relevant LEF
+  -  CIE 1964 Photopic 10 Degree Standard Observer
+  -  CIE 2008 2 Degree Physiologically Relevant LEF
+  -  CIE 2008 10 Degree Physiologically Relevant LEF
   -  CIE 1951 Scotopic Standard Observer
 
 -  Illuminants spectral data:
@@ -84,20 +84,20 @@ _`Highlights`
   -  HP4
   -  HP5
 
--  Color rendition charts spectral data.
--  Correlated color temperature calculation:
+-  Colour rendition charts spectral data.
+-  Correlated colour temperature calculation:
 
   -  Wyszecki & Roberston method implementation.
   -  Yoshi Ohno method implementation.
   -  CIE D-illuminant implementation.
 
--  Color matching functions conversions for educational purpose:
+-  Colour matching functions conversions for educational purpose:
 
-  -  Wright & Guild 1931 2° RGB CMFs to CIE 1931 2° Standard Observer
-  -  Stiles & Burch 1959 10° RGB CMFs to CIE 1964 10° Standard Observer
-  -  Stiles & Burch 1959 10° RGB CMFs to Stockman & Sharpe 10° Cone Fundamentals
-  -  Stockman & Sharpe 2° Cone Fundamentals to CIE 2012 2° Standard Observer
-  -  Stockman & Sharpe 10° Cone Fundamentals to CIE 2012 10° Standard Observer
+  -  Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer
+  -  Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer
+  -  Stiles & Burch 1959 10 Degree RGB CMFs to Stockman & Sharpe 10 Degree Cone Fundamentals
+  -  Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer
+  -  Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer
 
 -  Spectral power distribution data manipulation and conversion to tristimulus values.
 -  Blackbody spectral radiance calculation.
@@ -123,7 +123,7 @@ _`Highlights`
   -  Lightness 1964
   -  Lightness 1976
 
--  RGB Colorspaces support:
+-  RGB Colourspaces support:
 
   -  ACES RGB
   -  ACES RGB Log
@@ -153,7 +153,7 @@ _`Highlights`
   -  Xtreme RGB
   -  sRGB
 
--  Colorspaces transformations:
+-  Colourspaces transformations:
 
   -  Wavelength to XYZ.
   -  Spectral to XYZ.
@@ -198,18 +198,18 @@ Convenience deprecated transformations:
   -  HEX to RGB.
 
 -  Illuminants chromaticity coordinates data.
--  Colorspaces derivation.
--  Color difference calculation with following methods:
+-  Colourspaces derivation.
+-  Colour difference calculation with following methods:
 
   -  ΔE CIE 1976.
   -  ΔE CIE 1994.
   -  ΔE CIE 2000.
   -  ΔE CMC.
 
--  Color rendering index calculation.
--  Color rendition chart data.
--  Colorspaces visualisation within **Autodesk Maya**.
--  First order color fit.
+-  Colour rendering index calculation.
+-  Colour rendition chart data.
+-  Colourspaces visualisation within **Autodesk Maya**.
+-  First order colour fit.
 -  Comprehensive plotting capabilities.
 
 .. raw:: html

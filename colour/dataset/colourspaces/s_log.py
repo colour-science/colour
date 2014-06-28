@@ -51,7 +51,7 @@ S_LOG_PRIMARIES = numpy.matrix([0.73, 0.28,
 S_LOG_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-S_LOG_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(S_LOG_PRIMARIES, S_LOG_WHITEPOINT)
+S_LOG_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(S_LOG_PRIMARIES, S_LOG_WHITEPOINT)
 
 XYZ_TO_S_LOG_MATRIX = S_LOG_TO_XYZ_MATRIX.getI()
 

@@ -47,7 +47,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
     def __init__(self, name, data):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Standard observer colour matching functions name.
         :type name: unicode
@@ -169,7 +169,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
     def __init__(self, name, data):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Standard observer colour matching functions name.
         :type name: unicode
@@ -291,7 +291,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
     def __init__(self, name, data):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Standard observer colour matching functions name.
         :type name: unicode

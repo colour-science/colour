@@ -214,7 +214,7 @@ def uv_to_CCT_ohno(uv,
     :rtype: tuple
     """
 
-    # Ensuring we do at least one iteration to initialize variables.
+    # Ensuring we do at least one iteration to initialise variables.
     if iterations <= 0:
         iterations = 1
 

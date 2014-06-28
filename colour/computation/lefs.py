@@ -135,4 +135,4 @@ def mesopic_luminous_efficiency_function(Lp,
                                                    scotopic_lef)) for i in range(start, end, steps))
     spd = SpectralPowerDistribution("{0} Lp Mesopic Luminous Efficiency Function".format(Lp), spd_data)
 
-    return spd.normalize()
+    return spd.normalise()

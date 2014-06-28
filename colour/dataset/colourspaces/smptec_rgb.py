@@ -49,7 +49,7 @@ SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,
 SMPTE_C_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-SMPTE_C_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(
+SMPTE_C_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
 
 XYZ_TO_SMPTE_C_RGB_MATRIX = SMPTE_C_RGB_TO_XYZ_MATRIX.getI()

@@ -59,7 +59,7 @@ __all__ = ["RESOURCES_DIRECTORY",
            "DEFAULT_COLOUR_CYCLE",
            "COLOUR_PARAMETER",
            "XYZ_to_sRGB",
-           "normalize_RGB",
+           "normalise_RGB",
            "figure_size",
            "aspect",
            "bounding_box",
@@ -211,13 +211,13 @@ def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.srgb.sRGB_COLOURSPAC
                                             colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.transfer_function)
 
 
-def normalize_RGB(RGB):
+def normalise_RGB(RGB):
     """
-    Normalizes given *RGB* colourspace values.
+    Normalises given *RGB* colourspace values.
 
     :param RGB: *RGB* colourspace matrix.
     :type RGB: matrix (3x1)
-    :return: Normalized *RGB* colourspace matrix.
+    :return: Normalised *RGB* colourspace matrix.
     :rtype: matrix (3x1)
     """
 
@@ -685,7 +685,7 @@ def single_spd_plot(spd,
 def multi_spd_plot(spds,
                    cmfs="CIE 1931 2 Degree Standard Observer",
                    use_spds_colours=False,
-                   normalize_spds_colours=False,
+                   normalise_spds_colours=False,
                    **kwargs):
     """
     Plots given spectral power distributions.
@@ -703,8 +703,8 @@ def multi_spd_plot(spds,
     :type cmfs: unicode
     :param use_spds_colours: Use spectral power distributions colours.
     :type use_spds_colours: bool
-    :param normalize_spds_colours: Should spectral power distributions colours normalized.
-    :type normalize_spds_colours: bool
+    :param normalise_spds_colours: Should spectral power distributions colours normalised.
+    :type normalise_spds_colours: bool
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Definition success.
@@ -730,7 +730,7 @@ def multi_spd_plot(spds,
 
         if use_spds_colours:
             XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs, illuminant) / 100.
-            if normalize_spds_colours:
+            if normalise_spds_colours:
                 XYZ /= numpy.max(XYZ)
             RGB = XYZ_to_sRGB(XYZ)
             RGB = numpy.clip(RGB, 0., 1.)
@@ -978,7 +978,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = colour.computation.transformations.xy_to_XYZ((i, j))
-                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1046,14 +1046,14 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
         dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
         dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
-        normalize = lambda x: x / numpy.linalg.norm(x)
+        normalise = lambda x: x / numpy.linalg.norm(x)
 
         xy = numpy.array([x, y])
         direction = numpy.array((-dy, dx))
 
-        normal = numpy.array((-dy, dx)) if numpy.dot(normalize(xy - equal_energy),
-                                                     normalize(direction)) > 0 else numpy.array((dy, -dx))
-        normal = normalize(normal)
+        normal = numpy.array((-dy, dx)) if numpy.dot(normalise(xy - equal_energy),
+                                                     normalise(direction)) > 0 else numpy.array((dy, -dx))
+        normal = normalise(normal)
         normal /= 25
 
         pylab.plot([x, x + normal[0] * 0.75], [y, y + normal[1] * 0.75], color="black", linewidth=1.5)
@@ -1265,7 +1265,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = colour.computation.transformations.xy_to_XYZ(colour.computation.transformations.UCS_uv_to_xy((i, j)))
-                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1334,14 +1334,14 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
         dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
-        normalize = lambda x: x / numpy.linalg.norm(x)
+        normalise = lambda x: x / numpy.linalg.norm(x)
 
         uv = numpy.array([u, v])
         direction = numpy.array((-dy, dx))
 
-        normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equal_energy),
-                                                     normalize(direction)) > 0 else numpy.array((dy, -dx))
-        normal = normalize(normal)
+        normal = numpy.array((-dy, dx)) if numpy.dot(normalise(uv - equal_energy),
+                                                     normalise(direction)) > 0 else numpy.array((dy, -dx))
+        normal = normalise(normal)
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
@@ -1480,7 +1480,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = colour.computation.transformations.xy_to_XYZ(colour.computation.transformations.Luv_uv_to_xy((i, j)))
-                RGB = normalize_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1551,14 +1551,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
         dx = wavelengths_chromaticity_coordinates.get(right)[0] - wavelengths_chromaticity_coordinates.get(left)[0]
         dy = wavelengths_chromaticity_coordinates.get(right)[1] - wavelengths_chromaticity_coordinates.get(left)[1]
 
-        normalize = lambda x: x / numpy.linalg.norm(x)
+        normalise = lambda x: x / numpy.linalg.norm(x)
 
         uv = numpy.array([u, v])
         direction = numpy.array((-dy, dx))
 
-        normal = numpy.array((-dy, dx)) if numpy.dot(normalize(uv - equal_energy),
-                                                     normalize(direction)) > 0 else numpy.array((dy, -dx))
-        normal = normalize(normal)
+        normal = numpy.array((-dy, dx)) if numpy.dot(normalise(uv - equal_energy),
+                                                     normalise(direction)) > 0 else numpy.array((dy, -dx))
+        normal = normalise(normal)
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75], [v, v + normal[1] * 0.75], color="black", linewidth=1.5)
@@ -1841,7 +1841,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     single_spd_plot(spd, name, **settings)
 
     XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs) / 100.
-    RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
+    RGB = normalise_RGB(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
 
@@ -1897,7 +1897,7 @@ def blackbody_colours_plot(start=150,
         spd = colour.computation.blackbody.blackbody_spectral_power_distribution(temperature, *cmfs.shape)
 
         XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs) / 100.
-        RGB = normalize_RGB(XYZ_to_sRGB(XYZ))
+        RGB = normalise_RGB(XYZ_to_sRGB(XYZ))
 
         colours.append(RGB)
         temperatures.append(temperature)
@@ -1937,7 +1937,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colour_rendering_index, colour_rendering_indexes, additional_data = colour.computation.cri.get_colour_rendering_index(illuminant,
                                                                                                           additional_data=True)
 
-    colours = [[1.] * 3] + map(lambda x: normalize_RGB(XYZ_to_sRGB(x.XYZ / 100.)), additional_data[0])
+    colours = [[1.] * 3] + map(lambda x: normalise_RGB(XYZ_to_sRGB(x.XYZ / 100.)), additional_data[0])
     x, y = zip(*sorted(colour_rendering_indexes.iteritems(), key=lambda x: x[0]))
     x, y = numpy.array([0] + list(x)), numpy.array([colour_rendering_index] + list(y))
 

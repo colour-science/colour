@@ -50,7 +50,7 @@ REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,
 REC_2020_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-REC_2020_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
 
 XYZ_TO_REC_2020_MATRIX = REC_2020_TO_XYZ_MATRIX.getI()
 

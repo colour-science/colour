@@ -46,7 +46,7 @@ class SpectralPowerDistribution(object):
 
     def __init__(self, name, data):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Spectral power distribution name.
         :type name: str or unicode
@@ -545,13 +545,13 @@ class SpectralPowerDistribution(object):
 
         return self
 
-    def normalize(self, factor=1.):
+    def normalise(self, factor=1.):
         """
-        Normalizes the spectral power distribution with given normalization factor.
+        Normalises the spectral power distribution with given normalization factor.
 
         :param factor: Normalization factor
         :type factor: float
-        :return: Normalized spectral power distribution.
+        :return: Normalised spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
 
@@ -575,7 +575,7 @@ class TriSpectralPowerDistribution(object):
 
     def __init__(self, name, data, mapping, labels):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Tri-spectral power distribution name.
         :type name: str or unicode
@@ -1198,18 +1198,18 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def normalize(self, factor=1.):
+    def normalise(self, factor=1.):
         """
-        Normalizes the tri-spectral power distribution with given normalization factor.
+        Normalises the tri-spectral power distribution with given normalization factor.
 
         :param factor: Normalization factor
         :type factor: float
-        :return: Normalized tri-spectral power distribution.
+        :return: Normalised tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).normalize(factor)
+            getattr(self, i).normalise(factor)
 
         return self
 

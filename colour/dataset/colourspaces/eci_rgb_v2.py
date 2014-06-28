@@ -50,7 +50,7 @@ ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
 ECI_RGB_V2_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(ECI_RGB_V2_PRIMARIES,
+ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
                                                                                        ECI_RGB_V2_WHITEPOINT)
 
 XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()

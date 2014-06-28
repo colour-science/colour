@@ -171,7 +171,7 @@ def XYZ_to_RGB(XYZ,
                transfer_function=None):
     """
     Converts from *CIE XYZ* colourspace to *RGB* colourspace using given *CIE XYZ* matrix, *illuminants*,
-    *chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
+    *chromatic adaptation* method, *normalised primary matrix* and *transfer function*.
 
     Usage::
 
@@ -193,7 +193,7 @@ def XYZ_to_RGB(XYZ,
     :type illuminant_RGB: tuple
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
-    :param from_XYZ: *Normalized primary matrix*.
+    :param from_XYZ: *Normalised primary matrix*.
     :type from_XYZ: matrix (3x3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
@@ -228,7 +228,7 @@ def RGB_to_XYZ(RGB,
                inverse_transfer_function=None):
     """
     Converts from *RGB* colourspace to *CIE XYZ* colourspace using given *RGB* matrix, *illuminants*,
-    *chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
+    *chromatic adaptation* method, *normalised primary matrix* and *transfer function*.
 
     Usage::
 
@@ -250,7 +250,7 @@ def RGB_to_XYZ(RGB,
     :type illuminant_XYZ: tuple
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
-    :param to_XYZ: *Normalized primary matrix*.
+    :param to_XYZ: *Normalised primary matrix*.
     :type to_XYZ: matrix (3x3)
     :param inverse_transfer_function: *Inverse transfer function*.
     :type inverse_transfer_function: object
@@ -285,7 +285,7 @@ def xyY_to_RGB(xyY,
                transfer_function=None):
     """
     Converts from *CIE xyY* colourspace to *RGB* colourspace using given *CIE xyY* matrix, *illuminants*,
-    *chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
+    *chromatic adaptation* method, *normalised primary matrix* and *transfer function*.
 
     Usage::
 
@@ -307,7 +307,7 @@ def xyY_to_RGB(xyY,
     :type illuminant_RGB: tuple
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
-    :param from_XYZ: *Normalized primary matrix*.
+    :param from_XYZ: *Normalised primary matrix*.
     :type from_XYZ: matrix (3x3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
@@ -331,7 +331,7 @@ def RGB_to_xyY(RGB,
                inverse_transfer_function=None):
     """
     Converts from *RGB* colourspace to *CIE xyY* colourspace using given *RGB* matrix, *illuminants*,
-    *chromatic adaptation* method, *normalized primary matrix* and *transfer function*.
+    *chromatic adaptation* method, *normalised primary matrix* and *transfer function*.
 
     Usage::
 
@@ -353,7 +353,7 @@ def RGB_to_xyY(RGB,
     :type illuminant_xyY: tuple
     :param chromatic_adaptation_method: *Chromatic adaptation* method.
     :type chromatic_adaptation_method: unicode
-    :param to_XYZ: *Normalized primary* matrix.
+    :param to_XYZ: *Normalised primary* matrix.
     :type to_XYZ: matrix (3x3)
     :param inverse_transfer_function: *Inverse transfer* function.
     :type inverse_transfer_function: object

@@ -1,5 +1,5 @@
-Welcome to Color |version|'s documentation!
-============================================
+Welcome to Colour |version|'s documentation!
+=============================================
 
 Contents:
 

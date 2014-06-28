@@ -39,7 +39,7 @@ from colour.computation.cmfs import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from colour.computation.colourspace import Colourspace
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
-from colour.computation.derivation import get_normalized_primary_matrix
+from colour.computation.derivation import get_normalised_primary_matrix
 from colour.computation.difference import delta_E_CIE_1976, delta_E_CIE_1994, delta_E_CIE_2000, delta_E_CMC
 from colour.computation.illuminants import D_illuminant_relative_spd
 from colour.computation.lefs import mesopic_luminous_efficiency_function, mesopic_weighting_function
@@ -141,7 +141,7 @@ __all__.extend(["bandpass_correction", "bandpass_correction_stearns"])
 __all__.extend(["get_colour_rendering_index"])
 
 # *colour.computation.derivation* objects.
-__all__.extend(["get_normalized_primary_matrix"])
+__all__.extend(["get_normalised_primary_matrix"])
 
 # *colour.computation.difference* objects.
 __all__.extend(["delta_E_CIE_1976", "delta_E_CIE_1994", "delta_E_CIE_2000", "delta_E_CMC"])

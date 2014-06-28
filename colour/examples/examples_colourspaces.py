@@ -14,8 +14,8 @@ pprint.pprint(sorted(colour.COLOURSPACES.keys()))
 colourspace = colour.COLOURSPACES["ACES RGB"]
 print("Name: '{0}'".format(colourspace.name))
 print("Primaries: '{0}'".format(colourspace.primaries))
-print("Normalized primary matrix to 'CIE XYZ': '{0}'".format(colourspace.to_XYZ))
-print("Normalized primary matrix from 'CIE XYZ': '{0}'".format(colourspace.from_XYZ))
+print("Normalised primary matrix to 'CIE XYZ': '{0}'".format(colourspace.to_XYZ))
+print("Normalised primary matrix from 'CIE XYZ': '{0}'".format(colourspace.from_XYZ))
 print("Transfer function: '{0}'".format(colourspace.transfer_function))
 print("Inverse transfer function: '{0}'".format(colourspace.inverse_transfer_function))
 

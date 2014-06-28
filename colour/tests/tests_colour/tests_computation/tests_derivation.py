@@ -34,7 +34,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["Testxy_to_z",
-           "TestGetNormalizedPrimaryMatrix"]
+           "TestGetNormalisedPrimaryMatrix"]
 
 
 class Testxy_to_z(unittest.TestCase):
@@ -60,18 +60,18 @@ class Testxy_to_z(unittest.TestCase):
                                           decimal=7)
 
 
-class TestGetNormalizedPrimaryMatrix(unittest.TestCase):
+class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.computation.derivation.get_normalized_primary_matrix` definition units tests methods.
+    Defines :func:`colour.computation.derivation.get_normalised_primary_matrix` definition units tests methods.
     """
 
-    def test_get_normalized_primary_matrix(self):
+    def test_get_normalised_primary_matrix(self):
         """
-        Tests :func:`colour.computation.derivation.get_normalized_primary_matrix` definition.
+        Tests :func:`colour.computation.derivation.get_normalised_primary_matrix` definition.
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.derivation.get_normalized_primary_matrix(numpy.matrix([0.73470, 0.26530,
+            colour.computation.derivation.get_normalised_primary_matrix(numpy.matrix([0.73470, 0.26530,
                                                                                       0.00000, 1.00000,
                                                                                       0.00010, -0.07700]).reshape(
                 (3, 2)),
@@ -82,7 +82,7 @@ class TestGetNormalizedPrimaryMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.derivation.get_normalized_primary_matrix(numpy.matrix([0.640, 0.330,
+            colour.computation.derivation.get_normalised_primary_matrix(numpy.matrix([0.640, 0.330,
                                                                                       0.300, 0.600,
                                                                                       0.150, 0.060]).reshape((3, 2)),
                                                                         (0.3127, 0.3290)),

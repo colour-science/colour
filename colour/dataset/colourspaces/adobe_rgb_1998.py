@@ -48,7 +48,7 @@ ADOBE_RGB_1998_PRIMARIES = numpy.matrix([0.6400, 0.3300,
 ADOBE_RGB_1998_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-# http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf: 4.3.5.3 Converting RGB to normalized XYZ values
+# http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf: 4.3.5.3 Converting RGB to normalised XYZ values
 ADOBE_RGB_1998_TO_XYZ_MATRIX = numpy.matrix([0.57666809, 0.18556195, 0.1881985,
                                              0.29734449, 0.62737611, 0.0752794,
                                              0.02703132, 0.07069027, 0.99117879]).reshape((3, 3))

@@ -60,7 +60,7 @@ class Curve(object):
 
     def __init__(self, x=None, y=None):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param x: X axis data.
         :type x: tuple or list
@@ -89,7 +89,7 @@ class Lookup(object):
 
     def __init__(self, master_curve=None, red_curve=None, green_curve=None, blue_curve=None, alpha_curve=None):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param master_curve: Master curve.
         :type master_curve: Curve

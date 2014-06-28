@@ -71,7 +71,7 @@ ALEXA_LOG_C_CURVE_BCL_DATA = {"SUP 3.x": {160: (0.0928, 0.8128),
                                           1280: (0.1378, 0.9841),
                                           1600: (0.1409, 0.9997)}}
 
-ALEXA_LOG_C_CURVE_CONVERSION_DATA = {"SUP 3.x": {"Normalized Sensor Signal": {
+ALEXA_LOG_C_CURVE_CONVERSION_DATA = {"SUP 3.x": {"Normalised Sensor Signal": {
     160: (0.004680, 40.0, -0.076072, 0.269036, 0.381991, 42.062665, -0.071569, 0.125266),
     200: (0.004597, 50.0, -0.118740, 0.266007, 0.382478, 51.986387, -0.110339, 0.128643),
     250: (0.004518, 62.5, -0.171260, 0.262978, 0.382966, 64.243053, -0.158224, 0.132021),
@@ -106,7 +106,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = {"SUP 3.x": {"Normalized Sensor Signal": {
                                                             0.092819, 0.156799),
                                                      1600: (0.013047, 5.555556, 0.038625, 0.237781, 0.387093, 5.163350,
                                                             0.092824, 0.16019)}},
-                                     "SUP 3.x": {"Normalized Sensor Signal": {
+                                     "SUP 3.x": {"Normalised Sensor Signal": {
                                          160: (0.003907, 36.439829, -0.053366, 0.269035, 0.391007, 45.593473, -0.069772,
                                                0.10836),
                                          200: (0.003907, 45.549786, -0.088959, 0.266007, 0.391007, 55.709581, -0.106114,
@@ -183,7 +183,7 @@ def __alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="
     :param firmware: Alexa firmware version.
     :type firmware: unicode ("SUP 2.x", "SUP 3.x")
     :param method: Conversion method.
-    :type method: unicode ("Linear Scene Exposure Factor", "Normalized Sensor Signal")
+    :type method: unicode ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     :param EI: Ei.
     :type EI: int
     :return: Companded value.
@@ -205,7 +205,7 @@ def __alexa_wide_gamut_rgb_inverse_transfer_function(value, firmware="SUP 3.x", 
     :param firmware: Alexa firmware version.
     :type firmware: unicode ("SUP 2.x", "SUP 3.x")
     :param method: Conversion method.
-    :type method: unicode ("Linear Scene Exposure Factor", "Normalized Sensor Signal")
+    :type method: unicode ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
     :param EI: Ei.
     :type EI: int
     :return: Companded value.

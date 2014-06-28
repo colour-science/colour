@@ -49,7 +49,7 @@ DON_RGB_4_PRIMARIES = numpy.matrix([0.69612068965517238, 0.29956896551724138,
 DON_RGB_4_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-DON_RGB_4_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(DON_RGB_4_PRIMARIES,
+DON_RGB_4_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(DON_RGB_4_PRIMARIES,
                                                                                       DON_RGB_4_WHITEPOINT)
 
 XYZ_TO_DON_RGB_4_MATRIX = DON_RGB_4_TO_XYZ_MATRIX.getI()

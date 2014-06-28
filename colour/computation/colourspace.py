@@ -47,7 +47,7 @@ class Colourspace(object):
                  transfer_function=None,
                  inverse_transfer_function=None):
         """
-        Initializes the class.
+        Initialises the class.
 
         :param name: Colourspace name.
         :type name: str or unicode

@@ -49,7 +49,7 @@ XTREME_RGB_PRIMARIES = numpy.matrix([1., 0.,
 XTREME_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-XTREME_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(XTREME_RGB_PRIMARIES,
+XTREME_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(XTREME_RGB_PRIMARIES,
                                                                                        XTREME_RGB_WHITEPOINT)
 
 XYZ_TO_XTREME_RGB_MATRIX = XTREME_RGB_TO_XYZ_MATRIX.getI()

@@ -49,7 +49,7 @@ PAL_SECAM_RGB_PRIMARIES = numpy.matrix([0.64, 0.33,
 PAL_SECAM_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-PAL_SECAM_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalized_primary_matrix(PAL_SECAM_RGB_PRIMARIES,
+PAL_SECAM_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(PAL_SECAM_RGB_PRIMARIES,
                                                                                           PAL_SECAM_RGB_WHITEPOINT)
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX = PAL_SECAM_RGB_TO_XYZ_MATRIX.getI()

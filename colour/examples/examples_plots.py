@@ -34,8 +34,8 @@ single_illuminant_relative_spd_plot("F1")
 print(sorted(colour.ILLUMINANTS_RELATIVE_SPDS.keys()))
 multi_illuminants_relative_spd_plot(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "F1"])
 
-# Plotting *CIE Standard Illuminant A*, *B*, and *C* with their normalized colours.
-multi_illuminants_relative_spd_plot(["A", "B", "C"], use_spds_colours=True, normalize_spds_colours=True)
+# Plotting *CIE Standard Illuminant A*, *B*, and *C* with their normalised colours.
+multi_illuminants_relative_spd_plot(["A", "B", "C"], use_spds_colours=True, normalise_spds_colours=True)
 
 # Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
 multi_spd_plot(sorted(colour.D_ILLUMINANTS_S_SPDS.values()), title="CIE Standard Illuminant D Series - S Distributions")
@@ -1222,7 +1222,7 @@ blackbodies_spds = [colour.blackbody_spectral_power_distribution(i, 0, 10000, 10
 multi_spd_plot(blackbodies_spds,
                y_label=u"W / (sr m²) / m",
                use_spds_colours=True,
-               normalize_spds_colours=True,
+               normalise_spds_colours=True,
                legend_location="upper right",
                bounding_box=[0, 1250, 0, 2.5e15])
 

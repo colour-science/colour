@@ -40,7 +40,7 @@ __all__ = ["SAMPLE_SPD_DATA",
            "ZEROS_SAMPLE_SPD_DATA",
            "INTERPOLATED_SAMPLE_SPD_DATA",
            "INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA"
-           "NORMALIZED_SAMPLE_SPD_DATA"
+           "NORMALISED_SAMPLE_SPD_DATA"
            "CIE_1931_2_DEGREE_STANDARD_OBSERVER",
            "CMFS_DATA",
            "TestSpectralPowerDistribution",
@@ -1511,7 +1511,7 @@ INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = numpy.array([
     1335386.2420238478,
     677531.57450650295])
 
-NORMALIZED_SAMPLE_SPD_DATA = numpy.array([
+NORMALISED_SAMPLE_SPD_DATA = numpy.array([
     0.0,
     0.0,
     0.0,
@@ -1877,7 +1877,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def setUp(self):
         """
-        Initializes common tests attributes.
+        Initialises common tests attributes.
         """
 
         self.__spd = SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)
@@ -1912,7 +1912,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
-                            "normalize",
+                            "normalise",
                             "clone")
 
         for method in required_methods:
@@ -2101,13 +2101,13 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(self.__spd.clone().zeros(steps=1).values, ZEROS_SAMPLE_SPD_DATA)
 
-    def test_normalize(self):
+    def test_normalise(self):
         """
-        Tests :func:`colour.computation.spectrum.SpectralDistribution.normalize` method.
+        Tests :func:`colour.computation.spectrum.SpectralDistribution.normalise` method.
         """
 
-        numpy.testing.assert_almost_equal(self.__spd.clone().normalize(100.).values,
-                                          NORMALIZED_SAMPLE_SPD_DATA)
+        numpy.testing.assert_almost_equal(self.__spd.clone().normalise(100.).values,
+                                          NORMALISED_SAMPLE_SPD_DATA)
 
     def test_clone(self):
         """
@@ -2124,7 +2124,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def setUp(self):
         """
-        Initializes common tests attributes.
+        Initialises common tests attributes.
         """
 
         self.__mapping = {"x": "x_bar",
@@ -2186,7 +2186,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             "interpolate",
                             "align",
                             "zeros",
-                            "normalize",
+                            "normalise",
                             "clone")
 
         for method in required_methods:
@@ -2414,13 +2414,13 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         for i in self.__mapping.iterkeys():
             numpy.testing.assert_almost_equal(getattr(tri_spd, i).values, ZEROS_SAMPLE_SPD_DATA)
 
-    def test_normalize(self):
+    def test_normalise(self):
         """
-        Tests :func:`colour.computation.spectrum.TriSpectralPowerDistribution.normalize` method.
+        Tests :func:`colour.computation.spectrum.TriSpectralPowerDistribution.normalise` method.
         """
 
-        numpy.testing.assert_almost_equal(self.__sample_tri_spd.clone().normalize(100.).values,
-                                          numpy.array([[x] * 3 for x in NORMALIZED_SAMPLE_SPD_DATA]))
+        numpy.testing.assert_almost_equal(self.__sample_tri_spd.clone().normalise(100.).values,
+                                          numpy.array([[x] * 3 for x in NORMALISED_SAMPLE_SPD_DATA]))
 
     def test_clone(self):
         """
