@@ -87,7 +87,7 @@ _`Highlights`
 -  Colour rendition charts spectral data.
 -  Correlated colour temperature calculation:
 
-  -  Wyszecki & Roberston method implementation.
+  -  Roberston method implementation.
   -  Yoshi Ohno method implementation.
   -  CIE D-illuminant implementation.
 

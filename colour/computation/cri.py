@@ -159,7 +159,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     if CCT < 5000.:
         reference_spd = colour.computation.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     else:
-        xy = colour.computation.temperature.D_illuminant_CCT_to_xy(CCT)
+        xy = colour.computation.temperature.CCT_to_xy_D_illuminant(CCT)
         reference_spd = colour.computation.illuminants.D_illuminant_relative_spd(xy)
         reference_spd.align(start, end, steps)
 

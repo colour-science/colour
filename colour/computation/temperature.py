@@ -14,7 +14,7 @@
     :func:`colour.temperature.get_planckian_table`, :func:`colour.temperature.get_planckian_table_minimal_distance_index`,
     :func:`colour.temperature.uv_to_CCT`, :func:`colour.temperature.CCT_to_uv`, :func:`colour.temperature.XYZ_to_CCT`,
     and :func:`colour.temperature.CCT_to_XYZ` definitions implement **Yoshi Ohno**,
-    `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ paper.
+    `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ method.
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
     **Adobe DNG SDK 1.3.0.0**, the :attr:`colour.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
@@ -24,7 +24,6 @@
 from __future__ import unicode_literals
 
 import math
-
 import numpy
 from collections import namedtuple
 
@@ -58,7 +57,10 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "CCT_to_uv_robertson",
            "uv_to_CCT",
            "CCT_to_uv",
-           "D_illuminant_CCT_to_xy"]
+           "xy_to_CCT_mccamy",
+           "xy_to_CCT_lee",
+           "CCT_to_xy_D_illuminant",
+           "xy_to_CCT"]
 
 LOGGER = colour.utilities.verbose.install_logger()
 
@@ -318,10 +320,9 @@ def CCT_to_uv_ohno(CCT,
 def uv_to_CCT_robertson(uv):
     """
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates using
-    *Wyszecki & Roberston* calculation method.
-    This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+    *Roberston* calculation method.
 
-    Reference: **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Set_xy_coord*
+    Reference: **A. R. Roberston**, **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Set_xy_coord*.
 
     Usage::
 
@@ -332,6 +333,7 @@ def uv_to_CCT_robertson(uv):
     :type uv: tuple
     :return: Correlated colour temperature, Duv.
     :rtype: tuple
+    :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
     """
 
     u, v = uv
@@ -393,10 +395,9 @@ def uv_to_CCT_robertson(uv):
 def CCT_to_uv_robertson(CCT, Duv=0.):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and Duv using
-    *Wyszecki & Roberston* calculation method.
-    This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+    *Roberston* calculation method.
 
-    Reference: **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Get_xy_coord*
+    Reference: **A. R. Roberston**, **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Get_xy_coord*.
 
     Usage::
 
@@ -409,6 +410,7 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
     :type Duv: float
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
+    :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
     """
 
     r = 1.0e6 / CCT
@@ -450,13 +452,12 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
 
 def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
     """
-    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates and method.
-    Defines a wrapper for :func:`uv_to_CCT_ohno` and :func:`uv_to_CCT_robertson` definitions.
+    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates using given method.
 
     :param uv: *uv* chromaticity coordinates.
     :type uv: tuple
     :param method: Calculation method.
-    :type method: unicode ("Yoshi Ohno", "Wyszecki Robertson")
+    :type method: unicode ("Yoshi Ohno", "Robertson")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Correlated colour temperature, Duv.
@@ -469,7 +470,7 @@ def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise colour.utilities.exceptions.ProgrammingError(
-                    "Wyszecki & Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
+                    "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return uv_to_CCT_robertson(uv)
 
@@ -478,14 +479,13 @@ def CCT_to_uv(CCT, Duv=0., method="Yoshi Ohno", **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature
     and Duv using given method.
-    Defines a wrapper for :func:`CCT_to_uv_ohno` and :func:`CCT_to_uv_robertson` definitions.
 
     :param CCT: Correlated colour temperature.
     :type CCT: float
     :param Duv: Duv.
     :type Duv: float
     :param method: Calculation method.
-    :type method: unicode ("Yoshi Ohno", "Wyszecki Robertson")
+    :type method: unicode ("Yoshi Ohno", "Robertson")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: *uv* chromaticity coordinates.
@@ -498,12 +498,76 @@ def CCT_to_uv(CCT, Duv=0., method="Yoshi Ohno", **kwargs):
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise colour.utilities.exceptions.ProgrammingError(
-                    "Wyszecki & Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
+                    "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return CCT_to_uv_robertson(CCT, Duv)
 
 
-def D_illuminant_CCT_to_xy(CCT):
+def xy_to_CCT_mccamy(xy):
+    """
+    Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
+    *McCamy* calculation method.
+
+    Reference: http://en.wikipedia.org/wiki/Color_temperature#Approximation
+
+    Usage::
+
+        >>> xy_to_CCT_mccamy((0.31271, 0.32902))
+        6504.38938305
+
+    :param xy: *xy* chromaticity coordinates.
+    :type xy: tuple
+    :return: Correlated colour temperature.
+    :rtype: float
+    :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+    """
+
+    x, y = xy
+
+    n = (x - 0.3320) / (y - 0.1858)
+    CCT = -449. * math.pow(n, 3) + 3525 * math.pow(n, 2) - 6823.3 * n + 5520.33
+
+    return CCT
+
+
+def xy_to_CCT_lee(xy):
+    """
+    Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
+    *Hernandez-Andres, Lee & Romero* calculation method.
+
+    Reference: http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf
+
+    Usage::
+
+        >>> xy_to_CCT_lee((0.31271, 0.32902))
+        6500.04215334
+
+    :param xy: *xy* chromaticity coordinates.
+    :type xy: tuple
+    :return: Correlated colour temperature.
+    :rtype: float
+    :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+    """
+
+    x, y = xy
+
+    n = (x - 0.3366) / (y - 0.1735)
+    CCT = -949.86315 + \
+          6253.80338 * math.exp(-n / 0.92159) + \
+          28.70599 * math.exp(-n / 0.20039) + \
+          0.00004 * math.exp(-n / 0.07125)
+
+    if CCT > 50000:
+        n = (x - 0.3356) / (y - 0.1691)
+        CCT = 36284.48953 + \
+              0.00228 * math.exp(-n / 0.07861) + \
+              5.4535e-36 * math.exp(-n / 0.01543) + \
+              0.00004 * math.exp(-n / 0.07125)
+
+    return CCT
+
+
+def CCT_to_xy_D_illuminant(CCT):
     """
     Converts from the correlated colour temperature of a *CIE D-illuminant* to the chromaticity of that *D-illuminant*.
 
@@ -526,3 +590,20 @@ def D_illuminant_CCT_to_xy(CCT):
     y = -3 * x ** 2 + 2.87 * x - 0.275
 
     return x, y
+
+def xy_to_CCT(xy, method="McCamy", **kwargs):
+    """
+    Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using given method.
+
+    :param xy: *xy* chromaticity coordinates.
+    :type xy: tuple
+    :param method: Calculation method.
+    :type method: unicode ("McCamy", "Hernandez-Andres, Lee & Romero")
+    :return: Correlated colour temperature.
+    :rtype: float
+    """
+
+    if method == "McCamy":
+        return xy_to_CCT_mccamy(xy)
+    else:
+        return xy_to_CCT_lee(xy)

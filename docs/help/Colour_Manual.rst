@@ -118,9 +118,11 @@ _`Highlights`
 -  Colour rendition charts spectral data.
 -  Correlated colour temperature calculation:
 
-  -  Wyszecki & Roberston method implementation.
+  -  Roberston method implementation.
   -  Yoshi Ohno method implementation.
-  -  CIE D-illuminant implementation.
+  -  McCamy method implementation.
+  -  Hernandez-Andres, Lee & Romero method implementation.
+  -  CIE Illuminant D Series implementation.
 
 -  Colour matching functions conversions for educational purpose:
 
@@ -213,7 +215,6 @@ _`Highlights`
   -  LCHab to Lab.
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
-  -  D-illuminant CCT to xy.
 
 Convenience deprecated transformations:
 
@@ -411,6 +412,20 @@ Cone Fundamentals
 `Stockman & Sharpe 2 Degree Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
 
 `Stockman & Sharpe 10 Degree Cone Fundamentals <http://www.cvrl.org/cones.htm>`_ (Last accessed 23 June 2014)
+
+Correlated Colour Temperature
+-----------------------------
+
+**A. R. Roberston**, **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 Decembr 2013)
+
+**Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
+
+**C. S. McCamy**, `Correlated Colour Temperature Approximation <http://en.wikipedia.org/wiki/Color_temperature#Approximation>`_ (Last accessed 28 June 2014)
+
+**Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across
+the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
+
+**Bruce Lindbloom**, `CIE Illuminant D Series Temperature< http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 9 June 2014)
 
 Deprecated Transformations
 --------------------------

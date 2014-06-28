@@ -43,5 +43,5 @@ Functions
 
 .. autofunction:: CCT_to_uv
 
-.. autofunction:: D_illuminant_CCT_to_xy
+.. autofunction:: CCT_to_xy_D_illuminant
 
