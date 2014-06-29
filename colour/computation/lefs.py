@@ -47,7 +47,9 @@ def mesopic_weighting_function(wavelength,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    Reference: http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
 
     Usage::
 
@@ -98,7 +100,9 @@ def mesopic_luminous_efficiency_function(Lp,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    Reference: http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
 
     Usage::
 

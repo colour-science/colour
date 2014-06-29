@@ -408,7 +408,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions into the
     *CIE 1931 2 Degree Standard Observer* colour matching functions.
 
-    Reference: Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Pages 138, 139.
+    References:
+
+    -  Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Pages 138, 139.
 
     Usage::
 
@@ -455,7 +457,9 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching functions.
 
-    Reference: Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Page 141.
+    References:
+
+    -  Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Page 141.
 
     Usage::
 
@@ -490,7 +494,9 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral sensitivity functions.
 
-    Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=48
+    References:
+
+    -  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_
 
     Usage::
 
@@ -525,7 +531,9 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching functions.
 
-    Reference: http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
 
     Usage::
 
@@ -560,7 +568,9 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching functions.
 
-    Reference: http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
 
     Usage::
 

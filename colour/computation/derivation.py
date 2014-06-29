@@ -37,7 +37,9 @@ def xy_to_z(xy):
     """
     Returns the *z* coordinate using given *chromaticity coordinates*.
 
-    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.2
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 
@@ -57,7 +59,9 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     """
     Returns the *normalised primary matrix* using given *primaries* and *whitepoint* matrices.
 
-    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 - 3.3.6 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 

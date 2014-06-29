@@ -8,7 +8,7 @@
 
 .idea/
 ColourScience.egg-info/
-colour/implementation/ipython/.ipynb_checkpoints
+docs/ipython/.ipynb_checkpoints
 docs/sphinx/build/
 docs/sphinx/source/resources/packages/
 references/

@@ -66,7 +66,9 @@ def XYZ_to_xyY(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference *illuminant*.
 
-    Reference: http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 
     Usage::
 
@@ -95,7 +97,9 @@ def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 
     Usage::
 
@@ -373,7 +377,9 @@ def XYZ_to_UCS(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *CIE UCS* colourspace.
 
-    Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
     Usage::
 
@@ -397,7 +403,9 @@ def UCS_to_XYZ(UVW):
     """
     Converts from *CIE UCS* colourspace to *CIE XYZ* colourspace.
 
-    Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
     Usage::
 
@@ -421,7 +429,9 @@ def UCS_to_uv(UVW):
     """
     Returns the *uv* chromaticity coordinates from given *CIE UCS* matrix.
 
-    Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
     Usage::
 
@@ -443,7 +453,9 @@ def UCS_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace *uv* chromaticity coordinates.
 
-    Reference: http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
 
     Usage::
 
@@ -465,7 +477,9 @@ def XYZ_to_UVW(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
 
-    Reference: http://en.wikipedia.org/wiki/CIE_1964_color_space
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1964_color_space
 
     Usage::
 
@@ -499,7 +513,9 @@ def XYZ_to_Luv(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
-    Reference: http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
 
     Usage::
 
@@ -535,7 +551,9 @@ def Luv_to_XYZ(Luv,
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
-    Reference: http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
     Usage::
 
@@ -575,7 +593,9 @@ def Luv_to_uv(Luv,
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* matrix.
 
-    Reference: http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 
     Usage::
 
@@ -599,7 +619,9 @@ def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace *u'v'* chromaticity coordinates.
 
-    Reference: http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation'.
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation'.
 
     Usage::
 
@@ -619,7 +641,9 @@ def Luv_to_LCHuv(Luv):
     """
     Converts from *CIE Luv* colourspace to *CIE LCHuv* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
 
     Usage::
 
@@ -647,7 +671,9 @@ def LCHuv_to_Luv(LCHuv):
     """
     Converts from *CIE LCHuv* colourspace to *CIE Luv* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
 
     Usage::
 
@@ -673,7 +699,9 @@ def XYZ_to_Lab(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
     Usage::
 
@@ -717,7 +745,9 @@ def Lab_to_XYZ(Lab,
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
 
     Usage::
 
@@ -759,7 +789,9 @@ def Lab_to_LCHab(Lab):
     """
     Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
 
     Usage::
 
@@ -787,7 +819,9 @@ def LCHab_to_Lab(LCHab):
     """
     Converts from *CIE LCHab* colourspace to *CIE Lab* colourspace.
 
-    Reference: http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
 
     Usage::
 

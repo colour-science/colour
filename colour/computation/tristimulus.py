@@ -46,7 +46,9 @@ def spectral_to_XYZ(spd,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    Reference: **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
 
     Usage::
 

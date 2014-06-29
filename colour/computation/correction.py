@@ -35,9 +35,13 @@ ALPHA_STEARNS = 0.083
 
 def bandpass_correction_stearns(spd):
     """
-    Implements spectral bandpass dependence correction on given spectral power distribution using *Stearns and Stearns (1988)* method.
+    Implements spectral bandpass dependence correction on given spectral power distribution \
+    using *Stearns and Stearns (1988)* method.
 
-    Reference: **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+    References:
+
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, \
+    2nd Edition*, Page 38.
 
     Usage::
 

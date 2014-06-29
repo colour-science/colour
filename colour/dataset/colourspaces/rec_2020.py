@@ -62,7 +62,10 @@ def __rec_2020_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace transfer function.
 
-    Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf: Signal Format
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
 
     :param value: value.
     :type value: float
@@ -81,7 +84,10 @@ def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace inverse transfer function.
 
-    Reference: http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf: Signal Format
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
 
     :param value: value.
     :type value: float

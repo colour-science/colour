@@ -394,7 +394,12 @@ class SpectralPowerDistribution(object):
         """
         Extrapolates the spectral power distribution according to *CIE 15:2004* recommendation.
 
-        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+        References:
+
+        -  `CIE 015:2004 Colorimetry, 3rd edition: \
+        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -417,10 +422,13 @@ class SpectralPowerDistribution(object):
     def interpolate(self, start=None, end=None, steps=None, interpolator=None):
         """
         Interpolates the spectral power distribution following *CIE 167:2005* recommendations: the method developed
-        by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable and
-        a *Cubic Spline* method for non-uniformly spaced independent variable.
+        by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable
+        and a *Cubic Spline* method for non-uniformly spaced independent variable.
 
-        Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=47
+        References:
+
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -433,7 +441,8 @@ class SpectralPowerDistribution(object):
         :return: Interpolated spectral power distribution.
         :rtype: SpectralPowerDistribution
 
-        :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced independent variable.
+        :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced \
+        independent variable.
         :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
         """
 
@@ -507,7 +516,8 @@ class SpectralPowerDistribution(object):
 
     def align(self, start, end, steps):
         """
-        Aligns the spectral power distribution to given shape: Interpolates first then extrapolates to fit the given range.
+        Aligns the spectral power distribution to given shape: Interpolates first then extrapolates to fit
+        the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -526,7 +536,8 @@ class SpectralPowerDistribution(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the spectral power distribution: Missing values will be replaced with zeroes to fit the defined range.
+        Zeros fills the spectral power distribution: Missing values will be replaced with zeroes to fit
+        the defined range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1125,7 +1136,12 @@ class TriSpectralPowerDistribution(object):
         """
         Extrapolates the tri-spectral power distribution according to *CIE 15:2004* recommendation.
 
-        Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, 7.2.2.1 Extrapolation
+        References:
+
+        -  `CIE 015:2004 Colorimetry, 3rd edition: \
+        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1144,6 +1160,11 @@ class TriSpectralPowerDistribution(object):
         """
         Interpolates the tri-spectral power distribution following *CIE 167:2005* recommendations.
 
+        References:
+
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+
         :param start: Wavelengths range start in nm.
         :type start: float
         :param end: Wavelengths range end in nm.
@@ -1161,7 +1182,8 @@ class TriSpectralPowerDistribution(object):
 
     def align(self, start, end, steps):
         """
-        Aligns the tri-spectral power distribution to given shape: Interpolates first then extrapolates to fit the given range.
+        Aligns the tri-spectral power distribution to given shape: Interpolates first then extrapolates to fit
+        the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1181,7 +1203,8 @@ class TriSpectralPowerDistribution(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the tri-spectral power distribution: Missing values will be replaced with zeros to fit the defined range.
+        Zeros fills the tri-spectral power distribution: Missing values will be replaced with zeros to fit
+        the defined range.
 
         :param start: Wavelengths range start.
         :type start: float

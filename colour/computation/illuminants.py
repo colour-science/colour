@@ -39,7 +39,9 @@ def D_illuminant_relative_spd(xy):
     """
     Returns the relative spectral power distribution of given *CIE Standard Illuminant D Series* *xy* chromaticity coordinates.
 
-    Reference: http://www.brucelindbloom.com/Eqn_DIlluminant.html, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 146.
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_DIlluminant.html, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 146.
 
     Usage::
 

@@ -65,7 +65,9 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     """
     Returns the *chromatic adaptation* matrix from given source and target *CIE XYZ* matrices.
 
-    Reference: http://brucelindbloom.com/Eqn_ChromAdapt.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_ChromAdapt.html
 
     Usage::
 

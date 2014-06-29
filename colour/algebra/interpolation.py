@@ -42,7 +42,12 @@ class SpragueInterpolator(object):
     The Sprague (1880) method is recommended by the *CIE* for interpolating functions
     having a uniformly spaced independent variable.
 
-    Reference: http://div1.cie.co.at/?i_ca_id=551&pubid=47, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 33.
+    References:
+
+    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of \
+    interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, \
+    2nd Edition*, Page 33.
 
     Usage::
 

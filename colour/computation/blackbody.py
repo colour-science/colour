@@ -59,7 +59,9 @@ def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONS
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.
     The following form implementation is expressed in term of wavelength. The SI unit of radiance is watts per steradian per square metre.
 
-    Reference: https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf, Appendix E.
+    References:
+
+    -  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E. Information on the Use of Planck's Equation for Standard Air. <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
 
     Usage::
 

@@ -17,7 +17,7 @@
     `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ method.
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
-    **Adobe DNG SDK 1.3.0.0**, the :attr:`colour.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
+    *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
     from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
 """
 
@@ -319,10 +319,13 @@ def CCT_to_uv_ohno(CCT,
 
 def uv_to_CCT_robertson(uv):
     """
-    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates using
-    *Roberston* calculation method.
+    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
+    using *Roberston* calculation method.
 
-    Reference: **A. R. Roberston**, **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Set_xy_coord*.
+    References:
+
+    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    *dng_temperature::Set_xy_coord*.
 
     Usage::
 
@@ -394,10 +397,13 @@ def uv_to_CCT_robertson(uv):
 
 def CCT_to_uv_robertson(CCT, Duv=0.):
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and Duv using
-    *Roberston* calculation method.
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and
+    Duv using *Roberston* calculation method.
 
-    Reference: **A. R. Roberston**, **Adobe DNG SDK 1.3.0.0**: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: *dng_temperature::Get_xy_coord*.
+    References:
+
+    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    *dng_temperature::Get_xy_coord*.
 
     Usage::
 
@@ -452,7 +458,8 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
 
 def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
     """
-    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates using given method.
+    Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
+    using given method.
 
     :param uv: *uv* chromaticity coordinates.
     :type uv: tuple
@@ -508,7 +515,9 @@ def xy_to_CCT_mccamy(xy):
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *McCamy* calculation method.
 
-    Reference: http://en.wikipedia.org/wiki/Color_temperature#Approximation
+    References:
+
+    -  http://en.wikipedia.org/wiki/Color_temperature#Approximation
 
     Usage::
 
@@ -535,7 +544,9 @@ def xy_to_CCT_lee(xy):
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *Hernandez-Andres, Lee & Romero* calculation method.
 
-    Reference: http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf
+    References:
+
+    -  `<http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
 
     Usage::
 
@@ -571,7 +582,9 @@ def CCT_to_xy_D_illuminant(CCT):
     """
     Converts from the correlated colour temperature of a *CIE D-illuminant* to the chromaticity of that *D-illuminant*.
 
-    Reference: http://www.brucelindbloom.com/Eqn_T_to_xy.html
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_T_to_xy.html
 
     :param CCT: Correlated colour temperature.
     :type CCT: float

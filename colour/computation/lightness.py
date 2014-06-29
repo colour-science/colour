@@ -58,7 +58,9 @@ def get_luminance_equation(primaries, whitepoint):
     """
     Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
 
-    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.8
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.8 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 
@@ -83,7 +85,9 @@ def get_luminance(RGB, primaries, whitepoint):
     """
     Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
 
-    Reference: http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf: 3.3.3, ..., 3.3.6
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.3 - 3.3.6 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 
@@ -113,7 +117,9 @@ def luminance_1943(V):
     """
     Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -138,7 +144,9 @@ def luminance_1976(L, Yn=100.):
     """
     Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
 
-    Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
+    References:
+
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
 
     Usage::
 
@@ -165,7 +173,9 @@ def munsell_value_1920(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -191,7 +201,9 @@ def munsell_value_1933(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -216,7 +228,9 @@ def munsell_value_1943(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -241,7 +255,9 @@ def munsell_value_1944(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -266,7 +282,9 @@ def munsell_value_1955(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -291,7 +309,9 @@ def lightness_1958(Y):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -316,7 +336,9 @@ def lightness_1964(Y):
     """
     Returns the *Lightness* (*W\**) of given *luminance* *Y* using 1964 *Wyszecki* method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -346,7 +368,9 @@ def lightness_1976(Y, Yn=100.):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-    Reference: http://www.poynton.com/PDFs/GammaFAQ.pdf
+    References:
+
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
 
     Usage::
 
@@ -385,7 +409,10 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
 
     Usage::
 
@@ -415,7 +442,9 @@ def get_munsell_value(Y, method="Munsell Value 1955"):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 
@@ -440,7 +469,10 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-    Reference: http://en.wikipedia.org/wiki/Lightness, http://www.poynton.com/PDFs/GammaFAQ.pdf
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
 
     Usage::
 

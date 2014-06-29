@@ -40,7 +40,9 @@ def delta_E_CIE_1976(lab1, lab2):
     """
     Returns the difference between two given *CIE Lab* colours using *CIE 1976* recommendation.
 
-    Reference: http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
 
     Usage::
 
@@ -64,7 +66,9 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     """
     Returns the difference between two given *CIE Lab* colours using *CIE 1994* recommendation.
 
-    Reference: http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 
     Usage::
 
@@ -120,7 +124,9 @@ def delta_E_CIE_2000(lab1, lab2):
     """
     Returns the difference between two given *CIE Lab* colours using *CIE 2000* recommendation.
 
-    Reference: http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
 
     Usage::
 
@@ -208,7 +214,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c), allowing the users to weight the difference based on the ratio of l:c.
     Commonly used values are 2:1 for acceptability and 1:1 for the threshold of imperceptibility.
 
-    Reference: http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 
     Usage::
 

@@ -39,7 +39,9 @@ def linear_regression(y, x=None, additional_statistics=False):
     The equation of the line is *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y* value
     is a function of the independent *x* values.
 
-    Reference: http://en.wikipedia.org/wiki/Simple_linear_regression
+    References:
+
+    -  http://en.wikipedia.org/wiki/Simple_linear_regression
 
     Usage::
 

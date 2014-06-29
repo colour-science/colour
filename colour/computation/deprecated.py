@@ -47,7 +47,10 @@ def RGB_to_HSV(RGB):
     """
     Converts from *RGB* colourspace to *HSV* colourspace.
 
-    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=20#text20
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
 
     Usage::
 
@@ -103,7 +106,10 @@ def HSV_to_RGB(HSV):
     """
     Converts from *HSV* colourspace to *RGB* colourspace.
 
-    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=21#text21
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 
     Usage::
 
@@ -168,7 +174,10 @@ def RGB_to_HSL(RGB):
     """
     Converts from *RGB* colourspace to *HSL* colourspace.
 
-    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18
 
     Usage::
 
@@ -224,7 +233,10 @@ def HSL_to_RGB(HSL):
     """
     Converts from *HSL* colourspace to *RGB* colourspace.
 
-    Reference: http://alvyray.com/Papers/CG/color78.pdf, http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 
     Usage::
 
@@ -276,7 +288,9 @@ def RGB_to_CMY(RGB):
     """
     Converts from *RGB* colourspace to *CMY* colourspace.
 
-    Reference: http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11
 
     Usage::
 
@@ -299,7 +313,9 @@ def CMY_to_RGB(CMY):
     """
     Converts from *CMY* colourspace to *CMY* colourspace.
 
-    Reference: http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12
 
     Usage::
 
@@ -322,7 +338,9 @@ def CMY_to_CMYK(CMY):
     """
     Converts from *CMY* colourspace to *CMYK* colourspace.
 
-    Reference: http://www.easyrgb.com/index.php?X=MATH&H=13#text13
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 
     Usage::
 
@@ -364,7 +382,9 @@ def CMYK_to_CMY(CMYK):
     """
     Converts from *CMYK* colourspace to *CMY* colourspace.
 
-    Reference: http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
 
     Usage::
 
