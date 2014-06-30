@@ -51,8 +51,8 @@ from colour.computation.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNC
 from colour.computation.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from colour.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
 from colour.computation.temperature import uv_to_CCT, uv_to_CCT_ohno, uv_to_CCT_robertson
-from colour.computation.temperature import CCT_to_xy_D_illuminant
-from colour.computation.temperature import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_lee
+from colour.computation.temperature import CCT_to_xy, CCT_to_xy_kim, CCT_to_xy_illuminant_D
+from colour.computation.temperature import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_romero
 from colour.computation.transformations import XYZ_to_xyY, xyY_to_XYZ, xyY_to_RGB, RGB_to_xyY
 from colour.computation.transformations import xy_to_XYZ, XYZ_to_xy
 from colour.computation.transformations import XYZ_to_RGB, RGB_to_XYZ
@@ -166,8 +166,8 @@ __all__.extend(["SpectralPowerDistribution", "TriSpectralPowerDistribution"])
 # *colour.computation.temperature* objects.
 __all__.extend(["CCT_to_uv", "CCT_to_uv_ohno", "CCT_to_uv_robertson",
                 "uv_to_CCT", "uv_to_CCT_ohno", "uv_to_CCT_robertson",
-                "CCT_to_xy_D_illuminant",
-                "xy_to_CCT", "xy_to_CCT_mccamy", "xy_to_CCT_lee"])
+                "CCT_to_xy", "CCT_to_xy_kim", "CCT_to_xy_illuminant_D",
+                "xy_to_CCT", "xy_to_CCT_mccamy", "xy_to_CCT_romero"])
 
 # *colour.computation.transformations* objects.
 __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",

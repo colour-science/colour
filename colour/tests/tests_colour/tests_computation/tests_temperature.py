@@ -41,8 +41,9 @@ __all__ = ["TestGetPlanckianTable",
            "Testuv_to_CCT_robertson",
            "TestCCT_to_uv_robertson",
            "Testxy_to_CCT_mccamy",
-           "Testxy_to_CCT_lee",
-           "TestCCT_to_xy_D_illuminant"]
+           "Testxy_to_CCT_romero",
+           "TestCCT_to_xy_kim",
+           "TestCCT_to_xy_illuminant_D"]
 
 PLANCKIAN_TABLE = [
     colour.computation.temperature.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786,
@@ -307,44 +308,66 @@ class Testxy_to_CCT_mccamy(unittest.TestCase):
             places=7)
 
 
-class Testxy_to_CCT_lee(unittest.TestCase):
+class Testxy_to_CCT_romero(unittest.TestCase):
     """
-    Defines :func:`colour.computation.temperature.xy_to_CCT_lee` definition units tests methods.
+    Defines :func:`colour.computation.temperature.xy_to_CCT_romero` definition units tests methods.
     """
 
-    def test_xy_to_CCT_lee(self):
+    def test_xy_to_CCT_romero(self):
         """
         Tests :func:`colour.computation.temperature.xy_to_CCT_mccamy` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.temperature.xy_to_CCT_lee((0.31271, 0.32902)),
+        self.assertAlmostEqual(colour.computation.temperature.xy_to_CCT_romero((0.31271, 0.32902)),
                                6500.04215334,
                                places=7)
-        self.assertAlmostEqual(colour.computation.temperature.xy_to_CCT_lee((0.44757, 0.40745)),
+        self.assertAlmostEqual(colour.computation.temperature.xy_to_CCT_romero((0.44757, 0.40745)),
                                2790.64222533,
                                places=7)
-        self.assertAlmostEqual(colour.computation.temperature.xy_to_CCT_lee((0.24416224821391358, 0.24033367475831827)),
-                               67116.53224117,
-                               places=7)
+        self.assertAlmostEqual(
+            colour.computation.temperature.xy_to_CCT_romero((0.24416224821391358, 0.24033367475831827)),
+            67116.53224117,
+            places=7)
 
 
-class TestCCT_to_xy_D_illuminant(unittest.TestCase):
+class TestCCT_to_xy_kim(unittest.TestCase):
     """
-    Defines :func:`colour.computation.temperature.CCT_to_xy_D_illuminant` definition units tests methods.
+    Defines :func:`colour.computation.temperature.CCT_to_xy_kim` definition units tests methods.
     """
 
-    def test_CCT_to_xy_D_illuminant(self):
+    def test_CCT_to_xy_kim(self):
         """
-        Tests :func:`colour.computation.temperature.CCT_to_xy_D_illuminant` definition.
+        Tests :func:`colour.computation.temperature.CCT_to_xy_kim` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_D_illuminant(4000),
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_kim(4000),
+                                          (0.38052828281249995, 0.3767335309611144),
+                                          decimal=7)
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_kim(7000),
+                                          (0.30637401953352766, 0.31655286972657715),
+                                          decimal=7)
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_kim(25000),
+                                          (0.2524729944384, 0.2522547912436536),
+                                          decimal=7)
+
+
+class TestCCT_to_xy_illuminant_D(unittest.TestCase):
+    """
+    Defines :func:`colour.computation.temperature.CCT_to_xy_illuminant_D` definition units tests methods.
+    """
+
+    def test_CCT_to_xy_illuminant_D(self):
+        """
+        Tests :func:`colour.computation.temperature.CCT_to_xy_illuminant_D` definition.
+        """
+
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_illuminant_D(4000),
                                           (0.38234362499999996, 0.3837662610155782),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_D_illuminant(7000),
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_illuminant_D(7000),
                                           (0.3053574314868805, 0.3216463454745523),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_D_illuminant(25000),
+        numpy.testing.assert_almost_equal(colour.computation.temperature.CCT_to_xy_illuminant_D(25000),
                                           (0.2498536704, 0.25479946421094446),
                                           decimal=7)
 

@@ -25,17 +25,19 @@ print(colour.uv_to_CCT(uv, method="Robertson", cmfs=cmfs, iterations=3))
 print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, cmfs=cmfs))
 
 # *Roberston* calculation method.
-print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, method="Robertson", cmfs=cmfs))
-
+print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, method="Robertson"))
 
 # From *xy* chromaticity coordinates to correlated colour temperature.
 # *McCamy* calculation method.
 xy = colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-print(colour.xy_to_CCT_mccamy(xy))
+print(colour.xy_to_CCT(xy, method="McCamy"))
 
-# From *xy* chromaticity coordinates to correlated colour temperature.
 # *Hernandez-Andres, Lee & Romero* calculation method.
-print(colour.xy_to_CCT_lee(xy))
+print(colour.xy_to_CCT(xy, method="Hernandez-Andres, Lee & Romero"))
 
-print colour.XYZ_to_xy(colour.spectral_to_XYZ(colour.blackbody_spectral_power_distribution(65000, *cmfs.shape), cmfs))
+# From correlated colour temperature to *xy* chromaticity coordinates.
+# *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.
+print(colour.CCT_to_xy_kim(6503.4925414981535))
 
+# *CIE Illuminant D Series* calculation method.
+print(colour.CCT_to_xy_illuminant_D(6503.4925414981535))

@@ -58,9 +58,11 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "uv_to_CCT",
            "CCT_to_uv",
            "xy_to_CCT_mccamy",
-           "xy_to_CCT_lee",
-           "CCT_to_xy_D_illuminant",
-           "xy_to_CCT"]
+           "xy_to_CCT_romero",
+           "CCT_to_xy_kim",
+           "CCT_to_xy_illuminant_D",
+           "xy_to_CCT",
+           "CCT_to_xy"]
 
 LOGGER = colour.utilities.verbose.install_logger()
 
@@ -456,22 +458,22 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
             return u, v
 
 
-def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
+def uv_to_CCT(uv, method="Ohno", **kwargs):
     """
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
-    using given method.
+    using given calculation method.
 
     :param uv: *uv* chromaticity coordinates.
     :type uv: tuple
     :param method: Calculation method.
-    :type method: unicode ("Yoshi Ohno", "Robertson")
+    :type method: unicode ("Ohno", "Robertson")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Correlated colour temperature, Duv.
     :rtype: tuple
     """
 
-    if method == "Yoshi Ohno":
+    if method == "Ohno":
         return uv_to_CCT_ohno(uv, **kwargs)
     else:
         if "cmfs" in kwargs:
@@ -482,24 +484,24 @@ def uv_to_CCT(uv, method="Yoshi Ohno", **kwargs):
         return uv_to_CCT_robertson(uv)
 
 
-def CCT_to_uv(CCT, Duv=0., method="Yoshi Ohno", **kwargs):
+def CCT_to_uv(CCT, Duv=0., method="Ohno", **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature
-    and Duv using given method.
+    and Duv using given calculation method.
 
     :param CCT: Correlated colour temperature.
     :type CCT: float
     :param Duv: Duv.
     :type Duv: float
     :param method: Calculation method.
-    :type method: unicode ("Yoshi Ohno", "Robertson")
+    :type method: unicode ("Ohno", "Robertson")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
     """
 
-    if method == "Yoshi Ohno":
+    if method == "Ohno":
         return CCT_to_uv_ohno(CCT, Duv, **kwargs)
     else:
         if "cmfs" in kwargs:
@@ -539,7 +541,7 @@ def xy_to_CCT_mccamy(xy):
     return CCT
 
 
-def xy_to_CCT_lee(xy):
+def xy_to_CCT_romero(xy):
     """
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *Hernandez-Andres, Lee & Romero* calculation method.
@@ -550,7 +552,7 @@ def xy_to_CCT_lee(xy):
 
     Usage::
 
-        >>> xy_to_CCT_lee((0.31271, 0.32902))
+        >>> xy_to_CCT_romero((0.31271, 0.32902))
         6500.04215334
 
     :param xy: *xy* chromaticity coordinates.
@@ -578,9 +580,44 @@ def xy_to_CCT_lee(xy):
     return CCT
 
 
-def CCT_to_xy_D_illuminant(CCT):
+def CCT_to_xy_kim(CCT):
     """
-    Converts from the correlated colour temperature of a *CIE D-illuminant* to the chromaticity of that *D-illuminant*.
+    Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given correlated colour temperature
+    using *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.
+
+    References:
+
+    -  `Design of Advanced Color - Temperature Control System for HDTV Applications \
+    <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_
+
+    :param CCT: Correlated colour temperature.
+    :type CCT: float
+    :return: *xy* chromaticity coordinates.
+    :rtype: tuple
+    """
+
+    if 1667 <= CCT <= 4000:
+        x = -0.2661239 * 10 ** 9 / CCT ** 3 - 0.2343589 * 10 ** 6 / CCT ** 2 + 0.8776956 * 10 ** 3 / CCT + 0.179910
+    elif 4000 <= CCT <= 25000:
+        x = -3.0258469 * 10 ** 9 / CCT ** 3 + 2.1070379 * 10 ** 6 / CCT ** 2 + 0.2226347 * 10 ** 3 / CCT + 0.24039
+    else:
+        raise colour.utilities.exceptions.ProgrammingError(
+            "Correlated colour temperature must be in domain [1667, 25000]!")
+
+    if 1667 <= CCT <= 2222:
+        y = -1.1063814 * x ** 3 - 1.34811020 * x ** 2 + 2.18555832 * x - 0.20219683
+    elif 2222 <= CCT <= 4000:
+        y = -0.9549476 * x ** 3 - 1.37418593 * x ** 2 + 2.09137015 * x - 0.16748867
+    elif 4000 <= CCT <= 25000:
+        y = 3.0817580 * x ** 3 - 5.8733867 * x ** 2 + 3.75112997 * x - 0.37001483
+
+    return x, y
+
+
+def CCT_to_xy_illuminant_D(CCT):
+    """
+    Converts from the correlated colour temperature of a *CIE Illuminant D Series*
+    to the chromaticity of that *CIE Illuminant D Series*.
 
     References:
 
@@ -604,9 +641,11 @@ def CCT_to_xy_D_illuminant(CCT):
 
     return x, y
 
+
 def xy_to_CCT(xy, method="McCamy", **kwargs):
     """
-    Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using given method.
+    Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates
+    using given calculation method.
 
     :param xy: *xy* chromaticity coordinates.
     :type xy: tuple
@@ -619,4 +658,23 @@ def xy_to_CCT(xy, method="McCamy", **kwargs):
     if method == "McCamy":
         return xy_to_CCT_mccamy(xy)
     else:
-        return xy_to_CCT_lee(xy)
+        return xy_to_CCT_romero(xy)
+
+
+def CCT_to_xy(CCT, method="Kang, Moon, Hong, Lee, Cho and Kim"):
+    """
+    Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given correlated colour temperature
+    using given calculation method.
+
+    :param CCT: Correlated colour temperature.
+    :type CCT: float
+    :param method: Calculation method.
+    :type method: unicode ("Kang, Moon, Hong, Lee, Cho and Kim", "CIE Illuminant D Series")
+    :return: *xy* chromaticity coordinates.
+    :rtype: tuple
+    """
+
+    if method == "Kang, Moon, Hong, Lee, Cho and Kim":
+        return CCT_to_xy_kim(CCT)
+    else:
+        return CCT_to_xy_illuminant_D(CCT)

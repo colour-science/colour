@@ -45,9 +45,9 @@ Functions
 
 .. autofunction:: xy_to_CCT_mccamy
 
-.. autofunction:: xy_to_CCT_lee
+.. autofunction:: xy_to_CCT_romero
 
-.. autofunction:: CCT_to_xy_D_illuminant
+.. autofunction:: CCT_to_xy_illuminant_D
 
 .. autofunction:: xy_to_CCT
 
