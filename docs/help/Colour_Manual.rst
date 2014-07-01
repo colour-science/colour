@@ -122,6 +122,7 @@ _`Highlights`
   -  Yoshi Ohno method implementation.
   -  McCamy method implementation.
   -  Hernandez-Andres, Lee & Romero method implementation.
+  -  Kang, Moon, Hong, Lee, Cho and Kim implementation.
   -  CIE Illuminant D Series implementation.
 
 -  Colour matching functions conversions for educational purpose:
@@ -395,11 +396,12 @@ Cone Fundamentals
 Correlated Colour Temperature
 -----------------------------
 
--  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 Decembre 2013)
+-  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
 -  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 -  **C. S. McCamy**, `Correlated Colour Temperature Approximation <http://en.wikipedia.org/wiki/Color_temperature#Approximation>`_ (Last accessed 28 June 2014)
 -  **Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
--  **Bruce Lindbloom**, `CIE Illuminant D Series T to xy Equations <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 9 June 2014)
+-  **Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim**, `Design of Advanced Color - Temperature Control System for HDTV Applications <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_ (Last accessed 29 June 2014)
+-  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
 
 Deprecated Transformations
 --------------------------
@@ -529,12 +531,6 @@ Spectrum
 -  **Stearns Spectral Bandpass Dependence Correction**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
 -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 -  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolationn <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_, `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
-
-Temperature
------------
-
--  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
--  **Bruce Lindbloom**, `D-illuminant CCT to xy <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 10 June 2014)
 
 Transformations
 ---------------

@@ -328,6 +328,7 @@ def uv_to_CCT_robertson(uv):
 
     -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Set_xy_coord*.
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
 
     Usage::
 
@@ -406,6 +407,7 @@ def CCT_to_uv_robertson(CCT, Duv=0.):
 
     -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Get_xy_coord*.
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
 
     Usage::
 
@@ -621,7 +623,7 @@ def CCT_to_xy_illuminant_D(CCT):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_T_to_xy.html
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
 
     :param CCT: Correlated colour temperature.
     :type CCT: float
