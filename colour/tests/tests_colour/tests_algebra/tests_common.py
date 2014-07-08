@@ -17,9 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -35,7 +33,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["TestIsUniform"]
+__all__ = ["TestGetSteps",
+           "TestIsUniform",
+           "TestGetClosest",
+           "TestIsIterable",
+           "TestToNdarray"]
 
 
 class TestGetSteps(unittest.TestCase):
@@ -80,6 +82,41 @@ class TestGetClosest(unittest.TestCase):
         self.assertEqual(colour.algebra.common.get_closest(y, 63.05), 62.70988028)
         self.assertEqual(colour.algebra.common.get_closest(y, 24.90), 25.40026416)
         self.assertEqual(colour.algebra.common.get_closest(y, 51.15), 46.84480573)
+
+
+class TestIsIterable(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.common.is_iterable` definition units tests methods.
+    """
+
+    def test_is_iterable(self):
+        """
+        Tests :func:`colour.algebra.common.is_iterable` definition.
+        """
+
+        self.assertTrue(colour.algebra.common.is_iterable(""))
+        self.assertTrue(colour.algebra.common.is_iterable(()))
+        self.assertTrue(colour.algebra.common.is_iterable([]))
+        self.assertTrue(colour.algebra.common.is_iterable(dict()))
+        self.assertTrue(colour.algebra.common.is_iterable(numpy.array([])))
+        self.assertFalse(colour.algebra.common.is_iterable(1))
+        self.assertFalse(colour.algebra.common.is_iterable(2.))
+
+
+class TestToNdarray(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.common.to_ndarray` definition units tests methods.
+    """
+
+    def test_to_ndarray(self):
+        """
+        Tests :func:`colour.algebra.common.to_ndarray` definition.
+        """
+
+        self.assertEqual(colour.algebra.common.to_ndarray(1), numpy.array([1]))
+        self.assertEqual(colour.algebra.common.to_ndarray([1]), numpy.array([1]))
+        self.assertEqual(colour.algebra.common.to_ndarray((1,)), numpy.array((1,)))
+        self.assertEqual(colour.algebra.common.to_ndarray(numpy.array([1])), numpy.array([1]))
 
 
 if __name__ == "__main__":

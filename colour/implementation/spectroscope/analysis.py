@@ -1,86 +1,49 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+**analysis.py**
+
+**Platform:**
+    Windows, Linux, Mac Os X.
+
+**Description:**
+    Defines objects for the homemade spectroscope spectrum images analysis.
+
+    References:
+
+    -  http://thomasmansencal.blogspot.fr/2014/07/a-homemade-spectroscope.html
+
+**Others:**
+
+"""
+
 import matplotlib.image
 import matplotlib.pyplot
 import numpy
-import pylab
 import scipy.ndimage
-from scipy.interpolate import interp1d
 
 import colour
+import colour.utilities.exceptions
+from colour import Extrapolator1d
+from colour import LinearInterpolator
 from colour import SpectralPowerDistribution
 from colour import TriSpectralPowerDistribution
 
-pylab.rcParams["figure.figsize"] = 14, 7
+__author__ = "Thomas Mansencal"
+__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__maintainer__ = "Thomas Mansencal"
+__email__ = "thomas.mansencal@gmail.com"
+__status__ = "Production"
 
-FRAUNHOFER_PUBLISHED_LINES = {
-    "y": 898.765,
-    "Z": 822.696,
-    "A": 759.370,
-    "B": 686.719,
-    "C": 656.281,
-    "a": 627.661,
-    "D1": 589.592,
-    "D2": 588.995,
-    "D3": 587.5618,
-    "e": 546.073,
-    "E2": 527.039,
-    "b1": 518.362,
-    "b2": 517.270,
-    "b3": 516.891,
-    "b4": 516.733,
-    "c": 495.761,
-    "F": 486.134,
-    "d": 466.814,
-    "e": 438.355,
-    "G": 430.790,
-    "h": 410.175,
-    "H": 396.847,
-    "K": 393.368,
-    "L": 382.044,
-    "N": 358.121,
-    "P": 336.112,
-    "T": 302.108,
-    "t": 299.444}
-
-FRAUNHOFER_LINES_ELEMENTS_MAPPING = {
-    "y": "O2",
-    "Z": "O2",
-    "A": "O2",
-    "B": "O2",
-    "C": "H Alpha",
-    "a": "O2",
-    "D1": "Na",
-    "D2": "Na",
-    "D3": "He",
-    "e": "Hg",
-    "E2": "Fe",
-    "b1": "Mg",
-    "b2": "Mg",
-    "b3": "Fe",
-    "b4": "Mg",
-    "c": "Fe",
-    "F": "H Beta",
-    "d": "Fe",
-    "e": "Fe",
-    "G'": "H Gamma",
-    "G": "Fe",
-    "G": "Ca",
-    "h": "H Delta",
-    "H": "Ca+",
-    "K": "Ca+",
-    "L": "Fe",
-    "N": "Fe",
-    "P": "Ti+",
-    "T": "Fe",
-    "t": "Ni"}
-
-FRAUNHOFER_MEASURED_LINES = {
-    "G": 134,
-    "F": 371,
-    "b4": 502,
-    "E2": 545,
-    "D3": 810,
-    "a": 974,
-    "C": 1095}
+__all__ = ["RGB_Spectrum",
+           "transfer_function",
+           "get_image",
+           "get_image_profile",
+           "calibrate_RGB_spectrum_profile",
+           "get_RGB_spectrum",
+           "get_luminance_spd"]
 
 
 class RGB_Spectrum(TriSpectralPowerDistribution):
@@ -205,28 +168,75 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "B"))
 
 
-def extrap1d(interpolator):
-    # http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
-    xs, ys = interpolator.x, interpolator.y
+def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=False):
+    """
+    Evaluate given colourspace transfer / inverse transfer function on given image data.
 
-    def extrapolate(x):
-        if x < xs[0]:
-            return ys[0] + (x - xs[0]) * (ys[1] - ys[0]) / (xs[1] - xs[0])
-        elif x > xs[-1]:
-            return ys[-1] + (x - xs[-1]) * (ys[-1] - ys[-2]) / (xs[-1] - xs[-2])
-        else:
-            return interpolator(x)
+    References:
 
-    return lambda xs: numpy.array(map(extrapolate, numpy.array(xs)))
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
+
+    :param image: Image to evalute the transfer function.
+    :type image: ndarray
+    :param colourspace: Colourspace.
+    :type colourspace: Colourspace
+    :param to_linear: Use colourspace inverse transfer function instead of colourspace transfer function.
+    :type to_linear: bool
+    :return: Transformed image.
+    :rtype: ndarray
+    """
+
+    vector_linearise = numpy.vectorize(
+        lambda x: colourspace.inverse_transfer_function(x) if to_linear else colourspace.transfer_function(x))
+
+    return vector_linearise(image)
 
 
-def get_image_profile(image, axis, samples=None):
-    # http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
+def get_image(path, colourspace=colour.COLOURSPACES["sRGB"], to_linear=True):
+    """
+    Reads image from given path.
+
+    :param path: Path to read the image from.
+    :type path: unicode
+    :param colourspace: Colourspace.
+    :type colourspace: Colourspace
+    :param to_linear: Evaluate colourspace inverse transfer function on image data.
+    :type to_linear: bool
+    :return: Image.
+    :rtype: ndarray
+    """
+
+    image = matplotlib.image.imread(path)
+
+    if to_linear:
+        image = transfer_function(image, colourspace=colourspace, to_linear=True)
+
+    return image
+
+
+def get_image_profile(image, line, samples=None):
+    """
+    Returns the image profile using given line coordinates and given samples count.
+
+    References:
+
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
+
+    :param image: Image to retrieve the profile.
+    :type image: ndarray
+    :param line: Coordinates as image array indexes to measure the profile.
+    :type line: tuple or list or ndarray (x0, y0, x1, y1)
+    :param samples: Samples count to retrieve along the line, default to image width.
+    :type samples: int
+    :return: Profile.
+    :rtype: ndarray
+    """
+
     height, width, channels = image.shape
     samples = samples if samples else width
-    x0, y0, x1, y1 = axis
-    profile = []
+    x0, y0, x1, y1 = line
 
+    profile = []
     for i in range(channels):
         x, y = numpy.linspace(x0, x1, samples), numpy.linspace(y0, y1, samples)
         z = image[:, :, i]
@@ -236,7 +246,25 @@ def get_image_profile(image, axis, samples=None):
     return numpy.dstack(profile)
 
 
-def calibrate_RGB_spectrum_profile(reference, measured, profile, samples=100):
+def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
+    """
+    Calibrates given spectrum profile using given theoretical reference wavelength lines in nanometers
+    and measured lines in horizontal axis pixels values. If more than 2 lines are provided the profile data will be
+    warped to fit the theoretical reference wavelength lines.
+
+    :param profile: Image profile to calibrate.
+    :type profile: ndarray
+    :param reference: Theoretical reference wavelength lines.
+    :type reference: dict
+    :param measured: Measured lines in horizontal axis pixels values.
+    :type measured: dict
+    :param samples: Profile samples count.
+    :type samples: int
+    :return: Calibrated RGB spectrum.
+    :rtype: RGB_Spectrum
+    """
+
+    samples = samples if samples else profile.shape[1]
     measured_lines = [line for line, value in sorted(measured.items(), key=lambda x: x[1])]
 
     # Reference samples.
@@ -250,15 +278,15 @@ def calibrate_RGB_spectrum_profile(reference, measured, profile, samples=100):
     mm = numpy.linspace(min(m), max(m))
 
     # Interpolator from reference to measured.
-    r_to_m_interpolator = extrap1d(interp1d(r, m))
+    r_to_m_interpolator = Extrapolator1d(LinearInterpolator(r, m))
 
     # Interpolator from measured range to reference range.
-    mm_to_rr_interpolator = extrap1d(interp1d(mm, rr))
+    mm_to_rr_interpolator = Extrapolator1d(LinearInterpolator(mm, rr))
 
     # Colors interpolator.
-    R_interpolator = extrap1d(interp1d(numpy.arange(0, profile.shape[1]), profile[0, :, 0]))
-    G_interpolator = extrap1d(interp1d(numpy.arange(0, profile.shape[1]), profile[0, :, 1]))
-    B_interpolator = extrap1d(interp1d(numpy.arange(0, profile.shape[1]), profile[0, :, 2]))
+    R_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 0]))
+    G_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 1]))
+    B_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 2]))
 
     wavelengths = numpy.linspace(mm_to_rr_interpolator([0]),
                                  mm_to_rr_interpolator([profile.shape[1]]),
@@ -272,62 +300,41 @@ def calibrate_RGB_spectrum_profile(reference, measured, profile, samples=100):
 
 
 def get_RGB_spectrum(image, reference, measured, samples=None):
-    profile = get_image_profile(image,
-                                axis=[0, 0, image.shape[1] - 1, 0],
-                                samples=samples if samples else image.shape[1])
+    """
+    Returns the RGB spectrum of given image.
 
-    return calibrate_RGB_spectrum_profile(reference=reference,
-                                          measured=measured,
-                                          profile=profile,
-                                          samples=samples if samples else profile.shape[1])
+    :param image: Image to retrieve the RGB spectrum, assuming the spectrum is already properly oriented.
+    :type image: ndarray
+    :param reference: Theoretical reference wavelength lines.
+    :type reference: dict
+    :param measured: Measured lines in horizontal axis pixels values.
+    :type measured: dict
+    :param samples: Spectrum samples count.
+    :type samples: int
+    :return: RGB spectrum.
+    :rtype: RGB_Spectrum
+    """
+
+    samples = samples if samples else image.shape[1]
+    profile = get_image_profile(image, line=[0, 0, image.shape[1] - 1, 0], samples=samples)
+
+    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured,  samples=samples)
 
 
-def get_spectral_power_distribution(RGB_spectrum, colourspace=colour.COLOURSPACES["sRGB"]):
+def get_luminance_spd(RGB_spectrum, colourspace=colour.COLOURSPACES["sRGB"]):
+    """
+    Returns the luminance spectral power distribution of given RGB spectrum.
+
+    :param RGB_spectrum: RGB spectrum to retrieve the luminance from.
+    :type RGB_spectrum: RGB_Spectrum
+    :param colourspace: Colourspace.
+    :type colourspace: Colourspace
+    :return: RGB spectrum luminance spectral power distribution, units are arbitrary and normalised to [0, 100] domain.
+    :rtype: SpectralPowerDistribution
+    """
+
     RGB_spectrum = RGB_spectrum.clone().normalise(100.)
     get_luminance = lambda x: colour.get_luminance(x, colourspace.primaries, colourspace.whitepoint)
+
     return SpectralPowerDistribution("RGB_spectrum",
                                      dict([(wavelength, get_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))
-
-
-def get_image(path, colourspace=colour.COLOURSPACES["sRGB"], linearise=True):
-    image = matplotlib.image.imread(path)
-
-    if linearise:
-        vector_linearise = numpy.vectorize(lambda x: colourspace.inverse_transfer_function(x))
-        image = vector_linearise(image)
-
-    return image
-
-RGB_spectrum = get_RGB_spectrum(
-    get_image("/Users/kelsolaar/Documents/Personal/Science/Colour/Spectroscope/Fraunhofer_Lines/Measured.png"),
-    {"r": 25,
-     "g": 50,
-     "y": 55,
-     "b": 75},
-    {"r": 5,
-     "g": 20,
-     "y": 87,
-     "b": 100})
-
-# pylab.imsave("/Users/kelsolaar/Documents/Personal/Science/Colour/Spectroscope/Fraunhofer_Lines/Adapted.png",
-#              numpy.dstack([RGB_spectrum.R.values, RGB_spectrum.G.values, RGB_spectrum.B.values]))
-
-RGB_spectrum = get_RGB_spectrum(
-    get_image("/Users/kelsolaar/Documents/Personal/Science/Colour/Spectroscope/Fraunhofer_Lines/Fraunhofer_Lines_002.png"),
-    FRAUNHOFER_PUBLISHED_LINES,
-    FRAUNHOFER_MEASURED_LINES)
-
-# pylab.imsave(
-#     "/Users/kelsolaar/Documents/Personal/Science/Colour/Spectroscope/Fraunhofer_Lines/Fraunhofer_Lines_003.png",
-#     numpy.dstack([RGB_spectrum.R.values, RGB_spectrum.G.values, RGB_spectrum.B.values]))
-
-luminance_spd = get_spectral_power_distribution(RGB_spectrum).normalise()
-
-blackbody_spd = colour.blackbody_spectral_power_distribution(5778, *luminance_spd.shape)
-blackbody_spd.normalise()
-
-from colour.implementation.matplotlib.plots import *
-
-multi_spd_plot([luminance_spd, blackbody_spd])
-multi_spd_plot([RGB_spectrum.R, RGB_spectrum.G, RGB_spectrum.B, luminance_spd])
-

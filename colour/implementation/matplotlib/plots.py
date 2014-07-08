@@ -292,6 +292,8 @@ def aspect(**kwargs):
                                                             "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
                                                             "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
                                                             "no_ticks": False,
+                                                            "no_x_ticks": False,
+                                                            "no_y_ticks": False,
                                                             "grid": False,
                                                             "axis_grid": "both",
                                                             "x_axis_line": False,
@@ -307,6 +309,10 @@ def aspect(**kwargs):
     settings.y_ticker and matplotlib.pyplot.gca().yaxis.set_minor_locator(settings.y_ticker_locator)
     if settings.no_ticks:
         matplotlib.pyplot.gca().set_xticks([])
+        matplotlib.pyplot.gca().set_yticks([])
+    if settings.no_x_ticks:
+        matplotlib.pyplot.gca().set_xticks([])
+    if settings.no_y_ticks:
         matplotlib.pyplot.gca().set_yticks([])
     settings.grid and pylab.grid(which=settings.axis_grid)
     settings.x_axis_line and pylab.axvline(0, color="black", linestyle="--")

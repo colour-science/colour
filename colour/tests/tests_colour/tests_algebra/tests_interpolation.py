@@ -26,6 +26,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
+from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
@@ -36,7 +37,9 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["POINTS_DATA_A",
-           "INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
+           "LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
+           "SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
+           "TestLinearInterpolator",
            "TestSpragueInterpolator"]
 
 POINTS_DATA_A = numpy.array([
@@ -57,7 +60,160 @@ POINTS_DATA_A = numpy.array([
     88.1900,
     86.0500])
 
-INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
+LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
+    9.37,
+    9.665,
+    9.96,
+    10.255,
+    10.55,
+    10.845,
+    11.14,
+    11.435,
+    11.73,
+    12.025,
+    12.32,
+    12.334,
+    12.348,
+    12.362,
+    12.376,
+    12.39,
+    12.404,
+    12.418,
+    12.432,
+    12.446,
+    12.46,
+    12.165,
+    11.87,
+    11.575,
+    11.28,
+    10.985,
+    10.69,
+    10.395,
+    10.1,
+    9.805,
+    9.51,
+    9.151,
+    8.792,
+    8.433,
+    8.074,
+    7.715,
+    7.356,
+    6.997,
+    6.638,
+    6.279,
+    5.92,
+    5.761,
+    5.602,
+    5.443,
+    5.284,
+    5.125,
+    4.966,
+    4.807,
+    4.648,
+    4.489,
+    4.33,
+    4.326,
+    4.322,
+    4.318,
+    4.314,
+    4.31,
+    4.306,
+    4.302,
+    4.298,
+    4.294,
+    4.29,
+    4.249,
+    4.208,
+    4.167,
+    4.126,
+    4.085,
+    4.044,
+    4.003,
+    3.962,
+    3.921,
+    3.88,
+    3.943,
+    4.006,
+    4.069,
+    4.132,
+    4.195,
+    4.258,
+    4.321,
+    4.384,
+    4.447,
+    4.51,
+    5.151,
+    5.792,
+    6.433,
+    7.074,
+    7.715,
+    8.356,
+    8.997,
+    9.638,
+    10.279,
+    10.92,
+    12.578,
+    14.236,
+    15.894,
+    17.552,
+    19.21,
+    20.868,
+    22.526,
+    24.184,
+    25.842,
+    27.5,
+    29.717,
+    31.934,
+    34.151,
+    36.368,
+    38.585,
+    40.802,
+    43.019,
+    45.236,
+    47.453,
+    49.67,
+    51.662,
+    53.654,
+    55.646,
+    57.638,
+    59.63,
+    61.622,
+    63.614,
+    65.606,
+    67.598,
+    69.59,
+    70.804,
+    72.018,
+    73.232,
+    74.446,
+    75.66,
+    76.874,
+    78.088,
+    79.302,
+    80.516,
+    81.73,
+    82.376,
+    83.022,
+    83.668,
+    84.314,
+    84.96,
+    85.606,
+    86.252,
+    86.898,
+    87.544,
+    88.19,
+    87.976,
+    87.762,
+    87.548,
+    87.334,
+    87.12,
+    86.906,
+    86.692,
+    86.478,
+    86.264,
+    86.05]
+
+SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     9.37,
     9.72075073,
     10.06936191,
@@ -211,6 +367,49 @@ INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     86.05]
 
 
+class TestLinearInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ("x",
+                               "y")
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(LinearInterpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ()
+
+        for method in required_methods:
+            self.assertIn(method, dir(LinearInterpolator))
+
+    def test___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__` method.
+        """
+
+        steps = 0.1
+        x = numpy.arange(len(POINTS_DATA_A))
+        linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
+
+        for i, value in enumerate(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+            self.assertAlmostEqual(LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], linear_interpolator(value),
+                                   places=7)
+
+        numpy.testing.assert_almost_equal(linear_interpolator(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+                                          LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+
+
 class TestSpragueInterpolator(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class units tests methods.
@@ -247,10 +446,11 @@ class TestSpragueInterpolator(unittest.TestCase):
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
-            self.assertAlmostEqual(INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], sprague_interpolator(value), places=7)
+            self.assertAlmostEqual(SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], sprague_interpolator(value),
+                                   places=7)
 
         numpy.testing.assert_almost_equal(sprague_interpolator(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
-                                          INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+                                          SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
 if __name__ == "__main__":

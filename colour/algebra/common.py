@@ -29,7 +29,9 @@ __status__ = "Production"
 
 __all__ = ["get_steps",
            "is_uniform",
-           "get_closest"]
+           "get_closest",
+           "is_iterable",
+           "to_ndarray"]
 
 LOGGER = foundations.verbose.install_logger()
 
@@ -79,3 +81,43 @@ def get_closest(y, x):
     """
 
     return y[(numpy.abs(numpy.array(y) - x)).argmin()]
+
+
+def is_iterable(x):
+    """
+    Returns if given *x* variable is iterable.
+
+    Usage::
+
+        >>> is_iterable([1, 2, 3])
+        True
+        >>> is_iterable(1)
+        False
+
+    :param x: Variable to check the iterability.
+    :type x: object
+    :return: *x* variable iterability.
+    :rtype: bool
+    """
+
+    try:
+        for _ in x:
+            break
+        return True
+    except TypeError:
+        return False
+
+def to_ndarray(x):
+    """
+    Converts given *x* variable to ndarray.
+
+    Usage::
+
+
+    :param x: Variable to convert.
+    :type x: object
+    :return: *x* variable converted to ndarray.
+    :rtype: ndarray
+    """
+
+    return numpy.array(x) if is_iterable(x) else numpy.array((x,))

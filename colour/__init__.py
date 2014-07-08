@@ -22,8 +22,9 @@ from colour.globals.constants import Constants
 
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
-from colour.algebra.common import get_closest, get_steps, is_uniform
-from colour.algebra.interpolation import SpragueInterpolator
+from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray
+from colour.algebra.extrapolation import Extrapolator1d
+from colour.algebra.interpolation import LinearInterpolator, SpragueInterpolator
 from colour.algebra.matrix import is_identity, linear_interpolate_matrices
 from colour.algebra.regression import linear_regression
 
@@ -46,7 +47,8 @@ from colour.computation.lefs import mesopic_luminous_efficiency_function, mesopi
 from colour.computation.lightness import get_lightness, get_luminance, get_luminance_equation, get_munsell_value
 from colour.computation.lightness import lightness_1958, lightness_1964, lightness_1976
 from colour.computation.lightness import luminance_1943, luminance_1976
-from colour.computation.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
+from colour.computation.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, \
+    munsell_value_1955
 from colour.computation.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNCTIONS
 from colour.computation.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from colour.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
@@ -58,7 +60,8 @@ from colour.computation.transformations import xy_to_XYZ, XYZ_to_xy
 from colour.computation.transformations import XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.transformations import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from colour.computation.transformations import XYZ_to_UVW
-from colour.computation.transformations import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, Luv_to_LCHuv, LCHuv_to_Luv
+from colour.computation.transformations import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, Luv_to_LCHuv, \
+    LCHuv_to_Luv
 from colour.computation.transformations import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from colour.computation.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
@@ -113,10 +116,11 @@ __status__ = "Production"
 __all__ = ["Constants"]
 
 # *colour.algebra* objects.
-__all__.extend(["get_closest", "get_steps", "is_uniform",
+__all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_ndarray",
+                "Extrapolator1d",
+                "LinearInterpolator", "SpragueInterpolator",
                 "is_identity", "linear_interpolate_matrices",
-                "linear_regression",
-                "SpragueInterpolator"])
+                "linear_regression"])
 
 # *colour.computation.blackbody* objects.
 __all__.extend(["blackbody_spectral_power_distribution", "blackbody_spectral_radiance", "planck_law"])
@@ -157,7 +161,8 @@ __all__.extend(["mesopic_luminous_efficiency_function", "mesopic_weighting_funct
 __all__.extend(["get_lightness", "get_luminance", "get_luminance_equation", "get_munsell_value"])
 __all__.extend(["lightness_1958", "lightness_1964", "lightness_1976"])
 __all__.extend(["luminance_1943", "luminance_1976"])
-__all__.extend(["munsell_value_1920", "munsell_value_1933", "munsell_value_1943", "munsell_value_1944", "munsell_value_1955"])
+__all__.extend(
+    ["munsell_value_1920", "munsell_value_1933", "munsell_value_1943", "munsell_value_1944", "munsell_value_1955"])
 __all__.extend(["LIGHTNESS_FUNCTIONS", "MUNSELL_VALUE_FUNCTIONS"])
 
 # *colour.computation.spectrum* objects.
@@ -192,33 +197,33 @@ __all__.extend(["COLORCHECKERS_SPDS"])
 
 # *colour.dataset.colourspaces* objects.
 COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
-               ACES_RGB_LOG_COLOURSPACE.name: ACES_RGB_LOG_COLOURSPACE,
-               ACES_RGB_PROXY_10_COLOURSPACE.name: ACES_RGB_PROXY_10_COLOURSPACE,
-               ACES_RGB_PROXY_12_COLOURSPACE.name: ACES_RGB_PROXY_12_COLOURSPACE,
-               ADOBE_RGB_1998_COLOURSPACE.name: ADOBE_RGB_1998_COLOURSPACE,
-               ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.name: ADOBE_WIDE_GAMUT_RGB_COLOURSPACE,
-               ALEXA_WIDE_GAMUT_RGB_COLOURSPACE.name: ALEXA_WIDE_GAMUT_RGB_COLOURSPACE,
-               APPLE_RGB_COLOURSPACE.name: APPLE_RGB_COLOURSPACE,
-               BEST_RGB_COLOURSPACE.name: BEST_RGB_COLOURSPACE,
-               BETA_RGB_COLOURSPACE.name: BETA_RGB_COLOURSPACE,
-               CIE_RGB_COLOURSPACE.name: CIE_RGB_COLOURSPACE,
-               C_LOG_COLOURSPACE.name: C_LOG_COLOURSPACE,
-               COLOR_MATCH_RGB_COLOURSPACE.name: COLOR_MATCH_RGB_COLOURSPACE,
-               DCI_P3_COLOURSPACE.name: DCI_P3_COLOURSPACE,
-               DON_RGB_4_COLOURSPACE.name: DON_RGB_4_COLOURSPACE,
-               ECI_RGB_V2_COLOURSPACE.name: ECI_RGB_V2_COLOURSPACE,
-               EKTA_SPACE_PS_5_COLOURSPACE.name: EKTA_SPACE_PS_5_COLOURSPACE,
-               MAX_RGB_COLOURSPACE.name: MAX_RGB_COLOURSPACE,
-               NTSC_RGB_COLOURSPACE.name: NTSC_RGB_COLOURSPACE,
-               PAL_SECAM_RGB_COLOURSPACE.name: PAL_SECAM_RGB_COLOURSPACE,
-               PROPHOTO_RGB_COLOURSPACE.name: PROPHOTO_RGB_COLOURSPACE,
-               REC_709_COLOURSPACE.name: REC_709_COLOURSPACE,
-               REC_2020_COLOURSPACE.name: REC_2020_COLOURSPACE,
-               RUSSELL_RGB_COLOURSPACE.name: RUSSELL_RGB_COLOURSPACE,
-               S_LOG_COLOURSPACE.name: S_LOG_COLOURSPACE,
-               SMPTE_C_RGB_COLOURSPACE.name: SMPTE_C_RGB_COLOURSPACE,
-               sRGB_COLOURSPACE.name: sRGB_COLOURSPACE,
-               XTREME_RGB_COLOURSPACE.name: XTREME_RGB_COLOURSPACE}
+                ACES_RGB_LOG_COLOURSPACE.name: ACES_RGB_LOG_COLOURSPACE,
+                ACES_RGB_PROXY_10_COLOURSPACE.name: ACES_RGB_PROXY_10_COLOURSPACE,
+                ACES_RGB_PROXY_12_COLOURSPACE.name: ACES_RGB_PROXY_12_COLOURSPACE,
+                ADOBE_RGB_1998_COLOURSPACE.name: ADOBE_RGB_1998_COLOURSPACE,
+                ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.name: ADOBE_WIDE_GAMUT_RGB_COLOURSPACE,
+                ALEXA_WIDE_GAMUT_RGB_COLOURSPACE.name: ALEXA_WIDE_GAMUT_RGB_COLOURSPACE,
+                APPLE_RGB_COLOURSPACE.name: APPLE_RGB_COLOURSPACE,
+                BEST_RGB_COLOURSPACE.name: BEST_RGB_COLOURSPACE,
+                BETA_RGB_COLOURSPACE.name: BETA_RGB_COLOURSPACE,
+                CIE_RGB_COLOURSPACE.name: CIE_RGB_COLOURSPACE,
+                C_LOG_COLOURSPACE.name: C_LOG_COLOURSPACE,
+                COLOR_MATCH_RGB_COLOURSPACE.name: COLOR_MATCH_RGB_COLOURSPACE,
+                DCI_P3_COLOURSPACE.name: DCI_P3_COLOURSPACE,
+                DON_RGB_4_COLOURSPACE.name: DON_RGB_4_COLOURSPACE,
+                ECI_RGB_V2_COLOURSPACE.name: ECI_RGB_V2_COLOURSPACE,
+                EKTA_SPACE_PS_5_COLOURSPACE.name: EKTA_SPACE_PS_5_COLOURSPACE,
+                MAX_RGB_COLOURSPACE.name: MAX_RGB_COLOURSPACE,
+                NTSC_RGB_COLOURSPACE.name: NTSC_RGB_COLOURSPACE,
+                PAL_SECAM_RGB_COLOURSPACE.name: PAL_SECAM_RGB_COLOURSPACE,
+                PROPHOTO_RGB_COLOURSPACE.name: PROPHOTO_RGB_COLOURSPACE,
+                REC_709_COLOURSPACE.name: REC_709_COLOURSPACE,
+                REC_2020_COLOURSPACE.name: REC_2020_COLOURSPACE,
+                RUSSELL_RGB_COLOURSPACE.name: RUSSELL_RGB_COLOURSPACE,
+                S_LOG_COLOURSPACE.name: S_LOG_COLOURSPACE,
+                SMPTE_C_RGB_COLOURSPACE.name: SMPTE_C_RGB_COLOURSPACE,
+                sRGB_COLOURSPACE.name: sRGB_COLOURSPACE,
+                XTREME_RGB_COLOURSPACE.name: XTREME_RGB_COLOURSPACE}
 
 __all__.extend(["ACES_RGB_COLOURSPACE", "ACES_RGB_LOG_COLOURSPACE",
                 "ACES_RGB_PROXY_10_COLOURSPACE", "ACES_RGB_PROXY_12_COLOURSPACE",

@@ -24,6 +24,7 @@ import numpy
 import colour.algebra.common
 import colour.utilities.exceptions
 import colour.utilities.verbose
+from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
@@ -464,7 +465,8 @@ class SpectralPowerDistribution(object):
                 sprague_interpolant = sprague_interpolator = None
 
             # Initialising *Linear* interpolant.
-            linear_interpolant = lambda x: numpy.interp(x, wavelengths, values)
+            linear_interpolator = LinearInterpolator(wavelengths, values)
+            linear_interpolant = lambda x: LinearInterpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
             try:
@@ -1231,8 +1233,9 @@ class TriSpectralPowerDistribution(object):
         :rtype: TriSpectralPowerDistribution
         """
 
+        maximum = max(numpy.ravel(self.values))
         for i in self.__mapping.keys():
-            getattr(self, i).normalise(factor)
+            getattr(self, i) * (1. / maximum) * factor
 
         return self
 
