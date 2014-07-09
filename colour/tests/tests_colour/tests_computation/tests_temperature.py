@@ -326,7 +326,7 @@ class Testxy_to_CCT_romero(unittest.TestCase):
                                places=7)
         self.assertAlmostEqual(
             colour.computation.temperature.xy_to_CCT_romero((0.24416224821391358, 0.24033367475831827)),
-            67116.53224117,
+            64448.110925653324,
             places=7)
 
 

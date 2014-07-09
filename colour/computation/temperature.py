@@ -576,8 +576,7 @@ def xy_to_CCT_romero(xy):
         n = (x - 0.3356) / (y - 0.1691)
         CCT = 36284.48953 + \
               0.00228 * math.exp(-n / 0.07861) + \
-              5.4535e-36 * math.exp(-n / 0.01543) + \
-              0.00004 * math.exp(-n / 0.07125)
+              5.4535e-36 * math.exp(-n / 0.01543)
 
     return CCT
 
@@ -591,6 +590,11 @@ def CCT_to_xy_kim(CCT):
 
     -  `Design of Advanced Color - Temperature Control System for HDTV Applications \
     <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_
+
+    Usage::
+
+        >>> CCT_to_xy_kim((0.31271, 0.32902))
+        (0.3127077520604209, 0.3291128338173629)
 
     :param CCT: Correlated colour temperature.
     :type CCT: float
