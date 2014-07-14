@@ -19,8 +19,9 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import colour.computation.derivation
+import colour.computation.colourspaces.rgb.derivation
 import colour.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -78,7 +79,7 @@ def get_luminance_equation(primaries, whitepoint):
     """
 
     return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-        *numpy.ravel(colour.computation.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6])
+        *numpy.ravel(colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6])
 
 
 def get_luminance(RGB, primaries, whitepoint):
@@ -108,7 +109,7 @@ def get_luminance(RGB, primaries, whitepoint):
     """
 
     R, G, B = numpy.ravel(RGB)
-    X, Y, Z = numpy.ravel(colour.computation.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6]
+    X, Y, Z = numpy.ravel(colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6]
 
     return X * R + Y * G + Z * B
 

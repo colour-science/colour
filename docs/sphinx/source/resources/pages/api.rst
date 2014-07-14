@@ -16,8 +16,8 @@ Modules Summary:
    colour.computation.colourspace <api/colour.computation.colourspace>
    colour.computation.correction <api/colour.computation.correction>
    colour.computation.cri <api/colour.computation.cri>
-   colour.computation.deprecated <api/colour.computation.deprecated>
-   colour.computation.derivation <api/colour.computation.derivation>
+   colour.computation.colourspaces.deprecated <api/colour.computation.colourspaces.deprecated>
+   colour.computation.colourspaces.rgb.derivation <api/colour.computation.colourspaces.rgb.derivation>
    colour.computation.difference <api/colour.computation.difference>
    colour.computation.illuminants <api/colour.computation.illuminants>
    colour.computation.lefs <api/colour.computation.lefs>

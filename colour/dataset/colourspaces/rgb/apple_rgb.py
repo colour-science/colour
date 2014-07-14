@@ -18,11 +18,11 @@ from __future__ import unicode_literals
 
 import numpy
 
+import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.computation.derivation
 import colour.utilities.exceptions
 import colour.utilities.verbose
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -49,7 +49,7 @@ APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,
 APPLE_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-APPLE_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(APPLE_RGB_PRIMARIES,
+APPLE_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(APPLE_RGB_PRIMARIES,
                                                                                       APPLE_RGB_WHITEPOINT)
 
 XYZ_TO_APPLE_RGB_MATRIX = APPLE_RGB_TO_XYZ_MATRIX.getI()

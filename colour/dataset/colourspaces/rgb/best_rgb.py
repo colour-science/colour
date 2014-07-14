@@ -18,11 +18,11 @@ from __future__ import unicode_literals
 
 import numpy
 
+import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.computation.derivation
 import colour.utilities.exceptions
 import colour.utilities.verbose
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -49,7 +49,7 @@ BEST_RGB_PRIMARIES = numpy.matrix([0.73519163763066209, 0.26480836236933797,
 BEST_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-BEST_RGB_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(BEST_RGB_PRIMARIES,
+BEST_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(BEST_RGB_PRIMARIES,
                                                                                      BEST_RGB_WHITEPOINT)
 
 XYZ_TO_BEST_RGB_MATRIX = BEST_RGB_TO_XYZ_MATRIX.getI()

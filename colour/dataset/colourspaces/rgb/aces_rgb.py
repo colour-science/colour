@@ -17,13 +17,15 @@
 from __future__ import unicode_literals
 
 import math
+
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
 import colour.utilities.data_structures
 import colour.utilities.verbose
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

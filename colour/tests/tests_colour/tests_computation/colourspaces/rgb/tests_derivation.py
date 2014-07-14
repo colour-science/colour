@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.computation.derivation` module.
+    Defines units tests for :mod:`colour.computation.colourspaces.rgb.derivation` module.
 
 **Others:**
 
@@ -16,15 +16,17 @@
 
 from __future__ import unicode_literals
 
-import numpy
 import sys
+
+import numpy
+
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-import colour.computation.derivation
+import colour.computation.colourspaces.rgb.derivation
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,39 +41,39 @@ __all__ = ["Testxy_to_z",
 
 class Testxy_to_z(unittest.TestCase):
     """
-    Defines :func:`colour.computation.derivation.xy_to_z` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.rgb.derivation.xy_to_z` definition units tests methods.
     """
 
     def test_xy_to_z(self):
         """
-        Tests :func:`colour.computation.derivation.xy_to_z` definition.
+        Tests :func:`colour.computation.colourspaces.rgb.derivation.xy_to_z` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.derivation.xy_to_z((0.25, 0.25)),
+        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.25, 0.25)),
                                           0.5,
                                           decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.derivation.xy_to_z((0.00010, -0.07700)),
+        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00010, -0.07700)),
                                           1.07690,
                                           decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.derivation.xy_to_z((0.00000, 1.00000)),
+        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00000, 1.00000)),
                                           0.00000,
                                           decimal=7)
 
 
 class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.computation.derivation.get_normalised_primary_matrix` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix` definition units tests methods.
     """
 
     def test_get_normalised_primary_matrix(self):
         """
-        Tests :func:`colour.computation.derivation.get_normalised_primary_matrix` definition.
+        Tests :func:`colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix` definition.
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.derivation.get_normalised_primary_matrix(numpy.matrix([0.73470, 0.26530,
+            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(numpy.matrix([0.73470, 0.26530,
                                                                                       0.00000, 1.00000,
                                                                                       0.00010, -0.07700]).reshape(
                 (3, 2)),
@@ -82,7 +84,7 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.derivation.get_normalised_primary_matrix(numpy.matrix([0.640, 0.330,
+            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(numpy.matrix([0.640, 0.330,
                                                                                       0.300, 0.600,
                                                                                       0.150, 0.060]).reshape((3, 2)),
                                                                         (0.3127, 0.3290)),

@@ -21,7 +21,7 @@ import numpy
 import colour.dataset.illuminants
 import colour.utilities.exceptions
 import colour.utilities.verbose
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

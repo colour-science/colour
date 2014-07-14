@@ -38,10 +38,10 @@ from colour.computation.cmfs import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from colour.computation.cmfs import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.derivation import get_normalised_primary_matrix
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
-from colour.computation.derivation import get_normalised_primary_matrix
 from colour.computation.difference import delta_E_CIE_1976, delta_E_CIE_1994, delta_E_CIE_2000, delta_E_CMC
 from colour.computation.illuminants import D_illuminant_relative_spd
 from colour.computation.lefs import mesopic_luminous_efficiency_function, mesopic_weighting_function
@@ -137,17 +137,17 @@ __all__.extend(["RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
                 "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
                 "LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs"])
 
-# *colour.computation.colourspaces* objects.
+# *colour.computation.colourspaces.rgb.colourspace* objects.
 __all__.extend(["Colourspace"])
+
+# *colour.computation.colourspaces.rgb.derivation* objects.
+__all__.extend(["get_normalised_primary_matrix"])
 
 # *colour.computation.correction* objects.
 __all__.extend(["bandpass_correction", "bandpass_correction_stearns"])
 
 # *colour.computation.cri* objects.
 __all__.extend(["get_colour_rendering_index"])
-
-# *colour.computation.derivation* objects.
-__all__.extend(["get_normalised_primary_matrix"])
 
 # *colour.computation.difference* objects.
 __all__.extend(["delta_E_CIE_1976", "delta_E_CIE_1994", "delta_E_CIE_2000", "delta_E_CMC"])
@@ -196,7 +196,7 @@ __all__.extend(["COLORCHECKERS"])
 # *colour.dataset.colour_checkers.spds* objects.
 __all__.extend(["COLORCHECKERS_SPDS"])
 
-# *colour.dataset.colourspaces* objects.
+# *colour.dataset.rgb.colourspaces* objects.
 COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
                 ACES_RGB_LOG_COLOURSPACE.name: ACES_RGB_LOG_COLOURSPACE,
                 ACES_RGB_PROXY_10_COLOURSPACE.name: ACES_RGB_PROXY_10_COLOURSPACE,

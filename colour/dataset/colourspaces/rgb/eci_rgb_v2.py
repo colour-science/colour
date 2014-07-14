@@ -18,12 +18,12 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.computation.derivation
-import colour.dataset.illuminants.chromaticity_coordinates
+import colour.computation.colourspaces.rgb.derivation
 import colour.computation.lightness
+import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
 import colour.utilities.verbose
-from colour.computation.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -50,7 +50,7 @@ ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
 ECI_RGB_V2_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.derivation.get_normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
+ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
                                                                                        ECI_RGB_V2_WHITEPOINT)
 
 XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()

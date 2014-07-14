@@ -1,12 +1,12 @@
-_`colour.computation.derivation`
+_`colour.computation.colourspaces.rgb.derivation`
 ================================
 
-.. automodule:: colour.computation.derivation
+.. automodule:: colour.computation.colourspaces.rgb.derivation
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.derivation.LOGGER
+.. attribute:: colour.computation.colourspaces.rgb.derivation.LOGGER
 
 Functions
 ---------

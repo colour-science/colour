@@ -1,12 +1,12 @@
-_`colour.computation.deprecated`
+_`colour.computation.colourspaces.deprecated`
 ================================
 
-.. automodule:: colour.computation.deprecated
+.. automodule:: colour.computation.colourspaces.deprecated
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.deprecated.LOGGER
+.. attribute:: colour.computation.colourspaces.deprecated.LOGGER
 
 Functions
 ---------
