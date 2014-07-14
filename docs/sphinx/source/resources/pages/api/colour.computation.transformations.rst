@@ -1,12 +1,12 @@
-_`colour.computation.transformations`
+_`colour.computation.colourspaces.cie_xyy`
 =====================================
 
-.. automodule:: colour.computation.transformations
+.. automodule:: colour.computation.colourspaces.cie_xyy
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.transformations.LOGGER
+.. attribute:: colour.computation.colourspaces.cie_xyy.LOGGER
 
 Functions
 ---------

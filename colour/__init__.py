@@ -38,6 +38,13 @@ from colour.computation.cmfs import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from colour.computation.cmfs import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
+from colour.computation.colourspaces.cie_lab import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+from colour.computation.colourspaces.cie_luv import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, Luv_to_LCHuv, LCHuv_to_Luv
+from colour.computation.colourspaces.cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
+from colour.computation.colourspaces.cie_uvw import XYZ_to_UVW
+from colour.computation.colourspaces.cie_xyy import XYZ_to_xyY, xyY_to_XYZ, xyY_to_RGB, RGB_to_xyY
+from colour.computation.colourspaces.cie_xyy import xy_to_XYZ, XYZ_to_xy
+from colour.computation.colourspaces.cie_xyy import XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 from colour.computation.colourspaces.rgb.derivation import get_normalised_primary_matrix
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
@@ -56,14 +63,6 @@ from colour.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_
 from colour.computation.temperature import uv_to_CCT, uv_to_CCT_ohno, uv_to_CCT_robertson
 from colour.computation.temperature import CCT_to_xy, CCT_to_xy_kim, CCT_to_xy_illuminant_D
 from colour.computation.temperature import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_romero
-from colour.computation.transformations import XYZ_to_xyY, xyY_to_XYZ, xyY_to_RGB, RGB_to_xyY
-from colour.computation.transformations import xy_to_XYZ, XYZ_to_xy
-from colour.computation.transformations import XYZ_to_RGB, RGB_to_XYZ
-from colour.computation.transformations import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
-from colour.computation.transformations import XYZ_to_UVW
-from colour.computation.transformations import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, Luv_to_LCHuv, \
-    LCHuv_to_Luv
-from colour.computation.transformations import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from colour.computation.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
 from colour.dataset.cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
@@ -137,6 +136,23 @@ __all__.extend(["RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
                 "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
                 "LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs"])
 
+# *colour.computation.colourspaces.cie_lab* objects.
+__all__.extend(["XYZ_to_Lab", "Lab_to_XYZ", "Lab_to_LCHab", "LCHab_to_Lab"])
+
+# *colour.computation.colourspaces.cie_luv* objects.
+__all__.extend(["XYZ_to_Luv", "Luv_to_XYZ", "Luv_to_uv", "Luv_uv_to_xy", "Luv_to_LCHuv", "LCHuv_to_Luv"])
+
+# *colour.computation.colourspaces.cie_ucs* objects.
+__all__.extend(["XYZ_to_UCS", "UCS_to_XYZ", "UCS_to_uv", "UCS_uv_to_xy"])
+
+# *colour.computation.colourspaces.cie_uvw* objects.
+__all__.extend(["XYZ_to_UVW"])
+
+# *colour.computation.colourspaces.cie_xyy* objects.
+__all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
+                "xy_to_XYZ", "XYZ_to_xy",
+                "XYZ_to_RGB", "RGB_to_XYZ"])
+
 # *colour.computation.colourspaces.rgb.colourspace* objects.
 __all__.extend(["Colourspace"])
 
@@ -175,15 +191,6 @@ __all__.extend(["CCT_to_uv", "CCT_to_uv_ohno", "CCT_to_uv_robertson",
                 "CCT_to_xy", "CCT_to_xy_kim", "CCT_to_xy_illuminant_D",
                 "xy_to_CCT", "xy_to_CCT_mccamy", "xy_to_CCT_romero"])
 
-# *colour.computation.transformations* objects.
-__all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
-                "xy_to_XYZ", "XYZ_to_xy",
-                "XYZ_to_RGB", "RGB_to_XYZ",
-                "XYZ_to_UCS", "UCS_to_XYZ", "UCS_to_uv", "UCS_uv_to_xy",
-                "XYZ_to_UVW",
-                "XYZ_to_Luv", "Luv_to_XYZ", "Luv_to_uv", "Luv_uv_to_xy", "Luv_to_LCHuv", "LCHuv_to_Luv",
-                "XYZ_to_Lab", "Lab_to_XYZ", "Lab_to_LCHab", "LCHab_to_Lab"])
-
 # *colour.computation.tristimulus* objects.
 __all__.extend(["spectral_to_XYZ", "wavelength_to_XYZ"])
 
@@ -197,7 +204,7 @@ __all__.extend(["COLORCHECKERS"])
 __all__.extend(["COLORCHECKERS_SPDS"])
 
 # *colour.dataset.rgb.colourspaces* objects.
-COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
+RGB_COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
                 ACES_RGB_LOG_COLOURSPACE.name: ACES_RGB_LOG_COLOURSPACE,
                 ACES_RGB_PROXY_10_COLOURSPACE.name: ACES_RGB_PROXY_10_COLOURSPACE,
                 ACES_RGB_PROXY_12_COLOURSPACE.name: ACES_RGB_PROXY_12_COLOURSPACE,
@@ -253,7 +260,7 @@ __all__.extend(["ACES_RGB_COLOURSPACE", "ACES_RGB_LOG_COLOURSPACE",
                 "SMPTE_C_RGB_COLOURSPACE",
                 "sRGB_COLOURSPACE",
                 "XTREME_RGB_COLOURSPACE",
-                "COLOURSPACES"])
+                "RGB_COLOURSPACES"])
 
 # *colour.dataset.illuminants.chromaticity_coordinates* objects.
 __all__.extend(["ILLUMINANTS"])

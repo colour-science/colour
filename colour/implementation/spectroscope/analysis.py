@@ -168,7 +168,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "B"))
 
 
-def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=False):
+def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given image data.
 
@@ -192,7 +192,7 @@ def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=
     return vector_linearise(image)
 
 
-def get_image(path, colourspace=colour.COLOURSPACES["sRGB"], to_linear=True):
+def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True):
     """
     Reads image from given path.
 
@@ -321,7 +321,7 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured,  samples=samples)
 
 
-def get_luminance_spd(RGB_spectrum, colourspace=colour.COLOURSPACES["sRGB"]):
+def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"]):
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 

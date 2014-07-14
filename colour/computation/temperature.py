@@ -28,7 +28,7 @@ import numpy
 from collections import namedtuple
 
 import colour.computation.blackbody
-import colour.computation.transformations
+import colour.computation.colourspaces.cie_ucs
 import colour.computation.tristimulus
 import colour.dataset.cmfs
 import colour.utilities.exceptions
@@ -156,8 +156,8 @@ def get_planckian_table(uv, cmfs, start, end, count):
         spd = colour.computation.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
         XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
-        UVW = colour.computation.transformations.XYZ_to_UCS(XYZ)
-        ui, vi = colour.computation.transformations.UCS_to_uv(UVW)
+        UVW = colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(XYZ)
+        ui, vi = colour.computation.colourspaces.cie_ucs.UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
         planckian_table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
@@ -298,8 +298,8 @@ def CCT_to_uv_ohno(CCT,
     spd = colour.computation.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs)
     XYZ *= 1. / numpy.max(XYZ)
-    UVW = colour.computation.transformations.XYZ_to_UCS(XYZ)
-    u0, v0 = colour.computation.transformations.UCS_to_uv(UVW)
+    UVW = colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(XYZ)
+    u0, v0 = colour.computation.colourspaces.cie_ucs.UCS_to_uv(UVW)
 
     if Duv == 0.:
         return u0, v0
@@ -307,8 +307,8 @@ def CCT_to_uv_ohno(CCT,
         spd = colour.computation.blackbody.blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
         XYZ = colour.computation.tristimulus.spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / numpy.max(XYZ)
-        UVW = colour.computation.transformations.XYZ_to_UCS(XYZ)
-        u1, v1 = colour.computation.transformations.UCS_to_uv(UVW)
+        UVW = colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(XYZ)
+        u1, v1 = colour.computation.colourspaces.cie_ucs.UCS_to_uv(UVW)
 
         du = u0 - u1
         dv = v0 - v1

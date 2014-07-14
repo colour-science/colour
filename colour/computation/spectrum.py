@@ -466,7 +466,7 @@ class SpectralPowerDistribution(object):
 
             # Initialising *Linear* interpolant.
             linear_interpolator = LinearInterpolator(wavelengths, values)
-            linear_interpolant = lambda x: LinearInterpolator(x)
+            linear_interpolant = lambda x: linear_interpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
             try:

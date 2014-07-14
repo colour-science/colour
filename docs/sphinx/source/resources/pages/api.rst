@@ -24,7 +24,7 @@ Modules Summary:
    colour.computation.lightness <api/colour.computation.lightness>
    colour.computation.spectrum <api/colour.computation.spectrum>
    colour.computation.temperature <api/colour.computation.temperature>
-   colour.computation.transformations <api/colour.computation.transformations>
+   colour.computation.colourspaces.cie_xyy <api/colour.computation.colourspaces.cie_xyy>
    colour.computation.tristimulus <api/colour.computation.tristimulus>
    colour.dataset.cmfs <api/colour.dataset.cmfs>
    colour.dataset.colour_checkers.chromaticity_coordinates <api/colour.dataset.colour_checkers.chromaticity_coordinates>

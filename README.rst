@@ -182,7 +182,7 @@ Highlights:
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
 
-Convenience deprecated transformations:
+Convenience deprecated colourspaces transformations:
 
   -  RGB to HSV.
   -  HSV to RGB.

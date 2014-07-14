@@ -41,7 +41,9 @@ import colour.computation.blackbody
 import colour.computation.cri
 import colour.computation.lightness
 import colour.computation.temperature
-import colour.computation.transformations
+import colour.computation.colourspaces.cie_luv
+import colour.computation.colourspaces.cie_ucs
+import colour.computation.colourspaces.cie_xyy
 import colour.computation.tristimulus
 import colour.utilities.data_structures
 import colour.utilities.exceptions
@@ -162,12 +164,12 @@ def __get_colourspace(colourspace):
     :rtype: Colourspace
     """
 
-    colourspace, name = colour.COLOURSPACES.get(colourspace), colourspace
+    colourspace, name = colour.RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
         raise colour.utilities.exceptions.ProgrammingError(
             "'{0}' colourspace not found in factory colourspaces: '{1}'.".format(name,
                                                                                sorted(
-                                                                                   colour.COLOURSPACES.keys())))
+                                                                                   colour.RGB_COLOURSPACES.keys())))
 
     return colourspace
 
@@ -204,7 +206,7 @@ def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.rgb.srgb.sRGB_COLOUR
     :rtype: matrix (3x1)
     """
 
-    return colour.computation.transformations.XYZ_to_RGB(XYZ,
+    return colour.computation.colourspaces.cie_xyy.XYZ_to_RGB(XYZ,
                                             illuminant,
                                             colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.whitepoint,
                                             "CAT02",
@@ -593,7 +595,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005",
     _, data, illuminant = colour_checker
     colour_parameters = []
     for index, label, x, y, Y in data:
-        XYZ = colour.computation.transformations.xyY_to_XYZ((x, y, Y))
+        XYZ = colour.computation.colourspaces.cie_xyy.xyY_to_XYZ((x, y, Y))
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(colour_parameter(label.title(), numpy.clip(numpy.ravel(RGB), 0, 1)))
@@ -974,7 +976,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
 
     XYZs = [value for key, value in cmfs]
 
-    x, y = zip(*(map(lambda x: colour.computation.transformations.XYZ_to_xy(x), XYZs)))
+    x, y = zip(*(map(lambda x: colour.computation.colourspaces.cie_xyy.XYZ_to_xy(x), XYZs)))
 
     path = matplotlib.path.Path(zip(x, y))
     x_dot, y_dot, colours = [], [], []
@@ -984,7 +986,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
                 x_dot.append(i)
                 y_dot.append(j)
 
-                XYZ = colour.computation.transformations.xy_to_XYZ((i, j))
+                XYZ = colour.computation.colourspaces.cie_xyy.xy_to_XYZ((i, j))
                 RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
@@ -1035,7 +1037,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
 
     XYZs = [value for key, value in cmfs]
 
-    x, y = zip(*(map(lambda x: colour.computation.transformations.XYZ_to_xy(x), XYZs)))
+    x, y = zip(*(map(lambda x: colour.computation.colourspaces.cie_xyy.XYZ_to_xy(x), XYZs)))
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(x, y)))
 
@@ -1193,14 +1195,14 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
         return
 
     start, end = 1667, 100000
-    x, y = zip(*map(lambda x: colour.computation.transformations.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(x, 0., cmfs=cmfs)),
+    x, y = zip(*map(lambda x: colour.computation.colourspaces.cie_ucs.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(x, 0., cmfs=cmfs)),
                     numpy.arange(start, end + 250, 250)))
 
     pylab.plot(x, y, color="black", linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
-        x0, y0 = colour.computation.transformations.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(i, -0.025, cmfs=cmfs))
-        x1, y1 = colour.computation.transformations.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(i, 0.025, cmfs=cmfs))
+        x0, y0 = colour.computation.colourspaces.cie_ucs.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(i, -0.025, cmfs=cmfs))
+        x1, y1 = colour.computation.colourspaces.cie_ucs.UCS_uv_to_xy(colour.computation.temperature.CCT_to_uv(i, 0.025, cmfs=cmfs))
         pylab.plot([x0, x1], [y0, y1], color="black", linewidth=2.)
         pylab.annotate("{0}K".format(i),
                        xy=(x0, y0),
@@ -1259,9 +1261,9 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
-    UVWs = [colour.computation.transformations.XYZ_to_UCS(value) for key, value in cmfs]
+    UVWs = [colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(value) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: colour.computation.transformations.UCS_to_uv(x), UVWs)))
+    u, v = zip(*(map(lambda x: colour.computation.colourspaces.cie_ucs.UCS_to_uv(x), UVWs)))
 
     path = matplotlib.path.Path(zip(u, v))
     x_dot, y_dot, colours = [], [], []
@@ -1271,7 +1273,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 x_dot.append(i)
                 y_dot.append(j)
 
-                XYZ = colour.computation.transformations.xy_to_XYZ(colour.computation.transformations.UCS_uv_to_xy((i, j)))
+                XYZ = colour.computation.colourspaces.cie_xyy.xy_to_XYZ(
+                    colour.computation.colourspaces.cie_ucs.UCS_uv_to_xy((i, j)))
                 RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
@@ -1321,9 +1324,9 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     wavelengths = cmfs.wavelengths
     equal_energy = numpy.array([1. / 3.] * 2)
 
-    UVWs = [colour.computation.transformations.XYZ_to_UCS(value) for key, value in cmfs]
+    UVWs = [colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(value) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: colour.computation.transformations.UCS_to_uv(x), UVWs)))
+    u, v = zip(*(map(lambda x: colour.computation.colourspaces.cie_ucs.UCS_to_uv(x), UVWs)))
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(u, v)))
 
@@ -1404,9 +1407,9 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
         return
 
-    xy_to_uv = lambda x: colour.computation.transformations.UCS_to_uv(
-        colour.computation.transformations.XYZ_to_UCS(
-            colour.computation.transformations.xy_to_XYZ(x)))
+    xy_to_uv = lambda x: colour.computation.colourspaces.cie_ucs.UCS_to_uv(
+        colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(
+            colour.computation.colourspaces.cie_xyy.xy_to_XYZ(x)))
 
     start, end = 1667, 100000
     u, v = zip(*map(lambda x: colour.computation.temperature.CCT_to_uv(x, 0., cmfs=cmfs), numpy.arange(start, end + 250, 250)))
@@ -1474,9 +1477,9 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
-    Luvs = [colour.computation.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
+    Luvs = [colour.computation.colourspaces.cie_luv.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: colour.computation.transformations.Luv_to_uv(x), Luvs)))
+    u, v = zip(*(map(lambda x: colour.computation.colourspaces.cie_luv.Luv_to_uv(x), Luvs)))
 
     path = matplotlib.path.Path(zip(u, v))
     x_dot, y_dot, colours = [], [], []
@@ -1486,7 +1489,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 x_dot.append(i)
                 y_dot.append(j)
 
-                XYZ = colour.computation.transformations.xy_to_XYZ(colour.computation.transformations.Luv_uv_to_xy((i, j)))
+                XYZ = colour.computation.colourspaces.cie_xyy.xy_to_XYZ(
+                    colour.computation.colourspaces.cie_luv.Luv_uv_to_xy((i, j)))
                 RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
@@ -1538,9 +1542,9 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
-    Luvs = [colour.computation.transformations.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
+    Luvs = [colour.computation.colourspaces.cie_luv.XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
-    u, v = zip(*(map(lambda x: colour.computation.transformations.Luv_to_uv(x), Luvs)))
+    u, v = zip(*(map(lambda x: colour.computation.colourspaces.cie_luv.Luv_to_uv(x), Luvs)))
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, zip(u, v)))
 

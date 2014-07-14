@@ -14,16 +14,16 @@
 
 """
 
-import numpy
-import foundations.common
-
-import colour.computation.transformations
-
 import maya.cmds as cmds
 import maya.OpenMaya as OpenMaya
+import numpy
+
+import colour.computation.colourspaces.cie_xyy
+import colour.computation.colourspaces.cie_lab
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.data_structures
 import colour.utilities.verbose
+import foundations.common
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -117,14 +117,14 @@ def RGB_to_Lab(RGB, colourspace):
 
     :param RGB: *RGB* value.
     :type RGB: tuple or matrix
-    :param colourspace: *RGB* value colourspace.
-    :type colourspace: unicode
+    :param colourspace: *RGB* colourspace.
+    :type colourspace: Colourspace
     :return: Definition success.
     :rtype: bool
     """
 
-    return colour.computation.transformations.XYZ_to_Lab(
-        colour.computation.transformations.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
+    return colour.computation.colourspaces.cie_lab.XYZ_to_Lab(
+        colour.computation.colourspaces.cie_xyy.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
                                                                              colourspace.whitepoint,
                                                                              colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                                                                                  "CIE 1931 2 Degree Standard Observer").get(

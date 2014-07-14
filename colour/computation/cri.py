@@ -21,10 +21,11 @@ from collections import namedtuple
 
 import colour.algebra.common
 import colour.computation.blackbody
+import colour.computation.colourspaces.cie_ucs
 import colour.computation.difference
 import colour.computation.illuminants
 import colour.computation.temperature
-import colour.computation.transformations
+import colour.computation.colourspaces.cie_xyy
 import colour.computation.tristimulus
 import colour.dataset.cmfs
 import colour.dataset.tcs
@@ -65,21 +66,21 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
 
     test_XYZ = colour.computation.tristimulus.spectral_to_XYZ(test_spd, cmfs)
     test_uv = numpy.ravel(
-        colour.computation.transformations.UCS_to_uv(colour.computation.transformations.XYZ_to_UCS(test_XYZ)))
+        colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(test_XYZ)))
     test_u, test_v = test_uv[0], test_uv[1]
 
     reference_XYZ = colour.computation.tristimulus.spectral_to_XYZ(reference_spd, cmfs)
     reference_uv = numpy.ravel(
-        colour.computation.transformations.UCS_to_uv(colour.computation.transformations.XYZ_to_UCS(reference_XYZ)))
+        colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(reference_XYZ)))
     reference_u, reference_v = reference_uv[0], reference_uv[1]
 
     tcs_data = []
     for key, value in sorted(colour.dataset.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
         tcs_spd = tsc_spds.get(value)
         tcs_XYZ = colour.computation.tristimulus.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
-        tcs_xyY = numpy.ravel(colour.computation.transformations.XYZ_to_xyY(tcs_XYZ))
+        tcs_xyY = numpy.ravel(colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(tcs_XYZ))
         tcs_uv = numpy.ravel(
-            colour.computation.transformations.UCS_to_uv(colour.computation.transformations.XYZ_to_UCS(tcs_XYZ)))
+            colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(tcs_XYZ)))
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
 
         if chromatic_adaptation:
@@ -153,7 +154,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
         tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
 
     XYZ = colour.computation.tristimulus.spectral_to_XYZ(test_spd, cmfs)
-    uv = colour.computation.transformations.UCS_to_uv(colour.computation.transformations.XYZ_to_UCS(XYZ))
+    uv = colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(XYZ))
     CCT, Duv = colour.computation.temperature.uv_to_CCT_robertson(uv)
 
     if CCT < 5000.:
