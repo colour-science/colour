@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *luminance*, *Munsell value* and *Lightness* manipulation objects.
+    Defines **Colour** package *Luminance*, *Munsell value* and *Lightness* manipulation objects.
 
 **Others:**
 
