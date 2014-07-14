@@ -33,8 +33,8 @@ import colour
 import colour.algebra.matrix
 import colour.dataset.cmfs
 import colour.dataset.colour_checkers.chromaticity_coordinates
-import colour.dataset.colourspaces.pointer_gamut
-import colour.dataset.colourspaces.srgb
+import colour.dataset.colourspaces.rgb.pointer_gamut
+import colour.dataset.colourspaces.rgb.srgb
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.spds
 import colour.computation.blackbody
@@ -46,6 +46,7 @@ import colour.computation.tristimulus
 import colour.utilities.data_structures
 import colour.utilities.exceptions
 import colour.utilities.verbose
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -171,7 +172,7 @@ def __get_colourspace(colourspace):
     return colourspace
 
 
-def __get_colour_cycle(color_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
+def __get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 
@@ -191,7 +192,7 @@ def __get_colour_cycle(color_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     return itertools.cycle(colour_cycle)
 
 
-def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.whitepoint):
+def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.whitepoint):
     """
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
 
@@ -205,10 +206,10 @@ def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.srgb.sRGB_COLOURSPAC
 
     return colour.computation.transformations.XYZ_to_RGB(XYZ,
                                             illuminant,
-                                            colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.whitepoint,
+                                            colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.whitepoint,
                                             "CAT02",
-                                            colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.from_XYZ,
-                                            colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.transfer_function)
+                                            colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.from_XYZ,
+                                            colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.transfer_function)
 
 
 def normalise_RGB(RGB):
@@ -619,7 +620,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005",
 
     pylab.text(text_x,
                text_y,
-               "{0} - {1} - Colour Rendition Chart".format(name, colour.dataset.colourspaces.srgb.sRGB_COLOURSPACE.name),
+               "{0} - {1} - Colour Rendition Chart".format(name, colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.name),
                color="0.95",
                clip_on=True,
                ha="center")
@@ -1118,7 +1119,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [-0.1], [0.9], [-0.1], [0.9]
     for colourspace in colourspaces:
         if colourspace == "Pointer Gamut":
-            x, y = zip(*colour.dataset.colourspaces.pointer_gamut.POINTER_GAMUT_DATA)
+            x, y = zip(*colour.dataset.colourspaces.rgb.pointer_gamut.POINTER_GAMUT_DATA)
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:

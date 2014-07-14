@@ -20,6 +20,7 @@ import foundations.globals.constants
 
 from colour.globals.constants import Constants
 
+
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
 from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray
@@ -68,34 +69,34 @@ from colour.computation.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 from colour.dataset.cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
 from colour.dataset.colour_checkers.chromaticity_coordinates import COLOURCHECKERS
 from colour.dataset.colour_checkers.spds import COLOURCHECKERS_SPDS
-from colour.dataset.colourspaces.aces_rgb import ACES_RGB_COLOURSPACE, ACES_RGB_LOG_COLOURSPACE
-from colour.dataset.colourspaces.aces_rgb import ACES_RGB_PROXY_10_COLOURSPACE, ACES_RGB_PROXY_12_COLOURSPACE
-from colour.dataset.colourspaces.adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
-from colour.dataset.colourspaces.adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
-from colour.dataset.colourspaces.alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLOURSPACE
-from colour.dataset.colourspaces.apple_rgb import APPLE_RGB_COLOURSPACE
-from colour.dataset.colourspaces.best_rgb import BEST_RGB_COLOURSPACE
-from colour.dataset.colourspaces.best_rgb import BEST_RGB_COLOURSPACE
-from colour.dataset.colourspaces.beta_rgb import BETA_RGB_COLOURSPACE
-from colour.dataset.colourspaces.c_log import C_LOG_COLOURSPACE
-from colour.dataset.colourspaces.cie_rgb import CIE_RGB_COLOURSPACE
-from colour.dataset.colourspaces.color_match_rgb import COLOR_MATCH_RGB_COLOURSPACE
-from colour.dataset.colourspaces.dci_p3 import DCI_P3_COLOURSPACE
-from colour.dataset.colourspaces.don_rgb_4 import DON_RGB_4_COLOURSPACE
-from colour.dataset.colourspaces.eci_rgb_v2 import ECI_RGB_V2_COLOURSPACE
-from colour.dataset.colourspaces.ekta_space_ps5 import EKTA_SPACE_PS_5_COLOURSPACE
-from colour.dataset.colourspaces.max_rgb import MAX_RGB_COLOURSPACE
-from colour.dataset.colourspaces.ntsc_rgb import NTSC_RGB_COLOURSPACE
-from colour.dataset.colourspaces.pal_secam_rgb import PAL_SECAM_RGB_COLOURSPACE
-from colour.dataset.colourspaces.pointer_gamut import POINTER_GAMUT_DATA
-from colour.dataset.colourspaces.prophoto_rgb import PROPHOTO_RGB_COLOURSPACE
-from colour.dataset.colourspaces.rec_709 import REC_709_COLOURSPACE
-from colour.dataset.colourspaces.rec_2020 import REC_2020_COLOURSPACE
-from colour.dataset.colourspaces.russell_rgb import RUSSELL_RGB_COLOURSPACE
-from colour.dataset.colourspaces.s_log import S_LOG_COLOURSPACE
-from colour.dataset.colourspaces.smptec_rgb import SMPTE_C_RGB_COLOURSPACE
-from colour.dataset.colourspaces.srgb import sRGB_COLOURSPACE
-from colour.dataset.colourspaces.xtreme_rgb import XTREME_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.aces_rgb import ACES_RGB_COLOURSPACE, ACES_RGB_LOG_COLOURSPACE
+from colour.dataset.colourspaces.rgb.aces_rgb import ACES_RGB_PROXY_10_COLOURSPACE, ACES_RGB_PROXY_12_COLOURSPACE
+from colour.dataset.colourspaces.rgb.adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
+from colour.dataset.colourspaces.rgb.adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.apple_rgb import APPLE_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.best_rgb import BEST_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.best_rgb import BEST_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.beta_rgb import BETA_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.c_log import C_LOG_COLOURSPACE
+from colour.dataset.colourspaces.rgb.cie_rgb import CIE_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.color_match_rgb import COLOR_MATCH_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.dci_p3 import DCI_P3_COLOURSPACE
+from colour.dataset.colourspaces.rgb.don_rgb_4 import DON_RGB_4_COLOURSPACE
+from colour.dataset.colourspaces.rgb.eci_rgb_v2 import ECI_RGB_V2_COLOURSPACE
+from colour.dataset.colourspaces.rgb.ekta_space_ps5 import EKTA_SPACE_PS_5_COLOURSPACE
+from colour.dataset.colourspaces.rgb.max_rgb import MAX_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.ntsc_rgb import NTSC_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.pal_secam_rgb import PAL_SECAM_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.pointer_gamut import POINTER_GAMUT_DATA
+from colour.dataset.colourspaces.rgb.prophoto_rgb import PROPHOTO_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.rec_709 import REC_709_COLOURSPACE
+from colour.dataset.colourspaces.rgb.rec_2020 import REC_2020_COLOURSPACE
+from colour.dataset.colourspaces.rgb.russell_rgb import RUSSELL_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.s_log import S_LOG_COLOURSPACE
+from colour.dataset.colourspaces.rgb.smptec_rgb import SMPTE_C_RGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.srgb import sRGB_COLOURSPACE
+from colour.dataset.colourspaces.rgb.xtreme_rgb import XTREME_RGB_COLOURSPACE
 from colour.dataset.illuminants.chromaticity_coordinates import ILLUMINANTS
 from colour.dataset.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
 from colour.dataset.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
