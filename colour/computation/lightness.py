@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-import math
 import numpy
 
 import colour.computation.colourspaces.rgb.derivation
@@ -36,17 +35,10 @@ __all__ = ["CIE_E",
            "get_luminance",
            "luminance_1943",
            "luminance_1976",
-           "munsell_value_1920",
-           "munsell_value_1933",
-           "munsell_value_1943",
-           "munsell_value_1944",
-           "munsell_value_1955",
            "lightness_1958",
            "lightness_1964",
            "lightness_1976",
-           "MUNSELL_VALUE_FUNCTIONS",
            "LIGHTNESS_FUNCTIONS",
-           "get_munsell_value",
            "get_lightness"]
 
 LOGGER = colour.utilities.verbose.install_logger()
@@ -79,7 +71,8 @@ def get_luminance_equation(primaries, whitepoint):
     """
 
     return "Y = {0}(R) + {1}(G) + {2}(B)".format(
-        *numpy.ravel(colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6])
+        *numpy.ravel(
+            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6])
 
 
 def get_luminance(RGB, primaries, whitepoint):
@@ -109,7 +102,8 @@ def get_luminance(RGB, primaries, whitepoint):
     """
 
     R, G, B = numpy.ravel(RGB)
-    X, Y, Z = numpy.ravel(colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6]
+    X, Y, Z = numpy.ravel(
+        colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(primaries, whitepoint))[3:6]
 
     return X * R + Y * G + Z * B
 
@@ -168,142 +162,6 @@ def luminance_1976(L, Yn=100.):
     Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
 
     return Y
-
-
-def munsell_value_1920(Y):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> munsell_value_1920(10.08)
-        3.17490157328
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    Y /= 100.
-    V = 10. * math.sqrt(Y)
-
-    return V
-
-
-def munsell_value_1933(Y):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> munsell_value_1933(10.08)
-        3.79183555086
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
-
-    return V
-
-
-def munsell_value_1943(Y):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> munsell_value_1943(10.08)
-        3.74629715382
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    V = 1.4 * Y ** 0.426
-
-    return V
-
-
-def munsell_value_1944(Y):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> munsell_value_1944(10.08)
-        3.68650805994
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    V = 2.357 * (Y ** 0.343) - 1.52
-
-    return V
-
-
-def munsell_value_1955(Y):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> munsell_value_1955(10.08)
-        3.69528622419
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    V = 2.468 * (Y ** (1. / 3.)) - 1.636
-
-    return V
 
 
 def lightness_1958(Y):
@@ -395,12 +253,6 @@ def lightness_1976(Y, Yn=100.):
     return L
 
 
-MUNSELL_VALUE_FUNCTIONS = {"Munsell Value 1920": munsell_value_1920,
-                           "Munsell Value 1933": munsell_value_1933,
-                           "Munsell Value 1943": munsell_value_1943,
-                           "Munsell Value 1944": munsell_value_1944,
-                           "Munsell Value 1955": munsell_value_1955}
-
 LIGHTNESS_FUNCTIONS = {"Lightness 1958": lightness_1958,
                        "Lightness 1964": lightness_1964,
                        "Lightness 1976": lightness_1976}
@@ -437,33 +289,6 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
         return LIGHTNESS_FUNCTIONS.get(method)(Y)
     else:
         return lightness_1976(Y, Yn)
-
-
-def get_munsell_value(Y, method="Munsell Value 1955"):
-    """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-
-    Usage::
-
-        >>> get_munsell_value(10.08)
-        3.69528622419
-
-    :param Y: *Luminance* *Y*.
-    :type Y: float
-    :param method: *Luminance* *Y*.
-    :type method: unicode ("Munsell Value 1920", "Munsell Value 1933", "Munsell Value 1943", "Munsell Value 1944", "Munsell Value 1955")
-    :return: *Munsell value* *V*.
-    :rtype: float
-
-    :note: *Y* is in domain [0, 100].
-    :note: *V* is in domain [0, 10].
-    """
-
-    return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
 
 
 def get_lightness(Y, Yn=100., method="Lightness 1976"):

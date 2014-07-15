@@ -52,12 +52,14 @@ from colour.computation.cri import get_colour_rendering_index
 from colour.computation.difference import delta_E_CIE_1976, delta_E_CIE_1994, delta_E_CIE_2000, delta_E_CMC
 from colour.computation.illuminants import D_illuminant_relative_spd
 from colour.computation.lefs import mesopic_luminous_efficiency_function, mesopic_weighting_function
-from colour.computation.lightness import get_lightness, get_luminance, get_luminance_equation, get_munsell_value
+from colour.computation.lightness import get_lightness, get_luminance, get_luminance_equation
 from colour.computation.lightness import lightness_1958, lightness_1964, lightness_1976
 from colour.computation.lightness import luminance_1943, luminance_1976
-from colour.computation.lightness import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, \
+from colour.computation.lightness import LIGHTNESS_FUNCTIONS
+from colour.computation.munsell import get_munsell_value
+from colour.computation.munsell import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, \
     munsell_value_1955
-from colour.computation.lightness import LIGHTNESS_FUNCTIONS, MUNSELL_VALUE_FUNCTIONS
+from colour.computation.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from colour.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
 from colour.computation.temperature import uv_to_CCT, uv_to_CCT_ohno, uv_to_CCT_robertson
@@ -175,12 +177,16 @@ __all__.extend(["D_illuminant_relative_spd"])
 __all__.extend(["mesopic_luminous_efficiency_function", "mesopic_weighting_function"])
 
 # *colour.computation.lightness* objects.
-__all__.extend(["get_lightness", "get_luminance", "get_luminance_equation", "get_munsell_value"])
+__all__.extend(["get_lightness", "get_luminance", "get_luminance_equation"])
 __all__.extend(["lightness_1958", "lightness_1964", "lightness_1976"])
 __all__.extend(["luminance_1943", "luminance_1976"])
+__all__.extend(["LIGHTNESS_FUNCTIONS"])
+
+# *colour.computation.munsell* objects.
+__all__.extend(["get_munsell_value"])
 __all__.extend(
     ["munsell_value_1920", "munsell_value_1933", "munsell_value_1943", "munsell_value_1944", "munsell_value_1955"])
-__all__.extend(["LIGHTNESS_FUNCTIONS", "MUNSELL_VALUE_FUNCTIONS"])
+__all__.extend(["MUNSELL_VALUE_FUNCTIONS"])
 
 # *colour.computation.spectrum* objects.
 __all__.extend(["SpectralPowerDistribution", "TriSpectralPowerDistribution"])
