@@ -20,3 +20,8 @@ print(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLOURSPACE.primaries
 # Retrieving *normalised primary matrix* from *CIE XYZ* colourspace to *ACES RGB* colourspace.
 print(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLOURSPACE.primaries,
                                           colour.ACES_RGB_COLOURSPACE.whitepoint).getI())
+
+# Retrieving *luminance* of given *RGB* components.
+print colour.get_luminance(matrix([56., 16., 100.]).reshape((3, 1)),
+                          colour.sRGB_COLOURSPACE.primaries,
+                          colour.sRGB_COLOURSPACE.whitepoint)

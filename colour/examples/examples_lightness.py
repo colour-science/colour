@@ -2,22 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *luminance*cand *Lightness* related examples.
+Showcases some **Colour** package *Lightness* related examples.
 """
 
-from numpy import matrix
 from numpy import ravel
 
 import colour
 import colour.dataset.colour_checkers.chromaticity_coordinates
 
 
-# Retrieving *luminance* of given *RGB* components.
-print colour.get_luminance(matrix([56., 16., 100.]).reshape((3, 1)),
-                          colour.sRGB_COLOURSPACE.primaries,
-                          colour.sRGB_COLOURSPACE.whitepoint)
-
-# Retrieving *Munsell value* and *Lightness* of given *xyY* components.
+# Retrieving *Lightness* of given *xyY* components.
 xyY = colour.dataset.colour_checkers.chromaticity_coordinates.COLORCHECKER_2005_DATA[0][2:5]
 Y = ravel(xyY)[2] * 100.
 # Scaled *luminance* *Y* reference:

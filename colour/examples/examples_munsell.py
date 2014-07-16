@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Munsell Color Theory* related examples.
+Showcases some **Colour** package *Munsell Renotation Sytem* related examples.
 """
 
 from numpy import matrix

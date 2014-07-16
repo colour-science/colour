@@ -46,19 +46,20 @@ from colour.computation.colourspaces.cie_xyy import XYZ_to_xyY, xyY_to_XYZ, xyY_
 from colour.computation.colourspaces.cie_xyy import xy_to_XYZ, XYZ_to_xy
 from colour.computation.colourspaces.cie_xyy import XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
-from colour.computation.colourspaces.rgb.derivation import get_normalised_primary_matrix
+from colour.computation.colourspaces.rgb.derivation import get_normalised_primary_matrix, get_RGB_luminance_equation, get_RGB_luminance
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
 from colour.computation.difference import delta_E_CIE_1976, delta_E_CIE_1994, delta_E_CIE_2000, delta_E_CMC
 from colour.computation.illuminants import D_illuminant_relative_spd
 from colour.computation.lefs import mesopic_luminous_efficiency_function, mesopic_weighting_function
-from colour.computation.lightness import get_lightness, get_luminance, get_luminance_equation
+from colour.computation.lightness import get_lightness
 from colour.computation.lightness import lightness_1958, lightness_1964, lightness_1976
-from colour.computation.lightness import luminance_1943, luminance_1976
 from colour.computation.lightness import LIGHTNESS_FUNCTIONS
+from colour.computation.luminance import get_luminance
+from colour.computation.luminance import luminance_1943, luminance_1976, luminance_ASTM_D1535_08
+from colour.computation.luminance import LUMINANCE_FUNCTIONS
 from colour.computation.munsell import get_munsell_value
-from colour.computation.munsell import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, \
-    munsell_value_1955
+from colour.computation.munsell import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
 from colour.computation.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from colour.computation.temperature import CCT_to_uv, CCT_to_uv_ohno, CCT_to_uv_robertson
@@ -102,6 +103,7 @@ from colour.dataset.illuminants.chromaticity_coordinates import ILLUMINANTS
 from colour.dataset.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
 from colour.dataset.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
 from colour.dataset.lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
+from colour.dataset.munsell import MUNSELL_COLORS
 from colour.dataset.tcs import TCS_SPDS
 
 from colour.implementation.fitting import first_order_colour_fit
@@ -159,7 +161,7 @@ __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
 __all__.extend(["Colourspace"])
 
 # *colour.computation.colourspaces.rgb.derivation* objects.
-__all__.extend(["get_normalised_primary_matrix"])
+__all__.extend(["get_normalised_primary_matrix", "get_RGB_luminance_equation", "get_RGB_luminance"])
 
 # *colour.computation.correction* objects.
 __all__.extend(["bandpass_correction", "bandpass_correction_stearns"])
@@ -177,10 +179,15 @@ __all__.extend(["D_illuminant_relative_spd"])
 __all__.extend(["mesopic_luminous_efficiency_function", "mesopic_weighting_function"])
 
 # *colour.computation.lightness* objects.
-__all__.extend(["get_lightness", "get_luminance", "get_luminance_equation"])
+__all__.extend(["get_lightness"])
 __all__.extend(["lightness_1958", "lightness_1964", "lightness_1976"])
 __all__.extend(["luminance_1943", "luminance_1976"])
 __all__.extend(["LIGHTNESS_FUNCTIONS"])
+
+# *colour.computation.luminance* objects.
+__all__.extend(["get_luminance"])
+__all__.extend(["luminance_1943", "luminance_1976", "luminance_ASTM_D1535_08"])
+__all__.extend(["LUMINANCE_FUNCTIONS"])
 
 # *colour.computation.munsell* objects.
 __all__.extend(["get_munsell_value"])
@@ -279,6 +286,9 @@ __all__.extend(["ILLUMINANTS_RELATIVE_SPDS"])
 
 # *colour.dataset.lefs* objects.
 __all__.extend(["LEFS", "PHOTOPIC_LEFS", "SCOTOPIC_LEFS"])
+
+# *colour.dataset.munsell* objects.
+__all__.extend(["MUNSELL_COLORS"])
 
 # *colour.dataset.tcs* objects.
 __all__.extend(["TCS_SPDS"])

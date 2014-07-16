@@ -334,7 +334,7 @@ def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"])
     """
 
     RGB_spectrum = RGB_spectrum.clone().normalise(100.)
-    get_luminance = lambda x: colour.get_luminance(x, colourspace.primaries, colourspace.whitepoint)
+    get_RGB_luminance = lambda x: colour.get_RGB_luminance(x, colourspace.primaries, colourspace.whitepoint)
 
     return SpectralPowerDistribution("RGB_spectrum",
-                                     dict([(wavelength, get_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))
+                                     dict([(wavelength, get_RGB_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))

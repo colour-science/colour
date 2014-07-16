@@ -16,8 +16,8 @@
 
 from __future__ import unicode_literals
 
+import re
 import sys
-
 import numpy
 
 
@@ -36,7 +36,9 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["Testxy_to_z",
-           "TestGetNormalisedPrimaryMatrix"]
+           "TestGetNormalisedPrimaryMatrix",
+           "TestGetRGBLuminanceEquation",
+           "TestGetRGBLuminance"]
 
 
 class Testxy_to_z(unittest.TestCase):
@@ -92,6 +94,70 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
                           0.21263901, 0.71516868, 0.07219232,
                           0.01933082, 0.11919478, 0.95053215]).reshape((3, 3)),
             decimal=7)
+
+class TestGetRGBLuminanceEquation(unittest.TestCase):
+    """
+    Defines :func:`colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation` definition units tests methods.
+    """
+
+    def test_get_RGB_luminance_equation(self):
+        """
+        Tests :func:`colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation` definition.
+        """
+
+        self.assertIsInstance(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation(
+            numpy.matrix([0.73470, 0.26530,
+                          0.00000, 1.00000,
+                          0.00010, -0.07700]).reshape(
+                (3, 2)),
+            (0.32168, 0.33767)), unicode)
+
+        self.assertTrue(re.match(
+            r"Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)",
+            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation(numpy.matrix([0.73470, 0.26530,
+                                                                              0.00000, 1.00000,
+                                                                              0.00010, -0.07700]).reshape((3, 2)),
+                                                                (0.32168, 0.33767))))
+
+
+class TestGetRGBLuminance(unittest.TestCase):
+    """
+    Defines :func:`colour.computation.colourspaces.rgb.derivation.get_RGB_luminance` definition units tests methods.
+    """
+
+    def test_get_RGB_luminance(self):
+        """
+        Tests :func:`colour.computation.colourspaces.rgb.derivation.get_RGB_luminance` definition.
+        """
+
+        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([50., 50., 50.]),
+                                                                          numpy.matrix([0.73470, 0.26530,
+                                                                                        0.00000, 1.00000,
+                                                                                        0.00010, -0.07700]).reshape(
+                                                                              (3, 2)),
+                                                                          (0.32168, 0.33767)),
+                               50.,
+                               places=7)
+
+        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([74.6, 16.1, 100.]),
+                                                                          numpy.matrix([0.73470, 0.26530,
+                                                                                        0.00000, 1.00000,
+                                                                                        0.00010, -0.07700]).reshape(
+                                                                              (3, 2)),
+                                                                          (0.32168, 0.33767)),
+                               30.1701166701,
+                               places=7)
+
+        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([40.6, 4.2, 67.4]),
+                                                                          numpy.matrix([0.73470, 0.26530,
+                                                                                        0.00000, 1.00000,
+                                                                                        0.00010, -0.07700]).reshape(
+                                                                              (3, 2)),
+                                                                          (0.32168, 0.33767)),
+                               12.1616018403,
+                               places=7)
+
+
 
 
 if __name__ == "__main__":
