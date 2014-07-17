@@ -31,7 +31,8 @@ __all__ = ["get_steps",
            "is_uniform",
            "get_closest",
            "is_iterable",
-           "to_ndarray"]
+           "to_ndarray",
+           "is_number"]
 
 LOGGER = foundations.verbose.install_logger()
 
@@ -113,6 +114,8 @@ def to_ndarray(x):
 
     Usage::
 
+    >>> to_ndarray(1)
+    [1]
 
     :param x: Variable to convert.
     :type x: object
@@ -121,3 +124,23 @@ def to_ndarray(x):
     """
 
     return numpy.array(x) if is_iterable(x) else numpy.array((x,))
+
+
+def is_number(x):
+    """
+    Returns if given *x* variable is a number.
+
+    Usage::
+
+    >>> is_number(1)
+    True
+    >>> is_number((1,))
+    False
+
+    :param x: Variable to check.
+    :type x: object
+    :return: Is *x* variable a number.
+    :rtype: bool
+    """
+
+    return isinstance(x, (int, long, float, complex))

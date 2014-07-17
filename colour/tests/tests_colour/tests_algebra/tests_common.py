@@ -119,5 +119,24 @@ class TestToNdarray(unittest.TestCase):
         self.assertEqual(colour.algebra.common.to_ndarray(numpy.array([1])), numpy.array([1]))
 
 
+class TestIsNumber(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.common.is_number` definition units tests methods.
+    """
+
+    def test_to_ndarray(self):
+        """
+        Tests :func:`colour.algebra.common.is_number` definition.
+        """
+
+        self.assertTrue(colour.algebra.common.is_number(1))
+        self.assertTrue(colour.algebra.common.is_number(1.))
+        self.assertTrue(colour.algebra.common.is_number(long(1)))
+        self.assertTrue(colour.algebra.common.is_number(complex(1)))
+        self.assertFalse(colour.algebra.common.is_number((1,)))
+        self.assertFalse(colour.algebra.common.is_number([1]))
+        self.assertFalse(colour.algebra.common.is_number("1"))
+
+
 if __name__ == "__main__":
     unittest.main()

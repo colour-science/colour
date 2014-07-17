@@ -27,8 +27,10 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Structure"]
+__all__ = ["Structure",
+           "Lookup"]
 
 LOGGER = colour.utilities.verbose.install_logger()
 
 Structure = foundations.data_structures.Structure
+Lookup = foundations.data_structures.Lookup
