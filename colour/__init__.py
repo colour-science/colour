@@ -23,7 +23,9 @@ from colour.globals.constants import Constants
 
 foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
 
-from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray
+from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray, is_number
+from colour.algebra.coordinates.transformations import cartesian_to_cylindrical, cylindrical_to_cartesian
+from colour.algebra.coordinates.transformations import cartesian_to_spherical, spherical_to_cartesian
 from colour.algebra.extrapolation import Extrapolator1d
 from colour.algebra.interpolation import LinearInterpolator, SpragueInterpolator
 from colour.algebra.matrix import is_identity, linear_interpolate_matrices
@@ -103,7 +105,7 @@ from colour.dataset.illuminants.chromaticity_coordinates import ILLUMINANTS
 from colour.dataset.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
 from colour.dataset.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
 from colour.dataset.lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
-from colour.dataset.munsell import MUNSELL_COLORS
+from colour.dataset.munsell import MUNSELL_COLOURS
 from colour.dataset.tcs import TCS_SPDS
 
 from colour.implementation.fitting import first_order_colour_fit
@@ -120,7 +122,9 @@ __status__ = "Production"
 __all__ = ["Constants"]
 
 # *colour.algebra* objects.
-__all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_ndarray",
+__all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_ndarray", "is_number",
+                "cartesian_to_cylindrical", "cylindrical_to_cartesian",
+                "cartesian_to_spherical", "spherical_to_cartesian",
                 "Extrapolator1d",
                 "LinearInterpolator", "SpragueInterpolator",
                 "is_identity", "linear_interpolate_matrices",
@@ -288,7 +292,7 @@ __all__.extend(["ILLUMINANTS_RELATIVE_SPDS"])
 __all__.extend(["LEFS", "PHOTOPIC_LEFS", "SCOTOPIC_LEFS"])
 
 # *colour.dataset.munsell* objects.
-__all__.extend(["MUNSELL_COLORS"])
+__all__.extend(["MUNSELL_COLOURS"])
 
 # *colour.dataset.tcs* objects.
 __all__.extend(["TCS_SPDS"])
