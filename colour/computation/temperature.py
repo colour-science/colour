@@ -17,7 +17,7 @@
     `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ method.
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
-    *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.temperature.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
+    *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
     from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
 """
 
@@ -259,8 +259,8 @@ def uv_to_CCT_ohno(uv,
     # Parabolic solution.
     if Duv < 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
-        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** - 1
-        b = -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * (di - dip)) * X ** - 1
+        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
+        b = -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * (di - dip)) * X ** -1
         c = -(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin + din * (Ti - Tip) * Tip * Ti) * X ** -1
 
         T = -b / (2. * a)

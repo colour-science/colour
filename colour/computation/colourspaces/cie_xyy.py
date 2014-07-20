@@ -342,7 +342,7 @@ def RGB_to_xyY(RGB,
     :type to_XYZ: matrix (3x3)
     :param inverse_transfer_function: *Inverse transfer* function.
     :type inverse_transfer_function: object
-    :return: *CIE XYZ* matrix.
+    :return: *CIE xyY* matrix.
     :rtype: matrix (3x1)
     """
 

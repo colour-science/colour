@@ -166,9 +166,9 @@ class LinearInterpolator(object):
         Performs the interpolating polynomial evaluation at given point.
 
         :param x: Point to evaluate the interpolant at.
-        :type x: float
+        :type x: ndarray
         :return: Interpolated value.
-        :rtype: float
+        :rtype: ndarray
         """
 
         self.__validate_dimensions()
