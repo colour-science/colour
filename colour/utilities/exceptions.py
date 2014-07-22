@@ -24,9 +24,25 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["AbstractError",
+           "AbstractUserError",
            "ProgrammingError",
            "AbstractAlgebraError",
-           "LinearRegressionError"]
+           "DimensionsError",
+           "DomainError",
+           "AbstractInterpolationError",
+           "InterpolationError",
+           "InterpolationRangeError",
+           "AbstractExtrapolationError",
+           "ExtrapolationError",
+           "LinearRegressionError",
+           "AbstractColourMatchingFunctionsError",
+           "ColourMatchingFunctionsError",
+           "AbstractLuminousEfficiencyFunctionError",
+           "LuminousEfficiencyFunctionError",
+           "AbstractCorrelatedColourTemperatureError",
+           "CorrelatedColourTemperatureError",
+           "AbstractMunsellColourError",
+           "MunsellColourError"]
 
 
 class AbstractError(Exception):
@@ -115,9 +131,129 @@ class AbstractAlgebraError(AbstractError):
     pass
 
 
+class DimensionsError(AbstractAlgebraError):
+    """
+    Defines dimensions related exception.
+    """
+
+    pass
+
+
+class DomainError(AbstractAlgebraError):
+    """
+    Defines domain related exception.
+    """
+
+    pass
+
+
+class AbstractInterpolationError(AbstractAlgebraError):
+    """
+    Defines the abstract base class for interpolation exception.
+    """
+
+    pass
+
+
+class InterpolationError(AbstractInterpolationError):
+    """
+    Defines interpolation exception.
+    """
+
+    pass
+
+
+class InterpolationRangeError(AbstractInterpolationError):
+    """
+    Defines interpolation range exception.
+    """
+
+    pass
+
+
+class AbstractExtrapolationError(AbstractAlgebraError):
+    """
+    Defines the abstract base class for extrapolation exception.
+    """
+
+    pass
+
+
+class ExtrapolationError(AbstractExtrapolationError):
+    """
+    Defines interpolation extrapolation.
+    """
+
+    pass
+
+
 class LinearRegressionError(AbstractAlgebraError):
     """
     Defines linear regression exception.
+    """
+
+    pass
+
+
+class AbstractColourMatchingFunctionsError(AbstractError):
+    """
+    Defines the abstract base class for colour matching functions exception.
+    """
+
+    pass
+
+
+class ColourMatchingFunctionsError(AbstractColourMatchingFunctionsError):
+    """
+    Defines colour matching functions exception.
+    """
+
+    pass
+
+
+class AbstractLuminousEfficiencyFunctionError(AbstractError):
+    """
+    Defines the abstract base class for luminous efficiency function exception.
+    """
+
+    pass
+
+
+class LuminousEfficiencyFunctionError(AbstractLuminousEfficiencyFunctionError):
+    """
+    Defines luminous efficiency function exception.
+    """
+
+    pass
+
+
+class AbstractCorrelatedColourTemperatureError(AbstractError):
+    """
+    Defines the abstract base class for correlated colour temperature exception.
+    """
+
+    pass
+
+
+class CorrelatedColourTemperatureError(AbstractCorrelatedColourTemperatureError):
+    """
+    Defines correlated colour temperature exception.
+    """
+
+    pass
+
+
+class AbstractMunsellColourError(AbstractError):
+    """
+    Defines the abstract base class for munsell colour exception.
+    """
+
+    pass
+
+
+class MunsellColourError(AbstractMunsellColourError):
+    """
+    Defines munsell colour exception.
     """
 
     pass

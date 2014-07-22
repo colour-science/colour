@@ -182,7 +182,7 @@ class LinearInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.DimensionsError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -195,10 +195,10 @@ class LinearInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
 
 
 class SpragueInterpolator(object):
@@ -409,7 +409,7 @@ class SpragueInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.DimensionsError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -422,9 +422,9 @@ class SpragueInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
 
 

@@ -155,7 +155,7 @@ def parse_munsell_colour(munsell_colour):
                 float(match.group("chroma")),
                 MUNSELL_HUE_LETTER_CODES.get(match.group("letter").upper()))
 
-    raise colour.utilities.exceptions.ProgrammingError(
+    raise colour.utilities.exceptions.MunsellColourError(
         "'{0}' is not a valid 'Munsell Renotation System' colour specification!".format(munsell_colour))
 
 
@@ -293,7 +293,7 @@ def get_xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.MunsellColourError(
             "'{0}' specification does not exists in 'Munsell Renotation System' data!".format(specification))
 
 
@@ -317,7 +317,7 @@ def is_specification_in_renotation(specification):
     try:
         get_xyY_from_renotation(specification)
         return True
-    except colour.utilities.exceptions.ProgrammingError as error:
+    except colour.utilities.exceptions.MunsellColourError as error:
         return False
 
 
@@ -797,7 +797,7 @@ def get_xy_from_renotation_ovoid(specification):
             x = rho * math.cos(math.radians(theta)) + x_grey
             y = rho * math.sin(math.radians(theta)) + y_grey
         else:
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.InterpolationError(
                 "Invalid interpolation method: '{0}'".format(interpolation_method))
 
         return x, y

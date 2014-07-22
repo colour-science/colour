@@ -425,7 +425,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
@@ -474,7 +474,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
@@ -511,7 +511,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
@@ -548,7 +548,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 2 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))
@@ -585,7 +585,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                            cmfs.name,
                                                                                                            cmfs.shape))

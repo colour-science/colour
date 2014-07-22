@@ -71,7 +71,7 @@ def mesopic_weighting_function(wavelength,
 
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.LuminousEfficiencyFunctionError(
                 "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
                     wavelength,
                     function.name,

@@ -479,7 +479,7 @@ def uv_to_CCT(uv, method="Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
-                raise colour.utilities.exceptions.ProgrammingError(
+                raise colour.utilities.exceptions.CorrelatedColourTemperatureError(
                     "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return uv_to_CCT_robertson(uv)
@@ -507,7 +507,7 @@ def CCT_to_uv(CCT, Duv=0., method="Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
-                raise colour.utilities.exceptions.ProgrammingError(
+                raise colour.utilities.exceptions.CorrelatedColourTemperatureError(
                     "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return CCT_to_uv_robertson(CCT, Duv)
@@ -606,7 +606,7 @@ def CCT_to_xy_kim(CCT):
     elif 4000 <= CCT <= 25000:
         x = -3.0258469 * 10 ** 9 / CCT ** 3 + 2.1070379 * 10 ** 6 / CCT ** 2 + 0.2226347 * 10 ** 3 / CCT + 0.24039
     else:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.DomainError(
             "Correlated colour temperature must be in domain [1667, 25000]!")
 
     if 1667 <= CCT <= 2222:
@@ -639,7 +639,7 @@ def CCT_to_xy_illuminant_D(CCT):
     elif 7000 < CCT <= 25000:
         x = -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 + 0.24748 * 10 ** 3 / CCT + 0.23704
     else:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.DomainError(
             "Correlated colour temperature must be in domain [4000, 25000]!")
 
     y = -3 * x ** 2 + 2.87 * x - 0.275

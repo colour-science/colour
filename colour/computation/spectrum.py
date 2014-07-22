@@ -491,7 +491,7 @@ class SpectralPowerDistribution(object):
                 if is_uniform:
                     interpolant = sprague_interpolant
                 else:
-                    raise colour.utilities.exceptions.ProgrammingError(
+                    raise colour.utilities.exceptions.InterpolationError(
                         "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
             elif interpolator == "Cubic Spline":
@@ -499,7 +499,7 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise colour.utilities.exceptions.ProgrammingError(
+                raise colour.utilities.exceptions.InterpolationError(
                     "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             self.__data = dict([(wavelength, interpolant(wavelength))

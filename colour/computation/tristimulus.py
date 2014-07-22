@@ -130,7 +130,7 @@ def wavelength_to_XYZ(wavelength,
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values
