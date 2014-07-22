@@ -19,12 +19,15 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.algebra.matrix
+import colour.computation.spectrum
 import colour.dataset.cmfs
 import colour.dataset.lefs
+import colour.utilities.common
 import colour.utilities.exceptions
 import colour.utilities.decorators
 import colour.utilities.verbose
 from colour.algebra.interpolation import SpragueInterpolator
+from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -111,7 +114,7 @@ def spectral_to_XYZ(spd,
     return XYZ.reshape((3, 1))
 
 
-@colour.utilities.decorators.memoize(None)
+@colour.utilities.decorators.memoize(RuntimeCache.wavelength_to_XYZ)
 def wavelength_to_XYZ(wavelength,
                       cmfs=colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
@@ -147,11 +150,11 @@ def wavelength_to_XYZ(wavelength,
         if cmfs.is_uniform():
             interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
         else:
-            try:
+            if colour.utilities.common.is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
-            except ImportError as error:
+            else:
                 LOGGER.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         __name__))

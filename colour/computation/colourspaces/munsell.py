@@ -29,6 +29,7 @@ import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
 import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
+from colour.cache.runtime import RuntimeCache
 from colour.dataset.colourspaces.munsell import MUNSELL_COLOURS
 from colour.utilities.data_structures import Lookup
 
@@ -40,7 +41,8 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
+__all__ = ["FPNP",
+           "MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN",
            "MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT",
@@ -73,10 +75,10 @@ __all__ = ["MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
 
 LOGGER = colour.utilities.verbose.install_logger()
 
-__FPNP = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
-MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(__FPNP)
+FPNP = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
+MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(FPNP)
 MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN = \
-    "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(__FPNP)
+    "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(FPNP)
 
 MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT = "N{0}"
 MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT = "{0} {1}/{2}"
@@ -121,14 +123,11 @@ def __get_munsell_specifications():
     :rtype: list
     """
 
-    specifications_attribute = "__MUNSELL_SPECIFICATIONS"
-    module = sys.modules[__name__]
-    if not hasattr(module, specifications_attribute):
-        specifications = [
+    if RuntimeCache.munsell_specifications is None:
+        RuntimeCache.munsell_specifications = [
             munsell_colour_to_munsell_specification(MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT.format(*colour[0])) \
             for colour in MUNSELL_COLOURS]
-        setattr(module, specifications_attribute, specifications)
-    return getattr(module, specifications_attribute)
+    return RuntimeCache.munsell_specifications
 
 
 def parse_munsell_colour(munsell_colour):
@@ -942,6 +941,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
 def xyY_to_munsell_colour(xyY):
     pass
+
 
 def munsell_value_1920(Y):
     """

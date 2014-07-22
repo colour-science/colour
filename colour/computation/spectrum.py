@@ -22,6 +22,7 @@ import math
 import numpy
 
 import colour.algebra.common
+import colour.utilities.common
 import colour.utilities.exceptions
 import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
@@ -469,12 +470,12 @@ class SpectralPowerDistribution(object):
             linear_interpolant = lambda x: linear_interpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
-            try:
+            if colour.utilities.common.is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                 spline_interpolant = lambda x: spline_interpolator(x)
-            except ImportError as error:
+            else:
                 LOGGER.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         self.__class__.__name__))

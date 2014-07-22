@@ -21,6 +21,7 @@ import numpy
 import colour.computation.chromatic_adaptation
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.optimal_colour_stimuli
+import colour.utilities.common
 import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
@@ -356,4 +357,6 @@ def RGB_to_xyY(RGB,
 
 
 def is_within_macadam_limits(xyY, illuminant):
-    pass
+    if not colour.utilities.common.is_scipy_installed():
+        # TODO: Error.
+        raise
