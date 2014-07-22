@@ -17,9 +17,10 @@
 from __future__ import unicode_literals
 
 import math
+import sys
+
 import numpy
 import re
-import sys
 
 import colour.algebra.common
 import colour.algebra.coordinates.transformations
@@ -28,7 +29,7 @@ import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
 import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
-from colour.dataset.munsell import MUNSELL_COLOURS
+from colour.dataset.colourspaces.munsell import MUNSELL_COLOURS
 from colour.utilities.data_structures import Lookup
 
 
