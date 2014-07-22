@@ -60,6 +60,7 @@ from colour.computation.lightness import LIGHTNESS_FUNCTIONS
 from colour.computation.luminance import get_luminance
 from colour.computation.luminance import luminance_1943, luminance_1976, luminance_ASTM_D1535_08
 from colour.computation.luminance import LUMINANCE_FUNCTIONS
+from colour.computation.munsell import munsell_colour_to_xyY
 from colour.computation.munsell import get_munsell_value
 from colour.computation.munsell import munsell_value_1920, munsell_value_1933, munsell_value_1943, munsell_value_1944, munsell_value_1955
 from colour.computation.munsell import MUNSELL_VALUE_FUNCTIONS
@@ -102,6 +103,7 @@ from colour.dataset.colourspaces.rgb.smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from colour.dataset.colourspaces.rgb.srgb import sRGB_COLOURSPACE
 from colour.dataset.colourspaces.rgb.xtreme_rgb import XTREME_RGB_COLOURSPACE
 from colour.dataset.illuminants.chromaticity_coordinates import ILLUMINANTS
+from colour.dataset.illuminants.optimal_colour_stimuli import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 from colour.dataset.illuminants.d_illuminants_s_spds import D_ILLUMINANTS_S_SPDS
 from colour.dataset.illuminants.spds import ILLUMINANTS_RELATIVE_SPDS
 from colour.dataset.lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
@@ -194,6 +196,7 @@ __all__.extend(["luminance_1943", "luminance_1976", "luminance_ASTM_D1535_08"])
 __all__.extend(["LUMINANCE_FUNCTIONS"])
 
 # *colour.computation.munsell* objects.
+__all__.extend(["munsell_colour_to_xyY"])
 __all__.extend(["get_munsell_value"])
 __all__.extend(
     ["munsell_value_1920", "munsell_value_1933", "munsell_value_1943", "munsell_value_1944", "munsell_value_1955"])
@@ -281,6 +284,9 @@ __all__.extend(["ACES_RGB_COLOURSPACE", "ACES_RGB_LOG_COLOURSPACE",
 
 # *colour.dataset.illuminants.chromaticity_coordinates* objects.
 __all__.extend(["ILLUMINANTS"])
+
+# *colour.dataset.illuminants.optimal_colour_stimuli* objects.
+__all__.extend(["ILLUMINANTS_OPTIMAL_COLOUR_STIMULI"])
 
 # *colour.dataset.illuminants.d_illuminants_s_spds* objects.
 __all__.extend(["D_ILLUMINANTS_S_SPDS"])

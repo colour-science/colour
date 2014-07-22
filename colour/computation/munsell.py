@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *Munsell Renotation Sytem* manipulation objects.
+    Defines **Colour** package *Munsell Renotation System* manipulation objects.
 
 **Others:**
 
@@ -102,8 +102,8 @@ MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
 
 def __get_munsell_specifications():
     """
-    Returns the *Munsell Renotation Sytem* specifications.
-    The *Munsell Renotation Sytem* data is stored in :attr:`colour.MUNSELL_COLOURS` attribute in a 2 columns form:
+    Returns the *Munsell Renotation System* specifications.
+    The *Munsell Renotation System* data is stored in :attr:`colour.MUNSELL_COLOURS` attribute in a 2 columns form:
 
     (("2.5GY", 0.2, 2.0), (0.713, 1.414, 0.237)),
     (("5GY", 0.2, 2.0), (0.449, 1.145, 0.237)),
@@ -116,7 +116,7 @@ def __get_munsell_specifications():
     ("2.5GY", 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
 
 
-    :return: *Munsell Renotation Sytem* specifications.
+    :return: *Munsell Renotation System* specifications.
     :rtype: list
     """
 
@@ -158,7 +158,7 @@ def parse_munsell_colour(munsell_colour):
                 MUNSELL_HUE_LETTER_CODES.get(match.group("letter").upper()))
 
     raise colour.utilities.exceptions.ProgrammingError(
-        "'{0}' is not a valid 'Munsell Renotation Sytem' colour specification!".format(munsell_colour))
+        "'{0}' is not a valid 'Munsell Renotation System' colour specification!".format(munsell_colour))
 
 
 def is_grey_munsell_colour(specification):
@@ -278,7 +278,7 @@ def munsell_specification_to_munsell_colour(specification, hue_decimals=1, value
 
 def get_xyY_from_renotation(specification):
     """
-    Returns given existing *Munsell* specification *CIE xyY* colourspace vector from *Munsell Renotation Sytem* data.
+    Returns given existing *Munsell* specification *CIE xyY* colourspace vector from *Munsell Renotation System* data.
 
     Usage::
 
@@ -296,12 +296,12 @@ def get_xyY_from_renotation(specification):
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
         raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' specification does not exists in 'Munsell Renotation Sytem' data!".format(specification))
+            "'{0}' specification does not exists in 'Munsell Renotation System' data!".format(specification))
 
 
 def is_specification_in_renotation(specification):
     """
-    Returns if given *Munsell* specification is in *Munsell Renotation Sytem* data.
+    Returns if given *Munsell* specification is in *Munsell Renotation System* data.
 
     Usage::
 
@@ -312,7 +312,7 @@ def is_specification_in_renotation(specification):
 
     :param specification: *Munsell* specification.
     :type specification: specification
-    :return: Is specification in *Munsell Renotation Sytem* data.
+    :return: Is specification in *Munsell Renotation System* data.
     :rtype: bool
     """
 
@@ -325,10 +325,11 @@ def is_specification_in_renotation(specification):
 
 def get_bounding_hues_from_renotation(hue, code):
     """
-    Returns for a given hue the two bounding hues from *Munsell Renotation Sytem* data.
+    Returns for a given hue the two bounding hues from *Munsell Renotation System* data.
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/BoundingRenotationHues.m*
 
@@ -379,6 +380,7 @@ def hue_to_hue_angle(hue, code):
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m*
 
@@ -406,6 +408,7 @@ def hue_to_ASTM_hue(hue, code):
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToASTMHue.m*
 
@@ -429,10 +432,11 @@ def hue_to_ASTM_hue(hue, code):
 def get_interpolation_method_from_renotation_ovoid(specification):
     """
     Returns whether to use linear or radial interpolation when drawing ovoids through data points
-    in the *Munsell Renotation Sytem* data from given specification.
+    in the *Munsell Renotation System* data from given specification.
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m*
 
@@ -476,7 +480,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
         chroma = 2 * round(chroma / 2)
 
-        # Standard Munsell Renotation Sytem hue, no interpolation needed.
+        # Standard Munsell Renotation System hue, no interpolation needed.
         if hue % 2.5 == 0:
             interpolation_method = 0
 
@@ -690,12 +694,13 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
 def get_xy_from_renotation_ovoid(specification):
     """
-    Converts given *Munsell* specification to *xy* chromaticity coordinates on *Munsell Renotation Sytem* ovoid.
+    Converts given *Munsell* specification to *xy* chromaticity coordinates on *Munsell Renotation System* ovoid.
     The *xy* point will be on the ovoid about the achromatic point, corresponding to the *Munsell* specification
     value and chroma.
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/FindHueOnRenotationOvoid.m*
 
@@ -803,10 +808,11 @@ def get_xy_from_renotation_ovoid(specification):
 def munsell_specification_to_xy(specification):
     """
     Converts given *Munsell* specification to *xy* chromaticity coordinates by interpolating over
-    *Munsell Renotation Sytem* data.
+    *Munsell Renotation System* data.
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m*
 
@@ -868,6 +874,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     References:
 
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyY.m*
 
@@ -931,6 +938,9 @@ def munsell_colour_to_xyY(munsell_colour):
 
     return numpy.matrix([x, y, Y]).reshape((3, 1))
 
+
+def xyY_to_munsell_colour(xyY):
+    pass
 
 def munsell_value_1920(Y):
     """

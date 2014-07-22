@@ -410,7 +410,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References:
 
-    -  Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Pages 138, 139.
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
 
     Usage::
 
@@ -459,7 +459,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References:
 
-    -  Wyszecki & Stiles, Color Science - Concepts and Methods Data and Formulae - Second Edition, Page 141.
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
 
     Usage::
 

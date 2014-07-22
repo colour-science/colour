@@ -491,6 +491,13 @@ Luminous Efficiency Functions
 -  `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
 
+Optimal Colour Stimuli
+-----------------------------
+
+-  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
+-  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, Pages 361, 367
+-  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 778, 779
+
 RGB Colourspaces
 ----------------
 
