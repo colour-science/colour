@@ -46,7 +46,7 @@ def D_illuminant_relative_spd(xy):
         <colour.computation.SpectralPowerDistribution object at 0x101023590>
 
     :param xy: *xy* chromaticity coordinate.
-    :type xy: tuple
+    :type xy: array_like
     :return: *CIE Standard Illuminant D Series* relative spectral power distribution.
     :rtype: SpectralPowerDistribution
     """

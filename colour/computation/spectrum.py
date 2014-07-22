@@ -442,7 +442,7 @@ class SpectralPowerDistribution(object):
 
         :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced \
         independent variable.
-        :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+        :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
         """
 
         shape_start, shape_end, shape_steps = self.shape

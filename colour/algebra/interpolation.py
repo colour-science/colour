@@ -72,7 +72,7 @@ class LinearInterpolator(object):
         Property for **self.__x** attribute.
 
         :return: self.__x.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__x
@@ -83,7 +83,7 @@ class LinearInterpolator(object):
         Setter for **self.__x** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
@@ -112,7 +112,7 @@ class LinearInterpolator(object):
         Property for **self.__y** attribute.
 
         :return: self.__y.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__y
@@ -123,7 +123,7 @@ class LinearInterpolator(object):
         Setter for **self.__y** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
@@ -262,7 +262,7 @@ class SpragueInterpolator(object):
         Property for **self.__x** attribute.
 
         :return: self.__x.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__x
@@ -273,7 +273,7 @@ class SpragueInterpolator(object):
         Setter for **self.__x** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
@@ -313,7 +313,7 @@ class SpragueInterpolator(object):
         Property for **self.__y** attribute.
 
         :return: self.__y.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__y
@@ -324,7 +324,7 @@ class SpragueInterpolator(object):
         Setter for **self.__y** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
@@ -338,10 +338,14 @@ class SpragueInterpolator(object):
             if not issubclass(value.dtype.type, numpy.inexact):
                 value = value.astype(numpy.float_)
 
-            yp1 = numpy.ravel((self.sprague_c_coefficients[0] * numpy.matrix(value[0:6]).transpose()) / 209.)[0]
-            yp2 = numpy.ravel((self.sprague_c_coefficients[1] * numpy.matrix(value[0:6]).transpose()) / 209.)[0]
-            yp3 = numpy.ravel((self.sprague_c_coefficients[2] * numpy.matrix(value[-6:]).transpose()) / 209.)[0]
-            yp4 = numpy.ravel((self.sprague_c_coefficients[3] * numpy.matrix(value[-6:]).transpose()) / 209.)[0]
+            yp1 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[0],
+                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp2 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[1],
+                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp3 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[2],
+                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+            yp4 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[3],
+                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
 
             self.__yp = numpy.concatenate(((yp1, yp2), value, (yp3, yp4)))
 

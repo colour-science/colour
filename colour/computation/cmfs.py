@@ -417,7 +417,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
-    :rtype: ndarray (3x1)
+    :rtype: ndarray (3, 1)
     :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
@@ -466,7 +466,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
-    :rtype: ndarray (3x1)
+    :rtype: ndarray (3, 1)
     :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
@@ -503,7 +503,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus values.
-    :rtype: ndarray (3x1)
+    :rtype: ndarray (3, 1)
     :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, this definition is intended for educational purpose.
     """
 
@@ -540,7 +540,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
-    :rtype: ndarray (3x1)
+    :rtype: ndarray (3, 1)
     :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 
@@ -577,7 +577,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :return: *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
-    :rtype: ndarray (3x1)
+    :rtype: ndarray (3, 1)
     :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
     """
 

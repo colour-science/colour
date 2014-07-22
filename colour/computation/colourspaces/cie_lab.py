@@ -49,17 +49,17 @@ def XYZ_to_Lab(XYZ,
 
     Usage::
 
-        >>> XYZ_to_Lab(numpy.matrix([0.92193107, 1., 1.03744246]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [  -7.41787844]
-                [ -15.85742105]])
+        >>> XYZ_to_Lab(numpy.array([0.92193107, 1., 1.03744246]))
+        array([[ 100.        ]
+               [  -7.41787844]
+               [ -15.85742105]])
 
-    :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: matrix (3x1)
+    :param XYZ: *CIE XYZ* colourspace matrix.
+    :type XYZ: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
-    :return: *CIE Lab* matrix.
-    :rtype: matrix (3x1)
+    :type illuminant: array_like
+    :return: *CIE Lab* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -77,7 +77,7 @@ def XYZ_to_Lab(XYZ,
     a = 500. * (fx - fy)
     b = 200. * (fy - fz)
 
-    return numpy.matrix([L, a, b]).reshape((3, 1))
+    return numpy.array([L, a, b]).reshape((3, 1))
 
 
 def Lab_to_XYZ(Lab,
@@ -92,17 +92,17 @@ def Lab_to_XYZ(Lab,
 
     Usage::
 
-        >>> Lab_to_XYZ(numpy.matrix([100., -7.41787844, -15.85742105]).reshape((3, 1)))
-        matrix([[ 0.92193107]
-                [ 0.11070565]
-                [ 1.03744246]])
+        >>> Lab_to_XYZ(numpy.array([100., -7.41787844, -15.85742105]))
+        array([[ 0.92193107]
+               [ 0.11070565]
+               [ 1.03744246]])
 
-    :param Lab: *CIE Lab* matrix.
-    :type Lab: matrix (3x1)
+    :param Lab: *CIE Lab* colourspace matrix.
+    :type Lab: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
-    :return: *CIE Lab* matrix.
-    :rtype: matrix (3x1)
+    :type illuminant: array_like
+    :return: *CIE Lab* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -120,7 +120,7 @@ def Lab_to_XYZ(Lab,
     Y = yr * Yr
     Z = zr * Zr
 
-    return numpy.matrix([X, Y, Z]).reshape((3, 1))
+    return numpy.array([X, Y, Z]).reshape((3, 1))
 
 
 def Lab_to_LCHab(Lab):
@@ -133,15 +133,15 @@ def Lab_to_LCHab(Lab):
 
     Usage::
 
-        >>> Lab_to_LCHab(numpy.matrix([100., -7.41787844, -15.85742105]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [  17.50664796]
-                [ 244.93046842]])
+        >>> Lab_to_LCHab(numpy.array([100., -7.41787844, -15.85742105]))
+        array([[ 100.        ]
+               [  17.50664796]
+               [ 244.93046842]])
 
-    :param Lab: *CIE Lab* matrix.
-    :type Lab: matrix (3x1)
-    :return: *CIE LCHab* matrix.
-    :rtype: matrix (3x1)
+    :param Lab: *CIE Lab* colourspace matrix.
+    :type Lab: array_like (3, 1)
+    :return: *CIE LCHab* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -150,7 +150,7 @@ def Lab_to_LCHab(Lab):
     if H < 0.:
         H += 360.
 
-    return numpy.matrix([L, math.sqrt(a ** 2 + b ** 2), H]).reshape((3, 1))
+    return numpy.array([L, math.sqrt(a ** 2 + b ** 2), H]).reshape((3, 1))
 
 
 def LCHab_to_Lab(LCHab):
@@ -163,17 +163,17 @@ def LCHab_to_Lab(LCHab):
 
     Usage::
 
-        >>> LCHab_to_Lab(numpy.matrix([100., 17.50664796, 244.93046842]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [  -7.41787844]
-                [ -15.85742105]])
+        >>> LCHab_to_Lab(numpy.array([100., 17.50664796, 244.93046842]))
+        array([[ 100.        ]
+               [  -7.41787844]
+               [ -15.85742105]])
 
-    :param LCHab: *CIE LCHab* matrix.
-    :type LCHab: matrix (3x1)
-    :return: *CIE Lab* matrix.
-    :rtype: matrix (3x1)
+    :param LCHab: *CIE LCHab* colourspace matrix.
+    :type LCHab: array_like (3, 1)
+    :return: *CIE Lab* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, C, H = numpy.ravel(LCHab)
 
-    return numpy.matrix([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
+    return numpy.array([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))

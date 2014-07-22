@@ -196,12 +196,12 @@ def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.rgb.srgb.sRGB_COLOUR
     """
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
 
-    :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: matrix (3x1)
+    :param XYZ: *CIE XYZ* colourspace matrix.
+    :type XYZ: matrix (3, 1)
     :param illuminant: Source illuminant chromaticity coordinates.
-    :type illuminant: tuple
+    :type illuminant: array_like
     :return: *sRGB* colour matrix.
-    :rtype: matrix (3x1)
+    :rtype: matrix (3, 1)
     """
 
     return colour.computation.colourspaces.cie_xyy.XYZ_to_RGB(XYZ,
@@ -217,9 +217,9 @@ def normalise_RGB(RGB):
     Normalises given *RGB* colourspace values.
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: matrix (3x1)
+    :type RGB: matrix (3, 1)
     :return: Normalised *RGB* colourspace matrix.
-    :rtype: matrix (3x1)
+    :rtype: matrix (3, 1)
     """
 
     RGB = numpy.ravel(RGB)

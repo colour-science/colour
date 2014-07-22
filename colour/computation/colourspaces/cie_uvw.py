@@ -45,17 +45,17 @@ def XYZ_to_UVW(XYZ,
 
     Usage::
 
-        >>> XYZ_to_UVW(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
-        matrix([[  7.87055614]
-                [ 10.34      ]
-                [ 12.18252904]])
+        >>> XYZ_to_UVW(numpy.array([11.80583421, 10.34, 5.15089229]))
+        array([[  7.87055614]
+               [ 10.34      ]
+               [ 12.18252904]])
 
-    :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: matrix (3x1)
+    :param XYZ: *CIE XYZ* colourspace matrix.
+    :type XYZ: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
-    :return: *CIE 1964 U\*V*\W\** matrix.
-    :rtype: matrix (3x1)
+    :type illuminant: array_like
+    :return: *CIE 1964 U\*V*\W\** colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     x, y, Y = numpy.ravel(colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(XYZ, illuminant))
@@ -69,4 +69,4 @@ def XYZ_to_UVW(XYZ,
     U = 13. * W * (u - u0)
     V = 13. * W * (v - v0)
 
-    return numpy.matrix([U, V, W]).reshape((3, 1))
+    return numpy.array([U, V, W]).reshape((3, 1))

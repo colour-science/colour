@@ -45,7 +45,7 @@ def xy_to_z(xy):
         0.5
 
     :param xy: X, y chromaticity coordinate.
-    :type xy: tuple
+    :type xy: array_like
     :return: Z coordinate.
     :rtype: float
     """
@@ -75,7 +75,7 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: Normalised primary matrix.
-    :rtype: float (3x3)
+    :rtype: float (3, 3)
     """
 
     # Add 'z' coordinates to the primaries and transposing the matrix.
@@ -113,7 +113,7 @@ def get_RGB_luminance_equation(primaries, whitepoint):
         Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: matrix (3x2)
+    :type primaries: matrix (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance* equation.
@@ -141,9 +141,9 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
         12.1616018403
 
     :param RGB: *RGB* chromaticity coordinate matrix.
-    :type RGB: matrix (3x1)
+    :type RGB: matrix (3, 1)
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: matrix (3x2)
+    :type primaries: matrix (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: tuple
     :return: *Luminance*.

@@ -70,7 +70,7 @@ def get_closest(y, x):
         62.70988028
 
     :param y: Variable to search for the closest element.
-    :type y: matrix or ndarray
+    :type y: array_like
     :param x: Reference variable.
     :type x: int or float
     :return: Closest *y* variable element.

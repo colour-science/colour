@@ -889,8 +889,8 @@ def munsell_colour_to_xyY(munsell_colour):
 
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
-    :return: *CIE xyY* matrix.
-    :rtype: matrix (3x1)
+    :return: *CIE xyY* colourspace matrix.
+    :rtype: matrix (3, 1)
 
     :note: *Munsell* specification hue must be in domain [0, 10].
     :note: *Munsell* specification value must be in domain [0, 10].

@@ -21,7 +21,7 @@ from colour.algebra.coordinates.transformations import cartesian_to_cylindrical,
 from colour.algebra.coordinates.transformations import cartesian_to_spherical, spherical_to_cartesian
 from colour.algebra.extrapolation import Extrapolator1d
 from colour.algebra.interpolation import LinearInterpolator, SpragueInterpolator
-from colour.algebra.matrix import is_identity, linear_interpolate_matrices
+from colour.algebra.matrix import is_identity
 from colour.algebra.regression import linear_regression
 
 from colour.computation.blackbody import blackbody_spectral_power_distribution, blackbody_spectral_radiance, planck_law
@@ -128,7 +128,7 @@ __all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_nda
                 "cartesian_to_spherical", "spherical_to_cartesian",
                 "Extrapolator1d",
                 "LinearInterpolator", "SpragueInterpolator",
-                "is_identity", "linear_interpolate_matrices",
+                "is_identity",
                 "linear_regression"])
 
 # *colour.computation.blackbody* objects.

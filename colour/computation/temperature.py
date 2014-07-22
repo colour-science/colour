@@ -135,7 +135,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
          PlanckianTableTuvdi(Ti=1010.0, ui=0.4456773563885123, vi=0.35482651432651208, di=0.251515811697368)]
 
     :param uv: *uv* chromaticity coordinates.
-    :type uv: tuple
+    :type uv: array_like
     :param cmfs: Standard observer colour matching functions.
     :type cmfs: XYZ_ColourMatchingFunctions
     :param start: Temperature range start in kelvins.
@@ -202,7 +202,7 @@ def uv_to_CCT_ohno(uv,
         (6507.4342201047066, 0.003223690901512735)
 
     :param uv: *uv* chromaticity coordinates.
-    :type uv: tuple
+    :type uv: array_like
     :param cmfs: Standard observer colour matching functions.
     :type cmfs: XYZ_ColourMatchingFunctions
     :param start: Temperature range start in kelvins.
@@ -335,7 +335,7 @@ def uv_to_CCT_robertson(uv):
         (6500.016287949829, 0.008333328983860189)
 
     :param uv: *uv* chromaticity coordinates.
-    :type uv: tuple
+    :type uv: array_like
     :return: Correlated colour temperature, Duv.
     :rtype: tuple
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
@@ -465,7 +465,7 @@ def uv_to_CCT(uv, method="Ohno", **kwargs):
     using given calculation method.
 
     :param uv: *uv* chromaticity coordinates.
-    :type uv: tuple
+    :type uv: array_like
     :param method: Calculation method.
     :type method: unicode ("Ohno", "Robertson")
     :param \*\*kwargs: Keywords arguments.
@@ -528,7 +528,7 @@ def xy_to_CCT_mccamy(xy):
         6504.38938305
 
     :param xy: *xy* chromaticity coordinates.
-    :type xy: tuple
+    :type xy: array_like
     :return: Correlated colour temperature.
     :rtype: float
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
@@ -557,7 +557,7 @@ def xy_to_CCT_romero(xy):
         6500.04215334
 
     :param xy: *xy* chromaticity coordinates.
-    :type xy: tuple
+    :type xy: array_like
     :return: Correlated colour temperature.
     :rtype: float
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
@@ -653,7 +653,7 @@ def xy_to_CCT(xy, method="McCamy", **kwargs):
     using given calculation method.
 
     :param xy: *xy* chromaticity coordinates.
-    :type xy: tuple
+    :type xy: array_like
     :param method: Calculation method.
     :type method: unicode ("McCamy", "Hernandez-Andres, Lee & Romero")
     :return: Correlated colour temperature.

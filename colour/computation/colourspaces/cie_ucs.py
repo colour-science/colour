@@ -41,20 +41,20 @@ def XYZ_to_UCS(XYZ):
 
     Usage::
 
-        >>> XYZ_to_UCS(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
-        matrix([[  7.87055614]
-                [ 10.34      ]
-                [ 12.18252904]])
+        >>> XYZ_to_UCS(numpy.array([11.80583421, 10.34, 5.15089229]))
+        array([[  7.87055614]
+               [ 10.34      ]
+               [ 12.18252904]])
 
-    :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: matrix (3x1)
-    :return: *CIE UCS* matrix.
-    :rtype: matrix (3x1)
+    :param XYZ: *CIE XYZ* colourspace matrix.
+    :type XYZ: array_like (3, 1)
+    :return: *CIE UCS* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
 
-    return numpy.matrix([2. / 3. * X, Y, 1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
+    return numpy.array([2. / 3. * X, Y, 1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
 
 
 def UCS_to_XYZ(UVW):
@@ -67,25 +67,25 @@ def UCS_to_XYZ(UVW):
 
     Usage::
 
-        >>> UCS_to_XYZ(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
-        matrix([[  7.87055614]
-                [ 10.34      ]
-                [ 12.18252904]])
+        >>> UCS_to_XYZ(numpy.array([11.80583421, 10.34, 5.15089229]))
+        array([[  7.87055614]
+               [ 10.34      ]
+               [ 12.18252904]])
 
-    :param UVW: *CIE UCS* matrix.
-    :type UVW: matrix (3x1)
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
+    :param UVW: *CIE UCS* colourspace matrix.
+    :type UVW: array_like (3, 1)
+    :return: *CIE XYZ* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     U, V, W = numpy.ravel(UVW)
 
-    return numpy.matrix([3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
+    return numpy.array([3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
 
 
 def UCS_to_uv(UVW):
     """
-    Returns the *uv* chromaticity coordinates from given *CIE UCS* matrix.
+    Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace matrix.
 
     References:
 
@@ -93,11 +93,11 @@ def UCS_to_uv(UVW):
 
     Usage::
 
-        >>> UCS_to_uv(numpy.matrix([11.80583421, 10.34, 5.15089229]).reshape((3, 1)))
+        >>> UCS_to_uv(numpy.array([11.80583421, 10.34, 5.15089229]))
         (0.43249999995420702, 0.378800000065942)
 
-    :param UVW: *CIE UCS* matrix.
-    :type UVW: matrix (3x1)
+    :param UVW: *CIE UCS* colourspace matrix.
+    :type UVW: array_like (3, 1)
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
     """
@@ -121,7 +121,7 @@ def UCS_uv_to_xy(uv):
         (0.32207410281368043, 0.33156550013623537)
 
     :param uv: *CIE UCS uv* chromaticity coordinate.
-    :type uv: tuple
+    :type uv: array_like
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
     """

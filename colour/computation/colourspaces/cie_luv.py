@@ -51,17 +51,17 @@ def XYZ_to_Luv(XYZ,
 
     Usage::
 
-        >>> XYZ_to_Luv(numpy.matrix([0.92193107, 1., 1.03744246]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [ -20.04304247]
-                [ -45.09684555]])
+        >>> XYZ_to_Luv(numpy.array([0.92193107, 1., 1.03744246]))
+        array([[ 100.        ]
+               [ -20.04304247]
+               [ -45.09684555]])
 
-    :param XYZ: *CIE XYZ* matrix.
-    :type XYZ: matrix (3x1)
+    :param XYZ: *CIE XYZ* colourspace matrix.
+    :type XYZ: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
-    :return: *CIE Luv* matrix.
-    :rtype: matrix (3x1)
+    :type illuminant: array_like
+    :return: *CIE Luv* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -74,7 +74,7 @@ def XYZ_to_Luv(XYZ,
     u = 13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) - (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))
     v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
 
-    return numpy.matrix([L, u, v]).reshape((3, 1))
+    return numpy.array([L, u, v]).reshape((3, 1))
 
 
 def Luv_to_XYZ(Luv,
@@ -89,17 +89,17 @@ def Luv_to_XYZ(Luv,
 
     Usage::
 
-        >>> Luv_to_XYZ(numpy.matrix([100., -20.04304247, -19.81676035]).reshape((3, 1)))
-        matrix([[ 0.92193107]
-                [ 1.        ]
-                [ 1.03744246]])
+        >>> Luv_to_XYZ(numpy.array([100., -20.04304247, -19.81676035]))
+        array([[ 0.92193107]
+               [ 1.        ]
+               [ 1.03744246]])
 
-    :param Luv: *CIE Luv* matrix.
-    :type Luv: matrix (3x1)
+    :param Luv: *CIE Luv* colourspace matrix.
+    :type Luv: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
+    :type illuminant: array_like
+    :return: *CIE XYZ* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -116,14 +116,14 @@ def Luv_to_XYZ(Luv,
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    return numpy.matrix([X, Y, Z]).reshape((3, 1))
+    return numpy.array([X, Y, Z]).reshape((3, 1))
 
 
 def Luv_to_uv(Luv,
               illuminant=colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
-    Returns the *u'v'* chromaticity coordinates from given *CIE Luv* matrix.
+    Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace matrix.
 
     References:
 
@@ -131,13 +131,13 @@ def Luv_to_uv(Luv,
 
     Usage::
 
-        >>> Luv_to_uv(numpy.matrix([100., -20.04304247, -19.81676035]).reshape((3, 1)))
+        >>> Luv_to_uv(numpy.array([100., -20.04304247, -19.81676035]))
         (0.19374142100850045, 0.47283165896209456)
 
-    :param Luv: *CIE Luv* matrix.
-    :type Luv: matrix (3x1)
+    :param Luv: *CIE Luv* colourspace matrix.
+    :type Luv: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: tuple
+    :type illuminant: array_like
     :return: *u'v'* chromaticity coordinates.
     :rtype: tuple
     """
@@ -161,7 +161,7 @@ def Luv_uv_to_xy(uv):
         (0.32207410281368043, 0.33156550013623537)
 
     :param uv: *CIE Luv u'v'* chromaticity coordinate.
-    :type uv: tuple
+    :type uv: array_like
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
     """
@@ -179,15 +179,15 @@ def Luv_to_LCHuv(Luv):
 
     Usage::
 
-        >>> Luv_to_LCHuv(numpy.matrix([100., -20.04304247, -19.81676035]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [  28.18559104]
-                [ 224.6747382 ]])
+        >>> Luv_to_LCHuv(numpy.array([100., -20.04304247, -19.81676035]))
+        array([[ 100.        ]
+               [  28.18559104]
+               [ 224.6747382 ]])
 
-    :param Luv: *CIE Luv* matrix.
-    :type Luv: matrix (3x1)
-    :return: *CIE LCHuv* matrix.
-    :rtype: matrix (3x1)
+    :param Luv: *CIE Luv* colourspace matrix.
+    :type Luv: array_like (3, 1)
+    :return: *CIE LCHuv* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -196,7 +196,7 @@ def Luv_to_LCHuv(Luv):
     if H < 0.:
         H += 360.
 
-    return numpy.matrix([L, math.sqrt(u ** 2 + v ** 2), H]).reshape((3, 1))
+    return numpy.array([L, math.sqrt(u ** 2 + v ** 2), H]).reshape((3, 1))
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -209,17 +209,17 @@ def LCHuv_to_Luv(LCHuv):
 
     Usage::
 
-        >>> LCHuv_to_Luv(numpy.matrix([100., 28.18559104, 224.6747382]).reshape((3, 1)))
-        matrix([[ 100.        ]
-                [ -20.04304247]
-                [ -19.81676035]])
+        >>> LCHuv_to_Luv(numpy.array([100., 28.18559104, 224.6747382]))
+        array([[ 100.        ]
+               [ -20.04304247]
+               [ -19.81676035]])
 
-    :param LCHuv: *CIE LCHuv* matrix.
-    :type LCHuv: matrix (3x1)
-    :return: *CIE Luv* matrix.
-    :rtype: matrix (3x1)
+    :param LCHuv: *CIE LCHuv* colourspace matrix.
+    :type LCHuv: array_like (3, 1)
+    :return: *CIE Luv* colourspace matrix.
+    :rtype: ndarray (3, 1)
     """
 
     L, C, H = numpy.ravel(LCHuv)
 
-    return numpy.matrix([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
+    return numpy.array([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))

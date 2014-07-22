@@ -42,7 +42,7 @@ def cartesian_to_spherical(vector):
     [6.78232998  1.08574654  0.32175055]
 
     :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: ndarray or matrix
+    :type vector: array_like
     :return: Spherical coordinates vector (r, theta, phi).
     :rtype: ndarray
     """
@@ -66,7 +66,7 @@ def spherical_to_cartesian(vector):
     [ 3.          0.99999999  6.        ]
 
     :param vector: Spherical coordinates vector (r, theta, phi) to transform.
-    :type vector: ndarray or matrix
+    :type vector: array_like
     :return: Cartesian coordinates vector (x, y, z).
     :rtype: ndarray
     """
@@ -90,7 +90,7 @@ def cartesian_to_cylindrical(vector):
     [ 6.          0.32175055  3.16227766]
 
     :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: ndarray or matrix
+    :type vector: array_like
     :return: Cylindrical coordinates vector (z, theta, rho).
     :rtype: ndarray
     """
@@ -113,7 +113,7 @@ def cylindrical_to_cartesian(vector):
     [ 3.          0.99999999  6.        ]
 
     :param vector: Cylindrical coordinates vector (z, theta, rho) to transform.
-    :type vector: ndarray or matrix
+    :type vector: array_like
     :return: Cartesian coordinates vector (x, y, z).
     :rtype: ndarray
     """

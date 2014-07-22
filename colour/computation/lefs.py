@@ -41,8 +41,7 @@ def mesopic_weighting_function(wavelength,
                                scotopic_lef=colour.dataset.lefs.SCOTOPIC_LEFS.get(
                                    "CIE 1951 Scotopic Standard Observer")):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
-    matching functions and illuminant.
+    Calculates the mesopic weighting function factor at given wavelength.
 
     References:
 
@@ -53,7 +52,7 @@ def mesopic_weighting_function(wavelength,
         >>> mesopic_weighting_function(500, 0.2)
         0.70522
 
-    :param wavelength: Wavelength to calculate the mesopic function.
+    :param wavelength: Wavelength to calculate the mesopic weighting function factor.
     :type wavelength: int or float
     :param Lp: Photopic luminance.
     :type Lp: float
@@ -65,8 +64,8 @@ def mesopic_weighting_function(wavelength,
     :type photopic_lef: SpectralPowerDistribution
     :param scotopic_lef: *V'* scotopic luminous efficiency function.
     :type scotopic_lef: SpectralPowerDistribution
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
+    :return: Mesopic weighting function factor.
+    :rtype: float
     """
 
     for function in (photopic_lef, scotopic_lef):
