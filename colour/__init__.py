@@ -40,6 +40,7 @@ from colour.computation.colourspaces.cie_uvw import XYZ_to_UVW
 from colour.computation.colourspaces.cie_xyy import XYZ_to_xyY, xyY_to_XYZ, xyY_to_RGB, RGB_to_xyY
 from colour.computation.colourspaces.cie_xyy import xy_to_XYZ, XYZ_to_xy
 from colour.computation.colourspaces.cie_xyy import XYZ_to_RGB, RGB_to_XYZ
+from colour.computation.colourspaces.cie_xyy import is_within_macadam_limits
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 from colour.computation.colourspaces.rgb.derivation import get_normalised_primary_matrix, get_RGB_luminance_equation, get_RGB_luminance
 from colour.computation.colourspaces.munsell import munsell_colour_to_xyY
@@ -159,7 +160,8 @@ __all__.extend(["XYZ_to_UVW"])
 # *colour.computation.colourspaces.cie_xyy* objects.
 __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
                 "xy_to_XYZ", "XYZ_to_xy",
-                "XYZ_to_RGB", "RGB_to_XYZ"])
+                "XYZ_to_RGB", "RGB_to_XYZ",
+                "is_within_macadam_limits"])
 
 # *colour.computation.colourspaces.rgb.colourspace* objects.
 __all__.extend(["Colourspace"])

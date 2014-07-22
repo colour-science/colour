@@ -44,7 +44,8 @@ __all__ = ["sRGB_LINEAR_COLORCHECKER_2005",
            "TestXYZ_to_RGB",
            "TestRGB_to_XYZ",
            "TestxyY_to_RGB",
-           "TestRGB_to_xyY"]
+           "TestRGB_to_xyY",
+           "TestIsWithinMacadamLimits"]
 
 sRGB_LINEAR_COLORCHECKER_2005 = [
     [[0.4316, 0.3777, 0.1008], (0.11518474980142972, 0.1008, 0.050893725178713274),
@@ -576,6 +577,20 @@ class TestRGB_to_xyY(unittest.TestCase):
                                               numpy.matrix(xyY).reshape((3, 1)),
                                               decimal=7)
 
+class TestIsWithinMacadamLimits(unittest.TestCase):
+    """
+    Defines :func:`colour.computation.colourspaces.cie_xyy.is_within_macadam_limits` definition units tests methods.
+    """
+
+    def test_is_within_macadam_limits(self):
+        """
+        Tests :func:`colour.computation.colourspaces.cie_xyy.is_within_macadam_limits` definition.
+        """
+
+        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.3205, 0.4131, 51), "A"))
+        self.assertFalse(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
+        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.4325, 0.3788, 10.34), "C"))
+        self.assertFalse(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.0025, 0.0088, 0.034), "C"))
 
 if __name__ == "__main__":
     unittest.main()

@@ -22,6 +22,8 @@ import colour.computation.chromatic_adaptation
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.optimal_colour_stimuli
 import colour.utilities.common
+import colour.utilities.exceptions
+from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -37,7 +39,8 @@ __all__ = ["XYZ_to_xyY",
            "XYZ_to_RGB",
            "RGB_to_XYZ",
            "xyY_to_RGB",
-           "RGB_to_xyY"]
+           "RGB_to_xyY",
+           "is_within_macadam_limits"]
 
 
 def XYZ_to_xyY(XYZ,
@@ -345,7 +348,51 @@ def RGB_to_xyY(RGB,
                                  inverse_transfer_function))
 
 
+def __get_XYZ_optimal_colour_stimuli(illuminant):
+    """
+    Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace.
+
+    :param illuminant: Illuminant.
+    :type illuminant: unicode
+    :return: Illuminant optimal colour stimuli.
+    :rtype: tuple
+    """
+
+    optimal_colour_stimuli = \
+        colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
+
+    if optimal_colour_stimuli is None:
+        raise colour.utilities.exceptions.ProgrammingError(
+            "'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
+                                                                               sorted(
+                                                                                   colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+
+    cached_optimal_colour_stimuli = RuntimeCache.XYZ_optimal_colour_stimuli.get(illuminant)
+    if cached_optimal_colour_stimuli is None:
+        RuntimeCache.XYZ_optimal_colour_stimuli[illuminant] = cached_optimal_colour_stimuli = \
+            numpy.array(map(lambda x: numpy.ravel(xyY_to_XYZ(x)), optimal_colour_stimuli))
+    return cached_optimal_colour_stimuli
+
+
 def is_within_macadam_limits(xyY, illuminant):
-    if not colour.utilities.common.is_scipy_installed():
-        # TODO: Error.
-        raise
+    """
+    Returns if given *CIE xyY* colourspace matrix is within *MacAdam* limits of given illuminant.
+
+    :param xyY: *CIE xyY* matrix.
+    :type xyY: matrix (3x1)
+    :param illuminant: Illuminant.
+    :type illuminant: unicode
+    :return: Is within *MacAdam* limits.
+    :rtype: bool
+    """
+
+    if colour.utilities.common.is_scipy_installed(raise_exception=True):
+        from scipy.spatial import Delaunay
+
+        optimal_colour_stimuli = __get_XYZ_optimal_colour_stimuli(illuminant)
+        triangulation = RuntimeCache.XYZ_optimal_colour_stimuli_triangulations.get(illuminant)
+        if triangulation is None:
+            RuntimeCache.XYZ_optimal_colour_stimuli_triangulations[illuminant] = triangulation = \
+                Delaunay(optimal_colour_stimuli)
+
+        return True if triangulation.find_simplex(numpy.ravel(xyY_to_XYZ(xyY))) != -1 else False

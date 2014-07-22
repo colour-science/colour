@@ -107,6 +107,22 @@ class AbstractError(Exception):
         return str(self.__value)
 
 
+class AbstractApiError(AbstractError):
+    """
+    Defines the abstract base class for api exception.
+    """
+
+    pass
+
+
+class UnavailableApiFeatureError(AbstractError):
+    """
+    Defines unavailable api feature exception.
+    """
+
+    pass
+
+
 class AbstractUserError(AbstractError):
     """
     Defines the abstract base class for user related exception.

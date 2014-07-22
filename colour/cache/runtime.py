@@ -39,3 +39,9 @@ class RuntimeCache():
 
     planck_law = {}
     """Blackbody spectral radiance."""
+
+    XYZ_optimal_colour_stimuli = {}
+    """Optima colour stimuli in *CIE XYZ* colourspace."""
+
+    XYZ_optimal_colour_stimuli_triangulations = {}
+    """Optima colour stimuli triangulations in *CIE XYZ* colourspace."""
