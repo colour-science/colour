@@ -16,10 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.computation.colourspaces.rgb.derivation
-import colour.utilities.verbose
-
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -35,7 +31,6 @@ __all__ = ["CIE_E",
            "LUMINANCE_FUNCTIONS",
            "get_luminance"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0

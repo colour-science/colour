@@ -20,8 +20,6 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -39,8 +37,6 @@ __all__ = ["RGB_to_HSV",
            "CMYK_to_CMY",
            "RGB_to_HEX",
            "HEX_to_RGB"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def RGB_to_HSV(RGB):

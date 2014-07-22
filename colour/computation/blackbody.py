@@ -22,7 +22,7 @@ import warnings
 
 import colour.computation.spectrum
 import colour.utilities.decorators
-import colour.utilities.verbose
+from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -42,7 +42,6 @@ __all__ = ["LIGHT_SPEED_CONSTANT",
            "blackbody_spectral_radiance",
            "blackbody_spectral_power_distribution"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 LIGHT_SPEED_CONSTANT = 299792458
 PLANCK_CONSTANT = 6.62607e-34
@@ -53,7 +52,7 @@ C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CO
 N_CONSTANT = 1.
 
 
-@colour.utilities.decorators.memoize(None)
+@colour.utilities.decorators.memoize(RuntimeCache.planck_law)
 def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.

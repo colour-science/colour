@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import colour.algebra.common
 import colour.dataset.lefs
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -31,8 +30,6 @@ __status__ = "Production"
 
 __all__ = ["mesopic_weighting_function",
            "mesopic_luminous_efficiency_function"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def mesopic_weighting_function(wavelength,

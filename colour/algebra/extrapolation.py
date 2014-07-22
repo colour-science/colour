@@ -20,7 +20,6 @@ import numpy
 
 import colour.algebra.common
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -30,8 +29,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["Extrapolator1d"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class Extrapolator1d(object):

@@ -64,7 +64,6 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "xy_to_CCT",
            "CCT_to_xy"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTable_Tuvdi", ("Ti", "ui", "vi", "di"))
 
@@ -227,12 +226,12 @@ def uv_to_CCT_ohno(uv,
         planckian_table = get_planckian_table(uv, cmfs, start, end, count)
         index = get_planckian_table_minimal_distance_index(planckian_table)
         if index == 0:
-            LOGGER.warning(
+            colour.utilities.verbose.warning(
                 "!> {0} | Minimal distance index is on lowest planckian table bound, unpredictable results may occur!".format(
                     __name__))
             index += 1
         elif index == len(planckian_table) - 1:
-            LOGGER.warning(
+            colour.utilities.verbose.warning(
                 "!> {0} | Minimal distance index is on highest planckian table bound, unpredictable results may occur!".format(
                     __name__))
             index -= 1

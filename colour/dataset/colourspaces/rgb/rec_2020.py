@@ -20,9 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
 import colour.utilities.data_structures
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -41,7 +39,6 @@ __all__ = ["REC_2020_PRIMARIES",
            "REC_2020_INVERSE_TRANSFER_FUNCTION",
            "REC_2020_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf
 REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,

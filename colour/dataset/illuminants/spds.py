@@ -17,8 +17,6 @@
 from __future__ import unicode_literals
 
 import colour.computation.illuminants
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -31,7 +29,6 @@ __status__ = "Production"
 __all__ = ["ILLUMINANTS_RELATIVE_SPDS_DATA",
            "ILLUMINANTS_RELATIVE_SPDS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # Relative spectral power distribution for various illuminants in at 5 nm steps.
 # http://files.cie.co.at/204.xls

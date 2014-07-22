@@ -22,8 +22,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 
@@ -44,7 +42,6 @@ __all__ = ["ALEXA_LOG_C_CURVE_BCL_DATA",
            "ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION",
            "ALEXA_WIDE_GAMUT_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.arri.com/?eID=registration&file_uid=8026
 ALEXA_LOG_C_CURVE_BCL_DATA = {"SUP 3.x": {160: (0.0928, 0.8128),

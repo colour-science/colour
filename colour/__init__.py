@@ -16,13 +16,6 @@
 
 from __future__ import unicode_literals
 
-import foundations.globals.constants
-
-from colour.globals.constants import Constants
-
-
-foundations.globals.constants.Constants.__dict__.update(Constants.__dict__)
-
 from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray, is_number
 from colour.algebra.coordinates.transformations import cartesian_to_cylindrical, cylindrical_to_cartesian
 from colour.algebra.coordinates.transformations import cartesian_to_spherical, spherical_to_cartesian
@@ -112,8 +105,6 @@ from colour.dataset.tcs import TCS_SPDS
 
 from colour.implementation.fitting import first_order_colour_fit
 
-from colour.utilities.verbose import get_logging_console_handler, install_logger, set_verbosity_level
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -121,7 +112,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Constants"]
+__application_name__ = "Colour"
+
+__major_version__ = "0"
+__minor_version__ = "2"
+__change_version__ = "0"
+__version__ = ".".join((__major_version__, __minor_version__, __change_version__))
+
+__all__ = []
 
 # *colour.algebra* objects.
 __all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_ndarray", "is_number",
@@ -306,13 +304,4 @@ __all__.extend(["TCS_SPDS"])
 # *colour.implementation* objects.
 __all__.extend(["first_order_colour_fit"])
 
-LOGGER = install_logger()
-
-get_logging_console_handler()
-set_verbosity_level(Constants.verbosity_level)
-
-__all__.extend("LOGGER")
-
 __all__ = map(lambda x: x.encode("ascii"), __all__)
-
-__version__ = Constants.version

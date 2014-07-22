@@ -22,8 +22,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -41,7 +39,6 @@ __all__ = ["C_LOG_PRIMARIES",
            "C_LOG_INVERSE_TRANSFER_FUNCTION",
            "C_LOG_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 # Assuming *sRGB* / *Rec. 709* primaries.

@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 from collections import namedtuple
 
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,7 +40,6 @@ __all__ = ["COLOURCHECKER_INXYY",
            "COLORCHECKER_1976",
            "COLOURCHECKERS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 COLOURCHECKER_INXYY = namedtuple("ColourChecker_InxxY", ("index", "name", "x", "y", "Y"))
 

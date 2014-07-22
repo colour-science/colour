@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import TriSpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -36,8 +35,6 @@ __all__ = ["LMS_ConeFundamentals",
            "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs",
            "RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
            "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):

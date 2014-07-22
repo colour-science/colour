@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import foundations.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -33,8 +31,6 @@ __all__ = ["get_steps",
            "is_iterable",
            "to_ndarray",
            "is_number"]
-
-LOGGER = foundations.verbose.install_logger()
 
 
 def get_steps(distribution):

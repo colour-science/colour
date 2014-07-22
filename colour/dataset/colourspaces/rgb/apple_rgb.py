@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["APPLE_RGB_PRIMARIES",
            "APPLE_RGB_INVERSE_TRANSFER_FUNCTION",
            "APPLE_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
 APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,

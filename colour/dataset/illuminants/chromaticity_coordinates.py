@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -29,7 +27,6 @@ __all__ = ["ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDIN
            "ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES",
            "ILLUMINANTS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {

@@ -39,8 +39,6 @@ __status__ = "Production"
 __all__ = ["spectral_to_XYZ",
            "wavelength_to_XYZ"]
 
-LOGGER = colour.utilities.verbose.install_logger()
-
 
 def spectral_to_XYZ(spd,
                     cmfs=colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
@@ -75,10 +73,6 @@ def spectral_to_XYZ(spd,
 
     shape = cmfs.shape
     if spd.shape != cmfs.shape:
-        LOGGER.debug(
-            "> {0} | Spectral power distribution and standard observer colour matching functions shapes are not aligned: '{1}', '{2}'.".format(
-                __name__,
-                spd.shape, cmfs.shape))
         spd = spd.clone().zeros(*shape)
 
     if illuminant is None:
@@ -89,11 +83,6 @@ def spectral_to_XYZ(spd,
                                                                                           [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
-            LOGGER.debug(
-                "> {0} | Illuminant and standard observer colour matching functions shapes are not aligned: '{1}', '{2}'.".format(
-                    __name__,
-                    illuminant.shape,
-                    shape))
             illuminant = illuminant.clone().zeros(*shape)
 
     illuminant = illuminant.values
@@ -155,7 +144,7 @@ def wavelength_to_XYZ(wavelength,
 
                 interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
             else:
-                LOGGER.warning(
+                colour.utilities.verbose.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         __name__))
 

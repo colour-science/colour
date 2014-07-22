@@ -16,10 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.exceptions
-import colour.utilities.verbose
-
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -32,7 +28,6 @@ __all__ = ["A_OPTIMAL_COLOUR_STIMULI",
            "D65_OPTIMAL_COLOUR_STIMULI",
            "ILLUMINANTS_OPTIMAL_COLOUR_STIMULI"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
 A_OPTIMAL_COLOUR_STIMULI = (

@@ -27,7 +27,6 @@ import colour.algebra.coordinates.transformations
 import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
 from colour.cache.runtime import RuntimeCache
 from colour.dataset.colourspaces.munsell import MUNSELL_COLOURS
@@ -73,7 +72,6 @@ __all__ = ["FPNP",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 FPNP = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
 MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(FPNP)

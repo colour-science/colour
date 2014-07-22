@@ -24,7 +24,6 @@ import numpy
 import colour.algebra.common
 import colour.utilities.common
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
@@ -37,8 +36,6 @@ __status__ = "Production"
 
 __all__ = ["SpectralPowerDistribution",
            "TriSpectralPowerDistribution"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class SpectralPowerDistribution(object):
@@ -476,7 +473,7 @@ class SpectralPowerDistribution(object):
                 spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                 spline_interpolant = lambda x: spline_interpolator(x)
             else:
-                LOGGER.warning(
+                colour.utilities.verbose.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         self.__class__.__name__))
                 spline_interpolant, spline_interpolator = linear_interpolant, None
@@ -504,12 +501,6 @@ class SpectralPowerDistribution(object):
             else:
                 raise colour.utilities.exceptions.ProgrammingError(
                     "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
-
-            LOGGER.debug(
-                "> {0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
-                                                                                            self.name,
-                                                                                            (shape_start, shape_end,
-                                                                                             steps)))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
                                 for wavelength in numpy.arange(max(start, shape_start),

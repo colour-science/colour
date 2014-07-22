@@ -29,7 +29,6 @@ import colour.computation.colourspaces.cie_xyy
 import colour.computation.tristimulus
 import colour.dataset.cmfs
 import colour.dataset.tcs
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,7 +40,6 @@ __status__ = "Production"
 __all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",
            "get_colour_rendering_index"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple("TscColorimetryData_nXYZuvUVW", ("name", "XYZ", "uv", "UVW"))
 

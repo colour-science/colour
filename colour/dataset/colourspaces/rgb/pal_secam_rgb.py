@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["PAL_SECAM_RGB_PRIMARIES",
            "PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION",
            "PAL_SECAM_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 PAL_SECAM_RGB_PRIMARIES = numpy.matrix([0.64, 0.33,

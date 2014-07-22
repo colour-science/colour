@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["COLOR_MATCH_RGB_PRIMARIES",
            "COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION",
            "COLOR_MATCH_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
 COLOR_MATCH_RGB_PRIMARIES = numpy.matrix([0.6300, 0.3400,

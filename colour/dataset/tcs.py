@@ -16,9 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.exceptions
-import colour.utilities.verbose
-
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -32,7 +29,6 @@ __all__ = ["TCS_APPROXIMATE_MUNSELL_NOTATIONS",
            "TCS_SPDS_DATA",
            "TCS_SPDS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 TCS_INDEXES_TO_NAMES = {
     1: "TCS01",

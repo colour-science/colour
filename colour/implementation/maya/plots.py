@@ -22,8 +22,6 @@ import colour.computation.colourspaces.cie_xyy
 import colour.computation.colourspaces.cie_lab
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.data_structures
-import colour.utilities.verbose
-import foundations.common
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -40,8 +38,6 @@ __all__ = ["get_dag_path",
            "RGB_identity_cube",
            "Lab_colourspace_cube",
            "Lab_coordinates_system_representation"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def get_dag_path(node):
@@ -147,8 +143,7 @@ def RGB_identity_cube(name, density=20):
     :rtype: unicode
     """
 
-    cube = foundations.common.get_first_item(
-        cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False))
+    cube = cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False)[0]
     set_attributes({"{0}.translateX".format(cube): .5,
                     "{0}.translateY".format(cube): .5,
                     "{0}.translateZ".format(cube): .5})
@@ -157,7 +152,7 @@ def RGB_identity_cube(name, density=20):
     vertex_colour_array = OpenMaya.MColorArray()
     vertex_index_array = OpenMaya.MIntArray()
     point_array = OpenMaya.MPointArray()
-    fn_mesh = OpenMaya.MFnMesh(get_dag_path(foundations.common.get_first_item(get_shapes(cube))))
+    fn_mesh = OpenMaya.MFnMesh(get_dag_path(get_shapes(cube)[0]))
     fn_mesh.getPoints(point_array, OpenMaya.MSpace.kWorld)
     for i in range(point_array.length()):
         vertex_colour_array.append(point_array[i][0], point_array[i][1], point_array[i][2])
@@ -204,7 +199,7 @@ def Lab_coordinates_system_representation():
 
     group = cmds.createNode("transform")
 
-    cube = foundations.common.get_first_item(cmds.polyCube(w=600, h=100, d=600, sx=12, sy=2, sz=12, ch=False))
+    cube = cmds.polyCube(w=600, h=100, d=600, sx=12, sy=2, sz=12, ch=False)[0]
     set_attributes({"{0}.translateY".format(cube): 50,
                     "{0}.overrideEnabled".format(cube): True,
                     "{0}.overrideDisplayType".format(cube): 2,
@@ -219,9 +214,8 @@ def Lab_coordinates_system_representation():
                                   ("+a*", (350, 0), "plus_a"),
                                   ("-b*", (0, 350), "minus_b"),
                                   ("+b*", (0, -350), "plus_b")):
-        curves = cmds.listRelatives(foundations.common.get_first_item(cmds.textCurves(f="Arial Black Bold", t=label)))
-        mesh = foundations.common.get_first_item(
-            cmds.polyUnite(*map(lambda x: cmds.planarSrf(x, ch=False, o=True, po=1), curves), ch=False))
+        curves = cmds.listRelatives(cmds.textCurves(f="Arial Black Bold", t=label)[0])
+        mesh = cmds.polyUnite(*map(lambda x: cmds.planarSrf(x, ch=False, o=True, po=1), curves), ch=False)[0]
         cmds.xform(mesh, cp=True)
         cmds.xform(mesh, translation=(0., 0., 0.), absolute=True)
         cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)

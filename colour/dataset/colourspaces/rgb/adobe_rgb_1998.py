@@ -18,9 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.dataset.illuminants
-import colour.utilities.exceptions
-import colour.utilities.verbose
+import colour.dataset.illuminants.chromaticity_coordinates
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -38,7 +36,6 @@ __all__ = ["ADOBE_RGB_1998_PRIMARIES",
            "ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION",
            "ADOBE_RGB_1998_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 ADOBE_RGB_1998_PRIMARIES = numpy.matrix([0.6400, 0.3300,

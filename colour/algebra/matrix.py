@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -28,8 +26,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["is_identity", "linear_interpolate_matrices"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def is_identity(matrix, n=3):

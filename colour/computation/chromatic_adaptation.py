@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -35,7 +34,6 @@ __all__ = ["XYZ_SCALING_MATRIX",
            "CHROMATIC_ADAPTATION_METHODS",
            "get_chromatic_adaptation_matrix"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
 XYZ_SCALING_MATRIX = numpy.matrix(numpy.identity(3)).reshape((3, 3))
@@ -101,7 +99,5 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
                                         pyb_target[1] / pyb_source[1],
                                         pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
     cat = method_matrix.getI() * crd * method_matrix
-
-    LOGGER.debug("> Chromatic adaptation matrix:\n{0}".format(repr(cat)))
 
     return cat

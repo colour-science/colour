@@ -18,9 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.dataset.illuminants
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -38,7 +35,6 @@ __all__ = ["DCI_P3_PRIMARIES",
            "DCI_P3_INVERSE_TRANSFER_FUNCTION",
            "DCI_P3_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 DCI_P3_PRIMARIES = numpy.matrix([0.680, 0.320,

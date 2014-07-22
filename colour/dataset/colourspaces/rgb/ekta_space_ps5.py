@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["EKTA_SPACE_PS_5_PRIMARIES",
            "EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION",
            "EKTA_SPACE_PS_5_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.josephholmes.com/Ekta_Space.zip
 EKTA_SPACE_PS_5_PRIMARIES = numpy.matrix([0.6947368421052631, 0.30526315789473685,

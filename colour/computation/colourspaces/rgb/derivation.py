@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -31,8 +29,6 @@ __all__ = ["xy_to_z",
            "get_normalised_primary_matrix",
            "get_RGB_luminance_equation",
            "get_RGB_luminance"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def xy_to_z(xy):
@@ -97,11 +93,6 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     coefficients = numpy.diagflat(coefficients)
 
     npm = primaries * coefficients
-
-    LOGGER.debug("> Transposed primaries:\n{0}".format(repr(primaries)))
-    LOGGER.debug("> Whitepoint:\n{0}".format(repr(whitepoint)))
-    LOGGER.debug("> Coefficients:\n{0}".format(repr(coefficients)))
-    LOGGER.debug("> Normalised primary matrix':\n{0}".format(repr(npm)))
 
     return npm
 

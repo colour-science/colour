@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
            "ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION",
            "ADOBE_WIDE_GAMUT_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,

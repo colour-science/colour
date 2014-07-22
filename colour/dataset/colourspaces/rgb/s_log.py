@@ -22,8 +22,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -41,7 +39,6 @@ __all__ = ["S_LOG_PRIMARIES",
            "S_LOG_INVERSE_TRANSFER_FUNCTION",
            "S_LOG_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
 S_LOG_PRIMARIES = numpy.matrix([0.73, 0.28,

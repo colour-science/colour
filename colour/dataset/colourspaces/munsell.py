@@ -16,9 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
-
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -28,7 +25,6 @@ __status__ = "Production"
 
 __all__ = ["MUNSELL_COLOURS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.cis.rit.edu/research/mcsl2/online/munsell_data/all.dat
 MUNSELL_COLOURS = (

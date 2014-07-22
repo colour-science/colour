@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -31,8 +29,6 @@ __all__ = ["XYZ_to_UCS",
            "UCS_to_XYZ",
            "UCS_to_uv",
            "UCS_uv_to_xy"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def XYZ_to_UCS(XYZ):

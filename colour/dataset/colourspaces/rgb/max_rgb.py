@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["MAX_RGB_PRIMARIES",
            "MAX_RGB_INVERSE_TRANSFER_FUNCTION",
            "MAX_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.hutchcolor.com/profiles/MaxRGB.zip
 MAX_RGB_PRIMARIES = numpy.matrix([0.73413379, 0.26586621,

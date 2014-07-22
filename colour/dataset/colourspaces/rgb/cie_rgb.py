@@ -18,9 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.dataset.illuminants
-import colour.utilities.exceptions
-import colour.utilities.verbose
+import colour.dataset.illuminants.chromaticity_coordinates
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -38,7 +36,6 @@ __all__ = ["CIE_RGB_PRIMARIES",
            "CIE_RGB_INVERSE_TRANSFER_FUNCTION",
            "CIE_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 CIE_RGB_PRIMARIES = numpy.matrix([0.7350, 0.2650,

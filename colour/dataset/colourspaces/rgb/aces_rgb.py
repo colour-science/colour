@@ -21,9 +21,7 @@ import math
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
 import colour.utilities.data_structures
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 
@@ -55,7 +53,6 @@ __all__ = ["ACES_RGB_PRIMARIES",
            "ACES_RGB_PROXY_10_COLOURSPACE",
            "ACES_RGB_PROXY_12_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.oscars.org/science-technology/council/projects/aces.html
 # http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf: 4.1.2 Color space chromaticities

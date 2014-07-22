@@ -18,9 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.dataset.illuminants
-import colour.utilities.exceptions
-import colour.utilities.verbose
+import colour.dataset.illuminants.chromaticity_coordinates
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -38,7 +36,6 @@ __all__ = ["sRGB_PRIMARIES",
            "sRGB_INVERSE_TRANSFER_FUNCTION",
            "sRGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.color.org/srgb.pdf
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion

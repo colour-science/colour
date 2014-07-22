@@ -47,8 +47,6 @@ import colour.computation.colourspaces.cie_xyy
 import colour.computation.tristimulus
 import colour.utilities.data_structures
 import colour.utilities.exceptions
-import colour.utilities.verbose
-
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -98,7 +96,6 @@ __all__ = ["RESOURCES_DIRECTORY",
            "blackbody_colours_plot",
            "colour_rendering_index_bars_plot"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources")
 

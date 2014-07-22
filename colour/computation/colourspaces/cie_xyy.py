@@ -22,7 +22,6 @@ import colour.computation.chromatic_adaptation
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.optimal_colour_stimuli
 import colour.utilities.common
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,8 +38,6 @@ __all__ = ["XYZ_to_xyY",
            "RGB_to_XYZ",
            "xyY_to_RGB",
            "RGB_to_xyY"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def XYZ_to_xyY(XYZ,
@@ -200,10 +197,6 @@ def XYZ_to_RGB(XYZ,
     if transfer_function is not None:
         RGB = numpy.matrix(map(lambda x: transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
 
-    LOGGER.debug("> 'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
-    LOGGER.debug("> Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
-    LOGGER.debug("> 'RGB' matrix:\n{0}".format(repr(RGB)))
-
     return RGB
 
 
@@ -255,13 +248,9 @@ def RGB_to_XYZ(RGB,
         xy_to_XYZ(illuminant_XYZ),
         method=chromatic_adaptation_method)
 
-    adaptedXYZ = cat * XYZ
+    adapted_XYZ = cat * XYZ
 
-    LOGGER.debug("> 'CIE XYZ' matrix:\n{0}".format(repr(XYZ)))
-    LOGGER.debug("> 'Chromatic adaptation' matrix:\n{0}".format(repr(cat)))
-    LOGGER.debug("> Adapted 'CIE XYZ' matrix:\n{0}".format(repr(adaptedXYZ)))
-
-    return adaptedXYZ
+    return adapted_XYZ
 
 
 def xyY_to_RGB(xyY,

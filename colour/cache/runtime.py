@@ -36,3 +36,6 @@ class RuntimeCache():
 
     wavelength_to_XYZ = {}
     """Wavelength to *CIE XYZ* colourspace matrices."""
+
+    planck_law = {}
+    """Blackbody spectral radiance."""

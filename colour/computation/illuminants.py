@@ -20,7 +20,6 @@ import numpy
 
 import colour.dataset.illuminants.d_illuminants_s_spds
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -31,8 +30,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["D_illuminant_relative_spd"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def D_illuminant_relative_spd(xy):

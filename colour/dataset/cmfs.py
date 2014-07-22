@@ -16,9 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.exceptions
-import colour.utilities.verbose
-
 from colour.computation.cmfs import LMS_ConeFundamentals
 from colour.computation.cmfs import RGB_ColourMatchingFunctions
 from colour.computation.cmfs import XYZ_ColourMatchingFunctions
@@ -38,7 +35,6 @@ __all__ = ["LMS_CMFS_DATA",
            "STANDARD_OBSERVERS_CMFS",
            "CMFS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.cvrl.org/cones.htm
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has been set to zero.

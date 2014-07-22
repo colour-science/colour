@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["DON_RGB_4_PRIMARIES",
            "DON_RGB_4_INVERSE_TRANSFER_FUNCTION",
            "DON_RGB_4_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.hutchcolor.com/profiles/DonRGB4.zip
 DON_RGB_4_PRIMARIES = numpy.matrix([0.69612068965517238, 0.29956896551724138,

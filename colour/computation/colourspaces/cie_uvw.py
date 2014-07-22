@@ -22,7 +22,6 @@ import colour.computation.colourspaces.cie_ucs
 import colour.computation.colourspaces.cie_xyy
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -32,8 +31,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["XYZ_to_UVW"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def XYZ_to_UVW(XYZ,

@@ -19,8 +19,6 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import foundations.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -32,8 +30,6 @@ __all__ = ["cartesian_to_spherical",
            "spherical_to_cartesian",
            "cartesian_to_cylindrical",
            "cylindrical_to_cartesian"]
-
-LOGGER = foundations.verbose.install_logger()
 
 
 def cartesian_to_spherical(vector):

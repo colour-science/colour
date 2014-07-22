@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 
 import colour.utilities.verbose
 
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -34,7 +33,6 @@ __all__ = ["CIE_E",
            "LIGHTNESS_FUNCTIONS",
            "get_lightness"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
@@ -90,7 +88,7 @@ def lightness_1964(Y):
     """
 
     if not 1. < Y < 98.:
-        LOGGER.warning(
+        colour.utilities.verbose.warning(
             "!> {0} | 'W*' lightness calculation is only applicable for 1% < 'Y' < 98%, unpredictable results may occur!".format(
                 __name__))
 

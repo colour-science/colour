@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import foundations.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -27,7 +25,6 @@ __status__ = "Production"
 
 __all__ = ["is_scipy_installed"]
 
-LOGGER = foundations.verbose.install_logger()
 
 def is_scipy_installed():
     """

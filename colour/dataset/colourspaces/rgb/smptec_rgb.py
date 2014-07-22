@@ -20,8 +20,6 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,7 +37,6 @@ __all__ = ["SMPTE_C_RGB_PRIMARIES",
            "SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION",
            "SMPTE_C_RGB_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
 SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,

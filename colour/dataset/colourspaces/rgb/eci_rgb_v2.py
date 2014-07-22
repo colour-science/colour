@@ -20,9 +20,8 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.computation.lightness
+import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.colourspaces.rgb.colourspace import Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -40,7 +39,6 @@ __all__ = ["ECI_RGB_V2_PRIMARIES",
            "ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION",
            "ECI_RGB_V2_COLOURSPACE"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
@@ -57,7 +55,7 @@ XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()
 
 ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: colour.computation.lightness.lightness_1976(x * 100.) / 100.
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: colour.computation.lightness.luminance_1976(x * 100.) / 100.
+ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: colour.computation.luminance.luminance_1976(x * 100.) / 100.
 
 ECI_RGB_V2_COLOURSPACE = Colourspace("ECI RGB v2",
                                    ECI_RGB_V2_PRIMARIES,

@@ -16,7 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -33,7 +32,6 @@ __all__ = ["COLOURCHECKER_INDEXES_TO_NAMES_MAPPING",
            "BABELCOLOR_AVERAGE_SPDS",
            "COLOURCHECKERS_SPDS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {1: "dark skin",
                                          2: "light skin",

@@ -21,7 +21,6 @@ import numpy
 
 import colour.computation.colourspaces.cie_xyy
 import colour.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.verbose
 from colour.computation.lightness import CIE_E
 from colour.computation.lightness import CIE_K
 
@@ -36,8 +35,6 @@ __all__ = ["XYZ_to_Lab",
            "Lab_to_XYZ",
            "Lab_to_LCHab",
            "LCHab_to_Lab"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def XYZ_to_Lab(XYZ,

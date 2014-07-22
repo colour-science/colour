@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -29,8 +28,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["Colourspace"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class Colourspace(object):
