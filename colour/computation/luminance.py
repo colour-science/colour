@@ -25,7 +25,7 @@ __status__ = "Production"
 
 __all__ = ["CIE_E",
            "CIE_K",
-           "luminance_1943",
+           "luminance_newhall1943",
            "luminance_1976",
            "luminance_ASTM_D1535_08",
            "LUMINANCE_FUNCTIONS",
@@ -35,7 +35,7 @@ CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
 
 
-def luminance_1943(V):
+def luminance_newhall1943(V):
     """
     Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
 
@@ -45,7 +45,7 @@ def luminance_1943(V):
 
     Usage::
 
-        >>> luminance_1943(3.74629715382)
+        >>> luminance_newhall1943(3.74629715382)
         10.4089874577
 
     :param V: *Munsell value* *V*.
@@ -118,7 +118,7 @@ def luminance_ASTM_D1535_08(V):
     return Y
 
 
-LUMINANCE_FUNCTIONS = {"Luminance 1943": luminance_1943,
+LUMINANCE_FUNCTIONS = {"Luminance Newhall 1943": luminance_newhall1943,
                        "Luminance 1976": luminance_1976,
                        "Luminance ASTM D1535-08": luminance_ASTM_D1535_08}
 
@@ -143,7 +143,7 @@ def get_luminance(LV, Yn=100., method="Luminance 1976"):
     :param Yn: White reference *luminance*.
     :type Yn: float
     :param method: Computation method.
-    :type method: unicode ("Luminance 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+    :type method: unicode ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
     :return: *Luminance* *Y*.
     :rtype: float
 

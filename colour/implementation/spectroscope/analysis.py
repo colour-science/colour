@@ -318,7 +318,7 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     samples = samples if samples else image.shape[1]
     profile = get_image_profile(image, line=[0, 0, image.shape[1] - 1, 0], samples=samples)
 
-    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured,  samples=samples)
+    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured, samples=samples)
 
 
 def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"]):

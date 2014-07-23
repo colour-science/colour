@@ -68,9 +68,9 @@ non_uniform_spd_data = {
 
 base_spd = colour.SpectralPowerDistribution("Reference", uniform_spd_data)
 uniform_interpolated_spd = colour.SpectralPowerDistribution("Uniform - Sprague Interpolation",
-                                                           uniform_spd_data)
+                                                            uniform_spd_data)
 non_uniform_interpolated_spd = colour.SpectralPowerDistribution("Non Uniform - Cubic Spline Interpolation",
-                                                               non_uniform_spd_data)
+                                                                non_uniform_spd_data)
 
 uniform_interpolated_spd.interpolate(steps=1)
 non_uniform_interpolated_spd.interpolate(steps=1)

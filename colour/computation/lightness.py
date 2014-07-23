@@ -27,8 +27,8 @@ __status__ = "Production"
 
 __all__ = ["CIE_E",
            "CIE_K",
-           "lightness_1958",
-           "lightness_1964",
+           "lightness_glasser1958",
+           "lightness_wyszecki1964",
            "lightness_1976",
            "LIGHTNESS_FUNCTIONS",
            "get_lightness"]
@@ -37,7 +37,7 @@ CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
 
 
-def lightness_1958(Y):
+def lightness_glasser1958(Y):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
 
@@ -47,7 +47,7 @@ def lightness_1958(Y):
 
     Usage::
 
-        >>> lightness_1958(10.08)
+        >>> lightness_glasser1958(10.08)
         36.2505626458
 
     :param Y: Luminance.
@@ -64,7 +64,7 @@ def lightness_1958(Y):
     return L_star
 
 
-def lightness_1964(Y):
+def lightness_wyszecki1964(Y):
     """
     Returns the *Lightness* (*W\**) of given *luminance* *Y* using 1964 *Wyszecki* method.
 
@@ -74,7 +74,7 @@ def lightness_1964(Y):
 
     Usage::
 
-        >>> lightness_1964(10.08)
+        >>> lightness_wyszecki1964(10.08)
         37.0041149128
 
     :param Y: Luminance.
@@ -126,8 +126,8 @@ def lightness_1976(Y, Yn=100.):
     return L
 
 
-LIGHTNESS_FUNCTIONS = {"Lightness 1958": lightness_1958,
-                       "Lightness 1964": lightness_1964,
+LIGHTNESS_FUNCTIONS = {"Lightness Glasser 1958": lightness_glasser1958,
+                       "Lightness Wyszecki 1964": lightness_wyszecki1964,
                        "Lightness 1976": lightness_1976}
 
 
@@ -150,7 +150,7 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     :param Yn: White reference *luminance*.
     :type Yn: float
     :param method: Computation method.
-    :type method: unicode ("Lightness 1958", "Lightness 1964", "Lightness 1976")
+    :type method: unicode ("Lightness Glasser 1958", "Lightness Wyszecki 1964", "Lightness 1976")
     :return: *Lightness* *L\**.
     :rtype: float
 

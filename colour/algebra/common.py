@@ -104,6 +104,7 @@ def is_iterable(x):
     except TypeError:
         return False
 
+
 def to_ndarray(x):
     """
     Converts given *x* variable to ndarray.

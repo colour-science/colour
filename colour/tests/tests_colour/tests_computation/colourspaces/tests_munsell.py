@@ -4072,120 +4072,120 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
 class TestMunsellValue1920(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_1920` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_priest1920` definition units tests methods.
     """
 
-    def test_munsell_value_1920(self):
+    def test_munsell_value_priest1920(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_1920` definition.
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_priest1920` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1920(10.08),
+            colour.computation.colourspaces.munsell.munsell_value_priest1920(10.08),
             3.17490157328,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1920(56.76),
+            colour.computation.colourspaces.munsell.munsell_value_priest1920(56.76),
             7.53392328073,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1920(98.32),
+            colour.computation.colourspaces.munsell.munsell_value_priest1920(98.32),
             9.91564420499,
             places=7)
 
 
 class TestMunsellValue1933(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_1933` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_munsell1933` definition units tests methods.
     """
 
-    def test_munsell_value_1933(self):
+    def test_munsell_value_munsell1933(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_1933` definition.
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_munsell1933` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1933(10.08),
+            colour.computation.colourspaces.munsell.munsell_value_munsell1933(10.08),
             3.79183555086,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1933(56.76),
+            colour.computation.colourspaces.munsell.munsell_value_munsell1933(56.76),
             8.27013181776,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1933(98.32),
+            colour.computation.colourspaces.munsell.munsell_value_munsell1933(98.32),
             9.95457710587,
             places=7)
 
 
 class TestMunsellValue1943(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_1943` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_moon1943` definition units tests methods.
     """
 
-    def test_munsell_value_1943(self):
+    def test_munsell_value_moon1943(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_1943` definition.
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_moon1943` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1943(10.08),
+            colour.computation.colourspaces.munsell.munsell_value_moon1943(10.08),
             3.74629715382,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1943(56.76),
+            colour.computation.colourspaces.munsell.munsell_value_moon1943(56.76),
             7.8225814259,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1943(98.32),
+            colour.computation.colourspaces.munsell.munsell_value_moon1943(98.32),
             9.88538236116,
             places=7)
 
 
 class TestMunsellValue1944(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_1944` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_saunderson1944` definition units tests methods.
     """
 
-    def test_munsell_value_1944(self):
+    def test_munsell_value_saunderson1944(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_1944` definition.
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_saunderson1944` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1944(10.08),
+            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(10.08),
             3.68650805994,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1944(56.76),
+            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(56.76),
             7.89881184275,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1944(98.32),
+            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(98.32),
             9.85197100995,
             places=7)
 
 
 class TestMunsellValue1955(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_1955` definition units tests methods.
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_ladd1955` definition units tests methods.
     """
 
-    def test_munsell_value_1955(self):
+    def test_munsell_value_ladd1955(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_1955` definition.
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_ladd1955` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1955(10.08),
+            colour.computation.colourspaces.munsell.munsell_value_ladd1955(10.08),
             3.69528622419,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1955(56.76),
+            colour.computation.colourspaces.munsell.munsell_value_ladd1955(56.76),
             7.84875137062,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_1955(98.32),
+            colour.computation.colourspaces.munsell.munsell_value_ladd1955(98.32),
             9.75492813681,
             places=7)
 

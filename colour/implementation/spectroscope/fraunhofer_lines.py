@@ -206,7 +206,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
 
     settings = {"x_tighten": True,
                 "y_tighten": True,
-                "x_label":  u"Wavelength λ (nm)",
+                "x_label": u"Wavelength λ (nm)",
                 "y_label": False,
                 "legend": False,
                 "limits": [input, output, 0, height],

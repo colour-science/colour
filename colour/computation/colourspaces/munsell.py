@@ -17,13 +17,13 @@
 from __future__ import unicode_literals
 
 import math
-import sys
 
 import numpy
 import re
 
 import colour.algebra.common
 import colour.algebra.coordinates.transformations
+import colour.computation.colourspaces.cie_xyy
 import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
@@ -49,6 +49,7 @@ __all__ = ["FPNP",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_EXTENDED_FORMAT",
            "MUNSELL_HUE_LETTER_CODES",
            "EVEN_INTEGER_THRESHOLD",
+           "MUNSELL_DEFAULT_ILLUMINANT",
            "MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES",
            "parse_munsell_colour",
            "is_grey_munsell_colour",
@@ -64,11 +65,11 @@ __all__ = ["FPNP",
            "get_xy_from_renotation_ovoid",
            "munsell_specification_to_xy",
            "munsell_colour_to_xyY",
-           "munsell_value_1920",
-           "munsell_value_1933",
-           "munsell_value_1943",
-           "munsell_value_1944",
-           "munsell_value_1955",
+           "munsell_value_priest1920",
+           "munsell_value_munsell1933",
+           "munsell_value_moon1943",
+           "munsell_value_saunderson1944",
+           "munsell_value_ladd1955",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
@@ -96,8 +97,10 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
 
 EVEN_INTEGER_THRESHOLD = 0.001
 
+MUNSELL_DEFAULT_ILLUMINANT = "C"
 MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
-    colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("C")
+    colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+        "CIE 1931 2 Degree Standard Observer").get(MUNSELL_DEFAULT_ILLUMINANT)
 
 
 def __get_munsell_specifications():
@@ -935,10 +938,12 @@ def munsell_colour_to_xyY(munsell_colour):
 
 
 def xyY_to_munsell_colour(xyY):
-    pass
+    if not colour.computation.colourspaces.cie_xyy.is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
+        raise colour.utilities.exceptions.MunsellColourError(
+            "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(MUNSELL_DEFAULT_ILLUMINANT))
 
 
-def munsell_value_1920(Y):
+def munsell_value_priest1920(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
 
@@ -948,7 +953,7 @@ def munsell_value_1920(Y):
 
     Usage::
 
-        >>> munsell_value_1920(10.08)
+        >>> munsell_value_priest1920(10.08)
         3.17490157328
 
     :param Y: *Luminance* *Y*.
@@ -966,7 +971,7 @@ def munsell_value_1920(Y):
     return V
 
 
-def munsell_value_1933(Y):
+def munsell_value_munsell1933(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
 
@@ -976,7 +981,7 @@ def munsell_value_1933(Y):
 
     Usage::
 
-        >>> munsell_value_1933(10.08)
+        >>> munsell_value_munsell1933(10.08)
         3.79183555086
 
     :param Y: *Luminance* *Y*.
@@ -993,7 +998,7 @@ def munsell_value_1933(Y):
     return V
 
 
-def munsell_value_1943(Y):
+def munsell_value_moon1943(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
 
@@ -1003,7 +1008,7 @@ def munsell_value_1943(Y):
 
     Usage::
 
-        >>> munsell_value_1943(10.08)
+        >>> munsell_value_moon1943(10.08)
         3.74629715382
 
     :param Y: *Luminance* *Y*.
@@ -1020,7 +1025,7 @@ def munsell_value_1943(Y):
     return V
 
 
-def munsell_value_1944(Y):
+def munsell_value_saunderson1944(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
 
@@ -1030,7 +1035,7 @@ def munsell_value_1944(Y):
 
     Usage::
 
-        >>> munsell_value_1944(10.08)
+        >>> munsell_value_saunderson1944(10.08)
         3.68650805994
 
     :param Y: *Luminance* *Y*.
@@ -1047,7 +1052,7 @@ def munsell_value_1944(Y):
     return V
 
 
-def munsell_value_1955(Y):
+def munsell_value_ladd1955(Y):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
 
@@ -1057,7 +1062,7 @@ def munsell_value_1955(Y):
 
     Usage::
 
-        >>> munsell_value_1955(10.08)
+        >>> munsell_value_ladd1955(10.08)
         3.69528622419
 
     :param Y: *Luminance* *Y*.
@@ -1074,14 +1079,14 @@ def munsell_value_1955(Y):
     return V
 
 
-MUNSELL_VALUE_FUNCTIONS = {"Munsell Value 1920": munsell_value_1920,
-                           "Munsell Value 1933": munsell_value_1933,
-                           "Munsell Value 1943": munsell_value_1943,
-                           "Munsell Value 1944": munsell_value_1944,
-                           "Munsell Value 1955": munsell_value_1955}
+MUNSELL_VALUE_FUNCTIONS = {"Munsell Value Priest 1920": munsell_value_priest1920,
+                           "Munsell Value Munsell 1933": munsell_value_munsell1933,
+                           "Munsell Value Moon 1943": munsell_value_moon1943,
+                           "Munsell Value Saunderson 1944": munsell_value_saunderson1944,
+                           "Munsell Value Ladd 1955": munsell_value_ladd1955}
 
 
-def get_munsell_value(Y, method="Munsell Value 1955"):
+def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
 
@@ -1097,7 +1102,7 @@ def get_munsell_value(Y, method="Munsell Value 1955"):
     :param Y: *Luminance* *Y*.
     :type Y: float
     :param method: Computation method.
-    :type method: unicode ("Munsell Value 1920", "Munsell Value 1933", "Munsell Value 1943", "Munsell Value 1944", "Munsell Value 1955")
+    :type method: unicode ("Munsell Value Priest 1920", "Munsell Value Munsell 1933", "Munsell Value Moon 1943", "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955")
     :return: *Munsell value* *V*.
     :rtype: float
 

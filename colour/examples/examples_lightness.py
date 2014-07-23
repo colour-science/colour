@@ -19,11 +19,11 @@ print Y
 # Retrieving *Lightness* *CIE Lab* reference:
 print ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0]
 # Retrieving *Lightness* with *1958* method:
-print colour.lightness_1958(Y)
+print colour.lightness_glasser1958(Y)
 # Retrieving *Lightness* with *1964* method:
-print colour.lightness_1964(Y)
+print colour.lightness_wyszecki1964(Y)
 # Retrieving *Lightness* with *1976* method:
 print colour.lightness_1976(Y)
 # Retrieving *Lightness* using the wrapper:
 print colour.get_lightness(Y)
-print colour.get_lightness(Y, method="Lightness 1964")
+print colour.get_lightness(Y, method="Lightness Wyszecki 1964")

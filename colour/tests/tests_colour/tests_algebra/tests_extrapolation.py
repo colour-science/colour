@@ -67,7 +67,6 @@ class TestExtrapolator1d(unittest.TestCase):
         Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__` method.
         """
 
-
         extrapolator = Extrapolator1d(LinearInterpolator(numpy.array([5., 6., 7.]), numpy.array([5., 6., 7.])))
         numpy.testing.assert_almost_equal(extrapolator([4., 8.]), [4., 8.])
         self.assertEqual(extrapolator(4.), 4.)

@@ -40,7 +40,6 @@ __all__ = ["COLOURCHECKER_INXYY",
            "COLORCHECKER_1976",
            "COLOURCHECKERS"]
 
-
 COLOURCHECKER_INXYY = namedtuple("ColourChecker_InxxY", ("index", "name", "x", "y", "Y"))
 
 COLOURCHECKER = namedtuple("ColourChecker", ("name", "data", "illuminant"))

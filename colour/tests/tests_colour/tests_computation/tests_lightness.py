@@ -39,32 +39,32 @@ __all__ = ["TestLightness1958",
 
 class TestLightness1958(unittest.TestCase):
     """
-    Defines :func:`colour.computation.lightness.lightness_1958` definition units tests methods.
+    Defines :func:`colour.computation.lightness.lightness_glasser1958` definition units tests methods.
     """
 
-    def test_lightness_1958(self):
+    def test_lightness_glasser1958(self):
         """
-        Tests :func:`colour.computation.lightness.lightness_1958` definition.
+        Tests :func:`colour.computation.lightness.lightness_glasser1958` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1958(10.08), 36.2505626458, places=7)
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1958(56.76), 78.8117999039, places=7)
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1958(98.32), 98.3447052593, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_glasser1958(10.08), 36.2505626458, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_glasser1958(56.76), 78.8117999039, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_glasser1958(98.32), 98.3447052593, places=7)
 
 
 class TestLightness1964(unittest.TestCase):
     """
-    Defines :func:`colour.computation.lightness.lightness_1964` definition units tests methods.
+    Defines :func:`colour.computation.lightness.lightness_wyszecki1964` definition units tests methods.
     """
 
-    def test_lightness_1964(self):
+    def test_lightness_wyszecki1964(self):
         """
-        Tests :func:`colour.computation.lightness.lightness_1964` definition.
+        Tests :func:`colour.computation.lightness.lightness_wyszecki1964` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1964(10.08), 37.0041149128, places=7)
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1964(56.76), 79.0773031869, places=7)
-        self.assertAlmostEqual(colour.computation.lightness.lightness_1964(98.32), 98.3862250488, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_wyszecki1964(10.08), 37.0041149128, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_wyszecki1964(56.76), 79.0773031869, places=7)
+        self.assertAlmostEqual(colour.computation.lightness.lightness_wyszecki1964(98.32), 98.3862250488, places=7)
 
 
 class TestLightness1976(unittest.TestCase):

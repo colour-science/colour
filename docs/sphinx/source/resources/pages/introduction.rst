@@ -114,15 +114,15 @@ _`Highlights`
 
 -  Luminance, Munsell value and Lightness calculations:
 
-  -  Luminance 1943
+  -  Luminance Newhall 1943
   -  Luminance 1976
-  -  Munsell Value 1920
-  -  Munsell Value 1933
-  -  Munsell Value 1943
-  -  Munsell Value 1944
-  -  Munsell Value 1955
-  -  Lightness 1958
-  -  Lightness 1964
+  -  Munsell Value Priest 1920
+  -  Munsell Value Munsell 1933
+  -  Munsell Value Moon 1943
+  -  Munsell Value Saunderson 1944
+  -  Munsell Value Ladd 1955
+  -  Lightness Glasser 1958
+  -  Lightness Wyszecki 1964
   -  Lightness 1976
 
 -  RGB Colourspaces support:

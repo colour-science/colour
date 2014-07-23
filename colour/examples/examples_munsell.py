@@ -23,15 +23,15 @@ Y = ravel(xyY)[2] * 100.
 # Scaled *luminance* *Y* reference:
 print Y
 # Retrieving *Munsell value* with *1920* method:
-print colour.munsell_value_1920(Y)
+print colour.munsell_value_priest1920(Y)
 # Retrieving *Munsell value* with *1933* method:
-print colour.munsell_value_1933(Y)
+print colour.munsell_value_munsell1933(Y)
 # Retrieving *Munsell value* with *1943* method:
-print colour.munsell_value_1943(Y)
+print colour.munsell_value_moon1943(Y)
 # Retrieving *Munsell value* with *1944* method:
-print colour.munsell_value_1944(Y)
+print colour.munsell_value_saunderson1944(Y)
 # Retrieving *Munsell value* with *1955* method:
-print colour.munsell_value_1955(Y)
+print colour.munsell_value_ladd1955(Y)
 # Retrieving *Munsell value* using the wrapper:
 print colour.get_munsell_value(Y)
-print colour.get_munsell_value(Y, method="Munsell Value 1944")
+print colour.get_munsell_value(Y, method="Munsell Value Saunderson 1944")

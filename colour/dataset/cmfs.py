@@ -8954,17 +8954,17 @@ STANDARD_OBSERVERS_CMFS_DATA = {
 
 STANDARD_OBSERVERS_CMFS = {
     "CIE 1931 2 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 1931 2 Degree Standard Observer",
-                                                                      STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                          "CIE 1931 2 Degree Standard Observer")),
+                                                                       STANDARD_OBSERVERS_CMFS_DATA.get(
+                                                                           "CIE 1931 2 Degree Standard Observer")),
     "CIE 1964 10 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 1964 10 Degree Standard Observer",
-                                                                       STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                           "CIE 1964 10 Degree Standard Observer")),
+                                                                        STANDARD_OBSERVERS_CMFS_DATA.get(
+                                                                            "CIE 1964 10 Degree Standard Observer")),
     "CIE 2012 2 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 2012 2 Degree Standard Observer",
-                                                                      STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                          "CIE 2012 2 Degree Standard Observer")),
-    "CIE 2012 10 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 2012 10 Degree Standard Observer",
                                                                        STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                           "CIE 2012 10 Degree Standard Observer"))}
+                                                                           "CIE 2012 2 Degree Standard Observer")),
+    "CIE 2012 10 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 2012 10 Degree Standard Observer",
+                                                                        STANDARD_OBSERVERS_CMFS_DATA.get(
+                                                                            "CIE 2012 10 Degree Standard Observer"))}
 
 CMFS = dict(LMS_CMFS)
 CMFS.update(RGB_CMFS)

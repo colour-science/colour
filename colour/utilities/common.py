@@ -43,6 +43,7 @@ def is_scipy_installed(raise_exception=False):
         import scipy.interpolate
         import scipy.ndimage
         import scipy.spatial
+
         return True
     except ImportError as error:
         if raise_exception:

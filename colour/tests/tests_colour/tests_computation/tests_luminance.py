@@ -39,17 +39,20 @@ __all__ = ["TestLuminance1943",
 
 class TestLuminance1943(unittest.TestCase):
     """
-    Defines :func:`colour.computation.luminance.luminance_1943` definition units tests methods.
+    Defines :func:`colour.computation.luminance.luminance_newhall1943` definition units tests methods.
     """
 
-    def test_luminance_1943(self):
+    def test_luminance_newhall1943(self):
         """
-        Tests :func:`colour.computation.luminance.luminance_1943` definition.
+        Tests :func:`colour.computation.luminance.luminance_newhall1943` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.luminance.luminance_1943(3.74629715382), 10.4089874577, places=7)
-        self.assertAlmostEqual(colour.computation.luminance.luminance_1943(8.64728711385), 71.3174801757, places=7)
-        self.assertAlmostEqual(colour.computation.luminance.luminance_1943(1.52569021578), 2.06998750444, places=7)
+        self.assertAlmostEqual(colour.computation.luminance.luminance_newhall1943(3.74629715382), 10.4089874577,
+                               places=7)
+        self.assertAlmostEqual(colour.computation.luminance.luminance_newhall1943(8.64728711385), 71.3174801757,
+                               places=7)
+        self.assertAlmostEqual(colour.computation.luminance.luminance_newhall1943(1.52569021578), 2.06998750444,
+                               places=7)
 
 
 class TestLuminance1976(unittest.TestCase):

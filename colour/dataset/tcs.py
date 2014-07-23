@@ -29,7 +29,6 @@ __all__ = ["TCS_APPROXIMATE_MUNSELL_NOTATIONS",
            "TCS_SPDS_DATA",
            "TCS_SPDS"]
 
-
 TCS_INDEXES_TO_NAMES = {
     1: "TCS01",
     2: "TCS02",

@@ -8,7 +8,7 @@ Showcases some **Colour** package *Luminance* related examples.
 import colour
 
 # Retrieving *luminance* of given *Munsell value* with *1943* method.
-print colour.luminance_1943(3.74629715382)
+print colour.luminance_newhall1943(3.74629715382)
 
 # Retrieving *luminance* of given *Lightness* with *1976* method.
 print colour.luminance_1976(37.9856290977)

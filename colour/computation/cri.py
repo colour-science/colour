@@ -154,7 +154,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     XYZ = colour.computation.tristimulus.spectral_to_XYZ(test_spd, cmfs)
     uv = colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(XYZ))
-    CCT, Duv = colour.computation.temperature.uv_to_CCT_robertson(uv)
+    CCT, Duv = colour.computation.temperature.uv_to_CCT_robertson1968(uv)
 
     if CCT < 5000.:
         reference_spd = colour.computation.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
