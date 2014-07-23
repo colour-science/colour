@@ -22,16 +22,18 @@ xyY = colour.dataset.colour_checkers.chromaticity_coordinates.COLORCHECKER_2005_
 Y = ravel(xyY)[2] * 100.
 # Scaled *luminance* *Y* reference:
 print Y
-# Retrieving *Munsell value* with *1920* method:
+# Retrieving *Munsell value* with *Priest et al.* 1920 method:
 print colour.munsell_value_priest1920(Y)
-# Retrieving *Munsell value* with *1933* method:
+# Retrieving *Munsell value* with *Munsell, Sloan, and Godlove* 1933 method:
 print colour.munsell_value_munsell1933(Y)
-# Retrieving *Munsell value* with *1943* method:
+# Retrieving *Munsell value* with *Moon and Spencer* 1943 method:
 print colour.munsell_value_moon1943(Y)
-# Retrieving *Munsell value* with *1944* method:
+# Retrieving *Munsell value* with *Saunderson and Milner* 1944 method:
 print colour.munsell_value_saunderson1944(Y)
-# Retrieving *Munsell value* with *1955* method:
+# Retrieving *Munsell value* with *Ladd and Pinney* 1955 method:
 print colour.munsell_value_ladd1955(Y)
+# Retrieving *Munsell value* with *McCamy* 1992 method:
+print colour.munsell_value_mccamy1992(Y)
 # Retrieving *Munsell value* using the wrapper:
 print colour.get_munsell_value(Y)
 print colour.get_munsell_value(Y, method="Munsell Value Saunderson 1944")

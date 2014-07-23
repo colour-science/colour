@@ -39,7 +39,7 @@ CIE_K = 24389. / 27.0
 
 def lightness_glasser1958(Y):
     """
-    Returns the *Lightness* (*L\**) of given *luminance* *Y* using 1958 *Glasser et al.* method.
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using *Glasser et al.* 1958 method.
 
     References:
 
@@ -66,7 +66,7 @@ def lightness_glasser1958(Y):
 
 def lightness_wyszecki1964(Y):
     """
-    Returns the *Lightness* (*W\**) of given *luminance* *Y* using 1964 *Wyszecki* method.
+    Returns the *Lightness* (*W\**) of given *luminance* *Y* using *Wyszecki* 1964 method.
 
     References:
 

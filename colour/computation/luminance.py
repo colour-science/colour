@@ -37,7 +37,7 @@ CIE_K = 24389. / 27.0
 
 def luminance_newhall1943(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using 1943 *Newhall, Nickerson, and Judd* method.
+    Returns the *luminance* *Y* of given *Munsell value* *V* using *Newhall, Nickerson, and Judd* 1943 method.
 
     References:
 
@@ -93,7 +93,7 @@ def luminance_1976(L, Yn=100.):
 
 def luminance_ASTM_D1535_08(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using *ASTM D1535-08e1* method.
+    Returns the *luminance* *Y* of given *Munsell value* *V* using *ASTM D1535-08e1* 2008 method.
 
     References:
 

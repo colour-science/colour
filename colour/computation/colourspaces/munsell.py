@@ -946,7 +946,7 @@ def xyY_to_munsell_colour(xyY):
 
 def munsell_value_priest1920(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1920 *Priest et al.* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *Priest et al.* 1920 method.
 
     References:
 
@@ -974,7 +974,7 @@ def munsell_value_priest1920(Y):
 
 def munsell_value_munsell1933(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1933 *Munsell, Sloan, and Godlove* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *Munsell, Sloan, and Godlove* 1933 method.
 
     References:
 
@@ -1001,7 +1001,7 @@ def munsell_value_munsell1933(Y):
 
 def munsell_value_moon1943(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1943 *Moon and Spencer* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *Moon and Spencer* 1943 method.
 
     References:
 
@@ -1028,7 +1028,7 @@ def munsell_value_moon1943(Y):
 
 def munsell_value_saunderson1944(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1944 *Saunderson and Milner* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *Saunderson and Milner* 1944 method.
 
     References:
 
@@ -1055,7 +1055,7 @@ def munsell_value_saunderson1944(Y):
 
 def munsell_value_ladd1955(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1955 *Ladd and Pinney* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *Ladd and Pinney* 1955 method.
 
     References:
 
@@ -1082,7 +1082,7 @@ def munsell_value_ladd1955(Y):
 
 def munsell_value_mccamy1992(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using 1992 *McCamy* method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *McCamy* 1992 method.
 
     References:
 
