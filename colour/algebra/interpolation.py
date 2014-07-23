@@ -87,8 +87,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("x", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
@@ -127,8 +126,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("y", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 
@@ -277,8 +275,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("x", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
@@ -328,8 +325,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("y", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 

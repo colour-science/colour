@@ -18,6 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
+import colour.algebra.common
 import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
@@ -133,8 +134,7 @@ class Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("primaries", value)
+            value = colour.algebra.common.to_ndarray(value)
         self.__primaries = value
 
     @primaries.deleter
@@ -201,8 +201,7 @@ class Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("to_XYZ", value)
+            value = colour.algebra.common.to_ndarray(value)
         self.__to_XYZ = value
 
     @to_XYZ.deleter
@@ -235,8 +234,7 @@ class Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("from_XYZ", value)
+            value = colour.algebra.common.to_ndarray(value)
         self.__from_XYZ = value
 
     @from_XYZ.deleter

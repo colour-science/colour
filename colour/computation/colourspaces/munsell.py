@@ -395,8 +395,8 @@ def hue_to_hue_angle(hue, code):
     """
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
-    return float(LinearInterpolator(numpy.array([0, 2, 3, 4, 5, 6, 8, 9, 10]),
-                                    numpy.array([0, 45, 70, 135, 160, 225, 255, 315, 360]))(single_hue))
+    return float(LinearInterpolator([0, 2, 3, 4, 5, 6, 8, 9, 10],
+                                    [0, 45, 70, 135, 160, 225, 255, 315, 360])(single_hue))
 
 
 def hue_to_ASTM_hue(hue, code):
@@ -783,15 +783,15 @@ def get_xy_from_renotation_ovoid(specification):
         interpolation_method = get_interpolation_method_from_renotation_ovoid(specification)
 
         if interpolation_method == "Linear":
-            x = float(LinearInterpolator(numpy.array([lower_hue_angle, upper_hue_angle]),
-                                         numpy.array([x_minus, x_plus]))(hue_angle))
-            y = float(LinearInterpolator(numpy.array([lower_hue_angle, upper_hue_angle]),
-                                         numpy.array([y_minus, y_plus]))(hue_angle))
+            x = float(LinearInterpolator([lower_hue_angle, upper_hue_angle],
+                                         [x_minus, x_plus])(hue_angle))
+            y = float(LinearInterpolator([lower_hue_angle, upper_hue_angle],
+                                         [y_minus, y_plus])(hue_angle))
         elif interpolation_method == "Radial":
-            theta = float(LinearInterpolator(numpy.array([lower_hue_angle, upper_hue_angle]),
-                                             numpy.array([theta_minus, theta_plus]))(hue_angle))
-            rho = float(LinearInterpolator(numpy.array([lower_hue_angle, upper_hue_angle]),
-                                           numpy.array([rho_minus, rho_plus]))(hue_angle))
+            theta = float(LinearInterpolator([lower_hue_angle, upper_hue_angle],
+                                             [theta_minus, theta_plus])(hue_angle))
+            rho = float(LinearInterpolator([lower_hue_angle, upper_hue_angle],
+                                           [rho_minus, rho_plus])(hue_angle))
 
             x = rho * math.cos(math.radians(theta)) + x_grey
             y = rho * math.sin(math.radians(theta)) + y_grey
@@ -857,10 +857,10 @@ def munsell_specification_to_xy(specification):
             x = x_minus
             y = y_minus
         else:
-            x = float(LinearInterpolator(numpy.array([chroma_minus, chroma_plus]),
-                                         numpy.array([x_minus, x_plus]))(chroma))
-            y = float(LinearInterpolator(numpy.array([chroma_minus, chroma_plus]),
-                                         numpy.array([y_minus, y_plus]))(chroma))
+            x = float(LinearInterpolator([chroma_minus, chroma_plus],
+                                         [x_minus, x_plus])(chroma))
+            y = float(LinearInterpolator([chroma_minus, chroma_plus],
+                                         [y_minus, y_plus])(chroma))
 
         return x, y
 
@@ -927,11 +927,11 @@ def munsell_colour_to_xyY(munsell_colour):
         Y_minus = colour.computation.luminance.luminance_ASTM_D1535_08(value_minus)
         Y_plus = colour.computation.luminance.luminance_ASTM_D1535_08(value_plus)
         # TODO: Handle the float interp thing.
-        x = float(LinearInterpolator(numpy.array([Y_minus, Y_plus]),
-                                     numpy.array([x_minus, x_plus]))(Y))
+        x = float(LinearInterpolator([Y_minus, Y_plus],
+                                     [x_minus, x_plus])(Y))
         # TODO: Handle the float interp thing.
-        y = float(LinearInterpolator(numpy.array([Y_minus, Y_plus]),
-                                     numpy.array([y_minus, y_plus]))(Y))
+        y = float(LinearInterpolator([Y_minus, Y_plus],
+                                     [y_minus, y_plus])(Y))
 
     return numpy.array([x, y, Y]).reshape((3, 1))
 
