@@ -313,7 +313,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__add__` method.
 
         :param x: Variable to add.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable added spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -327,7 +327,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__sub__` method.
 
         :param x: Variable to subtract.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable subtracted spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -339,7 +339,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__mul__` method.
 
         :param x: Variable to multiply.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable multiplied spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -353,7 +353,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__div__` method.
 
         :param x: Variable to divide.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable divided spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -1043,7 +1043,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__add__` method.
 
         :param x: Variable to add.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable added tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1060,7 +1060,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__sub__` method.
 
         :param x: Variable to subtract.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable subtracted tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1072,7 +1072,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__mul__` method.
 
         :param x: Variable to multiply.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable multiplied tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1089,7 +1089,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__div__` method.
 
         :param x: Variable to divide.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable divided tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """

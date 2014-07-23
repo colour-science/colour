@@ -149,18 +149,23 @@ class LinearInterpolator(object):
         Evaluates the interpolating polynomial at given point(s).
 
         :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Interpolated value(s).
         :rtype: float or ndarray
         """
 
-        return self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xi = self.__evaluate(colour.algebra.common.to_ndarray(x))
+
+        if colour.algebra.common.is_number(x):
+            return type(x)(xi)
+        else:
+            return xi
 
     def __evaluate(self, x):
         """
-        Performs the interpolating polynomial evaluation at given point.
+        Performs the interpolating polynomial evaluation at given points.
 
-        :param x: Point to evaluate the interpolant at.
+        :param x: Points to evaluate the interpolant at.
         :type x: ndarray
         :return: Interpolated value.
         :rtype: ndarray
@@ -168,9 +173,6 @@ class LinearInterpolator(object):
 
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
-
-        if x in self.__x:
-            return self.__y[numpy.where(self.__x == x)][0]
 
         return numpy.interp(x, self.__x, self.__y)
 
@@ -361,7 +363,7 @@ class SpragueInterpolator(object):
         Evaluates the interpolating polynomial at given point(s).
 
         :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Interpolated value(s).
         :rtype: float or ndarray
         """

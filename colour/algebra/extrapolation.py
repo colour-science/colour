@@ -130,12 +130,17 @@ class Extrapolator1d(object):
         Evaluates the extrapolator at given point(s).
 
         :param x: Point(s) to evaluate the extrapolator at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Extrapolated value(s).
         :rtype: float or ndarray
         """
 
-        return self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xe = self.__evaluate(colour.algebra.common.to_ndarray(x))
+
+        if colour.algebra.common.is_number(x):
+            return type(x)(xe)
+        else:
+            return xe
 
     def __evaluate(self, x):
         """
