@@ -118,6 +118,7 @@ Highlights:
   -  Munsell Value Moon 1943
   -  Munsell Value Saunderson 1944
   -  Munsell Value Ladd 1955
+  -  Munsell Value McCamy 1992
   -  Lightness Glasser 1958
   -  Lightness Wyszecki 1964
   -  Lightness 1976
@@ -395,7 +396,7 @@ Illuminants Chromaticity Coordinates
 
 -  `Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
-Luminance, Munsell value, Lightness
+Luminance, Munsell Value, Lightness
 -----------------------------------
 
 -  `Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
@@ -406,6 +407,7 @@ Luminance, Munsell value, Lightness
 -  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  **Munsell Value McCamy 1992**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
 -  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)

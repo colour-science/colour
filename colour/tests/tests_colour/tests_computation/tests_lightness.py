@@ -32,12 +32,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["TestLightness1958",
-           "TestLightness1964",
+__all__ = ["TestLightnessGlasser1958",
+           "TestLightnessWyszecki1964",
            "TestLightness1976"]
 
 
-class TestLightness1958(unittest.TestCase):
+class TestLightnessGlasser1958(unittest.TestCase):
     """
     Defines :func:`colour.computation.lightness.lightness_glasser1958` definition units tests methods.
     """
@@ -52,7 +52,7 @@ class TestLightness1958(unittest.TestCase):
         self.assertAlmostEqual(colour.computation.lightness.lightness_glasser1958(98.32), 98.3447052593, places=7)
 
 
-class TestLightness1964(unittest.TestCase):
+class TestLightnessWyszecki1964(unittest.TestCase):
     """
     Defines :func:`colour.computation.lightness.lightness_wyszecki1964` definition units tests methods.
     """

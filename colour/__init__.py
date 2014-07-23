@@ -59,7 +59,8 @@ from colour.computation.colourspaces.munsell import \
     munsell_value_munsell1933, \
     munsell_value_moon1943, \
     munsell_value_saunderson1944, \
-    munsell_value_ladd1955
+    munsell_value_ladd1955, \
+    munsell_value_mccamy1992
 from colour.computation.colourspaces.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
@@ -191,7 +192,8 @@ __all__.extend(
      "munsell_value_munsell1933",
      "munsell_value_moon1943",
      "munsell_value_saunderson1944",
-     "munsell_value_ladd1955"])
+     "munsell_value_ladd1955",
+     "munsell_value_mccamy1992"])
 __all__.extend(["MUNSELL_VALUE_FUNCTIONS"])
 
 # *colour.computation.correction* objects.

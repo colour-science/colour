@@ -32,12 +32,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["TestLuminance1943",
+__all__ = ["TestLuminanceNewhall1943",
            "TestLuminance1976",
            "TestLuminanceASTM_D1535_08"]
 
 
-class TestLuminance1943(unittest.TestCase):
+class TestLuminanceNewhall1943(unittest.TestCase):
     """
     Defines :func:`colour.computation.luminance.luminance_newhall1943` definition units tests methods.
     """

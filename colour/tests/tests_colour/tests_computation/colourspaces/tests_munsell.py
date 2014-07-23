@@ -58,11 +58,12 @@ __all__ = ["MUNSELL_SPECIFICATIONS",
            "TestGet_xy_fromRenotationOvoid",
            "TestMunsellSpecification_to_xy",
            "TestMunsellColour_to_xyY",
-           "TestMunsellValue1920",
-           "TestMunsellValue1933",
-           "TestMunsellValue1943",
-           "TestMunsellValue1944",
-           "TestMunsellValue1955"]
+           "TestMunsellValuePriest1920",
+           "TestMunsellValueMunsell1933",
+           "TestMunsellValueMoon1943",
+           "TestMunsellValueSaunderson1944",
+           "TestMunsellValueLadd1955",
+           "TestMunsellValueMcCamy1992"]
 
 MUNSELL_SPECIFICATIONS = (
     (2.5, 7.9653798470827155, 11.928546308350969, 4),
@@ -4070,7 +4071,7 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
                 decimal=7)
 
 
-class TestMunsellValue1920(unittest.TestCase):
+class TestMunsellValuePriest1920(unittest.TestCase):
     """
     Defines :func:`colour.computation.colourspaces.munsell.munsell_value_priest1920` definition units tests methods.
     """
@@ -4094,7 +4095,7 @@ class TestMunsellValue1920(unittest.TestCase):
             places=7)
 
 
-class TestMunsellValue1933(unittest.TestCase):
+class TestMunsellValueMunsell1933(unittest.TestCase):
     """
     Defines :func:`colour.computation.colourspaces.munsell.munsell_value_munsell1933` definition units tests methods.
     """
@@ -4118,7 +4119,7 @@ class TestMunsellValue1933(unittest.TestCase):
             places=7)
 
 
-class TestMunsellValue1943(unittest.TestCase):
+class TestMunsellValueMoon1943(unittest.TestCase):
     """
     Defines :func:`colour.computation.colourspaces.munsell.munsell_value_moon1943` definition units tests methods.
     """
@@ -4142,7 +4143,7 @@ class TestMunsellValue1943(unittest.TestCase):
             places=7)
 
 
-class TestMunsellValue1944(unittest.TestCase):
+class TestMunsellValueSaunderson1944(unittest.TestCase):
     """
     Defines :func:`colour.computation.colourspaces.munsell.munsell_value_saunderson1944` definition units tests methods.
     """
@@ -4166,7 +4167,7 @@ class TestMunsellValue1944(unittest.TestCase):
             places=7)
 
 
-class TestMunsellValue1955(unittest.TestCase):
+class TestMunsellValueLadd1955(unittest.TestCase):
     """
     Defines :func:`colour.computation.colourspaces.munsell.munsell_value_ladd1955` definition units tests methods.
     """
@@ -4187,6 +4188,30 @@ class TestMunsellValue1955(unittest.TestCase):
         self.assertAlmostEqual(
             colour.computation.colourspaces.munsell.munsell_value_ladd1955(98.32),
             9.75492813681,
+            places=7)
+
+
+class TestMunsellValueMcCamy1992(unittest.TestCase):
+    """
+    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_mccamy1992` definition units tests methods.
+    """
+
+    def test_munsell_value_mccamy1992(self):
+        """
+        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_mccamy1992` definition.
+        """
+
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.munsell.munsell_value_mccamy1992(10.08),
+            3.7347235258546316,
+            places=7)
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.munsell.munsell_value_mccamy1992(56.76),
+            7.951693123402992,
+            places=7)
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.munsell.munsell_value_mccamy1992(98.32),
+            9.935265378231314,
             places=7)
 
 

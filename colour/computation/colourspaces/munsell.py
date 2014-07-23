@@ -70,6 +70,7 @@ __all__ = ["FPNP",
            "munsell_value_moon1943",
            "munsell_value_saunderson1944",
            "munsell_value_ladd1955",
+           "munsell_value_mccamy1992",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
@@ -1079,11 +1080,44 @@ def munsell_value_ladd1955(Y):
     return V
 
 
+def munsell_value_mccamy1992(Y):
+    """
+    Returns the *Munsell value* *V* of given *luminance* *Y* using 1992 *McCamy* method.
+
+    References:
+
+    -  `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_
+
+    Usage::
+
+        >>> munsell_value_mccamy1992(10.08)
+        3.73472352585
+
+    :param Y: *Luminance* *Y*.
+    :type Y: float
+    :return: *Munsell value* *V*.
+    :rtype: float
+
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
+    """
+
+    if Y <= 0.9:
+        V = 0.87445 * (Y ** 0.9967)
+    else:
+        V = 2.49268 * (Y ** (1. / 3.)) - 1.5614 - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) + \
+            (0.0133 / (Y ** 2.3)) + 0.0084 * math.sin(4.1 * (Y ** (1. / 3.)) + 1) \
+            + (0.0221 / Y) * math.sin(0.39 * (Y - 2)) \
+            - (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53))
+    return V
+
+
 MUNSELL_VALUE_FUNCTIONS = {"Munsell Value Priest 1920": munsell_value_priest1920,
                            "Munsell Value Munsell 1933": munsell_value_munsell1933,
                            "Munsell Value Moon 1943": munsell_value_moon1943,
                            "Munsell Value Saunderson 1944": munsell_value_saunderson1944,
-                           "Munsell Value Ladd 1955": munsell_value_ladd1955}
+                           "Munsell Value Ladd 1955": munsell_value_ladd1955,
+                           "Munsell Value McCamy 1992": munsell_value_mccamy1992}
 
 
 def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
@@ -1102,7 +1136,8 @@ def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     :param Y: *Luminance* *Y*.
     :type Y: float
     :param method: Computation method.
-    :type method: unicode ("Munsell Value Priest 1920", "Munsell Value Munsell 1933", "Munsell Value Moon 1943", "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955")
+    :type method: unicode ("Munsell Value Priest 1920", "Munsell Value Munsell 1933", "Munsell Value Moon 1943", \
+    "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955", "Munsell Value McCamy 1992")
     :return: *Munsell value* *V*.
     :rtype: float
 
