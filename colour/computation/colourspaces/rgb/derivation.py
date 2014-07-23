@@ -63,36 +63,34 @@ def get_normalised_primary_matrix(primaries, whitepoint):
 
     Usage::
 
-        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> primaries = numpy.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = (0.32168, 0.33767)
         >>> get_normalised_primary_matrix(primaries, whitepoint)
-        matrix([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
-            [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
-            [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
+        array([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
+               [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
+               [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
 
-    :param primaries: Primaries chromaticity coordinate matrix ( 3 x 2 ).
-    :type primaries: matrix
+    :param primaries: Primaries chromaticity coordinate matrix (3, 2).
+    :type primaries: array_like
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-    :type whitepoint: tuple
+    :type whitepoint: array_like
     :return: Normalised primary matrix.
-    :rtype: float (3, 3)
+    :rtype: ndarray (3, 3)
     """
 
     # Add 'z' coordinates to the primaries and transposing the matrix.
+    primaries = primaries.reshape((3, 2))
     primaries = numpy.hstack((primaries,
-                              numpy.matrix(
-                                  map(lambda x: xy_to_z(numpy.ravel(x)), primaries)).reshape(
-                                  (3, 1))))
+                              numpy.array(map(lambda x: xy_to_z(numpy.ravel(x)), primaries)).reshape((3, 1))))
+
     primaries = numpy.transpose(primaries)
 
-    whitepoint = numpy.matrix(
-        [whitepoint[0] / whitepoint[1], 1, xy_to_z(whitepoint) / whitepoint[1]]).reshape(
-        (3, 1))
+    whitepoint = numpy.array([whitepoint[0] / whitepoint[1], 1, xy_to_z(whitepoint) / whitepoint[1]]).reshape((3, 1))
 
-    coefficients = primaries.getI() * whitepoint
+    coefficients = numpy.dot(numpy.linalg.inv(primaries), whitepoint)
     coefficients = numpy.diagflat(coefficients)
 
-    npm = primaries * coefficients
+    npm = numpy.dot(primaries, coefficients)
 
     return npm
 
@@ -107,15 +105,15 @@ def get_RGB_luminance_equation(primaries, whitepoint):
 
     Usage::
 
-        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> primaries = numpy.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = (0.32168, 0.33767)
-        >>> get_luminance_equation(primaries, whitepoint)
+        >>> get_RGB_luminance_equation(primaries, whitepoint)
         Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: matrix (3, 2)
+    :type primaries: array_like (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-    :type whitepoint: tuple
+    :type whitepoint: array_like
     :return: *Luminance* equation.
     :rtype: unicode
     """
@@ -134,18 +132,18 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
 
     Usage::
 
-        >>> RGB = numpy.matrix([40.6, 4.2, 67.4]).reshape((3, 1))
-        >>> primaries = numpy.matrix([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]).reshape((3, 2))
+        >>> RGB = numpy.array([40.6, 4.2, 67.4])
+        >>> primaries = numpy.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = (0.32168, 0.33767)
-        >>> get_luminance(primaries, whitepoint)
+        >>> get_RGB_luminance(primaries, whitepoint)
         12.1616018403
 
     :param RGB: *RGB* chromaticity coordinate matrix.
-    :type RGB: matrix (3, 1)
+    :type RGB: array_like (3, 1)
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: matrix (3, 2)
+    :type primaries: array_like (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
-    :type whitepoint: tuple
+    :type whitepoint: array_like
     :return: *Luminance*.
     :rtype: float
     """

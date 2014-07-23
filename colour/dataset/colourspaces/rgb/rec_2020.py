@@ -41,19 +41,20 @@ __all__ = ["REC_2020_PRIMARIES",
 
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf
-REC_2020_PRIMARIES = numpy.matrix([0.708, 0.292,
-                                   0.170, 0.797,
-                                   0.131, 0.046]).reshape((3, 2))
+REC_2020_PRIMARIES = numpy.array([0.708, 0.292,
+                                  0.170, 0.797,
+                                  0.131, 0.046]).reshape((3, 2))
 
 REC_2020_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-REC_2020_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
 
-XYZ_TO_REC_2020_MATRIX = REC_2020_TO_XYZ_MATRIX.getI()
+XYZ_TO_REC_2020_MATRIX = numpy.linalg.inv(REC_2020_TO_XYZ_MATRIX)
 
 REC_2020_CONSTANTS = colour.utilities.data_structures.Structure(alpha=lambda x: 1.099 if x else 1.0993,
-                                                               beta=lambda x: 0.018 if x else 0.0181)
+                                                                beta=lambda x: 0.018 if x else 0.0181)
 
 
 def __rec_2020_transfer_function(value, is_10_bits_system=True):
@@ -105,9 +106,9 @@ REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function
 REC_2020_INVERSE_TRANSFER_FUNCTION = __rec_2020_inverse_transfer_function
 
 REC_2020_COLOURSPACE = Colourspace("Rec. 2020",
-                                 REC_2020_PRIMARIES,
-                                 REC_2020_WHITEPOINT,
-                                 REC_2020_TO_XYZ_MATRIX,
-                                 XYZ_TO_REC_2020_MATRIX,
-                                 REC_2020_TRANSFER_FUNCTION,
-                                 REC_2020_INVERSE_TRANSFER_FUNCTION)
+                                   REC_2020_PRIMARIES,
+                                   REC_2020_WHITEPOINT,
+                                   REC_2020_TO_XYZ_MATRIX,
+                                   XYZ_TO_REC_2020_MATRIX,
+                                   REC_2020_TRANSFER_FUNCTION,
+                                   REC_2020_INVERSE_TRANSFER_FUNCTION)

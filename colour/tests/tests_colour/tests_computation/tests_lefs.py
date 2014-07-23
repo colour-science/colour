@@ -450,21 +450,24 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         Tests :func:`colour.computation.lefs.mesopic_weighting_function` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.lefs.mesopic_weighting_function(500, 0.2),
-                               0.7052200000000001,
-                               places=7)
-        self.assertAlmostEqual(colour.computation.lefs.mesopic_weighting_function(500,
-                                                                                  0.2,
-                                                                                  source="Red Heavy",
-                                                                                  method="LRC"),
-                               0.9095099999999999,
-                               places=7)
-        self.assertAlmostEqual(colour.computation.lefs.mesopic_weighting_function(700,
-                                                                                  10,
-                                                                                  source="Red Heavy",
-                                                                                  method="LRC"),
-                               0.004102,
-                               places=7)
+        self.assertAlmostEqual(
+            colour.computation.lefs.mesopic_weighting_function(500, 0.2),
+            0.7052200000000001,
+            places=7)
+        self.assertAlmostEqual(
+            colour.computation.lefs.mesopic_weighting_function(500,
+                                                               0.2,
+                                                               source="Red Heavy",
+                                                               method="LRC"),
+            0.9095099999999999,
+            places=7)
+        self.assertAlmostEqual(
+            colour.computation.lefs.mesopic_weighting_function(700,
+                                                               10,
+                                                               source="Red Heavy",
+                                                               method="LRC"),
+            0.004102,
+            places=7)
 
 
 class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
@@ -477,9 +480,10 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
         Tests :func:`colour.computation.lefs.mesopic_luminous_efficiency_function` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.lefs.mesopic_luminous_efficiency_function(0.2).values,
-                                          MESOPIC_LEF_SPD_DATA,
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.lefs.mesopic_luminous_efficiency_function(0.2).values,
+            MESOPIC_LEF_SPD_DATA,
+            decimal=7)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -25,7 +25,6 @@ __status__ = "Production"
 
 __all__ = ["bandpass_correction_stearns",
            "bandpass_correction"]
-
 
 ALPHA_STEARNS = 0.083
 

@@ -5,6 +5,7 @@
 Showcases some **Colour** package *RGB* *colourspaces* related examples.
 """
 
+import numpy
 import pprint
 import colour
 
@@ -22,5 +23,5 @@ print("Inverse transfer function: '{0}'".format(colourspace.inverse_transfer_fun
 # Calculating *ACES RGB* to *sRGB* transformation matrix.
 print("'ACES RGB' colourspace to 'sRGB' colourspace matrix:")
 cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(colour.RGB_COLOURSPACES["ACES RGB"].whitepoint),
-                                            colour.xy_to_XYZ(colour.RGB_COLOURSPACES["sRGB"].whitepoint))
-print colour.RGB_COLOURSPACES["sRGB"].from_XYZ * (cat * colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ)
+                                             colour.xy_to_XYZ(colour.RGB_COLOURSPACES["sRGB"].whitepoint))
+print numpy.dot(colour.RGB_COLOURSPACES["sRGB"].from_XYZ, numpy.dot(cat, colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ))

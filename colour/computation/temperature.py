@@ -64,7 +64,6 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "xy_to_CCT",
            "CCT_to_xy"]
 
-
 PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTable_Tuvdi", ("Ti", "ui", "vi", "di"))
 
 CCT_MINIMAL = 1000

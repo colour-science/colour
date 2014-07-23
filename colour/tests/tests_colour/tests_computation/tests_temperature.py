@@ -217,12 +217,16 @@ class Testuv_to_CCT_ohno(unittest.TestCase):
 
         cmfs = colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
-        numpy.testing.assert_almost_equal(colour.computation.temperature.uv_to_CCT_ohno((0.1978, 0.3122), cmfs),
-                                          (6507.5470349001507, 0.0032236908012382953),
-                                          decimal=7)
-        numpy.testing.assert_almost_equal(colour.computation.temperature.uv_to_CCT_ohno((0.4328, 0.2883), cmfs),
-                                          (1041.8672179878763, -0.067377582642145384),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.temperature.uv_to_CCT_ohno((0.1978, 0.3122), cmfs),
+            (6507.5470349001507, 0.0032236908012382953),
+            decimal=7)
+
+        numpy.testing.assert_almost_equal(
+            colour.computation.temperature.uv_to_CCT_ohno((0.4328, 0.2883), cmfs),
+            (1041.8672179878763, -0.067377582642145384),
+            decimal=7)
+
         numpy.testing.assert_almost_equal(
             colour.computation.temperature.uv_to_CCT_ohno((0.2927, 0.2722), cmfs, iterations=4),
             (2452.1932942782669, -0.084369982045528508),

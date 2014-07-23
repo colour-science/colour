@@ -39,26 +39,26 @@ __all__ = ["MAX_RGB_PRIMARIES",
 
 
 # http://www.hutchcolor.com/profiles/MaxRGB.zip
-MAX_RGB_PRIMARIES = numpy.matrix([0.73413379, 0.26586621,
-                                  0.10039113, 0.89960887,
-                                  0.03621495, 0.]).reshape((3, 2))
+MAX_RGB_PRIMARIES = numpy.array([0.73413379, 0.26586621,
+                                 0.10039113, 0.89960887,
+                                 0.03621495, 0.]).reshape((3, 2))
 
 MAX_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
 MAX_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(MAX_RGB_PRIMARIES,
-                                                                                    MAX_RGB_WHITEPOINT)
+                                                                                                     MAX_RGB_WHITEPOINT)
 
-XYZ_TO_MAX_RGB_MATRIX = MAX_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_MAX_RGB_MATRIX = numpy.linalg.inv(MAX_RGB_TO_XYZ_MATRIX)
 
 MAX_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 MAX_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 MAX_RGB_COLOURSPACE = Colourspace("Max RGB",
-                                MAX_RGB_PRIMARIES,
-                                MAX_RGB_WHITEPOINT,
-                                MAX_RGB_TO_XYZ_MATRIX,
-                                XYZ_TO_MAX_RGB_MATRIX,
-                                MAX_RGB_TRANSFER_FUNCTION,
-                                MAX_RGB_INVERSE_TRANSFER_FUNCTION)
+                                  MAX_RGB_PRIMARIES,
+                                  MAX_RGB_WHITEPOINT,
+                                  MAX_RGB_TO_XYZ_MATRIX,
+                                  XYZ_TO_MAX_RGB_MATRIX,
+                                  MAX_RGB_TRANSFER_FUNCTION,
+                                  MAX_RGB_INVERSE_TRANSFER_FUNCTION)

@@ -39,26 +39,27 @@ __all__ = ["RUSSELL_RGB_PRIMARIES",
 
 
 # http://www.russellcottrell.com/photo/RussellRGB.htm
-RUSSELL_RGB_PRIMARIES = numpy.matrix([0.6900, 0.3100,
-                                      0.1800, 0.7700,
-                                      0.1000, 0.0200]).reshape((3, 2))
+RUSSELL_RGB_PRIMARIES = numpy.array([0.6900, 0.3100,
+                                     0.1800, 0.7700,
+                                     0.1000, 0.0200]).reshape((3, 2))
 
 RUSSELL_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D55")
 
-RUSSELL_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(RUSSELL_RGB_PRIMARIES,
-                                                                                        RUSSELL_RGB_WHITEPOINT)
+RUSSELL_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    RUSSELL_RGB_PRIMARIES,
+    RUSSELL_RGB_WHITEPOINT)
 
-XYZ_TO_RUSSELL_RGB_MATRIX = RUSSELL_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_RUSSELL_RGB_MATRIX = numpy.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
 
 RUSSELL_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 RUSSELL_RGB_COLOURSPACE = Colourspace("Russell RGB",
-                                    RUSSELL_RGB_PRIMARIES,
-                                    RUSSELL_RGB_WHITEPOINT,
-                                    RUSSELL_RGB_TO_XYZ_MATRIX,
-                                    XYZ_TO_RUSSELL_RGB_MATRIX,
-                                    RUSSELL_RGB_TRANSFER_FUNCTION,
-                                    RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)
+                                      RUSSELL_RGB_PRIMARIES,
+                                      RUSSELL_RGB_WHITEPOINT,
+                                      RUSSELL_RGB_TO_XYZ_MATRIX,
+                                      XYZ_TO_RUSSELL_RGB_MATRIX,
+                                      RUSSELL_RGB_TRANSFER_FUNCTION,
+                                      RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)

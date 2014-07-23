@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -50,15 +50,15 @@ def RGB_to_HSV(RGB):
 
     Usage::
 
-        >>> RGB_to_HSV(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
-        matrix([[ 0.27867384],
-                [ 0.744     ],
-                [ 0.98039216]])
+        >>> RGB_to_HSV(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+        array([[ 0.27867384],
+               [ 0.744     ],
+               [ 0.98039216]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: matrix (3, 1)
+    :type RGB: array_like (3, 1)
     :return: *HSV* matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *RGB* is in domain [0, 1].
     :note: *HSV* is in domain [0, 1].
@@ -95,7 +95,7 @@ def RGB_to_HSV(RGB):
         if H > 1:
             H -= 1
 
-    return numpy.matrix([H, S, V]).reshape((3, 1))
+    return numpy.array([H, S, V]).reshape((3, 1))
 
 
 def HSV_to_RGB(HSV):
@@ -109,15 +109,15 @@ def HSV_to_RGB(HSV):
 
     Usage::
 
-        >>> HSV_to_RGB(numpy.matrix([0.27867384, 0.744, 0.98039216]).reshape((3, 1)))
-        matrix([[ 0.49019606]
-                [ 0.98039216]
-                [ 0.25098039]])
+        >>> HSV_to_RGB(numpy.array([0.27867384, 0.744, 0.98039216]))
+        array([[ 0.49019606]
+               [ 0.98039216]
+               [ 0.25098039]])
 
     :param HSV: *HSV* colourspace matrix.
-    :type HSV: matrix (3, 1)
+    :type HSV: array_like (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *HSV* is in domain [0, 1].
     :note: *RGB* is in domain [0, 1].
@@ -163,7 +163,7 @@ def HSV_to_RGB(HSV):
             G = j
             B = k
 
-    return numpy.matrix([R, G, B]).reshape((3, 1))
+    return numpy.array([R, G, B]).reshape((3, 1))
 
 
 def RGB_to_HSL(RGB):
@@ -177,15 +177,15 @@ def RGB_to_HSL(RGB):
 
     Usage::
 
-        >>> RGB_to_HSL(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
-        matrix([[ 0.27867384]
-                [ 0.94897959]
-                [ 0.61568627]])
+        >>> RGB_to_HSL(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+        array([[ 0.27867384]
+               [ 0.94897959]
+               [ 0.61568627]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: matrix (3, 1)
+    :type RGB: array_like (3, 1)
     :return: *HSL* matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *RGB* is in domain [0, 1].
     :note: *HSL* is in domain [0, 1].
@@ -222,7 +222,7 @@ def RGB_to_HSL(RGB):
         if H > 1:
             H -= 1
 
-    return numpy.matrix([H, S, L]).reshape((3, 1))
+    return numpy.array([H, S, L]).reshape((3, 1))
 
 
 def HSL_to_RGB(HSL):
@@ -236,15 +236,15 @@ def HSL_to_RGB(HSL):
 
     Usage::
 
-        >>> HSL_to_RGB(numpy.matrix([0.27867384, 0.94897959, 0.61568627]).reshape((3, 1)))
-        matrix([[ 0.49019605]
-                [ 0.98039216]
-                [ 0.25098038]])
+        >>> HSL_to_RGB(numpy.array([0.27867384, 0.94897959, 0.61568627]))
+        array([[ 0.49019605]
+               [ 0.98039216]
+               [ 0.25098038]])
 
     :param HSL: *HSL* colourspace matrix.
-    :type HSL: matrix (3, 1)
+    :type HSL: array_like (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *HSL* is in domain [0, 1].
     :note: *RGB* is in domain [0, 1].
@@ -277,7 +277,7 @@ def HSL_to_RGB(HSL):
         G = H_to_RGB(i, j, H)
         B = H_to_RGB(i, j, H - (1. / 3.))
 
-    return numpy.matrix([R, G, B]).reshape((3, 1))
+    return numpy.array([R, G, B]).reshape((3, 1))
 
 
 def RGB_to_CMY(RGB):
@@ -290,19 +290,19 @@ def RGB_to_CMY(RGB):
 
     Usage::
 
-        >>> RGB_to_CMY(numpy.matrix([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]).reshape((3, 1)))
-        matrix([[ 0.50980392]
+        >>> RGB_to_CMY(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+        array([[ 0.50980392]
                 [ 0.01960784]
                 [ 0.74901961]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: matrix (3, 1)
+    :type RGB: array_like (3, 1)
     :return: *CMY* matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
     """
 
     R, G, B = numpy.ravel(RGB)
-    return numpy.matrix([1. - R, 1. - G, 1. - B]).reshape((3, 1))
+    return numpy.array([1. - R, 1. - G, 1. - B]).reshape((3, 1))
 
 
 def CMY_to_RGB(CMY):
@@ -315,19 +315,19 @@ def CMY_to_RGB(CMY):
 
     Usage::
 
-        >>> CMY_to_RGB(numpy.matrix([0.50980392, 0.01960784, 0.74901961]).reshape((3, 1)))
-        matrix([[ 0.49019608]
-                [ 0.98039216]
-                [ 0.25098039]])
+        >>> CMY_to_RGB(numpy.array([0.50980392, 0.01960784, 0.74901961]))
+        array([[ 0.49019608]
+               [ 0.98039216]
+               [ 0.25098039]])
 
     :param CMY: *CMY* colourspace matrix.
-    :type CMY: matrix (3, 1)
+    :type CMY: array_like (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
     """
 
     C, M, Y = numpy.ravel(CMY)
-    return numpy.matrix([1. - C, 1. - M, 1. - Y]).reshape((3, 1))
+    return numpy.array([1. - C, 1. - M, 1. - Y]).reshape((3, 1))
 
 
 def CMY_to_CMYK(CMY):
@@ -340,16 +340,16 @@ def CMY_to_CMYK(CMY):
 
     Usage::
 
-        >>> CMY_to_CMYK(numpy.matrix([0.50980392, 0.01960784, 0.74901961]).reshape((3, 1)))
-        matrix([[ 0.5       ]
-                [ 0.        ]
-                [ 0.744     ]
-                [ 0.01960784]])
+        >>> CMY_to_CMYK(numpy.array([0.50980392, 0.01960784, 0.74901961]))
+        array([[ 0.5       ]
+               [ 0.        ]
+               [ 0.744     ]
+               [ 0.01960784]])
 
     :param CMY: *CMY* colourspace matrix.
-    :type CMY: matrix (3, 1)
+    :type CMY: array_like (3, 1)
     :return: *CMYK* matrix.
-    :rtype: matrix (4, 1)
+    :rtype: ndarray (4, 1)
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -371,7 +371,7 @@ def CMY_to_CMYK(CMY):
         M = (M - K) / (1. - K)
         Y = (Y - K) / (1. - K)
 
-    return numpy.matrix([C, M, Y, K]).reshape((4, 1))
+    return numpy.array([C, M, Y, K]).reshape((4, 1))
 
 
 def CMYK_to_CMY(CMYK):
@@ -384,20 +384,20 @@ def CMYK_to_CMY(CMYK):
 
     Usage::
 
-        >>> CMYK_to_CMY(numpy.matrix([0.5, 0.,0.744, 0.01960784]).reshape((4, 1)))
-        matrix([[ 0.50980392]
-                [ 0.01960784]
-                [ 0.74901961]])
+        >>> CMYK_to_CMY(numpy.array([0.5, 0.,0.744, 0.01960784]))
+        array([[ 0.50980392]
+               [ 0.01960784]
+               [ 0.74901961]])
 
     :param CMYK: *CMYK* colourspace matrix.
-    :type CMYK: matrix (4, 1)
+    :type CMYK: array_like (4, 1)
     :return: *CMY* matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
     """
 
     C, M, Y, K = numpy.ravel(CMYK)
 
-    return numpy.matrix([C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
+    return numpy.array([C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
 
 
 def RGB_to_HEX(RGB):
@@ -406,11 +406,11 @@ def RGB_to_HEX(RGB):
 
     Usage::
 
-        >>> RGB_to_HEX(numpy.matrix([0.66666667, 0.86666667, 1.]).reshape((3, 1)))
+        >>> RGB_to_HEX(numpy.array([0.66666667, 0.86666667, 1.]))
         #aaddff
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: matrix (3, 1)
+    :type RGB: array_like (3, 1)
     :return: Hex triplet representation.
     :rtype: unicode
 
@@ -436,11 +436,11 @@ def HEX_to_RGB(HEX):
     :param HEX: Hex triplet representation.
     :type HEX: unicode
     :return: *RGB* colourspace matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *RGB* is in domain [0, 1].
     """
 
     HEX = HEX.lstrip("#")
     length = len(HEX)
-    return numpy.matrix([int(HEX[i:i + length / 3], 16) for i in range(0, length, length / 3)]).reshape((3, 1)) / 255.
+    return numpy.array([int(HEX[i:i + length / 3], 16) for i in range(0, length, length / 3)]).reshape((3, 1)) / 255.

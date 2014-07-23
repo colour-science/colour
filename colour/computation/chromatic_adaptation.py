@@ -69,12 +69,12 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     Usage::
 
-        >>> XYZ1 = numpy.array([1.09923822, 1.000, 0.35445412]).reshape((3, 1))
-        >>> XYZ2 = numpy.array([0.96907232, 1.000, 1.121792157]).reshape((3, 1)))
+        >>> XYZ1 = numpy.array([1.09923822, 1.000, 0.35445412])
+        >>> XYZ2 = numpy.array([0.96907232, 1.000, 1.121792157])
         >>> get_chromatic_adaptation_matrix(XYZ1, XYZ2)
-        matrix([[ 0.87145615, -0.13204674,  0.40394832],
-            [-0.09638805,  1.04909781,  0.1604033 ],
-            [ 0.0080207 ,  0.02826367,  3.06023196]])
+        array([[ 0.87145615, -0.13204674,  0.40394832],
+              [-0.09638805,  1.04909781,  0.1604033 ],
+              [ 0.0080207 ,  0.02826367,  3.06023196]])
 
     :param XYZ1: *CIE XYZ* source *array_like* variable.
     :type XYZ1: array_like (3, 1)

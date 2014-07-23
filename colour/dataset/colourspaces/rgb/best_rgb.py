@@ -39,26 +39,27 @@ __all__ = ["BEST_RGB_PRIMARIES",
 
 
 # http://www.hutchcolor.com/profiles/BestRGB.zip
-BEST_RGB_PRIMARIES = numpy.matrix([0.73519163763066209, 0.26480836236933797,
-                                   0.2153361344537815, 0.77415966386554624,
-                                   0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
+BEST_RGB_PRIMARIES = numpy.array([0.73519163763066209, 0.26480836236933797,
+                                  0.2153361344537815, 0.77415966386554624,
+                                  0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
 
 BEST_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-BEST_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(BEST_RGB_PRIMARIES,
-                                                                                     BEST_RGB_WHITEPOINT)
+BEST_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    BEST_RGB_PRIMARIES,
+    BEST_RGB_WHITEPOINT)
 
-XYZ_TO_BEST_RGB_MATRIX = BEST_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_BEST_RGB_MATRIX = numpy.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
 
 BEST_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 BEST_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 BEST_RGB_COLOURSPACE = Colourspace("Best RGB",
-                                 BEST_RGB_PRIMARIES,
-                                 BEST_RGB_WHITEPOINT,
-                                 BEST_RGB_TO_XYZ_MATRIX,
-                                 XYZ_TO_BEST_RGB_MATRIX,
-                                 BEST_RGB_TRANSFER_FUNCTION,
-                                 BEST_RGB_INVERSE_TRANSFER_FUNCTION)
+                                   BEST_RGB_PRIMARIES,
+                                   BEST_RGB_WHITEPOINT,
+                                   BEST_RGB_TO_XYZ_MATRIX,
+                                   XYZ_TO_BEST_RGB_MATRIX,
+                                   BEST_RGB_TRANSFER_FUNCTION,
+                                   BEST_RGB_INVERSE_TRANSFER_FUNCTION)

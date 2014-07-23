@@ -39,27 +39,27 @@ __all__ = ["sRGB_PRIMARIES",
 
 # http://www.color.org/srgb.pdf
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf: 1 Opto-electronic conversion
-sRGB_PRIMARIES = numpy.matrix([0.6400, 0.3300,
-                               0.3000, 0.6000,
-                               0.1500, 0.0600]).reshape((3, 2))
+sRGB_PRIMARIES = numpy.array([0.6400, 0.3300,
+                              0.3000, 0.6000,
+                              0.1500, 0.0600]).reshape((3, 2))
 
 sRGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-sRGB_TO_XYZ_MATRIX = numpy.matrix([0.41238656, 0.35759149, 0.18045049,
-                                   0.21263682, 0.71518298, 0.0721802,
-                                   0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
+sRGB_TO_XYZ_MATRIX = numpy.array([0.41238656, 0.35759149, 0.18045049,
+                                  0.21263682, 0.71518298, 0.0721802,
+                                  0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
 
-XYZ_TO_sRGB_MATRIX = sRGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_sRGB_MATRIX = numpy.linalg.inv(sRGB_TO_XYZ_MATRIX)
 
 sRGB_TRANSFER_FUNCTION = lambda x: x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055
 
 sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4
 
 sRGB_COLOURSPACE = Colourspace("sRGB",
-                             sRGB_PRIMARIES,
-                             sRGB_WHITEPOINT,
-                             sRGB_TO_XYZ_MATRIX,
-                             XYZ_TO_sRGB_MATRIX,
-                             sRGB_TRANSFER_FUNCTION,
-                             sRGB_INVERSE_TRANSFER_FUNCTION)
+                               sRGB_PRIMARIES,
+                               sRGB_WHITEPOINT,
+                               sRGB_TO_XYZ_MATRIX,
+                               XYZ_TO_sRGB_MATRIX,
+                               sRGB_TRANSFER_FUNCTION,
+                               sRGB_INVERSE_TRANSFER_FUNCTION)

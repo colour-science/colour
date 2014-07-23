@@ -51,17 +51,14 @@ class Testxy_to_z(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.rgb.derivation.xy_to_z` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.25, 0.25)),
-                                          0.5,
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.rgb.derivation.xy_to_z((0.25, 0.25)), 0.5, decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00010, -0.07700)),
-                                          1.07690,
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00010, -0.07700)), 1.07690, decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00000, 1.00000)),
-                                          0.00000,
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.rgb.derivation.xy_to_z((0.00000, 1.00000)), 0.00000, decimal=7)
 
 
 class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
@@ -75,25 +72,27 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(numpy.matrix([0.73470, 0.26530,
-                                                                                      0.00000, 1.00000,
-                                                                                      0.00010, -0.07700]).reshape(
-                (3, 2)),
-                                                                        (0.32168, 0.33767)),
-            numpy.matrix([9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-                          3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
-                          0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3)),
+            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+                numpy.array([0.73470, 0.26530,
+                             0.00000, 1.00000,
+                             0.00010, -0.07700]),
+                (0.32168, 0.33767)),
+            numpy.array([9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
+                         3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
+                         0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(numpy.matrix([0.640, 0.330,
-                                                                                      0.300, 0.600,
-                                                                                      0.150, 0.060]).reshape((3, 2)),
-                                                                        (0.3127, 0.3290)),
-            numpy.matrix([0.4123908, 0.35758434, 0.18048079,
-                          0.21263901, 0.71516868, 0.07219232,
-                          0.01933082, 0.11919478, 0.95053215]).reshape((3, 3)),
+            colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+                numpy.array([0.640, 0.330,
+                             0.300, 0.600,
+                             0.150, 0.060]),
+                (0.3127, 0.3290)),
+            numpy.array([0.4123908, 0.35758434, 0.18048079,
+                         0.21263901, 0.71516868, 0.07219232,
+                         0.01933082, 0.11919478, 0.95053215]).reshape((3, 3)),
             decimal=7)
+
 
 class TestGetRGBLuminanceEquation(unittest.TestCase):
     """
@@ -106,18 +105,18 @@ class TestGetRGBLuminanceEquation(unittest.TestCase):
         """
 
         self.assertIsInstance(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation(
-            numpy.matrix([0.73470, 0.26530,
-                          0.00000, 1.00000,
-                          0.00010, -0.07700]).reshape(
-                (3, 2)),
+            numpy.array([0.73470, 0.26530,
+                         0.00000, 1.00000,
+                         0.00010, -0.07700]),
             (0.32168, 0.33767)), unicode)
 
         self.assertTrue(re.match(
             r"Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)",
-            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation(numpy.matrix([0.73470, 0.26530,
-                                                                              0.00000, 1.00000,
-                                                                              0.00010, -0.07700]).reshape((3, 2)),
-                                                                (0.32168, 0.33767))))
+            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance_equation(
+                numpy.array([0.73470, 0.26530,
+                             0.00000, 1.00000,
+                             0.00010, -0.07700]),
+                (0.32168, 0.33767))))
 
 
 class TestGetRGBLuminance(unittest.TestCase):
@@ -130,34 +129,35 @@ class TestGetRGBLuminance(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.rgb.derivation.get_RGB_luminance` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([50., 50., 50.]),
-                                                                          numpy.matrix([0.73470, 0.26530,
-                                                                                        0.00000, 1.00000,
-                                                                                        0.00010, -0.07700]).reshape(
-                                                                              (3, 2)),
-                                                                          (0.32168, 0.33767)),
-                               50.,
-                               places=7)
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(
+                numpy.array([50., 50., 50.]),
+                numpy.array([0.73470, 0.26530,
+                             0.00000, 1.00000,
+                             0.00010, -0.07700]),
+                (0.32168, 0.33767)),
+            50.,
+            places=7)
 
-        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([74.6, 16.1, 100.]),
-                                                                          numpy.matrix([0.73470, 0.26530,
-                                                                                        0.00000, 1.00000,
-                                                                                        0.00010, -0.07700]).reshape(
-                                                                              (3, 2)),
-                                                                          (0.32168, 0.33767)),
-                               30.1701166701,
-                               places=7)
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(
+                numpy.array([74.6, 16.1, 100.]),
+                numpy.array([0.73470, 0.26530,
+                             0.00000, 1.00000,
+                             0.00010, -0.07700]),
+                (0.32168, 0.33767)),
+            30.1701166701,
+            places=7)
 
-        self.assertAlmostEqual(colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(numpy.matrix([40.6, 4.2, 67.4]),
-                                                                          numpy.matrix([0.73470, 0.26530,
-                                                                                        0.00000, 1.00000,
-                                                                                        0.00010, -0.07700]).reshape(
-                                                                              (3, 2)),
-                                                                          (0.32168, 0.33767)),
-                               12.1616018403,
-                               places=7)
-
-
+        self.assertAlmostEqual(
+            colour.computation.colourspaces.rgb.derivation.get_RGB_luminance(
+                numpy.array([40.6, 4.2, 67.4]),
+                numpy.array([0.73470, 0.26530,
+                             0.00000, 1.00000,
+                             0.00010, -0.07700]),
+                (0.32168, 0.33767)),
+            12.1616018403,
+            places=7)
 
 
 if __name__ == "__main__":

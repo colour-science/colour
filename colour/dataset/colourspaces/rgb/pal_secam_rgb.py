@@ -39,26 +39,27 @@ __all__ = ["PAL_SECAM_RGB_PRIMARIES",
 
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
-PAL_SECAM_RGB_PRIMARIES = numpy.matrix([0.64, 0.33,
-                                        0.29, 0.60,
-                                        0.15, 0.06]).reshape((3, 2))
+PAL_SECAM_RGB_PRIMARIES = numpy.array([0.64, 0.33,
+                                       0.29, 0.60,
+                                       0.15, 0.06]).reshape((3, 2))
 
 PAL_SECAM_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-PAL_SECAM_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(PAL_SECAM_RGB_PRIMARIES,
-                                                                                          PAL_SECAM_RGB_WHITEPOINT)
+PAL_SECAM_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    PAL_SECAM_RGB_PRIMARIES,
+    PAL_SECAM_RGB_WHITEPOINT)
 
-XYZ_TO_PAL_SECAM_RGB_MATRIX = PAL_SECAM_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_PAL_SECAM_RGB_MATRIX = numpy.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
 
 PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
 
 PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
 
 PAL_SECAM_RGB_COLOURSPACE = Colourspace("Pal/Secam RGB",
-                                      PAL_SECAM_RGB_PRIMARIES,
-                                      PAL_SECAM_RGB_WHITEPOINT,
-                                      PAL_SECAM_RGB_TO_XYZ_MATRIX,
-                                      XYZ_TO_PAL_SECAM_RGB_MATRIX,
-                                      PAL_SECAM_RGB_TRANSFER_FUNCTION,
-                                      PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)
+                                        PAL_SECAM_RGB_PRIMARIES,
+                                        PAL_SECAM_RGB_WHITEPOINT,
+                                        PAL_SECAM_RGB_TO_XYZ_MATRIX,
+                                        XYZ_TO_PAL_SECAM_RGB_MATRIX,
+                                        PAL_SECAM_RGB_TRANSFER_FUNCTION,
+                                        PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)

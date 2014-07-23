@@ -72,7 +72,6 @@ __all__ = ["FPNP",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
-
 FPNP = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
 MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(FPNP)
 MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN = \
@@ -890,7 +889,7 @@ def munsell_colour_to_xyY(munsell_colour):
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
     :return: *CIE xyY* colourspace matrix.
-    :rtype: matrix (3, 1)
+    :rtype: ndarray (3, 1)
 
     :note: *Munsell* specification hue must be in domain [0, 10].
     :note: *Munsell* specification value must be in domain [0, 10].
@@ -934,7 +933,7 @@ def munsell_colour_to_xyY(munsell_colour):
         y = float(LinearInterpolator(numpy.array([Y_minus, Y_plus]),
                                      numpy.array([y_minus, y_plus]))(Y))
 
-    return numpy.matrix([x, y, Y]).reshape((3, 1))
+    return numpy.array([x, y, Y]).reshape((3, 1))
 
 
 def xyY_to_munsell_colour(xyY):

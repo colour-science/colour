@@ -39,9 +39,9 @@ __all__ = ["ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
 
 
 # http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
-ADOBE_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.7347, 0.2653,
-                                               0.1152, 0.8264,
-                                               0.1566, 0.0177]).reshape((3, 2))
+ADOBE_WIDE_GAMUT_RGB_PRIMARIES = numpy.array([0.7347, 0.2653,
+                                              0.1152, 0.8264,
+                                              0.1566, 0.0177]).reshape((3, 2))
 
 ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
@@ -50,16 +50,16 @@ ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivat
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 
-XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = numpy.linalg.inv(ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 
 ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
 
 ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = Colourspace("Adobe Wide Gamut RGB",
-                                             ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-                                             ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
-                                             ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
-                                             XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-                                             ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-                                             ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+                                               ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
+                                               ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
+                                               ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+                                               XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
+                                               ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
+                                               ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)

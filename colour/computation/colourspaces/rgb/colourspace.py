@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -49,13 +49,13 @@ class Colourspace(object):
         :param name: Colourspace name.
         :type name: str or unicode
         :param primaries: Colourspace primaries.
-        :type primaries: matrix
+        :type primaries: array_like
         :param whitepoint: Colourspace whitepoint.
-        :type whitepoint: tuple or Matrix
+        :type whitepoint: array_like
         :param to_XYZ: Transformation matrix from colourspace to *CIE XYZ* colourspace.
-        :type to_XYZ: matrix
+        :type to_XYZ: array_like
         :param from_XYZ: Transformation matrix from *CIE XYZ* colourspace to colourspace.
-        :type from_XYZ: matrix
+        :type from_XYZ: array_like
         :param transfer_function: Colourspace transfer function from linear to colourspace.
         :type transfer_function: object
         :param inverse_transfer_function: Colourspace inverse transfer function from colourspace to linear.
@@ -118,7 +118,7 @@ class Colourspace(object):
         Property for **self.__primaries** attribute.
 
         :return: self.__primaries.
-        :rtype: matrix
+        :rtype: array_like
         """
 
         return self.__primaries
@@ -129,12 +129,12 @@ class Colourspace(object):
         Setter for **self.__primaries** attribute.
 
         :param value: Attribute value.
-        :type value: matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("primaries",
-                                                                                                            value)
+            assert type(value) in (numpy.ndarray, numpy.matrix), \
+                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("primaries", value)
         self.__primaries = value
 
     @primaries.deleter
@@ -152,7 +152,7 @@ class Colourspace(object):
         Property for **self.__whitepoint** attribute.
 
         :return: self.__whitepoint.
-        :rtype: matrix
+        :rtype: array_like
         """
 
         return self.__whitepoint
@@ -163,14 +163,12 @@ class Colourspace(object):
         Setter for **self.__whitepoint** attribute.
 
         :param value: Attribute value.
-        :type value: matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) in (
-                tuple, numpy.matrix), "'{0}' attribute: '{1}' type is not 'tuple', or 'numpy.matrix'!".format(
-                "whitepoint",
-                value)
+            assert type(value) in (tuple, list, numpy.ndarray, numpy.matrix), \
+                "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' or 'matrix'!".format("whitepoint", value)
         self.__whitepoint = value
 
     @whitepoint.deleter
@@ -188,7 +186,7 @@ class Colourspace(object):
         Property for **self.__to_XYZ** attribute.
 
         :return: self.__to_XYZ.
-        :rtype: matrix
+        :rtype: array_like
         """
 
         return self.__to_XYZ
@@ -199,12 +197,12 @@ class Colourspace(object):
         Setter for **self.__to_XYZ** attribute.
 
         :param value: Attribute value.
-        :type value: matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("to_XYZ",
-                                                                                                            value)
+            assert type(value) in (numpy.ndarray, numpy.matrix), \
+                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("to_XYZ", value)
         self.__to_XYZ = value
 
     @to_XYZ.deleter
@@ -222,7 +220,7 @@ class Colourspace(object):
         Property for **self.__from_XYZ** attribute.
 
         :return: self.__from_XYZ.
-        :rtype: matrix
+        :rtype: array_like
         """
 
         return self.__from_XYZ
@@ -233,12 +231,12 @@ class Colourspace(object):
         Setter for **self.__from_XYZ** attribute.
 
         :param value: Attribute value.
-        :type value: matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) is numpy.matrix, "'{0}' attribute: '{1}' type is not 'numpy.matrix'!".format("from_XYZ",
-                                                                                                            value)
+            assert type(value) in (numpy.ndarray, numpy.matrix), \
+                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("from_XYZ", value)
         self.__from_XYZ = value
 
     @from_XYZ.deleter

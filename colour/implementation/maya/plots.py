@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -112,7 +112,7 @@ def RGB_to_Lab(RGB, colourspace):
     Converts given *RGB* value from given colourspace to *CIE Lab* colourspace.
 
     :param RGB: *RGB* value.
-    :type RGB: tuple or matrix
+    :type RGB: array_like
     :param colourspace: *RGB* colourspace.
     :type colourspace: Colourspace
     :return: Definition success.
@@ -120,15 +120,15 @@ def RGB_to_Lab(RGB, colourspace):
     """
 
     return colour.computation.colourspaces.cie_lab.XYZ_to_Lab(
-        colour.computation.colourspaces.cie_xyy.RGB_to_XYZ(numpy.matrix(RGB).reshape((3, 1)),
-                                                                             colourspace.whitepoint,
-                                                                             colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                                                 "CIE 1931 2 Degree Standard Observer").get(
-                                                                                 "E"),
-                                                                             "Bradford",
-                                                                             colourspace.to_XYZ,
-                                                                             colourspace.inverse_transfer_function),
-                                            colourspace.whitepoint)
+        colour.computation.colourspaces.cie_xyy.RGB_to_XYZ(numpy.array(RGB).reshape((3, 1)),
+                                                           colourspace.whitepoint,
+                                                           colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                               "CIE 1931 2 Degree Standard Observer").get(
+                                                               "E"),
+                                                           "Bradford",
+                                                           colourspace.to_XYZ,
+                                                           colourspace.inverse_transfer_function),
+        colourspace.whitepoint)
 
 
 def RGB_identity_cube(name, density=20):

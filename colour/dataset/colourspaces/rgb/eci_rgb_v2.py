@@ -41,26 +41,27 @@ __all__ = ["ECI_RGB_V2_PRIMARIES",
 
 
 # http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
-ECI_RGB_V2_PRIMARIES = numpy.matrix([0.67010309278350522, 0.32989690721649484,
-                                     0.20990566037735847, 0.70990566037735836,
-                                     0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
+ECI_RGB_V2_PRIMARIES = numpy.array([0.67010309278350522, 0.32989690721649484,
+                                    0.20990566037735847, 0.70990566037735836,
+                                    0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
 
 ECI_RGB_V2_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
-                                                                                       ECI_RGB_V2_WHITEPOINT)
+ECI_RGB_V2_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    ECI_RGB_V2_PRIMARIES,
+    ECI_RGB_V2_WHITEPOINT)
 
-XYZ_TO_ECI_RGB_V2_MATRIX = ECI_RGB_V2_TO_XYZ_MATRIX.getI()
+XYZ_TO_ECI_RGB_V2_MATRIX = numpy.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 
 ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: colour.computation.lightness.lightness_1976(x * 100.) / 100.
 
 ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: colour.computation.luminance.luminance_1976(x * 100.) / 100.
 
 ECI_RGB_V2_COLOURSPACE = Colourspace("ECI RGB v2",
-                                   ECI_RGB_V2_PRIMARIES,
-                                   ECI_RGB_V2_WHITEPOINT,
-                                   ECI_RGB_V2_TO_XYZ_MATRIX,
-                                   XYZ_TO_ECI_RGB_V2_MATRIX,
-                                   ECI_RGB_V2_TRANSFER_FUNCTION,
-                                   ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)
+                                     ECI_RGB_V2_PRIMARIES,
+                                     ECI_RGB_V2_WHITEPOINT,
+                                     ECI_RGB_V2_TO_XYZ_MATRIX,
+                                     XYZ_TO_ECI_RGB_V2_MATRIX,
+                                     ECI_RGB_V2_TRANSFER_FUNCTION,
+                                     ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)

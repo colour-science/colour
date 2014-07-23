@@ -39,26 +39,27 @@ __all__ = ["NTSC_RGB_PRIMARIES",
 
 
 # http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
-NTSC_RGB_PRIMARIES = numpy.matrix([0.67, 0.33,
-                                   0.21, 0.71,
-                                   0.14, 0.08]).reshape((3, 2))
+NTSC_RGB_PRIMARIES = numpy.array([0.67, 0.33,
+                                  0.21, 0.71,
+                                  0.14, 0.08]).reshape((3, 2))
 
 NTSC_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("C")
 
-NTSC_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(NTSC_RGB_PRIMARIES,
-                                                                                     NTSC_RGB_WHITEPOINT)
+NTSC_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    NTSC_RGB_PRIMARIES,
+    NTSC_RGB_WHITEPOINT)
 
-XYZ_TO_NTSC_RGB_MATRIX = NTSC_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_NTSC_RGB_MATRIX = numpy.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
 
 NTSC_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 NTSC_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 NTSC_RGB_COLOURSPACE = Colourspace("NTSC RGB",
-                                 NTSC_RGB_PRIMARIES,
-                                 NTSC_RGB_WHITEPOINT,
-                                 NTSC_RGB_TO_XYZ_MATRIX,
-                                 XYZ_TO_NTSC_RGB_MATRIX,
-                                 NTSC_RGB_TRANSFER_FUNCTION,
-                                 NTSC_RGB_INVERSE_TRANSFER_FUNCTION)
+                                   NTSC_RGB_PRIMARIES,
+                                   NTSC_RGB_WHITEPOINT,
+                                   NTSC_RGB_TO_XYZ_MATRIX,
+                                   XYZ_TO_NTSC_RGB_MATRIX,
+                                   NTSC_RGB_TRANSFER_FUNCTION,
+                                   NTSC_RGB_INVERSE_TRANSFER_FUNCTION)

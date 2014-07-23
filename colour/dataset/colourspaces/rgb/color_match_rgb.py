@@ -39,26 +39,27 @@ __all__ = ["COLOR_MATCH_RGB_PRIMARIES",
 
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
-COLOR_MATCH_RGB_PRIMARIES = numpy.matrix([0.6300, 0.3400,
-                                          0.2950, 0.6050,
-                                          0.1500, 0.0750]).reshape((3, 2))
+COLOR_MATCH_RGB_PRIMARIES = numpy.array([0.6300, 0.3400,
+                                         0.2950, 0.6050,
+                                         0.1500, 0.0750]).reshape((3, 2))
 
 COLOR_MATCH_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-COLOR_MATCH_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(COLOR_MATCH_RGB_PRIMARIES,
-                                                                                            COLOR_MATCH_RGB_WHITEPOINT)
+COLOR_MATCH_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    COLOR_MATCH_RGB_PRIMARIES,
+    COLOR_MATCH_RGB_WHITEPOINT)
 
-XYZ_TO_COLOR_MATCH_RGB_MATRIX = COLOR_MATCH_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_COLOR_MATCH_RGB_MATRIX = numpy.linalg.inv(COLOR_MATCH_RGB_TO_XYZ_MATRIX)
 
 COLOR_MATCH_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
 
 COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
 
 COLOR_MATCH_RGB_COLOURSPACE = Colourspace("ColorMatch RGB",
-                                        COLOR_MATCH_RGB_PRIMARIES,
-                                        COLOR_MATCH_RGB_WHITEPOINT,
-                                        COLOR_MATCH_RGB_TO_XYZ_MATRIX,
-                                        XYZ_TO_COLOR_MATCH_RGB_MATRIX,
-                                        COLOR_MATCH_RGB_TRANSFER_FUNCTION,
-                                        COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION)
+                                          COLOR_MATCH_RGB_PRIMARIES,
+                                          COLOR_MATCH_RGB_WHITEPOINT,
+                                          COLOR_MATCH_RGB_TO_XYZ_MATRIX,
+                                          XYZ_TO_COLOR_MATCH_RGB_MATRIX,
+                                          COLOR_MATCH_RGB_TRANSFER_FUNCTION,
+                                          COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION)

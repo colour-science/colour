@@ -42,25 +42,26 @@ __all__ = ["C_LOG_PRIMARIES",
 
 # http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 # Assuming *sRGB* / *Rec. 709* primaries.
-C_LOG_PRIMARIES = numpy.matrix([0.6400, 0.3300,
-                                0.3000, 0.6000,
-                                0.1500, 0.0600]).reshape((3, 2))
+C_LOG_PRIMARIES = numpy.array([0.6400, 0.3300,
+                               0.3000, 0.6000,
+                               0.1500, 0.0600]).reshape((3, 2))
 
 C_LOG_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-C_LOG_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(C_LOG_PRIMARIES, C_LOG_WHITEPOINT)
+C_LOG_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(C_LOG_PRIMARIES,
+                                                                                                   C_LOG_WHITEPOINT)
 
-XYZ_TO_C_LOG_MATRIX = C_LOG_TO_XYZ_MATRIX.getI()
+XYZ_TO_C_LOG_MATRIX = numpy.linalg.inv(C_LOG_TO_XYZ_MATRIX)
 
 C_LOG_TRANSFER_FUNCTION = lambda x: 0.529136 * math.log10(10.1596 * x + 1) + 0.0730597
 
 C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x))
 
 C_LOG_COLOURSPACE = Colourspace("C-Log",
-                              C_LOG_PRIMARIES,
-                              C_LOG_WHITEPOINT,
-                              C_LOG_TO_XYZ_MATRIX,
-                              XYZ_TO_C_LOG_MATRIX,
-                              C_LOG_TRANSFER_FUNCTION,
-                              C_LOG_INVERSE_TRANSFER_FUNCTION)
+                                C_LOG_PRIMARIES,
+                                C_LOG_WHITEPOINT,
+                                C_LOG_TO_XYZ_MATRIX,
+                                XYZ_TO_C_LOG_MATRIX,
+                                C_LOG_TRANSFER_FUNCTION,
+                                C_LOG_INVERSE_TRANSFER_FUNCTION)

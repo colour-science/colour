@@ -33,7 +33,6 @@ __all__ = ["CIE_E",
            "LIGHTNESS_FUNCTIONS",
            "get_lightness"]
 
-
 CIE_E = 216. / 24389.0
 CIE_K = 24389. / 27.0
 

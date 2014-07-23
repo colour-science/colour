@@ -39,26 +39,27 @@ __all__ = ["XTREME_RGB_PRIMARIES",
 
 
 # http://www.hutchcolor.com/profiles/XtremeRGB.zip
-XTREME_RGB_PRIMARIES = numpy.matrix([1., 0.,
-                                     0., 1.,
-                                     0., 0.]).reshape((3, 2))
+XTREME_RGB_PRIMARIES = numpy.array([1., 0.,
+                                    0., 1.,
+                                    0., 0.]).reshape((3, 2))
 
 XTREME_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-XTREME_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(XTREME_RGB_PRIMARIES,
-                                                                                       XTREME_RGB_WHITEPOINT)
+XTREME_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    XTREME_RGB_PRIMARIES,
+    XTREME_RGB_WHITEPOINT)
 
-XYZ_TO_XTREME_RGB_MATRIX = XTREME_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_XTREME_RGB_MATRIX = numpy.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
 
 XTREME_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 XTREME_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 XTREME_RGB_COLOURSPACE = Colourspace("Xtreme RGB",
-                                   XTREME_RGB_PRIMARIES,
-                                   XTREME_RGB_WHITEPOINT,
-                                   XTREME_RGB_TO_XYZ_MATRIX,
-                                   XYZ_TO_XTREME_RGB_MATRIX,
-                                   XTREME_RGB_TRANSFER_FUNCTION,
-                                   XTREME_RGB_INVERSE_TRANSFER_FUNCTION)
+                                     XTREME_RGB_PRIMARIES,
+                                     XTREME_RGB_WHITEPOINT,
+                                     XTREME_RGB_TO_XYZ_MATRIX,
+                                     XYZ_TO_XTREME_RGB_MATRIX,
+                                     XTREME_RGB_TRANSFER_FUNCTION,
+                                     XTREME_RGB_INVERSE_TRANSFER_FUNCTION)

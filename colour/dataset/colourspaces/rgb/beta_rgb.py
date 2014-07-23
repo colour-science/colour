@@ -39,26 +39,27 @@ __all__ = ["BETA_RGB_PRIMARIES",
 
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
-BETA_RGB_PRIMARIES = numpy.matrix([0.6888, 0.3112,
-                                   0.1986, 0.7551,
-                                   0.1265, 0.0352]).reshape((3, 2))
+BETA_RGB_PRIMARIES = numpy.array([0.6888, 0.3112,
+                                  0.1986, 0.7551,
+                                  0.1265, 0.0352]).reshape((3, 2))
 
 BETA_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
 
-BETA_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(BETA_RGB_PRIMARIES,
-                                                                                     BETA_RGB_WHITEPOINT)
+BETA_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    BETA_RGB_PRIMARIES,
+    BETA_RGB_WHITEPOINT)
 
-XYZ_TO_BETA_RGB_MATRIX = BETA_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_BETA_RGB_MATRIX = numpy.linalg.inv(BETA_RGB_TO_XYZ_MATRIX)
 
 BETA_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 BETA_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 BETA_RGB_COLOURSPACE = Colourspace("Beta RGB",
-                                 BETA_RGB_PRIMARIES,
-                                 BETA_RGB_WHITEPOINT,
-                                 BETA_RGB_TO_XYZ_MATRIX,
-                                 XYZ_TO_BETA_RGB_MATRIX,
-                                 BETA_RGB_TRANSFER_FUNCTION,
-                                 BETA_RGB_INVERSE_TRANSFER_FUNCTION)
+                                   BETA_RGB_PRIMARIES,
+                                   BETA_RGB_WHITEPOINT,
+                                   BETA_RGB_TO_XYZ_MATRIX,
+                                   XYZ_TO_BETA_RGB_MATRIX,
+                                   BETA_RGB_TRANSFER_FUNCTION,
+                                   BETA_RGB_INVERSE_TRANSFER_FUNCTION)

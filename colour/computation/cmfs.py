@@ -53,14 +53,14 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         """
 
         TriSpectralPowerDistribution.__init__(self,
-                                                name,
-                                                data,
-                                                mapping={"x": "l_bar",
-                                                         "y": "m_bar",
-                                                         "z": "s_bar"},
-                                                labels={"x": "l\u0304",
-                                                        "y": "m\u0304",
-                                                        "z": "s\u0304"})
+                                              name,
+                                              data,
+                                              mapping={"x": "l_bar",
+                                                       "y": "m_bar",
+                                                       "z": "s_bar"},
+                                              labels={"x": "l\u0304",
+                                                      "y": "m\u0304",
+                                                      "z": "s\u0304"})
 
     @property
     def l_bar(self):
@@ -175,14 +175,14 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         """
 
         TriSpectralPowerDistribution.__init__(self,
-                                                name,
-                                                data,
-                                                mapping={"x": "r_bar",
-                                                         "y": "g_bar",
-                                                         "z": "b_bar"},
-                                                labels={"x": "r\u0304",
-                                                        "y": "g\u0304",
-                                                        "z": "b\u0304"})
+                                              name,
+                                              data,
+                                              mapping={"x": "r_bar",
+                                                       "y": "g_bar",
+                                                       "z": "b_bar"},
+                                              labels={"x": "r\u0304",
+                                                      "y": "g\u0304",
+                                                      "z": "b\u0304"})
 
     @property
     def r_bar(self):
@@ -297,14 +297,14 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         """
 
         TriSpectralPowerDistribution.__init__(self,
-                                                name,
-                                                data,
-                                                mapping={"x": "x_bar",
-                                                         "y": "y_bar",
-                                                         "z": "z_bar"},
-                                                labels={"x": "x\u0304",
-                                                        "y": "y\u0304",
-                                                        "z": "z\u0304"})
+                                              name,
+                                              data,
+                                              mapping={"x": "x_bar",
+                                                       "y": "y_bar",
+                                                       "z": "z_bar"},
+                                              labels={"x": "x\u0304",
+                                                      "y": "y\u0304",
+                                                      "z": "z\u0304"})
 
     @property
     def x_bar(self):
@@ -427,8 +427,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     if None in (r_bar, g_bar, b_bar):
         raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
-                                                                                                           cmfs.name,
-                                                                                                           cmfs.shape))
+                                                                                                            cmfs.name,
+                                                                                                            cmfs.shape))
 
     r = r_bar / (r_bar + g_bar + b_bar)
     g = g_bar / (r_bar + g_bar + b_bar)
@@ -476,8 +476,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     if None in (r_bar, g_bar, b_bar):
         raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
-                                                                                                           cmfs.name,
-                                                                                                           cmfs.shape))
+                                                                                                            cmfs.name,
+                                                                                                            cmfs.shape))
 
     x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
     y_bar = 0.139058 * r_bar + 0.837460 * g_bar + 0.073316 * b_bar
@@ -513,8 +513,8 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     if None in (r_bar, g_bar, z_bar):
         raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
-                                                                                                           cmfs.name,
-                                                                                                           cmfs.shape))
+                                                                                                            cmfs.name,
+                                                                                                            cmfs.shape))
 
     l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
     g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
@@ -550,8 +550,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     if None in (l_bar, m_bar, s_bar):
         raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
-                                                                                                           cmfs.name,
-                                                                                                           cmfs.shape))
+                                                                                                            cmfs.name,
+                                                                                                            cmfs.shape))
 
     x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
     y_bar = 0.68990272 * l_bar + 0.34832189 * m_bar
@@ -587,8 +587,8 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     if None in (l_bar, m_bar, s_bar):
         raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
-                                                                                                           cmfs.name,
-                                                                                                           cmfs.shape))
+                                                                                                            cmfs.name,
+                                                                                                            cmfs.shape))
 
     x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar
     y_bar = 0.69283932 * l_bar + 0.34967567 * m_bar

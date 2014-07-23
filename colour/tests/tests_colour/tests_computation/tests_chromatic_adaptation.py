@@ -48,12 +48,8 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.09923822,
-                             1.000,
-                             0.35445412]).reshape((3, 1)),
-                numpy.array([0.96907232,
-                             1.000,
-                             1.121792157]).reshape((3, 1))),
+                numpy.array([1.09923822, 1.000, 0.35445412]),
+                numpy.array([0.96907232, 1.000, 1.121792157])),
             numpy.array([0.87145615, -0.13204674, 0.40394832,
                          -0.09638805, 1.04909781, 0.1604033,
                          0.0080207, 0.02826367, 3.06023194]).reshape((3, 3)),
@@ -61,12 +57,8 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.92001986,
-                             1.,
-                             -0.1241347]).reshape((3, 1)),
-                numpy.array([1.0131677,
-                             1.000,
-                             2.11217686]).reshape((3, 1))),
+                numpy.array([1.92001986, 1., -0.1241347]),
+                numpy.array([1.0131677, 1.000, 2.11217686])),
             numpy.array([0.91344833, -1.20588903, -3.74768526,
                          -0.81680514, 2.3858187, -1.46988227,
                          -0.05367575, -0.31122239, -20.35255049]).reshape((3, 3)),
@@ -74,28 +66,16 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.92001986,
-                             1.,
-                             -0.1241347]).reshape((3, 1)),
-                numpy.array([1.0131677,
-                             1.000,
-                             2.11217686]).reshape((3, 1)), ),
+                numpy.array([1.92001986, 1., -0.1241347]),
+                numpy.array([1.0131677, 1.000, 2.11217686])),
             numpy.linalg.inv(colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.0131677,
-                             1.000,
-                             2.11217686]).reshape((3, 1)),
-                numpy.array([1.92001986,
-                             1.,
-                             -0.1241347]).reshape((3, 1)))))
+                numpy.array([1.0131677, 1.000, 2.11217686]),
+                numpy.array([1.92001986, 1., -0.1241347]))))
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.09850,
-                             1.00000,
-                             0.35585]).reshape((3, 1)),
-                numpy.array([0.99072,
-                             1.00000,
-                             0.85223]).reshape((3, 1)),
+                numpy.array([1.09850, 1.00000, 0.35585]),
+                numpy.array([0.99072, 1.00000, 0.85223]),
                 method="XYZ Scaling"),
             numpy.array([0.90188439, 0., 0.,
                          0., 1., 0.,
@@ -104,12 +84,8 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.09850,
-                             1.00000,
-                             0.35585]).reshape((3, 1)),
-                numpy.array([0.99072,
-                             1.00000,
-                             0.85223]).reshape((3, 1)),
+                numpy.array([1.09850, 1.00000, 0.35585]),
+                numpy.array([0.99072, 1.00000, 0.85223]),
                 method="Bradford"),
             numpy.array([0.89051629, -0.08291357, 0.26809449,
                          -0.09715236, 1.07542618, 0.08794629,
@@ -118,12 +94,8 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
-                numpy.array([1.09850,
-                             1.00000,
-                             0.35585]).reshape((3, 1)),
-                numpy.array([0.99072,
-                             1.00000,
-                             0.85223]).reshape((3, 1)),
+                numpy.array([1.09850, 1.00000, 0.35585]),
+                numpy.array([0.99072, 1.00000, 0.85223]),
                 method="Von Kries"),
             numpy.array([0.9574884, -0.16436134, 0.29023559,
                          -0.01805393, 1.01853791, 0.00363729,

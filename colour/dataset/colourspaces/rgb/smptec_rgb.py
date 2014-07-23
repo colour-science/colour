@@ -39,9 +39,9 @@ __all__ = ["SMPTE_C_RGB_PRIMARIES",
 
 
 # http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
-SMPTE_C_RGB_PRIMARIES = numpy.matrix([0.630, 0.340,
-                                      0.310, 0.595,
-                                      0.155, 0.070]).reshape((3, 2))
+SMPTE_C_RGB_PRIMARIES = numpy.array([0.630, 0.340,
+                                     0.310, 0.595,
+                                     0.155, 0.070]).reshape((3, 2))
 
 SMPTE_C_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
@@ -49,16 +49,16 @@ SMPTE_C_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILL
 SMPTE_C_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
 
-XYZ_TO_SMPTE_C_RGB_MATRIX = SMPTE_C_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_SMPTE_C_RGB_MATRIX = numpy.linalg.inv(SMPTE_C_RGB_TO_XYZ_MATRIX)
 
 SMPTE_C_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 SMPTE_C_RGB_COLOURSPACE = Colourspace("SMPTE-C RGB",
-                                    SMPTE_C_RGB_PRIMARIES,
-                                    SMPTE_C_RGB_WHITEPOINT,
-                                    SMPTE_C_RGB_TO_XYZ_MATRIX,
-                                    XYZ_TO_SMPTE_C_RGB_MATRIX,
-                                    SMPTE_C_RGB_TRANSFER_FUNCTION,
-                                    SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)
+                                      SMPTE_C_RGB_PRIMARIES,
+                                      SMPTE_C_RGB_WHITEPOINT,
+                                      SMPTE_C_RGB_TO_XYZ_MATRIX,
+                                      XYZ_TO_SMPTE_C_RGB_MATRIX,
+                                      SMPTE_C_RGB_TRANSFER_FUNCTION,
+                                      SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)

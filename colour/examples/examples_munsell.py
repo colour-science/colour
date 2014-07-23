@@ -5,17 +5,17 @@
 Showcases some **Colour** package *Munsell Renotation Sytem* related examples.
 """
 
-from numpy import matrix
+from numpy import array
 from numpy import ravel
 
 import colour
 import colour.dataset.colour_checkers.chromaticity_coordinates
 
 
-# Retrieving *luminance* of given *RGB* components.
-print colour.get_luminance(matrix([56., 16., 100.]).reshape((3, 1)),
-                          colour.sRGB_COLOURSPACE.primaries,
-                          colour.sRGB_COLOURSPACE.whitepoint)
+# Retrieving *RGB* *luminance* of given *RGB* components.
+print colour.get_RGB_luminance(array([56., 16., 100.]),
+                               colour.sRGB_COLOURSPACE.primaries,
+                               colour.sRGB_COLOURSPACE.whitepoint)
 
 # Retrieving *Munsell value* and *Lightness* of given *xyY* components.
 xyY = colour.dataset.colour_checkers.chromaticity_coordinates.COLORCHECKER_2005_DATA[0][2:5]

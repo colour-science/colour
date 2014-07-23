@@ -39,26 +39,27 @@ __all__ = ["APPLE_RGB_PRIMARIES",
 
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
-APPLE_RGB_PRIMARIES = numpy.matrix([0.6250, 0.3400,
-                                    0.2800, 0.5950,
-                                    0.1550, 0.0700]).reshape((3, 2))
+APPLE_RGB_PRIMARIES = numpy.array([0.6250, 0.3400,
+                                   0.2800, 0.5950,
+                                   0.1550, 0.0700]).reshape((3, 2))
 
 APPLE_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-APPLE_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(APPLE_RGB_PRIMARIES,
-                                                                                      APPLE_RGB_WHITEPOINT)
+APPLE_RGB_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(
+    APPLE_RGB_PRIMARIES,
+    APPLE_RGB_WHITEPOINT)
 
-XYZ_TO_APPLE_RGB_MATRIX = APPLE_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_APPLE_RGB_MATRIX = numpy.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
 
 APPLE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
 
 APPLE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
 
 APPLE_RGB_COLOURSPACE = Colourspace("Apple RGB",
-                                  APPLE_RGB_PRIMARIES,
-                                  APPLE_RGB_WHITEPOINT,
-                                  APPLE_RGB_TO_XYZ_MATRIX,
-                                  XYZ_TO_APPLE_RGB_MATRIX,
-                                  APPLE_RGB_TRANSFER_FUNCTION,
-                                  APPLE_RGB_INVERSE_TRANSFER_FUNCTION)
+                                    APPLE_RGB_PRIMARIES,
+                                    APPLE_RGB_WHITEPOINT,
+                                    APPLE_RGB_TO_XYZ_MATRIX,
+                                    XYZ_TO_APPLE_RGB_MATRIX,
+                                    APPLE_RGB_TRANSFER_FUNCTION,
+                                    APPLE_RGB_INVERSE_TRANSFER_FUNCTION)

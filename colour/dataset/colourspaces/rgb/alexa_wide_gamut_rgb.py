@@ -159,18 +159,18 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = {"SUP 3.x": {"Normalised Sensor Signal": {
                                                      1600: (0.000000, 5.061087, 0.089004, 0.237781, 0.391007, 4.070466,
                                                             0.141197, 0.14119)}}}
 
-ALEXA_WIDE_GAMUT_RGB_PRIMARIES = numpy.matrix([0.6840, 0.3130,
-                                               0.2210, 0.8480,
-                                               0.0861, -0.1020]).reshape((3, 2))
+ALEXA_WIDE_GAMUT_RGB_PRIMARIES = numpy.array([0.6840, 0.3130,
+                                              0.2210, 0.8480,
+                                              0.0861, -0.1020]).reshape((3, 2))
 
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.matrix([0.638008, 0.214704, 0.097744,
-                                                   0.291954, 0.823841, -0.115795,
-                                                   0.002798, -0.067034, 1.153294]).reshape((3, 3))
+ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.array([0.638008, 0.214704, 0.097744,
+                                                  0.291954, 0.823841, -0.115795,
+                                                  0.002798, -0.067034, 1.153294]).reshape((3, 3))
 
-XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = numpy.linalg.inv(ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 
 
 def __alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor", EI=800):
@@ -221,9 +221,9 @@ ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_transfer_functio
 ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_inverse_transfer_function
 
 ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = Colourspace("ALEXA Wide Gamut RGB",
-                                             ALEXA_WIDE_GAMUT_RGB_PRIMARIES,
-                                             ALEXA_WIDE_GAMUT_RGB_WHITEPOINT,
-                                             ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
-                                             XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
-                                             ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-                                             ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+                                               ALEXA_WIDE_GAMUT_RGB_PRIMARIES,
+                                               ALEXA_WIDE_GAMUT_RGB_WHITEPOINT,
+                                               ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+                                               XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
+                                               ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
+                                               ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)

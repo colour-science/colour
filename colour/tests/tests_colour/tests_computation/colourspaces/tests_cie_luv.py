@@ -50,50 +50,38 @@ class TestXYZ_to_Luv(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_luv.XYZ_to_Luv` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([0.96907232,
-                                                                                                           1.,
-                                                                                                           1.12179215]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., -11.27488915, -29.36041662]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([0.96907232, 1., 1.12179215])),
+            numpy.array([100., -11.27488915, -29.36041662]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([1.92001986,
-                                                                                                           1.,
-                                                                                                           -0.1241347]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., 331.44911128, 72.55258319]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([1.92001986, 1., -0.1241347])),
+            numpy.array([100., 331.44911128, 72.55258319]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([1.0131677,
-                                                                                                           1.,
-                                                                                                           2.11217686]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., -36.17788915, -111.00091702]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([1.0131677, 1., 2.11217686])),
+            numpy.array([100., -36.17788915, -111.00091702]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([1.0131677,
-                                                                                                           1.,
-                                                                                                           2.11217686]).reshape(
-            (3, 1)),
-                                                                                             (0.44757, 0.40745)),
-                                          numpy.matrix([100., -97.02442861, -158.08546907]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([1.0131677, 1., 2.11217686]),
+                                                               (0.44757, 0.40745)),
+            numpy.array([100., -97.02442861, -158.08546907]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([1.0131677,
-                                                                                                           1.,
-                                                                                                           2.11217686]).reshape(
-            (3, 1)),
-                                                                                             (1. / 3., 1. / 3.)),
-                                          numpy.matrix([100., -37.95520989, -92.29247371]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([1.0131677, 1., 2.11217686]),
+                                                               (1. / 3., 1. / 3.)),
+            numpy.array([100., -37.95520989, -92.29247371]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.matrix([1.0131677,
-                                                                                                           1.,
-                                                                                                           2.11217686]).reshape(
-            (3, 1)),
-                                                                                             (0.31271, 0.32902)),
-                                          numpy.matrix([100., -21.44928374, -85.33481874]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.XYZ_to_Luv(numpy.array([1.0131677, 1., 2.11217686]),
+                                                               (0.31271, 0.32902)),
+            numpy.array([100., -21.44928374, -85.33481874]).reshape((3, 1)),
+            decimal=7)
 
 
 class TestLuv_to_XYZ(unittest.TestCase):
@@ -106,50 +94,41 @@ class TestLuv_to_XYZ(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_luv.Luv_to_XYZ` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           -11.27488915,
-                                                                                                           -29.36041662]).reshape(
-            (3, 1))),
-                                          numpy.matrix([0.96907232, 1., 1.12179215]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.array([100., -11.27488915, -29.36041662])),
+            numpy.array([0.96907232, 1., 1.12179215]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           331.44911128,
-                                                                                                           72.55258319]).reshape(
-            (3, 1))),
-                                          numpy.matrix([1.92001986, 1., -0.1241347]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.array([100., 331.44911128, 72.55258319])),
+            numpy.array([1.92001986, 1., -0.1241347]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           -36.17788915,
-                                                                                                           -111.00091702]).reshape(
-            (3, 1))),
-                                          numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.array([100., -36.17788915, -111.00091702])),
+            numpy.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           -97.02442861,
-                                                                                                           -158.08546907]).reshape(
-            (3, 1)),
-                                                                                             (0.44757, 0.40745)),
-                                          numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(
+                numpy.array([100., -97.02442861, -158.08546907]),
+                (0.44757, 0.40745)),
+            numpy.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           -37.95520989,
-                                                                                                           -92.29247371]).reshape(
-            (3, 1)),
-                                                                                             (1. / 3., 1. / 3.)),
-                                          numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(
+                numpy.array([100., -37.95520989, -92.29247371]),
+                (1. / 3., 1. / 3.)),
+            numpy.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_XYZ(numpy.matrix([100.,
-                                                                                                           -21.44928374,
-                                                                                                           -85.33481874]).reshape(
-            (3, 1)),
-                                                                                             (0.31271, 0.32902)),
-                                          numpy.matrix([1.0131677, 1., 2.11217686]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_XYZ(
+                numpy.array([100., -21.44928374, -85.33481874]),
+                (0.31271, 0.32902)),
+            numpy.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            decimal=7)
 
 
 class TestLuv_to_uv(unittest.TestCase):
@@ -162,50 +141,44 @@ class TestLuv_to_uv(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_luv.Luv_to_uv` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          -11.27488915,
-                                                                                                          -29.36041662]).reshape(
-            (3, 1))),
-                                          (0.20048615433157738, 0.4654903849082484),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., -11.27488915, -29.36041662])),
+            (0.20048615433157738, 0.4654903849082484),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          331.44911128,
-                                                                                                          72.55258319]).reshape(
-            (3, 1))),
-                                          (0.46412000081619281, 0.54388500014670993),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., 331.44911128, 72.55258319])),
+            (0.46412000081619281, 0.54388500014670993),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          -36.17788915,
-                                                                                                          -111.00091702]).reshape(
-            (3, 1))),
-                                          (0.18133000048542355, 0.40268999998517152),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., -36.17788915, -111.00091702])),
+            (0.18133000048542355, 0.40268999998517152),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          -97.02442861,
-                                                                                                          -158.08546907]).reshape(
-            (3, 1)),
-                                                                                            (0.44757, 0.40745)),
-                                          (0.18133000048503745, 0.40268999998707306),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., -97.02442861, -158.08546907]),
+                (0.44757, 0.40745)),
+            (0.18133000048503745, 0.40268999998707306),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          -37.95520989,
-                                                                                                          -92.29247371]).reshape(
-            (3, 1)),
-                                                                                            (1. / 3., 1. / 3.)),
-                                          (0.18133000048947367, 0.40268999998016192),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., -37.95520989, -92.29247371]),
+                (1. / 3., 1. / 3.)),
+            (0.18133000048947367, 0.40268999998016192),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_uv(numpy.matrix([100.,
-                                                                                                          -21.44928374,
-                                                                                                          -85.33481874]).reshape(
-            (3, 1)),
-                                                                                            (0.31271, 0.32902)),
-                                          (0.1813300004870092, 0.4026899999798475),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_uv(
+                numpy.array([100., -21.44928374, -85.33481874]),
+                (0.31271, 0.32902)),
+            (0.1813300004870092, 0.4026899999798475),
+            decimal=7)
 
 
 class TestLuv_to_LCHuv(unittest.TestCase):
@@ -218,26 +191,23 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_luv.Luv_to_LCHuv` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(numpy.matrix([100.,
-                                                                                                             -11.27488915,
-                                                                                                             -29.36041662]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., 31.45086945, 248.99237865]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(
+                numpy.array([100., -11.27488915, -29.36041662])),
+            numpy.array([100., 31.45086945, 248.99237865]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(numpy.matrix([100.,
-                                                                                                             331.44911128,
-                                                                                                             72.55258319]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., 339.2969064, 12.34702048]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(
+                numpy.array([100., 331.44911128, 72.55258319])),
+            numpy.array([100., 339.2969064, 12.34702048]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(numpy.matrix([100.,
-                                                                                                             -36.17788915,
-                                                                                                             -111.00091702]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., 116.74777618, 251.94795555]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_to_LCHuv(
+                numpy.array([100., -36.17788915, -111.00091702])),
+            numpy.array([100., 116.74777618, 251.94795555]).reshape((3, 1)),
+            decimal=7)
 
 
 class TestLCHuv_to_Luv(unittest.TestCase):
@@ -250,26 +220,23 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_luv.LCHuv_to_Luv` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(numpy.matrix([100.,
-                                                                                                             31.45086945,
-                                                                                                             248.99237865]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., -11.27488915, -29.36041662]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(
+                numpy.array([100., 31.45086945, 248.99237865])),
+            numpy.array([100., -11.27488915, -29.36041662]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(numpy.matrix([100.,
-                                                                                                             339.2969064,
-                                                                                                             12.34702048]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., 331.44911128, 72.55258319]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(
+                numpy.array([100., 339.2969064, 12.34702048])),
+            numpy.array([100., 331.44911128, 72.55258319]).reshape((3, 1)),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(numpy.matrix([100.,
-                                                                                                             116.74777618,
-                                                                                                             251.94795555]).reshape(
-            (3, 1))),
-                                          numpy.matrix([100., -36.17788915, -111.00091702]).reshape((3, 1)),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.LCHuv_to_Luv(
+                numpy.array([100., 116.74777618, 251.94795555])),
+            numpy.array([100., -36.17788915, -111.00091702]).reshape((3, 1)),
+            decimal=7)
 
 
 class TestLuv_uv_to_xy(unittest.TestCase):
@@ -287,15 +254,15 @@ class TestLuv_uv_to_xy(unittest.TestCase):
             (0.31352792378977895, 0.32353408235422665),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_uv_to_xy((0.46412000081619281,
-                                                                                                0.54388500014670993)),
-                                          (0.6867305880410077, 0.3576684816384643),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_uv_to_xy((0.46412000081619281, 0.54388500014670993)),
+            (0.6867305880410077, 0.3576684816384643),
+            decimal=7)
 
-        numpy.testing.assert_almost_equal(colour.computation.colourspaces.cie_luv.Luv_uv_to_xy((0.18133000048542355,
-                                                                                                0.40268999998517152)),
-                                          (0.2455958975694641, 0.2424039944946324),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.computation.colourspaces.cie_luv.Luv_uv_to_xy((0.18133000048542355, 0.40268999998517152)),
+            (0.2455958975694641, 0.2424039944946324),
+            decimal=7)
 
 
 if __name__ == "__main__":

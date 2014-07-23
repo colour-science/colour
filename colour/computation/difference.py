@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -42,8 +42,8 @@ def delta_E_CIE_1976(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1976(lab1, lab2)
         451.713301974
 
@@ -68,8 +68,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1994(lab1, lab2)
         88.3355530575
 
@@ -126,8 +126,8 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_2000(lab1, lab2)
         94.0356490267
 
@@ -217,8 +217,8 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CMC(lab1, lab2)
         172.704771287
 

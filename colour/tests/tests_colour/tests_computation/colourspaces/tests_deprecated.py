@@ -58,18 +58,21 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSV(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
-            numpy.matrix([0.27272727, 0.91666667, 0.6]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSV(
+                numpy.array([0.25, 0.60, 0.05])),
+            numpy.array([0.27272727, 0.91666667, 0.6]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSV(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSV(
+                numpy.array([0., 0., 0.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSV(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSV(
+                numpy.array([1., 1., 1.])),
+            numpy.array([0., 0., 1.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -84,18 +87,21 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSV_to_RGB(numpy.matrix([0.27272727, 0.91666667, 0.6]).reshape((3, 1))),
-            numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSV_to_RGB(
+                numpy.array([0.27272727, 0.91666667, 0.6])),
+            numpy.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSV_to_RGB(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSV_to_RGB(
+                numpy.array([0., 0., 0.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSV_to_RGB(numpy.matrix([0., 0., 1.]).reshape((3, 1))),
-            numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSV_to_RGB(
+                numpy.array([0., 0., 1.])),
+            numpy.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -110,18 +116,21 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSL(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
-            numpy.matrix([0.27272727, 0.84615385, 0.325]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSL(
+                numpy.array([0.25, 0.60, 0.05])),
+            numpy.array([0.27272727, 0.84615385, 0.325]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSL(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSL(
+                numpy.array([0., 0., 0.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_HSL(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_HSL(
+                numpy.array([1., 1., 1.])),
+            numpy.array([0., 0., 1.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -136,18 +145,21 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSL_to_RGB(numpy.matrix([0.27272727, 0.84615385, 0.325]).reshape((3, 1))),
-            numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSL_to_RGB(
+                numpy.array([0.27272727, 0.84615385, 0.325])),
+            numpy.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSL_to_RGB(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSL_to_RGB(
+                numpy.array([0., 0., 0.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HSL_to_RGB(numpy.matrix([0., 0., 1.]).reshape((3, 1))),
-            numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HSL_to_RGB(
+                numpy.array([0., 0., 1.])),
+            numpy.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -162,18 +174,21 @@ class TestRGB_to_CMY(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_CMY(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
-            numpy.matrix([0.75, 0.40, 0.95]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_CMY(
+                numpy.array([0.25, 0.60, 0.05])),
+            numpy.array([0.75, 0.40, 0.95]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_CMY(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_CMY(
+                numpy.array([0., 0., 0.])),
+            numpy.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.RGB_to_CMY(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.RGB_to_CMY(
+                numpy.array([1., 1., 1.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -188,18 +203,21 @@ class TestCMY_to_RGB(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_RGB(numpy.matrix([0.75, 0.40, 0.95]).reshape((3, 1))),
-            numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_RGB(
+                numpy.array([0.75, 0.40, 0.95])),
+            numpy.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_RGB(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
-            numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_RGB(
+                numpy.array([1., 1., 1.])),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_RGB(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-            numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_RGB(
+                numpy.array([0., 0., 0.])),
+            numpy.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -214,18 +232,21 @@ class TestCMY_to_CMYK(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_CMYK(numpy.matrix([0.75, 0.40, 0.95]).reshape((3, 1))),
-            numpy.matrix([0.58333333, 0., 0.91666667, 0.4]).reshape((4, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_CMYK(
+                numpy.array([0.75, 0.40, 0.95])),
+            numpy.array([0.58333333, 0., 0.91666667, 0.4]).reshape((4, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_CMYK(numpy.matrix([0.15, 1., 1.]).reshape((3, 1))),
-            numpy.matrix([0., 1., 1., 0.15]).reshape((4, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_CMYK(
+                numpy.array([0.15, 1., 1.])),
+            numpy.array([0., 1., 1., 0.15]).reshape((4, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMY_to_CMYK(numpy.matrix([0.15, 0., 0.]).reshape((3, 1))),
-            numpy.matrix([0.15, 0., 0., 0.]).reshape((4, 1)),
+            colour.computation.colourspaces.deprecated.CMY_to_CMYK(
+                numpy.array([0.15, 0., 0.])),
+            numpy.array([0.15, 0., 0., 0.]).reshape((4, 1)),
             decimal=7)
 
 
@@ -240,18 +261,21 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMYK_to_CMY(numpy.matrix([0.58333333, 0., 0.91666667, 0.4]).reshape((4, 1))),
-            numpy.matrix([0.75, 0.40, 0.95]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMYK_to_CMY(
+                numpy.array([0.58333333, 0., 0.91666667, 0.4])),
+            numpy.array([0.75, 0.40, 0.95]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMYK_to_CMY(numpy.matrix([0., 1., 1., 0.15]).reshape((4, 1))),
-            numpy.matrix([0.15, 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMYK_to_CMY(
+                numpy.array([0., 1., 1., 0.15])),
+            numpy.array([0.15, 1., 1.]).reshape((3, 1)),
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.CMYK_to_CMY(numpy.matrix([0.15, 0., 0., 0.]).reshape((4, 1))),
-            numpy.matrix([0.15, 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.CMYK_to_CMY(
+                numpy.array([0.15, 0., 0., 0.])),
+            numpy.array([0.15, 0., 0.]).reshape((3, 1)),
             decimal=7)
 
 
@@ -265,12 +289,18 @@ class TestRGB_to_HEX(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.deprecated.RGB_to_HEX` definition.
         """
 
-        self.assertEqual(colour.computation.colourspaces.deprecated.RGB_to_HEX(numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1))),
-                         "#3f990c")
-        self.assertEqual(colour.computation.colourspaces.deprecated.RGB_to_HEX(numpy.matrix([0., 0., 0.]).reshape((3, 1))),
-                         "#000000")
-        self.assertEqual(colour.computation.colourspaces.deprecated.RGB_to_HEX(numpy.matrix([1., 1., 1.]).reshape((3, 1))),
-                         "#ffffff")
+        self.assertEqual(
+            colour.computation.colourspaces.deprecated.RGB_to_HEX(
+                numpy.array([0.25, 0.60, 0.05])),
+            "#3f990c")
+        self.assertEqual(
+            colour.computation.colourspaces.deprecated.RGB_to_HEX(
+                numpy.array([0., 0., 0.])),
+            "#000000")
+        self.assertEqual(
+            colour.computation.colourspaces.deprecated.RGB_to_HEX(
+                numpy.array([1., 1., 1.])),
+            "#ffffff")
 
 
 class TestHEX_to_RGB(unittest.TestCase):
@@ -284,13 +314,16 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HEX_to_RGB("#3f990c"), numpy.matrix([0.25, 0.60, 0.05]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HEX_to_RGB("#3f990c"),
+            numpy.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=2)
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HEX_to_RGB("#000000"), numpy.matrix([0., 0., 0.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HEX_to_RGB("#000000"),
+            numpy.array([0., 0., 0.]).reshape((3, 1)),
             decimal=2)
         numpy.testing.assert_almost_equal(
-            colour.computation.colourspaces.deprecated.HEX_to_RGB("#ffffff"), numpy.matrix([1., 1., 1.]).reshape((3, 1)),
+            colour.computation.colourspaces.deprecated.HEX_to_RGB("#ffffff"),
+            numpy.array([1., 1., 1.]).reshape((3, 1)),
             decimal=2)
 
 

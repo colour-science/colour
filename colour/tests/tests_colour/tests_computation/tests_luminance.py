@@ -77,12 +77,12 @@ class TestLuminanceASTM_D1535_08(unittest.TestCase):
         Tests :func:`colour.computation.luminance.luminance_ASTM_D1535_08` definition.
         """
 
-        self.assertAlmostEqual(colour.computation.luminance.luminance_ASTM_D1535_08(3.74629715382), 10.1488096782,
-                               places=7)
-        self.assertAlmostEqual(colour.computation.luminance.luminance_ASTM_D1535_08(8.64728711385), 69.5324092373,
-                               places=7)
-        self.assertAlmostEqual(colour.computation.luminance.luminance_ASTM_D1535_08(1.52569021578), 2.01830631474,
-                               places=7)
+        self.assertAlmostEqual(
+            colour.computation.luminance.luminance_ASTM_D1535_08(3.74629715382), 10.1488096782, places=7)
+        self.assertAlmostEqual(
+            colour.computation.luminance.luminance_ASTM_D1535_08(8.64728711385), 69.5324092373, places=7)
+        self.assertAlmostEqual(
+            colour.computation.luminance.luminance_ASTM_D1535_08(1.52569021578), 2.01830631474, places=7)
 
 
 if __name__ == "__main__":

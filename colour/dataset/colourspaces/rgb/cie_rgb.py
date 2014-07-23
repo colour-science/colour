@@ -38,27 +38,27 @@ __all__ = ["CIE_RGB_PRIMARIES",
 
 
 # http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
-CIE_RGB_PRIMARIES = numpy.matrix([0.7350, 0.2650,
-                                  0.2740, 0.7170,
-                                  0.1670, 0.0090]).reshape((3, 2))
+CIE_RGB_PRIMARIES = numpy.array([0.7350, 0.2650,
+                                 0.2740, 0.7170,
+                                 0.1670, 0.0090]).reshape((3, 2))
 
 CIE_RGB_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("E")
 
-CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * numpy.matrix([0.49, 0.31, 0.20,
-                                                     0.17697, 0.81240, 0.01063,
-                                                     0.00, 0.01, 0.99]).reshape((3, 3))
+CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * numpy.array([0.49, 0.31, 0.20,
+                                                    0.17697, 0.81240, 0.01063,
+                                                    0.00, 0.01, 0.99]).reshape((3, 3))
 
-XYZ_TO_CIE_RGB_MATRIX = CIE_RGB_TO_XYZ_MATRIX.getI()
+XYZ_TO_CIE_RGB_MATRIX = numpy.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
 
 CIE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
 CIE_RGB_COLOURSPACE = Colourspace("CIE RGB",
-                                CIE_RGB_PRIMARIES,
-                                CIE_RGB_WHITEPOINT,
-                                CIE_RGB_TO_XYZ_MATRIX,
-                                XYZ_TO_CIE_RGB_MATRIX,
-                                CIE_RGB_TRANSFER_FUNCTION,
-                                CIE_RGB_INVERSE_TRANSFER_FUNCTION)
+                                  CIE_RGB_PRIMARIES,
+                                  CIE_RGB_WHITEPOINT,
+                                  CIE_RGB_TO_XYZ_MATRIX,
+                                  XYZ_TO_CIE_RGB_MATRIX,
+                                  CIE_RGB_TRANSFER_FUNCTION,
+                                  CIE_RGB_INVERSE_TRANSFER_FUNCTION)

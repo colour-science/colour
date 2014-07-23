@@ -40,7 +40,6 @@ __status__ = "Production"
 __all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",
            "get_colour_rendering_index"]
 
-
 TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple("TscColorimetryData_nXYZuvUVW", ("name", "XYZ", "uv", "UVW"))
 
 
@@ -69,7 +68,8 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
 
     reference_XYZ = colour.computation.tristimulus.spectral_to_XYZ(reference_spd, cmfs)
     reference_uv = numpy.ravel(
-        colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(reference_XYZ)))
+        colour.computation.colourspaces.cie_ucs.UCS_to_uv(
+            colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(reference_XYZ)))
     reference_u, reference_v = reference_uv[0], reference_uv[1]
 
     tcs_data = []
@@ -78,7 +78,8 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
         tcs_XYZ = colour.computation.tristimulus.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
         tcs_xyY = numpy.ravel(colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(tcs_XYZ))
         tcs_uv = numpy.ravel(
-            colour.computation.colourspaces.cie_ucs.UCS_to_uv(colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(tcs_XYZ)))
+            colour.computation.colourspaces.cie_ucs.UCS_to_uv(
+                colour.computation.colourspaces.cie_ucs.XYZ_to_UCS(tcs_XYZ)))
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
 
         if chromatic_adaptation:

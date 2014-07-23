@@ -41,25 +41,26 @@ __all__ = ["S_LOG_PRIMARIES",
 
 
 # http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
-S_LOG_PRIMARIES = numpy.matrix([0.73, 0.28,
-                                0.14, 0.855,
-                                0.10, -0.05]).reshape((3, 2))
+S_LOG_PRIMARIES = numpy.array([0.73, 0.28,
+                               0.14, 0.855,
+                               0.10, -0.05]).reshape((3, 2))
 
 S_LOG_WHITEPOINT = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
 
-S_LOG_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(S_LOG_PRIMARIES, S_LOG_WHITEPOINT)
+S_LOG_TO_XYZ_MATRIX = colour.computation.colourspaces.rgb.derivation.get_normalised_primary_matrix(S_LOG_PRIMARIES,
+                                                                                                   S_LOG_WHITEPOINT)
 
-XYZ_TO_S_LOG_MATRIX = S_LOG_TO_XYZ_MATRIX.getI()
+XYZ_TO_S_LOG_MATRIX = numpy.linalg.inv(S_LOG_TO_XYZ_MATRIX)
 
 S_LOG_TRANSFER_FUNCTION = lambda x: (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03
 
 S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (math.pow(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584)
 
 S_LOG_COLOURSPACE = Colourspace("S-Log",
-                              S_LOG_PRIMARIES,
-                              S_LOG_WHITEPOINT,
-                              S_LOG_TO_XYZ_MATRIX,
-                              XYZ_TO_S_LOG_MATRIX,
-                              S_LOG_TRANSFER_FUNCTION,
-                              S_LOG_INVERSE_TRANSFER_FUNCTION)
+                                S_LOG_PRIMARIES,
+                                S_LOG_WHITEPOINT,
+                                S_LOG_TO_XYZ_MATRIX,
+                                XYZ_TO_S_LOG_MATRIX,
+                                S_LOG_TRANSFER_FUNCTION,
+                                S_LOG_INVERSE_TRANSFER_FUNCTION)
