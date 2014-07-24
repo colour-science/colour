@@ -12,10 +12,10 @@ import colour
 print(colour.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("A"))
 
 # From *CIE XYZ* colourspace to *CIE xyY* colourspace.
-print(colour.XYZ_to_xyY(array([[11.80583421], [10.34], [5.15089229]])))
+print(colour.XYZ_to_xyY(array([[0.1180583421], [0.1034], [0.0515089229]])))
 
 # Any definitions accepting 3 x 1 matrices will accept a tuple / list input.
-print(colour.XYZ_to_xyY([11.80583421, 10.34, 5.15089229]))
+print(colour.XYZ_to_xyY([0.1180583421, 0.1034, 0.0515089229]))
 
 # Default reference illuminant in case X == Y == Z == 0 is *D50*.
 print(colour.XYZ_to_xyY(array([[0], [0], [0]])))
@@ -34,7 +34,7 @@ print(colour.XYZ_to_xy(array([[0.97137399], [1.], [1.04462134]])))
 
 # From *CIE XYZ* colourspace to *RGB* colourspace.
 # From *CIE XYZ* colourspace to *sRGB* colourspace.
-print(colour.XYZ_to_RGB(array([[11.51847498], [10.08], [5.08937252]]),
+print(colour.XYZ_to_RGB(array([0.1180583421, 0.1034, 0.0515089229]),
                         colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                         colour.sRGB_COLOURSPACE.whitepoint,
                         "Bradford",
@@ -52,7 +52,7 @@ print(colour.RGB_to_XYZ(array([[3.40552203], [2.48159742], [2.11932818]]),
 
 # From *CIE xyY* colourspace to *RGB* colourspace.
 # From *CIE xyY* colourspace to *sRGB* colourspace.
-print(colour.xyY_to_RGB(array([[0.4316], [0.3777], [10.08]]),
+print(colour.xyY_to_RGB(array([[0.4316], [0.3777], [0.1008]]),
                         colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
                         colour.sRGB_COLOURSPACE.whitepoint,
                         "Bradford",

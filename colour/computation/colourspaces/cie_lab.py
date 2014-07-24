@@ -60,6 +60,10 @@ def XYZ_to_Lab(XYZ,
     :type illuminant: array_like
     :return: *CIE Lab* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
+    :note: *illuminant* is in domain [0, 1].
+    :note: *L\** is in domain [0, 100].
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -103,6 +107,10 @@ def Lab_to_XYZ(Lab,
     :type illuminant: array_like
     :return: *CIE Lab* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
+    :note: *illuminant* is in domain [0, 1].
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -142,6 +150,8 @@ def Lab_to_LCHab(Lab):
     :type Lab: array_like (3, 1)
     :return: *CIE LCHab* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -172,6 +182,8 @@ def LCHab_to_Lab(LCHab):
     :type LCHab: array_like (3, 1)
     :return: *CIE Lab* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
     """
 
     L, C, H = numpy.ravel(LCHab)

@@ -167,9 +167,9 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.cie_xyy.is_within_macadam_limits` definition.
         """
 
-        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.3205, 0.4131, 51), "A"))
+        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.3205, 0.4131, 0.51), "A"))
         self.assertFalse(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
-        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.4325, 0.3788, 10.34), "C"))
+        self.assertTrue(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.4325, 0.3788, 0.1034), "C"))
         self.assertFalse(colour.computation.colourspaces.cie_xyy.is_within_macadam_limits((0.0025, 0.0088, 0.034), "C"))
 
 

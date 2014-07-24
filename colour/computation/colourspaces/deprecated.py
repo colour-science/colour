@@ -299,6 +299,9 @@ def RGB_to_CMY(RGB):
     :type RGB: array_like (3, 1)
     :return: *CMY* matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *RGB* is in domain [0, 1].
+    :note: *CMY* is in domain [0, 1].
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -324,6 +327,9 @@ def CMY_to_RGB(CMY):
     :type CMY: array_like (3, 1)
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CMY* is in domain [0, 1].
+    :note: *RGB* is in domain [0, 1].
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -350,6 +356,9 @@ def CMY_to_CMYK(CMY):
     :type CMY: array_like (3, 1)
     :return: *CMYK* matrix.
     :rtype: ndarray (4, 1)
+
+    :note: *CMY* is in domain [0, 1].
+    :note: *CMYK* is in domain [0, 1].
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -393,6 +402,9 @@ def CMYK_to_CMY(CMYK):
     :type CMYK: array_like (4, 1)
     :return: *CMY* matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CMYK* is in domain [0, 1].
+    :note: *CMY* is in domain [0, 1].
     """
 
     C, M, Y, K = numpy.ravel(CMYK)

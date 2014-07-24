@@ -46,9 +46,9 @@ def XYZ_to_UVW(XYZ,
     Usage::
 
         >>> XYZ_to_UVW(numpy.array([11.80583421, 10.34, 5.15089229]))
-        array([[  7.87055614]
-               [ 10.34      ]
-               [ 12.18252904]])
+        array([[ 24.25433719]
+               [  7.22054843]
+               [ 37.46450007]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
     :type XYZ: array_like (3, 1)
@@ -56,6 +56,10 @@ def XYZ_to_UVW(XYZ,
     :type illuminant: array_like
     :return: *CIE 1964 U\*V*\W\** colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :warning: The arguments domains of that definition are non standard!
+    :note: *CIE XYZ* is in domain [0, 100].
+    :note: *CIE UCS* is in domain [0, 100].
     """
 
     x, y, Y = numpy.ravel(colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(XYZ, illuminant))

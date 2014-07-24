@@ -62,6 +62,10 @@ def XYZ_to_Luv(XYZ,
     :type illuminant: array_like
     :return: *CIE Luv* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
+    :note: *illuminant* is in domain [0, 1].
+    :note: *L\** is in domain [0, 100].
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -100,6 +104,10 @@ def Luv_to_XYZ(Luv,
     :type illuminant: array_like
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
+    :note: *illuminant* is in domain [0, 1].
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -140,6 +148,9 @@ def Luv_to_uv(Luv,
     :type illuminant: array_like
     :return: *u'v'* chromaticity coordinates.
     :rtype: tuple
+
+    :note: *L\** is in domain [0, 100].
+    :note: *u'v'* is in domain [0, 1].
     """
 
     X, Y, Z = numpy.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -164,6 +175,9 @@ def Luv_uv_to_xy(uv):
     :type uv: array_like
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
+
+    :note: *u'v'* is in domain [0, 1].
+    :note: *xy* is in domain [0, 1].
     """
 
     return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (6. * uv[0] - 16. * uv[1] + 12.)
@@ -188,6 +202,8 @@ def Luv_to_LCHuv(Luv):
     :type Luv: array_like (3, 1)
     :return: *CIE LCHuv* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -218,6 +234,8 @@ def LCHuv_to_Luv(LCHuv):
     :type LCHuv: array_like (3, 1)
     :return: *CIE Luv* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *L\** is in domain [0, 100].
     """
 
     L, C, H = numpy.ravel(LCHuv)

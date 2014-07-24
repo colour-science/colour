@@ -41,15 +41,18 @@ def XYZ_to_UCS(XYZ):
 
     Usage::
 
-        >>> XYZ_to_UCS(numpy.array([11.80583421, 10.34, 5.15089229]))
-        array([[  7.87055614]
-               [ 10.34      ]
-               [ 12.18252904]])
+        >>> XYZ_to_UCS(numpy.array([0.1180583421, 0.1034, 0.0515089229]))
+        array([[ 0.07870556]
+              [ 0.1034    ]
+              [ 0.12182529]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
     :type XYZ: array_like (3, 1)
     :return: *CIE UCS* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
+    :note: *CIE UCS* is in domain [0, 1].
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -67,15 +70,18 @@ def UCS_to_XYZ(UVW):
 
     Usage::
 
-        >>> UCS_to_XYZ(numpy.array([11.80583421, 10.34, 5.15089229]))
-        array([[  7.87055614]
-               [ 10.34      ]
-               [ 12.18252904]])
+        >>> UCS_to_XYZ(numpy.array([0.07870556, 0.1034, 0.12182529]))
+        array([[ 0.11805834]
+               [ 0.1034    ]
+               [ 0.05150892]])
 
     :param UVW: *CIE UCS* colourspace matrix.
     :type UVW: array_like (3, 1)
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE UCS* is in domain [0, 1].
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     U, V, W = numpy.ravel(UVW)
@@ -93,19 +99,21 @@ def UCS_to_uv(UVW):
 
     Usage::
 
-        >>> UCS_to_uv(numpy.array([11.80583421, 10.34, 5.15089229]))
-        (0.43249999995420702, 0.378800000065942)
+        >>> UCS_to_uv(numpy.array([0.1180583421, 0.1034, 0.0515089229]))
+        (0.43249999995420696, 0.378800000065942)
 
     :param UVW: *CIE UCS* colourspace matrix.
     :type UVW: array_like (3, 1)
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
+
+    :note: *CIE UCS* is in domain [0, 1].
+    :note: *uv* is in domain [0, 1].
     """
 
     U, V, W = numpy.ravel(UVW)
 
     return U / (U + V + W), V / (U + V + W)
-
 
 def UCS_uv_to_xy(uv):
     """
@@ -117,13 +125,16 @@ def UCS_uv_to_xy(uv):
 
     Usage::
 
-        >>> UCS_uv_to_xy((0.2033733344733139, 0.3140500001549052))
-        (0.32207410281368043, 0.33156550013623537)
+        >>> UCS_uv_to_xy((0.43249999995420696, 0.378800000065942))
+        (0.7072386352886122, 0.4129510522116816)
 
     :param uv: *CIE UCS uv* chromaticity coordinate.
     :type uv: array_like
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
+
+    :note: *uv* is in domain [0, 1].
+    :note: *xy* is in domain [0, 1].
     """
 
     return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), 2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)

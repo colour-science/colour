@@ -45,3 +45,6 @@ class RuntimeCache():
 
     XYZ_optimal_colour_stimuli_triangulations = {}
     """Optima colour stimuli triangulations in *CIE XYZ* colourspace."""
+
+    munsell_value_ASTM_D1535_08_interpolator = None
+    """Munsell Value ASTM-D1535-08 interpolator."""

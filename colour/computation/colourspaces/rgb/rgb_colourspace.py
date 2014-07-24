@@ -334,15 +334,15 @@ def XYZ_to_RGB(XYZ,
 
     Usage::
 
-        >>> XYZ = numpy.array([11.51847498, 10.08, 5.08937252])
+        >>> XYZ = numpy.array([0.1151847498, 0.1008, 0.0508937252])
         >>> illuminant_XYZ =  (0.34567, 0.35850)
         >>> illuminant_RGB =  (0.31271, 0.32902)
         >>> chromatic_adaptation_method =  "Bradford"
         >>> from_XYZ =  numpy.array([3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3))
         >>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, chromatic_adaptation_method, from_XYZ)
-        array([[ 17.303501],
-               [ 8.8211033],
-               [ 5.5672498]])
+        array([[ 0.17303501],
+               [ 0.08211033],
+               [ 0.05672498]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
     :type XYZ: array_like (3, 1)
@@ -358,6 +358,11 @@ def XYZ_to_RGB(XYZ,
     :type transfer_function: object
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
+    :note: *illuminant_XYZ* is in domain [0, 1].
+    :note: *illuminant_RGB* is in domain [0, 1].
+    :note: *RGB* is in domain [0, 1].
     """
 
     cat = colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
@@ -370,9 +375,9 @@ def XYZ_to_RGB(XYZ,
     RGB = numpy.dot(from_XYZ, adaptedXYZ)
 
     if transfer_function is not None:
-        RGB = numpy.array(map(lambda x: transfer_function(x), numpy.ravel(RGB))).reshape((3, 1))
+        RGB = numpy.array(map(lambda x: transfer_function(x), numpy.ravel(RGB)))
 
-    return RGB
+    return RGB.reshape((3, 1))
 
 
 def RGB_to_XYZ(RGB,
@@ -387,15 +392,15 @@ def RGB_to_XYZ(RGB,
 
     Usage::
 
-        >>> RGB = numpy.array([17.303501, 8.211033, 5.672498])
+        >>> RGB = numpy.array([0.17303501, 0.08211033, 0.05672498])
         >>> illuminant_RGB = (0.31271, 0.32902)
         >>> illuminant_XYZ = (0.34567, 0.35850)
         >>> chromatic_adaptation_method =  "Bradford"
-        >>> to_XYZ = numpy.array([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)))
+        >>> to_XYZ = numpy.array([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
         >>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, chromatic_adaptation_method, to_XYZ)
-        array([[ 11.51847498],
-               [ 10.0799999 ],
-               [  5.08937278]])
+        array([[ 0.11518475],
+               [ 0.1008    ],
+               [ 0.05089373]])
 
     :param RGB: *RGB* colourspace matrix.
     :type RGB: array_like (3, 1)
@@ -411,6 +416,11 @@ def RGB_to_XYZ(RGB,
     :type inverse_transfer_function: object
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *RGB* is in domain [0, 1].
+    :note: *illuminant_RGB* is in domain [0, 1].
+    :note: *illuminant_XYZ* is in domain [0, 1].
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     if inverse_transfer_function is not None:
@@ -464,6 +474,11 @@ def xyY_to_RGB(xyY,
     :type transfer_function: object
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE xyY* is in domain [0, 1].
+    :note: *illuminant_xyY* is in domain [0, 1].
+    :note: *illuminant_RGB* is in domain [0, 1].
+    :note: *RGB* is in domain [0, 1].
     """
 
     return XYZ_to_RGB(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ(xyY),
@@ -510,6 +525,11 @@ def RGB_to_xyY(RGB,
     :type inverse_transfer_function: object
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *RGB* is in domain [0, 1].
+    :note: *illuminant_RGB* is in domain [0, 1].
+    :note: *illuminant_xyY* is in domain [0, 1].
+    :note: *CIE xyY* is in domain [0, 1].
     """
 
     return colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(RGB_to_XYZ(RGB,
@@ -545,6 +565,8 @@ def RGB_to_RGB(RGB,
     :type chromatic_adaptation_method: unicode  ("XYZ Scaling", "Bradford", "Von Kries", "CAT02")
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *RGB* is in domain [0, 1].
     """
 
     cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(input_colourspace.whitepoint),

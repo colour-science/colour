@@ -23,10 +23,12 @@ import re
 
 import colour.algebra.common
 import colour.algebra.coordinates.transformations
+import colour.computation.colourspaces.cie_lab
 import colour.computation.colourspaces.cie_xyy
 import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.exceptions
+from colour.algebra.extrapolation import Extrapolator1d
 from colour.algebra.interpolation import LinearInterpolator
 from colour.cache.runtime import RuntimeCache
 from colour.dataset.colourspaces.munsell import MUNSELL_COLOURS
@@ -71,6 +73,7 @@ __all__ = ["FPNP",
            "munsell_value_saunderson1944",
            "munsell_value_ladd1955",
            "munsell_value_mccamy1987",
+           "munsell_value_ASTM_D1535_08",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
@@ -106,7 +109,7 @@ MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
 
 def __get_munsell_specifications():
     """
-    Returns the *Munsell Renotation System* specifications.
+    Returns the *Munsell Renotation System* specifications and caches it if not existing.
     The *Munsell Renotation System* data is stored in :attr:`colour.MUNSELL_COLOURS` attribute in a 2 columns form:
 
     (("2.5GY", 0.2, 2.0), (0.713, 1.414, 0.237)),
@@ -129,6 +132,23 @@ def __get_munsell_specifications():
             munsell_colour_to_munsell_specification(MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT.format(*colour[0])) \
             for colour in MUNSELL_COLOURS]
     return RuntimeCache.munsell_specifications
+
+
+def __get_munsell_value_ASTM_D1535_08_interpolator():
+    """
+    Returns the *Munsell value* interpolator for *ASTM D1535-08* method and caches it if not existing.
+
+    :return: *Munsell value* interpolator for *ASTM D1535-08* method.
+    :rtype: Extrapolator1d
+    """
+
+    munsell_values = numpy.arange(0, 10, 0.001)
+    if RuntimeCache.munsell_value_ASTM_D1535_08_interpolator is None:
+        RuntimeCache.munsell_value_ASTM_D1535_08_interpolator = Extrapolator1d(
+            LinearInterpolator(map(colour.computation.luminance.luminance_ASTM_D1535_08, munsell_values),
+                               munsell_values))
+
+    return RuntimeCache.munsell_value_ASTM_D1535_08_interpolator
 
 
 def parse_munsell_colour(munsell_colour):
@@ -830,6 +850,7 @@ def munsell_specification_to_xy(specification):
     :rtype: tuple
 
     :note: *Munsell* specification value must be an even integer in domain [0, 10].
+    :note: *xy* is in domain [0, 1].
     """
 
     if is_grey_munsell_colour(specification):
@@ -882,13 +903,13 @@ def munsell_colour_to_xyY(munsell_colour):
     Usage::
 
         >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")
-        [[  0.38736945]
-         [  0.35751656]
-         [ 59.36200043]]
+        array([[ 0.38736945]
+               [ 0.35751656]
+               [ 0.59362   ]])
         >>> munsell_colour_to_xyY("N8.9")
-        [[  0.31006   ]
-         [  0.31616   ]
-         [ 74.61344983]]
+        array([[ 0.31006  ]
+               [ 0.31616  ]
+               [ 0.7461345]])
 
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
@@ -897,6 +918,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     :note: *Munsell* specification hue must be in domain [0, 10].
     :note: *Munsell* specification value must be in domain [0, 10].
+    :note: *CIE xyY* is in domain [0, 1].
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -935,14 +957,56 @@ def munsell_colour_to_xyY(munsell_colour):
         y = LinearInterpolator([Y_minus, Y_plus],
                                [y_minus, y_plus])(Y)
 
-    return numpy.array([x, y, Y]).reshape((3, 1))
+    return numpy.array([x, y, Y / 100.]).reshape((3, 1))
 
 
 def xyY_to_munsell_colour(xyY):
+    x, y, Y = numpy.ravel(xyY)
+
     if not colour.computation.colourspaces.cie_xyy.is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         raise colour.utilities.exceptions.MunsellColourError(
-            "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(MUNSELL_DEFAULT_ILLUMINANT))
+            "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
+
+    value = munsell_value_ASTM_D1535_08(Y)
+    if abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD:
+        value = round(value)
+
+    x_center, y_center, Y_center = munsell_colour_to_xyY(MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT.format(value))
+    z_input, theta_input, rho_input = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
+        (x - x_center,
+         y - y_center,
+         Y_center))
+    theta_input = math.degrees(theta_input)
+
+    convergence_threshold = 0.0001
+    grey_threshold = 0.001
+    maximum_tries = 60
+    tries = 0
+
+    if rho_input < grey_threshold:
+        return munsell_specification_to_munsell_colour(value)
+
+    X, Y, Z = numpy.ravel(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ(xyY))
+    xc, yc = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+    Xr, Yr, Zr = numpy.ravel(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ((xc, yc, Y)))
+
+    print X,Y,Z
+    XYZ = numpy.array((X, Y, Z)) / 100
+    XYZr = numpy.array(((100. / Yr) * Xr, 100., (100. / Yr) * Zr))
+
+    Lab = colour.computation.colourspaces.cie_lab.XYZ_to_Lab(XYZ,
+                                                             colour.computation.colourspaces.cie_xyy.XYZ_to_xy(XYZr))
+    print Lab
+
+
+
+##################################################################
+##################################################################
+##################################################################
+##################################################################
+##################################################################
+##################################################################
 
 def munsell_value_priest1920(Y):
     """
@@ -1112,12 +1176,37 @@ def munsell_value_mccamy1987(Y):
     return V
 
 
+def munsell_value_ASTM_D1535_08(Y):
+    """
+    Returns the *Munsell value* *V* of of given *luminance* *Y* using a reverse lookup table
+    from *ASTM D1535-08e1* 2008 method.
+
+    Usage::
+
+        >>> munsell_value_ASTM_D1535_08(10.1488096782)
+        3.74629711426
+
+    :param Y: *Luminance* *Y*
+    :type Y: float
+    :return: *Munsell value* *V*..
+    :rtype: float
+
+    :note: *Y* is in domain [0, 100].
+    :note: *V* is in domain [0, 10].
+    """
+
+    V = __get_munsell_value_ASTM_D1535_08_interpolator()(Y)
+
+    return V
+
+
 MUNSELL_VALUE_FUNCTIONS = {"Munsell Value Priest 1920": munsell_value_priest1920,
                            "Munsell Value Munsell 1933": munsell_value_munsell1933,
                            "Munsell Value Moon 1943": munsell_value_moon1943,
                            "Munsell Value Saunderson 1944": munsell_value_saunderson1944,
                            "Munsell Value Ladd 1955": munsell_value_ladd1955,
-                           "Munsell Value McCamy 1987": munsell_value_mccamy1987}
+                           "Munsell Value McCamy 1987": munsell_value_mccamy1987,
+                           "Munsell Value ASTM D1535-08": munsell_value_ASTM_D1535_08}
 
 
 def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
@@ -1146,4 +1235,3 @@ def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
 
     return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
-

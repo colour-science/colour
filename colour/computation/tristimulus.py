@@ -69,6 +69,8 @@ def spectral_to_XYZ(spd,
     :type illuminant: SpectralPowerDistribution
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     shape = cmfs.shape
@@ -126,6 +128,7 @@ def wavelength_to_XYZ(wavelength,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
+    :note: *CIE XYZ* is in domain [0, 1].
     :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
     """
 
