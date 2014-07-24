@@ -81,7 +81,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     :param XYZ2: *CIE XYZ* target *array_like* variable.
     :type XYZ2: array_like (3, 1)
     :param method: Chromatic adaptation method.
-    :type method: unicode
+    :type method: unicode ("XYZ Scaling", "Bradford", "Von Kries", "CAT02")
     :return: Chromatic adaptation matrix.
     :rtype: ndarray (3, 3)
     """

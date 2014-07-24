@@ -165,6 +165,7 @@ Highlights:
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  RGB to RGB.
   -  XYZ to UCS.
   -  UCS to XYZ.
   -  UCS to uv.
