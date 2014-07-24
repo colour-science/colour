@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ APPLE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
 
 APPLE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
 
-APPLE_RGB_COLOURSPACE = Colourspace("Apple RGB",
-                                    APPLE_RGB_PRIMARIES,
-                                    APPLE_RGB_WHITEPOINT,
-                                    APPLE_RGB_TO_XYZ_MATRIX,
-                                    XYZ_TO_APPLE_RGB_MATRIX,
-                                    APPLE_RGB_TRANSFER_FUNCTION,
-                                    APPLE_RGB_INVERSE_TRANSFER_FUNCTION)
+APPLE_RGB_COLOURSPACE = RGB_Colourspace("Apple RGB",
+                                        APPLE_RGB_PRIMARIES,
+                                        APPLE_RGB_WHITEPOINT,
+                                        APPLE_RGB_TO_XYZ_MATRIX,
+                                        XYZ_TO_APPLE_RGB_MATRIX,
+                                        APPLE_RGB_TRANSFER_FUNCTION,
+                                        APPLE_RGB_INVERSE_TRANSFER_FUNCTION)

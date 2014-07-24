@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -55,10 +55,10 @@ MAX_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 MAX_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-MAX_RGB_COLOURSPACE = Colourspace("Max RGB",
-                                  MAX_RGB_PRIMARIES,
-                                  MAX_RGB_WHITEPOINT,
-                                  MAX_RGB_TO_XYZ_MATRIX,
-                                  XYZ_TO_MAX_RGB_MATRIX,
-                                  MAX_RGB_TRANSFER_FUNCTION,
-                                  MAX_RGB_INVERSE_TRANSFER_FUNCTION)
+MAX_RGB_COLOURSPACE = RGB_Colourspace("Max RGB",
+                                      MAX_RGB_PRIMARIES,
+                                      MAX_RGB_WHITEPOINT,
+                                      MAX_RGB_TO_XYZ_MATRIX,
+                                      XYZ_TO_MAX_RGB_MATRIX,
+                                      MAX_RGB_TRANSFER_FUNCTION,
+                                      MAX_RGB_INVERSE_TRANSFER_FUNCTION)

@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ BETA_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 BETA_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-BETA_RGB_COLOURSPACE = Colourspace("Beta RGB",
-                                   BETA_RGB_PRIMARIES,
-                                   BETA_RGB_WHITEPOINT,
-                                   BETA_RGB_TO_XYZ_MATRIX,
-                                   XYZ_TO_BETA_RGB_MATRIX,
-                                   BETA_RGB_TRANSFER_FUNCTION,
-                                   BETA_RGB_INVERSE_TRANSFER_FUNCTION)
+BETA_RGB_COLOURSPACE = RGB_Colourspace("Beta RGB",
+                                       BETA_RGB_PRIMARIES,
+                                       BETA_RGB_WHITEPOINT,
+                                       BETA_RGB_TO_XYZ_MATRIX,
+                                       XYZ_TO_BETA_RGB_MATRIX,
+                                       BETA_RGB_TRANSFER_FUNCTION,
+                                       BETA_RGB_INVERSE_TRANSFER_FUNCTION)

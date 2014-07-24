@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
 
 ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
 
-ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = Colourspace("Adobe Wide Gamut RGB",
-                                               ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-                                               ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
-                                               ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
-                                               XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-                                               ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-                                               ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace("Adobe Wide Gamut RGB",
+                                                   ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
+                                                   ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
+                                                   ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+                                                   XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
+                                                   ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
+                                                   ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)

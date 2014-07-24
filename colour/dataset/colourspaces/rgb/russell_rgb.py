@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ RUSSELL_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-RUSSELL_RGB_COLOURSPACE = Colourspace("Russell RGB",
-                                      RUSSELL_RGB_PRIMARIES,
-                                      RUSSELL_RGB_WHITEPOINT,
-                                      RUSSELL_RGB_TO_XYZ_MATRIX,
-                                      XYZ_TO_RUSSELL_RGB_MATRIX,
-                                      RUSSELL_RGB_TRANSFER_FUNCTION,
-                                      RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)
+RUSSELL_RGB_COLOURSPACE = RGB_Colourspace("Russell RGB",
+                                          RUSSELL_RGB_PRIMARIES,
+                                          RUSSELL_RGB_WHITEPOINT,
+                                          RUSSELL_RGB_TO_XYZ_MATRIX,
+                                          XYZ_TO_RUSSELL_RGB_MATRIX,
+                                          RUSSELL_RGB_TRANSFER_FUNCTION,
+                                          RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)

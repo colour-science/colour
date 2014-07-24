@@ -47,11 +47,11 @@ from colour.computation.colourspaces.cie_xyy import XYZ_to_xyY, xyY_to_XYZ, xyY_
 from colour.computation.colourspaces.cie_xyy import xy_to_XYZ, XYZ_to_xy
 from colour.computation.colourspaces.cie_xyy import XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.colourspaces.cie_xyy import is_within_macadam_limits
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
 from colour.computation.colourspaces.rgb.derivation import \
     get_normalised_primary_matrix, \
     get_RGB_luminance_equation, \
     get_RGB_luminance
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 from colour.computation.colourspaces.munsell import munsell_colour_to_xyY
 from colour.computation.colourspaces.munsell import get_munsell_value
 from colour.computation.colourspaces.munsell import \
@@ -60,7 +60,7 @@ from colour.computation.colourspaces.munsell import \
     munsell_value_moon1943, \
     munsell_value_saunderson1944, \
     munsell_value_ladd1955, \
-    munsell_value_mccamy1992
+    munsell_value_mccamy1987
 from colour.computation.colourspaces.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
@@ -178,11 +178,11 @@ __all__.extend(["XYZ_to_xyY", "xyY_to_XYZ", "xyY_to_RGB", "RGB_to_xyY",
                 "XYZ_to_RGB", "RGB_to_XYZ",
                 "is_within_macadam_limits"])
 
-# *colour.computation.colourspaces.rgb.colourspace* objects.
-__all__.extend(["Colourspace"])
-
 # *colour.computation.colourspaces.rgb.derivation* objects.
 __all__.extend(["get_normalised_primary_matrix", "get_RGB_luminance_equation", "get_RGB_luminance"])
+
+# *colour.computation.colourspaces.rgb.rgb_colourspace* objects.
+__all__.extend(["RGB_Colourspace"])
 
 # *colour.computation.colourspaces.munsell* objects.
 __all__.extend(["munsell_colour_to_xyY"])
@@ -193,7 +193,7 @@ __all__.extend(
      "munsell_value_moon1943",
      "munsell_value_saunderson1944",
      "munsell_value_ladd1955",
-     "munsell_value_mccamy1992"])
+     "munsell_value_mccamy1987"])
 __all__.extend(["MUNSELL_VALUE_FUNCTIONS"])
 
 # *colour.computation.correction* objects.

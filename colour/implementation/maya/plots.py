@@ -114,7 +114,7 @@ def RGB_to_Lab(RGB, colourspace):
     :param RGB: *RGB* value.
     :type RGB: array_like
     :param colourspace: *RGB* colourspace.
-    :type colourspace: Colourspace
+    :type colourspace: RGB_Colourspace
     :return: Definition success.
     :rtype: bool
     """
@@ -166,13 +166,13 @@ def RGB_identity_cube(name, density=20):
 
 def Lab_colourspace_cube(colourspace, density=20):
     """
-    Creates a **CIE Lab** colourspace cube with geometric density.
+    Creates a *CIE Lab* colourspace cube with geometric density.
 
-    :param colourspace: Colourspace description.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace description.
+    :type colourspace: RGB_Colourspace
     :param density: Cube divisions count.
     :type density: int
-    :return: Colourspace cube.
+    :return: *CIE Lab* Colourspace cube.
     :rtype: unicode
     """
 
@@ -191,7 +191,7 @@ def Lab_colourspace_cube(colourspace, density=20):
 
 def Lab_coordinates_system_representation():
     """
-    Creates a **CIE Lab** coordinates system representation.
+    Creates a *CIE Lab* coordinates system representation.
 
     :return: Definition success.
     :rtype: bool

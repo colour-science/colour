@@ -178,8 +178,8 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
 
     :param image: Image to evalute the transfer function.
     :type image: ndarray
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :param to_linear: Use colourspace inverse transfer function instead of colourspace transfer function.
     :type to_linear: bool
     :return: Transformed image.
@@ -198,8 +198,8 @@ def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True)
 
     :param path: Path to read the image from.
     :type path: unicode
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :param to_linear: Evaluate colourspace inverse transfer function on image data.
     :type to_linear: bool
     :return: Image.
@@ -327,8 +327,8 @@ def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"])
 
     :param RGB_spectrum: RGB spectrum to retrieve the luminance from.
     :type RGB_spectrum: RGB_Spectrum
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :return: RGB spectrum luminance spectral power distribution, units are arbitrary and normalised to [0, 100] domain.
     :rtype: SpectralPowerDistribution
     """

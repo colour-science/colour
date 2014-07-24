@@ -38,7 +38,7 @@ Colour Rendition Charts
 -  `BabelColor ColorChecker RGB & Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
 -  **N. Ohta**, `CMacbeth olorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
 
-Colourspace Derivation
+RGB_Colourspace Derivation
 ----------------------
 
 -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 - 3.3.6 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)

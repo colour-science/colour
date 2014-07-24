@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ REC_709_TRANSFER_FUNCTION = lambda x: x * 4.5 if x < 0.018 else 1.099 * (x ** 0.
 
 REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45)
 
-REC_709_COLOURSPACE = Colourspace("Rec. 709",
-                                  REC_709_PRIMARIES,
-                                  REC_709_WHITEPOINT,
-                                  REC_709_TO_XYZ_MATRIX,
-                                  XYZ_TO_REC_709_MATRIX,
-                                  REC_709_TRANSFER_FUNCTION,
-                                  REC_709_INVERSE_TRANSFER_FUNCTION)
+REC_709_COLOURSPACE = RGB_Colourspace("Rec. 709",
+                                      REC_709_PRIMARIES,
+                                      REC_709_WHITEPOINT,
+                                      REC_709_TO_XYZ_MATRIX,
+                                      XYZ_TO_REC_709_MATRIX,
+                                      REC_709_TRANSFER_FUNCTION,
+                                      REC_709_INVERSE_TRANSFER_FUNCTION)

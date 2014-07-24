@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -55,10 +55,10 @@ PROPHOTO_RGB_TRANSFER_FUNCTION = lambda x: x * 16 if x < 0.001953 else x ** (1 /
 
 PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x / 16 if x < 0.001953 else x ** 1.8
 
-PROPHOTO_RGB_COLOURSPACE = Colourspace("ProPhoto RGB",
-                                       PROPHOTO_RGB_PRIMARIES,
-                                       PROPHOTO_RGB_WHITEPOINT,
-                                       PROPHOTO_RGB_TO_XYZ_MATRIX,
-                                       XYZ_TO_PROPHOTO_RGB_MATRIX,
-                                       PROPHOTO_RGB_TRANSFER_FUNCTION,
-                                       PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION)
+PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace("ProPhoto RGB",
+                                           PROPHOTO_RGB_PRIMARIES,
+                                           PROPHOTO_RGB_WHITEPOINT,
+                                           PROPHOTO_RGB_TO_XYZ_MATRIX,
+                                           XYZ_TO_PROPHOTO_RGB_MATRIX,
+                                           PROPHOTO_RGB_TRANSFER_FUNCTION,
+                                           PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION)

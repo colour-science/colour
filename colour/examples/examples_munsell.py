@@ -32,8 +32,8 @@ print colour.munsell_value_moon1943(Y)
 print colour.munsell_value_saunderson1944(Y)
 # Retrieving *Munsell value* with *Ladd and Pinney* 1955 method:
 print colour.munsell_value_ladd1955(Y)
-# Retrieving *Munsell value* with *McCamy* 1992 method:
-print colour.munsell_value_mccamy1992(Y)
+# Retrieving *Munsell value* with *McCamy* 1987 method:
+print colour.munsell_value_mccamy1987(Y)
 # Retrieving *Munsell value* using the wrapper:
 print colour.get_munsell_value(Y)
 print colour.get_munsell_value(Y, method="Munsell Value Saunderson 1944")

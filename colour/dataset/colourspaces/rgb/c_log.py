@@ -22,7 +22,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -58,10 +58,10 @@ C_LOG_TRANSFER_FUNCTION = lambda x: 0.529136 * math.log10(10.1596 * x + 1) + 0.0
 
 C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x))
 
-C_LOG_COLOURSPACE = Colourspace("C-Log",
-                                C_LOG_PRIMARIES,
-                                C_LOG_WHITEPOINT,
-                                C_LOG_TO_XYZ_MATRIX,
-                                XYZ_TO_C_LOG_MATRIX,
-                                C_LOG_TRANSFER_FUNCTION,
-                                C_LOG_INVERSE_TRANSFER_FUNCTION)
+C_LOG_COLOURSPACE = RGB_Colourspace("C-Log",
+                                    C_LOG_PRIMARIES,
+                                    C_LOG_WHITEPOINT,
+                                    C_LOG_TO_XYZ_MATRIX,
+                                    XYZ_TO_C_LOG_MATRIX,
+                                    C_LOG_TRANSFER_FUNCTION,
+                                    C_LOG_INVERSE_TRANSFER_FUNCTION)

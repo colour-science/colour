@@ -22,7 +22,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 
 __author__ = "Thomas Mansencal"
@@ -220,10 +220,10 @@ ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_transfer_functio
 
 ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_inverse_transfer_function
 
-ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = Colourspace("ALEXA Wide Gamut RGB",
-                                               ALEXA_WIDE_GAMUT_RGB_PRIMARIES,
-                                               ALEXA_WIDE_GAMUT_RGB_WHITEPOINT,
-                                               ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
-                                               XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
-                                               ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-                                               ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace("ALEXA Wide Gamut RGB",
+                                                   ALEXA_WIDE_GAMUT_RGB_PRIMARIES,
+                                                   ALEXA_WIDE_GAMUT_RGB_WHITEPOINT,
+                                                   ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+                                                   XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
+                                                   ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
+                                                   ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)

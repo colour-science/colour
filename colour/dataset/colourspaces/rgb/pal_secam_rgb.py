@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
 
 PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
 
-PAL_SECAM_RGB_COLOURSPACE = Colourspace("Pal/Secam RGB",
-                                        PAL_SECAM_RGB_PRIMARIES,
-                                        PAL_SECAM_RGB_WHITEPOINT,
-                                        PAL_SECAM_RGB_TO_XYZ_MATRIX,
-                                        XYZ_TO_PAL_SECAM_RGB_MATRIX,
-                                        PAL_SECAM_RGB_TRANSFER_FUNCTION,
-                                        PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)
+PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace("Pal/Secam RGB",
+                                            PAL_SECAM_RGB_PRIMARIES,
+                                            PAL_SECAM_RGB_WHITEPOINT,
+                                            PAL_SECAM_RGB_TO_XYZ_MATRIX,
+                                            XYZ_TO_PAL_SECAM_RGB_MATRIX,
+                                            PAL_SECAM_RGB_TRANSFER_FUNCTION,
+                                            PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)

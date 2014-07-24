@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -53,10 +53,10 @@ DCI_P3_TRANSFER_FUNCTION = lambda x: x
 
 DCI_P3_INVERSE_TRANSFER_FUNCTION = lambda x: x
 
-DCI_P3_COLOURSPACE = Colourspace("DCI-P3",
-                                 DCI_P3_PRIMARIES,
-                                 DCI_P3_WHITEPOINT,
-                                 DCI_P3_TO_XYZ_MATRIX,
-                                 XYZ_TO_DCI_P3_MATRIX,
-                                 DCI_P3_TRANSFER_FUNCTION,
-                                 DCI_P3_INVERSE_TRANSFER_FUNCTION)
+DCI_P3_COLOURSPACE = RGB_Colourspace("DCI-P3",
+                                     DCI_P3_PRIMARIES,
+                                     DCI_P3_WHITEPOINT,
+                                     DCI_P3_TO_XYZ_MATRIX,
+                                     XYZ_TO_DCI_P3_MATRIX,
+                                     DCI_P3_TRANSFER_FUNCTION,
+                                     DCI_P3_INVERSE_TRANSFER_FUNCTION)

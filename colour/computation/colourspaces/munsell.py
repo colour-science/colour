@@ -70,7 +70,7 @@ __all__ = ["FPNP",
            "munsell_value_moon1943",
            "munsell_value_saunderson1944",
            "munsell_value_ladd1955",
-           "munsell_value_mccamy1992",
+           "munsell_value_mccamy1987",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
@@ -1080,9 +1080,9 @@ def munsell_value_ladd1955(Y):
     return V
 
 
-def munsell_value_mccamy1992(Y):
+def munsell_value_mccamy1987(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using *McCamy* 1992 method.
+    Returns the *Munsell value* *V* of given *luminance* *Y* using *McCamy* 1987 method.
 
     References:
 
@@ -1090,7 +1090,7 @@ def munsell_value_mccamy1992(Y):
 
     Usage::
 
-        >>> munsell_value_mccamy1992(10.08)
+        >>> munsell_value_mccamy1987(10.08)
         3.73472352585
 
     :param Y: *Luminance* *Y*.
@@ -1117,7 +1117,7 @@ MUNSELL_VALUE_FUNCTIONS = {"Munsell Value Priest 1920": munsell_value_priest1920
                            "Munsell Value Moon 1943": munsell_value_moon1943,
                            "Munsell Value Saunderson 1944": munsell_value_saunderson1944,
                            "Munsell Value Ladd 1955": munsell_value_ladd1955,
-                           "Munsell Value McCamy 1992": munsell_value_mccamy1992}
+                           "Munsell Value McCamy 1987": munsell_value_mccamy1987}
 
 
 def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
@@ -1137,7 +1137,7 @@ def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     :type Y: float
     :param method: Computation method.
     :type method: unicode ("Munsell Value Priest 1920", "Munsell Value Munsell 1933", "Munsell Value Moon 1943", \
-    "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955", "Munsell Value McCamy 1992")
+    "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955", "Munsell Value McCamy 1987")
     :return: *Munsell value* *V*.
     :rtype: float
 

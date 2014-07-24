@@ -11,7 +11,7 @@ Module Attributes
 Classes
 -------
 
-.. autoclass:: Colourspace
+.. autoclass:: RGB_Colourspace
 	:show-inheritance:
 	:members:
 

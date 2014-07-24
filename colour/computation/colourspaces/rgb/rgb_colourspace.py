@@ -28,12 +28,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Colourspace"]
+__all__ = ["RGB_Colourspace"]
 
 
-class Colourspace(object):
+class RGB_Colourspace(object):
     """
-    Defines a colourspace object.
+    Defines a *RGB* colourspace object.
     """
 
     def __init__(self,
@@ -47,19 +47,19 @@ class Colourspace(object):
         """
         Initialises the class.
 
-        :param name: Colourspace name.
+        :param name: *RGB* Colourspace name.
         :type name: str or unicode
-        :param primaries: Colourspace primaries.
+        :param primaries: *RGB* Colourspace primaries.
         :type primaries: array_like
-        :param whitepoint: Colourspace whitepoint.
+        :param whitepoint: *RGB* Colourspace whitepoint.
         :type whitepoint: array_like
         :param to_XYZ: Transformation matrix from colourspace to *CIE XYZ* colourspace.
         :type to_XYZ: array_like
         :param from_XYZ: Transformation matrix from *CIE XYZ* colourspace to colourspace.
         :type from_XYZ: array_like
-        :param transfer_function: Colourspace transfer function from linear to colourspace.
+        :param transfer_function: *RGB* Colourspace transfer function from linear to colourspace.
         :type transfer_function: object
-        :param inverse_transfer_function: Colourspace inverse transfer function from colourspace to linear.
+        :param inverse_transfer_function: *RGB* Colourspace inverse transfer function from colourspace to linear.
         :type inverse_transfer_function: object
         """
 

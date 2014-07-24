@@ -22,7 +22,7 @@ import colour.computation.colourspaces.rgb.derivation
 import colour.computation.lightness
 import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -58,10 +58,10 @@ ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: colour.computation.lightness.lightness_
 
 ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: colour.computation.luminance.luminance_1976(x * 100.) / 100.
 
-ECI_RGB_V2_COLOURSPACE = Colourspace("ECI RGB v2",
-                                     ECI_RGB_V2_PRIMARIES,
-                                     ECI_RGB_V2_WHITEPOINT,
-                                     ECI_RGB_V2_TO_XYZ_MATRIX,
-                                     XYZ_TO_ECI_RGB_V2_MATRIX,
-                                     ECI_RGB_V2_TRANSFER_FUNCTION,
-                                     ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)
+ECI_RGB_V2_COLOURSPACE = RGB_Colourspace("ECI RGB v2",
+                                         ECI_RGB_V2_PRIMARIES,
+                                         ECI_RGB_V2_WHITEPOINT,
+                                         ECI_RGB_V2_TO_XYZ_MATRIX,
+                                         XYZ_TO_ECI_RGB_V2_MATRIX,
+                                         ECI_RGB_V2_TRANSFER_FUNCTION,
+                                         ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)

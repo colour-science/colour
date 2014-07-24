@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ DON_RGB_4_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 DON_RGB_4_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-DON_RGB_4_COLOURSPACE = Colourspace("Don RGB 4",
-                                    DON_RGB_4_PRIMARIES,
-                                    DON_RGB_4_WHITEPOINT,
-                                    DON_RGB_4_TO_XYZ_MATRIX,
-                                    XYZ_TO_DON_RGB_4_MATRIX,
-                                    DON_RGB_4_TRANSFER_FUNCTION,
-                                    DON_RGB_4_INVERSE_TRANSFER_FUNCTION)
+DON_RGB_4_COLOURSPACE = RGB_Colourspace("Don RGB 4",
+                                        DON_RGB_4_PRIMARIES,
+                                        DON_RGB_4_WHITEPOINT,
+                                        DON_RGB_4_TO_XYZ_MATRIX,
+                                        XYZ_TO_DON_RGB_4_MATRIX,
+                                        DON_RGB_4_TRANSFER_FUNCTION,
+                                        DON_RGB_4_INVERSE_TRANSFER_FUNCTION)

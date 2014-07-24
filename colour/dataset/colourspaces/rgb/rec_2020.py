@@ -21,7 +21,7 @@ import numpy
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.data_structures
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -105,10 +105,10 @@ REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function
 
 REC_2020_INVERSE_TRANSFER_FUNCTION = __rec_2020_inverse_transfer_function
 
-REC_2020_COLOURSPACE = Colourspace("Rec. 2020",
-                                   REC_2020_PRIMARIES,
-                                   REC_2020_WHITEPOINT,
-                                   REC_2020_TO_XYZ_MATRIX,
-                                   XYZ_TO_REC_2020_MATRIX,
-                                   REC_2020_TRANSFER_FUNCTION,
-                                   REC_2020_INVERSE_TRANSFER_FUNCTION)
+REC_2020_COLOURSPACE = RGB_Colourspace("Rec. 2020",
+                                       REC_2020_PRIMARIES,
+                                       REC_2020_WHITEPOINT,
+                                       REC_2020_TO_XYZ_MATRIX,
+                                       XYZ_TO_REC_2020_MATRIX,
+                                       REC_2020_TRANSFER_FUNCTION,
+                                       REC_2020_INVERSE_TRANSFER_FUNCTION)

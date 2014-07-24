@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ EKTA_SPACE_PS_5_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-EKTA_SPACE_PS_5_COLOURSPACE = Colourspace("Ekta Space PS 5",
-                                          EKTA_SPACE_PS_5_PRIMARIES,
-                                          EKTA_SPACE_PS_5_WHITEPOINT,
-                                          EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
-                                          XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
-                                          EKTA_SPACE_PS_5_TRANSFER_FUNCTION,
-                                          EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION)
+EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace("Ekta Space PS 5",
+                                              EKTA_SPACE_PS_5_PRIMARIES,
+                                              EKTA_SPACE_PS_5_WHITEPOINT,
+                                              EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
+                                              XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
+                                              EKTA_SPACE_PS_5_TRANSFER_FUNCTION,
+                                              EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION)

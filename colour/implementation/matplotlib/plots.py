@@ -151,14 +151,14 @@ def __get_illuminant(illuminant):
     return illuminant
 
 
-def __get_colourspace(colourspace):
+def __get_RGB_colourspace(colourspace):
     """
-    Returns the colourspace with given name.
+    Returns the *RGB* colourspace with given name.
 
-    :param colourspace: Colourspace name.
+    :param colourspace: *RGB* Colourspace name.
     :type colourspace: Unicode
-    :return: Colourspace.
-    :rtype: Colourspace
+    :return: *RGB* Colourspace.
+    :rtype: RGB_Colourspace
     """
 
     colourspace, name = colour.RGB_COLOURSPACES.get(colourspace), colourspace
@@ -1126,7 +1126,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:
-            colourspace, name = __get_colourspace(colourspace), colourspace
+            colourspace, name = __get_RGB_colourspace(colourspace), colourspace
 
             random_colour = lambda: float(random.randint(64, 224)) / 255
             r, g, b = random_colour(), random_colour(), random_colour()
@@ -1758,7 +1758,7 @@ def single_transfer_function_plot(colourspace="sRGB",
         >>> single_transfer_function_plot("sRGB")
         True
 
-    :param colourspace: Colourspace transfer function to plot.
+    :param colourspace: *RGB* Colourspace transfer function to plot.
     :type colourspace: unicode
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
@@ -1796,7 +1796,7 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
 
     samples = numpy.linspace(0., 1., 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = __get_colourspace(colourspace), colourspace
+        colourspace, name = __get_RGB_colourspace(colourspace), colourspace
 
         RGBs = numpy.array(
             map(colourspace.inverse_transfer_function if inverse else colourspace.transfer_function, samples))

@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -55,10 +55,10 @@ SMPTE_C_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-SMPTE_C_RGB_COLOURSPACE = Colourspace("SMPTE-C RGB",
-                                      SMPTE_C_RGB_PRIMARIES,
-                                      SMPTE_C_RGB_WHITEPOINT,
-                                      SMPTE_C_RGB_TO_XYZ_MATRIX,
-                                      XYZ_TO_SMPTE_C_RGB_MATRIX,
-                                      SMPTE_C_RGB_TRANSFER_FUNCTION,
-                                      SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)
+SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace("SMPTE-C RGB",
+                                          SMPTE_C_RGB_PRIMARIES,
+                                          SMPTE_C_RGB_WHITEPOINT,
+                                          SMPTE_C_RGB_TO_XYZ_MATRIX,
+                                          XYZ_TO_SMPTE_C_RGB_MATRIX,
+                                          SMPTE_C_RGB_TRANSFER_FUNCTION,
+                                          SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)

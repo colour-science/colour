@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ ADOBE_RGB_1998_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
 
 ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
 
-ADOBE_RGB_1998_COLOURSPACE = Colourspace("Adobe RGB 1998",
-                                         ADOBE_RGB_1998_PRIMARIES,
-                                         ADOBE_RGB_1998_WHITEPOINT,
-                                         ADOBE_RGB_1998_TO_XYZ_MATRIX,
-                                         XYZ_TO_ADOBE_RGB_1998_MATRIX,
-                                         ADOBE_RGB_1998_TRANSFER_FUNCTION,
-                                         ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION)
+ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace("Adobe RGB 1998",
+                                             ADOBE_RGB_1998_PRIMARIES,
+                                             ADOBE_RGB_1998_WHITEPOINT,
+                                             ADOBE_RGB_1998_TO_XYZ_MATRIX,
+                                             XYZ_TO_ADOBE_RGB_1998_MATRIX,
+                                             ADOBE_RGB_1998_TRANSFER_FUNCTION,
+                                             ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION)

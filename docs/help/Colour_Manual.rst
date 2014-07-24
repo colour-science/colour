@@ -153,7 +153,7 @@ _`Highlights`
   -  Munsell Value Moon 1943
   -  Munsell Value Saunderson 1944
   -  Munsell Value Ladd 1955
-  -  Munsell Value McCamy 1992
+  -  Munsell Value McCamy 1987
   -  Lightness Glasser 1958
   -  Lightness Wyszecki 1964
   -  Lightness 1976
@@ -477,7 +477,7 @@ Luminance, Munsell Value, Lightness
 -  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  **Munsell Value McCamy 1992**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
+-  **Munsell Value McCamy 1987**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
 -  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)

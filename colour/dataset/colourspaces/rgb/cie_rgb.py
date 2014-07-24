@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -55,10 +55,10 @@ CIE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
 
 CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
 
-CIE_RGB_COLOURSPACE = Colourspace("CIE RGB",
-                                  CIE_RGB_PRIMARIES,
-                                  CIE_RGB_WHITEPOINT,
-                                  CIE_RGB_TO_XYZ_MATRIX,
-                                  XYZ_TO_CIE_RGB_MATRIX,
-                                  CIE_RGB_TRANSFER_FUNCTION,
-                                  CIE_RGB_INVERSE_TRANSFER_FUNCTION)
+CIE_RGB_COLOURSPACE = RGB_Colourspace("CIE RGB",
+                                      CIE_RGB_PRIMARIES,
+                                      CIE_RGB_WHITEPOINT,
+                                      CIE_RGB_TO_XYZ_MATRIX,
+                                      XYZ_TO_CIE_RGB_MATRIX,
+                                      CIE_RGB_TRANSFER_FUNCTION,
+                                      CIE_RGB_INVERSE_TRANSFER_FUNCTION)

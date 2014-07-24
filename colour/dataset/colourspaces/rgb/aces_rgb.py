@@ -22,7 +22,7 @@ import numpy
 
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.data_structures
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 
 __author__ = "Thomas Mansencal"
@@ -75,13 +75,13 @@ ACES_RGB_TRANSFER_FUNCTION = lambda x: x
 
 ACES_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x
 
-ACES_RGB_COLOURSPACE = Colourspace("ACES RGB",
-                                   ACES_RGB_PRIMARIES,
-                                   ACES_RGB_WHITEPOINT,
-                                   ACES_RGB_TO_XYZ_MATRIX,
-                                   XYZ_TO_ACES_RGB_MATRIX,
-                                   ACES_RGB_TRANSFER_FUNCTION,
-                                   ACES_RGB_INVERSE_TRANSFER_FUNCTION)
+ACES_RGB_COLOURSPACE = RGB_Colourspace("ACES RGB",
+                                       ACES_RGB_PRIMARIES,
+                                       ACES_RGB_WHITEPOINT,
+                                       ACES_RGB_TO_XYZ_MATRIX,
+                                       XYZ_TO_ACES_RGB_MATRIX,
+                                       ACES_RGB_TRANSFER_FUNCTION,
+                                       ACES_RGB_INVERSE_TRANSFER_FUNCTION)
 
 ACES_RGB_LOG_CONSTANTS = colour.utilities.data_structures.Structure(log_unity=32768,
                                                                     log_xperstop=2048,
@@ -146,13 +146,13 @@ ACES_RGB_LOG_TRANSFER_FUNCTION = __aces_rgb_log_transfer_function
 
 ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = __aces_rgb_log_inverse_transfer_function
 
-ACES_RGB_LOG_COLOURSPACE = Colourspace("ACES RGB Log",
-                                       ACES_RGB_PRIMARIES,
-                                       ACES_RGB_WHITEPOINT,
-                                       ACES_RGB_TO_XYZ_MATRIX,
-                                       XYZ_TO_ACES_RGB_MATRIX,
-                                       ACES_RGB_LOG_TRANSFER_FUNCTION,
-                                       ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
+ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace("ACES RGB Log",
+                                           ACES_RGB_PRIMARIES,
+                                           ACES_RGB_WHITEPOINT,
+                                           ACES_RGB_TO_XYZ_MATRIX,
+                                           XYZ_TO_ACES_RGB_MATRIX,
+                                           ACES_RGB_LOG_TRANSFER_FUNCTION,
+                                           ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
 
 ACES_RGB_PROXY_10_CONSTANTS = colour.utilities.data_structures.Structure(CV_min=0.,
                                                                          CV_max=1023.,
@@ -228,18 +228,18 @@ ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_transfer_functi
 ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_inverse_transfer_function(x,
                                                                                                    bit_depth="12 bit")
 
-ACES_RGB_PROXY_10_COLOURSPACE = Colourspace("ACES RGB Proxy 10",
-                                            ACES_RGB_PRIMARIES,
-                                            ACES_RGB_WHITEPOINT,
-                                            ACES_RGB_TO_XYZ_MATRIX,
-                                            XYZ_TO_ACES_RGB_MATRIX,
-                                            ACES_RGB_PROXY_10_TRANSFER_FUNCTION,
-                                            ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION)
+ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace("ACES RGB Proxy 10",
+                                                ACES_RGB_PRIMARIES,
+                                                ACES_RGB_WHITEPOINT,
+                                                ACES_RGB_TO_XYZ_MATRIX,
+                                                XYZ_TO_ACES_RGB_MATRIX,
+                                                ACES_RGB_PROXY_10_TRANSFER_FUNCTION,
+                                                ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION)
 
-ACES_RGB_PROXY_12_COLOURSPACE = Colourspace("ACES RGB Proxy 12",
-                                            ACES_RGB_PRIMARIES,
-                                            ACES_RGB_WHITEPOINT,
-                                            ACES_RGB_TO_XYZ_MATRIX,
-                                            XYZ_TO_ACES_RGB_MATRIX,
-                                            ACES_RGB_PROXY_12_TRANSFER_FUNCTION,
-                                            ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION)
+ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace("ACES RGB Proxy 12",
+                                                ACES_RGB_PRIMARIES,
+                                                ACES_RGB_WHITEPOINT,
+                                                ACES_RGB_TO_XYZ_MATRIX,
+                                                XYZ_TO_ACES_RGB_MATRIX,
+                                                ACES_RGB_PROXY_12_TRANSFER_FUNCTION,
+                                                ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION)

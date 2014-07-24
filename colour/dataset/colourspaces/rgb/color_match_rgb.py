@@ -20,7 +20,7 @@ import numpy
 
 import colour.computation.colourspaces.rgb.derivation
 import colour.dataset.illuminants.chromaticity_coordinates
-from colour.computation.colourspaces.rgb.colourspace import Colourspace
+from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -56,10 +56,10 @@ COLOR_MATCH_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
 
 COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
 
-COLOR_MATCH_RGB_COLOURSPACE = Colourspace("ColorMatch RGB",
-                                          COLOR_MATCH_RGB_PRIMARIES,
-                                          COLOR_MATCH_RGB_WHITEPOINT,
-                                          COLOR_MATCH_RGB_TO_XYZ_MATRIX,
-                                          XYZ_TO_COLOR_MATCH_RGB_MATRIX,
-                                          COLOR_MATCH_RGB_TRANSFER_FUNCTION,
-                                          COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION)
+COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace("ColorMatch RGB",
+                                              COLOR_MATCH_RGB_PRIMARIES,
+                                              COLOR_MATCH_RGB_WHITEPOINT,
+                                              COLOR_MATCH_RGB_TO_XYZ_MATRIX,
+                                              XYZ_TO_COLOR_MATCH_RGB_MATRIX,
+                                              COLOR_MATCH_RGB_TRANSFER_FUNCTION,
+                                              COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION)
