@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.data_structures` module.
+    Defines units tests for :mod:`colour.utilities.data_structures` module.
 
 **Others:**
 
