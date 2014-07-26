@@ -6,8 +6,6 @@ _`colour.dataset.tcs`
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.tcs.LOGGER
-
 .. attribute:: colour.dataset.tcs.TCS_INDEXES_TO_NAMES
 
 .. attribute:: colour.dataset.tcs.TCS_APPROXIMATE_MUNSELL_NOTATIONS

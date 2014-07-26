@@ -6,8 +6,6 @@ _`colour.computation.cri`
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.cri.LOGGER
-
 .. attribute:: colour.computation.cri.TSC_COLORIMETRY_DATA_NXYZUVUVW
 
 Functions

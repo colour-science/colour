@@ -6,8 +6,6 @@ _`colour.dataset.cmfs`
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.cmfs.LOGGER
-
 .. attribute:: colour.dataset.cmfs.LMS_CMFS_DATA
 
 .. attribute:: colour.dataset.cmfs.LMS_CMFS

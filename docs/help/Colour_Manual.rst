@@ -220,6 +220,8 @@ _`Highlights`
   -  LCHab to Lab.
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
+  -  xyY to Munsell Colour.
+  -  Munsell Colour to xyY.
 
 Convenience deprecated colourspaces transformations:
 
@@ -565,6 +567,8 @@ Transformations
 -  **Bruce Lindbloom**, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
+-  **Paul Centore**, `xyY to Munsell Colour <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
+-  **Paul Centore**, `Munsell Colour to xyY <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
 
 .. raw:: html
 

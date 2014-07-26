@@ -3,11 +3,6 @@ _`colour.computation.tristimulus`
 
 .. automodule:: colour.computation.tristimulus
 
-Module Attributes
------------------
-
-.. attribute:: colour.computation.tristimulus.LOGGER
-
 Functions
 ---------
 

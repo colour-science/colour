@@ -3,10 +3,14 @@ _`colour.utilities.data_structures`
 
 .. automodule:: colour.utilities.data_structures
 
-Module Attributes
------------------
+Classes
+-------
 
-.. attribute:: colour.utilities.data_structures.LOGGER
+.. autoclass:: Structure
+	:show-inheritance:
+	:members:
 
-.. attribute:: colour.utilities.data_structures.Structure
+.. autoclass:: Lookup
+	:show-inheritance:
+	:members:
 

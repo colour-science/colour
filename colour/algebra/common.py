@@ -111,8 +111,8 @@ def to_ndarray(x):
 
     Usage::
 
-    >>> to_ndarray(1)
-    [1]
+        >>> to_ndarray(1)
+        [1]
 
     :param x: Variable to convert.
     :type x: object
@@ -129,10 +129,10 @@ def is_number(x):
 
     Usage::
 
-    >>> is_number(1)
-    True
-    >>> is_number((1,))
-    False
+        >>> is_number(1)
+        True
+        >>> is_number((1,))
+        False
 
     :param x: Variable to check.
     :type x: object

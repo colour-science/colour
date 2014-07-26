@@ -6,8 +6,6 @@ _`colour.computation.chromatic_adaptation`
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.chromatic_adaptation.LOGGER
-
 .. attribute:: colour.computation.chromatic_adaptation.XYZ_SCALING_MATRIX
 
 .. attribute:: colour.computation.chromatic_adaptation.BRADFORD_MATRIX

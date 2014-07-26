@@ -3,10 +3,8 @@ _`colour.utilities.decorators`
 
 .. automodule:: colour.utilities.decorators
 
-Module Attributes
------------------
+Functions
+---------
 
-.. attribute:: colour.utilities.decorators.LOGGER
-
-.. attribute:: colour.utilities.decorators.memoize
+.. autofunction:: memoize
 

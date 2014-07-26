@@ -57,7 +57,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
 
         :param name: *RGB* spectrum name.
         :type name: unicode
-        :param data:*RGB* spectrum.
+        :param data: *RGB* spectrum.
         :type data: dict
         """
 

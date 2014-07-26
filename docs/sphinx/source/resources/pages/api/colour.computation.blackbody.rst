@@ -6,8 +6,6 @@ _`colour.computation.blackbody`
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.blackbody.LOGGER
-
 .. attribute:: colour.computation.blackbody.LIGHT_SPEED_CONSTANT
 
 .. attribute:: colour.computation.blackbody.PLANCK_CONSTANT

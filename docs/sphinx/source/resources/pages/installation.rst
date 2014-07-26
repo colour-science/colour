@@ -21,7 +21,8 @@ You can also install directly from `Github <http://github.com/KelSolaar/Colour>`
 
 If you want to build the documentation you will also need:
 
--  **Tidy** http://tidy.sourceforge.net/
+-  `Oncilla <https://pypi.python.org/pypi/Oncilla/>`_
+-  `Tidy <http://tidy.sourceforge.net/>`_
 
 .. raw:: html
 

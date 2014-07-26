@@ -63,11 +63,17 @@ __all__ = ["FPNP",
            "is_specification_in_renotation",
            "get_bounding_hues_from_renotation",
            "hue_to_hue_angle",
+           "hue_angle_to_hue",
            "hue_to_ASTM_hue",
            "get_interpolation_method_from_renotation_ovoid",
            "get_xy_from_renotation_ovoid",
+           "LCHab_to_munsell_specification",
+           "get_maximum_chroma_from_renotation",
            "munsell_specification_to_xy",
+           "munsell_specification_to_xyY",
            "munsell_colour_to_xyY",
+           "xyY_to_munsell_specification",
+           "xyY_to_munsell_colour",
            "munsell_value_priest1920",
            "munsell_value_munsell1933",
            "munsell_value_moon1943",
@@ -110,7 +116,7 @@ MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
 
 def __get_munsell_specifications():
     """
-    Returns the *Munsell Renotation System* specifications and caches it if not existing.
+    Returns the *Munsell Renotation System* specifications and caches them if not existing.
     The *Munsell Renotation System* data is stored in :attr:`colour.MUNSELL_COLOURS` attribute in a 2 columns form:
 
     (("2.5GY", 0.2, 2.0), (0.713, 1.414, 0.237)),
@@ -152,14 +158,14 @@ def __get_munsell_value_ASTM_D1535_08_interpolator():
     return RuntimeCache.munsell_value_ASTM_D1535_08_interpolator
 
 
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
-
 def __get_munsell_maximum_chromas_from_renotation():
+    """
+    Returns the maximum *Munsell* chromas from *Munsell Renotation System* data and caches them if not existing.
+
+    :return: Maximum *Munsell chromas.
+    :rtype: Tuple
+    """
+
     if RuntimeCache.munsell_maximum_chromas_from_renotation is None:
         chromas = OrderedDict()
         for munsell_colour in MUNSELL_COLOURS:
@@ -171,16 +177,8 @@ def __get_munsell_maximum_chromas_from_renotation():
 
             chromas[index] = chroma
 
-        RuntimeCache.munsell_maximum_chromas_from_renotation = zip(chromas.keys(), chromas.values())
+        RuntimeCache.munsell_maximum_chromas_from_renotation = tuple(zip(chromas.keys(), chromas.values()))
     return RuntimeCache.munsell_maximum_chromas_from_renotation
-
-
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
-# #################################################################
 
 
 def parse_munsell_colour(munsell_colour):
@@ -197,7 +195,7 @@ def parse_munsell_colour(munsell_colour):
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
     :return: Intermediate *Munsell* specification.
-    :rtype: tuple or float
+    :rtype: float or tuple
     """
 
     match = re.match(MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN, munsell_colour, flags=re.IGNORECASE)
@@ -226,7 +224,7 @@ def is_grey_munsell_colour(specification):
         True
 
     :param specification: *Munsell* specification.
-    :type specification: tuple
+    :type specification: float or tuple
     :return: Is specification a grey colour.
     :rtype: bool
     """
@@ -244,9 +242,9 @@ def normalize_munsell_specification(specification):
         (10.0, 2.0, 4.0, 7)
 
     :param specification: *Munsell* specification.
-    :type specification: tuple or float
+    :type specification: float or tuple
     :return: Normalised *Munsell* specification.
-    :rtype: tuple or float
+    :rtype: float or tuple
     """
 
     if is_grey_munsell_colour(specification):
@@ -273,7 +271,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
     :return: Normalised *Munsell* specification.
-    :rtype: tuple or float
+    :rtype: float or tuple
     """
 
     return normalize_munsell_specification(parse_munsell_colour(munsell_colour))
@@ -291,7 +289,7 @@ def munsell_specification_to_munsell_colour(specification, hue_decimals=1, value
         10.0R 2.0/4.0
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :param hue_decimals: Hue formatting decimals.
     :type hue_decimals: int
     :param value_decimals: Value formatting decimals.
@@ -339,7 +337,7 @@ def get_xyY_from_renotation(specification):
         (0.713, 1.414, 0.237)
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :return: *CIE xyY* colourspace vector.
     :rtype: tuple
     """
@@ -364,7 +362,7 @@ def is_specification_in_renotation(specification):
         False
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :return: Is specification in *Munsell Renotation System* data.
     :rtype: bool
     """
@@ -455,6 +453,58 @@ def hue_to_hue_angle(hue, code):
                               [0, 45, 70, 135, 160, 225, 255, 315, 360])(single_hue)
 
 
+def hue_angle_to_hue(hue_angle):
+    """
+    Converts from hue angle in degrees to the *Munsell* specification hue.
+
+    References:
+
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  *The Munsell and Kubelka-Munk Toolbox*: \
+    *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m*
+
+    Usage::
+
+        >>> hue_angle_to_hue(65.54)
+        (3.216000000000001, 4)
+
+    :param hue_angle: Hue angle in degrees.
+    :type hue_angle: float
+    :return: *Munsell* specification hue, *Munsell* specification code.
+    :rtype: tuple
+    """
+
+    single_hue = LinearInterpolator([0, 45, 70, 135, 160, 225, 255, 315, 360], [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
+
+    if single_hue <= 0.5:
+        code = 7
+    elif single_hue <= 1.5:
+        code = 6
+    elif single_hue <= 2.5:
+        code = 5
+    elif single_hue <= 3.5:
+        code = 4
+    elif single_hue <= 4.5:
+        code = 3
+    elif single_hue <= 5.5:
+        code = 2
+    elif single_hue <= 6.5:
+        code = 1
+    elif single_hue <= 7.5:
+        code = 10
+    elif single_hue <= 8.5:
+        code = 9
+    elif single_hue <= 9.5:
+        code = 8
+    else:
+        code = 7
+
+    hue = (10 * (single_hue % 1) + 5) % 10
+    if hue == 0:
+        hue = 10
+    return hue, code
+
+
 def hue_to_ASTM_hue(hue, code):
     """
     Converts from the *Munsell* specification hue to *ASTM* hue number in domain [0, 100].
@@ -499,7 +549,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         Radial
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :return: Interpolation method.
     :rtype: unicode or None ("Linear", "Radial", None)
 
@@ -765,7 +815,7 @@ def get_xy_from_renotation_ovoid(specification):
         (0.31006, 0.31616)
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
@@ -858,6 +908,129 @@ def get_xy_from_renotation_ovoid(specification):
         return x, y
 
 
+def LCHab_to_munsell_specification(LCHab):
+    """
+    Converts from *CIE LCHab* colourspace to approximate *Munsell* specification.
+
+    References:
+
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  *The Munsell and Kubelka-Munk Toolbox*: \
+    *MunsellAndKubelkaMunkToolboxApr2014/GeneralRoutines/CIELABtoApproxMunsellSpec.m*
+
+    Usage::
+
+        >>> LCHab_to_munsell_specification(numpy.array([100., 17.50664796, 244.93046842]))
+        (8.036241227777781, 10.0, 3.5013295919999998, 1)
+
+    :param LCHab: *CIE LCHab* colourspace matrix.
+    :type LCHab: array_like (3, 1)
+    :return: *Munsell* specification.
+    :rtype: tuple
+
+    :note: *L\** is in domain [0, 100].
+    """
+
+    L, C, Hab = numpy.ravel(LCHab)
+
+    if Hab == 0:
+        code = 8
+    elif Hab <= 36:
+        code = 7
+    elif Hab <= 72:
+        code = 6
+    elif Hab <= 108:
+        code = 5
+    elif Hab <= 144:
+        code = 4
+    elif Hab <= 180:
+        code = 3
+    elif Hab <= 216:
+        code = 2
+    elif Hab <= 252:
+        code = 1
+    elif Hab <= 288:
+        code = 10
+    elif Hab <= 324:
+        code = 9
+    else:
+        code = 8
+
+    hue = LinearInterpolator([0, 36], [0, 10])(Hab % 36)
+    if hue == 0:
+        hue = 10
+
+    value = L / 10.
+    chroma = C / 5.
+
+    return (hue, value, chroma, code)
+
+
+def get_maximum_chroma_from_renotation(hue, value, code):
+    """
+    Returns the maximum *Munsell* chroma from *Munsell Renotation System* data using given *Munsell* specification hue,
+    *Munsell* specification value and *Munsell* specification code.
+
+    References:
+
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  *The Munsell and Kubelka-Munk Toolbox*: \
+    *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m*
+
+    Usage::
+
+        >>> get_maximum_chroma_from_renotation(2.5, 5, 5)
+        14.0
+
+    :param hue: *Munsell* specification hue.
+    :type hue: float
+    :param value: *Munsell* value code.
+    :type value: float
+    :param code: *Munsell* specification code.
+    :type code: float
+    :return: Maximum chroma.
+    :rtype: float
+
+    :note: *L\** is in domain [0, 100].
+    """
+
+    # Ideal white, no chroma.
+    if value >= 9.99:
+        return 0
+
+    assert 1 <= value <= 10, "'{0}' value must be in domain [1, 10]!".format(value)
+
+    if value % 1 == 0:
+        value_minus = value
+        value_plus = value
+    else:
+        value_minus = math.floor(value)
+        value_plus = value_minus + 1
+
+    hue_cw, hue_ccw = get_bounding_hues_from_renotation(hue, code)
+    hue_cw, code_cw = hue_cw
+    hue_ccw, code_ccw = hue_ccw
+
+    maximum_chromas = __get_munsell_maximum_chromas_from_renotation()
+    spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
+
+    ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
+    ma_limit_mccw = maximum_chromas[spc_for_indexes.index((hue_ccw, value_minus, code_ccw))][1]
+
+    if value_plus <= 9:
+        ma_limit_pcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_plus, code_cw))][1]
+        ma_limit_pccw = maximum_chromas[spc_for_indexes.index((hue_ccw, value_plus, code_ccw))][1]
+        max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw)
+    else:
+        L = colour.computation.luminance.luminance_ASTM_D1535_08(value)
+        L9 = colour.computation.luminance.luminance_ASTM_D1535_08(9)
+        L10 = colour.computation.luminance.luminance_ASTM_D1535_08(10)
+
+        max_chroma = min(LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L),
+                         LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L))
+    return max_chroma
+
+
 def munsell_specification_to_xy(specification):
     """
     Converts given *Munsell* specification to *xy* chromaticity coordinates by interpolating over
@@ -877,7 +1050,7 @@ def munsell_specification_to_xy(specification):
         (0.31006, 0.31616)
 
     :param specification: *Munsell* specification.
-    :type specification: specification
+    :type specification: float or tuple
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
@@ -922,9 +1095,9 @@ def munsell_specification_to_xy(specification):
         return x, y
 
 
-def munsell_colour_to_xyY(munsell_colour_or_specification):
+def munsell_specification_to_xyY(specification):
     """
-    Converts given *Munsell* colour to *CIE xyY* colourspace.
+    Converts given *Munsell* specification to *CIE xyY* colourspace.
 
     References:
 
@@ -934,17 +1107,17 @@ def munsell_colour_to_xyY(munsell_colour_or_specification):
 
     Usage::
 
-        >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")
-        array([[ 0.38736945]
-               [ 0.35751656]
-               [ 0.59362   ]])
-        >>> munsell_colour_to_xyY("N8.9")
+        >>> munsell_specification_to_xyY((2.1, 8.0, 17.9, 4))
+        array([[ 0.4400632 ]
+               [ 0.5522428 ]
+               [ 0.57619628]])
+        >>> munsell_colour_to_xyY(8.9)
         array([[ 0.31006  ]
                [ 0.31616  ]
                [ 0.7461345]])
 
-    :param munsell_colour_or_specification: *Munsell* colour or specification.
-    :type munsell_colour_or_specification: unicode or array_like
+    :param specification: *Munsell* specification.
+    :type specification: float or tuple
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
@@ -952,10 +1125,6 @@ def munsell_colour_to_xyY(munsell_colour_or_specification):
     :note: *Munsell* specification value must be in domain [0, 10].
     :note: *CIE xyY* is in domain [0, 1].
     """
-
-    specification = munsell_colour_or_specification
-    if colour.utilities.common.is_string(specification):
-        specification = munsell_colour_to_munsell_specification(munsell_colour_or_specification)
 
     if is_grey_munsell_colour(specification):
         value = specification
@@ -994,116 +1163,58 @@ def munsell_colour_to_xyY(munsell_colour_or_specification):
     return numpy.array([x, y, Y / 100.]).reshape((3, 1))
 
 
-def LCHab_to_munsell_specification(LCHab):
-    # MunsellAndKubelkaMunkToolboxApr2014/GeneralRoutines/CIELABtoApproxMunsellSpec.m
-    L, C, Hab = numpy.ravel(LCHab)
+def munsell_colour_to_xyY(munsell_colour):
+    """
+    Converts given *Munsell* colour to *CIE xyY* colourspace.
 
-    if Hab == 0:
-        code = 8
-    elif Hab <= 36:
-        code = 7
-    elif Hab <= 72:
-        code = 6
-    elif Hab <= 108:
-        code = 5
-    elif Hab <= 144:
-        code = 4
-    elif Hab <= 180:
-        code = 3
-    elif Hab <= 216:
-        code = 2
-    elif Hab <= 252:
-        code = 1
-    elif Hab <= 288:
-        code = 10
-    elif Hab <= 324:
-        code = 9
-    else:
-        code = 8
+    Usage::
 
-    hue = LinearInterpolator([0, 36], [0, 10])(Hab % 36)
-    if hue == 0:
-        hue = 10
+        >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")
+        array([[ 0.38736945]
+               [ 0.35751656]
+               [ 0.59362   ]])
+        >>> munsell_colour_to_xyY("N8.9")
+        array([[ 0.31006  ]
+               [ 0.31616  ]
+               [ 0.7461345]])
 
-    value = L / 10.
-    chroma = C / 5.
+    :param munsell_colour: *Munsell* colour.
+    :type munsell_colour: unicode
+    :return: *CIE xyY* colourspace matrix.
+    :rtype: ndarray (3, 1)
 
-    return (hue, value, chroma, code)
+    :note: *Munsell* specification hue must be in domain [0, 10].
+    :note: *Munsell* specification value must be in domain [0, 10].
+    :note: *CIE xyY* is in domain [0, 1].
+    """
+
+    specification = munsell_colour_to_munsell_specification(munsell_colour)
+    return munsell_specification_to_xyY(specification)
 
 
-def get_maximum_chroma_from_renotation(hue, value, code):
-    # MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m
-    # Ideal white, no chroma.
-    if value >= 9.99:
-        return 0
+def xyY_to_munsell_specification(xyY):
+    """
+    Converts from *CIE xyY* colourspace to *Munsell* specification.
 
-    assert 1 <= value <= 10, "'{0}' value must be in domain [1, 10]!".format(value)
+    References:
 
-    if value % 1 == 0:
-        value_minus = value
-        value_plus = value
-    else:
-        value_minus = math.floor(value)
-        value_plus = value_minus + 1
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  *The Munsell and Kubelka-Munk Toolbox*: \
+    *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/xyYtoMunsell.m*
 
-    hue_cw, hue_ccw = get_bounding_hues_from_renotation(hue, code)
-    hue_cw, code_cw = hue_cw
-    hue_ccw, code_ccw = hue_ccw
+    Usage::
 
-    maximum_chromas = __get_munsell_maximum_chromas_from_renotation()
-    spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
+        >>> xyY_to_munsell_specification(numpy.array([0.38736945, 0.35751656, 0.59362]))
+        (4.1742530270757179, 8.0999999757342671, 5.3044360044459644, 6)
 
-    ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
-    ma_limit_mccw = maximum_chromas[spc_for_indexes.index((hue_ccw, value_minus, code_ccw))][1]
+    :param xyY: *CIE xyY* colourspace matrix.
+    :type xyY: array_like (3, 1)
+    :return: *Munsell* specification.
+    :rtype: float or tuple
 
-    if value_plus <= 9:
-        ma_limit_pcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_plus, code_cw))][1]
-        ma_limit_pccw = maximum_chromas[spc_for_indexes.index((hue_ccw, value_plus, code_ccw))][1]
-        max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw)
-    else:
-        L = colour.computation.luminance.luminance_ASTM_D1535_08(value)
-        L9 = colour.computation.luminance.luminance_ASTM_D1535_08(9)
-        L10 = colour.computation.luminance.luminance_ASTM_D1535_08(10)
+    :note: *CIE xyY* is in domain [0, 1].
+    """
 
-        max_chroma = min(LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L),
-                         LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L))
-    return max_chroma
-
-
-def hue_angle_to_hue(hue_angle):
-    single_hue = LinearInterpolator([0, 45, 70, 135, 160, 225, 255, 315, 360], [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
-
-    if single_hue <= 0.5:
-        code = 7
-    elif single_hue <= 1.5:
-        code = 6
-    elif single_hue <= 2.5:
-        code = 5
-    elif single_hue <= 3.5:
-        code = 4
-    elif single_hue <= 4.5:
-        code = 3
-    elif single_hue <= 5.5:
-        code = 2
-    elif single_hue <= 6.5:
-        code = 1
-    elif single_hue <= 7.5:
-        code = 10
-    elif single_hue <= 8.5:
-        code = 9
-    elif single_hue <= 9.5:
-        code = 8
-    else:
-        code = 7
-
-    hue = (10 * (single_hue % 1) + 5) % 10
-    if hue == 0:
-        hue = 10
-    return hue, code
-
-
-def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals=1):
-    # MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/xyYtoMunsell.m
     if not colour.computation.colourspaces.cie_xyy.is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         raise colour.utilities.exceptions.MunsellColourError(
             "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
@@ -1115,7 +1226,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
     if abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD:
         value = round(value)
 
-    x_center, y_center, Y_center = numpy.ravel(munsell_colour_to_xyY(value))
+    x_center, y_center, Y_center = numpy.ravel(munsell_specification_to_xyY(value))
     z_input, theta_input, rho_input = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
         (x - x_center,
          y - y_center,
@@ -1124,7 +1235,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
 
     grey_threshold = 0.001
     if rho_input < grey_threshold:
-        return munsell_specification_to_munsell_colour(value, hue_decimals, value_decimals, chroma_decimals)
+        return value
 
     X, Y, Z = numpy.ravel(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ((x, y, Y)))
     xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
@@ -1137,9 +1248,8 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
                                                              colour.computation.colourspaces.cie_xyy.XYZ_to_xy(XYZr))
     LCHab = colour.computation.colourspaces.cie_lab.Lab_to_LCHab(Lab)
     hue_initial, value_initial, chroma_initial, code_initial = LCHab_to_munsell_specification(LCHab)
-    specification_initial = [hue_initial, value, (5. / 5.5) * chroma_initial, code_initial]
+    specification_current = [hue_initial, value, (5. / 5.5) * chroma_initial, code_initial]
 
-    specification_current = specification_initial
     convergence_threshold = 0.0001
     iterations_maximum = 64
     iterations = 0
@@ -1154,7 +1264,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, Y_current = numpy.ravel(munsell_colour_to_xyY(specification_current))
+        x_current, y_current, Y_current = numpy.ravel(munsell_specification_to_xyY(specification_current))
 
         z_current, theta_current, rho_current = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
             (x_current - x_center,
@@ -1169,7 +1279,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         hue_angles = [hue_angle_current]
         hue_angles_differences = [0]
 
-        iterations_maximum_inner = 12
+        iterations_maximum_inner = 16
         iterations_inner = 0
         extrapolate = False
 
@@ -1186,7 +1296,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
                 hue_angle_difference_inner -= 360
 
             hue_inner, code_inner = hue_angle_to_hue(hue_angle_inner)
-            x_inner, y_inner, Y_inner = numpy.ravel(munsell_colour_to_xyY(
+            x_inner, y_inner, Y_inner = numpy.ravel(munsell_specification_to_xyY(
                 (hue_inner, value, chroma_current, code_inner)))
 
             if len(theta_differences) >= 2:
@@ -1221,14 +1331,10 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
         specification_current = [hue_new, value, chroma_current, code_new]
 
-        x_current, y_current, Y_current = numpy.ravel(munsell_colour_to_xyY(specification_current))
+        x_current, y_current, Y_current = numpy.ravel(munsell_specification_to_xyY(specification_current))
         difference = numpy.linalg.norm(numpy.array((x, y)) - numpy.array((x_current, y_current)))
         if difference < convergence_threshold:
-            return munsell_specification_to_munsell_colour(
-                specification_current, hue_decimals, value_decimals, chroma_decimals)
-
-        # TODO: Investigate why original implementation is incrementing here.
-        # iterations += 1
+            return tuple(specification_current)
 
         # TODO: Consider refactoring implementation.
         hue_current, value_current, chroma_current, code_current = specification_current
@@ -1236,7 +1342,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, Y_current = numpy.ravel(munsell_colour_to_xyY(specification_current))
+        x_current, y_current, Y_current = numpy.ravel(munsell_specification_to_xyY(specification_current))
 
         z_current, theta_current, rho_current = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
             (x_current - x_center,
@@ -1246,7 +1352,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         rhos = [rho_current]
         chromas = [chroma_current]
 
-        iterations_maximum_inner = 10
+        iterations_maximum_inner = 16
         iterations_inner = 0
         while rho_input < min(rhos) or rho_input > max(rhos):
             iterations_inner += 1
@@ -1260,7 +1366,7 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
                 chroma_inner = specification_current[2] = chroma_maximum
 
             specification_inner = (hue_current, value, chroma_inner, code_current)
-            x_inner, y_inner, Y_inner = numpy.ravel(munsell_colour_to_xyY(specification_inner))
+            x_inner, y_inner, Y_inner = numpy.ravel(munsell_specification_to_xyY(specification_inner))
 
             z_inner, theta_inner, rho_inner = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
                 (x_inner - x_center,
@@ -1280,14 +1386,40 @@ def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals
         chroma_new = LinearInterpolator(rhos, chromas)(rho_input)
 
         specification_current = [hue_current, value, chroma_new, code_current]
-        x_current, y_current, Y_current = numpy.ravel(munsell_colour_to_xyY(specification_current))
+        x_current, y_current, Y_current = numpy.ravel(munsell_specification_to_xyY(specification_current))
         difference = numpy.linalg.norm(numpy.array((x, y)) - numpy.array((x_current, y_current)))
         if difference < convergence_threshold:
-            return munsell_specification_to_munsell_colour(
-                specification_current, hue_decimals, value_decimals, chroma_decimals)
+            return tuple(specification_current)
 
     raise colour.utilities.exceptions.MunsellColourError(
-        "Maximum inner iterations count reached without convergence!")
+        "Maximum outside iterations count reached without convergence!")
+
+
+def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals=1):
+    """
+    Converts from *CIE xyY* colourspace to *Munsell* colour.
+
+    Usage::
+
+        >>> xyY_to_munsell_colour(numpy.array([0.38736945, 0.35751656, 0.59362]))
+        4.2YR 8.1/5.3
+
+    :param xyY: *CIE xyY* colourspace matrix.
+    :type xyY: array_like (3, 1)
+    :param hue_decimals: Hue formatting decimals.
+    :type hue_decimals: int
+    :param value_decimals: Value formatting decimals.
+    :type value_decimals: int
+    :param chroma_decimals: Chroma formatting decimals.
+    :type chroma_decimals: int
+    :return: *Munsell* colour.
+    :rtype: unicode
+
+    :note: *CIE xyY* is in domain [0, 1].
+    """
+
+    specification = xyY_to_munsell_specification(xyY)
+    return munsell_specification_to_munsell_colour(specification, hue_decimals, value_decimals, chroma_decimals)
 
 
 def munsell_value_priest1920(Y):
@@ -1517,7 +1649,3 @@ def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
 
     return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
-
-
-print xyY_to_munsell_colour((0.3, 0.4, 0.101488096782), 2, 2, 2)
-

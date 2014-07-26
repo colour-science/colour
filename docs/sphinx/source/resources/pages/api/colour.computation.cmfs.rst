@@ -3,11 +3,6 @@ _`colour.computation.cmfs`
 
 .. automodule:: colour.computation.cmfs
 
-Module Attributes
------------------
-
-.. attribute:: colour.computation.cmfs.LOGGER
-
 Functions
 ---------
 

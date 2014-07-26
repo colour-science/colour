@@ -307,6 +307,8 @@
 							</li>
 							<li>Hernandez-Andres, Lee &amp; Romero method implementation.
 							</li>
+							<li>Kang, Moon, Hong, Lee, Cho and Kim implementation.
+							</li>
 							<li>CIE Illuminant D Series implementation.
 							</li>
 						</ul>
@@ -359,23 +361,29 @@
 					</ul>
 					<blockquote>
 						<ul class="simple">
-							<li>Luminance 1943
+							<li>Luminance Newhall 1943
 							</li>
 							<li>Luminance 1976
 							</li>
-							<li>Munsell Value 1920
+							<li>Luminance ASTM D1535-08
 							</li>
-							<li>Munsell Value 1933
+							<li>Munsell Value Priest 1920
 							</li>
-							<li>Munsell Value 1943
+							<li>Munsell Value Munsell 1933
 							</li>
-							<li>Munsell Value 1944
+							<li>Munsell Value Moon 1943
 							</li>
-							<li>Munsell Value 1955
+							<li>Munsell Value Saunderson 1944
 							</li>
-							<li>Lightness 1958
+							<li>Munsell Value Ladd 1955
 							</li>
-							<li>Lightness 1964
+							<li>Munsell Value McCamy 1987
+							</li>
+							<li>Munsell Value ASTM D1535-08
+							</li>
+							<li>Lightness Glasser 1958
+							</li>
+							<li>Lightness Wyszecki 1964
 							</li>
 							<li>Lightness 1976
 							</li>
@@ -469,6 +477,8 @@
 							</li>
 							<li>RGB to xyY.
 							</li>
+							<li>RGB to RGB.
+							</li>
 							<li>XYZ to UCS.
 							</li>
 							<li>UCS to XYZ.
@@ -503,10 +513,14 @@
 							</li>
 							<li>CCT, Duv to uv.
 							</li>
+							<li>xyY to Munsell Colour.
+							</li>
+							<li>Munsell Colour to xyY.
+							</li>
 						</ul>
 					</blockquote>
 					<p>
-						Convenience deprecated transformations:
+						Convenience deprecated colourspaces transformations:
 					</p>
 					<blockquote>
 						<ul class="simple">
@@ -604,7 +618,10 @@ python setup.py install
 				</p>
 				<ul class="simple">
 					<li>
-						<strong>Tidy</strong> <a class="reference external" href="http://tidy.sourceforge.net/">http://tidy.sourceforge.net/</a>
+						<a class="reference external" href="https://pypi.python.org/pypi/Oncilla/">Oncilla</a>
+					</li>
+					<li>
+						<a class="reference external" href="http://tidy.sourceforge.net/">Tidy</a>
 					</li>
 				</ul><br />
 				<!-- .usage -->
@@ -823,7 +840,7 @@ python setup.py install
 					</h2>
 					<ul class="simple">
 						<li>
-							<strong>A. R. Roberston</strong>, <em>Adobe DNG SDK 1.3.0.0</em>: <em>dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp</em> (Last accessed 2 Decembre 2013)
+							<strong>Alan R. Roberston</strong>, <em>Adobe DNG SDK 1.3.0.0</em>: <em>dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp</em> (Last accessed 2 December 2013), <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 227
 						</li>
 						<li>
 							<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
@@ -835,7 +852,10 @@ python setup.py install
 							<strong>Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero</strong>, <a class="reference external" href="http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf">Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities</a> (Last accessed 28 June 2014)
 						</li>
 						<li>
-							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_T_to_xy.html">CIE Illuminant D Series T to xy Equations</a> (Last accessed 9 June 2014)
+							<strong>Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim</strong>, <a class="reference external" href="http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf">Design of Advanced Color - Temperature Control System for HDTV Applications</a> (Last accessed 29 June 2014)
+						</li>
+						<li>
+							<strong>CIE Method of Calculating D-Illuminants</strong>, <strong>D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 145
 						</li>
 					</ul>
 				</div>
@@ -1009,38 +1029,41 @@ python setup.py install
 				</div>
 				<div class="section" id="luminance-munsell-value-lightness">
 					<h2>
-						Luminance, Munsell value, Lightness
+						Luminance, Munsell Value, Lightness
 					</h2>
 					<ul class="simple">
 						<li>
 							<a class="reference external" href="http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf">Luminance</a> (Last accessed 24 February 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Luminance 1943</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Luminance Newhall 1943</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
 							<a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Luminance 1976</a> (Last accessed 12 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1920</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Priest 1920</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1933</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Munsell 1933</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1943</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Moon 1943</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1944</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Saunderson 1944</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value 1955</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Ladd 1955</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1958</a> (Last accessed 13 April 2014)
+							<strong>Munsell Value McCamy 1987</strong>, <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf">Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989</a> (Last accessed 23 July 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness 1964</a> (Last accessed 13 April 2014)
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Glasser 1958</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Wyszecki 1964</a> (Last accessed 13 April 2014)
 						</li>
 						<li>
 							<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
@@ -1075,6 +1098,22 @@ python setup.py install
 						</li>
 						<li>
 							<a class="reference external" href="http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function">Mesopic Weighting Function</a> (Last accessed 20 June 2014)
+						</li>
+					</ul>
+				</div>
+				<div class="section" id="optimal-colour-stimuli">
+					<h2>
+						Optimal Colour Stimuli
+					</h2>
+					<ul class="simple">
+						<li>
+							<strong>A</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Pages 776, 777
+						</li>
+						<li>
+							<strong>C</strong>, <strong>David MacAdam</strong>. <em>Maximum Visual Efficiency of Colored Materials</em> JOSA, Vol. 25, Pages 361, 367
+						</li>
+						<li>
+							<strong>D65</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Pages 778, 779
 						</li>
 					</ul>
 				</div>
@@ -1191,19 +1230,6 @@ python setup.py install
 						</li>
 					</ul>
 				</div>
-				<div class="section" id="temperature">
-					<h2>
-						Temperature
-					</h2>
-					<ul class="simple">
-						<li>
-							<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
-						</li>
-						<li>
-							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_T_to_xy.html">D-illuminant CCT to xy</a> (Last accessed 10 June 2014)
-						</li>
-					</ul>
-				</div>
 				<div class="section" id="transformations">
 					<h2>
 						Transformations
@@ -1260,11 +1286,17 @@ python setup.py install
 						<li>
 							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html">LCHab to Lab</a> (Last accessed 24 February 2014)
 						</li>
+						<li>
+							<strong>Paul Centore</strong>, <a class="reference external" href="http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html">xyY to Munsell Colour</a> (Last accessed 26 July 2014)
+						</li>
+						<li>
+							<strong>Paul Centore</strong>, <a class="reference external" href="http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html">Munsell Colour to xyY</a> (Last accessed 26 July 2014)
+						</li>
 					</ul><br />
 					<!-- .about -->
 				</div>
 			</div>
-			<div class="section" id="id13">
+			<div class="section" id="id12">
 				<h1>
 					<span class="target" id="about">About</span>
 				</h1>

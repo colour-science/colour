@@ -3,11 +3,6 @@ _`colour.computation.lefs`
 
 .. automodule:: colour.computation.lefs
 
-Module Attributes
------------------
-
-.. attribute:: colour.computation.lefs.LOGGER
-
 Functions
 ---------
 

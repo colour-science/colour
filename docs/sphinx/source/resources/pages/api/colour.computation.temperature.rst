@@ -6,8 +6,6 @@ _`colour.computation.temperature`
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.temperature.LOGGER
-
 .. attribute:: colour.computation.temperature.PLANCKIAN_TABLE_TUVD
 
 .. attribute:: colour.computation.temperature.CCT_MINIMAL
@@ -47,7 +45,11 @@ Functions
 
 .. autofunction:: xy_to_CCT_hernandez
 
+.. autofunction:: CCT_to_xy_kang
+
 .. autofunction:: CCT_to_xy_illuminant_D
 
 .. autofunction:: xy_to_CCT
+
+.. autofunction:: CCT_to_xy
 
