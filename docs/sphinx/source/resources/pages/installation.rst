@@ -5,23 +5,24 @@ The following dependencies are needed:
 
 -  **Python 2.6.7** or **Python 2.7.3**: http://www.python.org/
 
-To install **Color** from the `Python Package Index <http://pypi.python.org/pypi/ColorScience>`_ you can issue this command in a shell::
+To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/ColourScience>`_ you can issue this command in a shell::
 
-    pip install ColorScience
+    pip install ColourScience
 
 or this alternative command::
 
-    easy_install ColorScience
+    easy_install ColourScience
 
-You can also install directly from `Github <http://github.com/KelSolaar/Color>`_ source repository::
+You can also install directly from `Github <http://github.com/KelSolaar/Colour>`_ source repository::
 
-	git clone git://github.com/KelSolaar/Color.git
-	cd Color
+	git clone git://github.com/KelSolaar/Colour.git
+	cd Colour
 	python setup.py install
 
 If you want to build the documentation you will also need:
 
--  **Tidy** http://tidy.sourceforge.net/
+-  `Oncilla <https://pypi.python.org/pypi/Oncilla/>`_
+-  `Tidy <http://tidy.sourceforge.net/>`_
 
 .. raw:: html
 
