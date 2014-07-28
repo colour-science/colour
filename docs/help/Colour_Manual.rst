@@ -346,12 +346,13 @@ Planckian Radiator
 
 -  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E. Information on the Use of Planck's Equation for Standard Air. <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
 
-Chromatic Adaptation
---------------------
+Chromatic Adaptation Transforms
+-------------------------------
 
 -  **Bruce Lindbloom**, `XYZ Scaling Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `Bradford Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+-  **Mark D. Fairchild**, `Fairchild Chromatic Adaptation Transform <http://rit-mcsl.org/fairchild//files/FairchildYSh.zip>`_ (Last accessed 28 July 2014)
 -  `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
 
 Colour Rendering Index

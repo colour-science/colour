@@ -27,36 +27,43 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["XYZ_SCALING_MATRIX",
-           "BRADFORD_MATRIX",
-           "VON_KRIES_MATRIX",
-           "CAT02_MATRIX",
+__all__ = ["XYZ_SCALING_CAT",
+           "BRADFORD_CAT",
+           "VON_KRIES_CAT",
+           "FAIRCHILD_CAT",
+           "CAT02_CAT",
            "CHROMATIC_ADAPTATION_METHODS",
            "get_chromatic_adaptation_matrix"]
 
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
-XYZ_SCALING_MATRIX = numpy.array(numpy.identity(3)).reshape((3, 3))
+XYZ_SCALING_CAT = numpy.array(numpy.identity(3)).reshape((3, 3))
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
-BRADFORD_MATRIX = numpy.array([0.8951000, 0.2664000, -0.1614000,
-                               -0.7502000, 1.7135000, 0.0367000,
-                               0.0389000, -0.0685000, 1.0296000]).reshape((3, 3))
+BRADFORD_CAT = numpy.array([0.8951000, 0.2664000, -0.1614000,
+                            -0.7502000, 1.7135000, 0.0367000,
+                            0.0389000, -0.0685000, 1.0296000]).reshape((3, 3))
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
-VON_KRIES_MATRIX = numpy.array([0.4002400, 0.7076000, -0.0808100,
-                                -0.2263000, 1.1653200, 0.0457000,
-                                0.0000000, 0.0000000, 0.9182200]).reshape((3, 3))
+VON_KRIES_CAT = numpy.array([0.4002400, 0.7076000, -0.0808100,
+                             -0.2263000, 1.1653200, 0.0457000,
+                             0.0000000, 0.0000000, 0.9182200]).reshape((3, 3))
+
+# http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+FAIRCHILD_CAT = numpy.array([.8562, .3372, -.1934,
+                             -.8360, 1.8327, .0033,
+                             .0357, -.0469, 1.0112]).reshape((3, 3))
 
 # http://en.wikipedia.org/wiki/CIECAM02#CAT02
-CAT02_MATRIX = numpy.array([0.7328, 0.4296, -0.1624,
-                            -0.7036, 1.6975, 0.0061,
-                            0.0030, 0.0136, 0.9834]).reshape((3, 3))
+CAT02_CAT = numpy.array([0.7328, 0.4296, -0.1624,
+                         -0.7036, 1.6975, 0.0061,
+                         0.0030, 0.0136, 0.9834]).reshape((3, 3))
 
-CHROMATIC_ADAPTATION_METHODS = {"XYZ Scaling": XYZ_SCALING_MATRIX,
-                                "Bradford": BRADFORD_MATRIX,
-                                "Von Kries": VON_KRIES_MATRIX,
-                                "CAT02": CAT02_MATRIX}
+CHROMATIC_ADAPTATION_METHODS = {"XYZ Scaling": XYZ_SCALING_CAT,
+                                "Bradford": BRADFORD_CAT,
+                                "Von Kries": VON_KRIES_CAT,
+                                "Fairchild": FAIRCHILD_CAT,
+                                "CAT02": CAT02_CAT}
 
 
 def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
