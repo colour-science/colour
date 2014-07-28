@@ -53,7 +53,7 @@ from colour.computation.colourspaces.rgb.derivation import \
 from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 from colour.computation.colourspaces.rgb.rgb_colourspace import xyY_to_RGB, RGB_to_xyY, XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_to_RGB
-from colour.computation.colourspaces.munsell import munsell_colour_to_xyY
+from colour.computation.colourspaces.munsell import munsell_colour_to_xyY, xyY_to_munsell_colour
 from colour.computation.colourspaces.munsell import get_munsell_value
 from colour.computation.colourspaces.munsell import \
     munsell_value_priest1920, \
@@ -188,7 +188,7 @@ __all__.extend(["RGB_Colourspace",
                 "RGB_to_RGB"])
 
 # *colour.computation.colourspaces.munsell* objects.
-__all__.extend(["munsell_colour_to_xyY"])
+__all__.extend(["munsell_colour_to_xyY", "xyY_to_munsell_colour"])
 __all__.extend(["get_munsell_value"])
 __all__.extend(
     ["munsell_value_priest1920",

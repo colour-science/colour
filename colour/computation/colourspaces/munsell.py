@@ -9,6 +9,10 @@
 
 **Description:**
     Defines **Colour** package *Munsell Renotation System* manipulation objects.
+    Code for :attr:`colour.xyY_to_munsell_colour` and :attr:`colour.munsell_colour_to_xyY` attributes and their
+    dependencies is coming from the
+    `Munsell and Kubelka-Munk Toolbox <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_ by
+    *Paul Centore* and has been loosely ported to Python from Matlab.
 
 **Others:**
 
@@ -36,7 +40,7 @@ from colour.dataset.colourspaces.munsell import MUNSELL_COLOURS
 from colour.utilities.data_structures import Lookup
 
 
-__author__ = "Thomas Mansencal"
+__author__ = "Thomas Mansencal, Paul Centore"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
@@ -1349,12 +1353,12 @@ def xyY_to_munsell_specification(xyY):
              y_current - y_center,
              Y_center))
 
-        rhos = [rho_current]
-        chromas = [chroma_current]
+        rho_bounds = [rho_current]
+        chroma_bounds = [chroma_current]
 
         iterations_maximum_inner = 16
         iterations_inner = 0
-        while rho_input < min(rhos) or rho_input > max(rhos):
+        while rho_input < min(rho_bounds) or rho_input > max(rho_bounds):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
@@ -1373,17 +1377,17 @@ def xyY_to_munsell_specification(xyY):
                  y_inner - y_center,
                  Y_center))
 
-            rhos.append(rho_inner)
-            chromas.append(chroma_inner)
+            rho_bounds.append(rho_inner)
+            chroma_bounds.append(chroma_inner)
 
-        rhos = numpy.array(rhos)
-        chromas = numpy.array(chromas)
+        rho_bounds = numpy.array(rho_bounds)
+        chroma_bounds = numpy.array(chroma_bounds)
 
-        rhos_differences_indexes = rhos.argsort()
+        rhos_bounds_indexes = rho_bounds.argsort()
 
-        rhos = rhos[rhos_differences_indexes]
-        chromas = chromas[rhos_differences_indexes]
-        chroma_new = LinearInterpolator(rhos, chromas)(rho_input)
+        rho_bounds = rho_bounds[rhos_bounds_indexes]
+        chroma_bounds = chroma_bounds[rhos_bounds_indexes]
+        chroma_new = LinearInterpolator(rho_bounds, chroma_bounds)(rho_input)
 
         specification_current = [hue_current, value, chroma_new, code_current]
         x_current, y_current, Y_current = numpy.ravel(munsell_specification_to_xyY(specification_current))
