@@ -24,7 +24,7 @@ print("Inverse transfer function: '{0}'".format(colourspace.inverse_transfer_fun
 print("'ACES RGB' colourspace to 'sRGB' colourspace matrix:")
 cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(colour.RGB_COLOURSPACES["ACES RGB"].whitepoint),
                                              colour.xy_to_XYZ(colour.RGB_COLOURSPACES["sRGB"].whitepoint))
-print numpy.dot(colour.RGB_COLOURSPACES["sRGB"].from_XYZ, numpy.dot(cat, colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ))
+print(numpy.dot(colour.RGB_COLOURSPACES["sRGB"].from_XYZ, numpy.dot(cat, colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ)))
 
 # Converting from *sRGB* to *Prophoto RGB*.
 colour.RGB_to_RGB((0.35521588, 0.41, 0.24177934),

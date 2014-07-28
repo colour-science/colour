@@ -24,6 +24,6 @@ print(numpy.linalg.inv(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLO
                                                             colour.ACES_RGB_COLOURSPACE.whitepoint)))
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
-print colour.get_RGB_luminance(array([56., 16., 100.]).reshape((3, 1)),
+print(colour.get_RGB_luminance(array([56., 16., 100.]).reshape((3, 1)),
                                colour.sRGB_COLOURSPACE.primaries,
-                               colour.sRGB_COLOURSPACE.whitepoint)
+                               colour.sRGB_COLOURSPACE.whitepoint))

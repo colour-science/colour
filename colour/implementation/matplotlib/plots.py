@@ -45,6 +45,7 @@ import colour.computation.colourspaces.cie_luv
 import colour.computation.colourspaces.cie_ucs
 import colour.computation.colourspaces.cie_xyy
 import colour.computation.colourspaces.munsell
+import colour.computation.colourspaces.rgb.rgb_colourspace
 import colour.computation.tristimulus
 import colour.utilities.data_structures
 import colour.utilities.exceptions
@@ -203,12 +204,12 @@ def XYZ_to_sRGB(XYZ, illuminant=colour.dataset.colourspaces.rgb.srgb.sRGB_COLOUR
     :rtype: ndarray (3, 1)
     """
 
-    return colour.computation.colourspaces.cie_xyy.XYZ_to_RGB(XYZ,
-                                                              illuminant,
-                                                              colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.whitepoint,
-                                                              "CAT02",
-                                                              colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.from_XYZ,
-                                                              colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.transfer_function)
+    return colour.computation.colourspaces.rgb.rgb_colourspace.XYZ_to_RGB(XYZ,
+                                                                          illuminant,
+                                                                          colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.whitepoint,
+                                                                          "CAT02",
+                                                                          colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.from_XYZ,
+                                                                          colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE.transfer_function)
 
 
 def normalise_RGB(RGB):
@@ -1652,7 +1653,7 @@ def multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Mun
             raise colour.utilities.exceptions.ProgrammingError(
                 "'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
                                                                                                        sorted(
-                                                                                                           colour.computation.lightness.MUNSELL_VALUE_FUNCTIONS.keys())))
+                                                                                                           colour.computation.colourspaces.munsell.MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
