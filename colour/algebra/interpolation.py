@@ -21,7 +21,6 @@ import numpy
 
 import colour.algebra.common
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -32,8 +31,6 @@ __status__ = "Production"
 
 __all__ = ["LinearInterpolator",
            "SpragueInterpolator"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class LinearInterpolator(object):
@@ -75,7 +72,7 @@ class LinearInterpolator(object):
         Property for **self.__x** attribute.
 
         :return: self.__x.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__x
@@ -86,12 +83,11 @@ class LinearInterpolator(object):
         Setter for **self.__x** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("x", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
@@ -115,7 +111,7 @@ class LinearInterpolator(object):
         Property for **self.__y** attribute.
 
         :return: self.__y.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__y
@@ -126,12 +122,11 @@ class LinearInterpolator(object):
         Setter for **self.__y** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("y", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 
@@ -154,28 +149,30 @@ class LinearInterpolator(object):
         Evaluates the interpolating polynomial at given point(s).
 
         :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Interpolated value(s).
         :rtype: float or ndarray
         """
 
-        return self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xi = self.__evaluate(colour.algebra.common.to_ndarray(x))
+
+        if colour.algebra.common.is_number(x):
+            return type(x)(xi)
+        else:
+            return xi
 
     def __evaluate(self, x):
         """
-        Performs the interpolating polynomial evaluation at given point.
+        Performs the interpolating polynomial evaluation at given points.
 
-        :param x: Point to evaluate the interpolant at.
-        :type x: float
+        :param x: Points to evaluate the interpolant at.
+        :type x: ndarray
         :return: Interpolated value.
-        :rtype: float
+        :rtype: ndarray
         """
 
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
-
-        if x in self.__x:
-            return self.__y[numpy.where(self.__x == x)][0]
 
         return numpy.interp(x, self.__x, self.__y)
 
@@ -185,7 +182,7 @@ class LinearInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.DimensionsError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -198,10 +195,10 @@ class LinearInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
 
 
 class SpragueInterpolator(object):
@@ -265,7 +262,7 @@ class SpragueInterpolator(object):
         Property for **self.__x** attribute.
 
         :return: self.__x.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__x
@@ -276,12 +273,11 @@ class SpragueInterpolator(object):
         Setter for **self.__x** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("x", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
@@ -316,7 +312,7 @@ class SpragueInterpolator(object):
         Property for **self.__y** attribute.
 
         :return: self.__y.
-        :rtype: ndarray or matrix
+        :rtype: array_like
         """
 
         return self.__y
@@ -327,12 +323,11 @@ class SpragueInterpolator(object):
         Setter for **self.__y** attribute.
 
         :param value: Attribute value.
-        :type value: ndarray or matrix
+        :type value: array_like
         """
 
         if value is not None:
-            assert type(value) in (numpy.ndarray, numpy.matrix), \
-                "'{0}' attribute: '{1}' type is not 'ndarray' or 'matrix'!".format("y", value)
+            value = colour.algebra.common.to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 
@@ -341,10 +336,14 @@ class SpragueInterpolator(object):
             if not issubclass(value.dtype.type, numpy.inexact):
                 value = value.astype(numpy.float_)
 
-            yp1 = numpy.ravel((self.sprague_c_coefficients[0] * numpy.matrix(value[0:6]).transpose()) / 209.)[0]
-            yp2 = numpy.ravel((self.sprague_c_coefficients[1] * numpy.matrix(value[0:6]).transpose()) / 209.)[0]
-            yp3 = numpy.ravel((self.sprague_c_coefficients[2] * numpy.matrix(value[-6:]).transpose()) / 209.)[0]
-            yp4 = numpy.ravel((self.sprague_c_coefficients[3] * numpy.matrix(value[-6:]).transpose()) / 209.)[0]
+            yp1 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[0],
+                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp2 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[1],
+                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp3 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[2],
+                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+            yp4 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[3],
+                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
 
             self.__yp = numpy.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
@@ -364,7 +363,7 @@ class SpragueInterpolator(object):
         Evaluates the interpolating polynomial at given point(s).
 
         :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Interpolated value(s).
         :rtype: float or ndarray
         """
@@ -412,7 +411,7 @@ class SpragueInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.DimensionsError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -425,9 +424,9 @@ class SpragueInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
 
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -27,8 +25,6 @@ __status__ = "Production"
 
 __all__ = ["bandpass_correction_stearns",
            "bandpass_correction"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 ALPHA_STEARNS = 0.083
 
@@ -47,7 +43,7 @@ def bandpass_correction_stearns(spd):
 
         >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
         >>> corrected_spd = bandpass_correction_stearns(spd)
-        >>> print corrected_spd.values
+        >>> print(corrected_spd.values)
         [ 48.01664     70.37296888  82.13645358  88.88480681  85.87238   ]
 
     :param spd: Spectral power distribution.

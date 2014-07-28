@@ -35,14 +35,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["COLOUR_MATRIX_1", "COLOUR_MATRIX_2", "TestIsIdentity", "TestInterpolateMatrices"]
-
-COLOUR_MATRIX_1 = numpy.matrix([0.5309, -0.0229, -0.0336,
-                               -0.6241, 1.3265, 0.3337,
-                               -0.0817, 0.1215, 0.6664]).reshape((3, 3))
-COLOUR_MATRIX_2 = numpy.matrix([0.4716, 0.0603, -0.083,
-                               -0.7798, 1.5474, 0.248,
-                               -0.1496, 0.1937, 0.6651]).reshape((3, 3))
+__all__ = ["TestIsIdentity"]
 
 
 class TestIsIdentity(unittest.TestCase):
@@ -55,57 +48,10 @@ class TestIsIdentity(unittest.TestCase):
         Tests :func:`colour.algebra.matrix.is_identity` definition.
         """
 
-        self.assertTrue(colour.algebra.matrix.is_identity(numpy.matrix([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertFalse(colour.algebra.matrix.is_identity(numpy.matrix([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertTrue(colour.algebra.matrix.is_identity(numpy.matrix([1, 0, 0, 1]).reshape(2, 2), n=2))
-        self.assertFalse(colour.algebra.matrix.is_identity(numpy.matrix([1, 2, 0, 1]).reshape(2, 2), n=2))
-
-
-class TestLinearInterpolateMatrices(unittest.TestCase):
-    """
-    Defines :func:`colour.algebra.matrix.linear_interpolate_matrices` definition units tests methods.
-    """
-
-    def test_linear_interpolate_matrices(self):
-        """
-        Tests :func:`colour.algebra.matrix.linear_interpolate_matrices` definition.
-        """
-
-        numpy.testing.assert_almost_equal(colour.algebra.matrix.linear_interpolate_matrices(2850,
-                                                                                           7500,
-                                                                                           COLOUR_MATRIX_1,
-                                                                                           COLOUR_MATRIX_2,
-                                                                                           6500),
-                                          numpy.matrix([0.48435269, 0.04240753, -0.07237634,
-                                                        -0.74631613, 1.49989462, 0.26643011,
-                                                        -0.13499785, 0.17817312, 0.66537957]).reshape((3, 3)),
-                                          decimal=7)
-        numpy.testing.assert_almost_equal(colour.algebra.matrix.linear_interpolate_matrices(2850,
-                                                                                           7500,
-                                                                                           COLOUR_MATRIX_1,
-                                                                                           COLOUR_MATRIX_2,
-                                                                                           1000),
-                                          numpy.matrix([0.55449247, -0.05600108, -0.01394624,
-                                                        -0.56215484, 1.23861505, 0.3677957,
-                                                        -0.05468602, 0.09277527, 0.6669172]).reshape((3, 3)),
-                                          decimal=7)
-        numpy.testing.assert_almost_equal(colour.algebra.matrix.linear_interpolate_matrices(2850,
-                                                                                           7500,
-                                                                                           COLOUR_MATRIX_1,
-                                                                                           COLOUR_MATRIX_2,
-                                                                                           50000),
-                                          numpy.matrix([-0.07038925, 0.82073011, -0.53450538,
-                                                        -2.20286452, 3.56637849, -0.53527957,
-                                                        -0.7701914, 0.85359247, 0.65321828]).reshape((3, 3)),
-                                          decimal=7)
-
-        numpy.testing.assert_almost_equal(colour.algebra.matrix.linear_interpolate_matrices(2850,
-                                                                                           2850,
-                                                                                           COLOUR_MATRIX_1,
-                                                                                           COLOUR_MATRIX_2,
-                                                                                           50000),
-                                          COLOUR_MATRIX_1,
-                                          decimal=7)
+        self.assertTrue(colour.algebra.matrix.is_identity(numpy.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertFalse(colour.algebra.matrix.is_identity(numpy.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertTrue(colour.algebra.matrix.is_identity(numpy.array([1, 0, 0, 1]).reshape(2, 2), n=2))
+        self.assertFalse(colour.algebra.matrix.is_identity(numpy.array([1, 2, 0, 1]).reshape(2, 2), n=2))
 
 
 if __name__ == "__main__":

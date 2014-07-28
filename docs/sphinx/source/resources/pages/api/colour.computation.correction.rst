@@ -6,8 +6,6 @@ _`colour.computation.correction`
 Module Attributes
 -----------------
 
-.. attribute:: colour.computation.correction.LOGGER
-
 .. attribute:: colour.computation.correction.ALPHA_STEARNS
 
 Functions

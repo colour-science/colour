@@ -3,11 +3,6 @@ _`colour.implementation.maya.plots`
 
 .. automodule:: colour.implementation.maya.plots
 
-Module Attributes
------------------
-
-.. attribute:: colour.implementation.maya.plots.LOGGER
-
 Functions
 ---------
 

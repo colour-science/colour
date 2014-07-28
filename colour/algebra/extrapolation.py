@@ -20,7 +20,6 @@ import numpy
 
 import colour.algebra.common
 import colour.utilities.exceptions
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -30,8 +29,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["Extrapolator1d"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class Extrapolator1d(object):
@@ -133,12 +130,17 @@ class Extrapolator1d(object):
         Evaluates the extrapolator at given point(s).
 
         :param x: Point(s) to evaluate the extrapolator at.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Extrapolated value(s).
         :rtype: float or ndarray
         """
 
-        return self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xe = self.__evaluate(colour.algebra.common.to_ndarray(x))
+
+        if colour.algebra.common.is_number(x):
+            return type(x)(xe)
+        else:
+            return xe
 
     def __evaluate(self, x):
         """

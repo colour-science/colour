@@ -100,11 +100,12 @@ class TestFirstOrderColourFit(unittest.TestCase):
         Tests :func:`colour.implementation.fitting.first_order_colour_fit` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.implementation.fitting.first_order_colour_fit(M1, M2),
-                                          numpy.matrix([[1.40431285, 0.01128059, -0.20297103],
-                                                        [-0.09989111, 1.50122142, -0.18564796],
-                                                        [0.22483693, -0.07672362, 1.04960133]]),
-                                          decimal=7)
+        numpy.testing.assert_almost_equal(
+            colour.implementation.fitting.first_order_colour_fit(M1, M2),
+            numpy.array([[1.40431285, 0.01128059, -0.20297103],
+                         [-0.09989111, 1.50122142, -0.18564796],
+                         [0.22483693, -0.07672362, 1.04960133]]),
+            decimal=7)
 
 
 if __name__ == "__main__":

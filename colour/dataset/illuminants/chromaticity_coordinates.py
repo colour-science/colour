@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -29,7 +27,6 @@ __all__ = ["ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDIN
            "ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES",
            "ILLUMINANTS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {
@@ -82,7 +79,7 @@ ILLUMINANTS = {
 
 # cmfs=colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
 # for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.iteritems()):
-# print illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs))
+#   print(illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs)))
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update({
     "FL3.1 ": (0.44067505367083887, 0.40329824005212678),
     "FL3.2 ": (0.38077509554542083, 0.37335593850329946),

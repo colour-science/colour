@@ -16,9 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.algebra.common
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 from colour.dataset.cmfs import STANDARD_OBSERVERS_CMFS_DATA
 
@@ -36,7 +33,6 @@ __all__ = ["PHOTOPIC_LEFS_DATA",
            "LEFS",
            "MESOPIC_X_DATA"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # http://www.cvrl.org/lumindex.htm
 PHOTOPIC_LEFS_DATA = {

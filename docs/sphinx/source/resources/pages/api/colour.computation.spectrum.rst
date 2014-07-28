@@ -3,11 +3,6 @@ _`colour.computation.spectrum`
 
 .. automodule:: colour.computation.spectrum
 
-Module Attributes
------------------
-
-.. attribute:: colour.computation.spectrum.LOGGER
-
 Classes
 -------
 

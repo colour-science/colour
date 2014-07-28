@@ -57,7 +57,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
 
         :param name: *RGB* spectrum name.
         :type name: unicode
-        :param data:*RGB* spectrum.
+        :param data: *RGB* spectrum.
         :type data: dict
         """
 
@@ -168,7 +168,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "B"))
 
 
-def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=False):
+def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given image data.
 
@@ -178,8 +178,8 @@ def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=
 
     :param image: Image to evalute the transfer function.
     :type image: ndarray
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :param to_linear: Use colourspace inverse transfer function instead of colourspace transfer function.
     :type to_linear: bool
     :return: Transformed image.
@@ -192,14 +192,14 @@ def transfer_function(image, colourspace=colour.COLOURSPACES["sRGB"], to_linear=
     return vector_linearise(image)
 
 
-def get_image(path, colourspace=colour.COLOURSPACES["sRGB"], to_linear=True):
+def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True):
     """
     Reads image from given path.
 
     :param path: Path to read the image from.
     :type path: unicode
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :param to_linear: Evaluate colourspace inverse transfer function on image data.
     :type to_linear: bool
     :return: Image.
@@ -318,23 +318,23 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     samples = samples if samples else image.shape[1]
     profile = get_image_profile(image, line=[0, 0, image.shape[1] - 1, 0], samples=samples)
 
-    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured,  samples=samples)
+    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured, samples=samples)
 
 
-def get_luminance_spd(RGB_spectrum, colourspace=colour.COLOURSPACES["sRGB"]):
+def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"]):
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 
     :param RGB_spectrum: RGB spectrum to retrieve the luminance from.
     :type RGB_spectrum: RGB_Spectrum
-    :param colourspace: Colourspace.
-    :type colourspace: Colourspace
+    :param colourspace: *RGB* Colourspace.
+    :type colourspace: RGB_Colourspace
     :return: RGB spectrum luminance spectral power distribution, units are arbitrary and normalised to [0, 100] domain.
     :rtype: SpectralPowerDistribution
     """
 
     RGB_spectrum = RGB_spectrum.clone().normalise(100.)
-    get_luminance = lambda x: colour.get_luminance(x, colourspace.primaries, colourspace.whitepoint)
+    get_RGB_luminance = lambda x: colour.get_RGB_luminance(x, colourspace.primaries, colourspace.whitepoint)
 
     return SpectralPowerDistribution("RGB_spectrum",
-                                     dict([(wavelength, get_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))
+                                     dict([(wavelength, get_RGB_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))

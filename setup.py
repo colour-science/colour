@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -42,9 +42,7 @@ def get_long_description():
     """
 
     description = []
-    with codecs.open("README.rst",
-                     encoding=colour.globals.constants.Constants.default_codec,
-                     errors=colour.globals.constants.Constants.codec_error) as file:
+    with codecs.open("README.rst", encoding="utf-8", errors="ignore") as file:
         for line in file:
             if ".. code:: python" in line and len(description) >= 2:
                 blockLine = description[-2]
@@ -56,7 +54,7 @@ def get_long_description():
     return "".join(description)
 
 
-setup(name="{0}Science".format(colour.globals.constants.Constants.application_name),
+setup(name="{0}Science".format(colour.__application_name__),
       version=colour.globals.constants.Constants.version,
       author=colour.globals.constants.__author__,
       author_email=colour.globals.constants.__email__,
@@ -67,7 +65,7 @@ setup(name="{0}Science".format(colour.globals.constants.Constants.application_na
       license="",
       description="Colour is a Python colour science package implementing a comprehensive number of colour transformations and manipulations objects.",
       long_description=get_long_description(),
-      install_requires=["Foundations>=2.1.0", "matplotlib>=1.3.1", "numpy>=1.8.1"],
+      install_requires=["matplotlib>=1.3.1", "numpy>=1.8.1"],
       classifiers=["Development Status :: 5 - Production/Stable",
                    "Environment :: Console",
                    "Intended Audience :: Developers",

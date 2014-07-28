@@ -94,4 +94,4 @@ sample_spd_data = {380: 0.048,
 spd = colour.SpectralPowerDistribution("Sample", sample_spd_data)
 
 # Correcting spectral bandpass.
-print colour.bandpass_correction(spd).values
+print(colour.bandpass_correction(spd).values)

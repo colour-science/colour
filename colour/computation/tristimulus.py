@@ -19,12 +19,15 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.algebra.matrix
+import colour.computation.spectrum
 import colour.dataset.cmfs
 import colour.dataset.lefs
+import colour.utilities.common
 import colour.utilities.exceptions
 import colour.utilities.decorators
 import colour.utilities.verbose
 from colour.algebra.interpolation import SpragueInterpolator
+from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -35,8 +38,6 @@ __status__ = "Production"
 
 __all__ = ["spectral_to_XYZ",
            "wavelength_to_XYZ"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def spectral_to_XYZ(spd,
@@ -56,9 +57,9 @@ def spectral_to_XYZ(spd,
         >>> spd = colour.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).zeros(*cmfs.shape)
         >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D50").zeros(*cmfs.shape)
         >>> spectral_to_XYZ(spd, cmfs, illuminant)
-        matrix([[  4.57648522e-04]
-                [  1.29648668e-05]
-                [  2.16158075e-03]])
+        array([[  4.57648522e-04],
+               [  1.29648668e-05],
+               [  2.16158075e-03]])
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
@@ -66,31 +67,24 @@ def spectral_to_XYZ(spd,
     :type cmfs: XYZ_ColourMatchingFunctions
     :param illuminant: *Illuminant* spectral power distribution.
     :type illuminant: SpectralPowerDistribution
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
+    :return: *CIE XYZ* colourspace matrix.
+    :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
     """
 
     shape = cmfs.shape
     if spd.shape != cmfs.shape:
-        LOGGER.debug(
-            "> {0} | Spectral power distribution and standard observer colour matching functions shapes are not aligned: '{1}', '{2}'.".format(
-                __name__,
-                spd.shape, cmfs.shape))
         spd = spd.clone().zeros(*shape)
 
     if illuminant is None:
         start, end, steps = shape
         range = numpy.arange(start, end + steps, steps)
         illuminant = colour.computation.spectrum.SpectralPowerDistribution(name="1.0",
-                                                                          data=dict(zip(*(list(range),
-                                                                                          [1.] * len(range)))))
+                                                                           data=dict(zip(*(list(range),
+                                                                                           [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
-            LOGGER.debug(
-                "> {0} | Illuminant and standard observer colour matching functions shapes are not aligned: '{1}', '{2}'.".format(
-                    __name__,
-                    illuminant.shape,
-                    shape))
             illuminant = illuminant.clone().zeros(*shape)
 
     illuminant = illuminant.values
@@ -102,16 +96,16 @@ def spectral_to_XYZ(spd,
     y_products = spd * y_bar * illuminant
     z_products = spd * z_bar * illuminant
 
-    normalising_factor = 100. / (y_bar * illuminant).sum()
+    normalising_factor = 100. / numpy.sum(y_bar * illuminant)
 
-    XYZ = numpy.matrix([normalising_factor * x_products.sum(),
-                        normalising_factor * y_products.sum(),
-                        normalising_factor * z_products.sum()])
+    XYZ = numpy.array([normalising_factor * numpy.sum(x_products),
+                       normalising_factor * numpy.sum(y_products),
+                       normalising_factor * numpy.sum(z_products)])
 
     return XYZ.reshape((3, 1))
 
 
-@colour.utilities.decorators.memoize(None)
+@colour.utilities.decorators.memoize(RuntimeCache.wavelength_to_XYZ)
 def wavelength_to_XYZ(wavelength,
                       cmfs=colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
@@ -123,22 +117,24 @@ def wavelength_to_XYZ(wavelength,
     Usage::
 
         >>> wavelength_to_XYZ(480, colour.CMFS.get("CIE 1931 2 Degree Standard Observer"))
-        matrix([[ 0.09564],
-                [ 0.13902],
-                [ 0.81295]])
+        array([[ 0.09564  ],
+               [ 0.13902  ],
+               [ 0.8129501]])
 
     :param wavelength: Wavelength in nm.
     :type wavelength: float
     :param cmfs: Standard observer colour matching functions.
     :type cmfs: XYZ_ColourMatchingFunctions
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
-    :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+    :return: *CIE XYZ* colourspace matrix.
+    :rtype: ndarray (3, 1)
+
+    :note: *CIE XYZ* is in domain [0, 1].
+    :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
     """
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
             "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values
@@ -147,12 +143,12 @@ def wavelength_to_XYZ(wavelength,
         if cmfs.is_uniform():
             interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
         else:
-            try:
+            if colour.utilities.common.is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
-            except ImportError as error:
-                LOGGER.warning(
+            else:
+                colour.utilities.verbose.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         __name__))
 
@@ -161,6 +157,6 @@ def wavelength_to_XYZ(wavelength,
                 z_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 2])
                 interpolators = (x_interpolator, y_interpolator, z_interpolator)
 
-        return numpy.matrix([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
+        return numpy.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
     else:
-        return numpy.matrix(cmfs.get(wavelength)).reshape((3, 1))
+        return numpy.array(cmfs.get(wavelength)).reshape((3, 1))

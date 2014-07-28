@@ -76,11 +76,12 @@ Cone Fundamentals
 Correlated Colour Temperature
 -----------------------------
 
--  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 Decembre 2013)
+-  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
 -  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 -  **C. S. McCamy**, `Correlated Colour Temperature Approximation <http://en.wikipedia.org/wiki/Color_temperature#Approximation>`_ (Last accessed 28 June 2014)
 -  **Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
--  **Bruce Lindbloom**, `CIE Illuminant D Series T to xy Equations <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 9 June 2014)
+-  **Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim**, `Design of Advanced Color - Temperature Control System for HDTV Applications <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_ (Last accessed 29 June 2014)
+-  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
 
 Deprecated Transformations
 --------------------------
@@ -143,19 +144,20 @@ Illuminants Chromaticity Coordinates
 
 -  `Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
-Luminance, Munsell value, Lightness
+Luminance, Munsell Value, Lightness
 -----------------------------------
 
 -  `Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
--  `Luminance 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Luminance Newhall 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Luminance 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
--  `Munsell Value 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Lightness 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Priest 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Munsell 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  **Munsell Value McCamy 1987**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
+-  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
 
 Luminous Efficiency Functions
@@ -169,6 +171,13 @@ Luminous Efficiency Functions
 -  `CIE 2008 10 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
+
+Optimal Colour Stimuli
+-----------------------------
+
+-  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
+-  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, Pages 361, 367
+-  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 778, 779
 
 RGB Colourspaces
 ----------------
@@ -211,12 +220,6 @@ Spectrum
 -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 -  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolationn <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_, `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 
-Temperature
------------
-
--  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
--  **Bruce Lindbloom**, `D-illuminant CCT to xy <http://www.brucelindbloom.com/Eqn_T_to_xy.html>`_ (Last accessed 10 June 2014)
-
 Transformations
 ---------------
 
@@ -237,6 +240,8 @@ Transformations
 -  **Bruce Lindbloom**, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
+-  **Paul Centore**, `xyY to Munsell Colour <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
+-  **Paul Centore**, `Munsell Colour to xyY <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
 
 .. raw:: html
 

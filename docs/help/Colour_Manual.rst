@@ -146,15 +146,18 @@ _`Highlights`
 
 -  Luminance, Munsell value and Lightness calculations:
 
-  -  Luminance 1943
+  -  Luminance Newhall 1943
   -  Luminance 1976
-  -  Munsell Value 1920
-  -  Munsell Value 1933
-  -  Munsell Value 1943
-  -  Munsell Value 1944
-  -  Munsell Value 1955
-  -  Lightness 1958
-  -  Lightness 1964
+  -  Luminance ASTM D1535-08
+  -  Munsell Value Priest 1920
+  -  Munsell Value Munsell 1933
+  -  Munsell Value Moon 1943
+  -  Munsell Value Saunderson 1944
+  -  Munsell Value Ladd 1955
+  -  Munsell Value McCamy 1987
+  -  Munsell Value ASTM D1535-08
+  -  Lightness Glasser 1958
+  -  Lightness Wyszecki 1964
   -  Lightness 1976
 
 -  RGB Colourspaces support:
@@ -199,6 +202,7 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  RGB to RGB.
   -  XYZ to UCS.
   -  UCS to XYZ.
   -  UCS to uv.
@@ -216,8 +220,10 @@ _`Highlights`
   -  LCHab to Lab.
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
+  -  xyY to Munsell Colour.
+  -  Munsell Colour to xyY.
 
-Convenience deprecated transformations:
+Convenience deprecated colourspaces transformations:
 
   -  RGB to HSV.
   -  HSV to RGB.
@@ -274,7 +280,8 @@ You can also install directly from `Github <http://github.com/KelSolaar/Colour>`
 
 If you want to build the documentation you will also need:
 
--  **Tidy** http://tidy.sourceforge.net/
+-  `Oncilla <https://pypi.python.org/pypi/Oncilla/>`_
+-  `Tidy <http://tidy.sourceforge.net/>`_
 
 .. raw:: html
 
@@ -464,19 +471,20 @@ Illuminants Chromaticity Coordinates
 
 -  `Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
-Luminance, Munsell value, Lightness
+Luminance, Munsell Value, Lightness
 -----------------------------------
 
 -  `Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
--  `Luminance 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Luminance Newhall 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Luminance 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
--  `Munsell Value 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Lightness 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Lightness 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Priest 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Munsell 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  **Munsell Value McCamy 1987**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
+-  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
 
 Luminous Efficiency Functions
@@ -490,6 +498,13 @@ Luminous Efficiency Functions
 -  `CIE 2008 10 Degree Physiologically Relevant LEF <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
+
+Optimal Colour Stimuli
+-----------------------------
+
+-  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
+-  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, Pages 361, 367
+-  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 778, 779
 
 RGB Colourspaces
 ----------------
@@ -552,6 +567,8 @@ Transformations
 -  **Bruce Lindbloom**, `Lab to XYZ <http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `Lab to LCHab <http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html>`_ (Last accessed 24 February 2014)
 -  **Bruce Lindbloom**, `LCHab to Lab <http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html>`_ (Last accessed 24 February 2014)
+-  **Paul Centore**, `xyY to Munsell Colour <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
+-  **Paul Centore**, `Munsell Colour to xyY <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
 
 .. raw:: html
 

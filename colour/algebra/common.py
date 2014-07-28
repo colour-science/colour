@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import foundations.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -31,9 +29,8 @@ __all__ = ["get_steps",
            "is_uniform",
            "get_closest",
            "is_iterable",
-           "to_ndarray"]
-
-LOGGER = foundations.verbose.install_logger()
+           "to_ndarray",
+           "is_number"]
 
 
 def get_steps(distribution):
@@ -73,7 +70,7 @@ def get_closest(y, x):
         62.70988028
 
     :param y: Variable to search for the closest element.
-    :type y: matrix or ndarray
+    :type y: array_like
     :param x: Reference variable.
     :type x: int or float
     :return: Closest *y* variable element.
@@ -107,12 +104,15 @@ def is_iterable(x):
     except TypeError:
         return False
 
+
 def to_ndarray(x):
     """
     Converts given *x* variable to ndarray.
 
     Usage::
 
+        >>> to_ndarray(1)
+        [1]
 
     :param x: Variable to convert.
     :type x: object
@@ -121,3 +121,23 @@ def to_ndarray(x):
     """
 
     return numpy.array(x) if is_iterable(x) else numpy.array((x,))
+
+
+def is_number(x):
+    """
+    Returns if given *x* variable is a number.
+
+    Usage::
+
+        >>> is_number(1)
+        True
+        >>> is_number((1,))
+        False
+
+    :param x: Variable to check.
+    :type x: object
+    :return: Is *x* variable a number.
+    :rtype: bool
+    """
+
+    return isinstance(x, (int, long, float, complex))

@@ -3,13 +3,12 @@ _`colour.algebra.interpolation`
 
 .. automodule:: colour.algebra.interpolation
 
-Module Attributes
------------------
-
-.. attribute:: colour.algebra.interpolation.LOGGER
-
 Classes
 -------
+
+.. autoclass:: LinearInterpolator
+	:show-inheritance:
+	:members:
 
 .. autoclass:: SpragueInterpolator
 	:show-inheritance:

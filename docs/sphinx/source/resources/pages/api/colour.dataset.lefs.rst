@@ -6,8 +6,6 @@ _`colour.dataset.lefs`
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.lefs.LOGGER
-
 .. attribute:: colour.dataset.lefs.PHOTOPIC_LEFS_DATA
 
 .. attribute:: colour.dataset.lefs.PHOTOPIC_LEFS

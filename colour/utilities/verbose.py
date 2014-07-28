@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package verbose and logging objects.
+    Defines **Colour** package verbose objects.
 
 **Others:**
 
@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import foundations.verbose
+import warnings
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -25,10 +25,18 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["install_logger",
-           "get_logging_console_handler",
-           "set_verbosity_level"]
+__all__ = ["warning"]
 
-install_logger = foundations.verbose.install_logger
-get_logging_console_handler = foundations.verbose.get_logging_console_handler
-set_verbosity_level = foundations.verbose.set_verbosity_level
+
+def warning(*args, **kwargs):
+    """
+    Issues a warning.
+
+
+    :param \*args: Arguments.
+    :type \*args: \*
+    :param \*\*kwargs: Keywords arguments.
+    :type \*\*kwargs: \*\*
+    """
+
+    warnings.warn(*args, **kwargs)

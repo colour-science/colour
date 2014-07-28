@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import colour.algebra.common
 import colour.dataset.lefs
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -32,8 +31,6 @@ __status__ = "Production"
 __all__ = ["mesopic_weighting_function",
            "mesopic_luminous_efficiency_function"]
 
-LOGGER = colour.utilities.verbose.install_logger()
-
 
 def mesopic_weighting_function(wavelength,
                                Lp,
@@ -44,8 +41,7 @@ def mesopic_weighting_function(wavelength,
                                scotopic_lef=colour.dataset.lefs.SCOTOPIC_LEFS.get(
                                    "CIE 1951 Scotopic Standard Observer")):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
-    matching functions and illuminant.
+    Calculates the mesopic weighting function factor at given wavelength.
 
     References:
 
@@ -56,7 +52,7 @@ def mesopic_weighting_function(wavelength,
         >>> mesopic_weighting_function(500, 0.2)
         0.70522
 
-    :param wavelength: Wavelength to calculate the mesopic function.
+    :param wavelength: Wavelength to calculate the mesopic weighting function factor.
     :type wavelength: int or float
     :param Lp: Photopic luminance.
     :type Lp: float
@@ -68,13 +64,13 @@ def mesopic_weighting_function(wavelength,
     :type photopic_lef: SpectralPowerDistribution
     :param scotopic_lef: *V'* scotopic luminous efficiency function.
     :type scotopic_lef: SpectralPowerDistribution
-    :return: *CIE XYZ* matrix.
-    :rtype: matrix (3x1)
+    :return: Mesopic weighting function factor.
+    :rtype: float
     """
 
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
-            raise colour.utilities.exceptions.ProgrammingError(
+            raise colour.utilities.exceptions.LuminousEfficiencyFunctionError(
                 "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
                     wavelength,
                     function.name,

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.algebra.regression
-import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -29,8 +28,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["first_order_colour_fit"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 def first_order_colour_fit(m1, m2):
@@ -90,20 +87,20 @@ def first_order_colour_fit(m1, m2):
         ...                   [0.102839753, 0.1042467952, 0.1038497463],
         ...                   [0.04742204025, 0.04772202671, 0.04914225638]])
         >>> first_order_colour_fit(m1, m2)
-        [[ 1.40431285  0.01128059 -0.20297103]
-         [-0.09989111  1.50122142 -0.18564796]
-         [ 0.22483693 -0.07672362  1.04960133]]
+        array[[ 1.40431285  0.01128059 -0.20297103]
+              [-0.09989111  1.50122142 -0.18564796]
+              [ 0.22483693 -0.07672362  1.04960133]]
 
     :param m1: Reference matrix the matrix *m2* will be colour fitted against.
-    :type m1: matrix (3xn)
+    :type m1: array_like (3, n)
     :param m1: Matrix to fit.
-    :type m1: matrix (3xn)
+    :type m1: array_like (3, n)
     :return: Fitting colour matrix.
-    :rtype: matrix (3x3)
+    :rtype: ndarray (3, 3)
     """
 
     x_coefficients = colour.algebra.regression.linear_regression(m1[:, 0], m2)
     y_coefficients = colour.algebra.regression.linear_regression(m1[:, 1], m2)
     z_coefficients = colour.algebra.regression.linear_regression(m1[:, 2], m2)
 
-    return numpy.matrix([x_coefficients[:3], y_coefficients[:3], z_coefficients[:3]]).reshape((3, 3))
+    return numpy.array([x_coefficients[:3], y_coefficients[:3], z_coefficients[:3]]).reshape((3, 3))

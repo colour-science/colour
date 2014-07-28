@@ -91,6 +91,7 @@ _`Highlights`
   -  Yoshi Ohno method implementation.
   -  McCamy method implementation.
   -  Hernandez-Andres, Lee & Romero method implementation.
+  -  Kang, Moon, Hong, Lee, Cho and Kim implementation.
   -  CIE Illuminant D Series implementation.
 
 -  Colour matching functions conversions for educational purpose:
@@ -114,15 +115,18 @@ _`Highlights`
 
 -  Luminance, Munsell value and Lightness calculations:
 
-  -  Luminance 1943
+  -  Luminance Newhall 1943
   -  Luminance 1976
-  -  Munsell Value 1920
-  -  Munsell Value 1933
-  -  Munsell Value 1943
-  -  Munsell Value 1944
-  -  Munsell Value 1955
-  -  Lightness 1958
-  -  Lightness 1964
+  -  Luminance ASTM D1535-08
+  -  Munsell Value Priest 1920
+  -  Munsell Value Munsell 1933
+  -  Munsell Value Moon 1943
+  -  Munsell Value Saunderson 1944
+  -  Munsell Value Ladd 1955
+  -  Munsell Value McCamy 1987
+  -  Munsell Value ASTM D1535-08
+  -  Lightness Glasser 1958
+  -  Lightness Wyszecki 1964
   -  Lightness 1976
 
 -  RGB Colourspaces support:
@@ -167,6 +171,7 @@ _`Highlights`
   -  RGB to XYZ.
   -  xyY to RGB.
   -  RGB to xyY.
+  -  RGB to RGB.
   -  XYZ to UCS.
   -  UCS to XYZ.
   -  UCS to uv.
@@ -184,8 +189,10 @@ _`Highlights`
   -  LCHab to Lab.
   -  uv to CCT, Duv.
   -  CCT, Duv to uv.
+  -  xyY to Munsell Colour.
+  -  Munsell Colour to xyY.
 
-Convenience deprecated transformations:
+Convenience deprecated colourspaces transformations:
 
   -  RGB to HSV.
   -  HSV to RGB.

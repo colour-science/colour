@@ -3,11 +3,6 @@ _`colour.algebra.common`
 
 .. automodule:: colour.algebra.common
 
-Module Attributes
------------------
-
-.. attribute:: colour.algebra.common.LOGGER
-
 Functions
 ---------
 
@@ -16,4 +11,10 @@ Functions
 .. autofunction:: is_uniform
 
 .. autofunction:: get_closest
+
+.. autofunction:: is_iterable
+
+.. autofunction:: to_ndarray
+
+.. autofunction:: is_number
 

@@ -22,8 +22,8 @@ import math
 import numpy
 
 import colour.algebra.common
+import colour.utilities.common
 import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
@@ -36,8 +36,6 @@ __status__ = "Production"
 
 __all__ = ["SpectralPowerDistribution",
            "TriSpectralPowerDistribution"]
-
-LOGGER = colour.utilities.verbose.install_logger()
 
 
 class SpectralPowerDistribution(object):
@@ -315,7 +313,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__add__` method.
 
         :param x: Variable to add.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable added spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -329,7 +327,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__sub__` method.
 
         :param x: Variable to subtract.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable subtracted spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -341,7 +339,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__mul__` method.
 
         :param x: Variable to multiply.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable multiplied spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -355,7 +353,7 @@ class SpectralPowerDistribution(object):
         Reimplements the :meth:`object.__div__` method.
 
         :param x: Variable to divide.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable divided spectral power distribution.
         :rtype: SpectralPowerDistribution
         """
@@ -444,7 +442,7 @@ class SpectralPowerDistribution(object):
 
         :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced \
         independent variable.
-        :note: If *Scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+        :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
         """
 
         shape_start, shape_end, shape_steps = self.shape
@@ -466,16 +464,16 @@ class SpectralPowerDistribution(object):
 
             # Initialising *Linear* interpolant.
             linear_interpolator = LinearInterpolator(wavelengths, values)
-            linear_interpolant = lambda x: LinearInterpolator(x)
+            linear_interpolant = lambda x: linear_interpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
-            try:
+            if colour.utilities.common.is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                 spline_interpolant = lambda x: spline_interpolator(x)
-            except ImportError as error:
-                LOGGER.warning(
+            else:
+                colour.utilities.verbose.warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
                         self.__class__.__name__))
                 spline_interpolant, spline_interpolator = linear_interpolant, None
@@ -493,7 +491,7 @@ class SpectralPowerDistribution(object):
                 if is_uniform:
                     interpolant = sprague_interpolant
                 else:
-                    raise colour.utilities.exceptions.ProgrammingError(
+                    raise colour.utilities.exceptions.InterpolationError(
                         "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
             elif interpolator == "Cubic Spline":
@@ -501,14 +499,8 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise colour.utilities.exceptions.ProgrammingError(
+                raise colour.utilities.exceptions.InterpolationError(
                     "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
-
-            LOGGER.debug(
-                "> {0} | Interpolated '{1}' spectral power distribution shape: {2}.".format(self.__class__.__name__,
-                                                                                            self.name,
-                                                                                            (shape_start, shape_end,
-                                                                                             steps)))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
                                 for wavelength in numpy.arange(max(start, shape_start),
@@ -1051,7 +1043,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__add__` method.
 
         :param x: Variable to add.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable added tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1068,7 +1060,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__sub__` method.
 
         :param x: Variable to subtract.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable subtracted tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1080,7 +1072,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__mul__` method.
 
         :param x: Variable to multiply.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable multiplied tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """
@@ -1097,7 +1089,7 @@ class TriSpectralPowerDistribution(object):
         Reimplements the :meth:`object.__div__` method.
 
         :param x: Variable to divide.
-        :type x: float or ndarray
+        :type x: float or array_like
         :return: Variable divided tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
         """

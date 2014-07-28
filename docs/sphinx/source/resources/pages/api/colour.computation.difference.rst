@@ -3,11 +3,6 @@ _`colour.computation.difference`
 
 .. automodule:: colour.computation.difference
 
-Module Attributes
------------------
-
-.. attribute:: colour.computation.difference.LOGGER
-
 Functions
 ---------
 

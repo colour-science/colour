@@ -6,8 +6,6 @@ _`colour.implementation.matplotlib.plots`
 Module Attributes
 -----------------
 
-.. attribute:: colour.implementation.matplotlib.plots.LOGGER
-
 .. attribute:: colour.implementation.matplotlib.plots.RESOURCES_DIRECTORY
 
 .. attribute:: colour.implementation.matplotlib.plots.DEFAULT_FIGURE_SIZE

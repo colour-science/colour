@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.exceptions
-import colour.utilities.verbose
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -30,7 +28,6 @@ __status__ = "Production"
 __all__ = ["D_ILLUMINANTS_S_SPDS_DATA",
            "D_ILLUMINANTS_S_SPDS"]
 
-LOGGER = colour.utilities.verbose.install_logger()
 
 # *CIE Standard Illuminant D Series* *Sn(λ)* spectral power distributions.
 # http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html

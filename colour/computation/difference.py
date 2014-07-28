@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -19,8 +19,6 @@ from __future__ import unicode_literals
 import math
 import numpy
 
-import colour.utilities.verbose
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal - Michael Parsons - The Moving picture Company"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -33,12 +31,10 @@ __all__ = ["delta_E_CIE_1976",
            "delta_E_CIE_2000",
            "delta_E_CMC"]
 
-LOGGER = colour.utilities.verbose.install_logger()
-
 
 def delta_E_CIE_1976(lab1, lab2):
     """
-    Returns the difference between two given *CIE Lab* colours using *CIE 1976* recommendation.
+    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
 
     References:
 
@@ -46,15 +42,15 @@ def delta_E_CIE_1976(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.matrix([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.matrix([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1976(lab1, lab2)
         451.713301974
 
-    :param lab1: *CIE Lab* colour 1.
-    :type lab1: matrix (3x1)
-    :param lab2: *CIE Lab* colour 2.
-    :type lab2: matrix (3x1)
+    :param lab1: *CIE Lab* *array_like* colour 1.
+    :type lab1: array_like (3, 1)
+    :param lab2: *CIE Lab* *array_like* colour 2.
+    :type lab2: array_like (3, 1)
     :return: Colour difference.
     :rtype: float
     """
@@ -64,7 +60,7 @@ def delta_E_CIE_1976(lab1, lab2):
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
     """
-    Returns the difference between two given *CIE Lab* colours using *CIE 1994* recommendation.
+    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1994* recommendation.
 
     References:
 
@@ -72,15 +68,15 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Usage::
 
-        >>> lab1 = numpy.matrix([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.matrix([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1994(lab1, lab2)
         88.3355530575
 
-    :param lab1: *CIE Lab* colour 1.
-    :type lab1: matrix (3x1)
-    :param lab2: *CIE Lab* colour 2.
-    :type lab2: matrix (3x1)
+    :param lab1: *CIE Lab* *array_like* colour 1.
+    :type lab1: array_like (3, 1)
+    :param lab2: *CIE Lab* *array_like* colour 2.
+    :type lab2: array_like (3, 1)
     :param textiles: Application specific weights.
     :type textiles: bool
     :return: Colour difference.
@@ -122,7 +118,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
 def delta_E_CIE_2000(lab1, lab2):
     """
-    Returns the difference between two given *CIE Lab* colours using *CIE 2000* recommendation.
+    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 2000* recommendation.
 
     References:
 
@@ -130,15 +126,15 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.matrix([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.matrix([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_2000(lab1, lab2)
         94.0356490267
 
-    :param lab1: *CIE Lab* colour 1.
-    :type lab1: matrix (3x1)
-    :param lab2: *CIE Lab* colour 2.
-    :type lab2: matrix (3x1)
+    :param lab1: *CIE Lab* *array_like* colour 1.
+    :type lab1: array_like (3, 1)
+    :param lab2: *CIE Lab* *array_like* colour 2.
+    :type lab2: array_like (3, 1)
     :return: Colour difference.
     :rtype: float
     """
@@ -210,8 +206,9 @@ def delta_E_CIE_2000(lab1, lab2):
 
 def delta_E_CMC(lab1, lab2, l=2., c=1.):
     """
-    Returns the difference between two given *CIE Lab* colours using *Colour Measurement Committee* recommendation.
-    The quasimetric has two parameters: *Lightness* (l) and *chroma* (c), allowing the users to weight the difference based on the ratio of l:c.
+    Returns the difference between two given *CIE Lab* *array_like* colours using *Colour Measurement Committee* recommendation.
+    The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
+    allowing the users to weight the difference based on the ratio of l:c.
     Commonly used values are 2:1 for acceptability and 1:1 for the threshold of imperceptibility.
 
     References:
@@ -220,15 +217,15 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     Usage::
 
-        >>> lab1 = numpy.matrix([100., 21.57210357, 272.2281935]).reshape((3, 1))
-        >>> lab2 = numpy.matrix([100., 426.67945353, 72.39590835]).reshape((3, 1))
+        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CMC(lab1, lab2)
         172.704771287
 
-    :param lab1: *CIE Lab* colour 1.
-    :type lab1: matrix (3x1)
-    :param lab2: *CIE Lab* colour 2.
-    :type lab2: matrix (3x1)
+    :param lab1: *CIE Lab* *array_like* colour 1.
+    :type lab1: array_like (3, 1)
+    :param lab2: *CIE Lab* *array_like* colour 2.
+    :type lab2: array_like (3, 1)
     :param l: Lightness weighting factor.
     :type l: float
     :param c: Chroma weighting factor.

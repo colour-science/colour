@@ -7,63 +7,76 @@ Modules Summary:
    :maxdepth: 1
 
    colour.algebra.common <api/colour.algebra.common>
+   colour.algebra.coordinates.transformations <api/colour.algebra.coordinates.transformations>
+   colour.algebra.extrapolation <api/colour.algebra.extrapolation>
    colour.algebra.interpolation <api/colour.algebra.interpolation>
    colour.algebra.matrix <api/colour.algebra.matrix>
    colour.algebra.regression <api/colour.algebra.regression>
+   colour.cache.runtime <api/colour.cache.runtime>
    colour.computation.blackbody <api/colour.computation.blackbody>
    colour.computation.chromatic_adaptation <api/colour.computation.chromatic_adaptation>
    colour.computation.cmfs <api/colour.computation.cmfs>
-   colour.computation.colourspace <api/colour.computation.colourspace>
+   colour.computation.colourspaces.cie_lab <api/colour.computation.colourspaces.cie_lab>
+   colour.computation.colourspaces.cie_luv <api/colour.computation.colourspaces.cie_luv>
+   colour.computation.colourspaces.cie_ucs <api/colour.computation.colourspaces.cie_ucs>
+   colour.computation.colourspaces.cie_uvw <api/colour.computation.colourspaces.cie_uvw>
+   colour.computation.colourspaces.cie_xyy <api/colour.computation.colourspaces.cie_xyy>
+   colour.computation.colourspaces.deprecated <api/colour.computation.colourspaces.deprecated>
+   colour.computation.colourspaces.munsell <api/colour.computation.colourspaces.munsell>
+   colour.computation.colourspaces.rgb.derivation <api/colour.computation.colourspaces.rgb.derivation>
+   colour.computation.colourspaces.rgb.rgb_colourspace <api/colour.computation.colourspaces.rgb.rgb_colourspace>
    colour.computation.correction <api/colour.computation.correction>
    colour.computation.cri <api/colour.computation.cri>
-   colour.computation.deprecated <api/colour.computation.deprecated>
-   colour.computation.derivation <api/colour.computation.derivation>
    colour.computation.difference <api/colour.computation.difference>
    colour.computation.illuminants <api/colour.computation.illuminants>
    colour.computation.lefs <api/colour.computation.lefs>
    colour.computation.lightness <api/colour.computation.lightness>
+   colour.computation.luminance <api/colour.computation.luminance>
    colour.computation.spectrum <api/colour.computation.spectrum>
    colour.computation.temperature <api/colour.computation.temperature>
-   colour.computation.transformations <api/colour.computation.transformations>
    colour.computation.tristimulus <api/colour.computation.tristimulus>
    colour.dataset.cmfs <api/colour.dataset.cmfs>
    colour.dataset.colour_checkers.chromaticity_coordinates <api/colour.dataset.colour_checkers.chromaticity_coordinates>
    colour.dataset.colour_checkers.spds <api/colour.dataset.colour_checkers.spds>
-   colour.dataset.colourspaces.aces_rgb <api/colour.dataset.colourspaces.aces_rgb>
-   colour.dataset.colourspaces.adobe_rgb_1998 <api/colour.dataset.colourspaces.adobe_rgb_1998>
-   colour.dataset.colourspaces.adobe_wide_gamut_rgb <api/colour.dataset.colourspaces.adobe_wide_gamut_rgb>
-   colour.dataset.colourspaces.alexa_wide_gamut_rgb <api/colour.dataset.colourspaces.alexa_wide_gamut_rgb>
-   colour.dataset.colourspaces.apple_rgb <api/colour.dataset.colourspaces.apple_rgb>
-   colour.dataset.colourspaces.best_rgb <api/colour.dataset.colourspaces.best_rgb>
-   colour.dataset.colourspaces.beta_rgb <api/colour.dataset.colourspaces.beta_rgb>
-   colour.dataset.colourspaces.c_log <api/colour.dataset.colourspaces.c_log>
-   colour.dataset.colourspaces.cie_rgb <api/colour.dataset.colourspaces.cie_rgb>
-   colour.dataset.colourspaces.color_match_rgb <api/colour.dataset.colourspaces.color_match_rgb>
-   colour.dataset.colourspaces.dci_p3 <api/colour.dataset.colourspaces.dci_p3>
-   colour.dataset.colourspaces.don_rgb_4 <api/colour.dataset.colourspaces.don_rgb_4>
-   colour.dataset.colourspaces.eci_rgb_v2 <api/colour.dataset.colourspaces.eci_rgb_v2>
-   colour.dataset.colourspaces.ekta_space_ps5 <api/colour.dataset.colourspaces.ekta_space_ps5>
-   colour.dataset.colourspaces.max_rgb <api/colour.dataset.colourspaces.max_rgb>
-   colour.dataset.colourspaces.ntsc_rgb <api/colour.dataset.colourspaces.ntsc_rgb>
-   colour.dataset.colourspaces.pal_secam_rgb <api/colour.dataset.colourspaces.pal_secam_rgb>
-   colour.dataset.colourspaces.pointer_gamut <api/colour.dataset.colourspaces.pointer_gamut>
-   colour.dataset.colourspaces.prophoto_rgb <api/colour.dataset.colourspaces.prophoto_rgb>
-   colour.dataset.colourspaces.rec_2020 <api/colour.dataset.colourspaces.rec_2020>
-   colour.dataset.colourspaces.rec_709 <api/colour.dataset.colourspaces.rec_709>
-   colour.dataset.colourspaces.russell_rgb <api/colour.dataset.colourspaces.russell_rgb>
-   colour.dataset.colourspaces.s_log <api/colour.dataset.colourspaces.s_log>
-   colour.dataset.colourspaces.smptec_rgb <api/colour.dataset.colourspaces.smptec_rgb>
-   colour.dataset.colourspaces.srgb <api/colour.dataset.colourspaces.srgb>
-   colour.dataset.colourspaces.xtreme_rgb <api/colour.dataset.colourspaces.xtreme_rgb>
+   colour.dataset.colourspaces.munsell <api/colour.dataset.colourspaces.munsell>
+   colour.dataset.colourspaces.rgb.aces_rgb <api/colour.dataset.colourspaces.rgb.aces_rgb>
+   colour.dataset.colourspaces.rgb.adobe_rgb_1998 <api/colour.dataset.colourspaces.rgb.adobe_rgb_1998>
+   colour.dataset.colourspaces.rgb.adobe_wide_gamut_rgb <api/colour.dataset.colourspaces.rgb.adobe_wide_gamut_rgb>
+   colour.dataset.colourspaces.rgb.alexa_wide_gamut_rgb <api/colour.dataset.colourspaces.rgb.alexa_wide_gamut_rgb>
+   colour.dataset.colourspaces.rgb.apple_rgb <api/colour.dataset.colourspaces.rgb.apple_rgb>
+   colour.dataset.colourspaces.rgb.best_rgb <api/colour.dataset.colourspaces.rgb.best_rgb>
+   colour.dataset.colourspaces.rgb.beta_rgb <api/colour.dataset.colourspaces.rgb.beta_rgb>
+   colour.dataset.colourspaces.rgb.c_log <api/colour.dataset.colourspaces.rgb.c_log>
+   colour.dataset.colourspaces.rgb.cie_rgb <api/colour.dataset.colourspaces.rgb.cie_rgb>
+   colour.dataset.colourspaces.rgb.color_match_rgb <api/colour.dataset.colourspaces.rgb.color_match_rgb>
+   colour.dataset.colourspaces.rgb.dci_p3 <api/colour.dataset.colourspaces.rgb.dci_p3>
+   colour.dataset.colourspaces.rgb.don_rgb_4 <api/colour.dataset.colourspaces.rgb.don_rgb_4>
+   colour.dataset.colourspaces.rgb.eci_rgb_v2 <api/colour.dataset.colourspaces.rgb.eci_rgb_v2>
+   colour.dataset.colourspaces.rgb.ekta_space_ps5 <api/colour.dataset.colourspaces.rgb.ekta_space_ps5>
+   colour.dataset.colourspaces.rgb.max_rgb <api/colour.dataset.colourspaces.rgb.max_rgb>
+   colour.dataset.colourspaces.rgb.ntsc_rgb <api/colour.dataset.colourspaces.rgb.ntsc_rgb>
+   colour.dataset.colourspaces.rgb.pal_secam_rgb <api/colour.dataset.colourspaces.rgb.pal_secam_rgb>
+   colour.dataset.colourspaces.rgb.pointer_gamut <api/colour.dataset.colourspaces.rgb.pointer_gamut>
+   colour.dataset.colourspaces.rgb.prophoto_rgb <api/colour.dataset.colourspaces.rgb.prophoto_rgb>
+   colour.dataset.colourspaces.rgb.rec_2020 <api/colour.dataset.colourspaces.rgb.rec_2020>
+   colour.dataset.colourspaces.rgb.rec_709 <api/colour.dataset.colourspaces.rgb.rec_709>
+   colour.dataset.colourspaces.rgb.russell_rgb <api/colour.dataset.colourspaces.rgb.russell_rgb>
+   colour.dataset.colourspaces.rgb.s_log <api/colour.dataset.colourspaces.rgb.s_log>
+   colour.dataset.colourspaces.rgb.smptec_rgb <api/colour.dataset.colourspaces.rgb.smptec_rgb>
+   colour.dataset.colourspaces.rgb.srgb <api/colour.dataset.colourspaces.rgb.srgb>
+   colour.dataset.colourspaces.rgb.xtreme_rgb <api/colour.dataset.colourspaces.rgb.xtreme_rgb>
    colour.dataset.illuminants.chromaticity_coordinates <api/colour.dataset.illuminants.chromaticity_coordinates>
    colour.dataset.illuminants.d_illuminants_s_spds <api/colour.dataset.illuminants.d_illuminants_s_spds>
+   colour.dataset.illuminants.optimal_colour_stimuli <api/colour.dataset.illuminants.optimal_colour_stimuli>
    colour.dataset.illuminants.spds <api/colour.dataset.illuminants.spds>
    colour.dataset.lefs <api/colour.dataset.lefs>
    colour.dataset.tcs <api/colour.dataset.tcs>
-   colour.globals.constants <api/colour.globals.constants>
    colour.implementation.matplotlib.plots <api/colour.implementation.matplotlib.plots>
    colour.implementation.maya.plots <api/colour.implementation.maya.plots>
    colour.implementation.nuke.lookup <api/colour.implementation.nuke.lookup>
+   colour.implementation.spectroscope.analysis <api/colour.implementation.spectroscope.analysis>
+   colour.implementation.spectroscope.fraunhofer_lines <api/colour.implementation.spectroscope.fraunhofer_lines>
+   colour.utilities.common <api/colour.utilities.common>
    colour.utilities.data_structures <api/colour.utilities.data_structures>
    colour.utilities.decorators <api/colour.utilities.decorators>
    colour.utilities.exceptions <api/colour.utilities.exceptions>
