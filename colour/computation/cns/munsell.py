@@ -187,7 +187,7 @@ def __get_munsell_maximum_chromas_from_renotation():
 
 def parse_munsell_colour(munsell_colour):
     """
-    Parses given *Munsell* colour and returns an intermediate *Munsell* specification.
+    Parses given *Munsell* colour and returns an intermediate *Munsell* *Colorlab* specification.
 
     Usage::
 
@@ -198,7 +198,7 @@ def parse_munsell_colour(munsell_colour):
 
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
-    :return: Intermediate *Munsell* specification.
+    :return: Intermediate *Munsell* *Colorlab* specification.
     :rtype: float or tuple
     """
 
@@ -218,7 +218,7 @@ def parse_munsell_colour(munsell_colour):
 
 def is_grey_munsell_colour(specification):
     """
-    Returns if given *Munsell* specification is a single number form used for grey colour.
+    Returns if given *Munsell* *Colorlab* specification is a single number form used for grey colour.
 
     Usage::
 
@@ -227,7 +227,7 @@ def is_grey_munsell_colour(specification):
         >>> is_grey_munsell_colour(0.5)
         True
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: Is specification a grey colour.
     :rtype: bool
@@ -238,16 +238,16 @@ def is_grey_munsell_colour(specification):
 
 def normalize_munsell_specification(specification):
     """
-    Normalises given *Munsell* specification.
+    Normalises given *Munsell* *Colorlab* specification.
 
     Usage::
 
         >>> normalize_munsell_specification((0.0, 2.0, 4.0, 6))
         (10.0, 2.0, 4.0, 7)
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
-    :return: Normalised *Munsell* specification.
+    :return: Normalised *Munsell* *Colorlab* specification.
     :rtype: float or tuple
     """
 
@@ -263,7 +263,7 @@ def normalize_munsell_specification(specification):
 
 def munsell_colour_to_munsell_specification(munsell_colour):
     """
-    Convenient definition to retrieve a normalised *Munsell* specification from given *Munsell* colour.
+    Convenient definition to retrieve a normalised *Munsell* *Colorlab* specification from given *Munsell* colour.
 
     Usage::
 
@@ -274,7 +274,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
-    :return: Normalised *Munsell* specification.
+    :return: Normalised *Munsell* *Colorlab* specification.
     :rtype: float or tuple
     """
 
@@ -283,7 +283,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
 def munsell_specification_to_munsell_colour(specification, hue_decimals=1, value_decimals=1, chroma_decimals=1):
     """
-    Converts from *Munsell* specification to given *Munsell* colour.
+    Converts from *Munsell* *Colorlab* specification to given *Munsell* colour.
 
     Usage::
 
@@ -292,7 +292,7 @@ def munsell_specification_to_munsell_colour(specification, hue_decimals=1, value
         >>> munsell_specification_to_munsell_colour((10., 2.0, 4.0, 7))
         10.0R 2.0/4.0
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :param hue_decimals: Hue formatting decimals.
     :type hue_decimals: int
@@ -333,14 +333,14 @@ def munsell_specification_to_munsell_colour(specification, hue_decimals=1, value
 
 def get_xyY_from_renotation(specification):
     """
-    Returns given existing *Munsell* specification *CIE xyY* colourspace vector from *Munsell Renotation System* data.
+    Returns given existing *Munsell* *Colorlab* specification *CIE xyY* colourspace vector from *Munsell Renotation System* data.
 
     Usage::
 
         >>> get_xyY_from_renotation((2.5, 0.2, 2.0, 4))
         (0.713, 1.414, 0.237)
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: *CIE xyY* colourspace vector.
     :rtype: tuple
@@ -356,7 +356,7 @@ def get_xyY_from_renotation(specification):
 
 def is_specification_in_renotation(specification):
     """
-    Returns if given *Munsell* specification is in *Munsell Renotation System* data.
+    Returns if given *Munsell* *Colorlab* specification is in *Munsell Renotation System* data.
 
     Usage::
 
@@ -365,7 +365,7 @@ def is_specification_in_renotation(specification):
         >>> is_specification_in_renotation((64, 0.2, 2.0, 4))
         False
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: Is specification in *Munsell Renotation System* data.
     :rtype: bool
@@ -387,9 +387,9 @@ def get_bounding_hues_from_renotation(hue, code):
         >>> get_bounding_hues_from_renotation(3.2, 4)
         ((2.5, 4), (5.0, 4))
 
-    :param hue: *Munsell* specification hue.
+    :param hue: *Munsell* *Colorlab* specification hue.
     :type hue: float
-    :param code: *Munsell* specification code.
+    :param code: *Munsell* *Colorlab* specification code.
     :type code: float
     :return: Bounding hues.
     :rtype: tuple
@@ -431,16 +431,16 @@ def get_bounding_hues_from_renotation(hue, code):
 
 def hue_to_hue_angle(hue, code):
     """
-    Converts from the *Munsell* specification hue to hue angle in degrees.
+    Converts from the *Munsell* *Colorlab* specification hue to hue angle in degrees.
 
     Usage::
 
         >>> hue_to_hue_angle(3.2, 4)
         65.5
 
-    :param hue: *Munsell* specification hue.
+    :param hue: *Munsell* *Colorlab* specification hue.
     :type hue: float
-    :param code: *Munsell* specification code.
+    :param code: *Munsell* *Colorlab* specification code.
     :type code: float
     :return: Hue angle in degrees.
     :rtype: float
@@ -459,7 +459,7 @@ def hue_to_hue_angle(hue, code):
 
 def hue_angle_to_hue(hue_angle):
     """
-    Converts from hue angle in degrees to the *Munsell* specification hue.
+    Converts from hue angle in degrees to the *Munsell* *Colorlab* specification hue.
 
     Usage::
 
@@ -468,7 +468,7 @@ def hue_angle_to_hue(hue_angle):
 
     :param hue_angle: Hue angle in degrees.
     :type hue_angle: float
-    :return: *Munsell* specification hue, *Munsell* specification code.
+    :return: *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab* specification code.
     :rtype: tuple
 
     References:
@@ -511,16 +511,16 @@ def hue_angle_to_hue(hue_angle):
 
 def hue_to_ASTM_hue(hue, code):
     """
-    Converts from the *Munsell* specification hue to *ASTM* hue number in domain [0, 100].
+    Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue number in domain [0, 100].
 
     Usage::
 
         >>> hue_to_ASTM_hue(3.2, 4)
         33.2
 
-    :param hue: *Munsell* specification hue.
+    :param hue: *Munsell* *Colorlab* specification hue.
     :type hue: float
-    :param code: *Munsell* specification code.
+    :param code: *Munsell* *Colorlab* specification code.
     :type code: float
     :return: *ASM* hue number.
     :rtype: float
@@ -546,13 +546,13 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         >>> get_interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
         Radial
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: Interpolation method.
     :rtype: unicode or None ("Linear", "Radial", None)
 
-    :note: Input *Munsell* specification value must be an even integer in domain [0, 10].
-    :note: Input *Munsell* specification chroma must be an even integer and a multiple of 2 in domain [2, 50].
+    :note: Input *Munsell* *Colorlab* specification value must be an even integer in domain [0, 10].
+    :note: Input *Munsell* *Colorlab* specification chroma must be an even integer and a multiple of 2 in domain [2, 50].
 
     References:
 
@@ -801,8 +801,8 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
 def get_xy_from_renotation_ovoid(specification):
     """
-    Converts given *Munsell* specification to *xy* chromaticity coordinates on *Munsell Renotation System* ovoid.
-    The *xy* point will be on the ovoid about the achromatic point, corresponding to the *Munsell* specification
+    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity coordinates on *Munsell Renotation System* ovoid.
+    The *xy* point will be on the ovoid about the achromatic point, corresponding to the *Munsell* *Colorlab* specification
     value and chroma.
 
     Usage::
@@ -812,13 +812,13 @@ def get_xy_from_renotation_ovoid(specification):
         >>> get_xy_from_renotation_ovoid(8)
         (0.31006, 0.31616)
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: Input *Munsell* specification value must be an even integer in domain [1, 9].
-    :note: Input *Munsell* specification chroma must be an even integer and a multiple of 2 in domain [2, 50].
+    :note: Input *Munsell* *Colorlab* specification value must be an even integer in domain [1, 9].
+    :note: Input *Munsell* *Colorlab* specification chroma must be an even integer and a multiple of 2 in domain [2, 50].
 
     References:
 
@@ -914,7 +914,7 @@ def get_xy_from_renotation_ovoid(specification):
 
 def LCHab_to_munsell_specification(LCHab):
     """
-    Converts from *CIE LCHab* colourspace to approximate *Munsell* specification.
+    Converts from *CIE LCHab* colourspace to approximate *Munsell* *Colorlab* specification.
 
     Usage::
 
@@ -923,7 +923,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     :param LCHab: *CIE LCHab* colourspace matrix.
     :type LCHab: array_like (3, 1)
-    :return: *Munsell* specification.
+    :return: *Munsell* *Colorlab* specification.
     :rtype: tuple
 
     :note: Input *L\** is in domain [0, 100].
@@ -972,19 +972,19 @@ def LCHab_to_munsell_specification(LCHab):
 
 def get_maximum_chroma_from_renotation(hue, value, code):
     """
-    Returns the maximum *Munsell* chroma from *Munsell Renotation System* data using given *Munsell* specification hue,
-    *Munsell* specification value and *Munsell* specification code.
+    Returns the maximum *Munsell* chroma from *Munsell Renotation System* data using given *Munsell* *Colorlab* specification hue,
+    *Munsell* *Colorlab* specification value and *Munsell* *Colorlab* specification code.
 
     Usage::
 
         >>> get_maximum_chroma_from_renotation(2.5, 5, 5)
         14.0
 
-    :param hue: *Munsell* specification hue.
+    :param hue: *Munsell* *Colorlab* specification hue.
     :type hue: float
     :param value: *Munsell* value code.
     :type value: float
-    :param code: *Munsell* specification code.
+    :param code: *Munsell* *Colorlab* specification code.
     :type code: float
     :return: Maximum chroma.
     :rtype: float
@@ -1035,7 +1035,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
 
 def munsell_specification_to_xy(specification):
     """
-    Converts given *Munsell* specification to *xy* chromaticity coordinates by interpolating over
+    Converts given *Munsell* *Colorlab* specification to *xy* chromaticity coordinates by interpolating over
     *Munsell Renotation System* data.
 
     Usage::
@@ -1045,12 +1045,12 @@ def munsell_specification_to_xy(specification):
         >>> munsell_specification_to_xy(8)
         (0.31006, 0.31616)
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: Input *Munsell* specification value must be an even integer in domain [0, 10].
+    :note: Input *Munsell* *Colorlab* specification value must be an even integer in domain [0, 10].
     :note: Output *xy* is in domain [0, 1].
 
     References:
@@ -1099,7 +1099,7 @@ def munsell_specification_to_xy(specification):
 
 def munsell_specification_to_xyY(specification):
     """
-    Converts given *Munsell* specification to *CIE xyY* colourspace.
+    Converts given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
     Usage::
 
@@ -1112,13 +1112,13 @@ def munsell_specification_to_xyY(specification):
                [ 0.31616  ]
                [ 0.7461345]])
 
-    :param specification: *Munsell* specification.
+    :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: Input *Munsell* specification hue must be in domain [0, 10].
-    :note: Input *Munsell* specification value must be in domain [0, 10].
+    :note: Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
+    :note: Input *Munsell* *Colorlab* specification value must be in domain [0, 10].
     :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
 
     References:
@@ -1194,7 +1194,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
 def xyY_to_munsell_specification(xyY):
     """
-    Converts from *CIE xyY* colourspace to *Munsell* specification.
+    Converts from *CIE xyY* colourspace to *Munsell* *Colorlab* specification.
 
     Usage::
 
@@ -1203,7 +1203,7 @@ def xyY_to_munsell_specification(xyY):
 
     :param xyY: *CIE xyY* colourspace matrix.
     :type xyY: array_like (3, 1)
-    :return: *Munsell* specification.
+    :return: *Munsell* *Colorlab* specification.
     :rtype: float or tuple
 
     :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
