@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *Lightness* manipulation objects.
+    Defines **Colour** package *Lightness* objects.
 
 **Others:**
 

@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *colour matching functions* manipulation objects.
+    Defines **Colour** package *colour matching functions* objects.
 
 **Others:**
 

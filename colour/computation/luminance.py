@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *Luminance* manipulation objects.
+    Defines **Colour** package *Luminance* objects.
 
 **Others:**
 

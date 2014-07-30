@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *RGB* *colourspaces* manipulation objects.
+    Defines **Colour** package *RGB* *colourspaces* objects.
 
 **Others:**
 

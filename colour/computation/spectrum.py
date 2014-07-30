@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *spectral power distribution* manipulation objects.
+    Defines **Colour** package *spectral power distribution* objects.
 
 **Others:**
 

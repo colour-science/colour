@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *chromatic adaptation* data and manipulation objects.
+    Defines **Colour** package *chromatic adaptation* data and objects.
 
 **Others:**
 

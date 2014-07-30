@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *luminous efficiency functions* manipulation objects.
+    Defines **Colour** package *luminous efficiency functions* objects.
 
 **Others:**
 

@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *blackbody* manipulation objects.
+    Defines **Colour** package *blackbody* objects.
 
 **Others:**
 

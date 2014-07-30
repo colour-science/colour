@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *correlated colour temperature* manipulation objects.
+    Defines **Colour** package *correlated colour temperature* objects.
 
 **Others:**
     :func:`colour.temperature.get_planckian_table`, :func:`colour.temperature.get_planckian_table_minimal_distance_index`,
