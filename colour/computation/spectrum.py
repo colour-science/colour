@@ -84,15 +84,6 @@ class SpectralPowerDistribution(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def data(self):
         """
@@ -118,15 +109,6 @@ class SpectralPowerDistribution(object):
                                                                                             value)
         self.__data = value
 
-    @data.deleter
-    def data(self):
-        """
-        Deleter for **self.__data** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
-
     @property
     def wavelengths(self):
         """
@@ -149,15 +131,6 @@ class SpectralPowerDistribution(object):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
-
-    @wavelengths.deleter
-    def wavelengths(self):
-        """
-        Deleter for **self.__wavelengths** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -182,15 +155,6 @@ class SpectralPowerDistribution(object):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
-    @values.deleter
-    def values(self):
-        """
-        Deleter for **self.__values** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
-
     @property
     def shape(self):
         """
@@ -214,15 +178,6 @@ class SpectralPowerDistribution(object):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
-
-    @shape.deleter
-    def shape(self):
-        """
-        Deleter for **self.__shape** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -625,15 +580,6 @@ class TriSpectralPowerDistribution(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def mapping(self):
         """
@@ -660,15 +606,6 @@ class TriSpectralPowerDistribution(object):
                 assert axis in value.keys(), \
                     "'{0}' attribute: '{1}' axis label is missing!".format("mapping", axis)
         self.__mapping = value
-
-    @mapping.deleter
-    def mapping(self):
-        """
-        Deleter for **self.__mapping** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
     def data(self):
@@ -713,15 +650,6 @@ class TriSpectralPowerDistribution(object):
         else:
             self.__data = None
 
-    @data.deleter
-    def data(self):
-        """
-        Deleter for **self.__data** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
-
     @property
     def labels(self):
         """
@@ -749,15 +677,6 @@ class TriSpectralPowerDistribution(object):
                     "'{0}' attribute: '{1}' axis label is missing!".format("labels", axis)
         self.__labels = value
 
-    @labels.deleter
-    def labels(self):
-        """
-        Deleter for **self.__labels** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
-
     @property
     def x(self):
         """
@@ -780,15 +699,6 @@ class TriSpectralPowerDistribution(object):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
-
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
 
     @property
     def y(self):
@@ -813,15 +723,6 @@ class TriSpectralPowerDistribution(object):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
 
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
-
     @property
     def z(self):
         """
@@ -844,15 +745,6 @@ class TriSpectralPowerDistribution(object):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
-
-    @z.deleter
-    def z(self):
-        """
-        Deleter for **self.__z** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z"))
 
     @property
     def wavelengths(self):
@@ -877,15 +769,6 @@ class TriSpectralPowerDistribution(object):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
-    @wavelengths.deleter
-    def wavelengths(self):
-        """
-        Deleter for **self.__wavelengths** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
-
     @property
     def values(self):
         """
@@ -909,15 +792,6 @@ class TriSpectralPowerDistribution(object):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
-    @values.deleter
-    def values(self):
-        """
-        Deleter for **self.__values** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
-
     @property
     def shape(self):
         """
@@ -940,15 +814,6 @@ class TriSpectralPowerDistribution(object):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
-
-    @shape.deleter
-    def shape(self):
-        """
-        Deleter for **self.__shape** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """

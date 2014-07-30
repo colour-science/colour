@@ -87,14 +87,6 @@ class AbstractError(Exception):
 
         self.__value = value
 
-    @value.deleter
-    def value(self):
-        """
-        Deleter for **self.__value** attribute.
-        """
-
-        raise Exception("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "value"))
-
     def __str__(self):
         """
         Returns the exception representation.

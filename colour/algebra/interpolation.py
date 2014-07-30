@@ -96,15 +96,6 @@ class LinearInterpolator(object):
 
         self.__x = value
 
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
-
     @property
     def y(self):
         """
@@ -134,15 +125,6 @@ class LinearInterpolator(object):
                 value = value.astype(numpy.float_)
 
         self.__y = value
-
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     def __call__(self, x):
         """
@@ -297,15 +279,6 @@ class SpragueInterpolator(object):
 
         self.__x = value
 
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
-
     @property
     def y(self):
         """
@@ -348,15 +321,6 @@ class SpragueInterpolator(object):
             self.__yp = numpy.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
         self.__y = value
-
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     def __call__(self, x):
         """

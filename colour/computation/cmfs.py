@@ -85,15 +85,6 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
 
-    @l_bar.deleter
-    def l_bar(self):
-        """
-        Deleter for **self.__r_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "l_bar"))
-
     @property
     def m_bar(self):
         """
@@ -117,15 +108,6 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
 
-    @m_bar.deleter
-    def m_bar(self):
-        """
-        Deleter for **self.__g_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "m_bar"))
-
     @property
     def s_bar(self):
         """
@@ -148,15 +130,6 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
-
-    @s_bar.deleter
-    def s_bar(self):
-        """
-        Deleter for **self.__b_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "s_bar"))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -207,15 +180,6 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
-    @r_bar.deleter
-    def r_bar(self):
-        """
-        Deleter for **self.__r_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
-
     @property
     def g_bar(self):
         """
@@ -239,15 +203,6 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
-    @g_bar.deleter
-    def g_bar(self):
-        """
-        Deleter for **self.__g_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
-
     @property
     def b_bar(self):
         """
@@ -270,15 +225,6 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
-
-    @b_bar.deleter
-    def b_bar(self):
-        """
-        Deleter for **self.__b_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -329,15 +275,6 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
-    @x_bar.deleter
-    def x_bar(self):
-        """
-        Deleter for **self.__x_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
-
     @property
     def y_bar(self):
         """
@@ -361,15 +298,6 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
-    @y_bar.deleter
-    def y_bar(self):
-        """
-        Deleter for **self.__y_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
-
     @property
     def z_bar(self):
         """
@@ -392,12 +320,6 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
-
-    @z_bar.deleter
-    def z_bar(self):
-        """
-        Deleter for **self.__z_bar** attribute.
-        """
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):

@@ -111,15 +111,6 @@ class RGB_Colourspace(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def primaries(self):
         """
@@ -143,15 +134,6 @@ class RGB_Colourspace(object):
         if value is not None:
             value = colour.algebra.common.to_ndarray(value)
         self.__primaries = value
-
-    @primaries.deleter
-    def primaries(self):
-        """
-        Deleter for **self.__primaries** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "primaries"))
 
     @property
     def whitepoint(self):
@@ -178,15 +160,6 @@ class RGB_Colourspace(object):
                 "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' or 'matrix'!".format("whitepoint", value)
         self.__whitepoint = value
 
-    @whitepoint.deleter
-    def whitepoint(self):
-        """
-        Deleter for **self.__whitepoint** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "whitepoint"))
-
     @property
     def to_XYZ(self):
         """
@@ -211,15 +184,6 @@ class RGB_Colourspace(object):
             value = colour.algebra.common.to_ndarray(value)
         self.__to_XYZ = value
 
-    @to_XYZ.deleter
-    def to_XYZ(self):
-        """
-        Deleter for **self.__to_XYZ** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "to_XYZ"))
-
     @property
     def from_XYZ(self):
         """
@@ -243,15 +207,6 @@ class RGB_Colourspace(object):
         if value is not None:
             value = colour.algebra.common.to_ndarray(value)
         self.__from_XYZ = value
-
-    @from_XYZ.deleter
-    def from_XYZ(self):
-        """
-        Deleter for **self.__from_XYZ** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "from_XYZ"))
 
     @property
     def transfer_function(self):
@@ -278,15 +233,6 @@ class RGB_Colourspace(object):
                 "transfer_function", value)
         self.__transfer_function = value
 
-    @transfer_function.deleter
-    def transfer_function(self):
-        """
-        Deleter for **self.__transfer_function** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "transfer_function"))
-
     @property
     def inverse_transfer_function(self):
         """
@@ -311,15 +257,6 @@ class RGB_Colourspace(object):
             assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format(
                 "inverse_transfer_function", value)
         self.__inverse_transfer_function = value
-
-    @inverse_transfer_function.deleter
-    def inverse_transfer_function(self):
-        """
-        Deleter for **self.__inverse_transfer_function** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "inverse_transfer_function"))
 
 
 def XYZ_to_RGB(XYZ,

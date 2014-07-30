@@ -94,15 +94,6 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
 
-    @R.deleter
-    def R(self):
-        """
-        Deleter for **self.__R** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "R"))
-
     @property
     def G(self):
         """
@@ -126,15 +117,6 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
 
-    @G.deleter
-    def G(self):
-        """
-        Deleter for **self.__G** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "G"))
-
     @property
     def B(self):
         """
@@ -157,15 +139,6 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
 
         raise colour.utilities.exceptions.ProgrammingError(
             "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
-
-    @B.deleter
-    def B(self):
-        """
-        Deleter for **self.__B** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "B"))
 
 
 def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):
