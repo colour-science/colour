@@ -43,7 +43,7 @@ def lightness_glasser1958(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -70,7 +70,7 @@ def lightness_wyszecki1964(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -102,7 +102,7 @@ def lightness_1976(Y, Yn=100.):
 
     References:
 
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
 
     Usage::
 
@@ -137,8 +137,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
 
     Usage::
 

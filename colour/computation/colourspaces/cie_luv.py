@@ -47,7 +47,7 @@ def XYZ_to_Luv(XYZ,
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
+    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -89,7 +89,7 @@ def Luv_to_XYZ(Luv,
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
+    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -135,7 +135,7 @@ def Luv_to_uv(Luv,
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
+    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation (Last accessed 24 February 2014)
 
     Usage::
 
@@ -164,7 +164,7 @@ def Luv_uv_to_xy(uv):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation'.
+    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation' (Last accessed 24 February 2014)
 
     Usage::
 
@@ -189,7 +189,7 @@ def Luv_to_LCHuv(Luv):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
+    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -221,7 +221,7 @@ def LCHuv_to_Luv(LCHuv):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html (Last accessed 24 February 2014)
 
     Usage::
 

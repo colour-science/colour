@@ -31,7 +31,8 @@ __all__ = ["D_ILLUMINANTS_S_SPDS_DATA",
 
 # *CIE Standard Illuminant D Series* *Sn(λ)* spectral power distributions.
 # http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
-# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 146.
+# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 146.
 D_ILLUMINANTS_S_SPDS_DATA = {
     "S0": {
         300: 0.04,

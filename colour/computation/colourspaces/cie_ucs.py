@@ -37,7 +37,7 @@ def XYZ_to_UCS(XYZ):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 
@@ -66,7 +66,7 @@ def UCS_to_XYZ(UVW):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 
@@ -95,7 +95,7 @@ def UCS_to_uv(UVW):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 
@@ -121,7 +121,7 @@ def UCS_uv_to_xy(uv):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 

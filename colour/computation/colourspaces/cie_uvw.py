@@ -41,7 +41,7 @@ def XYZ_to_UVW(XYZ,
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1964_color_space
+    -  http://en.wikipedia.org/wiki/CIE_1964_color_space (Last accessed 10 June 2014)
 
     Usage::
 

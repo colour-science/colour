@@ -480,14 +480,15 @@ def XYZ_to_CIECAM02(XYZ,
     """
     Converts given *CIE XYZ* colourspace matrix to *CIECAM02* representation.
 
-    References::
+    References:
 
-    -
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
 
     Usage::
-
-        >>> get_saturation_correlate(0.108842175669, 195.371325966)
-        2.36030537392
 
     :param XYZ: *CIE XYZ* colourspace stimulus matrix.
     :type XYZ: array_like

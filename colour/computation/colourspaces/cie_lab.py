@@ -45,7 +45,7 @@ def XYZ_to_Lab(XYZ,
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -137,7 +137,7 @@ def Lab_to_LCHab(Lab):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -169,7 +169,7 @@ def LCHab_to_Lab(LCHab):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html (Last accessed 24 February 2014)
 
     Usage::
 

@@ -407,7 +407,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References:
 
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
 
     Usage::
 
@@ -456,7 +457,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References:
 
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
 
     Usage::
 
@@ -530,7 +532,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References:
 
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm (Last accessed 25 June 2014)
 
     Usage::
 
@@ -567,7 +569,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References:
 
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm (Last accessed 25 June 2014)
 
     Usage::
 

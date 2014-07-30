@@ -36,8 +36,8 @@ def bandpass_correction_stearns(spd):
 
     References:
 
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, \
-    2nd Edition*, Page 38.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
 
     Usage::
 

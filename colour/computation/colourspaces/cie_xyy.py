@@ -72,7 +72,7 @@ def XYZ_to_xyY(XYZ,
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -105,7 +105,7 @@ def xyY_to_XYZ(xyY):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html (Last accessed 24 February 2014)
 
     Usage::
 

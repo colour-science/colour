@@ -105,7 +105,7 @@ def HSV_to_RGB(HSV):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21
+    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -173,7 +173,7 @@ def RGB_to_HSL(RGB):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -232,7 +232,7 @@ def HSL_to_RGB(HSL):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -286,7 +286,7 @@ def RGB_to_CMY(RGB):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -314,7 +314,7 @@ def CMY_to_RGB(CMY):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -342,7 +342,7 @@ def CMY_to_CMYK(CMY):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13
+    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 (Last accessed 18 May 2014)
 
     Usage::
 

@@ -38,7 +38,7 @@ def delta_E_CIE_1976(lab1, lab2):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -64,7 +64,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -122,7 +122,7 @@ def delta_E_CIE_2000(lab1, lab2):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -213,7 +213,7 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html (Last accessed 24 February 2014)
 
     Usage::
 

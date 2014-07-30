@@ -31,8 +31,8 @@ __all__ = ["ILLUMINANTS_RELATIVE_SPDS_DATA",
 
 
 # Relative spectral power distribution for various illuminants in at 5 nm steps.
-# http://files.cie.co.at/204.xls
-# https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+# http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
+# https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls (Last accessed 24 February 2014)
 # http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c
 ILLUMINANTS_RELATIVE_SPDS_DATA = {
     "A": {

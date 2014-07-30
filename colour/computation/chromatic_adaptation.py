@@ -72,7 +72,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_ChromAdapt.html
+    -  http://brucelindbloom.com/Eqn_ChromAdapt.html (Last accessed 24 February 2014)
 
     Usage::
 

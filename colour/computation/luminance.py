@@ -41,7 +41,7 @@ def luminance_newhall1943(V):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -68,7 +68,7 @@ def luminance_1976(L, Yn=100.):
 
     References:
 
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
 
     Usage::
 
@@ -126,12 +126,6 @@ LUMINANCE_FUNCTIONS = {"Luminance Newhall 1943": luminance_newhall1943,
 def get_luminance(LV, Yn=100., method="Luminance 1976"):
     """
     Returns the *luminance* *Y* of given *Lightness* *L* using given reference white *luminance* or given *Munsell value* *V*.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf
-    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
 
     Usage::
 

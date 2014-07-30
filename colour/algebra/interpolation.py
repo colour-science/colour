@@ -212,8 +212,8 @@ class SpragueInterpolator(object):
 
     -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of \
     interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, \
-    2nd Edition*, Page 33.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
 
     Usage::
 

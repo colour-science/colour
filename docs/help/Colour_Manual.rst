@@ -116,6 +116,10 @@ _`Highlights`
   -  HP5
 
 -  Colour rendition charts spectral data.
+-  Colour appearance models:
+
+  -  CIECAM02
+
 -  Correlated colour temperature calculation:
 
   -  Roberston method implementation.
@@ -247,7 +251,7 @@ Convenience deprecated colourspaces transformations:
 
 -  Colour rendering index calculation.
 -  Colour rendition chart data.
--  Colourspaces visualisation within **Autodesk Maya**.
+-  RGB colourspaces visualisation within **Autodesk Maya**.
 -  First order colour fit.
 -  Comprehensive plotting capabilities.
 
@@ -340,7 +344,7 @@ _`References`
 Algebra
 -------
 
--  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 33. (Last accessed 28 May 2014)
+-  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014), **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
 
 Planckian Radiator
 ------------------
@@ -350,11 +354,16 @@ Planckian Radiator
 Chromatic Adaptation Transforms
 -------------------------------
 
--  **Bruce Lindbloom**, `XYZ Scaling Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
--  **Bruce Lindbloom**, `Bradford Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
--  **Bruce Lindbloom**, `Von Kries Chromatic Adaptation <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+-  **Bruce Lindbloom**, `XYZ Scaling Chromatic Adaptation Transform <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+-  **Bruce Lindbloom**, `Bradford Chromatic Adaptation Transform <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
+-  **Bruce Lindbloom**, `Von Kries Chromatic Adaptation Transform <http://brucelindbloom.com/Eqn_ChromAdapt.html>`_ (Last accessed 24 February 2014)
 -  **Mark D. Fairchild**, `Fairchild Chromatic Adaptation Transform <http://rit-mcsl.org/fairchild//files/FairchildYSh.zip>`_ (Last accessed 28 July 2014)
 -  `CAT02 Chromatic Adaptation <http://en.wikipedia.org/wiki/CIECAM02#CAT0>`_ (Last accessed 24 February 2014)
+
+Colour Appearance Models
+------------------------
+
+-  **CIECAM02**, **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277., **CIECAM02**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92., `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_ (Last accessed 30 July 2014)
 
 Colour Rendering Index
 ----------------------
@@ -365,7 +374,7 @@ Colour Rendition Charts
 -----------------------
 
 -  `BabelColor ColorChecker RGB & Spectral Data <http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls>`_ (Last accessed 24 February 2014)
--  **N. Ohta**, `CMacbeth olorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
+-  **N. Ohta**, `Macbeth ColorChecker Spectral Data <http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls>`_ (Last accessed 9 June 2014)
 
 Colourspace Derivation
 ----------------------
@@ -390,8 +399,8 @@ Colour Matching Functions
 -  `CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 -  `CIE 2012 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 -  `CIE 2012 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
--  **Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
--  **Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
+-  **Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
+-  **Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
 -  `Stiles & Burch 1959 10 Degree RGB CMFs to Stockman & Sharpe 10 Degree Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
 -  `Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
 -  `Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
@@ -405,12 +414,12 @@ Cone Fundamentals
 Correlated Colour Temperature
 -----------------------------
 
--  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
+-  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227
 -  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 -  **C. S. McCamy**, `Correlated Colour Temperature Approximation <http://en.wikipedia.org/wiki/Color_temperature#Approximation>`_ (Last accessed 28 June 2014)
 -  **Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
 -  **Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim**, `Design of Advanced Color - Temperature Control System for HDTV Applications <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_ (Last accessed 29 June 2014)
--  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
+-  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 145
 
 Deprecated Transformations
 --------------------------
@@ -473,21 +482,20 @@ Illuminants Chromaticity Coordinates
 
 -  `Illuminants Chromaticity Coordinates <http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants>`_ (Last accessed 24 February 2014)
 
-Luminance, Munsell Value, Lightness
------------------------------------
+Lightness
+---------
+
+-  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+
+Luminance
+---------
 
 -  `Luminance <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_ (Last accessed 24 February 2014)
 -  `Luminance Newhall 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
 -  `Luminance 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
--  `Munsell Value Priest 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value Munsell 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  **Munsell Value McCamy 1987**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
--  `Lightness Glasser 1958 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  `Lightness Wyszecki 1964 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
--  **Charles Poynton**, `Lightness 1976 <http://www.poynton.com/PDFs/GammaFAQ.pdf>`_ (Last accessed 12 April 2014)
+-  `Luminance ASTM D1535-08 <http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System>`_
 
 Luminous Efficiency Functions
 -----------------------------
@@ -501,12 +509,29 @@ Luminous Efficiency Functions
 -  `CIE 1951 Scotopic Standard Observer <http://www.cvrl.org/lumindex.htm>`_ (Last accessed 19 April 2014)
 -  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
 
+Munsell Renotation System
+-------------------------
+
+-  **Paul Centore**, `An Open-Source Inversion Algorithm for the Munsell Renotation <http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf>`_ (Last accessed 26 July 2014)
+- `The Munsell and Kubelka-Munk Toolbox <http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ (Last accessed 26 July 2014)
+
+Munsell Value
+-------------
+
+-  `Munsell Value Priest 1920 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Munsell 1933 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Moon 1943 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Saunderson 1944 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value Ladd 1955 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  `Munsell Value ASTM D1535-08 <http://en.wikipedia.org/wiki/Lightness>`_ (Last accessed 13 April 2014)
+-  **Munsell Value McCamy 1987**, `Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989 <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_ (Last accessed 23 July 2014)
+
 Optimal Colour Stimuli
 -----------------------------
 
--  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
+-  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 776, 777
 -  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, Pages 361, 367
--  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 778, 779
+-  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 778, 779
 
 RGB Colourspaces
 ----------------
@@ -544,8 +569,8 @@ RGB Colourspaces
 Spectrum
 --------
 
--  **Spectral to XYZ Tristimulus Values**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 158.
--  **Stearns Spectral Bandpass Dependence Correction**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, Page 38.
+-  **Spectral to XYZ Tristimulus Values**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
+-  **Stearns Spectral Bandpass Dependence Correction**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
 -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 -  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolationn <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_, `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 

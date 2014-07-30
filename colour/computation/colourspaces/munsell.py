@@ -384,7 +384,7 @@ def get_bounding_hues_from_renotation(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/BoundingRenotationHues.m*
 
@@ -435,7 +435,7 @@ def hue_to_hue_angle(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m*
 
@@ -463,7 +463,7 @@ def hue_angle_to_hue(hue_angle):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m*
 
@@ -515,7 +515,7 @@ def hue_to_ASTM_hue(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToASTMHue.m*
 
@@ -543,7 +543,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m*
 
@@ -807,7 +807,7 @@ def get_xy_from_renotation_ovoid(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/FindHueOnRenotationOvoid.m*
 
@@ -918,7 +918,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/GeneralRoutines/CIELABtoApproxMunsellSpec.m*
 
@@ -977,7 +977,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m*
 
@@ -1042,7 +1042,7 @@ def munsell_specification_to_xy(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m*
 
@@ -1105,7 +1105,7 @@ def munsell_specification_to_xyY(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyY.m*
 
@@ -1202,7 +1202,7 @@ def xyY_to_munsell_specification(xyY):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/xyYtoMunsell.m*
 
@@ -1432,7 +1432,7 @@ def munsell_value_priest1920(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -1460,7 +1460,7 @@ def munsell_value_munsell1933(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -1487,7 +1487,7 @@ def munsell_value_moon1943(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -1514,7 +1514,7 @@ def munsell_value_saunderson1944(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -1541,7 +1541,7 @@ def munsell_value_ladd1955(Y):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Lightness
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
 
     Usage::
 
@@ -1630,10 +1630,6 @@ MUNSELL_VALUE_FUNCTIONS = {"Munsell Value Priest 1920": munsell_value_priest1920
 def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness
 
     Usage::
 

@@ -127,7 +127,9 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     """
     Returns the *colour rendering index* of given spectral power distribution.
 
-    References: http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls, http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
+    References:
+
+    -  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls (Last accessed 10 June 2014)
 
     Usage::
 

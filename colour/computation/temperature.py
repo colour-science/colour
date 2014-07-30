@@ -18,7 +18,8 @@
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
     *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
-    from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
+    from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 """
 
 from __future__ import unicode_literals
@@ -71,7 +72,8 @@ CCT_MAXIMAL = 100000
 CCT_SAMPLES = 10
 CCT_CALCULATION_ITERATIONS = 6
 
-# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
+# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 # (Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinate *u*, CIE 1960 Chromaticity Coordinate *v*, Slope)
 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
                                                 (10, 0.18066, 0.26589, -0.25479),
@@ -326,7 +328,8 @@ def uv_to_CCT_robertson1968(uv):
 
     -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Set_xy_coord*.
-    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
 
     Usage::
 
@@ -405,7 +408,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
 
     -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Get_xy_coord*.
-    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
 
     Usage::
 
@@ -519,7 +523,7 @@ def xy_to_CCT_mccamy(xy):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Color_temperature#Approximation
+    -  http://en.wikipedia.org/wiki/Color_temperature#Approximation (Last accessed 28 June 2014)
 
     Usage::
 
@@ -625,7 +629,8 @@ def CCT_to_xy_illuminant_D(CCT):
 
     References:
 
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 145.
 
     :param CCT: Correlated colour temperature.
     :type CCT: float

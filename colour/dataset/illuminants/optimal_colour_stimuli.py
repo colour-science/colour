@@ -29,7 +29,8 @@ __all__ = ["A_OPTIMAL_COLOUR_STIMULI",
            "ILLUMINANTS_OPTIMAL_COLOUR_STIMULI"]
 
 
-# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 776, 777
+# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 776, 777
 A_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
     (0.1120, 0.1985, 10),
@@ -456,7 +457,8 @@ C_OPTIMAL_COLOUR_STIMULI = (
     (0.3053, 0.3096, 95),
     (0.31006, 0.31616, 100))
 
-# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 778, 779
+# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 778, 779
 D65_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
     (0.1346, 0.0747, 10),

@@ -45,7 +45,7 @@ def mesopic_weighting_function(wavelength,
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
 
     Usage::
 
@@ -98,7 +98,7 @@ def mesopic_luminous_efficiency_function(Lp,
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
 
     Usage::
 
