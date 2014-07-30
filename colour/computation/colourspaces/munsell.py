@@ -10,7 +10,7 @@
 **Description:**
     Defines **Colour** package *Munsell Renotation System* manipulation objects.
     Code for :attr:`colour.xyY_to_munsell_colour` and :attr:`colour.munsell_colour_to_xyY` attributes and their
-    dependencies is coming from the
+    dependencies is adapted from the
     `Munsell and Kubelka-Munk Toolbox <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_ by
     *Paul Centore* and has been loosely ported to Python from Matlab.
 

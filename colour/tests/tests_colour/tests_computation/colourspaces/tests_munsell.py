@@ -76,6 +76,7 @@ __all__ = ["MUNSELL_SPECIFICATIONS",
            "TestMunsellValueMcCamy1992",
            "TestMunsellValueASTM_D1535_08"]
 
+# TODO: Investigate if tests can be simplified by using a common valid set of specifications.
 MUNSELL_SPECIFICATIONS = (
     (2.5, 7.9653798470827155, 11.928546308350969, 4),
     (2.5, 6.197794822090879, 6.923610826208884, 4),
@@ -5259,6 +5260,8 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
         Tests :func:`colour.computation.colourspaces.munsell.munsell_colour_to_xyY` definition.
         """
 
+        # TODO: This test is covered by the previous class, do we need a dedicated one?
+
         pass
 
 
@@ -5295,6 +5298,8 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         """
         Tests :func:`colour.computation.colourspaces.munsell.xyY_to_munsell_colour` definition.
         """
+
+        # TODO: This test is covered by the previous class, do we need a dedicated one?
 
         pass
 
