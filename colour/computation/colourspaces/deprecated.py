@@ -43,11 +43,6 @@ def RGB_to_HSV(RGB):
     """
     Converts from *RGB* colourspace to *HSV* colourspace.
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
-
     Usage::
 
         >>> RGB_to_HSV(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
@@ -60,8 +55,13 @@ def RGB_to_HSV(RGB):
     :return: *HSV* matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *HSV* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Output *HSV* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -102,11 +102,6 @@ def HSV_to_RGB(HSV):
     """
     Converts from *HSV* colourspace to *RGB* colourspace.
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 (Last accessed 18 May 2014)
-
     Usage::
 
         >>> HSV_to_RGB(numpy.array([0.27867384, 0.744, 0.98039216]))
@@ -119,8 +114,13 @@ def HSV_to_RGB(HSV):
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *HSV* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *HSV* colourspace matrix is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 (Last accessed 18 May 2014)
     """
 
     H, S, V = numpy.ravel(HSV)
@@ -170,11 +170,6 @@ def RGB_to_HSL(RGB):
     """
     Converts from *RGB* colourspace to *HSL* colourspace.
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 (Last accessed 18 May 2014)
-
     Usage::
 
         >>> RGB_to_HSL(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
@@ -187,8 +182,13 @@ def RGB_to_HSL(RGB):
     :return: *HSL* matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *HSL* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Output *HSL* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 (Last accessed 18 May 2014)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -229,11 +229,6 @@ def HSL_to_RGB(HSL):
     """
     Converts from *HSL* colourspace to *RGB* colourspace.
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 (Last accessed 18 May 2014)
-
     Usage::
 
         >>> HSL_to_RGB(numpy.array([0.27867384, 0.94897959, 0.61568627]))
@@ -246,8 +241,13 @@ def HSL_to_RGB(HSL):
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *HSL* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *HSL* colourspace matrix is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://alvyray.com/Papers/CG/color78.pdf
+    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 (Last accessed 18 May 2014)
     """
 
     H, S, L = numpy.ravel(HSL)
@@ -284,10 +284,6 @@ def RGB_to_CMY(RGB):
     """
     Converts from *RGB* colourspace to *CMY* colourspace.
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 (Last accessed 18 May 2014)
-
     Usage::
 
         >>> RGB_to_CMY(numpy.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
@@ -300,8 +296,12 @@ def RGB_to_CMY(RGB):
     :return: *CMY* matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *CMY* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Output *CMY* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 (Last accessed 18 May 2014)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -311,10 +311,6 @@ def RGB_to_CMY(RGB):
 def CMY_to_RGB(CMY):
     """
     Converts from *CMY* colourspace to *CMY* colourspace.
-
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -328,8 +324,12 @@ def CMY_to_RGB(CMY):
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CMY* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *CMY* colourspace matrix is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 (Last accessed 18 May 2014)
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -339,10 +339,6 @@ def CMY_to_RGB(CMY):
 def CMY_to_CMYK(CMY):
     """
     Converts from *CMY* colourspace to *CMYK* colourspace.
-
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 (Last accessed 18 May 2014)
 
     Usage::
 
@@ -357,8 +353,12 @@ def CMY_to_CMYK(CMY):
     :return: *CMYK* matrix.
     :rtype: ndarray (4, 1)
 
-    :note: *CMY* is in domain [0, 1].
-    :note: *CMYK* is in domain [0, 1].
+    :note: Input *CMY* colourspace matrix is in domain [0, 1].
+    :note: Output*CMYK* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 (Last accessed 18 May 2014)
     """
 
     C, M, Y = numpy.ravel(CMY)
@@ -387,10 +387,6 @@ def CMYK_to_CMY(CMYK):
     """
     Converts from *CMYK* colourspace to *CMY* colourspace.
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
-
     Usage::
 
         >>> CMYK_to_CMY(numpy.array([0.5, 0.,0.744, 0.01960784]))
@@ -403,8 +399,12 @@ def CMYK_to_CMY(CMYK):
     :return: *CMY* matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CMYK* is in domain [0, 1].
-    :note: *CMY* is in domain [0, 1].
+    :note: Input *CMYK* colourspace matrix is in domain [0, 1].
+    :note: Output *CMY* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
     """
 
     C, M, Y, K = numpy.ravel(CMYK)
@@ -426,7 +426,7 @@ def RGB_to_HEX(RGB):
     :return: Hex triplet representation.
     :rtype: unicode
 
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
     """
 
     RGB = numpy.ravel(RGB)
@@ -450,7 +450,7 @@ def HEX_to_RGB(HEX):
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
     HEX = HEX.lstrip("#")

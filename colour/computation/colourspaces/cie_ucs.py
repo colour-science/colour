@@ -35,10 +35,6 @@ def XYZ_to_UCS(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *CIE UCS* colourspace.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
-
     Usage::
 
         >>> XYZ_to_UCS(numpy.array([0.1180583421, 0.1034, 0.0515089229]))
@@ -51,8 +47,12 @@ def XYZ_to_UCS(XYZ):
     :return: *CIE UCS* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *CIE UCS* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE UCS* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -63,10 +63,6 @@ def XYZ_to_UCS(XYZ):
 def UCS_to_XYZ(UVW):
     """
     Converts from *CIE UCS* colourspace to *CIE XYZ* colourspace.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 
@@ -80,8 +76,12 @@ def UCS_to_XYZ(UVW):
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE UCS* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *CIE UCS* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
     """
 
     U, V, W = numpy.ravel(UVW)
@@ -93,10 +93,6 @@ def UCS_to_uv(UVW):
     """
     Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace matrix.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
-
     Usage::
 
         >>> UCS_to_uv(numpy.array([0.1180583421, 0.1034, 0.0515089229]))
@@ -107,8 +103,12 @@ def UCS_to_uv(UVW):
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *CIE UCS* is in domain [0, 1].
-    :note: *uv* is in domain [0, 1].
+    :note: Input *CIE UCS* colourspace matrix is in domain [0, 1].
+    :note: Output *uv* is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
     """
 
     U, V, W = numpy.ravel(UVW)
@@ -118,10 +118,6 @@ def UCS_to_uv(UVW):
 def UCS_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
 
     Usage::
 
@@ -133,8 +129,12 @@ def UCS_uv_to_xy(uv):
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *uv* is in domain [0, 1].
-    :note: *xy* is in domain [0, 1].
+    :note: Input *uv* is in domain [0, 1].
+    :note: Output *xy* is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
     """
 
     return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), 2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)

@@ -61,17 +61,17 @@ def __rec_2020_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace transfer function.
 
-    References:
-
-    -  `Recommendation ITU-R BT.2020: Signal Format \
-    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
-
     :param value: value.
     :type value: float
     :param is_10_bits_system: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
     :type is_10_bits_system: bool
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
     return value * 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
@@ -83,17 +83,17 @@ def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace inverse transfer function.
 
-    References:
-
-    -  `Recommendation ITU-R BT.2020: Signal Format \
-    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
-
     :param value: value.
     :type value: float
     :param is_10_bits_system: *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
     :type is_10_bits_system: bool
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
     return value / 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \

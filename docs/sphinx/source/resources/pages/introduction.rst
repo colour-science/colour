@@ -85,6 +85,10 @@ _`Highlights`
   -  HP5
 
 -  Colour rendition charts spectral data.
+-  Colour appearance models:
+
+  -  CIECAM02
+
 -  Correlated colour temperature calculation:
 
   -  Roberston method implementation.
@@ -216,7 +220,7 @@ Convenience deprecated colourspaces transformations:
 
 -  Colour rendering index calculation.
 -  Colour rendition chart data.
--  Colourspaces visualisation within **Autodesk Maya**.
+-  RGB colourspaces visualisation within **Autodesk Maya**.
 -  First order colour fit.
 -  Comprehensive plotting capabilities.
 

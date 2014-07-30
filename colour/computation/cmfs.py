@@ -405,11 +405,6 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions into the
     *CIE 1931 2 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
-
     Usage::
 
         >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
@@ -419,7 +414,13 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists,
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
@@ -455,11 +456,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
-
     Usage::
 
         >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
@@ -469,7 +465,13 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
@@ -493,10 +495,6 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral sensitivity functions.
 
-    References:
-
-    -  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_
-
     Usage::
 
         >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)
@@ -506,7 +504,12 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, this definition is intended for educational purpose.
+    :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
@@ -530,10 +533,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm (Last accessed 25 June 2014)
-
     Usage::
 
         >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
@@ -543,7 +542,12 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm (Last accessed 25 June 2014)
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
@@ -567,10 +571,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm (Last accessed 25 June 2014)
-
     Usage::
 
         >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
@@ -580,7 +580,12 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm (Last accessed 25 June 2014)
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.

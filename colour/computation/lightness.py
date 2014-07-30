@@ -41,10 +41,6 @@ def lightness_glasser1958(Y):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using *Glasser et al.* 1958 method.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
-
     Usage::
 
         >>> lightness_glasser1958(10.08)
@@ -55,8 +51,12 @@ def lightness_glasser1958(Y):
     :return: *Lightness* *L\**.
     :rtype: float
 
-    :note: *Y* is in domain [0, 100].
-    :note: *L\** is in domain [0, 100].
+    :note: Input *Y* is in domain [0, 100].
+    :note: Output *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
     """
 
     L_star = 25.29 * (Y ** (1. / 3.)) - 18.38
@@ -68,10 +68,6 @@ def lightness_wyszecki1964(Y):
     """
     Returns the *Lightness* (*W\**) of given *luminance* *Y* using *Wyszecki* 1964 method.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
-
     Usage::
 
         >>> lightness_wyszecki1964(10.08)
@@ -82,8 +78,12 @@ def lightness_wyszecki1964(Y):
     :return: *Lightness* *W\**.
     :rtype: float
 
-    :note: *Y* is in domain [0, 100].
-    :note: *W\** is in domain [0, 100].
+    :note: Input *Y* is in domain [0, 100].
+    :note: Output *W\** is in domain [0, 100].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
     """
 
     if not 1. < Y < 98.:
@@ -100,10 +100,6 @@ def lightness_1976(Y, Yn=100.):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-    References:
-
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
-
     Usage::
 
         >>> lightness_1976(10.08, 100.)
@@ -116,8 +112,12 @@ def lightness_1976(Y, Yn=100.):
     :return: *Lightness* *L\**.
     :rtype: float
 
-    :note: *Y* and *Yn* are in domain [0, 100].
-    :note: *L\** is in domain [0, 100].
+    :note: Input *Y* and *Yn* are in domain [0, 100].
+    :note: Ouptut *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
     """
 
     ratio = Y / Yn
@@ -135,11 +135,6 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
-
     Usage::
 
         >>> get_lightness(10.08, 100)
@@ -154,8 +149,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     :return: *Lightness* *L\**.
     :rtype: float
 
-    :note: *Y* and *Yn* are in domain [0, 100].
-    :note: *L\** is in domain [0, 100].
+    :note: Input *Y* and *Yn* are in domain [0, 100].
+    :note: Output *L\** is in domain [0, 100].
     """
 
     if Yn is None or method is not None:

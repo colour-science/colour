@@ -36,10 +36,6 @@ def linear_regression(y, x=None, additional_statistics=False):
     The equation of the line is *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y* value
     is a function of the independent *x* values.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Simple_linear_regression (Last accessed 24 May 2014)
-
     Usage::
 
         >>> y = numpy.array([1,2,1,3,2,3,3,4,4,3])
@@ -62,6 +58,10 @@ def linear_regression(y, x=None, additional_statistics=False):
     :type additional_statistics: ndarray
     :return: Regression statistics.
     :rtype: ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Simple_linear_regression (Last accessed 24 May 2014)
     """
 
     if x is None:

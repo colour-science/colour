@@ -14,6 +14,7 @@ Modules Summary:
    colour.algebra.regression <api/colour.algebra.regression>
    colour.cache.runtime <api/colour.cache.runtime>
    colour.computation.blackbody <api/colour.computation.blackbody>
+   colour.computation.cam.ciecam02 <api/colour.computation.cam.ciecam02>
    colour.computation.chromatic_adaptation <api/colour.computation.chromatic_adaptation>
    colour.computation.cmfs <api/colour.computation.cmfs>
    colour.computation.colourspaces.cie_lab <api/colour.computation.colourspaces.cie_lab>

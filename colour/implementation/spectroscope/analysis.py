@@ -172,10 +172,6 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
     """
     Evaluate given colourspace transfer / inverse transfer function on given image data.
 
-    References:
-
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
-
     :param image: Image to evalute the transfer function.
     :type image: ndarray
     :param colourspace: *RGB* Colourspace.
@@ -184,6 +180,10 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
     :type to_linear: bool
     :return: Transformed image.
     :rtype: ndarray
+
+    References:
+
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
     vector_linearise = numpy.vectorize(
@@ -218,10 +218,6 @@ def get_image_profile(image, line, samples=None):
     """
     Returns the image profile using given line coordinates and given samples count.
 
-    References:
-
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
-
     :param image: Image to retrieve the profile.
     :type image: ndarray
     :param line: Coordinates as image array indexes to measure the profile.
@@ -230,6 +226,10 @@ def get_image_profile(image, line, samples=None):
     :type samples: int
     :return: Profile.
     :rtype: ndarray
+
+    References:
+
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
     height, width, channels = image.shape

@@ -93,17 +93,17 @@ def __aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     """
     Defines the *ACES RGB Log* colourspace transfer function.
 
-    References:
-
-    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
-
     :param value: value.
     :type value: float
     :param is_16_bit_integer: Is value 16 bit integer.
     :type is_16_bit_integer: bool
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
+    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
     """
 
     if value < 0.:
@@ -124,15 +124,15 @@ def __aces_rgb_log_inverse_transfer_function(value):
     """
     Defines the *ACES RGB Log* colourspace inverse transfer function.
 
-    References:
-
-    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
-
     :param value: value.
     :type value: float
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
+    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
     """
 
     value = math.pow(2., (value - ACES_RGB_LOG_CONSTANTS.log_unity) / ACES_RGB_LOG_CONSTANTS.log_xperstop)
@@ -174,17 +174,17 @@ def __aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colourspace transfer function.
 
-    References:
-
-    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
-
     :param value: value.
     :type value: float
     :param bit_depth: *ACES RGB Proxy* bit depth.
     :type bit_depth: str ("10 bit", "12 bit")
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
+    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
     """
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
@@ -200,17 +200,17 @@ def __aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colourspace inverse transfer function.
 
-    References:
-
-    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
-
     :param value: value.
     :type value: float
     :param bit_depth: *ACES RGB Proxy* bit depth.
     :type bit_depth: str ("10 bit", "12 bit")
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
+    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
     """
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)

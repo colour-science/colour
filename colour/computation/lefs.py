@@ -43,10 +43,6 @@ def mesopic_weighting_function(wavelength,
     """
     Calculates the mesopic weighting function factor at given wavelength.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
-
     Usage::
 
         >>> mesopic_weighting_function(500, 0.2)
@@ -66,6 +62,10 @@ def mesopic_weighting_function(wavelength,
     :type scotopic_lef: SpectralPowerDistribution
     :return: Mesopic weighting function factor.
     :rtype: float
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
     """
 
     for function in (photopic_lef, scotopic_lef):
@@ -96,10 +96,6 @@ def mesopic_luminous_efficiency_function(Lp,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
-
     Usage::
 
         >>> mesopic_luminous_efficiency_function(0.2)
@@ -117,6 +113,10 @@ def mesopic_luminous_efficiency_function(Lp,
     :type scotopic_lef: SpectralPowerDistribution
     :return: Mesopic luminous efficiency function.
     :rtype: SpectralPowerDistribution
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
     """
 
     photopic_lef_shape, scotopic_lef_shape = photopic_lef.shape, scotopic_lef.shape

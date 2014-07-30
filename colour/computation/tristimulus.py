@@ -47,11 +47,6 @@ def spectral_to_XYZ(spd,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
-
     Usage::
 
         >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
@@ -71,7 +66,12 @@ def spectral_to_XYZ(spd,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
     """
 
     shape = cmfs.shape
@@ -129,7 +129,7 @@ def wavelength_to_XYZ(wavelength,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
     """
 

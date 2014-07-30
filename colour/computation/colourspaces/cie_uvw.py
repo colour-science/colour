@@ -39,10 +39,6 @@ def XYZ_to_UVW(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1964_color_space (Last accessed 10 June 2014)
-
     Usage::
 
         >>> XYZ_to_UVW(numpy.array([11.80583421, 10.34, 5.15089229]))
@@ -58,8 +54,12 @@ def XYZ_to_UVW(XYZ,
     :rtype: ndarray (3, 1)
 
     :warning: The arguments domains of that definition are non standard!
-    :note: *CIE XYZ* is in domain [0, 100].
-    :note: *CIE UCS* is in domain [0, 100].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    :note: Output *CIE UVW* colourspace matrix is in domain [0, 100].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIE_1964_color_space (Last accessed 10 June 2014)
     """
 
     x, y, Y = numpy.ravel(colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(XYZ, illuminant))

@@ -55,11 +55,8 @@ N_CONSTANT = 1.
 def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.
-    The following form implementation is expressed in term of wavelength. The SI unit of radiance is watts per steradian per square metre.
-
-    References:
-
-    -  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E. Information on the Use of Planck's Equation for Standard Air. <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+    The following form implementation is expressed in term of wavelength.
+    The SI unit of radiance is watts per steradian per square metre.
 
     Usage::
 
@@ -70,14 +67,24 @@ def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONS
     :type wavelength: float
     :param temperature: Temperature in kelvins.
     :type temperature: float
-    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
+    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), \
+    and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
     :type c1: float
-    :param c2: Since T is measured on the International Temperature Scale, the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
+    :param c2: Since T is measured on the International Temperature Scale, \
+    the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) \
+    (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
     :type c2: float
-    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, containing 0,03 percent by volume of carbon dioxide, it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
+    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, \
+    containing 0,03 percent by volume of carbon dioxide, \
+    it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
     :type n: float
     :return: Radiance.
     :rtype: float
+
+    References:
+
+    -  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E. Information on the Use of Planck's Equation for Standard Air. \
+    <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
     """
 
     t = temperature
@@ -118,11 +125,16 @@ def blackbody_spectral_power_distribution(temperature,
     :type end: float
     :param steps: Wavelengths range steps.
     :type steps: float
-    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
+   :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), \
+    and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
     :type c1: float
-    :param c2: Since T is measured on the International Temperature Scale, the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
+    :param c2: Since T is measured on the International Temperature Scale, \
+    the value of C2 used in colorimetry should follow that adopted in the current International Temperature Scale (ITS-90) \
+    (Preston-Thomas, 1990; Mielenz et aI., 1991), namely C2= 1,4388 x 10.2 m / K.
     :type c2: float
-    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, containing 0,03 percent by volume of carbon dioxide, it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
+    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, \
+    containing 0,03 percent by volume of carbon dioxide, \
+    it is approximately 1,00028 throughout the visible region although CIE 15:2004 recommends using n = 1.
     :type n: float
     :return: Blackbody spectral power distribution.
     :rtype: SpectralPowerDistribution

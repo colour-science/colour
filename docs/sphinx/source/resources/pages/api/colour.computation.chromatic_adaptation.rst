@@ -12,6 +12,8 @@ Module Attributes
 
 .. attribute:: colour.computation.chromatic_adaptation.VON_KRIES_CAT
 
+.. attribute:: colour.computation.chromatic_adaptation.FAIRCHILD_CAT
+
 .. attribute:: colour.computation.chromatic_adaptation.CAT02_CAT
 
 .. attribute:: colour.computation.chromatic_adaptation.CHROMATIC_ADAPTATION_METHODS

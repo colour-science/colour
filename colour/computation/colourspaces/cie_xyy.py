@@ -70,10 +70,6 @@ def XYZ_to_xyY(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference *illuminant*.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> XYZ_to_xyY(numpy.array([0.1180583421, 0.1034, 0.0515089229]))
@@ -88,8 +84,12 @@ def XYZ_to_xyY(XYZ,
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -103,10 +103,6 @@ def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> xyY_to_XYZ(numpy.array([0.4325, 0.3788, 0.1034]))
@@ -119,8 +115,12 @@ def xyY_to_XYZ(xyY):
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE xyY* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html (Last accessed 24 February 2014)
     """
 
     x, y, Y = numpy.ravel(xyY)
@@ -146,8 +146,8 @@ def xy_to_XYZ(xy):
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *xy* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *xy* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
     """
 
     return xyY_to_XYZ(numpy.array([xy[0], xy[1], 1.]).reshape((3, 1)))
@@ -173,8 +173,8 @@ def XYZ_to_xy(XYZ,
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *xy* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Output *xy* is in domain [0, 1].
     """
 
     xyY = numpy.ravel(XYZ_to_xyY(XYZ, illuminant))
@@ -192,7 +192,7 @@ def is_within_macadam_limits(xyY, illuminant):
     :return: Is within *MacAdam* limits.
     :rtype: bool
 
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
     """
 
     if colour.utilities.common.is_scipy_installed(raise_exception=True):

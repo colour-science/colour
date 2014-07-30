@@ -19,9 +19,11 @@ from __future__ import unicode_literals
 import bisect
 import math
 import numpy
+from collections import namedtuple
 
 import colour.computation.chromatic_adaptation
-from collections import namedtuple
+import colour.utilities.decorators
+from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,6 +41,7 @@ __all__ = ["CIECAM02_SURROUND_FCNC",
            "get_luminance_level_adaptation_factor",
            "get_chromatic_induction_factors",
            "get_base_exponential_non_linearity",
+           "get_viewing_condition_dependent_parameters",
            "get_degree_of_adaptation",
            "apply_full_chromatic_adaptation",
            "RGB_to_HPE",
@@ -88,6 +91,14 @@ def get_luminance_level_adaptation_factor(LA):
     :type LA: float
     :return: *Luminance* level adaptation factor *FL*
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     k = 1. / (5. * LA + 1)
@@ -109,6 +120,14 @@ def get_chromatic_induction_factors(n):
     :type n: float
     :return: Chromatic induction factors *Nbb* and *Ncb*.
     :rtype: tuple
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     Nbb = Ncb = 0.725 * (1. / n) ** 0.2
@@ -128,11 +147,46 @@ def get_base_exponential_non_linearity(n):
     :type n: float
     :return: Base exponential non linearity.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     z = 1.48 + math.sqrt(n)
     return z
 
+@colour.utilities.decorators.memoize(RuntimeCache.CIECAM02_viewing_condition_dependent_parameters)
+def get_viewing_condition_dependent_parameters(Yb, Yw, LA):
+    """
+    Returns the viewing condition dependent parameters.
+
+    Usage::
+
+        >>> get_viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+        (0.2, 1.16754446415, 1.00030400456, 1.00030400456, 1.9272135955)
+
+    :param Yb: Adapting field *Y* tristimulus value.
+    :type Yb: float
+    :param Yw: Whitepoint *Y* tristimulus value.
+    :type Yw: float
+    :param LA: Adapting field *luminance* in cd/m2.
+    :type LA: float
+    :return: Viewing condition dependent parameters.
+    :rtype: tuple
+    """
+
+    n = Yb / Yw
+
+    FL = get_luminance_level_adaptation_factor(LA)
+    Nbb, Ncb = get_chromatic_induction_factors(n)
+    z = get_base_exponential_non_linearity(n)
+
+    return n, FL, Nbb, Ncb, z
 
 def get_degree_of_adaptation(F, LA):
     """
@@ -150,6 +204,14 @@ def get_degree_of_adaptation(F, LA):
     :type LA: float
     :return: Degree of adaptation.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     D = F * (1. - (1. / 3.6) * numpy.exp((-LA - 42.) / 92.))
@@ -176,12 +238,20 @@ def apply_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     :type RGB: array_like
     :param RGBw: *CMCCAT2000* transform sharpened whitepoint *RGBw* matrix.
     :type RGBw: array_like
-    :param Yw: Whitepoint *Y* value to ensure that the adaptation is independent of the luminance factor of the adopted white point.
+    :param Yw: Whitepoint *Y* tristimulus value.
     :type Yw: float
     :param D: Degree of adaptation.
     :type D: float
     :return: Adapted *RGB* matrix.
     :rtype: ndarray (3, 1)
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -211,6 +281,14 @@ def RGB_to_HPE(RGB):
     :type RGB: array_like
     :return: *Hunt-Pointer-Estevez* colourspace matrix.
     :rtype: ndarray (3, 1)
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     pyb = numpy.dot(numpy.dot(HPE, CAT02_CAT_INVERSE), RGB)
@@ -234,6 +312,14 @@ def apply_post_adaptation_non_linear_response_compression(RGB, FL):
     :type RGB: array_like
     :return: Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
     :rtype: ndarray (3, 1)
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     # TODO: Check for negative values and their handling.
@@ -254,6 +340,14 @@ def get_opponent_colour_dimensions(RGB):
     :type RGB: array_like
     :return: Opponent colour dimensions
     :rtype: tuple
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -277,6 +371,14 @@ def get_hue_quadrature(h):
     :type h: float
     :return: Hue quadrature.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     hi = HUE_DATA_FOR_HUE_QUADRATURE.get("hi")
@@ -305,6 +407,14 @@ def get_eccentricity_factor(h):
     :type h: float
     :return: Eccentricity factor.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     et = 1. / 4. * (math.cos(2. + h * math.pi / 180.) + 3.8)
@@ -327,6 +437,14 @@ def get_achromatic_response(RGB, Nbb):
     :type Nbb: float
     :return: Achromatic response.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     R, G, B = numpy.ravel(RGB)
@@ -354,6 +472,14 @@ def get_lightness_correlate(A, Aw, c, z):
     :type z: float
     :return: *Lightness* correlate *J*.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     J = 100. * (A / Aw) ** (c * z)
@@ -379,6 +505,14 @@ def get_brightness_correlate(c, J, Aw, FL):
     :type FL: float
     :return: *Brightness* correlate *Q*.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     Q = (4. / c) * math.sqrt(J / 100.) * (Aw + 4) * FL ** 0.25
@@ -420,6 +554,14 @@ def get_chroma_correlate(J, n, Nc, Ncb, et, a, b, RGBa):
     :type RGBa: array_like
     :return: *Chroma* correlate *C*.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     Ra, Ga, Ba = numpy.ravel(RGBa)
@@ -444,6 +586,14 @@ def get_colourfulness_correlate(C, FL):
     :type FL: float
     :return: *Colourfulness* correlate *M*.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     M = C * FL ** 0.25
@@ -465,6 +615,14 @@ def get_saturation_correlate(M, Q):
     :type Q: float
     :return: *Saturation* correlate *s*.
     :rtype: float
+
+    References:
+
+    -  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     s = 100. * (M / Q) ** 0.5
@@ -473,12 +631,40 @@ def get_saturation_correlate(M, Q):
 
 def XYZ_to_CIECAM02(XYZ,
                     XYZw,
-                    Yb,
                     LA,
+                    Yb,
                     surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get("Average"),
                     discount_illuminant=False):
     """
     Converts given *CIE XYZ* colourspace matrix to *CIECAM02* representation.
+
+    Usage::
+
+        >>> XYZ = numpy.array([19.01, 20.00, 21.78])
+        >>> XYZw = numpy.array([95.05, 100.00, 108.88])
+        >>> LA = 318.31
+        >>> Yb = 20.0
+        >>> XYZ_to_CIECAM02(XYZ, XYZw, LA, Yb)
+        CIECAM02_JQCMshH(J=41.731091132513917, Q=195.37132596607671, C=0.1047077571711053, M=0.1088421756692261, s=2.3603053739204447, h=-140.9515673417281, H=278.06073585662813)
+
+    :param XYZ: *CIE XYZ* colourspace stimulus matrix.
+    :type XYZ: array_like
+    :param XYZw: *CIE XYZ* colourspace whitepoint matrix.
+    :type XYZw: array_like
+    :param LA: Adapting field *luminance* in cd/m2.
+    :type LA: float
+    :param Yb: Adapting field *Y* tristimulus value.
+    :type Yb: float
+    :param surround: Surround viewing conditions.
+    :type surround: CIECAM02_Surround
+    :param discount_illuminant: Discount the illuminant.
+    :type discount_illuminant: bool
+    :return: *CIECAM02* representation.
+    :rtype: CIECAM02_JQCMshH
+
+    :warning: The arguments domains of that definition are non standard!
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    :note: Input *CIE XYZw* colourspace matrix is in domain [0, 100].
 
     References:
 
@@ -486,24 +672,7 @@ def XYZ_to_CIECAM02(XYZ,
     The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277.
     -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
     The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92.
-    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
-
-    Usage::
-
-    :param XYZ: *CIE XYZ* colourspace stimulus matrix.
-    :type XYZ: array_like
-    :param XYZw: *CIE XYZ* colourspace whitepoint matrix.
-    :type XYZw: array_like
-    :param Yb: Adapting field *Y* tristimulus value.
-    :type Yb: float
-    :param LA: Adapting field *luminance* in cd/m2.
-    :type LA: float
-    :param surround: Surround viewing conditions.
-    :type surround: CIECAM02_Surround
-    :param discount_illuminant: Discount the illuminant.
-    :type discount_illuminant: bool
-    :return: *CIECAM02* representation.
-    :rtype: CIECAM02_JQCMshH
+    -  `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_  (Last accessed 30 July 2014)
     """
 
     XYZ = numpy.array(XYZ).reshape((3, 1))
@@ -511,11 +680,7 @@ def XYZ_to_CIECAM02(XYZ,
     X, Y, Z = numpy.ravel(XYZ)
     Xw, Yw, Zw = numpy.ravel(XYZw)
 
-    n = Yb / Yw
-
-    FL = get_luminance_level_adaptation_factor(LA)
-    Nbb, Ncb = get_chromatic_induction_factors(n)
-    z = get_base_exponential_non_linearity(n)
+    n, FL, Nbb, Ncb, z = get_viewing_condition_dependent_parameters(Yb, Yw, LA)
 
     # Step 1: Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
     RGB = numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, XYZ)
@@ -568,12 +733,39 @@ def XYZ_to_CIECAM02(XYZ,
     return CIECAM02_JQCMSHH(J, Q, C, M, s, h, H)
 
 
+def CIECAM02_to_XYZ(JQCMshH,
+                    XYZw,
+                    LA,
+                    Yb,
+                    surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get("Average"),
+                    discount_illuminant=False):
+
+    XYZw = numpy.array(XYZw).reshape((3, 1))
+    Xw, Yw, Zw = numpy.ravel(XYZw)
+
+    n, FL, Nbb, Ncb, z = get_viewing_condition_dependent_parameters(Yb, Yw, LA)
+
+    J, Q, C, M, s, h, H = JQCMshH
+
+
 # print XYZ_to_CIECAM02([11.18882, 9.30994, 3.21014],
 # [96.4296, 100, 82.49],
 # Yb=20,
 # LA=1000)
 
 print XYZ_to_CIECAM02([19.01, 20.00, 21.78],
+[95.05, 100.00, 108.88],
+                      Yb=20.0,
+                      LA=318.31)
+
+
+print CIECAM02_to_XYZ(CIECAM02_JQCMSHH(J=41.731091132513917,
+                                       Q=195.37132596607671,
+                                       C=0.1047077571711053,
+                                       M=0.1088421756692261,
+                                       s=2.3603053739204447,
+                                       h=-140.9515673417281,
+                                       H=278.06073585662813),
                       [95.05, 100.00, 108.88],
                       Yb=20.0,
                       LA=318.31)

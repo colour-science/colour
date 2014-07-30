@@ -39,10 +39,6 @@ def luminance_newhall1943(V):
     """
     Returns the *luminance* *Y* of given *Munsell value* *V* using *Newhall, Nickerson, and Judd* 1943 method.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
-
     Usage::
 
         >>> luminance_newhall1943(3.74629715382)
@@ -53,8 +49,12 @@ def luminance_newhall1943(V):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *V* is in domain [0, 10].
-    :note: *Y* is in domain [0, 100].
+    :note: Input *V* is in domain [0, 10].
+    :note: Output *Y* is in domain [0, 100].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
     """
 
     Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (V ** 4) + 0.0008404 * (V ** 5)
@@ -65,10 +65,6 @@ def luminance_newhall1943(V):
 def luminance_1976(L, Yn=100.):
     """
     Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
-
-    References:
-
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
 
     Usage::
 
@@ -82,8 +78,12 @@ def luminance_1976(L, Yn=100.):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *L* is in domain [0, 100].
-    :note: *Yn* is in domain [0, 100].
+    :note: Input *L* is in domain [0, 100].
+    :note: Output *Yn* is in domain [0, 100].
+
+    References:
+
+    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
     """
 
     Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
@@ -95,10 +95,6 @@ def luminance_ASTM_D1535_08(V):
     """
     Returns the *luminance* *Y* of given *Munsell value* *V* using *ASTM D1535-08e1* 2008 method.
 
-    References:
-
-    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
-
     Usage::
 
         >>> luminance_ASTM_D1535_08(3.74629715382)
@@ -109,8 +105,12 @@ def luminance_ASTM_D1535_08(V):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *V* is in domain [0, 10].
-    :note: *Y* is in domain [0, 100].
+    :note: Input *V* is in domain [0, 10].
+    :note: Output *Y* is in domain [0, 100].
+
+    References:
+
+    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
     """
 
     Y = 1.1914 * V - 0.22533 * (V * V) + 0.23352 * (V ** 3) - 0.020484 * (V ** 4) + 0.00081939 * (V ** 5)
@@ -141,8 +141,8 @@ def get_luminance(LV, Yn=100., method="Luminance 1976"):
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: *LV* is in domain [0, 100] or [0, 10] and *Yn* is in domain [0, 100].
-    :note: *Y\** is in domain [0, 100].
+    :note: Input *LV* is in domain [0, 100] or [0, 10] and *Yn* is in domain [0, 100].
+    :note: Output *Y\** is in domain [0, 100].
     """
 
     if Yn is None or method is not None:

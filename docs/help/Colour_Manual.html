@@ -294,6 +294,16 @@
 					<ul class="simple">
 						<li>Colour rendition charts spectral data.
 						</li>
+						<li>Colour appearance models:
+						</li>
+					</ul>
+					<blockquote>
+						<ul class="simple">
+							<li>CIECAM02
+							</li>
+						</ul>
+					</blockquote>
+					<ul class="simple">
 						<li>Correlated colour temperature calculation:
 						</li>
 					</ul>
@@ -571,7 +581,7 @@
 						</li>
 						<li>Colour rendition chart data.
 						</li>
-						<li>Colourspaces visualisation within <strong>Autodesk Maya</strong>.
+						<li>RGB colourspaces visualisation within <strong>Autodesk Maya</strong>.
 						</li>
 						<li>First order colour fit.
 						</li>
@@ -653,7 +663,7 @@ python setup.py install
 						<strong>Yoshi Ohno</strong> for helping me pinpointing the root cause of calculation discrepancies in my implementation of his CCT &amp; Duv calculation method.
 					</li>
 					<li>
-						<strong>Charles Poynton</strong> for taking time to reply to my questions.
+						<strong>Charles Poynton</strong> for replying to my questions.
 					</li>
 					<li>
 						<strong>Michael Parsons</strong> for all the continuous technical advices.
@@ -667,6 +677,9 @@ python setup.py install
 				<ul class="simple">
 					<li>
 						<strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3
+					</li>
+					<li>
+						<strong>Mark D. Fairchild</strong>, <em>Color Appearance Models, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161
 					</li>
 					<li>
 						<strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5
@@ -693,7 +706,7 @@ python setup.py install
 					</h2>
 					<ul class="simple">
 						<li>
-							<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=47">CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable</a>, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 33. (Last accessed 28 May 2014)
+							<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=47">CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable</a> (Last accessed 28 May 2014), <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
 						</li>
 					</ul>
 				</div>
@@ -707,22 +720,35 @@ python setup.py install
 						</li>
 					</ul>
 				</div>
-				<div class="section" id="chromatic-adaptation">
+				<div class="section" id="chromatic-adaptation-transforms">
 					<h2>
-						Chromatic Adaptation
+						Chromatic Adaptation Transforms
 					</h2>
 					<ul class="simple">
 						<li>
-							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling Chromatic Adaptation</a> (Last accessed 24 February 2014)
+							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">XYZ Scaling Chromatic Adaptation Transform</a> (Last accessed 24 February 2014)
 						</li>
 						<li>
-							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford Chromatic Adaptation</a> (Last accessed 24 February 2014)
+							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Bradford Chromatic Adaptation Transform</a> (Last accessed 24 February 2014)
 						</li>
 						<li>
-							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries Chromatic Adaptation</a> (Last accessed 24 February 2014)
+							<strong>Bruce Lindbloom</strong>, <a class="reference external" href="http://brucelindbloom.com/Eqn_ChromAdapt.html">Von Kries Chromatic Adaptation Transform</a> (Last accessed 24 February 2014)
+						</li>
+						<li>
+							<strong>Mark D. Fairchild</strong>, <a class="reference external" href="http://rit-mcsl.org/fairchild//files/FairchildYSh.zip">Fairchild Chromatic Adaptation Transform</a> (Last accessed 28 July 2014)
 						</li>
 						<li>
 							<a class="reference external" href="http://en.wikipedia.org/wiki/CIECAM02#CAT0">CAT02 Chromatic Adaptation</a> (Last accessed 24 February 2014)
+						</li>
+					</ul>
+				</div>
+				<div class="section" id="colour-appearance-models">
+					<h2>
+						Colour Appearance Models
+					</h2>
+					<ul class="simple">
+						<li>
+							<strong>CIECAM02</strong>, <strong>Mark D. Fairchild</strong>, <em>Color Appearance Models, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277., <strong>CIECAM02</strong>, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92., <a class="reference external" href="http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf">The CIECAM02 Color Appearance Model</a> (Last accessed 30 July 2014)
 						</li>
 					</ul>
 				</div>
@@ -745,7 +771,7 @@ python setup.py install
 							<a class="reference external" href="http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls">BabelColor ColorChecker RGB &amp; Spectral Data</a> (Last accessed 24 February 2014)
 						</li>
 						<li>
-							<strong>N. Ohta</strong>, <a class="reference external" href="http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls">CMacbeth olorChecker Spectral Data</a> (Last accessed 9 June 2014)
+							<strong>N. Ohta</strong>, <a class="reference external" href="http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls">Macbeth ColorChecker Spectral Data</a> (Last accessed 9 June 2014)
 						</li>
 					</ul>
 				</div>
@@ -805,10 +831,10 @@ python setup.py install
 							<a class="reference external" href="http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm">CIE 2012 10 Degree Standard Observer</a> (Last accessed 24 February 2014)
 						</li>
 						<li>
-							<strong>Wright &amp; Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Pages 138, 139.
+							<strong>Wright &amp; Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
 						</li>
 						<li>
-							<strong>Stiles &amp; Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 141.
+							<strong>Stiles &amp; Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
 						</li>
 						<li>
 							<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=48">Stiles &amp; Burch 1959 10 Degree RGB CMFs to Stockman &amp; Sharpe 10 Degree Cone Fundamentals</a> (Last accessed 23 June 2014)
@@ -840,7 +866,7 @@ python setup.py install
 					</h2>
 					<ul class="simple">
 						<li>
-							<strong>Alan R. Roberston</strong>, <em>Adobe DNG SDK 1.3.0.0</em>: <em>dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp</em> (Last accessed 2 December 2013), <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 227
+							<strong>Alan R. Roberston</strong>, <em>Adobe DNG SDK 1.3.0.0</em>: <em>dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp</em> (Last accessed 2 December 2013), <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227
 						</li>
 						<li>
 							<strong>Yoshi Ohno</strong>, <a class="reference external" href="http://dx.doi.org/10.1080/15502724.2014.839020">Practical Use and Calculation of CCT and Duv</a> (Last accessed 3 March 2014)
@@ -855,7 +881,7 @@ python setup.py install
 							<strong>Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim</strong>, <a class="reference external" href="http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf">Design of Advanced Color - Temperature Control System for HDTV Applications</a> (Last accessed 29 June 2014)
 						</li>
 						<li>
-							<strong>CIE Method of Calculating D-Illuminants</strong>, <strong>D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 145
+							<strong>CIE Method of Calculating D-Illuminants</strong>, <strong>D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 145
 						</li>
 					</ul>
 				</div>
@@ -1027,9 +1053,25 @@ python setup.py install
 						</li>
 					</ul>
 				</div>
-				<div class="section" id="luminance-munsell-value-lightness">
+				<div class="section" id="lightness">
 					<h2>
-						Luminance, Munsell Value, Lightness
+						Lightness
+					</h2>
+					<ul class="simple">
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Glasser 1958</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Wyszecki 1964</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
+						</li>
+					</ul>
+				</div>
+				<div class="section" id="luminance">
+					<h2>
+						Luminance
 					</h2>
 					<ul class="simple">
 						<li>
@@ -1042,31 +1084,7 @@ python setup.py install
 							<a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Luminance 1976</a> (Last accessed 12 April 2014)
 						</li>
 						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Priest 1920</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Munsell 1933</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Moon 1943</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Saunderson 1944</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Ladd 1955</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<strong>Munsell Value McCamy 1987</strong>, <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf">Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989</a> (Last accessed 23 July 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Glasser 1958</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Lightness Wyszecki 1964</a> (Last accessed 13 April 2014)
-						</li>
-						<li>
-							<strong>Charles Poynton</strong>, <a class="reference external" href="http://www.poynton.com/PDFs/GammaFAQ.pdf">Lightness 1976</a> (Last accessed 12 April 2014)
+							<a class="reference external" href="http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System">Luminance ASTM D1535-08</a>
 						</li>
 					</ul>
 				</div>
@@ -1101,19 +1119,60 @@ python setup.py install
 						</li>
 					</ul>
 				</div>
+				<div class="section" id="munsell-renotation-system">
+					<h2>
+						Munsell Renotation System
+					</h2>
+					<ul class="simple">
+						<li>
+							<strong>Paul Centore</strong>, <a class="reference external" href="http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf">An Open-Source Inversion Algorithm for the Munsell Renotation</a> (Last accessed 26 July 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://www.99main.com/~centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html">The Munsell and Kubelka-Munk Toolbox</a> (Last accessed 26 July 2014)
+						</li>
+					</ul>
+				</div>
+				<div class="section" id="munsell-value">
+					<h2>
+						Munsell Value
+					</h2>
+					<ul class="simple">
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Priest 1920</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Munsell 1933</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Moon 1943</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Saunderson 1944</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value Ladd 1955</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<a class="reference external" href="http://en.wikipedia.org/wiki/Lightness">Munsell Value ASTM D1535-08</a> (Last accessed 13 April 2014)
+						</li>
+						<li>
+							<strong>Munsell Value McCamy 1987</strong>, <a class="reference external" href="https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf">Standard Test Method for Specifying Color by the Munsell System - ASTM-D1535-1989</a> (Last accessed 23 July 2014)
+						</li>
+					</ul>
+				</div>
 				<div class="section" id="optimal-colour-stimuli">
 					<h2>
 						Optimal Colour Stimuli
 					</h2>
 					<ul class="simple">
 						<li>
-							<strong>A</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Pages 776, 777
+							<strong>A</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 776, 777
 						</li>
 						<li>
 							<strong>C</strong>, <strong>David MacAdam</strong>. <em>Maximum Visual Efficiency of Colored Materials</em> JOSA, Vol. 25, Pages 361, 367
 						</li>
 						<li>
-							<strong>D65</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Pages 778, 779
+							<strong>D65</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 778, 779
 						</li>
 					</ul>
 				</div>
@@ -1217,10 +1276,10 @@ python setup.py install
 					</h2>
 					<ul class="simple">
 						<li>
-							<strong>Spectral to XYZ Tristimulus Values</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Page 158.
+							<strong>Spectral to XYZ Tristimulus Values</strong>, <strong>Wyszecki &amp; Stiles</strong>, <em>Color Science - Concepts and Methods Data and Formulae - Second Edition</em>, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
 						</li>
 						<li>
-							<strong>Stearns Spectral Bandpass Dependence Correction</strong>, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, Page 38.
+							<strong>Stearns Spectral Bandpass Dependence Correction</strong>, <strong>Stephen Westland, Caterina Ripamonti, Vien Cheung</strong>, <em>Computational Colour Science Using MATLAB, 2nd Edition</em>, The Wiley-IS&amp;T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
 						</li>
 						<li>
 							<a class="reference external" href="http://div1.cie.co.at/?i_ca_id=551&amp;pubid=47">CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9. INTERPOLATION</a> (Last accessed 28 May 2014)
@@ -1296,7 +1355,7 @@ python setup.py install
 					<!-- .about -->
 				</div>
 			</div>
-			<div class="section" id="id12">
+			<div class="section" id="id13">
 				<h1>
 					<span class="target" id="about">About</span>
 				</h1>

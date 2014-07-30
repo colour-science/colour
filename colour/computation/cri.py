@@ -127,10 +127,6 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     """
     Returns the *colour rendering index* of given spectral power distribution.
 
-    References:
-
-    -  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls (Last accessed 10 June 2014)
-
     Usage::
 
         >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
@@ -143,6 +139,10 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     :type additional_data: bool
     :return: Colour rendering index, Tsc data.
     :rtype: float or (float, dict)
+
+    References:
+
+    -  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls (Last accessed 10 June 2014)
     """
 
     cmfs = colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")

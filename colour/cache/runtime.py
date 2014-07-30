@@ -47,7 +47,10 @@ class RuntimeCache():
     """Optima colour stimuli triangulations in *CIE XYZ* colourspace."""
 
     munsell_value_ASTM_D1535_08_interpolator = None
-    """Munsell Value ASTM-D1535-08 interpolator."""
+    """*Munsell* Value ASTM-D1535-08 interpolator."""
 
     munsell_maximum_chromas_from_renotation = None
-    """Munsell maximum chroma from renotation for each hue / value pairs."""
+    """*Munsell* maximum chroma from renotation for each hue / value pairs."""
+
+    CIECAM02_viewing_condition_dependent_parameters = {}
+    """*CIECAM02* viewing condition dependent parameters."""

@@ -70,10 +70,6 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     """
     Returns the *chromatic adaptation* matrix from given source and target *CIE XYZ* *array_like* variables.
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_ChromAdapt.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> XYZ1 = numpy.array([1.09923822, 1.000, 0.35445412])
@@ -91,6 +87,10 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     :type method: unicode ("XYZ Scaling", "Bradford", "Von Kries", "CAT02")
     :return: Chromatic adaptation matrix.
     :rtype: ndarray (3, 3)
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_ChromAdapt.html (Last accessed 24 February 2014)
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)

@@ -43,10 +43,6 @@ def XYZ_to_Lab(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> XYZ_to_Lab(numpy.array([0.92193107, 1., 1.03744246]))
@@ -61,9 +57,13 @@ def XYZ_to_Lab(XYZ,
     :return: *CIE Lab* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *illuminant* is in domain [0, 1].
-    :note: *L\** is in domain [0, 100].
+    :note: Input *CIE XYZ* is in domain [0, 1].
+    :note: Input *illuminant* is in domain [0, 1].
+    :note: Output *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -90,10 +90,6 @@ def Lab_to_XYZ(Lab,
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
-
     Usage::
 
         >>> Lab_to_XYZ(numpy.array([100., -7.41787844, -15.85742105]))
@@ -105,12 +101,16 @@ def Lab_to_XYZ(Lab,
     :type Lab: array_like (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
-    :return: *CIE Lab* colourspace matrix.
+    :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
-    :note: *illuminant* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *L\** is in domain [0, 100].
+    :note: Input *illuminant* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -135,10 +135,6 @@ def Lab_to_LCHab(Lab):
     """
     Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> Lab_to_LCHab(numpy.array([100., -7.41787844, -15.85742105]))
@@ -152,6 +148,10 @@ def Lab_to_LCHab(Lab):
     :rtype: ndarray (3, 1)
 
     :note: *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html (Last accessed 24 February 2014)
     """
 
     L, a, b = numpy.ravel(Lab)
@@ -167,10 +167,6 @@ def LCHab_to_Lab(LCHab):
     """
     Converts from *CIE LCHab* colourspace to *CIE Lab* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> LCHab_to_Lab(numpy.array([100., 17.50664796, 244.93046842]))
@@ -184,6 +180,10 @@ def LCHab_to_Lab(LCHab):
     :rtype: ndarray (3, 1)
 
     :note: *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html (Last accessed 24 February 2014)
     """
 
     L, C, H = numpy.ravel(LCHab)

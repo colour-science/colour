@@ -359,10 +359,10 @@ def XYZ_to_RGB(XYZ,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *illuminant_XYZ* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_XYZ* is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
     cat = colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
@@ -417,10 +417,10 @@ def RGB_to_XYZ(RGB,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *illuminant_XYZ* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Input *illuminant_XYZ* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
     """
 
     if inverse_transfer_function is not None:
@@ -475,10 +475,10 @@ def xyY_to_RGB(xyY,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE xyY* is in domain [0, 1].
-    :note: *illuminant_xyY* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_xyY* is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
     return XYZ_to_RGB(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ(xyY),
@@ -526,10 +526,10 @@ def RGB_to_xyY(RGB,
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *illuminant_xyY* is in domain [0, 1].
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Input *illuminant_xyY* is in domain [0, 1].
+    :note: Output *CIE xyY* is in domain [0, 1].
     """
 
     return colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(RGB_to_XYZ(RGB,
@@ -566,7 +566,7 @@ def RGB_to_RGB(RGB,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
+    :note: *RGB* colourspace matrices are in domain [0, 1].
     """
 
     cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(input_colourspace.whitepoint),

@@ -33,12 +33,9 @@ __all__ = ["delta_E_CIE_1976",
 
 
 def delta_E_CIE_1976(lab1, lab2):
+
     """
     Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
-
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -53,18 +50,17 @@ def delta_E_CIE_1976(lab1, lab2):
     :type lab2: array_like (3, 1)
     :return: Colour difference.
     :rtype: float
-    """
 
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html (Last accessed 24 February 2014)
+    """
     return numpy.linalg.norm(numpy.array(lab1) - numpy.array(lab2))
 
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
     """
     Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1994* recommendation.
-
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html (Last accessed 24 February 2014)
 
     Usage::
 
@@ -81,6 +77,10 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     :type textiles: bool
     :return: Colour difference.
     :rtype: float
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html (Last accessed 24 February 2014)
     """
 
     k1 = 0.048 if textiles else 0.045
@@ -120,10 +120,6 @@ def delta_E_CIE_2000(lab1, lab2):
     """
     Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 2000* recommendation.
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
@@ -137,6 +133,10 @@ def delta_E_CIE_2000(lab1, lab2):
     :type lab2: array_like (3, 1)
     :return: Colour difference.
     :rtype: float
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html (Last accessed 24 February 2014)
     """
 
     L1, a1, b1 = numpy.ravel(lab1)
@@ -211,10 +211,6 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     allowing the users to weight the difference based on the ratio of l:c.
     Commonly used values are 2:1 for acceptability and 1:1 for the threshold of imperceptibility.
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html (Last accessed 24 February 2014)
-
     Usage::
 
         >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
@@ -232,6 +228,10 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     :type c: float
     :return: Colour difference.
     :rtype: float
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html (Last accessed 24 February 2014)
     """
 
     L1, a1, b1 = numpy.ravel(lab1)

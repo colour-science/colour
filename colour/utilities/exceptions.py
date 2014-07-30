@@ -52,7 +52,6 @@ class AbstractError(Exception):
     References:
 
     -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/exceptions.py
-
     """
 
     def __init__(self, value):

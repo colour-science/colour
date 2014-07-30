@@ -34,11 +34,6 @@ def bandpass_correction_stearns(spd):
     Implements spectral bandpass dependence correction on given spectral power distribution \
     using *Stearns and Stearns (1988)* method.
 
-    References:
-
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
-    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
-
     Usage::
 
         >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
@@ -50,6 +45,11 @@ def bandpass_correction_stearns(spd):
     :type spd: SpectralPowerDistribution
     :return: Spectral bandpass dependence corrected spectral power distribution.
     :rtype: SpectralPowerDistribution
+
+    References:
+
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
     """
 
     values = spd.values
