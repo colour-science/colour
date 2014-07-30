@@ -29,19 +29,19 @@ Functions
 
 .. autofunction:: get_degree_of_adaptation
 
-.. autofunction:: apply_full_chromatic_adaptation
+.. autofunction:: apply_forward_full_chromatic_adaptation
 
 .. autofunction:: RGB_to_HPE
 
-.. autofunction:: apply_post_adaptation_non_linear_response_compression
+.. autofunction:: apply_forward_post_adaptation_non_linear_response_compression
 
-.. autofunction:: get_opponent_colour_dimensions
+.. autofunction:: get_forward_opponent_colour_dimensions
 
 .. autofunction:: get_hue_quadrature
 
-.. autofunction:: get_eccentricity_factor
+.. autofunction:: get_forward_eccentricity_factor
 
-.. autofunction:: get_achromatic_response
+.. autofunction:: get_forward_achromatic_response
 
 .. autofunction:: get_lightness_correlate
 
