@@ -252,13 +252,14 @@ Acknowledgements
 ----------------
 
 -  **Yoshi Ohno** for helping me pinpointing the root cause of calculation discrepancies in my implementation of his CCT & Duv calculation method.
--  **Charles Poynton** for taking time to reply to my questions.
+-  **Charles Poynton** for replying to my questions.
 -  **Michael Parsons** for all the continuous technical advices.
 
 References
 ----------
 
 -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3
+-  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161
 -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5
 -  **Richard Sewall Hunter**, *The Measurement of Appearance, 2nd Edition*, published August 25, 1987, ISBN-13: 978-0471830061
 -  **Edward J. Giorgianni & Thomas E. Madden**, *Digital Colour Management: Encoding Solutions - Second Edition*, Wiley, published November 2008, ISBN-13: 978-0-470-99436-8
