@@ -33,6 +33,17 @@ from colour.computation.cmfs import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from colour.computation.cmfs import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.computation.cmfs import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
+from colour.computation.cns.munsell import munsell_colour_to_xyY, xyY_to_munsell_colour
+from colour.computation.cns.munsell import get_munsell_value
+from colour.computation.cns.munsell import \
+    munsell_value_priest1920, \
+    munsell_value_munsell1933, \
+    munsell_value_moon1943, \
+    munsell_value_saunderson1944, \
+    munsell_value_ladd1955, \
+    munsell_value_mccamy1987,\
+    munsell_value_ASTM_D1535_08
+from colour.computation.cns.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.colourspaces.cie_lab import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from colour.computation.colourspaces.cie_luv import \
     XYZ_to_Luv, \
@@ -53,17 +64,6 @@ from colour.computation.colourspaces.rgb.derivation import \
 from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_Colourspace
 from colour.computation.colourspaces.rgb.rgb_colourspace import xyY_to_RGB, RGB_to_xyY, XYZ_to_RGB, RGB_to_XYZ
 from colour.computation.colourspaces.rgb.rgb_colourspace import RGB_to_RGB
-from colour.computation.colourspaces.munsell import munsell_colour_to_xyY, xyY_to_munsell_colour
-from colour.computation.colourspaces.munsell import get_munsell_value
-from colour.computation.colourspaces.munsell import \
-    munsell_value_priest1920, \
-    munsell_value_munsell1933, \
-    munsell_value_moon1943, \
-    munsell_value_saunderson1944, \
-    munsell_value_ladd1955, \
-    munsell_value_mccamy1987,\
-    munsell_value_ASTM_D1535_08
-from colour.computation.colourspaces.munsell import MUNSELL_VALUE_FUNCTIONS
 from colour.computation.correction import bandpass_correction, bandpass_correction_stearns
 from colour.computation.cri import get_colour_rendering_index
 from colour.computation.difference import delta_E_CIE_1976, delta_E_CIE_1994, delta_E_CIE_2000, delta_E_CMC
@@ -162,6 +162,19 @@ __all__.extend(["RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
                 "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
                 "LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs"])
 
+# *colour.computation.cns.munsell* objects.
+__all__.extend(["munsell_colour_to_xyY", "xyY_to_munsell_colour"])
+__all__.extend(["get_munsell_value"])
+__all__.extend(
+    ["munsell_value_priest1920",
+     "munsell_value_munsell1933",
+     "munsell_value_moon1943",
+     "munsell_value_saunderson1944",
+     "munsell_value_ladd1955",
+     "munsell_value_mccamy1987",
+     "munsell_value_ASTM_D1535_08"])
+__all__.extend(["MUNSELL_VALUE_FUNCTIONS"])
+
 # *colour.computation.colourspaces.cie_lab* objects.
 __all__.extend(["XYZ_to_Lab", "Lab_to_XYZ", "Lab_to_LCHab", "LCHab_to_Lab"])
 
@@ -187,19 +200,6 @@ __all__.extend(["RGB_Colourspace",
                 "xyY_to_RGB", "RGB_to_xyY",
                 "XYZ_to_RGB", "RGB_to_XYZ",
                 "RGB_to_RGB"])
-
-# *colour.computation.colourspaces.munsell* objects.
-__all__.extend(["munsell_colour_to_xyY", "xyY_to_munsell_colour"])
-__all__.extend(["get_munsell_value"])
-__all__.extend(
-    ["munsell_value_priest1920",
-     "munsell_value_munsell1933",
-     "munsell_value_moon1943",
-     "munsell_value_saunderson1944",
-     "munsell_value_ladd1955",
-     "munsell_value_mccamy1987",
-     "munsell_value_ASTM_D1535_08"])
-__all__.extend(["MUNSELL_VALUE_FUNCTIONS"])
 
 # *colour.computation.correction* objects.
 __all__.extend(["bandpass_correction", "bandpass_correction_stearns"])
