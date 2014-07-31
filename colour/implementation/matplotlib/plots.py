@@ -114,7 +114,7 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
 
 
-def __get_cmfs(cmfs):
+def _get_cmfs(cmfs):
     """
     Returns the colour matching functions with given name.
 
@@ -133,7 +133,7 @@ def __get_cmfs(cmfs):
     return cmfs
 
 
-def __get_illuminant(illuminant):
+def _get_illuminant(illuminant):
     """
     Returns the illuminant with given name.
 
@@ -153,7 +153,7 @@ def __get_illuminant(illuminant):
     return illuminant
 
 
-def __get_RGB_colourspace(colourspace):
+def _get_RGB_colourspace(colourspace):
     """
     Returns the *RGB* colourspace with given name.
 
@@ -173,7 +173,7 @@ def __get_RGB_colourspace(colourspace):
     return colourspace
 
 
-def __get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
+def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 
@@ -661,7 +661,7 @@ def single_spd_plot(spd,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     start, end, steps = cmfs.shape
     spd = spd.clone().interpolate(start, end, steps)
@@ -721,7 +721,7 @@ def multi_spd_plot(spds,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     if use_spds_colours:
         illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D65")
@@ -812,7 +812,7 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
                       ("y", [0., 1., 0.]),
                       ("z", [0., 0., 1.])):
         for i, cmfs in enumerate(cmfss):
-            cmfs, name = __get_cmfs(cmfs), cmfs
+            cmfs, name = _get_cmfs(cmfs), cmfs
 
             rgb = map(lambda x: reduce(lambda y, _: y * 0.5, xrange(i), x), rgb)
             wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
@@ -867,8 +867,8 @@ def single_illuminant_relative_spd_plot(illuminant="A",
 
     title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
 
-    illuminant, name = __get_illuminant(illuminant), illuminant
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    illuminant, name = _get_illuminant(illuminant), illuminant
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     settings = {"title": title,
                 "y_label": "Relative Spectral Power Distribution"}
@@ -896,7 +896,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
 
     spds = []
     for illuminant in illuminants:
-        spds.append(__get_illuminant(illuminant))
+        spds.append(_get_illuminant(illuminant))
 
     settings = {"title": "{0} - Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
                 "y_label": "Relative Spectral Power Distribution"}
@@ -922,7 +922,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     cmfs = cmfs.clone().interpolate(360, 830)
 
@@ -972,7 +972,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("E")
@@ -1026,7 +1026,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1931_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1112,7 +1112,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     settings = {"title": "{0} - {1}".format(", ".join(colourspaces), name),
                 "standalone": False}
@@ -1128,7 +1128,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:
-            colourspace, name = __get_RGB_colourspace(colourspace), colourspace
+            colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
             random_colour = lambda: float(random.randint(64, 224)) / 255
             r, g, b = random_colour(), random_colour(), random_colour()
@@ -1263,7 +1263,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("E")
@@ -1318,7 +1318,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1481,7 +1481,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("D50")
@@ -1536,7 +1536,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1798,7 +1798,7 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
 
     samples = numpy.linspace(0., 1., 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = __get_RGB_colourspace(colourspace), colourspace
+        colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
         RGBs = numpy.array(
             map(colourspace.inverse_transfer_function if inverse else colourspace.transfer_function, samples))
@@ -1845,7 +1845,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
@@ -1909,7 +1909,7 @@ def blackbody_colours_plot(start=150,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     colours = []
     temperatures = []

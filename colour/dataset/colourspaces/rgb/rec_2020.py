@@ -57,7 +57,7 @@ REC_2020_CONSTANTS = colour.utilities.data_structures.Structure(alpha=lambda x: 
                                                                 beta=lambda x: 0.018 if x else 0.0181)
 
 
-def __rec_2020_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace transfer function.
 
@@ -79,7 +79,7 @@ def __rec_2020_transfer_function(value, is_10_bits_system=True):
             REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)
 
 
-def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace inverse transfer function.
 
@@ -101,9 +101,9 @@ def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
         (1. / 0.45)
 
 
-REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function
+REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function
 
-REC_2020_INVERSE_TRANSFER_FUNCTION = __rec_2020_inverse_transfer_function
+REC_2020_INVERSE_TRANSFER_FUNCTION = _rec_2020_inverse_transfer_function
 
 REC_2020_COLOURSPACE = RGB_Colourspace("Rec. 2020",
                                        REC_2020_PRIMARIES,

@@ -38,7 +38,7 @@ __all__ = ["XYZ_to_xyY",
            "is_within_macadam_limits"]
 
 
-def __get_XYZ_optimal_colour_stimuli(illuminant):
+def _get_XYZ_optimal_colour_stimuli(illuminant):
     """
     Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace and caches it if not existing.
 
@@ -198,7 +198,7 @@ def is_within_macadam_limits(xyY, illuminant):
     if colour.utilities.common.is_scipy_installed(raise_exception=True):
         from scipy.spatial import Delaunay
 
-        optimal_colour_stimuli = __get_XYZ_optimal_colour_stimuli(illuminant)
+        optimal_colour_stimuli = _get_XYZ_optimal_colour_stimuli(illuminant)
         triangulation = RuntimeCache.XYZ_optimal_colour_stimuli_triangulations.get(illuminant)
         if triangulation is None:
             RuntimeCache.XYZ_optimal_colour_stimuli_triangulations[illuminant] = triangulation = \

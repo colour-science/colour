@@ -89,7 +89,7 @@ ACES_RGB_LOG_CONSTANTS = colour.utilities.data_structures.Structure(log_unity=32
                                                                     denorm_fake0=math.pow(2., -16))
 
 
-def __aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
+def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     """
     Defines the *ACES RGB Log* colourspace transfer function.
 
@@ -120,7 +120,7 @@ def __aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     return value
 
 
-def __aces_rgb_log_inverse_transfer_function(value):
+def _aces_rgb_log_inverse_transfer_function(value):
     """
     Defines the *ACES RGB Log* colourspace inverse transfer function.
 
@@ -142,9 +142,9 @@ def __aces_rgb_log_inverse_transfer_function(value):
     return value
 
 
-ACES_RGB_LOG_TRANSFER_FUNCTION = __aces_rgb_log_transfer_function
+ACES_RGB_LOG_TRANSFER_FUNCTION = _aces_rgb_log_transfer_function
 
-ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = __aces_rgb_log_inverse_transfer_function
+ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = _aces_rgb_log_inverse_transfer_function
 
 ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace("ACES RGB Log",
                                            ACES_RGB_PRIMARIES,
@@ -170,7 +170,7 @@ ACES_RGB_PROXY_CONSTANTS = {"10 bit": ACES_RGB_PROXY_10_CONSTANTS,
                             "12 bit": ACES_RGB_PROXY_12_CONSTANTS}
 
 
-def __aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
+def _aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colourspace transfer function.
 
@@ -196,7 +196,7 @@ def __aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
         return constants.CV_min
 
 
-def __aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
+def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
     """
     Defines the *ACES RGB Proxy* colourspace inverse transfer function.
 
@@ -218,14 +218,14 @@ def __aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
     return math.pow(2., (((value - constants.mid_CV_offset) / constants.steps_per_stop) + constants.mid_log_offset))
 
 
-ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_transfer_function(x, bit_depth="10 bit")
+ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: _aces_rgb_proxy_transfer_function(x, bit_depth="10 bit")
 
-ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_inverse_transfer_function(x,
+ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: _aces_rgb_proxy_inverse_transfer_function(x,
                                                                                                    bit_depth="10 bit")
 
-ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_transfer_function(x, bit_depth="12 bit")
+ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: _aces_rgb_proxy_transfer_function(x, bit_depth="12 bit")
 
-ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: __aces_rgb_proxy_inverse_transfer_function(x,
+ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: _aces_rgb_proxy_inverse_transfer_function(x,
                                                                                                    bit_depth="12 bit")
 
 ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace("ACES RGB Proxy 10",

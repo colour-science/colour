@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-from colour.algebra.common import get_closest, get_steps, is_uniform, is_iterable, to_ndarray, is_number
+from colour.algebra.common import get_steps, get_closest, to_ndarray, is_uniform, is_iterable, is_number, is_even_integer
 from colour.algebra.coordinates.transformations import cartesian_to_cylindrical, cylindrical_to_cartesian
 from colour.algebra.coordinates.transformations import cartesian_to_spherical, spherical_to_cartesian
 from colour.algebra.extrapolation import Extrapolator1d
@@ -140,7 +140,7 @@ __version__ = ".".join((__major_version__, __minor_version__, __change_version__
 __all__ = []
 
 # *colour.algebra* objects.
-__all__.extend(["get_closest", "get_steps", "is_uniform", "is_iterable", "to_ndarray", "is_number",
+__all__.extend(["get_steps", "get_closest", "to_ndarray", "is_uniform", "is_iterable", "is_number", "is_even_integer",
                 "cartesian_to_cylindrical", "cylindrical_to_cartesian",
                 "cartesian_to_spherical", "spherical_to_cartesian",
                 "Extrapolator1d",

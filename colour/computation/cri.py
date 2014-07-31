@@ -43,7 +43,7 @@ __all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",
 TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple("TscColorimetryData_nXYZuvUVW", ("name", "XYZ", "uv", "UVW"))
 
 
-def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromatic_adaptation=False):
+def _get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromatic_adaptation=False):
     """
     Returns the *test colour samples* colorimetry data.
 
@@ -105,7 +105,7 @@ def __get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromati
     return tcs_data
 
 
-def __get_colour_rendering_indexes(test_data, reference_data):
+def _get_colour_rendering_indexes(test_data, reference_data):
     """
     Returns the *test colour samples* rendering indexes.
 
@@ -165,14 +165,14 @@ def get_colour_rendering_index(test_spd, additional_data=False):
         reference_spd = colour.computation.illuminants.D_illuminant_relative_spd(xy)
         reference_spd.align(start, end, steps)
 
-    test_tcs_colorimetry_data = __get_tcs_colorimetry_data(test_spd,
+    test_tcs_colorimetry_data = _get_tcs_colorimetry_data(test_spd,
                                                            reference_spd,
                                                            tcs_spds,
                                                            cmfs,
                                                            chromatic_adaptation=True)
-    reference_tcs_colorimetry_data = __get_tcs_colorimetry_data(reference_spd, reference_spd, tcs_spds, cmfs)
+    reference_tcs_colorimetry_data = _get_tcs_colorimetry_data(reference_spd, reference_spd, tcs_spds, cmfs)
 
-    colour_rendering_indexes = __get_colour_rendering_indexes(test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
+    colour_rendering_indexes = _get_colour_rendering_indexes(test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
     colour_rendering_index = numpy.average(
         [v for k, v in colour_rendering_indexes.iteritems() if k in (1, 2, 3, 4, 5, 6, 7, 8)])

@@ -47,15 +47,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["FPNP",
-           "MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
+__all__ = ["MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN",
            "MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT",
            "MUNSELL_RENOTATION_SYSTEM_GRAY_EXTENDED_FORMAT",
            "MUNSELL_RENOTATION_SYSTEM_COLOUR_EXTENDED_FORMAT",
            "MUNSELL_HUE_LETTER_CODES",
-           "EVEN_INTEGER_THRESHOLD",
            "MUNSELL_DEFAULT_ILLUMINANT",
            "MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES",
            "parse_munsell_colour",
@@ -88,10 +86,10 @@ __all__ = ["FPNP",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
-FPNP = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
-MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(FPNP)
+MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(colour.algebra.common.FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN = \
-    "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(FPNP)
+    "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(
+        colour.algebra.common.FLOATING_POINT_NUMBER_PATTERN)
 
 MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT = "N{0}"
 MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT = "{0} {1}/{2}"
@@ -110,15 +108,13 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     "R": 7,
     "P": 9})
 
-EVEN_INTEGER_THRESHOLD = 0.001
-
 MUNSELL_DEFAULT_ILLUMINANT = "C"
 MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
     colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get(MUNSELL_DEFAULT_ILLUMINANT)
 
 
-def __get_munsell_specifications():
+def _get_munsell_specifications():
     """
     Returns the *Munsell Renotation System* specifications and caches them if not existing.
     The *Munsell Renotation System* data is stored in :attr:`colour.MUNSELL_COLOURS` attribute in a 2 columns form:
@@ -145,7 +141,7 @@ def __get_munsell_specifications():
     return RuntimeCache.munsell_specifications
 
 
-def __get_munsell_value_ASTM_D1535_08_interpolator():
+def _get_munsell_value_ASTM_D1535_08_interpolator():
     """
     Returns the *Munsell value* interpolator for *ASTM D1535-08* method and caches it if not existing.
 
@@ -162,7 +158,7 @@ def __get_munsell_value_ASTM_D1535_08_interpolator():
     return RuntimeCache.munsell_value_ASTM_D1535_08_interpolator
 
 
-def __get_munsell_maximum_chromas_from_renotation():
+def _get_munsell_maximum_chromas_from_renotation():
     """
     Returns the maximum *Munsell* chromas from *Munsell Renotation System* data and caches them if not existing.
 
@@ -346,7 +342,7 @@ def get_xyY_from_renotation(specification):
     :rtype: tuple
     """
 
-    specifications = __get_munsell_specifications()
+    specifications = _get_munsell_specifications()
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
@@ -572,7 +568,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, "'{0}' specification value must be in domain [0, 10]!".format(specification)
-        assert abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD, \
+        assert colour.algebra.common.is_even_integer(value), \
             "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
@@ -582,7 +578,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
             interpolation_method = 0
 
         assert 2 <= chroma <= 50, "'{0}' specification chroma must be in domain [2, 50]!".format(specification)
-        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= EVEN_INTEGER_THRESHOLD, \
+        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= colour.algebra.common.EVEN_INTEGER_THRESHOLD, \
             "'{0}' specification chroma must be an even integer and multiple of 2!".format(specification)
 
         chroma = 2 * round(chroma / 2)
@@ -833,13 +829,13 @@ def get_xy_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 1 <= value <= 9, "'{0}' specification value must be in domain [1, 9]!".format(specification)
-        assert abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD, \
+        assert colour.algebra.common.is_even_integer(value), \
             "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
 
         assert 2 <= chroma <= 50, "'{0}' specification chroma must be in domain [2, 50]!".format(specification)
-        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= EVEN_INTEGER_THRESHOLD, \
+        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= colour.algebra.common.EVEN_INTEGER_THRESHOLD, \
             "'{0}' specification chroma must be an even integer and multiple of 2!".format(specification)
 
         chroma = 2 * round(chroma / 2)
@@ -1013,7 +1009,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
     hue_cw, code_cw = hue_cw
     hue_ccw, code_ccw = hue_ccw
 
-    maximum_chromas = __get_munsell_maximum_chromas_from_renotation()
+    maximum_chromas = _get_munsell_maximum_chromas_from_renotation()
     spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
     ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
@@ -1066,7 +1062,7 @@ def munsell_specification_to_xy(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, "'{0}' specification value must be in domain [0, 10]!".format(specification)
-        assert abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD, \
+        assert colour.algebra.common.is_even_integer(value), \
             "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
@@ -1138,7 +1134,7 @@ def munsell_specification_to_xyY(specification):
 
     Y = colour.computation.luminance.luminance_ASTM_D1535_08(value)
 
-    if abs(value - round(value)) < EVEN_INTEGER_THRESHOLD:
+    if colour.algebra.common.is_even_integer(value):
         value_minus = value_plus = round(value)
     else:
         value_minus = math.floor(value)
@@ -1223,7 +1219,7 @@ def xyY_to_munsell_specification(xyY):
 
     # Scaling *Y* for algorithm needs.
     value = munsell_value_ASTM_D1535_08(Y * 100)
-    if abs(value - round(value)) <= EVEN_INTEGER_THRESHOLD:
+    if colour.algebra.common.is_even_integer(value):
         value = round(value)
 
     x_center, y_center, Y_center = numpy.ravel(munsell_specification_to_xyY(value))
@@ -1610,7 +1606,7 @@ def munsell_value_ASTM_D1535_08(Y):
     :note: Output *V* is in domain [0, 10].
     """
 
-    V = __get_munsell_value_ASTM_D1535_08_interpolator()(Y)
+    V = _get_munsell_value_ASTM_D1535_08_interpolator()(Y)
 
     return V
 

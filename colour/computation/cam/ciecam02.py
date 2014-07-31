@@ -270,6 +270,19 @@ def apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     return numpy.array([Rc, Gc, Bc]).reshape((3, 1))
 
 
+def apply_reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
+    R, G, B = numpy.ravel(RGB)
+    Rw, Gw, Bw = numpy.ravel(RGBw)
+
+    equation = lambda x, y: x / (Yw * (D / y) + 1. - D)
+
+    Rc = equation(R, Rw)
+    Gc = equation(G, Gw)
+    Bc = equation(B, Bw)
+
+    return numpy.array([Rc, Gc, Bc]).reshape((3, 1))
+
+
 def RGB_to_HPE(RGB):
     """
     Converts given *CMCCAT2000* transform sharpened *RGB* matrix to *Hunt-Pointer-Estevez* colourspace matrix.
@@ -297,6 +310,11 @@ def RGB_to_HPE(RGB):
 
     pyb = numpy.dot(numpy.dot(HPE, CAT02_CAT_INVERSE), RGB)
     return pyb.reshape((3, 1))
+
+
+def HPE_to_RGB(pyb):
+    RGB = numpy.dot(numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, HPE_INVERSE), pyb)
+    return RGB.reshape((3, 1))
 
 
 def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
@@ -332,6 +350,12 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
     return RGBc
 
 
+def apply_reverse_post_adaptation_non_linear_response_compression(RGB, FL):
+    RGBp = (numpy.sign(RGB - 0.1) * \
+            (100. / FL) * ((27.13 * numpy.abs(RGB - 0.1)) / (400 - numpy.abs(RGB - 0.1))) ** (1 / 0.42))
+    return RGBp
+
+
 def get_forward_opponent_colour_dimensions(RGB):
     """
     Returns opponent colour dimensions from given compressed *CMCCAT2000* transform sharpened *RGB* matrix \
@@ -361,6 +385,23 @@ def get_forward_opponent_colour_dimensions(RGB):
     a = R - 12. * G / 11. + B / 11.
     b = (R + G - 2. * B) / 9.
 
+    return a, b
+
+
+def get_reverse_opponent_colour_dimensions(p, hr):
+    p1, p2, p3 = p
+
+    sin_hr, cos_hr = math.sin(hr), math.cos(hr)
+    p4 = p1 / sin_hr
+    p5 = p1 / cos_hr
+    n = p2 * (2. + p3) * (460. / 1403.)
+
+    if abs(sin_hr) >= abs(cos_hr):
+        b = n / (p4 + (2. + p3) * (220. / 1403.) * (cos_hr / sin_hr) - (27. / 1403.) + p3 * (6300. / 1403))
+        a = b * (cos_hr / sin_hr)
+    else:
+        a = n / (p5 + (2. + p3) * (220. / 1403.) - ((27. / 1403.) - p3 * (6300. / 1403.)) * (sin_hr / cos_hr))
+        b = a * (sin_hr / cos_hr)
     return a, b
 
 
@@ -427,6 +468,11 @@ def get_forward_eccentricity_factor(h):
     return et
 
 
+def get_reverse_eccentricity_factor(h):
+    et = (math.cos(h * math.pi / 180. + 2) + 3.8) / 4.
+    return et
+
+
 def get_forward_achromatic_response(RGB, Nbb):
     """
     Returns the achromatic response *A* from given compressed *CMCCAT2000* transform sharpened *RGB* matrix
@@ -456,6 +502,11 @@ def get_forward_achromatic_response(RGB, Nbb):
     R, G, B = numpy.ravel(RGB)
 
     A = (2. * R + G + (1. / 20.) * B - 0.305) * Nbb
+    return A
+
+
+def get_reverse_achromatic_response(Aw, J, c, z):
+    A = Aw * (J / 100.) ** (1. / (c * z))
     return A
 
 
@@ -525,25 +576,16 @@ def get_brightness_correlate(c, J, Aw, FL):
     return Q
 
 
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-
 def get_forward_temporary_magniture_quantity(Nc, Ncb, et, a, b, RGBa):
     Ra, Ga, Ba = numpy.ravel(RGBa)
     t = ((50000. / 13.) * Nc * Ncb) * (et * (a ** 2 + b ** 2) ** 0.5) / (Ra + Ga + 21. * Ba / 20.)
     return t
 
 
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
-# ###############################################################################################
+def get_reverse_temporary_magniture_quantity(C, J, n):
+    t = (C / (math.sqrt(J / 100.) * (1.64 - 0.29 ** n) ** 0.73)) ** (1. / 0.9)
+    return t
+
 
 def get_chroma_correlate(J, n, Nc, Ncb, et, a, b, RGBa):
     """
@@ -654,21 +696,6 @@ def get_saturation_correlate(M, Q):
     return s
 
 
-def get_reverse_temporary_magniture_quantity(C, J, n):
-    t = (C / (math.sqrt(J / 100.) * (1.64 - 0.29 ** n) ** 0.73)) ** (1. / 0.9)
-    return t
-
-
-def get_reverse_eccentricity_factor(h):
-    et = (math.cos(h * math.pi / 180. + 2) + 3.8) / 4.
-    return et
-
-
-def get_reverse_achromatic_response(Aw, J, c, z):
-    A = Aw * (J / 100.) ** (1. / (c * z))
-    return A
-
-
 def get_p(Nc, Ncb, et, t, A, Nbb):
     p1 = ((50000. / 13.) * Nc * Ncb * et) / t
     p2 = A / Nbb + 0.305
@@ -677,53 +704,12 @@ def get_p(Nc, Ncb, et, t, A, Nbb):
     return p1, p2, p3
 
 
-def get_reverse_opponent_colour_dimensions(p, hr):
-    p1, p2, p3 = p
-
-    sin_hr, cos_hr = math.sin(hr), math.cos(hr)
-    p4 = p1 / sin_hr
-    p5 = p1 / cos_hr
-    n = p2 * (2. + p3) * (460. / 1403.)
-
-    if abs(sin_hr) >= abs(cos_hr):
-        b = n / (p4 + (2. + p3) * (220. / 1403.) * (cos_hr / sin_hr) - (27. / 1403.) + p3 * (6300. / 1403))
-        a = b * (cos_hr / sin_hr)
-    else:
-        a = n / (p5 + (2. + p3) * (220. / 1403.) - ((27. / 1403.) - p3 * (6300. / 1403.)) * (sin_hr / cos_hr))
-        b = a * (sin_hr / cos_hr)
-    return a, b
-
-
 def get_post_adaptation_non_linear_response_compression_matrix(p2, a, b):
     Ra = (460. * p2 + 451. * a + 288. * b) / 1403.
     Ga = (460. * p2 - 891. * a - 261. * b) / 1403.
     Ba = (460. * p2 - 220. * a - 6300. * b) / 1403.
 
     return numpy.ravel([Ra, Ga, Ba]).reshape((3, 1))
-
-
-def apply_reverse_post_adaptation_non_linear_response_compression(RGB, FL):
-    RGBp = (numpy.sign(RGB - 0.1) * \
-            (100. / FL) * ((27.13 * numpy.abs(RGB - 0.1)) / (400 - numpy.abs(RGB - 0.1))) ** (1 / 0.42))
-    return RGBp
-
-
-def HPE_to_RGB(pyb):
-    RGB = numpy.dot(numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, HPE_INVERSE), pyb)
-    return RGB.reshape((3, 1))
-
-
-def apply_reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
-    R, G, B = numpy.ravel(RGB)
-    Rw, Gw, Bw = numpy.ravel(RGBw)
-
-    equation = lambda x, y: x / (Yw * (D / y) + 1. - D)
-
-    Rc = equation(R, Rw)
-    Gc = equation(G, Gw)
-    Bc = equation(B, Bw)
-
-    return numpy.array([Rc, Gc, Bc]).reshape((3, 1))
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -779,52 +765,52 @@ def XYZ_to_CIECAM02(XYZ,
 
     n, FL, Nbb, Ncb, z = get_viewing_condition_dependent_parameters(Yb, Yw, LA)
 
-    # Step 1: Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
+    # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
     RGB = numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, XYZ)
     RGBw = numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, XYZw)
 
-    # Step 2: Computing degree of adaptation *D*.
+    # Computing degree of adaptation *D*.
     D = get_degree_of_adaptation(surround.F, LA) if not discount_illuminant else 1.
 
-    # Step 3: Computing full chromatic adaptation.
+    # Computing full chromatic adaptation.
     RGBc = apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D)
     RGBwc = apply_forward_full_chromatic_adaptation(RGBw, RGBw, Yw, D)
 
-    # Step 4: Converting to *Hunt-Pointer-Estevez* colourspace.
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGBp = RGB_to_HPE(RGBc)
     RGBpw = RGB_to_HPE(RGBwc)
 
-    # Step 5: Applying forward post-adaptation non linear response compression.
+    # Applying forward post-adaptation non linear response compression.
     RGBa = apply_forward_post_adaptation_non_linear_response_compression(RGBp, FL)
     RGBaw = apply_forward_post_adaptation_non_linear_response_compression(RGBpw, FL)
 
-    # Step 6: Converting to preliminary cartesian coordinates.
+    # Converting to preliminary cartesian coordinates.
     a, b = get_forward_opponent_colour_dimensions(RGBa)
     h = math.degrees(math.atan2(b, a))
 
-    # Step 7: Computing hue quadrature *hue*.
+    # Computing hue quadrature *hue*.
     H = get_hue_quadrature(h)
 
-    # Step 8: Computing eccentricity factor *et*.
+    # Computing eccentricity factor *et*.
     et = get_forward_eccentricity_factor(h)
 
-    # Step 9: Computing achromatic responses for the stimulus and the whitepoint.
+    # Computing achromatic responses for the stimulus and the whitepoint.
     A = get_forward_achromatic_response(RGBa, Nbb)
     Aw = get_forward_achromatic_response(RGBaw, Nbb)
 
-    # Step 10: Computing the correlate of *Lightness* *J*.
+    # Computing the correlate of *Lightness* *J*.
     J = get_lightness_correlate(A, Aw, surround.c, z)
 
-    # Step 11: Computing the correlate of *brightness* *Q*.
+    # Computing the correlate of *brightness* *Q*.
     Q = get_brightness_correlate(surround.c, J, Aw, FL)
 
-    # Step 12: Computing the correlate of *chroma* *C*.
+    # Computing the correlate of *chroma* *C*.
     C = get_chroma_correlate(J, n, surround.Nc, Ncb, et, a, b, RGBa)
 
-    # Step 13: Computing the correlate of *colourfulness* *M*.
+    # Computing the correlate of *colourfulness* *M*.
     M = get_colourfulness_correlate(C, FL)
 
-    # Step 14: Computing the correlate of *saturation* *s*.
+    # Computing the correlate of *saturation* *s*.
     s = get_saturation_correlate(M, Q)
 
     return CIECAM02_JCHQMSH(J, C, h, Q, M, s, H)
@@ -844,53 +830,53 @@ def CIECAM02_to_XYZ(JChQMsH,
     J, C, h, Q, M, s, H = JChQMsH
 
 
-    # Step 1: Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
+    # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
     RGBw = numpy.dot(colour.computation.chromatic_adaptation.CAT02_CAT, XYZw)
 
-    # Step 2: Computing degree of adaptation *D*.
+    # Computing degree of adaptation *D*.
     D = get_degree_of_adaptation(surround.F, LA) if not discount_illuminant else 1.
 
-    # Step 3: Calculation full chromatic adaptation.
+    # Calculation full chromatic adaptation.
     RGBwc = apply_forward_full_chromatic_adaptation(RGBw, RGBw, Yw, D)
 
-    # Step 4: Converting to *Hunt-Pointer-Estevez* colourspace.
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGBpw = RGB_to_HPE(RGBwc)
 
-    # Step 5: Applying post-adaptation non linear response compression.
+    # Applying post-adaptation non linear response compression.
     RGBaw = apply_forward_post_adaptation_non_linear_response_compression(RGBpw, FL)
 
-    # Step 6: Computing achromatic responses for the stimulus and the whitepoint.
+    # Computing achromatic responses for the stimulus and the whitepoint.
     Aw = get_forward_achromatic_response(RGBaw, Nbb)
 
-    # Step 7: Computing temporary magnitude quantity *t*.
+    # Computing temporary magnitude quantity *t*.
     t = get_reverse_temporary_magniture_quantity(C, J, n)
 
-    # Step 8: Computing eccentricity factor *et*.
+    # Computing eccentricity factor *et*.
     et = get_reverse_eccentricity_factor(h)
 
-    # Step 9: Computing achromatic response *A* for the stimulus.
+    # Computing achromatic response *A* for the stimulus.
     A = get_reverse_achromatic_response(Aw, J, surround.c, z)
 
-    # Step 10: Computing *p1* to *p3*.
+    # Computing *p1* to *p3*.
     p1, p2, p3 = get_p(surround.Nc, Ncb, et, t, A, Nbb)
 
-    # Step 11: Computing opponent colour dimensions *a* and *b*.
+    # Computing opponent colour dimensions *a* and *b*.
     hr = math.radians(h)
     a, b = get_reverse_opponent_colour_dimensions((p1, p2, p3), hr)
 
-    # Step 12: Computing post-adaptation non linear response compression matrix.
+    # Computing post-adaptation non linear response compression matrix.
     RGBa = get_post_adaptation_non_linear_response_compression_matrix(p2, a, b)
 
-    # Step 13: Applying reverse post-adaptation non linear response compression.
+    # Applying reverse post-adaptation non linear response compression.
     RGBp = apply_reverse_post_adaptation_non_linear_response_compression(RGBa, FL)
 
-    # Step 14: Converting to *Hunt-Pointer-Estevez* colourspace.
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGBc = HPE_to_RGB(RGBp)
 
-    # Step 15: Computing reverse full chromatic adaptation.
+    # Applying reverse full chromatic adaptation.
     RGB = apply_reverse_full_chromatic_adaptation(RGBc, RGBw, Yw, D)
 
-    # Step 16: Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ* colourspace matrices.
+    # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ* colourspace matrices.
     XYZ = numpy.dot(CAT02_CAT_INVERSE, RGB)
 
     return XYZ
