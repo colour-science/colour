@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.prophoto_rgb`
+_`colour.models.dataset.rgb.prophoto_rgb`
 ===============================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.prophoto_rgb
+.. automodule:: colour.datasemodels.datasetrophoto_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataseto_rgb.PROPHOTO_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.datasetPROPHOTO_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.datasetTcolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspaces.rgb.prcolour.colorimetry.datasetsetOTO_RGB_MATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.XYZ_TO_PROPHOTO_RGB_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.dataset_rgmodels.datasetFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.colourscolour.colorimetry.datasethoto_rgb.PROPmodels.datasetNSFER_FUNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.prophoto_rgb.PROPHOTO_RGB_COLOURSPACE
 

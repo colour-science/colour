@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.eci_rgb_v2`
+_`colour.models.dataset.rgb.eci_rgb_v2`
 =============================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.eci_rgb_v2
+.. automodule:: colour.datasemodels.datasetci_rgb_v2
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataset_v2.ECI_RGB_V2_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.datasetI_RGB_V2_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.datacolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspaces.rgcolour.colorimetry.datasetdataset_V2_MATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.XYZ_TO_ECI_RGB_V2_MATRIX
+.. attribute:: colour.dataset.colourscolour.colorimetry.datasetrgb_v2.models.datasetFUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.colcolour.colorimetry.dataseteci_rgb_v2.ECI_RGmodels.datasetR_FUNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.eci_rgb_v2.ECI_RGB_V2_COLOURSPACE
 

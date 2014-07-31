@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.cie_lab`
+_`colour.models.cie_lab`
 ==========================================
 
 .. automodule:: colour.computation.colourspaces.cie_lab

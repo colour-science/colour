@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.cie_xyy`
+_`colour.models.cie_xyy`
 ==========================================
 
 .. automodule:: colour.computation.colourspaces.cie_xyy

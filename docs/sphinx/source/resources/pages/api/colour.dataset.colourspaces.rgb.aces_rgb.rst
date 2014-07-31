@@ -1,48 +1,38 @@
-_`colour.dataset.colourspaces.rgb.aces_rgb`
+_`colour.models.dataset.rgb.aces_rgb`
 ===========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.aces_rgb
+.. automodule:: colour.datasemodels.datasetces_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetb.ACES_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.colour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.datasetels.datasetMATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.XYZ_TO_ACES_RGB_MATRIX
+.. attribute:: colour.dataset.colcolour.colorimetry.datasetaces_rgb.ACmodels.datasetTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_TRANSFER_FUNCTION
+.. attribute:: colour.datasetcolour.colorimetry.datasetrgb.aces_rgb.ACES_RGBmodels.datasetNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_INVERSE_TRANSFER_FUNCTION
+.. colour.colorimetry.datasetlour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_COLOUmodels.dataset:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_CONSTAcolour.colorimetry.datasettolour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_TRANSFER_Fcolour.colorimetry.datasetset colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_INVERSE_TRANSFER_FUmodels.dataset:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_COLOURSPACE
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_COLOURSPACE
+.. attributemodels.datasetlourspaces.rgb.aces_rgb.ACES_RGB_PROXY_10_CONSTANTS
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_CONSTANTS
+.. attribute:: models.datasetrspaces.rgb.aces_rgb.colour.colorimetry.dataset_12_CONSTANTS
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_TRANSFER_FUNCTION
+.. attribute:: colourmodels.datasets.rgb.aces_rgb.ACES_RGB_PROXY_CONSTANTS
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.models.datasets_rgb.ACES_RGB_PROXY_10_TRANSFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_LOG_COLOURSPACE
+.. attribute:: colour.datmodels.datasetb.aces_rgb.ACES_RGB_PROXY_colour.colorimetry.datasetNSFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_10_CONSTANTS
+.. attribute:: colour.dmodels.datasetrgb.aces_rgb.ACEcolour.colorimetry.dataset_TRANSFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_12_CONSTANTS
+.. attribute:: colour.dataset.coloucolour.colorimetry.datasetetCES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_CONSTANTS
-
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_10_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_12_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_10_COLOURSPACE
+.. attribute:: colour.dataset.coloumodels.dataset.ACES_RGB_PROXY_10_COLOURSPACE
 
 .. attribute:: colour.dataset.colourspaces.rgb.aces_rgb.ACES_RGB_PROXY_12_COLOURSPACE
 

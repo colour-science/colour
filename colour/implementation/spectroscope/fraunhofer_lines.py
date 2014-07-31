@@ -19,6 +19,7 @@
 """
 
 import bisect
+
 import matplotlib.pyplot
 import numpy
 import os
@@ -26,7 +27,8 @@ import pylab
 import re
 
 import colour.implementation.spectroscope.analysis
-import colour.implementation.matplotlib.plots
+import colour.plotting.plots
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -213,11 +215,11 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                 "no_y_ticks": True,
                 "grid": True}
 
-    colour.implementation.matplotlib.plots.bounding_box(**settings)
+    colour.plotting.plots.bounding_box(**settings)
 
-    colour.implementation.matplotlib.plots.aspect(**settings)
+    colour.plotting.plots.aspect(**settings)
 
-    return colour.implementation.matplotlib.plots.display(**settings)
+    return colour.plotting.plots.display(**settings)
 
 
 if __name__ == "__main__":

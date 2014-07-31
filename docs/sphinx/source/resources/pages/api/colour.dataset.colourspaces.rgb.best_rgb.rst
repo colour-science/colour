@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.best_rgb`
+_`colour.models.dataset.rgb.best_rgb`
 ===========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.best_rgb
+.. automodule:: colour.datasemodels.datasetest_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetb.BEST_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.colour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.datasetels.datasetMATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.XYZ_TO_BEST_RGB_MATRIX
+.. attribute:: colour.dataset.colcolour.colorimetry.datasetbest_rgb.BEmodels.datasetTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datasetcolour.colorimetry.datasetrgb.best_rgb.BEST_RGBmodels.datasetNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.best_rgb.BEST_RGB_COLOURSPACE
 

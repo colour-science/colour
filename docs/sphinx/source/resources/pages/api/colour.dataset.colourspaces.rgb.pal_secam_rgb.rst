@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.pal_secam_rgb`
+_`colour.models.dataset.rgb.pal_secam_rgb`
 ================================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.pal_secam_rgb
+.. automodule:: colour.datasemodels.datasetal_secam_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetam_rgb.PAL_SECAM_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset.PAL_SECAM_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.datasetECAcolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspaces.rgb.pal_colour.colorimetry.datasettSECAM_RGB_MATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.XYZ_TO_PAL_SECAM_RGB_MATRIX
+.. attribute:: colour.dataset.colourspaces.colour.colorimetry.datasetrmodels.datasetNSFER_FUNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.colourspacolour.colorimetry.datasetcam_rgb.PALmodels.datasetRANSFER_FUNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.pal_secam_rgb.PAL_SECAM_RGB_COLOURSPACE
 

@@ -1,22 +1,14 @@
-_`colour.dataset.colourspaces.rgb.srgb`
+_`colour.models.dataset.rgb.srgb`
 =======================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.srgb
+.. automodule:: colour.datasemodels.datasetrgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.datasetcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgcolour.colorimetry.datasettTRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_TO_XYZ_MATRIX
-
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.XYZ_TO_sRGB_MATRIX
-
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_INVERSE_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE
+.. attribute:: colour.dataset.colcolour.colorimetry.datasetsrgb.models.dataset.. attribute:: colour.datcolour.colorimetry.datasetces.rgb.srgb.sRGB_Tmodels.dataset attribute:: colourcolour.colorimetry.datasetrspaces.rgb.srgb.sRGB_INVERSEmodels.dataset.. attribute:: colour.dataset.colourspaces.rgb.srgb.sRGB_COLOURSPACE
 

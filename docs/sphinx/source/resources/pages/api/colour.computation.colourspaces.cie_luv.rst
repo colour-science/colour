@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.cie_luv`
+_`colour.models.cie_luv`
 ==========================================
 
 .. automodule:: colour.computation.colourspaces.cie_luv

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour *tristimulus* values computation related examples.
+Showcases some **Colour** package colour *tristimulus* values colorimetry related examples.
 """
 
 import colour

@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.rgb.derivation`
+_`colour.models.rgb.derivation`
 =================================================
 
 .. automodule:: colour.computation.colourspaces.rgb.derivation

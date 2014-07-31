@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.cie_uvw`
+_`colour.models.cie_uvw`
 ==========================================
 
 .. automodule:: colour.computation.colourspaces.cie_uvw

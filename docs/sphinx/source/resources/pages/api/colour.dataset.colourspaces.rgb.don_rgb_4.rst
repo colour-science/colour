@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.don_rgb_4`
+_`colour.models.dataset.rgb.don_rgb_4`
 ============================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.don_rgb_4
+.. automodule:: colour.datasemodels.dataseton_rgb_4
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataset_4.DON_RGB_4_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset_RGB_4_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.dacolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspaces.colour.colorimetry.datasets.dataset4_MATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.XYZ_TO_DON_RGB_4_MATRIX
+.. attribute:: colour.dataset.coloucolour.colorimetry.datasetn_rgb_4.Dmodels.datasetNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.ccolour.colorimetry.datasetb.don_rgb_4.DON_RGBmodels.datasetFUNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.don_rgb_4.DON_RGB_4_COLOURSPACE
 

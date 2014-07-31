@@ -8,7 +8,8 @@ Showcases some **Colour** package *interpolation* related examples.
 import pylab
 
 import colour
-import colour.implementation.matplotlib.plots
+import colour.plotting.plots
+
 
 
 # Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation methods.
@@ -106,6 +107,6 @@ settings = {"x_label": u"Wavelength λ (nm)",
             "y_ticker": True,
             "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
 
-colour.implementation.matplotlib.plots.bounding_box(**settings)
-colour.implementation.matplotlib.plots.aspect(**settings)
-colour.implementation.matplotlib.plots.display(**settings)
+colour.plotting.plots.bounding_box(**settings)
+colour.plotting.plots.aspect(**settings)
+colour.plotting.plots.display(**settings)

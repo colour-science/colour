@@ -1,22 +1,18 @@
-_`colour.dataset.colourspaces.rgb.c_log`
+_`colour.models.dataset.rgb.c_log`
 ========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.c_log
+.. automodule:: colour.datasemodels.dataset_log
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataset_LOG_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.datasetHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmcolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.coloucolour.colorimetry.datasetlogmodels.dataset
 
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.XYZ_TO_C_LOG_MATRIX
-
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datascolour.colorimetry.datasets.rgb.c_log.C_LOGmodels.dataset.. attribute:: colour.dcolour.colorimetry.datasetpaces.rgb.c_log.C_LOG_INVERmodels.dataset
 
 .. attribute:: colour.dataset.colourspaces.rgb.c_log.C_LOG_COLOURSPACE
 

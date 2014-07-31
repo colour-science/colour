@@ -1,18 +1,14 @@
-_`colour.dataset.lefs`
+_`colour.colorimetry.dataset.lefs`
 ======================
 
-.. automodule:: colour.dataset.lefs
+.. acolour.colorimetry.datasetlour.dataset.lefs
 
 Module Attributes
------------------
+----------colour.colorimetry.datasettribute:: colour.dataset.lefscolour.colorimetry.dataset_DATA
 
-.. attribute:: colour.dataset.lefs.PHOTOPIC_LEFS_DATA
+.. attribute:: cocolour.colorimetry.datasetefs.PHOTOPIC_LEFS
 
-.. attribute:: colour.dataset.lefs.PHOTOPIC_LEFS
-
-.. attribute:: colour.dataset.lefs.SCOTOPIC_LEFS_DATA
-
-.. attribute:: colour.dataset.lefs.SCOTOPIC_LEFS
+.. attribucolour.colorimetry.datasettaset.lefs.SCOTOPIC_LEFScolour.colorimetry.datasetibute:: colour.colour.colorimetry.datasetCOTOPIC_LEFS
 
 .. attribute:: colour.dataset.lefs.LEFS
 

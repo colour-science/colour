@@ -8,8 +8,8 @@ Showcases some **Colour** package colour plotting related examples.
 from numpy import array
 
 import colour
-import colour.dataset.colour_checkers.spds
-from colour.implementation.matplotlib.plots import *
+import colour.colorimetry.dataset.colour_checkers.spds
+from colour.plotting.plots import *
 
 # Plotting a single colour.
 single_colour_plot(colour_parameter("Neutral 5 (.70 D)", RGB=(0.32315746, 0.32983556, 0.33640183)), text_size=32.)
@@ -799,7 +799,7 @@ multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd], title="S
 
 # Plotting multiple *ColorChecker* relative spectral power distributions.
 multi_spd_plot([colour.COLOURCHECKERS_SPDS.get("BabelColor Average").get(value) for key, value in
-                sorted(colour.dataset.colour_checkers.spds.COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+                sorted(colour.colorimetry.dataset.colour_checkers.spds.COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
                use_spds_colours=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
 

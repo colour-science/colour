@@ -1,16 +1,14 @@
-_`colour.dataset.tcs`
+_`colour.colorimetry.dataset.tcs`
 =====================
 
-.. automodule:: colour.dataset.tcs
+.. acolour.colorimetry.datasetlour.dataset.tcs
 
 Module Attributes
------------------
+----------colour.colorimetry.datasettribute:: colour.dataset.tcs.Tcolour.colorimetry.datasetNAMES
 
-.. attribute:: colour.dataset.tcs.TCS_INDEXES_TO_NAMES
+.. attribute:: colour.dataset.tcs.TCcolour.colorimetry.datasetMUNSELL_NOTATIONS
 
-.. attribute:: colour.dataset.tcs.TCS_APPROXIMATE_MUNSELL_NOTATIONS
-
-.. attribute:: colour.dataset.tcs.TCS_SPDS_DATA
+.. acolour.colorimetry.datasetour.dataset.tcs.TCS_SPDS_DATA
 
 .. attribute:: colour.dataset.tcs.TCS_SPDS
 
