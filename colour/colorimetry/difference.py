@@ -17,7 +17,7 @@
 from __future__ import unicode_literals
 
 import math
-import numpy
+import numpy as np
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal - Michael Parsons - The Moving picture Company"
@@ -39,8 +39,8 @@ def delta_E_CIE_1976(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
+        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1976(lab1, lab2)
         451.713301974
 
@@ -55,7 +55,7 @@ def delta_E_CIE_1976(lab1, lab2):
 
     -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html (Last accessed 24 February 2014)
     """
-    return numpy.linalg.norm(numpy.array(lab1) - numpy.array(lab2))
+    return np.linalg.norm(np.array(lab1) - np.array(lab2))
 
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
@@ -64,8 +64,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
+        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_1994(lab1, lab2)
         88.3355530575
 
@@ -89,8 +89,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     kC = 1.
     kH = 1.
 
-    L1, a1, b1 = numpy.ravel(lab1)
-    L2, a2, b2 = numpy.ravel(lab2)
+    L1, a1, b1 = np.ravel(lab1)
+    L2, a2, b2 = np.ravel(lab2)
 
     C1 = math.sqrt(a1 ** 2 + b1 ** 2)
     C2 = math.sqrt(a2 ** 2 + b2 ** 2)
@@ -122,8 +122,8 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
+        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CIE_2000(lab1, lab2)
         94.0356490267
 
@@ -139,8 +139,8 @@ def delta_E_CIE_2000(lab1, lab2):
     -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html (Last accessed 24 February 2014)
     """
 
-    L1, a1, b1 = numpy.ravel(lab1)
-    L2, a2, b2 = numpy.ravel(lab2)
+    L1, a1, b1 = np.ravel(lab1)
+    L2, a2, b2 = np.ravel(lab2)
 
     kL = 1.
     kC = 1.
@@ -213,8 +213,8 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     Usage::
 
-        >>> lab1 = numpy.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = numpy.array([100., 426.67945353, 72.39590835])
+        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
         >>> delta_E_CMC(lab1, lab2)
         172.704771287
 
@@ -234,8 +234,8 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html (Last accessed 24 February 2014)
     """
 
-    L1, a1, b1 = numpy.ravel(lab1)
-    L2, a2, b2 = numpy.ravel(lab2)
+    L1, a1, b1 = np.ravel(lab1)
+    L2, a2, b2 = np.ravel(lab2)
 
     c1 = math.sqrt(a1 * a1 + b1 * b1)
     c2 = math.sqrt(a2 * a2 + b2 * b2)

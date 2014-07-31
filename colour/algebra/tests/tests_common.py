@@ -17,14 +17,14 @@
 from __future__ import unicode_literals
 
 import sys
-import numpy
+import numpy as np
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-import colour.algebra.common
+from colour.algebra import get_steps, get_closest, to_ndarray, is_uniform, is_iterable, is_number, is_even_integer
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -52,8 +52,8 @@ class TestGetSteps(unittest.TestCase):
         Tests :func:`colour.algebra.common.get_steps` definition.
         """
 
-        self.assertTupleEqual(colour.algebra.common.get_steps(range(0, 10, 2)), (2,))
-        self.assertTupleEqual(tuple(sorted(colour.algebra.common.get_steps([1, 2, 3, 4, 6, 6.5]))), (0.5, 1, 2))
+        self.assertTupleEqual(get_steps(range(0, 10, 2)), (2,))
+        self.assertTupleEqual(tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))), (0.5, 1, 2))
 
 
 class TestGetClosest(unittest.TestCase):
@@ -66,10 +66,10 @@ class TestGetClosest(unittest.TestCase):
         Tests :func:`colour.algebra.common.get_closest` definition.
         """
 
-        y = numpy.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
-        self.assertEqual(colour.algebra.common.get_closest(y, 63.05), 62.70988028)
-        self.assertEqual(colour.algebra.common.get_closest(y, 24.90), 25.40026416)
-        self.assertEqual(colour.algebra.common.get_closest(y, 51.15), 46.84480573)
+        y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
+        self.assertEqual(get_closest(y, 63.05), 62.70988028)
+        self.assertEqual(get_closest(y, 24.90), 25.40026416)
+        self.assertEqual(get_closest(y, 51.15), 46.84480573)
 
 
 class TestToNdarray(unittest.TestCase):
@@ -82,10 +82,10 @@ class TestToNdarray(unittest.TestCase):
         Tests :func:`colour.algebra.common.to_ndarray` definition.
         """
 
-        self.assertEqual(colour.algebra.common.to_ndarray(1), numpy.array([1]))
-        self.assertEqual(colour.algebra.common.to_ndarray([1]), numpy.array([1]))
-        self.assertEqual(colour.algebra.common.to_ndarray((1,)), numpy.array((1,)))
-        self.assertEqual(colour.algebra.common.to_ndarray(numpy.array([1])), numpy.array([1]))
+        self.assertEqual(to_ndarray(1), np.array([1]))
+        self.assertEqual(to_ndarray([1]), np.array([1]))
+        self.assertEqual(to_ndarray((1,)), np.array((1,)))
+        self.assertEqual(to_ndarray(np.array([1])), np.array([1]))
 
 
 class TestIsUniform(unittest.TestCase):
@@ -98,8 +98,8 @@ class TestIsUniform(unittest.TestCase):
         Tests :func:`colour.algebra.common.is_uniform` definition.
         """
 
-        self.assertTrue(colour.algebra.common.is_uniform(range(0, 10, 2)))
-        self.assertFalse(colour.algebra.common.is_uniform([1, 2, 3, 4, 6]))
+        self.assertTrue(is_uniform(range(0, 10, 2)))
+        self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
 
 
 class TestIsIterable(unittest.TestCase):
@@ -112,13 +112,13 @@ class TestIsIterable(unittest.TestCase):
         Tests :func:`colour.algebra.common.is_iterable` definition.
         """
 
-        self.assertTrue(colour.algebra.common.is_iterable(""))
-        self.assertTrue(colour.algebra.common.is_iterable(()))
-        self.assertTrue(colour.algebra.common.is_iterable([]))
-        self.assertTrue(colour.algebra.common.is_iterable(dict()))
-        self.assertTrue(colour.algebra.common.is_iterable(numpy.array([])))
-        self.assertFalse(colour.algebra.common.is_iterable(1))
-        self.assertFalse(colour.algebra.common.is_iterable(2.))
+        self.assertTrue(is_iterable(""))
+        self.assertTrue(is_iterable(()))
+        self.assertTrue(is_iterable([]))
+        self.assertTrue(is_iterable(dict()))
+        self.assertTrue(is_iterable(np.array([])))
+        self.assertFalse(is_iterable(1))
+        self.assertFalse(is_iterable(2.))
 
 
 class TestIsNumber(unittest.TestCase):
@@ -131,13 +131,13 @@ class TestIsNumber(unittest.TestCase):
         Tests :func:`colour.algebra.common.is_number` definition.
         """
 
-        self.assertTrue(colour.algebra.common.is_number(1))
-        self.assertTrue(colour.algebra.common.is_number(1.))
-        self.assertTrue(colour.algebra.common.is_number(long(1)))
-        self.assertTrue(colour.algebra.common.is_number(complex(1)))
-        self.assertFalse(colour.algebra.common.is_number((1,)))
-        self.assertFalse(colour.algebra.common.is_number([1]))
-        self.assertFalse(colour.algebra.common.is_number("1"))
+        self.assertTrue(is_number(1))
+        self.assertTrue(is_number(1.))
+        self.assertTrue(is_number(long(1)))
+        self.assertTrue(is_number(complex(1)))
+        self.assertFalse(is_number((1,)))
+        self.assertFalse(is_number([1]))
+        self.assertFalse(is_number("1"))
 
 
 class TestIsEvenInteger(unittest.TestCase):
@@ -150,9 +150,9 @@ class TestIsEvenInteger(unittest.TestCase):
         Tests :func:`colour.algebra.common.is_even_integer` definition.
         """
 
-        self.assertTrue(colour.algebra.common.is_even_integer(1))
-        self.assertTrue(colour.algebra.common.is_even_integer(1.001))
-        self.assertFalse(colour.algebra.common.is_even_integer(1.01))
+        self.assertTrue(is_even_integer(1))
+        self.assertTrue(is_even_integer(1.001))
+        self.assertFalse(is_even_integer(1.01))
 
 
 if __name__ == "__main__":

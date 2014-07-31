@@ -5,13 +5,13 @@
 Showcases some **Colour** package colour fitting related examples.
 """
 
-import numpy
+import numpy as np
 
 import colour.fitting
 
 
 # Fitting measured *ColorChecker* colour rendition chart data to a reference one.
-reference = numpy.array([[0.172906, 0.08205715, 0.05711951],
+reference = np.array([[0.172906, 0.08205715, 0.05711951],
                          [0.5680735, 0.29250361, 0.21942],
                          [0.10437166, 0.19656122, 0.32946697],
                          [0.10089156, 0.14839029, 0.05324779],
@@ -36,7 +36,7 @@ reference = numpy.array([[0.172906, 0.08205715, 0.05711951],
                          [0.08525591, 0.08890588, 0.09252104],
                          [0.03039192, 0.03118624, 0.03278316]])
 
-measured = numpy.array([[0.1557955891, 0.09715754539, 0.07514556497],
+measured = np.array([[0.1557955891, 0.09715754539, 0.07514556497],
                         [0.3911314011, 0.2594341934, 0.2126670778],
                         [0.1282482147, 0.1846356988, 0.3150802255],
                         [0.1202897355, 0.1345565915, 0.0740839988],

@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -4040,7 +4040,7 @@ PLANCK_LAW_DATA = {
         9980: 82845781868.98933,
         9990: 82515161591.5363}}
 
-BLACKBODY_SPD_DATA = numpy.array([
+BLACKBODY_SPD_DATA = np.array([
     6654278270641.8164,
     6709605279251.8242,
     6764825121520.0215,
@@ -4526,7 +4526,7 @@ class TestPlanckLaw(unittest.TestCase):
 
         for temperature, wavelengths in sorted(PLANCK_LAW_DATA.iteritems()):
             for wavelength, radiance in sorted(wavelengths.iteritems()):
-                numpy.testing.assert_almost_equal(
+                np.testing.assert_almost_equal(
                     colour.colorimetry.blackbody.planck_law(wavelength * 1e-9, temperature),
                     radiance,
                     decimal=7)
@@ -4542,7 +4542,7 @@ class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
         Tests :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution` definition.
         """
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
             BLACKBODY_SPD_DATA,
             decimal=7)

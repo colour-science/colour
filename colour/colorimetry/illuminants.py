@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
 import colour.colorimetry.dataset.illuminants.d_illuminants_s_spds
 from colour.colorimetry.spectrum import SpectralPowerDistribution
@@ -58,7 +58,7 @@ def D_illuminant_relative_spd(xy):
 
     distribution = {}
     start, end, steps = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS.get("S0").shape
-    for i in numpy.arange(start, end + steps, steps):
+    for i in np.arange(start, end + steps, steps):
         S0 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S0").get(i)
         S1 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S1").get(i)
         S2 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S2").get(i)

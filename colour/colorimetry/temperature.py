@@ -27,7 +27,7 @@ from __future__ import unicode_literals
 import math
 from collections import namedtuple
 
-import numpy
+import numpy as np
 
 import colour.colorimetry.blackbody
 import colour.models.cie_ucs
@@ -153,10 +153,10 @@ def get_planckian_table(uv, cmfs, start, end, count):
     ux, vx = uv
 
     planckian_table = []
-    for Ti in numpy.linspace(start, end, count):
+    for Ti in np.linspace(start, end, count):
         spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
         XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
-        XYZ *= 1. / numpy.max(XYZ)
+        XYZ *= 1. / np.max(XYZ)
         UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
         ui, vi = colour.models.cie_ucs.UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
@@ -298,7 +298,7 @@ def CCT_to_uv_ohno2013(CCT,
 
     spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
-    XYZ *= 1. / numpy.max(XYZ)
+    XYZ *= 1. / np.max(XYZ)
     UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
     u0, v0 = colour.models.cie_ucs.UCS_to_uv(UVW)
 
@@ -307,7 +307,7 @@ def CCT_to_uv_ohno2013(CCT,
     else:
         spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
         XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
-        XYZ *= 1. / numpy.max(XYZ)
+        XYZ *= 1. / np.max(XYZ)
         UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
         u1, v1 = colour.models.cie_ucs.UCS_to_uv(UVW)
 

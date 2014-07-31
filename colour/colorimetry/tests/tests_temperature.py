@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -183,7 +183,7 @@ class TestGetPlanckianTable(unittest.TestCase):
         cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             map(to_list, colour.colorimetry.temperature.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
             map(to_list, PLANCKIAN_TABLE))
 
@@ -217,17 +217,17 @@ class Testuv_to_CCT_ohno2013(unittest.TestCase):
 
         cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs),
             (6507.5470349001507, 0.0032236908012382953),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.uv_to_CCT_ohno2013((0.4328, 0.2883), cmfs),
             (1041.8672179878763, -0.067377582642145384),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.uv_to_CCT_ohno2013((0.2927, 0.2722), cmfs, iterations=4),
             (2452.1932942782669, -0.084369982045528508),
             decimal=7)
@@ -245,15 +245,15 @@ class TestCCT_to_uv_ohno2013(unittest.TestCase):
 
         cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.CCT_to_uv_ohno2013(6507.4342201047066, 0.003223690901512735, cmfs),
             (0.19780034881616862, 0.31220050291046603),
             decimal=7)
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.CCT_to_uv_ohno2013(1041.849524611546, -0.067377582728534946, cmfs),
             (0.43280250331413772, 0.28829975758516474),
             decimal=7)
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.temperature.CCT_to_uv_ohno2013(2448.9489053326438, -0.084324704634692743, cmfs),
             (0.29256616302348853, 0.27221773141874955),
             decimal=7)
@@ -270,7 +270,7 @@ class Testuv_to_CCT_robertson1968(unittest.TestCase):
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
-            numpy.testing.assert_almost_equal(colour.colorimetry.temperature.uv_to_CCT_robertson1968(value), key,
+            np.testing.assert_almost_equal(colour.colorimetry.temperature.uv_to_CCT_robertson1968(value), key,
                                               decimal=0)
 
 
@@ -285,8 +285,8 @@ class TestCCT_to_uv_robertson1968(unittest.TestCase):
         """
 
         for i in range(2000, 49501, 2500):
-            for j in numpy.arange(-0.05, 0.075, 0.025):
-                numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_uv_robertson1968(i, j),
+            for j in np.arange(-0.05, 0.075, 0.025):
+                np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_uv_robertson1968(i, j),
                                                   TEMPERATURE_DUV_TO_UV.get((i, j)),
                                                   decimal=7)
 
@@ -345,13 +345,13 @@ class TestCCT_to_xy_kang(unittest.TestCase):
         Tests :func:`colour.colorimetry.temperature.CCT_to_xy_kang` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(4000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(4000),
                                           (0.38052828281249995, 0.3767335309611144),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(7000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(7000),
                                           (0.30637401953352766, 0.31655286972657715),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(25000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_kang(25000),
                                           (0.2524729944384, 0.2522547912436536),
                                           decimal=7)
 
@@ -366,13 +366,13 @@ class TestCCT_to_xy_illuminant_D(unittest.TestCase):
         Tests :func:`colour.colorimetry.temperature.CCT_to_xy_illuminant_D` definition.
         """
 
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(4000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(4000),
                                           (0.38234362499999996, 0.3837662610155782),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(7000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(7000),
                                           (0.3053574314868805, 0.3216463454745523),
                                           decimal=7)
-        numpy.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(25000),
+        np.testing.assert_almost_equal(colour.colorimetry.temperature.CCT_to_xy_illuminant_D(25000),
                                           (0.2498536704, 0.25479946421094446),
                                           decimal=7)
 

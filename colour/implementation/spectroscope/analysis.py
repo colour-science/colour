@@ -20,7 +20,7 @@
 
 import matplotlib.image
 import matplotlib.pyplot
-import numpy
+import numpy as np
 import scipy.ndimage
 
 import colour
@@ -155,7 +155,7 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
     -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
-    vector_linearise = numpy.vectorize(
+    vector_linearise = np.vectorize(
         lambda x: colourspace.inverse_transfer_function(x) if to_linear else colourspace.transfer_function(x))
 
     return vector_linearise(image)
@@ -207,12 +207,12 @@ def get_image_profile(image, line, samples=None):
 
     profile = []
     for i in range(channels):
-        x, y = numpy.linspace(x0, x1, samples), numpy.linspace(y0, y1, samples)
+        x, y = np.linspace(x0, x1, samples), np.linspace(y0, y1, samples)
         z = image[:, :, i]
 
-        profile.append(scipy.ndimage.map_coordinates(numpy.transpose(z), numpy.vstack((x, y))))
+        profile.append(scipy.ndimage.map_coordinates(np.transpose(z), np.vstack((x, y))))
 
-    return numpy.dstack(profile)
+    return np.dstack(profile)
 
 
 def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
@@ -237,14 +237,14 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     measured_lines = [line for line, value in sorted(measured.items(), key=lambda x: x[1])]
 
     # Reference samples.
-    r = numpy.array(map(lambda x: reference.get(x), measured_lines))
+    r = np.array(map(lambda x: reference.get(x), measured_lines))
     # Measured samples.
-    m = numpy.array(map(lambda x: measured.get(x), measured_lines))
+    m = np.array(map(lambda x: measured.get(x), measured_lines))
 
     # Reference range array.
-    rr = numpy.linspace(min(r), max(r))
+    rr = np.linspace(min(r), max(r))
     # Measured range array.
-    mm = numpy.linspace(min(m), max(m))
+    mm = np.linspace(min(m), max(m))
 
     # Interpolator from reference to measured.
     r_to_m_interpolator = Extrapolator1d(LinearInterpolator(r, m))
@@ -253,11 +253,11 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     mm_to_rr_interpolator = Extrapolator1d(LinearInterpolator(mm, rr))
 
     # Colors interpolator.
-    R_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 0]))
-    G_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 1]))
-    B_interpolator = Extrapolator1d(LinearInterpolator(numpy.arange(0, profile.shape[1]), profile[0, :, 2]))
+    R_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 0]))
+    G_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 1]))
+    B_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 2]))
 
-    wavelengths = numpy.linspace(mm_to_rr_interpolator([0]),
+    wavelengths = np.linspace(mm_to_rr_interpolator([0]),
                                  mm_to_rr_interpolator([profile.shape[1]]),
                                  samples)
 

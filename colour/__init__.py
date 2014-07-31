@@ -14,6 +14,16 @@
 
 """
 
+from __future__ import absolute_import
+
+from .algebra import *
+from . import algebra
+
+__all__ = []
+__all__ += algebra.__all__
+
+print __all__
+
 """
 from __future__ import unicode_literals
 

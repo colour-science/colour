@@ -17,15 +17,15 @@
 from __future__ import unicode_literals
 
 import sys
-import numpy
+import numpy as np
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-from colour.algebra.extrapolation import Extrapolator1d
-from colour.algebra.interpolation import LinearInterpolator
+from colour.algebra import Extrapolator1d
+from colour.algebra import LinearInterpolator
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -67,8 +67,8 @@ class TestExtrapolator1d(unittest.TestCase):
         Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__` method.
         """
 
-        extrapolator = Extrapolator1d(LinearInterpolator(numpy.array([5., 6., 7.]), numpy.array([5., 6., 7.])))
-        numpy.testing.assert_almost_equal(extrapolator([4., 8.]), [4., 8.])
+        extrapolator = Extrapolator1d(LinearInterpolator(np.array([5., 6., 7.]), np.array([5., 6., 7.])))
+        np.testing.assert_almost_equal(extrapolator([4., 8.]), [4., 8.])
         self.assertEqual(extrapolator(4.), 4.)
 
 

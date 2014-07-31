@@ -17,12 +17,11 @@
 from __future__ import unicode_literals
 
 import math
-import numpy
+import numpy as np
 import warnings
 
 import colour.colorimetry.spectrum
 import colour.utilities.decorators
-from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -50,8 +49,9 @@ C1_CONSTANT = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED_CONSTA
 C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CONSTANT
 N_CONSTANT = 1.
 
+_PLANCK_LAW_CACHE = {}
 
-@colour.utilities.decorators.memoize(RuntimeCache.planck_law)
+@colour.utilities.decorators.memoize(_PLANCK_LAW_CACHE)
 def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.
@@ -149,4 +149,4 @@ def blackbody_spectral_power_distribution(temperature,
                                                                                 c2,
                                                                                 n))
                                                                            for wavelength in
-                                                                           numpy.arange(start, end + steps, steps)))
+                                                                           np.arange(start, end + steps, steps)))

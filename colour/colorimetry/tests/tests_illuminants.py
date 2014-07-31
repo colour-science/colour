@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -104,7 +104,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
         Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd` definition.
         """
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             sorted(colour.colorimetry.illuminants.D_illuminant_relative_spd(
                 (0.32168, 0.33767)).data.values()),
             sorted(D60_SPD_DATA.values()),

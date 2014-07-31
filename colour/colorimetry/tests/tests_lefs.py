@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -37,7 +37,7 @@ __all__ = ["MESOPIC_LEF_SPD_DATA",
            "TestMesopicWeightingFunction",
            "TestMesopicLuminousEfficiencyFunction"]
 
-MESOPIC_LEF_SPD_DATA = numpy.array([
+MESOPIC_LEF_SPD_DATA = np.array([
     0.000423996221042,
     0.000478105586021,
     0.000539901310829,
@@ -480,7 +480,7 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
         Tests :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function` definition.
         """
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             colour.colorimetry.lefs.mesopic_luminous_efficiency_function(0.2).values,
             MESOPIC_LEF_SPD_DATA,
             decimal=7)

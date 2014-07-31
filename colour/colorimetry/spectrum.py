@@ -19,7 +19,7 @@ from __future__ import unicode_literals
 import copy
 import itertools
 import math
-import numpy
+import numpy as np
 
 import colour.algebra.common
 import colour.utilities.common
@@ -117,7 +117,7 @@ class SpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return numpy.array(sorted(self.__data.keys()))
+        return np.array(sorted(self.__data.keys()))
 
     @wavelengths.setter
     def wavelengths(self, value):
@@ -139,7 +139,7 @@ class SpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return numpy.array(map(self.get, self.wavelengths))
+        return np.array(map(self.get, self.wavelengths))
 
     @values.setter
     def values(self, value):
@@ -362,9 +362,9 @@ class SpectralPowerDistribution(object):
         start_wavelength, end_wavelength, steps = self.shape
 
         minimum, maximum = self.get(start_wavelength), self.get(end_wavelength)
-        for i in numpy.arange(start_wavelength, start - steps, -steps):
+        for i in np.arange(start_wavelength, start - steps, -steps):
             self[i] = minimum
-        for i in numpy.arange(end_wavelength, end + steps, steps):
+        for i in np.arange(end_wavelength, end + steps, steps):
             self[i] = maximum
 
         return self
@@ -425,7 +425,7 @@ class SpectralPowerDistribution(object):
                 spline_interpolant = lambda x: spline_interpolator(x)
             else:
                 colour.utilities.verbose.warning(
-                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         self.__class__.__name__))
                 spline_interpolant, spline_interpolator = linear_interpolant, None
 
@@ -453,7 +453,7 @@ class SpectralPowerDistribution(object):
                 raise ValueError("{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
-                                for wavelength in numpy.arange(max(start, shape_start),
+                                for wavelength in np.arange(max(start, shape_start),
                                                                min(end, shape_end) + steps,
                                                                steps)])
         return self
@@ -496,7 +496,7 @@ class SpectralPowerDistribution(object):
         start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
 
         self.__data = dict(
-            [(wavelength, self.get(wavelength, 0.)) for wavelength in numpy.arange(start, end + steps, steps)])
+            [(wavelength, self.get(wavelength, 0.)) for wavelength in np.arange(start, end + steps, steps)])
 
         return self
 
@@ -632,11 +632,11 @@ class TriSpectralPowerDistribution(object):
             for axis in ("x", "y", "z"):
                 data[axis] = SpectralPowerDistribution(self.__mapping.get(axis), value.get(self.__mapping.get(axis)))
 
-            numpy.testing.assert_almost_equal(data["x"].wavelengths,
+            np.testing.assert_almost_equal(data["x"].wavelengths,
                                               data["y"].wavelengths,
                                               err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
                                                   "data", self.__mapping.get("x"), self.__mapping.get("y")))
-            numpy.testing.assert_almost_equal(data["x"].wavelengths,
+            np.testing.assert_almost_equal(data["x"].wavelengths,
                                               data["z"].wavelengths,
                                               err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
                                                   "data", self.__mapping.get("x"), self.__mapping.get("z")))
@@ -769,7 +769,7 @@ class TriSpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return numpy.array(map(self.get, self.wavelengths))
+        return np.array(map(self.get, self.wavelengths))
 
     @values.setter
     def values(self, value):
@@ -814,7 +814,7 @@ class TriSpectralPowerDistribution(object):
         :rtype: ndarray
         """
 
-        return numpy.array((self.x[wavelength], self.y[wavelength], self.z[wavelength]))
+        return np.array((self.x[wavelength], self.y[wavelength], self.z[wavelength]))
 
     def __setitem__(self, key, value):
         """
@@ -1079,7 +1079,7 @@ class TriSpectralPowerDistribution(object):
         :rtype: TriSpectralPowerDistribution
         """
 
-        maximum = max(numpy.ravel(self.values))
+        maximum = max(np.ravel(self.values))
         for i in self.__mapping.keys():
             getattr(self, i) * (1. / maximum) * factor
 

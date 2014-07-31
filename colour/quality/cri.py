@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 from collections import namedtuple
 
-import numpy
+import numpy as np
 
 import colour.algebra.common
 import colour.colorimetry.blackbody
@@ -64,12 +64,12 @@ def _get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromatic
     """
 
     test_XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(test_spd, cmfs)
-    test_uv = numpy.ravel(
+    test_uv = np.ravel(
         colour.models.cie_ucs.UCS_to_uv(colour.models.cie_ucs.XYZ_to_UCS(test_XYZ)))
     test_u, test_v = test_uv[0], test_uv[1]
 
     reference_XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(reference_spd, cmfs)
-    reference_uv = numpy.ravel(
+    reference_uv = np.ravel(
         colour.models.cie_ucs.UCS_to_uv(
             colour.models.cie_ucs.XYZ_to_UCS(reference_XYZ)))
     reference_u, reference_v = reference_uv[0], reference_uv[1]
@@ -78,8 +78,8 @@ def _get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromatic
     for key, value in sorted(colour.quality.dataset.tcs.TCS_INDEXES_TO_NAMES.iteritems()):
         tcs_spd = tsc_spds.get(value)
         tcs_XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(tcs_spd, cmfs, test_spd)
-        tcs_xyY = numpy.ravel(colour.models.cie_xyy.XYZ_to_xyY(tcs_XYZ))
-        tcs_uv = numpy.ravel(
+        tcs_xyY = np.ravel(colour.models.cie_xyy.XYZ_to_xyY(tcs_XYZ))
+        tcs_uv = np.ravel(
             colour.models.cie_ucs.UCS_to_uv(
                 colour.models.cie_ucs.XYZ_to_UCS(tcs_XYZ)))
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
@@ -102,7 +102,7 @@ def _get_tcs_colorimetry_data(test_spd, reference_spd, tsc_spds, cmfs, chromatic
         tcs_data.append(TSC_COLORIMETRY_DATA_NXYZUVUVW(tcs_spd.name,
                                                        tcs_XYZ,
                                                        tcs_uv,
-                                                       numpy.array([tcs_U, tcs_V, tcs_W])))
+                                                       np.array([tcs_U, tcs_V, tcs_W])))
 
     return tcs_data
 
@@ -121,7 +121,7 @@ def _get_colour_rendering_indexes(test_data, reference_data):
 
     colour_rendering_indexes = {}
     for i in range(len(test_data)):
-        colour_rendering_indexes[i + 1] = 100. - 4.6 * numpy.linalg.norm(reference_data[i].UVW - test_data[i].UVW)
+        colour_rendering_indexes[i + 1] = 100. - 4.6 * np.linalg.norm(reference_data[i].UVW - test_data[i].UVW)
     return colour_rendering_indexes
 
 
@@ -176,7 +176,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     colour_rendering_indexes = _get_colour_rendering_indexes(test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
-    colour_rendering_index = numpy.average(
+    colour_rendering_index = np.average(
         [v for k, v in colour_rendering_indexes.iteritems() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:

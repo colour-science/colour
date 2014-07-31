@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import sys
 
-import numpy
+import numpy as np
 
 
 if sys.version_info[:2] <= (2, 6):
@@ -26,7 +26,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.algebra.matrix
+from colour.algebra import is_identity
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -48,10 +48,10 @@ class TestIsIdentity(unittest.TestCase):
         Tests :func:`colour.algebra.matrix.is_identity` definition.
         """
 
-        self.assertTrue(colour.algebra.matrix.is_identity(numpy.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertFalse(colour.algebra.matrix.is_identity(numpy.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertTrue(colour.algebra.matrix.is_identity(numpy.array([1, 0, 0, 1]).reshape(2, 2), n=2))
-        self.assertFalse(colour.algebra.matrix.is_identity(numpy.array([1, 2, 0, 1]).reshape(2, 2), n=2))
+        self.assertTrue(is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertFalse(is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape(2, 2), n=2))
+        self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape(2, 2), n=2))
 
 
 if __name__ == "__main__":

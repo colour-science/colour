@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
 import colour
 from colour.colorimetry.spectrum import TriSpectralPowerDistribution
@@ -361,7 +361,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     y_bar = L
     z_bar = z / y * L
 
-    return numpy.array([x_bar, y_bar, z_bar])
+    return np.array([x_bar, y_bar, z_bar])
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
@@ -400,7 +400,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     y_bar = 0.139058 * r_bar + 0.837460 * g_bar + 0.073316 * b_bar
     z_bar = 0.000000 * r_bar + 0.039553 * g_bar + 2.026200 * b_bar
 
-    return numpy.array([x_bar, y_bar, z_bar])
+    return np.array([x_bar, y_bar, z_bar])
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
@@ -438,7 +438,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
     z_bar = 0.0105107859 * g_bar + 0.991427669 * z_bar if wavelength <= 505 else 0.
 
-    return numpy.array([l_bar, g_bar, z_bar])
+    return np.array([l_bar, g_bar, z_bar])
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -476,7 +476,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     y_bar = 0.68990272 * l_bar + 0.34832189 * m_bar
     z_bar = 1.93485343 * s_bar
 
-    return numpy.array([x_bar, y_bar, z_bar])
+    return np.array([x_bar, y_bar, z_bar])
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
@@ -514,4 +514,4 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     y_bar = 0.69283932 * l_bar + 0.34967567 * m_bar
     z_bar = 2.14687945 * s_bar
 
-    return numpy.array([x_bar, y_bar, z_bar])
+    return np.array([x_bar, y_bar, z_bar])

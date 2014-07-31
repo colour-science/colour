@@ -5,7 +5,7 @@
 Showcases some **Colour** package *derivation* related examples.
 """
 
-import numpy
+import numpy as np
 from numpy import array
 import colour
 
@@ -20,7 +20,7 @@ print(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLOURSPACE.primaries
                                            colour.ACES_RGB_COLOURSPACE.whitepoint))
 
 # Retrieving *normalised primary matrix* from *CIE XYZ* colourspace to *ACES RGB* colourspace.
-print(numpy.linalg.inv(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLOURSPACE.primaries,
+print(np.linalg.inv(colour.get_normalised_primary_matrix(colour.ACES_RGB_COLOURSPACE.primaries,
                                                             colour.ACES_RGB_COLOURSPACE.whitepoint)))
 
 # Retrieving *RGB* *luminance* of given *RGB* components.

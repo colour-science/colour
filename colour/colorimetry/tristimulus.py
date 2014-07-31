@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
 import colour.algebra.matrix
 import colour.colorimetry.spectrum
@@ -26,7 +26,6 @@ import colour.utilities.common
 import colour.utilities.decorators
 import colour.utilities.verbose
 from colour.algebra.interpolation import SpragueInterpolator
-from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,6 +37,7 @@ __status__ = "Production"
 __all__ = ["spectral_to_XYZ",
            "wavelength_to_XYZ"]
 
+_WAVELENGTH_TO_XYZ_CACHE = {}
 
 def spectral_to_XYZ(spd,
                     cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
@@ -79,7 +79,7 @@ def spectral_to_XYZ(spd,
 
     if illuminant is None:
         start, end, steps = shape
-        range = numpy.arange(start, end + steps, steps)
+        range = np.arange(start, end + steps, steps)
         illuminant = colour.colorimetry.spectrum.SpectralPowerDistribution(name="1.0",
                                                                            data=dict(zip(*(list(range),
                                                                                            [1.] * len(range)))))
@@ -96,16 +96,16 @@ def spectral_to_XYZ(spd,
     y_products = spd * y_bar * illuminant
     z_products = spd * z_bar * illuminant
 
-    normalising_factor = 100. / numpy.sum(y_bar * illuminant)
+    normalising_factor = 100. / np.sum(y_bar * illuminant)
 
-    XYZ = numpy.array([normalising_factor * numpy.sum(x_products),
-                       normalising_factor * numpy.sum(y_products),
-                       normalising_factor * numpy.sum(z_products)])
+    XYZ = np.array([normalising_factor * np.sum(x_products),
+                       normalising_factor * np.sum(y_products),
+                       normalising_factor * np.sum(z_products)])
 
     return XYZ.reshape((3, 1))
 
 
-@colour.utilities.decorators.memoize(RuntimeCache.wavelength_to_XYZ)
+@colour.utilities.decorators.memoize(_WAVELENGTH_TO_XYZ_CACHE)
 def wavelength_to_XYZ(wavelength,
                       cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
@@ -149,14 +149,14 @@ def wavelength_to_XYZ(wavelength,
                 interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
             else:
                 colour.utilities.verbose.warning(
-                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'numpy.interp' interpolator!".format(
+                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         __name__))
 
-                x_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 0])
-                y_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 1])
-                z_interpolator = lambda x: numpy.interp(x, wavelengths, values[:, 2])
+                x_interpolator = lambda x: np.interp(x, wavelengths, values[:, 0])
+                y_interpolator = lambda x: np.interp(x, wavelengths, values[:, 1])
+                z_interpolator = lambda x: np.interp(x, wavelengths, values[:, 2])
                 interpolators = (x_interpolator, y_interpolator, z_interpolator)
 
-        return numpy.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
+        return np.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
     else:
-        return numpy.array(cmfs.get(wavelength)).reshape((3, 1))
+        return np.array(cmfs.get(wavelength)).reshape((3, 1))

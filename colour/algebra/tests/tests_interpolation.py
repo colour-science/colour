@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import sys
 
-import numpy
+import numpy as np
 
 
 if sys.version_info[:2] <= (2, 6):
@@ -26,8 +26,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra.interpolation import LinearInterpolator
-from colour.algebra.interpolation import SpragueInterpolator
+from colour.algebra import LinearInterpolator
+from colour.algebra import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -42,7 +42,7 @@ __all__ = ["POINTS_DATA_A",
            "TestLinearInterpolator",
            "TestSpragueInterpolator"]
 
-POINTS_DATA_A = numpy.array([
+POINTS_DATA_A = np.array([
     9.3700,
     12.3200,
     12.4600,
@@ -399,14 +399,14 @@ class TestLinearInterpolator(unittest.TestCase):
         """
 
         steps = 0.1
-        x = numpy.arange(len(POINTS_DATA_A))
+        x = np.arange(len(POINTS_DATA_A))
         linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
-        for i, value in enumerate(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
             self.assertAlmostEqual(LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], linear_interpolator(value),
                                    places=7)
 
-        numpy.testing.assert_almost_equal(linear_interpolator(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+        np.testing.assert_almost_equal(linear_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
                                           LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
@@ -442,14 +442,14 @@ class TestSpragueInterpolator(unittest.TestCase):
         """
 
         steps = 0.1
-        x = numpy.arange(len(POINTS_DATA_A))
+        x = np.arange(len(POINTS_DATA_A))
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
-        for i, value in enumerate(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
             self.assertAlmostEqual(SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], sprague_interpolator(value),
                                    places=7)
 
-        numpy.testing.assert_almost_equal(sprague_interpolator(numpy.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+        np.testing.assert_almost_equal(sprague_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
                                           SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 

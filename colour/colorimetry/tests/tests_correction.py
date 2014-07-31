@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -38,7 +38,7 @@ __all__ = ["SPD_DATA",
            "BANDPASS_CORRECTED_STEARNS_SPD_DATA",
            "TestBandpassCorrectionStearns"]
 
-SPD_DATA = numpy.array([
+SPD_DATA = np.array([
     9.3700,
     12.3200,
     12.4600,
@@ -56,7 +56,7 @@ SPD_DATA = numpy.array([
     88.1900,
     86.0500])
 
-BANDPASS_CORRECTED_STEARNS_SPD_DATA = numpy.array([
+BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
     9.12515,
     12.57355255,
     12.69542514,
@@ -86,7 +86,7 @@ class TestBandpassCorrectionStearns(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution("Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
-        numpy.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA,
+        np.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA,
                                           colour.colorimetry.correction.bandpass_correction_stearns(spd).values)
 
 
