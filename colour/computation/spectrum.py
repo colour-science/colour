@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *spectral power distribution* manipulation objects.
+    Defines **Colour** package *spectral power distribution* objects.
 
 **Others:**
 
@@ -23,7 +23,6 @@ import numpy
 
 import colour.algebra.common
 import colour.utilities.common
-import colour.utilities.exceptions
 from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
@@ -84,15 +83,6 @@ class SpectralPowerDistribution(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def data(self):
         """
@@ -118,15 +108,6 @@ class SpectralPowerDistribution(object):
                                                                                             value)
         self.__data = value
 
-    @data.deleter
-    def data(self):
-        """
-        Deleter for **self.__data** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
-
     @property
     def wavelengths(self):
         """
@@ -147,17 +128,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
-
-    @wavelengths.deleter
-    def wavelengths(self):
-        """
-        Deleter for **self.__wavelengths** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -179,17 +150,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
-
-    @values.deleter
-    def values(self):
-        """
-        Deleter for **self.__values** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -212,17 +173,7 @@ class SpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
-
-    @shape.deleter
-    def shape(self):
-        """
-        Deleter for **self.__shape** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -393,19 +344,19 @@ class SpectralPowerDistribution(object):
         """
         Extrapolates the spectral power distribution according to *CIE 15:2004* recommendation.
 
-        References:
-
-        -  `CIE 015:2004 Colorimetry, 3rd edition: \
-        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-
         :param start: Wavelengths range start in nm.
         :type start: float
         :param end: Wavelengths range end in nm.
         :type end: float
         :return: Extrapolated spectral power distribution.
         :rtype: SpectralPowerDistribution
+
+        References:
+
+        -  `CIE 015:2004 Colorimetry, 3rd edition: \
+        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
 
         start_wavelength, end_wavelength, steps = self.shape
@@ -424,11 +375,6 @@ class SpectralPowerDistribution(object):
         by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable
         and a *Cubic Spline* method for non-uniformly spaced independent variable.
 
-        References:
-
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-
         :param start: Wavelengths range start in nm.
         :type start: float
         :param end: Wavelengths range end in nm.
@@ -443,6 +389,11 @@ class SpectralPowerDistribution(object):
         :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced \
         independent variable.
         :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+
+        References:
+
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
 
         shape_start, shape_end, shape_steps = self.shape
@@ -491,7 +442,7 @@ class SpectralPowerDistribution(object):
                 if is_uniform:
                     interpolant = sprague_interpolant
                 else:
-                    raise colour.utilities.exceptions.InterpolationError(
+                    raise RuntimeError(
                         "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
             elif interpolator == "Cubic Spline":
@@ -499,8 +450,7 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise colour.utilities.exceptions.InterpolationError(
-                    "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
+                raise ValueError("{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
                                 for wavelength in numpy.arange(max(start, shape_start),
@@ -625,15 +575,6 @@ class TriSpectralPowerDistribution(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def mapping(self):
         """
@@ -660,15 +601,6 @@ class TriSpectralPowerDistribution(object):
                 assert axis in value.keys(), \
                     "'{0}' attribute: '{1}' axis label is missing!".format("mapping", axis)
         self.__mapping = value
-
-    @mapping.deleter
-    def mapping(self):
-        """
-        Deleter for **self.__mapping** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "mapping"))
 
     @property
     def data(self):
@@ -713,15 +645,6 @@ class TriSpectralPowerDistribution(object):
         else:
             self.__data = None
 
-    @data.deleter
-    def data(self):
-        """
-        Deleter for **self.__data** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "data"))
-
     @property
     def labels(self):
         """
@@ -749,15 +672,6 @@ class TriSpectralPowerDistribution(object):
                     "'{0}' attribute: '{1}' axis label is missing!".format("labels", axis)
         self.__labels = value
 
-    @labels.deleter
-    def labels(self):
-        """
-        Deleter for **self.__labels** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
-
     @property
     def x(self):
         """
@@ -778,17 +692,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
-
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
 
     @property
     def y(self):
@@ -810,17 +714,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
-
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
 
     @property
     def z(self):
@@ -842,17 +736,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
-
-    @z.deleter
-    def z(self):
-        """
-        Deleter for **self.__z** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "z"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
 
     @property
     def wavelengths(self):
@@ -874,17 +758,7 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
-
-    @wavelengths.deleter
-    def wavelengths(self):
-        """
-        Deleter for **self.__wavelengths** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -906,17 +780,7 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
-
-    @values.deleter
-    def values(self):
-        """
-        Deleter for **self.__values** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -938,17 +802,7 @@ class TriSpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
-
-    @shape.deleter
-    def shape(self):
-        """
-        Deleter for **self.__shape** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -1130,19 +984,19 @@ class TriSpectralPowerDistribution(object):
         """
         Extrapolates the tri-spectral power distribution according to *CIE 15:2004* recommendation.
 
-        References:
-
-        -  `CIE 015:2004 Colorimetry, 3rd edition: \
-        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-
         :param start: Wavelengths range start in nm.
         :type start: float
         :param end: Wavelengths range end in nm.
         :type end: float
         :return: Extrapolated tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
+
+        References:
+
+        -  `CIE 015:2004 Colorimetry, 3rd edition: \
+        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
 
         for i in self.__mapping.keys():
@@ -1154,11 +1008,6 @@ class TriSpectralPowerDistribution(object):
         """
         Interpolates the tri-spectral power distribution following *CIE 167:2005* recommendations.
 
-        References:
-
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-
         :param start: Wavelengths range start in nm.
         :type start: float
         :param end: Wavelengths range end in nm.
@@ -1167,6 +1016,11 @@ class TriSpectralPowerDistribution(object):
         :type steps: float
         :return: Interpolated tri-spectral power distribution.
         :rtype: TriSpectralPowerDistribution
+
+        References:
+
+        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
 
         for i in self.__mapping.keys():

@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *luminous efficiency functions* manipulation objects.
+    Defines **Colour** package *luminous efficiency functions* objects.
 
 **Others:**
 
@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 
 import colour.algebra.common
 import colour.dataset.lefs
-import colour.utilities.exceptions
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -43,10 +42,6 @@ def mesopic_weighting_function(wavelength,
     """
     Calculates the mesopic weighting function factor at given wavelength.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
-
     Usage::
 
         >>> mesopic_weighting_function(500, 0.2)
@@ -66,11 +61,15 @@ def mesopic_weighting_function(wavelength,
     :type scotopic_lef: SpectralPowerDistribution
     :return: Mesopic weighting function factor.
     :rtype: float
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
     """
 
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
-            raise colour.utilities.exceptions.LuminousEfficiencyFunctionError(
+            raise KeyError(
                 "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
                     wavelength,
                     function.name,
@@ -96,10 +95,6 @@ def mesopic_luminous_efficiency_function(Lp,
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
     matching functions and illuminant.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
-
     Usage::
 
         >>> mesopic_luminous_efficiency_function(0.2)
@@ -117,6 +112,10 @@ def mesopic_luminous_efficiency_function(Lp,
     :type scotopic_lef: SpectralPowerDistribution
     :return: Mesopic luminous efficiency function.
     :rtype: SpectralPowerDistribution
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function (Last accessed 20 June 2014)
     """
 
     photopic_lef_shape, scotopic_lef_shape = photopic_lef.shape, scotopic_lef.shape

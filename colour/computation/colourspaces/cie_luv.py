@@ -45,10 +45,6 @@ def XYZ_to_Luv(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
-
     Usage::
 
         >>> XYZ_to_Luv(numpy.array([0.92193107, 1., 1.03744246]))
@@ -63,9 +59,13 @@ def XYZ_to_Luv(XYZ,
     :return: *CIE Luv* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *illuminant* is in domain [0, 1].
-    :note: *L\** is in domain [0, 100].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant* is in domain [0, 1].
+    :note: Output *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -87,10 +87,6 @@ def Luv_to_XYZ(Luv,
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
-
     Usage::
 
         >>> Luv_to_XYZ(numpy.array([100., -20.04304247, -19.81676035]))
@@ -105,9 +101,13 @@ def Luv_to_XYZ(Luv,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
-    :note: *illuminant* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *L\** is in domain [0, 100].
+    :note: Input *illuminant* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html (Last accessed 24 February 2014)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -133,10 +133,6 @@ def Luv_to_uv(Luv,
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace matrix.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
-
     Usage::
 
         >>> Luv_to_uv(numpy.array([100., -20.04304247, -19.81676035]))
@@ -149,8 +145,12 @@ def Luv_to_uv(Luv,
     :return: *u'v'* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *L\** is in domain [0, 100].
-    :note: *u'v'* is in domain [0, 1].
+    :note: Input *L\** is in domain [0, 100].
+    :note: Output *u'v'* is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -162,10 +162,6 @@ def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace *u'v'* chromaticity coordinates.
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation'.
-
     Usage::
 
         >>> Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052))
@@ -176,8 +172,12 @@ def Luv_uv_to_xy(uv):
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *u'v'* is in domain [0, 1].
-    :note: *xy* is in domain [0, 1].
+    :note: Input *u'v'* is in domain [0, 1].
+    :note: Output *xy* is in domain [0, 1].
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation' (Last accessed 24 February 2014)
     """
 
     return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (6. * uv[0] - 16. * uv[1] + 12.)
@@ -186,10 +186,6 @@ def Luv_uv_to_xy(uv):
 def Luv_to_LCHuv(Luv):
     """
     Converts from *CIE Luv* colourspace to *CIE LCHuv* colourspace.
-
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
 
     Usage::
 
@@ -204,6 +200,10 @@ def Luv_to_LCHuv(Luv):
     :rtype: ndarray (3, 1)
 
     :note: *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html (Last accessed 24 February 2014)
     """
 
     L, u, v = numpy.ravel(Luv)
@@ -219,10 +219,6 @@ def LCHuv_to_Luv(LCHuv):
     """
     Converts from *CIE LCHuv* colourspace to *CIE Luv* colourspace.
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
-
     Usage::
 
         >>> LCHuv_to_Luv(numpy.array([100., 28.18559104, 224.6747382]))
@@ -236,6 +232,10 @@ def LCHuv_to_Luv(LCHuv):
     :rtype: ndarray (3, 1)
 
     :note: *L\** is in domain [0, 100].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html (Last accessed 24 February 2014)
     """
 
     L, C, H = numpy.ravel(LCHuv)

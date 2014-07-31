@@ -44,11 +44,10 @@ import colour.computation.temperature
 import colour.computation.colourspaces.cie_luv
 import colour.computation.colourspaces.cie_ucs
 import colour.computation.colourspaces.cie_xyy
-import colour.computation.colourspaces.munsell
+import colour.computation.cns.munsell
 import colour.computation.colourspaces.rgb.rgb_colourspace
 import colour.computation.tristimulus
 import colour.utilities.data_structures
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -113,7 +112,7 @@ pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
 matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
 
 
-def __get_cmfs(cmfs):
+def _get_cmfs(cmfs):
     """
     Returns the colour matching functions with given name.
 
@@ -125,14 +124,13 @@ def __get_cmfs(cmfs):
 
     cmfs, name = colour.dataset.cmfs.CMFS.get(cmfs), cmfs
     if cmfs is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory colour matching functions: '{1}'.".format(name,
-                                                                                  sorted(
-                                                                                      colour.dataset.cmfs.CMFS.keys())))
+        raise KeyError("'{0}' not found in factory colour matching functions: '{1}'.".format(name,
+                                                                                             sorted(
+                                                                                                 colour.dataset.cmfs.CMFS.keys())))
     return cmfs
 
 
-def __get_illuminant(illuminant):
+def _get_illuminant(illuminant):
     """
     Returns the illuminant with given name.
 
@@ -144,15 +142,14 @@ def __get_illuminant(illuminant):
 
     illuminant, name = colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory illuminants: '{1}'.".format(name,
-                                                                    sorted(
-                                                                        colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
+        raise KeyError("'{0}' not found in factory illuminants: '{1}'.".format(name,
+                                                                               sorted(
+                                                                                   colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
 
-def __get_RGB_colourspace(colourspace):
+def _get_RGB_colourspace(colourspace):
     """
     Returns the *RGB* colourspace with given name.
 
@@ -164,15 +161,14 @@ def __get_RGB_colourspace(colourspace):
 
     colourspace, name = colour.RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' colourspace not found in factory colourspaces: '{1}'.".format(name,
-                                                                                 sorted(
-                                                                                     colour.RGB_COLOURSPACES.keys())))
+        raise KeyError("'{0}' colourspace not found in factory colourspaces: '{1}'.".format(name,
+                                                                                            sorted(
+                                                                                                colour.RGB_COLOURSPACES.keys())))
 
     return colourspace
 
 
-def __get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
+def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 
@@ -586,10 +582,9 @@ def colour_checker_plot(colour_checker="ColorChecker 2005",
     colour_checker, name = colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.get(
         colour_checker), colour_checker
     if colour_checker is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "Colour checker '{0}' not found in colour checkers: '{1}'.".format(name,
-                                                                               sorted(
-                                                                                   colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
+        raise KeyError("Colour checker '{0}' not found in colour checkers: '{1}'.".format(name,
+                                                                                          sorted(
+                                                                                              colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
 
     _, data, illuminant = colour_checker
     colour_parameters = []
@@ -660,7 +655,7 @@ def single_spd_plot(spd,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     start, end, steps = cmfs.shape
     spd = spd.clone().interpolate(start, end, steps)
@@ -720,7 +715,7 @@ def multi_spd_plot(spds,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     if use_spds_colours:
         illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D65")
@@ -811,7 +806,7 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
                       ("y", [0., 1., 0.]),
                       ("z", [0., 0., 1.])):
         for i, cmfs in enumerate(cmfss):
-            cmfs, name = __get_cmfs(cmfs), cmfs
+            cmfs, name = _get_cmfs(cmfs), cmfs
 
             rgb = map(lambda x: reduce(lambda y, _: y * 0.5, xrange(i), x), rgb)
             wavelengths, values = zip(*[(key, value) for key, value in getattr(cmfs, axis)])
@@ -866,8 +861,8 @@ def single_illuminant_relative_spd_plot(illuminant="A",
 
     title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
 
-    illuminant, name = __get_illuminant(illuminant), illuminant
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    illuminant, name = _get_illuminant(illuminant), illuminant
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     settings = {"title": title,
                 "y_label": "Relative Spectral Power Distribution"}
@@ -895,7 +890,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
 
     spds = []
     for illuminant in illuminants:
-        spds.append(__get_illuminant(illuminant))
+        spds.append(_get_illuminant(illuminant))
 
     settings = {"title": "{0} - Illuminants Relative Spectral Power Distribution".format(", ".join(illuminants)),
                 "y_label": "Relative Spectral Power Distribution"}
@@ -921,7 +916,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     cmfs = cmfs.clone().interpolate(360, 830)
 
@@ -971,7 +966,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("E")
@@ -1025,7 +1020,7 @@ def CIE_1931_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Observer
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1931_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1111,7 +1106,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     settings = {"title": "{0} - {1}".format(", ".join(colourspaces), name),
                 "standalone": False}
@@ -1127,7 +1122,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(colourspaces=["sRGB", "ACES 
             pylab.plot(x, y, label="Pointer Gamut", color="0.95", linewidth=2.)
             pylab.plot([x[-1], x[0]], [y[-1], y[0]], color="0.95", linewidth=2.)
         else:
-            colourspace, name = __get_RGB_colourspace(colourspace), colourspace
+            colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
             random_colour = lambda: float(random.randint(64, 224)) / 255
             r, g, b = random_colour(), random_colour(), random_colour()
@@ -1218,11 +1213,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
     for illuminant in illuminants:
         xy = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
-                                                                                   sorted(
-                                                                                       colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                                                           cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
+                                                                                              sorted(
+                                                                                                  colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                                      cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
 
@@ -1262,7 +1256,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("E")
@@ -1317,7 +1311,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1436,11 +1430,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     for illuminant in illuminants:
         uv = xy_to_uv(colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
-                                                                                   sorted(
-                                                                                       colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                                                           cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
+                                                                                              sorted(
+                                                                                                  colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                                      cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
 
@@ -1480,7 +1473,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
         "CIE 1931 2 Degree Standard Observer").get("D50")
@@ -1535,7 +1528,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(cmfs="CIE 1931 2 Degree Standard Obse
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(os.path.join(RESOURCES_DIRECTORY,
                                                  "CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png".format(
@@ -1648,12 +1641,11 @@ def multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Mun
 
     samples = numpy.linspace(0., 100., 1000)
     for i, function in enumerate(functions):
-        function, name = colour.computation.colourspaces.munsell.MUNSELL_VALUE_FUNCTIONS.get(function), function
+        function, name = colour.computation.cns.munsell.MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
-                                                                                                       sorted(
-                                                                                                           colour.computation.colourspaces.munsell.MUNSELL_VALUE_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
+                                                                                                                  sorted(
+                                                                                                                      colour.computation.cns.munsell.MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
@@ -1723,10 +1715,9 @@ def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness Wyszec
     for i, function in enumerate(functions):
         function, name = colour.computation.lightness.LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
-                                                                                               sorted(
-                                                                                                   colour.computation.lightness.LIGHTNESS_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
+                                                                                                          sorted(
+                                                                                                              colour.computation.lightness.LIGHTNESS_FUNCTIONS.keys())))
 
         pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
@@ -1797,7 +1788,7 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
 
     samples = numpy.linspace(0., 1., 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = __get_RGB_colourspace(colourspace), colourspace
+        colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
         RGBs = numpy.array(
             map(colourspace.inverse_transfer_function if inverse else colourspace.transfer_function, samples))
@@ -1844,7 +1835,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
@@ -1908,7 +1899,7 @@ def blackbody_colours_plot(start=150,
     :rtype: bool
     """
 
-    cmfs, name = __get_cmfs(cmfs), cmfs
+    cmfs, name = _get_cmfs(cmfs), cmfs
 
     colours = []
     temperatures = []

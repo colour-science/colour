@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *colour matching functions* manipulation objects.
+    Defines **Colour** package *colour matching functions* objects.
 
 **Others:**
 
@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.exceptions
+import colour
 from colour.computation.spectrum import TriSpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -82,17 +82,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
-
-    @l_bar.deleter
-    def l_bar(self):
-        """
-        Deleter for **self.__r_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "l_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
 
     @property
     def m_bar(self):
@@ -114,17 +104,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
-
-    @m_bar.deleter
-    def m_bar(self):
-        """
-        Deleter for **self.__g_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "m_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
 
     @property
     def s_bar(self):
@@ -146,17 +126,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
-
-    @s_bar.deleter
-    def s_bar(self):
-        """
-        Deleter for **self.__b_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "s_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -204,17 +174,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
-
-    @r_bar.deleter
-    def r_bar(self):
-        """
-        Deleter for **self.__r_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "r_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
     @property
     def g_bar(self):
@@ -236,17 +196,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
-
-    @g_bar.deleter
-    def g_bar(self):
-        """
-        Deleter for **self.__g_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "g_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
     @property
     def b_bar(self):
@@ -268,17 +218,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
-
-    @b_bar.deleter
-    def b_bar(self):
-        """
-        Deleter for **self.__b_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "b_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -326,17 +266,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
-
-    @x_bar.deleter
-    def x_bar(self):
-        """
-        Deleter for **self.__x_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
     @property
     def y_bar(self):
@@ -358,17 +288,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
-
-    @y_bar.deleter
-    def y_bar(self):
-        """
-        Deleter for **self.__y_bar** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
     @property
     def z_bar(self):
@@ -390,24 +310,13 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
-
-    @z_bar.deleter
-    def z_bar(self):
-        """
-        Deleter for **self.__z_bar** attribute.
-        """
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     """
     Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions into the
     *CIE 1931 2 Degree Standard Observer* colour matching functions.
-
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Pages 138, 139.
 
     Usage::
 
@@ -418,14 +327,20 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 1931 2 Degree Standard Observer* already exists,
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
     cmfs = colour.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -454,10 +369,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 141.
-
     Usage::
 
         >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
@@ -467,14 +378,20 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 1964 10 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -491,10 +408,6 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral sensitivity functions.
 
-    References:
-
-    -  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_
-
     Usage::
 
         >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)
@@ -504,14 +417,19 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, this definition is intended for educational purpose.
+    :note: Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -528,10 +446,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
-
     Usage::
 
         >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
@@ -541,14 +455,19 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 2012 2 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm (Last accessed 25 June 2014)
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 2 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -565,10 +484,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching functions.
 
-    References:
-
-    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
-
     Usage::
 
         >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
@@ -578,14 +493,19 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     :type wavelength: float
     :return: *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
     :rtype: ndarray (3, 1)
-    :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, this definition is intended for educational purpose.
+    :note: Data for the *CIE 2012 10 Degree Standard Observer* already exists, \
+    this definition is intended for educational purpose.
+
+    References:
+
+    -  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm (Last accessed 25 June 2014)
     """
 
     # Accessing directly from *colour* namespace to avoid circular imports issues.
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))

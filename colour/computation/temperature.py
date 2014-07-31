@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *correlated colour temperature* manipulation objects.
+    Defines **Colour** package *correlated colour temperature* objects.
 
 **Others:**
     :func:`colour.temperature.get_planckian_table`, :func:`colour.temperature.get_planckian_table_minimal_distance_index`,
@@ -18,7 +18,8 @@
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
     *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
-    from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
+    from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 """
 
 from __future__ import unicode_literals
@@ -31,7 +32,6 @@ import colour.computation.blackbody
 import colour.computation.colourspaces.cie_ucs
 import colour.computation.tristimulus
 import colour.dataset.cmfs
-import colour.utilities.exceptions
 import colour.utilities.verbose
 
 __author__ = "Thomas Mansencal"
@@ -71,7 +71,8 @@ CCT_MAXIMAL = 100000
 CCT_SAMPLES = 10
 CCT_CALCULATION_ITERATIONS = 6
 
-# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 228.
+# **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 # (Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinate *u*, CIE 1960 Chromaticity Coordinate *v*, Slope)
 WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
                                                 (10, 0.18066, 0.26589, -0.25479),
@@ -322,12 +323,6 @@ def uv_to_CCT_robertson1968(uv):
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
     using *Roberston* calculation method.
 
-    References:
-
-    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
-    *dng_temperature::Set_xy_coord*.
-    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
-
     Usage::
 
         >>> uv_to_CCT_robertson1968((0.19374137599822966, 0.31522104394059397))
@@ -338,6 +333,13 @@ def uv_to_CCT_robertson1968(uv):
     :return: Correlated colour temperature, Duv.
     :rtype: tuple
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+
+    References:
+
+    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    *dng_temperature::Set_xy_coord*.
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
     """
 
     u, v = uv
@@ -401,12 +403,6 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and
     Duv using *Roberston* calculation method.
 
-    References:
-
-    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
-    *dng_temperature::Get_xy_coord*.
-    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 227
-
     Usage::
 
         >>> CCT_to_uv_robertson1968(6500.0081378199056, 0.0083333312442250979)
@@ -419,6 +415,13 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+
+    References:
+
+    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    *dng_temperature::Get_xy_coord*.
+    - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
     """
 
     r = 1.0e6 / CCT
@@ -478,7 +481,7 @@ def uv_to_CCT(uv, method="Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
-                raise colour.utilities.exceptions.CorrelatedColourTemperatureError(
+                raise ValueError(
                     "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return uv_to_CCT_robertson1968(uv)
@@ -506,7 +509,7 @@ def CCT_to_uv(CCT, Duv=0., method="Ohno", **kwargs):
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
-                raise colour.utilities.exceptions.CorrelatedColourTemperatureError(
+                raise ValueError(
                     "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return CCT_to_uv_robertson1968(CCT, Duv)
@@ -516,10 +519,6 @@ def xy_to_CCT_mccamy(xy):
     """
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *McCamy* calculation method.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Color_temperature#Approximation
 
     Usage::
 
@@ -531,6 +530,10 @@ def xy_to_CCT_mccamy(xy):
     :return: Correlated colour temperature.
     :rtype: float
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Color_temperature#Approximation (Last accessed 28 June 2014)
     """
 
     x, y = xy
@@ -546,10 +549,6 @@ def xy_to_CCT_hernandez(xy):
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *Hernandez-Andres, Lee & Romero* calculation method.
 
-    References:
-
-    -  `<http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
-
     Usage::
 
         >>> xy_to_CCT_hernandez((0.31271, 0.32902))
@@ -560,6 +559,10 @@ def xy_to_CCT_hernandez(xy):
     :return: Correlated colour temperature.
     :rtype: float
     :note: This implementation is only valid for *CIE 1931 2 Degree Standard Observer*.
+
+    References:
+
+    -  `<http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
     """
 
     x, y = xy
@@ -584,11 +587,6 @@ def CCT_to_xy_kang(CCT):
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given correlated colour temperature
     using *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.
 
-    References:
-
-    -  `Design of Advanced Color - Temperature Control System for HDTV Applications \
-    <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_
-
     Usage::
 
         >>> CCT_to_xy_kang((0.31271, 0.32902))
@@ -598,6 +596,11 @@ def CCT_to_xy_kang(CCT):
     :type CCT: float
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
+
+    References:
+
+    -  `Design of Advanced Color - Temperature Control System for HDTV Applications \
+    <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_
     """
 
     if 1667 <= CCT <= 4000:
@@ -605,8 +608,7 @@ def CCT_to_xy_kang(CCT):
     elif 4000 <= CCT <= 25000:
         x = -3.0258469 * 10 ** 9 / CCT ** 3 + 2.1070379 * 10 ** 6 / CCT ** 2 + 0.2226347 * 10 ** 3 / CCT + 0.24039
     else:
-        raise colour.utilities.exceptions.DomainError(
-            "Correlated colour temperature must be in domain [1667, 25000]!")
+        raise ValueError("Correlated colour temperature must be in domain [1667, 25000]!")
 
     if 1667 <= CCT <= 2222:
         y = -1.1063814 * x ** 3 - 1.34811020 * x ** 2 + 2.18555832 * x - 0.20219683
@@ -623,14 +625,15 @@ def CCT_to_xy_illuminant_D(CCT):
     Converts from the correlated colour temperature of a *CIE Illuminant D Series*
     to the chromaticity of that *CIE Illuminant D Series*.
 
-    References:
-
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Page 145
-
     :param CCT: Correlated colour temperature.
     :type CCT: float
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
+
+    References:
+
+    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 145.
     """
 
     if 4000 <= CCT <= 7000:
@@ -638,8 +641,7 @@ def CCT_to_xy_illuminant_D(CCT):
     elif 7000 < CCT <= 25000:
         x = -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 + 0.24748 * 10 ** 3 / CCT + 0.23704
     else:
-        raise colour.utilities.exceptions.DomainError(
-            "Correlated colour temperature must be in domain [4000, 25000]!")
+        raise ValueError("Correlated colour temperature must be in domain [4000, 25000]!")
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 

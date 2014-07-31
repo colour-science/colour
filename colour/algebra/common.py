@@ -25,12 +25,19 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["get_steps",
-           "is_uniform",
+__all__ = ["FLOATING_POINT_NUMBER_PATTERN",
+           "EVEN_INTEGER_THRESHOLD",
+           "get_steps",
            "get_closest",
-           "is_iterable",
            "to_ndarray",
-           "is_number"]
+           "is_uniform",
+           "is_iterable",
+           "is_number",
+           "is_even_integer"]
+
+FLOATING_POINT_NUMBER_PATTERN = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
+
+EVEN_INTEGER_THRESHOLD = 0.001
 
 
 def get_steps(distribution):
@@ -44,19 +51,6 @@ def get_steps(distribution):
     """
 
     return tuple(set([distribution[i + 1] - distribution[i] for i in range(len(distribution) - 1)]))
-
-
-def is_uniform(distribution):
-    """
-    Returns if given distribution is uniform.
-
-    :param distribution: Distribution to check for uniformity.
-    :type distribution: tuple or list or Array or Matrix
-    :return: Is uniform.
-    :rtype: bool
-    """
-
-    return True if len(get_steps(distribution)) == 1 else False
 
 
 def get_closest(y, x):
@@ -78,6 +72,37 @@ def get_closest(y, x):
     """
 
     return y[(numpy.abs(numpy.array(y) - x)).argmin()]
+
+
+def to_ndarray(x):
+    """
+    Converts given *x* variable to ndarray.
+
+    Usage::
+
+        >>> to_ndarray(1)
+        [1]
+
+    :param x: Variable to convert.
+    :type x: object
+    :return: *x* variable converted to ndarray.
+    :rtype: ndarray
+    """
+
+    return numpy.array(x) if is_iterable(x) else numpy.array((x,))
+
+
+def is_uniform(distribution):
+    """
+    Returns if given distribution is uniform.
+
+    :param distribution: Distribution to check for uniformity.
+    :type distribution: tuple or list or Array or Matrix
+    :return: Is uniform.
+    :rtype: bool
+    """
+
+    return True if len(get_steps(distribution)) == 1 else False
 
 
 def is_iterable(x):
@@ -105,24 +130,6 @@ def is_iterable(x):
         return False
 
 
-def to_ndarray(x):
-    """
-    Converts given *x* variable to ndarray.
-
-    Usage::
-
-        >>> to_ndarray(1)
-        [1]
-
-    :param x: Variable to convert.
-    :type x: object
-    :return: *x* variable converted to ndarray.
-    :rtype: ndarray
-    """
-
-    return numpy.array(x) if is_iterable(x) else numpy.array((x,))
-
-
 def is_number(x):
     """
     Returns if given *x* variable is a number.
@@ -141,3 +148,23 @@ def is_number(x):
     """
 
     return isinstance(x, (int, long, float, complex))
+
+
+def is_even_integer(x):
+    """
+    Returns if given *x* variable is an even integer.
+
+    Usage::
+
+        >>> is_even_integer(1)
+        True
+        >>> is_even_integer(1.01)
+        False
+
+    :param x: Variable to check.
+    :type x: object
+    :return: Is *x* variable an even integer.
+    :rtype: bool
+    """
+
+    return abs(x - round(x)) <= EVEN_INTEGER_THRESHOLD

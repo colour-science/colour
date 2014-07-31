@@ -33,14 +33,14 @@ def memoize(cache=None):
     | Implements method / definition memoization.
     | Any method / definition decorated will get its return value cached and restored whenever called with the same arguments.
 
-    References:
-
-    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py
-
     :param cache: Alternate cache.
     :type cache: dict
     :return: Object.
     :rtype: object
+
+    References:
+
+    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py
     """
 
     if cache is None:

@@ -173,7 +173,7 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = numpy.array([0.638008, 0.214704, 0.097744,
 XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = numpy.linalg.inv(ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 
 
-def __alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor", EI=800):
+def _alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor", EI=800):
     """
     Defines the *ALEXA Wide Gamut value* colourspace transfer function.
 
@@ -194,7 +194,7 @@ def __alexa_wide_gamut_rgb_transfer_function(value, firmware="SUP 3.x", method="
     return c * math.log10(a * value + b) + d if value > cut else ecutf
 
 
-def __alexa_wide_gamut_rgb_inverse_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor",
+def _alexa_wide_gamut_rgb_inverse_transfer_function(value, firmware="SUP 3.x", method="Linear Scene Exposure Factor",
                                                      EI=800):
     """
     Defines the *ALEXA Wide Gamut value* colourspace inverse transfer function.
@@ -216,9 +216,9 @@ def __alexa_wide_gamut_rgb_inverse_transfer_function(value, firmware="SUP 3.x", 
     return (math.pow(10, (value - d) / c) - b) / a if value > ecutf else (value - f) / e
 
 
-ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_transfer_function
+ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = _alexa_wide_gamut_rgb_transfer_function
 
-ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = __alexa_wide_gamut_rgb_inverse_transfer_function
+ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = _alexa_wide_gamut_rgb_inverse_transfer_function
 
 ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace("ALEXA Wide Gamut RGB",
                                                    ALEXA_WIDE_GAMUT_RGB_PRIMARIES,

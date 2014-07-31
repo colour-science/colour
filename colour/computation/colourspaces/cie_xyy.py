@@ -21,7 +21,6 @@ import numpy
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.optimal_colour_stimuli
 import colour.utilities.common
-import colour.utilities.exceptions
 from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
@@ -38,7 +37,7 @@ __all__ = ["XYZ_to_xyY",
            "is_within_macadam_limits"]
 
 
-def __get_XYZ_optimal_colour_stimuli(illuminant):
+def _get_XYZ_optimal_colour_stimuli(illuminant):
     """
     Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace and caches it if not existing.
 
@@ -52,10 +51,9 @@ def __get_XYZ_optimal_colour_stimuli(illuminant):
         colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
 
     if optimal_colour_stimuli is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
-                                                                               sorted(
-                                                                                   colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+        raise KeyError("'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
+                                                                                          sorted(
+                                                                                              colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_optimal_colour_stimuli = RuntimeCache.XYZ_optimal_colour_stimuli.get(illuminant)
     if cached_optimal_colour_stimuli is None:
@@ -69,10 +67,6 @@ def XYZ_to_xyY(XYZ,
                    "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference *illuminant*.
-
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 
     Usage::
 
@@ -88,8 +82,12 @@ def XYZ_to_xyY(XYZ,
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html (Last accessed 24 February 2014)
     """
 
     X, Y, Z = numpy.ravel(XYZ)
@@ -99,13 +97,10 @@ def XYZ_to_xyY(XYZ,
     else:
         return numpy.array([X / (X + Y + Z), Y / (X + Y + Z), Y]).reshape((3, 1))
 
+
 def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
-
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 
     Usage::
 
@@ -119,8 +114,12 @@ def xyY_to_XYZ(xyY):
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE xyY* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    References:
+
+    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html (Last accessed 24 February 2014)
     """
 
     x, y, Y = numpy.ravel(xyY)
@@ -129,6 +128,7 @@ def xyY_to_XYZ(xyY):
         return numpy.array([0., 0., 0.]).reshape((3, 1))
     else:
         return numpy.array([x * Y / y, Y, (1. - x - y) * Y / y]).reshape((3, 1))
+
 
 def xy_to_XYZ(xy):
     """
@@ -146,8 +146,8 @@ def xy_to_XYZ(xy):
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *xy* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *xy* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
     """
 
     return xyY_to_XYZ(numpy.array([xy[0], xy[1], 1.]).reshape((3, 1)))
@@ -173,8 +173,8 @@ def XYZ_to_xy(XYZ,
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *xy* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Output *xy* is in domain [0, 1].
     """
 
     xyY = numpy.ravel(XYZ_to_xyY(XYZ, illuminant))
@@ -192,13 +192,13 @@ def is_within_macadam_limits(xyY, illuminant):
     :return: Is within *MacAdam* limits.
     :rtype: bool
 
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
     """
 
     if colour.utilities.common.is_scipy_installed(raise_exception=True):
         from scipy.spatial import Delaunay
 
-        optimal_colour_stimuli = __get_XYZ_optimal_colour_stimuli(illuminant)
+        optimal_colour_stimuli = _get_XYZ_optimal_colour_stimuli(illuminant)
         triangulation = RuntimeCache.XYZ_optimal_colour_stimuli_triangulations.get(illuminant)
         if triangulation is None:
             RuntimeCache.XYZ_optimal_colour_stimuli_triangulations[illuminant] = triangulation = \

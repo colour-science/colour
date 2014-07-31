@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.computation.colourspaces.munsell` module.
+    Defines units tests for :mod:`colour.computation.cns.munsell` module.
 
 **Others:**
 
@@ -24,8 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.computation.colourspaces.munsell
-import colour.utilities.exceptions
+import colour.computation.cns.munsell
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -76,6 +75,7 @@ __all__ = ["MUNSELL_SPECIFICATIONS",
            "TestMunsellValueMcCamy1992",
            "TestMunsellValueASTM_D1535_08"]
 
+# TODO: Investigate if tests can be simplified by using a common valid set of specifications.
 MUNSELL_SPECIFICATIONS = (
     (2.5, 7.9653798470827155, 11.928546308350969, 4),
     (2.5, 6.197794822090879, 6.923610826208884, 4),
@@ -4930,539 +4930,543 @@ NON_CONVERGING_XYY = (
 
 class TestParseMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.parse_munsell_colour` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.parse_munsell_colour` definition units tests methods.
     """
 
     def test_parse_munsell_colour(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.is_grey_munsell_colour` definition.
+        Tests :func:`colour.computation.cns.munsell.is_grey_munsell_colour` definition.
         """
 
         self.assertEqual(
-            colour.computation.colourspaces.munsell.parse_munsell_colour("N5.2"), 5.2)
+            colour.computation.cns.munsell.parse_munsell_colour("N5.2"), 5.2)
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.parse_munsell_colour("0YR 2.0/4.0"), (0.0, 2.0, 4.0, 6))
+            colour.computation.cns.munsell.parse_munsell_colour("0YR 2.0/4.0"), (0.0, 2.0, 4.0, 6))
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.parse_munsell_colour("4.2YR 8.1/5.3"), (4.2, 8.1, 5.3, 6))
+            colour.computation.cns.munsell.parse_munsell_colour("4.2YR 8.1/5.3"), (4.2, 8.1, 5.3, 6))
 
 
 class TestIsGreyMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.is_grey_munsell_colour` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.is_grey_munsell_colour` definition units tests methods.
     """
 
     def test_is_grey_munsell_colour(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.is_grey_munsell_colour` definition.
+        Tests :func:`colour.computation.cns.munsell.is_grey_munsell_colour` definition.
         """
 
-        self.assertTrue(colour.computation.colourspaces.munsell.is_grey_munsell_colour(5.2))
-        self.assertFalse(colour.computation.colourspaces.munsell.is_grey_munsell_colour((0.0, 2.0, 4.0, 6)))
-        self.assertFalse(colour.computation.colourspaces.munsell.is_grey_munsell_colour((4.2, 8.1, 5.3, 6)))
+        self.assertTrue(colour.computation.cns.munsell.is_grey_munsell_colour(5.2))
+        self.assertFalse(colour.computation.cns.munsell.is_grey_munsell_colour((0.0, 2.0, 4.0, 6)))
+        self.assertFalse(colour.computation.cns.munsell.is_grey_munsell_colour((4.2, 8.1, 5.3, 6)))
 
 
 class TestNormalizeMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.normalize_munsell_specification` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.normalize_munsell_specification` definition units tests methods.
     """
 
     def test_normalize_munsell_specification(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.normalize_munsell_specification` definition.
+        Tests :func:`colour.computation.cns.munsell.normalize_munsell_specification` definition.
         """
 
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.normalize_munsell_specification((0.0, 2.0, 4.0, 6)),
+            colour.computation.cns.munsell.normalize_munsell_specification((0.0, 2.0, 4.0, 6)),
             (10.0, 2.0, 4.0, 7))
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.normalize_munsell_specification((0.0, 2.0, 4.0, 8)),
+            colour.computation.cns.munsell.normalize_munsell_specification((0.0, 2.0, 4.0, 8)),
             (10.0, 2.0, 4.0, 9))
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.normalize_munsell_specification((0, 2.0, 4.0, 10)),
+            colour.computation.cns.munsell.normalize_munsell_specification((0, 2.0, 4.0, 10)),
             (10.0, 2.0, 4.0, 1))
         self.assertEqual(
-            colour.computation.colourspaces.munsell.normalize_munsell_specification((0, 2.0, 0, 10)),
+            colour.computation.cns.munsell.normalize_munsell_specification((0, 2.0, 0, 10)),
             2)
 
 
 class TestMunsellColourToMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_colour_to_munsell_specification` definition units tests methods.
     """
 
     def test_munsell_colour_to_munsell_specification(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_colour_to_munsell_specification` definition.
         """
 
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification("0.0YR 2.0/4.0"),
+            colour.computation.cns.munsell.munsell_colour_to_munsell_specification("0.0YR 2.0/4.0"),
             (10., 2.0, 4.0, 7))
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification("0.0RP 2.0/4.0"),
+            colour.computation.cns.munsell.munsell_colour_to_munsell_specification("0.0RP 2.0/4.0"),
             (10.0, 2.0, 4.0, 9))
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification("10.0B 2.0/4.0"),
+            colour.computation.cns.munsell.munsell_colour_to_munsell_specification("10.0B 2.0/4.0"),
             (10.0, 2.0, 4.0, 1))
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification("N5.2"),
+            colour.computation.cns.munsell.munsell_colour_to_munsell_specification("N5.2"),
             5.2)
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_colour_to_munsell_specification("0.0YR 2.0/0.0"),
+            colour.computation.cns.munsell.munsell_colour_to_munsell_specification("0.0YR 2.0/0.0"),
             2)
 
 
 class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_specification_to_munsell_colour` definition units tests methods.
     """
 
     def test_munsell_specification_to_munsell_colour(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_specification_to_munsell_colour` definition.
         """
 
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour((10., 2.0, 4.0, 7)),
+            colour.computation.cns.munsell.munsell_specification_to_munsell_colour((10., 2.0, 4.0, 7)),
             "10.0R 2.0/4.0")
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 9)),
+            colour.computation.cns.munsell.munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 9)),
             "10.0P 2.0/4.0")
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 1)),
+            colour.computation.cns.munsell.munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 1)),
             "10.0B 2.0/4.0")
         self.assertEqual(
-            colour.computation.colourspaces.munsell.munsell_specification_to_munsell_colour(5.2),
+            colour.computation.cns.munsell.munsell_specification_to_munsell_colour(5.2),
             "N5.2")
 
 
 class TestGet_xyY_fromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.get_xyY_from_renotation` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.get_xyY_from_renotation` definition units tests methods.
     """
 
     def test_get_xyY_from_renotation(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.get_xyY_from_renotation` definition.
+        Tests :func:`colour.computation.cns.munsell.get_xyY_from_renotation` definition.
         """
 
-        self.assertTupleEqual(colour.computation.colourspaces.munsell.get_xyY_from_renotation((2.5, 0.2, 2.0, 4)),
+        self.assertTupleEqual(colour.computation.cns.munsell.get_xyY_from_renotation((2.5, 0.2, 2.0, 4)),
                               (0.713, 1.414, 0.237))
-        self.assertTupleEqual(colour.computation.colourspaces.munsell.get_xyY_from_renotation((5.0, 0.2, 2.0, 4)),
+        self.assertTupleEqual(colour.computation.cns.munsell.get_xyY_from_renotation((5.0, 0.2, 2.0, 4)),
                               (0.449, 1.145, 0.237))
-        self.assertTupleEqual(colour.computation.colourspaces.munsell.get_xyY_from_renotation((7.5, 0.2, 2.0, 4)),
+        self.assertTupleEqual(colour.computation.cns.munsell.get_xyY_from_renotation((7.5, 0.2, 2.0, 4)),
                               (0.262, 0.837, 0.237))
 
 
 class TestIsSpecificationInRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.is_specification_in_renotation` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.is_specification_in_renotation` definition units tests methods.
     """
 
     def test_is_specification_in_renotation(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.is_specification_in_renotation` definition.
+        Tests :func:`colour.computation.cns.munsell.is_specification_in_renotation` definition.
         """
 
-        self.assertTrue(colour.computation.colourspaces.munsell.is_specification_in_renotation((2.5, 0.2, 2.0, 4)))
-        self.assertTrue(colour.computation.colourspaces.munsell.is_specification_in_renotation((5.0, 0.2, 2.0, 4)))
-        self.assertFalse(colour.computation.colourspaces.munsell.is_specification_in_renotation((25.0, 0.2, 2.0, 4)))
+        self.assertTrue(colour.computation.cns.munsell.is_specification_in_renotation((2.5, 0.2, 2.0, 4)))
+        self.assertTrue(colour.computation.cns.munsell.is_specification_in_renotation((5.0, 0.2, 2.0, 4)))
+        self.assertFalse(colour.computation.cns.munsell.is_specification_in_renotation((25.0, 0.2, 2.0, 4)))
 
 
 class TestGetBoundingHuesFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.get_bounding_hues_from_renotation` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.get_bounding_hues_from_renotation` definition units tests methods.
     """
 
     def test_get_bounding_hues_from_renotation(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.get_bounding_hues_from_renotation` definition.
+        Tests :func:`colour.computation.cns.munsell.get_bounding_hues_from_renotation` definition.
         """
 
         for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
             hue, value, chroma, code = specification
-            self.assertTupleEqual(colour.computation.colourspaces.munsell.get_bounding_hues_from_renotation(hue, code),
+            self.assertTupleEqual(colour.computation.cns.munsell.get_bounding_hues_from_renotation(hue, code),
                                   MUNSELL_BOUNDING_HUES[i])
 
 
 class TestHueToHueAngle(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.hue_to_hue_angle` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.hue_to_hue_angle` definition units tests methods.
     """
 
     def test_hue_to_hue_angle(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.hue_to_hue_angle` definition.
+        Tests :func:`colour.computation.cns.munsell.hue_to_hue_angle` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
-            self.assertEqual(colour.computation.colourspaces.munsell.hue_to_hue_angle(hue, code), angle)
+            self.assertEqual(colour.computation.cns.munsell.hue_to_hue_angle(hue, code), angle)
 
 
 class TestHueAngleToHue(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.hue_angle_to_hue` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.hue_angle_to_hue` definition units tests methods.
     """
 
     def test_hue_angle_to_hue(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.hue_angle_to_hue` definition.
+        Tests :func:`colour.computation.cns.munsell.hue_angle_to_hue` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
-            self.assertEqual(colour.computation.colourspaces.munsell.hue_angle_to_hue(angle), (hue, code))
+            self.assertEqual(colour.computation.cns.munsell.hue_angle_to_hue(angle), (hue, code))
 
 
 class TestHueTo_ASTM_hue(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.hue_to_ASTM_hue` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.hue_to_ASTM_hue` definition units tests methods.
     """
 
     def test_hue_to_ASTM_hue(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.hue_to_ASTM_hue` definition.
+        Tests :func:`colour.computation.cns.munsell.hue_to_ASTM_hue` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ASTM_HUE:
-            self.assertEqual(colour.computation.colourspaces.munsell.hue_to_ASTM_hue(hue, code), angle)
+            self.assertEqual(colour.computation.cns.munsell.hue_to_ASTM_hue(hue, code), angle)
 
 
 class TestGetInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.get_interpolation_method_from_renotation_ovoid` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.get_interpolation_method_from_renotation_ovoid` definition units tests methods.
     """
 
     def test_get_interpolation_method_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.get_interpolation_method_from_renotation_ovoid` definition.
+        Tests :func:`colour.computation.cns.munsell.get_interpolation_method_from_renotation_ovoid` definition.
         """
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             self.assertEqual(
-                colour.computation.colourspaces.munsell.get_interpolation_method_from_renotation_ovoid(specification),
+                colour.computation.cns.munsell.get_interpolation_method_from_renotation_ovoid(specification),
                 MUNSELL_INTERPOLATION_METHODS[i])
 
 
 class TestGet_xy_fromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.get_xy_from_renotation_ovoid` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.get_xy_from_renotation_ovoid` definition units tests methods.
     """
 
     def test_get_xy_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.get_xy_from_renotation_ovoid` definition.
+        Tests :func:`colour.computation.cns.munsell.get_xy_from_renotation_ovoid` definition.
         """
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
-            if colour.computation.colourspaces.munsell.is_specification_in_renotation(specification):
-                self.assertEqual(colour.computation.colourspaces.munsell.get_xy_from_renotation_ovoid(specification),
+            if colour.computation.cns.munsell.is_specification_in_renotation(specification):
+                self.assertEqual(colour.computation.cns.munsell.get_xy_from_renotation_ovoid(specification),
                                  MUNSELL_XY_FROM_RENOTATION_OVOID[i])
 
 
 class TestLCHabToMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.LCHab_to_munsell_specification` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.LCHab_to_munsell_specification` definition units tests methods.
     """
 
     def test_LCHab_to_munsell_specification(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.LCHab_to_munsell_specification` definition.
+        Tests :func:`colour.computation.cns.munsell.LCHab_to_munsell_specification` definition.
         """
 
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.LCHab_to_munsell_specification(
+            colour.computation.cns.munsell.LCHab_to_munsell_specification(
                 numpy.array([100., 21.57210357, 272.2281935])),
             (5.6189426388888819, 10.0, 4.3144207139999997, 10))
 
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.LCHab_to_munsell_specification(
+            colour.computation.cns.munsell.LCHab_to_munsell_specification(
                 numpy.array([100., 426.67945353, 72.39590835])),
             (0.10997454166666643, 10.0, 85.335890706000001, 5))
 
         self.assertTupleEqual(
-            colour.computation.colourspaces.munsell.LCHab_to_munsell_specification(
+            colour.computation.cns.munsell.LCHab_to_munsell_specification(
                 numpy.array([100., 74.05216981, 276.45318193])),
             (6.7925505361111194, 10.0, 14.810433961999999, 10))
 
 
 class TestGetMaximumChromaFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.get_maximum_chroma_from_renotation` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.get_maximum_chroma_from_renotation` definition units tests methods.
     """
 
     def test_get_maximum_chroma_from_renotation(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.get_maximum_chroma_from_renotation` definition.
+        Tests :func:`colour.computation.cns.munsell.get_maximum_chroma_from_renotation` definition.
         """
 
         self.assertEqual(
-            colour.computation.colourspaces.munsell.get_maximum_chroma_from_renotation(2.5, 5, 5),
+            colour.computation.cns.munsell.get_maximum_chroma_from_renotation(2.5, 5, 5),
             14.0)
 
         self.assertEqual(
-            colour.computation.colourspaces.munsell.get_maximum_chroma_from_renotation(8.675, 1.225, 10),
+            colour.computation.cns.munsell.get_maximum_chroma_from_renotation(8.675, 1.225, 10),
             48.0)
 
         self.assertEqual(
-            colour.computation.colourspaces.munsell.get_maximum_chroma_from_renotation(6.875, 3.425, 1),
+            colour.computation.cns.munsell.get_maximum_chroma_from_renotation(6.875, 3.425, 1),
             16.0)
 
 
 class TestMunsellSpecification_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_specification_to_xy` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_specification_to_xy` definition units tests methods.
     """
 
     def test_munsell_specification_to_xy(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_specification_to_xy` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_specification_to_xy` definition.
         """
 
         for specification, xy in MUNSELL_SPECIFICATIONS_TO_XY:
-            self.assertEqual(colour.computation.colourspaces.munsell.munsell_specification_to_xy(specification), xy)
+            self.assertEqual(colour.computation.cns.munsell.munsell_specification_to_xy(specification), xy)
 
         for specification in MUNSELL_GREYS_SPECIFICATIONS:
-            self.assertEqual(colour.computation.colourspaces.munsell.munsell_specification_to_xy(specification),
+            self.assertEqual(colour.computation.cns.munsell.munsell_specification_to_xy(specification),
                              (0.31006, 0.31616))
 
 
 class TestMunsellSpecification_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_specification_to_xyY` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_specification_to_xyY` definition units tests methods.
     """
 
     def test_munsell_specification_to_xyY(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_specification_to_xyY` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_specification_to_xyY` definition.
         """
 
         for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
             numpy.testing.assert_almost_equal(
-                colour.computation.colourspaces.munsell.munsell_specification_to_xyY(specification),
+                colour.computation.cns.munsell.munsell_specification_to_xyY(specification),
                 numpy.array(MUNSELL_COLOURS_TO_XYY[i]).reshape((3, 1)),
                 decimal=7)
 
         for i, specification in enumerate(MUNSELL_GREYS_SPECIFICATIONS):
             numpy.testing.assert_almost_equal(
-                colour.computation.colourspaces.munsell.munsell_specification_to_xyY(specification),
+                colour.computation.cns.munsell.munsell_specification_to_xyY(specification),
                 numpy.array(MUNSELL_GREYS_TO_XYY[i]).reshape((3, 1)),
                 decimal=7)
 
 
 class TestMunsellColour_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_colour_to_xyY` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_colour_to_xyY` definition units tests methods.
     """
 
     def test_munsell_colour_to_xyY(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_colour_to_xyY` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_colour_to_xyY` definition.
         """
+
+        # TODO: This test is covered by the previous class, do we need a dedicated one?
 
         pass
 
 
 class TestxyY_to_munsell_specification(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.xyY_to_munsell_specification` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.xyY_to_munsell_specification` definition units tests methods.
     """
 
     def test_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.xyY_to_munsell_specification` definition.
+        Tests :func:`colour.computation.cns.munsell.xyY_to_munsell_specification` definition.
         """
 
         for xyY, specification in XYY_TO_MUNSELL_SPECIFICATIONS:
-            self.assertTupleEqual(colour.computation.colourspaces.munsell.xyY_to_munsell_specification(xyY),
+            self.assertTupleEqual(colour.computation.cns.munsell.xyY_to_munsell_specification(xyY),
                                   specification)
 
         for xyY in NON_CONVERGING_XYY:
-            self.assertRaises(colour.utilities.exceptions.MunsellColourError,
-                              colour.computation.colourspaces.munsell.xyY_to_munsell_specification,
+            self.assertRaises((RuntimeError, ValueError),
+                              colour.computation.cns.munsell.xyY_to_munsell_specification,
                               xyY)
 
         for xyY, specification in XYY_TO_MUNSELL_GREYS_SPECIFICATIONS:
-            self.assertEqual(colour.computation.colourspaces.munsell.xyY_to_munsell_specification(xyY),
+            self.assertEqual(colour.computation.cns.munsell.xyY_to_munsell_specification(xyY),
                              specification)
 
 
 class TestxyY_to_munsell_colour(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.xyY_to_munsell_colour` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.xyY_to_munsell_colour` definition units tests methods.
     """
 
     def test_xyY_to_munsell_colour(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.xyY_to_munsell_colour` definition.
+        Tests :func:`colour.computation.cns.munsell.xyY_to_munsell_colour` definition.
         """
+
+        # TODO: This test is covered by the previous class, do we need a dedicated one?
 
         pass
 
 
 class TestMunsellValuePriest1920(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_priest1920` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_priest1920` definition units tests methods.
     """
 
     def test_munsell_value_priest1920(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_priest1920` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_priest1920` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_priest1920(10.08),
+            colour.computation.cns.munsell.munsell_value_priest1920(10.08),
             3.17490157328,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_priest1920(56.76),
+            colour.computation.cns.munsell.munsell_value_priest1920(56.76),
             7.53392328073,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_priest1920(98.32),
+            colour.computation.cns.munsell.munsell_value_priest1920(98.32),
             9.91564420499,
             places=7)
 
 
 class TestMunsellValueMunsell1933(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_munsell1933` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_munsell1933` definition units tests methods.
     """
 
     def test_munsell_value_munsell1933(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_munsell1933` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_munsell1933` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_munsell1933(10.08),
+            colour.computation.cns.munsell.munsell_value_munsell1933(10.08),
             3.79183555086,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_munsell1933(56.76),
+            colour.computation.cns.munsell.munsell_value_munsell1933(56.76),
             8.27013181776,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_munsell1933(98.32),
+            colour.computation.cns.munsell.munsell_value_munsell1933(98.32),
             9.95457710587,
             places=7)
 
 
 class TestMunsellValueMoon1943(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_moon1943` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_moon1943` definition units tests methods.
     """
 
     def test_munsell_value_moon1943(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_moon1943` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_moon1943` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_moon1943(10.08),
+            colour.computation.cns.munsell.munsell_value_moon1943(10.08),
             3.74629715382,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_moon1943(56.76),
+            colour.computation.cns.munsell.munsell_value_moon1943(56.76),
             7.8225814259,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_moon1943(98.32),
+            colour.computation.cns.munsell.munsell_value_moon1943(98.32),
             9.88538236116,
             places=7)
 
 
 class TestMunsellValueSaunderson1944(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_saunderson1944` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_saunderson1944` definition units tests methods.
     """
 
     def test_munsell_value_saunderson1944(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_saunderson1944` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_saunderson1944` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(10.08),
+            colour.computation.cns.munsell.munsell_value_saunderson1944(10.08),
             3.68650805994,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(56.76),
+            colour.computation.cns.munsell.munsell_value_saunderson1944(56.76),
             7.89881184275,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_saunderson1944(98.32),
+            colour.computation.cns.munsell.munsell_value_saunderson1944(98.32),
             9.85197100995,
             places=7)
 
 
 class TestMunsellValueLadd1955(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_ladd1955` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_ladd1955` definition units tests methods.
     """
 
     def test_munsell_value_ladd1955(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_ladd1955` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_ladd1955` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ladd1955(10.08),
+            colour.computation.cns.munsell.munsell_value_ladd1955(10.08),
             3.69528622419,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ladd1955(56.76),
+            colour.computation.cns.munsell.munsell_value_ladd1955(56.76),
             7.84875137062,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ladd1955(98.32),
+            colour.computation.cns.munsell.munsell_value_ladd1955(98.32),
             9.75492813681,
             places=7)
 
 
 class TestMunsellValueMcCamy1992(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_mccamy1987` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_mccamy1987` definition units tests methods.
     """
 
     def test_munsell_value_mccamy1987(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_mccamy1987` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_mccamy1987` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_mccamy1987(10.08),
+            colour.computation.cns.munsell.munsell_value_mccamy1987(10.08),
             3.7347235258546316,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_mccamy1987(56.76),
+            colour.computation.cns.munsell.munsell_value_mccamy1987(56.76),
             7.951693123402992,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_mccamy1987(98.32),
+            colour.computation.cns.munsell.munsell_value_mccamy1987(98.32),
             9.935265378231314,
             places=7)
 
 
 class TestMunsellValueASTM_D1535_08(unittest.TestCase):
     """
-    Defines :func:`colour.computation.colourspaces.munsell.munsell_value_ASTM_D1535_08` definition units tests methods.
+    Defines :func:`colour.computation.cns.munsell.munsell_value_ASTM_D1535_08` definition units tests methods.
     """
 
     def test_munsell_value_ASTM_D1535_08(self):
         """
-        Tests :func:`colour.computation.colourspaces.munsell.munsell_value_ASTM_D1535_08` definition.
+        Tests :func:`colour.computation.cns.munsell.munsell_value_ASTM_D1535_08` definition.
         """
 
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ASTM_D1535_08(10.08),
+            colour.computation.cns.munsell.munsell_value_ASTM_D1535_08(10.08),
             3.7344764769311354,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ASTM_D1535_08(56.76),
+            colour.computation.cns.munsell.munsell_value_ASTM_D1535_08(56.76),
             7.94992421224809,
             places=7)
         self.assertAlmostEqual(
-            colour.computation.colourspaces.munsell.munsell_value_ASTM_D1535_08(98.32),
+            colour.computation.cns.munsell.munsell_value_ASTM_D1535_08(98.32),
             9.934372853115544,
             places=7)
 

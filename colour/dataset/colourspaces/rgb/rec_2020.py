@@ -57,14 +57,9 @@ REC_2020_CONSTANTS = colour.utilities.data_structures.Structure(alpha=lambda x: 
                                                                 beta=lambda x: 0.018 if x else 0.0181)
 
 
-def __rec_2020_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace transfer function.
-
-    References:
-
-    -  `Recommendation ITU-R BT.2020: Signal Format \
-    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
 
     :param value: value.
     :type value: float
@@ -72,6 +67,11 @@ def __rec_2020_transfer_function(value, is_10_bits_system=True):
     :type is_10_bits_system: bool
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
     return value * 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
@@ -79,14 +79,9 @@ def __rec_2020_transfer_function(value, is_10_bits_system=True):
             REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)
 
 
-def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     """
     Defines the *Rec. 2020* colourspace inverse transfer function.
-
-    References:
-
-    -  `Recommendation ITU-R BT.2020: Signal Format \
-    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
 
     :param value: value.
     :type value: float
@@ -94,6 +89,11 @@ def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     :type is_10_bits_system: bool
     :return: Companded value.
     :rtype: float
+
+    References:
+
+    -  `Recommendation ITU-R BT.2020: Signal Format \
+    <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
     return value / 4.5 if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
@@ -101,9 +101,9 @@ def __rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
         (1. / 0.45)
 
 
-REC_2020_TRANSFER_FUNCTION = __rec_2020_transfer_function
+REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function
 
-REC_2020_INVERSE_TRANSFER_FUNCTION = __rec_2020_inverse_transfer_function
+REC_2020_INVERSE_TRANSFER_FUNCTION = _rec_2020_inverse_transfer_function
 
 REC_2020_COLOURSPACE = RGB_Colourspace("Rec. 2020",
                                        REC_2020_PRIMARIES,

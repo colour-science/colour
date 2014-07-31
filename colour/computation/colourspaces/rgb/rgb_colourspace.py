@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *RGB* *colourspaces* manipulation objects.
+    Defines **Colour** package *RGB* *colourspaces* objects.
 
 **Others:**
 
@@ -21,7 +21,6 @@ import numpy
 import colour.algebra.common
 import colour.computation.colourspaces.cie_xyy
 import colour.computation.chromatic_adaptation
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -111,15 +110,6 @@ class RGB_Colourspace(object):
                 "name", value)
         self.__name = value
 
-    @name.deleter
-    def name(self):
-        """
-        Deleter for **self.__name** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
     @property
     def primaries(self):
         """
@@ -143,15 +133,6 @@ class RGB_Colourspace(object):
         if value is not None:
             value = colour.algebra.common.to_ndarray(value)
         self.__primaries = value
-
-    @primaries.deleter
-    def primaries(self):
-        """
-        Deleter for **self.__primaries** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "primaries"))
 
     @property
     def whitepoint(self):
@@ -178,15 +159,6 @@ class RGB_Colourspace(object):
                 "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' or 'matrix'!".format("whitepoint", value)
         self.__whitepoint = value
 
-    @whitepoint.deleter
-    def whitepoint(self):
-        """
-        Deleter for **self.__whitepoint** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "whitepoint"))
-
     @property
     def to_XYZ(self):
         """
@@ -211,15 +183,6 @@ class RGB_Colourspace(object):
             value = colour.algebra.common.to_ndarray(value)
         self.__to_XYZ = value
 
-    @to_XYZ.deleter
-    def to_XYZ(self):
-        """
-        Deleter for **self.__to_XYZ** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "to_XYZ"))
-
     @property
     def from_XYZ(self):
         """
@@ -243,15 +206,6 @@ class RGB_Colourspace(object):
         if value is not None:
             value = colour.algebra.common.to_ndarray(value)
         self.__from_XYZ = value
-
-    @from_XYZ.deleter
-    def from_XYZ(self):
-        """
-        Deleter for **self.__from_XYZ** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "from_XYZ"))
 
     @property
     def transfer_function(self):
@@ -278,15 +232,6 @@ class RGB_Colourspace(object):
                 "transfer_function", value)
         self.__transfer_function = value
 
-    @transfer_function.deleter
-    def transfer_function(self):
-        """
-        Deleter for **self.__transfer_function** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "transfer_function"))
-
     @property
     def inverse_transfer_function(self):
         """
@@ -311,15 +256,6 @@ class RGB_Colourspace(object):
             assert hasattr(value, "__call__"), "'{0}' attribute: '{1}' is not callable!".format(
                 "inverse_transfer_function", value)
         self.__inverse_transfer_function = value
-
-    @inverse_transfer_function.deleter
-    def inverse_transfer_function(self):
-        """
-        Deleter for **self.__inverse_transfer_function** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "inverse_transfer_function"))
 
 
 def XYZ_to_RGB(XYZ,
@@ -359,10 +295,10 @@ def XYZ_to_RGB(XYZ,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE XYZ* is in domain [0, 1].
-    :note: *illuminant_XYZ* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_XYZ* is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
     cat = colour.computation.chromatic_adaptation.get_chromatic_adaptation_matrix(
@@ -417,10 +353,10 @@ def RGB_to_XYZ(RGB,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *illuminant_XYZ* is in domain [0, 1].
-    :note: *CIE XYZ* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Input *illuminant_XYZ* is in domain [0, 1].
+    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
     """
 
     if inverse_transfer_function is not None:
@@ -475,10 +411,10 @@ def xyY_to_RGB(xyY,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *CIE xyY* is in domain [0, 1].
-    :note: *illuminant_xyY* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *RGB* is in domain [0, 1].
+    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_xyY* is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
     return XYZ_to_RGB(colour.computation.colourspaces.cie_xyy.xyY_to_XYZ(xyY),
@@ -526,10 +462,10 @@ def RGB_to_xyY(RGB,
     :return: *CIE xyY* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
-    :note: *illuminant_RGB* is in domain [0, 1].
-    :note: *illuminant_xyY* is in domain [0, 1].
-    :note: *CIE xyY* is in domain [0, 1].
+    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    :note: Input *illuminant_RGB* is in domain [0, 1].
+    :note: Input *illuminant_xyY* is in domain [0, 1].
+    :note: Output *CIE xyY* is in domain [0, 1].
     """
 
     return colour.computation.colourspaces.cie_xyy.XYZ_to_xyY(RGB_to_XYZ(RGB,
@@ -566,7 +502,7 @@ def RGB_to_RGB(RGB,
     :return: *RGB* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *RGB* is in domain [0, 1].
+    :note: *RGB* colourspace matrices are in domain [0, 1].
     """
 
     cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(input_colourspace.whitepoint),

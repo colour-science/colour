@@ -35,10 +35,6 @@ def xy_to_z(xy):
     """
     Returns the *z* coordinate using given *chromaticity coordinates*.
 
-    References:
-
-    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
-
     Usage::
 
         >>> xy_to_z((0.25, 0.25))
@@ -48,6 +44,11 @@ def xy_to_z(xy):
     :type xy: array_like
     :return: Z coordinate.
     :rtype: float
+
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 \
+    <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
     """
 
     return 1 - xy[0] - xy[1]
@@ -56,10 +57,6 @@ def xy_to_z(xy):
 def get_normalised_primary_matrix(primaries, whitepoint):
     """
     Returns the *normalised primary matrix* using given *primaries* and *whitepoint* matrices.
-
-    References:
-
-    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 - 3.3.6 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 
@@ -76,6 +73,11 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     :type whitepoint: array_like
     :return: Normalised primary matrix.
     :rtype: ndarray (3, 3)
+
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.2 - 3.3.6
+    <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
     """
 
     # Add 'z' coordinates to the primaries and transposing the matrix.
@@ -99,10 +101,6 @@ def get_RGB_luminance_equation(primaries, whitepoint):
     """
     Returns the *luminance equation* from given *primaries* and *whitepoint* matrices.
 
-    References:
-
-    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.8 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
-
     Usage::
 
         >>> primaries = numpy.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
@@ -116,6 +114,11 @@ def get_RGB_luminance_equation(primaries, whitepoint):
     :type whitepoint: array_like
     :return: *Luminance* equation.
     :rtype: unicode
+
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.8 \
+    <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
     """
 
     return "Y = {0}(R) + {1}(G) + {2}(B)".format(
@@ -125,10 +128,6 @@ def get_RGB_luminance_equation(primaries, whitepoint):
 def get_RGB_luminance(RGB, primaries, whitepoint):
     """
     Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
-
-    References:
-
-    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.3 - 3.3.6 <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
 
     Usage::
 
@@ -146,6 +145,11 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
     :type whitepoint: array_like
     :return: *Luminance*.
     :rtype: float
+
+    References:
+
+    -  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations: 3.3.3 - 3.3.6 \
+    <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
     """
 
     R, G, B = numpy.ravel(RGB)

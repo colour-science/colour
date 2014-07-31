@@ -3451,9 +3451,9 @@ RGB_CMFS = {
         RGB_CMFS_DATA.get("Stiles & Burch 1959 10 Degree RGB CMFs"))}
 
 # *CIE XYZ* colour matching functions for standard observers at 1 nm steps.
-# http://files.cie.co.at/204.xls
-# http://cvrl.ioo.ucl.ac.uk/cie.htm
-# http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
+# http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
+# http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
+# http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm (Last accessed 24 February 2014)
 STANDARD_OBSERVERS_CMFS_DATA = {
     "CIE 1931 2 Degree Standard Observer": {
         "x_bar": {

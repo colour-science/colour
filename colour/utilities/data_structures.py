@@ -32,10 +32,6 @@ class Structure(dict):
     """
     Defines an object similar to C/C++ structured type.
 
-    References:
-
-    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
-
     Usage:
 
         >>> person = Structure(firstName="Doe", lastName="John", gender="male")
@@ -54,6 +50,10 @@ class Structure(dict):
         Traceback (most recent call last):
           File "<console>", line 1, in <module>
         AttributeError: 'Structure' object has no attribute 'gender'
+
+    References:
+
+    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
     """
 
     def __init__(self, *args, **kwargs):
@@ -128,10 +128,6 @@ class Lookup(dict):
     """
     Extends dict type to provide a lookup by value(s).
 
-    References:
-
-    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
-
     Usage:
 
         >>> person = Lookup(firstName="Doe", lastName="John", gender="male")
@@ -140,6 +136,10 @@ class Lookup(dict):
         >>> persons = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
         >>> persons.get_keys_from_value("Doe")
         ['Jane', 'John']
+
+    References:
+
+    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
     """
 
     def get_first_key_from_value(self, value):

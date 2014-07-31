@@ -61,7 +61,7 @@ TCS_APPROXIMATE_MUNSELL_NOTATIONS = {
     "TCS13": "5 YR 8/4",
     "TCS14": "5 GY 4/4"}
 
-# http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
+# http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls (Last accessed 10 June 2014)
 # http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
 TCS_SPDS_DATA = {
     "TCS01": {

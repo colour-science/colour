@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.algebra.common
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -81,15 +80,6 @@ class Extrapolator1d(object):
 
         self.__interpolator = value
 
-    @interpolator.deleter
-    def interpolator(self):
-        """
-        Deleter for **self.__interpolator** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "interpolator"))
-
     @property
     def kind(self):
         """
@@ -115,15 +105,6 @@ class Extrapolator1d(object):
                 "kind",
                 value)
         self.__kind = value
-
-    @kind.deleter
-    def kind(self):
-        """
-        Deleter for **self.__kind** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "kind"))
 
     def __call__(self, x):
         """

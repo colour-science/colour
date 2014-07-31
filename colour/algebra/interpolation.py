@@ -20,7 +20,6 @@ import bisect
 import numpy
 
 import colour.algebra.common
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -96,15 +95,6 @@ class LinearInterpolator(object):
 
         self.__x = value
 
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
-
     @property
     def y(self):
         """
@@ -134,15 +124,6 @@ class LinearInterpolator(object):
                 value = value.astype(numpy.float_)
 
         self.__y = value
-
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     def __call__(self, x):
         """
@@ -182,7 +163,7 @@ class LinearInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.DimensionsError(
+            raise ValueError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -195,10 +176,10 @@ class LinearInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
+            raise ValueError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
+            raise ValueError("'{0}' is above interpolation range.".format(x))
 
 
 class SpragueInterpolator(object):
@@ -207,13 +188,6 @@ class SpragueInterpolator(object):
 
     The Sprague (1880) method is recommended by the *CIE* for interpolating functions
     having a uniformly spaced independent variable.
-
-    References:
-
-    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of \
-    interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, \
-    2nd Edition*, Page 33.
 
     Usage::
 
@@ -224,6 +198,13 @@ class SpragueInterpolator(object):
         7.21850256056
         >>> f([0.25, 0.75])
         array([ 6.72951612,  7.81406251])
+
+    References:
+
+    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of \
+    interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
     """
 
     # http://div1.cie.co.at/?i_ca_id=551&pubid=47, Table V
@@ -297,15 +278,6 @@ class SpragueInterpolator(object):
 
         self.__x = value
 
-    @x.deleter
-    def x(self):
-        """
-        Deleter for **self.__x** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "x"))
-
     @property
     def y(self):
         """
@@ -348,15 +320,6 @@ class SpragueInterpolator(object):
             self.__yp = numpy.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
         self.__y = value
-
-    @y.deleter
-    def y(self):
-        """
-        Deleter for **self.__y** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "y"))
 
     def __call__(self, x):
         """
@@ -411,7 +374,7 @@ class SpragueInterpolator(object):
         """
 
         if len(self.__x) != len(self.__y):
-            raise colour.utilities.exceptions.DimensionsError(
+            raise ValueError(
                 "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
                     len(self.__x), len(self.__y)))
 
@@ -424,9 +387,9 @@ class SpragueInterpolator(object):
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is below interpolation range.".format(x))
+            raise ValueError("'{0}' is below interpolation range.".format(x))
 
         if above_interpolation_range.any():
-            raise colour.utilities.exceptions.InterpolationRangeError("'{0}' is above interpolation range.".format(x))
+            raise ValueError("'{0}' is above interpolation range.".format(x))
 
 

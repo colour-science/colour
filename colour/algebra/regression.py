@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.exceptions
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -35,10 +33,6 @@ def linear_regression(y, x=None, additional_statistics=False):
     Performs the statistics calculation about the ideal trend line from given data using the *least-squares* method.
     The equation of the line is *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y* value
     is a function of the independent *x* values.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Simple_linear_regression
 
     Usage::
 
@@ -62,13 +56,17 @@ def linear_regression(y, x=None, additional_statistics=False):
     :type additional_statistics: ndarray
     :return: Regression statistics.
     :rtype: ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
+
+    References:
+
+    -  http://en.wikipedia.org/wiki/Simple_linear_regression (Last accessed 24 May 2014)
     """
 
     if x is None:
         x = numpy.arange(1, len(y) + 1)
     else:
         if len(x) != len(y):
-            raise colour.utilities.exceptions.LinearRegressionError("'y' and 'x' have incompatible dimensions!")
+            raise ValueError("'y' and 'x' have incompatible dimensions!")
 
     x = numpy.vstack([numpy.array(x).T, numpy.ones(len(x))]).T
     result = numpy.linalg.lstsq(x, y)

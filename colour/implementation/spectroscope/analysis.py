@@ -24,7 +24,6 @@ import numpy
 import scipy.ndimage
 
 import colour
-import colour.utilities.exceptions
 from colour import Extrapolator1d
 from colour import LinearInterpolator
 from colour import SpectralPowerDistribution
@@ -91,17 +90,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
-
-    @R.deleter
-    def R(self):
-        """
-        Deleter for **self.__R** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "R"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
 
     @property
     def G(self):
@@ -123,17 +112,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
-
-    @G.deleter
-    def G(self):
-        """
-        Deleter for **self.__G** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "G"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
 
     @property
     def B(self):
@@ -155,26 +134,12 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
-
-    @B.deleter
-    def B(self):
-        """
-        Deleter for **self.__B** attribute.
-        """
-
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "B"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
 
 
 def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given image data.
-
-    References:
-
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
 
     :param image: Image to evalute the transfer function.
     :type image: ndarray
@@ -184,6 +149,10 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
     :type to_linear: bool
     :return: Transformed image.
     :rtype: ndarray
+
+    References:
+
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
     vector_linearise = numpy.vectorize(
@@ -218,10 +187,6 @@ def get_image_profile(image, line, samples=None):
     """
     Returns the image profile using given line coordinates and given samples count.
 
-    References:
-
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
-
     :param image: Image to retrieve the profile.
     :type image: ndarray
     :param line: Coordinates as image array indexes to measure the profile.
@@ -230,6 +195,10 @@ def get_image_profile(image, line, samples=None):
     :type samples: int
     :return: Profile.
     :rtype: ndarray
+
+    References:
+
+    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
     height, width, channels = image.shape
