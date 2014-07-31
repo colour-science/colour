@@ -32,7 +32,6 @@ import colour.computation.colourspaces.cie_xyy
 import colour.computation.luminance
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.common
-import colour.utilities.exceptions
 from colour.algebra.extrapolation import Extrapolator1d
 from colour.algebra.interpolation import LinearInterpolator
 from colour.cache.runtime import RuntimeCache
@@ -208,8 +207,7 @@ def parse_munsell_colour(munsell_colour):
                 float(match.group("chroma")),
                 MUNSELL_HUE_LETTER_CODES.get(match.group("letter").upper()))
 
-    raise colour.utilities.exceptions.MunsellColourError(
-        "'{0}' is not a valid 'Munsell Renotation System' colour specification!".format(munsell_colour))
+    raise ValueError("'{0}' is not a valid 'Munsell Renotation System' colour specification!".format(munsell_colour))
 
 
 def is_grey_munsell_colour(specification):
@@ -346,7 +344,7 @@ def get_xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
-        raise colour.utilities.exceptions.MunsellColourError(
+        raise ValueError(
             "'{0}' specification does not exists in 'Munsell Renotation System' data!".format(specification))
 
 
@@ -370,7 +368,7 @@ def is_specification_in_renotation(specification):
     try:
         get_xyY_from_renotation(specification)
         return True
-    except colour.utilities.exceptions.MunsellColourError as error:
+    except ValueError as error:
         return False
 
 
@@ -902,8 +900,7 @@ def get_xy_from_renotation_ovoid(specification):
             x = rho * math.cos(math.radians(theta)) + x_grey
             y = rho * math.sin(math.radians(theta)) + y_grey
         else:
-            raise colour.utilities.exceptions.InterpolationError(
-                "Invalid interpolation method: '{0}'".format(interpolation_method))
+            raise ValueError("Invalid interpolation method: '{0}'".format(interpolation_method))
 
         return x, y
 
@@ -1212,7 +1209,7 @@ def xyY_to_munsell_specification(xyY):
     """
 
     if not colour.computation.colourspaces.cie_xyy.is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
-        raise colour.utilities.exceptions.MunsellColourError(
+        raise ValueError(
             "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     x, y, Y = numpy.ravel(xyY)
@@ -1283,8 +1280,7 @@ def xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise colour.utilities.exceptions.MunsellColourError(
-                    "Maximum inner iterations count reached without convergence!")
+                raise RuntimeError("Maximum inner iterations count reached without convergence!")
 
             hue_angle_inner = (hue_angle_current + iterations_inner * (theta_input - theta_current)) % 360
             hue_angle_difference_inner = iterations_inner * (theta_input - theta_current) % 360
@@ -1354,8 +1350,7 @@ def xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise colour.utilities.exceptions.MunsellColourError(
-                    "Maximum inner iterations count reached without convergence!")
+                raise RuntimeError("Maximum inner iterations count reached without convergence!")
 
             chroma_inner = ((rho_input / rho_current) ** iterations_inner) * chroma_current
             if chroma_inner > chroma_maximum:
@@ -1387,8 +1382,7 @@ def xyY_to_munsell_specification(xyY):
         if difference < convergence_threshold:
             return tuple(specification_current)
 
-    raise colour.utilities.exceptions.MunsellColourError(
-        "Maximum outside iterations count reached without convergence!")
+    raise RuntimeError("Maximum outside iterations count reached without convergence!")
 
 
 def xyY_to_munsell_colour(xyY, hue_decimals=1, value_decimals=1, chroma_decimals=1):

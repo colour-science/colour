@@ -21,7 +21,6 @@ import numpy
 import colour.dataset.illuminants.chromaticity_coordinates
 import colour.dataset.illuminants.optimal_colour_stimuli
 import colour.utilities.common
-import colour.utilities.exceptions
 from colour.cache.runtime import RuntimeCache
 
 __author__ = "Thomas Mansencal"
@@ -52,10 +51,9 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
         colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
 
     if optimal_colour_stimuli is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
-                                                                               sorted(
-                                                                                   colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+        raise KeyError("'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
+                                                                                          sorted(
+                                                                                              colour.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_optimal_colour_stimuli = RuntimeCache.XYZ_optimal_colour_stimuli.get(illuminant)
     if cached_optimal_colour_stimuli is None:
@@ -99,6 +97,7 @@ def XYZ_to_xyY(XYZ,
     else:
         return numpy.array([X / (X + Y + Z), Y / (X + Y + Z), Y]).reshape((3, 1))
 
+
 def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
@@ -129,6 +128,7 @@ def xyY_to_XYZ(xyY):
         return numpy.array([0., 0., 0.]).reshape((3, 1))
     else:
         return numpy.array([x * Y / y, Y, (1. - x - y) * Y / y]).reshape((3, 1))
+
 
 def xy_to_XYZ(xy):
     """

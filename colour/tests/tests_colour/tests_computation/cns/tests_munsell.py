@@ -17,9 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -27,7 +25,6 @@ else:
     import unittest
 
 import colour.computation.cns.munsell
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -5282,7 +5279,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                                   specification)
 
         for xyY in NON_CONVERGING_XYY:
-            self.assertRaises(colour.utilities.exceptions.MunsellColourError,
+            self.assertRaises((RuntimeError, ValueError),
                               colour.computation.cns.munsell.xyY_to_munsell_specification,
                               xyY)
 

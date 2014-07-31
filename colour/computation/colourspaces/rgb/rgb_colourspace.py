@@ -21,7 +21,6 @@ import numpy
 import colour.algebra.common
 import colour.computation.colourspaces.cie_xyy
 import colour.computation.chromatic_adaptation
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

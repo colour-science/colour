@@ -23,7 +23,6 @@ import numpy
 
 import colour.algebra.common
 import colour.utilities.common
-import colour.utilities.exceptions
 from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
@@ -129,8 +128,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -152,8 +150,7 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -176,8 +173,7 @@ class SpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -446,7 +442,7 @@ class SpectralPowerDistribution(object):
                 if is_uniform:
                     interpolant = sprague_interpolant
                 else:
-                    raise colour.utilities.exceptions.InterpolationError(
+                    raise RuntimeError(
                         "{0} | 'Sprague' interpolator can only be used for interpolating functions having a uniformly spaced independent variable!".format(
                             self.__class__.__name__))
             elif interpolator == "Cubic Spline":
@@ -454,8 +450,7 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise colour.utilities.exceptions.InterpolationError(
-                    "{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
+                raise ValueError("{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
                                 for wavelength in numpy.arange(max(start, shape_start),
@@ -697,8 +692,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
 
     @property
     def y(self):
@@ -720,8 +714,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
 
     @property
     def z(self):
@@ -743,8 +736,7 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
 
     @property
     def wavelengths(self):
@@ -766,8 +758,7 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -789,8 +780,7 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -812,8 +802,7 @@ class TriSpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """

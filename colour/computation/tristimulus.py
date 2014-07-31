@@ -23,7 +23,6 @@ import colour.computation.spectrum
 import colour.dataset.cmfs
 import colour.dataset.lefs
 import colour.utilities.common
-import colour.utilities.exceptions
 import colour.utilities.decorators
 import colour.utilities.verbose
 from colour.algebra.interpolation import SpragueInterpolator
@@ -135,7 +134,7 @@ def wavelength_to_XYZ(wavelength,
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise ValueError(
             "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values

@@ -48,8 +48,6 @@ import colour.computation.cns.munsell
 import colour.computation.colourspaces.rgb.rgb_colourspace
 import colour.computation.tristimulus
 import colour.utilities.data_structures
-import colour.utilities.exceptions
-
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -126,10 +124,9 @@ def _get_cmfs(cmfs):
 
     cmfs, name = colour.dataset.cmfs.CMFS.get(cmfs), cmfs
     if cmfs is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory colour matching functions: '{1}'.".format(name,
-                                                                                  sorted(
-                                                                                      colour.dataset.cmfs.CMFS.keys())))
+        raise KeyError("'{0}' not found in factory colour matching functions: '{1}'.".format(name,
+                                                                                             sorted(
+                                                                                                 colour.dataset.cmfs.CMFS.keys())))
     return cmfs
 
 
@@ -145,10 +142,9 @@ def _get_illuminant(illuminant):
 
     illuminant, name = colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' not found in factory illuminants: '{1}'.".format(name,
-                                                                    sorted(
-                                                                        colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
+        raise KeyError("'{0}' not found in factory illuminants: '{1}'.".format(name,
+                                                                               sorted(
+                                                                                   colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
 
@@ -165,10 +161,9 @@ def _get_RGB_colourspace(colourspace):
 
     colourspace, name = colour.RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "'{0}' colourspace not found in factory colourspaces: '{1}'.".format(name,
-                                                                                 sorted(
-                                                                                     colour.RGB_COLOURSPACES.keys())))
+        raise KeyError("'{0}' colourspace not found in factory colourspaces: '{1}'.".format(name,
+                                                                                            sorted(
+                                                                                                colour.RGB_COLOURSPACES.keys())))
 
     return colourspace
 
@@ -587,10 +582,9 @@ def colour_checker_plot(colour_checker="ColorChecker 2005",
     colour_checker, name = colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.get(
         colour_checker), colour_checker
     if colour_checker is None:
-        raise colour.utilities.exceptions.ProgrammingError(
-            "Colour checker '{0}' not found in colour checkers: '{1}'.".format(name,
-                                                                               sorted(
-                                                                                   colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
+        raise KeyError("Colour checker '{0}' not found in colour checkers: '{1}'.".format(name,
+                                                                                          sorted(
+                                                                                              colour.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
 
     _, data, illuminant = colour_checker
     colour_parameters = []
@@ -1219,11 +1213,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
     for illuminant in illuminants:
         xy = colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
-                                                                                   sorted(
-                                                                                       colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                                                           cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
+                                                                                              sorted(
+                                                                                                  colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                                      cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
 
@@ -1437,11 +1430,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
     for illuminant in illuminants:
         uv = xy_to_uv(colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
-                                                                                   sorted(
-                                                                                       colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                                                           cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: '{1}'.".format(illuminant,
+                                                                                              sorted(
+                                                                                                  colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                                                                      cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
 
@@ -1651,10 +1643,9 @@ def multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Mun
     for i, function in enumerate(functions):
         function, name = colour.computation.cns.munsell.MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
-                                                                                                       sorted(
-                                                                                                           colour.computation.cns.munsell.MUNSELL_VALUE_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(name,
+                                                                                                                  sorted(
+                                                                                                                      colour.computation.cns.munsell.MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 
@@ -1724,10 +1715,9 @@ def multi_lightness_function_plot(functions=["Lightness 1976", "Lightness Wyszec
     for i, function in enumerate(functions):
         function, name = colour.computation.lightness.LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise colour.utilities.exceptions.ProgrammingError(
-                "'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
-                                                                                               sorted(
-                                                                                                   colour.computation.lightness.LIGHTNESS_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(name,
+                                                                                                          sorted(
+                                                                                                              colour.computation.lightness.LIGHTNESS_FUNCTIONS.keys())))
 
         pylab.plot(samples, map(function, samples), label=u"{0}".format(name), linewidth=2.)
 

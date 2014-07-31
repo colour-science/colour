@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 
 import colour.algebra.common
 import colour.dataset.lefs
-import colour.utilities.exceptions
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -70,7 +69,7 @@ def mesopic_weighting_function(wavelength,
 
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
-            raise colour.utilities.exceptions.LuminousEfficiencyFunctionError(
+            raise KeyError(
                 "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
                     wavelength,
                     function.name,

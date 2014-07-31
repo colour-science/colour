@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.algebra.common
-import colour.utilities.exceptions
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

@@ -18,8 +18,6 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.exceptions
-
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -96,7 +94,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)
 
     if method_matrix is None:
-        raise colour.utilities.exceptions.ProgrammingError(
+        raise KeyError(
             "'{0}' chromatic adaptation method is not defined! Supported methods: '{1}'.".format(method,
                                                                                                  CHROMATIC_ADAPTATION_METHODS.keys()))
 

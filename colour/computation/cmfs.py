@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy
 
-import colour.utilities.exceptions
+import colour
 from colour.computation.spectrum import TriSpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
@@ -82,8 +82,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
 
     @property
     def m_bar(self):
@@ -105,8 +104,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
 
     @property
     def s_bar(self):
@@ -128,8 +126,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -177,8 +174,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
 
     @property
     def g_bar(self):
@@ -200,8 +196,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
 
     @property
     def b_bar(self):
@@ -223,8 +218,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -272,8 +266,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
 
     @property
     def y_bar(self):
@@ -295,8 +288,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
 
     @property
     def z_bar(self):
@@ -318,8 +310,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -349,7 +340,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -400,7 +391,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -438,7 +429,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     cmfs = colour.RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
     r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -476,7 +467,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 2 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))
@@ -514,7 +505,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     cmfs = colour.LMS_CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise colour.utilities.exceptions.ColourMatchingFunctionsError(
+        raise KeyError(
             "'{0} nm' wavelength not available in '{1}' colour matching functions with '{2}' shape!".format(wavelength,
                                                                                                             cmfs.name,
                                                                                                             cmfs.shape))

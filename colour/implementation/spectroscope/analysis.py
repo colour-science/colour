@@ -24,7 +24,6 @@ import numpy
 import scipy.ndimage
 
 import colour
-import colour.utilities.exceptions
 from colour import Extrapolator1d
 from colour import LinearInterpolator
 from colour import SpectralPowerDistribution
@@ -91,8 +90,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
 
     @property
     def G(self):
@@ -114,8 +112,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
 
     @property
     def B(self):
@@ -137,8 +134,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise colour.utilities.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
 
 
 def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):

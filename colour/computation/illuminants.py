@@ -19,7 +19,6 @@ from __future__ import unicode_literals
 import numpy
 
 import colour.dataset.illuminants.d_illuminants_s_spds
-import colour.utilities.exceptions
 from colour.computation.spectrum import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
