@@ -20,7 +20,7 @@ import numpy as np
 
 import colour.algebra.common
 import colour.models.cie_xyy
-import colour.colorimetry.chromatic_adaptation
+import colour.adaptation.cat
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -301,7 +301,7 @@ def XYZ_to_RGB(XYZ,
     :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """
 
-    cat = colour.colorimetry.chromatic_adaptation.get_chromatic_adaptation_matrix(
+    cat = colour.adaptation.cat.get_chromatic_adaptation_matrix(
         colour.models.cie_xyy.xy_to_XYZ(illuminant_XYZ),
         colour.models.cie_xyy.xy_to_XYZ(illuminant_RGB),
         method=chromatic_adaptation_method)
@@ -364,7 +364,7 @@ def RGB_to_XYZ(RGB,
 
     XYZ = np.dot(to_XYZ, RGB)
 
-    cat = colour.colorimetry.chromatic_adaptation.get_chromatic_adaptation_matrix(
+    cat = colour.adaptation.cat.get_chromatic_adaptation_matrix(
         colour.models.cie_xyy.xy_to_XYZ(illuminant_RGB),
         colour.models.cie_xyy.xy_to_XYZ(illuminant_XYZ),
         method=chromatic_adaptation_method)
@@ -505,7 +505,7 @@ def RGB_to_RGB(RGB,
     :note: *RGB* colourspace matrices are in domain [0, 1].
     """
 
-    cat = colour.colorimetry.chromatic_adaptation.get_chromatic_adaptation_matrix(
+    cat = colour.adaptation.cat.get_chromatic_adaptation_matrix(
         colour.models.cie_xyy.xy_to_XYZ(input_colourspace.whitepoint),
         colour.models.cie_xyy.xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_method)

@@ -18,11 +18,13 @@ from __future__ import unicode_literals
 
 import bisect
 import math
-import numpy as np
 from collections import namedtuple
 
-import colour.colorimetry.chromatic_adaptation
+import numpy as np
+
+import colour.adaptation.cat
 import colour.utilities.decorators
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -69,7 +71,7 @@ HPE = np.array([[0.38971, 0.68898, -0.07868],
 
 HPE_INVERSE = np.linalg.inv(HPE)
 
-CAT02_CAT_INVERSE = np.linalg.inv(colour.colorimetry.chromatic_adaptation.CAT02_CAT)
+CAT02_CAT_INVERSE = np.linalg.inv(colour.adaptation.cat.CAT02_CAT)
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
     "hi": np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
@@ -313,7 +315,7 @@ def RGB_to_HPE(RGB):
 
 
 def HPE_to_RGB(pyb):
-    RGB = np.dot(np.dot(colour.colorimetry.chromatic_adaptation.CAT02_CAT, HPE_INVERSE), pyb)
+    RGB = np.dot(np.dot(colour.adaptation.cat.CAT02_CAT, HPE_INVERSE), pyb)
     return RGB.reshape((3, 1))
 
 
@@ -766,8 +768,8 @@ def XYZ_to_CIECAM02(XYZ,
     n, FL, Nbb, Ncb, z = get_viewing_condition_dependent_parameters(Yb, Yw, LA)
 
     # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
-    RGB = np.dot(colour.colorimetry.chromatic_adaptation.CAT02_CAT, XYZ)
-    RGBw = np.dot(colour.colorimetry.chromatic_adaptation.CAT02_CAT, XYZw)
+    RGB = np.dot(colour.adaptation.cat.CAT02_CAT, XYZ)
+    RGBw = np.dot(colour.adaptation.cat.CAT02_CAT, XYZw)
 
     # Computing degree of adaptation *D*.
     D = get_degree_of_adaptation(surround.F, LA) if not discount_illuminant else 1.
@@ -831,7 +833,7 @@ def CIECAM02_to_XYZ(JChQMsH,
 
 
     # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform sharpened *RGB* values.
-    RGBw = np.dot(colour.colorimetry.chromatic_adaptation.CAT02_CAT, XYZw)
+    RGBw = np.dot(colour.adaptation.cat.CAT02_CAT, XYZw)
 
     # Computing degree of adaptation *D*.
     D = get_degree_of_adaptation(surround.F, LA) if not discount_illuminant else 1.

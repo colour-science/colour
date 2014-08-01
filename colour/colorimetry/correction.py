@@ -24,6 +24,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["bandpass_correction_stearns",
+           "BANDPASS_CORRECTION_METHODS",
            "bandpass_correction"]
 
 ALPHA_STEARNS = 0.083
@@ -63,6 +64,7 @@ def bandpass_correction_stearns(spd):
         spd[wavelength] = values[i]
     return spd
 
+BANDPASS_CORRECTION_METHODS = {"Stearns" : bandpass_correction_stearns}
 
 def bandpass_correction(spd, method="Stearns"):
     """

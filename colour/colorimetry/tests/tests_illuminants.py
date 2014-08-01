@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.illuminants
+from colour.colorimetry import D_illuminant_relative_spd
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -105,8 +105,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            sorted(colour.colorimetry.illuminants.D_illuminant_relative_spd(
-                (0.32168, 0.33767)).data.values()),
+            sorted(D_illuminant_relative_spd((0.32168, 0.33767)).data.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)
 

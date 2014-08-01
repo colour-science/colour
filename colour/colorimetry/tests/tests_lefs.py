@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.lefs
+from colour.colorimetry import mesopic_weighting_function, mesopic_luminous_efficiency_function
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -451,21 +451,15 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.colorimetry.lefs.mesopic_weighting_function(500, 0.2),
+            mesopic_weighting_function(500, 0.2),
             0.7052200000000001,
             places=7)
         self.assertAlmostEqual(
-            colour.colorimetry.lefs.mesopic_weighting_function(500,
-                                                               0.2,
-                                                               source="Red Heavy",
-                                                               method="LRC"),
+            mesopic_weighting_function(500, 0.2, source="Red Heavy", method="LRC"),
             0.9095099999999999,
             places=7)
         self.assertAlmostEqual(
-            colour.colorimetry.lefs.mesopic_weighting_function(700,
-                                                               10,
-                                                               source="Red Heavy",
-                                                               method="LRC"),
+            mesopic_weighting_function(700, 10, source="Red Heavy", method="LRC"),
             0.004102,
             places=7)
 
@@ -481,7 +475,7 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.colorimetry.lefs.mesopic_luminous_efficiency_function(0.2).values,
+            mesopic_luminous_efficiency_function(0.2).values,
             MESOPIC_LEF_SPD_DATA,
             decimal=7)
 

@@ -16,11 +16,18 @@
 
 from __future__ import absolute_import
 
+from .adaptation import *
+from . import adaptation
 from .algebra import *
 from . import algebra
+from .colorimetry import *
+from . import colorimetry
+from . import constants
 
 __all__ = []
+__all__ += adaptation.__all__
 __all__ += algebra.__all__
+__all__ += colorimetry.__all__
 
 print __all__
 
@@ -87,15 +94,15 @@ from colour.colorimetry.luminance import get_luminance
 from colour.colorimetry.luminance import luminance_newhall1943, luminance_1976, luminance_ASTM_D1535_08
 from colour.colorimetry.luminance import LUMINANCE_FUNCTIONS
 from colour.colorimetry.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
-from colour.colorimetry.temperature import CCT_to_uv, CCT_to_uv_ohno2013, CCT_to_uv_robertson1968
-from colour.colorimetry.temperature import uv_to_CCT, uv_to_CCT_ohno2013, uv_to_CCT_robertson1968
-from colour.colorimetry.temperature import CCT_to_xy, CCT_to_xy_kang, CCT_to_xy_illuminant_D
-from colour.colorimetry.temperature import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_hernandez
+from colour.colorimetry.cct import CCT_to_uv, CCT_to_uv_ohno2013, CCT_to_uv_robertson1968
+from colour.colorimetry.cct import uv_to_CCT, uv_to_CCT_ohno2013, uv_to_CCT_robertson1968
+from colour.colorimetry.cct import CCT_to_xy, CCT_to_xy_kang, CCT_to_xy_illuminant_D
+from colour.colorimetry.cct import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_hernandez
 from colour.colorimetry.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
 from colour.colorimetry.dataset.cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
-from colour.colorimetry.dataset.colour_checkers.chromaticity_coordinates import COLOURCHECKERS
-from colour.colorimetry.dataset.colour_checkers.spds import COLOURCHECKERS_SPDS
+from colour.fitting.dataset.colour_checkers.chromaticity_coordinates import COLOURCHECKERS
+from colour.fitting.dataset.colour_checkers.spds import COLOURCHECKERS_SPDS
 from colour.models.dataset.rgb.aces_rgb import ACES_RGB_COLOURSPACE, ACES_RGB_LOG_COLOURSPACE
 from colour.models.dataset.rgb.aces_rgb import ACES_RGB_PROXY_10_COLOURSPACE, ACES_RGB_PROXY_12_COLOURSPACE
 from colour.models.dataset.rgb.adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
@@ -240,7 +247,7 @@ __all__.extend(["LUMINANCE_FUNCTIONS"])
 # *colour.colorimetry.spectrum* objects.
 __all__.extend(["SpectralPowerDistribution", "TriSpectralPowerDistribution"])
 
-# *colour.colorimetry.temperature* objects.
+# *colour.colorimetry.cct* objects.
 __all__.extend(["CCT_to_uv", "CCT_to_uv_ohno2013", "CCT_to_uv_robertson1968",
                 "uv_to_CCT", "uv_to_CCT_ohno2013", "uv_to_CCT_robertson1968",
                 "CCT_to_xy", "CCT_to_xy_kang", "CCT_to_xy_illuminant_D",
@@ -252,10 +259,10 @@ __all__.extend(["spectral_to_XYZ", "wavelength_to_XYZ"])
 # *colour.colorimetry.dataset.cmfs* objects.
 __all__.extend(["CMFS", "LMS_CMFS", "RGB_CMFS", "STANDARD_OBSERVERS_CMFS"])
 
-# *colour.colorimetry.dataset.colour_checkers.chromaticity_coordinates* objects.
+# *colour.fitting.dataset.colour_checkers.chromaticity_coordinates* objects.
 __all__.extend(["COLORCHECKERS"])
 
-# *colour.colorimetry.dataset.colour_checkers.spds* objects.
+# *colour.fitting.dataset.colour_checkers.spds* objects.
 __all__.extend(["COLORCHECKERS_SPDS"])
 
 # *colour.colorimetry.dataset.rgb.colourspaces* objects.

@@ -16,15 +16,17 @@
 
 from __future__ import unicode_literals
 
-import numpy as np
 import sys
+
+import numpy as np
+
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-import colour.colorimetry.difference
+import colour.difference.delta_e
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -50,21 +52,21 @@ class TestDelta_E_CIE_1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE_1976(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835])),
             451.713301974,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE_1976(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193])),
             52.6498611564,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE_1976(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716])),
             346.064891718,
@@ -82,28 +84,28 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835])),
             88.3355530575,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193])),
             10.61265789,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716])),
             60.3686872611,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835]),
                 textiles=False),
@@ -111,7 +113,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193]),
                 textiles=False),
@@ -119,7 +121,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE_1994(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716]),
                 textiles=False),
@@ -138,21 +140,21 @@ class TestDelta_E_CIE_2000(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE_2000(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835])),
             94.0356490267,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE_2000(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193])),
             14.8790641937,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE_2000(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716])),
             68.2309487895,
@@ -170,28 +172,28 @@ class TestDelta_E_CMC(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835])),
             172.704771287,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193])),
             20.5973271674,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716])),
             121.718414791,
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 426.67945353, 72.39590835]),
                 l=1.),
@@ -199,7 +201,7 @@ class TestDelta_E_CMC(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 74.05216981, 276.45318193]),
                 l=1.),
@@ -207,7 +209,7 @@ class TestDelta_E_CMC(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.colorimetry.difference.delta_E_CMC(
+            colour.difference.delta_e.delta_E_CMC(
                 np.array([100., 21.57210357, 272.2281935]),
                 np.array([100., 8.32281957, -73.58297716]),
                 l=1.),

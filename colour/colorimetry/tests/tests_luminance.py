@@ -23,7 +23,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.luminance
+from colour.colorimetry.luminance import luminance_newhall1943, luminance_1976, luminance_ASTM_D1535_08
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -47,12 +47,9 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         Tests :func:`colour.colorimetry.luminance.luminance_newhall1943` definition.
         """
 
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_newhall1943(3.74629715382), 10.4089874577,
-                               places=7)
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_newhall1943(8.64728711385), 71.3174801757,
-                               places=7)
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_newhall1943(1.52569021578), 2.06998750444,
-                               places=7)
+        self.assertAlmostEqual(luminance_newhall1943(3.74629715382), 10.4089874577, places=7)
+        self.assertAlmostEqual(luminance_newhall1943(8.64728711385), 71.3174801757, places=7)
+        self.assertAlmostEqual(luminance_newhall1943(1.52569021578), 2.06998750444, places=7)
 
 
 class TestLuminance1976(unittest.TestCase):
@@ -65,9 +62,9 @@ class TestLuminance1976(unittest.TestCase):
         Tests :func:`colour.colorimetry.luminance.luminance_1976` definition.
         """
 
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_1976(37.9856290977, 100.), 10.08, places=7)
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_1976(80.0444155585, 100.), 56.76, places=7)
-        self.assertAlmostEqual(colour.colorimetry.luminance.luminance_1976(99.3467279026, 100.), 98.32, places=7)
+        self.assertAlmostEqual(luminance_1976(37.9856290977, 100.), 10.08, places=7)
+        self.assertAlmostEqual(luminance_1976(80.0444155585, 100.), 56.76, places=7)
+        self.assertAlmostEqual(luminance_1976(99.3467279026, 100.), 98.32, places=7)
 
 
 class TestLuminanceASTM_D1535_08(unittest.TestCase):
@@ -80,12 +77,9 @@ class TestLuminanceASTM_D1535_08(unittest.TestCase):
         Tests :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08` definition.
         """
 
-        self.assertAlmostEqual(
-            colour.colorimetry.luminance.luminance_ASTM_D1535_08(3.74629715382), 10.1488096782, places=7)
-        self.assertAlmostEqual(
-            colour.colorimetry.luminance.luminance_ASTM_D1535_08(8.64728711385), 69.5324092373, places=7)
-        self.assertAlmostEqual(
-            colour.colorimetry.luminance.luminance_ASTM_D1535_08(1.52569021578), 2.01830631474, places=7)
+        self.assertAlmostEqual(luminance_ASTM_D1535_08(3.74629715382), 10.1488096782, places=7)
+        self.assertAlmostEqual(luminance_ASTM_D1535_08(8.64728711385), 69.5324092373, places=7)
+        self.assertAlmostEqual(luminance_ASTM_D1535_08(1.52569021578), 2.01830631474, places=7)
 
 
 if __name__ == "__main__":

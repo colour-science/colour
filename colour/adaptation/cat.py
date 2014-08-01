@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**chromatic_adaptation.py**
+**cat.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.

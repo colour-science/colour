@@ -23,9 +23,9 @@ import numpy as np
 import colour.algebra.common
 import colour.colorimetry.blackbody
 import colour.models.cie_ucs
-import colour.colorimetry.difference
+import colour.difference.delta_e
 import colour.colorimetry.illuminants
-import colour.colorimetry.temperature
+import colour.temperature.cct
 import colour.models.cie_xyy
 import colour.colorimetry.tristimulus
 import colour.colorimetry.dataset.cmfs
@@ -158,12 +158,12 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(test_spd, cmfs)
     uv = colour.models.cie_ucs.UCS_to_uv(colour.models.cie_ucs.XYZ_to_UCS(XYZ))
-    CCT, Duv = colour.colorimetry.temperature.uv_to_CCT_robertson1968(uv)
+    CCT, Duv = colour.temperature.cct.uv_to_CCT_robertson1968(uv)
 
     if CCT < 5000.:
         reference_spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     else:
-        xy = colour.colorimetry.temperature.CCT_to_xy_illuminant_D(CCT)
+        xy = colour.temperature.cct.CCT_to_xy_illuminant_D(CCT)
         reference_spd = colour.colorimetry.illuminants.D_illuminant_relative_spd(xy)
         reference_spd.align(start, end, steps)
 

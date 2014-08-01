@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.colorimetry.dataset.illuminants.d_illuminants_s_spds
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.colorimetry import D_ILLUMINANTS_S_SPDS
+from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -57,11 +57,11 @@ def D_illuminant_relative_spd(xy):
     M2 = (0.0300 - 31.4424 * xy[0] + 30.0717 * xy[1]) / M
 
     distribution = {}
-    start, end, steps = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS.get("S0").shape
+    start, end, steps = D_ILLUMINANTS_S_SPDS.get("S0").shape
     for i in np.arange(start, end + steps, steps):
-        S0 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S0").get(i)
-        S1 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S1").get(i)
-        S2 = colour.colorimetry.dataset.illuminants.d_illuminants_s_spds.D_ILLUMINANTS_S_SPDS_DATA.get("S2").get(i)
+        S0 = D_ILLUMINANTS_S_SPDS.get("S0").get(i)
+        S1 = D_ILLUMINANTS_S_SPDS.get("S1").get(i)
+        S2 = D_ILLUMINANTS_S_SPDS.get("S2").get(i)
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
     return SpectralPowerDistribution("CIE Standard Illuminant D Series", distribution)

@@ -20,8 +20,8 @@ import math
 import numpy as np
 import warnings
 
-import colour.colorimetry.spectrum
-import colour.utilities.decorators
+from colour.colorimetry import SpectralPowerDistribution
+from colour.utilities import memoize
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -30,29 +30,22 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LIGHT_SPEED_CONSTANT",
-           "PLANCK_CONSTANT",
-           "BOLTZMANN_CONSTANT",
-           "E_CONSTANT",
-           "C1_CONSTANT",
-           "C2_CONSTANT",
-           "N_CONSTANT",
+__all__ = ["C1",
+           "C2",
+           "N",
            "planck_law",
            "blackbody_spectral_radiance",
            "blackbody_spectral_power_distribution"]
 
-LIGHT_SPEED_CONSTANT = 299792458
-PLANCK_CONSTANT = 6.62607e-34
-BOLTZMANN_CONSTANT = 1.38065e-23
-E_CONSTANT = math.exp(1)
-C1_CONSTANT = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT ** 2
-C2_CONSTANT = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED_CONSTANT / BOLTZMANN_CONSTANT
-N_CONSTANT = 1.
+C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
+C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
+N = 1.
 
 _PLANCK_LAW_CACHE = {}
 
-@colour.utilities.decorators.memoize(_PLANCK_LAW_CACHE)
-def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONSTANT):
+
+@memoize(_PLANCK_LAW_CACHE)
+def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature *T [K]* in a medium having index of refraction *n*.
     The following form implementation is expressed in term of wavelength.
@@ -101,13 +94,7 @@ def planck_law(wavelength, temperature, c1=C1_CONSTANT, c2=C2_CONSTANT, n=N_CONS
 blackbody_spectral_radiance = planck_law
 
 
-def blackbody_spectral_power_distribution(temperature,
-                                          start=None,
-                                          end=None,
-                                          steps=None,
-                                          c1=C1_CONSTANT,
-                                          c2=C2_CONSTANT,
-                                          n=N_CONSTANT):
+def blackbody_spectral_power_distribution(temperature, start=None, end=None, steps=None, c1=C1, c2=C2, n=N):
     """
     Returns the spectral power distribution of the *blackbody* for given temperature.
 
@@ -125,7 +112,7 @@ def blackbody_spectral_power_distribution(temperature,
     :type end: float
     :param steps: Wavelengths range steps.
     :type steps: float
-   :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), \
+    :param c1: The official value of c1 is provided by the Committee on Data for Science and Technology (CODATA), \
     and is c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
     :type c1: float
     :param c2: Since T is measured on the International Temperature Scale, \
@@ -140,13 +127,7 @@ def blackbody_spectral_power_distribution(temperature,
     :rtype: SpectralPowerDistribution
     """
 
-    return colour.colorimetry.spectrum.SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
-                                                                 data=dict((wavelength,
-                                                                            blackbody_spectral_radiance(
-                                                                                wavelength * 1e-9,
-                                                                                temperature,
-                                                                                c1,
-                                                                                c2,
-                                                                                n))
-                                                                           for wavelength in
-                                                                           np.arange(start, end + steps, steps)))
+    return SpectralPowerDistribution(name="{0}K Blackbody".format(temperature),
+                                     data=dict((wavelength,
+                                                blackbody_spectral_radiance(wavelength * 1e-9, temperature, c1, c2, n))
+                                               for wavelength in np.arange(start, end + steps, steps)))

@@ -16,6 +16,8 @@
 
 from __future__ import unicode_literals
 
+from colour.constants import CIE_E, CIE_K
+
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -23,16 +25,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["CIE_E",
-           "CIE_K",
-           "luminance_newhall1943",
+__all__ = ["luminance_newhall1943",
            "luminance_1976",
            "luminance_ASTM_D1535_08",
            "LUMINANCE_FUNCTIONS",
            "get_luminance"]
-
-CIE_E = 216. / 24389.0
-CIE_K = 24389. / 27.0
 
 
 def luminance_newhall1943(V):

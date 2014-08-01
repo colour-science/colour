@@ -16,7 +16,8 @@
 
 from __future__ import unicode_literals
 
-import colour.utilities.verbose
+from colour.constants import CIE_E, CIE_K
+from colour.utilities import warning
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -25,16 +26,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["CIE_E",
-           "CIE_K",
-           "lightness_glasser1958",
+__all__ = ["lightness_glasser1958",
            "lightness_wyszecki1964",
            "lightness_1976",
            "LIGHTNESS_FUNCTIONS",
            "get_lightness"]
-
-CIE_E = 216. / 24389.0
-CIE_K = 24389. / 27.0
 
 
 def lightness_glasser1958(Y):
@@ -87,7 +83,7 @@ def lightness_wyszecki1964(Y):
     """
 
     if not 1. < Y < 98.:
-        colour.utilities.verbose.warning(
+        warning(
             "!> {0} | 'W*' lightness calculation is only applicable for 1% < 'Y' < 98%, unpredictable results may occur!".format(
                 __name__))
 

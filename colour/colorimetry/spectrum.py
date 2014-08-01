@@ -21,8 +21,8 @@ import itertools
 import math
 import numpy as np
 
-import colour.algebra.common
-import colour.utilities.common
+from colour.algebra import is_uniform, get_steps
+from colour.utilities import is_scipy_installed, warning
 from colour.algebra.interpolation import LinearInterpolator
 from colour.algebra.interpolation import SpragueInterpolator
 
@@ -161,7 +161,7 @@ class SpectralPowerDistribution(object):
         :rtype: tuple
         """
 
-        steps = colour.algebra.common.get_steps(self.wavelengths)
+        steps = get_steps(self.wavelengths)
         return min(self.data.keys()), max(self.data.keys()), min(steps)
 
     @shape.setter
@@ -338,7 +338,7 @@ class SpectralPowerDistribution(object):
         :rtype: bool
         """
 
-        return colour.algebra.common.is_uniform(self.wavelengths)
+        return is_uniform(self.wavelengths)
 
     def extrapolate(self, start, end):
         """
@@ -418,13 +418,13 @@ class SpectralPowerDistribution(object):
             linear_interpolant = lambda x: linear_interpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
-            if colour.utilities.common.is_scipy_installed():
+            if is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 spline_interpolator = interp1d(wavelengths, values, kind="cubic")
                 spline_interpolant = lambda x: spline_interpolator(x)
             else:
-                colour.utilities.verbose.warning(
+                warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         self.__class__.__name__))
                 spline_interpolant, spline_interpolator = linear_interpolant, None

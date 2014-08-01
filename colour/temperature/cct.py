@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**temperature.py**
+**cct.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.

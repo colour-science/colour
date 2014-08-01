@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *tristimulus* values colorimetry objects.
+    Defines **Colour** package *tristimulus* values computation objects.
 
 **Others:**
 
@@ -18,14 +18,9 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.algebra.matrix
-import colour.colorimetry.spectrum
-import colour.colorimetry.dataset.cmfs
-import colour.colorimetry.dataset.lefs
-import colour.utilities.common
-import colour.utilities.decorators
-import colour.utilities.verbose
-from colour.algebra.interpolation import SpragueInterpolator
+from colour.algebra import SpragueInterpolator
+from colour.colorimetry import SpectralPowerDistribution, STANDARD_OBSERVERS_CMFS
+from colour.utilities import is_scipy_installed, memoize, warning
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,8 +34,9 @@ __all__ = ["spectral_to_XYZ",
 
 _WAVELENGTH_TO_XYZ_CACHE = {}
 
+
 def spectral_to_XYZ(spd,
-                    cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
+                    cmfs=STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
                     illuminant=None):
     """
     Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
@@ -80,9 +76,7 @@ def spectral_to_XYZ(spd,
     if illuminant is None:
         start, end, steps = shape
         range = np.arange(start, end + steps, steps)
-        illuminant = colour.colorimetry.spectrum.SpectralPowerDistribution(name="1.0",
-                                                                           data=dict(zip(*(list(range),
-                                                                                           [1.] * len(range)))))
+        illuminant = SpectralPowerDistribution(name="1.0", data=dict(zip(*(list(range), [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
             illuminant = illuminant.clone().zeros(*shape)
@@ -99,15 +93,16 @@ def spectral_to_XYZ(spd,
     normalising_factor = 100. / np.sum(y_bar * illuminant)
 
     XYZ = np.array([normalising_factor * np.sum(x_products),
-                       normalising_factor * np.sum(y_products),
-                       normalising_factor * np.sum(z_products)])
+                    normalising_factor * np.sum(y_products),
+                    normalising_factor * np.sum(z_products)])
 
     return XYZ.reshape((3, 1))
 
 
-@colour.utilities.decorators.memoize(_WAVELENGTH_TO_XYZ_CACHE)
+@memoize(_WAVELENGTH_TO_XYZ_CACHE)
 def wavelength_to_XYZ(wavelength,
-                      cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
+                      cmfs=STANDARD_OBSERVERS_CMFS.get(
+                          "CIE 1931 2 Degree Standard Observer")):
     """
     Converts given wavelength to *CIE XYZ* colourspace using given colour matching functions, if the retrieved
     wavelength is not available in the colour matching function, its value will be calculated using *CIE* recommendations:
@@ -143,12 +138,12 @@ def wavelength_to_XYZ(wavelength,
         if cmfs.is_uniform():
             interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
         else:
-            if colour.utilities.common.is_scipy_installed():
+            if is_scipy_installed():
                 from scipy.interpolate import interp1d
 
                 interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
             else:
-                colour.utilities.verbose.warning(
+                warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         __name__))
 

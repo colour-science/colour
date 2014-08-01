@@ -24,8 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.correction
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.colorimetry import SpectralPowerDistribution, bandpass_correction_stearns
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -86,8 +85,9 @@ class TestBandpassCorrectionStearns(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution("Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
-        np.testing.assert_almost_equal(BANDPASS_CORRECTED_STEARNS_SPD_DATA,
-                                          colour.colorimetry.correction.bandpass_correction_stearns(spd).values)
+        np.testing.assert_almost_equal(
+            bandpass_correction_stearns(spd).values,
+            BANDPASS_CORRECTED_STEARNS_SPD_DATA)
 
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ import pylab
 import colour
 import colour.algebra.matrix
 import colour.colorimetry.dataset.cmfs
-import colour.colorimetry.dataset.colour_checkers.chromaticity_coordinates
+import colour.fitting.dataset.colour_checkers.chromaticity_coordinates
 import colour.models.dataset.rgb.pointer_gamut
 import colour.models.dataset.rgb.srgb
 import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
@@ -40,7 +40,7 @@ import colour.colorimetry.dataset.illuminants.spds
 import colour.colorimetry.blackbody
 import colour.quality.cri
 import colour.colorimetry.lightness
-import colour.colorimetry.temperature
+import colour.temperature.cct
 import colour.notation.munsell
 import colour.models.rgb.rgb_colourspace
 import colour.colorimetry.tristimulus
@@ -577,12 +577,12 @@ def colour_checker_plot(colour_checker="ColorChecker 2005",
     :rtype: bool
     """
 
-    colour_checker, name = colour.colorimetry.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.get(
+    colour_checker, name = colour.fitting.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.get(
         colour_checker), colour_checker
     if colour_checker is None:
         raise KeyError("Colour checker '{0}' not found in colour checkers: '{1}'.".format(name,
                                                                                           sorted(
-                                                                                              colour.colorimetry.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
+                                                                                              colour.fitting.dataset.colour_checkers.chromaticity_coordinates.COLOURCHECKERS.keys())))
 
     _, data, illuminant = colour_checker
     colour_parameters = []
@@ -1191,16 +1191,16 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=["A", "B", "C
 
     start, end = 1667, 100000
     x, y = zip(*map(lambda x: colour.models.cie_ucs.UCS_uv_to_xy(
-        colour.colorimetry.temperature.CCT_to_uv(x, 0., cmfs=cmfs)),
+        colour.temperature.cct.CCT_to_uv(x, 0., cmfs=cmfs)),
                     np.arange(start, end + 250, 250)))
 
     pylab.plot(x, y, color="black", linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         x0, y0 = colour.models.cie_ucs.UCS_uv_to_xy(
-            colour.colorimetry.temperature.CCT_to_uv(i, -0.025, cmfs=cmfs))
+            colour.temperature.cct.CCT_to_uv(i, -0.025, cmfs=cmfs))
         x1, y1 = colour.models.cie_ucs.UCS_uv_to_xy(
-            colour.colorimetry.temperature.CCT_to_uv(i, 0.025, cmfs=cmfs))
+            colour.temperature.cct.CCT_to_uv(i, 0.025, cmfs=cmfs))
         pylab.plot([x0, x1], [y0, y1], color="black", linewidth=2.)
         pylab.annotate("{0}K".format(i),
                        xy=(x0, y0),
@@ -1411,13 +1411,13 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(illuminants=["A", "C"
 
     start, end = 1667, 100000
     u, v = zip(
-        *map(lambda x: colour.colorimetry.temperature.CCT_to_uv(x, 0., cmfs=cmfs), np.arange(start, end + 250, 250)))
+        *map(lambda x: colour.temperature.cct.CCT_to_uv(x, 0., cmfs=cmfs), np.arange(start, end + 250, 250)))
 
     pylab.plot(u, v, color="black", linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
-        u0, v0 = colour.colorimetry.temperature.CCT_to_uv(i, -0.05)
-        u1, v1 = colour.colorimetry.temperature.CCT_to_uv(i, 0.05)
+        u0, v0 = colour.temperature.cct.CCT_to_uv(i, -0.05)
+        u1, v1 = colour.temperature.cct.CCT_to_uv(i, 0.05)
         pylab.plot([u0, u1], [v0, v1], color="black", linewidth=2.)
         pylab.annotate("{0}K".format(i),
                        xy=(u0, v0),

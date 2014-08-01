@@ -23,7 +23,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.lightness
+from colour.colorimetry import lightness_glasser1958, lightness_wyszecki1964, lightness_1976
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -47,9 +47,9 @@ class TestLightnessGlasser1958(unittest.TestCase):
         Tests :func:`colour.colorimetry.lightness.lightness_glasser1958` definition.
         """
 
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_glasser1958(10.08), 36.2505626458, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_glasser1958(56.76), 78.8117999039, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_glasser1958(98.32), 98.3447052593, places=7)
+        self.assertAlmostEqual(lightness_glasser1958(10.08), 36.2505626458, places=7)
+        self.assertAlmostEqual(lightness_glasser1958(56.76), 78.8117999039, places=7)
+        self.assertAlmostEqual(lightness_glasser1958(98.32), 98.3447052593, places=7)
 
 
 class TestLightnessWyszecki1964(unittest.TestCase):
@@ -62,9 +62,9 @@ class TestLightnessWyszecki1964(unittest.TestCase):
         Tests :func:`colour.colorimetry.lightness.lightness_wyszecki1964` definition.
         """
 
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_wyszecki1964(10.08), 37.0041149128, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_wyszecki1964(56.76), 79.0773031869, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_wyszecki1964(98.32), 98.3862250488, places=7)
+        self.assertAlmostEqual(lightness_wyszecki1964(10.08), 37.0041149128, places=7)
+        self.assertAlmostEqual(lightness_wyszecki1964(56.76), 79.0773031869, places=7)
+        self.assertAlmostEqual(lightness_wyszecki1964(98.32), 98.3862250488, places=7)
 
 
 class TestLightness1976(unittest.TestCase):
@@ -77,9 +77,9 @@ class TestLightness1976(unittest.TestCase):
         Tests :func:`colour.colorimetry.lightness.lightness_1976` definition.
         """
 
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_1976(10.08, 100.), 37.9856290977, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_1976(56.76, 100.), 80.0444155585, places=7)
-        self.assertAlmostEqual(colour.colorimetry.lightness.lightness_1976(98.32, 100.), 99.3467279026, places=7)
+        self.assertAlmostEqual(lightness_1976(10.08, 100.), 37.9856290977, places=7)
+        self.assertAlmostEqual(lightness_1976(56.76, 100.), 80.0444155585, places=7)
+        self.assertAlmostEqual(lightness_1976(98.32, 100.), 99.3467279026, places=7)
 
 
 if __name__ == "__main__":

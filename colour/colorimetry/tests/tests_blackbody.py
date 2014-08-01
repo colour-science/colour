@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.colorimetry.blackbody
+from colour.colorimetry import planck_law, blackbody_spectral_power_distribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -4527,7 +4527,7 @@ class TestPlanckLaw(unittest.TestCase):
         for temperature, wavelengths in sorted(PLANCK_LAW_DATA.iteritems()):
             for wavelength, radiance in sorted(wavelengths.iteritems()):
                 np.testing.assert_almost_equal(
-                    colour.colorimetry.blackbody.planck_law(wavelength * 1e-9, temperature),
+                    planck_law(wavelength * 1e-9, temperature),
                     radiance,
                     decimal=7)
 
@@ -4543,7 +4543,7 @@ class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.colorimetry.blackbody.blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
+            blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
             BLACKBODY_SPD_DATA,
             decimal=7)
 
