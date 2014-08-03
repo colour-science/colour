@@ -17,11 +17,9 @@
 from __future__ import unicode_literals
 
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
-
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,15 +39,12 @@ __all__ = ["APPLE_RGB_PRIMARIES",
 
 # http://www.brucelindbloom.com/WorkingSpaceInfo.html
 APPLE_RGB_PRIMARIES = np.array([0.6250, 0.3400,
-                                   0.2800, 0.5950,
-                                   0.1550, 0.0700]).reshape((3, 2))
+                                0.2800, 0.5950,
+                                0.1550, 0.0700]).reshape((3, 2))
 
-APPLE_RGB_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+APPLE_RGB_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
-APPLE_RGB_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(
-    APPLE_RGB_PRIMARIES,
-    APPLE_RGB_WHITEPOINT)
+APPLE_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(APPLE_RGB_PRIMARIES, APPLE_RGB_WHITEPOINT)
 
 XYZ_TO_APPLE_RGB_MATRIX = np.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
 

@@ -17,14 +17,11 @@
 from __future__ import unicode_literals
 
 import math
-
 import numpy as np
 
-import colour.models.cie_xyy
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.colorimetry.lightness import CIE_E
-from colour.colorimetry.lightness import CIE_K
-
+from colour.colorimetry import ILLUMINANTS
+from colour.constants import CIE_E, CIE_K
+from colour.models import xy_to_XYZ
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,9 +36,7 @@ __all__ = ["XYZ_to_Lab",
            "LCHab_to_Lab"]
 
 
-def XYZ_to_Lab(XYZ,
-               illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_Lab(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
 
@@ -69,7 +64,7 @@ def XYZ_to_Lab(XYZ,
     """
 
     X, Y, Z = np.ravel(XYZ)
-    Xr, Yr, Zr = np.ravel(colour.models.cie_xyy.xy_to_XYZ(illuminant))
+    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
     xr = X / Xr
     yr = Y / Yr
@@ -86,9 +81,7 @@ def XYZ_to_Lab(XYZ,
     return np.array([L, a, b]).reshape((3, 1))
 
 
-def Lab_to_XYZ(Lab,
-               illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+def Lab_to_XYZ(Lab, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
 
@@ -116,7 +109,7 @@ def Lab_to_XYZ(Lab,
     """
 
     L, a, b = np.ravel(Lab)
-    Xr, Yr, Zr = np.ravel(colour.models.cie_xyy.xy_to_XYZ(illuminant))
+    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
     fy = (L + 16.) / 116.
     fx = a / 500. + fy

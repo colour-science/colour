@@ -17,16 +17,14 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy as np
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-import colour.models.cie_lab
+from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -52,35 +50,32 @@ class TestXYZ_to_Lab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([0.96907232, 1., 1.12179215])),
+            XYZ_to_Lab(np.array([0.96907232, 1., 1.12179215])),
             np.array([100., 0.83871284, -21.55579303]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([1.92001986, 1., -0.1241347])),
+            XYZ_to_Lab(np.array([1.92001986, 1., -0.1241347])),
             np.array([100., 129.04406346, 406.69765889]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686])),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686])),
             np.array([100., 8.32281957, -73.58297716]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
-                                                               (0.44757, 0.40745)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (0.44757, 0.40745)),
             np.array([100., -13.29228089, -162.12804888]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
-                                                               (1. / 3., 1. / 3.)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (1. / 3., 1. / 3.)),
             np.array([100., 2.18505384, -56.60990888]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
-                                                               (0.31271, 0.32902)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (0.31271, 0.32902)),
             np.array([100., 10.76832763, -49.42733157]).reshape((3, 1)),
             decimal=7)
 
@@ -96,35 +91,35 @@ class TestLab_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., 0.83871284, -21.55579303])),
+            Lab_to_XYZ(np.array([100., 0.83871284, -21.55579303])),
             np.array([0.96907232, 1., 1.12179215]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., 129.04406346, 406.69765889])),
+            Lab_to_XYZ(np.array([100., 129.04406346, 406.69765889])),
             np.array([1.92001986, 1., -0.1241347]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., 8.32281957, -73.58297716])),
+            Lab_to_XYZ(np.array([100., 8.32281957, -73.58297716])),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., -13.29228089, -162.12804888]),
-                                                               (0.44757, 0.40745)),
+            Lab_to_XYZ(np.array([100., -13.29228089, -162.12804888]),
+                       (0.44757, 0.40745)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., 2.18505384, -56.60990888]),
-                                                               (1. / 3., 1. / 3.)),
+            Lab_to_XYZ(np.array([100., 2.18505384, -56.60990888]),
+                       (1. / 3., 1. / 3.)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_XYZ(np.array([100., 10.76832763, -49.42733157]),
-                                                               (0.31271, 0.32902)),
+            Lab_to_XYZ(np.array([100., 10.76832763, -49.42733157]),
+                       (0.31271, 0.32902)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
@@ -140,17 +135,17 @@ class TestLab_to_LCHab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_LCHab(np.array([100., 0.83871284, -21.55579303])),
+            Lab_to_LCHab(np.array([100., 0.83871284, -21.55579303])),
             np.array([100., 21.57210357, 272.2281935]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_LCHab(np.array([100., 129.04406346, 406.69765889])),
+            Lab_to_LCHab(np.array([100., 129.04406346, 406.69765889])),
             np.array([100., 426.67945353, 72.39590835]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.Lab_to_LCHab(np.array([100., 8.32281957, -73.58297716])),
+            Lab_to_LCHab(np.array([100., 8.32281957, -73.58297716])),
             np.array([100., 74.05216981, 276.45318193]).reshape((3, 1)),
             decimal=7)
 
@@ -166,17 +161,17 @@ class TestLCHab_to_Lab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.LCHab_to_Lab(np.array([100., 21.57210357, 272.2281935])),
+            LCHab_to_Lab(np.array([100., 21.57210357, 272.2281935])),
             np.array([100., 0.83871284, -21.55579303]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.LCHab_to_Lab(np.array([100., 426.67945353, 72.39590835])),
+            LCHab_to_Lab(np.array([100., 426.67945353, 72.39590835])),
             np.array([100., 129.04406346, 406.69765889]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.cie_lab.LCHab_to_Lab(np.array([100., 74.05216981, 276.45318193])),
+            LCHab_to_Lab(np.array([100., 74.05216981, 276.45318193])),
             np.array([100., 8.32281957, -73.58297716]).reshape((3, 1)),
             decimal=7)
 

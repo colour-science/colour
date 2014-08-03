@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
+from colour.models import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,14 +38,14 @@ __all__ = ["DCI_P3_PRIMARIES",
 
 # http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 DCI_P3_PRIMARIES = np.array([0.680, 0.320,
-                                0.265, 0.690,
-                                0.150, 0.060]).reshape((3, 2))
+                             0.265, 0.690,
+                             0.150, 0.060]).reshape((3, 2))
 
 DCI_P3_WHITEPOINT = (0.314, 0.351)
 
 DCI_P3_TO_XYZ_MATRIX = np.array([0.44516982, 0.27713441, 0.17228267,
-                                    0.20949168, 0.72159525, 0.06891307,
-                                    0., 0.04706056, 0.90735539]).reshape((3, 3))
+                                 0.20949168, 0.72159525, 0.06891307,
+                                 0., 0.04706056, 0.90735539]).reshape((3, 3))
 
 XYZ_TO_DCI_P3_MATRIX = np.linalg.inv(DCI_P3_TO_XYZ_MATRIX)
 

@@ -26,7 +26,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.fitting
+from colour.fitting import first_order_colour_fit
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -103,10 +103,10 @@ class TestFirstOrderColourFit(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.fitting.first_order_colour_fit(M1, M2),
+            first_order_colour_fit(M1, M2),
             np.array([[1.40431285, 0.01128059, -0.20297103],
-                         [-0.09989111, 1.50122142, -0.18564796],
-                         [0.22483693, -0.07672362, 1.04960133]]),
+                      [-0.09989111, 1.50122142, -0.18564796],
+                      [0.22483693, -0.07672362, 1.04960133]]),
             decimal=7)
 
 

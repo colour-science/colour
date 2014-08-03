@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
+from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb.rgb_colourspace import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
@@ -39,16 +39,15 @@ __all__ = ["ADOBE_RGB_1998_PRIMARIES",
 
 # http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 ADOBE_RGB_1998_PRIMARIES = np.array([0.6400, 0.3300,
-                                        0.2100, 0.7100,
-                                        0.1500, 0.0600]).reshape((3, 2))
+                                     0.2100, 0.7100,
+                                     0.1500, 0.0600]).reshape((3, 2))
 
-ADOBE_RGB_1998_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
 # http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf: 4.3.5.3 Converting RGB to normalised XYZ values
 ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array([0.57666809, 0.18556195, 0.1881985,
-                                            0.29734449, 0.62737611, 0.0752794,
-                                            0.02703132, 0.07069027, 0.99117879]).reshape((3, 3))
+                                         0.29734449, 0.62737611, 0.0752794,
+                                         0.02703132, 0.07069027, 0.99117879]).reshape((3, 3))
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 

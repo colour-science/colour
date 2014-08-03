@@ -17,12 +17,10 @@
 from __future__ import unicode_literals
 
 import math
-
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 
 __author__ = "Thomas Mansencal"
@@ -43,14 +41,12 @@ __all__ = ["S_LOG_PRIMARIES",
 
 # http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
 S_LOG_PRIMARIES = np.array([0.73, 0.28,
-                               0.14, 0.855,
-                               0.10, -0.05]).reshape((3, 2))
+                            0.14, 0.855,
+                            0.10, -0.05]).reshape((3, 2))
 
-S_LOG_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+S_LOG_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
-S_LOG_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(S_LOG_PRIMARIES,
-                                                                                                   S_LOG_WHITEPOINT)
+S_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(S_LOG_PRIMARIES, S_LOG_WHITEPOINT)
 
 XYZ_TO_S_LOG_MATRIX = np.linalg.inv(S_LOG_TO_XYZ_MATRIX)
 

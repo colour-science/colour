@@ -17,11 +17,9 @@
 from __future__ import unicode_literals
 
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
-
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,15 +39,13 @@ __all__ = ["ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
 
 # http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array([0.7347, 0.2653,
-                                              0.1152, 0.8264,
-                                              0.1566, 0.0177]).reshape((3, 2))
+                                           0.1152, 0.8264,
+                                           0.1566, 0.0177]).reshape((3, 2))
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
-ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(
-    ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
+ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
+                                                                   ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 

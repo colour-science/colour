@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,15 +39,14 @@ __all__ = ["CIE_RGB_PRIMARIES",
 
 # http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 CIE_RGB_PRIMARIES = np.array([0.7350, 0.2650,
-                                 0.2740, 0.7170,
-                                 0.1670, 0.0090]).reshape((3, 2))
+                              0.2740, 0.7170,
+                              0.1670, 0.0090]).reshape((3, 2))
 
-CIE_RGB_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("E")
+CIE_RGB_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("E")
 
 CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * np.array([0.49, 0.31, 0.20,
-                                                    0.17697, 0.81240, 0.01063,
-                                                    0.00, 0.01, 0.99]).reshape((3, 3))
+                                                 0.17697, 0.81240, 0.01063,
+                                                 0.00, 0.01, 0.99]).reshape((3, 3))
 
 XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
 

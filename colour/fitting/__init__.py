@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.algebra.regression
+from colour.algebra import linear_regression
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -28,6 +28,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["first_order_colour_fit"]
+__all__ = map(lambda x: x.encode("ascii"), __all__)
 
 
 def first_order_colour_fit(m1, m2):
@@ -99,8 +100,8 @@ def first_order_colour_fit(m1, m2):
     :rtype: ndarray (3, 3)
     """
 
-    x_coefficients = colour.algebra.regression.linear_regression(m1[:, 0], m2)
-    y_coefficients = colour.algebra.regression.linear_regression(m1[:, 1], m2)
-    z_coefficients = colour.algebra.regression.linear_regression(m1[:, 2], m2)
+    x_coefficients = linear_regression(m1[:, 0], m2)
+    y_coefficients = linear_regression(m1[:, 1], m2)
+    z_coefficients = linear_regression(m1[:, 2], m2)
 
     return np.array([x_coefficients[:3], y_coefficients[:3], z_coefficients[:3]]).reshape((3, 3))

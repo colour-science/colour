@@ -17,11 +17,9 @@
 from __future__ import unicode_literals
 
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
-
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,15 +39,12 @@ __all__ = ["BEST_RGB_PRIMARIES",
 
 # http://www.hutchcolor.com/profiles/BestRGB.zip
 BEST_RGB_PRIMARIES = np.array([0.73519163763066209, 0.26480836236933797,
-                                  0.2153361344537815, 0.77415966386554624,
-                                  0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
+                               0.2153361344537815, 0.77415966386554624,
+                               0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
 
-BEST_RGB_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+BEST_RGB_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
-BEST_RGB_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(
-    BEST_RGB_PRIMARIES,
-    BEST_RGB_WHITEPOINT)
+BEST_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(BEST_RGB_PRIMARIES, BEST_RGB_WHITEPOINT)
 
 XYZ_TO_BEST_RGB_MATRIX = np.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
 

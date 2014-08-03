@@ -23,11 +23,22 @@ from . import algebra
 from .colorimetry import *
 from . import colorimetry
 from . import constants
+from .difference import *
+from . import difference
+from .fitting import *
+from . import fitting
+from .fitting.dataset import COLOURCHECKERS, COLOURCHECKERS_SPDS
+from .models import *
+from . import models
 
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
 __all__ += colorimetry.__all__
+__all__ += difference.__all__
+__all__ += fitting.__all__
+__all__ += ["COLOURCHECKERS", "COLOURCHECKERS_SPDS"]
+__all__ += models.__all__
 
 print __all__
 

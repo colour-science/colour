@@ -20,11 +20,9 @@ import math
 
 import numpy as np
 
-import colour.models.cie_xyy
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.colorimetry.lightness import CIE_E
-from colour.colorimetry.lightness import CIE_K
-
+from colour.colorimetry import ILLUMINANTS
+from colour.constants import CIE_E, CIE_K
+from colour.models import xy_to_XYZ
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,9 +39,7 @@ __all__ = ["XYZ_to_Luv",
            "LCHuv_to_Luv"]
 
 
-def XYZ_to_Luv(XYZ,
-               illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_Luv(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
@@ -71,7 +67,7 @@ def XYZ_to_Luv(XYZ,
     """
 
     X, Y, Z = np.ravel(XYZ)
-    Xr, Yr, Zr = np.ravel(colour.models.cie_xyy.xy_to_XYZ(illuminant))
+    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
     yr = Y / Yr
 
@@ -83,9 +79,7 @@ def XYZ_to_Luv(XYZ,
     return np.array([L, u, v]).reshape((3, 1))
 
 
-def Luv_to_XYZ(Luv,
-               illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+def Luv_to_XYZ(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
@@ -113,7 +107,7 @@ def Luv_to_XYZ(Luv,
     """
 
     L, u, v = np.ravel(Luv)
-    Xr, Yr, Zr = np.ravel(colour.models.cie_xyy.xy_to_XYZ(illuminant))
+    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
     Y = ((
              L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
@@ -129,9 +123,7 @@ def Luv_to_XYZ(Luv,
     return np.array([X, Y, Z]).reshape((3, 1))
 
 
-def Luv_to_uv(Luv,
-              illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                  "CIE 1931 2 Degree Standard Observer").get("D50")):
+def Luv_to_uv(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace matrix.
 

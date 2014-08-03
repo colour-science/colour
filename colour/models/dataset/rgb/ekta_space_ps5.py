@@ -17,11 +17,9 @@
 from __future__ import unicode_literals
 
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
-
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -41,15 +39,12 @@ __all__ = ["EKTA_SPACE_PS_5_PRIMARIES",
 
 # http://www.josephholmes.com/Ekta_Space.zip
 EKTA_SPACE_PS_5_PRIMARIES = np.array([0.6947368421052631, 0.30526315789473685,
-                                         0.26000000000000001, 0.69999999999999996,
-                                         0.10972850678733032, 0.0045248868778280547]).reshape((3, 2))
+                                      0.26000000000000001, 0.69999999999999996,
+                                      0.10972850678733032, 0.0045248868778280547]).reshape((3, 2))
 
-EKTA_SPACE_PS_5_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
-EKTA_SPACE_PS_5_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(
-    EKTA_SPACE_PS_5_PRIMARIES,
-    EKTA_SPACE_PS_5_WHITEPOINT)
+EKTA_SPACE_PS_5_TO_XYZ_MATRIX = get_normalised_primary_matrix(EKTA_SPACE_PS_5_PRIMARIES, EKTA_SPACE_PS_5_WHITEPOINT)
 
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
 

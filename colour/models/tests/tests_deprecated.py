@@ -26,7 +26,9 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.models.deprecated
+from colour.models.deprecated import RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB
+from colour.models.deprecated import RGB_to_CMY, CMY_to_RGB, CMY_to_CMYK, CMYK_to_CMY
+from colour.models.deprecated import RGB_to_HEX, HEX_to_RGB
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -58,20 +60,17 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSV(
-                np.array([0.25, 0.60, 0.05])),
+            RGB_to_HSV(np.array([0.25, 0.60, 0.05])),
             np.array([0.27272727, 0.91666667, 0.6]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSV(
-                np.array([0., 0., 0.])),
+            RGB_to_HSV(np.array([0., 0., 0.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSV(
-                np.array([1., 1., 1.])),
+            RGB_to_HSV(np.array([1., 1., 1.])),
             np.array([0., 0., 1.]).reshape((3, 1)),
             decimal=7)
 
@@ -87,20 +86,17 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSV_to_RGB(
-                np.array([0.27272727, 0.91666667, 0.6])),
+            HSV_to_RGB(np.array([0.27272727, 0.91666667, 0.6])),
             np.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSV_to_RGB(
-                np.array([0., 0., 0.])),
+            HSV_to_RGB(np.array([0., 0., 0.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSV_to_RGB(
-                np.array([0., 0., 1.])),
+            HSV_to_RGB(np.array([0., 0., 1.])),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
@@ -116,20 +112,17 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSL(
-                np.array([0.25, 0.60, 0.05])),
+            RGB_to_HSL(np.array([0.25, 0.60, 0.05])),
             np.array([0.27272727, 0.84615385, 0.325]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSL(
-                np.array([0., 0., 0.])),
+            RGB_to_HSL(np.array([0., 0., 0.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_HSL(
-                np.array([1., 1., 1.])),
+            RGB_to_HSL(np.array([1., 1., 1.])),
             np.array([0., 0., 1.]).reshape((3, 1)),
             decimal=7)
 
@@ -145,20 +138,17 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSL_to_RGB(
-                np.array([0.27272727, 0.84615385, 0.325])),
+            HSL_to_RGB(np.array([0.27272727, 0.84615385, 0.325])),
             np.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSL_to_RGB(
-                np.array([0., 0., 0.])),
+            HSL_to_RGB(np.array([0., 0., 0.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HSL_to_RGB(
-                np.array([0., 0., 1.])),
+            HSL_to_RGB(np.array([0., 0., 1.])),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
@@ -174,20 +164,17 @@ class TestRGB_to_CMY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_CMY(
-                np.array([0.25, 0.60, 0.05])),
+            RGB_to_CMY(np.array([0.25, 0.60, 0.05])),
             np.array([0.75, 0.40, 0.95]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_CMY(
-                np.array([0., 0., 0.])),
+            RGB_to_CMY(np.array([0., 0., 0.])),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.RGB_to_CMY(
-                np.array([1., 1., 1.])),
+            RGB_to_CMY(np.array([1., 1., 1.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
@@ -203,20 +190,17 @@ class TestCMY_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_RGB(
-                np.array([0.75, 0.40, 0.95])),
+            CMY_to_RGB(np.array([0.75, 0.40, 0.95])),
             np.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_RGB(
-                np.array([1., 1., 1.])),
+            CMY_to_RGB(np.array([1., 1., 1.])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_RGB(
-                np.array([0., 0., 0.])),
+            CMY_to_RGB(np.array([0., 0., 0.])),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=7)
 
@@ -232,20 +216,17 @@ class TestCMY_to_CMYK(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_CMYK(
-                np.array([0.75, 0.40, 0.95])),
+            CMY_to_CMYK(np.array([0.75, 0.40, 0.95])),
             np.array([0.58333333, 0., 0.91666667, 0.4]).reshape((4, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_CMYK(
-                np.array([0.15, 1., 1.])),
+            CMY_to_CMYK(np.array([0.15, 1., 1.])),
             np.array([0., 1., 1., 0.15]).reshape((4, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMY_to_CMYK(
-                np.array([0.15, 0., 0.])),
+            CMY_to_CMYK(np.array([0.15, 0., 0.])),
             np.array([0.15, 0., 0., 0.]).reshape((4, 1)),
             decimal=7)
 
@@ -261,20 +242,17 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMYK_to_CMY(
-                np.array([0.58333333, 0., 0.91666667, 0.4])),
+            CMYK_to_CMY(np.array([0.58333333, 0., 0.91666667, 0.4])),
             np.array([0.75, 0.40, 0.95]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMYK_to_CMY(
-                np.array([0., 1., 1., 0.15])),
+            CMYK_to_CMY(np.array([0., 1., 1., 0.15])),
             np.array([0.15, 1., 1.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.CMYK_to_CMY(
-                np.array([0.15, 0., 0., 0.])),
+            CMYK_to_CMY(np.array([0.15, 0., 0., 0.])),
             np.array([0.15, 0., 0.]).reshape((3, 1)),
             decimal=7)
 
@@ -290,16 +268,13 @@ class TestRGB_to_HEX(unittest.TestCase):
         """
 
         self.assertEqual(
-            colour.models.deprecated.RGB_to_HEX(
-                np.array([0.25, 0.60, 0.05])),
+            RGB_to_HEX(np.array([0.25, 0.60, 0.05])),
             "#3f990c")
         self.assertEqual(
-            colour.models.deprecated.RGB_to_HEX(
-                np.array([0., 0., 0.])),
+            RGB_to_HEX(np.array([0., 0., 0.])),
             "#000000")
         self.assertEqual(
-            colour.models.deprecated.RGB_to_HEX(
-                np.array([1., 1., 1.])),
+            RGB_to_HEX(np.array([1., 1., 1.])),
             "#ffffff")
 
 
@@ -314,15 +289,15 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HEX_to_RGB("#3f990c"),
+            HEX_to_RGB("#3f990c"),
             np.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=2)
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HEX_to_RGB("#000000"),
+            HEX_to_RGB("#000000"),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=2)
         np.testing.assert_almost_equal(
-            colour.models.deprecated.HEX_to_RGB("#ffffff"),
+            HEX_to_RGB("#ffffff"),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=2)
 

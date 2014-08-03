@@ -26,7 +26,6 @@ __status__ = "Production"
 
 __all__ = ["POINTER_GAMUT_DATA"]
 
-
 # http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls (Last accessed 24 February 2014)
 POINTER_GAMUT_DATA = ((0.659, 0.316),
                       (0.634, 0.351),

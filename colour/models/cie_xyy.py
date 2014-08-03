@@ -18,9 +18,8 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-import colour.colorimetry.dataset.illuminants.optimal_colour_stimuli
-import colour.utilities.common
+from colour.colorimetry import ILLUMINANTS, ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+from colour.utilities import is_scipy_installed
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,6 +37,7 @@ __all__ = ["XYZ_to_xyY",
 _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE = {}
 _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
 
+
 def _get_XYZ_optimal_colour_stimuli(illuminant):
     """
     Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace and caches it if not existing.
@@ -48,13 +48,12 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
     :rtype: tuple
     """
 
-    optimal_colour_stimuli = \
-        colour.colorimetry.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
+    optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
 
     if optimal_colour_stimuli is None:
         raise KeyError("'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
                                                                                           sorted(
-                                                                                              colour.colorimetry.dataset.illuminants.optimal_colour_stimuli.ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+                                                                                              ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_optimal_colour_stimuli = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
     if cached_optimal_colour_stimuli is None:
@@ -63,9 +62,7 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
     return cached_optimal_colour_stimuli
 
 
-def XYZ_to_xyY(XYZ,
-               illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_xyY(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference *illuminant*.
 
@@ -154,9 +151,7 @@ def xy_to_XYZ(xy):
     return xyY_to_XYZ(np.array([xy[0], xy[1], 1.]).reshape((3, 1)))
 
 
-def XYZ_to_xy(XYZ,
-              illuminant=colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                  "CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_xy(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace matrix.
 
@@ -196,7 +191,7 @@ def is_within_macadam_limits(xyY, illuminant):
     :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
     """
 
-    if colour.utilities.common.is_scipy_installed(raise_exception=True):
+    if is_scipy_installed(raise_exception=True):
         from scipy.spatial import Delaunay
 
         optimal_colour_stimuli = _get_XYZ_optimal_colour_stimuli(illuminant)

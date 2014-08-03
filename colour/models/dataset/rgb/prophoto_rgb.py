@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**prophotoRgb.py**
+**prophoto_rgb.py**
 
 **Platform:**
     Windows, Linux, Mac Os X.
@@ -18,8 +18,8 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -39,15 +39,14 @@ __all__ = ["PROPHOTO_RGB_PRIMARIES",
 
 # http://www.color.org/ROMMRGB.pdf
 PROPHOTO_RGB_PRIMARIES = np.array([0.7347, 0.2653,
-                                      0.1596, 0.8404,
-                                      0.0366, 0.0001]).reshape((3, 2))
+                                   0.1596, 0.8404,
+                                   0.0366, 0.0001]).reshape((3, 2))
 
-PROPHOTO_RGB_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+PROPHOTO_RGB_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = np.array([7.97667235e-01, 1.35192231e-01, 3.13525290e-02,
-                                          2.88037454e-01, 7.11876883e-01, 8.56626476e-05,
-                                          0.00000000e+00, 0.00000000e+00, 8.25188285e-01]).reshape((3, 3))
+                                       2.88037454e-01, 7.11876883e-01, 8.56626476e-05,
+                                       0.00000000e+00, 0.00000000e+00, 8.25188285e-01]).reshape((3, 3))
 
 XYZ_TO_PROPHOTO_RGB_MATRIX = np.linalg.inv(PROPHOTO_RGB_TO_XYZ_MATRIX)
 

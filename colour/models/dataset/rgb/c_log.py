@@ -17,13 +17,10 @@
 from __future__ import unicode_literals
 
 import math
-
 import numpy as np
-import colour.models.rgb.derivation
 
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-from colour.models.rgb.rgb_colourspace import RGB_Colourspace
-
+from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -44,14 +41,12 @@ __all__ = ["C_LOG_PRIMARIES",
 # http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 # Assuming *sRGB* / *Rec. 709* primaries.
 C_LOG_PRIMARIES = np.array([0.6400, 0.3300,
-                               0.3000, 0.6000,
-                               0.1500, 0.0600]).reshape((3, 2))
+                            0.3000, 0.6000,
+                            0.1500, 0.0600]).reshape((3, 2))
 
-C_LOG_WHITEPOINT = colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+C_LOG_WHITEPOINT = ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D65")
 
-C_LOG_TO_XYZ_MATRIX = colour.models.rgb.derivation.get_normalised_primary_matrix(C_LOG_PRIMARIES,
-                                                                                                   C_LOG_WHITEPOINT)
+C_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(C_LOG_PRIMARIES, C_LOG_WHITEPOINT)
 
 XYZ_TO_C_LOG_MATRIX = np.linalg.inv(C_LOG_TO_XYZ_MATRIX)
 
