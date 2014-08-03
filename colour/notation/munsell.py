@@ -21,23 +21,16 @@
 from __future__ import unicode_literals
 
 import math
-from collections import OrderedDict
-
 import numpy as np
 import re
+from collections import OrderedDict
 
-import colour.algebra.common
-import colour.algebra.coordinates.transformations
-import colour.models.cie_lab
-import colour.models.cie_xyy
-import colour.colorimetry.luminance
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.common
-from colour.algebra.extrapolation import Extrapolator1d
-from colour.algebra.interpolation import LinearInterpolator
-from colour.notation.dataset.munsell import MUNSELL_COLOURS
+from colour.algebra import Extrapolator1d, LinearInterpolator, cartesian_to_cylindrical, is_number, is_even_integer
+from colour.algebra.common import EVEN_INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN
+from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
+from colour.models import is_within_macadam_limits, Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
+from colour.notation import MUNSELL_COLOURS
 from colour.utilities.data_structures import Lookup
-
 
 __author__ = "Thomas Mansencal, Paul Centore"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -85,10 +78,10 @@ __all__ = ["MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN",
            "MUNSELL_VALUE_FUNCTIONS",
            "get_munsell_value"]
 
-MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(colour.algebra.common.FLOATING_POINT_NUMBER_PATTERN)
+MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN = "N(?P<value>{0})".format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN = \
     "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(
-        colour.algebra.common.FLOATING_POINT_NUMBER_PATTERN)
+        FLOATING_POINT_NUMBER_PATTERN)
 
 MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT = "N{0}"
 MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT = "{0} {1}/{2}"
@@ -108,13 +101,14 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     "P": 9})
 
 MUNSELL_DEFAULT_ILLUMINANT = "C"
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = \
-    colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-        "CIE 1931 2 Degree Standard Observer").get(MUNSELL_DEFAULT_ILLUMINANT)
+MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = ILLUMINANTS.get(
+    "CIE 1931 2 Degree Standard Observer").get(
+    MUNSELL_DEFAULT_ILLUMINANT)
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
 _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE = None
+
 
 def _get_munsell_specifications():
     """
@@ -156,8 +150,7 @@ def _get_munsell_value_ASTM_D1535_08_interpolator():
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator(map(colour.colorimetry.luminance.luminance_ASTM_D1535_08, munsell_values),
-                               munsell_values))
+            LinearInterpolator(map(luminance_ASTM_D1535_08, munsell_values), munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -233,7 +226,7 @@ def is_grey_munsell_colour(specification):
     :rtype: bool
     """
 
-    return colour.algebra.common.is_number(specification)
+    return is_number(specification)
 
 
 def normalize_munsell_specification(specification):
@@ -572,8 +565,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, "'{0}' specification value must be in domain [0, 10]!".format(specification)
-        assert colour.algebra.common.is_even_integer(value), \
-            "'{0}' specification value must be an even integer!".format(specification)
+        assert is_even_integer(value), "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
 
@@ -582,7 +574,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
             interpolation_method = 0
 
         assert 2 <= chroma <= 50, "'{0}' specification chroma must be in domain [2, 50]!".format(specification)
-        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= colour.algebra.common.EVEN_INTEGER_THRESHOLD, \
+        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= EVEN_INTEGER_THRESHOLD, \
             "'{0}' specification chroma must be an even integer and multiple of 2!".format(specification)
 
         chroma = 2 * round(chroma / 2)
@@ -833,13 +825,12 @@ def get_xy_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 1 <= value <= 9, "'{0}' specification value must be in domain [1, 9]!".format(specification)
-        assert colour.algebra.common.is_even_integer(value), \
-            "'{0}' specification value must be an even integer!".format(specification)
+        assert is_even_integer(value), "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
 
         assert 2 <= chroma <= 50, "'{0}' specification chroma must be in domain [2, 50]!".format(specification)
-        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= colour.algebra.common.EVEN_INTEGER_THRESHOLD, \
+        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= EVEN_INTEGER_THRESHOLD, \
             "'{0}' specification chroma must be an even integer and multiple of 2!".format(specification)
 
         chroma = 2 * round(chroma / 2)
@@ -863,14 +854,12 @@ def get_xy_from_renotation_ovoid(specification):
 
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = get_xyY_from_renotation(specification_minus)
-        z_minus, theta_minus, rho_minus = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-            (x_minus - x_grey, y_minus - y_grey, Y_minus))
+        z_minus, theta_minus, rho_minus = cartesian_to_cylindrical((x_minus - x_grey, y_minus - y_grey, Y_minus))
         theta_minus = math.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = get_xyY_from_renotation(specification_plus)
-        z_plus, theta_plus, rho_plus = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-            (x_plus - x_grey, y_plus - y_grey, Y_plus))
+        z_plus, theta_plus, rho_plus = cartesian_to_cylindrical((x_plus - x_grey, y_plus - y_grey, Y_plus))
         theta_plus = math.degrees(theta_plus)
 
         lower_hue_angle = hue_to_hue_angle(hue_minus, code_minus)
@@ -1023,9 +1012,9 @@ def get_maximum_chroma_from_renotation(hue, value, code):
         ma_limit_pccw = maximum_chromas[spc_for_indexes.index((hue_ccw, value_plus, code_ccw))][1]
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw)
     else:
-        L = colour.colorimetry.luminance.luminance_ASTM_D1535_08(value)
-        L9 = colour.colorimetry.luminance.luminance_ASTM_D1535_08(9)
-        L10 = colour.colorimetry.luminance.luminance_ASTM_D1535_08(10)
+        L = luminance_ASTM_D1535_08(value)
+        L9 = luminance_ASTM_D1535_08(9)
+        L10 = luminance_ASTM_D1535_08(10)
 
         max_chroma = min(LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L),
                          LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L))
@@ -1065,8 +1054,7 @@ def munsell_specification_to_xy(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, "'{0}' specification value must be in domain [0, 10]!".format(specification)
-        assert colour.algebra.common.is_even_integer(value), \
-            "'{0}' specification value must be an even integer!".format(specification)
+        assert is_even_integer(value), "'{0}' specification value must be an even integer!".format(specification)
 
         value = round(value)
 
@@ -1135,9 +1123,9 @@ def munsell_specification_to_xyY(specification):
         assert 0 <= hue <= 10, "'{0}' specification hue must be in domain [0, 10]!".format(specification)
         assert 0 <= value <= 10, "'{0}' specification value must be in domain [0, 10]!".format(specification)
 
-    Y = colour.colorimetry.luminance.luminance_ASTM_D1535_08(value)
+    Y = luminance_ASTM_D1535_08(value)
 
-    if colour.algebra.common.is_even_integer(value):
+    if is_even_integer(value):
         value_minus = value_plus = round(value)
     else:
         value_minus = math.floor(value)
@@ -1154,12 +1142,10 @@ def munsell_specification_to_xyY(specification):
         x = x_minus
         y = y_minus
     else:
-        Y_minus = colour.colorimetry.luminance.luminance_ASTM_D1535_08(value_minus)
-        Y_plus = colour.colorimetry.luminance.luminance_ASTM_D1535_08(value_plus)
-        x = LinearInterpolator([Y_minus, Y_plus],
-                               [x_minus, x_plus])(Y)
-        y = LinearInterpolator([Y_minus, Y_plus],
-                               [y_minus, y_plus])(Y)
+        Y_minus = luminance_ASTM_D1535_08(value_minus)
+        Y_plus = luminance_ASTM_D1535_08(value_plus)
+        x = LinearInterpolator([Y_minus, Y_plus], [x_minus, x_plus])(Y)
+        y = LinearInterpolator([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
     return np.array([x, y, Y / 100.]).reshape((3, 1))
 
@@ -1214,7 +1200,7 @@ def xyY_to_munsell_specification(xyY):
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/xyYtoMunsell.m*
     """
 
-    if not colour.models.cie_xyy.is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
+    if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         raise ValueError(
             "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
@@ -1222,30 +1208,28 @@ def xyY_to_munsell_specification(xyY):
 
     # Scaling *Y* for algorithm needs.
     value = munsell_value_ASTM_D1535_08(Y * 100)
-    if colour.algebra.common.is_even_integer(value):
+    if is_even_integer(value):
         value = round(value)
 
     x_center, y_center, Y_center = np.ravel(munsell_specification_to_xyY(value))
-    z_input, theta_input, rho_input = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-        (x - x_center,
-         y - y_center,
-         Y_center))
+    z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
+                                                                y - y_center,
+                                                                Y_center))
     theta_input = math.degrees(theta_input)
 
     grey_threshold = 0.001
     if rho_input < grey_threshold:
         return value
 
-    X, Y, Z = np.ravel(colour.models.cie_xyy.xyY_to_XYZ((x, y, Y)))
+    X, Y, Z = np.ravel(xyY_to_XYZ((x, y, Y)))
     xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
-    Xr, Yr, Zr = np.ravel(colour.models.cie_xyy.xyY_to_XYZ((xi, yi, Y)))
+    Xr, Yr, Zr = np.ravel(xyY_to_XYZ((xi, yi, Y)))
 
     XYZ = np.array((X, Y, Z))
     XYZr = np.array(((1. / Yr) * Xr, 1., (1. / Yr) * Zr))
 
-    Lab = colour.models.cie_lab.XYZ_to_Lab(XYZ,
-                                                             colour.models.cie_xyy.XYZ_to_xy(XYZr))
-    LCHab = colour.models.cie_lab.Lab_to_LCHab(Lab)
+    Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
+    LCHab = Lab_to_LCHab(Lab)
     hue_initial, value_initial, chroma_initial, code_initial = LCHab_to_munsell_specification(LCHab)
     specification_current = [hue_initial, value, (5. / 5.5) * chroma_initial, code_initial]
 
@@ -1265,10 +1249,9 @@ def xyY_to_munsell_specification(xyY):
 
         x_current, y_current, Y_current = np.ravel(munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-            (x_current - x_center,
-             y_current - y_center,
-             Y_center))
+        z_current, theta_current, rho_current = cartesian_to_cylindrical((x_current - x_center,
+                                                                          y_current - y_center,
+                                                                          Y_center))
         theta_current = math.degrees(theta_current)
         theta_current_difference = (360 - theta_input + theta_current) % 360
         if theta_current_difference > 180:
@@ -1301,10 +1284,9 @@ def xyY_to_munsell_specification(xyY):
                 extrapolate = True
 
             if extrapolate is False:
-                z_inner, theta_inner, rho_inner = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-                    (x_inner - x_center,
-                     y_inner - y_center,
-                     Y_center))
+                z_inner, theta_inner, rho_inner = cartesian_to_cylindrical((x_inner - x_center,
+                                                                            y_inner - y_center,
+                                                                            Y_center))
                 theta_inner = math.degrees(theta_inner)
                 theta_inner_difference = (360 - theta_input + theta_inner) % 360
                 if theta_inner_difference > 180:
@@ -1342,10 +1324,9 @@ def xyY_to_munsell_specification(xyY):
 
         x_current, y_current, Y_current = np.ravel(munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-            (x_current - x_center,
-             y_current - y_center,
-             Y_center))
+        z_current, theta_current, rho_current = cartesian_to_cylindrical((x_current - x_center,
+                                                                          y_current - y_center,
+                                                                          Y_center))
 
         rho_bounds = [rho_current]
         chroma_bounds = [chroma_current]
@@ -1365,10 +1346,9 @@ def xyY_to_munsell_specification(xyY):
             specification_inner = (hue_current, value, chroma_inner, code_current)
             x_inner, y_inner, Y_inner = np.ravel(munsell_specification_to_xyY(specification_inner))
 
-            z_inner, theta_inner, rho_inner = colour.algebra.coordinates.transformations.cartesian_to_cylindrical(
-                (x_inner - x_center,
-                 y_inner - y_center,
-                 Y_center))
+            z_inner, theta_inner, rho_inner = cartesian_to_cylindrical((x_inner - x_center,
+                                                                        y_inner - y_center,
+                                                                        Y_center))
 
             rho_bounds.append(rho_inner)
             chroma_bounds.append(chroma_inner)
