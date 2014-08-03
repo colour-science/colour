@@ -31,7 +31,7 @@ import pylab
 
 from colour.colorimetry import CMFS, ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_FUNCTIONS, spectral_to_XYZ, \
     wavelength_to_XYZ, blackbody_spectral_power_distribution
-from colour.fitting.dataset import COLOURCHECKERS
+from colour.characterization import COLOURCHECKERS
 from colour.models import POINTER_GAMUT_DATA, RGB_COLOURSPACES
 from colour.models import XYZ_to_RGB, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xy, UCS_to_uv, xy_to_XYZ, xyY_to_XYZ, XYZ_to_Luv, \
     Luv_to_uv, Luv_uv_to_xy

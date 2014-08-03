@@ -7,7 +7,7 @@ Showcases some **Colour** package colour fitting related examples.
 
 import numpy as np
 
-import colour.fitting
+import colour.characterization
 
 
 # Fitting measured *ColorChecker* colour rendition chart data to a reference one.
@@ -61,4 +61,4 @@ measured = np.array([[0.1557955891, 0.09715754539, 0.07514556497],
                         [0.102839753, 0.1042467952, 0.1038497463],
                         [0.04742204025, 0.04772202671, 0.04914225638]])
 
-print(colour.fitting.first_order_colour_fit(reference, measured))
+print(colour.characterization.fitting.first_order_colour_fit(reference, measured))

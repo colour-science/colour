@@ -25,9 +25,8 @@ from . import colorimetry
 from . import constants
 from .difference import *
 from . import difference
-from .fitting import *
-from . import fitting
-from .fitting.dataset import COLOURCHECKERS, COLOURCHECKERS_SPDS
+from .characterization import *
+from . import characterization
 from .models import *
 from . import models
 from .notation import *
@@ -40,10 +39,9 @@ from . import temperature
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
+__all__ += characterization.__all__
 __all__ += colorimetry.__all__
 __all__ += difference.__all__
-__all__ += fitting.__all__
-__all__ += ["COLOURCHECKERS", "COLOURCHECKERS_SPDS"]
 __all__ += models.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
@@ -60,5 +58,5 @@ __application_name__ = "Colour"
 
 __major_version__ = "0"
 __minor_version__ = "2"
-__change_version__ = "0"
+__change_version__ = "1"
 __version__ = ".".join((__major_version__, __minor_version__, __change_version__))

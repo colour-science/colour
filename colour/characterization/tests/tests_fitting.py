@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.fitting` package.
+    Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
 
 **Others:**
 
@@ -26,7 +26,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.fitting import first_order_colour_fit
+from colour.characterization.fitting import first_order_colour_fit
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -94,12 +94,12 @@ M2 = np.array([
 
 class TestFirstOrderColourFit(unittest.TestCase):
     """
-    Defines :func:`colour.fitting.first_order_colour_fit` definition units tests methods.
+    Defines :func:`colour.characterization.fitting.first_order_colour_fit` definition units tests methods.
     """
 
     def test_first_order_colour_fit(self):
         """
-        Tests :func:`colour.fitting.first_order_colour_fit` definition.
+        Tests :func:`colour.characterization.fitting.first_order_colour_fit` definition.
         """
 
         np.testing.assert_almost_equal(
