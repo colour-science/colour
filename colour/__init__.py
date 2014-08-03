@@ -32,6 +32,10 @@ from .models import *
 from . import models
 from .notation import *
 from . import notation
+from .quality import *
+from . import quality
+from .temperature import *
+from . import temperature
 
 __all__ = []
 __all__ += adaptation.__all__
@@ -42,6 +46,8 @@ __all__ += fitting.__all__
 __all__ += ["COLOURCHECKERS", "COLOURCHECKERS_SPDS"]
 __all__ += models.__all__
 __all__ += notation.__all__
+__all__ += quality.__all__
+__all__ += temperature.__all__
 
 print __all__
 
@@ -110,8 +116,8 @@ from colour.colorimetry.luminance import LUMINANCE_FUNCTIONS
 from colour.colorimetry.spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
 from colour.colorimetry.cct import CCT_to_uv, CCT_to_uv_ohno2013, CCT_to_uv_robertson1968
 from colour.colorimetry.cct import uv_to_CCT, uv_to_CCT_ohno2013, uv_to_CCT_robertson1968
-from colour.colorimetry.cct import CCT_to_xy, CCT_to_xy_kang, CCT_to_xy_illuminant_D
-from colour.colorimetry.cct import xy_to_CCT, xy_to_CCT_mccamy, xy_to_CCT_hernandez
+from colour.colorimetry.cct import CCT_to_xy, CCT_to_xy_kang2002, CCT_to_xy_illuminant_D
+from colour.colorimetry.cct import xy_to_CCT, xy_to_CCT_mccamy1992, xy_to_CCT_hernandez1999
 from colour.colorimetry.tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
 from colour.colorimetry.dataset.cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
@@ -264,8 +270,8 @@ __all__.extend(["SpectralPowerDistribution", "TriSpectralPowerDistribution"])
 # *colour.colorimetry.cct* objects.
 __all__.extend(["CCT_to_uv", "CCT_to_uv_ohno2013", "CCT_to_uv_robertson1968",
                 "uv_to_CCT", "uv_to_CCT_ohno2013", "uv_to_CCT_robertson1968",
-                "CCT_to_xy", "CCT_to_xy_kang", "CCT_to_xy_illuminant_D",
-                "xy_to_CCT", "xy_to_CCT_mccamy", "xy_to_CCT_hernandez"])
+                "CCT_to_xy", "CCT_to_xy_kang2002", "CCT_to_xy_illuminant_D",
+                "xy_to_CCT", "xy_to_CCT_mccamy1992", "xy_to_CCT_hernandez1999"])
 
 # *colour.colorimetry.tristimulus* objects.
 __all__.extend(["spectral_to_XYZ", "wavelength_to_XYZ"])

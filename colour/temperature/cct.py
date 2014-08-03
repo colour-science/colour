@@ -25,16 +25,12 @@
 from __future__ import unicode_literals
 
 import math
+import numpy as np
 from collections import namedtuple
 
-import numpy as np
-
-import colour.colorimetry.blackbody
-import colour.models.cie_ucs
-import colour.colorimetry.tristimulus
-import colour.colorimetry.dataset.cmfs
-import colour.utilities.verbose
-
+from colour.colorimetry import STANDARD_OBSERVERS_CMFS, blackbody_spectral_power_distribution, spectral_to_XYZ
+from colour.models import UCS_to_uv, XYZ_to_UCS
+from colour.utilities import warning
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -57,13 +53,17 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "CCT_to_uv_ohno2013",
            "uv_to_CCT_robertson1968",
            "CCT_to_uv_robertson1968",
+           "UV_TO_CCT_METHODS",
            "uv_to_CCT",
+           "CCT_TO_UV_METHODS",
            "CCT_to_uv",
-           "xy_to_CCT_mccamy",
-           "xy_to_CCT_hernandez",
-           "CCT_to_xy_kang",
+           "xy_to_CCT_mccamy1992",
+           "xy_to_CCT_hernandez1999",
+           "CCT_to_xy_kang2002",
            "CCT_to_xy_illuminant_D",
+           "XY_TO_CCT_METHODS",
            "xy_to_CCT",
+           "CCT_TO_XY_METHODS",
            "CCT_to_xy"]
 
 PLANCKIAN_TABLE_TUVD = namedtuple("PlanckianTable_Tuvdi", ("Ti", "ui", "vi", "di"))
@@ -154,11 +154,11 @@ def get_planckian_table(uv, cmfs, start, end, count):
 
     planckian_table = []
     for Ti in np.linspace(start, end, count):
-        spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(Ti, *cmfs.shape)
-        XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
+        spd = blackbody_spectral_power_distribution(Ti, *cmfs.shape)
+        XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / np.max(XYZ)
-        UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
-        ui, vi = colour.models.cie_ucs.UCS_to_uv(UVW)
+        UVW = XYZ_to_UCS(XYZ)
+        ui, vi = UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
         planckian_table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
@@ -186,14 +186,14 @@ def get_planckian_table_minimal_distance_index(planckian_table):
 
 
 def uv_to_CCT_ohno2013(uv,
-                       cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
+                       cmfs=STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
                        start=CCT_MINIMAL,
                        end=CCT_MAXIMAL,
                        count=CCT_SAMPLES,
                        iterations=CCT_CALCULATION_ITERATIONS):
     """
     | Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates,
-        colour matching functions and temperature range using *Yoshi Ohno* calculation methods.
+        colour matching functions and temperature range using *Yoshi Ohno* 2013 calculation methods.
     | The iterations parameter defines the calculations precision: The higher its value, the more planckian tables
         will be generated through cascade expansion in order to converge to the exact solution.
 
@@ -228,12 +228,12 @@ def uv_to_CCT_ohno2013(uv,
         planckian_table = get_planckian_table(uv, cmfs, start, end, count)
         index = get_planckian_table_minimal_distance_index(planckian_table)
         if index == 0:
-            colour.utilities.verbose.warning(
+            warning(
                 "!> {0} | Minimal distance index is on lowest planckian table bound, unpredictable results may occur!".format(
                     __name__))
             index += 1
         elif index == len(planckian_table) - 1:
-            colour.utilities.verbose.warning(
+            warning(
                 "!> {0} | Minimal distance index is on highest planckian table bound, unpredictable results may occur!".format(
                     __name__))
             index -= 1
@@ -273,10 +273,10 @@ def uv_to_CCT_ohno2013(uv,
 
 def CCT_to_uv_ohno2013(CCT,
                        Duv=0.,
-                       cmfs=colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
+                       cmfs=STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature, Duv and
-    colour matching functions using *Yoshi Ohno* calculation methods.
+    colour matching functions using *Yoshi Ohno* 2013 calculation methods.
 
     Usage::
 
@@ -296,20 +296,20 @@ def CCT_to_uv_ohno2013(CCT,
 
     delta = 0.01
 
-    spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(CCT, *cmfs.shape)
-    XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
+    spd = blackbody_spectral_power_distribution(CCT, *cmfs.shape)
+    XYZ = spectral_to_XYZ(spd, cmfs)
     XYZ *= 1. / np.max(XYZ)
-    UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
-    u0, v0 = colour.models.cie_ucs.UCS_to_uv(UVW)
+    UVW = XYZ_to_UCS(XYZ)
+    u0, v0 = UCS_to_uv(UVW)
 
     if Duv == 0.:
         return u0, v0
     else:
-        spd = colour.colorimetry.blackbody.blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
-        XYZ = colour.colorimetry.tristimulus.spectral_to_XYZ(spd, cmfs)
+        spd = blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
+        XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ *= 1. / np.max(XYZ)
-        UVW = colour.models.cie_ucs.XYZ_to_UCS(XYZ)
-        u1, v1 = colour.models.cie_ucs.UCS_to_uv(UVW)
+        UVW = XYZ_to_UCS(XYZ)
+        u1, v1 = UCS_to_uv(UVW)
 
         du = u0 - u1
         dv = v0 - v1
@@ -323,7 +323,7 @@ def CCT_to_uv_ohno2013(CCT,
 def uv_to_CCT_robertson1968(uv):
     """
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
-    using *Roberston* calculation method.
+    using *Roberston* 1968 calculation method.
 
     Usage::
 
@@ -403,7 +403,7 @@ def uv_to_CCT_robertson1968(uv):
 def CCT_to_uv_robertson1968(CCT, Duv=0.):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and
-    Duv using *Roberston* calculation method.
+    Duv using *Roberston* 1968 calculation method.
 
     Usage::
 
@@ -463,7 +463,11 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
             return u, v
 
 
-def uv_to_CCT(uv, method="Ohno", **kwargs):
+UV_TO_CCT_METHODS = {"Ohno 2013": uv_to_CCT_ohno2013,
+                     "Roberston 1968": uv_to_CCT_robertson1968}
+
+
+def uv_to_CCT(uv, method="Ohno 2013", **kwargs):
     """
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
     using given calculation method.
@@ -471,25 +475,29 @@ def uv_to_CCT(uv, method="Ohno", **kwargs):
     :param uv: *uv* chromaticity coordinates.
     :type uv: array_like
     :param method: Calculation method.
-    :type method: unicode ("Ohno", "Robertson")
+    :type method: unicode ("Ohno 2013", "Robertson 1968")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: Correlated colour temperature, Duv.
     :rtype: tuple
     """
 
-    if method == "Ohno":
-        return uv_to_CCT_ohno2013(uv, **kwargs)
+    if method == "Ohno 2013":
+        return UV_TO_CCT_METHODS.get(method)(uv, **kwargs)
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise ValueError(
-                    "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
+                    "Roberston 1968 calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
-        return uv_to_CCT_robertson1968(uv)
+        return UV_TO_CCT_METHODS.get(method)(uv)
 
 
-def CCT_to_uv(CCT, Duv=0., method="Ohno", **kwargs):
+CCT_TO_UV_METHODS = {"Ohno 2013": CCT_to_uv_ohno2013,
+                     "Roberston 1968": CCT_to_uv_robertson1968}
+
+
+def CCT_to_uv(CCT, Duv=0., method="Ohno 2013", **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature
     and Duv using given calculation method.
@@ -499,32 +507,32 @@ def CCT_to_uv(CCT, Duv=0., method="Ohno", **kwargs):
     :param Duv: Duv.
     :type Duv: float
     :param method: Calculation method.
-    :type method: unicode ("Ohno", "Robertson")
+    :type method: unicode ("Ohno 2013", "Robertson 1968")
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
     """
 
-    if method == "Ohno":
-        return CCT_to_uv_ohno2013(CCT, Duv, **kwargs)
+    if method == "Ohno 2013":
+        return UV_TO_CCT_METHODS.get(method)(CCT, Duv, **kwargs)
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise ValueError(
                     "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
-        return CCT_to_uv_robertson1968(CCT, Duv)
+        return UV_TO_CCT_METHODS.get(method)(CCT, Duv)
 
 
-def xy_to_CCT_mccamy(xy):
+def xy_to_CCT_mccamy1992(xy):
     """
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *McCamy* calculation method.
+    *McCamy* 1992 calculation method.
 
     Usage::
 
-        >>> xy_to_CCT_mccamy((0.31271, 0.32902))
+        >>> xy_to_CCT_mccamy1992((0.31271, 0.32902))
         6504.38938305
 
     :param xy: *xy* chromaticity coordinates.
@@ -546,14 +554,14 @@ def xy_to_CCT_mccamy(xy):
     return CCT
 
 
-def xy_to_CCT_hernandez(xy):
+def xy_to_CCT_hernandez1999(xy):
     """
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *Hernandez-Andres, Lee & Romero* calculation method.
+    *Hernandez-Andres, Lee & Romero* 1999 calculation method.
 
     Usage::
 
-        >>> xy_to_CCT_hernandez((0.31271, 0.32902))
+        >>> xy_to_CCT_hernandez1999((0.31271, 0.32902))
         6500.04215334
 
     :param xy: *xy* chromaticity coordinates.
@@ -564,7 +572,8 @@ def xy_to_CCT_hernandez(xy):
 
     References:
 
-    -  `<http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
+    -  `Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities \
+    <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
     """
 
     x, y = xy
@@ -584,14 +593,14 @@ def xy_to_CCT_hernandez(xy):
     return CCT
 
 
-def CCT_to_xy_kang(CCT):
+def CCT_to_xy_kang2002(CCT):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given correlated colour temperature
-    using *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.
+    using *Kang, Moon, Hong, Lee, Cho and Kim* 2002 calculation method.
 
     Usage::
 
-        >>> CCT_to_xy_kang((0.31271, 0.32902))
+        >>> CCT_to_xy_kang2002((0.31271, 0.32902))
         (0.3127077520604209, 0.3291128338173629)
 
     :param CCT: Correlated colour temperature.
@@ -650,7 +659,11 @@ def CCT_to_xy_illuminant_D(CCT):
     return x, y
 
 
-def xy_to_CCT(xy, method="McCamy", **kwargs):
+XY_TO_CCT_METHODS = {"McCamy 1992": xy_to_CCT_mccamy1992,
+                     "Hernandez 1999": xy_to_CCT_hernandez1999}
+
+
+def xy_to_CCT(xy, method="McCamy 1992", **kwargs):
     """
     Returns the correlated colour temperature from given *CIE XYZ* colourspace *xy* chromaticity coordinates
     using given calculation method.
@@ -658,18 +671,19 @@ def xy_to_CCT(xy, method="McCamy", **kwargs):
     :param xy: *xy* chromaticity coordinates.
     :type xy: array_like
     :param method: Calculation method.
-    :type method: unicode ("McCamy", "Hernandez-Andres, Lee & Romero")
+    :type method: unicode ("McCamy 1992", "Hernandez 1999")
     :return: Correlated colour temperature.
     :rtype: float
     """
 
-    if method == "McCamy":
-        return xy_to_CCT_mccamy(xy)
-    else:
-        return xy_to_CCT_hernandez(xy)
+    return XY_TO_CCT_METHODS.get(method)(xy)
 
 
-def CCT_to_xy(CCT, method="Kang, Moon, Hong, Lee, Cho and Kim"):
+CCT_TO_XY_METHODS = {"Kang 2002": CCT_to_xy_kang2002,
+                     "CIE Illuminant D Series": CCT_to_xy_illuminant_D}
+
+
+def CCT_to_xy(CCT, method="Kang 2002"):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given correlated colour temperature
     using given calculation method.
@@ -677,12 +691,9 @@ def CCT_to_xy(CCT, method="Kang, Moon, Hong, Lee, Cho and Kim"):
     :param CCT: Correlated colour temperature.
     :type CCT: float
     :param method: Calculation method.
-    :type method: unicode ("Kang, Moon, Hong, Lee, Cho and Kim", "CIE Illuminant D Series")
+    :type method: unicode ("Kang 2002", "CIE Illuminant D Series")
     :return: *xy* chromaticity coordinates.
     :rtype: tuple
     """
 
-    if method == "Kang, Moon, Hong, Lee, Cho and Kim":
-        return CCT_to_xy_kang(CCT)
-    else:
-        return CCT_to_xy_illuminant_D(CCT)
+    return CCT_TO_XY_METHODS.get(method)(CCT)

@@ -37,7 +37,7 @@ print(colour.xy_to_CCT(xy, method="Hernandez-Andres, Lee & Romero"))
 
 # From correlated colour temperature to *xy* chromaticity coordinates.
 # *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.
-print(colour.CCT_to_xy_kang(6503.4925414981535))
+print(colour.CCT_to_xy_kang2002(6503.4925414981535))
 
 # *CIE Illuminant D Series* calculation method.
 print(colour.CCT_to_xy_illuminant_D(6503.4925414981535))

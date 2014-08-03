@@ -8,7 +8,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.colorimetry.cct` module.
+    Defines units tests for :mod:`colour.temperature.cct` module.
 
 **Others:**
 
@@ -17,17 +17,19 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy as np
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-import colour.temperature.cct
-import colour.colorimetry.dataset.cmfs
+from colour.colorimetry import STANDARD_OBSERVERS_CMFS
+from colour.temperature import CCT_to_uv_ohno2013, CCT_to_uv_robertson1968
+from colour.temperature import uv_to_CCT_ohno2013, uv_to_CCT_robertson1968
+from colour.temperature import CCT_to_xy_kang2002, CCT_to_xy_illuminant_D
+from colour.temperature import xy_to_CCT_mccamy1992, xy_to_CCT_hernandez1999
+from colour.temperature.cct import PLANCKIAN_TABLE_TUVD, get_planckian_table, get_planckian_table_minimal_distance_index
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -42,32 +44,22 @@ __all__ = ["TestGetPlanckianTable",
            "TestCCT_to_uv_ohno2013",
            "Testuv_to_CCT_robertson1968",
            "TestCCT_to_uv_robertson1968",
-           "Testxy_to_CCT_mccamy",
-           "Testxy_to_CCT_hernandez",
-           "TestCCT_to_xy_kang",
+           "Testxy_to_CCT_mccamy1992",
+           "Testxy_to_CCT_hernandez1999",
+           "TestCCT_to_xy_kang2002",
            "TestCCT_to_xy_illuminant_D"]
 
 PLANCKIAN_TABLE = [
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786,
-                                                        vi=0.35462498085812383, di=0.25378213254223697),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1001.1111111111111, ui=0.44775082571296082,
-                                                        vi=0.35464751834928576, di=0.25352949944454956),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1002.2222222222222, ui=0.4474910632226583,
-                                                        vi=0.35467001024049455, di=0.25327717785676873),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1003.3333333333334, ui=0.44723160701057407,
-                                                        vi=0.35469245651987269, di=0.253025167595974),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1004.4444444444445, ui=0.44697245691544729,
-                                                        vi=0.35471485717585538, di=0.2527734684771403),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1005.5555555555555, ui=0.44671361277394045,
-                                                        vi=0.35473721219718934, di=0.25252208031315576),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1006.6666666666666, ui=0.44645507442066867,
-                                                        vi=0.35475952157292978, di=0.2522710029148514),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1007.7777777777778, ui=0.446196841688206,
-                                                        vi=0.35478178529244025, di=0.2520202360910075),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1008.8888888888889, ui=0.44593891440711669,
-                                                        vi=0.35480400334538981, di=0.2517697796483851),
-    colour.temperature.cct.PLANCKIAN_TABLE_TUVD(Ti=1010.0, ui=0.44568129240596821,
-                                                        vi=0.35482617572175207, di=0.25151963339173905)]
+    PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786, vi=0.35462498085812383, di=0.25378213254223697),
+    PLANCKIAN_TABLE_TUVD(Ti=1001.1111111111111, ui=0.44775082571296082, vi=0.35464751834928576, di=0.25352949944454956),
+    PLANCKIAN_TABLE_TUVD(Ti=1002.2222222222222, ui=0.4474910632226583, vi=0.35467001024049455, di=0.25327717785676873),
+    PLANCKIAN_TABLE_TUVD(Ti=1003.3333333333334, ui=0.44723160701057407, vi=0.35469245651987269, di=0.253025167595974),
+    PLANCKIAN_TABLE_TUVD(Ti=1004.4444444444445, ui=0.44697245691544729, vi=0.35471485717585538, di=0.2527734684771403),
+    PLANCKIAN_TABLE_TUVD(Ti=1005.5555555555555, ui=0.44671361277394045, vi=0.35473721219718934, di=0.25252208031315576),
+    PLANCKIAN_TABLE_TUVD(Ti=1006.6666666666666, ui=0.44645507442066867, vi=0.35475952157292978, di=0.2522710029148514),
+    PLANCKIAN_TABLE_TUVD(Ti=1007.7777777777778, ui=0.446196841688206, vi=0.35478178529244025, di=0.2520202360910075),
+    PLANCKIAN_TABLE_TUVD(Ti=1008.8888888888889, ui=0.44593891440711669, vi=0.35480400334538981, di=0.2517697796483851),
+    PLANCKIAN_TABLE_TUVD(Ti=1010.0, ui=0.44568129240596821, vi=0.35482617572175207, di=0.25151963339173905)]
 
 TEMPERATURE_DUV_TO_UV = {
     (2000, -0.05): (0.3094482846381184, 0.309263824757947),
@@ -174,209 +166,195 @@ TEMPERATURE_DUV_TO_UV = {
 
 class TestGetPlanckianTable(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.get_planckian_table` definition units tests methods.
+    Defines :func:`colour.temperature.cct.get_planckian_table` definition units tests methods.
     """
 
     def test_get_planckian_table(self):
         """
-        Tests :func:`colour.colorimetry.cct.get_planckian_table` definition.
+        Tests :func:`colour.temperature.cct.get_planckian_table` definition.
         """
 
-        cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
+        cmfs = STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
-            map(to_list, colour.temperature.cct.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+            map(to_list, get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
             map(to_list, PLANCKIAN_TABLE))
 
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.get_planckian_table_minimal_distance_index` definition units tests methods.
+    Defines :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index` definition units tests methods.
     """
 
     def test_get_planckian_table_minimal_distance_index(self):
         """
-        Tests :func:`colour.colorimetry.cct.get_planckian_table_minimal_distance_index` definition.
+        Tests :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
+        cmfs = STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
-        self.assertEqual(colour.temperature.cct.get_planckian_table_minimal_distance_index(
-            colour.temperature.cct.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
-                         9)
+        self.assertEqual(
+            get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)),
+            9)
 
 
 class Testuv_to_CCT_ohno2013(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.uv_to_CCT_ohno2013` definition units tests methods.
+    Defines :func:`colour.temperature.cct.uv_to_CCT_ohno2013` definition units tests methods.
     """
 
     def test_uv_to_CCT_ohno2013(self):
         """
-        Tests :func:`colour.colorimetry.cct.uv_to_CCT_ohno2013` definition.
+        Tests :func:`colour.temperature.cct.uv_to_CCT_ohno2013` definition.
         """
 
-        cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
+        cmfs = STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         np.testing.assert_almost_equal(
-            colour.temperature.cct.uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs),
+            uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs),
             (6507.5470349001507, 0.0032236908012382953),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.temperature.cct.uv_to_CCT_ohno2013((0.4328, 0.2883), cmfs),
+            uv_to_CCT_ohno2013((0.4328, 0.2883), cmfs),
             (1041.8672179878763, -0.067377582642145384),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            colour.temperature.cct.uv_to_CCT_ohno2013((0.2927, 0.2722), cmfs, iterations=4),
+            uv_to_CCT_ohno2013((0.2927, 0.2722), cmfs, iterations=4),
             (2452.1932942782669, -0.084369982045528508),
             decimal=7)
 
 
 class TestCCT_to_uv_ohno2013(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.CCT_to_uv_ohno2013` definition units tests methods.
+    Defines :func:`colour.temperature.cct.CCT_to_uv_ohno2013` definition units tests methods.
     """
 
     def test_CCT_to_uv_ohno2013(self):
         """
-        Tests :func:`colour.colorimetry.cct.CCT_to_uv_ohno2013` definition.
+        Tests :func:`colour.temperature.cct.CCT_to_uv_ohno2013` definition.
         """
 
-        cmfs = colour.colorimetry.dataset.cmfs.STANDARD_OBSERVERS_CMFS.get(
+        cmfs = STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
         np.testing.assert_almost_equal(
-            colour.temperature.cct.CCT_to_uv_ohno2013(6507.4342201047066, 0.003223690901512735, cmfs),
+            CCT_to_uv_ohno2013(6507.4342201047066, 0.003223690901512735, cmfs),
             (0.19780034881616862, 0.31220050291046603),
             decimal=7)
         np.testing.assert_almost_equal(
-            colour.temperature.cct.CCT_to_uv_ohno2013(1041.849524611546, -0.067377582728534946, cmfs),
+            CCT_to_uv_ohno2013(1041.849524611546, -0.067377582728534946, cmfs),
             (0.43280250331413772, 0.28829975758516474),
             decimal=7)
         np.testing.assert_almost_equal(
-            colour.temperature.cct.CCT_to_uv_ohno2013(2448.9489053326438, -0.084324704634692743, cmfs),
+            CCT_to_uv_ohno2013(2448.9489053326438, -0.084324704634692743, cmfs),
             (0.29256616302348853, 0.27221773141874955),
             decimal=7)
 
 
 class Testuv_to_CCT_robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.uv_to_CCT_robertson1968` definition units tests methods.
+    Defines :func:`colour.temperature.cct.uv_to_CCT_robertson1968` definition units tests methods.
     """
 
     def test_uv_to_CCT_robertson1968(self):
         """
-        Tests :func:`colour.colorimetry.cct.uv_to_CCT_robertson1968` definition.
+        Tests :func:`colour.temperature.cct.uv_to_CCT_robertson1968` definition.
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
-            np.testing.assert_almost_equal(colour.temperature.cct.uv_to_CCT_robertson1968(value), key,
-                                              decimal=0)
+            np.testing.assert_almost_equal(uv_to_CCT_robertson1968(value), key,
+                                           decimal=0)
 
 
 class TestCCT_to_uv_robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.CCT_to_uv_robertson1968` definition units tests methods.
+    Defines :func:`colour.temperature.cct.CCT_to_uv_robertson1968` definition units tests methods.
     """
 
     def test_CCT_to_uv_robertson1968(self):
         """
-        Tests :func:`colour.colorimetry.cct.CCT_to_uv_robertson1968` definition.
+        Tests :func:`colour.temperature.cct.CCT_to_uv_robertson1968` definition.
         """
 
         for i in range(2000, 49501, 2500):
             for j in np.arange(-0.05, 0.075, 0.025):
-                np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_uv_robertson1968(i, j),
-                                                  TEMPERATURE_DUV_TO_UV.get((i, j)),
-                                                  decimal=7)
+                np.testing.assert_almost_equal(CCT_to_uv_robertson1968(i, j),
+                                               TEMPERATURE_DUV_TO_UV.get((i, j)),
+                                               decimal=7)
 
 
-class Testxy_to_CCT_mccamy(unittest.TestCase):
+class Testxy_to_CCT_mccamy1992(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.xy_to_CCT_mccamy` definition units tests methods.
+    Defines :func:`colour.temperature.cct.xy_to_CCT_mccamy1992` definition units tests methods.
     """
 
-    def test_xy_to_CCT_mccamy(self):
+    def test_xy_to_CCT_mccamy1992(self):
         """
-        Tests :func:`colour.colorimetry.cct.xy_to_CCT_mccamy` definition.
+        Tests :func:`colour.temperature.cct.xy_to_CCT_mccamy1992` definition.
         """
 
-        self.assertAlmostEqual(colour.temperature.cct.xy_to_CCT_mccamy((0.31271, 0.32902)),
-                               6504.38938305,
-                               places=7)
-        self.assertAlmostEqual(colour.temperature.cct.xy_to_CCT_mccamy((0.44757, 0.40745)),
-                               2857.28961266,
-                               places=7)
+        self.assertAlmostEqual(xy_to_CCT_mccamy1992((0.31271, 0.32902)), 6504.38938305, places=7)
+        self.assertAlmostEqual(xy_to_CCT_mccamy1992((0.44757, 0.40745)), 2857.28961266, places=7)
+        self.assertAlmostEqual(xy_to_CCT_mccamy1992((0.25252093937408293, 0.252220883926284)), 19501.6195313, places=7)
+
+
+class Testxy_to_CCT_hernandez1999(unittest.TestCase):
+    """
+    Defines :func:`colour.temperature.cct.xy_to_CCT_hernandez1999` definition units tests methods.
+    """
+
+    def test_xy_to_CCT_hernandez1999(self):
+        """
+        Tests :func:`colour.temperature.cct.xy_to_CCT_mccamy1992` definition.
+        """
+
+        self.assertAlmostEqual(xy_to_CCT_hernandez1999((0.31271, 0.32902)), 6500.04215334, places=7)
+        self.assertAlmostEqual(xy_to_CCT_hernandez1999((0.44757, 0.40745)), 2790.64222533, places=7)
         self.assertAlmostEqual(
-            colour.temperature.cct.xy_to_CCT_mccamy((0.25252093937408293, 0.252220883926284)),
-            19501.6195313,
-            places=7)
-
-
-class Testxy_to_CCT_hernandez(unittest.TestCase):
-    """
-    Defines :func:`colour.colorimetry.cct.xy_to_CCT_hernandez` definition units tests methods.
-    """
-
-    def test_xy_to_CCT_hernandez(self):
-        """
-        Tests :func:`colour.colorimetry.cct.xy_to_CCT_mccamy` definition.
-        """
-
-        self.assertAlmostEqual(colour.temperature.cct.xy_to_CCT_hernandez((0.31271, 0.32902)),
-                               6500.04215334,
-                               places=7)
-        self.assertAlmostEqual(colour.temperature.cct.xy_to_CCT_hernandez((0.44757, 0.40745)),
-                               2790.64222533,
-                               places=7)
-        self.assertAlmostEqual(
-            colour.temperature.cct.xy_to_CCT_hernandez((0.24416224821391358, 0.24033367475831827)),
+            xy_to_CCT_hernandez1999((0.24416224821391358, 0.24033367475831827)),
             64448.110925653324,
             places=7)
 
 
-class TestCCT_to_xy_kang(unittest.TestCase):
+class TestCCT_to_xy_kang2002(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.CCT_to_xy_kang` definition units tests methods.
+    Defines :func:`colour.temperature.cct.CCT_to_xy_kang2002` definition units tests methods.
     """
 
-    def test_CCT_to_xy_kang(self):
+    def test_CCT_to_xy_kang2002(self):
         """
-        Tests :func:`colour.colorimetry.cct.CCT_to_xy_kang` definition.
+        Tests :func:`colour.temperature.cct.CCT_to_xy_kang2002` definition.
         """
 
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_kang(4000),
-                                          (0.38052828281249995, 0.3767335309611144),
-                                          decimal=7)
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_kang(7000),
-                                          (0.30637401953352766, 0.31655286972657715),
-                                          decimal=7)
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_kang(25000),
-                                          (0.2524729944384, 0.2522547912436536),
-                                          decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_kang2002(4000), (0.38052828281249995, 0.3767335309611144), decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_kang2002(7000), (0.30637401953352766, 0.31655286972657715), decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_kang2002(25000), (0.2524729944384, 0.2522547912436536), decimal=7)
 
 
 class TestCCT_to_xy_illuminant_D(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.cct.CCT_to_xy_illuminant_D` definition units tests methods.
+    Defines :func:`colour.temperature.cct.CCT_to_xy_illuminant_D` definition units tests methods.
     """
 
     def test_CCT_to_xy_illuminant_D(self):
         """
-        Tests :func:`colour.colorimetry.cct.CCT_to_xy_illuminant_D` definition.
+        Tests :func:`colour.temperature.cct.CCT_to_xy_illuminant_D` definition.
         """
 
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_illuminant_D(4000),
-                                          (0.38234362499999996, 0.3837662610155782),
-                                          decimal=7)
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_illuminant_D(7000),
-                                          (0.3053574314868805, 0.3216463454745523),
-                                          decimal=7)
-        np.testing.assert_almost_equal(colour.temperature.cct.CCT_to_xy_illuminant_D(25000),
-                                          (0.2498536704, 0.25479946421094446),
-                                          decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_xy_illuminant_D(4000),
+            (0.38234362499999996, 0.3837662610155782),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_xy_illuminant_D(7000),
+            (0.3053574314868805, 0.3216463454745523),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_xy_illuminant_D(25000),
+            (0.2498536704, 0.25479946421094446),
+            decimal=7)
 
 
 if __name__ == "__main__":

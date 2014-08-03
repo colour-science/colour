@@ -23,9 +23,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.quality.cri
-import colour.colorimetry.dataset.illuminants.spds
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.quality import get_colour_rendering_index
+from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -131,20 +130,17 @@ class TestGetColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.quality.cri.get_colour_rendering_index(
-                colour.colorimetry.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("F2")),
+            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get("F2")),
             64.1507331494,
             places=7)
 
         self.assertAlmostEqual(
-            colour.quality.cri.get_colour_rendering_index(
-                colour.colorimetry.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS.get("A")),
+            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get("A")),
             99.9978916846,
             places=7)
 
         self.assertAlmostEqual(
-            colour.quality.cri.get_colour_rendering_index(
-                SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)),
+            get_colour_rendering_index(SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)),
             70.805836753503698,
             places=7)
 
