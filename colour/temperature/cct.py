@@ -17,7 +17,7 @@
     `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ method.
 
     :func:`colour.temperature.xy_to_CCT`, :func:`colour.temperature.CCT_to_xy` definitions are implemented from
-    *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA` attribute data is
+    *Adobe DNG SDK 1.3.0.0*, the :attr:`colour.WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA` attribute data is
     from **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
     Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 """
@@ -44,9 +44,9 @@ __all__ = ["PLANCKIAN_TABLE_TUVD",
            "CCT_MAXIMAL",
            "CCT_SAMPLES",
            "CCT_CALCULATION_ITERATIONS",
-           "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA",
-           "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT",
-           "WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES",
+           "WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA",
+           "WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT",
+           "WYSZECKI_Robertson_ISOTEMPERATURE_LINES",
            "get_planckian_table",
            "get_planckian_table_minimal_distance_index",
            "uv_to_CCT_ohno2013",
@@ -76,7 +76,7 @@ CCT_CALCULATION_ITERATIONS = 6
 # **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
 # Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 228.
 # (Reciprocal Megakelvin, CIE 1960 Chromaticity Coordinate *u*, CIE 1960 Chromaticity Coordinate *v*, Slope)
-WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
+WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
                                                 (10, 0.18066, 0.26589, -0.25479),
                                                 (20, 0.18133, 0.26846, -0.26876),
                                                 (30, 0.18208, 0.27119, -0.28539),
@@ -109,10 +109,10 @@ WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA = ((0, 0.18006, 0.26352, -0.24341),
                                                 (575, 0.32931, 0.36038, -40.770),
                                                 (600, 0.33724, 0.36051, -116.45))
 
-WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRoberston_ruvt", ("r", "u", "v", "t"))
+WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT = namedtuple("WyszeckiRobertson_ruvt", ("r", "u", "v", "t"))
 
-WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_RUVT(*x),
-                                              WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES_DATA)
+WYSZECKI_Robertson_ISOTEMPERATURE_LINES = map(lambda x: WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT(*x),
+                                              WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA)
 
 
 def get_planckian_table(uv, cmfs, start, end, count):
@@ -323,7 +323,7 @@ def CCT_to_uv_ohno2013(CCT,
 def uv_to_CCT_robertson1968(uv):
     """
     Returns the correlated colour temperature and Duv from given *CIE UCS* colourspace *uv* chromaticity coordinates
-    using *Roberston* 1968 calculation method.
+    using *Robertson* 1968 calculation method.
 
     Usage::
 
@@ -338,7 +338,7 @@ def uv_to_CCT_robertson1968(uv):
 
     References:
 
-    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    -  **A. R. Robertson**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Set_xy_coord*.
     - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
     Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
@@ -349,8 +349,8 @@ def uv_to_CCT_robertson1968(uv):
     last_dt = last_dv = last_du = 0.0
 
     for i in range(1, 31):
-        wr_ruvt, wr_ruvt_previous = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
-                                    WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i - 1]
+        wr_ruvt, wr_ruvt_previous = WYSZECKI_Robertson_ISOTEMPERATURE_LINES[i], \
+                                    WYSZECKI_Robertson_ISOTEMPERATURE_LINES[i - 1]
 
         du = 1.0
         dv = wr_ruvt.t
@@ -403,7 +403,7 @@ def uv_to_CCT_robertson1968(uv):
 def CCT_to_uv_robertson1968(CCT, Duv=0.):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given correlated colour temperature and
-    Duv using *Roberston* 1968 calculation method.
+    Duv using *Robertson* 1968 calculation method.
 
     Usage::
 
@@ -420,7 +420,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
 
     References:
 
-    -  **A. R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
+    -  **A. R. Robertson**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*: \
     *dng_temperature::Get_xy_coord*.
     - **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
     Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227.
@@ -429,8 +429,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
     r = 1.0e6 / CCT
 
     for i in range(30):
-        wr_ruvt, wr_ruvt_next = WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i], \
-                                WYSZECKI_ROBERSTON_ISOTEMPERATURE_LINES[i + 1]
+        wr_ruvt, wr_ruvt_next = WYSZECKI_Robertson_ISOTEMPERATURE_LINES[i], \
+                                WYSZECKI_Robertson_ISOTEMPERATURE_LINES[i + 1]
 
         if r < wr_ruvt_next.r or i == 29:
             f = (wr_ruvt_next.r - r) / (wr_ruvt_next.r - wr_ruvt.r)
@@ -464,7 +464,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
 
 
 UV_TO_CCT_METHODS = {"Ohno 2013": uv_to_CCT_ohno2013,
-                     "Roberston 1968": uv_to_CCT_robertson1968}
+                     "Robertson 1968": uv_to_CCT_robertson1968}
 
 
 def uv_to_CCT(uv, method="Ohno 2013", **kwargs):
@@ -488,13 +488,13 @@ def uv_to_CCT(uv, method="Ohno 2013", **kwargs):
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise ValueError(
-                    "Roberston 1968 calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
+                    "Robertson 1968 calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
         return UV_TO_CCT_METHODS.get(method)(uv)
 
 
 CCT_TO_UV_METHODS = {"Ohno 2013": CCT_to_uv_ohno2013,
-                     "Roberston 1968": CCT_to_uv_robertson1968}
+                     "Robertson 1968": CCT_to_uv_robertson1968}
 
 
 def CCT_to_uv(CCT, Duv=0., method="Ohno 2013", **kwargs):
@@ -515,14 +515,14 @@ def CCT_to_uv(CCT, Duv=0., method="Ohno 2013", **kwargs):
     """
 
     if method == "Ohno 2013":
-        return UV_TO_CCT_METHODS.get(method)(CCT, Duv, **kwargs)
+        return CCT_TO_UV_METHODS.get(method)(CCT, Duv, **kwargs)
     else:
         if "cmfs" in kwargs:
             if kwargs.get("cmfs").name != "CIE 1931 2 Degree Standard Observer":
                 raise ValueError(
-                    "Roberston calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
+                    "Robertson calculation method is only valid for 'CIE 1931 2 Degree Standard Observer'!")
 
-        return UV_TO_CCT_METHODS.get(method)(CCT, Duv)
+        return CCT_TO_UV_METHODS.get(method)(CCT, Duv)
 
 
 def xy_to_CCT_mccamy1992(xy):

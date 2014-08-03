@@ -18,22 +18,22 @@ print(colour.uv_to_CCT(uv, cmfs=cmfs))
 # Faster but a lot less precise version.
 print(colour.uv_to_CCT(uv, cmfs=cmfs, iterations=3))
 
-# *Roberston* calculation method.
-print(colour.uv_to_CCT(uv, method="Robertson", cmfs=cmfs, iterations=3))
+# *Robertson* calculation method.
+print(colour.uv_to_CCT(uv, method="Robertson 1968", cmfs=cmfs, iterations=3))
 
 # From correlated colour temperature to *uv* chromaticity coordinates.
 print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, cmfs=cmfs))
 
-# *Roberston* calculation method.
-print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, method="Robertson"))
+# *Robertson* calculation method.
+print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, method="Robertson 1968"))
 
 # From *xy* chromaticity coordinates to correlated colour temperature.
 # *McCamy* calculation method.
 xy = colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-print(colour.xy_to_CCT(xy, method="McCamy"))
+print(colour.xy_to_CCT(xy, method="McCamy 1992"))
 
 # *Hernandez-Andres, Lee & Romero* calculation method.
-print(colour.xy_to_CCT(xy, method="Hernandez-Andres, Lee & Romero"))
+print(colour.xy_to_CCT(xy, method="Hernandez 1999"))
 
 # From correlated colour temperature to *xy* chromaticity coordinates.
 # *Kang, Moon, Hong, Lee, Cho and Kim* calculation method.

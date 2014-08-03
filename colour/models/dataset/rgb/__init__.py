@@ -19,7 +19,6 @@ from .ekta_space_ps5 import EKTA_SPACE_PS_5_COLOURSPACE
 from .max_rgb import MAX_RGB_COLOURSPACE
 from .ntsc_rgb import NTSC_RGB_COLOURSPACE
 from .pal_secam_rgb import PAL_SECAM_RGB_COLOURSPACE
-from .pointer_gamut import POINTER_GAMUT_DATA
 from .prophoto_rgb import PROPHOTO_RGB_COLOURSPACE
 from .rec_709 import REC_709_COLOURSPACE
 from .rec_2020 import REC_2020_COLOURSPACE
@@ -28,6 +27,8 @@ from .s_log import S_LOG_COLOURSPACE
 from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from .srgb import sRGB_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
+
+from .pointer_gamut import POINTER_GAMUT_DATA
 
 RGB_COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
                     ACES_RGB_LOG_COLOURSPACE.name: ACES_RGB_LOG_COLOURSPACE,
@@ -59,5 +60,32 @@ RGB_COLOURSPACES = {ACES_RGB_COLOURSPACE.name: ACES_RGB_COLOURSPACE,
                     XTREME_RGB_COLOURSPACE.name: XTREME_RGB_COLOURSPACE}
 
 __all__ = ["RGB_COLOURSPACES"]
-__all__ += sorted(RGB_COLOURSPACES.keys())
-__all__ = ["POINTER_GAMUT_DATA"]
+__all__ += ["ACES_RGB_COLOURSPACE",
+            "ACES_RGB_LOG_COLOURSPACE",
+            "ACES_RGB_PROXY_10_COLOURSPACE",
+            "ACES_RGB_PROXY_12_COLOURSPACE",
+            "ADOBE_RGB_1998_COLOURSPACE",
+            "ADOBE_WIDE_GAMUT_RGB_COLOURSPACE",
+            "ALEXA_WIDE_GAMUT_RGB_COLOURSPACE",
+            "APPLE_RGB_COLOURSPACE",
+            "BEST_RGB_COLOURSPACE",
+            "BETA_RGB_COLOURSPACE",
+            "CIE_RGB_COLOURSPACE",
+            "C_LOG_COLOURSPACE",
+            "COLOR_MATCH_RGB_COLOURSPACE",
+            "DCI_P3_COLOURSPACE",
+            "DON_RGB_4_COLOURSPACE",
+            "ECI_RGB_V2_COLOURSPACE",
+            "EKTA_SPACE_PS_5_COLOURSPACE",
+            "MAX_RGB_COLOURSPACE",
+            "NTSC_RGB_COLOURSPACE",
+            "PAL_SECAM_RGB_COLOURSPACE",
+            "PROPHOTO_RGB_COLOURSPACE",
+            "REC_709_COLOURSPACE",
+            "REC_2020_COLOURSPACE",
+            "RUSSELL_RGB_COLOURSPACE",
+            "S_LOG_COLOURSPACE",
+            "SMPTE_C_RGB_COLOURSPACE",
+            "sRGB_COLOURSPACE",
+            "XTREME_RGB_COLOURSPACE"]
+__all__ += ["POINTER_GAMUT_DATA"]

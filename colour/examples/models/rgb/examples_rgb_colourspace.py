@@ -26,7 +26,7 @@ cat = colour.get_chromatic_adaptation_matrix(colour.xy_to_XYZ(colour.RGB_COLOURS
                                              colour.xy_to_XYZ(colour.RGB_COLOURSPACES["sRGB"].whitepoint))
 print(np.dot(colour.RGB_COLOURSPACES["sRGB"].from_XYZ, np.dot(cat, colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ)))
 
-# Converting from *sRGB* to *Prophoto RGB*.
+# Converting from *sRGB* to *ProPhoto RGB*.
 colour.RGB_to_RGB((0.35521588, 0.41, 0.24177934),
                   colour.RGB_COLOURSPACES["sRGB"],
-                  colour.RGB_COLOURSPACES["Prophoto RGB"])
+                  colour.RGB_COLOURSPACES["ProPhoto RGB"])

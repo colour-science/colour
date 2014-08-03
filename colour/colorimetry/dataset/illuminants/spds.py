@@ -3500,6 +3500,7 @@ ILLUMINANTS_RELATIVE_SPDS = {
     "C": SpectralPowerDistribution("C", ILLUMINANTS_RELATIVE_SPDS_DATA.get("C")),
     "D50": SpectralPowerDistribution("D50", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D50")),
     "D55": SpectralPowerDistribution("D55", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D55")),
+    "D60": SpectralPowerDistribution("D60", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D60")),
     "D65": SpectralPowerDistribution("D65", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D65")),
     "D75": SpectralPowerDistribution("D75", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D75")),
     "E": SpectralPowerDistribution("E", ILLUMINANTS_RELATIVE_SPDS_DATA.get("E")),
