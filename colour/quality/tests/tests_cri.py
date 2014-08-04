@@ -24,9 +24,9 @@ else:
     import unittest
 
 from colour.quality import get_colour_rendering_index
-from colour.colorimetry import \
-    ILLUMINANTS_RELATIVE_SPDS, \
-    SpectralPowerDistribution
+from colour.colorimetry import (
+    ILLUMINANTS_RELATIVE_SPDS,
+    SpectralPowerDistribution)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

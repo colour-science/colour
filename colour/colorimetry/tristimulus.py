@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import numpy as np
 
 from colour.algebra import LinearInterpolator, SpragueInterpolator
-from colour.colorimetry import \
-    SpectralPowerDistribution, \
-    STANDARD_OBSERVERS_CMFS
+from colour.colorimetry import (
+    SpectralPowerDistribution,
+    STANDARD_OBSERVERS_CMFS)
 from colour.utilities import is_scipy_installed, memoize, warning
 
 __author__ = "Thomas Mansencal"
@@ -91,9 +91,9 @@ def spectral_to_XYZ(spd,
     illuminant = illuminant.values
     spd = spd.values
 
-    x_bar, y_bar, z_bar = cmfs.x_bar.values, \
-                          cmfs.y_bar.values, \
-                          cmfs.z_bar.values
+    x_bar, y_bar, z_bar = (cmfs.x_bar.values,
+                           cmfs.y_bar.values,
+                           cmfs.z_bar.values)
 
     x_products = spd * x_bar * illuminant
     y_products = spd * y_bar * illuminant
@@ -151,7 +151,7 @@ def wavelength_to_XYZ(wavelength,
     if wavelength not in cmfs:
         if cmfs.is_uniform():
             interpolators = [SpragueInterpolator(wavelengths,
-                                                 values[:, i]) \
+                                                 values[:, i])
                              for i in range(values.shape[-1])]
         else:
             if is_scipy_installed():
@@ -159,7 +159,7 @@ def wavelength_to_XYZ(wavelength,
 
                 interpolators = [interp1d(wavelengths,
                                           values[:, i],
-                                          kind="cubic") \
+                                          kind="cubic")
                                  for i in range(values.shape[-1])]
             else:
                 warning(
@@ -167,7 +167,7 @@ def wavelength_to_XYZ(wavelength,
                         __name__))
 
                 interpolators = [LinearInterpolator(wavelengths,
-                                                    values[:, i]) \
+                                                    values[:, i])
                                  for i in range(values.shape[-1])]
 
         return np.array([interpolator(wavelength) \

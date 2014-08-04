@@ -8,8 +8,8 @@ Showcases some **Colour** package colour plotting related examples.
 from numpy import array
 
 import colour
-from colour.characterization.dataset.colour_checkers.spds import \
-    COLOURCHECKER_INDEXES_TO_NAMES_MAPPING
+from colour.characterization.dataset.colour_checkers.spds import (
+    COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import *
 
 # Plotting a single colour.
@@ -816,8 +816,8 @@ multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
                title="Stearns Bandpass Correction")
 
 # Plotting multiple *ColorChecker* relative spectral power distributions.
-multi_spd_plot([colour.COLOURCHECKERS_SPDS.get("BabelColor Average").get(value) \
-                for key, value in \
+multi_spd_plot([colour.COLOURCHECKERS_SPDS.get("BabelColor Average").get(value)
+                for key, value in
                 sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
                use_spds_colours=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
@@ -877,8 +877,8 @@ multi_spd_plot(
     margins=[0., 0., 0., .1])
 
 # Plotting a mesopic luminous efficiency function with photopic luminance of 0.2.
-mesopic_luminous_efficiency_function = \
-    colour.mesopic_luminous_efficiency_function(0.2)
+mesopic_luminous_efficiency_function = (
+    colour.mesopic_luminous_efficiency_function(0.2))
 
 multi_spd_plot([mesopic_luminous_efficiency_function,
                 colour.PHOTOPIC_LEFS["CIE 1924 Photopic Standard Observer"],
@@ -1635,7 +1635,7 @@ multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
 
 # Plotting various *blackbodies* spectral power distributions.
 blackbodies_spds = [
-    colour.blackbody_spectral_power_distribution(i, 0, 10000, 10) \
+    colour.blackbody_spectral_power_distribution(i, 0, 10000, 10)
     for i in range(1000, 15000, 1000)]
 
 multi_spd_plot(blackbodies_spds,

@@ -147,5 +147,5 @@ def UCS_uv_to_xy(uv):
     (Last accessed 24 February 2014)
     """
 
-    return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), \
-           2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)
+    return (3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.),
+            2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.))

@@ -348,8 +348,8 @@ def HPE_to_RGB(pyb):
 
 def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
     """
-    Returns given *CMCCAT2000* transform sharpened *RGB* matrix with post adaptation non linear response compression \
-    for forward *CIECAM02* implementation.
+    Returns given *CMCCAT2000* transform sharpened *RGB* matrix with post
+    adaptation non linear response compression for forward *CIECAM02* implementation.
 
     Usage::
 
@@ -379,22 +379,22 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
     """
 
     # TODO: Check for negative values and their handling.
-    RGBc = (((400. * (FL * RGB / 100) ** 0.42) / (
-        27.13 + (FL * RGB / 100) ** 0.42)) + 0.1).reshape((3, 1))
+    RGBc = ((((400. * (FL * RGB / 100) ** 0.42) /
+              27.13 + (FL * RGB / 100) ** 0.42)) + 0.1).reshape((3, 1)))
     return RGBc
 
 
 def apply_reverse_post_adaptation_non_linear_response_compression(RGB, FL):
-    RGBp = (np.sign(RGB - 0.1) * \
-            (100. / FL) * (
-        (27.13 * np.abs(RGB - 0.1)) / (400 - np.abs(RGB - 0.1))) ** (1 / 0.42))
+    RGBp = ((np.sign(RGB - 0.1) *
+             (100. / FL) * ((27.13 * np.abs(RGB - 0.1)) /
+                            (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
     return RGBp
 
 
 def get_forward_opponent_colour_dimensions(RGB):
     """
-    Returns opponent colour dimensions from given compressed *CMCCAT2000* transform sharpened *RGB* matrix \
-    for forward *CIECAM02* implementation
+    Returns opponent colour dimensions from given compressed *CMCCAT2000*
+    transform sharpened *RGB* matrix for forward *CIECAM02* implementation
 
     Usage::
 
@@ -480,10 +480,9 @@ def get_hue_quadrature(h):
     hp = h + 360 if h < hi[0] else h
     index = bisect.bisect_left(hi, hp) - 1
 
-    H = Hi[index] + \
-        ((100 * (hp - hi[index]) / ei[index]) / (
-            (hp - hi[index]) / ei[index] + (hi[index + 1] - hp) / ei[
-                index + 1]))
+    H = (Hi[index] + ((100 * (hp - hi[index]) / ei[index]) /
+                      ((hp - hi[index]) / ei[index] +
+                       (hi[index + 1] - hp) / ei[index + 1])))
 
     return H
 

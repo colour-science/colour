@@ -24,9 +24,9 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import \
-    SpectralPowerDistribution, \
-    bandpass_correction_stearns1988
+from colour.colorimetry import (
+    SpectralPowerDistribution,
+    bandpass_correction_stearns1988)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

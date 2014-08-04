@@ -144,14 +144,13 @@ def RGB_identity_cube(name, density=20):
     :rtype: unicode
     """
 
-    cube = \
-        cmds.polyCube(w=1,
-                      h=1,
-                      d=1,
-                      sx=density,
-                      sy=density,
-                      sz=density,
-                      ch=False)[0]
+    cube = cmds.polyCube(w=1,
+                         h=1,
+                         d=1,
+                         sx=density,
+                         sy=density,
+                         sz=density,
+                         ch=False)[0]
     set_attributes({"{0}.translateX".format(cube): .5,
                     "{0}.translateY".format(cube): .5,
                     "{0}.translateZ".format(cube): .5})

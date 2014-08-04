@@ -64,7 +64,8 @@ def linear_regression(y, x=None, additional_statistics=False):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/Simple_linear_regression (Last accessed 24 May 2014)
+    -  http://en.wikipedia.org/wiki/Simple_linear_regression \
+    (Last accessed 24 May 2014)
     """
 
     if x is None:

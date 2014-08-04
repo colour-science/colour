@@ -24,14 +24,14 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import \
-    get_steps, \
-    get_closest, \
-    to_ndarray, \
-    is_uniform, \
-    is_iterable, \
-    is_number, \
-    is_even_integer
+from colour.algebra import (
+    get_steps,
+    get_closest,
+    to_ndarray,
+    is_uniform,
+    is_iterable,
+    is_number,
+    is_even_integer)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

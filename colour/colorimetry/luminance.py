@@ -86,8 +86,9 @@ def luminance_1976(L, Yn=100.):
     -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
     """
 
-    Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else \
-        (L / CIE_K) * Yn
+    Y = ((((L + 16.) / 116.) ** 3.) * Yn
+         if L > CIE_K * CIE_E else
+         (L / CIE_K) * Yn)
 
     return Y
 

@@ -175,34 +175,34 @@ def delta_E_CIE_2000(lab1, lab2):
     if h2_prime < 0.0:
         h2_prime += 360.
 
-    h_bar_prime = 0.5 * (h1_prime + h2_prime + 360.) \
-        if math.fabs(h1_prime - h2_prime) > 180. else \
-        0.5 * (h1_prime + h2_prime)
+    h_bar_prime = (0.5 * (h1_prime + h2_prime + 360.)
+                   if math.fabs(h1_prime - h2_prime) > 180. else
+                   0.5 * (h1_prime + h2_prime))
 
-    t = 1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) + \
-        0.24 * math.cos(math.pi * (2. * h_bar_prime) / 180.) + \
-        0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) - \
-        0.20 * math.cos(math.pi * (4. * h_bar_prime - 63.) / 180.)
+    t = (1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) +
+         0.24 * math.cos(math.pi * (2. * h_bar_prime) / 180.) +
+         0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) -
+         0.20 * math.cos(math.pi * (4. * h_bar_prime - 63.) / 180.))
 
     if math.fabs(h2_prime - h1_prime) <= 180.:
         delta_h_prime = h2_prime - h1_prime
     else:
-        delta_h_prime = h2_prime - h1_prime + 360. \
-            if h2_prime <= h1_prime else \
-            h2_prime - h1_prime - 360.
+        delta_h_prime = (h2_prime - h1_prime + 360.
+                         if h2_prime <= h1_prime else
+                         h2_prime - h1_prime - 360.)
 
     delta_L_prime = L2 - L1
     delta_C_prime = c2_prime - c1_prime
-    delta_H_prime = 2. * math.sqrt(c1_prime * c2_prime) * \
-                    math.sin(math.pi * (0.5 * delta_h_prime) / 180.)
+    delta_H_prime = (2. * math.sqrt(c1_prime * c2_prime) *
+                     math.sin(math.pi * (0.5 * delta_h_prime) / 180.))
 
     sL = 1. + ((0.015 * (l_bar_prime - 50.) * (l_bar_prime - 50.)) /
                math.sqrt(20. + (l_bar_prime - 50.) * (l_bar_prime - 50.)))
     sC = 1. + 0.045 * c_bar_prime
     sH = 1. + 0.015 * c_bar_prime * t
 
-    delta_theta = 30. * math.exp(-((h_bar_prime - 275.) / 25.) * \
-                                 ((h_bar_prime - 275.) / 25.))
+    delta_theta = (30. * math.exp(-((h_bar_prime - 275.) / 25.) *
+                                  ((h_bar_prime - 275.) / 25.)))
 
     c_bar_prime7 = c_bar_prime ** 7
 
@@ -263,9 +263,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     while h1 >= 360.:
         h1 -= 360.
 
-    t = 0.56 + math.fabs(0.2 * math.cos(
-        (math.pi * (h1 + 168.)) / 180.)) if h1 >= 164. and h1 <= 345. else \
-        0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.))
+    t = (0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168.)) / 180.))
+         if h1 >= 164. and h1 <= 345. else \
+             0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.)))
     c4 = c1 * c1 * c1 * c1
     f = math.sqrt(c4 / (c4 + 1900.))
     sh = sc * (f * t + 1. - f)

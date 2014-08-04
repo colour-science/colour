@@ -101,12 +101,12 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
                 method,
                 CHROMATIC_ADAPTATION_METHODS.keys()))
 
-    pyb_source, pyb_target = np.ravel(np.dot(method_matrix, XYZ1)), \
-                             np.ravel(np.dot(method_matrix, XYZ2))
-    crd = np.diagflat(np.array([[pyb_target[0] / pyb_source[0],
-                                 pyb_target[1] / pyb_source[1],
-                                 pyb_target[2] / pyb_source[2]]])).reshape(
-        (3, 3))
+    pyb_source = np.ravel(np.dot(method_matrix, XYZ1))
+    pyb_target = np.ravel(np.dot(method_matrix, XYZ2))
+    crd = np.diagflat(np.array(
+        [[pyb_target[0] / pyb_source[0],
+          pyb_target[1] / pyb_source[1],
+          pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
     cat = np.dot(np.dot(np.linalg.inv(method_matrix), crd), method_matrix)
 
     return cat

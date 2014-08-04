@@ -75,10 +75,10 @@ def XYZ_to_Luv(XYZ,
     yr = Y / Yr
 
     L = 116. * yr ** ( 1. / 3.) - 16. if yr > CIE_E else CIE_K * yr
-    u = 13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) - \
-                   (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))
-    v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - \
-                   (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
+    u = (13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) -
+                    (4. * Xr / (Xr + 15. * Yr + 3. * Zr))))
+    v = (13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) -
+                    (9. * Yr / (Xr + 15. * Yr + 3. * Zr))))
 
     return np.array([L, u, v]).reshape((3, 1))
 
@@ -118,12 +118,12 @@ def Luv_to_XYZ(Luv,
 
     Y = ((L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
 
-    a = 1. / 3. * ((52. * L / (u + 13. * L * \
+    a = 1. / 3. * ((52. * L / (u + 13. * L *
                                (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))) - 1.)
     b = -5. * Y
     c = -1. / 3.0
-    d = Y * \
-        (39. * L / (v + 13. * L * (9. * Yr / (Xr + 15. * Yr + 3. * Zr))) - 5.)
+    d = Y * (39. * L / (v + 13. * L *
+                        (9. * Yr / (Xr + 15. * Yr + 3. * Zr))) - 5.)
 
     X = (d - b) / (a - c)
     Z = X * a + b
@@ -188,8 +188,8 @@ def Luv_uv_to_xy(uv):
     (Last accessed 24 February 2014)
     """
 
-    return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (
-        6. * uv[0] - 16. * uv[1] + 12.)
+    return (9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] /
+            (6. * uv[0] - 16. * uv[1] + 12.))
 
 
 def Luv_to_LCHuv(Luv):

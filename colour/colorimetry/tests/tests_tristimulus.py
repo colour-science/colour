@@ -24,12 +24,12 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import \
-    CMFS, \
-    ILLUMINANTS_RELATIVE_SPDS, \
-    SpectralPowerDistribution, \
-    spectral_to_XYZ, \
-    wavelength_to_XYZ
+from colour.colorimetry import (
+    CMFS,
+    ILLUMINANTS_RELATIVE_SPDS,
+    SpectralPowerDistribution,
+    spectral_to_XYZ,
+    wavelength_to_XYZ)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

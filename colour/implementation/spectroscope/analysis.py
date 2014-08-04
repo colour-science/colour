@@ -342,5 +342,5 @@ def get_luminance_spd(RGB_spectrum,
 
     return SpectralPowerDistribution(
         "RGB_spectrum",
-        dict([(wavelength, get_RGB_luminance(RGB)) \
+        dict([(wavelength, get_RGB_luminance(RGB))
               for wavelength, RGB in RGB_spectrum]))

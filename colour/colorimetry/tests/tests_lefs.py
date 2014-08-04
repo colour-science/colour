@@ -24,8 +24,9 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import mesopic_weighting_function, \
-    mesopic_luminous_efficiency_function
+from colour.colorimetry import (
+    mesopic_weighting_function,
+    mesopic_luminous_efficiency_function)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

@@ -17,8 +17,10 @@
 from __future__ import unicode_literals
 
 from colour.algebra import get_closest
-from colour.colorimetry import SpectralPowerDistribution, PHOTOPIC_LEFS, \
-    SCOTOPIC_LEFS
+from colour.colorimetry import (
+    SpectralPowerDistribution,
+    PHOTOPIC_LEFS,
+    SCOTOPIC_LEFS)
 from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
 
 __author__ = "Thomas Mansencal"
@@ -84,8 +86,8 @@ def mesopic_weighting_function(wavelength,
     x = MESOPIC_X_DATA.get(
         mesopic_x_luminance_values[index]).get(source).get(method)
 
-    Vm = (1. - x) * \
-         scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength)
+    Vm = ((1. - x) *
+          scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength))
 
     return Vm
 
@@ -126,9 +128,9 @@ def mesopic_luminous_efficiency_function(Lp,
     """
 
     photopic_lef_shape, scotopic_lef_shape = photopic_lef.shape, scotopic_lef.shape
-    start, end, steps = max(photopic_lef_shape[0], scotopic_lef_shape[0]), \
-                        min(photopic_lef_shape[1], scotopic_lef_shape[1]), \
-                        max(photopic_lef_shape[2], scotopic_lef_shape[2])
+    start, end, steps = (max(photopic_lef_shape[0], scotopic_lef_shape[0]),
+                         min(photopic_lef_shape[1], scotopic_lef_shape[1]),
+                         max(photopic_lef_shape[2], scotopic_lef_shape[2]))
 
     spd_data = dict((i,
                      mesopic_weighting_function(
@@ -137,7 +139,7 @@ def mesopic_luminous_efficiency_function(Lp,
                          source,
                          method,
                          photopic_lef,
-                         scotopic_lef)) \
+                         scotopic_lef))
                     for i in range(start, end, steps))
 
     spd = SpectralPowerDistribution(

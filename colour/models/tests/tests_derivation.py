@@ -25,10 +25,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import \
-    get_normalised_primary_matrix, \
-    get_RGB_luminance_equation, \
-    get_RGB_luminance
+from colour.models import (
+    get_normalised_primary_matrix,
+    get_RGB_luminance_equation,
+    get_RGB_luminance)
 from colour.models.derivation import xy_to_z
 
 __author__ = "Thomas Mansencal"

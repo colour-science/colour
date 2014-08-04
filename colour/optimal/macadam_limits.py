@@ -51,18 +51,14 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
     if optimal_colour_stimuli is None:
         raise KeyError(
             "'{0}' not found in factory optimal colour stimuli: '{1}'.".format(
-                illuminant,
-                sorted(
-                    ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+                illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
-    cached_optimal_colour_stimuli = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(
-        illuminant)
-    if cached_optimal_colour_stimuli is None:
-        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[
-            illuminant] = cached_optimal_colour_stimuli = \
+    cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
+    if cached_ocs is None:
+        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
             np.array(map(lambda x: np.ravel(xyY_to_XYZ(x) / 100.),
-                         optimal_colour_stimuli))
-    return cached_optimal_colour_stimuli
+                         optimal_colour_stimuli)))
+    return cached_ocs
 
 
 def is_within_macadam_limits(xyY, illuminant):
@@ -90,6 +86,5 @@ def is_within_macadam_limits(xyY, illuminant):
             _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = \
                 triangulation = Delaunay(optimal_colour_stimuli)
 
-        return True \
-            if triangulation.find_simplex(np.ravel(xyY_to_XYZ(xyY))) != -1 else \
-            False
+        simplex = triangulation.find_simplex(np.ravel(xyY_to_XYZ(xyY)))
+        return True if simplex != -1 else False

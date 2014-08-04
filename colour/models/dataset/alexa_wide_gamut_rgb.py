@@ -185,11 +185,12 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(value,
     :rtype: float
     """
 
-    cut, a, b, c, d, e, f, ecutf = \
-        ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI)
+    cut, a, b, c, d, e, f, ecutf = (
+        ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return (math.pow(10, (value - d) / c) - b) / a \
-        if value > ecutf else (value - f) / e
+    return ((math.pow(10, (value - d) / c) - b) / a
+            if value > ecutf else
+            (value - f) / e)
 
 
 ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = _alexa_wide_gamut_rgb_transfer_function

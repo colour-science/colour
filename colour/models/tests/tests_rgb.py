@@ -24,13 +24,13 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import \
-    RGB_COLOURSPACES, \
-    xyY_to_RGB, \
-    RGB_to_xyY, \
-    XYZ_to_RGB, \
-    RGB_to_XYZ, \
-    RGB_to_RGB
+from colour.models import (
+    RGB_COLOURSPACES,
+    xyY_to_RGB,
+    RGB_to_xyY,
+    XYZ_to_RGB,
+    RGB_to_XYZ,
+    RGB_to_RGB)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

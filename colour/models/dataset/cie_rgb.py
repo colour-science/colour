@@ -45,10 +45,10 @@ CIE_RGB_PRIMARIES = np.array(
 CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("E")
 
-CIE_RGB_TO_XYZ_MATRIX = 1. / 0.17697 * \
-                        np.array([0.49, 0.31, 0.20,
-                                  0.17697, 0.81240, 0.01063,
-                                  0.00, 0.01, 0.99]).reshape((3, 3))
+CIE_RGB_TO_XYZ_MATRIX = (1. / 0.17697 *
+                         np.array([0.49, 0.31, 0.20,
+                                   0.17697, 0.81240, 0.01063,
+                                   0.00, 0.01, 0.99]).reshape((3, 3)))
 
 XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
 

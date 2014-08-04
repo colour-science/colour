@@ -9,9 +9,8 @@ from numpy import array
 from numpy import ravel
 
 import colour
-from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import \
-    COLORCHECKER_2005_DATA
-
+from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import (
+    COLORCHECKER_2005_DATA)
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
 print(colour.get_RGB_luminance(array([56., 16., 100.]),

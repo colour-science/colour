@@ -46,7 +46,7 @@ COLOURCHECKER_INXYY = namedtuple("ColourChecker_InxxY",
 COLOURCHECKER = namedtuple("ColourChecker",
                            ("name", "data", "illuminant"))
 
-# http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls \
+# http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
 # (Last accessed 24 February 2014)
 BABELCOLOR_AVERAGE_DATA = (
     (1, "dark skin", 0.4325, 0.3788, 0.1034),

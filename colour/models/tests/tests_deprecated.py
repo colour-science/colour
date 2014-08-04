@@ -26,19 +26,19 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models.deprecated import \
-    RGB_to_HSV, \
-    HSV_to_RGB, \
-    RGB_to_HSL, \
-    HSL_to_RGB
-from colour.models.deprecated import \
-    RGB_to_CMY, \
-    CMY_to_RGB, \
-    CMY_to_CMYK, \
-    CMYK_to_CMY
-from colour.models.deprecated import \
-    RGB_to_HEX, \
-    HEX_to_RGB
+from colour.models.deprecated import (
+    RGB_to_HSV,
+    HSV_to_RGB,
+    RGB_to_HSL,
+    HSL_to_RGB)
+from colour.models.deprecated import (
+    RGB_to_CMY,
+    CMY_to_RGB,
+    CMY_to_CMYK,
+    CMYK_to_CMY)
+from colour.models.deprecated import (
+    RGB_to_HEX,
+    HEX_to_RGB)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

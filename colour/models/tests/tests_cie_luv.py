@@ -24,13 +24,13 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import \
-    XYZ_to_Luv, \
-    Luv_to_XYZ, \
-    Luv_to_uv, \
-    Luv_uv_to_xy, \
-    Luv_to_LCHuv, \
-    LCHuv_to_Luv
+from colour.models import (
+    XYZ_to_Luv,
+    Luv_to_XYZ,
+    Luv_to_uv,
+    Luv_uv_to_xy,
+    Luv_to_LCHuv,
+    LCHuv_to_Luv)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

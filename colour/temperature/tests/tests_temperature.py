@@ -29,10 +29,10 @@ from colour.temperature import CCT_to_uv_ohno2013, CCT_to_uv_robertson1968
 from colour.temperature import uv_to_CCT_ohno2013, uv_to_CCT_robertson1968
 from colour.temperature import CCT_to_xy_kang2002, CCT_to_xy_illuminant_D
 from colour.temperature import xy_to_CCT_mccamy1992, xy_to_CCT_hernandez1999
-from colour.temperature.cct import \
-    PLANCKIAN_TABLE_TUVD, \
-    get_planckian_table, \
-    get_planckian_table_minimal_distance_index
+from colour.temperature.cct import (
+    PLANCKIAN_TABLE_TUVD,
+    get_planckian_table,
+    get_planckian_table_minimal_distance_index)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

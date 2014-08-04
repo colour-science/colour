@@ -23,10 +23,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import \
-    lightness_glasser1958, \
-    lightness_wyszecki1964, \
-    lightness_1976
+from colour.colorimetry import (
+    lightness_glasser1958,
+    lightness_wyszecki1964,
+    lightness_1976)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

@@ -24,35 +24,36 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.notation.munsell import \
-    parse_munsell_colour, \
-    is_grey_munsell_colour, \
-    normalize_munsell_specification
-from colour.notation.munsell import \
-    munsell_colour_to_munsell_specification, \
-    munsell_specification_to_munsell_colour
-from colour.notation.munsell import \
-    get_xyY_from_renotation, \
-    is_specification_in_renotation
+from colour.notation.munsell import (
+    parse_munsell_colour,
+    is_grey_munsell_colour,
+    normalize_munsell_specification)
+from colour.notation.munsell import (
+    munsell_colour_to_munsell_specification,
+    munsell_specification_to_munsell_colour)
+from colour.notation.munsell import (
+    get_xyY_from_renotation,
+    is_specification_in_renotation)
 from colour.notation.munsell import get_bounding_hues_from_renotation
 from colour.notation.munsell import hue_to_hue_angle, hue_angle_to_hue
 from colour.notation.munsell import hue_to_ASTM_hue
-from colour.notation.munsell import \
-    get_interpolation_method_from_renotation_ovoid, \
-    get_xy_from_renotation_ovoid
+from colour.notation.munsell import (
+    get_interpolation_method_from_renotation_ovoid,
+    get_xy_from_renotation_ovoid)
 from colour.notation.munsell import LCHab_to_munsell_specification
 from colour.notation.munsell import get_maximum_chroma_from_renotation
 from colour.notation.munsell import munsell_specification_to_xy
-from colour.notation.munsell import \
-    munsell_specification_to_xyY, \
-    xyY_to_munsell_specification
-from colour.notation import munsell_value_priest1920, \
-    munsell_value_munsell1933, \
-    munsell_value_moon1943, \
-    munsell_value_saunderson1944, \
-    munsell_value_ladd1955, \
-    munsell_value_mccamy1987, \
-    munsell_value_ASTM_D1535_08
+from colour.notation.munsell import (
+    munsell_specification_to_xyY,
+    xyY_to_munsell_specification)
+from colour.notation import (
+    munsell_value_priest1920,
+    munsell_value_munsell1933,
+    munsell_value_moon1943,
+    munsell_value_saunderson1944,
+    munsell_value_ladd1955,
+    munsell_value_mccamy1987,
+    munsell_value_ASTM_D1535_08)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

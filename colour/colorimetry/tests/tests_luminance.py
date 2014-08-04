@@ -23,10 +23,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry.luminance import \
-    luminance_newhall1943, \
-    luminance_1976, \
-    luminance_ASTM_D1535_08
+from colour.colorimetry.luminance import (
+    luminance_newhall1943,
+    luminance_1976,
+    luminance_ASTM_D1535_08)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

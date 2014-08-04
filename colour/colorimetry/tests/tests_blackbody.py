@@ -24,9 +24,9 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import \
-    planck_law, \
-    blackbody_spectral_power_distribution
+from colour.colorimetry import (
+    planck_law,
+    blackbody_spectral_power_distribution)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"

@@ -58,7 +58,7 @@ COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {
     23: "neutral 3.5 (1.05 D)",
     24: "black 2 (1.5 D)"}
 
-# http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls \
+# http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
 # (Last accessed 9 June 2014)
 COLORCHECKER_N_OHTA_SPDS_DATA = {
     "dark skin": {

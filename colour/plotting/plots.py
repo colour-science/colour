@@ -29,27 +29,27 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.colorimetry import \
-    CMFS, \
-    ILLUMINANTS, \
-    ILLUMINANTS_RELATIVE_SPDS, \
-    LIGHTNESS_FUNCTIONS, \
-    spectral_to_XYZ, \
-    wavelength_to_XYZ, \
-    blackbody_spectral_power_distribution
+from colour.colorimetry import (
+    CMFS,
+    ILLUMINANTS,
+    ILLUMINANTS_RELATIVE_SPDS,
+    LIGHTNESS_FUNCTIONS,
+    spectral_to_XYZ,
+    wavelength_to_XYZ,
+    blackbody_spectral_power_distribution)
 from colour.characterization import COLOURCHECKERS
 from colour.models import POINTER_GAMUT_DATA, RGB_COLOURSPACES
-from colour.models import \
-    XYZ_to_RGB, \
-    UCS_uv_to_xy, \
-    XYZ_to_UCS, \
-    XYZ_to_xy, \
-    UCS_to_uv, \
-    xy_to_XYZ, \
-    xyY_to_XYZ, \
-    XYZ_to_Luv, \
-    Luv_to_uv, \
-    Luv_uv_to_xy
+from colour.models import (
+    XYZ_to_RGB,
+    UCS_uv_to_xy,
+    XYZ_to_UCS,
+    XYZ_to_xy,
+    UCS_to_uv,
+    xy_to_XYZ,
+    xyY_to_XYZ,
+    XYZ_to_Luv,
+    Luv_to_uv,
+    Luv_uv_to_xy)
 from colour.notation import MUNSELL_VALUE_FUNCTIONS
 from colour.quality import get_colour_rendering_index
 from colour.temperature import CCT_to_uv
@@ -445,14 +445,19 @@ def colour_parameters_plot(colour_parameters,
     for i in xrange(len(colour_parameters) - 1):
         x0 = colour_parameters[i].x
         x01 = colour_parameters[i + 1].x
-        y0 = 0. \
-            if colour_parameters[i].y0 is None else colour_parameters[i].y0
-        y1 = 1. \
-            if colour_parameters[i].y1 is None else colour_parameters[i].y1
-        y01 = 0. \
-            if colour_parameters[i].y0 is None else colour_parameters[i + 1].y0
-        y11 = 1. \
-            if colour_parameters[i].y1 is None else colour_parameters[i + 1].y1
+        y0 = (0.
+              if colour_parameters[i].y0 is None else
+              colour_parameters[i].y0)
+        y1 = (1.
+              if colour_parameters[i].y1 is None else
+              colour_parameters[i].y1)
+        y01 = (0.
+               if colour_parameters[i].y0 is None else
+               colour_parameters[i + 1].y0)
+        y11 = (1.
+               if colour_parameters[i].y1 is None else
+               colour_parameters[i + 1].y1)
+
         x_polygon = [x0, x01, x01, x0]
         y_polygon = [y0, y01, y11, y1]
         pylab.fill(x_polygon,
@@ -1084,8 +1089,8 @@ def CIE_1931_chromaticity_diagram_plot(
                          cmfs.name.replace(" ", "_"))))
     pylab.imshow(image, interpolation="nearest", extent=(0, 1, 0, 1))
 
-    labels = \
-        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700]
+    labels = (
+        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700])
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1. / 3.] * 2)
@@ -1105,23 +1110,24 @@ def CIE_1931_chromaticity_diagram_plot(
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = wavelengths[index] \
-            if index < len(wavelengths) else wavelengths[-1]
+        right = (wavelengths[index]
+                 if index < len(wavelengths) else
+                 wavelengths[-1])
 
-        dx = wavelengths_chromaticity_coordinates.get(right)[0] - \
-             wavelengths_chromaticity_coordinates.get(left)[0]
-        dy = wavelengths_chromaticity_coordinates.get(right)[1] - \
-             wavelengths_chromaticity_coordinates.get(left)[1]
+        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
+              wavelengths_chromaticity_coordinates.get(left)[0])
+        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
+              wavelengths_chromaticity_coordinates.get(left)[1])
 
         normalise = lambda x: x / np.linalg.norm(x)
 
         xy = np.array([x, y])
         direction = np.array((-dy, dx))
 
-        normal = np.array((-dy, dx)) \
-            if np.dot(normalise(xy - equal_energy),
-                      normalise(direction)) > 0 else \
-            np.array((dy, -dx))
+        normal = (np.array((-dy, dx))
+                  if np.dot(normalise(xy - equal_energy),
+                            normalise(direction)) > 0 else
+                  np.array((dy, -dx)))
         normal = normalise(normal)
         normal /= 25
 
@@ -1282,8 +1288,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
-            ", ".join(illuminants)) if illuminants else \
-            "Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
+            ", ".join(illuminants)) if illuminants else
+        "Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1438,22 +1444,24 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = wavelengths[index] \
-            if index < len(wavelengths) else wavelengths[-1]
+        right = (wavelengths[index]
+                 if index < len(wavelengths) else
+                 wavelengths[-1])
 
-        dx = wavelengths_chromaticity_coordinates.get(right)[0] - \
-             wavelengths_chromaticity_coordinates.get(left)[0]
-        dy = wavelengths_chromaticity_coordinates.get(right)[1] - \
-             wavelengths_chromaticity_coordinates.get(left)[1]
+        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
+              wavelengths_chromaticity_coordinates.get(left)[0])
+        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
+              wavelengths_chromaticity_coordinates.get(left)[1])
 
         normalise = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
         direction = np.array((-dy, dx))
 
-        normal = np.array((-dy, dx)) \
-            if np.dot(normalise(uv - equal_energy),
-                      normalise(direction)) > 0 else np.array((dy, -dx))
+        normal = (np.array((-dy, dx))
+                  if np.dot(normalise(uv - equal_energy),
+                            normalise(direction)) > 0 else
+                  np.array((dy, -dx)))
         normal = normalise(normal)
         normal /= 25
 
@@ -1511,8 +1519,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     settings = {
         "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
-            ", ".join(illuminants)) if illuminants else \
-            "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
+            ", ".join(illuminants)) if illuminants else
+        "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1673,22 +1681,24 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = wavelengths[index] \
-            if index < len(wavelengths) else wavelengths[-1]
+        right = (wavelengths[index]
+                 if index < len(wavelengths) else
+                 wavelengths[-1])
 
-        dx = wavelengths_chromaticity_coordinates.get(right)[0] - \
-             wavelengths_chromaticity_coordinates.get(left)[0]
-        dy = wavelengths_chromaticity_coordinates.get(right)[1] - \
-             wavelengths_chromaticity_coordinates.get(left)[1]
+        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
+              wavelengths_chromaticity_coordinates.get(left)[0])
+        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
+              wavelengths_chromaticity_coordinates.get(left)[1])
 
         normalise = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
         direction = np.array((-dy, dx))
 
-        normal = np.array((-dy, dx)) \
-            if np.dot(normalise(uv - equal_energy),
-                      normalise(direction)) > 0 else np.array((dy, -dx))
+        normal = (np.array((-dy, dx))
+                  if np.dot(normalise(uv - equal_energy),
+                            normalise(direction)) > 0 else
+                  np.array((dy, -dx)))
         normal = normalise(normal)
         normal /= 25
 
@@ -1924,8 +1934,9 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
         colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
         RGBs = np.array(
-            map(colourspace.inverse_transfer_function \
-                    if inverse else colourspace.transfer_function,
+            map(colourspace.inverse_transfer_function
+                if inverse else
+                colourspace.transfer_function,
                 samples))
         pylab.plot(samples,
                    RGBs,
@@ -2089,9 +2100,9 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colour_rendering_index, colour_rendering_indexes, additional_data = \
         get_colour_rendering_index(illuminant, additional_data=True)
 
-    colours = [[1.] * 3] + map(lambda x: \
-                                   normalise_RGB(XYZ_to_sRGB(x.XYZ / 100.)),
-                               additional_data[0])
+    colours = ([[1.] * 3] + map(lambda x:
+                                normalise_RGB(XYZ_to_sRGB(x.XYZ / 100.)),
+                                additional_data[0]))
     x, y = zip(*sorted(colour_rendering_indexes.iteritems(),
                        key=lambda x: x[0]))
     x, y = np.array([0] + list(x)), np.array(

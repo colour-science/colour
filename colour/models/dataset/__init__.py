@@ -1,9 +1,9 @@
 from __future__ import absolute_import
 
 from .aces_rgb import ACES_RGB_COLOURSPACE, ACES_RGB_LOG_COLOURSPACE
-from .aces_rgb import \
-    ACES_RGB_PROXY_10_COLOURSPACE, \
-    ACES_RGB_PROXY_12_COLOURSPACE
+from .aces_rgb import (
+    ACES_RGB_PROXY_10_COLOURSPACE,
+    ACES_RGB_PROXY_12_COLOURSPACE)
 from .adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
 from .adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
 from .alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLOURSPACE

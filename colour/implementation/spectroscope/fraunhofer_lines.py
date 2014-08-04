@@ -28,11 +28,11 @@ import pylab
 import re
 
 import colour.plotting
-from colour.implementation.spectroscope.analysis import \
-    get_RGB_spectrum, \
-    get_image, \
-    get_luminance_spd, \
-    transfer_function
+from colour.implementation.spectroscope.analysis import (
+    get_RGB_spectrum,
+    get_image,
+    get_luminance_spd,
+    transfer_function)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -179,7 +179,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                                 fraunhofer_wavelengths <= output))]
     fraunhofer_lines_labels = [
         FRAUNHOFER_LINES_PUBLISHED.keys()[
-            FRAUNHOFER_LINES_PUBLISHED.values().index(i)] \
+            FRAUNHOFER_LINES_PUBLISHED.values().index(i)]
         for i in fraunhofer_wavelengths]
 
     y0, y1 = 0, height * .5

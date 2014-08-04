@@ -105,8 +105,7 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(
-                value) is dict, \
+            assert type(value) is dict, \
                 "'{0}' attribute: '{1}' type is not 'dict'!".format(
                     "data", value)
         self.__data = value

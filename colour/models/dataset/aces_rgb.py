@@ -114,9 +114,9 @@ def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
         value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2.)
 
-    value = (math.log10(value) / math.log10(2)) * \
-            ACES_RGB_LOG_CONSTANTS.log_xperstop + \
-            ACES_RGB_LOG_CONSTANTS.log_unity
+    value = ((math.log10(value) / math.log10(2)) *
+             ACES_RGB_LOG_CONSTANTS.log_xperstop +
+             ACES_RGB_LOG_CONSTANTS.log_unity)
 
     if is_16_bit_integer:
         value = min(math.floor(value) + 0.5, 65535)
@@ -139,9 +139,9 @@ def _aces_rgb_log_inverse_transfer_function(value):
     <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
     """
 
-    value = math.pow(2.,
-                     (value - ACES_RGB_LOG_CONSTANTS.log_unity) / \
-                     ACES_RGB_LOG_CONSTANTS.log_xperstop)
+    value = (math.pow(2.,
+                      (value - ACES_RGB_LOG_CONSTANTS.log_unity) /
+                      ACES_RGB_LOG_CONSTANTS.log_xperstop))
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
         value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2.
 
@@ -201,9 +201,9 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
     if value > 0.:
         return max(constants.CV_min,
                    min(constants.CV_max,
-                       (math.log10(value) / (math.log10(2)) - \
-                        constants.mid_log_offset) * constants.steps_per_stop + \
-                       constants.mid_CV_offset)) + 0.5
+                       ((math.log10(value) / (math.log10(2)) -
+                         constants.mid_log_offset) * constants.steps_per_stop +
+                        constants.mid_CV_offset)) + 0.5)
     else:
         return constants.CV_min
 
@@ -228,8 +228,8 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
     return math.pow(2.,
-                    (((value - constants.mid_CV_offset) / \
-                      constants.steps_per_stop) + constants.mid_log_offset))
+                    ((((value - constants.mid_CV_offset) /
+                       constants.steps_per_stop) + constants.mid_log_offset)))
 
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: \

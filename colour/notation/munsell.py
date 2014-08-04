@@ -25,15 +25,15 @@ import numpy as np
 import re
 from collections import OrderedDict
 
-from colour.algebra import \
-    Extrapolator1d, \
-    LinearInterpolator, \
-    cartesian_to_cylindrical, \
-    is_number, \
-    is_even_integer
-from colour.algebra.common import \
-    EVEN_INTEGER_THRESHOLD, \
-    FLOATING_POINT_NUMBER_PATTERN
+from colour.algebra import (
+    Extrapolator1d,
+    LinearInterpolator,
+    cartesian_to_cylindrical,
+    is_number,
+    is_even_integer)
+from colour.algebra.common import (
+    EVEN_INTEGER_THRESHOLD,
+    FLOATING_POINT_NUMBER_PATTERN)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
@@ -87,9 +87,9 @@ __all__ = ["MUNSELL_GRAY_PATTERN",
            "get_munsell_value"]
 
 MUNSELL_GRAY_PATTERN = "N(?P<value>{0})".format(FLOATING_POINT_NUMBER_PATTERN)
-MUNSELL_COLOUR_PATTERN = \
+MUNSELL_COLOUR_PATTERN = (
     "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(
-        FLOATING_POINT_NUMBER_PATTERN)
+        FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = "N{0}"
 MUNSELL_COLOUR_FORMAT = "{0} {1}/{2}"
@@ -144,7 +144,7 @@ def _get_munsell_specifications():
     if _MUNSELL_SPECIFICATIONS_CACHE is None:
         _MUNSELL_SPECIFICATIONS_CACHE = [
             munsell_colour_to_munsell_specification(
-                MUNSELL_COLOUR_FORMAT.format(*colour[0])) \
+                MUNSELL_COLOUR_FORMAT.format(*colour[0]))
             for colour in MUNSELL_COLOURS]
     return _MUNSELL_SPECIFICATIONS_CACHE
 
@@ -493,9 +493,9 @@ def hue_to_hue_angle(hue, code):
     """
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
-    return LinearInterpolator([0, 2, 3, 4, 5, 6, 8, 9, 10],
-                              [0, 45, 70, 135, 160, 225, 255, 315, 360])(
-        single_hue)
+    return LinearInterpolator(
+        [0, 2, 3, 4, 5, 6, 8, 9, 10],
+        [0, 45, 70, 135, 160, 225, 255, 315, 360])(single_hue)
 
 
 def hue_angle_to_hue(hue_angle):
@@ -522,8 +522,9 @@ def hue_angle_to_hue(hue_angle):
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m*
     """
 
-    single_hue = LinearInterpolator([0, 45, 70, 135, 160, 225, 255, 315, 360],
-                                    [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
+    single_hue = LinearInterpolator(
+        [0, 45, 70, 135, 160, 225, 255, 315, 360],
+        [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
 
     if single_hue <= 0.5:
         code = 7
@@ -806,43 +807,43 @@ def get_interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif chroma == 10:
-                if 30 < ASTM_hue < 42.5 or \
-                                        5 < ASTM_hue < 25 or \
-                                        60 < ASTM_hue < 82.5:
+                if (30 < ASTM_hue < 42.5 or
+                                5 < ASTM_hue < 25 or
+                                60 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma == 12:
-                if 30 < ASTM_hue < 42.5 or \
-                                        7.5 < ASTM_hue < 27.5 or \
-                                        80 < ASTM_hue < 82.5:
+                if (30 < ASTM_hue < 42.5 or
+                                7.5 < ASTM_hue < 27.5 or
+                                80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if 32.5 < ASTM_hue < 40 or \
-                                        7.5 < ASTM_hue < 15 or \
-                                        80 < ASTM_hue < 82.5:
+                if (32.5 < ASTM_hue < 40 or
+                                7.5 < ASTM_hue < 15 or
+                                80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             else:
                 interpolation_method = 1
         elif value == 8:
-            if chroma == 2 or \
-                            chroma == 4 or \
-                            chroma == 6 or \
-                            chroma == 8 or \
-                            chroma == 10 or \
-                            chroma == 12:
+            if (chroma == 2 or
+                        chroma == 4 or
+                        chroma == 6 or
+                        chroma == 8 or
+                        chroma == 10 or
+                        chroma == 12):
                 if 5 < ASTM_hue < 40 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if 32.5 < ASTM_hue < 40 or \
-                                        5 < ASTM_hue < 15 or \
-                                        60 < ASTM_hue < 85:
+                if (32.5 < ASTM_hue < 40 or
+                                5 < ASTM_hue < 15 or
+                                60 < ASTM_hue < 85):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -854,11 +855,11 @@ def get_interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 6 or \
-                            chroma == 8 or \
-                            chroma == 10 or \
-                            chroma == 12 or \
-                            chroma == 14:
+            elif (chroma == 6 or
+                          chroma == 8 or
+                          chroma == 10 or
+                          chroma == 12 or
+                          chroma == 14):
                 if 5 < ASTM_hue < 42.5:
                     interpolation_method = 2
                 else:
@@ -933,11 +934,11 @@ def get_xy_from_renotation_ovoid(specification):
 
         # Checking if renotation data is available without interpolation using given treshold.
         threshold = 0.001
-        if abs(hue) < threshold or \
-                        abs(hue - 2.5) < threshold or \
-                        abs(hue - 5) < threshold or \
-                        abs(hue - 7.5) < threshold or \
-                        abs(hue - 10) < threshold:
+        if (abs(hue) < threshold or
+                    abs(hue - 2.5) < threshold or
+                    abs(hue - 5) < threshold or
+                    abs(hue - 7.5) < threshold or
+                    abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
             x, y, Y = get_xyY_from_renotation((hue, value, chroma, code))
             return x, y
@@ -1111,20 +1112,19 @@ def get_maximum_chroma_from_renotation(hue, value, code):
     maximum_chromas = _get_munsell_maximum_chromas_from_renotation()
     spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
-    ma_limit_mcw = \
-        maximum_chromas[
-            spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
-    ma_limit_mccw = \
-        maximum_chromas[
-            spc_for_indexes.index((hue_ccw, value_minus, code_ccw))][1]
+    ma_limit_mcw = maximum_chromas[
+        spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
+    ma_limit_mccw = maximum_chromas[
+        spc_for_indexes.index((hue_ccw, value_minus, code_ccw))][1]
 
     if value_plus <= 9:
-        ma_limit_pcw = \
-            maximum_chromas[
-                spc_for_indexes.index((hue_cw, value_plus, code_cw))][1]
+        ma_limit_pcw = maximum_chromas[
+            spc_for_indexes.index((hue_cw, value_plus, code_cw))][1]
         ma_limit_pccw = maximum_chromas[
             spc_for_indexes.index((hue_ccw, value_plus, code_ccw))][1]
-        max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
+        max_chroma = min(ma_limit_mcw,
+                         ma_limit_mccw,
+                         ma_limit_pcw,
                          ma_limit_pccw)
     else:
         L = luminance_ASTM_D1535_08(value)
@@ -1261,13 +1261,15 @@ def munsell_specification_to_xyY(specification):
         value_minus = math.floor(value)
         value_plus = value_minus + 1
 
-    specification_minus = value_minus if is_grey_munsell_colour(
-        specification) else (hue, value_minus, chroma, code)
+    specification_minus = (value_minus
+                           if is_grey_munsell_colour(specification) else
+                           (hue, value_minus, chroma, code))
     x_minus, y_minus = munsell_specification_to_xy(specification_minus)
 
-    plus_specification = value_plus \
-        if is_grey_munsell_colour(specification) or value_plus == 10 else \
-        (hue, value_plus, chroma, code)
+    plus_specification = (value_plus
+                          if (is_grey_munsell_colour(specification) or
+                              value_plus == 10) else
+                          (hue, value_plus, chroma, code))
     x_plus, y_plus = munsell_specification_to_xy(plus_specification)
 
     if value_minus == value_plus:
@@ -1365,8 +1367,8 @@ def xyY_to_munsell_specification(xyY):
 
     Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
     LCHab = Lab_to_LCHab(Lab)
-    hue_initial, value_initial, chroma_initial, code_initial = \
-        LCHab_to_munsell_specification(LCHab)
+    hue_initial, value_initial, chroma_initial, code_initial = (
+        LCHab_to_munsell_specification(LCHab))
     specification_current = [hue_initial,
                              value,
                              (5. / 5.5) * chroma_initial,
@@ -1416,10 +1418,10 @@ def xyY_to_munsell_specification(xyY):
                 raise RuntimeError(
                     "Maximum inner iterations count reached without convergence!")
 
-            hue_angle_inner = (hue_angle_current + iterations_inner * \
-                               (theta_input - theta_current)) % 360
-            hue_angle_difference_inner = iterations_inner * \
-                                         (theta_input - theta_current) % 360
+            hue_angle_inner = ((hue_angle_current + iterations_inner *
+                                (theta_input - theta_current)) % 360)
+            hue_angle_difference_inner = (iterations_inner *
+                                          (theta_input - theta_current) % 360)
             if hue_angle_difference_inner > 180:
                 hue_angle_difference_inner -= 360
 
@@ -1439,8 +1441,8 @@ def xyY_to_munsell_specification(xyY):
                      y_inner - y_center,
                      Y_center))
                 theta_inner = math.degrees(theta_inner)
-                theta_inner_difference = \
-                    (360 - theta_input + theta_inner) % 360
+                theta_inner_difference = (
+                    (360 - theta_input + theta_inner) % 360)
                 if theta_inner_difference > 180:
                     theta_inner_difference -= 360
 
@@ -1501,8 +1503,8 @@ def xyY_to_munsell_specification(xyY):
                 raise RuntimeError(
                     "Maximum inner iterations count reached without convergence!")
 
-            chroma_inner = ((rho_input / rho_current) ** iterations_inner) * \
-                           chroma_current
+            chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
+                            chroma_current)
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
@@ -1741,12 +1743,12 @@ def munsell_value_mccamy1987(Y):
     if Y <= 0.9:
         V = 0.87445 * (Y ** 0.9967)
     else:
-        V = 2.49268 * (Y ** (1. / 3.)) - 1.5614 - \
-            (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) + \
-            (0.0133 / (Y ** 2.3)) + \
-            0.0084 * math.sin(4.1 * (Y ** (1. / 3.)) + 1) + \
-            (0.0221 / Y) * math.sin(0.39 * (Y - 2)) - \
-            (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53))
+        V = (2.49268 * (Y ** (1. / 3.)) - 1.5614 -
+             (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
+             (0.0133 / (Y ** 2.3)) +
+             0.0084 * math.sin(4.1 * (Y ** (1. / 3.)) + 1) +
+             (0.0221 / Y) * math.sin(0.39 * (Y - 2)) -
+             (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53)))
     return V
 
 

@@ -1,35 +1,35 @@
 from __future__ import absolute_import
 
 from .spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
-from .blackbody import \
-    blackbody_spectral_power_distribution, \
-    blackbody_spectral_radiance, \
-    planck_law
+from .blackbody import (
+    blackbody_spectral_power_distribution,
+    blackbody_spectral_radiance,
+    planck_law)
 from .dataset import *
 from . import dataset
-from .cmfs import \
-    LMS_ConeFundamentals, \
-    RGB_ColourMatchingFunctions, \
-    XYZ_ColourMatchingFunctions
+from .cmfs import (
+    LMS_ConeFundamentals,
+    RGB_ColourMatchingFunctions,
+    XYZ_ColourMatchingFunctions)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_stearns1988
 from .illuminants import D_illuminant_relative_spd
-from .lefs import \
-    mesopic_luminous_efficiency_function, \
-    mesopic_weighting_function
+from .lefs import (
+    mesopic_luminous_efficiency_function,
+    mesopic_weighting_function)
 from .lightness import LIGHTNESS_FUNCTIONS
 from .lightness import get_lightness
-from .lightness import \
-    lightness_glasser1958, \
-    lightness_wyszecki1964, \
-    lightness_1976
+from .lightness import (
+    lightness_glasser1958,
+    lightness_wyszecki1964,
+    lightness_1976)
 from .luminance import LUMINANCE_FUNCTIONS
 from .luminance import get_luminance
-from .luminance import \
-    luminance_newhall1943, \
-    luminance_1976, \
-    luminance_ASTM_D1535_08
+from .luminance import (
+    luminance_newhall1943,
+    luminance_1976,
+    luminance_ASTM_D1535_08)
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs

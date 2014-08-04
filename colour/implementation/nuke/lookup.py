@@ -42,12 +42,12 @@ __all__ = ["Point",
            "get_color_lookup_node",
            "import_curves_data_csv_file"]
 
-COLOR_LOOKUP_CURVES_TEMPLATE = \
+COLOR_LOOKUP_CURVES_TEMPLATE = (
     """master {{{0}}}
-red {{{1}}}
-green {{{2}}}
-blue {{{3}}}
-alpha {{{4}}}"""
+    red {{{1}}}
+    green {{{2}}}
+    blue {{{3}}}
+    alpha {{{4}}}""")
 
 Point = namedtuple("Point", ("x", "y"))
 CurvesInformation = namedtuple("CurvesInformation",

@@ -93,8 +93,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error")
-            return ((c1 * n ** -2 * l ** -5) / math.pi) * \
-                   (math.exp(c2 / (n * l * t)) - 1) ** -1
+            return (((c1 * n ** -2 * l ** -5) / math.pi) *
+                    (math.exp(c2 / (n * l * t)) - 1) ** -1)
     except (OverflowError, RuntimeWarning) as error:
         return 0.0
 

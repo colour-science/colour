@@ -74,10 +74,11 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
     <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
-    return value * 4.5 \
-        if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
-        REC_2020_CONSTANTS.alpha(is_10_bits_system) * (value ** 0.45) - \
-        (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)
+    return (value * 4.5
+            if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
+            REC_2020_CONSTANTS.alpha(is_10_bits_system) *
+            (value ** 0.45) -
+            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.))
 
 
 def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
@@ -98,10 +99,10 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
     """
 
-    return value / 4.5 \
-        if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else \
-        ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) / \
-         REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1. / 0.45)
+    return (value / 4.5
+            if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
+            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) /
+             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1. / 0.45))
 
 
 REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function

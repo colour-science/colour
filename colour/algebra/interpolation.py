@@ -206,8 +206,8 @@ class SpragueInterpolator(object):
 
     References:
 
-    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use \
-    in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced \
+    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
+    9.2.4 Method of interpolation for uniformly spaced \
     independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
     -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, \
     *Computational Colour Science Using MATLAB, 2nd Edition*, \
@@ -378,18 +378,19 @@ class SpragueInterpolator(object):
         r = self.__yp
 
         a0p = r[i]
-        a1p = (2. * r[i - 2] - 16. * r[i - 1] + 16. * r[i + 1] - 2. * \
-               r[i + 2]) / 24.
-        a2p = (-r[i - 2] + 16. * r[i - 1] - 30. * r[i] + 16. * r[i + 1] - \
-               r[i + 2]) / 24.
-        a3p = (-9. * r[i - 2] + 39. * r[i - 1] - 70. * r[i] + 66. * \
-               r[i + 1] - 33. * r[i + 2] + 7 * r[i + 3]) / 24.
-        a4p = (13. * r[i - 2] - 64. * r[i - 1] + 126. * r[i] - 124. * \
-               r[i + 1] + 61. * r[i + 2] - 12 * r[i + 3]) / 24.
-        a5p = (-5. * r[i - 2] + 25. * r[i - 1] - 50. * r[i] + 50. * \
-               r[i + 1] - 25. * r[i + 2] + 5 * r[i + 3]) / 24.
+        a1p = ((2. * r[i - 2] - 16. * r[i - 1] + 16. * r[i + 1] - 2. *
+                r[i + 2]) / 24.)
+        a2p = ((-r[i - 2] + 16. * r[i - 1] - 30. * r[i] + 16. * r[i + 1] -
+                r[i + 2]) / 24.)
+        a3p = ((-9. * r[i - 2] + 39. * r[i - 1] - 70. * r[i] + 66. *
+                r[i + 1] - 33. * r[i + 2] + 7 * r[i + 3]) / 24.)
+        a4p = ((13. * r[i - 2] - 64. * r[i - 1] + 126. * r[i] - 124. *
+                r[i + 1] + 61. * r[i + 2] - 12 * r[i + 3]) / 24.)
+        a5p = ((-5. * r[i - 2] + 25. * r[i - 1] - 50. * r[i] + 50. *
+                r[i + 1] - 25. * r[i + 2] + 5 * r[i + 3]) / 24.)
 
-        y = a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 + a5p * X ** 5
+        y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
+             a5p * X ** 5)
 
         return y
 

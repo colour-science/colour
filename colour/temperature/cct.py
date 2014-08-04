@@ -34,10 +34,10 @@ import math
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import \
-    STANDARD_OBSERVERS_CMFS, \
-    blackbody_spectral_power_distribution, \
-    spectral_to_XYZ
+from colour.colorimetry import (
+    STANDARD_OBSERVERS_CMFS,
+    blackbody_spectral_power_distribution,
+    spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import warning
 
@@ -262,9 +262,9 @@ def uv_to_CCT_ohno2013(uv,
 
     ux, vx = uv
 
-    Tuvdip, Tuvdi, Tuvdin = planckian_table[index - 1], \
-                            planckian_table[index], \
-                            planckian_table[index + 1]
+    Tuvdip, Tuvdi, Tuvdin = (planckian_table[index - 1],
+                             planckian_table[index],
+                             planckian_table[index + 1])
     Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
     Ti, ui, vi, di = Tuvdi.Ti, Tuvdi.ui, Tuvdi.vi, Tuvdi.di
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
@@ -282,11 +282,10 @@ def uv_to_CCT_ohno2013(uv,
     if Duv < 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
-        b = -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * \
-              (di - dip)) * X ** -1
-        c = -(dip * (Tin - Ti) * Ti * Tin + di * \
-              (Tip - Tin) * Tip * Tin + din * \
-              (Ti - Tip) * Tip * Ti) * X ** -1
+        b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
+               (di - dip)) * X ** -1)
+        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin
+               + din * (Ti - Tip) * Tip * Ti) * X ** -1)
 
         T = -b / (2. * a)
 
@@ -625,16 +624,16 @@ def xy_to_CCT_hernandez1999(xy):
     x, y = xy
 
     n = (x - 0.3366) / (y - 0.1735)
-    CCT = -949.86315 + \
-          6253.80338 * math.exp(-n / 0.92159) + \
-          28.70599 * math.exp(-n / 0.20039) + \
-          0.00004 * math.exp(-n / 0.07125)
+    CCT = (-949.86315 +
+           6253.80338 * math.exp(-n / 0.92159) +
+           28.70599 * math.exp(-n / 0.20039) +
+           0.00004 * math.exp(-n / 0.07125))
 
     if CCT > 50000:
         n = (x - 0.3356) / (y - 0.1691)
-        CCT = 36284.48953 + \
-              0.00228 * math.exp(-n / 0.07861) + \
-              5.4535e-36 * math.exp(-n / 0.01543)
+        CCT = (36284.48953 +
+               0.00228 * math.exp(-n / 0.07861) +
+               5.4535e-36 * math.exp(-n / 0.01543))
 
     return CCT
 
@@ -662,34 +661,34 @@ def CCT_to_xy_kang2002(CCT):
     """
 
     if 1667 <= CCT <= 4000:
-        x = -0.2661239 * 10 ** 9 / CCT ** 3 - \
-            0.2343589 * 10 ** 6 / CCT ** 2 + \
-            0.8776956 * 10 ** 3 / CCT + \
-            0.179910
+        x = (-0.2661239 * 10 ** 9 / CCT ** 3 -
+             0.2343589 * 10 ** 6 / CCT ** 2 +
+             0.8776956 * 10 ** 3 / CCT +
+             0.179910)
     elif 4000 <= CCT <= 25000:
-        x = -3.0258469 * 10 ** 9 / CCT ** 3 + \
-            2.1070379 * 10 ** 6 / CCT ** 2 + \
-            0.2226347 * 10 ** 3 / CCT + \
-            0.24039
+        x = (-3.0258469 * 10 ** 9 / CCT ** 3 +
+             2.1070379 * 10 ** 6 / CCT ** 2 +
+             0.2226347 * 10 ** 3 / CCT +
+             0.24039)
     else:
         raise ValueError(
             "Correlated colour temperature must be in domain [1667, 25000]!")
 
     if 1667 <= CCT <= 2222:
-        y = -1.1063814 * x ** 3 - \
-            1.34811020 * x ** 2 + \
-            2.18555832 * x - \
-            0.20219683
+        y = (-1.1063814 * x ** 3 -
+             1.34811020 * x ** 2 +
+             2.18555832 * x -
+             0.20219683)
     elif 2222 <= CCT <= 4000:
-        y = -0.9549476 * x ** 3 - \
-            1.37418593 * x ** 2 + \
-            2.09137015 * x - \
-            0.16748867
+        y = (-0.9549476 * x ** 3 -
+             1.37418593 * x ** 2 +
+             2.09137015 * x -
+             0.16748867)
     elif 4000 <= CCT <= 25000:
-        y = 3.0817580 * x ** 3 - \
-            5.8733867 * x ** 2 + \
-            3.75112997 * x - \
-            0.37001483
+        y = (3.0817580 * x ** 3 -
+             5.8733867 * x ** 2 +
+             3.75112997 * x -
+             0.37001483)
 
     return x, y
 
@@ -713,15 +712,15 @@ def CCT_to_xy_illuminant_D(CCT):
     """
 
     if 4000 <= CCT <= 7000:
-        x = -4.607 * 10 ** 9 / CCT ** 3 + \
-            2.9678 * 10 ** 6 / CCT ** 2 + \
-            0.09911 * 10 ** 3 / CCT + \
-            0.244063
+        x = (-4.607 * 10 ** 9 / CCT ** 3 +
+             2.9678 * 10 ** 6 / CCT ** 2 +
+             0.09911 * 10 ** 3 / CCT +
+             0.244063)
     elif 7000 < CCT <= 25000:
-        x = -2.0064 * 10 ** 9 / CCT ** 3 + \
-            1.9018 * 10 ** 6 / CCT ** 2 + \
-            0.24748 * 10 ** 3 / CCT + \
-            0.23704
+        x = (-2.0064 * 10 ** 9 / CCT ** 3 +
+             1.9018 * 10 ** 6 / CCT ** 2 +
+             0.24748 * 10 ** 3 / CCT +
+             0.23704)
     else:
         raise ValueError(
             "Correlated colour temperature must be in domain [4000, 25000]!")
