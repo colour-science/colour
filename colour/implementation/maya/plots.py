@@ -14,14 +14,15 @@
 
 """
 
+import numpy as np
+
 import maya.cmds as cmds
 import maya.OpenMaya as OpenMaya
-import numpy
-
-import colour.computation.colourspaces.cie_xyy
-import colour.computation.colourspaces.cie_lab
-import colour.dataset.illuminants.chromaticity_coordinates
+import colour.models.cie_xyy
+import colour.models.cie_lab
+import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
 import colour.utilities.data_structures
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -119,10 +120,10 @@ def RGB_to_Lab(RGB, colourspace):
     :rtype: bool
     """
 
-    return colour.computation.colourspaces.cie_lab.XYZ_to_Lab(
-        colour.computation.colourspaces.cie_xyy.RGB_to_XYZ(numpy.array(RGB).reshape((3, 1)),
+    return colour.models.cie_lab.XYZ_to_Lab(
+        colour.models.cie_xyy.RGB_to_XYZ(np.array(RGB).reshape((3, 1)),
                                                            colourspace.whitepoint,
-                                                           colour.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
+                                                           colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
                                                                "CIE 1931 2 Degree Standard Observer").get(
                                                                "E"),
                                                            "Bradford",
@@ -180,7 +181,7 @@ def Lab_colourspace_cube(colourspace, density=20):
     it_mesh_vertex = OpenMaya.MItMeshVertex(get_dag_path(cube))
     while not it_mesh_vertex.isDone():
         position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
-        it_mesh_vertex.setPosition(get_mpoint(list(numpy.ravel(RGB_to_Lab((position[0], position[1], position[2],),
+        it_mesh_vertex.setPosition(get_mpoint(list(np.ravel(RGB_to_Lab((position[0], position[1], position[2],),
                                                                           colourspace)))))
         it_mesh_vertex.next()
     set_attributes({"{0}.rotateX".format(cube): 180,

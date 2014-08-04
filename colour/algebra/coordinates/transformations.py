@@ -17,7 +17,7 @@
 from __future__ import unicode_literals
 
 import math
-import numpy
+import numpy as np
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,7 +38,7 @@ def cartesian_to_spherical(vector):
 
     Usage::
 
-        >>> cartesian_to_spherical(numpy.array([3, 1, 6]))
+        >>> cartesian_to_spherical(np.array([3, 1, 6]))
         [6.78232998  1.08574654  0.32175055]
 
     :param vector: Cartesian coordinates vector (x, y, z) to transform.
@@ -47,13 +47,13 @@ def cartesian_to_spherical(vector):
     :rtype: ndarray
     """
 
-    r = numpy.linalg.norm(vector)
-    x, y, z = numpy.ravel(vector)
+    r = np.linalg.norm(vector)
+    x, y, z = np.ravel(vector)
 
-    theta = math.atan2(z, numpy.linalg.norm((x, y)))
+    theta = math.atan2(z, np.linalg.norm((x, y)))
     phi = math.atan2(y, x)
 
-    return numpy.array((r, theta, phi))
+    return np.array((r, theta, phi))
 
 
 def spherical_to_cartesian(vector):
@@ -62,7 +62,7 @@ def spherical_to_cartesian(vector):
 
     Usage::
 
-        >>> spherical_to_cartesian(numpy.array([6.78232998, 1.08574654, 0.32175055]))
+        >>> spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
         [ 3.          0.99999999  6.        ]
 
     :param vector: Spherical coordinates vector (r, theta, phi) to transform.
@@ -71,13 +71,13 @@ def spherical_to_cartesian(vector):
     :rtype: ndarray
     """
 
-    r, theta, phi = numpy.ravel(vector)
+    r, theta, phi = np.ravel(vector)
 
     x = r * math.cos(theta) * math.cos(phi)
     y = r * math.cos(theta) * math.sin(phi)
     z = r * math.sin(theta)
 
-    return numpy.array((x, y, z))
+    return np.array((x, y, z))
 
 
 def cartesian_to_cylindrical(vector):
@@ -86,7 +86,7 @@ def cartesian_to_cylindrical(vector):
 
     Usage::
 
-        >>> cartesian_to_cylindrical(numpy.array([3, 1, 6]))
+        >>> cartesian_to_cylindrical(np.array([3, 1, 6]))
         [ 6.          0.32175055  3.16227766]
 
     :param vector: Cartesian coordinates vector (x, y, z) to transform.
@@ -95,12 +95,12 @@ def cartesian_to_cylindrical(vector):
     :rtype: ndarray
     """
 
-    x, y, z = numpy.ravel(vector)
+    x, y, z = np.ravel(vector)
 
     theta = math.atan2(y, x)
-    rho = numpy.linalg.norm((x, y))
+    rho = np.linalg.norm((x, y))
 
-    return numpy.array((z, theta, rho))
+    return np.array((z, theta, rho))
 
 
 def cylindrical_to_cartesian(vector):
@@ -109,7 +109,7 @@ def cylindrical_to_cartesian(vector):
 
     Usage::
 
-        >>> cylindrical_to_cartesian(numpy.array([6., 0.32175055, 3.16227766]))
+        >>> cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
         [ 3.          0.99999999  6.        ]
 
     :param vector: Cylindrical coordinates vector (z, theta, rho) to transform.
@@ -118,9 +118,9 @@ def cylindrical_to_cartesian(vector):
     :rtype: ndarray
     """
 
-    z, theta, rho = numpy.ravel(vector)
+    z, theta, rho = np.ravel(vector)
 
     x = rho * math.cos(theta)
     y = rho * math.sin(theta)
 
-    return numpy.array((x, y, z))
+    return np.array((x, y, z))

@@ -1,10 +1,10 @@
-_`colour.dataset.colourspaces.munsell`
+_`colour.models.dataset.munsell`
 ======================================
 
-.. automodule:: colour.dataset.colourspaces.munsell
+.. automodule:: colour.datasemodels.datasetll
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.munsell.MUNSELL_COLOURS
+.. attribute:: colour.colorimetry.dataset.colourspaces.munsell.MUNSELL_COLOURS
 

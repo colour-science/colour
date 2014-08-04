@@ -16,9 +16,9 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
-import colour.algebra.common
+from colour.algebra import is_number, to_ndarray
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -116,9 +116,9 @@ class Extrapolator1d(object):
         :rtype: float or ndarray
         """
 
-        xe = self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xe = self.__evaluate(to_ndarray(x))
 
-        if colour.algebra.common.is_number(x):
+        if is_number(x):
             return type(x)(xe)
         else:
             return xe
@@ -136,12 +136,12 @@ class Extrapolator1d(object):
         xi = self.__interpolator.x
         yi = self.__interpolator.y
 
-        y = numpy.empty_like(x)
+        y = np.empty_like(x)
 
         y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (xi[1] - xi[0])
         y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (xi[-1] - xi[-2])
 
-        in_range = numpy.logical_and(x >= xi[0], x <= xi[-1])
+        in_range = np.logical_and(x >= xi[0], x <= xi[-1])
         y[in_range] = self.__interpolator(x[in_range])
 
         return y

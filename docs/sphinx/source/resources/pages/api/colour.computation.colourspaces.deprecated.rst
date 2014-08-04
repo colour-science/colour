@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.deprecated`
+_`colour.models.deprecated`
 =============================================
 
 .. automodule:: colour.computation.colourspaces.deprecated

@@ -1,24 +1,18 @@
-_`colour.dataset.colourspaces.rgb.rec_2020`
+_`colour.models.dataset.rgb.rec_2020`
 ===========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.rec_2020
+.. automodule:: colour.datasemodels.datasetec_2020
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataset0.REC_2020_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset2020_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.colour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.datasetels.datasetMATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.XYZ_TO_REC_2020_MATRIX
-
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_CONSTANTS
-
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datcolour.colorimetry.datasetces.rgb.rec_2020.REmodels.dataset attribute:: colourcolour.colorimetry.datasetrspaces.rgb.rec_2020.REC_2020models.dataset.. attribute:: cocolour.colorimetry.datasetolourspaces.rgb.rec_2020.REC_2020_INVERmodels.dataset
 
 .. attribute:: colour.dataset.colourspaces.rgb.rec_2020.REC_2020_COLOURSPACE
 

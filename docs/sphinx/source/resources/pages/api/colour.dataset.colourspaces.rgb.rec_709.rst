@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.rec_709`
+_`colour.models.dataset.rgb.rec_709`
 ==========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.rec_709
+.. automodule:: colour.datasemodels.datasetec_709
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.dataset.REC_709_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset09_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodelcolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacolour.colorimetry.datasetodels.datasetTRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.XYZ_TO_REC_709_MATRIX
+.. attribute:: colour.dataset.ccolour.colorimetry.datasetb.rec_709.RECmodels.datasetON
 
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datascolour.colorimetry.datasets.rgb.rec_709.REC_709_Imodels.datasetTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.rec_709.REC_709_COLOURSPACE
 

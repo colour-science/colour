@@ -1,18 +1,12 @@
-_`colour.implementation.matplotlib.plots`
+_`colour.plotting.plots`
 =========================================
 
-.. automodule:: colour.implementation.matplotlib.plots
-
-Module Attributes
+.. automodule:: colour.implementacolour.plotting.plotses
 -----------------
 
-.. attribute:: colour.implementation.matplotlib.plots.RESOURCES_DIRECTORY
+.. attribute:: colour.implementation.matplotlib.pcolour.plotting.plots:: colour.implementation.matplotlib.plots.DEFAULT_FIGUcolour.plotting.plotsntation.matplotlib.plots.DEFAULT_COLOUR_CYCLE
 
-.. attribute:: colour.implementation.matplotlib.plots.DEFAULT_FIGURE_SIZE
-
-.. attribute:: colour.implementation.matplotlib.plots.DEFAULT_COLOUR_CYCLE
-
-.. attribute:: colour.implementation.matplotlib.plots.COLOUR_PARAMETER
+.. attrcolour.plotting.plotsib.plots.COLOUR_PARAMETER
 
 Functions
 ---------

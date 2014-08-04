@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.apple_rgb`
+_`colour.models.dataset.rgb.apple_rgb`
 ============================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.apple_rgb
+.. automodule:: colour.datasemodels.datasetpple_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetgb.APPLE_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.datasetLE_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.dacolour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspaces.colour.colorimetry.datasets.datasetB_MATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.XYZ_TO_APPLE_RGB_MATRIX
+.. attribute:: colour.dataset.coloucolour.colorimetry.datasetple_rgb.Amodels.datasetNCTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.dataset.ccolour.colorimetry.datasetb.apple_rgb.APPLE_Rmodels.datasetFUNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.apple_rgb.APPLE_RGB_COLOURSPACE
 

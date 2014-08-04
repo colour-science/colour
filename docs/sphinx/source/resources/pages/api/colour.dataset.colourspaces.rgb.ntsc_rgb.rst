@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.ntsc_rgb`
+_`colour.models.dataset.rgb.ntsc_rgb`
 ===========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.ntsc_rgb
+.. automodule:: colour.datasemodels.datasettsc_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetb.NTSC_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.colour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.datasetels.datasetMATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.XYZ_TO_NTSC_RGB_MATRIX
+.. attribute:: colour.dataset.colcolour.colorimetry.datasetntsc_rgb.NTmodels.datasetTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datasetcolour.colorimetry.datasetrgb.ntsc_rgb.NTSC_RGBmodels.datasetNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.ntsc_rgb.NTSC_RGB_COLOURSPACE
 

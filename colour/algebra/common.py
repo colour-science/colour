@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -59,7 +59,7 @@ def get_closest(y, x):
 
     Usage::
 
-        >>> y = numpy.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
+        >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
         >>> get_closest(63, y)
         62.70988028
 
@@ -71,7 +71,7 @@ def get_closest(y, x):
     :rtype: int or float
     """
 
-    return y[(numpy.abs(numpy.array(y) - x)).argmin()]
+    return y[(np.abs(np.array(y) - x)).argmin()]
 
 
 def to_ndarray(x):
@@ -89,7 +89,7 @@ def to_ndarray(x):
     :rtype: ndarray
     """
 
-    return numpy.array(x) if is_iterable(x) else numpy.array((x,))
+    return np.array(x) if is_iterable(x) else np.array((x,))
 
 
 def is_uniform(distribution):

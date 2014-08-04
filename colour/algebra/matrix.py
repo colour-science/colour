@@ -16,7 +16,7 @@
 
 from __future__ import unicode_literals
 
-import numpy
+import numpy as np
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -34,9 +34,9 @@ def is_identity(x, n=3):
 
     Usage::
 
-        >>> is_identity(numpy.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+        >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
         True
-        >>> is_identity(numpy.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+        >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
         False
 
     :param x: *array_like* variable *x*.
@@ -47,4 +47,4 @@ def is_identity(x, n=3):
     :rtype: bool
     """
 
-    return numpy.array_equal(numpy.identity(n), x)
+    return np.array_equal(np.identity(n), x)

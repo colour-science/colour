@@ -1,32 +1,16 @@
-_`colour.computation.colourspaces.munsell`
+_`colour.models.munsell`
 ==========================================
 
-.. automodule:: colour.computation.colourspaces.munsell
-
-Module Attributes
+.. automodule:: colour.compucolourcolour.modelsttributes
 -----------------
 
-.. attribute:: colour.computation.colourspaces.munsell.FPNP
+.. attribute:: colour.computation.coloucolour.coloucolour.models.computation.colourspaces.munscolour.colourspacecolour.modelstribute:: colour.computation.colourspaces.munsell.MUNSELL_colour.colourspacesN
 
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_GRAY_PATTERN
+..colour.models.computation.colourspaces.munsell.MUNSELL_RENOTATION_Scolour.colourspaces:: colour.ccolour.modelsaces.munsell.MUNSELL_RENOTATION_SYSTEM_COLOURcolour.colourspacescomputation.coloucolour.modelsSELL_RENOTATION_SYSTEM_GRAY_EXTENDED_FORMcolour.colourspacestation.colourspaces.muncolour.modelsTION_SYSTEM_COLOUR_EXTENDED_FORMAT
 
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_COLOUR_PATTERN
+.. attcolour.colourspacesourspaces.munsell.MUNSELL_HUEcolour.modelsttribute:: colour.computation.colourspcolour.colourspacesHOLD
 
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_GRAY_FORMAT
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_COLOUR_FORMAT
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_GRAY_EXTENDED_FORMAT
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_RENOTATION_SYSTEM_COLOUR_EXTENDED_FORMAT
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_HUE_LETTER_CODES
-
-.. attribute:: colour.computation.colourspaces.munsell.EVEN_INTEGER_THRESHOLD
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_DEFAULT_ILLUMINANT
-
-.. attribute:: colour.computation.colourspaces.munsell.MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+.. attribute:: colour.computacolour.modelsunsell.Mcolour.colourspacesttribute:: colour.computation.colourspacecolour.modelscolour.colourspacesCOORDINATES
 
 .. attribute:: colour.computation.colourspaces.munsell.MUNSELL_VALUE_FUNCTIONS
 

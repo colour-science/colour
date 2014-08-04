@@ -1,20 +1,14 @@
-_`colour.dataset.cmfs`
+_`colour.colorimetry.dataset.cmfs`
 ======================
 
-.. automodule:: colour.dataset.cmfs
+.. acolour.colorimetry.datasetlour.dataset.cmfs
 
 Module Attributes
------------------
+----------colour.colorimetry.datasettribute:: colour.datasetcolour.colorimetry.dataset_DATA
 
-.. attribute:: colour.dataset.cmfs.LMS_CMFS_DATA
+.. attributecolour.colorimetry.datasetset.cmfs.LMS_CMFS
 
-.. attribute:: colour.dataset.cmfs.LMS_CMFS
-
-.. attribute:: colour.dataset.cmfs.RGB_CMFS_DATA
-
-.. attribute:: colour.dataset.cmfs.RGB_CMFS
-
-.. attribute:: colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS_DATA
+.. atcolour.colorimetry.datasetur.dataset.cmfs.RGBcolour.colorimetry.dataset attribute:: colour.dataset.cmfs.RGB_CMcolour.colorimetry.datasette:: colour.dataset.cmfs.STANDARD_colour.colorimetry.dataset_DATA
 
 .. attribute:: colour.dataset.cmfs.STANDARD_OBSERVERS_CMFS
 

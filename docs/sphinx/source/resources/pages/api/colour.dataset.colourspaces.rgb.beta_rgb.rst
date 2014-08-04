@@ -1,22 +1,20 @@
-_`colour.dataset.colourspaces.rgb.beta_rgb`
+_`colour.models.dataset.rgb.beta_rgb`
 ===========================================
 
-.. automodule:: colour.dataset.colourspaces.rgb.beta_rgb
+.. automodule:: colour.datasemodels.dataseteta_rgb
 
 Module Attributes
 -----------------
 
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_PRIMARIES
+.. attribute:: colour.colorimetry.dataset.colomodels.datasetb.BETA_RGB_PRIMARIES
 
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_WHITEPOINT
+.. colour.colorimetry.datasetlour.dataset.colourspacmodels.dataset_RGB_WHIcolour.colorimetry.datasettribute:: colour.dataset.colourspaces.rgbmodels.colour.colorimetry.datasetATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_TO_XYZ_MATRIX
+.. attribute:: colour.dataset.colourspacecolour.colorimetry.datasetels.datasetMATRIX
 
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.XYZ_TO_BETA_RGB_MATRIX
+.. attribute:: colour.dataset.colcolour.colorimetry.datasetbeta_rgb.BEmodels.datasetTION
 
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_TRANSFER_FUNCTION
-
-.. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_INVERSE_TRANSFER_FUNCTION
+.. attribute:: colour.datasetcolour.colorimetry.datasetrgb.beta_rgb.BETA_RGBmodels.datasetNCTION
 
 .. attribute:: colour.dataset.colourspaces.rgb.beta_rgb.BETA_RGB_COLOURSPACE
 

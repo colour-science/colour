@@ -1,4 +1,4 @@
-_`colour.computation.colourspaces.rgb.rgb_colourspace`
+_`colour.models.rgb.rgb_colourspace`
 ======================================================
 
 .. automodule:: colour.computation.colourspaces.rgb.rgb_colourspace

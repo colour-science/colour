@@ -19,14 +19,16 @@
 """
 
 import bisect
+
 import matplotlib.pyplot
-import numpy
+import numpy as np
 import os
 import pylab
 import re
 
 import colour.implementation.spectroscope.analysis
-import colour.implementation.matplotlib.plots
+import colour.plotting.plots
+
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -157,16 +159,16 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
 
     wavelengths = RGB_spectrum.wavelengths
     input, output = min(wavelengths), max(wavelengths)
-    pylab.imshow(numpy.dstack([colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.R.values),
+    pylab.imshow(np.dstack([colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.R.values),
                                colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.G.values),
                                colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.B.values)]),
                  extent=[input, output, 0, height])
 
     pylab.plot(luminance_spd.wavelengths, luminance_spd.values, color="black", linewidth=1.)
 
-    fraunhofer_wavelengths = numpy.array(sorted(FRAUNHOFER_LINES_PUBLISHED.values()))
+    fraunhofer_wavelengths = np.array(sorted(FRAUNHOFER_LINES_PUBLISHED.values()))
     fraunhofer_wavelengths = fraunhofer_wavelengths[
-        numpy.where(numpy.logical_and(fraunhofer_wavelengths >= input, fraunhofer_wavelengths <= output))]
+        np.where(np.logical_and(fraunhofer_wavelengths >= input, fraunhofer_wavelengths <= output))]
     fraunhofer_lines_labels = [
         FRAUNHOFER_LINES_PUBLISHED.keys()[FRAUNHOFER_LINES_PUBLISHED.values().index(i)] for i in fraunhofer_wavelengths]
 
@@ -202,7 +204,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                        fontdict={"size": "large" if is_large_line else"small"})
 
     r = lambda x: int(x / 100.) * 100
-    matplotlib.pyplot.xticks(numpy.arange(r(input), r(output * 1.5), 20.))
+    matplotlib.pyplot.xticks(np.arange(r(input), r(output * 1.5), 20.))
 
     settings = {"x_tighten": True,
                 "y_tighten": True,
@@ -213,11 +215,11 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                 "no_y_ticks": True,
                 "grid": True}
 
-    colour.implementation.matplotlib.plots.bounding_box(**settings)
+    colour.plotting.plots.bounding_box(**settings)
 
-    colour.implementation.matplotlib.plots.aspect(**settings)
+    colour.plotting.plots.aspect(**settings)
 
-    return colour.implementation.matplotlib.plots.display(**settings)
+    return colour.plotting.plots.display(**settings)
 
 
 if __name__ == "__main__":

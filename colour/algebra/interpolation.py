@@ -17,9 +17,9 @@
 from __future__ import unicode_literals
 
 import bisect
-import numpy
+import numpy as np
 
-import colour.algebra.common
+from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -38,8 +38,8 @@ class LinearInterpolator(object):
 
     Usage::
 
-        >>> y = numpy.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
-        >>> x = numpy.arange(len(y))
+        >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+        >>> x = np.arange(len(y))
         >>> f = colour.LinearInterpolator(x, y)
         >>> f(0.5)
         7.645
@@ -86,12 +86,12 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = colour.algebra.common.to_ndarray(value)
+            value = to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
-            if not issubclass(value.dtype.type, numpy.inexact):
-                value = value.astype(numpy.float_)
+            if not issubclass(value.dtype.type, np.inexact):
+                value = value.astype(np.float_)
 
         self.__x = value
 
@@ -116,12 +116,12 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = colour.algebra.common.to_ndarray(value)
+            value = to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 
-            if not issubclass(value.dtype.type, numpy.inexact):
-                value = value.astype(numpy.float_)
+            if not issubclass(value.dtype.type, np.inexact):
+                value = value.astype(np.float_)
 
         self.__y = value
 
@@ -135,9 +135,9 @@ class LinearInterpolator(object):
         :rtype: float or ndarray
         """
 
-        xi = self.__evaluate(colour.algebra.common.to_ndarray(x))
+        xi = self.__evaluate(to_ndarray(x))
 
-        if colour.algebra.common.is_number(x):
+        if is_number(x):
             return type(x)(xi)
         else:
             return xi
@@ -155,7 +155,7 @@ class LinearInterpolator(object):
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
 
-        return numpy.interp(x, self.__x, self.__y)
+        return np.interp(x, self.__x, self.__y)
 
     def __validate_dimensions(self):
         """
@@ -191,8 +191,8 @@ class SpragueInterpolator(object):
 
     Usage::
 
-        >>> y = numpy.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
-        >>> x = numpy.arange(len(y))
+        >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+        >>> x = np.arange(len(y))
         >>> f = colour.SpragueInterpolator(x, y)
         >>> f(0.5)
         7.21850256056
@@ -208,7 +208,7 @@ class SpragueInterpolator(object):
     """
 
     # http://div1.cie.co.at/?i_ca_id=551&pubid=47, Table V
-    sprague_c_coefficients = numpy.array([[884, -1960, 3033, -2648, 1080, -180],
+    sprague_c_coefficients = np.array([[884, -1960, 3033, -2648, 1080, -180],
                                           [508, -540, 488, -367, 144, -24],
                                           [-24, 144, -367, 488, -540, 508],
                                           [-180, 1080, -2648, 3033, -1960, 884]])
@@ -258,23 +258,23 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = colour.algebra.common.to_ndarray(value)
+            value = to_ndarray(value)
 
             assert value.ndim == 1, "'x' independent variable array must have exactly one dimension!"
 
-            assert colour.algebra.common.is_uniform(value), "'x' independent variable is not uniform!"
+            assert is_uniform(value), "'x' independent variable is not uniform!"
 
-            if not issubclass(value.dtype.type, numpy.inexact):
-                value = value.astype(numpy.float_)
+            if not issubclass(value.dtype.type, np.inexact):
+                value = value.astype(np.float_)
 
-            steps = colour.algebra.common.get_steps(value)[0]
+            steps = get_steps(value)[0]
 
             xp1 = value[0] - steps * 2
             xp2 = value[0] - steps
             xp3 = value[-1] + steps
             xp4 = value[-1] + steps * 2
 
-            self.__xp = numpy.concatenate(((xp1, xp2), value, (xp3, xp4)))
+            self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
         self.__x = value
 
@@ -299,25 +299,25 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = colour.algebra.common.to_ndarray(value)
+            value = to_ndarray(value)
 
             assert value.ndim == 1, "'y' dependent variable array must have exactly one dimension!"
 
             assert len(value) >= 6, "'y' dependent variable values count must be in domain [6:]!".format(len(value))
 
-            if not issubclass(value.dtype.type, numpy.inexact):
-                value = value.astype(numpy.float_)
+            if not issubclass(value.dtype.type, np.inexact):
+                value = value.astype(np.float_)
 
-            yp1 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[0],
-                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
-            yp2 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[1],
-                                         numpy.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
-            yp3 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[2],
-                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
-            yp4 = numpy.ravel((numpy.dot(self.sprague_c_coefficients[3],
-                                         numpy.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+            yp1 = np.ravel((np.dot(self.sprague_c_coefficients[0],
+                                         np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp2 = np.ravel((np.dot(self.sprague_c_coefficients[1],
+                                         np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+            yp3 = np.ravel((np.dot(self.sprague_c_coefficients[2],
+                                         np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+            yp4 = np.ravel((np.dot(self.sprague_c_coefficients[3],
+                                         np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
 
-            self.__yp = numpy.concatenate(((yp1, yp2), value, (yp3, yp4)))
+            self.__yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
         self.__y = value
 
@@ -332,7 +332,7 @@ class SpragueInterpolator(object):
         """
 
         try:
-            return numpy.array(map(self.__evaluate, x))
+            return np.array(map(self.__evaluate, x))
         except TypeError as error:
             return self.__evaluate(x)
 
@@ -350,7 +350,7 @@ class SpragueInterpolator(object):
         self.__validate_interpolation_range(x)
 
         if x in self.__x:
-            return self.__y[numpy.where(self.__x == x)][0]
+            return self.__y[np.where(self.__x == x)][0]
 
         i = bisect.bisect(self.__xp, x) - 1
         X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])

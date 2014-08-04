@@ -1,12 +1,10 @@
-_`colour.dataset.illuminants.spds`
+_`colour.colorimetry.dataset.illuminants.spds`
 ==================================
 
-.. automodule:: colour.dataset.illuminants.spds
+.. acolour.colorimetry.datasetlour.dataset.illuminants.spds
 
 Module Attributes
------------------
-
-.. attribute:: colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS_DATA
+----------colour.colorimetry.datasettribute:: colour.dataset.illuminants.spds.ILLUMINANTScolour.colorimetry.dataset_DATA
 
 .. attribute:: colour.dataset.illuminants.spds.ILLUMINANTS_RELATIVE_SPDS
 
