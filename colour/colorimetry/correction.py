@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package spectral bandpass dependence correction related objects.
+    Defines **Colour** package spectral bandpass dependence correction related
+    objects.
 
 **Others:**
 
@@ -23,22 +24,22 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["bandpass_correction_stearns",
+__all__ = ["bandpass_correction_stearns1988",
            "BANDPASS_CORRECTION_METHODS",
            "bandpass_correction"]
 
 ALPHA_STEARNS = 0.083
 
 
-def bandpass_correction_stearns(spd):
+def bandpass_correction_stearns1988(spd):
     """
-    Implements spectral bandpass dependence correction on given spectral power distribution \
-    using *Stearns and Stearns (1988)* method.
+    Implements spectral bandpass dependence correction on given spectral power
+    distribution using *Stearns and Stearns (1988)* method.
 
     Usage::
 
         >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
-        >>> corrected_spd = bandpass_correction_stearns(spd)
+        >>> corrected_spd = bandpass_correction_stearns1988(spd)
         >>> print(corrected_spd.values)
         [ 48.01664     70.37296888  82.13645358  88.88480681  85.87238   ]
 
@@ -49,26 +50,32 @@ def bandpass_correction_stearns(spd):
 
     References:
 
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, \
-    The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
+    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, \
+    *Computational Colour Science Using MATLAB, 2nd Edition*, \
+    The Wiley-IS&T Series in Imaging Science and Technology, \
+    published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
     """
 
     values = spd.values
     values[0] = (1 + ALPHA_STEARNS) * values[0] - ALPHA_STEARNS * values[1]
     values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
-        values[i] = -ALPHA_STEARNS * values[i - 1] + (1. + 2. * ALPHA_STEARNS) * values[i] - ALPHA_STEARNS * values[
-            i + 1]
+        values[i] = -ALPHA_STEARNS * values[i - 1] + \
+                    (1. + 2. * ALPHA_STEARNS) * \
+                    values[i] - ALPHA_STEARNS * values[i + 1]
 
     for i, (wavelength, value) in enumerate(spd):
         spd[wavelength] = values[i]
     return spd
 
-BANDPASS_CORRECTION_METHODS = {"Stearns" : bandpass_correction_stearns}
 
-def bandpass_correction(spd, method="Stearns"):
+BANDPASS_CORRECTION_METHODS = {"Stearns 1988": bandpass_correction_stearns1988}
+
+
+def bandpass_correction(spd, method="Stearns 1988"):
     """
-    Implements spectral bandpass dependence correction on given spectral power distribution using given method.
+    Implements spectral bandpass dependence correction on given spectral power
+    distribution using given method.
 
     :param spd: Spectral power distribution.
     :type spd: SpectralPowerDistribution
@@ -79,4 +86,4 @@ def bandpass_correction(spd, method="Stearns"):
     """
 
     if method == "Stearns":
-        return bandpass_correction_stearns(spd)
+        return bandpass_correction_stearns1988(spd)

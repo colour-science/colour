@@ -17,9 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy as np
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -369,7 +367,8 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
 
 class TestLinearInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units tests methods.
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
+    tests methods.
     """
 
     def test_required_attributes(self):
@@ -395,24 +394,31 @@ class TestLinearInterpolator(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__` method.
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
         linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
-        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
-            self.assertAlmostEqual(LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], linear_interpolator(value),
-                                   places=7)
+        for i, value in enumerate(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+            self.assertAlmostEqual(
+                LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                linear_interpolator(value),
+                places=7)
 
-        np.testing.assert_almost_equal(linear_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
-                                          LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+        np.testing.assert_almost_equal(
+            linear_interpolator(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+            LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
 class TestSpragueInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class units tests methods.
+    Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class
+    units tests methods.
     """
 
     def test_required_attributes(self):
@@ -438,19 +444,25 @@ class TestSpragueInterpolator(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__` method.
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
-        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
-            self.assertAlmostEqual(SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], sprague_interpolator(value),
-                                   places=7)
+        for i, value in enumerate(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+            self.assertAlmostEqual(
+                SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                sprague_interpolator(value),
+                places=7)
 
-        np.testing.assert_almost_equal(sprague_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
-                                          SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+        np.testing.assert_almost_equal(
+            sprague_interpolator(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+            SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
 if __name__ == "__main__":

@@ -24,7 +24,9 @@ else:
     import unittest
 
 from colour.quality import get_colour_rendering_index
-from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution
+from colour.colorimetry import \
+    ILLUMINANTS_RELATIVE_SPDS, \
+    SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -121,7 +123,8 @@ SAMPLE_SPD_DATA = {
 
 class TestGetColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.cri.get_colour_rendering_index` definition units tests methods.
+    Defines :func:`colour.cri.get_colour_rendering_index` definition units
+    tests methods.
     """
 
     def test_xy_to_z(self):
@@ -140,7 +143,9 @@ class TestGetColourRenderingIndex(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)),
+            get_colour_rendering_index(SpectralPowerDistribution(
+                "Sample",
+                SAMPLE_SPD_DATA)),
             70.805836753503698,
             places=7)
 

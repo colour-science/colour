@@ -24,7 +24,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import mesopic_weighting_function, mesopic_luminous_efficiency_function
+from colour.colorimetry import mesopic_weighting_function, \
+    mesopic_luminous_efficiency_function
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -442,12 +443,14 @@ MESOPIC_LEF_SPD_DATA = np.array([
 
 class TestMesopicWeightingFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lefs.mesopic_weighting_function` definition units tests methods.
+    Defines :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+    definition units tests methods.
     """
 
     def test_mesopic_weighting_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function` definition.
+        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+        definition.
         """
 
         self.assertAlmostEqual(
@@ -455,23 +458,31 @@ class TestMesopicWeightingFunction(unittest.TestCase):
             0.7052200000000001,
             places=7)
         self.assertAlmostEqual(
-            mesopic_weighting_function(500, 0.2, source="Red Heavy", method="LRC"),
+            mesopic_weighting_function(500,
+                                       0.2,
+                                       source="Red Heavy",
+                                       method="LRC"),
             0.9095099999999999,
             places=7)
         self.assertAlmostEqual(
-            mesopic_weighting_function(700, 10, source="Red Heavy", method="LRC"),
+            mesopic_weighting_function(700,
+                                       10,
+                                       source="Red Heavy",
+                                       method="LRC"),
             0.004102,
             places=7)
 
 
 class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function` definition units tests methods.
+    Defines :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
+    definition units tests methods.
     """
 
     def test_mesopic_luminous_efficiency_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function` definition.
+        Tests :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
+        definition.
         """
 
         np.testing.assert_almost_equal(

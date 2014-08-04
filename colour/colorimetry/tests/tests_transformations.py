@@ -47,15 +47,17 @@ __all__ = ["TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
 
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition units tests methods.
+    Defines :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    definition units tests methods.
     """
 
     def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
+        Tests :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        definition.
         """
 
-        # TODO: Change tests for tolerance matching.
+        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
         np.testing.assert_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
@@ -75,15 +77,17 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition units tests methods.
+    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    definition units tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
+        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        definition.
         """
 
-        # TODO: Change tests for tolerance matching.
+        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get("CIE 1964 10 Degree Standard Observer")
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
@@ -103,15 +107,17 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition units tests methods.
+    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+    definition units tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
+        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+        definition.
         """
 
-        # TODO: Change tests for tolerance matching.
+        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
@@ -131,15 +137,17 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition units tests methods.
+    Defines :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    definition units tests methods.
     """
 
     def test_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
+        Tests :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        definition.
         """
 
-        # TODO: Change tests for tolerance matching.
+        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get("CIE 2012 2 Degree Standard Observer")
         np.testing.assert_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
@@ -159,15 +167,17 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition units tests methods.
+    Defines :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    definition units tests methods.
     """
 
     def test_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
+        Tests :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        definition.
         """
 
-        # TODO: Change tests for tolerance matching.
+        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get("CIE 2012 10 Degree Standard Observer")
         np.testing.assert_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),

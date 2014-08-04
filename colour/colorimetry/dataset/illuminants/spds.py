@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *illuminants* relative spectral power distributions.
+    Defines **Colour** package *illuminants* relative spectral power
+    distributions.
 
 **Others:**
 
@@ -31,7 +32,8 @@ __all__ = ["ILLUMINANTS_RELATIVE_SPDS_DATA",
 
 # Relative spectral power distribution for various illuminants in at 5 nm steps.
 # http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
-# https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls (Last accessed 24 February 2014)
+# https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls \
+# (Last accessed 24 February 2014)
 # http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c
 ILLUMINANTS_RELATIVE_SPDS_DATA = {
     "A": {
@@ -3495,47 +3497,88 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         780: 15.61}}
 
 ILLUMINANTS_RELATIVE_SPDS = {
-    "A": SpectralPowerDistribution("A", ILLUMINANTS_RELATIVE_SPDS_DATA.get("A")),
-    "B": SpectralPowerDistribution("B", ILLUMINANTS_RELATIVE_SPDS_DATA.get("B")),
-    "C": SpectralPowerDistribution("C", ILLUMINANTS_RELATIVE_SPDS_DATA.get("C")),
-    "D50": SpectralPowerDistribution("D50", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D50")),
-    "D55": SpectralPowerDistribution("D55", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D55")),
-    "D60": SpectralPowerDistribution("D60", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D60")),
-    "D65": SpectralPowerDistribution("D65", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D65")),
-    "D75": SpectralPowerDistribution("D75", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D75")),
-    "E": SpectralPowerDistribution("E", ILLUMINANTS_RELATIVE_SPDS_DATA.get("E")),
-    "F1": SpectralPowerDistribution("F1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F1")),
-    "F2": SpectralPowerDistribution("F2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F2")),
-    "F3": SpectralPowerDistribution("F3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F3")),
-    "F4": SpectralPowerDistribution("F4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F4")),
-    "F5": SpectralPowerDistribution("F5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F5")),
-    "F6": SpectralPowerDistribution("F6", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F6")),
-    "F7": SpectralPowerDistribution("F7", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F7")),
-    "F8": SpectralPowerDistribution("F8", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F8")),
-    "F9": SpectralPowerDistribution("F9", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F9")),
-    "F10": SpectralPowerDistribution("F10", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F10")),
-    "F11": SpectralPowerDistribution("F11", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F11")),
-    "F12": SpectralPowerDistribution("F12", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F12")),
-    "FL3.1": SpectralPowerDistribution("FL3.1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.1")),
-    "FL3.2": SpectralPowerDistribution("FL3.2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.2")),
-    "FL3.3": SpectralPowerDistribution("FL3.3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.3")),
-    "FL3.4": SpectralPowerDistribution("FL3.4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.4")),
-    "FL3.5": SpectralPowerDistribution("FL3.5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.5")),
-    "FL3.6": SpectralPowerDistribution("FL3.6", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.6")),
-    "FL3.7": SpectralPowerDistribution("FL3.7", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.7")),
-    "FL3.8": SpectralPowerDistribution("FL3.8", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.8")),
-    "FL3.9": SpectralPowerDistribution("FL3.9", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.9")),
-    "FL3.10": SpectralPowerDistribution("FL3.10", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.10")),
-    "FL3.11": SpectralPowerDistribution("FL3.11", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.11")),
-    "FL3.12": SpectralPowerDistribution("FL3.12", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.12")),
-    "FL3.13": SpectralPowerDistribution("FL3.13", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.13")),
-    "FL3.14": SpectralPowerDistribution("FL3.14", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.14")),
-    "FL3.15": SpectralPowerDistribution("FL3.15", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.15")),
-    "HP1": SpectralPowerDistribution("HP1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP1")),
-    "HP2": SpectralPowerDistribution("HP2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP2")),
-    "HP3": SpectralPowerDistribution("HP3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP3")),
-    "HP4": SpectralPowerDistribution("HP4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP4")),
-    "HP5": SpectralPowerDistribution("HP5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP5"))}
+    "A": SpectralPowerDistribution(
+        "A", ILLUMINANTS_RELATIVE_SPDS_DATA.get("A")),
+    "B": SpectralPowerDistribution(
+        "B", ILLUMINANTS_RELATIVE_SPDS_DATA.get("B")),
+    "C": SpectralPowerDistribution(
+        "C", ILLUMINANTS_RELATIVE_SPDS_DATA.get("C")),
+    "D50": SpectralPowerDistribution(
+        "D50", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D50")),
+    "D55": SpectralPowerDistribution(
+        "D55", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D55")),
+    "D60": SpectralPowerDistribution(
+        "D60", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D60")),
+    "D65": SpectralPowerDistribution(
+        "D65", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D65")),
+    "D75": SpectralPowerDistribution(
+        "D75", ILLUMINANTS_RELATIVE_SPDS_DATA.get("D75")),
+    "E": SpectralPowerDistribution(
+        "E", ILLUMINANTS_RELATIVE_SPDS_DATA.get("E")),
+    "F1": SpectralPowerDistribution(
+        "F1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F1")),
+    "F2": SpectralPowerDistribution(
+        "F2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F2")),
+    "F3": SpectralPowerDistribution(
+        "F3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F3")),
+    "F4": SpectralPowerDistribution(
+        "F4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F4")),
+    "F5": SpectralPowerDistribution(
+        "F5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F5")),
+    "F6": SpectralPowerDistribution(
+        "F6", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F6")),
+    "F7": SpectralPowerDistribution(
+        "F7", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F7")),
+    "F8": SpectralPowerDistribution(
+        "F8", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F8")),
+    "F9": SpectralPowerDistribution(
+        "F9", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F9")),
+    "F10": SpectralPowerDistribution(
+        "F10", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F10")),
+    "F11": SpectralPowerDistribution(
+        "F11", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F11")),
+    "F12": SpectralPowerDistribution(
+        "F12", ILLUMINANTS_RELATIVE_SPDS_DATA.get("F12")),
+    "FL3.1": SpectralPowerDistribution(
+        "FL3.1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.1")),
+    "FL3.2": SpectralPowerDistribution(
+        "FL3.2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.2")),
+    "FL3.3": SpectralPowerDistribution(
+        "FL3.3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.3")),
+    "FL3.4": SpectralPowerDistribution(
+        "FL3.4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.4")),
+    "FL3.5": SpectralPowerDistribution(
+        "FL3.5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.5")),
+    "FL3.6": SpectralPowerDistribution(
+        "FL3.6", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.6")),
+    "FL3.7": SpectralPowerDistribution(
+        "FL3.7", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.7")),
+    "FL3.8": SpectralPowerDistribution(
+        "FL3.8", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.8")),
+    "FL3.9": SpectralPowerDistribution(
+        "FL3.9", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.9")),
+    "FL3.10": SpectralPowerDistribution(
+        "FL3.10", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.10")),
+    "FL3.11": SpectralPowerDistribution(
+        "FL3.11", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.11")),
+    "FL3.12": SpectralPowerDistribution(
+        "FL3.12", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.12")),
+    "FL3.13": SpectralPowerDistribution(
+        "FL3.13", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.13")),
+    "FL3.14": SpectralPowerDistribution(
+        "FL3.14", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.14")),
+    "FL3.15": SpectralPowerDistribution(
+        "FL3.15", ILLUMINANTS_RELATIVE_SPDS_DATA.get("FL3.15")),
+    "HP1": SpectralPowerDistribution(
+        "HP1", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP1")),
+    "HP2": SpectralPowerDistribution(
+        "HP2", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP2")),
+    "HP3": SpectralPowerDistribution(
+        "HP3", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP3")),
+    "HP4": SpectralPowerDistribution(
+        "HP4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP4")),
+    "HP5": SpectralPowerDistribution(
+        "HP5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP5"))}
 
 # *CIE Standard Illuminant D60* relative spectral power distribution has been calculated:
 # xy = colour.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D60")

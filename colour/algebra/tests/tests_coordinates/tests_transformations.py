@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines units tests for :mod:`colour.algebra.coordinates.transformations` module.
+    Defines units tests for :mod:`colour.algebra.coordinates.transformations`
+    module.
 
 **Others:**
 
@@ -42,12 +43,14 @@ __all__ = ["TestCartesianToSpherical",
 
 class TestCartesianToSpherical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical` definition units tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
+    definition units tests methods.
     """
 
     def test_cartesian_to_spherical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical` definition.
+        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
+        definition.
         """
 
         np.testing.assert_almost_equal(
@@ -66,12 +69,14 @@ class TestCartesianToSpherical(unittest.TestCase):
 
 class TestSphericalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian` definition units tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
+    definition units tests methods.
     """
 
     def test_spherical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian` definition.
+        Tests :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
+        definition.
         """
 
         np.testing.assert_almost_equal(
@@ -90,12 +95,14 @@ class TestSphericalToCartesian(unittest.TestCase):
 
 class TestCartesianToCylindrical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical` definition units tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
+    definition units tests methods.
     """
 
     def test_cartesian_to_cylindrical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical` definition.
+        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
+        definition.
         """
 
         np.testing.assert_almost_equal(
@@ -114,12 +121,14 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
 class TestCylindricalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian` definition units tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`
+    definition units tests methods.
     """
 
     def test_cylindrical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian` definition.
+        Tests :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`
+        definition.
         """
 
         np.testing.assert_almost_equal(

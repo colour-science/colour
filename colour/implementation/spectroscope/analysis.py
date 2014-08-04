@@ -90,7 +90,9 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "R"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "R"))
 
     @property
     def G(self):
@@ -112,7 +114,9 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "G"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "G"))
 
     @property
     def B(self):
@@ -134,18 +138,23 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "B"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "B"))
 
 
-def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=False):
+def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"],
+                      to_linear=False):
     """
-    Evaluate given colourspace transfer / inverse transfer function on given image data.
+    Evaluate given colourspace transfer / inverse transfer function on given
+    image data.
 
     :param image: Image to evalute the transfer function.
     :type image: ndarray
     :param colourspace: *RGB* Colourspace.
     :type colourspace: RGB_Colourspace
-    :param to_linear: Use colourspace inverse transfer function instead of colourspace transfer function.
+    :param to_linear: Use colourspace inverse transfer function instead of \
+    colourspace transfer function.
     :type to_linear: bool
     :return: Transformed image.
     :rtype: ndarray
@@ -156,12 +165,14 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_lin
     """
 
     vector_linearise = np.vectorize(
-        lambda x: colourspace.inverse_transfer_function(x) if to_linear else colourspace.transfer_function(x))
+        lambda x: colourspace.inverse_transfer_function(
+            x) if to_linear else colourspace.transfer_function(x))
 
     return vector_linearise(image)
 
 
-def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True):
+def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"],
+              to_linear=True):
     """
     Reads image from given path.
 
@@ -169,7 +180,8 @@ def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True)
     :type path: unicode
     :param colourspace: *RGB* Colourspace.
     :type colourspace: RGB_Colourspace
-    :param to_linear: Evaluate colourspace inverse transfer function on image data.
+    :param to_linear: Evaluate colourspace inverse transfer function on image \
+    data.
     :type to_linear: bool
     :return: Image.
     :rtype: ndarray
@@ -178,20 +190,23 @@ def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"], to_linear=True)
     image = matplotlib.image.imread(path)
 
     if to_linear:
-        image = transfer_function(image, colourspace=colourspace, to_linear=True)
+        image = transfer_function(image, colourspace=colourspace,
+                                  to_linear=True)
 
     return image
 
 
 def get_image_profile(image, line, samples=None):
     """
-    Returns the image profile using given line coordinates and given samples count.
+    Returns the image profile using given line coordinates and given samples
+    count.
 
     :param image: Image to retrieve the profile.
     :type image: ndarray
     :param line: Coordinates as image array indexes to measure the profile.
     :type line: tuple or list or ndarray (x0, y0, x1, y1)
-    :param samples: Samples count to retrieve along the line, default to image width.
+    :param samples: Samples count to retrieve along the line, default to image \
+    width.
     :type samples: int
     :return: Profile.
     :rtype: ndarray
@@ -210,16 +225,18 @@ def get_image_profile(image, line, samples=None):
         x, y = np.linspace(x0, x1, samples), np.linspace(y0, y1, samples)
         z = image[:, :, i]
 
-        profile.append(scipy.ndimage.map_coordinates(np.transpose(z), np.vstack((x, y))))
+        profile.append(
+            scipy.ndimage.map_coordinates(np.transpose(z), np.vstack((x, y))))
 
     return np.dstack(profile)
 
 
 def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     """
-    Calibrates given spectrum profile using given theoretical reference wavelength lines in nanometers
-    and measured lines in horizontal axis pixels values. If more than 2 lines are provided the profile data will be
-    warped to fit the theoretical reference wavelength lines.
+    Calibrates given spectrum profile using given theoretical reference
+    wavelength lines in nanometers and measured lines in horizontal axis pixels
+    values. If more than 2 lines are provided the profile data will be warped
+    to fit the theoretical reference wavelength lines.
 
     :param profile: Image profile to calibrate.
     :type profile: ndarray
@@ -234,7 +251,8 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     """
 
     samples = samples if samples else profile.shape[1]
-    measured_lines = [line for line, value in sorted(measured.items(), key=lambda x: x[1])]
+    measured_lines = [line for line, value in
+                      sorted(measured.items(), key=lambda x: x[1])]
 
     # Reference samples.
     r = np.array(map(lambda x: reference.get(x), measured_lines))
@@ -253,17 +271,23 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     mm_to_rr_interpolator = Extrapolator1d(LinearInterpolator(mm, rr))
 
     # Colors interpolator.
-    R_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 0]))
-    G_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 1]))
-    B_interpolator = Extrapolator1d(LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 2]))
+    R_interpolator = Extrapolator1d(
+        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 0]))
+    G_interpolator = Extrapolator1d(
+        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 1]))
+    B_interpolator = Extrapolator1d(
+        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 2]))
 
     wavelengths = np.linspace(mm_to_rr_interpolator([0]),
-                                 mm_to_rr_interpolator([profile.shape[1]]),
-                                 samples)
+                              mm_to_rr_interpolator([profile.shape[1]]),
+                              samples)
 
-    R = dict(zip(wavelengths, R_interpolator(r_to_m_interpolator(wavelengths))))
-    G = dict(zip(wavelengths, G_interpolator(r_to_m_interpolator(wavelengths))))
-    B = dict(zip(wavelengths, B_interpolator(r_to_m_interpolator(wavelengths))))
+    R = dict(zip(wavelengths,
+                 R_interpolator(r_to_m_interpolator(wavelengths))))
+    G = dict(zip(wavelengths,
+                 G_interpolator(r_to_m_interpolator(wavelengths))))
+    B = dict(zip(wavelengths,
+                 B_interpolator(r_to_m_interpolator(wavelengths))))
 
     return RGB_Spectrum("RGB Spectrum", {"R": R, "G": G, "B": B})
 
@@ -272,7 +296,8 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     """
     Returns the RGB spectrum of given image.
 
-    :param image: Image to retrieve the RGB spectrum, assuming the spectrum is already properly oriented.
+    :param image: Image to retrieve the RGB spectrum, assuming the spectrum is \
+    already properly oriented.
     :type image: ndarray
     :param reference: Theoretical reference wavelength lines.
     :type reference: dict
@@ -285,12 +310,18 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     """
 
     samples = samples if samples else image.shape[1]
-    profile = get_image_profile(image, line=[0, 0, image.shape[1] - 1, 0], samples=samples)
+    profile = get_image_profile(image,
+                                line=[0, 0, image.shape[1] - 1, 0],
+                                samples=samples)
 
-    return calibrate_RGB_spectrum_profile(profile=profile, reference=reference, measured=measured, samples=samples)
+    return calibrate_RGB_spectrum_profile(profile=profile,
+                                          reference=reference,
+                                          measured=measured,
+                                          samples=samples)
 
 
-def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"]):
+def get_luminance_spd(RGB_spectrum,
+                      colourspace=colour.RGB_COLOURSPACES["sRGB"]):
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 
@@ -298,12 +329,18 @@ def get_luminance_spd(RGB_spectrum, colourspace=colour.RGB_COLOURSPACES["sRGB"])
     :type RGB_spectrum: RGB_Spectrum
     :param colourspace: *RGB* Colourspace.
     :type colourspace: RGB_Colourspace
-    :return: RGB spectrum luminance spectral power distribution, units are arbitrary and normalised to [0, 100] domain.
+    :return: RGB spectrum luminance spectral power distribution, units are \
+    arbitrary and normalised to [0, 100] domain.
     :rtype: SpectralPowerDistribution
     """
 
     RGB_spectrum = RGB_spectrum.clone().normalise(100.)
-    get_RGB_luminance = lambda x: colour.get_RGB_luminance(x, colourspace.primaries, colourspace.whitepoint)
+    get_RGB_luminance = lambda x: colour.get_RGB_luminance(
+        x,
+        colourspace.primaries,
+        colourspace.whitepoint)
 
-    return SpectralPowerDistribution("RGB_spectrum",
-                                     dict([(wavelength, get_RGB_luminance(RGB)) for wavelength, RGB in RGB_spectrum]))
+    return SpectralPowerDistribution(
+        "RGB_spectrum",
+        dict([(wavelength, get_RGB_luminance(RGB)) \
+              for wavelength, RGB in RGB_spectrum]))

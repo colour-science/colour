@@ -1839,29 +1839,35 @@ PHOTOPIC_LEFS_DATA = {
 
 PHOTOPIC_LEFS = {
     "CIE 1924 Photopic Standard Observer":
-        SpectralPowerDistribution("CIE 1924 Photopic Standard Observer",
-                                  PHOTOPIC_LEFS_DATA.get(
-                                      "CIE 1924 Photopic Standard Observer")),
+        SpectralPowerDistribution(
+            "CIE 1924 Photopic Standard Observer",
+            PHOTOPIC_LEFS_DATA.get(
+                "CIE 1924 Photopic Standard Observer")),
     "Judd Modified CIE 1951 Photopic Standard Observer":
-        SpectralPowerDistribution("Judd Modified CIE 1951 Photopic Standard Observer",
-                                  PHOTOPIC_LEFS_DATA.get(
-                                      "Judd Modified CIE 1951 Photopic Standard Observer")),
+        SpectralPowerDistribution(
+            "Judd Modified CIE 1951 Photopic Standard Observer",
+            PHOTOPIC_LEFS_DATA.get(
+                "Judd Modified CIE 1951 Photopic Standard Observer")),
     "Judd-Vos Modified CIE 1978 Photopic Standard Observer":
-        SpectralPowerDistribution("Judd-Vos Modified CIE 1978 Photopic Standard Observer",
-                                  PHOTOPIC_LEFS_DATA.get(
-                                      "Judd-Vos Modified CIE 1978 Photopic Standard Observer")),
+        SpectralPowerDistribution(
+            "Judd-Vos Modified CIE 1978 Photopic Standard Observer",
+            PHOTOPIC_LEFS_DATA.get(
+                "Judd-Vos Modified CIE 1978 Photopic Standard Observer")),
     "CIE 1964 Photopic 10 Degree Standard Observer":
-        SpectralPowerDistribution("CIE 1964 Photopic 10 Degree Standard Observer",
-                                  STANDARD_OBSERVERS_CMFS_DATA.get(
-                                      "CIE 1964 10 Degree Standard Observer").get("y_bar")),
+        SpectralPowerDistribution(
+            "CIE 1964 Photopic 10 Degree Standard Observer",
+            STANDARD_OBSERVERS_CMFS_DATA.get(
+                "CIE 1964 10 Degree Standard Observer").get("y_bar")),
     "CIE 2008 2 Degree Physiologically Relevant LEF":
-        SpectralPowerDistribution("CIE 2008 2 Degree Physiologically Relevant LEF",
-                                  PHOTOPIC_LEFS_DATA.get(
-                                      "CIE 2008 2 Degree Physiologically Relevant LEF")),
+        SpectralPowerDistribution(
+            "CIE 2008 2 Degree Physiologically Relevant LEF",
+            PHOTOPIC_LEFS_DATA.get(
+                "CIE 2008 2 Degree Physiologically Relevant LEF")),
     "CIE 2008 10 Degree Physiologically Relevant LEF":
-        SpectralPowerDistribution("CIE 2008 10 Degree Physiologically Relevant LEF",
-                                  PHOTOPIC_LEFS_DATA.get(
-                                      "CIE 2008 10 Degree Physiologically Relevant LEF"))}
+        SpectralPowerDistribution(
+            "CIE 2008 10 Degree Physiologically Relevant LEF",
+            PHOTOPIC_LEFS_DATA.get(
+                "CIE 2008 10 Degree Physiologically Relevant LEF"))}
 
 SCOTOPIC_LEFS_DATA = {
     "CIE 1951 Scotopic Standard Observer": {
@@ -2268,9 +2274,9 @@ SCOTOPIC_LEFS_DATA = {
         780: 0.0000001390, }}
 
 SCOTOPIC_LEFS = {
-    "CIE 1951 Scotopic Standard Observer": SpectralPowerDistribution("CIE 1951 Scotopic Standard Observer",
-                                                                     SCOTOPIC_LEFS_DATA.get(
-                                                                         "CIE 1951 Scotopic Standard Observer"))}
+    "CIE 1951 Scotopic Standard Observer": SpectralPowerDistribution(
+        "CIE 1951 Scotopic Standard Observer",
+        SCOTOPIC_LEFS_DATA.get("CIE 1951 Scotopic Standard Observer"))}
 
 LEFS = dict(PHOTOPIC_LEFS)
 LEFS.update(SCOTOPIC_LEFS)

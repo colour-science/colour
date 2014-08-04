@@ -31,7 +31,8 @@ __all__ = ["memoize"]
 def memoize(cache=None):
     """
     | Implements method / definition memoization.
-    | Any method / definition decorated will get its return value cached and restored whenever called with the same arguments.
+    | Any method / definition decorated will get its return value cached and
+    restored whenever called with the same arguments.
 
     :param cache: Alternate cache.
     :type cache: dict

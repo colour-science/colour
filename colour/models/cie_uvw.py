@@ -31,7 +31,9 @@ __status__ = "Production"
 __all__ = ["XYZ_to_UVW"]
 
 
-def XYZ_to_UVW(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_UVW(XYZ,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
 
@@ -55,7 +57,8 @@ def XYZ_to_UVW(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1964_color_space (Last accessed 10 June 2014)
+    -  http://en.wikipedia.org/wiki/CIE_1964_color_space \
+    (Last accessed 10 June 2014)
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))

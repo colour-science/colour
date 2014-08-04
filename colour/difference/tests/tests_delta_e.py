@@ -43,12 +43,14 @@ __all__ = ["TestDelta_E_CIE_1976",
 
 class TestDelta_E_CIE_1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1976` definition units tests methods.
+    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1976`
+    definition units tests methods.
     """
 
     def test_delta_E_CIE_1976(self):
         """
-        Tests :func:`colour.colorimetry.difference.delta_E_CIE_1976` definition.
+        Tests :func:`colour.colorimetry.difference.delta_E_CIE_1976`
+        definition.
         """
 
         self.assertAlmostEqual(
@@ -75,7 +77,8 @@ class TestDelta_E_CIE_1976(unittest.TestCase):
 
 class TestDelta_E_CIE_1994(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1994` definition units tests methods.
+    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1994` definition
+    units tests methods.
     """
 
     def test_delta_E_CIE_1994(self):
@@ -131,7 +134,8 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
 
 class TestDelta_E_CIE_2000(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_2000` definition units tests methods.
+    Defines :func:`colour.colorimetry.difference.delta_E_CIE_2000` definition
+    units tests methods.
     """
 
     def test_delta_E_CIE_2000(self):
@@ -163,7 +167,8 @@ class TestDelta_E_CIE_2000(unittest.TestCase):
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CMC` definition units tests methods.
+    Defines :func:`colour.colorimetry.difference.delta_E_CMC` definition units
+    tests methods.
     """
 
     def test_delta_E_CMC(self):

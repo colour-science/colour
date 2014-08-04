@@ -79,8 +79,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
-                "name", value)
+            assert type(value) in (str, unicode), \
+                "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
+                    "name", value)
         self.__name = value
 
     @property
@@ -104,8 +105,10 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("data",
-                                                                                            value)
+            assert type(
+                value) is dict, \
+                "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                    "data", value)
         self.__data = value
 
     @property
@@ -128,7 +131,8 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -150,7 +154,8 @@ class SpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -173,7 +178,8 @@ class SpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -342,7 +348,8 @@ class SpectralPowerDistribution(object):
 
     def extrapolate(self, start, end):
         """
-        Extrapolates the spectral power distribution according to *CIE 15:2004* recommendation.
+        Extrapolates the spectral power distribution according to
+        *CIE 15:2004* recommendation.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -354,7 +361,8 @@ class SpectralPowerDistribution(object):
         References:
 
         -  `CIE 015:2004 Colorimetry, 3rd edition: \
-        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        7.2.2.1 Extrapolation \
+        <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
         -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
         10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
@@ -371,9 +379,11 @@ class SpectralPowerDistribution(object):
 
     def interpolate(self, start=None, end=None, steps=None, interpolator=None):
         """
-        Interpolates the spectral power distribution following *CIE 167:2005* recommendations: the method developed
-        by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced independent variable
-        and a *Cubic Spline* method for non-uniformly spaced independent variable.
+        Interpolates the spectral power distribution following
+        *CIE 167:2005* recommendations: the method developed by *Sprague* (1880)
+        should be used for interpolating functions having a uniformly spaced
+        independent variable and a *Cubic Spline* method for non-uniformly
+        spaced independent variable.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -386,9 +396,10 @@ class SpectralPowerDistribution(object):
         :return: Interpolated spectral power distribution.
         :rtype: SpectralPowerDistribution
 
-        :note: *Sprague* interpolator cannot be used for interpolating functions having a non-uniformly spaced \
-        independent variable.
-        :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+        :note: *Sprague* interpolator cannot be used for interpolating \
+        functions having a non-uniformly spaced independent variable.
+        :note: If *scipy* is not unavailable the *Cubic Spline* method will \
+        fallback to legacy *Linear* interpolation.
 
         References:
 
@@ -397,10 +408,9 @@ class SpectralPowerDistribution(object):
         """
 
         shape_start, shape_end, shape_steps = self.shape
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps),
-                                                                                  (
-                                                                                      shape_start, shape_end,
-                                                                                      shape_steps)))
+        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1],
+                                zip((start, end, steps),
+                                    (shape_start, shape_end, shape_steps)))
 
         if shape_steps != steps:
             wavelengths, values = self.wavelengths, self.values
@@ -421,7 +431,8 @@ class SpectralPowerDistribution(object):
             if is_scipy_installed():
                 from scipy.interpolate import interp1d
 
-                spline_interpolator = interp1d(wavelengths, values, kind="cubic")
+                spline_interpolator = interp1d(wavelengths, values,
+                                               kind="cubic")
                 spline_interpolant = lambda x: spline_interpolator(x)
             else:
                 warning(
@@ -431,7 +442,8 @@ class SpectralPowerDistribution(object):
 
             # Defining proper interpolation bounds.
             # TODO: Provide support for fractional steps like 0.1, etc...
-            shape_start, shape_end = math.ceil(shape_start), math.floor(shape_end)
+            shape_start, shape_end = math.ceil(shape_start), math.floor(
+                shape_end)
 
             if interpolator is None:
                 if is_uniform:
@@ -450,18 +462,20 @@ class SpectralPowerDistribution(object):
             elif interpolator == "Linear":
                 interpolant = linear_interpolant
             else:
-                raise ValueError("{0} | Undefined '{1}' interpolator!".format(self.__class__.__name__, interpolator))
+                raise ValueError("{0} | Undefined '{1}' interpolator!".format(
+                    self.__class__.__name__, interpolator))
 
             self.__data = dict([(wavelength, interpolant(wavelength))
-                                for wavelength in np.arange(max(start, shape_start),
-                                                               min(end, shape_end) + steps,
-                                                               steps)])
+                                for wavelength in
+                                np.arange(max(start, shape_start),
+                                          min(end, shape_end) + steps,
+                                          steps)])
         return self
 
     def align(self, start, end, steps):
         """
-        Aligns the spectral power distribution to given shape: Interpolates first then extrapolates to fit
-        the given range.
+        Aligns the spectral power distribution to given shape: Interpolates
+        first then extrapolates to fit the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -480,8 +494,8 @@ class SpectralPowerDistribution(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the spectral power distribution: Missing values will be replaced with zeroes to fit
-        the defined range.
+        Zeros fills the spectral power distribution: Missing values will be
+        replaced with zeroes to fit the defined range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -493,16 +507,19 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1], zip((start, end, steps), self.shape))
+        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1],
+                                zip((start, end, steps), self.shape))
 
         self.__data = dict(
-            [(wavelength, self.get(wavelength, 0.)) for wavelength in np.arange(start, end + steps, steps)])
+            [(wavelength, self.get(wavelength, 0.)) for wavelength in
+             np.arange(start, end + steps, steps)])
 
         return self
 
     def normalise(self, factor=1.):
         """
-        Normalises the spectral power distribution with given normalization factor.
+        Normalises the spectral power distribution with given normalization
+        factor.
 
         :param factor: Normalization factor
         :type factor: float
@@ -571,8 +588,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
-                "name", value)
+            assert type(value) in (str, unicode), \
+                "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
+                    "name", value)
         self.__name = value
 
     @property
@@ -596,10 +614,13 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("mapping", value)
+            assert type(value) is dict, \
+                "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                    "mapping", value)
             for axis in ("x", "y", "z"):
                 assert axis in value.keys(), \
-                    "'{0}' attribute: '{1}' axis label is missing!".format("mapping", axis)
+                    "'{0}' attribute: '{1}' axis label is missing!".format(
+                        "mapping", axis)
         self.__mapping = value
 
     @property
@@ -623,23 +644,32 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("data", value)
+            assert type(
+                value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                "data", value)
             for axis in ("x", "y", "z"):
                 assert self.__mapping.get(axis) in value.keys(), \
-                    "'{0}' attribute: '{1}' axis is missing!".format("data", axis)
+                    "'{0}' attribute: '{1}' axis is missing!".format(
+                        "data", axis)
 
             data = {}
             for axis in ("x", "y", "z"):
-                data[axis] = SpectralPowerDistribution(self.__mapping.get(axis), value.get(self.__mapping.get(axis)))
+                data[axis] = SpectralPowerDistribution(
+                    self.__mapping.get(axis),
+                    value.get(self.__mapping.get(axis)))
 
-            np.testing.assert_almost_equal(data["x"].wavelengths,
-                                              data["y"].wavelengths,
-                                              err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                                                  "data", self.__mapping.get("x"), self.__mapping.get("y")))
-            np.testing.assert_almost_equal(data["x"].wavelengths,
-                                              data["z"].wavelengths,
-                                              err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                                                  "data", self.__mapping.get("x"), self.__mapping.get("z")))
+            np.testing.assert_almost_equal(
+                data["x"].wavelengths,
+                data["y"].wavelengths,
+                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
+                    "data", self.__mapping.get("x"),
+                    self.__mapping.get("y")))
+            np.testing.assert_almost_equal(
+                data["x"].wavelengths,
+                data["z"].wavelengths,
+                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
+                    "data", self.__mapping.get("x"),
+                    self.__mapping.get("z")))
 
             self.__data = data
         else:
@@ -666,10 +696,13 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("labels", value)
+            assert type(
+                value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                "labels", value)
             for axis in ("x", "y", "z"):
                 assert axis in value.keys(), \
-                    "'{0}' attribute: '{1}' axis label is missing!".format("labels", axis)
+                    "'{0}' attribute: '{1}' axis label is missing!".format(
+                        "labels", axis)
         self.__labels = value
 
     @property
@@ -692,7 +725,8 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "x"))
 
     @property
     def y(self):
@@ -714,7 +748,8 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "y"))
 
     @property
     def z(self):
@@ -736,7 +771,8 @@ class TriSpectralPowerDistribution(object):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "z"))
 
     @property
     def wavelengths(self):
@@ -758,7 +794,8 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "wavelengths"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "wavelengths"))
 
     @property
     def values(self):
@@ -780,7 +817,8 @@ class TriSpectralPowerDistribution(object):
         :type value: list
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "values"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "values"))
 
     @property
     def shape(self):
@@ -802,7 +840,8 @@ class TriSpectralPowerDistribution(object):
         :type value: tuple
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "shape"))
+        raise AttributeError("{0} | '{1}' attribute is read only!".format(
+            self.__class__.__name__, "shape"))
 
     def __getitem__(self, wavelength):
         """
@@ -814,7 +853,8 @@ class TriSpectralPowerDistribution(object):
         :rtype: ndarray
         """
 
-        return np.array((self.x[wavelength], self.y[wavelength], self.z[wavelength]))
+        return np.array(
+            (self.x[wavelength], self.y[wavelength], self.z[wavelength]))
 
     def __setitem__(self, key, value):
         """
@@ -868,7 +908,8 @@ class TriSpectralPowerDistribution(object):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param tri_spd: Tri-spectral power distribution to compare for equality.
+        :param tri_spd: Tri-spectral power distribution to compare for \
+        equality.
         :type tri_spd: TriSpectralPowerDistribution
         :return: Tri-spectral power distribution equality.
         :rtype: bool
@@ -884,7 +925,8 @@ class TriSpectralPowerDistribution(object):
         """
         Reimplements the :meth:`object.__eq__` method.
 
-        :param tri_spd: Tri-spectral power distribution to compare for inequality.
+        :param tri_spd: Tri-spectral power distribution to compare for \
+        inequality.
         :type tri_spd: TriSpectralPowerDistribution
         :return: Tri-spectral power distribution inequality.
         :rtype: bool
@@ -952,7 +994,8 @@ class TriSpectralPowerDistribution(object):
 
     def is_uniform(self):
         """
-        Returns if the tri-spectral power distribution have uniformly spaced data.
+        Returns if the tri-spectral power distribution have uniformly spaced
+        data.
 
         :return: Is uniform.
         :rtype: bool
@@ -982,7 +1025,8 @@ class TriSpectralPowerDistribution(object):
 
     def extrapolate(self, start=None, end=None):
         """
-        Extrapolates the tri-spectral power distribution according to *CIE 15:2004* recommendation.
+        Extrapolates the tri-spectral power distribution according to
+        *CIE 15:2004* recommendation.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -994,7 +1038,8 @@ class TriSpectralPowerDistribution(object):
         References:
 
         -  `CIE 015:2004 Colorimetry, 3rd edition: \
-        7.2.2.1 Extrapolation <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        7.2.2.1 Extrapolation \
+        <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
         -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
         10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
         """
@@ -1006,7 +1051,8 @@ class TriSpectralPowerDistribution(object):
 
     def interpolate(self, start=None, end=None, steps=None):
         """
-        Interpolates the tri-spectral power distribution following *CIE 167:2005* recommendations.
+        Interpolates the tri-spectral power distribution following
+        *CIE 167:2005* recommendations.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1030,8 +1076,8 @@ class TriSpectralPowerDistribution(object):
 
     def align(self, start, end, steps):
         """
-        Aligns the tri-spectral power distribution to given shape: Interpolates first then extrapolates to fit
-        the given range.
+        Aligns the tri-spectral power distribution to given shape: Interpolates
+        first then extrapolates to fit the given range.
 
         :param start: Wavelengths range start in nm.
         :type start: float
@@ -1051,8 +1097,8 @@ class TriSpectralPowerDistribution(object):
 
     def zeros(self, start=None, end=None, steps=None):
         """
-        Zeros fills the tri-spectral power distribution: Missing values will be replaced with zeros to fit
-        the defined range.
+        Zeros fills the tri-spectral power distribution: Missing values will be
+        replaced with zeros to fit the defined range.
 
         :param start: Wavelengths range start.
         :type start: float
@@ -1071,7 +1117,8 @@ class TriSpectralPowerDistribution(object):
 
     def normalise(self, factor=1.):
         """
-        Normalises the tri-spectral power distribution with given normalization factor.
+        Normalises the tri-spectral power distribution with given normalization
+        factor.
 
         :param factor: Normalization factor
         :type factor: float

@@ -24,7 +24,9 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import planck_law, blackbody_spectral_power_distribution
+from colour.colorimetry import \
+    planck_law, \
+    blackbody_spectral_power_distribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -4516,7 +4518,8 @@ BLACKBODY_SPD_DATA = np.array([
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units tests methods.
+    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
+    tests methods.
     """
 
     def test_planck_law(self):
@@ -4534,12 +4537,14 @@ class TestPlanckLaw(unittest.TestCase):
 
 class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
+    Defines :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+    definition units tests methods.
     """
 
     def test_blackbody_power_spectral_distribution(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution` definition.
+        Tests :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+        definition.
         """
 
         np.testing.assert_almost_equal(

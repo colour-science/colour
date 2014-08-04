@@ -96,16 +96,19 @@ D60_SPD_DATA = {
 
 class TestD_illuminantRelativeSpd(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd` definition units tests methods.
+    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+    definition units tests methods.
     """
 
     def test_D_illuminant_relative_spd(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd` definition.
+        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+        definition.
         """
 
         np.testing.assert_almost_equal(
-            sorted(D_illuminant_relative_spd((0.32168, 0.33767)).data.values()),
+            sorted(D_illuminant_relative_spd(
+                (0.32168, 0.33767)).data.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)
 

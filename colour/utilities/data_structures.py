@@ -80,7 +80,8 @@ class Structure(dict):
         try:
             return dict.__getitem__(self, attribute)
         except KeyError:
-            raise AttributeError("'{0}' object has no attribute '{1}'".format(self.__class__.__name__, attribute))
+            raise AttributeError("'{0}' object has no attribute '{1}'".format(
+                self.__class__.__name__, attribute))
 
     def __setattr__(self, attribute, value):
         """

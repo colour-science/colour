@@ -24,7 +24,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import XYZ_to_xyY, xyY_to_XYZ, xy_to_XYZ, XYZ_to_xy, is_within_macadam_limits
+from colour.models import XYZ_to_xyY, xyY_to_XYZ, xy_to_XYZ, XYZ_to_xy
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -36,13 +36,13 @@ __status__ = "Production"
 __all__ = ["TestXYZ_to_xyY",
            "TestxyY_to_XYZ",
            "Testxy_to_XYZ",
-           "TestXYZ_to_xy",
-           "TestIsWithinMacadamLimits"]
+           "TestXYZ_to_xy"]
 
 
 class TestXYZ_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xyY` definition units tests methods.
+    Defines :func:`colour.models.cie_xyy.XYZ_to_xyY` definition units tests
+    methods.
     """
 
     def test_XYZ_to_xyY(self):
@@ -69,7 +69,8 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xyY_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_xyy.xyY_to_XYZ` definition units tests
+    methods.
     """
 
     def test_xyY_to_XYZ(self):
@@ -95,7 +96,8 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
 class Testxy_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xy_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_xyy.xy_to_XYZ` definition units tests
+    methods.
     """
 
     def test_xy_to_XYZ(self):
@@ -121,7 +123,8 @@ class Testxy_to_XYZ(unittest.TestCase):
 
 class TestXYZ_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xy` definition units tests methods.
+    Defines :func:`colour.models.cie_xyy.XYZ_to_xy` definition units tests
+    methods.
     """
 
     def test_XYZ_to_xy(self):
@@ -143,22 +146,6 @@ class TestXYZ_to_xy(unittest.TestCase):
             XYZ_to_xy((1.098, 1.000, 0.356)),
             (0.4474327628361859, 0.4074979625101875),
             decimal=7)
-
-
-class TestIsWithinMacadamLimits(unittest.TestCase):
-    """
-    Defines :func:`colour.models.cie_xyy.is_within_macadam_limits` definition units tests methods.
-    """
-
-    def test_is_within_macadam_limits(self):
-        """
-        Tests :func:`colour.models.cie_xyy.is_within_macadam_limits` definition.
-        """
-
-        self.assertTrue(is_within_macadam_limits((0.3205, 0.4131, 0.51), "A"))
-        self.assertFalse(is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
-        self.assertTrue(is_within_macadam_limits((0.4325, 0.3788, 0.1034), "C"))
-        self.assertFalse(is_within_macadam_limits((0.0025, 0.0088, 0.034), "C"))
 
 
 if __name__ == "__main__":

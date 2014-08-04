@@ -75,8 +75,12 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert hasattr(value, "x"), "'{0}' attribute has no 'x' attribute!".format("interpolator", value)
-            assert hasattr(value, "y"), "'{0}' attribute has no 'y' attribute!".format("interpolator", value)
+            assert hasattr(value, "x"), \
+                "'{0}' attribute has no 'x' attribute!".format("interpolator",
+                                                               value)
+            assert hasattr(value, "y"), \
+                "'{0}' attribute has no 'y' attribute!".format("interpolator",
+                                                               value)
 
         self.__interpolator = value
 
@@ -101,9 +105,9 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-                "kind",
-                value)
+            assert type(value) in (str, unicode), \
+                "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+                    "kind", value)
         self.__kind = value
 
     def __call__(self, x):
@@ -138,8 +142,10 @@ class Extrapolator1d(object):
 
         y = np.empty_like(x)
 
-        y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (xi[1] - xi[0])
-        y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (xi[-1] - xi[-2])
+        y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * \
+                               (yi[1] - yi[0]) / (xi[1] - xi[0])
+        y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * \
+                                 (yi[-1] - yi[-2]) / (xi[-1] - xi[-2])
 
         in_range = np.logical_and(x >= xi[0], x <= xi[-1])
         y[in_range] = self.__interpolator(x[in_range])

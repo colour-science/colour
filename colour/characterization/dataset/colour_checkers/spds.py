@@ -32,32 +32,34 @@ __all__ = ["COLOURCHECKER_INDEXES_TO_NAMES_MAPPING",
            "BABELCOLOR_AVERAGE_SPDS",
            "COLOURCHECKERS_SPDS"]
 
-COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {1: "dark skin",
-                                          2: "light skin",
-                                          3: "blue sky",
-                                          4: "foliage",
-                                          5: "blue flower",
-                                          6: "bluish green",
-                                          7: "orange",
-                                          8: "purplish blue",
-                                          9: "moderate red",
-                                          10: "purple",
-                                          11: "yellow green",
-                                          12: "orange yellow",
-                                          13: "blue",
-                                          14: "green",
-                                          15: "red",
-                                          16: "yellow",
-                                          17: "magenta",
-                                          18: "cyan",
-                                          19: "white 9.5 (.05 D)",
-                                          20: "neutral 8 (.23 D)",
-                                          21: "neutral 6.5 (.44 D)",
-                                          22: "neutral 5 (.70 D)",
-                                          23: "neutral 3.5 (1.05 D)",
-                                          24: "black 2 (1.5 D)"}
+COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {
+    1: "dark skin",
+    2: "light skin",
+    3: "blue sky",
+    4: "foliage",
+    5: "blue flower",
+    6: "bluish green",
+    7: "orange",
+    8: "purplish blue",
+    9: "moderate red",
+    10: "purple",
+    11: "yellow green",
+    12: "orange yellow",
+    13: "blue",
+    14: "green",
+    15: "red",
+    16: "yellow",
+    17: "magenta",
+    18: "cyan",
+    19: "white 9.5 (.05 D)",
+    20: "neutral 8 (.23 D)",
+    21: "neutral 6.5 (.44 D)",
+    22: "neutral 5 (.70 D)",
+    23: "neutral 3.5 (1.05 D)",
+    24: "black 2 (1.5 D)"}
 
-# http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls (Last accessed 9 June 2014)
+# http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls \
+# (Last accessed 9 June 2014)
 COLORCHECKER_N_OHTA_SPDS_DATA = {
     "dark skin": {
         380: 0.048,
@@ -2029,7 +2031,8 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         780: 0.032}}
 
 COLORCHECKER_N_OHTA_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value)) for key, value in COLORCHECKER_N_OHTA_SPDS_DATA.iteritems())
+    (key, SpectralPowerDistribution(key, value)) for key, value in
+    COLORCHECKER_N_OHTA_SPDS_DATA.iteritems())
 
 BABELCOLOR_AVERAGE_SPDS_DATA = {
     "dark skin": {
@@ -2922,7 +2925,8 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         730: 0.033}}
 
 BABELCOLOR_AVERAGE_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value)) for key, value in BABELCOLOR_AVERAGE_SPDS_DATA.iteritems())
+    (key, SpectralPowerDistribution(key, value)) for key, value in
+    BABELCOLOR_AVERAGE_SPDS_DATA.iteritems())
 
 COLOURCHECKERS_SPDS = {"BabelColor Average": BABELCOLOR_AVERAGE_SPDS,
                        "ColorChecker N Ohta": COLORCHECKER_N_OHTA_SPDS}

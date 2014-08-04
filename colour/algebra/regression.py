@@ -30,9 +30,11 @@ __all__ = ["linear_regression"]
 
 def linear_regression(y, x=None, additional_statistics=False):
     """
-    Performs the statistics calculation about the ideal trend line from given data using the *least-squares* method.
-    The equation of the line is *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y* value
-    is a function of the independent *x* values.
+    Performs the statistics calculation about the ideal trend line from given
+    data using the *least-squares* method.
+    The equation of the line is
+    *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y*
+    value is a function of the independent *x* values.
 
     Usage::
 
@@ -48,11 +50,14 @@ def linear_regression(y, x=None, additional_statistics=False):
         >>> linear_regression(y, zip(x1, x2), additional_statistics=True)
         (array([ 0.09980023,  0.08762575, -4.83038079]), array([ 2.13762499]))
 
-    :param y: Dependent and already known *y* variable values used to curve fit an ideal trend line.
+    :param y: Dependent and already known *y* variable values used to curve fit \
+    an ideal trend line.
     :type y: ndarray
-    :param x: Independent *x* variable(s) values corresponding with *y* variable.
+    :param x: Independent *x* variable(s) values corresponding with *y* \
+    variable.
     :type x: ndarray
-    :param additional_statistics: Output additional regression statistics, by default only the *b* variable and *m* coefficients are returned.
+    :param additional_statistics: Output additional regression statistics, \
+    by default only the *b* variable and *m* coefficients are returned.
     :type additional_statistics: ndarray
     :return: Regression statistics.
     :rtype: ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})

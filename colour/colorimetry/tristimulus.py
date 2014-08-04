@@ -18,8 +18,10 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.algebra import SpragueInterpolator
-from colour.colorimetry import SpectralPowerDistribution, STANDARD_OBSERVERS_CMFS
+from colour.algebra import LinearInterpolator, SpragueInterpolator
+from colour.colorimetry import \
+    SpectralPowerDistribution, \
+    STANDARD_OBSERVERS_CMFS
 from colour.utilities import is_scipy_installed, memoize, warning
 
 __author__ = "Thomas Mansencal"
@@ -36,11 +38,12 @@ _WAVELENGTH_TO_XYZ_CACHE = {}
 
 
 def spectral_to_XYZ(spd,
-                    cmfs=STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer"),
+                    cmfs=STANDARD_OBSERVERS_CMFS.get(
+                        "CIE 1931 2 Degree Standard Observer"),
                     illuminant=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using given colour
-    matching functions and illuminant.
+    Converts given spectral power distribution to *CIE XYZ* colourspace using
+    given colour matching functions and illuminant.
 
     Usage::
 
@@ -65,8 +68,10 @@ def spectral_to_XYZ(spd,
 
     References:
 
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
+    -  **Wyszecki & Stiles**, \
+    *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
+    Page 158.
     """
 
     shape = cmfs.shape
@@ -76,7 +81,9 @@ def spectral_to_XYZ(spd,
     if illuminant is None:
         start, end, steps = shape
         range = np.arange(start, end + steps, steps)
-        illuminant = SpectralPowerDistribution(name="1.0", data=dict(zip(*(list(range), [1.] * len(range)))))
+        illuminant = SpectralPowerDistribution(
+            name="1.0",
+            data=dict(zip(*(list(range), [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
             illuminant = illuminant.clone().zeros(*shape)
@@ -84,7 +91,9 @@ def spectral_to_XYZ(spd,
     illuminant = illuminant.values
     spd = spd.values
 
-    x_bar, y_bar, z_bar = cmfs.x_bar.values, cmfs.y_bar.values, cmfs.z_bar.values
+    x_bar, y_bar, z_bar = cmfs.x_bar.values, \
+                          cmfs.y_bar.values, \
+                          cmfs.z_bar.values
 
     x_products = spd * x_bar * illuminant
     y_products = spd * y_bar * illuminant
@@ -104,10 +113,13 @@ def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           "CIE 1931 2 Degree Standard Observer")):
     """
-    Converts given wavelength to *CIE XYZ* colourspace using given colour matching functions, if the retrieved
-    wavelength is not available in the colour matching function, its value will be calculated using *CIE* recommendations:
-    The method developed by *Sprague* (1880) should be used for interpolating functions having a uniformly spaced
-    independent variable and a *Cubic Spline* method for non-uniformly spaced independent variable.
+    Converts given wavelength to *CIE XYZ* colourspace using given colour
+    matching functions, if the retrieved wavelength is not available in the
+    colour matching function, its value will be calculated using
+    *CIE* recommendations: The method developed by *Sprague* (1880) should be
+    used for interpolating functions having a uniformly spaced independent
+    variable and a *Cubic Spline* method for non-uniformly spaced independent
+    variable.
 
     Usage::
 
@@ -124,34 +136,41 @@ def wavelength_to_XYZ(wavelength,
     :rtype: ndarray (3, 1)
 
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: If *scipy* is not unavailable the *Cubic Spline* method will fallback to legacy *Linear* interpolation.
+    :note: If *scipy* is not unavailable the *Cubic Spline* method will \
+    fallback to legacy *Linear* interpolation.
     """
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
         raise ValueError(
-            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(wavelength, start, end))
+            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(
+                wavelength, start, end))
 
     wavelengths, values, = cmfs.wavelengths, cmfs.values
 
     if wavelength not in cmfs:
         if cmfs.is_uniform():
-            interpolators = [SpragueInterpolator(wavelengths, values[:, i]) for i in range(values.shape[-1])]
+            interpolators = [SpragueInterpolator(wavelengths,
+                                                 values[:, i]) \
+                             for i in range(values.shape[-1])]
         else:
             if is_scipy_installed():
                 from scipy.interpolate import interp1d
 
-                interpolators = [interp1d(wavelengths, values[:, i], kind="cubic") for i in range(values.shape[-1])]
+                interpolators = [interp1d(wavelengths,
+                                          values[:, i],
+                                          kind="cubic") \
+                                 for i in range(values.shape[-1])]
             else:
                 warning(
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         __name__))
 
-                x_interpolator = lambda x: np.interp(x, wavelengths, values[:, 0])
-                y_interpolator = lambda x: np.interp(x, wavelengths, values[:, 1])
-                z_interpolator = lambda x: np.interp(x, wavelengths, values[:, 2])
-                interpolators = (x_interpolator, y_interpolator, z_interpolator)
+                interpolators = [LinearInterpolator(wavelengths,
+                                                    values[:, i]) \
+                                 for i in range(values.shape[-1])]
 
-        return np.array([interpolator(wavelength) for interpolator in interpolators]).reshape((3, 1))
+        return np.array([interpolator(wavelength) \
+                         for interpolator in interpolators]).reshape((3, 1))
     else:
         return np.array(cmfs.get(wavelength)).reshape((3, 1))

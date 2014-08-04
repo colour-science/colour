@@ -52,12 +52,15 @@ def XYZ_to_UCS(XYZ):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
+    (Last accessed 24 February 2014)
     """
 
     X, Y, Z = np.ravel(XYZ)
 
-    return np.array([2. / 3. * X, Y, 1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
+    return np.array([2. / 3. * X,
+                     Y,
+                     1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
 
 
 def UCS_to_XYZ(UVW):
@@ -81,17 +84,20 @@ def UCS_to_XYZ(UVW):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
+    (Last accessed 24 February 2014)
     """
 
     U, V, W = np.ravel(UVW)
 
-    return np.array([3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
+    return np.array(
+        [3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
 
 
 def UCS_to_uv(UVW):
     """
-    Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace matrix.
+    Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace
+    matrix.
 
     Usage::
 
@@ -108,16 +114,19 @@ def UCS_to_uv(UVW):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
+    (Last accessed 24 February 2014)
     """
 
     U, V, W = np.ravel(UVW)
 
     return U / (U + V + W), V / (U + V + W)
 
+
 def UCS_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace *uv* chromaticity coordinates.
+    Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace
+    *uv* chromaticity coordinates.
 
     Usage::
 
@@ -134,7 +143,9 @@ def UCS_uv_to_xy(uv):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
+    (Last accessed 24 February 2014)
     """
 
-    return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), 2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)
+    return 3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.), \
+           2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.)

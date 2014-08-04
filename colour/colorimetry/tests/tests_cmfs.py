@@ -41,7 +41,8 @@ __all__ = ["TestLMS_ConeFundamentals",
 
 class TestLMS_ConeFundamentals(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.LMS_ConeFundamentals` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.LMS_ConeFundamentals` class units
+    tests methods.
     """
 
     def test_required_attributes(self):
@@ -85,7 +86,8 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
 
 class TestRGB_ColourMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.RGB_ColourMatchingFunctions` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.RGB_ColourMatchingFunctions` class
+    units tests methods.
     """
 
     def test_required_attributes(self):
@@ -129,7 +131,8 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
 
 class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions` class
+    units tests methods.
     """
 
     def test_required_attributes(self):

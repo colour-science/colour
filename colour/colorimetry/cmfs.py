@@ -75,7 +75,9 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "l_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "l_bar"))
 
     @property
     def m_bar(self):
@@ -97,7 +99,9 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "m_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "m_bar"))
 
     @property
     def s_bar(self):
@@ -119,12 +123,15 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "s_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "s_bar"))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
-    Defines a *CIE RGB* standard observer colour matching functions object implementation.
+    Defines a *CIE RGB* standard observer colour matching functions object
+    implementation.
     """
 
     def __init__(self, name, data):
@@ -167,7 +174,9 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "r_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "r_bar"))
 
     @property
     def g_bar(self):
@@ -189,7 +198,9 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "g_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "g_bar"))
 
     @property
     def b_bar(self):
@@ -211,7 +222,9 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "b_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "b_bar"))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -259,7 +272,9 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "x_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "x_bar"))
 
     @property
     def y_bar(self):
@@ -281,7 +296,9 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "y_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "y_bar"))
 
     @property
     def z_bar(self):
@@ -303,4 +320,6 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "z_bar"))
+        raise AttributeError(
+            "{0} | '{1}' attribute is read only!".format(
+                self.__class__.__name__, "z_bar"))

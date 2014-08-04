@@ -38,7 +38,8 @@ __all__ = ["TestXYZ_to_UVW"]
 
 class TestXYZ_to_UVW(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition units tests methods.
+    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition units tests
+    methods.
     """
 
     def test_XYZ_to_UVW(self):
@@ -62,17 +63,20 @@ class TestXYZ_to_UVW(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (0.44757, 0.40745)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (0.44757, 0.40745)),
             np.array([-7.76195429, -8.43122502, 8.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (1. / 3., 1. / 3.)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (1. / 3., 1. / 3.)),
             np.array([-3.03641679, -4.92226526, 8.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (0.31271, 0.32902)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (0.31271, 0.32902)),
             np.array([-1.7159427, -4.55119033, 8]).reshape((3, 1)),
             decimal=7)
 

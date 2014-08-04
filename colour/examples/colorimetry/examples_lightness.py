@@ -8,11 +8,11 @@ Showcases some **Colour** package *Lightness* related examples.
 from numpy import ravel
 
 import colour
-import colour.characterization.dataset.colour_checkers.chromaticity_coordinates
-
+from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import \
+    COLORCHECKER_2005_DATA
 
 # Retrieving *Lightness* of given *xyY* components.
-xyY = colour.characterization.dataset.colour_checkers.chromaticity_coordinates.COLORCHECKER_2005_DATA[0][2:5]
+xyY = COLORCHECKER_2005_DATA[0][2:5]
 Y = ravel(xyY)[2] * 100.
 # Scaled *luminance* *Y* reference:
 print(Y)

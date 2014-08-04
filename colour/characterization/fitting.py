@@ -33,9 +33,11 @@ __all__ = map(lambda x: x.encode("ascii"), __all__)
 
 def first_order_colour_fit(m1, m2):
     """
-    Performs a first order colour fit from given *m2* colour matrix to *m1* colour matrix. The resulting colour matrix is
-    calculated using multiple linear regression.
-    The purpose of that object is for example matching of two *ColorChecker* colour rendition charts together.
+    Performs a first order colour fit from given *m2* colour matrix to *m1*
+    colour matrix. The resulting colour matrix is calculated using multiple
+    linear regression.
+    The purpose of that object is for example matching of two *ColorChecker*
+    colour rendition charts together.
 
     Usage::
 
@@ -104,4 +106,6 @@ def first_order_colour_fit(m1, m2):
     y_coefficients = linear_regression(m1[:, 1], m2)
     z_coefficients = linear_regression(m1[:, 2], m2)
 
-    return np.array([x_coefficients[:3], y_coefficients[:3], z_coefficients[:3]]).reshape((3, 3))
+    return np.array([x_coefficients[:3],
+                     y_coefficients[:3],
+                     z_coefficients[:3]]).reshape((3, 3))

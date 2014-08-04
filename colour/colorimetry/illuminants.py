@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *illuminants* relative spectral power distributions colorimetry objects.
+    Defines **Colour** package *illuminants* relative spectral power
+    distributions computation objects.
 
 **Others:**
 
@@ -33,7 +34,8 @@ __all__ = ["D_illuminant_relative_spd"]
 
 def D_illuminant_relative_spd(xy):
     """
-    Returns the relative spectral power distribution of given *CIE Standard Illuminant D Series* *xy* chromaticity coordinates.
+    Returns the relative spectral power distribution of given
+    *CIE Standard Illuminant D Series* *xy* chromaticity coordinates.
 
     Usage::
 
@@ -42,14 +44,18 @@ def D_illuminant_relative_spd(xy):
 
     :param xy: *xy* chromaticity coordinate.
     :type xy: array_like
-    :return: *CIE Standard Illuminant D Series* relative spectral power distribution.
+    :return: *CIE Standard Illuminant D Series* relative spectral power \
+    distribution.
     :rtype: SpectralPowerDistribution
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_DIlluminant.html (Last accessed 5 April 2014)
-    -  **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 146.
+    -  http://www.brucelindbloom.com/Eqn_DIlluminant.html \
+    (Last accessed 5 April 2014)
+    -  **Wyszecki & Stiles**, \
+    *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
+    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
+    Page 146.
     """
 
     M = 0.0241 + 0.2562 * xy[0] - 0.7341 * xy[1]
@@ -64,4 +70,6 @@ def D_illuminant_relative_spd(xy):
         S2 = D_ILLUMINANTS_S_SPDS.get("S2").get(i)
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution("CIE Standard Illuminant D Series", distribution)
+    return SpectralPowerDistribution(
+        "CIE Standard Illuminant D Series",
+        distribution)

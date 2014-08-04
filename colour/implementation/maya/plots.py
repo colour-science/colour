@@ -18,11 +18,9 @@ import numpy as np
 
 import maya.cmds as cmds
 import maya.OpenMaya as OpenMaya
-import colour.models.cie_xyy
-import colour.models.cie_lab
-import colour.colorimetry.dataset.illuminants.chromaticity_coordinates
-import colour.utilities.data_structures
 
+from colour.models import RGB_to_XYZ, XYZ_to_Lab
+from colour.colorimetry import ILLUMINANTS
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -86,7 +84,10 @@ def get_shapes(object, full_path=False, no_intermediate=True):
     """
 
     object_shapes = []
-    shapes = cmds.listRelatives(object, fullPath=full_path, shapes=True, noIntermediate=no_intermediate)
+    shapes = cmds.listRelatives(object,
+                                fullPath=full_path,
+                                shapes=True,
+                                noIntermediate=no_intermediate)
     if shapes is not None:
         object_shapes = shapes
 
@@ -120,15 +121,14 @@ def RGB_to_Lab(RGB, colourspace):
     :rtype: bool
     """
 
-    return colour.models.cie_lab.XYZ_to_Lab(
-        colour.models.cie_xyy.RGB_to_XYZ(np.array(RGB).reshape((3, 1)),
-                                                           colourspace.whitepoint,
-                                                           colour.colorimetry.dataset.illuminants.chromaticity_coordinates.ILLUMINANTS.get(
-                                                               "CIE 1931 2 Degree Standard Observer").get(
-                                                               "E"),
-                                                           "Bradford",
-                                                           colourspace.to_XYZ,
-                                                           colourspace.inverse_transfer_function),
+    return XYZ_to_Lab(
+        RGB_to_XYZ(np.array(RGB).reshape((3, 1)),
+                   colourspace.whitepoint,
+                   ILLUMINANTS.get(
+                       "CIE 1931 2 Degree Standard Observer").get("E"),
+                   "Bradford",
+                   colourspace.to_XYZ,
+                   colourspace.inverse_transfer_function),
         colourspace.whitepoint)
 
 
@@ -144,7 +144,14 @@ def RGB_identity_cube(name, density=20):
     :rtype: unicode
     """
 
-    cube = cmds.polyCube(w=1, h=1, d=1, sx=density, sy=density, sz=density, ch=False)[0]
+    cube = \
+        cmds.polyCube(w=1,
+                      h=1,
+                      d=1,
+                      sx=density,
+                      sy=density,
+                      sz=density,
+                      ch=False)[0]
     set_attributes({"{0}.translateX".format(cube): .5,
                     "{0}.translateY".format(cube): .5,
                     "{0}.translateZ".format(cube): .5})
@@ -156,7 +163,9 @@ def RGB_identity_cube(name, density=20):
     fn_mesh = OpenMaya.MFnMesh(get_dag_path(get_shapes(cube)[0]))
     fn_mesh.getPoints(point_array, OpenMaya.MSpace.kWorld)
     for i in range(point_array.length()):
-        vertex_colour_array.append(point_array[i][0], point_array[i][1], point_array[i][2])
+        vertex_colour_array.append(point_array[i][0],
+                                   point_array[i][1],
+                                   point_array[i][2])
         vertex_index_array.append(i)
     fn_mesh.setVertexColors(vertex_colour_array, vertex_index_array, None)
 
@@ -181,8 +190,11 @@ def Lab_colourspace_cube(colourspace, density=20):
     it_mesh_vertex = OpenMaya.MItMeshVertex(get_dag_path(cube))
     while not it_mesh_vertex.isDone():
         position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
-        it_mesh_vertex.setPosition(get_mpoint(list(np.ravel(RGB_to_Lab((position[0], position[1], position[2],),
-                                                                          colourspace)))))
+        it_mesh_vertex.setPosition(
+            get_mpoint(list(np.ravel(RGB_to_Lab((position[0],
+                                                 position[1],
+                                                 position[2],),
+                                                colourspace)))))
         it_mesh_vertex.next()
     set_attributes({"{0}.rotateX".format(cube): 180,
                     "{0}.rotateZ".format(cube): 90})
@@ -215,8 +227,13 @@ def Lab_coordinates_system_representation():
                                   ("+a*", (350, 0), "plus_a"),
                                   ("-b*", (0, 350), "minus_b"),
                                   ("+b*", (0, -350), "plus_b")):
-        curves = cmds.listRelatives(cmds.textCurves(f="Arial Black Bold", t=label)[0])
-        mesh = cmds.polyUnite(*map(lambda x: cmds.planarSrf(x, ch=False, o=True, po=1), curves), ch=False)[0]
+        curves = cmds.listRelatives(
+            cmds.textCurves(f="Arial Black Bold", t=label)[0])
+        mesh = cmds.polyUnite(*map(lambda x: cmds.planarSrf(x,
+                                                            ch=False,
+                                                            o=True,
+                                                            po=1), curves),
+                              ch=False)[0]
         cmds.xform(mesh, cp=True)
         cmds.xform(mesh, translation=(0., 0., 0.), absolute=True)
         cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)

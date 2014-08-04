@@ -94,12 +94,14 @@ M2 = np.array([
 
 class TestFirstOrderColourFit(unittest.TestCase):
     """
-    Defines :func:`colour.characterization.fitting.first_order_colour_fit` definition units tests methods.
+    Defines :func:`colour.characterization.fitting.first_order_colour_fit`
+    definition units tests methods.
     """
 
     def test_first_order_colour_fit(self):
         """
-        Tests :func:`colour.characterization.fitting.first_order_colour_fit` definition.
+        Tests :func:`colour.characterization.fitting.first_order_colour_fit`
+        definition.
         """
 
         np.testing.assert_almost_equal(

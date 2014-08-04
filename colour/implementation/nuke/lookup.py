@@ -50,7 +50,8 @@ blue {{{3}}}
 alpha {{{4}}}"""
 
 Point = namedtuple("Point", ("x", "y"))
-CurvesInformation = namedtuple("CurvesInformation", ("curve", "axis", "values"))
+CurvesInformation = namedtuple("CurvesInformation",
+                               ("curve", "axis", "values"))
 
 
 class Curve(object):
@@ -84,10 +85,16 @@ class Curve(object):
 
 class Lookup(object):
     """
-    Defines the lookup master, red, green, blue and alpha curves using the :class:`Curve` class.
+    Defines the lookup master, red, green, blue and alpha curves using the
+    :class:`Curve` class.
     """
 
-    def __init__(self, master_curve=None, red_curve=None, green_curve=None, blue_curve=None, alpha_curve=None):
+    def __init__(self,
+                 master_curve=None,
+                 red_curve=None,
+                 green_curve=None,
+                 blue_curve=None,
+                 alpha_curve=None):
         """
         Initialises the class.
 
@@ -103,11 +110,16 @@ class Lookup(object):
         :type alpha_curve: Curve
         """
 
-        self.master_curve = master_curve if isinstance(master_curve, Curve) else Curve()
-        self.red_curve = red_curve if isinstance(red_curve, Curve) else Curve()
-        self.green_curve = green_curve if isinstance(green_curve, Curve) else Curve()
-        self.blue_curve = blue_curve if isinstance(blue_curve, Curve) else Curve()
-        self.alpha_curve = alpha_curve if isinstance(alpha_curve, Curve) else Curve()
+        self.master_curve = master_curve if isinstance(
+            master_curve, Curve) else Curve()
+        self.red_curve = red_curve if isinstance(
+            red_curve, Curve) else Curve()
+        self.green_curve = green_curve if isinstance(
+            green_curve, Curve) else Curve()
+        self.blue_curve = blue_curve if isinstance(
+            blue_curve, Curve) else Curve()
+        self.alpha_curve = alpha_curve if isinstance(
+            alpha_curve, Curve) else Curve()
 
 
 def get_curve_data(file):
@@ -195,7 +207,8 @@ def get_curve(curves_information, name):
 
 def get_lookup(curves_information):
     """
-    Returns a :class:`Lookup` class instance using given :class:`curves_information` class instance.
+    Returns a :class:`Lookup` class instance using given
+    :class:`curves_information` class instance.
 
     :param curves_information: Curves information.
     :type curves_information: CurvesInformation
@@ -223,7 +236,8 @@ def format_curve_data(curve):
     curve_data = ""
     for point in curve.points:
         curve_data += "x{0} {1} ".format(point.x, point.y)
-    return "curve C {0}".format(curve_data) if curve_data is not "" else "curve C 0 1"
+    return "curve C {0}".format(
+        curve_data) if curve_data is not "" else "curve C 0 1"
 
 
 def get_color_lookup_node(file, template=COLOR_LOOKUP_CURVES_TEMPLATE):
@@ -240,11 +254,12 @@ def get_color_lookup_node(file, template=COLOR_LOOKUP_CURVES_TEMPLATE):
 
     color_lookup = nuke.nodes.ColorLookup(name="ColourLookup")
     lookup = get_lookup(parse_curve_data(get_curve_data(file)))
-    color_lookup.knob("lut").fromScript(template.format(format_curve_data(lookup.master_curve),
-                                                        format_curve_data(lookup.red_curve),
-                                                        format_curve_data(lookup.green_curve),
-                                                        format_curve_data(lookup.blue_curve),
-                                                        format_curve_data(lookup.alpha_curve)))
+    color_lookup.knob("lut").fromScript(
+        template.format(format_curve_data(lookup.master_curve),
+                        format_curve_data(lookup.red_curve),
+                        format_curve_data(lookup.green_curve),
+                        format_curve_data(lookup.blue_curve),
+                        format_curve_data(lookup.alpha_curve)))
     return color_lookup
 
 
@@ -256,7 +271,8 @@ def import_curves_data_csv_file():
     :rtype: ColorLookup
     """
 
-    file = nuke.getFilename("Choose ColorLookup Node Curves Data CSV File", "*.csv")
+    file = nuke.getFilename("Choose ColorLookup Node Curves Data CSV File",
+                            "*.csv")
     if file is not None:
         if os.path.exists(file):
             return get_color_lookup_node(file)

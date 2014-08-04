@@ -36,7 +36,9 @@ __all__ = ["XYZ_to_Lab",
            "LCHab_to_Lab"]
 
 
-def XYZ_to_Lab(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_Lab(XYZ,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
 
@@ -60,7 +62,8 @@ def XYZ_to_Lab(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html \
+    (Last accessed 24 February 2014)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -81,7 +84,9 @@ def XYZ_to_Lab(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
     return np.array([L, a, b]).reshape((3, 1))
 
 
-def Lab_to_XYZ(Lab, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def Lab_to_XYZ(Lab,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
 
@@ -105,7 +110,8 @@ def Lab_to_XYZ(Lab, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html'.
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html \
+    (Last accessed 24 February 2014)
     """
 
     L, a, b = np.ravel(Lab)
@@ -146,7 +152,8 @@ def Lab_to_LCHab(Lab):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html \
+    (Last accessed 24 February 2014)
     """
 
     L, a, b = np.ravel(Lab)
@@ -178,9 +185,12 @@ def LCHab_to_Lab(LCHab):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html \
+    (Last accessed 24 February 2014)
     """
 
     L, C, H = np.ravel(LCHab)
 
-    return np.array([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
+    return np.array([L,
+                     C * math.cos(math.radians(H)),
+                     C * math.sin(math.radians(H))]).reshape((3, 1))

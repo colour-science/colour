@@ -34,7 +34,8 @@ __all__ = ["luminance_newhall1943",
 
 def luminance_newhall1943(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using *Newhall, Nickerson, and Judd* 1943 method.
+    Returns the *luminance* *Y* of given *Munsell value* *V* using
+    *Newhall, Nickerson, and Judd* 1943 method.
 
     Usage::
 
@@ -54,14 +55,16 @@ def luminance_newhall1943(V):
     -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
     """
 
-    Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (V ** 4) + 0.0008404 * (V ** 5)
+    Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (
+        V ** 4) + 0.0008404 * (V ** 5)
 
     return Y
 
 
 def luminance_1976(L, Yn=100.):
     """
-    Returns the *luminance* *Y* of given *Lightness* (*L\**) with given reference white *luminance*.
+    Returns the *luminance* *Y* of given *Lightness* (*L\**) with given
+    reference white *luminance*.
 
     Usage::
 
@@ -83,14 +86,16 @@ def luminance_1976(L, Yn=100.):
     -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
     """
 
-    Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else (L / CIE_K) * Yn
+    Y = (((L + 16.) / 116.) ** 3.) * Yn if L > CIE_K * CIE_E else \
+        (L / CIE_K) * Yn
 
     return Y
 
 
 def luminance_ASTM_D1535_08(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using *ASTM D1535-08e1* 2008 method.
+    Returns the *luminance* *Y* of given *Munsell value* *V* using
+    *ASTM D1535-08e1* 2008 method.
 
     Usage::
 
@@ -110,7 +115,8 @@ def luminance_ASTM_D1535_08(V):
     -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
     """
 
-    Y = 1.1914 * V - 0.22533 * (V * V) + 0.23352 * (V ** 3) - 0.020484 * (V ** 4) + 0.00081939 * (V ** 5)
+    Y = 1.1914 * V - 0.22533 * (V * V) + 0.23352 * (V ** 3) - 0.020484 * (
+        V ** 4) + 0.00081939 * (V ** 5)
 
     return Y
 
@@ -122,7 +128,8 @@ LUMINANCE_FUNCTIONS = {"Luminance Newhall 1943": luminance_newhall1943,
 
 def get_luminance(LV, Yn=100., method="Luminance 1976"):
     """
-    Returns the *luminance* *Y* of given *Lightness* *L* using given reference white *luminance* or given *Munsell value* *V*.
+    Returns the *luminance* *Y* of given *Lightness* *L* using given reference
+    white *luminance* or given *Munsell value* *V*.
 
     Usage::
 
@@ -134,11 +141,13 @@ def get_luminance(LV, Yn=100., method="Luminance 1976"):
     :param Yn: White reference *luminance*.
     :type Yn: float
     :param method: Computation method.
-    :type method: unicode ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+    :type method: unicode ("Luminance Newhall 1943", "Luminance 1976", \
+    "Luminance ASTM D1535-08")
     :return: *Luminance* *Y*.
     :rtype: float
 
-    :note: Input *LV* is in domain [0, 100] or [0, 10] and *Yn* is in domain [0, 100].
+    :note: Input *LV* is in domain [0, 100] or [0, 10] and *Yn* is in domain \
+    [0, 100].
     :note: Output *Y\** is in domain [0, 100].
     """
 

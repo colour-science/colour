@@ -39,7 +39,8 @@ __all__ = ["TestStructure",
 
 class TestStructure(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.data_structures.Structure` class units tests methods.
+    Defines :class:`colour.utilities.data_structures.Structure` class units
+    tests methods.
     """
 
     def test_structure(self):
@@ -47,7 +48,8 @@ class TestStructure(unittest.TestCase):
         Tests :class:`colour.utilities.data_structures.Structure` class.
         """
 
-        structure = colour.utilities.data_structures.Structure(John="Doe", Jane="Doe")
+        structure = colour.utilities.data_structures.Structure(John="Doe",
+                                                               Jane="Doe")
         self.assertIn("John", structure)
         self.assertTrue(hasattr(structure, "John"))
         setattr(structure, "John", "Nemo")
@@ -63,7 +65,8 @@ class TestStructure(unittest.TestCase):
         del (structure.John)
         self.assertNotIn("John", structure)
         self.assertFalse(hasattr(structure, "John"))
-        structure = colour.utilities.data_structures.Structure(John=None, Jane=None)
+        structure = colour.utilities.data_structures.Structure(John=None,
+                                                               Jane=None)
         self.assertIsNone(structure.John)
         self.assertIsNone(structure["John"])
         structure.update(**{"John": "Doe", "Jane": "Doe"})
@@ -75,7 +78,8 @@ class TestStructure(unittest.TestCase):
         Tests :class:`colour.utilities.data_structures.Structure` class pickling.
         """
 
-        structure = colour.utilities.data_structures.Structure(John="Doe", Jane="Doe")
+        structure = colour.utilities.data_structures.Structure(John="Doe",
+                                                               Jane="Doe")
 
         data = pickle.dumps(structure)
         data = pickle.loads(data)
@@ -88,24 +92,32 @@ class TestStructure(unittest.TestCase):
 
 class TestLookup(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.data_structures.Lookup` class units tests methods.
+    Defines :class:`colour.utilities.data_structures.Lookup` class units tests
+    methods.
     """
 
     def test_get_first_key_from_value(self):
         """
-        Tests :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value` method.
+        Tests :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value`
+        method.
         """
 
-        lookup = colour.utilities.data_structures.Lookup(firstName="Doe", lastName="John", gender="male")
+        lookup = colour.utilities.data_structures.Lookup(firstName="Doe",
+                                                         lastName="John",
+                                                         gender="male")
         self.assertEqual("firstName", lookup.get_first_key_from_value("Doe"))
 
     def test_get_keys_from_value(self):
         """
-        Tests :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value` method.
+        Tests :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value`
+        method.
         """
 
-        lookup = colour.utilities.data_structures.Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
-        self.assertListEqual(["Jane", "John"], lookup.get_keys_from_value("Doe"))
+        lookup = colour.utilities.data_structures.Lookup(John="Doe",
+                                                         Jane="Doe",
+                                                         Luke="Skywalker")
+        self.assertListEqual(["Jane", "John"],
+                             lookup.get_keys_from_value("Doe"))
 
 
 if __name__ == "__main__":

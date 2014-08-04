@@ -18,8 +18,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS, ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
-from colour.utilities import is_scipy_installed
+from colour.colorimetry import ILLUMINANTS
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -31,40 +30,15 @@ __status__ = "Production"
 __all__ = ["XYZ_to_xyY",
            "xyY_to_XYZ",
            "xy_to_XYZ",
-           "XYZ_to_xy",
-           "is_within_macadam_limits"]
-
-_XYZ_OPTIMAL_COLOUR_STIMULI_CACHE = {}
-_XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
+           "XYZ_to_xy"]
 
 
-def _get_XYZ_optimal_colour_stimuli(illuminant):
+def XYZ_to_xyY(XYZ,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
-    Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace and caches it if not existing.
-
-    :param illuminant: Illuminant.
-    :type illuminant: unicode
-    :return: Illuminant optimal colour stimuli.
-    :rtype: tuple
-    """
-
-    optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
-
-    if optimal_colour_stimuli is None:
-        raise KeyError("'{0}' not found in factory optimal colour stimuli: '{1}'.".format(illuminant,
-                                                                                          sorted(
-                                                                                              ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
-
-    cached_optimal_colour_stimuli = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
-    if cached_optimal_colour_stimuli is None:
-        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_optimal_colour_stimuli = \
-            np.array(map(lambda x: np.ravel(xyY_to_XYZ(x) / 100.), optimal_colour_stimuli))
-    return cached_optimal_colour_stimuli
-
-
-def XYZ_to_xyY(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
-    """
-    Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference *illuminant*.
+    Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference
+    *illuminant*.
 
     Usage::
 
@@ -85,7 +59,8 @@ def XYZ_to_xyY(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html \
+    (Last accessed 24 February 2014)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -117,7 +92,8 @@ def xyY_to_XYZ(xyY):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html \
+    (Last accessed 24 February 2014)
     """
 
     x, y, Y = np.ravel(xyY)
@@ -130,7 +106,8 @@ def xyY_to_XYZ(xyY):
 
 def xy_to_XYZ(xy):
     """
-    Returns the *CIE XYZ* colourspace matrix from given *xy* chromaticity coordinates.
+    Returns the *CIE XYZ* colourspace matrix from given *xy* chromaticity
+    coordinates.
 
     Usage::
 
@@ -151,9 +128,12 @@ def xy_to_XYZ(xy):
     return xyY_to_XYZ(np.array([xy[0], xy[1], 1.]).reshape((3, 1)))
 
 
-def XYZ_to_xy(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_xy(XYZ,
+              illuminant=ILLUMINANTS.get(
+                  "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace matrix.
+    Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace
+    matrix.
 
     Usage::
 
@@ -175,29 +155,3 @@ def XYZ_to_xy(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observ
 
     xyY = np.ravel(XYZ_to_xyY(XYZ, illuminant))
     return xyY[0], xyY[1]
-
-
-def is_within_macadam_limits(xyY, illuminant):
-    """
-    Returns if given *CIE xyY* colourspace matrix is within *MacAdam* limits of given illuminant.
-
-    :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
-    :param illuminant: Illuminant.
-    :type illuminant: unicode
-    :return: Is within *MacAdam* limits.
-    :rtype: bool
-
-    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
-    """
-
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
-
-        optimal_colour_stimuli = _get_XYZ_optimal_colour_stimuli(illuminant)
-        triangulation = _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE.get(illuminant)
-        if triangulation is None:
-            _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = triangulation = \
-                Delaunay(optimal_colour_stimuli)
-
-        return True if triangulation.find_simplex(np.ravel(xyY_to_XYZ(xyY))) != -1 else False

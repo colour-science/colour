@@ -37,7 +37,8 @@ __all__ = ["TestIsString"]
 
 class TestIsString(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_string` definition units tests methods.
+    Defines :func:`colour.utilities.common.is_string` definition units tests
+    methods.
     """
 
     def test_is_string(self):

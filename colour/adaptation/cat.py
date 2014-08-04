@@ -39,23 +39,23 @@ XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
 BRADFORD_CAT = np.array([0.8951000, 0.2664000, -0.1614000,
-                            -0.7502000, 1.7135000, 0.0367000,
-                            0.0389000, -0.0685000, 1.0296000]).reshape((3, 3))
+                         -0.7502000, 1.7135000, 0.0367000,
+                         0.0389000, -0.0685000, 1.0296000]).reshape((3, 3))
 
 # http://brucelindbloom.com/Eqn_ChromAdapt.html
 VON_KRIES_CAT = np.array([0.4002400, 0.7076000, -0.0808100,
-                             -0.2263000, 1.1653200, 0.0457000,
-                             0.0000000, 0.0000000, 0.9182200]).reshape((3, 3))
+                          -0.2263000, 1.1653200, 0.0457000,
+                          0.0000000, 0.0000000, 0.9182200]).reshape((3, 3))
 
 # http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 FAIRCHILD_CAT = np.array([.8562, .3372, -.1934,
-                             -.8360, 1.8327, .0033,
-                             .0357, -.0469, 1.0112]).reshape((3, 3))
+                          -.8360, 1.8327, .0033,
+                          .0357, -.0469, 1.0112]).reshape((3, 3))
 
 # http://en.wikipedia.org/wiki/CIECAM02#CAT02
 CAT02_CAT = np.array([0.7328, 0.4296, -0.1624,
-                         -0.7036, 1.6975, 0.0061,
-                         0.0030, 0.0136, 0.9834]).reshape((3, 3))
+                      -0.7036, 1.6975, 0.0061,
+                      0.0030, 0.0136, 0.9834]).reshape((3, 3))
 
 CHROMATIC_ADAPTATION_METHODS = {"XYZ Scaling": XYZ_SCALING_CAT,
                                 "Bradford": BRADFORD_CAT,
@@ -66,7 +66,8 @@ CHROMATIC_ADAPTATION_METHODS = {"XYZ Scaling": XYZ_SCALING_CAT,
 
 def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     """
-    Returns the *chromatic adaptation* matrix from given source and target *CIE XYZ* *array_like* variables.
+    Returns the *chromatic adaptation* matrix from given source and
+    target *CIE XYZ* *array_like* variables.
 
     Usage::
 
@@ -88,21 +89,24 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_ChromAdapt.html (Last accessed 24 February 2014)
+    -  http://brucelindbloom.com/Eqn_ChromAdapt.html \
+    (Last accessed 24 February 2014)
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)
 
     if method_matrix is None:
         raise KeyError(
-            "'{0}' chromatic adaptation method is not defined! Supported methods: '{1}'.".format(method,
-                                                                                                 CHROMATIC_ADAPTATION_METHODS.keys()))
+            "'{0}' chromatic adaptation method is not defined! Supported methods: '{1}'.".format(
+                method,
+                CHROMATIC_ADAPTATION_METHODS.keys()))
 
     pyb_source, pyb_target = np.ravel(np.dot(method_matrix, XYZ1)), \
                              np.ravel(np.dot(method_matrix, XYZ2))
     crd = np.diagflat(np.array([[pyb_target[0] / pyb_source[0],
-                                       pyb_target[1] / pyb_source[1],
-                                       pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
+                                 pyb_target[1] / pyb_source[1],
+                                 pyb_target[2] / pyb_source[2]]])).reshape(
+        (3, 3))
     cat = np.dot(np.dot(np.linalg.inv(method_matrix), crd), method_matrix)
 
     return cat

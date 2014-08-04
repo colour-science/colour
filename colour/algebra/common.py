@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package algebra common utilities objects that don't fall in any specific category.
+    Defines **Colour** package algebra common utilities objects
+    that don't fall in any specific category.
 
 **Others:**
 
@@ -50,7 +51,8 @@ def get_steps(distribution):
     :rtype: tuple
     """
 
-    return tuple(set([distribution[i + 1] - distribution[i] for i in range(len(distribution) - 1)]))
+    return tuple(set([distribution[i + 1] - distribution[i] for i in
+                      range(len(distribution) - 1)]))
 
 
 def get_closest(y, x):

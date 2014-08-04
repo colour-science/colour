@@ -120,7 +120,8 @@ def HSV_to_RGB(HSV):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 \
+    (Last accessed 18 May 2014)
     """
 
     H, S, V = np.ravel(HSV)
@@ -188,7 +189,8 @@ def RGB_to_HSL(RGB):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 \
+    (Last accessed 18 May 2014)
     """
 
     R, G, B = np.ravel(RGB)
@@ -204,7 +206,8 @@ def RGB_to_HSL(RGB):
         S = 0.
     else:
 
-        S = delta / (maximum + minimum) if L < 0.5 else delta / (2 - maximum - minimum)
+        S = delta / (maximum + minimum) if L < 0.5 else delta / (
+            2 - maximum - minimum)
 
         delta_R = (((maximum - R) / 6.) + (delta / 2.)) / delta
         delta_G = (((maximum - G) / 6.) + (delta / 2.)) / delta
@@ -247,7 +250,8 @@ def HSL_to_RGB(HSL):
     References:
 
     -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 \
+    (Last accessed 18 May 2014)
     """
 
     H, S, L = np.ravel(HSL)
@@ -301,7 +305,8 @@ def RGB_to_CMY(RGB):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 \
+    (Last accessed 18 May 2014)
     """
 
     R, G, B = np.ravel(RGB)
@@ -329,7 +334,8 @@ def CMY_to_RGB(CMY):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 \
+    (Last accessed 18 May 2014)
     """
 
     C, M, Y = np.ravel(CMY)
@@ -358,7 +364,8 @@ def CMY_to_CMYK(CMY):
 
     References:
 
-    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 (Last accessed 18 May 2014)
+    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 \
+    (Last accessed 18 May 2014)
     """
 
     C, M, Y = np.ravel(CMY)
@@ -409,7 +416,8 @@ def CMYK_to_CMY(CMYK):
 
     C, M, Y, K = np.ravel(CMYK)
 
-    return np.array([C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
+    return np.array(
+        [C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
 
 
 def RGB_to_HEX(RGB):
@@ -455,4 +463,5 @@ def HEX_to_RGB(HEX):
 
     HEX = HEX.lstrip("#")
     length = len(HEX)
-    return np.array([int(HEX[i:i + length / 3], 16) for i in range(0, length, length / 3)]).reshape((3, 1)) / 255.
+    return np.array([int(HEX[i:i + length / 3], 16) for i in
+                     range(0, length, length / 3)]).reshape((3, 1)) / 255.

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package correlated colour temperature related examples.
+Showcases some **Colour** package correlated colour temperature related
+examples.
 """
 
 import colour
@@ -25,7 +26,9 @@ print(colour.uv_to_CCT(uv, method="Robertson 1968", cmfs=cmfs, iterations=3))
 print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, cmfs=cmfs))
 
 # *Robertson* calculation method.
-print(colour.CCT_to_uv(6503.4925414981535, 0.0032059787171144823, method="Robertson 1968"))
+print(colour.CCT_to_uv(6503.4925414981535,
+                       0.0032059787171144823,
+                       method="Robertson 1968"))
 
 # From *xy* chromaticity coordinates to correlated colour temperature.
 # *McCamy* calculation method.

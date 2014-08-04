@@ -17,9 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
-
 import numpy as np
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -40,7 +38,8 @@ __all__ = ["TestIsIdentity"]
 
 class TestIsIdentity(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.matrix.is_identity` definition units tests methods.
+    Defines :func:`colour.algebra.matrix.is_identity` definition units tests
+    methods.
     """
 
     def test_is_identity(self):
@@ -48,10 +47,14 @@ class TestIsIdentity(unittest.TestCase):
         Tests :func:`colour.algebra.matrix.is_identity` definition.
         """
 
-        self.assertTrue(is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertFalse(is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
-        self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape(2, 2), n=2))
-        self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape(2, 2), n=2))
+        self.assertTrue(
+            is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertFalse(
+            is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3)))
+        self.assertTrue(
+            is_identity(np.array([1, 0, 0, 1]).reshape(2, 2), n=2))
+        self.assertFalse(
+            is_identity(np.array([1, 2, 0, 1]).reshape(2, 2), n=2))
 
 
 if __name__ == "__main__":

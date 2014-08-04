@@ -35,7 +35,8 @@ __all__ = ["lightness_glasser1958",
 
 def lightness_glasser1958(Y):
     """
-    Returns the *Lightness* (*L\**) of given *luminance* *Y* using *Glasser et al.* 1958 method.
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using
+    *Glasser et al.* 1958 method.
 
     Usage::
 
@@ -62,7 +63,8 @@ def lightness_glasser1958(Y):
 
 def lightness_wyszecki1964(Y):
     """
-    Returns the *Lightness* (*W\**) of given *luminance* *Y* using *Wyszecki* 1964 method.
+    Returns the *Lightness* (*W\**) of given *luminance* *Y* using *Wyszecki*
+    1964 method.
 
     Usage::
 
@@ -94,7 +96,8 @@ def lightness_wyszecki1964(Y):
 
 def lightness_1976(Y, Yn=100.):
     """
-    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given
+    reference white *luminance*.
 
     Usage::
 
@@ -129,7 +132,8 @@ LIGHTNESS_FUNCTIONS = {"Lightness Glasser 1958": lightness_glasser1958,
 
 def get_lightness(Y, Yn=100., method="Lightness 1976"):
     """
-    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given reference white *luminance*.
+    Returns the *Lightness* (*L\**) of given *luminance* *Y* using given
+    reference white *luminance*.
 
     Usage::
 
@@ -141,7 +145,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     :param Yn: White reference *luminance*.
     :type Yn: float
     :param method: Computation method.
-    :type method: unicode ("Lightness Glasser 1958", "Lightness Wyszecki 1964", "Lightness 1976")
+    :type method: unicode ("Lightness Glasser 1958", "Lightness Wyszecki 1964", \
+    "Lightness 1976")
     :return: *Lightness* *L\**.
     :rtype: float
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -8,7 +8,8 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Sanitizes python module file. :func:`bleach` definition is called by **Oncilla** package.
+    Sanitizes python module file. :func:`bleach` definition is called by
+    **Oncilla** package.
 
 **Others:**
 
@@ -63,7 +64,8 @@ def bleach(file):
         for match in matches:
             start, end = match.start("bleach"), match.end("bleach")
             substitution = "{0}{1}".format(STATEMENT_UPDATE_MESSAGE,
-                                           re.sub("\n", "\n{0}".format(STATEMENT_UPDATE_MESSAGE),
+                                           re.sub("\n", "\n{0}".format(
+                                               STATEMENT_UPDATE_MESSAGE),
                                                   match.group("bleach")))
             content = "".join((content[0: start + offset],
                                substitution,

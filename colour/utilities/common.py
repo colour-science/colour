@@ -47,7 +47,8 @@ def is_scipy_installed(raise_exception=False):
     except ImportError as error:
         if raise_exception:
             raise colour.utilities.exceptions.UnavailableApiFeatureError(
-                "{0} | 'scipy' or specific 'scipy' Api features are not available: '{1}'.".format(__name__, error))
+                "{0} | 'scipy' or specific 'scipy' Api features are not available: '{1}'.".format(
+                    __name__, error))
         return False
 
 

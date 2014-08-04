@@ -39,7 +39,9 @@ __all__ = ["XYZ_to_Luv",
            "LCHuv_to_Luv"]
 
 
-def XYZ_to_Luv(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def XYZ_to_Luv(XYZ,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
@@ -63,7 +65,8 @@ def XYZ_to_Luv(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html (Last accessed 24 February 2014)
+    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html \
+    (Last accessed 24 February 2014)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -71,15 +74,18 @@ def XYZ_to_Luv(XYZ, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     yr = Y / Yr
 
-    L = 116. * yr ** (
-        1. / 3.) - 16. if yr > CIE_E else CIE_K * yr
-    u = 13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) - (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))
-    v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
+    L = 116. * yr ** ( 1. / 3.) - 16. if yr > CIE_E else CIE_K * yr
+    u = 13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) - \
+                   (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))
+    v = 13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) - \
+                   (9. * Yr / (Xr + 15. * Yr + 3. * Zr)))
 
     return np.array([L, u, v]).reshape((3, 1))
 
 
-def Luv_to_XYZ(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def Luv_to_XYZ(Luv,
+               illuminant=ILLUMINANTS.get(
+                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
@@ -103,19 +109,21 @@ def Luv_to_XYZ(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
 
     References:
 
-    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html (Last accessed 24 February 2014)
+    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html \
+    (Last accessed 24 February 2014)
     """
 
     L, u, v = np.ravel(Luv)
     Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
-    Y = ((
-             L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
+    Y = ((L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
 
-    a = 1. / 3. * ((52. * L / (u + 13. * L * (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))) - 1.)
+    a = 1. / 3. * ((52. * L / (u + 13. * L * \
+                               (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))) - 1.)
     b = -5. * Y
     c = -1. / 3.0
-    d = Y * (39. * L / (v + 13. * L * (9. * Yr / (Xr + 15. * Yr + 3. * Zr))) - 5.)
+    d = Y * \
+        (39. * L / (v + 13. * L * (9. * Yr / (Xr + 15. * Yr + 3. * Zr))) - 5.)
 
     X = (d - b) / (a - c)
     Z = X * a + b
@@ -123,9 +131,12 @@ def Luv_to_XYZ(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Obser
     return np.array([X, Y, Z]).reshape((3, 1))
 
 
-def Luv_to_uv(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D50")):
+def Luv_to_uv(Luv,
+              illuminant=ILLUMINANTS.get(
+                  "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
-    Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace matrix.
+    Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace
+    matrix.
 
     Usage::
 
@@ -144,7 +155,8 @@ def Luv_to_uv(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observ
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation \
+    (Last accessed 24 February 2014)
     """
 
     X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -154,7 +166,8 @@ def Luv_to_uv(Luv, illuminant=ILLUMINANTS.get("CIE 1931 2 Degree Standard Observ
 
 def Luv_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace *u'v'* chromaticity coordinates.
+    Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
+    *u'v'* chromaticity coordinates.
 
     Usage::
 
@@ -171,10 +184,12 @@ def Luv_uv_to_xy(uv):
 
     References:
 
-    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation' (Last accessed 24 February 2014)
+    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation \
+    (Last accessed 24 February 2014)
     """
 
-    return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (6. * uv[0] - 16. * uv[1] + 12.)
+    return 9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] / (
+        6. * uv[0] - 16. * uv[1] + 12.)
 
 
 def Luv_to_LCHuv(Luv):
@@ -197,7 +212,8 @@ def Luv_to_LCHuv(Luv):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html \
+    (Last accessed 24 February 2014)
     """
 
     L, u, v = np.ravel(Luv)
@@ -229,9 +245,12 @@ def LCHuv_to_Luv(LCHuv):
 
     References:
 
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html (Last accessed 24 February 2014)
+    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html \
+    (Last accessed 24 February 2014)
     """
 
     L, C, H = np.ravel(LCHuv)
 
-    return np.array([L, C * math.cos(math.radians(H)), C * math.sin(math.radians(H))]).reshape((3, 1))
+    return np.array([L,
+                     C * math.cos(math.radians(H)),
+                     C * math.sin(math.radians(H))]).reshape((3, 1))

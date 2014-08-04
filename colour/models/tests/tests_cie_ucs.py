@@ -42,7 +42,8 @@ __all__ = ["TestXYZ_to_UCS",
 
 class TestXYZ_to_UCS(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.XYZ_to_UCS` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.XYZ_to_UCS` definition units tests
+    methods.
     """
 
     def test_XYZ_to_UCS(self):
@@ -68,7 +69,8 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
 class TestUCS_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_to_XYZ` definition units tests
+    methods.
     """
 
     def test_UCS_to_XYZ(self):
@@ -94,7 +96,8 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
 class TestUCS_to_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_to_uv` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_to_uv` definition units tests
+    methods.
     """
 
     def test_UCS_to_uv(self):
@@ -120,7 +123,8 @@ class TestUCS_to_uv(unittest.TestCase):
 
 class TestUCS_uv_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition units tests
+    methods.
     """
 
     def test_UCS_uv_to_xy(self):

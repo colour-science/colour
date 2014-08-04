@@ -38,12 +38,14 @@ __all__ = ["TestGetChromaticAdaptationMatrix"]
 
 class TestGetChromaticAdaptationMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix` definition units tests methods.
+    Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+    definition units tests methods.
     """
 
     def test_get_chromatic_adaptation_matrix(self):
         """
-        Tests :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix` definition.
+        Tests :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+        definition.
         """
 
         np.testing.assert_almost_equal(
