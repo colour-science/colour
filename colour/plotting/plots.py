@@ -420,7 +420,7 @@ def colour_parameters_plot(colour_parameters,
     """
     Plots given colour colour_parameters.
 
-    Usage::
+    Examples::
 
         >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0., 0.12300545])
         >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
@@ -506,7 +506,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     """
     Plots given colour.
 
-    Usage::
+    Examples::
 
         >>> single_colour_plot(colour_parameter(RGB=(0.32315746, 0.32983556, 0.33640183)))
         True
@@ -534,7 +534,7 @@ def multi_colour_plot(colour_parameters,
     """
     Plots given colours.
 
-    Usage::
+    Examples::
 
         >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
         >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169)
@@ -605,7 +605,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     """
     Plots given colour checker.
 
-    Usage::
+    Examples::
 
         >>> colour_checker_plot()
         True
@@ -676,7 +676,7 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given spectral power distribution.
 
-    Usage::
+    Examples::
 
         >>> spd = colour.SpectralPowerDistribution(name="Custom", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
         >>> single_spd_plot(spd)
@@ -733,7 +733,7 @@ def multi_spd_plot(spds,
     """
     Plots given spectral power distributions.
 
-    Usage::
+    Examples::
 
         >>> spd1 = colour.SpectralPowerDistribution(name="Custom1", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
         >>> spd2 = colour.SpectralPowerDistribution(name="Custom2", data={400: 0.134, 420: 0.789, 440: 1.289})
@@ -806,7 +806,7 @@ def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given colour matching functions.
 
-    Usage::
+    Examples::
 
         >>> single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
         True
@@ -830,7 +830,7 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
     """
     Plots given colour matching functions.
 
-    Usage::
+    Examples::
 
         >>> multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
         True
@@ -895,7 +895,7 @@ def single_illuminant_relative_spd_plot(illuminant="A",
     """
     Plots given single illuminant relative spectral power distribution.
 
-    Usage::
+    Examples::
 
         >>> single_illuminant_relative_spd_plot("A")
         True
@@ -926,7 +926,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
-    Usage::
+    Examples::
 
         >>> multi_illuminants_relative_spd_plot(["A", "B", "C"])
         True
@@ -958,7 +958,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
     colour matching functions.
 
-    Usage::
+    Examples::
 
         >>> visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
         True
@@ -1007,7 +1007,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
     """
     Plots the *CIE 1931 Chromaticity Diagram* colours.
 
-    Usage::
+    Examples::
 
         >>> CIE_1931_chromaticity_diagram_colours_plot()
         True
@@ -1067,7 +1067,7 @@ def CIE_1931_chromaticity_diagram_plot(
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> CIE_1931_chromaticity_diagram_plot()
         True
@@ -1168,7 +1168,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     """
     Plots given colourspaces in *CIE 1931 Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> colourspaces_CIE_1931_chromaticity_diagram_plot(["sRGB", "ACES RGB"])
         True
@@ -1271,7 +1271,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     Plots the planckian locus and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(["A", "B", "C"])
         True
@@ -1341,7 +1341,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colours.
 
-    Usage::
+    Examples::
 
         >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()
         True
@@ -1401,7 +1401,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> CIE_1960_UCS_chromaticity_diagram_plot()
         True
@@ -1502,7 +1502,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(["A", "C", "E"])
         True
@@ -1575,7 +1575,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colours.
 
-    Usage::
+    Examples::
 
         >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()
         True
@@ -1635,7 +1635,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
-    Usage::
+    Examples::
 
         >>> CIE_1976_UCS_chromaticity_diagram_plot()
         True
@@ -1737,7 +1737,7 @@ def single_munsell_value_function_plot(function="Munsell Value Ladd 1955",
     """
     Plots given *Lightness* function.
 
-    Usage::
+    Examples::
 
         >>> single_munsell_value_function_plot("Munsell Value Ladd 1955")
         True
@@ -1763,7 +1763,7 @@ def multi_munsell_value_function_plot(
     """
     Plots given *Munsell value* functions.
 
-    Usage::
+    Examples::
 
         >>> multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Munsell Value Saunderson 1944"])
         True
@@ -1813,7 +1813,7 @@ def single_lightness_function_plot(function="Lightness 1976", **kwargs):
     """
     Plots given *Lightness* function.
 
-    Usage::
+    Examples::
 
         >>> single_lightness_function_plot("Lightness 1976")
         True
@@ -1839,7 +1839,7 @@ def multi_lightness_function_plot(
     """
     Plots given *Lightness* functions.
 
-    Usage::
+    Examples::
 
         >>> multi_lightness_function_plot(["Lightness 1976", "Lightness Wyszecki 1964"])
         True
@@ -1889,7 +1889,7 @@ def single_transfer_function_plot(colourspace="sRGB", **kwargs):
     """
     Plots given colourspace transfer function.
 
-    Usage::
+    Examples::
 
         >>> single_transfer_function_plot("sRGB")
         True
@@ -1914,7 +1914,7 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
     """
     Plots given colourspaces transfer functions.
 
-    Usage::
+    Examples::
 
         >>> multi_transfer_function_plot(["sRGB", "Rec. 709"])
         True
@@ -1968,7 +1968,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     """
     Plots given blackbody spectral radiance.
 
-    Usage::
+    Examples::
 
         >>> blackbody_spectral_radiance_plot(3500)
         True
@@ -2030,7 +2030,7 @@ def blackbody_colours_plot(start=150,
     """
     Plots blackbody colours.
 
-    Usage::
+    Examples::
 
         >>> blackbody_colours_plot()
         True
@@ -2082,7 +2082,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     """
     Plots the *colour rendering index* of given illuminant.
 
-    Usage::
+    Examples::
 
         >>> blackbody_colours_plot()
         True

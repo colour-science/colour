@@ -17,7 +17,11 @@
 # from __future__ import unicode_literals
 
 import csv
-import nuke
+
+try:
+    import nuke
+except ImportError as error:
+    pass
 import os
 from collections import namedtuple
 

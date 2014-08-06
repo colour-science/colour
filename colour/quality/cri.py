@@ -131,7 +131,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     """
     Returns the *colour rendering index* of given spectral power distribution.
 
-    Usage::
+    Examples::
 
         >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
         >>> get_colour_rendering_index(spd)

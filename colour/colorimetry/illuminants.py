@@ -37,7 +37,7 @@ def D_illuminant_relative_spd(xy):
     Returns the relative spectral power distribution of given
     *CIE Standard Illuminant D Series* *xy* chromaticity coordinates.
 
-    Usage::
+    Examples::
 
         >>> D_illuminant_relative_spd((0.34567, 0.35850))
         <colour.colorimetry.SpectralPowerDistribution object at 0x101023590>

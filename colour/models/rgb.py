@@ -46,7 +46,7 @@ def XYZ_to_RGB(XYZ,
     *CIE XYZ* colourspace matrix, *illuminants*, *chromatic adaptation* method,
     *normalised primary matrix* and *transfer function*.
 
-    Usage::
+    Examples::
 
         >>> XYZ = np.array([0.1151847498, 0.1008, 0.0508937252])
         >>> illuminant_XYZ =  (0.34567, 0.35850)
@@ -107,7 +107,7 @@ def RGB_to_XYZ(RGB,
     *RGB* colourspace matrix, *illuminants*, *chromatic adaptation* method,
     *normalised primary matrix* and *transfer function*.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([0.17303501, 0.08211033, 0.05672498])
         >>> illuminant_RGB = (0.31271, 0.32902)
@@ -170,7 +170,7 @@ def xyY_to_RGB(xyY,
     *CIE xyY* colourspace matrix, *illuminants*, *chromatic adaptation* method,
     *normalised primary matrix* and *transfer function*.
 
-    Usage::
+    Examples::
 
         >>> xyY = np.array([0.4316, 0.3777, 10.08])
         >>> illuminant_xyY = (0.34567, 0.35850)
@@ -225,7 +225,7 @@ def RGB_to_xyY(RGB,
     *RGB* colourspace matrix, *illuminants*, *chromatic adaptation* method,
     *normalised primary matrix* and *transfer function*.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([17.303501, 8.211033, 5.672498])
         >>> illuminant_RGB = (0.31271, 0.32902)
@@ -277,7 +277,7 @@ def RGB_to_RGB(RGB,
     Converts from given input *RGB* colourspace to output *RGB* colourspace
     using given *chromatic adaptation* method.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([0.35521588, 0.41, 0.24177934])
         >>> RGB_to_RGB(RGB, colour.sRGB_COLOURSPACE, colour.PROPHOTO_RGB_COLOURSPACE)

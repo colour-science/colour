@@ -39,7 +39,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
     into the *CIE 1931 2 Degree Standard Observer* colour matching functions.
 
-    Usage::
+    Examples::
 
         >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
         [ 0.01135774  0.004102    0.        ]
@@ -97,7 +97,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching
     functions.
 
-    Usage::
+    Examples::
 
         >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
         [  9.64321500e-03   3.75263179e-03  -4.10788300e-06]
@@ -140,7 +140,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals*
     spectral sensitivity functions.
 
-    Usage::
+    Examples::
 
         >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)
         [ 0.00528607  0.00032528  0.        ]
@@ -182,7 +182,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching
     functions.
 
-    Usage::
+    Examples::
 
         >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
         [ 0.01096778  0.00419594  0.        ]
@@ -223,7 +223,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching
     functions.
 
-    Usage::
+    Examples::
 
         >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
         [ 0.00981623  0.00377614  0.        ]

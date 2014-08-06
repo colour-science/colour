@@ -2,16 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-**coordinates.py**
+Coordinates System Transformations
+==================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects to apply transformations on coordinates systems. The following
+transformations are supported:
 
-**Description:**
-    Defines **Colour** package algebra coordinates transformations objects.
+-   Cartesian to Spherical
+-   Spherical to Cartesian
+-   Cartesian to Cylindrical
+-   Cylindrical to Cartesian
 
-**Others:**
+References
+----------
 
+.. [1] http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import unicode_literals
@@ -36,15 +41,23 @@ def cartesian_to_spherical(vector):
     """
     Transforms given Cartesian coordinates vector to Spherical coordinates.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> cartesian_to_spherical(np.array([3, 1, 6]))
-        array([6.78232998  1.08574654  0.32175055])
+    vector : array_like
+        Cartesian coordinates vector (x, y, z) to transform.
 
-    :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: array_like
-    :return: Spherical coordinates vector (r, theta, phi).
-    :rtype: ndarray
+    Returns
+    -------
+
+    ndarray
+        Spherical coordinates vector (r, theta, phi).
+
+    Examples
+    --------
+
+    >>> colour.cartesian_to_spherical(np.array([3, 1, 6]))
+    array([6.78232998  1.08574654  0.32175055])
     """
 
     r = np.linalg.norm(vector)
@@ -60,15 +73,23 @@ def spherical_to_cartesian(vector):
     """
     Transforms given Spherical coordinates vector to Cartesian coordinates.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
-        array([ 3.          0.99999999  6.        ])
+    vector : array_like
+        Spherical coordinates vector (r, theta, phi) to transform.
 
-    :param vector: Spherical coordinates vector (r, theta, phi) to transform.
-    :type vector: array_like
-    :return: Cartesian coordinates vector (x, y, z).
-    :rtype: ndarray
+    Returns
+    -------
+
+    ndarray
+        Cartesian coordinates vector (x, y, z).
+
+    Examples
+    --------
+
+    >>> colour.spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
+    array([ 3.        ,  0.99999999,  6.        ])
     """
 
     r, theta, phi = np.ravel(vector)
@@ -84,15 +105,23 @@ def cartesian_to_cylindrical(vector):
     """
     Transforms given Cartesian coordinates vector to Cylindrical coordinates.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> cartesian_to_cylindrical(np.array([3, 1, 6]))
-        array([ 6.          0.32175055  3.16227766])
+    vector : array_like
+        Cartesian coordinates vector (x, y, z) to transform.
 
-    :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: array_like
-    :return: Cylindrical coordinates vector (z, theta, rho).
-    :rtype: ndarray
+    Returns
+    -------
+
+    ndarray
+        Cylindrical coordinates vector (z, theta, rho).
+
+    Examples
+    --------
+
+    >>> colour.cartesian_to_cylindrical(np.array([3, 1, 6]))
+    array([ 6.        ,  0.32175055,  3.16227766])
     """
 
     x, y, z = np.ravel(vector)
@@ -107,15 +136,23 @@ def cylindrical_to_cartesian(vector):
     """
     Transforms given Cylindrical coordinates vector to Cartesian coordinates.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
-        array([ 3.          0.99999999  6.        ])
+    vector : array_like
+        Cylindrical coordinates vector (z, theta, rho) to transform.
 
-    :param vector: Cylindrical coordinates vector (z, theta, rho) to transform.
-    :type vector: array_like
-    :return: Cartesian coordinates vector (x, y, z).
-    :rtype: ndarray
+    Returns
+    -------
+
+    ndarray
+        Cartesian coordinates vector (x, y, z).
+
+    Examples
+    --------
+
+    >>> colour.cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
+    array([ 3.        ,  0.99999999,  6.        ])
     """
 
     z, theta, rho = np.ravel(vector)

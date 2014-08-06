@@ -43,7 +43,7 @@ def RGB_to_HSV(RGB):
     """
     Converts from *RGB* colourspace to *HSV* colourspace.
 
-    Usage::
+    Examples::
 
         >>> RGB_to_HSV(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
         array([[ 0.27867384],
@@ -102,7 +102,7 @@ def HSV_to_RGB(HSV):
     """
     Converts from *HSV* colourspace to *RGB* colourspace.
 
-    Usage::
+    Examples::
 
         >>> HSV_to_RGB(np.array([0.27867384, 0.744, 0.98039216]))
         array([[ 0.49019606]
@@ -171,7 +171,7 @@ def RGB_to_HSL(RGB):
     """
     Converts from *RGB* colourspace to *HSL* colourspace.
 
-    Usage::
+    Examples::
 
         >>> RGB_to_HSL(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
         array([[ 0.27867384]
@@ -232,7 +232,7 @@ def HSL_to_RGB(HSL):
     """
     Converts from *HSL* colourspace to *RGB* colourspace.
 
-    Usage::
+    Examples::
 
         >>> HSL_to_RGB(np.array([0.27867384, 0.94897959, 0.61568627]))
         array([[ 0.49019605]
@@ -288,7 +288,7 @@ def RGB_to_CMY(RGB):
     """
     Converts from *RGB* colourspace to *CMY* colourspace.
 
-    Usage::
+    Examples::
 
         >>> RGB_to_CMY(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
         array([[ 0.50980392]
@@ -317,7 +317,7 @@ def CMY_to_RGB(CMY):
     """
     Converts from *CMY* colourspace to *CMY* colourspace.
 
-    Usage::
+    Examples::
 
         >>> CMY_to_RGB(np.array([0.50980392, 0.01960784, 0.74901961]))
         array([[ 0.49019608]
@@ -346,7 +346,7 @@ def CMY_to_CMYK(CMY):
     """
     Converts from *CMY* colourspace to *CMYK* colourspace.
 
-    Usage::
+    Examples::
 
         >>> CMY_to_CMYK(np.array([0.50980392, 0.01960784, 0.74901961]))
         array([[ 0.5       ]
@@ -394,7 +394,7 @@ def CMYK_to_CMY(CMYK):
     """
     Converts from *CMYK* colourspace to *CMY* colourspace.
 
-    Usage::
+    Examples::
 
         >>> CMYK_to_CMY(np.array([0.5, 0.,0.744, 0.01960784]))
         array([[ 0.50980392]
@@ -424,7 +424,7 @@ def RGB_to_HEX(RGB):
     """
     Converts from *RGB* colourspace to hex triplet representation.
 
-    Usage::
+    Examples::
 
         >>> RGB_to_HEX(np.array([0.66666667, 0.86666667, 1.]))
         #aaddff
@@ -446,7 +446,7 @@ def HEX_to_RGB(HEX):
     """
     Converts from hex triplet representation to *RGB* colourspace.
 
-    Usage::
+    Examples::
 
         >>> HEX_to_RGB("#aaddff")
         [[ 0.66666667]

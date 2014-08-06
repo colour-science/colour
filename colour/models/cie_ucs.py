@@ -35,7 +35,7 @@ def XYZ_to_UCS(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *CIE UCS* colourspace.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229]))
         array([[ 0.07870556]
@@ -67,7 +67,7 @@ def UCS_to_XYZ(UVW):
     """
     Converts from *CIE UCS* colourspace to *CIE XYZ* colourspace.
 
-    Usage::
+    Examples::
 
         >>> UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529]))
         array([[ 0.11805834]
@@ -99,7 +99,7 @@ def UCS_to_uv(UVW):
     Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace
     matrix.
 
-    Usage::
+    Examples::
 
         >>> UCS_to_uv(np.array([0.1180583421, 0.1034, 0.0515089229]))
         (0.43249999995420696, 0.378800000065942)
@@ -128,7 +128,7 @@ def UCS_uv_to_xy(uv):
     Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace
     *uv* chromaticity coordinates.
 
-    Usage::
+    Examples::
 
         >>> UCS_uv_to_xy((0.43249999995420696, 0.378800000065942))
         (0.7072386352886122, 0.4129510522116816)

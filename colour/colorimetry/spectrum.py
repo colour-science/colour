@@ -61,7 +61,7 @@ class SpectralPowerDistribution(object):
     @property
     def name(self):
         """
-        Property for **self.__name** attribute.
+        Property for **self.__name** private attribute.
 
         :return: self.__name.
         :rtype: str or unicode
@@ -72,7 +72,7 @@ class SpectralPowerDistribution(object):
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** attribute.
+        Setter for **self.__name** private attribute.
 
         :param value: Attribute value.
         :type value: str or unicode
@@ -87,7 +87,7 @@ class SpectralPowerDistribution(object):
     @property
     def data(self):
         """
-        Property for **self.__data** attribute.
+        Property for **self.__data** private attribute.
 
         :return: self.__data.
         :rtype: dict
@@ -98,7 +98,7 @@ class SpectralPowerDistribution(object):
     @data.setter
     def data(self, value):
         """
-        Setter for **self.__data** attribute.
+        Setter for **self.__data** private attribute.
 
         :param value: Attribute value.
         :type value: dict
@@ -113,7 +113,7 @@ class SpectralPowerDistribution(object):
     @property
     def wavelengths(self):
         """
-        Property for **self.__wavelengths** attribute.
+        Property for **self.__wavelengths** private attribute.
 
         :return: self.__wavelengths.
         :rtype: list
@@ -124,7 +124,7 @@ class SpectralPowerDistribution(object):
     @wavelengths.setter
     def wavelengths(self, value):
         """
-        Setter for **self.__wavelengths** attribute.
+        Setter for **self.__wavelengths** private attribute.
 
         :param value: Attribute value.
         :type value: list
@@ -136,7 +136,7 @@ class SpectralPowerDistribution(object):
     @property
     def values(self):
         """
-        Property for **self.__values** attribute.
+        Property for **self.__values** private attribute.
 
         :return: self.__values.
         :rtype: list
@@ -147,7 +147,7 @@ class SpectralPowerDistribution(object):
     @values.setter
     def values(self, value):
         """
-        Setter for **self.__values** attribute.
+        Setter for **self.__values** private attribute.
 
         :param value: Attribute value.
         :type value: list
@@ -159,7 +159,7 @@ class SpectralPowerDistribution(object):
     @property
     def shape(self):
         """
-        Property for **self.__shape** attribute.
+        Property for **self.__shape** private attribute.
 
         :return: self.__shape.
         :rtype: tuple
@@ -171,7 +171,7 @@ class SpectralPowerDistribution(object):
     @shape.setter
     def shape(self, value):
         """
-        Setter for **self.__shape** attribute.
+        Setter for **self.__shape** private attribute.
 
         :param value: Attribute value.
         :type value: tuple
@@ -569,7 +569,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def name(self):
         """
-        Property for **self.__name** attribute.
+        Property for **self.__name** private attribute.
 
         :return: self.__name.
         :rtype: str or unicode
@@ -580,7 +580,7 @@ class TriSpectralPowerDistribution(object):
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** attribute.
+        Setter for **self.__name** private attribute.
 
         :param value: Attribute value.
         :type value: str or unicode
@@ -595,7 +595,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def mapping(self):
         """
-        Property for **self.__mapping** attribute.
+        Property for **self.__mapping** private attribute.
 
         :return: self.__mapping.
         :rtype: dict
@@ -606,7 +606,7 @@ class TriSpectralPowerDistribution(object):
     @mapping.setter
     def mapping(self, value):
         """
-        Setter for **self.__mapping** attribute.
+        Setter for **self.__mapping** private attribute.
 
         :param value: Attribute value.
         :type value: dict
@@ -625,7 +625,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def data(self):
         """
-        Property for **self.__data** attribute.
+        Property for **self.__data** private attribute.
 
         :return: self.__data.
         :rtype: dict
@@ -636,7 +636,7 @@ class TriSpectralPowerDistribution(object):
     @data.setter
     def data(self, value):
         """
-        Setter for **self.__data** attribute.
+        Setter for **self.__data** private attribute.
 
         :param value: Attribute value.
         :type value: dict
@@ -677,7 +677,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def labels(self):
         """
-        Property for **self.__labels** attribute.
+        Property for **self.__labels** private attribute.
 
         :return: self.__labels.
         :rtype: dict
@@ -688,7 +688,7 @@ class TriSpectralPowerDistribution(object):
     @labels.setter
     def labels(self, value):
         """
-        Setter for **self.__labels** attribute.
+        Setter for **self.__labels** private attribute.
 
         :param value: Attribute value.
         :type value: dict
@@ -707,7 +707,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def x(self):
         """
-        Property for **self.__x** attribute.
+        Property for **self.__x** private attribute.
 
         :return: self.__x.
         :rtype: unicode
@@ -718,7 +718,7 @@ class TriSpectralPowerDistribution(object):
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** attribute.
+        Setter for **self.__x** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -730,7 +730,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def y(self):
         """
-        Property for **self.__y** attribute.
+        Property for **self.__y** private attribute.
 
         :return: self.__y.
         :rtype: unicode
@@ -741,7 +741,7 @@ class TriSpectralPowerDistribution(object):
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** attribute.
+        Setter for **self.__y** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -753,7 +753,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def z(self):
         """
-        Property for **self.__z** attribute.
+        Property for **self.__z** private attribute.
 
         :return: self.__z.
         :rtype: unicode
@@ -764,7 +764,7 @@ class TriSpectralPowerDistribution(object):
     @z.setter
     def z(self, value):
         """
-        Setter for **self.__z** attribute.
+        Setter for **self.__z** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -776,7 +776,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def wavelengths(self):
         """
-        Property for **self.__wavelengths** attribute.
+        Property for **self.__wavelengths** private attribute.
 
         :return: self.__wavelengths.
         :rtype: list
@@ -787,7 +787,7 @@ class TriSpectralPowerDistribution(object):
     @wavelengths.setter
     def wavelengths(self, value):
         """
-        Setter for **self.__wavelengths** attribute.
+        Setter for **self.__wavelengths** private attribute.
 
         :param value: Attribute value.
         :type value: list
@@ -799,7 +799,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def values(self):
         """
-        Property for **self.__values** attribute.
+        Property for **self.__values** private attribute.
 
         :return: self.__values.
         :rtype: list
@@ -810,7 +810,7 @@ class TriSpectralPowerDistribution(object):
     @values.setter
     def values(self, value):
         """
-        Setter for **self.__values** attribute.
+        Setter for **self.__values** private attribute.
 
         :param value: Attribute value.
         :type value: list
@@ -822,7 +822,7 @@ class TriSpectralPowerDistribution(object):
     @property
     def shape(self):
         """
-        Property for **self.__shape** attribute.
+        Property for **self.__shape** private attribute.
 
         :return: self.__shape.
         :rtype: tuple
@@ -833,7 +833,7 @@ class TriSpectralPowerDistribution(object):
     @shape.setter
     def shape(self, value):
         """
-        Setter for **self.__shape** attribute.
+        Setter for **self.__shape** private attribute.
 
         :param value: Attribute value.
         :type value: tuple

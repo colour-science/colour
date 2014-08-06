@@ -45,7 +45,7 @@ def mesopic_weighting_function(wavelength,
     """
     Calculates the mesopic weighting function factor at given wavelength.
 
-    Usage::
+    Examples::
 
         >>> mesopic_weighting_function(500, 0.2)
         0.70522
@@ -103,7 +103,7 @@ def mesopic_luminous_efficiency_function(Lp,
     Converts given spectral power distribution to *CIE XYZ* colourspace using
     given colour matching functions and illuminant.
 
-    Usage::
+    Examples::
 
         >>> mesopic_luminous_efficiency_function(0.2)
         <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x105f606d0>

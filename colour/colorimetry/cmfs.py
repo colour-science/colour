@@ -58,7 +58,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def l_bar(self):
         """
-        Property for **self.__r_bar** attribute.
+        Property for **self.__r_bar** private attribute.
 
         :return: self.__r_bar.
         :rtype: unicode
@@ -69,7 +69,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @l_bar.setter
     def l_bar(self, value):
         """
-        Setter for **self.__r_bar** attribute.
+        Setter for **self.__r_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -82,7 +82,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def m_bar(self):
         """
-        Property for **self.__g_bar** attribute.
+        Property for **self.__g_bar** private attribute.
 
         :return: self.__g_bar.
         :rtype: unicode
@@ -93,7 +93,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @m_bar.setter
     def m_bar(self, value):
         """
-        Setter for **self.__g_bar** attribute.
+        Setter for **self.__g_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -106,7 +106,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def s_bar(self):
         """
-        Property for **self.__b_bar** attribute.
+        Property for **self.__b_bar** private attribute.
 
         :return: self.__b_bar.
         :rtype: unicode
@@ -117,7 +117,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @s_bar.setter
     def s_bar(self, value):
         """
-        Setter for **self.__b_bar** attribute.
+        Setter for **self.__b_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -157,7 +157,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def r_bar(self):
         """
-        Property for **self.__r_bar** attribute.
+        Property for **self.__r_bar** private attribute.
 
         :return: self.__r_bar.
         :rtype: unicode
@@ -168,7 +168,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @r_bar.setter
     def r_bar(self, value):
         """
-        Setter for **self.__r_bar** attribute.
+        Setter for **self.__r_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -181,7 +181,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def g_bar(self):
         """
-        Property for **self.__g_bar** attribute.
+        Property for **self.__g_bar** private attribute.
 
         :return: self.__g_bar.
         :rtype: unicode
@@ -192,7 +192,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @g_bar.setter
     def g_bar(self, value):
         """
-        Setter for **self.__g_bar** attribute.
+        Setter for **self.__g_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -205,7 +205,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def b_bar(self):
         """
-        Property for **self.__b_bar** attribute.
+        Property for **self.__b_bar** private attribute.
 
         :return: self.__b_bar.
         :rtype: unicode
@@ -216,7 +216,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @b_bar.setter
     def b_bar(self, value):
         """
-        Setter for **self.__b_bar** attribute.
+        Setter for **self.__b_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -255,7 +255,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def x_bar(self):
         """
-        Property for **self.__x_bar** attribute.
+        Property for **self.__x_bar** private attribute.
 
         :return: self.__x_bar.
         :rtype: unicode
@@ -266,7 +266,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @x_bar.setter
     def x_bar(self, value):
         """
-        Setter for **self.__x_bar** attribute.
+        Setter for **self.__x_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -279,7 +279,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def y_bar(self):
         """
-        Property for **self.__y_bar** attribute.
+        Property for **self.__y_bar** private attribute.
 
         :return: self.__y_bar.
         :rtype: unicode
@@ -290,7 +290,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @y_bar.setter
     def y_bar(self, value):
         """
-        Setter for **self.__y_bar** attribute.
+        Setter for **self.__y_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -303,7 +303,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def z_bar(self):
         """
-        Property for **self.__z_bar** attribute.
+        Property for **self.__z_bar** private attribute.
 
         :return: self.__z_bar.
         :rtype: unicode
@@ -314,7 +314,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @z_bar.setter
     def z_bar(self, value):
         """
-        Setter for **self.__z_bar** attribute.
+        Setter for **self.__z_bar** private attribute.
 
         :param value: Attribute value.
         :type value: unicode

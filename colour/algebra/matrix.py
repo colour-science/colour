@@ -32,7 +32,7 @@ def is_identity(x, n=3):
     """
     Returns if given *array_like* variable *x* is an identity matrix.
 
-    Usage::
+    Examples::
 
         >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
         True

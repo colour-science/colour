@@ -88,7 +88,7 @@ def get_luminance_level_adaptation_factor(LA):
     """
     Returns the *luminance* level adaptation factor *FL*.
 
-    Usage::
+    Examples::
 
         >>> get_luminance_level_adaptation_factor(318.31)
         1.16754446415
@@ -121,7 +121,7 @@ def get_chromatic_induction_factors(n):
     """
     Returns the chromatic induction factors *Nbb* and *Ncb*.
 
-    Usage::
+    Examples::
 
         >>> get_chromatic_induction_factors(0.2)
         (1.0003040045593807, 1.0003040045593807)
@@ -152,7 +152,7 @@ def get_base_exponential_non_linearity(n):
     """
     Returns the base exponential non linearity.
 
-    Usage::
+    Examples::
 
         >>> get_base_exponential_non_linearity(0.2)
         1.9272135955
@@ -185,7 +185,7 @@ def get_viewing_condition_dependent_parameters(Yb, Yw, LA):
     """
     Returns the viewing condition dependent parameters.
 
-    Usage::
+    Examples::
 
         >>> get_viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
         (0.2, 1.16754446415, 1.00030400456, 1.00030400456, 1.9272135955)
@@ -214,7 +214,7 @@ def get_degree_of_adaptation(F, LA):
     Returns the degree of adaptation *D* from given surround maximum degree of adaptation *F* and
     adapting field *luminance* in cd/m2.
 
-    Usage::
+    Examples::
 
         >>> get_degree_of_adaptation(1.0, 318.31)
         0.994468780088
@@ -248,7 +248,7 @@ def apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     Applies full chromatic adaptation to given *CMCCAT2000* transform sharpened *RGB* matrix
     using given *CMCCAT2000* transform sharpened whitepoint *RGBw* matrix.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([18.985456, 20.707422, 21.747482])
         >>> RGBw = np.array([94.930528, 103.536988, 108.717742])
@@ -312,7 +312,7 @@ def RGB_to_HPE(RGB):
     """
     Converts given *CMCCAT2000* transform sharpened *RGB* matrix to *Hunt-Pointer-Estevez* colourspace matrix.
 
-    Usage::
+    Examples::
 
         >>> RGB_to_HPE(np.array([19.99370783, 20.00393634, 20.01326387]))
         array([[ 19.99693975]
@@ -351,7 +351,7 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
     Returns given *CMCCAT2000* transform sharpened *RGB* matrix with post
     adaptation non linear response compression for forward *CIECAM02* implementation.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
         >>> FL = 1.16754446415
@@ -380,7 +380,7 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
 
     # TODO: Check for negative values and their handling.
     RGBc = ((((400. * (FL * RGB / 100) ** 0.42) /
-              27.13 + (FL * RGB / 100) ** 0.42)) + 0.1).reshape((3, 1)))
+              27.13 + (FL * RGB / 100) ** 0.42)) + 0.1).reshape((3, 1))
     return RGBc
 
 
@@ -396,7 +396,7 @@ def get_forward_opponent_colour_dimensions(RGB):
     Returns opponent colour dimensions from given compressed *CMCCAT2000*
     transform sharpened *RGB* matrix for forward *CIECAM02* implementation
 
-    Usage::
+    Examples::
 
         >>> get_forward_opponent_colour_dimensions(np.array([7.9463202, 7.94711528,7.94899595]))
         (-0.000624112068243, -0.000506270106773)
@@ -450,7 +450,7 @@ def get_hue_quadrature(h):
     """
     Returns the hue quadrature from given hue angle in degrees.
 
-    Usage::
+    Examples::
 
         >>> get_hue_quadrature(-140.951567342)
         278.060735856
@@ -491,7 +491,7 @@ def get_forward_eccentricity_factor(h):
     """
     Returns the eccentricity factor from given hue angle for forward *CIECAM02* implementation.
 
-    Usage::
+    Examples::
 
         >>> get_forward_eccentricity_factor(-140.951567342)
         1.17400547285
@@ -528,7 +528,7 @@ def get_forward_achromatic_response(RGB, Nbb):
     Returns the achromatic response *A* from given compressed *CMCCAT2000* transform sharpened *RGB* matrix
     and *Nbb* chromatic induction factor for forward *CIECAM02* implementation
 
-    Usage::
+    Examples::
 
         >>> get_forward_achromatic_response(np.array([7.9463202, 7.94711528,7.94899595]), 1.0003040045593807)
         23.9394809667
@@ -568,7 +568,7 @@ def get_lightness_correlate(A, Aw, c, z):
     """
     Returns the *Lightness* correlate *J*.
 
-    Usage::
+    Examples::
 
         >>> get_lightness_correlate(23.9394809667, 46.1882087914, 0.69, 1.9272135955)
         41.7310911324
@@ -605,7 +605,7 @@ def get_brightness_correlate(c, J, Aw, FL):
     """
     Returns the *brightness* correlate *Q*.
 
-    Usage::
+    Examples::
 
         >>> get_brightness_correlate(0.69, 41.7310911325, 46.1882087914, 1.16754446415)
         195.371325966
@@ -654,7 +654,7 @@ def get_chroma_correlate(J, n, Nc, Ncb, et, a, b, RGBa):
     """
     Returns the *chroma* correlate *C*.
 
-    Usage::
+    Examples::
 
         >>> J = 41.7310911325
         >>> n = 0.2
@@ -709,7 +709,7 @@ def get_colourfulness_correlate(C, FL):
     """
     Returns the *colourfulness* correlate *M*.
 
-    Usage::
+    Examples::
 
         >>> get_colourfulness_correlate(0.104707757171, 1.16754446415)
         0.108842175669
@@ -742,7 +742,7 @@ def get_saturation_correlate(M, Q):
     """
     Returns the *saturation* correlate *s*.
 
-    Usage::
+    Examples::
 
         >>> get_saturation_correlate(0.108842175669, 195.371325966)
         2.36030537392
@@ -797,7 +797,7 @@ def XYZ_to_CIECAM02(XYZ,
     """
     Converts given *CIE XYZ* colourspace matrix to *CIECAM02* representation.
 
-    Usage::
+    Examples::
 
         >>> XYZ = np.array([19.01, 20.00, 21.78])
         >>> XYZw = np.array([95.05, 100.00, 108.88])
@@ -906,6 +906,7 @@ def CIECAM02_to_XYZ(JChQMsH,
                     surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get(
                         "Average"),
                     discount_illuminant=False):
+
     XYZw = np.array(XYZw).reshape((3, 1))
     Xw, Yw, Zw = np.ravel(XYZw)
 
@@ -967,28 +968,3 @@ def CIECAM02_to_XYZ(JChQMsH,
     XYZ = np.dot(CAT02_CAT_INVERSE, RGB)
 
     return XYZ
-
-# print XYZ_to_CIECAM02([11.18882, 9.30994, 3.21014],
-# [96.4296, 100, 82.49],
-# Yb=20,
-# LA=1000)
-
-print XYZ_to_CIECAM02([19.01, 20.00, 21.78],
-                      [95.05, 100.00, 108.88],
-                      LA=318.31,
-                      Yb=20.0)
-
-# CIECAM02_JChQMsH(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281, Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
-# CIECAM02_JChQMsH(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281, Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
-
-
-print CIECAM02_to_XYZ(CIECAM02_JCHQMSH(J=41.731091132513917,
-                                       C=0.1047077571711053,
-                                       h=-140.9515673417281,
-                                       Q=195.37132596607671,
-                                       M=0.1088421756692261,
-                                       s=2.3603053739204447,
-                                       H=278.06073585662813),
-                      [95.05, 100.00, 108.88],
-                      LA=318.31,
-                      Yb=20.0)

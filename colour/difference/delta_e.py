@@ -37,7 +37,7 @@ def delta_E_CIE_1976(lab1, lab2):
     Returns the difference between two given *CIE Lab* *array_like* colours
     using *CIE 1976* recommendation.
 
-    Usage::
+    Examples::
 
         >>> lab1 = np.array([100., 21.57210357, 272.2281935])
         >>> lab2 = np.array([100., 426.67945353, 72.39590835])
@@ -64,7 +64,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     Returns the difference between two given *CIE Lab* *array_like* colours
     using *CIE 1994* recommendation.
 
-    Usage::
+    Examples::
 
         >>> lab1 = np.array([100., 21.57210357, 272.2281935])
         >>> lab2 = np.array([100., 426.67945353, 72.39590835])
@@ -124,7 +124,7 @@ def delta_E_CIE_2000(lab1, lab2):
     Returns the difference between two given *CIE Lab* *array_like* colours
     using *CIE 2000* recommendation.
 
-    Usage::
+    Examples::
 
         >>> lab1 = np.array([100., 21.57210357, 272.2281935])
         >>> lab2 = np.array([100., 426.67945353, 72.39590835])
@@ -225,7 +225,7 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     Commonly used values are 2:1 for acceptability and 1:1 for the threshold of
     imperceptibility.
 
-    Usage::
+    Examples::
 
         >>> lab1 = np.array([100., 21.57210357, 272.2281935])
         >>> lab2 = np.array([100., 426.67945353, 72.39590835])

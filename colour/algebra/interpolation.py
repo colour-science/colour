@@ -36,7 +36,7 @@ class LinearInterpolator(object):
     """
     Constructs a linear interpolator.
 
-    Usage::
+    Examples::
 
         >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
         >>> x = np.arange(len(y))
@@ -70,7 +70,7 @@ class LinearInterpolator(object):
     @property
     def x(self):
         """
-        Property for **self.__x** attribute.
+        Property for **self.__x** private attribute.
 
         :return: self.__x.
         :rtype: array_like
@@ -81,7 +81,7 @@ class LinearInterpolator(object):
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** attribute.
+        Setter for **self.__x** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -101,7 +101,7 @@ class LinearInterpolator(object):
     @property
     def y(self):
         """
-        Property for **self.__y** attribute.
+        Property for **self.__y** private attribute.
 
         :return: self.__y.
         :rtype: array_like
@@ -112,7 +112,7 @@ class LinearInterpolator(object):
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** attribute.
+        Setter for **self.__y** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -194,7 +194,7 @@ class SpragueInterpolator(object):
     The Sprague (1880) method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
-    Usage::
+    Examples::
 
         >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
         >>> x = np.arange(len(y))
@@ -251,7 +251,7 @@ class SpragueInterpolator(object):
     @property
     def x(self):
         """
-        Property for **self.__x** attribute.
+        Property for **self.__x** private attribute.
 
         :return: self.__x.
         :rtype: array_like
@@ -262,7 +262,7 @@ class SpragueInterpolator(object):
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** attribute.
+        Setter for **self.__x** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -294,7 +294,7 @@ class SpragueInterpolator(object):
     @property
     def y(self):
         """
-        Property for **self.__y** attribute.
+        Property for **self.__y** private attribute.
 
         :return: self.__y.
         :rtype: array_like
@@ -305,7 +305,7 @@ class SpragueInterpolator(object):
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** attribute.
+        Setter for **self.__y** private attribute.
 
         :param value: Attribute value.
         :type value: array_like

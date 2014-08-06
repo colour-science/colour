@@ -52,7 +52,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     The following form implementation is expressed in term of wavelength.
     The SI unit of radiance is watts per steradian per square metre.
 
-    Usage::
+    Examples::
 
         >>> planck_law(500 * 1e-9, 5500)
         5.50833496314e+13
@@ -113,7 +113,7 @@ def blackbody_spectral_power_distribution(temperature,
     Returns the spectral power distribution of the *blackbody* for given
     temperature.
 
-    Usage::
+    Examples::
 
         >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> blackbody_spectral_power_distribution(5000, *cmfs.shape)

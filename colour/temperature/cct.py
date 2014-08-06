@@ -135,7 +135,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     chromaticity coordinates, colour matching functions and temperature range
     using *Yoshi Ohno* calculation methods.
 
-    Usage::
+    Examples::
 
         >>> import pprint
         >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
@@ -185,7 +185,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
     Returns the shortest distance index in given planckian table using
     *Yoshi Ohno* calculation methods.
 
-    Usage::
+    Examples::
 
         >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
@@ -216,7 +216,7 @@ def uv_to_CCT_ohno2013(uv,
     value, the more planckian tables will be generated through cascade
     expansion in order to converge to the exact solution.
 
-    Usage::
+    Examples::
 
         >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs)
@@ -303,7 +303,7 @@ def CCT_to_uv_ohno2013(CCT,
     correlated colour temperature, Duv and colour matching functions using
     *Yoshi Ohno* 2013 calculation methods.
 
-    Usage::
+    Examples::
 
         >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> CCT_to_uv_ohno2013(6507.4342201047066, 0.003223690901512735, cmfs)
@@ -351,7 +351,7 @@ def uv_to_CCT_robertson1968(uv):
     colourspace *uv* chromaticity coordinates using *Robertson* 1968
     calculation method.
 
-    Usage::
+    Examples::
 
         >>> uv_to_CCT_robertson1968((0.19374137599822966, 0.31522104394059397))
         (6500.016287949829, 0.008333328983860189)
@@ -437,7 +437,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
     correlated colour temperature and Duv using *Robertson* 1968 calculation
     method.
 
-    Usage::
+    Examples::
 
         >>> CCT_to_uv_robertson1968(6500.0081378199056, 0.0083333312442250979)
         (0.19374137599822966, 0.31522104394059397)
@@ -569,7 +569,7 @@ def xy_to_CCT_mccamy1992(xy):
     Returns the correlated colour temperature from given *CIE XYZ* colourspace
     *xy* chromaticity coordinates using *McCamy* 1992 calculation method.
 
-    Usage::
+    Examples::
 
         >>> xy_to_CCT_mccamy1992((0.31271, 0.32902))
         6504.38938305
@@ -602,7 +602,7 @@ def xy_to_CCT_hernandez1999(xy):
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
     *Hernandez-Andres, Lee & Romero* 1999 calculation method.
 
-    Usage::
+    Examples::
 
         >>> xy_to_CCT_hernandez1999((0.31271, 0.32902))
         6500.04215334
@@ -644,7 +644,7 @@ def CCT_to_xy_kang2002(CCT):
     correlated colour temperature using *Kang, Moon, Hong, Lee, Cho and Kim*
     2002 calculation method.
 
-    Usage::
+    Examples::
 
         >>> CCT_to_xy_kang2002((0.31271, 0.32902))
         (0.3127077520604209, 0.3291128338173629)

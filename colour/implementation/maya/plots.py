@@ -16,8 +16,11 @@
 
 import numpy as np
 
-import maya.cmds as cmds
-import maya.OpenMaya as OpenMaya
+try:
+    import maya.cmds as cmds
+    import maya.OpenMaya as OpenMaya
+except ImportError as error:
+    pass
 
 from colour.models import RGB_to_XYZ, XYZ_to_Lab
 from colour.colorimetry import ILLUMINANTS

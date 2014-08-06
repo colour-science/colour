@@ -45,7 +45,7 @@ def XYZ_to_Luv(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_Luv(np.array([0.92193107, 1., 1.03744246]))
         array([[ 100.        ]
@@ -89,7 +89,7 @@ def Luv_to_XYZ(Luv,
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
-    Usage::
+    Examples::
 
         >>> Luv_to_XYZ(np.array([100., -20.04304247, -19.81676035]))
         array([[ 0.92193107]
@@ -138,7 +138,7 @@ def Luv_to_uv(Luv,
     Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace
     matrix.
 
-    Usage::
+    Examples::
 
         >>> Luv_to_uv(np.array([100., -20.04304247, -19.81676035]))
         (0.19374142100850045, 0.47283165896209456)
@@ -169,7 +169,7 @@ def Luv_uv_to_xy(uv):
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
     *u'v'* chromaticity coordinates.
 
-    Usage::
+    Examples::
 
         >>> Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052))
         (0.32207410281368043, 0.33156550013623537)
@@ -196,7 +196,7 @@ def Luv_to_LCHuv(Luv):
     """
     Converts from *CIE Luv* colourspace to *CIE LCHuv* colourspace.
 
-    Usage::
+    Examples::
 
         >>> Luv_to_LCHuv(np.array([100., -20.04304247, -19.81676035]))
         array([[ 100.        ]
@@ -229,7 +229,7 @@ def LCHuv_to_Luv(LCHuv):
     """
     Converts from *CIE LCHuv* colourspace to *CIE Luv* colourspace.
 
-    Usage::
+    Examples::
 
         >>> LCHuv_to_Luv(np.array([100., 28.18559104, 224.6747382]))
         array([[ 100.        ]

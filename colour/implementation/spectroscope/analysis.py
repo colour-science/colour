@@ -24,7 +24,7 @@ import numpy as np
 import scipy.ndimage
 
 import colour
-from colour import Extrapolator1d
+from colour import Extrapolator
 from colour import LinearInterpolator
 from colour import SpectralPowerDistribution
 from colour import TriSpectralPowerDistribution
@@ -73,7 +73,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def R(self):
         """
-        Property for **self.__R** attribute.
+        Property for **self.__R** private attribute.
 
         :return: self.__R.
         :rtype: unicode
@@ -84,7 +84,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @R.setter
     def R(self, value):
         """
-        Setter for **self.__R** attribute.
+        Setter for **self.__R** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -97,7 +97,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def G(self):
         """
-        Property for **self.__G** attribute.
+        Property for **self.__G** private attribute.
 
         :return: self.__G.
         :rtype: unicode
@@ -108,7 +108,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @G.setter
     def G(self, value):
         """
-        Setter for **self.__G** attribute.
+        Setter for **self.__G** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -121,7 +121,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def B(self):
         """
-        Property for **self.__B** attribute.
+        Property for **self.__B** private attribute.
 
         :return: self.__B.
         :rtype: unicode
@@ -132,7 +132,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @B.setter
     def B(self, value):
         """
-        Setter for **self.__B** attribute.
+        Setter for **self.__B** private attribute.
 
         :param value: Attribute value.
         :type value: unicode
@@ -265,17 +265,17 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     mm = np.linspace(min(m), max(m))
 
     # Interpolator from reference to measured.
-    r_to_m_interpolator = Extrapolator1d(LinearInterpolator(r, m))
+    r_to_m_interpolator = Extrapolator(LinearInterpolator(r, m))
 
     # Interpolator from measured range to reference range.
-    mm_to_rr_interpolator = Extrapolator1d(LinearInterpolator(mm, rr))
+    mm_to_rr_interpolator = Extrapolator(LinearInterpolator(mm, rr))
 
     # Colors interpolator.
-    R_interpolator = Extrapolator1d(
+    R_interpolator = Extrapolator(
         LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 0]))
-    G_interpolator = Extrapolator1d(
+    G_interpolator = Extrapolator(
         LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 1]))
-    B_interpolator = Extrapolator1d(
+    B_interpolator = Extrapolator(
         LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 2]))
 
     wavelengths = np.linspace(mm_to_rr_interpolator([0]),

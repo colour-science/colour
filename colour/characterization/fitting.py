@@ -39,7 +39,7 @@ def first_order_colour_fit(m1, m2):
     The purpose of that object is for example matching of two *ColorChecker*
     colour rendition charts together.
 
-    Usage::
+    Examples::
 
         >>> m1 = np.array([[0.1722480953, 0.09170660377, 0.06416938454],
         ...                   [0.4918964505, 0.2780205011, 0.2192339897],

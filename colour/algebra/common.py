@@ -2,17 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-**common.py**
+Algebra Common
+==============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package algebra common utilities objects
-    that don't fall in any specific category.
-
-**Others:**
-
+Defines algebra common utilities objects that don't belong to any algebra
+specific category.
 """
 
 from __future__ import unicode_literals
@@ -34,7 +28,7 @@ __all__ = ["FLOATING_POINT_NUMBER_PATTERN",
            "is_uniform",
            "is_iterable",
            "is_number",
-           "is_even_integer"]
+           "is_integer"]
 
 FLOATING_POINT_NUMBER_PATTERN = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
 
@@ -45,32 +39,54 @@ def get_steps(distribution):
     """
     Returns the steps of given distribution.
 
-    :param distribution: Distribution to retrieve the steps.
-    :type distribution: tuple or list or Array or Matrix
-    :return: steps.
-    :rtype: tuple
+    Parameters
+    ----------
+
+    distribution : array_like
+        Distribution to retrieve the steps.
+
+    Returns
+    -------
+
+    tuple
+        Distribution steps.
+
+    Examples
+    --------
+
+    >>> y = np.array([1, 2, 3, 4, 5])
+    >>> colour.get_steps(y)
+    (1,)
     """
 
-    return tuple(set([distribution[i + 1] - distribution[i] for i in
-                      range(len(distribution) - 1)]))
+    return tuple(set([distribution[i + 1] - distribution[i]
+                      for i in range(len(distribution) - 1)]))
 
 
 def get_closest(y, x):
     """
     Returns closest *y* variable element to reference *x* variable.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
-        >>> get_closest(63, y)
-        62.70988028
+    y : array_like
+        Variable to search for the closest element.
+    x : int or float
+        Reference variable.
 
-    :param y: Variable to search for the closest element.
-    :type y: array_like
-    :param x: Reference variable.
-    :type x: int or float
-    :return: Closest *y* variable element.
-    :rtype: int or float
+    Returns
+    -------
+
+    int or float
+        Closest *y* variable element.
+
+    Examples
+    --------
+
+    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
+    >>> get_closest(63, y)
+    62.70988028
     """
 
     return y[(np.abs(np.array(y) - x)).argmin()]
@@ -80,15 +96,23 @@ def to_ndarray(x):
     """
     Converts given *x* variable to ndarray.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> to_ndarray(1)
-        [1]
+    x : object
+        Variable to convert.
 
-    :param x: Variable to convert.
-    :type x: object
-    :return: *x* variable converted to ndarray.
-    :rtype: ndarray
+    Returns
+    -------
+
+    ndarray
+        *x* variable converted to ndarray.
+
+    Examples
+    --------
+
+    >>> to_ndarray(1)
+    [1]
     """
 
     return np.array(x) if is_iterable(x) else np.array((x,))
@@ -98,10 +122,28 @@ def is_uniform(distribution):
     """
     Returns if given distribution is uniform.
 
-    :param distribution: Distribution to check for uniformity.
-    :type distribution: tuple or list or Array or Matrix
-    :return: Is uniform.
-    :rtype: bool
+    Parameters
+    ----------
+
+    distribution : array_like
+        Distribution to check for uniformity.
+
+    Returns
+    -------
+
+    bool
+        Is distribution uniform.
+
+    Examples
+    --------
+
+    >>> y = np.array([1, 2, 3, 4, 5])
+    >>> colour.is_uniform(y)
+    True
+
+    >>> y = np.array([1, 2, 3.1415, 4, 5])
+    >>> colour.is_uniform(y)
+    False
     """
 
     return True if len(get_steps(distribution)) == 1 else False
@@ -111,17 +153,25 @@ def is_iterable(x):
     """
     Returns if given *x* variable is iterable.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> is_iterable([1, 2, 3])
-        True
-        >>> is_iterable(1)
-        False
+    x : object
+        Variable to check the iterability.
 
-    :param x: Variable to check the iterability.
-    :type x: object
-    :return: *x* variable iterability.
-    :rtype: bool
+    Returns
+    -------
+
+    bool
+        *x* variable iterability.
+
+    Examples
+    --------
+
+    >>> is_iterable([1, 2, 3])
+    True
+    >>> is_iterable(1)
+    False
     """
 
     try:
@@ -136,37 +186,68 @@ def is_number(x):
     """
     Returns if given *x* variable is a number.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> is_number(1)
-        True
-        >>> is_number((1,))
-        False
+    x : object
+        Variable to check.
 
-    :param x: Variable to check.
-    :type x: object
-    :return: Is *x* variable a number.
-    :rtype: bool
+    Returns
+    -------
+
+    bool
+        Is *x* variable a number.
+
+    See Also
+    --------
+
+    is_integer
+
+    Examples
+    --------
+
+    >>> is_number(1)
+    True
+    >>> is_number((1,))
+    False
     """
 
     return isinstance(x, (int, long, float, complex))
 
 
-def is_even_integer(x):
+def is_integer(x):
     """
-    Returns if given *x* variable is an even integer.
+    Returns if given *x* variable is an integer through thresholding.
 
-    Usage::
+    Parameters
+    ----------
 
-        >>> is_even_integer(1)
-        True
-        >>> is_even_integer(1.01)
-        False
+    x : object
+        Variable to check.
 
-    :param x: Variable to check.
-    :type x: object
-    :return: Is *x* variable an even integer.
-    :rtype: bool
+    Returns
+    -------
+
+    bool
+        Is *x* variable an integer.
+
+    Notes
+    -----
+    The determination threshold is defined by the
+    :attr:`colour.algebra.common.EVEN_INTEGER_THRESHOLD` attribute.
+
+    See Also
+    --------
+
+    is_number
+
+    Examples
+    --------
+
+    >>> is_integer(1)
+    True
+    >>> is_integer(1.01)
+    False
     """
 
     return abs(x - round(x)) <= EVEN_INTEGER_THRESHOLD

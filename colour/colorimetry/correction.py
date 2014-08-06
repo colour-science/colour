@@ -36,7 +36,7 @@ def bandpass_correction_stearns1988(spd):
     Implements spectral bandpass dependence correction on given spectral power
     distribution using *Stearns and Stearns (1988)* method.
 
-    Usage::
+    Examples::
 
         >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
         >>> corrected_spd = bandpass_correction_stearns1988(spd)

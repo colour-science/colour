@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_cat.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.adaptation.cat` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.adaptation.cat` module.
 """
 
 from __future__ import unicode_literals

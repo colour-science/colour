@@ -85,7 +85,7 @@ class RGB_Colourspace(object):
     @property
     def name(self):
         """
-        Property for **self.__name** attribute.
+        Property for **self.__name** private attribute.
 
         :return: self.__name.
         :rtype: str or unicode
@@ -96,7 +96,7 @@ class RGB_Colourspace(object):
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** attribute.
+        Setter for **self.__name** private attribute.
 
         :param value: Attribute value.
         :type value: str or unicode
@@ -111,7 +111,7 @@ class RGB_Colourspace(object):
     @property
     def primaries(self):
         """
-        Property for **self.__primaries** attribute.
+        Property for **self.__primaries** private attribute.
 
         :return: self.__primaries.
         :rtype: array_like
@@ -122,7 +122,7 @@ class RGB_Colourspace(object):
     @primaries.setter
     def primaries(self, value):
         """
-        Setter for **self.__primaries** attribute.
+        Setter for **self.__primaries** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -135,7 +135,7 @@ class RGB_Colourspace(object):
     @property
     def whitepoint(self):
         """
-        Property for **self.__whitepoint** attribute.
+        Property for **self.__whitepoint** private attribute.
 
         :return: self.__whitepoint.
         :rtype: array_like
@@ -146,7 +146,7 @@ class RGB_Colourspace(object):
     @whitepoint.setter
     def whitepoint(self, value):
         """
-        Setter for **self.__whitepoint** attribute.
+        Setter for **self.__whitepoint** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -161,7 +161,7 @@ class RGB_Colourspace(object):
     @property
     def to_XYZ(self):
         """
-        Property for **self.__to_XYZ** attribute.
+        Property for **self.__to_XYZ** private attribute.
 
         :return: self.__to_XYZ.
         :rtype: array_like
@@ -172,7 +172,7 @@ class RGB_Colourspace(object):
     @to_XYZ.setter
     def to_XYZ(self, value):
         """
-        Setter for **self.__to_XYZ** attribute.
+        Setter for **self.__to_XYZ** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -185,7 +185,7 @@ class RGB_Colourspace(object):
     @property
     def from_XYZ(self):
         """
-        Property for **self.__from_XYZ** attribute.
+        Property for **self.__from_XYZ** private attribute.
 
         :return: self.__from_XYZ.
         :rtype: array_like
@@ -196,7 +196,7 @@ class RGB_Colourspace(object):
     @from_XYZ.setter
     def from_XYZ(self, value):
         """
-        Setter for **self.__from_XYZ** attribute.
+        Setter for **self.__from_XYZ** private attribute.
 
         :param value: Attribute value.
         :type value: array_like
@@ -209,7 +209,7 @@ class RGB_Colourspace(object):
     @property
     def transfer_function(self):
         """
-        Property for **self.__transfer_function** attribute.
+        Property for **self.__transfer_function** private attribute.
 
         :return: self.__transfer_function.
         :rtype: object
@@ -220,7 +220,7 @@ class RGB_Colourspace(object):
     @transfer_function.setter
     def transfer_function(self, value):
         """
-        Setter for **self.__transfer_function** attribute.
+        Setter for **self.__transfer_function** private attribute.
 
         :param value: Attribute value.
         :type value: object
@@ -235,7 +235,7 @@ class RGB_Colourspace(object):
     @property
     def inverse_transfer_function(self):
         """
-        Property for **self.__inverse_transfer_function** attribute.
+        Property for **self.__inverse_transfer_function** private attribute.
 
         :return: self.__inverse_transfer_function.
         :rtype: object
@@ -246,7 +246,7 @@ class RGB_Colourspace(object):
     @inverse_transfer_function.setter
     def inverse_transfer_function(self, value):
         """
-        Setter for **self.__inverse_transfer_function** attribute.
+        Setter for **self.__inverse_transfer_function** private attribute.
 
         :param value: Attribute value.
         :type value: object

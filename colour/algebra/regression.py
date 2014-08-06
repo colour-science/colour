@@ -36,7 +36,7 @@ def linear_regression(y, x=None, additional_statistics=False):
     *y = b + mx* or *y = b + m1x1 + m1x2 + ... + mnxn* where the dependent *y*
     value is a function of the independent *x* values.
 
-    Usage::
+    Examples::
 
         >>> y = np.array([1,2,1,3,2,3,3,4,4,3])
         >>> x1 = np.array([40, 45, 38, 50, 48, 55, 53, 55, 58, 40])

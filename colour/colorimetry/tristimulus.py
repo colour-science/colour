@@ -45,7 +45,7 @@ def spectral_to_XYZ(spd,
     Converts given spectral power distribution to *CIE XYZ* colourspace using
     given colour matching functions and illuminant.
 
-    Usage::
+    Examples::
 
         >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
         >>> spd = colour.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).zeros(*cmfs.shape)
@@ -121,7 +121,7 @@ def wavelength_to_XYZ(wavelength,
     variable and a *Cubic Spline* method for non-uniformly spaced independent
     variable.
 
-    Usage::
+    Examples::
 
         >>> wavelength_to_XYZ(480, colour.CMFS.get("CIE 1931 2 Degree Standard Observer"))
         array([[ 0.09564  ],

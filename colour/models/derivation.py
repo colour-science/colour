@@ -35,7 +35,7 @@ def xy_to_z(xy):
     """
     Returns the *z* coordinate using given *chromaticity coordinates*.
 
-    Usage::
+    Examples::
 
         >>> xy_to_z((0.25, 0.25))
         0.5
@@ -59,7 +59,7 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     Returns the *normalised primary matrix* using given *primaries* and
     *whitepoint* matrices.
 
-    Usage::
+    Examples::
 
         >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = (0.32168, 0.33767)
@@ -107,7 +107,7 @@ def get_RGB_luminance_equation(primaries, whitepoint):
     Returns the *luminance equation* from given *primaries* and *whitepoint*
     matrices.
 
-    Usage::
+    Examples::
 
         >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = (0.32168, 0.33767)
@@ -135,7 +135,7 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
     """
     Returns the *luminance* of given *RGB* components from given *primaries* and *whitepoint* matrices.
 
-    Usage::
+    Examples::
 
         >>> RGB = np.array([40.6, 4.2, 67.4])
         >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])

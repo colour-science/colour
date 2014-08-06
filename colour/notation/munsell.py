@@ -26,11 +26,11 @@ import re
 from collections import OrderedDict
 
 from colour.algebra import (
-    Extrapolator1d,
+    Extrapolator,
     LinearInterpolator,
     cartesian_to_cylindrical,
     is_number,
-    is_even_integer)
+    is_integer)
 from colour.algebra.common import (
     EVEN_INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN)
@@ -155,13 +155,13 @@ def _get_munsell_value_ASTM_D1535_08_interpolator():
     caches it if not existing.
 
     :return: *Munsell value* interpolator for *ASTM D1535-08* method.
-    :rtype: Extrapolator1d
+    :rtype: Extrapolator
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
-        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
+        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(map(luminance_ASTM_D1535_08, munsell_values),
                                munsell_values))
 
@@ -200,7 +200,7 @@ def parse_munsell_colour(munsell_colour):
     Parses given *Munsell* colour and returns an intermediate *Munsell*
     *Colorlab* specification.
 
-    Usage::
+    Examples::
 
         >>> parse_munsell_colour("N5.2")
         5.2
@@ -237,7 +237,7 @@ def is_grey_munsell_colour(specification):
     Returns if given *Munsell* *Colorlab* specification is a single number form
     used for grey colour.
 
-    Usage::
+    Examples::
 
         >>> is_grey_munsell_colour((0.0, 2.0, 4.0, 6))
         False
@@ -257,7 +257,7 @@ def normalize_munsell_specification(specification):
     """
     Normalises given *Munsell* *Colorlab* specification.
 
-    Usage::
+    Examples::
 
         >>> normalize_munsell_specification((0.0, 2.0, 4.0, 6))
         (10.0, 2.0, 4.0, 7)
@@ -283,7 +283,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
     Convenient definition to retrieve a normalised *Munsell* *Colorlab*
     specification from given *Munsell* colour.
 
-    Usage::
+    Examples::
 
         >>> munsell_colour_to_munsell_specification("N5.2")
         5.2
@@ -307,7 +307,7 @@ def munsell_specification_to_munsell_colour(specification,
     """
     Converts from *Munsell* *Colorlab* specification to given *Munsell* colour.
 
-    Usage::
+    Examples::
 
         >>> munsell_specification_to_munsell_colour(5.2)
         N5.2
@@ -369,7 +369,7 @@ def get_xyY_from_renotation(specification):
     Returns given existing *Munsell* *Colorlab* specification *CIE xyY*
     colourspace vector from *Munsell Renotation System* data.
 
-    Usage::
+    Examples::
 
         >>> get_xyY_from_renotation((2.5, 0.2, 2.0, 4))
         (0.713, 1.414, 0.237)
@@ -394,7 +394,7 @@ def is_specification_in_renotation(specification):
     Returns if given *Munsell* *Colorlab* specification is in
     *Munsell Renotation System* data.
 
-    Usage::
+    Examples::
 
         >>> is_specification_in_renotation((2.5, 0.2, 2.0, 4))
         True
@@ -419,7 +419,7 @@ def get_bounding_hues_from_renotation(hue, code):
     Returns for a given hue the two bounding hues from
     *Munsell Renotation System* data.
 
-    Usage::
+    Examples::
 
         >>> get_bounding_hues_from_renotation(3.2, 4)
         ((2.5, 4), (5.0, 4))
@@ -472,7 +472,7 @@ def hue_to_hue_angle(hue, code):
     Converts from the *Munsell* *Colorlab* specification hue to hue angle in
     degrees.
 
-    Usage::
+    Examples::
 
         >>> hue_to_hue_angle(3.2, 4)
         65.5
@@ -503,7 +503,7 @@ def hue_angle_to_hue(hue_angle):
     Converts from hue angle in degrees to the *Munsell* *Colorlab*
     specification hue.
 
-    Usage::
+    Examples::
 
         >>> hue_angle_to_hue(65.54)
         (3.216000000000001, 4)
@@ -560,7 +560,7 @@ def hue_to_ASTM_hue(hue, code):
     Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue
     number in domain [0, 100].
 
-    Usage::
+    Examples::
 
         >>> hue_to_ASTM_hue(3.2, 4)
         33.2
@@ -590,7 +590,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
     through data points in the *Munsell Renotation System* data from given
     specification.
 
-    Usage::
+    Examples::
 
         >>> get_interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
         Radial
@@ -626,7 +626,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         assert 0 <= value <= 10, \
             "'{0}' specification value must be in domain [0, 10]!".format(
                 specification)
-        assert is_even_integer(value), \
+        assert is_integer(value), \
             "'{0}' specification value must be an even integer!".format(
                 specification)
 
@@ -883,7 +883,7 @@ def get_xy_from_renotation_ovoid(specification):
     corresponding to the *Munsell* *Colorlab* specification
     value and chroma.
 
-    Usage::
+    Examples::
 
         >>> get_xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
         (0.4333, 0.5602)
@@ -916,7 +916,7 @@ def get_xy_from_renotation_ovoid(specification):
         assert 1 <= value <= 9, \
             "'{0}' specification value must be in domain [1, 9]!".format(
                 specification)
-        assert is_even_integer(value), \
+        assert is_integer(value), \
             "'{0}' specification value must be an even integer!".format(
                 specification)
 
@@ -1008,7 +1008,7 @@ def LCHab_to_munsell_specification(LCHab):
     Converts from *CIE LCHab* colourspace to approximate *Munsell* *Colorlab*
     specification.
 
-    Usage::
+    Examples::
 
         >>> LCHab_to_munsell_specification(np.array([100., 17.50664796, 244.93046842]))
         (8.036241227777781, 10.0, 3.5013295919999998, 1)
@@ -1069,7 +1069,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
     using given *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
     specification value and *Munsell* *Colorlab* specification code.
 
-    Usage::
+    Examples::
 
         >>> get_maximum_chroma_from_renotation(2.5, 5, 5)
         14.0
@@ -1141,7 +1141,7 @@ def munsell_specification_to_xy(specification):
     Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
     coordinates by interpolating over *Munsell Renotation System* data.
 
-    Usage::
+    Examples::
 
         >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))
         (0.4400632, 0.5522428)
@@ -1173,7 +1173,7 @@ def munsell_specification_to_xy(specification):
         assert 0 <= value <= 10, \
             "'{0}' specification value must be in domain [0, 10]!".format(
                 specification)
-        assert is_even_integer(value), \
+        assert is_integer(value), \
             "'{0}' specification value must be an even integer!".format(
                 specification)
 
@@ -1211,7 +1211,7 @@ def munsell_specification_to_xyY(specification):
     """
     Converts given *Munsell* *Colorlab* specification to *CIE xyY* colourspace.
 
-    Usage::
+    Examples::
 
         >>> munsell_specification_to_xyY((2.1, 8.0, 17.9, 4))
         array([[ 0.4400632 ]
@@ -1255,7 +1255,7 @@ def munsell_specification_to_xyY(specification):
 
     Y = luminance_ASTM_D1535_08(value)
 
-    if is_even_integer(value):
+    if is_integer(value):
         value_minus = value_plus = round(value)
     else:
         value_minus = math.floor(value)
@@ -1288,7 +1288,7 @@ def munsell_colour_to_xyY(munsell_colour):
     """
     Converts given *Munsell* colour to *CIE xyY* colourspace.
 
-    Usage::
+    Examples::
 
         >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")
         array([[ 0.38736945]
@@ -1315,7 +1315,7 @@ def xyY_to_munsell_specification(xyY):
     """
     Converts from *CIE xyY* colourspace to *Munsell* *Colorlab* specification.
 
-    Usage::
+    Examples::
 
         >>> xyY_to_munsell_specification(np.array([0.38736945, 0.35751656, 0.59362]))
         (4.1742530270757179, 8.0999999757342671, 5.3044360044459644, 6)
@@ -1344,7 +1344,7 @@ def xyY_to_munsell_specification(xyY):
 
     # Scaling *Y* for algorithm needs.
     value = munsell_value_ASTM_D1535_08(Y * 100)
-    if is_even_integer(value):
+    if is_integer(value):
         value = round(value)
 
     x_center, y_center, Y_center = np.ravel(
@@ -1459,7 +1459,7 @@ def xyY_to_munsell_specification(xyY):
         hue_angles_differences = hue_angles_differences[
             theta_differences_indexes]
 
-        hue_angle_difference_new = Extrapolator1d(
+        hue_angle_difference_new = Extrapolator(
             LinearInterpolator(
                 theta_differences,
                 hue_angles_differences))(0.) % 360
@@ -1549,7 +1549,7 @@ def xyY_to_munsell_colour(xyY,
     """
     Converts from *CIE xyY* colourspace to *Munsell* colour.
 
-    Usage::
+    Examples::
 
         >>> xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362]))
         4.2YR 8.1/5.3
@@ -1580,7 +1580,7 @@ def munsell_value_priest1920(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *Priest et al.* 1920 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_priest1920(10.08)
         3.17490157328
@@ -1609,7 +1609,7 @@ def munsell_value_munsell1933(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *Munsell, Sloan, and Godlove* 1933 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_munsell1933(10.08)
         3.79183555086
@@ -1637,7 +1637,7 @@ def munsell_value_moon1943(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *Moon and Spencer* 1943 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_moon1943(10.08)
         3.74629715382
@@ -1665,7 +1665,7 @@ def munsell_value_saunderson1944(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *Saunderson and Milner* 1944 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_saunderson1944(10.08)
         3.68650805994
@@ -1693,7 +1693,7 @@ def munsell_value_ladd1955(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *Ladd and Pinney* 1955 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_ladd1955(10.08)
         3.69528622419
@@ -1721,7 +1721,7 @@ def munsell_value_mccamy1987(Y):
     Returns the *Munsell value* *V* of given *luminance* *Y* using
     *McCamy* 1987 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_mccamy1987(10.08)
         3.73472352585
@@ -1757,7 +1757,7 @@ def munsell_value_ASTM_D1535_08(Y):
     Returns the *Munsell value* *V* of of given *luminance* *Y* using a reverse
     lookup table from *ASTM D1535-08e1* 2008 method.
 
-    Usage::
+    Examples::
 
         >>> munsell_value_ASTM_D1535_08(10.1488096782)
         3.74629711426
@@ -1790,7 +1790,7 @@ def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
     Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
 
-    Usage::
+    Examples::
 
         >>> get_munsell_value(10.08)
         3.69528622419

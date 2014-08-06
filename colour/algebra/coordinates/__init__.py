@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from __future__ import absolute_import
 
 from .transformations import cartesian_to_spherical, spherical_to_cartesian

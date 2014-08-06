@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_common.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.algebra.common` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.algebra.common` module.
 """
 
 from __future__ import unicode_literals
@@ -31,7 +22,7 @@ from colour.algebra import (
     is_uniform,
     is_iterable,
     is_number,
-    is_even_integer)
+    is_integer)
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -61,8 +52,9 @@ class TestGetSteps(unittest.TestCase):
         """
 
         self.assertTupleEqual(get_steps(range(0, 10, 2)), (2,))
-        self.assertTupleEqual(tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))),
-                              (0.5, 1, 2))
+        self.assertTupleEqual(
+            tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))),
+            (0.5, 1, 2))
 
 
 class TestGetClosest(unittest.TestCase):
@@ -77,8 +69,13 @@ class TestGetClosest(unittest.TestCase):
         """
 
         y = np.array(
-            [24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573,
+            [24.31357115,
+             63.62396289,
+             55.71528816,
+             62.70988028,
+             46.84480573,
              25.40026416])
+
         self.assertEqual(get_closest(y, 63.05), 62.70988028)
         self.assertEqual(get_closest(y, 24.90), 25.40026416)
         self.assertEqual(get_closest(y, 51.15), 46.84480573)
@@ -158,18 +155,18 @@ class TestIsNumber(unittest.TestCase):
 
 class TestIsEvenInteger(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_even_integer` definition units
+    Defines :func:`colour.algebra.common.is_integer` definition units
     tests methods.
     """
 
-    def test_is_even_integer(self):
+    def test_is_integer(self):
         """
-        Tests :func:`colour.algebra.common.is_even_integer` definition.
+        Tests :func:`colour.algebra.common.is_integer` definition.
         """
 
-        self.assertTrue(is_even_integer(1))
-        self.assertTrue(is_even_integer(1.001))
-        self.assertFalse(is_even_integer(1.01))
+        self.assertTrue(is_integer(1))
+        self.assertTrue(is_integer(1.001))
+        self.assertFalse(is_integer(1.01))
 
 
 if __name__ == "__main__":

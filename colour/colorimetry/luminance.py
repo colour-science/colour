@@ -37,7 +37,7 @@ def luminance_newhall1943(V):
     Returns the *luminance* *Y* of given *Munsell value* *V* using
     *Newhall, Nickerson, and Judd* 1943 method.
 
-    Usage::
+    Examples::
 
         >>> luminance_newhall1943(3.74629715382)
         10.4089874577
@@ -66,7 +66,7 @@ def luminance_1976(L, Yn=100.):
     Returns the *luminance* *Y* of given *Lightness* (*L\**) with given
     reference white *luminance*.
 
-    Usage::
+    Examples::
 
         >>> luminance_1976(37.9856290977)
         10.08
@@ -98,7 +98,7 @@ def luminance_ASTM_D1535_08(V):
     Returns the *luminance* *Y* of given *Munsell value* *V* using
     *ASTM D1535-08e1* 2008 method.
 
-    Usage::
+    Examples::
 
         >>> luminance_ASTM_D1535_08(3.74629715382)
         10.1488096782
@@ -132,7 +132,7 @@ def get_luminance(LV, Yn=100., method="Luminance 1976"):
     Returns the *luminance* *Y* of given *Lightness* *L* using given reference
     white *luminance* or given *Munsell value* *V*.
 
-    Usage::
+    Examples::
 
         >>> get_luminance(3.74629715382)
         37.9856290977

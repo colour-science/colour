@@ -40,7 +40,7 @@ def XYZ_to_xyY(XYZ,
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference
     *illuminant*.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
         array([[ 0.4325]
@@ -75,7 +75,7 @@ def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
 
-    Usage::
+    Examples::
 
         >>> xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034]))
         array([[ 0.11805834]
@@ -109,7 +109,7 @@ def xy_to_XYZ(xy):
     Returns the *CIE XYZ* colourspace matrix from given *xy* chromaticity
     coordinates.
 
-    Usage::
+    Examples::
 
         >>> xy_to_XYZ((0.25, 0.25))
         array([[ 1.],
@@ -135,7 +135,7 @@ def XYZ_to_xy(XYZ,
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace
     matrix.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_xy(np.array([0.97137399, 1., 1.04462134]))
         (0.32207410281368043, 0.33156550013623531)

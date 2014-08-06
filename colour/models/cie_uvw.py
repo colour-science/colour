@@ -37,7 +37,7 @@ def XYZ_to_UVW(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229]))
         array([[ 24.25433719]

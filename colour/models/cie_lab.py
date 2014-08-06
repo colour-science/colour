@@ -42,7 +42,7 @@ def XYZ_to_Lab(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
 
-    Usage::
+    Examples::
 
         >>> XYZ_to_Lab(np.array([0.92193107, 1., 1.03744246]))
         array([[ 100.        ]
@@ -90,7 +90,7 @@ def Lab_to_XYZ(Lab,
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
 
-    Usage::
+    Examples::
 
         >>> Lab_to_XYZ(np.array([100., -7.41787844, -15.85742105]))
         array([[ 0.92193107]
@@ -136,7 +136,7 @@ def Lab_to_LCHab(Lab):
     """
     Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
 
-    Usage::
+    Examples::
 
         >>> Lab_to_LCHab(np.array([100., -7.41787844, -15.85742105]))
         array([[ 100.        ]
@@ -169,7 +169,7 @@ def LCHab_to_Lab(LCHab):
     """
     Converts from *CIE LCHab* colourspace to *CIE Lab* colourspace.
 
-    Usage::
+    Examples::
 
         >>> LCHab_to_Lab(np.array([100., 17.50664796, 244.93046842]))
         array([[ 100.        ]

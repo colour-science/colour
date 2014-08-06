@@ -2,17 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_transformations.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.algebra.coordinates.transformations`
-    module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.algebra.coordinates.transformations`
+module.
 """
 
 from __future__ import unicode_literals

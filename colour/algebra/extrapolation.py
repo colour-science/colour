@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**extrapolation.py**
+Extrapolation
+=============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package extrapolation helper objects.
-
-**Others:**
-
+Defines classes for extrapolating variables.
 """
 
 from __future__ import unicode_literals
@@ -27,40 +21,111 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Extrapolator1d"]
+__all__ = ["Extrapolator"]
 
 
-class Extrapolator1d(object):
+class Extrapolator(object):
     """
-    Extrapolates a 1-D function for given interpolator.
+    Extrapolates the 1-D function of given interpolator.
 
-    References:
+    The extrapolator acts as a wrapper around a given *Colour* or *scipy*
+    interpolator class instance with compatible signature. Two extrapolation
+    methods are available:
 
-    -  http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
+    -   *Linear*: Linearly extrapolates given points using the slope defined by
+        the interpolator boundaries (xi[0], xi[1]) if x < xi[0] and
+        (xi[-1], xi[-2]) if x > xi[-1].
+    -   *Constant*: Extrapolates given points by assigning the interpolator
+        boundaries values xi[0] if x < xi[0] and xi[-1] if x > xi[-1].
+
+    Specifying the *left* and *right* arguments takes precedence on the chosen
+    extrapolation method and will assign the respective *left* and *right*
+    values to the given points.
+
+    Examples
+    --------
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator(x, y)
+    >>> extrapolator = colour.Extrapolator(interpolator)
+    >>> extrapolator(1)
+    -1
+    >>> extrapolator(np.array([6, 7 , 8]))
+    array([4, 5, 6])
+
+    Using the *Constant* extrapolation method:
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator(x, y)
+    >>> extrapolator = colour.Extrapolator(interpolator, method="Constant")
+    >>> extrapolator(np.array([0.1, 0.2, 8., 9.]))
+    array([ 3.,  3.,  5.,  5.])
+
+    Using defined *left* boundary and *Constant* extrapolation method:
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator(x, y)
+    >>> extrapolator = colour.Extrapolator(interpolator, method="Constant", left=0)
+    >>> extrapolator(np.array([0.1, 0.2, 8., 9.]))
+    array([ 0.,  0.,  5.,  5.])
+
+    Notes
+    -----
+
+    The interpolator must define *x* and *y* attributes.
+
+    References
+    ----------
+
+    .. [1] http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
     """
 
-    def __init__(self, interpolator=None, kind="linear"):
+    def __init__(self,
+                 interpolator=None,
+                 method="Linear",
+                 left=None,
+                 right=None):
         """
         Initialises the class.
 
-        :param interpolator: Interpolator object.
-        :type interpolator: object
+        Parameters
+        ----------
+
+        interpolator : object
+            Interpolator object.
+        method : unicode, optional
+            ("Linear", "Constant")
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for x < xi[0].
+        right : int or float, optional
+            Value to return for x > xi[-1].
         """
 
         # --- Setting class attributes. ---
         self.__interpolator = None
         self.interpolator = interpolator
-        self.__kind = None
-        self.kind = kind
-
+        self.__method = None
+        self.method = method
+        self.__right = None
+        self.right = right
+        self.__left = None
+        self.left = left
 
     @property
     def interpolator(self):
         """
-        Property for **self.__interpolator** attribute.
+        Property for **self.__interpolator** private attribute.
 
-        :return: self.__interpolator.
-        :rtype: object
+        Returns
+        -------
+
+        interpolator : object
+            self.__interpolator
+
         """
 
         return self.__interpolator
@@ -68,10 +133,13 @@ class Extrapolator1d(object):
     @interpolator.setter
     def interpolator(self, value):
         """
-        Setter for **self.__interpolator** attribute.
+        Setter for **self.__interpolator** private attribute.
 
-        :param value: Attribute value.
-        :type value: object
+        Parameters
+        ----------
+
+        value : object
+            Attribute value.
         """
 
         if value is not None:
@@ -85,39 +153,114 @@ class Extrapolator1d(object):
         self.__interpolator = value
 
     @property
-    def kind(self):
+    def method(self):
         """
-        Property for **self.__kind** attribute.
+        Property for **self.__method** private attribute.
 
-        :return: self.__kind.
-        :rtype: dict
+        Returns
+        -------
+
+        method : unicode
+            self.__method
         """
 
-        return self.__kind
+        return self.__method
 
-    @kind.setter
-    def kind(self, value):
+    @method.setter
+    def method(self, value):
         """
-        Setter for **self.__kind** attribute.
+        Setter for **self.__method** private attribute.
 
-        :param value: Attribute value.
-        :type value: dict
+        Parameters
+        ----------
+
+        value : unicode
+            Attribute value.
         """
 
         if value is not None:
             assert type(value) in (str, unicode), \
                 "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-                    "kind", value)
-        self.__kind = value
+                    "method", value)
+        self.__method = value
+
+    @property
+    def left(self):
+        """
+        Property for **self.__left** private attribute.
+
+        Returns
+        -------
+
+        left : int or long or float or complex
+            self.__left
+        """
+
+        return self.__left
+
+    @left.setter
+    def left(self, value):
+        """
+        Setter for **self.__left** private attribute.
+
+        Parameters
+        ----------
+
+        value : int or long or float or complex
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_number(value), "'{0}' attribute: '{1}' type is not \
+'int', 'long', 'float' or 'complex'!".format("left", value)
+        self.__left = value
+
+    @property
+    def right(self):
+        """
+        Property for **self.__right** private attribute.
+
+        Returns
+        -------
+
+        right : int or long or float or complex
+            self.__right
+        """
+
+        return self.__right
+
+    @right.setter
+    def right(self, value):
+        """
+        Setter for **self.__right** private attribute.
+
+        Parameters
+        ----------
+
+        value : int or long or float or complex
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_number(value), "'{0}' attribute: '{1}' type is not \
+'int', 'long', 'float' or 'complex'!".format("right", value)
+        self.__right = value
 
     def __call__(self, x):
         """
         Evaluates the extrapolator at given point(s).
 
-        :param x: Point(s) to evaluate the extrapolator at.
-        :type x: float or array_like
-        :return: Extrapolated value(s).
-        :rtype: float or ndarray
+        Parameters
+        ----------
+
+        x : float or array_like
+            Point(s) to evaluate the extrapolator at.
+
+        Returns
+        -------
+
+        xe : float or ndarray
+            Extrapolated points value(s).
         """
 
         xe = self.__evaluate(to_ndarray(x))
@@ -131,10 +274,17 @@ class Extrapolator1d(object):
         """
         Performs the extrapolating evaluation at given points.
 
-        :param x: Points to evaluate the extrapolator at.
-        :type x: ndarray
-        :return: Extrapolated value.
-        :rtype: ndarray
+        Parameters
+        ----------
+
+        x : ndarray
+            Points to evaluate the extrapolator at.
+
+        Returns
+        -------
+
+        y : ndarray
+            Extrapolated points value(s).
         """
 
         xi = self.__interpolator.x
@@ -142,10 +292,19 @@ class Extrapolator1d(object):
 
         y = np.empty_like(x)
 
-        y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
-                        (yi[1] - yi[0]) / (xi[1] - xi[0]))
-        y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
-                         (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
+        if self.__method == "Linear":
+            y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
+                            (yi[1] - yi[0]) / (xi[1] - xi[0]))
+            y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
+                             (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
+        elif self.__method == "Constant":
+            y[x < xi[0]] = xi[0]
+            y[x > xi[-1]] = xi[-1]
+
+        if self.__left is not None:
+            y[x < xi[0]] = self.__left
+        if self.__right is not None:
+            y[x > xi[-1]] = self.__right
 
         in_range = np.logical_and(x >= xi[0], x <= xi[-1])
         y[in_range] = self.__interpolator(x[in_range])

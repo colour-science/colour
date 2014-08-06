@@ -38,7 +38,7 @@ def lightness_glasser1958(Y):
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using
     *Glasser et al.* 1958 method.
 
-    Usage::
+    Examples::
 
         >>> lightness_glasser1958(10.08)
         36.2505626458
@@ -66,7 +66,7 @@ def lightness_wyszecki1964(Y):
     Returns the *Lightness* (*W\**) of given *luminance* *Y* using *Wyszecki*
     1964 method.
 
-    Usage::
+    Examples::
 
         >>> lightness_wyszecki1964(10.08)
         37.0041149128
@@ -99,7 +99,7 @@ def lightness_1976(Y, Yn=100.):
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given
     reference white *luminance*.
 
-    Usage::
+    Examples::
 
         >>> lightness_1976(10.08, 100.)
         37.9856290977
@@ -135,7 +135,7 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     Returns the *Lightness* (*L\**) of given *luminance* *Y* using given
     reference white *luminance*.
 
-    Usage::
+    Examples::
 
         >>> get_lightness(10.08, 100)
         37.9856290977
