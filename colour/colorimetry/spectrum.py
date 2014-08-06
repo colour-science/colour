@@ -23,7 +23,7 @@ import numpy as np
 
 from colour.algebra import is_uniform, get_steps
 from colour.utilities import is_scipy_installed, warning
-from colour.algebra.interpolation import LinearInterpolator
+from colour.algebra.interpolation import LinearInterpolator1d
 from colour.algebra.interpolation import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
@@ -44,8 +44,6 @@ class SpectralPowerDistribution(object):
 
     def __init__(self, name, data):
         """
-        Initialises the class.
-
         :param name: Spectral power distribution name.
         :type name: str or unicode
         :param data: Spectral power distribution data.
@@ -423,7 +421,7 @@ class SpectralPowerDistribution(object):
                 sprague_interpolant = sprague_interpolator = None
 
             # Initialising *Linear* interpolant.
-            linear_interpolator = LinearInterpolator(wavelengths, values)
+            linear_interpolator = LinearInterpolator1d(wavelengths, values)
             linear_interpolant = lambda x: linear_interpolator(x)
 
             # Initialising *Cubic Spline* interpolant.
@@ -546,8 +544,6 @@ class TriSpectralPowerDistribution(object):
 
     def __init__(self, name, data, mapping, labels):
         """
-        Initialises the class.
-
         :param name: Tri-spectral power distribution name.
         :type name: str or unicode
         :param data: Tri-spectral power distribution data.

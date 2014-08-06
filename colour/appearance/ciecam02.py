@@ -906,7 +906,6 @@ def CIECAM02_to_XYZ(JChQMsH,
                     surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get(
                         "Average"),
                     discount_illuminant=False):
-
     XYZw = np.array(XYZw).reshape((3, 1))
     Xw, Yw, Zw = np.ravel(XYZw)
 

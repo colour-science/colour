@@ -9,22 +9,18 @@ Defines various chromatic adaptation transforms (CAT) and objects to
 calculate the chromatic adaptation matrix between two given *CIE XYZ*
 colourspace matrices.
 
--   XYZ Scaling CAT [1]_
--   Bradford CAT [1]_
--   Von Kries CAT [1]_
--   Fairchild CAT [2]_
--   CAT02 CAT [3]_
-
-IPython Notebook
-----------------
-
+-   :attr:`XYZ_SCALING_CAT`: XYZ Scaling CAT [1]_
+-   :attr:`BRADFORD_CAT`: Bradford CAT [1]_
+-   :attr:`VON_KRIES_CAT`: Von Kries CAT [1]_
+-   :attr:`FAIRCHILD_CAT`: Fairchild CAT [2]_
+-   :attr:`CAT02_CAT`: CAT02 CAT [3]_
 
 References
 ----------
 
-.. [1] http://brucelindbloom.com/Eqn_ChromAdapt.html
-.. [2] http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
-.. [3] http://en.wikipedia.org/wiki/CIECAM02#CAT02
+.. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html
+.. [2]  http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+.. [3]  http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
 from __future__ import unicode_literals
@@ -45,7 +41,6 @@ __all__ = ["XYZ_SCALING_CAT",
            "CAT02_CAT",
            "CHROMATIC_ADAPTATION_METHODS",
            "get_chromatic_adaptation_matrix"]
-
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
@@ -107,6 +102,7 @@ CHROMATIC_ADAPTATION_METHODS : dict
     ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02")
 """
 
+
 def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     """
     Returns the *chromatic adaptation* matrix from given source and target
@@ -129,6 +125,12 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     ndarray (3, 3)
         Chromatic adaptation matrix.
 
+    References
+    ----------
+
+    .. [4]  http://brucelindbloom.com/Eqn_ChromAdapt.html
+            (Last accessed 24 February 2014)
+
     Examples
     --------
 
@@ -138,12 +140,6 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     array([[ 0.87145615, -0.13204674,  0.40394832],
           [-0.09638805,  1.04909781,  0.1604033 ],
           [ 0.0080207 ,  0.02826367,  3.06023196]])
-
-    References
-    ----------
-
-    .. [1] http://brucelindbloom.com/Eqn_ChromAdapt.html \
-    (Last accessed 24 February 2014)
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)

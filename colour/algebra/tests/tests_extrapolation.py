@@ -15,8 +15,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import Extrapolator
-from colour.algebra import LinearInterpolator
+from colour.algebra import Extrapolator1d
+from colour.algebra import LinearInterpolator1d
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -25,12 +25,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["TestExtrapolator"]
+__all__ = ["TestExtrapolator1d"]
 
 
-class TestExtrapolator(unittest.TestCase):
+class TestExtrapolator1d(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.extrapolation.Extrapolator` class units
+    Defines :func:`colour.algebra.extrapolation.Extrapolator1d` class units
     tests methods.
     """
 
@@ -42,7 +42,7 @@ class TestExtrapolator(unittest.TestCase):
         required_attributes = ("interpolator",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Extrapolator))
+            self.assertIn(attribute, dir(Extrapolator1d))
 
     def test_required_methods(self):
         """
@@ -52,16 +52,16 @@ class TestExtrapolator(unittest.TestCase):
         required_methods = ()
 
         for method in required_methods:
-            self.assertIn(method, dir(Extrapolator))
+            self.assertIn(method, dir(Extrapolator1d))
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.extrapolation.Extrapolator.__call__`
+        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__`
         method.
         """
 
-        extrapolator = Extrapolator(
-            LinearInterpolator(
+        extrapolator = Extrapolator1d(
+            LinearInterpolator1d(
                 np.array([5., 6., 7.]),
                 np.array([5., 6., 7.])))
 

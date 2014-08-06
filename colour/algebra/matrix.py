@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**matrix.py**
+Matrix Helpers
+==============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package matrix helper objects.
-
-**Others:**
-
+Defines matrices computation helpers objects.
 """
 
 from __future__ import unicode_literals
@@ -30,21 +24,29 @@ __all__ = ["is_identity"]
 
 def is_identity(x, n=3):
     """
-    Returns if given *array_like* variable *x* is an identity matrix.
+    Returns if given *array_like* variable :math:`x` is an identity matrix.
 
-    Examples::
+    Parameters
+    ----------
 
-        >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
-        True
-        >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
-        False
+    x : array_like (N)
+        Variable :math:`x` to test.
+    n : int
+        Matrix dimension.
 
-    :param x: *array_like* variable *x*.
-    :type x: array_like (N)
-    :param n: Matrix dimension.
-    :type n: int
-    :return: Is identity matrix.
-    :rtype: bool
+    Returns
+    -------
+
+    bool
+        Is identity matrix.
+
+    Examples
+    --------
+
+    >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    True
+    >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
+    False
     """
 
     return np.array_equal(np.identity(n), x)

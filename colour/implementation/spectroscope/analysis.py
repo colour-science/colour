@@ -24,8 +24,8 @@ import numpy as np
 import scipy.ndimage
 
 import colour
-from colour import Extrapolator
-from colour import LinearInterpolator
+from colour import Extrapolator1d
+from colour import LinearInterpolator1d
 from colour import SpectralPowerDistribution
 from colour import TriSpectralPowerDistribution
 
@@ -52,8 +52,6 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
 
     def __init__(self, name, data):
         """
-        Initialises the class.
-
         :param name: *RGB* spectrum name.
         :type name: unicode
         :param data: *RGB* spectrum.
@@ -265,18 +263,18 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     mm = np.linspace(min(m), max(m))
 
     # Interpolator from reference to measured.
-    r_to_m_interpolator = Extrapolator(LinearInterpolator(r, m))
+    r_to_m_interpolator = Extrapolator1d(LinearInterpolator1d(r, m))
 
     # Interpolator from measured range to reference range.
-    mm_to_rr_interpolator = Extrapolator(LinearInterpolator(mm, rr))
+    mm_to_rr_interpolator = Extrapolator1d(LinearInterpolator1d(mm, rr))
 
     # Colors interpolator.
-    R_interpolator = Extrapolator(
-        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 0]))
-    G_interpolator = Extrapolator(
-        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 1]))
-    B_interpolator = Extrapolator(
-        LinearInterpolator(np.arange(0, profile.shape[1]), profile[0, :, 2]))
+    R_interpolator = Extrapolator1d(
+        LinearInterpolator1d(np.arange(0, profile.shape[1]), profile[0, :, 0]))
+    G_interpolator = Extrapolator1d(
+        LinearInterpolator1d(np.arange(0, profile.shape[1]), profile[0, :, 1]))
+    B_interpolator = Extrapolator1d(
+        LinearInterpolator1d(np.arange(0, profile.shape[1]), profile[0, :, 2]))
 
     wavelengths = np.linspace(mm_to_rr_interpolator([0]),
                               mm_to_rr_interpolator([profile.shape[1]]),

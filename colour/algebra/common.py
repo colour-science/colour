@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Algebra Common
-==============
+Algebra Common Utilities
+========================
 
 Defines algebra common utilities objects that don't belong to any algebra
 specific category.
@@ -21,7 +21,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["FLOATING_POINT_NUMBER_PATTERN",
-           "EVEN_INTEGER_THRESHOLD",
+           "INTEGER_THRESHOLD",
            "get_steps",
            "get_closest",
            "to_ndarray",
@@ -32,8 +32,12 @@ __all__ = ["FLOATING_POINT_NUMBER_PATTERN",
 
 FLOATING_POINT_NUMBER_PATTERN = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
 
-EVEN_INTEGER_THRESHOLD = 0.001
+INTEGER_THRESHOLD = 0.001
+"""
+Integer threshold value.
 
+INTEGER_THRESHOLD : float
+"""
 
 def get_steps(distribution):
     """
@@ -65,7 +69,7 @@ def get_steps(distribution):
 
 def get_closest(y, x):
     """
-    Returns closest *y* variable element to reference *x* variable.
+    Returns closest :math:`y` variable element to reference :math:`x` variable.
 
     Parameters
     ----------
@@ -79,7 +83,7 @@ def get_closest(y, x):
     -------
 
     int or float
-        Closest *y* variable element.
+        Closest :math:`y` variable element.
 
     Examples
     --------
@@ -94,7 +98,7 @@ def get_closest(y, x):
 
 def to_ndarray(x):
     """
-    Converts given *x* variable to ndarray.
+    Converts given :math:`x` variable to ndarray.
 
     Parameters
     ----------
@@ -106,7 +110,7 @@ def to_ndarray(x):
     -------
 
     ndarray
-        *x* variable converted to ndarray.
+        :math:`x` variable converted to ndarray.
 
     Examples
     --------
@@ -151,7 +155,7 @@ def is_uniform(distribution):
 
 def is_iterable(x):
     """
-    Returns if given *x* variable is iterable.
+    Returns if given :math:`x` variable is iterable.
 
     Parameters
     ----------
@@ -163,7 +167,7 @@ def is_iterable(x):
     -------
 
     bool
-        *x* variable iterability.
+        :math:`x` variable iterability.
 
     Examples
     --------
@@ -184,7 +188,7 @@ def is_iterable(x):
 
 def is_number(x):
     """
-    Returns if given *x* variable is a number.
+    Returns if given :math:`x` variable is a number.
 
     Parameters
     ----------
@@ -196,7 +200,7 @@ def is_number(x):
     -------
 
     bool
-        Is *x* variable a number.
+        Is :math:`x` variable a number.
 
     See Also
     --------
@@ -217,7 +221,7 @@ def is_number(x):
 
 def is_integer(x):
     """
-    Returns if given *x* variable is an integer through thresholding.
+    Returns if given :math:`x` variable is an integer through thresholding.
 
     Parameters
     ----------
@@ -229,12 +233,12 @@ def is_integer(x):
     -------
 
     bool
-        Is *x* variable an integer.
+        Is :math:`x` variable an integer.
 
     Notes
     -----
     The determination threshold is defined by the
-    :attr:`colour.algebra.common.EVEN_INTEGER_THRESHOLD` attribute.
+    :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
 
     See Also
     --------
@@ -250,4 +254,4 @@ def is_integer(x):
     False
     """
 
-    return abs(x - round(x)) <= EVEN_INTEGER_THRESHOLD
+    return abs(x - round(x)) <= INTEGER_THRESHOLD

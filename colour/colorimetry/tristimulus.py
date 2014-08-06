@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.algebra import LinearInterpolator, SpragueInterpolator
+from colour.algebra import LinearInterpolator1d, SpragueInterpolator
 from colour.colorimetry import (
     SpectralPowerDistribution,
     STANDARD_OBSERVERS_CMFS)
@@ -166,8 +166,8 @@ def wavelength_to_XYZ(wavelength,
                     "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
                         __name__))
 
-                interpolators = [LinearInterpolator(wavelengths,
-                                                    values[:, i])
+                interpolators = [LinearInterpolator1d(wavelengths,
+                                                      values[:, i])
                                  for i in range(values.shape[-1])]
 
         return np.array([interpolator(wavelength) \

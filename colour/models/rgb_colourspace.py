@@ -44,8 +44,6 @@ class RGB_Colourspace(object):
                  transfer_function=None,
                  inverse_transfer_function=None):
         """
-        Initialises the class.
-
         :param name: *RGB* Colourspace name.
         :type name: str or unicode
         :param primaries: *RGB* Colourspace primaries.

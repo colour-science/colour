@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator1d
 from colour.algebra import SpragueInterpolator
 
 __author__ = "Thomas Mansencal"
@@ -28,7 +28,7 @@ __status__ = "Production"
 __all__ = ["POINTS_DATA_A",
            "LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
            "SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
-           "TestLinearInterpolator",
+           "TestLinearInterpolator1d",
            "TestSpragueInterpolator"]
 
 POINTS_DATA_A = np.array([
@@ -356,9 +356,9 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     86.05]
 
 
-class TestLinearInterpolator(unittest.TestCase):
+class TestLinearInterpolator1d(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator1d` class units
     tests methods.
     """
 
@@ -371,7 +371,7 @@ class TestLinearInterpolator(unittest.TestCase):
                                "y")
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LinearInterpolator))
+            self.assertIn(attribute, dir(LinearInterpolator1d))
 
     def test_required_methods(self):
         """
@@ -381,17 +381,17 @@ class TestLinearInterpolator(unittest.TestCase):
         required_methods = ()
 
         for method in required_methods:
-            self.assertIn(method, dir(LinearInterpolator))
+            self.assertIn(method, dir(LinearInterpolator1d))
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
         method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
-        linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
+        linear_interpolator = LinearInterpolator1d(x, POINTS_DATA_A)
 
         for i, value in enumerate(
                 np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):

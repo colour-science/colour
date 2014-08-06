@@ -39,7 +39,8 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
-    "sphinxcontrib.napoleon"]
+    "sphinxcontrib.napoleon",
+    "sphinx.ext.mathjax"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -342,28 +343,6 @@ epub_exclude_files = ["search.html"]
 
 autoclass_content = "both"
 
-
-# import numpy as np
-# from sphinx.ext.autodoc import DataDocumenter, Documenter
-#
-#
-# def __handle_data_objects(cls):
-#     if Documenter.import_object(cls):
-#         if cls.objtype == "data":
-#             object = cls.object
-#             if type(object) is np.ndarray:
-#                 cls.object = np.array([])
-#             elif type(object) is np.matrix:
-#                 cls.object = np.matrix([])
-#             else:
-#                 cls.object = type(object)()
-#         return True
-#     else:
-#         return False
-
-
-# DataDocumenter.import_object = __handle_data_objects
-
 def __autodoc_process_docstring(app,
                                 what,
                                 name,
@@ -397,4 +376,4 @@ def __autodoc_process_docstring(app,
 
 
 def setup(app):
-    app.connect('autodoc-process-docstring', __autodoc_process_docstring)
+    app.connect("autodoc-process-docstring", __autodoc_process_docstring)

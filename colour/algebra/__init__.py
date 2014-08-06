@@ -13,8 +13,8 @@ from .common import (
     is_integer)
 from .coordinates import *
 from . import coordinates
-from .extrapolation import Extrapolator
-from .interpolation import LinearInterpolator, SpragueInterpolator
+from .extrapolation import Extrapolator1d
+from .interpolation import LinearInterpolator1d, SpragueInterpolator
 from .matrix import is_identity
 from .regression import linear_regression
 
@@ -26,7 +26,7 @@ __all__ = ["get_steps",
            "is_number",
            "is_integer"]
 __all__ += coordinates.__all__
-__all__ += ["Extrapolator",
-            "LinearInterpolator", "SpragueInterpolator",
+__all__ += ["Extrapolator1d",
+            "LinearInterpolator1d", "SpragueInterpolator",
             "is_identity",
             "linear_regression"]

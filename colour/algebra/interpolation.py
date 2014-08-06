@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-**interpolation.py**
+Interpolation
+=============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines classes for interpolating variables.
 
-**Description:**
-    Defines **Colour** package interpolation helper objects.
-
-**Others:**
+-   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
+-   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
+    interpolation.
 
 """
 
@@ -28,35 +27,52 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LinearInterpolator",
+__all__ = ["LinearInterpolator1d",
            "SpragueInterpolator"]
 
 
-class LinearInterpolator(object):
+class LinearInterpolator1d(object):
     """
-    Constructs a linear interpolator.
+    Linearly interpolates a 1-D function.
 
-    Examples::
+    Notes
+    -----
 
-        >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
-        >>> x = np.arange(len(y))
-        >>> f = colour.LinearInterpolator(x, y)
-        >>> f(0.5)
-        7.645
-        >>> f([0.25, 0.75])
-        array([ 6.7825,  8.5075])
+    This class is a wrapper around *numpy.interp* definition.
+
+    See Also
+    --------
+
+    SpragueInterpolator
+
+    Examples
+    --------
+
+    Interpolating a single float variable:
+
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = colour.LinearInterpolator1d(x, y)
+    >>> f(0.5)
+    7.645
+
+    Interpolating an *array_like* variable:
+
+    >>> f([0.25, 0.75])
+    array([ 6.7825,  8.5075])
     """
 
     def __init__(self, x=None, y=None):
         """
-        Initialises the class.
+        Parameters
+        ----------
 
-        :param x: Independent *x* variable values corresponding with *y* \
-        variable.
-        :type x: ndarray
-        :param y: Dependent and already known *y* variable values to \
-        interpolate.
-        :type y: ndarray
+        x : ndarray
+            Independent :math:`x` variable values corresponding with :math:`y`
+            variable.
+        y : ndarray
+            Dependent and already known :math:`y` variable values to
+            interpolate.
         """
 
         # --- Setting class attributes. ---
@@ -72,8 +88,11 @@ class LinearInterpolator(object):
         """
         Property for **self.__x** private attribute.
 
-        :return: self.__x.
-        :rtype: array_like
+        Returns
+        -------
+
+        array_like
+            self.__x
         """
 
         return self.__x
@@ -83,15 +102,18 @@ class LinearInterpolator(object):
         """
         Setter for **self.__x** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'x' independent variable array must have exactly one dimension!"
+                "'x' independent variable must have exactly one dimension!"
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -103,8 +125,11 @@ class LinearInterpolator(object):
         """
         Property for **self.__y** private attribute.
 
-        :return: self.__y.
-        :rtype: array_like
+        Returns
+        -------
+
+        array_like
+            self.__y
         """
 
         return self.__y
@@ -114,15 +139,18 @@ class LinearInterpolator(object):
         """
         Setter for **self.__y** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'y' dependent variable array must have exactly one dimension!"
+                "'y' dependent variable must have exactly one dimension!"
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -133,10 +161,17 @@ class LinearInterpolator(object):
         """
         Evaluates the interpolating polynomial at given point(s).
 
-        :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or array_like
-        :return: Interpolated value(s).
-        :rtype: float or ndarray
+
+        Parameters
+        ----------
+
+        x : float or array_like
+            Point(s) to evaluate the interpolant at.
+
+        Returns
+        -------
+        float or ndarray
+            Interpolated value(s).
         """
 
         xi = self.__evaluate(to_ndarray(x))
@@ -150,10 +185,17 @@ class LinearInterpolator(object):
         """
         Performs the interpolating polynomial evaluation at given points.
 
-        :param x: Points to evaluate the interpolant at.
-        :type x: ndarray
-        :return: Interpolated value.
-        :rtype: ndarray
+        Parameters
+        ----------
+
+        x : ndarray
+            Points to evaluate the interpolant at.
+
+        Returns
+        -------
+
+        ndarray
+            Interpolated points values.
         """
 
         self.__validate_dimensions()
@@ -168,8 +210,8 @@ class LinearInterpolator(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
-                    len(self.__x), len(self.__y)))
+                "'x' independent and 'y' dependent variables have different \
+dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """
@@ -188,53 +230,74 @@ class LinearInterpolator(object):
 
 class SpragueInterpolator(object):
     """
-    Constructs a fifth-order polynomial that passes through *y* dependent
+    Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
     The Sprague (1880) method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
-    Examples::
+    See Also
+    --------
 
-        >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
-        >>> x = np.arange(len(y))
-        >>> f = colour.SpragueInterpolator(x, y)
-        >>> f(0.5)
-        7.21850256056
-        >>> f([0.25, 0.75])
-        array([ 6.72951612,  7.81406251])
+    LinearInterpolator1d
 
-    References:
+    References
+    ----------
 
-    -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-    9.2.4 Method of interpolation for uniformly spaced \
-    independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, \
-    *Computational Colour Science Using MATLAB, 2nd Edition*, \
-    The Wiley-IS&T Series in Imaging Science and Technology, \
-    published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
+    .. [1]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for
+            Use in Colour Computations: 9.2.4 Method of interpolation for
+            uniformly spaced independent variable
+            <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+    .. [2]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
+            *Computational Colour Science Using MATLAB, 2nd Edition*,
+            The Wiley-IS&T Series in Imaging Science and Technology,
+            published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
+
+    Examples
+    --------
+
+    Interpolating a single float variable:
+
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = colour.SpragueInterpolator(x, y)
+    >>> f(0.5)
+    7.21850256056
+
+    Interpolating an *array_like* variable:
+
+    >>> f([0.25, 0.75])
+    array([ 6.72951612,  7.81406251])
     """
 
-    # http://div1.cie.co.at/?i_ca_id=551&pubid=47, Table V
-    sprague_c_coefficients = np.array([[884, -1960, 3033, -2648, 1080, -180],
-                                       [508, -540, 488, -367, 144, -24],
-                                       [-24, 144, -367, 488, -540, 508],
-                                       [-180, 1080, -2648, 3033, -1960, 884]])
+    SPRAGUE_C_COEFFICIENTS = np.array(
+        [[884, -1960, 3033, -2648, 1080, -180],
+         [508, -540, 488, -367, 144, -24],
+         [-24, 144, -367, 488, -540, 508],
+         [-180, 1080, -2648, 3033, -1960, 884]])
     """
     Defines the coefficients used to generate extra points for boundaries
     interpolation.
+
+    SPRAGUE_C_COEFFICIENTS : array_like (4, 6)
+
+    References
+    ----------
+
+    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
     """
 
     def __init__(self, x=None, y=None):
         """
-        Initialises the class.
+       Parameters
+        ----------
 
-        :param x: Independent *x* variable values corresponding with *y* \
-        variable.
-        :type x: ndarray
-        :param y: Dependent and already known *y* variable values to \
-        interpolate.
-        :type y: ndarray
+        x : array_like
+            Independent :math:`x` variable values corresponding with :math:`y`
+            variable.
+        y : array_like
+            Dependent and already known :math:`y` variable values to
+            interpolate.
         """
 
         # --- Setting class attributes. ---
@@ -253,8 +316,11 @@ class SpragueInterpolator(object):
         """
         Property for **self.__x** private attribute.
 
-        :return: self.__x.
-        :rtype: array_like
+        Returns
+        -------
+
+        array_like
+            self.__x
         """
 
         return self.__x
@@ -264,15 +330,18 @@ class SpragueInterpolator(object):
         """
         Setter for **self.__x** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'x' independent variable array must have exactly one dimension!"
+                "'x' independent variable must have exactly one dimension!"
 
             assert is_uniform(value), \
                 "'x' independent variable is not uniform!"
@@ -296,8 +365,11 @@ class SpragueInterpolator(object):
         """
         Property for **self.__y** private attribute.
 
-        :return: self.__y.
-        :rtype: array_like
+        Returns
+        -------
+
+        array_like
+            self.__y
         """
 
         return self.__y
@@ -307,34 +379,36 @@ class SpragueInterpolator(object):
         """
         Setter for **self.__y** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'y' dependent variable array must have exactly one dimension!"
+                "'y' dependent variable must have exactly one dimension!"
 
             assert len(value) >= 6, \
-                "'y' dependent variable values count must be in domain [6:]!".format(
-                    len(value))
+                "'y' dependent variable values count must be in domain [6:]!"
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
 
             yp1 = np.ravel((np.dot(
-                self.sprague_c_coefficients[0],
+                self.SPRAGUE_C_COEFFICIENTS[0],
                 np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
             yp2 = np.ravel((np.dot(
-                self.sprague_c_coefficients[1],
+                self.SPRAGUE_C_COEFFICIENTS[1],
                 np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
             yp3 = np.ravel((np.dot(
-                self.sprague_c_coefficients[2],
+                self.SPRAGUE_C_COEFFICIENTS[2],
                 np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
             yp4 = np.ravel((np.dot(
-                self.sprague_c_coefficients[3],
+                self.SPRAGUE_C_COEFFICIENTS[3],
                 np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
 
             self.__yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
@@ -345,10 +419,16 @@ class SpragueInterpolator(object):
         """
         Evaluates the interpolating polynomial at given point(s).
 
-        :param x: Point(s) to evaluate the interpolant at.
-        :type x: float or array_like
-        :return: Interpolated value(s).
-        :rtype: float or ndarray
+        Parameters
+        ----------
+
+        x : float or array_like
+            Point(s) to evaluate the interpolant at.
+
+        Returns
+        -------
+        float or ndarray
+            Interpolated value(s).
         """
 
         try:
@@ -360,10 +440,17 @@ class SpragueInterpolator(object):
         """
         Performs the interpolating polynomial evaluation at given point.
 
-        :param x: Point to evaluate the interpolant at.
-        :type x: float
-        :return: Interpolated value.
-        :rtype: float
+        Parameters
+        ----------
+
+        x : float
+            Point to evaluate the interpolant at.
+
+        Returns
+        -------
+
+        float
+            Interpolated point values.
         """
 
         self.__validate_dimensions()
@@ -401,8 +488,8 @@ class SpragueInterpolator(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                "'x' independent and 'y' dependent variables have different dimensions: '{0}', '{1}'".format(
-                    len(self.__x), len(self.__y)))
+                "'x' independent and 'y' dependent variables have different \
+dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """

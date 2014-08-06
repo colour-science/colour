@@ -32,14 +32,15 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Point",
+__all__ = ["COLOR_LOOKUP_CURVES_TEMPLATE",
+           "Point",
            "CurvesInformation",
            "Curve",
            "Lookup",
            "get_curve_data",
            "parse_curve_data_header",
            "parse_curve_data",
-           "getCurveAxis",
+           "get_curve_axis_values",
            "get_curve",
            "get_lookup",
            "format_curve_data",
@@ -65,8 +66,6 @@ class Curve(object):
 
     def __init__(self, x=None, y=None):
         """
-        Initialises the class.
-
         :param x: X axis data.
         :type x: tuple or list
         :param y: Y axis data.
@@ -100,8 +99,6 @@ class Lookup(object):
                  blue_curve=None,
                  alpha_curve=None):
         """
-        Initialises the class.
-
         :param master_curve: Master curve.
         :type master_curve: Curve
         :param red_curve: Red curve.

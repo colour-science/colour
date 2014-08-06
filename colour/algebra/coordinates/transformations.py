@@ -5,18 +5,19 @@
 Coordinates System Transformations
 ==================================
 
-Defines objects to apply transformations on coordinates systems. The following
-transformations are supported:
+Defines objects to apply transformations on coordinates systems.
 
--   Cartesian to Spherical
--   Spherical to Cartesian
--   Cartesian to Cylindrical
--   Cylindrical to Cartesian
+The following transformations are supported:
+
+-   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
+-   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
+-   :func:`cartesian_to_cylindrical`: Cartesian to Cylindrical transformation.
+-   :func:`cylindrical_to_cartesian`: Cylindrical to Cartesian transformation.
 
 References
 ----------
 
-.. [1] http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+.. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import unicode_literals
@@ -53,6 +54,11 @@ def cartesian_to_spherical(vector):
     ndarray
         Spherical coordinates vector (r, theta, phi).
 
+    See Also
+    --------
+
+    spherical_to_cartesian, cartesian_to_cylindrical, cylindrical_to_cartesian
+
     Examples
     --------
 
@@ -84,6 +90,11 @@ def spherical_to_cartesian(vector):
 
     ndarray
         Cartesian coordinates vector (x, y, z).
+
+    See Also
+    --------
+
+    cartesian_to_spherical, cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
@@ -117,6 +128,11 @@ def cartesian_to_cylindrical(vector):
     ndarray
         Cylindrical coordinates vector (z, theta, rho).
 
+    See Also
+    --------
+
+    cartesian_to_spherical, spherical_to_cartesian, cylindrical_to_cartesian
+
     Examples
     --------
 
@@ -147,6 +163,11 @@ def cylindrical_to_cartesian(vector):
 
     ndarray
         Cartesian coordinates vector (x, y, z).
+
+    See Also
+    --------
+
+    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_cylindrical
 
     Examples
     --------

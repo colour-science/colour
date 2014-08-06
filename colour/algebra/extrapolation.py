@@ -5,7 +5,9 @@
 Extrapolation
 =============
 
-Defines classes for extrapolating variables.
+Defines classes for extrapolating variables:
+
+-   :class:`Extrapolator1d`: 1-D function extrapolation.
 """
 
 from __future__ import unicode_literals
@@ -21,14 +23,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["Extrapolator"]
+__all__ = ["Extrapolator1d"]
 
 
-class Extrapolator(object):
+class Extrapolator1d(object):
     """
     Extrapolates the 1-D function of given interpolator.
 
-    The extrapolator acts as a wrapper around a given *Colour* or *scipy*
+    The Extrapolator1d acts as a wrapper around a given *Colour* or *scipy*
     interpolator class instance with compatible signature. Two extrapolation
     methods are available:
 
@@ -42,36 +44,6 @@ class Extrapolator(object):
     extrapolation method and will assign the respective *left* and *right*
     values to the given points.
 
-    Examples
-    --------
-
-    >>> x = np.array([3, 4, 5])
-    >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator(x, y)
-    >>> extrapolator = colour.Extrapolator(interpolator)
-    >>> extrapolator(1)
-    -1
-    >>> extrapolator(np.array([6, 7 , 8]))
-    array([4, 5, 6])
-
-    Using the *Constant* extrapolation method:
-
-    >>> x = np.array([3, 4, 5])
-    >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator(x, y)
-    >>> extrapolator = colour.Extrapolator(interpolator, method="Constant")
-    >>> extrapolator(np.array([0.1, 0.2, 8., 9.]))
-    array([ 3.,  3.,  5.,  5.])
-
-    Using defined *left* boundary and *Constant* extrapolation method:
-
-    >>> x = np.array([3, 4, 5])
-    >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator(x, y)
-    >>> extrapolator = colour.Extrapolator(interpolator, method="Constant", left=0)
-    >>> extrapolator(np.array([0.1, 0.2, 8., 9.]))
-    array([ 0.,  0.,  5.,  5.])
-
     Notes
     -----
 
@@ -80,7 +52,42 @@ class Extrapolator(object):
     References
     ----------
 
-    .. [1] http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
+    .. [1]  http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
+
+    Examples
+    --------
+
+    Extrapolating a single float variable:
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator1d(x, y)
+    >>> Extrapolator1d = colour.Extrapolator1d(interpolator)
+    >>> Extrapolator1d(1)
+    -1
+
+    Extrapolating an *array_like* variable:
+
+    >>> Extrapolator1d(np.array([6, 7 , 8]))
+    array([4, 5, 6])
+
+    Using the *Constant* extrapolation method:
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator1d(x, y)
+    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method="Constant")
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    array([ 3.,  3.,  5.,  5.])
+
+    Using defined *left* boundary and *Constant* extrapolation method:
+
+    >>> x = np.array([3, 4, 5])
+    >>> y = np.array([1, 2, 3])
+    >>> interpolator = colour.LinearInterpolator1d(x, y)
+    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method="Constant", left=0)
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    array([ 0.,  0.,  5.,  5.])
     """
 
     def __init__(self,
@@ -89,8 +96,6 @@ class Extrapolator(object):
                  left=None,
                  right=None):
         """
-        Initialises the class.
-
         Parameters
         ----------
 
@@ -123,9 +128,8 @@ class Extrapolator(object):
         Returns
         -------
 
-        interpolator : object
+        object
             self.__interpolator
-
         """
 
         return self.__interpolator
@@ -160,7 +164,7 @@ class Extrapolator(object):
         Returns
         -------
 
-        method : unicode
+        unicode
             self.__method
         """
 
@@ -192,7 +196,7 @@ class Extrapolator(object):
         Returns
         -------
 
-        left : int or long or float or complex
+        int or long or float or complex
             self.__left
         """
 
@@ -223,7 +227,7 @@ class Extrapolator(object):
         Returns
         -------
 
-        right : int or long or float or complex
+        int or long or float or complex
             self.__right
         """
 
@@ -248,18 +252,18 @@ class Extrapolator(object):
 
     def __call__(self, x):
         """
-        Evaluates the extrapolator at given point(s).
+        Evaluates the Extrapolator1d at given point(s).
 
         Parameters
         ----------
 
         x : float or array_like
-            Point(s) to evaluate the extrapolator at.
+            Point(s) to evaluate the Extrapolator1d at.
 
         Returns
         -------
 
-        xe : float or ndarray
+        float or ndarray
             Extrapolated points value(s).
         """
 
@@ -278,13 +282,13 @@ class Extrapolator(object):
         ----------
 
         x : ndarray
-            Points to evaluate the extrapolator at.
+            Points to evaluate the Extrapolator1d at.
 
         Returns
         -------
 
-        y : ndarray
-            Extrapolated points value(s).
+        ndarray
+            Extrapolated points values.
         """
 
         xi = self.__interpolator.x
