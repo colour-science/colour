@@ -2,21 +2,39 @@
 # -*- coding: utf-8 -*-
 
 """
-**spds.py**
+ColourCheckers Spectral Power Distributions
+===========================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *ColourCheckers* spectral power distributions.
 
-**Description:**
-    Defines **Colour** package *ColourChecker* spectral power distributions.
+Each *ColourChecker* data is in the form of a *dict* of
+:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
+follows::
 
-**Others:**
+    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
 
+The following *ColourCheckers* data is available:
+
+-   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by *N. Ohta* in 1997.
+-   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
+    30 *ColourChecker* charts.
+
+References
+----------
+
+.. [1]  **N. Ohta**, *The Basis of Color Reproduction Engineering (Japanese)*,
+        Corona-sha Co of Japan, published 1997.
+        (Last accessed 24 February 2014)
+.. [2]  http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
+        (Last accessed 9 June 2014)
+.. [3]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+        (Last accessed 24 February 2014)
+.. [4]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
 from __future__ import unicode_literals
 
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -58,8 +76,6 @@ COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {
     23: "neutral 3.5 (1.05 D)",
     24: "black 2 (1.5 D)"}
 
-# http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
-# (Last accessed 9 June 2014)
 COLORCHECKER_N_OHTA_SPDS_DATA = {
     "dark skin": {
         380: 0.048,
@@ -2032,7 +2048,12 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
 
 COLORCHECKER_N_OHTA_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
-    COLORCHECKER_N_OHTA_SPDS_DATA.iteritems())
+    COLORCHECKER_N_OHTA_SPDS_DATA.items())
+"""
+Measured by *N. Ohta* in 1997.
+
+COLORCHECKER_N_OHTA_SPDS : dict
+"""
 
 BABELCOLOR_AVERAGE_SPDS_DATA = {
     "dark skin": {
@@ -2926,7 +2947,19 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
 
 BABELCOLOR_AVERAGE_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
-    BABELCOLOR_AVERAGE_SPDS_DATA.iteritems())
+    BABELCOLOR_AVERAGE_SPDS_DATA.items())
+"""
+Average data derived from measurements of 30 *ColourChecker* charts.
+
+BABELCOLOR_AVERAGE_SPDS : dict
+"""
 
 COLOURCHECKERS_SPDS = {"BabelColor Average": BABELCOLOR_AVERAGE_SPDS,
                        "ColorChecker N Ohta": COLORCHECKER_N_OHTA_SPDS}
+"""
+Aggregated *ColourCheckers* spectral power distributions.
+
+COLOURCHECKERS : dict
+    ("BabelColor Average", "ColorChecker N Ohta")
+
+"""

@@ -2,16 +2,31 @@
 # -*- coding: utf-8 -*-
 
 """
-**chromaticity_coordinates.py**
+ColourCheckers Chromaticity Coordinates
+=======================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *ColourCheckers* chromaticity coordinates in *CIE xyY* colourspace.
 
-**Description:**
-    Defines **Colour** package *ColourChecker* chromaticity coordinates.
+Each *ColourChecker* data is in the form of a list of 24 *namedtuples* as
+follows::
 
-**Others:**
+    [("index", "name", "x", "y", "Y"), ..., ("index", "name", "x", "y", "Y")]
 
+The following *ColourCheckers* data is available:
+
+-   :attr:`BABELCOLOR_AVERAGE`: Average data derived from measurements of 30
+    *ColourChecker* charts.
+-   :attr:`COLORCHECKER_2005`: Reference data from *GretagMacbeth* published in
+    2005.
+-   :attr:`COLORCHECKER_1976`: *ColourChecker* developed by *McCamy and Al.* at
+    Macbeth, a Division of Kollmorgen.
+
+References
+----------
+
+.. [1]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+        (Last accessed 24 February 2014)
+.. [2]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
 from __future__ import unicode_literals
@@ -46,8 +61,6 @@ COLOURCHECKER_INXYY = namedtuple("ColourChecker_InxxY",
 COLOURCHECKER = namedtuple("ColourChecker",
                            ("name", "data", "illuminant"))
 
-# http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-# (Last accessed 24 February 2014)
 BABELCOLOR_AVERAGE_DATA = (
     (1, "dark skin", 0.4325, 0.3788, 0.1034),
     (2, "light skin", 0.4191, 0.3748, 0.3525),
@@ -76,8 +89,19 @@ BABELCOLOR_AVERAGE_DATA = (
 
 BABELCOLOR_AVERAGE_ILLUMINANT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
+"""
+*BabelColor Average* illuminant.
+
+BABELCOLOR_AVERAGE_ILLUMINANT : tuple
+"""
+
 BABELCOLOR_AVERAGE = map(lambda x: COLOURCHECKER_INXYY(*x),
                          BABELCOLOR_AVERAGE_DATA)
+"""
+Average data derived from measurements of 30 *ColourChecker* charts.
+
+BABELCOLOR_AVERAGE : list
+"""
 
 COLORCHECKER_2005_DATA = (
     (1, "dark skin", 0.4316, 0.3777, 0.1008),
@@ -107,8 +131,19 @@ COLORCHECKER_2005_DATA = (
 
 COLORCHECKER_2005_ILLUMINANT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
+"""
+*ColorChecker 2005* illuminant.
+
+COLORCHECKER_2005_ILLUMINANT : tuple
+"""
+
 COLORCHECKER_2005 = map(lambda x: COLOURCHECKER_INXYY(*x),
                         COLORCHECKER_2005_DATA)
+"""
+Reference data from *GretagMacbeth* published in 2005.
+
+COLORCHECKER_2005 : list
+"""
 
 COLORCHECKER_1976_DATA = (
     (1, "dark skin", 0.4002, 0.3504, 0.1005),
@@ -138,8 +173,20 @@ COLORCHECKER_1976_DATA = (
 
 COLORCHECKER_1976_ILLUMINANT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("C")
+"""
+*ColorChecker 1976* illuminant.
+
+COLORCHECKER_1976_ILLUMINANT : tuple
+"""
+
 COLORCHECKER_1976 = map(lambda x: COLOURCHECKER_INXYY(*x),
                         COLORCHECKER_1976_DATA)
+"""
+*ColourChecker* developed by *McCamy and Al.* at Macbeth, a Division of
+Kollmorgen.
+
+COLORCHECKER_1976 : list
+"""
 
 COLOURCHECKERS = {
     "BabelColor Average": COLOURCHECKER("BabelColor Average",
@@ -151,3 +198,9 @@ COLOURCHECKERS = {
     "ColorChecker 1976": COLOURCHECKER("ColorChecker 1976",
                                        COLORCHECKER_1976,
                                        COLORCHECKER_1976_ILLUMINANT)}
+"""
+Aggregated *ColourCheckers* chromaticity coordinates.
+
+COLOURCHECKERS : dict
+    ("BabelColor Average", "ColorChecker 2005", "ColorChecker 1976")
+"""

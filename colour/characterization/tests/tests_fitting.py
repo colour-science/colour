@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_fitting.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
-
-**Others:**
-
+Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
 """
 
 from __future__ import unicode_literals
