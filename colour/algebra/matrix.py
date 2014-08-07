@@ -28,21 +28,18 @@ def is_identity(x, n=3):
 
     Parameters
     ----------
-
     x : array_like (N)
         Variable :math:`x` to test.
-    n : int
+    n : int, optional
         Matrix dimension.
 
     Returns
     -------
-
     bool
         Is identity matrix.
 
     Examples
     --------
-
     >>> is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))
     True
     >>> is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape(3, 3))

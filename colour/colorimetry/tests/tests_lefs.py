@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_lefs.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.lefs` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.lefs` module.
 """
 
 from __future__ import unicode_literals
@@ -476,13 +467,15 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
 class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
+    Defines
+    :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
     definition units tests methods.
     """
 
     def test_mesopic_luminous_efficiency_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
+        Tests
+        :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
         definition.
         """
 

@@ -2,16 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-**luminance.py**
+Luminance :math:`Y`
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *luminance* :math:`Y` computation objects.
 
-**Description:**
-    Defines **Colour** package *Luminance* objects.
+The following methods are available:
 
-**Others:**
-
+-   :func:`luminance_newhall1943`: *luminance* :math:`Y` computation of given
+    *Munsell value* :math:`V` using *Newhall, Nickerson, and Judd (1943)*
+    method.
+-   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
+    *Lightness* :math:`L^*` as per *CIE Lab* implementation.
+-   :func:`luminance_ASTM_D1535_08`: *luminance* :math:`Y` computation of given
+    *Munsell value* :math:`V` using *ASTM D1535-08e1 (2008)* method.
 """
 
 from __future__ import unicode_literals
@@ -34,25 +38,33 @@ __all__ = ["luminance_newhall1943",
 
 def luminance_newhall1943(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using
-    *Newhall, Nickerson, and Judd* 1943 method.
+    Returns the *luminance* :math:`Y` of given *Munsell value* :math:`V` using
+    *Newhall, Nickerson, and Judd (1943)* method.
 
-    Examples::
+    Parameters
+    ----------
+    V : float
+        *Munsell value* :math:`V`.
 
-        >>> luminance_newhall1943(3.74629715382)
-        10.4089874577
+    Returns
+    -------
+    float
+        *luminance* :math:`Y`.
 
-    :param V: *Munsell value* *V*.
-    :type V: float
-    :return: *Luminance* *Y*.
-    :rtype: float
+    Notes
+    -----
+    -   Input *Munsell value* :math:`V` is in domain [0, 10].
+    -   Output *luminance* :math:`Y` is in domain [0, 100].
 
-    :note: Input *V* is in domain [0, 10].
-    :note: Output *Y* is in domain [0, 100].
+    References
+    ----------
+    .. [1]  http://en.wikipedia.org/wiki/Lightness
+            (Last accessed 13 April 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/Lightness (Last accessed 13 April 2014)
+    Examples
+    --------
+    >>> luminance_newhall1943(3.74629715382)
+    10.4089874577
     """
 
     Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (
@@ -63,27 +75,35 @@ def luminance_newhall1943(V):
 
 def luminance_1976(L, Yn=100.):
     """
-    Returns the *luminance* *Y* of given *Lightness* (*L\**) with given
-    reference white *luminance*.
+    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
+    given reference white *luminance* :math:`Y_n`.
 
-    Examples::
+    Parameters
+    ----------
+    L : float
+        *Lightness* :math:`L^*`
+    Yn : float
+        White reference *luminance* :math:`Y_n`.
 
-        >>> luminance_1976(37.9856290977)
-        10.08
+    Returns
+    -------
+    float
+        *luminance* :math:`Y`.
 
-    :param L: *Lightness* (*L\**)
-    :type L: float
-    :param Yn: White reference *luminance*.
-    :type Yn: float
-    :return: *Luminance* *Y*.
-    :rtype: float
+    Notes
+    -----
+    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in domain [0, 100].
 
-    :note: Input *L* is in domain [0, 100].
-    :note: Output *Yn* is in domain [0, 100].
+    References
+    ----------
+    .. [2]  http://www.poynton.com/PDFs/GammaFAQ.pdf
+            (Last accessed 12 April 2014)
 
-    References:
-
-    -  http://www.poynton.com/PDFs/GammaFAQ.pdf (Last accessed 12 April 2014)
+    Examples
+    --------
+    >>> luminance_1976(37.9856290977)
+    10.08
     """
 
     Y = ((((L + 16.) / 116.) ** 3.) * Yn
@@ -95,25 +115,32 @@ def luminance_1976(L, Yn=100.):
 
 def luminance_ASTM_D1535_08(V):
     """
-    Returns the *luminance* *Y* of given *Munsell value* *V* using
-    *ASTM D1535-08e1* 2008 method.
+    Returns the *luminance* :math:`Y` of given *Munsell value* :math:`V` using
+    *ASTM D1535-08e1 (2008)* method.
 
-    Examples::
+    Parameters
+    ----------
+    V : float
+        *Munsell value* :math:`V`.
 
-        >>> luminance_ASTM_D1535_08(3.74629715382)
-        10.1488096782
+    Returns
+    -------
+    float
+        *luminance* :math:`Y`.
 
-    :param V: *Munsell value* *V*.
-    :type V: float
-    :return: *Luminance* *Y*.
-    :rtype: float
+    Notes
+    -----
+    -   Input *Munsell value* :math:`V` is in domain [0, 10].
+    -   Output *luminance* :math:`Y` is in domain [0, 100].
 
-    :note: Input *V* is in domain [0, 10].
-    :note: Output *Y* is in domain [0, 100].
-
-    References:
-
+    References
+    ----------
     -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
+
+    Examples
+    --------
+    >>> luminance_ASTM_D1535_08(3.74629715382)
+    10.1488096782
     """
 
     Y = 1.1914 * V - 0.22533 * (V * V) + 0.23352 * (V ** 3) - 0.020484 * (
@@ -125,31 +152,43 @@ def luminance_ASTM_D1535_08(V):
 LUMINANCE_FUNCTIONS = {"Luminance Newhall 1943": luminance_newhall1943,
                        "Luminance 1976": luminance_1976,
                        "Luminance ASTM D1535-08": luminance_ASTM_D1535_08}
+"""
+Supported *luminance* computations methods.
 
+LUMINANCE_FUNCTIONS : dict
+    ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+"""
 
 def get_luminance(LV, Yn=100., method="Luminance 1976"):
     """
-    Returns the *luminance* *Y* of given *Lightness* *L* using given reference
-    white *luminance* or given *Munsell value* *V*.
+    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
+    *Munsell value* :math:`V`.
 
-    Examples::
+    Parameters
+    ----------
+    LV : float
+        *Lightness* :math:`L^*` or *Munsell value* :math:`V`.
+    Yn : float, optional
+        White reference *luminance* :math:`Y_n`.
+    method : unicode, optional
+        ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+        Computation method.
 
-        >>> get_luminance(3.74629715382)
-        37.9856290977
+    Returns
+    -------
+    float
+        *luminance* :math:`Y`.
 
-    :param LV: *Lightness* *L* or *Munsell value* *V*.
-    :type LV: float
-    :param Yn: White reference *luminance*.
-    :type Yn: float
-    :param method: Computation method.
-    :type method: unicode ("Luminance Newhall 1943", "Luminance 1976", \
-    "Luminance ASTM D1535-08")
-    :return: *Luminance* *Y*.
-    :rtype: float
+    Notes
+    -----
+    -   Input *LV* is in domain [0, 100] or [0, 10] and *luminance* :math:`Y_n`
+        is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in domain [0, 100].
 
-    :note: Input *LV* is in domain [0, 100] or [0, 10] and *Yn* is in domain \
-    [0, 100].
-    :note: Output *Y\** is in domain [0, 100].
+    Examples
+    --------
+    >>> get_luminance(3.74629715382)
+    37.9856290977
     """
 
     if Yn is None or method is not None:

@@ -35,7 +35,6 @@ def first_order_colour_fit(m1, m2):
 
     Parameters
     ----------
-
     m1 : array_like (3, n)
         Reference matrix the matrix :math:`m2` will be colour fitted against.
     m2 : array_like (3, n)
@@ -43,13 +42,11 @@ def first_order_colour_fit(m1, m2):
 
     Returns
     -------
-
     ndarray (3, 3)
         Fitting colour matrix.
 
     Examples
     --------
-
     >>> m1 = np.array([[0.1722480953, 0.09170660377, 0.06416938454],
     ...                   [0.4918964505, 0.2780205011, 0.2192339897],
     ...                   [0.1099975109, 0.1865894645, 0.2993861139],

@@ -2,17 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-**illuminants.py**
+Illuminants
+===========
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *CIE* illuminants computation related objects.
 
-**Description:**
-    Defines **Colour** package *illuminants* relative spectral power
-    distributions computation objects.
-
-**Others:**
-
+See Also
+--------
+colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,
+colour.colorimetry.spectrum.SpectralPowerDistribution
 """
 
 from __future__ import unicode_literals
@@ -35,27 +33,35 @@ __all__ = ["D_illuminant_relative_spd"]
 def D_illuminant_relative_spd(xy):
     """
     Returns the relative spectral power distribution of given
-    *CIE Standard Illuminant D Series* *xy* chromaticity coordinates.
-
-    Examples::
-
-        >>> D_illuminant_relative_spd((0.34567, 0.35850))
-        <colour.colorimetry.SpectralPowerDistribution object at 0x101023590>
-
-    :param xy: *xy* chromaticity coordinate.
-    :type xy: array_like
-    :return: *CIE Standard Illuminant D Series* relative spectral power \
-    distribution.
-    :rtype: SpectralPowerDistribution
+    *CIE Standard Illuminant D Series* using given *xy* chromaticity
+    coordinates.
 
     References:
+    -----------
+    .. [1]  **Wyszecki & Stiles**,
+            *Color Science - Concepts and Methods Data and Formulae -
+            Second Edition*,
+            Wiley Classics Library Edition, published 2000,
+            ISBN-10: 0-471-39918-3,
+            Page 146.
+    .. [2]  http://www.brucelindbloom.com/Eqn_DIlluminant.html
+            (Last accessed 5 April 2014)
 
-    -  http://www.brucelindbloom.com/Eqn_DIlluminant.html \
-    (Last accessed 5 April 2014)
-    -  **Wyszecki & Stiles**, \
-    *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
-    Page 146.
+    Parameters
+    ----------
+    xy : array_like
+        *xy* chromaticity coordinates.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        *CIE Standard Illuminant D Series* relative spectral power
+        distribution.
+
+    Examples
+    --------
+    >>> colour.D_illuminant_relative_spd((0.34567, 0.35850))
+    <colour.colorimetry.SpectralPowerDistribution object at 0x101023590>
     """
 
     M = 0.0241 + 0.2562 * xy[0] - 0.7341 * xy[1]
@@ -70,6 +76,5 @@ def D_illuminant_relative_spd(xy):
         S2 = D_ILLUMINANTS_S_SPDS.get("S2").get(i)
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution(
-        "CIE Standard Illuminant D Series",
-        distribution)
+    return SpectralPowerDistribution("CIE Standard Illuminant D Series",
+                                     distribution)

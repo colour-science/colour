@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_lightness.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.lightness` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.lightness` module.
 """
 
 from __future__ import unicode_literals

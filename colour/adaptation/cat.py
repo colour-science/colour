@@ -7,7 +7,7 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT) and objects to
 calculate the chromatic adaptation matrix between two given *CIE XYZ*
-colourspace matrices.
+colourspace matrices:
 
 -   :attr:`XYZ_SCALING_CAT`: XYZ Scaling CAT [1]_
 -   :attr:`BRADFORD_CAT`: Bradford CAT [1]_
@@ -17,7 +17,6 @@ colourspace matrices.
 
 References
 ----------
-
 .. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html
 .. [2]  http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 .. [3]  http://en.wikipedia.org/wiki/CIECAM02#CAT02
@@ -110,30 +109,26 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     Parameters
     ----------
-
     XYZ1 : array_like (3, 1)
         *CIE XYZ* source *array_like* variable.
     XYZ2 : array_like (3, 1)
         *CIE XYZ* target *array_like* variable.
     method : unicode, optional
-        ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02")
+        ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02"),
         Chromatic adaptation method.
 
     Returns
     -------
-
     ndarray (3, 3)
         Chromatic adaptation matrix.
 
     References
     ----------
-
     .. [4]  http://brucelindbloom.com/Eqn_ChromAdapt.html
             (Last accessed 24 February 2014)
 
     Examples
     --------
-
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
     >>> colour.get_chromatic_adaptation_matrix(XYZ1, XYZ2)

@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_spectrum.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.spectrum` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.spectrum` module.
 """
 
 from __future__ import unicode_literals
@@ -1922,7 +1913,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
+        Tests
+        :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
         attribute.
         """
 
@@ -1949,7 +1941,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.__getitem__`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.__getitem__`
         method.
         """
 
@@ -1969,7 +1962,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.__contains__`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.__contains__`
         method.
         """
 
@@ -2081,7 +2075,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test_is_uniform(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.is_uniform`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.is_uniform`
         method.
         """
 
@@ -2090,7 +2085,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test_extrapolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.extrapolate`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.extrapolate`
         method.
         """
 
@@ -2104,7 +2100,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test_interpolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.interpolate`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.interpolate`
         method.
         """
 
@@ -2139,7 +2136,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
     def test_normalise(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.normalise`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.normalise`
         method.
         """
 
@@ -2237,7 +2235,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.wavelengths`
+        Tests
+        :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.wavelengths`
         attribute.
         """
 
@@ -2247,7 +2246,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.values`
+        Tests
+        :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.values`
         attribute.
         """
 
@@ -2263,7 +2263,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.shape`
+        Tests
+        :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.shape`
         attribute.
         """
 
@@ -2271,7 +2272,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__getitem__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__getitem__`
         method.
         """
 
@@ -2287,7 +2289,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__iter__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__iter__`
         method.
         """
 
@@ -2297,7 +2300,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__contains__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__contains__`
         method.
         """
 
@@ -2307,7 +2311,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__len__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__len__`
         method.
         """
 
@@ -2315,7 +2320,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__eq__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__eq__`
         method.
         """
 
@@ -2325,7 +2331,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__ne__`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__ne__`
         method.
         """
 
@@ -2412,7 +2419,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_get(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.get`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.get`
         method.
         """
 
@@ -2431,7 +2439,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_is_uniform(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralDistribution.is_uniform`
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralDistribution.is_uniform`
         method.
         """
 
@@ -2439,7 +2448,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_extrapolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.extrapolate`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.extrapolate`
         method.
         """
 
@@ -2464,7 +2474,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_interpolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.interpolate`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.interpolate`
         method.
         """
 
@@ -2486,7 +2497,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_align(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.align`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.align`
         method.
         """
 
@@ -2499,7 +2511,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_zeros(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.zeros`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.zeros`
         method.
         """
 
@@ -2519,7 +2532,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_normalise(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.normalise`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.normalise`
         method.
         """
 
@@ -2529,7 +2543,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test_clone(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.clone`
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.clone`
         method.
         """
 

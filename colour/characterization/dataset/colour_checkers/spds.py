@@ -21,7 +21,6 @@ The following *ColourCheckers* data is available:
 
 References
 ----------
-
 .. [1]  **N. Ohta**, *The Basis of Color Reproduction Engineering (Japanese)*,
         Corona-sha Co of Japan, published 1997.
         (Last accessed 24 February 2014)

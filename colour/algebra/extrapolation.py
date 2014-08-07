@@ -46,17 +46,14 @@ class Extrapolator1d(object):
 
     Notes
     -----
-
     The interpolator must define *x* and *y* attributes.
 
     References
     ----------
-
     .. [1]  http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
 
     Examples
     --------
-
     Extrapolating a single float variable:
 
     >>> x = np.array([3, 4, 5])
@@ -98,11 +95,10 @@ class Extrapolator1d(object):
         """
         Parameters
         ----------
-
         interpolator : object
             Interpolator object.
         method : unicode, optional
-            ("Linear", "Constant")
+            ("Linear", "Constant"),
             Extrapolation method.
         left : int or float, optional
             Value to return for x < xi[0].
@@ -127,7 +123,6 @@ class Extrapolator1d(object):
 
         Returns
         -------
-
         object
             self.__interpolator
         """
@@ -141,7 +136,6 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         value : object
             Attribute value.
         """
@@ -163,7 +157,6 @@ class Extrapolator1d(object):
 
         Returns
         -------
-
         unicode
             self.__method
         """
@@ -177,7 +170,6 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         value : unicode
             Attribute value.
         """
@@ -195,7 +187,6 @@ class Extrapolator1d(object):
 
         Returns
         -------
-
         int or long or float or complex
             self.__left
         """
@@ -209,7 +200,6 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         value : int or long or float or complex
             Attribute value.
         """
@@ -226,7 +216,6 @@ class Extrapolator1d(object):
 
         Returns
         -------
-
         int or long or float or complex
             self.__right
         """
@@ -240,7 +229,6 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         value : int or long or float or complex
             Attribute value.
         """
@@ -256,13 +244,11 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         x : float or array_like
             Point(s) to evaluate the Extrapolator1d at.
 
         Returns
         -------
-
         float or ndarray
             Extrapolated points value(s).
         """
@@ -280,13 +266,11 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-
         x : ndarray
             Points to evaluate the Extrapolator1d at.
 
         Returns
         -------
-
         ndarray
             Extrapolated points values.
         """

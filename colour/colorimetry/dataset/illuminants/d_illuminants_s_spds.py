@@ -2,22 +2,26 @@
 # -*- coding: utf-8 -*-
 
 """
-**d_illuminants_s_spds.py**
+CIE Standard Illuminant D Series :math:`S_n(\lambda)` Spectral Power Distributions
+==================================================================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral
+power distributions involved in the calculation of
+*CIE Standard Illuminant D Series* relative spectral power distributions.
 
-**Description:**
-    Defines **Colour** package *CIE Standard Illuminant D Series* *Sn(λ)*
-    spectral power distributions.
-
-**Others:**
-
+References
+----------
+.. [1]  **Wyszecki & Stiles**,
+        *Color Science - Concepts and Methods Data and Formulae - Second Edition*,
+        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
+        Page 146.
+.. [2]  http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
+        (Last accessed 5 April 2014)
 """
 
 from __future__ import unicode_literals
 
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -30,12 +34,6 @@ __all__ = ["D_ILLUMINANTS_S_SPDS_DATA",
            "D_ILLUMINANTS_S_SPDS"]
 
 
-# *CIE Standard Illuminant D Series* *Sn(λ)* spectral power distributions.
-# http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
-# **Wyszecki & Stiles**, \
-# *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
-# Page 146.
 D_ILLUMINANTS_S_SPDS_DATA = {
     "S0": {
         300: 0.04,
@@ -209,3 +207,10 @@ D_ILLUMINANTS_S_SPDS = {
     "S0": SpectralPowerDistribution("S0", D_ILLUMINANTS_S_SPDS_DATA.get("S0")),
     "S1": SpectralPowerDistribution("S1", D_ILLUMINANTS_S_SPDS_DATA.get("S1")),
     "S2": SpectralPowerDistribution("S2", D_ILLUMINANTS_S_SPDS_DATA.get("S2"))}
+"""
+*CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
+distributions
+
+D_ILLUMINANTS_S_SPDS : dict
+   ("S0", "S1", "S1")
+"""

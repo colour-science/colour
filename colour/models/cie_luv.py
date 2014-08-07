@@ -61,7 +61,7 @@ def XYZ_to_Luv(XYZ,
 
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant* is in domain [0, 1].
-    :note: Output *L\** is in domain [0, 100].
+    :note: Output :math:`L^*` is in domain [0, 100].
 
     References:
 
@@ -103,7 +103,7 @@ def Luv_to_XYZ(Luv,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: Input *L\** is in domain [0, 100].
+    :note: Input :math:`L^*` is in domain [0, 100].
     :note: Input *illuminant* is in domain [0, 1].
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
@@ -150,7 +150,7 @@ def Luv_to_uv(Luv,
     :return: *u'v'* chromaticity coordinates.
     :rtype: tuple
 
-    :note: Input *L\** is in domain [0, 100].
+    :note: Input :math:`L^*` is in domain [0, 100].
     :note: Output *u'v'* is in domain [0, 1].
 
     References:
@@ -208,7 +208,7 @@ def Luv_to_LCHuv(Luv):
     :return: *CIE LCHuv* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
+    :note: :math:`L^*` is in domain [0, 100].
 
     References:
 
@@ -241,7 +241,7 @@ def LCHuv_to_Luv(LCHuv):
     :return: *CIE Luv* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
+    :note: :math:`L^*` is in domain [0, 100].
 
     References:
 

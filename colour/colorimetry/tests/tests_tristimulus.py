@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_tristimulus.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.tristimulus` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.tristimulus` module.
 """
 
 from __future__ import unicode_literals
@@ -193,7 +184,8 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_wavelength_to_XYZ(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition.
+        Tests
+        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(

@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_blackbody.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.blackbody` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.blackbody` module.
 """
 
 from __future__ import unicode_literals
@@ -4537,13 +4528,15 @@ class TestPlanckLaw(unittest.TestCase):
 
 class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+    Defines
+    :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
     definition units tests methods.
     """
 
     def test_blackbody_power_spectral_distribution(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+        Tests
+        :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
         definition.
         """
 

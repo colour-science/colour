@@ -10,7 +10,6 @@ Defines classes for interpolating variables.
 -   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation.
-
 """
 
 from __future__ import unicode_literals
@@ -37,17 +36,14 @@ class LinearInterpolator1d(object):
 
     Notes
     -----
-
     This class is a wrapper around *numpy.interp* definition.
 
     See Also
     --------
-
     SpragueInterpolator
 
     Examples
     --------
-
     Interpolating a single float variable:
 
     >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
@@ -66,7 +62,6 @@ class LinearInterpolator1d(object):
         """
         Parameters
         ----------
-
         x : ndarray
             Independent :math:`x` variable values corresponding with :math:`y`
             variable.
@@ -90,7 +85,6 @@ class LinearInterpolator1d(object):
 
         Returns
         -------
-
         array_like
             self.__x
         """
@@ -104,7 +98,6 @@ class LinearInterpolator1d(object):
 
         Parameters
         ----------
-
         value : array_like
             Attribute value.
         """
@@ -127,7 +120,6 @@ class LinearInterpolator1d(object):
 
         Returns
         -------
-
         array_like
             self.__y
         """
@@ -141,7 +133,6 @@ class LinearInterpolator1d(object):
 
         Parameters
         ----------
-
         value : array_like
             Attribute value.
         """
@@ -164,7 +155,6 @@ class LinearInterpolator1d(object):
 
         Parameters
         ----------
-
         x : float or array_like
             Point(s) to evaluate the interpolant at.
 
@@ -187,13 +177,11 @@ class LinearInterpolator1d(object):
 
         Parameters
         ----------
-
         x : ndarray
             Points to evaluate the interpolant at.
 
         Returns
         -------
-
         ndarray
             Interpolated points values.
         """
@@ -233,17 +221,15 @@ class SpragueInterpolator(object):
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
-    The Sprague (1880) method is recommended by the *CIE* for interpolating
+    The *Sprague (1880)* method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
     See Also
     --------
-
     LinearInterpolator1d
 
     References
     ----------
-
     .. [1]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for
             Use in Colour Computations: 9.2.4 Method of interpolation for
             uniformly spaced independent variable
@@ -255,7 +241,6 @@ class SpragueInterpolator(object):
 
     Examples
     --------
-
     Interpolating a single float variable:
 
     >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
@@ -283,7 +268,6 @@ class SpragueInterpolator(object):
 
     References
     ----------
-
     .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
     """
 
@@ -291,7 +275,6 @@ class SpragueInterpolator(object):
         """
        Parameters
         ----------
-
         x : array_like
             Independent :math:`x` variable values corresponding with :math:`y`
             variable.
@@ -318,7 +301,6 @@ class SpragueInterpolator(object):
 
         Returns
         -------
-
         array_like
             self.__x
         """
@@ -332,7 +314,6 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-
         value : array_like
             Attribute value.
         """
@@ -367,7 +348,6 @@ class SpragueInterpolator(object):
 
         Returns
         -------
-
         array_like
             self.__y
         """
@@ -381,7 +361,6 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-
         value : array_like
             Attribute value.
         """
@@ -421,7 +400,6 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-
         x : float or array_like
             Point(s) to evaluate the interpolant at.
 
@@ -442,13 +420,11 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-
         x : float
             Point to evaluate the interpolant at.
 
         Returns
         -------
-
         float
             Interpolated point values.
         """

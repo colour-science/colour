@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_luminance.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.luminance` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.luminance` module.
 """
 
 from __future__ import unicode_literals

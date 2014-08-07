@@ -58,7 +58,7 @@ def XYZ_to_Lab(XYZ,
 
     :note: Input *CIE XYZ* is in domain [0, 1].
     :note: Input *illuminant* is in domain [0, 1].
-    :note: Output *L\** is in domain [0, 100].
+    :note: Output :math:`L^*` is in domain [0, 100].
 
     References:
 
@@ -104,7 +104,7 @@ def Lab_to_XYZ(Lab,
     :return: *CIE XYZ* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: Input *L\** is in domain [0, 100].
+    :note: Input :math:`L^*` is in domain [0, 100].
     :note: Input *illuminant* is in domain [0, 1].
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
@@ -148,7 +148,7 @@ def Lab_to_LCHab(Lab):
     :return: *CIE LCHab* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
+    :note: :math:`L^*` is in domain [0, 100].
 
     References:
 
@@ -181,7 +181,7 @@ def LCHab_to_Lab(LCHab):
     :return: *CIE Lab* colourspace matrix.
     :rtype: ndarray (3, 1)
 
-    :note: *L\** is in domain [0, 100].
+    :note: :math:`L^*` is in domain [0, 100].
 
     References:
 

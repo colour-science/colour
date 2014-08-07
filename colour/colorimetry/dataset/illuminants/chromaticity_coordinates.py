@@ -2,15 +2,34 @@
 # -*- coding: utf-8 -*-
 
 """
-**chromaticity_coordinates.py**
+Illuminants Chromaticity Coordinates
+====================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *CIE* illuminants chromaticity coordinates for the
+*CIE 1931 2 Degree Standard Observer* and
+*CIE 1964 10 Degree Standard Observer*.
 
-**Description:**
-    Defines **Colour** package *illuminants* chromaticity coordinates.
+The following *CIE* illuminants are available:
 
-**Others:**
+-   CIE Standard Illuminant A
+-   CIE Illuminant B
+-   CIE Illuminant C
+-   CIE Illuminant D Series (D50, D55, D60, D65, D75)
+-   CIE Illuminant E
+-   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
+    FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
+    FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
+-   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
+
+Notes
+-----
+*CIE* illuminants with chromaticity coordinates not defined in the reference [1]_
+have been calculated using their relative spectral power distributions and the
+:func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
+
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 
 """
 
@@ -28,8 +47,6 @@ __all__ = [
     "ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES",
     "ILLUMINANTS"]
 
-
-# http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {
     "A": (0.44757, 0.40745),
     "B": (0.34842, 0.35161),
@@ -51,6 +68,12 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {
     "F9": (0.37417, 0.37281),
     "F10": (0.34609, 0.35986),
     "F12": (0.43695, 0.40441)}
+"""
+*CIE* illuminant chromaticity coordinates for
+*CIE 1931 2 Degree Standard Observer*.
+
+ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES : dict
+"""
 
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {
     "A": (0.45117, 0.40594),
@@ -73,14 +96,27 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES = {
     "F10": (0.35090, 0.35444),
     "F11": (0.38541, 0.37123),
     "F12": (0.44256, 0.39717)}
+"""
+*CIE* illuminant chromaticity coordinates for
+*CIE 1964 10 Degree Standard Observer*.
+
+ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES : dict
+"""
 
 ILLUMINANTS = {
     "CIE 1931 2 Degree Standard Observer":
         ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES,
     "CIE 1964 10 Degree Standard Observer":
         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES}
+"""
+Aggregated *CIE* illuminants chromaticity coordinates.
 
-# cmfs=colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+ILLUMINANTS : dict
+   ("CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer")
+"""
+
+# cmfs=colour.STANDARD_OBSERVERS_CMFS.get(
+# "CIE 1931 2 Degree Standard Observer")
 # for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
 # print(illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs)))
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(
@@ -106,7 +142,8 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(
         "HP4 ": (0.38117189471910373, 0.3797265745279147),
         "HP5 ": (0.37758320909195225, 0.37134797280226028)})
 
-# cmfs=colour.STANDARD_OBSERVERS_CMFS.get("CIE 1964 10 Degree Standard Observer")
+# cmfs=colour.STANDARD_OBSERVERS_CMFS.get(
+# "CIE 1964 10 Degree Standard Observer")
 # for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
 # print illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs))
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(

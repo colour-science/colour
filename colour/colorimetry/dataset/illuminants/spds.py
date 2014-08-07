@@ -2,17 +2,45 @@
 # -*- coding: utf-8 -*-
 
 """
-**spds.py**
+Illuminants Relative Spectral Power Distributions
+=================================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *CIE* illuminants relative spectral power distributions for the
+*CIE 1931 2 Degree Standard Observer* and
+*CIE 1964 10 Degree Standard Observer*.
 
-**Description:**
-    Defines **Colour** package *illuminants* relative spectral power
-    distributions.
+The *CIE* illuminants data is in the form of a *dict* of
+:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
+follows::
 
-**Others:**
+    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
 
+The following *CIE* illuminants are available:
+
+-   CIE Standard Illuminant A
+-   CIE Illuminant B
+-   CIE Illuminant C
+-   CIE Illuminant D Series (D50, D55, D60, D65, D75)
+-   CIE Illuminant E
+-   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
+    FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
+    FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
+-   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
+
+Notes
+-----
+-   The relative spectral power distributions are provided at 5 nm steps.
+-   *CIE Illuminant D Series* *D60* relative spectral power distribution has
+    been calculated using
+    :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+    definition.
+
+References
+----------
+.. [1]  http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
+.. [2]  https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+        (Last accessed 24 February 2014)
+.. [3]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c
 """
 
 from __future__ import unicode_literals
@@ -29,12 +57,12 @@ __status__ = "Production"
 __all__ = ["ILLUMINANTS_RELATIVE_SPDS_DATA",
            "ILLUMINANTS_RELATIVE_SPDS"]
 
+# *CIE Illuminant D Series* *D60* relative spectral power distribution has been
+# calculated as follows:
+# xy = colour.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D60")
+# d60_illuminant_relative_spd = D_illuminant_relative_spd((0.32168, 0.33767))
+# d60_illuminant_relative_spd.name = "D60"
 
-# Relative spectral power distribution for various illuminants in at 5 nm steps.
-# http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
-# https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls \
-# (Last accessed 24 February 2014)
-# http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c
 ILLUMINANTS_RELATIVE_SPDS_DATA = {
     "A": {
         300: 0.930483,
@@ -3579,8 +3607,8 @@ ILLUMINANTS_RELATIVE_SPDS = {
         "HP4", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP4")),
     "HP5": SpectralPowerDistribution(
         "HP5", ILLUMINANTS_RELATIVE_SPDS_DATA.get("HP5"))}
+"""
+*CIE* illuminants relative spectral power distributions.
 
-# *CIE Standard Illuminant D60* relative spectral power distribution has been calculated:
-# xy = colour.ILLUMINANTS.get("CIE 1931 2 Degree Standard Observer").get("D60")
-# d60_illuminant_relative_spectral_power_distribution = D_illuminant_relative_spd((0.32168, 0.33767))
-# d60_illuminant_relative_spectral_power_distribution.name = "D60"
+ILLUMINANTS_RELATIVE_SPDS : dict
+"""

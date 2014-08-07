@@ -2,17 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-**correction.py**
+Spectral Bandpass Dependence Correction
+=======================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects to perform spectral bandpass dependence correction.
 
-**Description:**
-    Defines **Colour** package spectral bandpass dependence correction related
-    objects.
+The following correction methods are available:
 
-**Others:**
-
+-   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)*
+    spectral bandpass dependence correction method.
 """
 
 from __future__ import unicode_literals
@@ -36,24 +34,29 @@ def bandpass_correction_stearns1988(spd):
     Implements spectral bandpass dependence correction on given spectral power
     distribution using *Stearns and Stearns (1988)* method.
 
-    Examples::
+    References
+    ----------
+    .. [1]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
+            *Computational Colour Science Using MATLAB, 2nd Edition*,
+            The Wiley-IS&T Series in Imaging Science and Technology,
+            published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
 
-        >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
-        >>> corrected_spd = bandpass_correction_stearns1988(spd)
-        >>> print(corrected_spd.values)
-        [ 48.01664     70.37296888  82.13645358  88.88480681  85.87238   ]
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
 
-    :param spd: Spectral power distribution.
-    :type spd: SpectralPowerDistribution
-    :return: Spectral bandpass dependence corrected spectral power distribution.
-    :rtype: SpectralPowerDistribution
+    Returns
+    -------
+    SpectralPowerDistribution
+        Spectral bandpass dependence corrected spectral power distribution.
 
-    References:
-
-    -  **Stephen Westland, Caterina Ripamonti, Vien Cheung**, \
-    *Computational Colour Science Using MATLAB, 2nd Edition*, \
-    The Wiley-IS&T Series in Imaging Science and Technology, \
-    published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
+    Examples
+    --------
+    >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
+    >>> corrected_spd = colour.bandpass_correction_stearns1988(spd)
+    >>> print(corrected_spd.values)
+    array([ 48.01664   ,  70.37296888,  82.13645358,  88.88480681,  85.87238   ])
     """
 
     values = spd.values
@@ -69,7 +72,14 @@ def bandpass_correction_stearns1988(spd):
     return spd
 
 
-BANDPASS_CORRECTION_METHODS = {"Stearns 1988": bandpass_correction_stearns1988}
+BANDPASS_CORRECTION_METHODS = {
+    "Stearns 1988": bandpass_correction_stearns1988}
+"""
+Supported spectral bandpass dependence correction methods.
+
+BANDPASS_CORRECTION_METHODS : dict
+    ("Stearns 1988",)
+"""
 
 
 def bandpass_correction(spd, method="Stearns 1988"):
@@ -77,13 +87,18 @@ def bandpass_correction(spd, method="Stearns 1988"):
     Implements spectral bandpass dependence correction on given spectral power
     distribution using given method.
 
-    :param spd: Spectral power distribution.
-    :type spd: SpectralPowerDistribution
-    :param method: Correction method.
-    :type method: unicode ("Stearns",)
-    :return: Spectral bandpass dependence corrected spectral power distribution.
-    :rtype: SpectralPowerDistribution
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
+    method : unicode
+        ("Stearns 1988",)
+        Correction method.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Spectral bandpass dependence corrected spectral power distribution.
     """
 
-    if method == "Stearns 1988":
-        return bandpass_correction_stearns1988(spd)
+    return BANDPASS_CORRECTION_METHODS.get(method)(spd)

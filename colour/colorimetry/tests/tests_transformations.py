@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_transformations.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.transformations` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.transformations` module.
 """
 
 from __future__ import unicode_literals
@@ -47,13 +38,15 @@ __all__ = ["TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
 
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    Defines
+    :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
     definition units tests methods.
     """
 
     def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
         definition.
         """
 
@@ -77,13 +70,15 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    Defines
+    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
     definition units tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
         definition.
         """
 
@@ -107,13 +102,15 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+    Defines
+    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
     definition units tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
         definition.
         """
 
@@ -137,13 +134,15 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    Defines
+    :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
     definition units tests methods.
     """
 
     def test_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
         definition.
         """
 
@@ -167,13 +166,15 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    Defines
+    :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
     definition units tests methods.
     """
 
     def test_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
         definition.
         """
 

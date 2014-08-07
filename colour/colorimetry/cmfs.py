@@ -2,16 +2,23 @@
 # -*- coding: utf-8 -*-
 
 """
-**cmfs.py**
+Colour Matching Functions
+=========================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the colour matching functions classes holding the dataset from
+:mod:`colour.colorimetry.dataset.cmfs`:
 
-**Description:**
-    Defines **Colour** package *colour matching functions* objects.
+-   :class:`LMS_ConeFundamentals`: Implements support for the
+    *Stockman & Sharpe* *LMS* cone fundamentals colour matching functions.
+-   :class:`RGB_ColourMatchingFunctions`: Implements support for the *CIE RGB*
+    colour matching functions.
+-   :class:`XYZ_ColourMatchingFunctions`: Implements support for the *CIE*
+    Standard Observers *XYZ* colour matching functions.
 
-**Others:**
-
+See Also
+--------
+colour.colorimetry.dataset.cmfs,
+colour.colorimetry.spectrum.TriSpectralPowerDistribution
 """
 
 from __future__ import unicode_literals
@@ -32,15 +39,18 @@ __all__ = ["LMS_ConeFundamentals",
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
-    Defines a *LMS* cone fundamentals implementation object.
+    Implements support for the *Stockman & Sharpe* *LMS* cone fundamentals
+    colour matching functions.
     """
 
     def __init__(self, name, data):
         """
-        :param name: Standard observer colour matching functions name.
-        :type name: unicode
-        :param data: Standard observer colour matching functions.
-        :type data: dict
+        Parameters
+        ----------
+        name : unicode
+            *LMS* colour matching functions name.
+        data : dict
+            *LMS* colour matching functions.
         """
 
         TriSpectralPowerDistribution.__init__(self,
@@ -56,10 +66,16 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def l_bar(self):
         """
-        Property for **self.__r_bar** private attribute.
+        Property for **self.x** attribute.
 
-        :return: self.__r_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.x
+
+        Warning
+        -------
+        :attr:`LMS_ConeFundamentals.l_bar` is read only.
         """
 
         return self.x
@@ -67,10 +83,12 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @l_bar.setter
     def l_bar(self, value):
         """
-        Setter for **self.__r_bar** private attribute.
+        Setter for **self.x** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -80,10 +98,16 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def m_bar(self):
         """
-        Property for **self.__g_bar** private attribute.
+        Property for **self.y** attribute.
 
-        :return: self.__g_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.y
+
+        Warning
+        -------
+        :attr:`LMS_ConeFundamentals.m_bar` is read only.
         """
 
         return self.y
@@ -91,10 +115,12 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @m_bar.setter
     def m_bar(self, value):
         """
-        Setter for **self.__g_bar** private attribute.
+        Setter for **self.y** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -104,10 +130,16 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @property
     def s_bar(self):
         """
-        Property for **self.__b_bar** private attribute.
+        Property for **self.z** attribute.
 
-        :return: self.__b_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.z
+
+        Warning
+        -------
+        :attr:`LMS_ConeFundamentals.s_bar` is read only.
         """
 
         return self.z
@@ -115,10 +147,13 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     @s_bar.setter
     def s_bar(self, value):
         """
-        Setter for **self.__b_bar** private attribute.
+        Setter for **self.z** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -128,16 +163,17 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
-    Defines a *CIE RGB* standard observer colour matching functions object
-    implementation.
+    Implements support for the *CIE RGB* colour matching functions.
     """
 
     def __init__(self, name, data):
         """
-        :param name: Standard observer colour matching functions name.
-        :type name: unicode
-        :param data: Standard observer colour matching functions.
-        :type data: dict
+        Parameters
+        ----------
+        name : unicode
+            *CIE RGB* colour matching functions name.
+        data : dict
+            *CIE RGB* colour matching functions.
         """
 
         TriSpectralPowerDistribution.__init__(self,
@@ -153,10 +189,16 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def r_bar(self):
         """
-        Property for **self.__r_bar** private attribute.
+        Property for **self.x** attribute.
 
-        :return: self.__r_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.x
+
+        Warning
+        -------
+        :attr:`RGB_ColourMatchingFunctions.r_bar` is read only.
         """
 
         return self.x
@@ -164,10 +206,12 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @r_bar.setter
     def r_bar(self, value):
         """
-        Setter for **self.__r_bar** private attribute.
+        Setter for **self.x** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -177,10 +221,16 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def g_bar(self):
         """
-        Property for **self.__g_bar** private attribute.
+        Property for **self.y** attribute.
 
-        :return: self.__g_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.y
+
+        Warning
+        -------
+        :attr:`RGB_ColourMatchingFunctions.g_bar` is read only.
         """
 
         return self.y
@@ -188,10 +238,13 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @g_bar.setter
     def g_bar(self, value):
         """
-        Setter for **self.__g_bar** private attribute.
+        Setter for **self.y** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+
         """
 
         raise AttributeError(
@@ -201,10 +254,16 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def b_bar(self):
         """
-        Property for **self.__b_bar** private attribute.
+        Property for **self.z** attribute.
 
-        :return: self.__b_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.z
+
+        Warning
+        -------
+        :attr:`RGB_ColourMatchingFunctions.b_bar` is read only.
         """
 
         return self.z
@@ -212,10 +271,13 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @b_bar.setter
     def b_bar(self, value):
         """
-        Setter for **self.__b_bar** private attribute.
+        Setter for **self.z** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+
         """
 
         raise AttributeError(
@@ -225,15 +287,18 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
-    Defines an *CIE XYZ* standard observer colour matching functions object implementation.
+    Implements support for the *CIE* Standard Observers *XYZ* colour matching
+    functions.
     """
 
     def __init__(self, name, data):
         """
-        :param name: Standard observer colour matching functions name.
-        :type name: unicode
-        :param data: Standard observer colour matching functions.
-        :type data: dict
+        Parameters
+        ----------
+        name : unicode
+            *CIE* Standard Observer *XYZ* colour matching functions name.
+        data : dict
+            *CIE* Standard Observer *XYZ* colour matching functions.
         """
 
         TriSpectralPowerDistribution.__init__(self,
@@ -249,10 +314,16 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def x_bar(self):
         """
-        Property for **self.__x_bar** private attribute.
+        Property for **self.x** attribute.
 
-        :return: self.__x_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.x
+
+        Warning
+        -------
+        :attr:`XYZ_ColourMatchingFunctions.x_bar` is read only.
         """
 
         return self.x
@@ -260,10 +331,12 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @x_bar.setter
     def x_bar(self, value):
         """
-        Setter for **self.__x_bar** private attribute.
+        Setter for **self.x** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -273,10 +346,16 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def y_bar(self):
         """
-        Property for **self.__y_bar** private attribute.
+        Property for **self.y** attribute.
 
-        :return: self.__y_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.y
+
+        Warning
+        -------
+        :attr:`XYZ_ColourMatchingFunctions.y_bar` is read only.
         """
 
         return self.y
@@ -284,10 +363,12 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @y_bar.setter
     def y_bar(self, value):
         """
-        Setter for **self.__y_bar** private attribute.
+        Setter for **self.y** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -297,10 +378,16 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @property
     def z_bar(self):
         """
-        Property for **self.__z_bar** private attribute.
+        Property for **self.z** attribute.
 
-        :return: self.__z_bar.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.z
+
+        Warning
+        -------
+        :attr:`XYZ_ColourMatchingFunctions.z_bar` is read only.
         """
 
         return self.z
@@ -308,10 +395,12 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     @z_bar.setter
     def z_bar(self, value):
         """
-        Setter for **self.__z_bar** private attribute.
+        Setter for **self.z** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(

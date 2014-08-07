@@ -23,7 +23,6 @@ The following *ColourCheckers* data is available:
 
 References
 ----------
-
 .. [1]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
         (Last accessed 24 February 2014)
 .. [2]  http://www.babelcolor.com/main_level/ColorChecker.htm

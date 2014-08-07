@@ -11,7 +11,6 @@ Defines various objects to perform statistical regression analysis:
 
 References
 ----------
-
 .. [1]  http://en.wikipedia.org/wiki/Regression_analysis
 """
 
@@ -42,11 +41,10 @@ def linear_regression(y, x=None, additional_statistics=False):
 
     Parameters
     ----------
-
     y : array_like
         Dependent and already known :math:`y` variable values used to curve
         fit an ideal trend line.
-    x : array_like
+    x : array_like, optional
         Independent :math:`x` variable(s) values corresponding with :math:`y`
         variable.
     additional_statistics : ndarray
@@ -55,19 +53,16 @@ def linear_regression(y, x=None, additional_statistics=False):
 
     Returns
     -------
-
     ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
         Regression statistics.
 
     References
     ----------
-
     .. [2]  http://en.wikipedia.org/wiki/Simple_linear_regression
             (Last accessed 24 May 2014)
 
     Examples
     --------
-
     Linear regression with the dependent and already known :math:`y` variable:
 
     >>> y = np.array([1,2,1,3,2,3,3,4,4,3])

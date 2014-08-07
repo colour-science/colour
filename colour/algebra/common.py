@@ -39,25 +39,23 @@ Integer threshold value.
 INTEGER_THRESHOLD : float
 """
 
+
 def get_steps(distribution):
     """
     Returns the steps of given distribution.
 
     Parameters
     ----------
-
     distribution : array_like
         Distribution to retrieve the steps.
 
     Returns
     -------
-
     tuple
         Distribution steps.
 
     Examples
     --------
-
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> colour.get_steps(y)
     (1,)
@@ -73,7 +71,6 @@ def get_closest(y, x):
 
     Parameters
     ----------
-
     y : array_like
         Variable to search for the closest element.
     x : int or float
@@ -81,13 +78,11 @@ def get_closest(y, x):
 
     Returns
     -------
-
     int or float
         Closest :math:`y` variable element.
 
     Examples
     --------
-
     >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
     >>> get_closest(63, y)
     62.70988028
@@ -102,19 +97,16 @@ def to_ndarray(x):
 
     Parameters
     ----------
-
     x : object
         Variable to convert.
 
     Returns
     -------
-
     ndarray
         :math:`x` variable converted to ndarray.
 
     Examples
     --------
-
     >>> to_ndarray(1)
     [1]
     """
@@ -128,19 +120,16 @@ def is_uniform(distribution):
 
     Parameters
     ----------
-
     distribution : array_like
         Distribution to check for uniformity.
 
     Returns
     -------
-
     bool
         Is distribution uniform.
 
     Examples
     --------
-
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> colour.is_uniform(y)
     True
@@ -159,19 +148,16 @@ def is_iterable(x):
 
     Parameters
     ----------
-
     x : object
         Variable to check the iterability.
 
     Returns
     -------
-
     bool
         :math:`x` variable iterability.
 
     Examples
     --------
-
     >>> is_iterable([1, 2, 3])
     True
     >>> is_iterable(1)
@@ -192,24 +178,20 @@ def is_number(x):
 
     Parameters
     ----------
-
     x : object
         Variable to check.
 
     Returns
     -------
-
     bool
         Is :math:`x` variable a number.
 
     See Also
     --------
-
     is_integer
 
     Examples
     --------
-
     >>> is_number(1)
     True
     >>> is_number((1,))
@@ -225,13 +207,11 @@ def is_integer(x):
 
     Parameters
     ----------
-
     x : object
         Variable to check.
 
     Returns
     -------
-
     bool
         Is :math:`x` variable an integer.
 
@@ -242,12 +222,10 @@ def is_integer(x):
 
     See Also
     --------
-
     is_number
 
     Examples
     --------
-
     >>> is_integer(1)
     True
     >>> is_integer(1.01)

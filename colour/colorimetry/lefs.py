@@ -2,16 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-**lefs.py**
+Luminous Efficiency Functions Spectral Power Distributions
+==========================================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines luminous efficiency functions computation related objects.
 
-**Description:**
-    Defines **Colour** package *luminous efficiency functions* objects.
+See Also
+--------
+colour.colorimetry.dataset.lefs,
+colour.colorimetry.spectrum.SpectralPowerDistribution
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
+        (Last accessed 20 June 2014)
 """
 
 from __future__ import unicode_literals
@@ -43,42 +47,44 @@ def mesopic_weighting_function(wavelength,
                                scotopic_lef=SCOTOPIC_LEFS.get(
                                    "CIE 1951 Scotopic Standard Observer")):
     """
-    Calculates the mesopic weighting function factor at given wavelength.
+    Calculates the mesopic weighting function factor at given wavelength
+    :math:`\lambda` using the photopic luminance :math:`L_p`.
 
-    Examples::
+    Parameters
+    ----------
+    wavelength : int or float
+        Wavelength :math:`\lambda` to calculate the mesopic weighting function
+        factor.
+    Lp : float
+        Photopic luminance :math:`L_p`.
+    source : unicode
+        ("Blue Heavy", "Red Heavy"),
+        Light source colour temperature.
+    method : unicode
+        ("MOVE", "LRC"),
+        Method to calculate the weighting factor.
+    photopic_lef : SpectralPowerDistribution
+        :math:`V(\lambda)` photopic luminous efficiency function.
+    scotopic_lef : SpectralPowerDistribution
+        :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
 
-        >>> mesopic_weighting_function(500, 0.2)
-        0.70522
+    Returns
+    -------
+    float
+        Mesopic weighting function factor.
 
-    :param wavelength: Wavelength to calculate the mesopic weighting function \
-    factor.
-    :type wavelength: int or float
-    :param Lp: Photopic luminance.
-    :type Lp: float
-    :param source: Light source colour temperature.
-    :type source: unicode ("Blue Heavy", "Red Heavy")
-    :param method: Method to calculate the weighting factor.
-    :type method: unicode ("MOVE", "LRC")
-    :param photopic_lef: *V* photopic luminous efficiency function.
-    :type photopic_lef: SpectralPowerDistribution
-    :param scotopic_lef: *V'* scotopic luminous efficiency function.
-    :type scotopic_lef: SpectralPowerDistribution
-    :return: Mesopic weighting function factor.
-    :rtype: float
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function \
-    (Last accessed 20 June 2014)
+    Examples
+    --------
+    >>> colour.mesopic_weighting_function(500, 0.2)
+    0.70522
     """
 
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
             raise KeyError(
-                "'{0} nm' wavelength not available in '{1}' luminous efficiency function with '{2}' shape!".format(
-                    wavelength,
-                    function.name,
-                    function.shape))
+                "'{0} nm' wavelength not available in '{1}' \
+luminous efficiency function with '{2}' shape!".format(
+                    wavelength, function.name, function.shape))
 
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
     index = mesopic_x_luminance_values.index(
@@ -92,42 +98,46 @@ def mesopic_weighting_function(wavelength,
     return Vm
 
 
-def mesopic_luminous_efficiency_function(Lp,
-                                         source="Blue Heavy",
-                                         method="MOVE",
-                                         photopic_lef=PHOTOPIC_LEFS.get(
-                                             "CIE 1924 Photopic Standard Observer"),
-                                         scotopic_lef=SCOTOPIC_LEFS.get(
-                                             "CIE 1951 Scotopic Standard Observer")):
+def mesopic_luminous_efficiency_function(
+        Lp,
+        source="Blue Heavy",
+        method="MOVE",
+        photopic_lef=PHOTOPIC_LEFS.get(
+            "CIE 1924 Photopic Standard Observer"),
+        scotopic_lef=SCOTOPIC_LEFS.get(
+            "CIE 1951 Scotopic Standard Observer")):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using
-    given colour matching functions and illuminant.
+    Returns the mesopic luminous efficiency function :math:`V_m(\lambda)` for
+    given photopic luminance :math:`L_p`.
 
-    Examples::
+    Parameters
+    ----------
+    Lp : float
+        Photopic luminance :math:`L_p`.
+    source : unicode
+        ("Blue Heavy", "Red Heavy"),
+        Light source colour temperature.
+    method : unicode
+        ("MOVE", "LRC"),
+        Method to calculate the weighting factor.
+    photopic_lef : SpectralPowerDistribution
+        :math:`V(\lambda)` photopic luminous efficiency function.
+    scotopic_lef : SpectralPowerDistribution
+        :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
 
-        >>> mesopic_luminous_efficiency_function(0.2)
-        <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x105f606d0>
+    Returns
+    -------
+    SpectralPowerDistribution
+        Mesopic luminous efficiency function :math:`V_m(\lambda)`.
 
-    :param Lp: Photopic luminance.
-    :type Lp: float
-    :param source: Light source colour temperature.
-    :type source: unicode ("Blue Heavy", "Red Heavy")
-    :param method: Method to calculate the weighting factor.
-    :type method: unicode ("MOVE", "LRC")
-    :param photopic_lef: *V* photopic luminous efficiency function.
-    :type photopic_lef: SpectralPowerDistribution
-    :param scotopic_lef: *V'* scotopic luminous efficiency function.
-    :type scotopic_lef: SpectralPowerDistribution
-    :return: Mesopic luminous efficiency function.
-    :rtype: SpectralPowerDistribution
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function\
-    (Last accessed 20 June 2014)
+    Examples
+    --------
+    >>> colour.mesopic_luminous_efficiency_function(0.2)
+    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x105f606d0>
     """
 
-    photopic_lef_shape, scotopic_lef_shape = photopic_lef.shape, scotopic_lef.shape
+    photopic_lef_shape = photopic_lef.shape
+    scotopic_lef_shape = scotopic_lef.shape
     start, end, steps = (max(photopic_lef_shape[0], scotopic_lef_shape[0]),
                          min(photopic_lef_shape[1], scotopic_lef_shape[1]),
                          max(photopic_lef_shape[2], scotopic_lef_shape[2]))

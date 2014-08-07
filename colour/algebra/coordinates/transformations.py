@@ -7,7 +7,7 @@ Coordinates System Transformations
 
 Defines objects to apply transformations on coordinates systems.
 
-The following transformations are supported:
+The following transformations are available:
 
 -   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
 -   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
@@ -16,7 +16,6 @@ The following transformations are supported:
 
 References
 ----------
-
 .. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
@@ -44,24 +43,20 @@ def cartesian_to_spherical(vector):
 
     Parameters
     ----------
-
     vector : array_like
         Cartesian coordinates vector (x, y, z) to transform.
 
     Returns
     -------
-
     ndarray
         Spherical coordinates vector (r, theta, phi).
 
     See Also
     --------
-
     spherical_to_cartesian, cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
-
     >>> colour.cartesian_to_spherical(np.array([3, 1, 6]))
     array([6.78232998  1.08574654  0.32175055])
     """
@@ -81,24 +76,20 @@ def spherical_to_cartesian(vector):
 
     Parameters
     ----------
-
     vector : array_like
         Spherical coordinates vector (r, theta, phi) to transform.
 
     Returns
     -------
-
     ndarray
         Cartesian coordinates vector (x, y, z).
 
     See Also
     --------
-
     cartesian_to_spherical, cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
-
     >>> colour.spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
     array([ 3.        ,  0.99999999,  6.        ])
     """
@@ -118,24 +109,20 @@ def cartesian_to_cylindrical(vector):
 
     Parameters
     ----------
-
     vector : array_like
         Cartesian coordinates vector (x, y, z) to transform.
 
     Returns
     -------
-
     ndarray
         Cylindrical coordinates vector (z, theta, rho).
 
     See Also
     --------
-
     cartesian_to_spherical, spherical_to_cartesian, cylindrical_to_cartesian
 
     Examples
     --------
-
     >>> colour.cartesian_to_cylindrical(np.array([3, 1, 6]))
     array([ 6.        ,  0.32175055,  3.16227766])
     """
@@ -154,24 +141,20 @@ def cylindrical_to_cartesian(vector):
 
     Parameters
     ----------
-
     vector : array_like
         Cylindrical coordinates vector (z, theta, rho) to transform.
 
     Returns
     -------
-
     ndarray
         Cartesian coordinates vector (x, y, z).
 
     See Also
     --------
-
     cartesian_to_spherical, spherical_to_cartesian, cartesian_to_cylindrical
 
     Examples
     --------
-
     >>> colour.cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
     array([ 3.        ,  0.99999999,  6.        ])
     """

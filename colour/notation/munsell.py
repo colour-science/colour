@@ -1019,7 +1019,7 @@ def LCHab_to_munsell_specification(LCHab):
     :return: *Munsell* *Colorlab* specification.
     :rtype: tuple
 
-    :note: Input *L\** is in domain [0, 100].
+    :note: Input :math:`L^*` is in domain [0, 100].
 
     References:
 
@@ -1579,7 +1579,7 @@ def xyY_to_munsell_colour(xyY,
 
 def munsell_value_priest1920(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *Priest et al.* 1920 method.
 
     Examples::
@@ -1587,9 +1587,9 @@ def munsell_value_priest1920(Y):
         >>> munsell_value_priest1920(10.08)
         3.17490157328
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1608,7 +1608,7 @@ def munsell_value_priest1920(Y):
 
 def munsell_value_munsell1933(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *Munsell, Sloan, and Godlove* 1933 method.
 
     Examples::
@@ -1616,9 +1616,9 @@ def munsell_value_munsell1933(Y):
         >>> munsell_value_munsell1933(10.08)
         3.79183555086
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1636,7 +1636,7 @@ def munsell_value_munsell1933(Y):
 
 def munsell_value_moon1943(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *Moon and Spencer* 1943 method.
 
     Examples::
@@ -1644,9 +1644,9 @@ def munsell_value_moon1943(Y):
         >>> munsell_value_moon1943(10.08)
         3.74629715382
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1664,7 +1664,7 @@ def munsell_value_moon1943(Y):
 
 def munsell_value_saunderson1944(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *Saunderson and Milner* 1944 method.
 
     Examples::
@@ -1672,9 +1672,9 @@ def munsell_value_saunderson1944(Y):
         >>> munsell_value_saunderson1944(10.08)
         3.68650805994
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1692,7 +1692,7 @@ def munsell_value_saunderson1944(Y):
 
 def munsell_value_ladd1955(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *Ladd and Pinney* 1955 method.
 
     Examples::
@@ -1700,9 +1700,9 @@ def munsell_value_ladd1955(Y):
         >>> munsell_value_ladd1955(10.08)
         3.69528622419
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1720,7 +1720,7 @@ def munsell_value_ladd1955(Y):
 
 def munsell_value_mccamy1987(Y):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using
     *McCamy* 1987 method.
 
     Examples::
@@ -1728,9 +1728,9 @@ def munsell_value_mccamy1987(Y):
         >>> munsell_value_mccamy1987(10.08)
         3.73472352585
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1756,7 +1756,7 @@ def munsell_value_mccamy1987(Y):
 
 def munsell_value_ASTM_D1535_08(Y):
     """
-    Returns the *Munsell value* *V* of of given *luminance* *Y* using a reverse
+    Returns the *Munsell value* :math:`V` of of given *luminance* :math:`Y` using a reverse
     lookup table from *ASTM D1535-08e1* 2008 method.
 
     Examples::
@@ -1764,9 +1764,9 @@ def munsell_value_ASTM_D1535_08(Y):
         >>> munsell_value_ASTM_D1535_08(10.1488096782)
         3.74629711426
 
-    :param Y: *Luminance* *Y*
+    :param Y: *luminance* :math:`Y`
     :type Y: float
-    :return: *Munsell value* *V*..
+    :return: *Munsell value* :math:`V`..
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].
@@ -1790,21 +1790,21 @@ MUNSELL_VALUE_FUNCTIONS = {
 
 def get_munsell_value(Y, method="Munsell Value Ladd 1955"):
     """
-    Returns the *Munsell value* *V* of given *luminance* *Y* using given method.
+    Returns the *Munsell value* :math:`V` of given *luminance* :math:`Y` using given method.
 
     Examples::
 
         >>> get_munsell_value(10.08)
         3.69528622419
 
-    :param Y: *Luminance* *Y*.
+    :param Y: *luminance* :math:`Y`.
     :type Y: float
     :param method: Computation method.
     :type method: unicode ("Munsell Value Priest 1920", \
     "Munsell Value Munsell 1933", "Munsell Value Moon 1943", \
     "Munsell Value Saunderson 1944", "Munsell Value Ladd 1955", \
     "Munsell Value McCamy 1987")
-    :return: *Munsell value* *V*.
+    :return: *Munsell value* :math:`V`.
     :rtype: float
 
     :note: Input *Y* is in domain [0, 100].

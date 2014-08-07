@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-**blackbody.py**
+Blackbody - Planckian Radiator
+=============================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects to compute the spectral radiance of a planckian radiator and
+its spectral power distribution.
 
-**Description:**
-    Defines **Colour** package *blackbody* objects.
-
-**Others:**
-
+See Also
+--------
+colour.colorimetry.spectrum.SpectralPowerDistribution
 """
 
 from __future__ import unicode_literals
@@ -48,43 +47,50 @@ _PLANCK_LAW_CACHE = {}
 def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
-    *T [K]* in a medium having index of refraction *n*.
+    :math:`T[K]` in a medium having index of refraction :math:`n`.
+
+    Notes
+    -----
     The following form implementation is expressed in term of wavelength.
-    The SI unit of radiance is watts per steradian per square metre.
+    The SI unit of radiance is *watts per steradian per square metre*.
 
-    Examples::
+    References
+    ----------
+    .. [1]  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E.
+            Information on the Use of Planck's Equation for Standard Air.
+            <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
 
-        >>> planck_law(500 * 1e-9, 5500)
-        5.50833496314e+13
+    Parameters
+    ----------
+    wavelength : float
+        Wavelength in meters.
+    temperature : float
+        Temperature :math:`T[K]` in kelvin degrees.
+    c1 : float, optional
+        The official value of :math:`c1` is provided by the Committee on Data
+        for Science and Technology (CODATA), and is
+        :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
+    c2 : float, optional
+        Since :math:`T` is measured on the International Temperature Scale,
+        the value of :math:`c2` used in colorimetry should follow that adopted
+        in the current International Temperature Scale (ITS-90)
+        (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
+        :math:`c2=1,4388x10.2\ m/K`.
+    n : float, optional
+        Medium index of refraction. For dry air at 15°C and 101 325 Pa,
+        containing 0,03 percent by volume of carbon dioxide, it is
+        approximately 1,00028 throughout the visible region although
+        CIE 15:2004 recommends using :math:`n=1`.
 
-    :param wavelength: Wavelength in meters.
-    :type wavelength: float
-    :param temperature: Temperature in kelvins.
-    :type temperature: float
-    :param c1: The official value of c1 is provided by the \
-    Committee on Data for Science and Technology (CODATA), and is \
-    c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
-    :type c1: float
-    :param c2: Since T is measured on the International Temperature Scale, \
-    the value of C2 used in colorimetry should follow that adopted in the \
-    current International Temperature Scale (ITS-90) \
-    (Preston-Thomas, 1990; Mielenz et aI., 1991), namely \
-    C2= 1,4388 x 10.2 m / K.
-    :type c2: float
-    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, \
-    containing 0,03 percent by volume of carbon dioxide, it is approximately \
-    1,00028 throughout the visible region although CIE 15:2004 recommends using \
-    n = 1.
-    :type n: float
-    :return: Radiance.
-    :rtype: float
+    Returns
+    -------
+    float
+        Radiance in *watts per steradian per square metre*.
 
-    References:
-
-    -  `CIE 015:2004 Colorimetry, \
-    3rd edition: Appendix E. \
-    Information on the Use of Planck's Equation for Standard Air. \
-    <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+    Examples
+    --------
+    >>> colour.planck_law(500 * 1e-9, 5500)
+    20472701909806.58
     """
 
     t = temperature
@@ -110,40 +116,45 @@ def blackbody_spectral_power_distribution(temperature,
                                           c2=C2,
                                           n=N):
     """
-    Returns the spectral power distribution of the *blackbody* for given
-    temperature.
+    Returns the spectral power distribution of the planckian radiator for given
+    temperature :math:`T[K]`.
 
-    Examples::
+    Parameters
+    ----------
+    temperature : float
+        Temperature :math:`T[K]` in kelvin degrees.
+    start : float
+        Wavelengths range start in nm.
+    end : float
+        Wavelengths range end in nm.
+    steps : float
+        Wavelengths range steps.
+    c1 : float, optional
+        The official value of :math:`c1` is provided by the Committee on Data
+        for Science and Technology (CODATA), and is
+        :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
+    c2 : float, optional
+        Since :math:`T` is measured on the International Temperature Scale,
+        the value of :math:`c2` used in colorimetry should follow that adopted
+        in the current International Temperature Scale (ITS-90)
+        (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
+        :math:`c2=1,4388x10.2\ m/K`.
+    n : float, optional
+        Medium index of refraction. For dry air at 15°C and 101 325 Pa,
+        containing 0,03 percent by volume of carbon dioxide, it is
+        approximately 1,00028 throughout the visible region although
+        CIE 15:2004 recommends using :math:`n=1`.
 
-        >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
-        >>> blackbody_spectral_power_distribution(5000, *cmfs.shape)
-        <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10616fe90>
+    Returns
+    ----------
+    SpectralPowerDistribution
+        Blackbody spectral power distribution.
 
-    :param temperature: Temperature in kelvins.
-    :type temperature: float
-    :param start: Wavelengths range start in nm.
-    :type start: float
-    :param end: Wavelengths range end in nm.
-    :type end: float
-    :param steps: Wavelengths range steps.
-    :type steps: float
-    :param c1: The official value of c1 is provided by the \
-    Committee on Data for Science and Technology (CODATA), and is \
-    c1 = 3,741771 x 10.16 W / m2 (Mohr and Taylor, 2000).
-    :type c1: float
-    :param c2: Since T is measured on the International Temperature Scale, \
-    the value of C2 used in colorimetry should follow that adopted in the \
-    current International Temperature Scale (ITS-90) \
-    (Preston-Thomas, 1990; Mielenz et aI., 1991), namely \
-    C2= 1,4388 x 10.2 m / K.
-    :type c2: float
-    :param n: Medium index of refraction. For dry air at 15°C and 101 325 Pa, \
-    containing 0,03 percent by volume of carbon dioxide, it is approximately \
-    1,00028 throughout the visible region although CIE 15:2004 recommends using \
-    n = 1.
-    :type n: float
-    :return: Blackbody spectral power distribution.
-    :rtype: SpectralPowerDistribution
+    Examples
+    --------
+    >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> colour.blackbody_spectral_power_distribution(5000, *cmfs.shape)
+    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10616fe90>
     """
 
     return SpectralPowerDistribution(

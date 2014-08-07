@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_correction.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.correction` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.correction` module.
 """
 
 from __future__ import unicode_literals
