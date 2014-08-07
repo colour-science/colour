@@ -83,9 +83,8 @@ def get_normalised_primary_matrix(primaries, whitepoint):
 
     # Add 'z' coordinates to the primaries and transposing the matrix.
     primaries = primaries.reshape((3, 2))
-    primaries = np.hstack((primaries,
-                           np.array(map(lambda x: xy_to_z(np.ravel(x)),
-                                        primaries)).reshape((3, 1))))
+    z = np.array([xy_to_z(np.ravel(primary)) for primary in primaries])
+    primaries = np.hstack((primaries, z.reshape((3, 1))))
 
     primaries = np.transpose(primaries)
 

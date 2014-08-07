@@ -162,7 +162,8 @@ def _get_munsell_value_ASTM_D1535_08_interpolator():
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator1d(map(luminance_ASTM_D1535_08, munsell_values),
+            LinearInterpolator1d([luminance_ASTM_D1535_08(x)
+                                  for x in munsell_values],
                                  munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE

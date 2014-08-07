@@ -253,9 +253,9 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
                       sorted(measured.items(), key=lambda x: x[1])]
 
     # Reference samples.
-    r = np.array(map(lambda x: reference.get(x), measured_lines))
+    r = np.array([reference.get(sample) for sample in measured_lines])
     # Measured samples.
-    m = np.array(map(lambda x: measured.get(x), measured_lines))
+    m = np.array([measured.get(sample) for sample in measured_lines])
 
     # Reference range array.
     rr = np.linspace(min(r), max(r))
@@ -280,12 +280,12 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
                               mm_to_rr_interpolator([profile.shape[1]]),
                               samples)
 
-    R = dict(zip(wavelengths,
-                 R_interpolator(r_to_m_interpolator(wavelengths))))
-    G = dict(zip(wavelengths,
-                 G_interpolator(r_to_m_interpolator(wavelengths))))
-    B = dict(zip(wavelengths,
-                 B_interpolator(r_to_m_interpolator(wavelengths))))
+    R = dict(tuple(zip(wavelengths,
+                 R_interpolator(r_to_m_interpolator(wavelengths)))))
+    G = dict(tuple(zip(wavelengths,
+                 G_interpolator(r_to_m_interpolator(wavelengths)))))
+    B = dict(tuple(zip(wavelengths,
+                 B_interpolator(r_to_m_interpolator(wavelengths)))))
 
     return RGB_Spectrum("RGB Spectrum", {"R": R, "G": G, "B": B})
 

@@ -91,7 +91,7 @@ class TestLinearRegression(unittest.TestCase):
             [0.12777065, -3.38129694],
             decimal=7)
         np.testing.assert_almost_equal(
-            linear_regression(Y, zip(X1, X2)),
+            linear_regression(Y, tuple(zip(X1, X2))),
             [0.08640901, 0.08760164, -4.10358123],
             decimal=7)
 

@@ -81,7 +81,7 @@ ILLUMINANTS = {
         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES}
 
 # cmfs=colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
-# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.iteritems()):
+# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
 # print(illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs)))
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(
     {
@@ -107,7 +107,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(
         "HP5 ": (0.37758320909195225, 0.37134797280226028)})
 
 # cmfs=colour.STANDARD_OBSERVERS_CMFS.get("CIE 1964 10 Degree Standard Observer")
-# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.iteritems()):
+# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
 # print illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs))
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_CHROMATICITY_COORDINATES.update(
     {

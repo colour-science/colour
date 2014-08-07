@@ -153,7 +153,7 @@ class Lookup(dict):
         :rtype: object
         """
 
-        for key, data in self.iteritems():
+        for key, data in self.items():
             if data == value:
                 return key
 
@@ -167,4 +167,4 @@ class Lookup(dict):
         :rtype: object
         """
 
-        return [key for key, data in self.iteritems() if data == value]
+        return [key for key, data in self.items() if data == value]

@@ -71,7 +71,7 @@ def memoize(cache=None):
             """
 
             if kwargs:
-                key = args, frozenset(kwargs.iteritems())
+                key = args, frozenset(kwargs.items())
             else:
                 key = args
 

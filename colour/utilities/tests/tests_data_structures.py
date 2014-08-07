@@ -116,8 +116,8 @@ class TestLookup(unittest.TestCase):
         lookup = colour.utilities.data_structures.Lookup(John="Doe",
                                                          Jane="Doe",
                                                          Luke="Skywalker")
-        self.assertListEqual(["Jane", "John"],
-                             lookup.get_keys_from_value("Doe"))
+        self.assertListEqual(sorted(["Jane", "John"]),
+                             sorted(lookup.get_keys_from_value("Doe")))
 
 
 if __name__ == "__main__":

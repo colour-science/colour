@@ -140,7 +140,8 @@ class SpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return np.array(map(self.get, self.wavelengths))
+        return np.array([self.get(wavelength)
+                         for wavelength in self.wavelengths])
 
     @values.setter
     def values(self, value):
@@ -177,6 +178,16 @@ class SpectralPowerDistribution(object):
 
         raise AttributeError("{0} | '{1}' attribute is read only!".format(
             self.__class__.__name__, "shape"))
+
+    def __hash__(self):
+        """
+        Reimplements the :meth:`object.__getitem__` method.
+
+        :return: Object hash.
+        :rtype: int
+        """
+
+        return hash(id(self))
 
     def __getitem__(self, wavelength):
         """
@@ -272,7 +283,7 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__data = dict(zip(self.wavelengths, self.values + x))
+        self.__data = dict(tuple(zip(self.wavelengths, self.values + x)))
 
         return self
 
@@ -298,7 +309,7 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__data = dict(zip(self.wavelengths, self.values * x))
+        self.__data = dict(tuple(zip(self.wavelengths, self.values * x)))
 
         return self
 
@@ -312,9 +323,13 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        self.__data = dict(zip(self.wavelengths, self.values * (1. / x)))
+        self.__data = dict(
+            tuple(zip(self.wavelengths, self.values * (1. / x))))
 
         return self
+
+    # Python 3 compatibility.
+    __truediv__ = __div__
 
     def get(self, wavelength, default=None):
         """
@@ -405,9 +420,10 @@ class SpectralPowerDistribution(object):
         """
 
         shape_start, shape_end, shape_steps = self.shape
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1],
-                                zip((start, end, steps),
-                                    (shape_start, shape_end, shape_steps)))
+        boundaries = tuple(zip((start, end, steps),
+                              (shape_start, shape_end, shape_steps)))
+        start, end, steps = [x[0] if x[0] is not None else x[1]
+                             for x in boundaries]
 
         if shape_steps != steps:
             wavelengths, values = self.wavelengths, self.values
@@ -504,8 +520,9 @@ class SpectralPowerDistribution(object):
         :rtype: SpectralPowerDistribution
         """
 
-        start, end, steps = map(lambda x: x[0] if x[0] is not None else x[1],
-                                zip((start, end, steps), self.shape))
+        start, end, steps = [x[0] if x[0] is not None else x[1]
+                             for x in
+                             tuple(zip((start, end, steps), self.shape))]
 
         self.__data = dict(
             [(wavelength, self.get(wavelength, 0.)) for wavelength in
@@ -801,7 +818,8 @@ class TriSpectralPowerDistribution(object):
         :rtype: list
         """
 
-        return np.array(map(self.get, self.wavelengths))
+        return np.array([self.get(wavelength)
+                         for wavelength in self.wavelengths])
 
     @values.setter
     def values(self, value):
@@ -837,6 +855,16 @@ class TriSpectralPowerDistribution(object):
 
         raise AttributeError("{0} | '{1}' attribute is read only!".format(
             self.__class__.__name__, "shape"))
+
+    def __hash__(self):
+        """
+        Reimplements the :meth:`object.__getitem__` method.
+
+        :return: Object hash.
+        :rtype: int
+        """
+
+        return hash(id(self))
 
     def __getitem__(self, wavelength):
         """
@@ -942,7 +970,8 @@ class TriSpectralPowerDistribution(object):
         values = self.values + x
 
         for i, axis in enumerate(("x", "y", "z")):
-            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(
+                tuple(zip(self.wavelengths, values[:, i])))
 
         return self
 
@@ -971,7 +1000,8 @@ class TriSpectralPowerDistribution(object):
         values = self.values * x
 
         for i, axis in enumerate(("x", "y", "z")):
-            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(
+                tuple(zip(self.wavelengths, values[:, i])))
 
         return self
 
@@ -986,6 +1016,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         return self * (1. / x)
+
+    # Python 3 compatibility.
+    __truediv__ = __div__
 
     def is_uniform(self):
         """

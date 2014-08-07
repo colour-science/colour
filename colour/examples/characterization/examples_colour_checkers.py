@@ -26,5 +26,5 @@ for index, name, x, y, Y in data:
         colour.sRGB_COLOURSPACE.from_XYZ,
         colour.sRGB_COLOURSPACE.transfer_function)
 
-    RGB = map(lambda x: int(round(x * 255)) if x >= 0 else 0, ravel(RGB))
+    RGB = [int(round(x * 255)) if x >= 0 else 0 for x in ravel(RGB)]
     print("'{0}': {1}".format(name, RGB))

@@ -22,7 +22,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["first_order_colour_fit"]
-__all__ = map(lambda x: x.encode("ascii"), __all__)
 
 
 def first_order_colour_fit(m1, m2):

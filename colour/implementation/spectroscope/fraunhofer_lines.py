@@ -188,7 +188,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
         # Trick to cluster siblings fraunhofer lines.
         from_siblings = False
         for pattern, (first, siblings,
-                      specific_label) in FRAUNHOFER_LINES_CLUSTERED.iteritems():
+                      specific_label) in FRAUNHOFER_LINES_CLUSTERED.items():
             if re.match(pattern, label):
                 if label in siblings:
                     from_siblings = True

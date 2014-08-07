@@ -4527,8 +4527,8 @@ class TestPlanckLaw(unittest.TestCase):
         Tests :func:`colour.colorimetry.blackbody.planck_law` definition.
         """
 
-        for temperature, wavelengths in sorted(PLANCK_LAW_DATA.iteritems()):
-            for wavelength, radiance in sorted(wavelengths.iteritems()):
+        for temperature, wavelengths in sorted(PLANCK_LAW_DATA.items()):
+            for wavelength, radiance in sorted(wavelengths.items()):
                 np.testing.assert_almost_equal(
                     planck_law(wavelength * 1e-9, temperature),
                     radiance,

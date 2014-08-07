@@ -146,7 +146,6 @@ class TestIsNumber(unittest.TestCase):
 
         self.assertTrue(is_number(1))
         self.assertTrue(is_number(1.))
-        self.assertTrue(is_number(long(1)))
         self.assertTrue(is_number(complex(1)))
         self.assertFalse(is_number((1,)))
         self.assertFalse(is_number([1]))

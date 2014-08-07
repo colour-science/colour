@@ -192,12 +192,12 @@ class TestGetPlanckianTable(unittest.TestCase):
             "CIE 1931 2 Degree Standard Observer")
         to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
-            map(to_list, get_planckian_table((0.1978, 0.3122),
-                                             cmfs,
-                                             1000,
-                                             1010,
-                                             10)),
-            map(to_list, PLANCKIAN_TABLE))
+            [to_list(x) for x in get_planckian_table((0.1978, 0.3122),
+                                                     cmfs,
+                                                     1000,
+                                                     1010,
+                                                     10)],
+            [to_list(x) for x in PLANCKIAN_TABLE])
 
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
@@ -296,7 +296,7 @@ class Testuv_to_CCT_robertson1968(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        for key, value in TEMPERATURE_DUV_TO_UV.iteritems():
+        for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_almost_equal(
                 uv_to_CCT_robertson1968(value),
                 key,

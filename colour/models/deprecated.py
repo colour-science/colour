@@ -463,5 +463,5 @@ def HEX_to_RGB(HEX):
 
     HEX = HEX.lstrip("#")
     length = len(HEX)
-    return np.array([int(HEX[i:i + length / 3], 16) for i in
-                     range(0, length, length / 3)]).reshape((3, 1)) / 255.
+    return np.array([int(HEX[i:i + length // 3], 16) for i in
+                     range(0, length, length // 3)]).reshape((3, 1)) / 255.

@@ -216,7 +216,7 @@ def is_number(x):
     False
     """
 
-    return isinstance(x, (int, long, float, complex))
+    return isinstance(x, (int, float, complex))
 
 
 def is_integer(x):

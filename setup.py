@@ -21,7 +21,7 @@ import re
 from setuptools import setup
 from setuptools import find_packages
 
-import colour.globals.constants
+import colour
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -55,9 +55,9 @@ def get_long_description():
 
 
 setup(name="{0}Science".format(colour.__application_name__),
-      version=colour.globals.constants.Constants.version,
-      author=colour.globals.constants.__author__,
-      author_email=colour.globals.constants.__email__,
+      version=colour.__version__,
+      author=colour.__author__,
+      author_email=colour.__email__,
       include_package_data=True,
       packages=find_packages(),
       scripts=[],

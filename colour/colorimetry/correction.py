@@ -85,5 +85,5 @@ def bandpass_correction(spd, method="Stearns 1988"):
     :rtype: SpectralPowerDistribution
     """
 
-    if method == "Stearns":
+    if method == "Stearns 1988":
         return bandpass_correction_stearns1988(spd)

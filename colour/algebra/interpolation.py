@@ -432,7 +432,7 @@ class SpragueInterpolator(object):
         """
 
         try:
-            return np.array(map(self.__evaluate, x))
+            return np.array([self.__evaluate(element) for element in x])
         except TypeError as error:
             return self.__evaluate(x)
 

@@ -1412,4 +1412,4 @@ TCS_SPDS_DATA = {
         830: 0.454}}
 
 TCS_SPDS = dict((key, SpectralPowerDistribution(key, value)) for key, value in
-                TCS_SPDS_DATA.iteritems())
+                TCS_SPDS_DATA.items())

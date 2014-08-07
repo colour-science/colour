@@ -46,7 +46,7 @@ multi_illuminants_relative_spd_plot(["A", "B", "C"],
                                     normalise_spds_colours=True)
 
 # Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
-multi_spd_plot(sorted(colour.D_ILLUMINANTS_S_SPDS.values()),
+multi_spd_plot([value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
                title="CIE Standard Illuminant D Series - S Distributions")
 
 # Defining a sample spectral power distribution data.
@@ -810,7 +810,7 @@ street_light_spd = colour.SpectralPowerDistribution("Street Light",
 bandpass_corrected_street_light_spd = street_light_spd.clone()
 bandpass_corrected_street_light_spd.name = "Street Light (Bandpass Corrected)"
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
-    bandpass_corrected_street_light_spd, method="Stearns")
+    bandpass_corrected_street_light_spd, method="Stearns 1988")
 
 multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
                title="Stearns Bandpass Correction")
@@ -818,7 +818,7 @@ multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
 # Plotting multiple *ColorChecker* relative spectral power distributions.
 multi_spd_plot([colour.COLOURCHECKERS_SPDS.get("BabelColor Average").get(value)
                 for key, value in
-                sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.iteritems())],
+                sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
                use_spds_colours=True,
                title="BabelColor Average - Relative Spectral Power Distributions")
 
@@ -1618,7 +1618,7 @@ ASTM_G_173 = {
 
 # Arbitrary ASTM_G_173 scaling factor calculated with
 # :def:`colour.spectral_to_XYZ` definition.
-for key, value in ASTM_G_173.iteritems():
+for key, value in ASTM_G_173.items():
     ASTM_G_173[key] = value * 1.37905559e+13
 
 ASTM_G_173_spd = colour.SpectralPowerDistribution("ASTM G-173", ASTM_G_173)

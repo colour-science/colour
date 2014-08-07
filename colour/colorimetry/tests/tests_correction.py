@@ -89,8 +89,7 @@ class TestBandpassCorrectionStearns1988(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution(
-            "Spd",
-            dict(zip(range(len(SPD_DATA)), SPD_DATA)))
+            "Spd", dict(tuple(zip(range(len(SPD_DATA)), SPD_DATA))))
 
         np.testing.assert_almost_equal(
             bandpass_correction_stearns1988(spd).values,

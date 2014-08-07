@@ -85,12 +85,12 @@ def linear_regression(y, x=None, additional_statistics=False):
     multiple independent :math:`x_i` variables:
 
     >>> x2 = np.array([25, 20, 30, 30, 28, 30, 34, 36, 32, 34])
-    >>> colour.linear_regression(y, zip(x1, x2))
+    >>> colour.linear_regression(y, tuple(zip(x1, x2)))
     [ 0.09980023  0.08762575 -4.83038079]
 
     Multiple linear regression with additional statistics:
 
-    >>> colour.linear_regression(y, zip(x1, x2), additional_statistics=True)
+    >>> colour.linear_regression(y, tuple(zip(x1, x2)), additional_statistics=True)
     (array([ 0.09980023,  0.08762575, -4.83038079]), array([ 2.13762499]))
     """
 

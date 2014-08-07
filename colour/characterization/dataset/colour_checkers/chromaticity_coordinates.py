@@ -95,8 +95,7 @@ BABELCOLOR_AVERAGE_ILLUMINANT = ILLUMINANTS.get(
 BABELCOLOR_AVERAGE_ILLUMINANT : tuple
 """
 
-BABELCOLOR_AVERAGE = map(lambda x: COLOURCHECKER_INXYY(*x),
-                         BABELCOLOR_AVERAGE_DATA)
+BABELCOLOR_AVERAGE = [COLOURCHECKER_INXYY(*x) for x in BABELCOLOR_AVERAGE_DATA]
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 
@@ -137,8 +136,7 @@ COLORCHECKER_2005_ILLUMINANT = ILLUMINANTS.get(
 COLORCHECKER_2005_ILLUMINANT : tuple
 """
 
-COLORCHECKER_2005 = map(lambda x: COLOURCHECKER_INXYY(*x),
-                        COLORCHECKER_2005_DATA)
+COLORCHECKER_2005 = [COLOURCHECKER_INXYY(*x) for x in COLORCHECKER_2005_DATA]
 """
 Reference data from *GretagMacbeth* published in 2005.
 
@@ -179,8 +177,7 @@ COLORCHECKER_1976_ILLUMINANT = ILLUMINANTS.get(
 COLORCHECKER_1976_ILLUMINANT : tuple
 """
 
-COLORCHECKER_1976 = map(lambda x: COLOURCHECKER_INXYY(*x),
-                        COLORCHECKER_1976_DATA)
+COLORCHECKER_1976 = [COLOURCHECKER_INXYY(*x) for x in COLORCHECKER_1976_DATA]
 """
 *ColourChecker* developed by *McCamy and Al.* at Macbeth, a Division of
 Kollmorgen.

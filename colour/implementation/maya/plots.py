@@ -107,7 +107,7 @@ def set_attributes(attributes):
     :rtype: bool
     """
 
-    for attribute, value in attributes.iteritems():
+    for attribute, value in attributes.items():
         cmds.setAttr(attribute, value)
     return True
 
@@ -231,10 +231,11 @@ def Lab_coordinates_system_representation():
                                   ("+b*", (0, -350), "plus_b")):
         curves = cmds.listRelatives(
             cmds.textCurves(f="Arial Black Bold", t=label)[0])
-        mesh = cmds.polyUnite(*map(lambda x: cmds.planarSrf(x,
-                                                            ch=False,
-                                                            o=True,
-                                                            po=1), curves),
+        mesh = cmds.polyUnite(*[cmds.planarSrf(x,
+                                               ch=False,
+                                               o=True,
+                                               po=1)
+                                for x in curves],
                               ch=False)[0]
         cmds.xform(mesh, cp=True)
         cmds.xform(mesh, translation=(0., 0., 0.), absolute=True)

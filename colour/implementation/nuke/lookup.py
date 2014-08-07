@@ -148,7 +148,7 @@ def parse_curve_data_header(header):
     """
 
     curves_information = []
-    for name, axis in map(lambda x: x.lower().split(), header):
+    for name, axis in [x.lower().split() for x in header]:
         curves_information.append(CurvesInformation(name, axis, []))
     return curves_information
 

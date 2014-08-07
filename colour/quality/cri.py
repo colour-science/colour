@@ -73,7 +73,7 @@ def _get_tcs_colorimetry_data(test_spd,
     reference_u, reference_v = reference_uv[0], reference_uv[1]
 
     tcs_data = []
-    for key, value in sorted(TCS_INDEXES_TO_NAMES.iteritems()):
+    for key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
         tcs_spd = tsc_spds.get(value)
         tcs_XYZ = spectral_to_XYZ(tcs_spd, cmfs, test_spd)
         tcs_xyY = np.ravel(XYZ_to_xyY(tcs_XYZ))
@@ -156,7 +156,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     test_spd = test_spd.clone().align(start, end, steps)
 
     tcs_spds = {}
-    for index, tcs_spd in sorted(TCS_SPDS.iteritems()):
+    for index, tcs_spd in sorted(TCS_SPDS.items()):
         tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
 
     XYZ = spectral_to_XYZ(test_spd, cmfs)
@@ -185,7 +185,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
         test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
     colour_rendering_index = np.average(
-        [v for k, v in colour_rendering_indexes.iteritems()
+        [v for k, v in colour_rendering_indexes.items()
          if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:

@@ -124,9 +124,9 @@ WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA = (
 WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT = namedtuple(
     "WyszeckiRobertson_ruvt", ("r", "u", "v", "t"))
 
-WYSZECKI_Robertson_ISOTEMPERATURE_LINES = map(
-    lambda x: WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT(*x),
-    WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA)
+WYSZECKI_Robertson_ISOTEMPERATURE_LINES = [
+    WYSZECKI_Robertson_ISOTEMPERATURE_LINES_RUVT(*x)
+    for x in WYSZECKI_Robertson_ISOTEMPERATURE_LINES_DATA]
 
 
 def get_planckian_table(uv, cmfs, start, end, count):
@@ -197,7 +197,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
     :rtype: int
     """
 
-    distances = map(lambda x: x.di, planckian_table)
+    distances = [x.di for x in planckian_table]
     return distances.index(min(distances))
 
 

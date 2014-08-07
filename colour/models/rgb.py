@@ -91,7 +91,7 @@ def XYZ_to_RGB(XYZ,
     RGB = np.dot(from_XYZ, adaptedXYZ)
 
     if transfer_function is not None:
-        RGB = np.array(map(lambda x: transfer_function(x), np.ravel(RGB)))
+        RGB = np.array([transfer_function(x) for x in np.ravel(RGB)])
 
     return RGB.reshape((3, 1))
 
@@ -144,8 +144,8 @@ def RGB_to_XYZ(RGB,
     """
 
     if inverse_transfer_function is not None:
-        RGB = np.array(map(lambda x: inverse_transfer_function(x),
-                           np.ravel(RGB))).reshape((3, 1))
+        RGB = np.array([inverse_transfer_function(x)
+                        for x in np.ravel(RGB)]).reshape((3, 1))
 
     XYZ = np.dot(to_XYZ, RGB)
 

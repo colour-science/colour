@@ -2094,8 +2094,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        spd = SpectralPowerDistribution("", dict(
-            zip(range(25, 35), [0] * 5 + [1] * 5)))
+        spd = SpectralPowerDistribution(
+            "",
+            dict(tuple(zip(range(25, 35), [0] * 5 + [1] * 5))))
         spd.extrapolate(10, 50)
 
         self.assertEqual(spd[10], 0)
@@ -2252,13 +2253,13 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self.__tri_spd.values,
-            np.array(zip(*(
+            np.array(tuple(zip(*(
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
                     "x_bar").items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
                     "y_bar").items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    "z_bar").items())]))))
+                    "z_bar").items())])))))
 
     def test_shape(self):
         """
@@ -2442,7 +2443,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
+        spd_data = dict(tuple(zip(range(25, 35), [0] * 5 + [1] * 5)))
         tri_spd = TriSpectralPowerDistribution(
             name="",
             mapping=self.__mapping,
@@ -2470,7 +2471,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         tri_spd = self.__sample_tri_spd.clone()
 
         tri_spd.interpolate(steps=1)
-        for i in sorted(self.__mapping.iterkeys()):
+        for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
                 INTERPOLATED_SAMPLE_SPD_DATA)
@@ -2478,7 +2479,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         tri_spd = self.__non_uniform_sample_tri_spd.clone()
 
         tri_spd.interpolate(steps=1)
-        for i in sorted(self.__mapping.iterkeys()):
+        for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
                 INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
@@ -2511,7 +2512,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             labels=self.__labels).clone()
 
         tri_spd.zeros(steps=1)
-        for i in self.__mapping.iterkeys():
+        for i in self.__mapping.keys():
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
                 ZEROS_SAMPLE_SPD_DATA)
