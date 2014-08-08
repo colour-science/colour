@@ -5,7 +5,7 @@
 Colour Matching Functions
 =========================
 
-Defines the colour matching functions classes holding the dataset from
+Defines colour matching functions classes for the dataset from
 :mod:`colour.colorimetry.dataset.cmfs`:
 
 -   :class:`LMS_ConeFundamentals`: Implements support for the
@@ -41,18 +41,23 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
     Implements support for the *Stockman & Sharpe* *LMS* cone fundamentals
     colour matching functions.
+
+    Parameters
+    ----------
+    name : unicode
+        *LMS* colour matching functions name.
+    data : dict
+        *LMS* colour matching functions.
+
+    Methods
+    -------
+    l_bar
+    m_bar
+    s_bar
+
     """
 
     def __init__(self, name, data):
-        """
-        Parameters
-        ----------
-        name : unicode
-            *LMS* colour matching functions name.
-        data : dict
-            *LMS* colour matching functions.
-        """
-
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
@@ -91,9 +96,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "l_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("l_bar"))
 
     @property
     def m_bar(self):
@@ -123,9 +126,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "m_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("m_bar"))
 
     @property
     def s_bar(self):
@@ -156,26 +157,28 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "s_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("s_bar"))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
     Implements support for the *CIE RGB* colour matching functions.
+
+    Parameters
+    ----------
+    name : unicode
+        *CIE RGB* colour matching functions name.
+    data : dict
+        *CIE RGB* colour matching functions.
+
+    Methods
+    -------
+    r_bar
+    g_bar
+    b_bar
     """
 
     def __init__(self, name, data):
-        """
-        Parameters
-        ----------
-        name : unicode
-            *CIE RGB* colour matching functions name.
-        data : dict
-            *CIE RGB* colour matching functions.
-        """
-
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
@@ -214,9 +217,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "r_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("r_bar"))
 
     @property
     def g_bar(self):
@@ -247,9 +248,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "g_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("g_bar"))
 
     @property
     def b_bar(self):
@@ -280,27 +279,29 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "b_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("b_bar"))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
     Implements support for the *CIE* Standard Observers *XYZ* colour matching
     functions.
+
+    Parameters
+    ----------
+    name : unicode
+        *CIE* Standard Observer *XYZ* colour matching functions name.
+    data : dict
+        *CIE* Standard Observer *XYZ* colour matching functions.
+
+    Methods
+    -------
+    x_bar
+    y_bar
+    z_bar
     """
 
     def __init__(self, name, data):
-        """
-        Parameters
-        ----------
-        name : unicode
-            *CIE* Standard Observer *XYZ* colour matching functions name.
-        data : dict
-            *CIE* Standard Observer *XYZ* colour matching functions.
-        """
-
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
@@ -339,9 +340,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "x_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("x_bar"))
 
     @property
     def y_bar(self):
@@ -371,9 +370,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "y_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("y_bar"))
 
     @property
     def z_bar(self):
@@ -403,6 +400,4 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "z_bar"))
+        raise AttributeError("'{0}' attribute is read only!".format("z_bar"))

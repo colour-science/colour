@@ -1300,7 +1300,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     start, end = 1667, 100000
     x, y = tuple(zip(*[UCS_uv_to_xy(CCT_to_uv(x, 0., cmfs=cmfs))
-                      for x in np.arange(start, end + 250, 250)]))
+                       for x in np.arange(start, end + 250, 250)]))
 
     pylab.plot(x, y, color="black", linewidth=2.)
 
@@ -1534,7 +1534,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     start, end = 1667, 100000
     u, v = tuple(zip(*[CCT_to_uv(x, 0., cmfs=cmfs)
-                 for x in np.arange(start, end + 250, 250)]))
+                       for x in np.arange(start, end + 250, 250)]))
 
     pylab.plot(u, v, color="black", linewidth=2.)
 
@@ -1672,8 +1672,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     u, v = tuple(zip(*([Luv_to_uv(x) for x in Luvs])))
 
-    wavelengths_chromaticity_coordinates = dict(
-        tuple(zip(wavelengths, tuple(zip(u, v)))))
+    wavelengths_chromaticity_coordinates = dict(zip(wavelengths,
+                                                    tuple(zip(u, v))))
 
     pylab.plot(u, v, color="black", linewidth=2.)
     pylab.plot((u[-1], u[0]), (v[-1], v[0]), color="black", linewidth=2.)
@@ -2107,7 +2107,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colours = ([[1.] * 3] + [normalise_RGB(XYZ_to_sRGB(x.XYZ / 100.))
                              for x in additional_data[0]])
     x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
-                       key=lambda x: x[0])))
+                             key=lambda x: x[0])))
     x, y = np.array([0] + list(x)), np.array(
         [colour_rendering_index] + list(y))
 

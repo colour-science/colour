@@ -18,7 +18,8 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-from colour.algebra import LinearInterpolator1d, SpragueInterpolator
+from colour.algebra import SplineInterpolator, SpragueInterpolator
+
 from colour.colorimetry import (
     SpectralPowerDistribution,
     STANDARD_OBSERVERS_CMFS)
@@ -83,7 +84,7 @@ def spectral_to_XYZ(spd,
         range = np.arange(start, end + steps, steps)
         illuminant = SpectralPowerDistribution(
             name="1.0",
-            data=dict(tuple(zip(*(list(range), [1.] * len(range))))))
+            data=dict(zip(*(tuple(range), [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
             illuminant = illuminant.clone().zeros(*shape)
@@ -143,34 +144,19 @@ def wavelength_to_XYZ(wavelength,
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
         raise ValueError(
-            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths range!".format(
-                wavelength, start, end))
-
-    wavelengths, values, = cmfs.wavelengths, cmfs.values
+            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths \
+            range!".format(wavelength, start, end))
 
     if wavelength not in cmfs:
-        if cmfs.is_uniform():
-            interpolators = [SpragueInterpolator(wavelengths,
-                                                 values[:, i])
-                             for i in range(values.shape[-1])]
-        else:
-            if is_scipy_installed():
-                from scipy.interpolate import interp1d
+        wavelengths, values, = cmfs.wavelengths, cmfs.values
+        interpolator = (SpragueInterpolator
+                        if cmfs.is_uniform() else
+                        SplineInterpolator)
 
-                interpolators = [interp1d(wavelengths,
-                                          values[:, i],
-                                          kind="cubic")
-                                 for i in range(values.shape[-1])]
-            else:
-                warning(
-                    "!> {0} | 'scipy.interpolate.interp1d' interpolator is unavailable, using 'np.interp' interpolator!".format(
-                        __name__))
+        interpolators = [interpolator(wavelengths, values[:, i])
+                         for i in range(values.shape[-1])]
 
-                interpolators = [LinearInterpolator1d(wavelengths,
-                                                      values[:, i])
-                                 for i in range(values.shape[-1])]
-
-        return np.array([interpolator(wavelength) \
+        return np.array([interpolator(wavelength)
                          for interpolator in interpolators]).reshape((3, 1))
     else:
         return np.array(cmfs.get(wavelength)).reshape((3, 1))

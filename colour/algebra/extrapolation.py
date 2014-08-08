@@ -44,13 +44,30 @@ class Extrapolator1d(object):
     extrapolation method and will assign the respective *left* and *right*
     values to the given points.
 
+    Parameters
+    ----------
+    interpolator : object
+        Interpolator object.
+    method : unicode, optional
+        ("Linear", "Constant"),
+        Extrapolation method.
+    left : int or float, optional
+        Value to return for x < xi[0].
+    right : int or float, optional
+        Value to return for x > xi[-1].
+
+    Methods
+    -------
+    __class__
+
     Notes
     -----
     The interpolator must define *x* and *y* attributes.
 
     References
     ----------
-    .. [1]  http://stackoverflow.com/questions/2745329/how-to-make-scipy-interpolate-give-an-extrapolated-result-beyond-the-input-range
+    .. [1]  http://stackoverflow.com/a/2745496/931625
+            (Last accessed 8 August 2014)
 
     Examples
     --------
@@ -92,21 +109,7 @@ class Extrapolator1d(object):
                  method="Linear",
                  left=None,
                  right=None):
-        """
-        Parameters
-        ----------
-        interpolator : object
-            Interpolator object.
-        method : unicode, optional
-            ("Linear", "Constant"),
-            Extrapolation method.
-        left : int or float, optional
-            Value to return for x < xi[0].
-        right : int or float, optional
-            Value to return for x > xi[-1].
-        """
 
-        # --- Setting class attributes. ---
         self.__interpolator = None
         self.interpolator = interpolator
         self.__method = None

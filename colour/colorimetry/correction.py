@@ -53,10 +53,11 @@ def bandpass_correction_stearns1988(spd):
 
     Examples
     --------
-    >>> spd = colour.SpectralPowerDistribution("Spd", {510: 49.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900, 550: 86.0500})
+    >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    >>> spd = colour.SpectralPowerDistribution("Spd", data)
     >>> corrected_spd = colour.bandpass_correction_stearns1988(spd)
-    >>> print(corrected_spd.values)
-    array([ 48.01664   ,  70.37296888,  82.13645358,  88.88480681,  85.87238   ])
+    >>> corrected_spd.values
+    array([ 48.01664   ,  70.37296888,  82.09195064,  88.72618   ])
     """
 
     values = spd.values

@@ -193,7 +193,7 @@ def Lab_colourspace_cube(colourspace, density=20):
     while not it_mesh_vertex.isDone():
         position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
         it_mesh_vertex.setPosition(
-            get_mpoint(list(np.ravel(RGB_to_Lab((position[0],
+            get_mpoint(tuple(np.ravel(RGB_to_Lab((position[0],
                                                  position[1],
                                                  position[2],),
                                                 colourspace)))))

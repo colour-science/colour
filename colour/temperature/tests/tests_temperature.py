@@ -190,14 +190,14 @@ class TestGetPlanckianTable(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
             "CIE 1931 2 Degree Standard Observer")
-        to_list = lambda x: (x.Ti, x.ui, x.vi, x.di)
+        to_tuple = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
-            [to_list(x) for x in get_planckian_table((0.1978, 0.3122),
+            [to_tuple(x) for x in get_planckian_table((0.1978, 0.3122),
                                                      cmfs,
                                                      1000,
                                                      1010,
                                                      10)],
-            [to_list(x) for x in PLANCKIAN_TABLE])
+            [to_tuple(x) for x in PLANCKIAN_TABLE])
 
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):

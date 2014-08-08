@@ -247,14 +247,10 @@ def uv_to_CCT_ohno2013(uv,
         planckian_table = get_planckian_table(uv, cmfs, start, end, count)
         index = get_planckian_table_minimal_distance_index(planckian_table)
         if index == 0:
-            warning(
-                "!> {0} | Minimal distance index is on lowest planckian table bound, unpredictable results may occur!".format(
-                    __name__))
+            warning("Minimal distance index is on lowest planckian table bound, unpredictable results may occur!")
             index += 1
         elif index == len(planckian_table) - 1:
-            warning(
-                "!> {0} | Minimal distance index is on highest planckian table bound, unpredictable results may occur!".format(
-                    __name__))
+            warning("Minimal distance index is on highest planckian table bound, unpredictable results may occur!")
             index -= 1
 
         start = planckian_table[index - 1].Ti

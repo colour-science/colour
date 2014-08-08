@@ -540,7 +540,12 @@ span.eqno {
 
 /* Preventing wrapping on long *data* objects. */
 dt {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+/* Increasing objects font size. */
+tt.descname {
+    font-size: 20px !important;
 }

@@ -88,9 +88,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "R"))
+        raise AttributeError("'{0}' attribute is read only!".format("R"))
 
     @property
     def G(self):
@@ -112,9 +110,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "G"))
+        raise AttributeError("'{0}' attribute is read only!".format("G"))
 
     @property
     def B(self):
@@ -136,9 +132,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         :type value: unicode
         """
 
-        raise AttributeError(
-            "{0} | '{1}' attribute is read only!".format(
-                self.__class__.__name__, "B"))
+        raise AttributeError("'{0}' attribute is read only!".format("B"))
 
 
 def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"],
@@ -157,9 +151,6 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"],
     :return: Transformed image.
     :rtype: ndarray
 
-    References:
-
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
     """
 
     vector_linearise = np.vectorize(
@@ -211,7 +202,7 @@ def get_image_profile(image, line, samples=None):
 
     References:
 
-    -  http://stackoverflow.com/questions/7878398/how-to-extract-an-arbitrary-line-of-values-from-a-numpy-array
+    -  -  http://stackoverflow.com/a/7880726/931625 (Last accessed 8 August 2014)
     """
 
     height, width, channels = image.shape
@@ -280,12 +271,12 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
                               mm_to_rr_interpolator([profile.shape[1]]),
                               samples)
 
-    R = dict(tuple(zip(wavelengths,
-                 R_interpolator(r_to_m_interpolator(wavelengths)))))
-    G = dict(tuple(zip(wavelengths,
-                 G_interpolator(r_to_m_interpolator(wavelengths)))))
-    B = dict(tuple(zip(wavelengths,
-                 B_interpolator(r_to_m_interpolator(wavelengths)))))
+    R = dict(zip(wavelengths,
+                 R_interpolator(r_to_m_interpolator(wavelengths))))
+    G = dict(zip(wavelengths,
+                 G_interpolator(r_to_m_interpolator(wavelengths))))
+    B = dict(zip(wavelengths,
+                 B_interpolator(r_to_m_interpolator(wavelengths))))
 
     return RGB_Spectrum("RGB Spectrum", {"R": R, "G": G, "B": B})
 

@@ -10,9 +10,9 @@ Defines *Lightness* :math:`L*` computation objects.
 The following methods are available:
 
 -   :func:`lightness_glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y`using *Glasser et al. (1958)* method.
+    *luminance* :math:`Y` using *Glasser et al. (1958)* method.
 -   :func:`lightness_wyszecki1964`: *Lightness* :math:`W^*` computation of
-    given *luminance* :math:`Y`using *Wyszecki (1964)* method.
+    given *luminance* :math:`Y` using *Wyszecki (1964)* method.
 -   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 """
@@ -105,10 +105,8 @@ def lightness_wyszecki1964(Y):
     """
 
     if not 1. < Y < 98.:
-        warning(
-            "!> {0} | 'W*' lightness calculation is only applicable for \
-1% < 'Y' < 98%, unpredictable results may occur!".format(
-                __name__))
+        warning("'W*' Lightness calculation is only applicable for \
+1% < 'Y' < 98%, unpredictable results may occur!")
 
     W = 25. * (Y ** (1. / 3.)) - 17.
 

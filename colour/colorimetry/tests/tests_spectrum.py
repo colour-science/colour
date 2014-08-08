@@ -2092,7 +2092,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         spd = SpectralPowerDistribution(
             "",
-            dict(tuple(zip(range(25, 35), [0] * 5 + [1] * 5))))
+            dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
         spd.extrapolate(10, 50)
 
         self.assertEqual(spd[10], 0)
@@ -2453,7 +2453,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        spd_data = dict(tuple(zip(range(25, 35), [0] * 5 + [1] * 5)))
+        spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
         tri_spd = TriSpectralPowerDistribution(
             name="",
             mapping=self.__mapping,

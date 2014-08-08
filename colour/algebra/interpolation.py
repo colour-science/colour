@@ -15,9 +15,11 @@ Defines classes for interpolating variables.
 from __future__ import unicode_literals
 
 import bisect
+from matplotlib.delaunay.interpolate import LinearInterpolator
 import numpy as np
 
 from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
+from colour.utilities import is_scipy_installed, warning
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -27,12 +29,26 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LinearInterpolator1d",
+           "SplineInterpolator",
            "SpragueInterpolator"]
 
 
 class LinearInterpolator1d(object):
     """
     Linearly interpolates a 1-D function.
+
+    Parameters
+    ----------
+    x : ndarray
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y : ndarray
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+
+    Methods
+    -------
+    __call__
 
     Notes
     -----
@@ -59,18 +75,6 @@ class LinearInterpolator1d(object):
     """
 
     def __init__(self, x=None, y=None):
-        """
-        Parameters
-        ----------
-        x : ndarray
-            Independent :math:`x` variable values corresponding with :math:`y`
-            variable.
-        y : ndarray
-            Dependent and already known :math:`y` variable values to
-            interpolate.
-        """
-
-        # --- Setting class attributes. ---
         self.__x = None
         self.x = x
         self.__y = None
@@ -216,6 +220,31 @@ dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
             raise ValueError("'{0}' is above interpolation range.".format(x))
 
 
+if is_scipy_installed():
+    from scipy.interpolate import interp1d
+
+    class SplineInterpolator(interp1d):
+        """
+        Interpolates a 1-D function using cubic spline interpolation.
+
+        Notes
+        -----
+        This class is a wrapper around *scipy.interpolate.interp1d* class.
+        """
+
+        def __init__(self, *args, **kwargs):
+            # TODO: Implements proper wrapper to ensure return values
+            # consistency and avoid having to cast to float like in
+            # :meth:`SpectralPowerDistribution.interpolate` method.
+            super(SplineInterpolator, self).__init__(
+                kind="cubic", *args, **kwargs)
+else:
+    warning("'scipy.interpolate.interp1d' interpolator is unavailable, using \
+'LinearInterpolator' instead!")
+
+    SplineInterpolator = LinearInterpolator
+
+
 class SpragueInterpolator(object):
     """
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
@@ -224,9 +253,27 @@ class SpragueInterpolator(object):
     The *Sprague (1880)* method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
+    Parameters
+    ----------
+    x : array_like
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y : array_like
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+
+    Methods
+    -------
+    __call__
+
     See Also
     --------
     LinearInterpolator1d
+
+    Notes
+    -----
+    The minimum number :math:`k` of data points required along the
+    interpolation axis is :math:`k=6`.
 
     References
     ----------
@@ -272,18 +319,6 @@ class SpragueInterpolator(object):
     """
 
     def __init__(self, x=None, y=None):
-        """
-       Parameters
-        ----------
-        x : array_like
-            Independent :math:`x` variable values corresponding with :math:`y`
-            variable.
-        y : array_like
-            Dependent and already known :math:`y` variable values to
-            interpolate.
-        """
-
-        # --- Setting class attributes. ---
         self.__xp = None
         self.__yp = None
 
@@ -480,5 +515,3 @@ dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
 
         if above_interpolation_range.any():
             raise ValueError("'{0}' is above interpolation range.".format(x))
-
-

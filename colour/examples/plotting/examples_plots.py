@@ -1622,7 +1622,7 @@ for key, value in ASTM_G_173.items():
     ASTM_G_173[key] = value * 1.37905559e+13
 
 ASTM_G_173_spd = colour.SpectralPowerDistribution("ASTM G-173", ASTM_G_173)
-ASTM_G_173_spd.interpolate(steps=5, interpolator="Linear")
+ASTM_G_173_spd.interpolate(steps=5, method="Linear")
 
 blackbody_spd = colour.blackbody_spectral_power_distribution(
     5778,
