@@ -2,16 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-**codata.py**
+Fundamental Physical Constants
+==============================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines partial **Colour** package *CODATA* constants.
-
-**Others:**
-
+Defines various constants from recommended values by the Committee on Data for
+Science and Technology (CODATA).
 """
 
 from __future__ import unicode_literals
@@ -28,5 +23,22 @@ __all__ = ["LIGHT_SPEED",
            "BOLTZMANN_CONSTANT"]
 
 LIGHT_SPEED = 299792458
+"""
+Speed of light in vacuum.
+
+LIGHT_SPEED : float
+"""
+
 PLANCK_CONSTANT = 6.62607e-34
+"""
+Planck constant.
+
+PLANCK_CONSTANT : float
+"""
+
 BOLTZMANN_CONSTANT = 1.38065e-23
+"""
+Boltzmann constant.
+
+BOLTZMANN_CONSTANT : float
+"""
