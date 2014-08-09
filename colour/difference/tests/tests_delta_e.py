@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_difference.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.difference` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.difference.delta_e` module.
 """
 
 from __future__ import unicode_literals
@@ -43,13 +34,13 @@ __all__ = ["TestDelta_E_CIE_1976",
 
 class TestDelta_E_CIE_1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1976`
+    Defines :func:`colour.difference.delta_e.delta_E_CIE_1976`
     definition units tests methods.
     """
 
     def test_delta_E_CIE_1976(self):
         """
-        Tests :func:`colour.colorimetry.difference.delta_E_CIE_1976`
+        Tests :func:`colour.difference.delta_e.delta_E_CIE_1976`
         definition.
         """
 
@@ -77,13 +68,13 @@ class TestDelta_E_CIE_1976(unittest.TestCase):
 
 class TestDelta_E_CIE_1994(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_1994` definition
+    Defines :func:`colour.difference.delta_e.delta_E_CIE_1994` definition
     units tests methods.
     """
 
     def test_delta_E_CIE_1994(self):
         """
-        Tests :func:`colour.colorimetry.difference.delta_E_CIE_1994` definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE_1994` definition.
         """
 
         self.assertAlmostEqual(
@@ -134,13 +125,13 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
 
 class TestDelta_E_CIE_2000(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CIE_2000` definition
+    Defines :func:`colour.difference.delta_e.delta_E_CIE_2000` definition
     units tests methods.
     """
 
     def test_delta_E_CIE_2000(self):
         """
-        Tests :func:`colour.colorimetry.difference.delta_E_CIE_2000` definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE_2000` definition.
         """
 
         self.assertAlmostEqual(
@@ -167,13 +158,13 @@ class TestDelta_E_CIE_2000(unittest.TestCase):
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.difference.delta_E_CMC` definition units
+    Defines :func:`colour.difference.delta_e.delta_E_CMC` definition units
     tests methods.
     """
 
     def test_delta_E_CMC(self):
         """
-        Tests :func:`colour.colorimetry.difference.delta_E_CMC` definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition.
         """
 
         self.assertAlmostEqual(
