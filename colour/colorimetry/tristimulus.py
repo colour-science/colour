@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**tristimulus.py**
+Tristimulus Values
+==================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package *tristimulus* values computation objects.
-
-**Others:**
-
+Defines objects for tristimulus values computation from spectral data.
 """
 
 from __future__ import unicode_literals
@@ -23,7 +17,7 @@ from colour.algebra import SplineInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     SpectralPowerDistribution,
     STANDARD_OBSERVERS_CMFS)
-from colour.utilities import is_scipy_installed, memoize, warning
+from colour.utilities import memoize
 
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -46,33 +40,43 @@ def spectral_to_XYZ(spd,
     Converts given spectral power distribution to *CIE XYZ* colourspace using
     given colour matching functions and illuminant.
 
-    Examples::
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution
+        *Illuminant* spectral power distribution.
 
-        >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
-        >>> spd = colour.SpectralPowerDistribution("Custom", {380: 0.0600, 390: 0.0600}).zeros(*cmfs.shape)
-        >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D50").zeros(*cmfs.shape)
-        >>> spectral_to_XYZ(spd, cmfs, illuminant)
-        array([[  4.57648522e-04],
-               [  1.29648668e-05],
-               [  2.16158075e-03]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :param spd: Spectral power distribution.
-    :type spd: SpectralPowerDistribution
-    :param cmfs: Standard observer colour matching functions.
-    :type cmfs: XYZ_ColourMatchingFunctions
-    :param illuminant: *Illuminant* spectral power distribution.
-    :type illuminant: SpectralPowerDistribution
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    Notes
+    -----
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [1]  **Wyszecki & Stiles**,
+            *Color Science - Concepts and Methods Data and Formulae -
+            Second Edition*,
+            Wiley Classics Library Edition, published 2000,
+            ISBN-10: 0-471-39918-3,
+            Page 158.
 
-    References:
-
-    -  **Wyszecki & Stiles**, \
-    *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-    Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
-    Page 158.
+    Examples
+    --------
+    >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> data = {380: 0.0600, 390: 0.0600}
+    >>> spd = colour.SpectralPowerDistribution("Custom", data)
+    >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D50")
+    >>> colour.spectral_to_XYZ(spd, cmfs, illuminant)
+    array([[  4.57648522e-04],
+           [  1.29648668e-05],
+           [  2.16158075e-03]])
     """
 
     shape = cmfs.shape
@@ -114,38 +118,46 @@ def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           "CIE 1931 2 Degree Standard Observer")):
     """
-    Converts given wavelength to *CIE XYZ* colourspace using given colour
-    matching functions, if the retrieved wavelength is not available in the
-    colour matching function, its value will be calculated using
-    *CIE* recommendations: The method developed by *Sprague* (1880) should be
-    used for interpolating functions having a uniformly spaced independent
-    variable and a *Cubic Spline* method for non-uniformly spaced independent
-    variable.
+    Converts given wavelength :math:`\lambda` to *CIE XYZ* colourspace using
+    given colour matching functions.
 
-    Examples::
+    If the wavelength :math:`\lambda` is not available in the colour matching
+    function, its value will be calculated using *CIE* recommendations:
+    The method developed by *Sprague (1880)* should be used for interpolating
+    functions having a uniformly spaced independent variable and a
+    *Cubic Spline* method for non-uniformly spaced independent variable.
 
-        >>> wavelength_to_XYZ(480, colour.CMFS.get("CIE 1931 2 Degree Standard Observer"))
-        array([[ 0.09564  ],
-               [ 0.13902  ],
-               [ 0.8129501]])
+    Parameters
+    ----------
+    wavelength : float
+        Wavelength :math:`\lambda` in nm.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
 
-    :param wavelength: Wavelength in nm.
-    :type wavelength: float
-    :param cmfs: Standard observer colour matching functions.
-    :type cmfs: XYZ_ColourMatchingFunctions
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: If *scipy* is not unavailable the *Cubic Spline* method will \
-    fallback to legacy *Linear* interpolation.
+    Notes
+    -----
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   If *scipy* is not unavailable the *Cubic Spline* method will
+        fallback to legacy *Linear* interpolation.
+
+    Examples
+    --------
+    >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> colour.wavelength_to_XYZ(480)
+    array([[ 0.09564  ],
+           [ 0.13902  ],
+           [ 0.8129501]])
     """
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise ValueError(
-            "'{0} nm' wavelength not in '{1} - {2}' nm supported wavelengths \
-            range!".format(wavelength, start, end))
+        raise ValueError("'{0} nm' wavelength not in '{1} - {2}' nm supported"
+                         "wavelengths range!".format(wavelength, start, end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
