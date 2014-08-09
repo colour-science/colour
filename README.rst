@@ -227,24 +227,19 @@ The following dependencies are needed:
 
 -  **Python 2.6.7** or **Python 2.7.3**: http://www.python.org/
 
-To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/ColourScience>`_ you can issue this command in a shell::
+To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/colour-science>`_ you can issue this command in a shell::
 
-    pip install ColourScience
+    pip install colour-science
 
 or this alternative command::
 
-    easy_install ColourScience
+    easy_install colour-science
 
-You can also install directly from `Github <http://github.com/KelSolaar/Colour>`_ source repository::
+You can also install directly from `Github <http://github.com/colour-science/colour>`_ source repository::
 
-	git clone git://github.com/KelSolaar/Colour.git
-	cd Colour
+	git clone git://github.com/colour-science/colour.git
+	cd colour
 	python setup.py install
-
-If you want to build the documentation you will also need:
-
--  `Oncilla <https://pypi.python.org/pypi/Oncilla/>`_
--  `Tidy <http://tidy.sourceforge.net/>`_
 
 Usage
 -----
@@ -530,7 +525,7 @@ Transformations
 About
 -----
 
-| **Colour** by Thomas Mansencal - Michael Parsons - 2013 - 2014
-| Copyright © 2013 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Colour** by Colour Developers - 2013 - 2014
+| Copyright © 2013 - 2014 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
-| `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_
+| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

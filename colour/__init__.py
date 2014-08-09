@@ -2,16 +2,31 @@
 # -*- coding: utf-8 -*-
 
 """
-**__init__.py**
+Colour
+======
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+**Colour** is a **Python** colour science package implementing a comprehensive
+number of colour theory transformations and algorithms.
 
-**Description:**
-    Defines **Colour** package initialisation.
-
-**Others:**
-
+Subpackages
+-----------
+-   adaptation: Chromatic adaptation transformations.
+-   algebra: Algebra utilities.
+-   appearance: Colour appearance models.
+-   characterization: Colour fitting and camera characterization.
+-   colorimetry: Core objects for colour computations.
+-   constants: *CIE* and *CODATA* constants.
+-   difference: Colour difference computations.
+-   examples: Examples for the sub-packages.
+-   implementation: Various implementations of the API.
+-   models: Colour models.
+-   notation: Colour notation systems.
+-   optimal: Optimal colour stimuli computation.
+-   plotting: Diagrams, plots, etc...
+-   quality: Colour quality computation.
+-   temperature: Colour temperature and correlated colour temperature
+    computation.
+-   utilities: Various utilities and data structures.
 """
 
 from __future__ import absolute_import
@@ -51,11 +66,11 @@ from . import quality
 from .temperature import *
 from . import temperature
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = []

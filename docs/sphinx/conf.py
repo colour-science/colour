@@ -56,7 +56,7 @@ master_doc = "index"
 
 # General information about the project.
 project = u"Colour"
-copyright = u"2013 - 2014, Thomas Mansencal"
+copyright = u"2013 - 2014, Colour Developers"
 
 # The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -211,7 +211,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     ("index", "Colour.tex", u"Colour Documentation",
-     u"Thomas Mansencal", "manual"),
+     u"Colour Developers", "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -241,7 +241,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ("index", "Colour", u"Colour Documentation",
-     [u"Thomas Mansencal"], 1)
+     [u"Colour Developers"], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -255,7 +255,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ("index", "Colour", u"Colour Documentation",
-     u"Thomas Mansencal", "Colour", "One line description of project.",
+     u"Colour Developers", "Colour", "One line description of project.",
      "Miscellaneous"),
 ]
 
@@ -276,9 +276,9 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u"Colour"
-epub_author = u"Thomas Mansencal"
-epub_publisher = u"Thomas Mansencal"
-epub_copyright = u"2013 - 2014, Thomas Mansencal"
+epub_author = u"Colour Developers"
+epub_publisher = u"Colour Developers"
+epub_copyright = u"2013 - 2014, Colour Developers"
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u"colour"

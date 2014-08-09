@@ -28,11 +28,11 @@ from colour.quality.dataset.tcs import TCS_SPDS, TCS_INDEXES_TO_NAMES
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_illuminant_D, uv_to_CCT_robertson1968
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",

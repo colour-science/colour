@@ -14,11 +14,11 @@ import numpy as np
 
 from colour.algebra import linear_regression
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["first_order_colour_fit"]

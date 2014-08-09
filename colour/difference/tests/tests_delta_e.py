@@ -19,11 +19,11 @@ else:
 
 import colour.difference.delta_e
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestDelta_E_CIE_1976",
