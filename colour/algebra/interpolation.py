@@ -310,7 +310,7 @@ class SpragueInterpolator(object):
     Defines the coefficients used to generate extra points for boundaries
     interpolation.
 
-    SPRAGUE_C_COEFFICIENTS : array_like (4, 6)
+    SPRAGUE_C_COEFFICIENTS : array_like, (4, 6)
 
     References
     ----------

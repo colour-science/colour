@@ -19,6 +19,7 @@ import scipy.ndimage
 
 from colour import Extrapolator1d
 from colour import LinearInterpolator1d
+from colour import RGB_COLOURSPACES
 from colour import SpectralPowerDistribution
 from colour import TriSpectralPowerDistribution
 
@@ -159,7 +160,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
 
 
 def transfer_function(image,
-                      colourspace=colour.RGB_COLOURSPACES["sRGB"],
+                      colourspace=RGB_COLOURSPACES["sRGB"],
                       to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given
@@ -190,7 +191,7 @@ def transfer_function(image,
 
 
 def get_image(path,
-              colourspace=colour.RGB_COLOURSPACES["sRGB"],
+              colourspace=RGB_COLOURSPACES["sRGB"],
               to_linear=True):
     """
     Reads image from given path.
@@ -229,7 +230,7 @@ def get_image_profile(image, line, samples=None):
     ----------
     image : ndarray
         image: Image to retrieve the profile.
-    line : tuple or list or ndarray (x0, y0, x1, y1)
+    line : tuple or list or ndarray, (x0, y0, x1, y1)
         line: Coordinates as image array indexes to measure the profile.
     samples : int, optional
         samples: Samples count to retrieve along the line, default to image
@@ -361,7 +362,7 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
 
 
 def get_luminance_spd(RGB_spectrum,
-                      colourspace=colour.RGB_COLOURSPACES["sRGB"]):
+                      colourspace=RGB_COLOURSPACES["sRGB"]):
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 

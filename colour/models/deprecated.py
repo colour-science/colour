@@ -51,9 +51,9 @@ def RGB_to_HSV(RGB):
                [ 0.98039216]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :return: *HSV* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *RGB* colourspace matrix is in domain [0, 1].
     :note: Output *HSV* colourspace matrix is in domain [0, 1].
@@ -110,9 +110,9 @@ def HSV_to_RGB(HSV):
                [ 0.25098039]])
 
     :param HSV: *HSV* colourspace matrix.
-    :type HSV: array_like (3, 1)
+    :type HSV: array_like, (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *HSV* colourspace matrix is in domain [0, 1].
     :note: Output *RGB* colourspace matrix is in domain [0, 1].
@@ -179,9 +179,9 @@ def RGB_to_HSL(RGB):
                [ 0.61568627]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :return: *HSL* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *RGB* colourspace matrix is in domain [0, 1].
     :note: Output *HSL* colourspace matrix is in domain [0, 1].
@@ -240,9 +240,9 @@ def HSL_to_RGB(HSL):
                [ 0.25098038]])
 
     :param HSL: *HSL* colourspace matrix.
-    :type HSL: array_like (3, 1)
+    :type HSL: array_like, (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *HSL* colourspace matrix is in domain [0, 1].
     :note: Output *RGB* colourspace matrix is in domain [0, 1].
@@ -296,9 +296,9 @@ def RGB_to_CMY(RGB):
                 [ 0.74901961]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :return: *CMY* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *RGB* colourspace matrix is in domain [0, 1].
     :note: Output *CMY* colourspace matrix is in domain [0, 1].
@@ -325,9 +325,9 @@ def CMY_to_RGB(CMY):
                [ 0.25098039]])
 
     :param CMY: *CMY* colourspace matrix.
-    :type CMY: array_like (3, 1)
+    :type CMY: array_like, (3, 1)
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CMY* colourspace matrix is in domain [0, 1].
     :note: Output *RGB* colourspace matrix is in domain [0, 1].
@@ -355,9 +355,9 @@ def CMY_to_CMYK(CMY):
                [ 0.01960784]])
 
     :param CMY: *CMY* colourspace matrix.
-    :type CMY: array_like (3, 1)
+    :type CMY: array_like, (3, 1)
     :return: *CMYK* matrix.
-    :rtype: ndarray (4, 1)
+    :rtype: ndarray, (4, 1)
 
     :note: Input *CMY* colourspace matrix is in domain [0, 1].
     :note: Output*CMYK* colourspace matrix is in domain [0, 1].
@@ -402,9 +402,9 @@ def CMYK_to_CMY(CMYK):
                [ 0.74901961]])
 
     :param CMYK: *CMYK* colourspace matrix.
-    :type CMYK: array_like (4, 1)
+    :type CMYK: array_like, (4, 1)
     :return: *CMY* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CMYK* colourspace matrix is in domain [0, 1].
     :note: Output *CMY* colourspace matrix is in domain [0, 1].
@@ -430,7 +430,7 @@ def RGB_to_HEX(RGB):
         #aaddff
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :return: Hex triplet representation.
     :rtype: unicode
 
@@ -456,7 +456,7 @@ def HEX_to_RGB(HEX):
     :param HEX: Hex triplet representation.
     :type HEX: unicode
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Output *RGB* colourspace matrix is in domain [0, 1].
     """

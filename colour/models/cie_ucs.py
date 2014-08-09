@@ -43,9 +43,9 @@ def XYZ_to_UCS(XYZ):
               [ 0.12182529]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :return: *CIE UCS* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: Output *CIE UCS* colourspace matrix is in domain [0, 1].
@@ -75,9 +75,9 @@ def UCS_to_XYZ(UVW):
                [ 0.05150892]])
 
     :param UVW: *CIE UCS* colourspace matrix.
-    :type UVW: array_like (3, 1)
+    :type UVW: array_like, (3, 1)
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE UCS* colourspace matrix is in domain [0, 1].
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
@@ -105,7 +105,7 @@ def UCS_to_uv(UVW):
         (0.43249999995420696, 0.378800000065942)
 
     :param UVW: *CIE UCS* colourspace matrix.
-    :type UVW: array_like (3, 1)
+    :type UVW: array_like, (3, 1)
     :return: *uv* chromaticity coordinates.
     :rtype: tuple
 

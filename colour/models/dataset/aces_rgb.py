@@ -2,16 +2,22 @@
 # -*- coding: utf-8 -*-
 
 """
-**aces_rgb.py**
+ACES RGB Colourspace
+====================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *ACES RGB* colourspace and its variations:
 
-**Description:**
-    Defines **Colour** package *ACES RGB* colourspace.
+-   :attr:`ACES_RGB_COLOURSPACE`
+-   :attr:`ACES_RGB_LOG_COLOURSPACE`
+-   :attr:`ACES_RGB_PROXY_10_COLOURSPACE`
+-   :attr:`ACES_RGB_PROXY_12_COLOURSPACE`
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.oscars.org/science-technology/council/projects/aces.html
+        (Last accessed 24 February 2014)
+.. [2]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
@@ -51,29 +57,65 @@ __all__ = ["ACES_RGB_PRIMARIES",
            "ACES_RGB_PROXY_10_COLOURSPACE",
            "ACES_RGB_PROXY_12_COLOURSPACE"]
 
-# http://www.oscars.org/science-technology/council/projects/aces.html
-# http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf: \
-# 4.1.2 Color space chromaticities
 ACES_RGB_PRIMARIES = np.array(
     [0.73470, 0.26530,
      0.00000, 1.00000,
      0.00010, -0.07700]).reshape((3, 2))
+"""
+*ACES RGB* colourspace primaries.
+
+ACES_RGB_PRIMARIES : ndarray, (3, 2)
+
+References
+----------
+.. [3]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
+        4.1.2 Color space chromaticities (Last accessed 24 February 2014)
+"""
 
 ACES_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D60")
+"""
+*ACES RGB* colourspace whitepoint.
 
-# http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
-# 4.1.4 Converting ACES RGB values to CIE XYZ values
+ACES_RGB_WHITEPOINT : tuple
+"""
+
 ACES_RGB_TO_XYZ_MATRIX = np.array(
     [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
      3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
      0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3))
+"""
+*ACES RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+ACES_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+
+References
+----------
+.. [4]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
+        4.1.4 Converting ACES RGB values to CIE XYZ values
+        (Last accessed 24 February 2014)
+"""
 
 XYZ_TO_ACES_RGB_MATRIX = np.linalg.inv(ACES_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *ACES RGB* colourspace matrix.
+
+XYZ_TO_ACES_RGB_MATRIX : array_like, (3, 3)
+"""
 
 ACES_RGB_TRANSFER_FUNCTION = lambda x: x
+"""
+Transfer function from linear to *ACES RGB* colourspace.
+
+ACES_RGB_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x
+"""
+Inverse transfer function from *ACES RGB* colourspace to linear.
+
+ACES_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_COLOURSPACE = RGB_Colourspace(
     "ACES RGB",
@@ -83,29 +125,39 @@ ACES_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ACES_RGB_MATRIX,
     ACES_RGB_TRANSFER_FUNCTION,
     ACES_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*ACES RGB* colourspace.
+
+ACES_RGB_COLOURSPACE : RGB_Colourspace
+"""
 
 ACES_RGB_LOG_CONSTANTS = Structure(
     log_unity=32768,
     log_xperstop=2048,
     denorm_trans=math.pow(2., -15),
     denorm_fake0=math.pow(2., -16))
+"""
+*ACES RGB Log* colourspace constants.
+
+ACES_RGB_LOG_CONSTANTS : Structure
+"""
 
 
 def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     """
     Defines the *ACES RGB Log* colourspace transfer function.
 
-    :param value: value.
-    :type value: float
-    :param is_16_bit_integer: Is value 16 bit integer.
-    :type is_16_bit_integer: bool
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
+    is_16_bit_integer : bool
+        Is value 16 bit integer.
 
-    References:
-
-    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     if value < 0.:
@@ -128,15 +180,15 @@ def _aces_rgb_log_inverse_transfer_function(value):
     """
     Defines the *ACES RGB Log* colourspace inverse transfer function.
 
-    :param value: value.
-    :type value: float
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
 
-    References:
-
-    -  `Logarithmic Encoding of ACES Data for use within Color Grading Systems \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     value = (math.pow(2.,
@@ -149,8 +201,18 @@ def _aces_rgb_log_inverse_transfer_function(value):
 
 
 ACES_RGB_LOG_TRANSFER_FUNCTION = _aces_rgb_log_transfer_function
+"""
+Transfer function from linear to *ACES RGB Log* colourspace.
+
+ACES_RGB_LOG_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = _aces_rgb_log_inverse_transfer_function
+"""
+Inverse transfer function from *ACES RGB Log* colourspace to linear.
+
+ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace(
     "ACES RGB Log",
@@ -160,6 +222,17 @@ ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ACES_RGB_MATRIX,
     ACES_RGB_LOG_TRANSFER_FUNCTION,
     ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
+"""
+*ACES RGB Log* colourspace.
+
+ACES_RGB_LOG_COLOURSPACE : RGB_Colourspace
+
+References
+----------
+.. [5]  `Logarithmic Encoding of ACES Data for use within Color Grading Systems
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
+        (Last accessed 17 May 2014)
+"""
 
 ACES_RGB_PROXY_10_CONSTANTS = Structure(
     CV_min=0.,
@@ -167,6 +240,11 @@ ACES_RGB_PROXY_10_CONSTANTS = Structure(
     steps_per_stop=50.,
     mid_CV_offset=425.,
     mid_log_offset=-2.5)
+"""
+*ACES RGB Proxy 10* colourspace constants.
+
+ACES_RGB_PROXY_10_CONSTANTS : Structure
+"""
 
 ACES_RGB_PROXY_12_CONSTANTS = Structure(
     CV_min=0.,
@@ -174,26 +252,37 @@ ACES_RGB_PROXY_12_CONSTANTS = Structure(
     steps_per_stop=200.,
     mid_CV_offset=1700.,
     mid_log_offset=-2.5)
+"""
+*ACES RGB Proxy 12* colourspace constants.
 
-ACES_RGB_PROXY_CONSTANTS = {"10 bit": ACES_RGB_PROXY_10_CONSTANTS,
-                            "12 bit": ACES_RGB_PROXY_12_CONSTANTS}
+ACES_RGB_PROXY_12_CONSTANTS : Structure
+"""
+
+ACES_RGB_PROXY_CONSTANTS = {"10 Bit": ACES_RGB_PROXY_10_CONSTANTS,
+                            "12 Bit": ACES_RGB_PROXY_12_CONSTANTS}
+"""
+Aggregated *ACES RGB Proxy* colourspace constants.
+
+ACES_RGB_PROXY_CONSTANTS : dict
+    ("10 Bit", "12 Bit")
+"""
 
 
-def _aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
+def _aces_rgb_proxy_transfer_function(value, bit_depth="10 Bit"):
     """
     Defines the *ACES RGB Proxy* colourspace transfer function.
 
-    :param value: value.
-    :type value: float
-    :param bit_depth: *ACES RGB Proxy* bit depth.
-    :type bit_depth: str ("10 bit", "12 bit")
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
+    bit_depth : unicode ("10 Bit", "12 Bit")
+        *ACES RGB Proxy* bit depth.
 
-    References:
-
-    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
@@ -208,21 +297,21 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth="10 bit"):
         return constants.CV_min
 
 
-def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
+def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 Bit"):
     """
     Defines the *ACES RGB Proxy* colourspace inverse transfer function.
 
-    :param value: value.
-    :type value: float
-    :param bit_depth: *ACES RGB Proxy* bit depth.
-    :type bit_depth: str ("10 bit", "12 bit")
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
+    bit_depth : str ("10 Bit", "12 Bit")
+        *ACES RGB Proxy* bit depth.
 
-    References:
-
-    -  `ACESproxy, an Integer Log Encoding of ACES Image Data \
-    <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
@@ -233,16 +322,36 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 bit"):
 
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth="10 bit")
+    _aces_rgb_proxy_transfer_function(x, bit_depth="10 Bit")
+"""
+Transfer function from linear to *ACES RGB Proxy 10* colourspace.
+
+ACES_RGB_PROXY_10_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="10 bit")
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="10 Bit")
+"""
+Inverse transfer function from *ACES RGB Proxy 10* colourspace to linear.
+
+ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth="12 bit")
+    _aces_rgb_proxy_transfer_function(x, bit_depth="12 Bit")
+"""
+Transfer function from linear to *ACES RGB Proxy 12* colourspace.
+
+ACES_RGB_PROXY_12_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="12 bit")
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="12 Bit")
+"""
+Inverse transfer function from *ACES RGB Proxy 12* colourspace to linear.
+
+ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace(
     "ACES RGB Proxy 10",
@@ -252,6 +361,17 @@ ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ACES_RGB_MATRIX,
     ACES_RGB_PROXY_10_TRANSFER_FUNCTION,
     ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION)
+"""
+*ACES RGB Proxy 10* colourspace.
+
+ACES_RGB_PROXY_10_COLOURSPACE : RGB_Colourspace
+
+References
+----------
+.. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+        (Last accessed 17 May 2014)
+"""
 
 ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace(
     "ACES RGB Proxy 12",
@@ -261,3 +381,14 @@ ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ACES_RGB_MATRIX,
     ACES_RGB_PROXY_12_TRANSFER_FUNCTION,
     ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION)
+"""
+*ACES RGB Proxy 12* colourspace.
+
+ACES_RGB_PROXY_12_COLOURSPACE : RGB_Colourspace
+
+References
+----------
+.. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+        (Last accessed 17 May 2014)
+"""

@@ -1005,7 +1005,7 @@ def LCHab_to_munsell_specification(LCHab):
         (8.036241227777781, 10.0, 3.5013295919999998, 1)
 
     :param LCHab: *CIE LCHab* colourspace matrix.
-    :type LCHab: array_like (3, 1)
+    :type LCHab: array_like, (3, 1)
     :return: *Munsell* *Colorlab* specification.
     :rtype: tuple
 
@@ -1211,7 +1211,7 @@ def munsell_specification_to_xyY(specification):
     :param specification: *Munsell* *Colorlab* specification.
     :type specification: float or tuple
     :return: *CIE xyY* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *Munsell* *Colorlab* specification hue must be in domain \
     [0, 10].
@@ -1286,7 +1286,7 @@ def munsell_colour_to_xyY(munsell_colour):
     :param munsell_colour: *Munsell* colour.
     :type munsell_colour: unicode
     :return: *CIE xyY* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
     """
@@ -1305,7 +1305,7 @@ def xyY_to_munsell_specification(xyY):
         (4.1742530270757179, 8.0999999757342671, 5.3044360044459644, 6)
 
     :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
+    :type xyY: array_like, (3, 1)
     :return: *Munsell* *Colorlab* specification.
     :rtype: float or tuple
 
@@ -1537,7 +1537,7 @@ def xyY_to_munsell_colour(xyY,
         4.2YR 8.1/5.3
 
     :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
+    :type xyY: array_like, (3, 1)
     :param hue_decimals: Hue formatting decimals.
     :type hue_decimals: int
     :param value_decimals: Value formatting decimals.

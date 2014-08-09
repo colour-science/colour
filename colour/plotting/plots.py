@@ -203,11 +203,11 @@ def XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Source illuminant chromaticity coordinates.
     :type illuminant: array_like
     :return: *sRGB* colour matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
     """
 
     sRGB = RGB_COLOURSPACES.get("sRGB")
@@ -224,9 +224,9 @@ def normalise_RGB(RGB):
     Normalises given *RGB* colourspace values.
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :return: Normalised *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
     """
 
     RGB = np.ravel(RGB)

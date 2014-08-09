@@ -48,11 +48,11 @@ def XYZ_to_xyY(XYZ,
                [ 0.1034]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE xyY* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
@@ -83,9 +83,9 @@ def xyY_to_XYZ(xyY):
                [ 0.05150892]])
 
     :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
+    :type xyY: array_like, (3, 1)
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
@@ -119,7 +119,7 @@ def xy_to_XYZ(xy):
     :param xy: *xy* chromaticity coordinate.
     :type xy: array_like
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *xy* is in domain [0, 1].
     :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
@@ -143,7 +143,7 @@ def XYZ_to_xy(XYZ,
         (0.32207410281368043, 0.33156550013623531)
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *xy* chromaticity coordinates.

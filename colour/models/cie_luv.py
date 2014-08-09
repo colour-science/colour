@@ -53,11 +53,11 @@ def XYZ_to_Luv(XYZ,
                [ -45.09684555]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE Luv* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant* is in domain [0, 1].
@@ -97,11 +97,11 @@ def Luv_to_XYZ(Luv,
                [ 1.03744246]])
 
     :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like (3, 1)
+    :type Luv: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input :math:`L^*` is in domain [0, 100].
     :note: Input *illuminant* is in domain [0, 1].
@@ -144,7 +144,7 @@ def Luv_to_uv(Luv,
         (0.19374142100850045, 0.47283165896209456)
 
     :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like (3, 1)
+    :type Luv: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *u'v'* chromaticity coordinates.
@@ -204,9 +204,9 @@ def Luv_to_LCHuv(Luv):
                [ 224.6747382 ]])
 
     :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like (3, 1)
+    :type Luv: array_like, (3, 1)
     :return: *CIE LCHuv* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: :math:`L^*` is in domain [0, 100].
 
@@ -237,9 +237,9 @@ def LCHuv_to_Luv(LCHuv):
                [ -19.81676035]])
 
     :param LCHuv: *CIE LCHuv* colourspace matrix.
-    :type LCHuv: array_like (3, 1)
+    :type LCHuv: array_like, (3, 1)
     :return: *CIE Luv* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: :math:`L^*` is in domain [0, 100].
 

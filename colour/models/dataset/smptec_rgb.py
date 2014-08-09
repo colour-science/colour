@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """
-**smptec_rgb.py**
+SMPTE-C RGB Colourspace
+=======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *SMPTE-C RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *SMPTE-C RGB* colourspace.
+-   :attr:`SMPTE_C_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
+        (Last accessed 13 April 2014)
 """
+
 
 from __future__ import unicode_literals
 
@@ -36,23 +38,52 @@ __all__ = ["SMPTE_C_RGB_PRIMARIES",
            "SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION",
            "SMPTE_C_RGB_COLOURSPACE"]
 
-# http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
 SMPTE_C_RGB_PRIMARIES = np.array(
     [0.630, 0.340,
      0.310, 0.595,
      0.155, 0.070]).reshape((3, 2))
+"""
+*SMPTE-C RGB* colourspace primaries.
+
+SMPTE_C_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
+"""
+*SMPTE-C RGB* colourspace whitepoint.
+
+SMPTE_C_RGB_WHITEPOINT : tuple
+"""
 
 SMPTE_C_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
+"""
+*SMPTE-C RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+SMPTE_C_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_SMPTE_C_RGB_MATRIX = np.linalg.inv(SMPTE_C_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *SMPTE-C RGB* colourspace matrix.
+
+XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
+"""
 
 SMPTE_C_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+"""
+Transfer function from linear to *SMPTE-C RGB* colourspace.
+
+SMPTE_C_RGB_TRANSFER_FUNCTION : object
+"""
 
 SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+"""
+Inverse transfer function from *SMPTE-C RGB* colourspace to linear.
+
+SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     "SMPTE-C RGB",
@@ -62,3 +93,8 @@ SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_SMPTE_C_RGB_MATRIX,
     SMPTE_C_RGB_TRANSFER_FUNCTION,
     SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*SMPTE-C RGB* colourspace.
+
+SMPTE_C_RGB_COLOURSPACE : RGB_Colourspace
+"""

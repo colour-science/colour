@@ -45,7 +45,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Returns
     -------
-    ndarray (3, 1)
+    ndarray, (3, 1)
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
     See Also
@@ -117,7 +117,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Returns
     -------
-    ndarray (3, 1)
+    ndarray, (3, 1)
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
 
     See Also
@@ -174,7 +174,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Returns
     -------
-    ndarray (3, 1)
+    ndarray, (3, 1)
         *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
         values.
 
@@ -225,7 +225,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Returns
     -------
-    ndarray (3, 1)
+    ndarray, (3, 1)
         *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
 
     Notes
@@ -274,7 +274,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Returns
     -------
-    ndarray (3, 1)
+    ndarray, (3, 1)
         *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
 
     Notes

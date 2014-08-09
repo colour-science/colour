@@ -53,7 +53,7 @@ def linear_regression(y, x=None, additional_statistics=False):
 
     Returns
     -------
-    ndarray ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
+    ndarray, ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
         Regression statistics.
 
     References

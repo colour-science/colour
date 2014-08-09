@@ -28,7 +28,7 @@ def is_identity(x, n=3):
 
     Parameters
     ----------
-    x : array_like (N)
+    x : array_like, (N)
         Variable :math:`x` to test.
     n : int, optional
         Matrix dimension.

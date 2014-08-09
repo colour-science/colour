@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**cie_rgb.py**
+CIE RGB Colourspace
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *CIE RGB* colourspace.
+-   :attr:`CIE_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
@@ -36,25 +37,54 @@ __all__ = ["CIE_RGB_PRIMARIES",
            "CIE_RGB_INVERSE_TRANSFER_FUNCTION",
            "CIE_RGB_COLOURSPACE"]
 
-# http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 CIE_RGB_PRIMARIES = np.array(
     [0.7350, 0.2650,
      0.2740, 0.7170,
      0.1670, 0.0090]).reshape((3, 2))
+"""
+*CIE RGB* colourspace primaries.
+
+CIE_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("E")
+"""
+*CIE RGB* colourspace whitepoint.
+
+CIE_RGB_WHITEPOINT : tuple
+"""
 
 CIE_RGB_TO_XYZ_MATRIX = (1. / 0.17697 *
                          np.array([0.49, 0.31, 0.20,
                                    0.17697, 0.81240, 0.01063,
                                    0.00, 0.01, 0.99]).reshape((3, 3)))
+"""
+*CIE RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+CIE_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *CIE RGB* colourspace matrix.
+
+XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
+"""
 
 CIE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+"""
+Transfer function from linear to *CIE RGB* colourspace.
+
+CIE_RGB_TRANSFER_FUNCTION : object
+"""
 
 CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+"""
+Inverse transfer function from *CIE RGB* colourspace to linear.
+
+CIE_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 CIE_RGB_COLOURSPACE = RGB_Colourspace(
     "CIE RGB",
@@ -64,3 +94,8 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_CIE_RGB_MATRIX,
     CIE_RGB_TRANSFER_FUNCTION,
     CIE_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*CIE RGB* colourspace.
+
+CIE_RGB_COLOURSPACE : RGB_Colourspace
+"""

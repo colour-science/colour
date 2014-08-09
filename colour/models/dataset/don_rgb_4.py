@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**don_rgb_4.py**
+Don RGB 4 Colourspace
+=====================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *Don RGB 4* colourspace:
 
-**Description:**
-    Defines **Colour** package *Don RGB 4* colourspace.
+-   :attr:`DON_RGB_4_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.hutchcolor.com/profiles/DonRGB4.zip
+        (Last accessed 12 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -36,23 +37,52 @@ __all__ = ["DON_RGB_4_PRIMARIES",
            "DON_RGB_4_INVERSE_TRANSFER_FUNCTION",
            "DON_RGB_4_COLOURSPACE"]
 
-# http://www.hutchcolor.com/profiles/DonRGB4.zip
 DON_RGB_4_PRIMARIES = np.array(
     [0.69612068965517238, 0.29956896551724138,
      0.21468298109010012, 0.7652947719688542,
      0.12993762993762992, 0.035343035343035345]).reshape((3, 2))
+"""
+*Don RGB 4* colourspace primaries.
+
+DON_RGB_4_PRIMARIES : ndarray, (3, 2)
+"""
 
 DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
+"""
+*Don RGB 4* colourspace whitepoint.
+
+DON_RGB_4_WHITEPOINT : tuple
+"""
 
 DON_RGB_4_TO_XYZ_MATRIX = get_normalised_primary_matrix(DON_RGB_4_PRIMARIES,
                                                         DON_RGB_4_WHITEPOINT)
+"""
+*Don RGB 4* colourspace to *CIE XYZ* colourspace matrix.
+
+DON_RGB_4_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_DON_RGB_4_MATRIX = np.linalg.inv(DON_RGB_4_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *Don RGB 4* colourspace matrix.
+
+XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
+"""
 
 DON_RGB_4_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+"""
+Transfer function from linear to *Don RGB 4* colourspace.
+
+DON_RGB_4_TRANSFER_FUNCTION : object
+"""
 
 DON_RGB_4_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+"""
+Inverse transfer function from *Don RGB 4* colourspace to linear.
+
+DON_RGB_4_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     "Don RGB 4",
@@ -62,3 +92,8 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DON_RGB_4_MATRIX,
     DON_RGB_4_TRANSFER_FUNCTION,
     DON_RGB_4_INVERSE_TRANSFER_FUNCTION)
+"""
+*Don RGB 4* colourspace.
+
+DON_RGB_4_COLOURSPACE : RGB_Colourspace
+"""

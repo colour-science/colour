@@ -68,12 +68,12 @@ def get_normalised_primary_matrix(primaries, whitepoint):
                [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
                [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
 
-    :param primaries: Primaries chromaticity coordinate matrix (3, 2).
+    :param primaries: Primaries chromaticity coordinate matrix, (3, 2).
     :type primaries: array_like
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: array_like
     :return: Normalised primary matrix.
-    :rtype: ndarray (3, 3)
+    :rtype: ndarray, (3, 3)
 
     References:
 
@@ -114,7 +114,7 @@ def get_RGB_luminance_equation(primaries, whitepoint):
         Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
 
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: array_like (3, 2)
+    :type primaries: array_like, (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: array_like
     :return: *Luminance* equation.
@@ -143,9 +143,9 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
         12.1616018403
 
     :param RGB: *RGB* chromaticity coordinate matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :param primaries: Primaries chromaticity coordinate matrix.
-    :type primaries: array_like (3, 2)
+    :type primaries: array_like, (3, 2)
     :param whitepoint: Illuminant / whitepoint chromaticity coordinates.
     :type whitepoint: array_like
     :return: *Luminance*.

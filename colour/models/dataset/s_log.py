@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**s_log.py**
+Sony S-Log Colourspace
+======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *S-Log* colourspace:
 
-**Description:**
-    Defines **Colour** package *S-Log* colourspace.
+-   :attr:`S_LOG_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
+        (Last accessed 13 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -37,25 +38,54 @@ __all__ = ["S_LOG_PRIMARIES",
            "S_LOG_INVERSE_TRANSFER_FUNCTION",
            "S_LOG_COLOURSPACE"]
 
-# http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
 S_LOG_PRIMARIES = np.array(
     [0.73, 0.28,
      0.14, 0.855,
      0.10, -0.05]).reshape((3, 2))
+"""
+*S-Log* colourspace primaries.
+
+S_LOG_PRIMARIES : ndarray, (3, 2)
+"""
 
 S_LOG_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
+"""
+*S-Log* colourspace whitepoint.
+
+S_LOG_WHITEPOINT : tuple
+"""
 
 S_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(S_LOG_PRIMARIES,
                                                     S_LOG_WHITEPOINT)
+"""
+*S-Log* colourspace to *CIE XYZ* colourspace matrix.
+
+S_LOG_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_S_LOG_MATRIX = np.linalg.inv(S_LOG_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *S-Log* colourspace matrix.
+
+XYZ_TO_S_LOG_MATRIX : array_like, (3, 3)
+"""
 
 S_LOG_TRANSFER_FUNCTION = lambda x: \
     (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03
+"""
+Transfer function from linear to *S-Log* colourspace.
+
+S_LOG_TRANSFER_FUNCTION : object
+"""
 
 S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: \
     (math.pow(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+"""
+Inverse transfer function from *S-Log* colourspace to linear.
+
+S_LOG_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 S_LOG_COLOURSPACE = RGB_Colourspace(
     "S-Log",
@@ -65,3 +95,8 @@ S_LOG_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_S_LOG_MATRIX,
     S_LOG_TRANSFER_FUNCTION,
     S_LOG_INVERSE_TRANSFER_FUNCTION)
+"""
+*S-Log* colourspace.
+
+S_LOG_COLOURSPACE : RGB_Colourspace
+"""

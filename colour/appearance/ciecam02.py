@@ -276,7 +276,7 @@ def apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     :param D: Degree of adaptation.
     :type D: float
     :return: Adapted *RGB* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     References:
 
@@ -330,7 +330,7 @@ def RGB_to_HPE(RGB):
     :param RGB: *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
     :return: *Hunt-Pointer-Estevez* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     References:
 
@@ -371,7 +371,7 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
     :param RGB: *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
     :return: Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     References:
 

@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**xtreme_rgb.py**
+Xtreme RGB Colourspace
+======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *Xtreme RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *Xtreme RGB* colourspace.
+-   :attr:`XTREME_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.hutchcolor.com/profiles/XtremeRGB.zip
+        (Last accessed 12 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -36,24 +37,52 @@ __all__ = ["XTREME_RGB_PRIMARIES",
            "XTREME_RGB_INVERSE_TRANSFER_FUNCTION",
            "XTREME_RGB_COLOURSPACE"]
 
-
-# http://www.hutchcolor.com/profiles/XtremeRGB.zip
 XTREME_RGB_PRIMARIES = np.array(
     [1., 0.,
      0., 1.,
      0., 0.]).reshape((3, 2))
+"""
+*Xtreme RGB* colourspace primaries.
+
+XTREME_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D50")
+"""
+*Xtreme RGB* colourspace whitepoint.
+
+XTREME_RGB_WHITEPOINT : tuple
+"""
 
 XTREME_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(XTREME_RGB_PRIMARIES,
                                                          XTREME_RGB_WHITEPOINT)
+"""
+*Xtreme RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+XTREME_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_XTREME_RGB_MATRIX = np.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *Xtreme RGB* colourspace matrix.
+
+XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
+"""
 
 XTREME_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+"""
+Transfer function from linear to *Xtreme RGB* colourspace.
+
+XTREME_RGB_TRANSFER_FUNCTION : object
+"""
 
 XTREME_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+"""
+Inverse transfer function from *Xtreme RGB* colourspace to linear.
+
+XTREME_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     "Xtreme RGB",
@@ -63,3 +92,8 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_XTREME_RGB_MATRIX,
     XTREME_RGB_TRANSFER_FUNCTION,
     XTREME_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*Xtreme RGB* colourspace.
+
+XTREME_RGB_COLOURSPACE : RGB_Colourspace
+"""

@@ -59,7 +59,7 @@ def XYZ_to_RGB(XYZ,
                [ 0.05672498]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant_XYZ: *CIE XYZ* colourspace *illuminant* chromaticity \
     coordinates.
     :type illuminant_XYZ: array_like
@@ -70,11 +70,11 @@ def XYZ_to_RGB(XYZ,
     :type chromatic_adaptation_method: unicode ("XYZ Scaling", "Bradford", \
     "Von Kries", "Fairchild", "CAT02")
     :param from_XYZ: *Normalised primary matrix*.
-    :type from_XYZ: array_like (3, 3)
+    :type from_XYZ: array_like, (3, 3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant_XYZ* is in domain [0, 1].
@@ -120,7 +120,7 @@ def RGB_to_XYZ(RGB,
                [ 0.05089373]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :param illuminant_RGB: *RGB* colourspace *illuminant* chromaticity \
     coordinates.
     :type illuminant_RGB: array_like
@@ -131,11 +131,11 @@ def RGB_to_XYZ(RGB,
     :type chromatic_adaptation_method: unicode  ("XYZ Scaling", "Bradford", \
     "Von Kries", "Fairchild", "CAT02")
     :param to_XYZ: *Normalised primary matrix*.
-    :type to_XYZ: array_like (3, 3)
+    :type to_XYZ: array_like, (3, 3)
     :param inverse_transfer_function: *Inverse transfer function*.
     :type inverse_transfer_function: object
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *RGB* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant_RGB* is in domain [0, 1].
@@ -183,7 +183,7 @@ def xyY_to_RGB(xyY,
                [  5.67249761]])
 
     :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
+    :type xyY: array_like, (3, 1)
     :param illuminant_xyY: *CIE xyY* colourspace *illuminant* chromaticity \
     coordinates.
     :type illuminant_xyY: tuple
@@ -194,11 +194,11 @@ def xyY_to_RGB(xyY,
     :type chromatic_adaptation_method: unicode  ("XYZ Scaling", "Bradford",
     "Von Kries", "Fairchild", "CAT02")
     :param from_XYZ: *Normalised primary matrix*.
-    :type from_XYZ: array_like (3, 3)
+    :type from_XYZ: array_like, (3, 3)
     :param transfer_function: *Transfer function*.
     :type transfer_function: object
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant_xyY* is in domain [0, 1].
@@ -238,7 +238,7 @@ def RGB_to_xyY(RGB,
                [ 10.0799999 ]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :param illuminant_RGB: *RGB* colourspace *illuminant* chromaticity \
     coordinates.
     :type illuminant_RGB: array_like
@@ -249,11 +249,11 @@ def RGB_to_xyY(RGB,
     :type chromatic_adaptation_method: unicode ("XYZ Scaling", "Bradford",
     "Von Kries", "Fairchild", "CAT02")
     :param to_XYZ: *Normalised primary* matrix.
-    :type to_XYZ: array_like (3, 3)
+    :type to_XYZ: array_like, (3, 3)
     :param inverse_transfer_function: *Inverse transfer* function.
     :type inverse_transfer_function: object
     :return: *CIE xyY* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *RGB* colourspace matrix is in domain [0, 1].
     :note: Input *illuminant_RGB* is in domain [0, 1].
@@ -286,7 +286,7 @@ def RGB_to_RGB(RGB,
                [ 0.26348887]])
 
     :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like (3, 1)
+    :type RGB: array_like, (3, 1)
     :param input_colourspace: *RGB* input colourspace.
     :type input_colourspace: RGB_Colourspace
     :param output_colourspace: *RGB* output colourspace.
@@ -295,7 +295,7 @@ def RGB_to_RGB(RGB,
     :type chromatic_adaptation_method: unicode  ("XYZ Scaling", "Bradford",
     "Von Kries", "Fairchild", "CAT02")
     :return: *RGB* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: *RGB* colourspace matrices are in domain [0, 1].
     """

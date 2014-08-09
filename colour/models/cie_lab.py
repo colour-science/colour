@@ -50,11 +50,11 @@ def XYZ_to_Lab(XYZ,
                [ -15.85742105]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE Lab* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input *CIE XYZ* is in domain [0, 1].
     :note: Input *illuminant* is in domain [0, 1].
@@ -98,11 +98,11 @@ def Lab_to_XYZ(Lab,
                [ 1.03744246]])
 
     :param Lab: *CIE Lab* colourspace matrix.
-    :type Lab: array_like (3, 1)
+    :type Lab: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: Input :math:`L^*` is in domain [0, 100].
     :note: Input *illuminant* is in domain [0, 1].
@@ -144,9 +144,9 @@ def Lab_to_LCHab(Lab):
                [ 244.93046842]])
 
     :param Lab: *CIE Lab* colourspace matrix.
-    :type Lab: array_like (3, 1)
+    :type Lab: array_like, (3, 1)
     :return: *CIE LCHab* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: :math:`L^*` is in domain [0, 100].
 
@@ -177,9 +177,9 @@ def LCHab_to_Lab(LCHab):
                [ -15.85742105]])
 
     :param LCHab: *CIE LCHab* colourspace matrix.
-    :type LCHab: array_like (3, 1)
+    :type LCHab: array_like, (3, 1)
     :return: *CIE Lab* colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :note: :math:`L^*` is in domain [0, 100].
 

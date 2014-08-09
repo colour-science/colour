@@ -35,14 +35,14 @@ def first_order_colour_fit(m1, m2):
 
     Parameters
     ----------
-    m1 : array_like (3, n)
+    m1 : array_like, (3, n)
         Reference matrix the matrix :math:`m2` will be colour fitted against.
-    m2 : array_like (3, n)
+    m2 : array_like, (3, n)
         Matrix to fit.
 
     Returns
     -------
-    ndarray (3, 3)
+    ndarray, (3, 3)
         Fitting colour matrix.
 
     Examples

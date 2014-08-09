@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**pal_secam_rgb.py**
+Pal/Secam RGB Colourspace
+=========================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *Pal/Secam RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *Pal/Secam RGB* colourspace.
+-   :attr:`PAL_SECAM_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+        (Last accessed 13 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -36,23 +37,52 @@ __all__ = ["PAL_SECAM_RGB_PRIMARIES",
            "PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION",
            "PAL_SECAM_RGB_COLOURSPACE"]
 
-# http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 PAL_SECAM_RGB_PRIMARIES = np.array(
     [0.64, 0.33,
      0.29, 0.60,
      0.15, 0.06]).reshape((3, 2))
+"""
+*Pal/Secam RGB* colourspace primaries.
+
+PAL_SECAM_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
+"""
+*Pal/Secam RGB* colourspace whitepoint.
+
+PAL_SECAM_RGB_WHITEPOINT : tuple
+"""
 
 PAL_SECAM_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(
     PAL_SECAM_RGB_PRIMARIES, PAL_SECAM_RGB_WHITEPOINT)
+"""
+*Pal/Secam RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+PAL_SECAM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX = np.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *Pal/Secam RGB* colourspace matrix.
+
+XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
+"""
 
 PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
+"""
+Transfer function from linear to *Pal/Secam RGB* colourspace.
+
+PAL_SECAM_RGB_TRANSFER_FUNCTION : object
+"""
 
 PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
+"""
+Inverse transfer function from *Pal/Secam RGB* colourspace to linear.
+
+PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     "Pal/Secam RGB",
@@ -62,3 +92,8 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
     PAL_SECAM_RGB_TRANSFER_FUNCTION,
     PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*Pal/Secam RGB* colourspace.
+
+PAL_SECAM_RGB_COLOURSPACE : RGB_Colourspace
+"""

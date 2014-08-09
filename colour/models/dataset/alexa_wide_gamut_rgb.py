@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**alexa_wide_gamut_rgb.py**
+ALEXA Wide Gamut RGB Colourspace
+================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *ALEXA Wide Gamut RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *ALEXA Wide Gamut RGB* colourspace.
+-   :attr:`ALEXA_WIDE_GAMUT_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.arri.com/?eID=registration&file_uid=8026
+        (Last accessed 13 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -39,7 +40,6 @@ __all__ = ["ALEXA_LOG_C_CURVE_BCL_DATA",
            "ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION",
            "ALEXA_WIDE_GAMUT_RGB_COLOURSPACE"]
 
-# http://www.arri.com/?eID=registration&file_uid=8026
 ALEXA_LOG_C_CURVE_BCL_DATA = {
     "SUP 3.x": {
         160: (0.0928, 0.8128),
@@ -68,6 +68,12 @@ ALEXA_LOG_C_CURVE_BCL_DATA = {
         1000: (0.1343, 0.9662),
         1280: (0.1378, 0.9841),
         1600: (0.1409, 0.9997)}}
+"""
+*ALEXA Log C* curve *Ei, Black, Clipping Level* data.
+
+ALEXA_LOG_C_CURVE_BCL_DATA : dict
+    ("SUP 3.x", "SUP 2.x")
+"""
 
 # @formatter:off
 ALEXA_LOG_C_CURVE_CONVERSION_DATA = {
@@ -96,7 +102,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = {
             1000: (0.011361, 5.555556, 0.047996, 0.244161, 0.386036, 5.301883, 0.092814, 0.153047),
             1280: (0.012235, 5.555556, 0.043137, 0.240810, 0.386590, 5.229121, 0.092819, 0.156799),
             1600: (0.013047, 5.555556, 0.038625, 0.237781, 0.387093, 5.163350, 0.092824, 0.16019)}},
-    "SUP 3.x": {
+    "SUP 2.x": {
         "Normalised Sensor Signal": {
             160: (0.003907, 36.439829, -0.053366, 0.269035, 0.391007, 45.593473, -0.069772, 0.10836),
             200: (0.003907, 45.549786, -0.088959, 0.266007, 0.391007, 55.709581, -0.106114, 0.11154),
@@ -121,43 +127,77 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = {
             1000: (0.000000, 5.061087, 0.089004, 0.244161, 0.391007, 4.684112, 0.134495, 0.134495),
             1280: (0.000000, 5.061087, 0.089004, 0.240810, 0.391007, 4.369609, 0.138015, 0.138015),
             1600: (0.000000, 5.061087, 0.089004, 0.237781, 0.391007, 4.070466, 0.141197, 0.14119)}}}
+"""
+*ALEXA Log C* curve conversion data between signal and linear scene exposure
+factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
+
+ALEXA_LOG_C_CURVE_CONVERSION_DATA : dict
+    ("SUP 3.x", "SUP 2.x")
+"""
 # @formatter:on
 
 ALEXA_WIDE_GAMUT_RGB_PRIMARIES = np.array(
     [0.6840, 0.3130,
      0.2210, 0.8480,
      0.0861, -0.1020]).reshape((3, 2))
+"""
+*ALEXA Wide Gamut RGB* colourspace primaries.
+
+ALEXA_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
+"""
+*ALEXA Wide Gamut RGB* colourspace whitepoint.
+
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+"""
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
     [0.638008, 0.214704, 0.097744,
      0.291954, 0.823841, -0.115795,
      0.002798, -0.067034, 1.153294]).reshape((3, 3))
+"""
+*ALEXA Wide Gamut RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
     ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *ALEXA Wide Gamut RGB* colourspace matrix.
+
+XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
+"""
 
 
-def _alexa_wide_gamut_rgb_transfer_function(value,
-                                            firmware="SUP 3.x",
-                                            method="Linear Scene Exposure Factor",
-                                            EI=800):
+def _alexa_wide_gamut_rgb_transfer_function(
+        value,
+        firmware="SUP 3.x",
+        method="Linear Scene Exposure Factor",
+        EI=800):
     """
     Defines the *ALEXA Wide Gamut value* colourspace transfer function.
 
-    :param value: value.
-    :type value: float
-    :param firmware: Alexa firmware version.
-    :type firmware: unicode ("SUP 2.x", "SUP 3.x")
-    :param method: Conversion method.
-    :type method: unicode ("Linear Scene Exposure Factor", \
-    "Normalised Sensor Signal")
-    :param EI: Ei.
-    :type EI: int
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
+    firmware : unicode,
+        ("SUP 2.x", "SUP 3.x")
+        Alexa firmware version.
+    method : unicode, optional,
+        ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
+        Conversion method.
+    EI : int,  optional
+        Ei.
+
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     cut, a, b, c, d, e, f, ecutf = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
@@ -166,23 +206,31 @@ def _alexa_wide_gamut_rgb_transfer_function(value,
     return c * math.log10(a * value + b) + d if value > cut else ecutf
 
 
-def _alexa_wide_gamut_rgb_inverse_transfer_function(value,
-                                                    firmware="SUP 3.x",
-                                                    method="Linear Scene Exposure Factor",
-                                                    EI=800):
+def _alexa_wide_gamut_rgb_inverse_transfer_function(
+        value,
+        firmware="SUP 3.x",
+        method="Linear Scene Exposure Factor",
+        EI=800):
     """
     Defines the *ALEXA Wide Gamut value* colourspace inverse transfer function.
 
-    :param value: value.
-    :type value: float
-    :param firmware: Alexa firmware version.
-    :type firmware: unicode ("SUP 2.x", "SUP 3.x")
-    :param method: Conversion method.
-    :type method: unicode ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
-    :param EI: Ei.
-    :type EI: int
-    :return: Companded value.
-    :rtype: float
+    Parameters
+    ----------
+    value : float
+        value.
+    firmware : unicode,
+        ("SUP 2.x", "SUP 3.x")
+        Alexa firmware version.
+    method : unicode,  optional,
+        ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
+        Conversion method.
+    EI : int,  optional
+        Ei.
+
+    Returns
+    -------
+    float
+        Companded value.
     """
 
     cut, a, b, c, d, e, f, ecutf = (
@@ -194,8 +242,18 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(value,
 
 
 ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = _alexa_wide_gamut_rgb_transfer_function
+"""
+Transfer function from linear to *ALEXA Wide Gamut RGB* colourspace.
+
+ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION : object
+"""
 
 ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = _alexa_wide_gamut_rgb_inverse_transfer_function
+"""
+Inverse transfer function from *ALEXA Wide Gamut RGB* colourspace to linear.
+
+ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     "ALEXA Wide Gamut RGB",
@@ -205,3 +263,8 @@ ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
     ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
     ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*ALEXA Wide Gamut RGB* colourspace.
+
+ALEXA_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
+"""

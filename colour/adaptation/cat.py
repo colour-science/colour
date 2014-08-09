@@ -45,7 +45,7 @@ XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
 *XYZ Scaling* chromatic adaptation transform. [1]_
 
-XYZ_SCALING_CAT : array_like (3, 3)
+XYZ_SCALING_CAT : array_like, (3, 3)
 """
 
 BRADFORD_CAT = np.array(
@@ -55,7 +55,7 @@ BRADFORD_CAT = np.array(
 """
 *Bradford* chromatic adaptation transform. [1]_
 
-BRADFORD_CAT : array_like (3, 3)
+BRADFORD_CAT : array_like, (3, 3)
 """
 
 VON_KRIES_CAT = np.array(
@@ -65,7 +65,7 @@ VON_KRIES_CAT = np.array(
 """
 *Von Kries* chromatic adaptation transform. [1]_
 
-VON_KRIES_CAT : array_like (3, 3)
+VON_KRIES_CAT : array_like, (3, 3)
 """
 
 FAIRCHILD_CAT = np.array(
@@ -75,7 +75,7 @@ FAIRCHILD_CAT = np.array(
 """
 *Fairchild* chromatic adaptation transform. [2]_
 
-FAIRCHILD_CAT : array_like (3, 3)
+FAIRCHILD_CAT : array_like, (3, 3)
 """
 
 CAT02_CAT = np.array(
@@ -85,7 +85,7 @@ CAT02_CAT = np.array(
 """
 *CAT02* chromatic adaptation transform. [3]_
 
-CAT02_CAT : array_like (3, 3)
+CAT02_CAT : array_like, (3, 3)
 """
 
 CHROMATIC_ADAPTATION_METHODS = {
@@ -109,9 +109,9 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     Parameters
     ----------
-    XYZ1 : array_like (3, 1)
+    XYZ1 : array_like, (3, 1)
         *CIE XYZ* source *array_like* variable.
-    XYZ2 : array_like (3, 1)
+    XYZ2 : array_like, (3, 1)
         *CIE XYZ* target *array_like* variable.
     method : unicode, optional
         ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02"),
@@ -119,7 +119,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     Returns
     -------
-    ndarray (3, 3)
+    ndarray, (3, 3)
         Chromatic adaptation matrix.
 
     References

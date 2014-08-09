@@ -45,11 +45,11 @@ def XYZ_to_UVW(XYZ,
                [ 37.46450007]])
 
     :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like (3, 1)
+    :type XYZ: array_like, (3, 1)
     :param illuminant: Reference *illuminant* chromaticity coordinates.
     :type illuminant: array_like
     :return: *CIE 1964 U\*V*\W\** colourspace matrix.
-    :rtype: ndarray (3, 1)
+    :rtype: ndarray, (3, 1)
 
     :warning: The arguments domains of that definition are non standard!
     :note: Input *CIE XYZ* colourspace matrix is in domain [0, 100].

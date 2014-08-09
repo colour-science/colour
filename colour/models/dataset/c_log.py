@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**c_log.py**
+Canon C-Log Colourspace
+=======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *C-Log* colourspace:
 
-**Description:**
-    Defines **Colour** package *C-Log* colourspace.
+-   :attr:`C_LOG_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+        (Last accessed 18 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -37,26 +38,54 @@ __all__ = ["C_LOG_PRIMARIES",
            "C_LOG_INVERSE_TRANSFER_FUNCTION",
            "C_LOG_COLOURSPACE"]
 
-# http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
-# Assuming *sRGB* / *Rec. 709* primaries.
 C_LOG_PRIMARIES = np.array(
     [0.6400, 0.3300,
      0.3000, 0.6000,
      0.1500, 0.0600]).reshape((3, 2))
+"""
+*C-Log* colourspace primaries,
+
+C_LOG_PRIMARIES : ndarray, (3, 2)
+"""
 
 C_LOG_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("D65")
+"""
+*C-Log* colourspace whitepoint.
+
+C_LOG_WHITEPOINT : tuple
+"""
 
 C_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(C_LOG_PRIMARIES,
                                                     C_LOG_WHITEPOINT)
+"""
+*C-Log* colourspace to *CIE XYZ* colourspace matrix.
+
+C_LOG_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_C_LOG_MATRIX = np.linalg.inv(C_LOG_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *C-Log* colourspace matrix.
+
+XYZ_TO_C_LOG_MATRIX : array_like, (3, 3)
+"""
 
 C_LOG_TRANSFER_FUNCTION = lambda x: \
     0.529136 * math.log10(10.1596 * x + 1) + 0.0730597
+"""
+Transfer function from linear to *C-Log* colourspace.
+
+C_LOG_TRANSFER_FUNCTION : object
+"""
 
 C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: \
     -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x))
+"""
+Inverse transfer function from *C-Log* colourspace to linear.
+
+C_LOG_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 C_LOG_COLOURSPACE = RGB_Colourspace(
     "C-Log",
@@ -66,3 +95,8 @@ C_LOG_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_C_LOG_MATRIX,
     C_LOG_TRANSFER_FUNCTION,
     C_LOG_INVERSE_TRANSFER_FUNCTION)
+"""
+*C-Log* colourspace.
+
+C_LOG_COLOURSPACE : RGB_Colourspace
+"""

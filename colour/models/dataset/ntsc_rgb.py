@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**ntsc_rgb.py**
+NTSC RGB Colourspace
+====================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *NTSC RGB* colourspace:
 
-**Description:**
-    Defines **Colour** package *NTSC RGB* colourspace.
+-   :attr:`NTSC_RGB_COLOURSPACE`.
 
-**Others:**
-
+References
+----------
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+        (Last accessed 13 April 2014)
 """
 
 from __future__ import unicode_literals
@@ -36,22 +37,51 @@ __all__ = ["NTSC_RGB_PRIMARIES",
            "NTSC_RGB_INVERSE_TRANSFER_FUNCTION",
            "NTSC_RGB_COLOURSPACE"]
 
-# http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 NTSC_RGB_PRIMARIES = np.array([0.67, 0.33,
                                0.21, 0.71,
                                0.14, 0.08]).reshape((3, 2))
+"""
+*NTSC RGB* colourspace primaries.
+
+NTSC_RGB_PRIMARIES : ndarray, (3, 2)
+"""
 
 NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
     "CIE 1931 2 Degree Standard Observer").get("C")
+"""
+*NTSC RGB* colourspace whitepoint.
+
+NTSC_RGB_WHITEPOINT : tuple
+"""
 
 NTSC_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(NTSC_RGB_PRIMARIES,
                                                        NTSC_RGB_WHITEPOINT)
+"""
+*NTSC RGB* colourspace to *CIE XYZ* colourspace matrix.
+
+NTSC_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 XYZ_TO_NTSC_RGB_MATRIX = np.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *NTSC RGB* colourspace matrix.
+
+XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
+"""
 
 NTSC_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+"""
+Transfer function from linear to *NTSC RGB* colourspace.
+
+NTSC_RGB_TRANSFER_FUNCTION : object
+"""
 
 NTSC_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+"""
+Inverse transfer function from *NTSC RGB* colourspace to linear.
+
+NTSC_RGB_INVERSE_TRANSFER_FUNCTION : object
+"""
 
 NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     "NTSC RGB",
@@ -61,3 +91,8 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_NTSC_RGB_MATRIX,
     NTSC_RGB_TRANSFER_FUNCTION,
     NTSC_RGB_INVERSE_TRANSFER_FUNCTION)
+"""
+*NTSC RGB* colourspace.
+
+NTSC_RGB_COLOURSPACE : RGB_Colourspace
+"""

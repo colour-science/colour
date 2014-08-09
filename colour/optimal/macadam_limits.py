@@ -67,7 +67,7 @@ def is_within_macadam_limits(xyY, illuminant):
     given illuminant.
 
     :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like (3, 1)
+    :type xyY: array_like, (3, 1)
     :param illuminant: Illuminant.
     :type illuminant: unicode
     :return: Is within *MacAdam* limits.

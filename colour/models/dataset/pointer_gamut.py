@@ -2,20 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-**pointer_gamut.py**
+Pointer Gamut
+=============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *Pointer Gamut* data.
 
-**Description:**
-    Defines **Colour** package *Pointer Gamut* data.
-
-**Others:**
-
+References
+----------
+.. [1]  http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
-
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
@@ -26,7 +24,6 @@ __status__ = "Production"
 
 __all__ = ["POINTER_GAMUT_DATA"]
 
-# http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls (Last accessed 24 February 2014)
 POINTER_GAMUT_DATA = (
     (0.659, 0.316),
     (0.634, 0.351),
@@ -60,3 +57,8 @@ POINTER_GAMUT_DATA = (
     (0.393, 0.165),
     (0.451, 0.199),
     (0.508, 0.226))
+"""
+*Pointer Gamut* data.
+
+POINTER_GAMUT_DATA : tuple
+"""
