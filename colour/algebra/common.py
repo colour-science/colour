@@ -91,19 +91,20 @@ def get_closest(y, x):
     return y[(np.abs(np.array(y) - x)).argmin()]
 
 
-def to_ndarray(x):
+def to_ndarray(x, data_type=np.float_):
     """
-    Converts given :math:`x` variable to ndarray.
+    Converts given :math:`x` variable to *ndarray*.
 
     Parameters
     ----------
     x : object
         Variable to convert.
-
+    data_type : dtype
+        *ndarray* data type.
     Returns
     -------
     ndarray
-        :math:`x` variable converted to ndarray.
+        :math:`x` variable converted to *ndarray*.
 
     Examples
     --------
@@ -111,7 +112,9 @@ def to_ndarray(x):
     [1]
     """
 
-    return np.array(x) if is_iterable(x) else np.array((x,))
+    return (np.array(x, dtype=data_type)
+            if is_iterable(x) else
+            np.array((x,), dtype=data_type))
 
 
 def is_uniform(distribution):

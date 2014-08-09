@@ -2004,6 +2004,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
+        # TODO: Implements tests for spd + spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal(
@@ -2021,6 +2022,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
+        # TODO: Implements tests for spd - spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal(
@@ -2038,6 +2040,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
+        # TODO: Implements tests for spd * spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal((spd * 2.).values, values * 2.)
@@ -2053,6 +2056,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
+        # TODO: Implements tests for spd / spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal((spd / 2.).values, values / 2.)

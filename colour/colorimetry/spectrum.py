@@ -49,15 +49,18 @@ class SpectralPowerDistribution(object):
         ...,
         wavelength :math:`\lambda_{i+n}`}
 
-    Methods
-    -------
+    Attributes
+    ----------
     name
     data
     wavelengths
     values
     shape
-    __hash__
+
+    Methods
+    -------
     __getitem__
+    __init__
     __setitem__
     __iter__
     __contains__
@@ -68,6 +71,7 @@ class SpectralPowerDistribution(object):
     __sub__
     __mul__
     __div__
+    __truediv__
     get
     is_uniform
     extrapolate
@@ -393,8 +397,8 @@ class SpectralPowerDistribution(object):
 
     def __contains__(self, wavelength):
         """
-        Returns if the spectral power distribution contains the wavelength
-        :math:`\lambda`.
+        Returns if the spectral power distribution contains the given
+        wavelength :math:`\lambda`.
 
         Parameters
         ----------
@@ -422,7 +426,7 @@ class SpectralPowerDistribution(object):
 
     def __len__(self):
         """
-        Returns spectral power distribution wavelengths :math:`\lambda_n`
+        Returns the spectral power distribution wavelengths :math:`\lambda_n`
         count.
 
         Returns
@@ -832,8 +836,8 @@ class SpectralPowerDistribution(object):
 
     def extrapolate(self, start, end):
         """
-        Extrapolates the spectral power distribution according to
-        *CIE 15:2004* recommendation.
+        Extrapolates the spectral power distribution following *CIE 15:2004*
+        recommendation.
 
         Parameters
         ----------
@@ -871,6 +875,7 @@ class SpectralPowerDistribution(object):
         88.19
         """
 
+        # TODO: Implement support for *Extrapolator1d* class.
         start_wavelength, end_wavelength, steps = self.shape
 
         minimum, maximum = self.get(start_wavelength), self.get(end_wavelength)
@@ -961,7 +966,7 @@ class SpectralPowerDistribution(object):
         >>> spd = colour.SpectralPowerDistribution("Spd", data)
         >>> spd.interpolate(steps=1, method="Linear")
         >>> spd[515]
-        59.0
+        59.63
         """
 
         shape_start, shape_end, shape_steps = self.shape
@@ -1166,22 +1171,70 @@ class SpectralPowerDistribution(object):
 
 class TriSpectralPowerDistribution(object):
     """
-    Defines a tri-spectral power distribution implementation.
+    Defines the base object for colour matching functions.
+
+    A compound of three :class:`SpectralPowerDistribution` is used to store
+    the underlying axis data.
+
+    Parameters
+    ----------
+    name : str or unicode
+        Tri-spectral power distribution name.
+    data : dict
+        Tri-spectral power distribution data.
+    mapping : dict
+        Tri-spectral power distribution attributes mapping.
+    labels : dict
+        Tri-spectral power distribution axis labels mapping.
+
+    Attributes
+    ----------
+    name
+    mapping
+    data
+    labels
+    x
+    y
+    z
+    wavelengths
+    values
+    shape
+
+    Methods
+    -------
+    __init__
+    __getitem__
+    __setitem__
+    __iter__
+    __contains__
+    __len__
+    __eq__
+    __ne__
+    __add__
+    __sub__
+    __mul__
+    __div__
+    __truediv__
+    get
+    is_uniform
+    extrapolate
+    interpolate
+    align
+    zeros
+    normalise
+    clone
+
+    See Also
+    --------
+    colour.colorimetry.cmfs.LMS_ConeFundamentals,
+    colour.colorimetry.cmfs.RGB_ColourMatchingFunctions,
+    colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions
+
+    Examples
+    --------
     """
 
     def __init__(self, name, data, mapping, labels):
-        """
-        :param name: Tri-spectral power distribution name.
-        :type name: str or unicode
-        :param data: Tri-spectral power distribution data.
-        :type data: dict
-        :param mapping: Tri-spectral power distribution attributes mapping.
-        :type mapping: dict
-        :param labels: Tri-spectral power distribution axis labels mapping.
-        :type labels: dict
-        """
-
-        # --- Setting class attributes. ---
         self.__name = None
         self.name = name
         self.__mapping = mapping
@@ -1194,8 +1247,10 @@ class TriSpectralPowerDistribution(object):
         """
         Property for **self.__name** private attribute.
 
-        :return: self.__name.
-        :rtype: str or unicode
+        Returns
+        -------
+        str or unicode
+            self.__name.
         """
 
         return self.__name
@@ -1205,8 +1260,10 @@ class TriSpectralPowerDistribution(object):
         """
         Setter for **self.__name** private attribute.
 
-        :param value: Attribute value.
-        :type value: str or unicode
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
         """
 
         if value is not None:
@@ -1220,8 +1277,10 @@ class TriSpectralPowerDistribution(object):
         """
         Property for **self.__mapping** private attribute.
 
-        :return: self.__mapping.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            self.__mapping.
         """
 
         return self.__mapping
@@ -1231,8 +1290,10 @@ class TriSpectralPowerDistribution(object):
         """
         Setter for **self.__mapping** private attribute.
 
-        :param value: Attribute value.
-        :type value: dict
+        Parameters
+        ----------
+        value : dict
+            Attribute value.
         """
 
         if value is not None:
@@ -1250,8 +1311,10 @@ class TriSpectralPowerDistribution(object):
         """
         Property for **self.__data** private attribute.
 
-        :return: self.__data.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            self.__data.
         """
 
         return self.__data
@@ -1261,14 +1324,16 @@ class TriSpectralPowerDistribution(object):
         """
         Setter for **self.__data** private attribute.
 
-        :param value: Attribute value.
-        :type value: dict
+        Parameters
+        ----------
+        value : dict
+            Attribute value.
         """
 
         if value is not None:
-            assert type(
-                value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                "data", value)
+            assert type(value) is dict, \
+                "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                    "data", value)
             for axis in ("x", "y", "z"):
                 assert self.__mapping.get(axis) in value.keys(), \
                     "'{0}' attribute: '{1}' axis is missing!".format(
@@ -1283,15 +1348,15 @@ class TriSpectralPowerDistribution(object):
             np.testing.assert_almost_equal(
                 data["x"].wavelengths,
                 data["y"].wavelengths,
-                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                    "data", self.__mapping.get("x"),
-                    self.__mapping.get("y")))
+                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are \
+                different!".format("data", self.__mapping.get("x"),
+                                   self.__mapping.get("y")))
             np.testing.assert_almost_equal(
                 data["x"].wavelengths,
                 data["z"].wavelengths,
-                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are different!".format(
-                    "data", self.__mapping.get("x"),
-                    self.__mapping.get("z")))
+                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are \
+                different!".format("data", self.__mapping.get("x"),
+                                   self.__mapping.get("z")))
 
             self.__data = data
         else:
@@ -1302,8 +1367,10 @@ class TriSpectralPowerDistribution(object):
         """
         Property for **self.__labels** private attribute.
 
-        :return: self.__labels.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            self.__labels.
         """
 
         return self.__labels
@@ -1313,14 +1380,16 @@ class TriSpectralPowerDistribution(object):
         """
         Setter for **self.__labels** private attribute.
 
-        :param value: Attribute value.
-        :type value: dict
+        Parameters
+        ----------
+        value : dict
+            Attribute value.
         """
 
         if value is not None:
-            assert type(
-                value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                "labels", value)
+            assert type(value) is dict, \
+                "'{0}' attribute: '{1}' type is not 'dict'!".format(
+                    "labels", value)
             for axis in ("x", "y", "z"):
                 assert axis in value.keys(), \
                     "'{0}' attribute: '{1}' axis label is missing!".format(
@@ -1330,10 +1399,16 @@ class TriSpectralPowerDistribution(object):
     @property
     def x(self):
         """
-        Property for **self.__x** private attribute.
+        Property for **self.x** attribute.
 
-        :return: self.__x.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution for *x* axis.
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.x` is read only.
         """
 
         return self.__data.get("x")
@@ -1341,10 +1416,12 @@ class TriSpectralPowerDistribution(object):
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** private attribute.
+        Setter for **self.x** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("x"))
@@ -1352,10 +1429,16 @@ class TriSpectralPowerDistribution(object):
     @property
     def y(self):
         """
-        Property for **self.__y** private attribute.
+        Property for **self.y** attribute.
 
-        :return: self.__y.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution for *y* axis.
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.y` is read only.
         """
 
         return self.__data.get("y")
@@ -1363,10 +1446,12 @@ class TriSpectralPowerDistribution(object):
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** private attribute.
+        Setter for **self.y** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("y"))
@@ -1374,10 +1459,16 @@ class TriSpectralPowerDistribution(object):
     @property
     def z(self):
         """
-        Property for **self.__z** private attribute.
+        Property for **self.z** attribute.
 
-        :return: self.__z.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution for *z* axis.
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.z` is read only.
         """
 
         return self.__data.get("z")
@@ -1385,10 +1476,12 @@ class TriSpectralPowerDistribution(object):
     @z.setter
     def z(self, value):
         """
-        Setter for **self.__z** private attribute.
+        Setter for **self.z** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("z"))
@@ -1396,10 +1489,16 @@ class TriSpectralPowerDistribution(object):
     @property
     def wavelengths(self):
         """
-        Property for **self.__wavelengths** private attribute.
+        Property for **self.wavelengths** attribute.
 
-        :return: self.__wavelengths.
-        :rtype: list
+        Returns
+        -------
+        ndarray
+            Tri-spectral power distribution wavelengths :math:`\lambda_n`.
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.wavelengths` is read only.
         """
 
         return self.x.wavelengths
@@ -1407,10 +1506,12 @@ class TriSpectralPowerDistribution(object):
     @wavelengths.setter
     def wavelengths(self, value):
         """
-        Setter for **self.__wavelengths** private attribute.
+        Setter for **self.wavelengths** attribute.
 
-        :param value: Attribute value.
-        :type value: list
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError(
@@ -1419,10 +1520,17 @@ class TriSpectralPowerDistribution(object):
     @property
     def values(self):
         """
-        Property for **self.__values** private attribute.
+        Property for **self.values** attribute.
 
-        :return: self.__values.
-        :rtype: list
+        Returns
+        -------
+        ndarray
+            Tri-spectral power distribution wavelengths :math:`\lambda_n`
+            values.
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.values` is read only.
         """
 
         return np.array([self.get(wavelength)
@@ -1431,10 +1539,12 @@ class TriSpectralPowerDistribution(object):
     @values.setter
     def values(self, value):
         """
-        Setter for **self.__values** private attribute.
+        Setter for **self.values** attribute.
 
-        :param value: Attribute value.
-        :type value: list
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("values"))
@@ -1442,10 +1552,38 @@ class TriSpectralPowerDistribution(object):
     @property
     def shape(self):
         """
-        Property for **self.__shape** private attribute.
+        Property for **self.shape** attribute.
 
-        :return: self.__shape.
-        :rtype: tuple
+        Returns the shape of the tri-spectral power distribution in the form of
+        a tuple of *int* as follows::
+
+            ("start wavelength", "end wavelength", "steps between wavelengths")
+
+        Returns
+        -------
+        tuple
+            (start, end, steps),
+            Tri-spectral power distribution shape.
+
+        See Also
+        --------
+        SpectralPowerDistribution.is_uniform,
+        TriSpectralPowerDistribution.is_uniform
+
+        Warning
+        -------
+        :attr:`TriSpectralPowerDistribution.shape` is read only.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.shape
+        (510, 540, 10)
         """
 
         return self.x.shape
@@ -1453,20 +1591,37 @@ class TriSpectralPowerDistribution(object):
     @shape.setter
     def shape(self, value):
         """
-        Setter for **self.__shape** private attribute.
+        Setter for **self.shape** attribute.
 
-        :param value: Attribute value.
-        :type value: tuple
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("shape"))
 
     def __hash__(self):
         """
-        Reimplements the :meth:`object.__getitem__` method.
+        Returns the spectral power distribution hash value.
 
-        :return: Object hash.
-        :rtype: int
+        Returns
+        -------
+        int
+            Object hash.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__hash__` method.
+
+        Warning
+        -------
+        See :meth:`SpectralPowerDistribution.__hash__` method warning section.
+
+        References
+        ----------
+        .. [5]  http://stackoverflow.com/a/16162138/931625
+                (Last accessed 8 August 2014)
         """
 
         return hash((frozenset(self.__data.get("x")),
@@ -1475,106 +1630,342 @@ class TriSpectralPowerDistribution(object):
 
     def __getitem__(self, wavelength):
         """
-        Reimplements the :meth:`object.__getitem__` method.
+        Returns the values for given wavelength :math:`\lambda`.
 
-        :param wavelength: Wavelength.
-        :type wavelength: float
-        :return: Value.
-        :rtype: ndarray
+        Parameters
+        ----------
+        wavelength: float
+            Wavelength :math:`\lambda` to retrieve the values.
+
+        Returns
+        -------
+        ndarray, (3,)
+            Wavelength :math:`\lambda` values.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.get
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__getitem__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd[510]
+        array([ 49.67,  90.56,  12.43])
         """
 
-        return np.array(
-            (self.x[wavelength], self.y[wavelength], self.z[wavelength]))
+        return np.array((self.x[wavelength],
+                         self.y[wavelength],
+                         self.z[wavelength]))
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, wavelength, value):
         """
-        Reimplements the :meth:`object.__setitem__` method.
+        Sets the wavelength :math:`\lambda` with given value.
 
-        :param key: Key.
-        :type key: unicode
-        :param value: Value.
-        :type value: tuple
+        Parameters
+        ----------
+        wavelength : float
+            Wavelength :math:`\lambda` to set.
+        value : array_like
+            Value for wavelength :math:`\lambda`.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__setitem__` method.
+
+        Examples
+        --------
+        >>> x_bar = {}
+        >>> y_bar = {}
+        >>> z_bar = {}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd[510] = (49.6700, 49.6700, 49.6700)
+        >>> tri_spd.values
+        array([[ 49.67,  49.67,  49.67]])
         """
 
-        x, y, z = value
+        x, y, z = np.ravel(value)
 
-        self.x.__setitem__(key, x)
-        self.y.__setitem__(key, y)
-        self.z.__setitem__(key, z)
+        self.x.__setitem__(wavelength, x)
+        self.y.__setitem__(wavelength, y)
+        self.z.__setitem__(wavelength, z)
 
     def __iter__(self):
         """
-        Reimplements the :meth:`object.__iter__` method.
+        Returns a generator for the tri-spectral power distribution data.
 
-        :return: Spectral distribution iterator.
-        :rtype: object
+        Returns
+        -------
+        generator
+            Tri-spectral power distribution data generator.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__iter__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> for wavelength, value in tri_spd:
+        >>>     print(wavelength, value)
+        (510, array([ 49.67,  90.56,  12.43]))
+        (520, array([ 69.59,  87.34,  23.15]))
+        (530, array([ 81.73,  45.76,  67.98]))
+        (540, array([ 88.19,  23.45,  90.28]))
         """
 
         return itertools.izip(self.wavelengths, self.values)
 
     def __contains__(self, wavelength):
         """
-        Reimplements the :meth:`object.__contains__` method.
+        Returns if the tri-spectral power distribution contains the given
+        wavelength :math:`\lambda`.
 
-        :param wavelength: Wavelength.
-        :type wavelength: float
-        :return: Wavelength existence.
-        :rtype: bool
+        Parameters
+        ----------
+        wavelength : float
+            Wavelength :math:`\lambda`.
+
+        Returns
+        -------
+        bool
+            Is wavelength :math:`\lambda` in the tri-spectral power
+            distribution.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__contains__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> 510 in tri_spd
+        True
+
         """
 
         return wavelength in self.x
 
     def __len__(self):
         """
-        Reimplements the :meth:`object.__len__` method.
+        Returns the tri-spectral power distribution wavelengths
+        :math:`\lambda_n` count.
 
-        :return: Wavelengths count.
-        :rtype: int
+        Returns
+        -------
+        int
+            Tri-Spectral power distribution wavelengths :math:`\lambda_n` count.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__len__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> len(tri_spd)
+        4
         """
 
         return len(self.x)
 
     def __eq__(self, tri_spd):
         """
-        Reimplements the :meth:`object.__eq__` method.
+        Returns the tri-spectral power distribution equality with given other
+        tri-spectral power distribution.
 
-        :param tri_spd: Tri-spectral power distribution to compare for \
-        equality.
-        :type tri_spd: TriSpectralPowerDistribution
-        :return: Tri-spectral power distribution equality.
-        :rtype: bool
+        Parameters
+        ----------
+        spd : TriSpectralPowerDistribution
+            Tri-spectral power distribution to compare for equality.
+
+        Returns
+        -------
+        bool
+            Tri-spectral power distribution equality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__eq__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data1 = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> data2 = {"x_bar": y_bar, "y_bar": x_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd1 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd2 = colour.TriSpectralPowerDistribution("Tri Spd", data2, mpg, lbl)
+        >>> tri_spd3 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd1 == tri_spd2
+        False
+        >>> tri_spd1 == tri_spd3
+        True
         """
 
         equality = True
         for axis in self.__mapping:
             equality *= getattr(self, axis) == getattr(tri_spd, axis)
 
-        return equality
+        return bool(equality)
 
     def __ne__(self, tri_spd):
         """
-        Reimplements the :meth:`object.__eq__` method.
+        Returns the tri-spectral power distribution inequality with given other
+        tri-spectral power distribution.
 
-        :param tri_spd: Tri-spectral power distribution to compare for \
-        inequality.
-        :type tri_spd: TriSpectralPowerDistribution
-        :return: Tri-spectral power distribution inequality.
-        :rtype: bool
+        Parameters
+        ----------
+        spd : TriSpectralPowerDistribution
+            Tri-spectral power distribution to compare for inequality.
+
+        Returns
+        -------
+        bool
+            Tri-spectral power distribution inequality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__eq__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data1 = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> data2 = {"x_bar": y_bar, "y_bar": x_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd1 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd2 = colour.TriSpectralPowerDistribution("Tri Spd", data2, mpg, lbl)
+        >>> tri_spd3 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd1 != tri_spd2
+        True
+        >>> tri_spd1 != tri_spd3
+        False
         """
 
         return not (self == tri_spd)
 
+    def __format_operand(self, x):
+        """
+        Formats given :math:`x` variable operand to *float* or *ndarray*.
+
+        This method is a convenient method to prepare the given :math:`x`
+        variable for the arithmetic operations below.
+
+        Parameters
+        ----------
+        x : float or ndarray or TriSpectralPowerDistribution
+            Variable to format.
+
+        Returns
+        -------
+        float or ndarray
+            Formatted operand.
+        """
+
+        if issubclass(type(x), TriSpectralPowerDistribution):
+            x = x.values
+        elif is_iterable(x):
+            x = to_ndarray(x)
+
+        return x
+
     def __add__(self, x):
         """
-        Reimplements the :meth:`object.__add__` method.
+        Implements support for tri-spectral power distribution addition.
 
-        :param x: Variable to add.
-        :type x: float or array_like
-        :return: Variable added tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        x : float or array_like or TriSpectralPowerDistribution
+            Variable to add.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable added tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__,
+        TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__add__` method.
+
+        Warning
+        -------
+        The addition operation happens in place.
+
+        Examples
+        --------
+        Adding a single *float* variable:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd + 10
+        >>> tri_spd.values
+        array([[  59.67,  100.56,   22.43],
+               [  79.59,   97.34,   33.15],
+               [  91.73,   55.76,   77.98],
+               [  98.19,   33.45,  100.28]])
+
+        Adding an *array_like* variable:
+
+        >>> tri_spd + [(1, 2, 3)] * 4
+        >>> tri_spd.values
+        array([[  60.67,  102.56,   25.43],
+               [  80.59,   99.34,   36.15],
+               [  92.73,   57.76,   80.98],
+               [  99.19,   35.45,  103.28]])
+
+        Adding a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd + tri_spd_alternate
+        >>> tri_spd.values
+        array([[  73.1 ,  152.23,  115.99],
+               [ 103.74,  168.93,  123.49],
+               [ 160.71,  139.49,  126.74],
+               [ 189.47,  123.64,  126.73]])
         """
 
-        values = self.values + x
+        values = self.values + self.__format_operand(x)
 
         for i, axis in enumerate(("x", "y", "z")):
             self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
@@ -1583,27 +1974,139 @@ class TriSpectralPowerDistribution(object):
 
     def __sub__(self, x):
         """
-        Reimplements the :meth:`object.__sub__` method.
+        Implements support for tri-spectral power distribution subtraction.
 
-        :param x: Variable to subtract.
-        :type x: float or array_like
-        :return: Variable subtracted tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        x : float or array_like or TriSpectralPowerDistribution
+            Variable to subtract.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable subtracted tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__,
+        TriSpectralPowerDistribution.__mul__,
+        TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__sub__` method.
+
+        Warning
+        -------
+        The subtraction operation happens in place.
+
+        Examples
+        --------
+        Subtracting a single *float* variable:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd - 10
+        >>> tri_spd.values
+        array([[ 39.67,  80.56,   2.43],
+               [ 59.59,  77.34,  13.15],
+               [ 71.73,  35.76,  57.98],
+               [ 78.19,  13.45,  80.28]])
+
+        Subtracting an *array_like* variable:
+
+        >>> tri_spd - [(1, 2, 3)] * 4
+        >>> tri_spd.values
+        array([[ 38.67,  78.56,  -0.57],
+               [ 58.59,  75.34,  10.15],
+               [ 70.73,  33.76,  54.98],
+               [ 77.19,  11.45,  77.28]])
+
+        Subtracting a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd - tri_spd_alternate
+        >>> tri_spd.values
+        array([[ 26.24,  28.89, -91.13],
+               [ 35.44,   5.75, -77.19],
+               [  2.75, -47.97,   9.22],
+               [-13.09, -76.74,  53.83]])
         """
 
-        return self + (-x)
+        return self + (-self.__format_operand(x))
 
     def __mul__(self, x):
         """
-        Reimplements the :meth:`object.__mul__` method.
+        Implements support for tri-spectral power distribution multiplication.
 
-        :param x: Variable to multiply.
-        :type x: float or array_like
-        :return: Variable multiplied tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        x : float or array_like or TriSpectralPowerDistribution
+            Variable to multiply.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable multiplied tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__,
+        TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__mul__` method.
+
+        Warning
+        -------
+        The multiplication operation happens in place.
+
+        Examples
+        --------
+        Multiplying a single *float* variable:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd * 10
+        >>> tri_spd.values
+        array([[ 496.7,  905.6,  124.3],
+               [ 695.9,  873.4,  231.5],
+               [ 817.3,  457.6,  679.8],
+               [ 881.9,  234.5,  902.8]])
+
+        Multiplying an *array_like* variable:
+
+        >>> tri_spd * [(1, 2, 3)] * 4
+        >>> tri_spd.values
+        array([[  1986.8,   7244.8,   1491.6],
+               [  2783.6,   6987.2,   2778. ],
+               [  3269.2,   3660.8,   8157.6],
+               [  3527.6,   1876. ,  10833.6]])
+
+        Multiplying a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd * tri_spd_alternate
+        >>> tri_spd.values
+        array([[  24695.924,  359849.216,  135079.296],
+               [  64440.34 ,  486239.248,  242630.52 ],
+               [ 222240.216,  299197.184,  373291.776],
+               [ 318471.728,  165444.44 ,  254047.92 ]])
         """
 
-        values = self.values * x
+        values = self.values * self.__format_operand(x)
 
         for i, axis in enumerate(("x", "y", "z")):
             self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
@@ -1612,43 +2115,107 @@ class TriSpectralPowerDistribution(object):
 
     def __div__(self, x):
         """
-        Reimplements the :meth:`object.__div__` method.
+        Implements support for tri-spectral power distribution division.
 
-        :param x: Variable to divide.
-        :type x: float or array_like
-        :return: Variable divided tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        x : float or array_like or TriSpectralPowerDistribution
+            Variable to divide.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable divided tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__,
+        TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__mul__` method.
+
+        Warning
+        -------
+        The division operation happens in place.
+
+        Examples
+        --------
+        Dividing a single *float* variable:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd / 10
+        >>> tri_spd.values
+        array([[ 4.967,  9.056,  1.243],
+               [ 6.959,  8.734,  2.315],
+               [ 8.173,  4.576,  6.798],
+               [ 8.819,  2.345,  9.028]])
+
+        Dividing an *array_like* variable:
+
+        >>> tri_spd / [(1, 2, 3)] * 4
+        >>> tri_spd.values
+        array([[ 19.868     ,  18.112     ,   1.65733333],
+               [ 27.836     ,  17.468     ,   3.08666667],
+               [ 32.692     ,   9.152     ,   9.064     ],
+               [ 35.276     ,   4.69      ,  12.03733333]])
+
+        Dividing a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> tri_spd / tri_spd_alternate
+        >>> tri_spd.values
+        array([[ 1.59839099,  0.36464667,  0.01830094],
+               [ 1.20241901,  0.25101308,  0.03534081],
+               [ 0.48090615,  0.11197847,  0.19807692],
+               [ 0.39073992,  0.05318063,  0.51331912]])
         """
 
-        return self * (1. / x)
+        return self * (1. / self.__format_operand(x))
 
     # Python 3 compatibility.
     __truediv__ = __div__
 
-    def is_uniform(self):
-        """
-        Returns if the tri-spectral power distribution have uniformly spaced
-        data.
-
-        :return: Is uniform.
-        :rtype: bool
-        """
-
-        for i in self.__mapping.keys():
-            if not getattr(self, i).is_uniform():
-                return False
-        return True
-
     def get(self, wavelength, default=None):
         """
-        Returns given wavelength value.
+        Returns the values for given wavelength :math:`\lambda`.
 
-        :param wavelength: Wavelength.
-        :type wavelength: float
-        :param default: Default value if wavelength is not found.
-        :type default: object
-        :return: Value.
-        :rtype: float
+        Parameters
+        ----------
+        wavelength : float
+            Wavelength :math:`\lambda` to retrieve the values.
+        default : None or float, optional
+            Wavelength :math:`\lambda` default values.
+
+        Returns
+        -------
+        float
+            Wavelength :math:`\lambda` values.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__getitem__
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd[510]
+        array([ 49.67,  90.56,  12.43])
+        >>> tri_spd.get(511)
+        None
         """
 
         try:
@@ -1656,25 +2223,87 @@ class TriSpectralPowerDistribution(object):
         except KeyError as error:
             return default
 
+    def is_uniform(self):
+        """
+        Returns if the tri-spectral power distribution has uniformly spaced
+        data.
+
+        Returns
+        -------
+        bool
+            Is uniform.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.shape
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.is_uniform()
+        True
+
+        Breaking the steps by introducing new wavelength :math:`\lambda`
+        values:
+
+        >>> tri_spd[511] = (49.6700, 49.6700, 49.6700)
+        >>> tri_spd.is_uniform()
+        False
+        """
+
+        for i in self.__mapping.keys():
+            if not getattr(self, i).is_uniform():
+                return False
+        return True
+
     def extrapolate(self, start=None, end=None):
         """
-        Extrapolates the tri-spectral power distribution according to
+        Extrapolates the tri-spectral power distribution following
         *CIE 15:2004* recommendation.
 
-        :param start: Wavelengths range start in nm.
-        :type start: float
-        :param end: Wavelengths range end in nm.
-        :type end: float
-        :return: Extrapolated tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        start : float
+            Wavelengths :math:`\lambda_n` range start in nm.
+        end : float
+            Wavelengths :math:`\lambda_n` range end in nm.
 
-        References:
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Extrapolated tri-spectral power distribution.
 
-        -  `CIE 015:2004 Colorimetry, 3rd edition: \
-        7.2.2.1 Extrapolation \
-        <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+        See Also
+        --------
+        TriSpectralPowerDistribution.align
+
+        References
+        ----------
+
+        .. [6]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
+                <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
+        .. [7]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
+                for Use in Colour Computations: 10. EXTRAPOLATION
+                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.extrapolate(400, 700).shape
+        (400, 700, 10)
+        >>> tri_spd[400]
+        array([ 49.67,  90.56,  12.43])
+        >>> tri_spd[700]
+        array([ 88.19,  23.45,  90.28])
         """
 
         for i in self.__mapping.keys():
@@ -1682,28 +2311,93 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def interpolate(self, start=None, end=None, steps=None):
+    def interpolate(self, start=None, end=None, steps=None, method=None):
         """
         Interpolates the tri-spectral power distribution following
-        *CIE 167:2005* recommendations.
+        *CIE 167:2005* recommendations: the method developed by
+        *Sprague (1880)* should be used for interpolating functions having a
+        uniformly spaced independent variable and a *Cubic Spline* method for
+        non-uniformly spaced independent variable.
 
-        :param start: Wavelengths range start in nm.
-        :type start: float
-        :param end: Wavelengths range end in nm.
-        :type end: float
-        :param steps: Wavelengths range steps.
-        :type steps: float
-        :return: Interpolated tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        start : float, optional
+            Wavelengths :math:`\lambda_n` range start in nm.
+        end : float, optional
+            Wavelengths :math:`\lambda_n` range end in nm.
+        steps : float, optional
+            Wavelengths :math:`\lambda_n` range steps.
+        method : unicode, optional
+            ("Sprague", "Cubic Spline", "Linear"),
+            Enforce given interpolation method.
 
-        References:
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Interpolated tri-spectral power distribution.
 
-        -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: \
-        9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+        See Also
+        --------
+        TriSpectralPowerDistribution.align
+
+        Notes
+        -----
+        -   See :meth:`SpectralPowerDistribution.interpolate` method
+            notes section.
+
+        Warning
+        -------
+        See :meth:`SpectralPowerDistribution.interpolate` method warning
+        section.
+
+        References
+        ----------
+        .. [4]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
+                for Use in Colour Computations: 9. INTERPOLATION
+                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+
+        Examples
+        --------
+        Uniform data is using *Sprague* interpolation by default:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.interpolate(steps=1)
+        >>> tri_spd[515]
+        array([ 60.30332087,  93.27163315,  13.86051361])
+
+        Non uniform data is using *Cubic Spline* interpolation by default:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd[511] = (31.41, 95.27, 15.06)
+        >>> tri_spd.interpolate(steps=1)
+        >>> tri_spd[515]
+        array([  21.47104053,  100.64300155,   18.8165196 ])
+
+        Enforcing *Linear* interpolation:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.interpolate(steps=1, method="Linear")
+        >>> tri_spd[515]
+        array([ 59.63,  88.95,  17.79])
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).interpolate(start, end, steps)
+            getattr(self, i).interpolate(start, end, steps, method)
 
         return self
 
@@ -1712,14 +2406,104 @@ class TriSpectralPowerDistribution(object):
         Aligns the tri-spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
 
-        :param start: Wavelengths range start in nm.
-        :type start: float
-        :param end: Wavelengths range end in nm.
-        :type end: float
-        :param steps: Wavelengths range steps.
-        :type steps: float
-        :return: Aligned tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        start : float
+            Wavelengths :math:`\lambda_n` range start in nm.
+        end : float
+            Wavelengths :math:`\lambda_n` range end in nm.
+        steps : float
+            Wavelengths :math:`\lambda_n` range steps.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Aligned tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.extrapolate,
+        TriSpectralPowerDistribution.interpolate
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.align(start=505, end=565, steps=1)
+        >>> tri_spd.wavelengths
+        array([ 505.,  506.,  507.,  508.,  509.,  510.,  511.,  512.,  513.,
+                514.,  515.,  516.,  517.,  518.,  519.,  520.,  521.,  522.,
+                523.,  524.,  525.,  526.,  527.,  528.,  529.,  530.,  531.,
+                532.,  533.,  534.,  535.,  536.,  537.,  538.,  539.,  540.,
+                541.,  542.,  543.,  544.,  545.,  546.,  547.,  548.,  549.,
+                550.,  551.,  552.,  553.,  554.,  555.,  556.,  557.,  558.,
+                559.,  560.,  561.,  562.,  563.,  564.,  565.])
+        >>> tri_spd.values
+        array([[ 49.67      ,  90.56      ,  12.43      ],
+               [ 49.67      ,  90.56      ,  12.43      ],
+               [ 49.67      ,  90.56      ,  12.43      ],
+               [ 49.67      ,  90.56      ,  12.43      ],
+               [ 49.67      ,  90.56      ,  12.43      ],
+               [ 49.67      ,  90.56      ,  12.43      ],
+               [ 51.83259386,  91.29949284,  12.53771846],
+               [ 53.98419529,  91.95023878,  12.72331935],
+               [ 56.12054529,  92.53954635,  12.96516791],
+               [ 58.23153952,  93.01500371,  13.31237772],
+               [ 60.30332087,  93.27163315,  13.86051361],
+               [ 62.32037198,  93.17904559,  14.72729447],
+               [ 64.26760777,  92.60859514,  16.02829619],
+               [ 66.13246798,  91.46053359,  17.85265447],
+               [ 67.90700972,  89.69116496,  20.23876774],
+               [ 69.59      ,  87.34      ,  23.15      ],
+               [ 71.18373788,  84.48680331,  26.51504699],
+               [ 72.68000567,  81.0666018 ,  30.39648521],
+               [ 74.07534838,  77.07662549,  34.7958422 ],
+               [ 75.37403437,  72.61538702,  39.61788586],
+               [ 76.58560089,  67.84907147,  44.70268055],
+               [ 77.72239954,  62.97792612,  49.85764325],
+               [ 78.79714184,  58.20265032,  54.88959973],
+               [ 79.82044471,  53.69078522,  59.63684065],
+               [ 80.798376  ,  49.54310369,  64.00117776],
+               [ 81.73      ,  45.76      ,  67.98      ],
+               [ 82.60936063,  42.26785344,  71.64608931],
+               [ 83.439232  ,  39.10608   ,  74.976976  ],
+               [ 84.22200712,  36.30637281,  77.94505894],
+               [ 84.956896  ,  33.85464   ,  80.552     ],
+               [ 85.64101563,  31.70511719,  82.82035156],
+               [ 86.27048   ,  29.79448   ,  84.785184  ],
+               [ 86.84149013,  28.05595656,  86.48571319],
+               [ 87.351424  ,  26.43344   ,  87.956928  ],
+               [ 87.79992663,  24.89560094,  89.22121781],
+               [ 88.19      ,  23.45      ,  90.28      ],
+               [ 88.52650365,  22.14240911,  91.10391339],
+               [ 88.80908034,  20.99452341,  91.65380356],
+               [ 89.03932796,  20.00217875,  91.93334992],
+               [ 89.22228172,  19.14733703,  91.9858818 ],
+               [ 89.36529549,  18.40281792,  91.88110029],
+               [ 89.4769231 ,  17.73703066,  91.70180004],
+               [ 89.56579964,  17.11870586,  91.53059104],
+               [ 89.63952276,  16.52162725,  91.43662048],
+               [ 89.70353398,  15.92936351,  91.46229449],
+               [ 89.76      ,  15.34      ,  91.61      ],
+               [ 89.80940416,  14.76591774,  91.85286166],
+               [ 89.85788907,  14.21291904,  92.20917374],
+               [ 89.90963075,  13.6795969 ,  92.69296649],
+               [ 89.96529707,  13.16135104,  93.29883774],
+               [ 90.02324985,  12.65198116,  94.00787866],
+               [ 90.08074679,  12.14528008,  94.79359954],
+               [ 90.13514354,  11.63662697,  95.62785553],
+               [ 90.18509566,  11.12458059,  96.48677244],
+               [ 90.23176065,  10.61247244,  97.35667247],
+               [ 90.28      ,  10.11      ,  98.24      ],
+               [ 90.28      ,  10.11      ,  98.24      ],
+               [ 90.28      ,  10.11      ,  98.24      ],
+               [ 90.28      ,  10.11      ,  98.24      ],
+               [ 90.28      ,  10.11      ,  98.24      ],
+               [ 90.28      ,  10.11      ,  98.24      ]])
         """
 
         for i in self.__mapping.keys():
@@ -1731,16 +2515,93 @@ class TriSpectralPowerDistribution(object):
     def zeros(self, start=None, end=None, steps=None):
         """
         Zeros fills the tri-spectral power distribution: Missing values will be
-        replaced with zeros to fit the defined range.
+        replaced with zeroes to fit the defined range.
 
-        :param start: Wavelengths range start.
-        :type start: float
-        :param end: Wavelengths range end.
-        :type end: float
-        :param steps: Wavelengths range steps.
-        :type steps: float
-        :return: Zeros filled tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        start : float, optional
+            Wavelengths :math:`\lambda_n` range start in nm.
+        end : float, optional
+            Wavelengths :math:`\lambda_n` range end in nm.
+        steps : float, optional
+            Wavelengths :math:`\lambda_n` range steps.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Zeros filled tri-spectral power distribution.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.zeros(start=505, end=565, steps=1)
+        >>> tri_spd.values
+        array([[  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 49.67,  90.56,  12.43],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 69.59,  87.34,  23.15],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 81.73,  45.76,  67.98],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 88.19,  23.45,  90.28],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 89.76,  15.34,  91.61],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [ 90.28,  10.11,  98.24],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ],
+               [  0.  ,   0.  ,   0.  ]])
         """
 
         for i in self.__mapping.keys():
@@ -1753,10 +2614,36 @@ class TriSpectralPowerDistribution(object):
         Normalises the tri-spectral power distribution with given normalization
         factor.
 
-        :param factor: Normalization factor
-        :type factor: float
-        :return: Normalised tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Parameters
+        ----------
+        factor : float, optional
+            Normalization factor
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Normalised tri- spectral power distribution.
+
+        Notes
+        -----
+        -   The implementation uses the maximum value for all axis.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> tri_spd.normalise()
+        >>> tri_spd.values
+        array([[ 0.50559853,  0.9218241 ,  0.12652687],
+               [ 0.70836726,  0.88904723,  0.23564739],
+               [ 0.83194218,  0.46579805,  0.69197883],
+               [ 0.89769951,  0.23870114,  0.91897394],
+               [ 0.91368078,  0.15614821,  0.93251221],
+               [ 0.91897394,  0.10291124,  1.        ]])
         """
 
         maximum = max(np.ravel(self.values))
@@ -1769,8 +2656,29 @@ class TriSpectralPowerDistribution(object):
         """
         Clones the tri-spectral power distribution.
 
-        :return: Cloned tri-spectral power distribution.
-        :rtype: TriSpectralPowerDistribution
+        Most of the :class:`TriSpectralPowerDistribution` class operations are
+        conducted in-place. The :meth:`TriSpectralPowerDistribution.clone`
+        method provides a convenient way to copy the tri-spectral power
+        distribution to a new object.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Cloned tri-spectral power distribution.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
+        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
+        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
+        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> print(id(tri_spd))
+        >>> tri_spd_clone = tri_spd.clone()
+        >>> print(id(tri_spd_clone))
+        4412008784
+        4411975312
         """
 
         return copy.deepcopy(self)

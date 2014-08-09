@@ -169,9 +169,8 @@ class LinearInterpolator1d(object):
         """
 
         xi = self.__evaluate(to_ndarray(x))
-
         if is_number(x):
-            return type(x)(xi)
+            return float(xi)
         else:
             return xi
 

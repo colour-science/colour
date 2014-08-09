@@ -49,8 +49,8 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     data : dict
         *LMS* colour matching functions.
 
-    Methods
-    -------
+    Attributes
+    ----------
     l_bar
     m_bar
     s_bar
@@ -171,8 +171,8 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     data : dict
         *CIE RGB* colour matching functions.
 
-    Methods
-    -------
+    Attributes
+    ----------
     r_bar
     g_bar
     b_bar
@@ -294,8 +294,8 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     data : dict
         *CIE* Standard Observer *XYZ* colour matching functions.
 
-    Methods
-    -------
+    Attributes
+    ----------
     x_bar
     y_bar
     z_bar

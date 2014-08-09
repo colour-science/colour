@@ -14,6 +14,8 @@
     `Munsell and Kubelka-Munk Toolbox <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_ by
     *Paul Centore* and has been loosely ported to Python from Matlab.
 
+    http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+    (Last accessed 26 July 2014)
 **Others:**
 
 """
@@ -38,7 +40,7 @@ from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS
-from colour.utilities.data_structures import Lookup
+from colour.utilities import Lookup
 
 __author__ = "Thomas Mansencal, Paul Centore"
 __copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
@@ -434,8 +436,6 @@ def get_bounding_hues_from_renotation(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/BoundingRenotationHues.m*
     """
@@ -487,8 +487,6 @@ def hue_to_hue_angle(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m*
     """
@@ -517,8 +515,6 @@ def hue_angle_to_hue(hue_angle):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m*
     """
@@ -575,8 +571,6 @@ def hue_to_ASTM_hue(hue, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellHueToASTMHue.m*
     """
@@ -608,8 +602,6 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m*
     """
@@ -903,8 +895,6 @@ def get_xy_from_renotation_ovoid(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/FindHueOnRenotationOvoid.m*
     """
@@ -1023,8 +1013,6 @@ def LCHab_to_munsell_specification(LCHab):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/GeneralRoutines/CIELABtoApproxMunsellSpec.m*
     """
@@ -1086,8 +1074,6 @@ def get_maximum_chroma_from_renotation(hue, value, code):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m*
     """
@@ -1161,8 +1147,6 @@ def munsell_specification_to_xy(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m*
     """
@@ -1237,8 +1221,6 @@ def munsell_specification_to_xyY(specification):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/MunsellToxyY.m*
     """
@@ -1331,8 +1313,6 @@ def xyY_to_munsell_specification(xyY):
 
     References:
 
-    -  http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf \
-    (Last accessed 26 July 2014)
     -  *The Munsell and Kubelka-Munk Toolbox*: \
     *MunsellAndKubelkaMunkToolboxApr2014/MunsellRenotationRoutines/xyYtoMunsell.m*
     """
