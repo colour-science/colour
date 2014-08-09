@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**plots.py**
+Autodesk Maya - Plotting
+=======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package **Autodesk Maya** plotting objects.
-
-**Others:**
-
+Defines **Autodesk Maya** plotting objects.
 """
 
 import numpy as np
@@ -46,10 +40,15 @@ def get_dag_path(node):
     """
     Returns a dag path from given node.
 
-    :param node: Node name.
-    :type node: str or unicode
-    :return: MDagPath.
-    :rtype: MDagPath
+    Parameters
+    ----------
+    node : str or unicode
+        Node name.
+
+    Returns
+    -------
+    MDagPath
+        MDagPath.
     """
 
     selection_list = OpenMaya.MSelectionList()
@@ -63,10 +62,15 @@ def get_mpoint(point):
     """
     Converts a tuple to MPoint.
 
-    :param point: Point.
-    :type point: tuple
-    :return: MPoint.
-    :rtype: MPoint
+    Parameters
+    ----------
+    point : tuple
+        Point.
+
+    Returns
+    -------
+    MPoint
+        MPoint.
     """
 
     return OpenMaya.MPoint(point[0], point[1], point[2])
@@ -76,14 +80,19 @@ def get_shapes(object, full_path=False, no_intermediate=True):
     """
     Returns shapes of given object.
 
-    :param object: Current object.
-    :type object: str or unicode
-    :param full_path: Current full path state.
-    :type full_path: bool
-    :param no_intermediate: Current no intermediate state.
-    :type no_intermediate: bool
-    :return: Objects shapes.
-    :rtype: list
+    Parameters
+    ----------
+    object : str or unicode
+        Current object.
+    full_path : bool, optional
+        Current full path state.
+    no_intermediate : bool, optional
+        Current no intermediate state.
+
+    Returns
+    -------
+    list
+        Objects shapes.
     """
 
     object_shapes = []
@@ -101,10 +110,15 @@ def set_attributes(attributes):
     """
     Sets given attributes.
 
-    :param attributes: Attributes to set.
-    :type attributes: dict
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    attributes : dict
+        Attributes to set.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     for attribute, value in attributes.items():
@@ -116,12 +130,17 @@ def RGB_to_Lab(RGB, colourspace):
     """
     Converts given *RGB* value from given colourspace to *CIE Lab* colourspace.
 
-    :param RGB: *RGB* value.
-    :type RGB: array_like
-    :param colourspace: *RGB* colourspace.
-    :type colourspace: RGB_Colourspace
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    RGB : array_like
+        *RGB* value.
+    colourspace : RGB_Colourspace
+        *RGB* colourspace.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     return XYZ_to_Lab(
@@ -139,12 +158,17 @@ def RGB_identity_cube(name, density=20):
     """
     Creates an RGB identity cube with given name and geometric density.
 
-    :param name: Cube name.
-    :type name: str or unicode
-    :param density: Cube divisions count.
-    :type density: int
-    :return: Cube.
-    :rtype: unicode
+    Parameters
+    ----------
+    name : str or unicode
+        Cube name.
+    density : int, optional
+        Cube divisions count.
+
+    Returns
+    -------
+    unicode
+        Cube.
     """
 
     cube = cmds.polyCube(w=1,
@@ -180,12 +204,17 @@ def Lab_colourspace_cube(colourspace, density=20):
     """
     Creates a *CIE Lab* colourspace cube with geometric density.
 
-    :param colourspace: *RGB* Colourspace description.
-    :type colourspace: RGB_Colourspace
-    :param density: Cube divisions count.
-    :type density: int
-    :return: *CIE Lab* Colourspace cube.
-    :rtype: unicode
+    Parameters
+    ----------
+    colourspace : RGB_Colourspace
+        *RGB* Colourspace description.
+    density : int, optional
+        Cube divisions count.
+
+    Returns
+    -------
+    unicode
+        *CIE Lab* Colourspace cube.
     """
 
     cube = RGB_identity_cube(colourspace.name, density)
@@ -208,8 +237,10 @@ def Lab_coordinates_system_representation():
     """
     Creates a *CIE Lab* coordinates system representation.
 
-    :return: Definition success.
-    :rtype: bool
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     group = cmds.createNode("transform")

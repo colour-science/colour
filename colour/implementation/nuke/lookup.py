@@ -2,16 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-**lookup.py**
+The Foundry Nuke - CSV File to ColorLookup Node
+===============================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines *Nuke* *ColorLookup* node creation objects.
-
-**Others:**
-
+Defines *The Foundry Nuke* *ColorLookup* node creation objects from *.csv*
+files.
 """
 
 # from __future__ import unicode_literals
@@ -58,20 +53,19 @@ Point = namedtuple("Point", ("x", "y"))
 CurvesInformation = namedtuple("CurvesInformation",
                                ("curve", "axis", "values"))
 
-
 class Curve(object):
     """
     Stores curve data with the :class:`Point` class.
+
+    Parameters
+    ----------
+    x : tuple or list
+        x: X axis data.
+    y : tuple or list
+        y: Y axis data.
     """
 
     def __init__(self, x=None, y=None):
-        """
-        :param x: X axis data.
-        :type x: tuple or list
-        :param y: Y axis data.
-        :type y: tuple or list
-        """
-
         points = []
         if not x:
             for i in range(len(y)):
@@ -90,6 +84,19 @@ class Lookup(object):
     """
     Defines the lookup master, red, green, blue and alpha curves using the
     :class:`Curve` class.
+
+    Parameters
+    ----------
+    master_curve : Curve
+        master_curve: Master curve.
+    red_curve : Curve
+        red_curve: Red curve.
+    green_curve : Curve
+        green_curve: Green curve.
+    blue_curve : Curve
+        blue_curve: Blue curve.
+    alpha_curve : Curve
+        alpha_curve: Alpha curve.
     """
 
     def __init__(self,
@@ -98,19 +105,6 @@ class Lookup(object):
                  green_curve=None,
                  blue_curve=None,
                  alpha_curve=None):
-        """
-        :param master_curve: Master curve.
-        :type master_curve: Curve
-        :param red_curve: Red curve.
-        :type red_curve: Curve
-        :param green_curve: Green curve.
-        :type green_curve: Curve
-        :param blue_curve: Blue curve.
-        :type blue_curve: Curve
-        :param alpha_curve: Alpha curve.
-        :type alpha_curve: Curve
-        """
-
         self.master_curve = master_curve if isinstance(
             master_curve, Curve) else Curve()
         self.red_curve = red_curve if isinstance(
@@ -127,10 +121,15 @@ def get_curve_data(file):
     """
     Reads the curve data from given CSV file.
 
-    :param file: CSV file.
-    :type file: unicode
-    :return: CSV data.
-    :rtype: list
+    Parameters
+    ----------
+    file : unicode
+        file: CSV file.
+
+    Returns
+    -------
+    list
+        CSV data.
     """
 
     with open(file, "rb") as csv_file:
@@ -141,10 +140,15 @@ def parse_curve_data_header(header):
     """
     Parses the curve data header.
 
-    :param header: Curve data header.
-    :type header: list
-    :return: Curves information.
-    :rtype: CurvesInformation
+    Parameters
+    ----------
+    header : list
+        header: Curve data header.
+
+    Returns
+    -------
+    CurvesInformation
+        Curves information.
     """
 
     curves_information = []
@@ -157,10 +161,15 @@ def parse_curve_data(data):
     """
     Parses the curve data.
 
-    :param data: Curve data.
-    :type data: list
-    :return: Curves information.
-    :rtype: CurvesInformation
+    Parameters
+    ----------
+    data : list
+        data: Curve data.
+
+    Returns
+    -------
+    CurvesInformation
+        Curves information.
     """
 
     curves_information = parse_curve_data_header(data.pop(0))
@@ -174,14 +183,19 @@ def get_curve_axis_values(curves_information, name, axis):
     """
     Returns the curve axis values.
 
-    :param curves_information: Curves information.
-    :type curves_information: CurvesInformation
-    :param name: Curve name.
-    :type name: unicode
-    :param axis: Axis.
-    :type axis: unicode
-    :return: Curves information.
-    :rtype: CurvesInformation
+    Parameters
+    ----------
+    curves_information : CurvesInformation
+        curves_information: Curves information.
+    name : unicode
+        name: Curve name.
+    axis : unicode
+        axis: Axis.
+
+    Returns
+    -------
+    CurvesInformation
+        Curves information.
     """
 
     for curve_information in curves_information:
@@ -194,12 +208,17 @@ def get_curve(curves_information, name):
     """
     Returns a curve using given :class:`curves_information` class instance.
 
-    :param curves_information: Curves information.
-    :type curves_information: CurvesInformation
-    :param name: Curve name.
-    :type name: unicode
-    :return: Curve.
-    :rtype: Curve
+    Parameters
+    ----------
+    curves_information : CurvesInformation
+        curves_information: Curves information.
+    name : unicode
+        name: Curve name.
+
+    Returns
+    -------
+    Curve
+        Curve.
     """
 
     return Curve(x=get_curve_axis_values(curves_information, name, "x"),
@@ -211,10 +230,15 @@ def get_lookup(curves_information):
     Returns a :class:`Lookup` class instance using given
     :class:`curves_information` class instance.
 
-    :param curves_information: Curves information.
-    :type curves_information: CurvesInformation
-    :return: Lookup.
-    :rtype: Lookup
+    Parameters
+    ----------
+    curves_information : CurvesInformation
+        curves_information: Curves information.
+
+    Returns
+    -------
+    Lookup
+        Lookup.
     """
 
     return Lookup(get_curve(curves_information, "master"),
@@ -228,10 +252,15 @@ def format_curve_data(curve):
     """
     Formats given :class:`Curve` class instance data.
 
-    :param curve: Curve.
-    :type curve: Curve
-    :return: Formatted curve data.
-    :rtype: unicode
+    Parameters
+    ----------
+    curve : Curve
+        curve: Curve.
+
+    Returns
+    -------
+    unicode
+        Formatted curve data.
     """
 
     curve_data = ""
@@ -245,12 +274,17 @@ def get_color_lookup_node(file, template=COLOR_LOOKUP_CURVES_TEMPLATE):
     """
     Creates the *Nuke* *ColorLookup* node code using given CSV file.
 
-    :param file: CSV file.
-    :type file: unicode
-    :param template: Template used for formatting.
-    :type template: unicode
-    :return: ColorLookup node.
-    :rtype: ColorLookup
+    Parameters
+    ----------
+    file : unicode
+        file: CSV file.
+    template : unicode, optional
+        template: Template used for formatting.
+
+    Returns
+    -------
+    ColorLookup
+        ColorLookup node.
     """
 
     color_lookup = nuke.nodes.ColorLookup(name="ColourLookup")
@@ -268,8 +302,10 @@ def import_curves_data_csv_file():
     """
     Import user curves data CSV file as a *Nuke* *ColorLookup* node.
 
-    :return: ColorLookup node.
-    :rtype: ColorLookup
+    Returns
+    -------
+    ColorLookup
+        ColorLookup node.
     """
 
     file = nuke.getFilename("Choose ColorLookup Node Curves Data CSV File",

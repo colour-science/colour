@@ -36,8 +36,8 @@ def D_illuminant_relative_spd(xy):
     *CIE Standard Illuminant D Series* using given *xy* chromaticity
     coordinates.
 
-    References:
-    -----------
+    References
+    ----------
     .. [1]  **Wyszecki & Stiles**,
             *Color Science - Concepts and Methods Data and Formulae -
             Second Edition*,

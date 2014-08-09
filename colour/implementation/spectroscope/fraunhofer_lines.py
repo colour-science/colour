@@ -2,21 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-**fraunhofer_lines.py**
+Fraunhofer Lines
+================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects for the homemade spectroscope spectrum images of Fraunhofer
+lines analysis.
 
-**Description:**
-    Defines objects for the homemade spectroscope spectrum images of Fraunhofer \
-    lines analysis.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Fraunhofer_lines
-
-**Others:**
-
+References
+==========
+.. [1]  http://en.wikipedia.org/wiki/Fraunhofer_lines
 """
 
 import bisect
@@ -146,10 +140,15 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
     """
     Plots the Fraunhofer lines of given image.
 
-    :param image: Path to read the image from.
-    :type image: unicode
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    image : unicode
+        Path to read the image from.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     RGB_spectrum = get_RGB_spectrum(get_image(image),

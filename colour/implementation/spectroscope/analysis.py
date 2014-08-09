@@ -2,20 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-**analysis.py**
+Spectroscope - Analysis
+=======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects for the homemade spectroscope spectrum images analysis.
 
-**Description:**
-    Defines objects for the homemade spectroscope spectrum images analysis.
-
-    References:
-
-    -  http://thomasmansencal.blogspot.fr/2014/07/a-homemade-spectroscope.html
-
-**Others:**
-
+References
+----------
+.. [1]  http://thomasmansencal.blogspot.fr/2014/07/a-homemade-spectroscope.html
 """
 
 import matplotlib.image
@@ -23,7 +17,6 @@ import matplotlib.pyplot
 import numpy as np
 import scipy.ndimage
 
-import colour
 from colour import Extrapolator1d
 from colour import LinearInterpolator1d
 from colour import SpectralPowerDistribution
@@ -48,16 +41,22 @@ __all__ = ["RGB_Spectrum",
 class RGB_Spectrum(TriSpectralPowerDistribution):
     """
     Defines an *RGB* spectrum object implementation.
+
+    Parameters
+    ----------
+    name : unicode
+        *RGB* spectrum name.
+    data : dict
+        *RGB* spectrum.
+
+    Attributes
+    ----------
+    R
+    G
+    B
     """
 
     def __init__(self, name, data):
-        """
-        :param name: *RGB* spectrum name.
-        :type name: unicode
-        :param data: *RGB* spectrum.
-        :type data: dict
-        """
-
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
@@ -71,10 +70,16 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def R(self):
         """
-        Property for **self.__R** private attribute.
+        Property for **self.R** attribute.
 
-        :return: self.__R.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.R
+
+        Warning
+        -------
+        :attr:`RGB_Spectrum.R` is read only.
         """
 
         return self.x
@@ -82,10 +87,12 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @R.setter
     def R(self, value):
         """
-        Setter for **self.__R** private attribute.
+        Setter for **self.R** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("R"))
@@ -93,10 +100,16 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def G(self):
         """
-        Property for **self.__G** private attribute.
+        Property for **self.G** attribute.
 
-        :return: self.__G.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.G
+
+        Warning
+        -------
+        :attr:`RGB_Spectrum.G` is read only.
         """
 
         return self.y
@@ -104,10 +117,12 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @G.setter
     def G(self, value):
         """
-        Setter for **self.__G** private attribute.
+        Setter for **self.G** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("G"))
@@ -115,10 +130,16 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @property
     def B(self):
         """
-        Property for **self.__B** private attribute.
+        Property for **self.B** attribute.
 
-        :return: self.__B.
-        :rtype: unicode
+        Returns
+        -------
+        SpectralPowerDistribution
+            self.B
+
+        Warning
+        -------
+        :attr:`RGB_Spectrum.B` is read only.
         """
 
         return self.z
@@ -126,30 +147,38 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
     @B.setter
     def B(self, value):
         """
-        Setter for **self.__B** private attribute.
+        Setter for **self.B** attribute.
 
-        :param value: Attribute value.
-        :type value: unicode
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         raise AttributeError("'{0}' attribute is read only!".format("B"))
 
 
-def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"],
+def transfer_function(image,
+                      colourspace=colour.RGB_COLOURSPACES["sRGB"],
                       to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given
     image data.
 
-    :param image: Image to evalute the transfer function.
-    :type image: ndarray
-    :param colourspace: *RGB* Colourspace.
-    :type colourspace: RGB_Colourspace
-    :param to_linear: Use colourspace inverse transfer function instead of \
-    colourspace transfer function.
-    :type to_linear: bool
-    :return: Transformed image.
-    :rtype: ndarray
+    Parameters
+    ----------
+    image : ndarray
+        Image to evaluate the transfer function.
+    colourspace : RGB_Colourspace, optional
+        *RGB* Colourspace.
+    to_linear : bool, optional
+        Use colourspace inverse transfer function instead of colourspace
+        transfer function.
+
+    Returns
+    -------
+    ndarray
+        Transformed image.
 
     """
 
@@ -160,26 +189,32 @@ def transfer_function(image, colourspace=colour.RGB_COLOURSPACES["sRGB"],
     return vector_linearise(image)
 
 
-def get_image(path, colourspace=colour.RGB_COLOURSPACES["sRGB"],
+def get_image(path,
+              colourspace=colour.RGB_COLOURSPACES["sRGB"],
               to_linear=True):
     """
     Reads image from given path.
 
-    :param path: Path to read the image from.
-    :type path: unicode
-    :param colourspace: *RGB* Colourspace.
-    :type colourspace: RGB_Colourspace
-    :param to_linear: Evaluate colourspace inverse transfer function on image \
-    data.
-    :type to_linear: bool
-    :return: Image.
-    :rtype: ndarray
+    Parameters
+    ----------
+    path : unicode
+        Path to read the image from.
+    colourspace : RGB_Colourspace, optional
+        *RGB* Colourspace.
+    to_linear : bool, optional
+        Evaluate colourspace inverse transfer function on image data.
+
+    Returns
+    -------
+    ndarray
+        Image.
     """
 
     image = matplotlib.image.imread(path)
 
     if to_linear:
-        image = transfer_function(image, colourspace=colourspace,
+        image = transfer_function(image,
+                                  colourspace=colourspace,
                                   to_linear=True)
 
     return image
@@ -190,19 +225,25 @@ def get_image_profile(image, line, samples=None):
     Returns the image profile using given line coordinates and given samples
     count.
 
-    :param image: Image to retrieve the profile.
-    :type image: ndarray
-    :param line: Coordinates as image array indexes to measure the profile.
-    :type line: tuple or list or ndarray (x0, y0, x1, y1)
-    :param samples: Samples count to retrieve along the line, default to image \
-    width.
-    :type samples: int
-    :return: Profile.
-    :rtype: ndarray
+    Parameters
+    ----------
+    image : ndarray
+        image: Image to retrieve the profile.
+    line : tuple or list or ndarray (x0, y0, x1, y1)
+        line: Coordinates as image array indexes to measure the profile.
+    samples : int, optional
+        samples: Samples count to retrieve along the line, default to image
+        width.
 
-    References:
+    Returns
+    -------
+    ndarray
+        Profile.
 
-    -  -  http://stackoverflow.com/a/7880726/931625 (Last accessed 8 August 2014)
+    References
+    ----------
+    .. [2]  http://stackoverflow.com/a/7880726/931625
+            (Last accessed 8 August 2014)
     """
 
     height, width, channels = image.shape
@@ -227,16 +268,21 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     values. If more than 2 lines are provided the profile data will be warped
     to fit the theoretical reference wavelength lines.
 
-    :param profile: Image profile to calibrate.
-    :type profile: ndarray
-    :param reference: Theoretical reference wavelength lines.
-    :type reference: dict
-    :param measured: Measured lines in horizontal axis pixels values.
-    :type measured: dict
-    :param samples: Profile samples count.
-    :type samples: int
-    :return: Calibrated RGB spectrum.
-    :rtype: RGB_Spectrum
+    Parameters
+    ----------
+    profile : ndarray
+        profile: Image profile to calibrate.
+    reference : dict
+        reference: Theoretical reference wavelength lines.
+    measured : dict
+        measured: Measured lines in horizontal axis pixels values.
+    samples : int, optional
+        samples: Profile samples count.
+
+    Returns
+    -------
+    RGB_Spectrum
+        Calibrated RGB spectrum.
     """
 
     samples = samples if samples else profile.shape[1]
@@ -285,17 +331,22 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
     """
     Returns the RGB spectrum of given image.
 
-    :param image: Image to retrieve the RGB spectrum, assuming the spectrum is \
-    already properly oriented.
-    :type image: ndarray
-    :param reference: Theoretical reference wavelength lines.
-    :type reference: dict
-    :param measured: Measured lines in horizontal axis pixels values.
-    :type measured: dict
-    :param samples: Spectrum samples count.
-    :type samples: int
-    :return: RGB spectrum.
-    :rtype: RGB_Spectrum
+    Parameters
+    ----------
+    image : ndarray
+        image: Image to retrieve the RGB spectrum, assuming the spectrum is
+        already properly oriented.
+    reference : dict
+        reference: Theoretical reference wavelength lines.
+    measured : dict
+        measured: Measured lines in horizontal axis pixels values.
+    samples : int, optional
+        samples: Spectrum samples count.
+
+    Returns
+    -------
+    RGB_Spectrum
+        RGB spectrum.
     """
 
     samples = samples if samples else image.shape[1]
@@ -314,13 +365,16 @@ def get_luminance_spd(RGB_spectrum,
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 
-    :param RGB_spectrum: RGB spectrum to retrieve the luminance from.
-    :type RGB_spectrum: RGB_Spectrum
-    :param colourspace: *RGB* Colourspace.
-    :type colourspace: RGB_Colourspace
-    :return: RGB spectrum luminance spectral power distribution, units are \
-    arbitrary and normalised to [0, 100] domain.
-    :rtype: SpectralPowerDistribution
+    Parameters
+    ----------
+    RGB_spectrum : RGB_Spectrum
+        RGB_spectrum: RGB spectrum to retrieve the luminance from.
+    colourspace : RGB_Colourspace
+        colourspace: *RGB* Colourspace.
+
+    SpectralPowerDistribution
+        RGB spectrum luminance spectral power distribution, units are arbitrary
+        and normalised to [0, 100] domain.
     """
 
     RGB_spectrum = RGB_spectrum.clone().normalise(100.)

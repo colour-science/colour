@@ -65,7 +65,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
         *CIE Lab* *array_like* colour 1.
     lab2 : array_like (3, 1)
         *CIE Lab* *array_like* colour 2.
-    textiles : bool
+    textiles : bool, optional
         Application specific weights.
 
     Returns
@@ -238,9 +238,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
         *CIE Lab* *array_like* colour 1.
     lab2 : array_like (3, 1)
         *CIE Lab* *array_like* colour 2.
-    l : float
+    l : float, optional
         Lightness weighting factor.
-    c : float
+    c : float, optional
         Chroma weighting factor.
 
     Returns

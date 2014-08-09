@@ -46,7 +46,7 @@ def spectral_to_XYZ(spd,
         Spectral power distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution
+    illuminant : SpectralPowerDistribution, optional
         *Illuminant* spectral power distribution.
 
     Returns
@@ -131,7 +131,7 @@ def wavelength_to_XYZ(wavelength,
     ----------
     wavelength : float
         Wavelength :math:`\lambda` in nm.
-    cmfs : XYZ_ColourMatchingFunctions
+    cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
     Returns

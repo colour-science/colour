@@ -2261,7 +2261,7 @@ class TriSpectralPowerDistribution(object):
                 return False
         return True
 
-    def extrapolate(self, start=None, end=None):
+    def extrapolate(self, start, end):
         """
         Extrapolates the tri-spectral power distribution following
         *CIE 15:2004* recommendation.
