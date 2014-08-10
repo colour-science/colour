@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cri.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.cri` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.quality.cri` module.
 """
 
 from __future__ import unicode_literals
@@ -24,13 +15,15 @@ else:
     import unittest
 
 from colour.quality import get_colour_rendering_index
-from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution
+from colour.colorimetry import (
+    ILLUMINANTS_RELATIVE_SPDS,
+    SpectralPowerDistribution)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestGetColourRenderingIndex"]
@@ -121,12 +114,13 @@ SAMPLE_SPD_DATA = {
 
 class TestGetColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.cri.get_colour_rendering_index` definition units tests methods.
+    Defines :func:`colour.quality.cri.get_colour_rendering_index`
+    definition units tests methods.
     """
 
     def test_xy_to_z(self):
         """
-        Tests :func:`colour.cri.get_colour_rendering_index` definition.
+        Tests :func:`colour.quality.cri.get_colour_rendering_index` definition.
         """
 
         self.assertAlmostEqual(
@@ -140,7 +134,9 @@ class TestGetColourRenderingIndex(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)),
+            get_colour_rendering_index(SpectralPowerDistribution(
+                "Sample",
+                SAMPLE_SPD_DATA)),
             70.805836753503698,
             places=7)
 

@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_fitting.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
-
-**Others:**
-
+Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
 """
 
 from __future__ import unicode_literals
@@ -28,11 +19,11 @@ else:
 
 from colour.characterization.fitting import first_order_colour_fit
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["M1",
@@ -94,12 +85,14 @@ M2 = np.array([
 
 class TestFirstOrderColourFit(unittest.TestCase):
     """
-    Defines :func:`colour.characterization.fitting.first_order_colour_fit` definition units tests methods.
+    Defines :func:`colour.characterization.fitting.first_order_colour_fit`
+    definition units tests methods.
     """
 
     def test_first_order_colour_fit(self):
         """
-        Tests :func:`colour.characterization.fitting.first_order_colour_fit` definition.
+        Tests :func:`colour.characterization.fitting.first_order_colour_fit`
+        definition.
         """
 
         np.testing.assert_almost_equal(

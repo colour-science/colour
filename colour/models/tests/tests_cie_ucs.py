@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cie_ucs.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.cie_ucs` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.cie_ucs` module.
 """
 
 from __future__ import unicode_literals
@@ -26,11 +17,11 @@ else:
 
 from colour.models import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestXYZ_to_UCS",
@@ -42,7 +33,8 @@ __all__ = ["TestXYZ_to_UCS",
 
 class TestXYZ_to_UCS(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.XYZ_to_UCS` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.XYZ_to_UCS` definition units tests
+    methods.
     """
 
     def test_XYZ_to_UCS(self):
@@ -68,7 +60,8 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
 class TestUCS_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_to_XYZ` definition units tests
+    methods.
     """
 
     def test_UCS_to_XYZ(self):
@@ -94,7 +87,8 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
 class TestUCS_to_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_to_uv` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_to_uv` definition units tests
+    methods.
     """
 
     def test_UCS_to_uv(self):
@@ -120,7 +114,8 @@ class TestUCS_to_uv(unittest.TestCase):
 
 class TestUCS_uv_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition units tests methods.
+    Defines :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition units tests
+    methods.
     """
 
     def test_UCS_uv_to_xy(self):

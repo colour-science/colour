@@ -1,17 +1,50 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**cmfs.py**
+Colour Matching Functions Spectral Power Distributions
+======================================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines various colour matching functions involved in spectral computations.
 
-**Description:**
-    Defines **Colour** package *colour matching functions*.
+The colour matching functions data is in the form of a *dict* of
+:class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
+follows::
 
-**Others:**
+    {"name": TriSpectralPowerDistribution, ..., "name": TriSpectralPowerDistribution}
 
+The following colour matching functions are available:
+
+-   Stockman & Sharpe 2 Degree Cone Fundamentals [1]_
+-   Stockman & Sharpe 10 Degree Cone Fundamentals [1]_
+-   Wright & Guild 1931 2 Degree RGB CMFs [2]_
+-   Stiles & Burch 1955 2 Degree RGB CMFs [3]_
+-   Stiles & Burch 1959 10 Degree RGB CMFs [4]_
+-   CIE 1931 2 Degree Standard Observer [5]_
+-   CIE 1964 10 Degree Standard Observer [5]_
+-   CIE 2012 10 Degree Standard Observer [6]_
+-   CIE 2012 2 Degree Standard Observer [6]_
+
+Notes
+-----
+-   *Stockman & Sharpe* *LMS* colour matching functions are provided at 1 nm
+    steps.
+-   *Wright & Guild* and *Stiles & Burch* *CIE RGB* colour matching functions
+    are provided at 5 nm steps.
+-   *CIE* Standard Observers *XYZ* colour matching functions are provided at 5
+    nm steps.
+
+References
+----------
+.. [1]  http://www.cvrl.org/cones.htm (Last accessed 23 June 2014)
+.. [2]  http://www.cis.rit.edu/mcsl/research/1931.php
+        (Last accessed 12 June 2014)
+.. [3]  http://www.cvrl.org/stilesburch2_ind.htm
+        (Last accessed 24 February 2014)
+.. [4]  http://www.cvrl.org/stilesburch10_ind.htm
+        (Last accessed 24 February 2014)
+.. [5]  http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
+.. [6]  http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
@@ -20,11 +53,11 @@ from colour.colorimetry.cmfs import LMS_ConeFundamentals
 from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions
 from colour.colorimetry.cmfs import XYZ_ColourMatchingFunctions
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["LMS_CMFS_DATA",
@@ -36,8 +69,8 @@ __all__ = ["LMS_CMFS_DATA",
            "CMFS"]
 
 
-# http://www.cvrl.org/cones.htm
-# *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has been set to zero.
+# *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
+# been set to zero.
 LMS_CMFS_DATA = {
     "Stockman & Sharpe 2 Degree Cone Fundamentals": {
         "l_bar": {
@@ -2701,11 +2734,14 @@ LMS_CMFS = {
     "Stockman & Sharpe 10 Degree Cone Fundamentals": LMS_ConeFundamentals(
         "Stockman & Sharpe 10 Degree Cone Fundamentals", LMS_CMFS_DATA.get(
             "Stockman & Sharpe 10 Degree Cone Fundamentals"))}
+"""
+*LMS* colour matching functions.
 
-# *CIE RGB* colour matching functions for standard observers at 5 nm steps.
-# http://www.cis.rit.edu/mcsl/research/1931.php
-# http://www.cvrl.org/stilesburch2_ind.htm
-# http://www.cvrl.org/stilesburch10_ind.htm
+LMS_CMFS : dict
+    ("Stockman & Sharpe 2 Degree Cone Fundamentals",
+    "Stockman & Sharpe 10 Degree Cone Fundamentals")
+"""
+
 RGB_CMFS_DATA = {
     "Wright & Guild 1931 2 Degree RGB CMFs": {
         "r_bar": {
@@ -3449,11 +3485,15 @@ RGB_CMFS = {
     "Stiles & Burch 1959 10 Degree RGB CMFs": RGB_ColourMatchingFunctions(
         "Stiles & Burch 1959 10 Degree RGB CMFs",
         RGB_CMFS_DATA.get("Stiles & Burch 1959 10 Degree RGB CMFs"))}
+"""
+*CIE RGB* colour matching functions.
 
-# *CIE XYZ* colour matching functions for standard observers at 1 nm steps.
-# http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
-# http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
-# http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm (Last accessed 24 February 2014)
+RGB_CMFS : dict
+    ("Wright & Guild 1931 2 Degree RGB CMFs",
+    "Stiles & Burch 1955 2 Degree RGB CMFs",
+    "Stiles & Burch 1959 10 Degree RGB CMFs")
+"""
+
 STANDARD_OBSERVERS_CMFS_DATA = {
     "CIE 1931 2 Degree Standard Observer": {
         "x_bar": {
@@ -8953,20 +8993,47 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             830: 0.000000e+00, }}}
 
 STANDARD_OBSERVERS_CMFS = {
-    "CIE 1931 2 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 1931 2 Degree Standard Observer",
-                                                                       STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                           "CIE 1931 2 Degree Standard Observer")),
-    "CIE 1964 10 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 1964 10 Degree Standard Observer",
-                                                                        STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                            "CIE 1964 10 Degree Standard Observer")),
-    "CIE 2012 2 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 2012 2 Degree Standard Observer",
-                                                                       STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                           "CIE 2012 2 Degree Standard Observer")),
-    "CIE 2012 10 Degree Standard Observer": XYZ_ColourMatchingFunctions("CIE 2012 10 Degree Standard Observer",
-                                                                        STANDARD_OBSERVERS_CMFS_DATA.get(
-                                                                            "CIE 2012 10 Degree Standard Observer"))}
+    "CIE 1931 2 Degree Standard Observer": XYZ_ColourMatchingFunctions(
+        "CIE 1931 2 Degree Standard Observer",
+        STANDARD_OBSERVERS_CMFS_DATA.get(
+            "CIE 1931 2 Degree Standard Observer")),
+    "CIE 1964 10 Degree Standard Observer": XYZ_ColourMatchingFunctions(
+        "CIE 1964 10 Degree Standard Observer",
+        STANDARD_OBSERVERS_CMFS_DATA.get(
+            "CIE 1964 10 Degree Standard Observer")),
+    "CIE 2012 2 Degree Standard Observer": XYZ_ColourMatchingFunctions(
+        "CIE 2012 2 Degree Standard Observer",
+        STANDARD_OBSERVERS_CMFS_DATA.get(
+            "CIE 2012 2 Degree Standard Observer")),
+    "CIE 2012 10 Degree Standard Observer": XYZ_ColourMatchingFunctions(
+        "CIE 2012 10 Degree Standard Observer",
+        STANDARD_OBSERVERS_CMFS_DATA.get(
+            "CIE 2012 10 Degree Standard Observer"))}
+"""
+*CIE* Standard Observers *XYZ* colour matching functions.
+
+STANDARD_OBSERVERS_CMFS : dict
+    ("CIE 1931 2 Degree Standard Observer",
+    "CIE 1964 10 Degree Standard Observer",
+    "CIE 2012 2 Degree Standard Observer",
+    "CIE 2012 10 Degree Standard Observer")
+"""
 
 CMFS = dict(LMS_CMFS)
+"""
+Aggregated colour matching functions.
+
+CMFS : dict
+    ("Stockman & Sharpe 10 Degree Cone Fundamentals",
+    "Stockman & Sharpe 2 Degree Cone Fundamentals",
+    "Wright & Guild 1931 2 Degree RGB CMFs",
+    "Stiles & Burch 1955 2 Degree RGB CMFs",
+    "Stiles & Burch 1959 10 Degree RGB CMFs",
+    "CIE 1931 2 Degree Standard Observer",
+    "CIE 1964 10 Degree Standard Observer",
+    "CIE 2012 2 Degree Standard Observer",
+    "CIE 2012 10 Degree Standard Observer")
+"""
 CMFS.update(RGB_CMFS)
 CMFS.update(STANDARD_OBSERVERS_CMFS)
 

@@ -1,17 +1,9 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**difference.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package colour *difference* colorimetry objects.
-
-**Others:**
-
+:math:`\Delta E_{ab}` - Delta E
+===============================
 """
 
 from __future__ import unicode_literals
@@ -19,11 +11,11 @@ from __future__ import unicode_literals
 import math
 import numpy as np
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal - Michael Parsons - The Moving picture Company"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["delta_E_CIE_1976",
@@ -33,54 +25,65 @@ __all__ = ["delta_E_CIE_1976",
 
 
 def delta_E_CIE_1976(lab1, lab2):
-
     """
-    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
 
-    Usage::
+    Parameters
+    ----------
+    lab1 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 1.
+    lab2 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 2.
 
-        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
-        >>> delta_E_CIE_1976(lab1, lab2)
-        451.713301974
+    float
+        Colour difference :math:`\Delta E_{ab}`.
 
-    :param lab1: *CIE Lab* *array_like* colour 1.
-    :type lab1: array_like (3, 1)
-    :param lab2: *CIE Lab* *array_like* colour 2.
-    :type lab2: array_like (3, 1)
-    :return: Colour difference.
-    :rtype: float
+    References
+    ----------
+    .. [1]  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+    >>> lab2 = np.array([100., 426.67945353, 72.39590835])
+    >>> colour.delta_E_CIE_1976(lab1, lab2)
+    451.713301974
     """
     return np.linalg.norm(np.array(lab1) - np.array(lab2))
 
 
 def delta_E_CIE_1994(lab1, lab2, textiles=True):
     """
-    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 1994* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    *array_like* colours using *CIE 1994* recommendation.
 
-    Usage::
+    Parameters
+    ----------
+    lab1 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 1.
+    lab2 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 2.
+    textiles : bool, optional
+        Application specific weights.
 
-        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
-        >>> delta_E_CIE_1994(lab1, lab2)
-        88.3355530575
+    Returns
+    -------
+    float
+        Colour difference :math:`\Delta E_{ab}`.
 
-    :param lab1: *CIE Lab* *array_like* colour 1.
-    :type lab1: array_like (3, 1)
-    :param lab2: *CIE Lab* *array_like* colour 2.
-    :type lab2: array_like (3, 1)
-    :param textiles: Application specific weights.
-    :type textiles: bool
-    :return: Colour difference.
-    :rtype: float
+    References
+    ----------
+    .. [2]  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+    >>> lab2 = np.array([100., 426.67945353, 72.39590835])
+    >>> colour.delta_E_CIE_1994(lab1, lab2)
+    88.3355530575
     """
 
     k1 = 0.048 if textiles else 0.045
@@ -118,25 +121,33 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
 def delta_E_CIE_2000(lab1, lab2):
     """
-    Returns the difference between two given *CIE Lab* *array_like* colours using *CIE 2000* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    *array_like* colours using *CIE 2000* recommendation.
 
-    Usage::
+    Parameters
+    ----------
+    lab1 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 1.
+    lab2 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 2.
 
-        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
-        >>> delta_E_CIE_2000(lab1, lab2)
-        94.0356490267
+    Returns
+    -------
+    float
+        Colour difference :math:`\Delta E_{ab}`.
 
-    :param lab1: *CIE Lab* *array_like* colour 1.
-    :type lab1: array_like (3, 1)
-    :param lab2: *CIE Lab* *array_like* colour 2.
-    :type lab2: array_like (3, 1)
-    :return: Colour difference.
-    :rtype: float
+    References
+    ----------
 
-    References:
+    .. [2]  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+            (Last accessed 24 February 2014)
 
-    -  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+    >>> lab2 = np.array([100., 426.67945353, 72.39590835])
+    >>> colour.delta_E_CIE_2000(lab1, lab2)
+    94.0356490267
     """
 
     L1, a1, b1 = np.ravel(lab1)
@@ -170,68 +181,84 @@ def delta_E_CIE_2000(lab1, lab2):
     if h2_prime < 0.0:
         h2_prime += 360.
 
-    h_bar_prime = 0.5 * (h1_prime + h2_prime + 360.) if math.fabs(h1_prime -
-                                                                  h2_prime) > 180. else 0.5 * (h1_prime + h2_prime)
-    t = 1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) + 0.24 * math.cos(
-        math.pi * (2. * h_bar_prime) / 180.) + \
-        0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) - 0.20 * math.cos(
-        math.pi * (4. * h_bar_prime - 63.) / 180.)
+    h_bar_prime = (0.5 * (h1_prime + h2_prime + 360.)
+                   if math.fabs(h1_prime - h2_prime) > 180. else
+                   0.5 * (h1_prime + h2_prime))
+
+    t = (1. - 0.17 * math.cos(math.pi * (h_bar_prime - 30.) / 180.) +
+         0.24 * math.cos(math.pi * (2. * h_bar_prime) / 180.) +
+         0.32 * math.cos(math.pi * (3. * h_bar_prime + 6.) / 180.) -
+         0.20 * math.cos(math.pi * (4. * h_bar_prime - 63.) / 180.))
 
     if math.fabs(h2_prime - h1_prime) <= 180.:
         delta_h_prime = h2_prime - h1_prime
     else:
-        delta_h_prime = h2_prime - h1_prime + 360. if h2_prime <= h1_prime else h2_prime - h1_prime - 360.
+        delta_h_prime = (h2_prime - h1_prime + 360.
+                         if h2_prime <= h1_prime else
+                         h2_prime - h1_prime - 360.)
 
     delta_L_prime = L2 - L1
     delta_C_prime = c2_prime - c1_prime
-    delta_H_prime = 2. * math.sqrt(c1_prime * c2_prime) * math.sin(math.pi * (0.5 * delta_h_prime) / 180.)
+    delta_H_prime = (2. * math.sqrt(c1_prime * c2_prime) *
+                     math.sin(math.pi * (0.5 * delta_h_prime) / 180.))
 
     sL = 1. + ((0.015 * (l_bar_prime - 50.) * (l_bar_prime - 50.)) /
                math.sqrt(20. + (l_bar_prime - 50.) * (l_bar_prime - 50.)))
     sC = 1. + 0.045 * c_bar_prime
     sH = 1. + 0.015 * c_bar_prime * t
 
-    delta_theta = 30. * math.exp(-((h_bar_prime - 275.) / 25.) * ((h_bar_prime - 275.) / 25.))
+    delta_theta = (30. * math.exp(-((h_bar_prime - 275.) / 25.) *
+                                  ((h_bar_prime - 275.) / 25.)))
 
-    c_bar_prime7 = c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime * c_bar_prime
+    c_bar_prime7 = c_bar_prime ** 7
 
     rC = math.sqrt(c_bar_prime7 / (c_bar_prime7 + 25. ** 7))
     rT = -2. * rC * math.sin(math.pi * (2. * delta_theta) / 180.)
 
-    return math.sqrt((delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
-                     (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
-                     (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
-                     (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
+    return math.sqrt(
+        (delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
+        (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
+        (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
+        (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
 
 
 def delta_E_CMC(lab1, lab2, l=2., c=1.):
     """
-    Returns the difference between two given *CIE Lab* *array_like* colours using *Colour Measurement Committee* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    *array_like* colours using *Colour Measurement Committee* recommendation.
+
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
     allowing the users to weight the difference based on the ratio of l:c.
-    Commonly used values are 2:1 for acceptability and 1:1 for the threshold of imperceptibility.
+    Commonly used values are 2:1 for acceptability and 1:1 for the threshold of
+    imperceptibility.
 
-    Usage::
+    Parameters
+    ----------
+    lab1 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 1.
+    lab2 : array_like, (3, 1)
+        *CIE Lab* *array_like* colour 2.
+    l : float, optional
+        Lightness weighting factor.
+    c : float, optional
+        Chroma weighting factor.
 
-        >>> lab1 = np.array([100., 21.57210357, 272.2281935])
-        >>> lab2 = np.array([100., 426.67945353, 72.39590835])
-        >>> delta_E_CMC(lab1, lab2)
-        172.704771287
+    Returns
+    -------
+    float
+        Colour difference :math:`\Delta E_{ab}`.
 
-    :param lab1: *CIE Lab* *array_like* colour 1.
-    :type lab1: array_like (3, 1)
-    :param lab2: *CIE Lab* *array_like* colour 2.
-    :type lab2: array_like (3, 1)
-    :param l: Lightness weighting factor.
-    :type l: float
-    :param c: Chroma weighting factor.
-    :type c: float
-    :return: Colour difference.
-    :rtype: float
+    References
+    ----------
+    .. [4]  http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_DeltaE_CMC.html (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> lab1 = np.array([100., 21.57210357, 272.2281935])
+    >>> lab2 = np.array([100., 426.67945353, 72.39590835])
+    >>> colour.delta_E_CMC(lab1, lab2)
+    172.704771287
     """
 
     L1, a1, b1 = np.ravel(lab1)
@@ -249,8 +276,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
     while h1 >= 360.:
         h1 -= 360.
 
-    t = 0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168.)) / 180.)) if h1 >= 164. and h1 <= 345. else \
-        0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.))
+    t = (0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168.)) / 180.))
+         if h1 >= 164. and h1 <= 345. else \
+             0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.)))
     c4 = c1 * c1 * c1 * c1
     f = math.sqrt(c4 / (c4 + 1900.))
     sh = sc * (f * t + 1. - f)

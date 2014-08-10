@@ -1,21 +1,16 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**fraunhofer_lines.py**
+Fraunhofer Lines
+================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects for the homemade spectroscope spectrum images of Fraunhofer
+lines analysis.
 
-**Description:**
-    Defines objects for the homemade spectroscope spectrum images of Fraunhofer lines analysis.
-
-    References:
-
-    -  http://en.wikipedia.org/wiki/Fraunhofer_lines
-
-**Others:**
-
+References
+==========
+.. [1]  http://en.wikipedia.org/wiki/Fraunhofer_lines
 """
 
 import bisect
@@ -26,15 +21,18 @@ import os
 import pylab
 import re
 
-import colour.implementation.spectroscope.analysis
-import colour.plotting.plots
+import colour.plotting
+from colour.implementation.spectroscope.analysis import (
+    get_RGB_spectrum,
+    get_image,
+    get_luminance_spd,
+    transfer_function)
 
-
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["RESOURCES_DIRECTORY",
@@ -47,7 +45,8 @@ __all__ = ["RESOURCES_DIRECTORY",
            "fraunhofer_lines_plot"]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), "resources")
-SUN_SPECTRUM_IMAGE = os.path.join(RESOURCES_DIRECTORY, "Fraunhofer_Lines_001.png")
+SUN_SPECTRUM_IMAGE = os.path.join(RESOURCES_DIRECTORY,
+                                  "Fraunhofer_Lines_001.png")
 
 FRAUNHOFER_LINES_PUBLISHED = {
     "y": 898.765,
@@ -141,43 +140,54 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
     """
     Plots the Fraunhofer lines of given image.
 
-    :param image: Path to read the image from.
-    :type image: unicode
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    image : unicode
+        Path to read the image from.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
-    RGB_spectrum = colour.implementation.spectroscope.analysis.get_RGB_spectrum(
-        colour.implementation.spectroscope.analysis.get_image(SUN_SPECTRUM_IMAGE),
-        FRAUNHOFER_LINES_PUBLISHED,
-        FRAUNHOFER_LINES_MEASURED)
+    RGB_spectrum = get_RGB_spectrum(get_image(image),
+                                    FRAUNHOFER_LINES_PUBLISHED,
+                                    FRAUNHOFER_LINES_MEASURED)
 
     height = len(RGB_spectrum.R.values) / 8
-    luminance_spd = colour.implementation.spectroscope.analysis.get_luminance_spd(RGB_spectrum).normalise(height)
+    luminance_spd = get_luminance_spd(RGB_spectrum).normalise(height)
 
     pylab.title("The Solar Spectrum - Fraunhofer Lines")
 
     wavelengths = RGB_spectrum.wavelengths
     input, output = min(wavelengths), max(wavelengths)
-    pylab.imshow(np.dstack([colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.R.values),
-                               colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.G.values),
-                               colour.implementation.spectroscope.analysis.transfer_function(RGB_spectrum.B.values)]),
+    pylab.imshow(np.dstack([transfer_function(RGB_spectrum.R.values),
+                            transfer_function(RGB_spectrum.G.values),
+                            transfer_function(RGB_spectrum.B.values)]),
                  extent=[input, output, 0, height])
 
-    pylab.plot(luminance_spd.wavelengths, luminance_spd.values, color="black", linewidth=1.)
+    pylab.plot(luminance_spd.wavelengths,
+               luminance_spd.values, color="black",
+               linewidth=1.)
 
-    fraunhofer_wavelengths = np.array(sorted(FRAUNHOFER_LINES_PUBLISHED.values()))
+    fraunhofer_wavelengths = np.array(
+        sorted(FRAUNHOFER_LINES_PUBLISHED.values()))
     fraunhofer_wavelengths = fraunhofer_wavelengths[
-        np.where(np.logical_and(fraunhofer_wavelengths >= input, fraunhofer_wavelengths <= output))]
+        np.where(np.logical_and(fraunhofer_wavelengths >= input,
+                                fraunhofer_wavelengths <= output))]
     fraunhofer_lines_labels = [
-        FRAUNHOFER_LINES_PUBLISHED.keys()[FRAUNHOFER_LINES_PUBLISHED.values().index(i)] for i in fraunhofer_wavelengths]
+        FRAUNHOFER_LINES_PUBLISHED.keys()[
+            FRAUNHOFER_LINES_PUBLISHED.values().index(i)]
+        for i in fraunhofer_wavelengths]
 
     y0, y1 = 0, height * .5
     for i, label in enumerate(fraunhofer_lines_labels):
 
         # Trick to cluster siblings fraunhofer lines.
         from_siblings = False
-        for pattern, (first, siblings, specific_label) in FRAUNHOFER_LINES_CLUSTERED.iteritems():
+        for pattern, (first, siblings,
+                      specific_label) in FRAUNHOFER_LINES_CLUSTERED.items():
             if re.match(pattern, label):
                 if label in siblings:
                     from_siblings = True
@@ -190,9 +200,11 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
 
         is_large_line = label in FRAUNHOFER_LINES_NOTABLE
 
-        pylab.vlines(fraunhofer_wavelengths[i], y0, y1 * scale, linewidth=2 if is_large_line else 1)
+        pylab.vlines(fraunhofer_wavelengths[i], y0, y1 * scale,
+                     linewidth=2 if is_large_line else 1)
 
-        pylab.vlines(fraunhofer_wavelengths[i], y0, height, linewidth=2 if is_large_line else 1, alpha=0.075)
+        pylab.vlines(fraunhofer_wavelengths[i], y0, height,
+                     linewidth=2 if is_large_line else 1, alpha=0.075)
 
         if not from_siblings:
             pylab.text(fraunhofer_wavelengths[i],
@@ -215,11 +227,11 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                 "no_y_ticks": True,
                 "grid": True}
 
-    colour.plotting.plots.bounding_box(**settings)
+    colour.plotting.bounding_box(**settings)
 
-    colour.plotting.plots.aspect(**settings)
+    colour.plotting.aspect(**settings)
 
-    return colour.plotting.plots.display(**settings)
+    return colour.plotting.display(**settings)
 
 
 if __name__ == "__main__":

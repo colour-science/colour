@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_blackbody.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.blackbody` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.blackbody` module.
 """
 
 from __future__ import unicode_literals
@@ -24,13 +15,15 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import planck_law, blackbody_spectral_power_distribution
+from colour.colorimetry import (
+    planck_law,
+    blackbody_spectral_power_distribution)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["PLANCK_LAW_DATA",
@@ -4516,7 +4509,8 @@ BLACKBODY_SPD_DATA = np.array([
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units tests methods.
+    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
+    tests methods.
     """
 
     def test_planck_law(self):
@@ -4524,8 +4518,8 @@ class TestPlanckLaw(unittest.TestCase):
         Tests :func:`colour.colorimetry.blackbody.planck_law` definition.
         """
 
-        for temperature, wavelengths in sorted(PLANCK_LAW_DATA.iteritems()):
-            for wavelength, radiance in sorted(wavelengths.iteritems()):
+        for temperature, wavelengths in sorted(PLANCK_LAW_DATA.items()):
+            for wavelength, radiance in sorted(wavelengths.items()):
                 np.testing.assert_almost_equal(
                     planck_law(wavelength * 1e-9, temperature),
                     radiance,
@@ -4534,12 +4528,16 @@ class TestPlanckLaw(unittest.TestCase):
 
 class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution` definition units tests methods.
+    Defines
+    :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+    definition units tests methods.
     """
 
     def test_blackbody_power_spectral_distribution(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution` definition.
+        Tests
+        :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+        definition.
         """
 
         np.testing.assert_almost_equal(

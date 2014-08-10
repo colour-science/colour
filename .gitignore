@@ -2,14 +2,15 @@
 .project
 .pydevproject
 .settings
+__pycache__
 
+*.egg-info
 *.pyc
 *.pyo
 
 .idea/
-ColourScience.egg-info/
+dist/
 docs/ipython/.ipynb_checkpoints
-docs/sphinx/build/
-docs/sphinx/source/resources/packages/
+docs/sphinx/_build/
 references/
 releases/

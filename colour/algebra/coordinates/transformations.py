@@ -1,17 +1,22 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**coordinates.py**
+Coordinates System Transformations
+==================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines objects to apply transformations on coordinates systems.
 
-**Description:**
-    Defines **Colour** package algebra coordinates transformations objects.
+The following transformations are available:
 
-**Others:**
+-   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
+-   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
+-   :func:`cartesian_to_cylindrical`: Cartesian to Cylindrical transformation.
+-   :func:`cylindrical_to_cartesian`: Cylindrical to Cartesian transformation.
 
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import unicode_literals
@@ -19,11 +24,11 @@ from __future__ import unicode_literals
 import math
 import numpy as np
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["cartesian_to_spherical",
@@ -36,15 +41,24 @@ def cartesian_to_spherical(vector):
     """
     Transforms given Cartesian coordinates vector to Spherical coordinates.
 
-    Usage::
+    Parameters
+    ----------
+    vector : array_like
+        Cartesian coordinates vector (x, y, z) to transform.
 
-        >>> cartesian_to_spherical(np.array([3, 1, 6]))
-        [6.78232998  1.08574654  0.32175055]
+    Returns
+    -------
+    ndarray
+        Spherical coordinates vector (r, theta, phi).
 
-    :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: array_like
-    :return: Spherical coordinates vector (r, theta, phi).
-    :rtype: ndarray
+    See Also
+    --------
+    spherical_to_cartesian, cartesian_to_cylindrical, cylindrical_to_cartesian
+
+    Examples
+    --------
+    >>> colour.cartesian_to_spherical(np.array([3, 1, 6]))
+    array([6.78232998  1.08574654  0.32175055])
     """
 
     r = np.linalg.norm(vector)
@@ -60,15 +74,24 @@ def spherical_to_cartesian(vector):
     """
     Transforms given Spherical coordinates vector to Cartesian coordinates.
 
-    Usage::
+    Parameters
+    ----------
+    vector : array_like
+        Spherical coordinates vector (r, theta, phi) to transform.
 
-        >>> spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
-        [ 3.          0.99999999  6.        ]
+    Returns
+    -------
+    ndarray
+        Cartesian coordinates vector (x, y, z).
 
-    :param vector: Spherical coordinates vector (r, theta, phi) to transform.
-    :type vector: array_like
-    :return: Cartesian coordinates vector (x, y, z).
-    :rtype: ndarray
+    See Also
+    --------
+    cartesian_to_spherical, cartesian_to_cylindrical, cylindrical_to_cartesian
+
+    Examples
+    --------
+    >>> colour.spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
+    array([ 3.        ,  0.99999999,  6.        ])
     """
 
     r, theta, phi = np.ravel(vector)
@@ -84,15 +107,24 @@ def cartesian_to_cylindrical(vector):
     """
     Transforms given Cartesian coordinates vector to Cylindrical coordinates.
 
-    Usage::
+    Parameters
+    ----------
+    vector : array_like
+        Cartesian coordinates vector (x, y, z) to transform.
 
-        >>> cartesian_to_cylindrical(np.array([3, 1, 6]))
-        [ 6.          0.32175055  3.16227766]
+    Returns
+    -------
+    ndarray
+        Cylindrical coordinates vector (z, theta, rho).
 
-    :param vector: Cartesian coordinates vector (x, y, z) to transform.
-    :type vector: array_like
-    :return: Cylindrical coordinates vector (z, theta, rho).
-    :rtype: ndarray
+    See Also
+    --------
+    cartesian_to_spherical, spherical_to_cartesian, cylindrical_to_cartesian
+
+    Examples
+    --------
+    >>> colour.cartesian_to_cylindrical(np.array([3, 1, 6]))
+    array([ 6.        ,  0.32175055,  3.16227766])
     """
 
     x, y, z = np.ravel(vector)
@@ -107,15 +139,24 @@ def cylindrical_to_cartesian(vector):
     """
     Transforms given Cylindrical coordinates vector to Cartesian coordinates.
 
-    Usage::
+    Parameters
+    ----------
+    vector : array_like
+        Cylindrical coordinates vector (z, theta, rho) to transform.
 
-        >>> cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
-        [ 3.          0.99999999  6.        ]
+    Returns
+    -------
+    ndarray
+        Cartesian coordinates vector (x, y, z).
 
-    :param vector: Cylindrical coordinates vector (z, theta, rho) to transform.
-    :type vector: array_like
-    :return: Cartesian coordinates vector (x, y, z).
-    :rtype: ndarray
+    See Also
+    --------
+    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_cylindrical
+
+    Examples
+    --------
+    >>> colour.cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
+    array([ 3.        ,  0.99999999,  6.        ])
     """
 
     z, theta, rho = np.ravel(vector)

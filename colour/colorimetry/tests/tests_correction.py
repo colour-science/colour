@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_correction.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.correction` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.correction` module.
 """
 
 from __future__ import unicode_literals
@@ -24,18 +15,20 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import SpectralPowerDistribution, bandpass_correction_stearns
+from colour.colorimetry import (
+    SpectralPowerDistribution,
+    bandpass_correction_stearns1988)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["SPD_DATA",
            "BANDPASS_CORRECTED_STEARNS_SPD_DATA",
-           "TestBandpassCorrectionStearns"]
+           "TestBandpassCorrectionStearns1988"]
 
 SPD_DATA = np.array([
     9.3700,
@@ -74,19 +67,23 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
     85.87238])
 
 
-class TestBandpassCorrectionStearns(unittest.TestCase):
+class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.correction.bandpass_correction_stearns` definition units tests methods.
+    Defines :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+    definition units tests methods.
     """
 
-    def test_bandpass_correction_stearns(self):
+    def test_bandpass_correction_stearns1988(self):
         """
-        Tests :func:`colour.colorimetry.correction.bandpass_correction_stearns` definition.
+        Tests :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+        definition.
         """
 
-        spd = SpectralPowerDistribution("Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
+        spd = SpectralPowerDistribution(
+            "Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
+
         np.testing.assert_almost_equal(
-            bandpass_correction_stearns(spd).values,
+            bandpass_correction_stearns1988(spd).values,
             BANDPASS_CORRECTED_STEARNS_SPD_DATA)
 
 

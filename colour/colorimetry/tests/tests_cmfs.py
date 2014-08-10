@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cmfs.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.cmfs` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.cmfs` module.
 """
 
 from __future__ import unicode_literals
@@ -27,11 +18,11 @@ from colour.colorimetry import LMS_ConeFundamentals
 from colour.colorimetry import RGB_ColourMatchingFunctions
 from colour.colorimetry import XYZ_ColourMatchingFunctions
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestLMS_ConeFundamentals",
@@ -41,7 +32,8 @@ __all__ = ["TestLMS_ConeFundamentals",
 
 class TestLMS_ConeFundamentals(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.LMS_ConeFundamentals` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.LMS_ConeFundamentals` class units
+    tests methods.
     """
 
     def test_required_attributes(self):
@@ -85,7 +77,8 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
 
 class TestRGB_ColourMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.RGB_ColourMatchingFunctions` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.RGB_ColourMatchingFunctions` class
+    units tests methods.
     """
 
     def test_required_attributes(self):
@@ -129,7 +122,8 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
 
 class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions` class units tests methods.
+    Defines :class:`colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions` class
+    units tests methods.
     """
 
     def test_required_attributes(self):

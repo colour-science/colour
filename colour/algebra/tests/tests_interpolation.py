@@ -1,45 +1,34 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_interpolation.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.algebra.interpolation` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.algebra.interpolation` module.
 """
 
 from __future__ import unicode_literals
 
 import sys
-
 import numpy as np
-
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator1d
 from colour.algebra import SpragueInterpolator
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["POINTS_DATA_A",
            "LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
            "SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
-           "TestLinearInterpolator",
+           "TestLinearInterpolator1d",
            "TestSpragueInterpolator"]
 
 POINTS_DATA_A = np.array([
@@ -367,9 +356,10 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     86.05]
 
 
-class TestLinearInterpolator(unittest.TestCase):
+class TestLinearInterpolator1d(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units tests methods.
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator1d` class units
+    tests methods.
     """
 
     def test_required_attributes(self):
@@ -381,7 +371,7 @@ class TestLinearInterpolator(unittest.TestCase):
                                "y")
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LinearInterpolator))
+            self.assertIn(attribute, dir(LinearInterpolator1d))
 
     def test_required_methods(self):
         """
@@ -391,28 +381,35 @@ class TestLinearInterpolator(unittest.TestCase):
         required_methods = ()
 
         for method in required_methods:
-            self.assertIn(method, dir(LinearInterpolator))
+            self.assertIn(method, dir(LinearInterpolator1d))
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__` method.
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
+        method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
-        linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
+        linear_interpolator = LinearInterpolator1d(x, POINTS_DATA_A)
 
-        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
-            self.assertAlmostEqual(LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], linear_interpolator(value),
-                                   places=7)
+        for i, value in enumerate(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+            self.assertAlmostEqual(
+                LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                linear_interpolator(value),
+                places=7)
 
-        np.testing.assert_almost_equal(linear_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
-                                          LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+        np.testing.assert_almost_equal(
+            linear_interpolator(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+            LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
 class TestSpragueInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class units tests methods.
+    Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class
+    units tests methods.
     """
 
     def test_required_attributes(self):
@@ -438,19 +435,25 @@ class TestSpragueInterpolator(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__` method.
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
-        for i, value in enumerate(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
-            self.assertAlmostEqual(SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i], sprague_interpolator(value),
-                                   places=7)
+        for i, value in enumerate(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+            self.assertAlmostEqual(
+                SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
+                sprague_interpolator(value),
+                places=7)
 
-        np.testing.assert_almost_equal(sprague_interpolator(np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
-                                          SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+        np.testing.assert_almost_equal(
+            sprague_interpolator(
+                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+            SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
 if __name__ == "__main__":

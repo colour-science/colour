@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_common.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.utilities.common` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.utilities.common` module.
 """
 
 from __future__ import unicode_literals
@@ -25,11 +16,11 @@ else:
 
 import colour.utilities.common
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2008 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestIsString"]
@@ -37,7 +28,8 @@ __all__ = ["TestIsString"]
 
 class TestIsString(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_string` definition units tests methods.
+    Defines :func:`colour.utilities.common.is_string` definition units tests
+    methods.
     """
 
     def test_is_string(self):

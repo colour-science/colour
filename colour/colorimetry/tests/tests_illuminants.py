@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_illuminants.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.illuminants` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.colorimetry.illuminants` module.
 """
 
 from __future__ import unicode_literals
@@ -26,11 +17,11 @@ else:
 
 from colour.colorimetry import D_illuminant_relative_spd
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["SAMPLE_SPD_DATA",
@@ -96,16 +87,19 @@ D60_SPD_DATA = {
 
 class TestD_illuminantRelativeSpd(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd` definition units tests methods.
+    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+    definition units tests methods.
     """
 
     def test_D_illuminant_relative_spd(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd` definition.
+        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+        definition.
         """
 
         np.testing.assert_almost_equal(
-            sorted(D_illuminant_relative_spd((0.32168, 0.33767)).data.values()),
+            sorted(D_illuminant_relative_spd(
+                (0.32168, 0.33767)).data.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)
 

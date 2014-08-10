@@ -169,8 +169,6 @@ Highlights:
   -  XYZ to xy.
   -  XYZ to RGB.
   -  RGB to XYZ.
-  -  xyY to RGB.
-  -  RGB to xyY.
   -  RGB to RGB.
   -  XYZ to UCS.
   -  UCS to XYZ.
@@ -227,24 +225,19 @@ The following dependencies are needed:
 
 -  **Python 2.6.7** or **Python 2.7.3**: http://www.python.org/
 
-To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/ColourScience>`_ you can issue this command in a shell::
+To install **Colour** from the `Python Package Index <http://pypi.python.org/pypi/colour-science>`_ you can issue this command in a shell::
 
-    pip install ColourScience
+    pip install colour-science
 
 or this alternative command::
 
-    easy_install ColourScience
+    easy_install colour-science
 
-You can also install directly from `Github <http://github.com/KelSolaar/Colour>`_ source repository::
+You can also install directly from `Github <http://github.com/colour-science/colour>`_ source repository::
 
-	git clone git://github.com/KelSolaar/Colour.git
-	cd Colour
+	git clone git://github.com/colour-science/colour.git
+	cd colour
 	python setup.py install
-
-If you want to build the documentation you will also need:
-
--  `Oncilla <https://pypi.python.org/pypi/Oncilla/>`_
--  `Tidy <http://tidy.sourceforge.net/>`_
 
 Usage
 -----
@@ -476,8 +469,8 @@ RGB Colourspaces
 -  `Apple RGB <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
 -  `Best RGB <http://www.hutchcolor.com/profiles/BestRGB.zip>`_ (Last accessed 11 April 2014)
 -  `Beta RGB <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 11 April 2014)
--  `CIE RGB <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
 -  `C-Log <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_ (Last accessed 18 April 2014)
+-  `CIE RGB <http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data>`_ (Last accessed 24 February 2014)
 -  `ColorMatch Colorspace <http://www.brucelindbloom.com/WorkingSpaceInfo.html>`_ (Last accessed 12 April 2014)
 -  `DCI-P3 <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_ (Last accessed 24 February 2014)
 -  `Don RGB 4 <http://www.hutchcolor.com/profiles/DonRGB4.zip>`_ (Last accessed 12 April 2014)
@@ -493,8 +486,8 @@ RGB Colourspaces
 -  `Russell RGB <http://www.russellcottrell.com/photo/RussellRGB.htm>`_ (Last accessed 11 April 2014)
 -  `S-Log <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_ (Last accessed 13 April 2014)
 -  `SMPTE-C RGB <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_ (Last accessed 13 April 2014)
--  `sRGB <http://www.color.org/srgb.pdf>`_ (Last accessed 24 February 2014)
--  `Xtreme RGB <http://www.hutchcolor.com/profiles/MaxRGB.zip>`_ (Last accessed 12 April 2014)
+-  `sRGB <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_ (Last accessed 24 February 2014)
+-  `Xtreme RGB <http://www.hutchcolor.com/profiles/XtremeRGB.zip>`_ (Last accessed 12 April 2014)
 
 Spectrum
 --------
@@ -530,7 +523,7 @@ Transformations
 About
 -----
 
-| **Colour** by Thomas Mansencal - Michael Parsons - 2013 - 2014
-| Copyright © 2013 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Colour** by Colour Developers - 2013 - 2014
+| Copyright © 2013 - 2014 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
-| `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_
+| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

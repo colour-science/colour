@@ -1,28 +1,22 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**verbose.py**
+Verbose
+=======
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package verbose objects.
-
-**Others:**
-
+Defines verbose related objects.
 """
 
 from __future__ import unicode_literals
 
 import warnings
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["warning"]
@@ -32,11 +26,23 @@ def warning(*args, **kwargs):
     """
     Issues a warning.
 
+    Parameters
+    ----------
+    \*args : \*
+        Arguments.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-    :param \*args: Arguments.
-    :type \*args: \*
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> colour.utilities.warning("This is a warning!")
+    /Users/.../colour/utilities/verbose.py:42: UserWarning: This is a warning!
     """
 
     warnings.warn(*args, **kwargs)
+    return True

@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cie_luv.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.cie_luv` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.cie_luv` module.
 """
 
 from __future__ import unicode_literals
@@ -24,13 +15,19 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy, Luv_to_LCHuv, LCHuv_to_Luv
+from colour.models import (
+    XYZ_to_Luv,
+    Luv_to_XYZ,
+    Luv_to_uv,
+    Luv_uv_to_xy,
+    Luv_to_LCHuv,
+    LCHuv_to_Luv)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestXYZ_to_Luv",
@@ -42,7 +39,8 @@ __all__ = ["TestXYZ_to_Luv",
 
 class TestXYZ_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.XYZ_to_Luv` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.XYZ_to_Luv` definition units tests
+    methods.
     """
 
     def test_XYZ_to_Luv(self):
@@ -66,24 +64,28 @@ class TestXYZ_to_Luv(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]), (0.44757, 0.40745)),
+            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
+                       (0.44757, 0.40745)),
             np.array([100., -97.02442861, -158.08546907]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]), (1. / 3., 1. / 3.)),
+            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
+                       (1. / 3., 1. / 3.)),
             np.array([100., -37.95520989, -92.29247371]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]), (0.31271, 0.32902)),
+            XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
+                       (0.31271, 0.32902)),
             np.array([100., -21.44928374, -85.33481874]).reshape((3, 1)),
             decimal=7)
 
 
 class TestLuv_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.Luv_to_XYZ` definition units tests
+    methods.
     """
 
     def test_Luv_to_XYZ(self):
@@ -107,24 +109,28 @@ class TestLuv_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100., -97.02442861, -158.08546907]), (0.44757, 0.40745)),
+            Luv_to_XYZ(np.array([100., -97.02442861, -158.08546907]),
+                       (0.44757, 0.40745)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100., -37.95520989, -92.29247371]), (1. / 3., 1. / 3.)),
+            Luv_to_XYZ(np.array([100., -37.95520989, -92.29247371]),
+                       (1. / 3., 1. / 3.)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100., -21.44928374, -85.33481874]), (0.31271, 0.32902)),
+            Luv_to_XYZ(np.array([100., -21.44928374, -85.33481874]),
+                       (0.31271, 0.32902)),
             np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
             decimal=7)
 
 
 class TestLuv_to_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_uv` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.Luv_to_uv` definition units tests
+    methods.
     """
 
     def test_Luv_to_uv(self):
@@ -148,24 +154,28 @@ class TestLuv_to_uv(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100., -97.02442861, -158.08546907]), (0.44757, 0.40745)),
+            Luv_to_uv(np.array([100., -97.02442861, -158.08546907]),
+                      (0.44757, 0.40745)),
             (0.18133000048503745, 0.40268999998707306),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100., -37.95520989, -92.29247371]), (1. / 3., 1. / 3.)),
+            Luv_to_uv(np.array([100., -37.95520989, -92.29247371]),
+                      (1. / 3., 1. / 3.)),
             (0.18133000048947367, 0.40268999998016192),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100., -21.44928374, -85.33481874]), (0.31271, 0.32902)),
+            Luv_to_uv(np.array([100., -21.44928374, -85.33481874]),
+                      (0.31271, 0.32902)),
             (0.1813300004870092, 0.4026899999798475),
             decimal=7)
 
 
 class TestLuv_to_LCHuv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_LCHuv` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.Luv_to_LCHuv` definition units tests
+    methods.
     """
 
     def test_Luv_to_LCHuv(self):
@@ -191,7 +201,8 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
 class TestLCHuv_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.LCHuv_to_Luv` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.LCHuv_to_Luv` definition units tests
+    methods.
     """
 
     def test_LCHuv_to_Luv(self):
@@ -217,7 +228,8 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
 class TestLuv_uv_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_uv_to_xy` definition units tests methods.
+    Defines :func:`colour.models.cie_luv.Luv_uv_to_xy` definition units tests
+    methods.
     """
 
     def test_Luv_uv_to_xy(self):

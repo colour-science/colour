@@ -1,26 +1,20 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**common.py**
+Common Utilities
+================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package common utilities objects that don't fall in any specific category.
-
-**Others:**
-
+Defines common utilities objects that don't fall in any specific category.
 """
 
 from __future__ import unicode_literals
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["is_scipy_installed",
@@ -31,10 +25,15 @@ def is_scipy_installed(raise_exception=False):
     """
     Returns if *scipy* is installed and available.
 
-    :param raise_exception: Raise exception if *scipy* is unavailable.
-    :type raise_exception: bool
-    :return: Is *scipy* installed.
-    :rtype: bool
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *scipy* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *scipy* installed.
     """
 
     try:
@@ -46,8 +45,9 @@ def is_scipy_installed(raise_exception=False):
         return True
     except ImportError as error:
         if raise_exception:
-            raise colour.utilities.exceptions.UnavailableApiFeatureError(
-                "{0} | 'scipy' or specific 'scipy' Api features are not available: '{1}'.".format(__name__, error))
+            raise ImportError(
+                "'scipy' or specific 'scipy' Api features are not available: '{1}'.".format(
+                    error))
         return False
 
 
@@ -55,10 +55,22 @@ def is_string(data):
     """
     Returns if given data is a *string_like* variable
 
-    :param data: Data to test.
-    :type data: object
-    :return: Is *string_like* variable.
-    :rtype: bool
+    Parameters
+    ----------
+    data : object
+        Data to test.
+
+    Returns
+    -------
+    bool
+        Is *string_like* variable.
+
+    Examples
+    --------
+    >>> colour.utilities.is_string("I'm a string!")
+    True
+    >>> colour.utilities.is_string(["I'm a string!"])
+    False
     """
 
     return True if isinstance(data, basestring) else False

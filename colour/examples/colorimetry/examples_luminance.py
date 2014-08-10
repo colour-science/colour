@@ -1,19 +1,21 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Luminance* related examples.
+Showcases *Luminance* computations.
 """
 
 import colour
 
-# Retrieving *luminance* of given *Munsell value* with *Newhall, Nickerson, and Judd* 1943 method.
+# Retrieving *luminance* of given *Munsell* value with
+# *Newhall, Nickerson, and Judd* 1943 method.
 print(colour.luminance_newhall1943(3.74629715382))
 
 # Retrieving *luminance* of given *Lightness* with *1976* method.
 print(colour.luminance_1976(37.9856290977))
 
-# Retrieving *luminance* of given *Munsell value* with *ASTM D1535-08e1* 2008 method.
+# Retrieving *luminance* of given *Munsell* value with
+# *ASTM D1535-08e1* 2008 method.
 print(colour.luminance_ASTM_D1535_08(3.74629715382))
 
 # Retrieving *luminance* using the wrapper:

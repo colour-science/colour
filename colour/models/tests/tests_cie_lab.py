@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cie_lab.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.cie_lab` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.cie_lab` module.
 """
 
 from __future__ import unicode_literals
@@ -26,11 +17,11 @@ else:
 
 from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestXYZ_to_Lab",
@@ -41,7 +32,8 @@ __all__ = ["TestXYZ_to_Lab",
 
 class TestXYZ_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.XY§Z_to_Lab` definition units tests methods.
+    Defines :func:`colour.models.cie_lab.XY§Z_to_Lab` definition units tests
+    methods.
     """
 
     def test_XYZ_to_Lab(self):
@@ -65,24 +57,28 @@ class TestXYZ_to_Lab(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (0.44757, 0.40745)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
+                       (0.44757, 0.40745)),
             np.array([100., -13.29228089, -162.12804888]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (1. / 3., 1. / 3.)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
+                       (1. / 3., 1. / 3.)),
             np.array([100., 2.18505384, -56.60990888]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]), (0.31271, 0.32902)),
+            XYZ_to_Lab(np.array([1.0131677, 1., 2.11217686]),
+                       (0.31271, 0.32902)),
             np.array([100., 10.76832763, -49.42733157]).reshape((3, 1)),
             decimal=7)
 
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.cie_lab.Lab_to_XYZ` definition units tests
+    methods.
     """
 
     def test_Lab_to_XYZ(self):
@@ -126,7 +122,8 @@ class TestLab_to_XYZ(unittest.TestCase):
 
 class TestLab_to_LCHab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_LCHab` definition units tests methods.
+    Defines :func:`colour.models.cie_lab.Lab_to_LCHab` definition units tests
+    methods.
     """
 
     def test_Lab_to_LCHab(self):
@@ -152,7 +149,8 @@ class TestLab_to_LCHab(unittest.TestCase):
 
 class TestLCHab_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.LCHab_to_Lab` definition units tests methods.
+    Defines :func:`colour.models.cie_lab.LCHab_to_Lab` definition units tests
+    methods.
     """
 
     def test_LCHab_to_Lab(self):

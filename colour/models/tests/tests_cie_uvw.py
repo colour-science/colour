@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cie_uvw.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.cie_uvw` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.cie_uvw` module.
 """
 
 from __future__ import unicode_literals
@@ -26,11 +17,11 @@ else:
 
 from colour.models import XYZ_to_UVW
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestXYZ_to_UVW"]
@@ -38,7 +29,8 @@ __all__ = ["TestXYZ_to_UVW"]
 
 class TestXYZ_to_UVW(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition units tests methods.
+    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition units tests
+    methods.
     """
 
     def test_XYZ_to_UVW(self):
@@ -62,17 +54,20 @@ class TestXYZ_to_UVW(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (0.44757, 0.40745)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (0.44757, 0.40745)),
             np.array([-7.76195429, -8.43122502, 8.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (1. / 3., 1. / 3.)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (1. / 3., 1. / 3.)),
             np.array([-3.03641679, -4.92226526, 8.]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]), (0.31271, 0.32902)),
+            XYZ_to_UVW(np.array([1.0131677, 1., 2.11217686]),
+                       (0.31271, 0.32902)),
             np.array([-1.7159427, -4.55119033, 8]).reshape((3, 1)),
             decimal=7)
 

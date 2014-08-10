@@ -1,42 +1,42 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Munsell Renotation Sytem* related examples.
+Showcases *Munsell Renotation Sytem* computations.
 """
 
 from numpy import array
 from numpy import ravel
 
 import colour
-import colour.characterization.dataset.colour_checkers.chromaticity_coordinates
-
+from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import (
+    COLORCHECKER_2005_DATA)
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
 print(colour.get_RGB_luminance(array([56., 16., 100.]),
                                colour.sRGB_COLOURSPACE.primaries,
                                colour.sRGB_COLOURSPACE.whitepoint))
 
-# Retrieving *Munsell value* and *Lightness* of given *xyY* components.
-xyY = colour.characterization.dataset.colour_checkers.chromaticity_coordinates.COLORCHECKER_2005_DATA[0][2:5]
+# Retrieving *Munsell* value and *Lightness* of given *xyY* components.
+xyY = COLORCHECKER_2005_DATA[0][2:5]
 Y = ravel(xyY)[2] * 100.
-# Scaled *luminance* *Y* reference:
+# Scaled *luminance* :math:`Y` reference:
 print(Y)
-# Retrieving *Munsell value* with *Priest et al.* 1920 method:
+# Retrieving *Munsell* value with *Priest et al.* 1920 method:
 print(colour.munsell_value_priest1920(Y))
-# Retrieving *Munsell value* with *Munsell, Sloan, and Godlove* 1933 method:
+# Retrieving *Munsell* value with *Munsell, Sloan, and Godlove* 1933 method:
 print(colour.munsell_value_munsell1933(Y))
-# Retrieving *Munsell value* with *Moon and Spencer* 1943 method:
+# Retrieving *Munsell* value with *Moon and Spencer* 1943 method:
 print(colour.munsell_value_moon1943(Y))
-# Retrieving *Munsell value* with *Saunderson and Milner* 1944 method:
+# Retrieving *Munsell* value with *Saunderson and Milner* 1944 method:
 print(colour.munsell_value_saunderson1944(Y))
-# Retrieving *Munsell value* with *Ladd and Pinney* 1955 method:
+# Retrieving *Munsell* value with *Ladd and Pinney* 1955 method:
 print(colour.munsell_value_ladd1955(Y))
-# Retrieving *Munsell value* with *McCamy* 1987 method:
+# Retrieving *Munsell* value with *McCamy* 1987 method:
 print(colour.munsell_value_mccamy1987(Y))
-# Retrieving *Munsell value* with *ASTM D1535-08e1* 2008 method.
+# Retrieving *Munsell* value with *ASTM D1535-08e1* 2008 method.
 print(colour.munsell_value_ASTM_D1535_08(Y))
-# Retrieving *Munsell value* using the wrapper:
+# Retrieving *Munsell* value using the wrapper:
 print(colour.get_munsell_value(Y))
 print(colour.get_munsell_value(Y, method="Munsell Value Saunderson 1944"))
 

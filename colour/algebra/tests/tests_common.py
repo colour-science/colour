@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_common.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.algebra.common` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.algebra.common` module.
 """
 
 from __future__ import unicode_literals
@@ -24,13 +15,20 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import get_steps, get_closest, to_ndarray, is_uniform, is_iterable, is_number, is_even_integer
+from colour.algebra import (
+    get_steps,
+    get_closest,
+    to_ndarray,
+    is_uniform,
+    is_iterable,
+    is_number,
+    is_integer)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestGetSteps",
@@ -44,7 +42,8 @@ __all__ = ["TestGetSteps",
 
 class TestGetSteps(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_steps` definition units tests methods.
+    Defines :func:`colour.algebra.common.get_steps` definition units tests
+    methods.
     """
 
     def test_get_steps(self):
@@ -53,12 +52,15 @@ class TestGetSteps(unittest.TestCase):
         """
 
         self.assertTupleEqual(get_steps(range(0, 10, 2)), (2,))
-        self.assertTupleEqual(tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))), (0.5, 1, 2))
+        self.assertTupleEqual(
+            tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))),
+            (0.5, 1, 2))
 
 
 class TestGetClosest(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_closest` definition units tests methods.
+    Defines :func:`colour.algebra.common.get_closest` definition units tests
+    methods.
     """
 
     def test_get_closest(self):
@@ -66,7 +68,14 @@ class TestGetClosest(unittest.TestCase):
         Tests :func:`colour.algebra.common.get_closest` definition.
         """
 
-        y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
+        y = np.array(
+            [24.31357115,
+             63.62396289,
+             55.71528816,
+             62.70988028,
+             46.84480573,
+             25.40026416])
+
         self.assertEqual(get_closest(y, 63.05), 62.70988028)
         self.assertEqual(get_closest(y, 24.90), 25.40026416)
         self.assertEqual(get_closest(y, 51.15), 46.84480573)
@@ -74,7 +83,8 @@ class TestGetClosest(unittest.TestCase):
 
 class TestToNdarray(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.to_ndarray` definition units tests methods.
+    Defines :func:`colour.algebra.common.to_ndarray` definition units tests
+    methods.
     """
 
     def test_to_ndarray(self):
@@ -90,7 +100,8 @@ class TestToNdarray(unittest.TestCase):
 
 class TestIsUniform(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_uniform` definition units tests methods.
+    Defines :func:`colour.algebra.common.is_uniform` definition units tests
+    methods.
     """
 
     def test_is_uniform(self):
@@ -104,7 +115,8 @@ class TestIsUniform(unittest.TestCase):
 
 class TestIsIterable(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_iterable` definition units tests methods.
+    Defines :func:`colour.algebra.common.is_iterable` definition units tests
+    methods.
     """
 
     def test_is_iterable(self):
@@ -123,7 +135,8 @@ class TestIsIterable(unittest.TestCase):
 
 class TestIsNumber(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_number` definition units tests methods.
+    Defines :func:`colour.algebra.common.is_number` definition units tests
+    methods.
     """
 
     def test_is_number(self):
@@ -133,7 +146,6 @@ class TestIsNumber(unittest.TestCase):
 
         self.assertTrue(is_number(1))
         self.assertTrue(is_number(1.))
-        self.assertTrue(is_number(long(1)))
         self.assertTrue(is_number(complex(1)))
         self.assertFalse(is_number((1,)))
         self.assertFalse(is_number([1]))
@@ -142,17 +154,18 @@ class TestIsNumber(unittest.TestCase):
 
 class TestIsEvenInteger(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_even_integer` definition units tests methods.
+    Defines :func:`colour.algebra.common.is_integer` definition units
+    tests methods.
     """
 
-    def test_is_even_integer(self):
+    def test_is_integer(self):
         """
-        Tests :func:`colour.algebra.common.is_even_integer` definition.
+        Tests :func:`colour.algebra.common.is_integer` definition.
         """
 
-        self.assertTrue(is_even_integer(1))
-        self.assertTrue(is_even_integer(1.001))
-        self.assertFalse(is_even_integer(1.01))
+        self.assertTrue(is_integer(1))
+        self.assertTrue(is_integer(1.001))
+        self.assertFalse(is_integer(1.01))
 
 
 if __name__ == "__main__":

@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_extrapolation.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.algebra.extrapolation` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.algebra.extrapolation` module.
 """
 
 from __future__ import unicode_literals
@@ -25,13 +16,13 @@ else:
     import unittest
 
 from colour.algebra import Extrapolator1d
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator1d
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestExtrapolator1d"]
@@ -39,7 +30,8 @@ __all__ = ["TestExtrapolator1d"]
 
 class TestExtrapolator1d(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.extrapolation.Extrapolator1d` class units tests methods.
+    Defines :func:`colour.algebra.extrapolation.Extrapolator1d` class units
+    tests methods.
     """
 
     def test_required_attributes(self):
@@ -64,10 +56,15 @@ class TestExtrapolator1d(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__` method.
+        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__`
+        method.
         """
 
-        extrapolator = Extrapolator1d(LinearInterpolator(np.array([5., 6., 7.]), np.array([5., 6., 7.])))
+        extrapolator = Extrapolator1d(
+            LinearInterpolator1d(
+                np.array([5., 6., 7.]),
+                np.array([5., 6., 7.])))
+
         np.testing.assert_almost_equal(extrapolator([4., 8.]), [4., 8.])
         self.assertEqual(extrapolator(4.), 4.)
 

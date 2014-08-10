@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_cat.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.adaptation.cat` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.adaptation.cat` module.
 """
 
 from __future__ import unicode_literals
@@ -26,11 +17,11 @@ else:
 
 from colour.adaptation import get_chromatic_adaptation_matrix
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestGetChromaticAdaptationMatrix"]
@@ -38,12 +29,14 @@ __all__ = ["TestGetChromaticAdaptationMatrix"]
 
 class TestGetChromaticAdaptationMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix` definition units tests methods.
+    Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+    definition units tests methods.
     """
 
     def test_get_chromatic_adaptation_matrix(self):
         """
-        Tests :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix` definition.
+        Tests :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+        definition.
         """
 
         np.testing.assert_almost_equal(

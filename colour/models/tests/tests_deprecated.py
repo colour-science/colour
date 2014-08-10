@@ -1,17 +1,8 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-**tests_deprecated.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.deprecated` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.deprecated` module.
 """
 
 from __future__ import unicode_literals
@@ -26,15 +17,25 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models.deprecated import RGB_to_HSV, HSV_to_RGB, RGB_to_HSL, HSL_to_RGB
-from colour.models.deprecated import RGB_to_CMY, CMY_to_RGB, CMY_to_CMYK, CMYK_to_CMY
-from colour.models.deprecated import RGB_to_HEX, HEX_to_RGB
+from colour.models.deprecated import (
+    RGB_to_HSV,
+    HSV_to_RGB,
+    RGB_to_HSL,
+    HSL_to_RGB)
+from colour.models.deprecated import (
+    RGB_to_CMY,
+    CMY_to_RGB,
+    CMY_to_CMYK,
+    CMYK_to_CMY)
+from colour.models.deprecated import (
+    RGB_to_HEX,
+    HEX_to_RGB)
 
-__author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2013 - 2014 - Thomas Mansencal"
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Thomas Mansencal"
-__email__ = "thomas.mansencal@gmail.com"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ["TestRGB_to_HSV",
@@ -51,7 +52,8 @@ __all__ = ["TestRGB_to_HSV",
 
 class TestRGB_to_HSV(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HSV` definition units tests methods.
+    Defines :func:`colour.models.deprecated.RGB_to_HSV` definition units tests
+    methods.
     """
 
     def test_RGB_to_HSV(self):
@@ -77,7 +79,8 @@ class TestRGB_to_HSV(unittest.TestCase):
 
 class TestHSV_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HSV_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.deprecated.HSV_to_RGB` definition units tests
+    methods.
     """
 
     def test_HSV_to_RGB(self):
@@ -103,7 +106,8 @@ class TestHSV_to_RGB(unittest.TestCase):
 
 class TestRGB_to_HSL(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HSL` definition units tests methods.
+    Defines :func:`colour.models.deprecated.RGB_to_HSL` definition units tests
+    methods.
     """
 
     def test_RGB_to_HSL(self):
@@ -129,7 +133,8 @@ class TestRGB_to_HSL(unittest.TestCase):
 
 class TestHSL_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HSL_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.deprecated.HSL_to_RGB` definition units tests
+    methods.
     """
 
     def test_HSL_to_RGB(self):
@@ -181,7 +186,8 @@ class TestRGB_to_CMY(unittest.TestCase):
 
 class TestCMY_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMY_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.deprecated.CMY_to_RGB` definition units tests
+    methods.
     """
 
     def test_CMY_to_RGB(self):
@@ -207,7 +213,8 @@ class TestCMY_to_RGB(unittest.TestCase):
 
 class TestCMY_to_CMYK(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMY_to_CMYK` definition units tests methods.
+    Defines :func:`colour.models.deprecated.CMY_to_CMYK` definition units tests
+    methods.
     """
 
     def test_CMY_to_CMYK(self):
@@ -233,7 +240,8 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
 class TestCMYK_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMYK_to_CMY` definition units tests methods.
+    Defines :func:`colour.models.deprecated.CMYK_to_CMY` definition units tests
+    methods.
     """
 
     def test_CMYK_to_CMY(self):
@@ -259,7 +267,8 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
 class TestRGB_to_HEX(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HEX` definition units tests methods.
+    Defines :func:`colour.models.deprecated.RGB_to_HEX` definition units tests
+    methods.
     """
 
     def test_RGB_to_HEX(self):
@@ -280,7 +289,8 @@ class TestRGB_to_HEX(unittest.TestCase):
 
 class TestHEX_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HEX_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.deprecated.HEX_to_RGB` definition units tests
+    methods.
     """
 
     def test_HEX_to_RGB(self):

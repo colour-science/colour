@@ -1,16 +1,14 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *interpolation* related examples.
+Showcases *interpolation* computations.
 """
 
 import pylab
 
 import colour
-import colour.plotting.plots
-
-
+import colour.plotting
 
 # Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation methods.
 uniform_spd_data = {
@@ -67,11 +65,15 @@ non_uniform_spd_data = {
     800: 0.0000,
     820.9: 0.0000}
 
-base_spd = colour.SpectralPowerDistribution("Reference", uniform_spd_data)
-uniform_interpolated_spd = colour.SpectralPowerDistribution("Uniform - Sprague Interpolation",
-                                                            uniform_spd_data)
-non_uniform_interpolated_spd = colour.SpectralPowerDistribution("Non Uniform - Cubic Spline Interpolation",
-                                                                non_uniform_spd_data)
+base_spd = colour.SpectralPowerDistribution(
+    "Reference",
+    uniform_spd_data)
+uniform_interpolated_spd = colour.SpectralPowerDistribution(
+    "Uniform - Sprague Interpolation",
+    uniform_spd_data)
+non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
+    "Non Uniform - Cubic Spline Interpolation",
+    non_uniform_spd_data)
 
 uniform_interpolated_spd.interpolate(steps=1)
 non_uniform_interpolated_spd.interpolate(steps=1)
@@ -105,8 +107,9 @@ settings = {"x_label": u"Wavelength λ (nm)",
             "legend_location": "upper left",
             "x_ticker": True,
             "y_ticker": True,
-            "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min), max(y_limit_max)]}
+            "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                       max(y_limit_max)]}
 
-colour.plotting.plots.bounding_box(**settings)
-colour.plotting.plots.aspect(**settings)
-colour.plotting.plots.display(**settings)
+colour.plotting.bounding_box(**settings)
+colour.plotting.aspect(**settings)
+colour.plotting.display(**settings)

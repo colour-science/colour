@@ -1,5 +1,5 @@
 Colour - 0.1.0 - Stable
-======================
+=======================
 
 .. .changes
 
@@ -17,7 +17,7 @@ Changes
 About
 -----
 
-| **Colour** by Thomas Mansencal - Michael Parsons - 2013 - 2014
-| Copyright © 2013 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Colour** by Colour Developers - 2013 - 2014
+| Copyright © 2013 - 2014 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
-| `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_
+| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
