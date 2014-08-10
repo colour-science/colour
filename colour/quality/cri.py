@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**cri.py**
+Colour Rendering Index
+======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *colour rendering index* computation objects:
 
-**Description:**
-    Defines **Colour** package *colour rendering index* calculation objects.
+-   :func:`get_colour_rendering_index`
 
-**Others:**
-
+References
+----------
+.. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
+        (Last accessed 10 June 2014)
 """
 
 from __future__ import unicode_literals
@@ -50,18 +51,23 @@ def _get_tcs_colorimetry_data(test_spd,
     """
     Returns the *test colour samples* colorimetry data.
 
-    :param test_spd: Test spectral power distribution.
-    :type test_spd: SpectralPowerDistribution
-    :param reference_spd: Reference spectral power distribution.
-    :type reference_spd: SpectralPowerDistribution
-    :param tsc_spds: Test colour samples.
-    :type tsc_spds: dict
-    :param cmfs: Standard observer colour matching functions.
-    :type cmfs: XYZ_ColourMatchingFunctions
-    :param chromatic_adaptation: Perform chromatic adaptation.
-    :type chromatic_adaptation: bool
-    :return: *Test colour samples* colorimetry data.
-    :rtype: list
+    Parameters
+    ----------
+    test_spd : SpectralPowerDistribution
+        Test spectral power distribution.
+    reference_spd : SpectralPowerDistribution
+        Reference spectral power distribution.
+    tsc_spds : dict
+        Test colour samples.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    chromatic_adaptation : bool, optional
+        Perform chromatic adaptation.
+
+    Returns
+    -------
+    list
+        *Test colour samples* colorimetry data.
     """
 
     test_XYZ = spectral_to_XYZ(test_spd, cmfs)
@@ -112,12 +118,17 @@ def _get_colour_rendering_indexes(test_data, reference_data):
     """
     Returns the *test colour samples* rendering indexes.
 
-    :param test_data: Test data.
-    :type test_data: list
-    :param reference_data: Reference data.
-    :type reference_data: list
-    :return: *Test colour samples* colour rendering indexes.
-    :rtype: dict
+    Parameters
+    ----------
+    test_data : list
+        Test data.
+    reference_data : list
+        Reference data.
+
+    Returns
+    -------
+    dict
+        *Test colour samples* colour rendering indexes.
     """
 
     colour_rendering_indexes = {}
@@ -131,23 +142,23 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     """
     Returns the *colour rendering index* of given spectral power distribution.
 
-    Examples::
+    Parameters
+    ----------
+    test_spd : SpectralPowerDistribution
+        Test spectral power distribution.
+    additional_data : bool, optional
+        Output additional data.
 
-        >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
-        >>> get_colour_rendering_index(spd)
-        64.1507331494
+    Returns
+    -------
+    float or (float, dict)
+        Colour rendering index, Tsc data.
 
-    :param test_spd: Test spectral power distribution.
-    :type test_spd: SpectralPowerDistribution
-    :param additional_data: Output additional data.
-    :type additional_data: bool
-    :return: Colour rendering index, Tsc data.
-    :rtype: float or (float, dict)
-
-    References:
-
-    -  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls \
-    (Last accessed 10 June 2014)
+    Examples
+    --------
+    >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
+    >>> colour.get_colour_rendering_index(spd)
+    64.1507331494
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")

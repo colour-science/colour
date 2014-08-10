@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_cri.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.colorimetry.cri` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.quality.cri` module.
 """
 
 from __future__ import unicode_literals
@@ -123,13 +114,13 @@ SAMPLE_SPD_DATA = {
 
 class TestGetColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.cri.get_colour_rendering_index` definition units
-    tests methods.
+    Defines :func:`colour.quality.cri.get_colour_rendering_index`
+    definition units tests methods.
     """
 
     def test_xy_to_z(self):
         """
-        Tests :func:`colour.cri.get_colour_rendering_index` definition.
+        Tests :func:`colour.quality.cri.get_colour_rendering_index` definition.
         """
 
         self.assertAlmostEqual(

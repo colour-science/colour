@@ -2,17 +2,22 @@
 # -*- coding: utf-8 -*-
 
 """
-**tcs.py**
+Test Colour Samples Spectral Power Distributions
+================================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE 1995* test colour samples spectral power distributions.
 
-**Description:**
-    Defines **Colour** package *CIE 1995* test colour samples spectral power
-    distributions.
+The *CIE 1995* test colour samples data is in the form of a *dict* of
+:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
+follows::
 
-**Others:**
+    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
 
+References
+----------
+.. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
+        (Last accessed 10 June 2014)
+.. [2]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
 """
 
 from __future__ import unicode_literals
@@ -45,26 +50,33 @@ TCS_INDEXES_TO_NAMES = {
     12: "TCS12",
     13: "TCS13",
     14: "TCS14"}
+"""
+Test colour samples indexes to names mapping.
+
+TCS_INDEXES_TO_NAMES : dict
+"""
 
 TCS_APPROXIMATE_MUNSELL_NOTATIONS = {
-    "TCS01": "7,5 R 6/4",
+    "TCS01": "7.5 R 6/4",
     "TCS02": "5 Y 6/4",
     "TCS03": "5 GY 6/8",
-    "TCS04": "2,5 G 6/6",
+    "TCS04": "2.5 G 6/6",
     "TCS05": "10 BG 6/4",
     "TCS06": "5 PB 6/8",
-    "TCS07": "2,5 P 6/8",
+    "TCS07": "2.5 P 6/8",
     "TCS08": "10 P 6/8",
-    "TCS09": "4,5 R 4/13",
+    "TCS09": "4.5 R 4/13",
     "TCS10": "5 Y 8/10",
-    "TCS11": "4,5 G 5/8",
+    "TCS11": "4.5 G 5/8",
     "TCS12": "3 PB 3/11",
     "TCS13": "5 YR 8/4",
     "TCS14": "5 GY 4/4"}
+"""
+Test colour samples *Munsell* colour approximations.
 
-# http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-# (Last accessed 10 June 2014)
-# http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
+TCS_APPROXIMATE_MUNSELL_NOTATIONS : dict
+"""
+
 TCS_SPDS_DATA = {
     "TCS01": {
         360: 0.116,
@@ -1413,3 +1425,8 @@ TCS_SPDS_DATA = {
 
 TCS_SPDS = dict((key, SpectralPowerDistribution(key, value)) for key, value in
                 TCS_SPDS_DATA.items())
+"""
+Test colour samples spectral power distributions.
+
+TCS_SPDS : dict
+"""
