@@ -2,22 +2,27 @@
 # -*- coding: utf-8 -*-
 
 """
-**cie_luv.py**
+CIE Luv Colourspace
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE Luv* colourspace transformations:
 
-**Description:**
-    Defines **Colour** package colour *CIE Luv* colourspace objects.
+-   :func:`XYZ_to_Luv`
+-   :func:`Luv_to_XYZ`
+-   :func:`Luv_to_uv`
+-   :func:`Luv_uv_to_xy`
+-   :func:`Luv_to_LCHuv`
+-   :func:`LCHuv_to_Luv`
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/CIELUV
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
 
 import math
-
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -45,28 +50,35 @@ def XYZ_to_Luv(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> XYZ_to_Luv(np.array([0.92193107, 1., 1.03744246]))
-        array([[ 100.        ]
-               [ -20.04304247]
-               [ -45.09684555]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE Luv* colourspace matrix.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *CIE Luv* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Output :math:`L^*` is in domain [0, 100].
 
-    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: Input *illuminant* is in domain [0, 1].
-    :note: Output :math:`L^*` is in domain [0, 100].
+    References
+    ----------
+    .. [2]  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.XYZ_to_Luv(np.array([0.92193107, 1., 1.03744246]))
+    array([[ 100.        ]
+           [ -20.04304247]
+           [ -45.09684555]])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -89,28 +101,35 @@ def Luv_to_XYZ(Luv,
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    Luv : array_like, (3, 1)
+        *CIE Luv* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> Luv_to_XYZ(np.array([100., -20.04304247, -19.81676035]))
-        array([[ 0.92193107]
-               [ 1.        ]
-               [ 1.03744246]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input :math:`L^*` is in domain [0, 100].
+    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    :note: Input :math:`L^*` is in domain [0, 100].
-    :note: Input *illuminant* is in domain [0, 1].
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [3]  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.Luv_to_XYZ(np.array([100., -20.04304247, -19.81676035]))
+    array([[ 0.92193107]
+           [ 1.        ]
+           [ 1.03744246]])
     """
 
     L, u, v = np.ravel(Luv)
@@ -135,28 +154,35 @@ def Luv_to_uv(Luv,
               illuminant=ILLUMINANTS.get(
                   "CIE 1931 2 Degree Standard Observer").get("D50")):
     """
-    Returns the *u'v'* chromaticity coordinates from given *CIE Luv* colourspace
-    matrix.
+    Returns the *u'v'* chromaticity coordinates from given *CIE Luv*
+    colourspace matrix.
 
-    Examples::
+    Parameters
+    ----------
+    Luv : array_like, (3, 1)
+        *CIE Luv* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> Luv_to_uv(np.array([100., -20.04304247, -19.81676035]))
-        (0.19374142100850045, 0.47283165896209456)
+    Returns
+    -------
+    tuple
+        *u'v'* chromaticity coordinates.
 
-    :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *u'v'* chromaticity coordinates.
-    :rtype: tuple
+    Notes
+    -----
+    -   Input :math:`L^*` is in domain [0, 100].
+    -   Output *u'v'* chromaticity coordinates are in domain [0, 1].
 
-    :note: Input :math:`L^*` is in domain [0, 100].
-    :note: Output *u'v'* is in domain [0, 1].
+    References
+    ----------
+    .. [4]  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.Luv_to_uv(np.array([100., -20.04304247, -19.81676035]))
+    (0.19374142100850045, 0.47283165896209456)
     """
 
     X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -169,23 +195,30 @@ def Luv_uv_to_xy(uv):
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
     *u'v'* chromaticity coordinates.
 
-    Examples::
+    Parameters
+    ----------
+    uv : array_like
+        *CIE Luv u'v'* chromaticity coordinates.
 
-        >>> Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052))
-        (0.32207410281368043, 0.33156550013623537)
+    Returns
+    -------
+    tuple
+        *xy* chromaticity coordinates.
 
-    :param uv: *CIE Luv u'v'* chromaticity coordinate.
-    :type uv: array_like
-    :return: *xy* chromaticity coordinates.
-    :rtype: tuple
+    Notes
+    -----
+    -   Input *u'v'* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* is in domain [0, 1].
 
-    :note: Input *u'v'* is in domain [0, 1].
-    :note: Output *xy* is in domain [0, 1].
+    References
+    ----------
+    .. [5]  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation \
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052))
+    (0.32207410281368043, 0.33156550013623537)
     """
 
     return (9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] /
@@ -196,24 +229,31 @@ def Luv_to_LCHuv(Luv):
     """
     Converts from *CIE Luv* colourspace to *CIE LCHuv* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    Luv : array_like, (3, 1)
+        *CIE Luv* colourspace matrix.
 
-        >>> Luv_to_LCHuv(np.array([100., -20.04304247, -19.81676035]))
-        array([[ 100.        ]
-               [  28.18559104]
-               [ 224.6747382 ]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE LCHuv* colourspace matrix.
 
-    :param Luv: *CIE Luv* colourspace matrix.
-    :type Luv: array_like, (3, 1)
-    :return: *CIE LCHuv* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   :math:`L^*` is in domain [0, 100].
 
-    :note: :math:`L^*` is in domain [0, 100].
+    References
+    ----------
+    .. [6]  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.Luv_to_LCHuv(np.array([100., -20.04304247, -19.81676035]))
+    array([[ 100.        ]
+           [  28.18559104]
+           [ 224.6747382 ]])
     """
 
     L, u, v = np.ravel(Luv)
@@ -229,24 +269,31 @@ def LCHuv_to_Luv(LCHuv):
     """
     Converts from *CIE LCHuv* colourspace to *CIE Luv* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    LCHuv : array_like, (3, 1)
+        *CIE LCHuv* colourspace matrix.
 
-        >>> LCHuv_to_Luv(np.array([100., 28.18559104, 224.6747382]))
-        array([[ 100.        ]
-               [ -20.04304247]
-               [ -19.81676035]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE Luv* colourspace matrix.
 
-    :param LCHuv: *CIE LCHuv* colourspace matrix.
-    :type LCHuv: array_like, (3, 1)
-    :return: *CIE Luv* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   :math:`L^*` is in domain [0, 100].
 
-    :note: :math:`L^*` is in domain [0, 100].
+    References
+    ----------
+    .. [7]  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.LCHuv_to_Luv(np.array([100., 28.18559104, 224.6747382]))
+    array([[ 100.        ]
+           [ -20.04304247]
+           [ -19.81676035]])
     """
 
     L, C, H = np.ravel(LCHuv)

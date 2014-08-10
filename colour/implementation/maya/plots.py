@@ -148,8 +148,8 @@ def RGB_to_Lab(RGB, colourspace):
                    colourspace.whitepoint,
                    ILLUMINANTS.get(
                        "CIE 1931 2 Degree Standard Observer").get("E"),
-                   "Bradford",
                    colourspace.to_XYZ,
+                   "Bradford",
                    colourspace.inverse_transfer_function),
         colourspace.whitepoint)
 

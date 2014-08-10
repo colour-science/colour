@@ -41,8 +41,8 @@ print(colour.XYZ_to_RGB(
     array([0.1180583421, 0.1034, 0.0515089229]),
     colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
     colour.sRGB_COLOURSPACE.whitepoint,
+    colour.sRGB_COLOURSPACE.to_RGB,
     "Bradford",
-    colour.sRGB_COLOURSPACE.from_XYZ,
     colour.sRGB_COLOURSPACE.transfer_function))
 
 # From *RGB* colourspace to *CIE XYZ* colourspace.
@@ -51,28 +51,8 @@ print(colour.RGB_to_XYZ(
     array([[3.40552203], [2.48159742], [2.11932818]]),
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
-    "Bradford",
     colour.sRGB_COLOURSPACE.to_XYZ,
-    colour.sRGB_COLOURSPACE.inverse_transfer_function))
-
-# From *CIE xyY* colourspace to *RGB* colourspace.
-# From *CIE xyY* colourspace to *sRGB* colourspace.
-print(colour.xyY_to_RGB(
-    array([[0.4316], [0.3777], [0.1008]]),
-    colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
-    colour.sRGB_COLOURSPACE.whitepoint,
     "Bradford",
-    colour.sRGB_COLOURSPACE.from_XYZ,
-    colour.sRGB_COLOURSPACE.transfer_function))
-
-# From *RGB* colourspace to *CIE xyY* colourspace.
-# From *sRGB* colourspace to *CIE xyY* colourspace.
-print(colour.RGB_to_xyY(
-    array([[3.40552203], [2.48159742], [2.11932818]]),
-    colour.sRGB_COLOURSPACE.whitepoint,
-    colour.ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D50"],
-    "Bradford",
-    colour.sRGB_COLOURSPACE.to_XYZ,
     colour.sRGB_COLOURSPACE.inverse_transfer_function))
 
 # From *CIE XYZ* colourspace to *CIE UCS* colourspace.

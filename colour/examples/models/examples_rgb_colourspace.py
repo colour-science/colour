@@ -17,8 +17,8 @@ print("Name: '{0}'".format(colourspace.name))
 print("Primaries: '{0}'".format(colourspace.primaries))
 print("Normalised primary matrix to 'CIE XYZ': '{0}'".format(
     colourspace.to_XYZ))
-print(    "Normalised primary matrix from 'CIE XYZ': '{0}'".format(
-    colourspace.from_XYZ))
+print("Normalised primary matrix from 'CIE XYZ': '{0}'".format(
+    colourspace.to_RGB))
 print("Transfer function: '{0}'".format(colourspace.transfer_function))
 print("Inverse transfer function: '{0}'".format(
     colourspace.inverse_transfer_function))
@@ -28,7 +28,7 @@ print("'ACES RGB' colourspace to 'sRGB' colourspace matrix:")
 cat = colour.get_chromatic_adaptation_matrix(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES["ACES RGB"].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES["sRGB"].whitepoint))
-print(np.dot(colour.RGB_COLOURSPACES["sRGB"].from_XYZ,
+print(np.dot(colour.RGB_COLOURSPACES["sRGB"].to_RGB,
              np.dot(cat, colour.RGB_COLOURSPACES["ACES RGB"].to_XYZ)))
 
 # Converting from *sRGB* to *ProPhoto RGB*.

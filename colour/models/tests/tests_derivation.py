@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_derivation.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.rgb.derivation` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.rgb.derivation` module.
 """
 
 from __future__ import unicode_literals
@@ -79,7 +70,8 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
 
     def test_get_normalised_primary_matrix(self):
         """
-        Tests :func:`colour.models.rgb.derivation.get_normalised_primary_matrix`
+        Tests
+        :func:`colour.models.rgb.derivation.get_normalised_primary_matrix`
         definition.
         """
 
@@ -144,7 +136,8 @@ class TestGetRGBLuminance(unittest.TestCase):
 
     def test_get_RGB_luminance(self):
         """
-        Tests :func:`colour.models.rgb.derivation.get_RGB_luminance` definition.
+        Tests:func:`colour.models.rgb.derivation.get_RGB_luminance`
+        definition.
         """
 
         self.assertAlmostEqual(

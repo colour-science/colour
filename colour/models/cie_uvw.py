@@ -2,16 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-**cie_uvw.py**
+CIE UVW Colourspace
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE UVW* colourspace transformations:
 
-**Description:**
-    Defines **Colour** package colour *CIE UVW* colourspace objects.
+-   :func:`XYZ_to_UVW`
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/CIE_1964_color_space
+        (Last accessed 10 June 2014)
 """
 
 from __future__ import unicode_literals
@@ -37,28 +38,33 @@ def XYZ_to_UVW(XYZ,
     """
     Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229]))
-        array([[ 24.25433719]
-               [  7.22054843]
-               [ 37.46450007]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE 1964 U\*V*\W\** colourspace matrix.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *CIE 1964 U\*V*\W\** colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Output *CIE UVW* colourspace matrix is in domain [0, 100].
 
-    :warning: The arguments domains of that definition are non standard!
-    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    :note: Output *CIE UVW* colourspace matrix is in domain [0, 100].
+    Warning
+    -------
+    The input / output domains of that definition are non standard!
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1964_color_space \
-    (Last accessed 10 June 2014)
+    Examples
+    --------
+    >>> colour.XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229]))
+    array([[ 24.25433719]
+           [  7.22054843]
+           [ 37.46450007]])
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))

@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_rgb_colourspace.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.rgb_colourspace` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.rgb_colourspace` module.
 """
 
 from __future__ import unicode_literals
@@ -50,7 +41,7 @@ class TestRGB_Colourspace(unittest.TestCase):
                                "primaries",
                                "whitepoint",
                                "to_XYZ",
-                               "from_XYZ",
+                               "to_RGB",
                                "transfer_function",
                                "inverse_transfer_function",)
 

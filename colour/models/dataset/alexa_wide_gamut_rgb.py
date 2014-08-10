@@ -188,7 +188,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
     firmware : unicode,
         ("SUP 2.x", "SUP 3.x")
         Alexa firmware version.
-    method : unicode, optional,
+    method : unicode, optional
         ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
         Conversion method.
     EI : int,  optional
@@ -221,7 +221,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
     firmware : unicode,
         ("SUP 2.x", "SUP 3.x")
         Alexa firmware version.
-    method : unicode,  optional,
+    method : unicode,  optional
         ("Linear Scene Exposure Factor", "Normalised Sensor Signal")
         Conversion method.
     EI : int,  optional

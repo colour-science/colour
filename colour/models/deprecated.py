@@ -2,17 +2,39 @@
 # -*- coding: utf-8 -*-
 
 """
-**deprecated.py**
+Deprecated Colour Models Transformations
+========================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines various deprecated colour models transformations:
 
-**Description:**
-    Defines **Colour** package colour deprecated objects.
-    Those objects are only provided for convenience and completeness.
+-   :func:`RGB_to_HSV`
+-   :func:`HSV_to_RGB`
+-   :func:`RGB_to_HSL`
+-   :func:`HSL_to_RGB`
+-   :func:`RGB_to_CMY`
+-   :func:`CMY_to_RGB`
+-   :func:`CMY_to_CMYK`
+-   :func:`CMYK_to_CMY`
+-   :func:`RGB_to_HEX`
+-   :func:`HEX_to_RGB`
 
-**Others:**
+These colour models are stated as deprecated because they trade off perceptual
+relevance for computation speed. They should not be used in the colour science
+domain although they are useful for image analysis and provide end user
+software colour selection tools.
 
+They are provided for convenience and completeness.
+
+Warning
+-------
+Don't use that! Seriously...
+
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/HSL_and_HSV
+        (Last accessed 10 August 2014)
+.. [2]  http://alvyray.com/Papers/CG/color78.pdf
+        (Last accessed 10 August 2014)
 """
 
 from __future__ import unicode_literals
@@ -43,25 +65,32 @@ def RGB_to_HSV(RGB):
     """
     Converts from *RGB* colourspace to *HSV* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    RGB : array_like, (3, 1)
+        *RGB* colourspace matrix.
 
-        >>> RGB_to_HSV(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
-        array([[ 0.27867384],
-               [ 0.744     ],
-               [ 0.98039216]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *HSV* matrix.
 
-    :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like, (3, 1)
-    :return: *HSV* matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Output *HSV* colourspace matrix is in domain [0, 1].
 
-    :note: Input *RGB* colourspace matrix is in domain [0, 1].
-    :note: Output *HSV* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [3]  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
+    Examples
+    --------
+    >>> colour.RGB_to_HSV(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    array([[ 0.27867384],
+           [ 0.744     ],
+           [ 0.98039216]])
     """
 
     R, G, B = np.ravel(RGB)
@@ -102,26 +131,32 @@ def HSV_to_RGB(HSV):
     """
     Converts from *HSV* colourspace to *RGB* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    HSV : array_like, (3, 1)
+        *HSV* colourspace matrix.
 
-        >>> HSV_to_RGB(np.array([0.27867384, 0.744, 0.98039216]))
-        array([[ 0.49019606]
-               [ 0.98039216]
-               [ 0.25098039]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *RGB* colourspace matrix.
 
-    :param HSV: *HSV* colourspace matrix.
-    :type HSV: array_like, (3, 1)
-    :return: *RGB* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *HSV* colourspace matrix is in domain [0, 1].
+    -   Output *RGB* colourspace matrix is in domain [0, 1].
 
-    :note: Input *HSV* colourspace matrix is in domain [0, 1].
-    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [4]  http://www.easyrgb.com/index.php?X=MATH&H=21#text21
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=21#text21 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.HSV_to_RGB(np.array([0.27867384, 0.744, 0.98039216]))
+    array([[ 0.49019606]
+           [ 0.98039216]
+           [ 0.25098039]])
     """
 
     H, S, V = np.ravel(HSV)
@@ -171,26 +206,32 @@ def RGB_to_HSL(RGB):
     """
     Converts from *RGB* colourspace to *HSL* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    RGB : array_like, (3, 1)
+        *RGB* colourspace matrix.
 
-        >>> RGB_to_HSL(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
-        array([[ 0.27867384]
-               [ 0.94897959]
-               [ 0.61568627]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *HSL* matrix.
 
-    :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like, (3, 1)
-    :return: *HSL* matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Output *HSL* colourspace matrix is in domain [0, 1].
 
-    :note: Input *RGB* colourspace matrix is in domain [0, 1].
-    :note: Output *HSL* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [5]  http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=18#text18 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.RGB_to_HSL(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    array([[ 0.27867384]
+           [ 0.94897959]
+           [ 0.61568627]])
     """
 
     R, G, B = np.ravel(RGB)
@@ -232,26 +273,32 @@ def HSL_to_RGB(HSL):
     """
     Converts from *HSL* colourspace to *RGB* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    HSL : array_like, (3, 1)
+        *HSL* colourspace matrix.
 
-        >>> HSL_to_RGB(np.array([0.27867384, 0.94897959, 0.61568627]))
-        array([[ 0.49019605]
-               [ 0.98039216]
-               [ 0.25098038]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *RGB* colourspace matrix.
 
-    :param HSL: *HSL* colourspace matrix.
-    :type HSL: array_like, (3, 1)
-    :return: *RGB* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *HSL* colourspace matrix is in domain [0, 1].
+    -   Output *RGB* colourspace matrix is in domain [0, 1].
 
-    :note: Input *HSL* colourspace matrix is in domain [0, 1].
-    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [6]  http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://alvyray.com/Papers/CG/color78.pdf
-    -  http://www.easyrgb.com/index.php?X=MATH&H=19#text19 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.HSL_to_RGB(np.array([0.27867384, 0.94897959, 0.61568627]))
+    array([[ 0.49019605]
+           [ 0.98039216]
+           [ 0.25098038]])
     """
 
     H, S, L = np.ravel(HSL)
@@ -288,25 +335,32 @@ def RGB_to_CMY(RGB):
     """
     Converts from *RGB* colourspace to *CMY* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    RGB : array_like, (3, 1)
+        *RGB* colourspace matrix.
 
-        >>> RGB_to_CMY(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
-        array([[ 0.50980392]
-                [ 0.01960784]
-                [ 0.74901961]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CMY* matrix.
 
-    :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like, (3, 1)
-    :return: *CMY* matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Output *CMY* colourspace matrix is in domain [0, 1].
 
-    :note: Input *RGB* colourspace matrix is in domain [0, 1].
-    :note: Output *CMY* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [7]  http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=11#text11 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.RGB_to_CMY(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    array([[ 0.50980392]
+           [ 0.01960784]
+           [ 0.74901961]])
     """
 
     R, G, B = np.ravel(RGB)
@@ -317,25 +371,32 @@ def CMY_to_RGB(CMY):
     """
     Converts from *CMY* colourspace to *CMY* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    CMY : array_like, (3, 1)
+        *CMY* colourspace matrix.
 
-        >>> CMY_to_RGB(np.array([0.50980392, 0.01960784, 0.74901961]))
-        array([[ 0.49019608]
-               [ 0.98039216]
-               [ 0.25098039]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *RGB* colourspace matrix.
 
-    :param CMY: *CMY* colourspace matrix.
-    :type CMY: array_like, (3, 1)
-    :return: *RGB* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CMY* colourspace matrix is in domain [0, 1].
+    -   Output *RGB* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CMY* colourspace matrix is in domain [0, 1].
-    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [8]  http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=12#text12 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.CMY_to_RGB(np.array([0.50980392, 0.01960784, 0.74901961]))
+    array([[ 0.49019608]
+           [ 0.98039216]
+           [ 0.25098039]])
     """
 
     C, M, Y = np.ravel(CMY)
@@ -346,26 +407,33 @@ def CMY_to_CMYK(CMY):
     """
     Converts from *CMY* colourspace to *CMYK* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    CMY : array_like, (3, 1)
+        *CMY* colourspace matrix.
 
-        >>> CMY_to_CMYK(np.array([0.50980392, 0.01960784, 0.74901961]))
-        array([[ 0.5       ]
-               [ 0.        ]
-               [ 0.744     ]
-               [ 0.01960784]])
+    Returns
+    -------
+    ndarray, (4, 1)
+        *CMYK* matrix.
 
-    :param CMY: *CMY* colourspace matrix.
-    :type CMY: array_like, (3, 1)
-    :return: *CMYK* matrix.
-    :rtype: ndarray, (4, 1)
+    Notes
+    -----
+    -   Input *CMY* colourspace matrix is in domain [0, 1].
+    -   Output*CMYK* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CMY* colourspace matrix is in domain [0, 1].
-    :note: Output*CMYK* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [9]  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 \
+            (Last accessed 18 May 2014)
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 \
-    (Last accessed 18 May 2014)
+    Examples
+    --------
+    >>> colour.CMY_to_CMYK(np.array([0.50980392, 0.01960784, 0.74901961]))
+    array([[ 0.5       ]
+           [ 0.        ]
+           [ 0.744     ]
+           [ 0.01960784]])
     """
 
     C, M, Y = np.ravel(CMY)
@@ -394,24 +462,31 @@ def CMYK_to_CMY(CMYK):
     """
     Converts from *CMYK* colourspace to *CMY* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    CMYK : array_like, (4, 1)
+        *CMYK* colourspace matrix.
 
-        >>> CMYK_to_CMY(np.array([0.5, 0.,0.744, 0.01960784]))
-        array([[ 0.50980392]
-               [ 0.01960784]
-               [ 0.74901961]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CMY* matrix.
 
-    :param CMYK: *CMYK* colourspace matrix.
-    :type CMYK: array_like, (4, 1)
-    :return: *CMY* matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CMYK* colourspace matrix is in domain [0, 1].
+    -   Output *CMY* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CMYK* colourspace matrix is in domain [0, 1].
-    :note: Output *CMY* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [10]  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
 
-    References:
-
-    -  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    Examples
+    --------
+    >>> colour.CMYK_to_CMY(np.array([0.5, 0.,0.744, 0.01960784]))
+    array([[ 0.50980392]
+           [ 0.01960784]
+           [ 0.74901961]])
     """
 
     C, M, Y, K = np.ravel(CMYK)
@@ -424,17 +499,24 @@ def RGB_to_HEX(RGB):
     """
     Converts from *RGB* colourspace to hex triplet representation.
 
-    Examples::
+    Parameters
+    ----------
+    RGB : array_like, (3, 1)
+        *RGB* colourspace matrix.
 
-        >>> RGB_to_HEX(np.array([0.66666667, 0.86666667, 1.]))
-        #aaddff
+    Returns
+    -------
+    unicode
+        Hex triplet representation.
 
-    :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like, (3, 1)
-    :return: Hex triplet representation.
-    :rtype: unicode
+    Notes
+    -----
+    -   Input *RGB* colourspace matrix is in domain [0, 1].
 
-    :note: Input *RGB* colourspace matrix is in domain [0, 1].
+    Examples
+    --------
+    >>> colour.RGB_to_HEX(np.array([0.66666667, 0.86666667, 1.]))
+    #aaddff
     """
 
     RGB = np.ravel(RGB)
@@ -446,19 +528,26 @@ def HEX_to_RGB(HEX):
     """
     Converts from hex triplet representation to *RGB* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    HEX : unicode
+        Hex triplet representation.
 
-        >>> HEX_to_RGB("#aaddff")
-        [[ 0.66666667]
-        [ 0.86666667]
-        [ 1.        ]]
+    Returns
+    -------
+    ndarray, (3, 1)
+        *RGB* colourspace matrix.
 
-    :param HEX: Hex triplet representation.
-    :type HEX: unicode
-    :return: *RGB* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Output *RGB* colourspace matrix is in domain [0, 1].
 
-    :note: Output *RGB* colourspace matrix is in domain [0, 1].
+    Examples
+    --------
+    >>> colour.HEX_to_RGB("#aaddff")
+    array([[ 0.66666667]
+           [ 0.86666667]
+           [ 1.        ]])
     """
 
     HEX = HEX.lstrip("#")

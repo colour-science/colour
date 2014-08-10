@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_cie_lab.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.cie_lab` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.cie_lab` module.
 """
 
 from __future__ import unicode_literals

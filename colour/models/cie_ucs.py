@@ -2,16 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-**cie_ucs.py**
+CIE UCS Colourspace
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE UCS* colourspace transformations:
 
-**Description:**
-    Defines **Colour** package colour *CIE UCS* colourspace objects.
+-   :func:`XYZ_to_UCS`
+-   :func:`UCS_to_XYZ`
+-   :func:`UCS_to_uv`
+-   :func:`UCS_uv_to_xy`
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/CIE_1960_color_space
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
@@ -35,25 +39,32 @@ def XYZ_to_UCS(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *CIE UCS* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-        >>> XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229]))
-        array([[ 0.07870556]
-              [ 0.1034    ]
-              [ 0.12182529]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE UCS* colourspace matrix.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :return: *CIE UCS* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE UCS* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: Output *CIE UCS* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229]))
+    array([[ 0.07870556]
+          [ 0.1034    ]
+          [ 0.12182529]])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -67,25 +78,32 @@ def UCS_to_XYZ(UVW):
     """
     Converts from *CIE UCS* colourspace to *CIE XYZ* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    UVW : array_like, (3, 1)
+        *CIE UCS* colourspace matrix.
 
-        >>> UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529]))
-        array([[ 0.11805834]
-               [ 0.1034    ]
-               [ 0.05150892]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :param UVW: *CIE UCS* colourspace matrix.
-    :type UVW: array_like, (3, 1)
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CIE UCS* colourspace matrix is in domain [0, 1].
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529]))
+    array([[ 0.11805834]
+           [ 0.1034    ]
+           [ 0.05150892]])
     """
 
     U, V, W = np.ravel(UVW)
@@ -99,23 +117,30 @@ def UCS_to_uv(UVW):
     Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace
     matrix.
 
-    Examples::
+    Parameters
+    ----------
+    UVW : array_like, (3, 1)
+        *CIE UCS* colourspace matrix.
 
-        >>> UCS_to_uv(np.array([0.1180583421, 0.1034, 0.0515089229]))
-        (0.43249999995420696, 0.378800000065942)
+    Returns
+    -------
+    tuple
+        *uv* chromaticity coordinates.
 
-    :param UVW: *CIE UCS* colourspace matrix.
-    :type UVW: array_like, (3, 1)
-    :return: *uv* chromaticity coordinates.
-    :rtype: tuple
+    Notes
+    -----
+    -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
+    -   Output *uv* chromaticity coordinates are in domain [0, 1].
 
-    :note: Input *CIE UCS* colourspace matrix is in domain [0, 1].
-    :note: Output *uv* is in domain [0, 1].
+    References
+    ----------
+    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.UCS_to_uv(np.array([0.1180583421, 0.1034, 0.0515089229]))
+    (0.43249999995420696, 0.378800000065942)
     """
 
     U, V, W = np.ravel(UVW)
@@ -128,23 +153,30 @@ def UCS_uv_to_xy(uv):
     Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace
     *uv* chromaticity coordinates.
 
-    Examples::
+    Parameters
+    ----------
+    uv : array_like
+        *CIE UCS uv* chromaticity coordinates.
 
-        >>> UCS_uv_to_xy((0.43249999995420696, 0.378800000065942))
-        (0.7072386352886122, 0.4129510522116816)
+    Returns
+    -------
+    tuple
+        *xy* chromaticity coordinates.
 
-    :param uv: *CIE UCS uv* chromaticity coordinate.
-    :type uv: array_like
-    :return: *xy* chromaticity coordinates.
-    :rtype: tuple
+    Notes
+    -----
+    -   Input *uv* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in domain [0, 1].
 
-    :note: Input *uv* is in domain [0, 1].
-    :note: Output *xy* is in domain [0, 1].
+    References
+    ----------
+    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.UCS_uv_to_xy((0.43249999995420696, 0.378800000065942))
+    (0.7072386352886122, 0.4129510522116816)
     """
 
     return (3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.),

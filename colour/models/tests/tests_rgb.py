@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_rgb.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.models.rgb` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.models.rgb` module.
 """
 
 from __future__ import unicode_literals
@@ -26,8 +17,6 @@ else:
 
 from colour.models import (
     RGB_COLOURSPACES,
-    xyY_to_RGB,
-    RGB_to_xyY,
     XYZ_to_RGB,
     RGB_to_XYZ,
     RGB_to_RGB)
@@ -45,8 +34,6 @@ __all__ = ["sRGB_LINEAR_COLORCHECKER_2005",
            "sRGB_INVERSE_TRANSFER_FUNCTION",
            "TestXYZ_to_RGB",
            "TestRGB_to_XYZ",
-           "TestxyY_to_RGB",
-           "TestRGB_to_xyY",
            "TestRGB_to_RGB"]
 
 sRGB_LINEAR_COLORCHECKER_2005 = [
@@ -220,11 +207,11 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     np.array(XYZ).reshape((3, 1)),
                     (0.34567, 0.35850),
                     (0.31271, 0.32902),
-                    "Bradford",
                     np.array(
                         [3.24100326, -1.53739899, -0.49861587,
                          -0.96922426, 1.87592999, 0.04155422,
                          0.05563942, -0.2040112, 1.05714897]).reshape((3, 3)),
+                    "Bradford",
                     sRGB_TRANSFER_FUNCTION),
                 RGB,
                 decimal=7)
@@ -235,21 +222,20 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     np.array(XYZ).reshape((3, 1)),
                     (0.34567, 0.35850),
                     (0.32168, 0.33767),
-                    "CAT02",
                     np.array(
-                        [1.04981102e+00, 0.00000000e+00,
-                         -9.74845410e-05,
-                         -4.95903023e-01, 1.37331305e+00,
-                         9.82400365e-02,
-                         0.00000000e+00, 0.00000000e+00,
-                         9.91252022e-01]).reshape((3, 3))),
+                        [1.04981102e+00, 0.00000000e+00, -9.74845410e-05,
+                         -4.95903023e-01, 1.37331305e+00, 9.82400365e-02,
+                         0.00000000e+00, 0.00000000e+00, 9.91252022e-01]
+                    ).reshape((3, 3)),
+                    "CAT02"),
                 RGB,
                 decimal=7)
 
 
 class TestRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_XYZ` definition units tests methods.
+    Defines :func:`colour.models.rgb.RGB_to_XYZ` definition units tests
+    methods.
     """
 
     def test_RGB_to_XYZ(self):
@@ -263,11 +249,11 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     RGB,
                     (0.31271, 0.32902),
                     (0.34567, 0.35850),
-                    "Bradford",
                     np.array(
                         [0.41238656, 0.35759149, 0.18045049,
                          0.21263682, 0.71518298, 0.0721802,
                          0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)),
+                    "Bradford",
                     sRGB_INVERSE_TRANSFER_FUNCTION),
                 np.array(XYZ).reshape((3, 1)),
                 decimal=7)
@@ -278,105 +264,20 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     RGB,
                     (0.32168, 0.33767),
                     (0.34567, 0.35850),
-                    "CAT02",
                     np.array(
                         [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-                         3.43966450e-01, 7.28166097e-01,
-                         -7.21325464e-02,
-                         0.00000000e+00, 0.00000000e+00,
-                         1.00882518e+00]).reshape((3, 3))),
+                         3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
+                         0.00000000e+00, 0.00000000e+00, 1.00882518e+00]
+                    ).reshape((3, 3)),
+                    "CAT02"),
                 np.array(XYZ).reshape((3, 1)),
-                decimal=7)
-
-
-class TestxyY_to_RGB(unittest.TestCase):
-    """
-    Defines :func:`colour.models.rgb.xyY_to_RGB` definition units tests methods.
-    """
-
-    def test_xyY_to_RGB(self):
-        """
-        Tests :func:`colour.models.rgb.xyY_to_RGB` definition.
-        """
-
-        for xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
-            np.testing.assert_almost_equal(
-                xyY_to_RGB(
-                    np.array(xyY).reshape((3, 1)),
-                    (0.34567, 0.35850),
-                    (0.31271, 0.32902),
-                    "Bradford",
-                    np.array(
-                        [3.24100326, -1.53739899, -0.49861587,
-                         -0.96922426, 1.87592999, 0.04155422,
-                         0.05563942, -0.2040112, 1.05714897]).reshape((3, 3)),
-                    sRGB_TRANSFER_FUNCTION),
-                RGB,
-                decimal=7)
-
-        for xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
-            np.testing.assert_almost_equal(
-                xyY_to_RGB(
-                    np.array(xyY).reshape((3, 1)),
-                    (0.34567, 0.35850),
-                    (0.32168, 0.33767),
-                    "CAT02",
-                    np.array(
-                        [1.04981102e+00, 0.00000000e+00,
-                         -9.74845410e-05,
-                         -4.95903023e-01, 1.37331305e+00,
-                         9.82400365e-02,
-                         0.00000000e+00, 0.00000000e+00,
-                         9.91252022e-01]).reshape((3, 3))),
-                RGB,
-                decimal=7)
-
-
-class TestRGB_to_xyY(unittest.TestCase):
-    """
-    Defines :func:`colour.models.rgb.RGB_to_xyY` definition units tests methods.
-    """
-
-    def test_RGB_to_xyY(self):
-        """
-        Tests :func:`colour.models.rgb.RGB_to_xyY` definition.
-        """
-
-        for xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
-            np.testing.assert_almost_equal(
-                RGB_to_xyY(
-                    RGB,
-                    (0.31271, 0.32902),
-                    (0.34567, 0.35850),
-                    "Bradford",
-                    np.array(
-                        [0.41238656, 0.35759149, 0.18045049,
-                         0.21263682, 0.71518298, 0.0721802,
-                         0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)),
-                    sRGB_INVERSE_TRANSFER_FUNCTION),
-                np.array(xyY).reshape((3, 1)),
-                decimal=7)
-
-        for xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
-            np.testing.assert_almost_equal(
-                RGB_to_xyY(
-                    RGB,
-                    (0.32168, 0.33767),
-                    (0.34567, 0.35850),
-                    "CAT02",
-                    np.array(
-                        [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-                         3.43966450e-01, 7.28166097e-01,
-                         -7.21325464e-02,
-                         0.00000000e+00, 0.00000000e+00,
-                         1.00882518e+00]).reshape((3, 3))),
-                np.array(xyY).reshape((3, 1)),
                 decimal=7)
 
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.rgb.RGB_to_RGB` definition units tests
+    methods.
     """
 
     def test_RGB_to_RGB(self):

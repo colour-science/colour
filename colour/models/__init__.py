@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from __future__ import absolute_import
 
 from .rgb_colourspace import RGB_Colourspace
@@ -22,7 +25,7 @@ from .cie_luv import (
     LCHuv_to_Luv)
 from .cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from .cie_uvw import XYZ_to_UVW
-from .rgb import xyY_to_RGB, RGB_to_xyY, XYZ_to_RGB, RGB_to_XYZ
+from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
 
 __all__ = ["RGB_Colourspace"]
@@ -43,5 +46,5 @@ __all__ += ["XYZ_to_Luv",
             "LCHuv_to_Luv"]
 __all__ += ["XYZ_to_UCS", "UCS_to_XYZ", "UCS_to_uv", "UCS_uv_to_xy"]
 __all__ += ["XYZ_to_UVW"]
-__all__ += ["xyY_to_RGB", "RGB_to_xyY", "XYZ_to_RGB", "RGB_to_XYZ"]
+__all__ += ["XYZ_to_RGB", "RGB_to_XYZ"]
 __all__ += ["RGB_to_RGB"]

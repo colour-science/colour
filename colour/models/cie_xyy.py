@@ -2,16 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-**cie_xyy.py**
+CIE xyY Colourspace
+===================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *CIE xyY* colourspace transformations:
 
-**Description:**
-    Defines **Colour** package colour *CIE xyY* colourspace objects.
+-   :func:`XYZ_to_xyY`
+-   :func:`xyY_to_XYZ`
+-   :func:`xy_to_XYZ`
+-   :func:`XYZ_to_xy`
 
-**Others:**
-
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space
+        (Last accessed 24 February 2014)
 """
 
 from __future__ import unicode_literals
@@ -40,27 +44,34 @@ def XYZ_to_xyY(XYZ,
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference
     *illuminant*.
 
-    Examples::
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
-        array([[ 0.4325]
-               [ 0.3788]
-               [ 0.1034]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE xyY* colourspace matrix.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *CIE xyY* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE xyY* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: Output *CIE xyY* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [2]  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
+    array([[ 0.4325]
+           [ 0.3788]
+           [ 0.1034]])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -75,25 +86,32 @@ def xyY_to_XYZ(xyY):
     """
     Converts from *CIE xyY* colourspace to *CIE XYZ* colourspace.
 
-    Examples::
+    Parameters
+    ----------
+    xyY : array_like, (3, 1)
+        *CIE xyY* colourspace matrix.
 
-        >>> xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034]))
-        array([[ 0.11805834]
-               [ 0.1034    ]
-               [ 0.05150892]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like, (3, 1)
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    References
+    ----------
+    .. [3]  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+            (Last accessed 24 February 2014)
 
-    References:
-
-    -  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html \
-    (Last accessed 24 February 2014)
+    Examples
+    --------
+    >>> colour.xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034]))
+    array([[ 0.11805834]
+           [ 0.1034    ]
+           [ 0.05150892]])
     """
 
     x, y, Y = np.ravel(xyY)
@@ -109,20 +127,27 @@ def xy_to_XYZ(xy):
     Returns the *CIE XYZ* colourspace matrix from given *xy* chromaticity
     coordinates.
 
-    Examples::
+    Parameters
+    ----------
+    xy : array_like
+        *xy* chromaticity coordinates.
 
-        >>> xy_to_XYZ((0.25, 0.25))
-        array([[ 1.],
-               [ 1.],
-               [ 2.]])
+    Returns
+    -------
+    ndarray, (3, 1)
+        *CIE XYZ* colourspace matrix.
 
-    :param xy: *xy* chromaticity coordinate.
-    :type xy: array_like
-    :return: *CIE XYZ* colourspace matrix.
-    :rtype: ndarray, (3, 1)
+    Notes
+    -----
+    -   Input *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    :note: Input *xy* is in domain [0, 1].
-    :note: Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    Examples
+    --------
+    >>> colour.xy_to_XYZ((0.25, 0.25))
+    array([[ 1.],
+           [ 1.],
+           [ 2.]])
     """
 
     return xyY_to_XYZ(np.array([xy[0], xy[1], 1.]).reshape((3, 1)))
@@ -135,22 +160,29 @@ def XYZ_to_xy(XYZ,
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace
     matrix.
 
-    Examples::
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
-        >>> XYZ_to_xy(np.array([0.97137399, 1., 1.04462134]))
-        (0.32207410281368043, 0.33156550013623531)
-        >>> XYZ_to_xy((0.97137399, 1., 1.04462134))
-        (0.32207410281368043, 0.33156550013623531)
+    Returns
+    -------
+    tuple
+        *xy* chromaticity coordinates.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :param illuminant: Reference *illuminant* chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *xy* chromaticity coordinates.
-    :rtype: tuple
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in domain [0, 1].
 
-    :note: Input *CIE XYZ* colourspace matrix is in domain [0, 1].
-    :note: Output *xy* is in domain [0, 1].
+    Examples
+    --------
+    >>> colour.XYZ_to_xy(np.array([0.97137399, 1., 1.04462134]))
+    (0.32207410281368043, 0.33156550013623531)
+    >>> colour.XYZ_to_xy((0.97137399, 1., 1.04462134))
+    (0.32207410281368043, 0.33156550013623531)
     """
 
     xyY = np.ravel(XYZ_to_xyY(XYZ, illuminant))

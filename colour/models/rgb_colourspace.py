@@ -2,16 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-**rgb_colourspace.py**
+RGB Colourspace
+===============
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package *RGB* colourspaces base object.
-
-**Others:**
-
+Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
+from :mod:`colour.models.dataset.aces_rgb`, etc...
 """
 
 from __future__ import unicode_literals
@@ -32,7 +27,25 @@ __all__ = ["RGB_Colourspace"]
 
 class RGB_Colourspace(object):
     """
-    Defines a *RGB* colourspace object.
+    Implements support for the *RGB* colourspaces dataset from
+    :mod:`colour.models.dataset.aces_rgb`, etc....
+
+    Parameters
+    ----------
+    name : str or unicode
+        *RGB* Colourspace name.
+    primaries : array_like
+        *RGB* Colourspace primaries.
+    whitepoint : array_like
+        *RGB* Colourspace whitepoint.
+    to_XYZ : array_like
+        Transformation matrix from colourspace to *CIE XYZ* colourspace.
+    to_RGB : array_like
+        Transformation matrix from *CIE XYZ* colourspace to colourspace.
+    transfer_function : object
+        *RGB* Colourspace transfer function from linear to colourspace.
+    inverse_transfer_function : object
+        *RGB* Colourspace inverse transfer function from colourspace to linear.
     """
 
     def __init__(self,
@@ -40,31 +53,9 @@ class RGB_Colourspace(object):
                  primaries,
                  whitepoint,
                  to_XYZ=None,
-                 from_XYZ=None,
+                 to_RGB=None,
                  transfer_function=None,
                  inverse_transfer_function=None):
-        """
-        :param name: *RGB* Colourspace name.
-        :type name: str or unicode
-        :param primaries: *RGB* Colourspace primaries.
-        :type primaries: array_like
-        :param whitepoint: *RGB* Colourspace whitepoint.
-        :type whitepoint: array_like
-        :param to_XYZ: Transformation matrix from colourspace to *CIE XYZ* \
-        colourspace.
-        :type to_XYZ: array_like
-        :param from_XYZ: Transformation matrix from *CIE XYZ* colourspace to \
-        colourspace.
-        :type from_XYZ: array_like
-        :param transfer_function: *RGB* Colourspace transfer function from \
-        linear to colourspace.
-        :type transfer_function: object
-        :param inverse_transfer_function: *RGB* Colourspace inverse transfer \
-        function from colourspace to linear.
-        :type inverse_transfer_function: object
-        """
-
-        # --- Setting class attributes. ---
         self.__name = None
         self.name = name
         self.__primaries = None
@@ -73,8 +64,8 @@ class RGB_Colourspace(object):
         self.whitepoint = whitepoint
         self.__to_XYZ = None
         self.to_XYZ = to_XYZ
-        self.__from_XYZ = None
-        self.from_XYZ = from_XYZ
+        self.__to_RGB = None
+        self.to_RGB = to_RGB
         self.__transfer_function = None
         self.transfer_function = transfer_function
         self.__inverse_transfer_function = None
@@ -85,8 +76,10 @@ class RGB_Colourspace(object):
         """
         Property for **self.__name** private attribute.
 
-        :return: self.__name.
-        :rtype: str or unicode
+        Returns
+        -------
+        str or unicode
+            self.__name.
         """
 
         return self.__name
@@ -96,8 +89,10 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__name** private attribute.
 
-        :param value: Attribute value.
-        :type value: str or unicode
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
         """
 
         if value is not None:
@@ -111,8 +106,10 @@ class RGB_Colourspace(object):
         """
         Property for **self.__primaries** private attribute.
 
-        :return: self.__primaries.
-        :rtype: array_like
+        Returns
+        -------
+        array_like, (3, 2)
+            self.__primaries.
         """
 
         return self.__primaries
@@ -122,8 +119,10 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__primaries** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+        value : array_like, (3, 2)
+            Attribute value.
         """
 
         if value is not None:
@@ -135,8 +134,10 @@ class RGB_Colourspace(object):
         """
         Property for **self.__whitepoint** private attribute.
 
-        :return: self.__whitepoint.
-        :rtype: array_like
+        Returns
+        -------
+        array_like
+            self.__whitepoint.
         """
 
         return self.__whitepoint
@@ -146,14 +147,16 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__whitepoint** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             assert type(value) in (tuple, list, np.ndarray, np.matrix), \
-                "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' or 'matrix'!".format(
-                    "whitepoint", value)
+                "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' \
+                or 'matrix'!".format("whitepoint", value)
         self.__whitepoint = value
 
     @property
@@ -161,8 +164,10 @@ class RGB_Colourspace(object):
         """
         Property for **self.__to_XYZ** private attribute.
 
-        :return: self.__to_XYZ.
-        :rtype: array_like
+        Returns
+        -------
+        array_like, (3, 3)
+            self.__to_XYZ.
         """
 
         return self.__to_XYZ
@@ -172,8 +177,10 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__to_XYZ** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
@@ -181,36 +188,42 @@ class RGB_Colourspace(object):
         self.__to_XYZ = value
 
     @property
-    def from_XYZ(self):
+    def to_RGB(self):
         """
-        Property for **self.__from_XYZ** private attribute.
+        Property for **self.__to_RGB** private attribute.
 
-        :return: self.__from_XYZ.
-        :rtype: array_like
+        Returns
+        -------
+        array_like, (3, 3)
+            self.__to_RGB.
         """
 
-        return self.__from_XYZ
+        return self.__to_RGB
 
-    @from_XYZ.setter
-    def from_XYZ(self, value):
+    @to_RGB.setter
+    def to_RGB(self, value):
         """
-        Setter for **self.__from_XYZ** private attribute.
+        Setter for **self.__to_RGB** private attribute.
 
-        :param value: Attribute value.
-        :type value: array_like
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
         """
 
         if value is not None:
             value = to_ndarray(value)
-        self.__from_XYZ = value
+        self.__to_RGB = value
 
     @property
     def transfer_function(self):
         """
         Property for **self.__transfer_function** private attribute.
 
-        :return: self.__transfer_function.
-        :rtype: object
+        Returns
+        -------
+        object
+            self.__transfer_function.
         """
 
         return self.__transfer_function
@@ -220,8 +233,10 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__transfer_function** private attribute.
 
-        :param value: Attribute value.
-        :type value: object
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         if value is not None:
@@ -235,8 +250,10 @@ class RGB_Colourspace(object):
         """
         Property for **self.__inverse_transfer_function** private attribute.
 
-        :return: self.__inverse_transfer_function.
-        :rtype: object
+        Returns
+        -------
+        object
+            self.__inverse_transfer_function.
         """
 
         return self.__inverse_transfer_function
@@ -246,8 +263,10 @@ class RGB_Colourspace(object):
         """
         Setter for **self.__inverse_transfer_function** private attribute.
 
-        :param value: Attribute value.
-        :type value: object
+        Parameters
+        ----------
+        value : object
+            Attribute value.
         """
 
         if value is not None:

@@ -214,8 +214,7 @@ def XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
     return XYZ_to_RGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,
-                      "CAT02",
-                      sRGB.from_XYZ,
+                      sRGB.to_RGB,
                       sRGB.transfer_function)
 
 
