@@ -23,9 +23,10 @@ The following *CIE* illuminants are available:
 
 Notes
 -----
-*CIE* illuminants with chromaticity coordinates not defined in the reference [1]_
-have been calculated using their relative spectral power distributions and the
-:func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
+-   *CIE* illuminants with chromaticity coordinates not defined in the
+    reference [1]_ have been calculated using their relative spectral power
+    distributions and the
+    :func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
 
 References
 ----------

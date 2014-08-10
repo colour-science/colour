@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**macadam_limits.py**
+MacAdam Limits - Optimal Colour Stimuli
+=======================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package colour *MacAdam* limits objects.
-
-**Others:**
-
+Defines objects related to optimal colour stimuli computations.
 """
 
 from __future__ import unicode_literals
@@ -40,10 +34,15 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
     Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace
     and caches it if not existing.
 
-    :param illuminant: Illuminant.
-    :type illuminant: unicode
-    :return: Illuminant optimal colour stimuli.
-    :rtype: tuple
+    Parameters
+    ----------
+    illuminant : unicode
+        Illuminant.
+
+    Returns
+    -------
+    tuple
+        Illuminant optimal colour stimuli.
     """
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
@@ -66,14 +65,29 @@ def is_within_macadam_limits(xyY, illuminant):
     Returns if given *CIE xyY* colourspace matrix is within *MacAdam* limits of
     given illuminant.
 
-    :param xyY: *CIE xyY* colourspace matrix.
-    :type xyY: array_like, (3, 1)
-    :param illuminant: Illuminant.
-    :type illuminant: unicode
-    :return: Is within *MacAdam* limits.
-    :rtype: bool
+    Parameters
+    ----------
+    xyY : array_like, (3, 1)
+        *CIE xyY* colourspace matrix.
+    illuminant : unicode
+        Illuminant.
 
-    :note: Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    Returns
+    -------
+    bool
+        Is within *MacAdam* limits.
+
+    Notes
+    -----
+    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   This definition requires *scipy* to be installed.
+
+    Examples
+    --------
+    >>> colour.is_within_macadam_limits((0.3205, 0.4131, 0.51), "A"))
+    True
+    >>> colour.is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
+    False
     """
 
     if is_scipy_installed(raise_exception=True):

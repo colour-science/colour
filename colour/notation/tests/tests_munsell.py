@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_munsell.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.notation.munsell` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.notation.munsell` module.
 """
 
 from __future__ import unicode_literals
@@ -104,7 +95,8 @@ __all__ = ["MUNSELL_SPECIFICATIONS",
            "TestMunsellValueMcCamy1992",
            "TestMunsellValueASTM_D1535_08"]
 
-# TODO: Investigate if tests can be simplified by using a common valid set of specifications.
+# TODO: Investigate if tests can be simplified by using a common valid set of
+# specifications.
 MUNSELL_SPECIFICATIONS = (
     (2.5, 7.9653798470827155, 11.928546308350969, 4),
     (2.5, 6.197794822090879, 6.923610826208884, 4),
@@ -4055,13 +4047,15 @@ class TestNormalizeMunsellSpecification(unittest.TestCase):
 
 class TestMunsellColourToMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
+    Defines
+    :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
     definition units tests methods.
     """
 
     def test_munsell_colour_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
+        Tests
+        :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
         definition.
         """
 
@@ -4083,13 +4077,15 @@ class TestMunsellColourToMunsellSpecification(unittest.TestCase):
 
 class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
+    Defines
+    :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
     definition units tests methods.
     """
 
     def test_munsell_specification_to_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
+        Tests
+        :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
         definition.
         """
 
@@ -4114,7 +4110,8 @@ class TestGet_xyY_fromRenotation(unittest.TestCase):
 
     def test_get_xyY_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.get_xyY_from_renotation` definition.
+        Tests :func:`colour.notation.munsell.get_xyY_from_renotation`
+        definition.
         """
 
         self.assertTupleEqual(get_xyY_from_renotation((2.5, 0.2, 2.0, 4)),
@@ -4207,13 +4204,15 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
 
 class TestGetInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
+    Defines
+    :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
     definition units tests methods.
     """
 
     def test_get_interpolation_method_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
+        Tests
+        :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
         definition.
         """
 
@@ -4277,7 +4276,8 @@ class TestGetMaximumChromaFromRenotation(unittest.TestCase):
 
     def test_get_maximum_chroma_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.get_maximum_chroma_from_renotation`
+        Tests
+        :func:`colour.notation.munsell.get_maximum_chroma_from_renotation`
         definition.
         """
 
@@ -4345,7 +4345,8 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
         Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition.
         """
 
-        # TODO: This test is covered by the previous class, do we need a dedicated one?
+        # TODO: This test is covered by the previous class,
+        # do we need a dedicated one?
 
         pass
 
@@ -4385,7 +4386,8 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
         Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition.
         """
 
-        # TODO: This test is covered by the previous class, do we need a dedicated one?
+        # TODO: This test is covered by the previous class,
+        # do we need a dedicated one?
 
         pass
 
@@ -4438,7 +4440,8 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 
     def test_munsell_value_moon1943(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_moon1943` definition.
+        Tests :func:`colour.notation.munsell.munsell_value_moon1943`
+        definition.
         """
 
         self.assertAlmostEqual(munsell_value_moon1943(10.08), 3.74629715382,

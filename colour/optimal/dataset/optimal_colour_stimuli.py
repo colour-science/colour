@@ -2,17 +2,25 @@
 # -*- coding: utf-8 -*-
 
 """
-**optimal_colour_stimuli.py**
+Optimal Colour Stimuli
+======================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines *MacAdam* optimal colour stimuli for various illuminants in *CIE xyY*
+colourspace.
 
-**Description:**
-    Defines **Colour** package *MacAdam* optimal colour stimuli for various
-    illuminants in *CIE xyY* colourspace.
+The optimal colour stimuli data is in the form of a *dict* of
+*tuple* as follows::
 
-**Others:**
+    {"name": tuple, ..., "name": tuple}
 
+where each *tuple* contains a collection of optimal colour stimulus *tuple* as
+follows::
+
+     (("x", "y", "Y"), ..., ("x", "y", "Y"))
+
+References
+----------
+.. [1]  http://en.wikipedia.org/wiki/Gamut#Surfaces
 """
 
 from __future__ import unicode_literals
@@ -29,11 +37,6 @@ __all__ = ["A_OPTIMAL_COLOUR_STIMULI",
            "D65_OPTIMAL_COLOUR_STIMULI",
            "ILLUMINANTS_OPTIMAL_COLOUR_STIMULI"]
 
-
-# **Wyszecki & Stiles**, \
-# *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
-# Pages 776, 777
 A_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
     (0.1120, 0.1985, 10),
@@ -257,10 +260,20 @@ A_OPTIMAL_COLOUR_STIMULI = (
     (0.4294, 0.4151, 95),
     (0.4254, 0.4180, 95),
     (0.4475, 0.4075, 100))
+"""
+*CIE Standard Illuminant A* optimal colour stimuli.
 
-# **David MacAdam**, \
-# *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, \
-# Pages 361, 367
+A_OPTIMAL_COLOUR_STIMULI : tuple
+
+References
+----------
+.. [2]  **Wyszecki & Stiles**,
+        *Color Science - Concepts and Methods Data and Formulae -
+        Second Edition*,
+        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
+        Pages 776, 777.
+"""
+
 C_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
     (0.1363, 0.0692, 10),
@@ -461,11 +474,18 @@ C_OPTIMAL_COLOUR_STIMULI = (
     (0.3160, 0.3069, 95),
     (0.3053, 0.3096, 95),
     (0.31006, 0.31616, 100))
+"""
+*CIE Illuminant C* optimal colour stimuli.
 
-# **Wyszecki & Stiles**, \
-# *Color Science - Concepts and Methods Data and Formulae - Second Edition*, \
-# Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, \
-# Pages 778, 779
+C_OPTIMAL_COLOUR_STIMULI : tuple
+
+References
+----------
+.. [3]  **David MacAdam**,
+        *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25,
+        Pages 361, 367.
+"""
+
 D65_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
     (0.1346, 0.0747, 10),
@@ -709,6 +729,19 @@ D65_OPTIMAL_COLOUR_STIMULI = (
     (0.3006, 0.3259, 95),
     (0.2900, 0.3308, 95),
     (0.3127, 0.3290, 100))
+"""
+*CIE Standard Illuminant D Series D65* optimal colour stimuli.
+
+D65_OPTIMAL_COLOUR_STIMULI : tuple
+
+References
+----------
+.. [4]  **Wyszecki & Stiles**,
+        *Color Science - Concepts and Methods Data and Formulae -
+        Second Edition*,
+        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
+        Pages 778, 779.
+"""
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = {
     "A": A_OPTIMAL_COLOUR_STIMULI,
