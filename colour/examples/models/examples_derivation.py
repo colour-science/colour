@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *derivation* related examples.
+Showcases *RGB* colourspace *derivation*.
 """
 
 import numpy as np

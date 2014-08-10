@@ -16,7 +16,7 @@
     Windows, Linux, Mac Os X.
 
 **Description:**
-    Defines **Colour** package *CIECAM02* colour appearance model objects.
+    Defines *CIECAM02* colour appearance model objects.
 
 **Others:**
 
@@ -929,7 +929,7 @@ def CIECAM02_to_XYZ(JChQMsH,
     D = get_degree_of_adaptation(surround.F,
                                  LA) if not discount_illuminant else 1.
 
-    # Calculation full chromatic adaptation.
+    # Computation full chromatic adaptation.
     RGBwc = apply_forward_full_chromatic_adaptation(RGBw, RGBw, Yw, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.

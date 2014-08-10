@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *blackbody* related examples.
+Showcases *blackbody* computations.
 """
 
 import colour

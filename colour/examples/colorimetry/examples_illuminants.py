@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *illuminants* related examples.
+Showcases *illuminants* dataset.
 """
 
 import colour

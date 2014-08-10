@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Lightness* related examples.
+Showcases *Lightness* computations.
 """
 
 from numpy import ravel

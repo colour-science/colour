@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *ColourChecker* related examples.
+Showcases *ColourChecker* computations.
 """
 
 from numpy import array

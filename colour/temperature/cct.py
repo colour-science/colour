@@ -860,7 +860,7 @@ def xy_to_CCT(xy, method="McCamy 1992", **kwargs):
     xy : array_like
         *xy* chromaticity coordinates.
     method : unicode ("McCamy 1992", "Hernandez 1999")
-        Calculation method.
+        Computation method.
 
     Returns
     -------
@@ -891,7 +891,7 @@ def CCT_to_xy(CCT, method="Kang 2002"):
     CCT : float
         Correlated colour temperature :math:`T_{cp}`.
     method : unicode ("Kang 2002", "CIE Illuminant D Series")
-        Calculation method.
+        Computation method.
 
     Returns
     -------

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Luminance* related examples.
+Showcases *Luminance* computations.
 """
 
 import colour

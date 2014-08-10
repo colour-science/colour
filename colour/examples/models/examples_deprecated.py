@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *deprecated* objects related examples.
+Showcases *deprecated* colour models computations.
 """
 
 import colour.models.deprecated

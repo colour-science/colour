@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *colour matching functions* related examples.
+Showcases *colour matching functions* computations.
 """
 
 import pprint

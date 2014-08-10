@@ -430,7 +430,7 @@ def CMY_to_CMYK(CMY):
 
     References
     ----------
-    .. [9]  http://www.easyrgb.com/index.php?X=MATH&H=13#text13 \
+    .. [9]  http://www.easyrgb.com/index.php?X=MATH&H=13#text13
             (Last accessed 18 May 2014)
 
     Examples

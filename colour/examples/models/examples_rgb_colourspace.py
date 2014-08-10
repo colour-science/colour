@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *RGB* *colourspaces* related examples.
+Showcases *RGB* *colourspaces* computations.
 """
 
 import numpy as np

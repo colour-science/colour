@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *colourspaces* related examples.
+Showcases colour models computations.
 """
 
 from numpy import array

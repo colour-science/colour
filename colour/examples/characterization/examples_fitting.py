@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour fitting related examples.
+Showcases colour fitting computations.
 """
 
 import numpy as np

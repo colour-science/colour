@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour *spectrum* related examples.
+Showcases colour *spectrum* computations.
 """
 
 import colour

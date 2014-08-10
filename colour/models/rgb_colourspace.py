@@ -156,7 +156,7 @@ class RGB_Colourspace(object):
         if value is not None:
             assert type(value) in (tuple, list, np.ndarray, np.matrix), \
                 "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' \
-                or 'matrix'!".format("whitepoint", value)
+or 'matrix'!".format("whitepoint", value)
         self.__whitepoint = value
 
     @property

@@ -32,7 +32,7 @@ __all__ = ["linear_regression"]
 
 def linear_regression(y, x=None, additional_statistics=False):
     """
-    Performs the statistics calculation about the ideal trend line from given
+    Performs the statistics computation about the ideal trend line from given
     data using the *least-squares* method.
 
     The equation of the line is :math:`y=b+mx` or

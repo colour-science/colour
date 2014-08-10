@@ -6,7 +6,7 @@ CIE Standard Illuminant D Series :math:`S_n(\lambda)` Spectral Power Distributio
 ==================================================================================
 
 Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral
-power distributions involved in the calculation of
+power distributions involved in the computation of
 *CIE Standard Illuminant D Series* relative spectral power distributions.
 
 References

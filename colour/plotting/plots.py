@@ -1495,8 +1495,9 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
     for illuminant in illuminants:
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
-            raise KeyError("Illuminant '{0}' not found in factory illuminants: \
-'{1}'.".format(illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+            raise KeyError(
+                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
+                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
 
@@ -1745,8 +1746,9 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
     for illuminant in illuminants:
         uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
-            raise KeyError("Illuminant '{0}' not found in factory illuminants: \
-'{1}'.".format(illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+            raise KeyError(
+                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
+                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
 

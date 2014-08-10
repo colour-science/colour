@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package *Munsell Renotation Sytem* related examples.
+Showcases *Munsell Renotation Sytem* computations.
 """
 
 from numpy import array

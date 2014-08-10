@@ -9,11 +9,11 @@ Defines various chromatic adaptation transforms (CAT) and objects to
 calculate the chromatic adaptation matrix between two given *CIE XYZ*
 colourspace matrices:
 
--   :attr:`XYZ_SCALING_CAT`: XYZ Scaling CAT [1]_
--   :attr:`BRADFORD_CAT`: Bradford CAT [1]_
--   :attr:`VON_KRIES_CAT`: Von Kries CAT [1]_
--   :attr:`FAIRCHILD_CAT`: Fairchild CAT [2]_
--   :attr:`CAT02_CAT`: CAT02 CAT [3]_
+-   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
+-   :attr:`BRADFORD_CAT`: *Bradford* CAT [1]_
+-   :attr:`VON_KRIES_CAT`: *Von Kries* CAT [1]_
+-   :attr:`FAIRCHILD_CAT`: *Fairchild* CAT [2]_
+-   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
 
 References
 ----------

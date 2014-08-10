@@ -77,7 +77,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
         raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-        matching functions with '{2}' shape!".format(
+matching functions with '{2}' shape!".format(
             wavelength, cmfs.name, cmfs.shape))
 
     r = r_bar / (r_bar + g_bar + b_bar)
@@ -147,7 +147,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
         raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-        matching functions with '{2}' shape!".format(
+matching functions with '{2}' shape!".format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
@@ -195,7 +195,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
         raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-        matching functions with '{2}' shape!".format(
+matching functions with '{2}' shape!".format(
             wavelength, cmfs.name, cmfs.shape))
 
     l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
@@ -243,7 +243,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
         raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-        matching functions with '{2}' shape!".format(
+matching functions with '{2}' shape!".format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
@@ -290,7 +290,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
         raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-        matching functions with '{2}' shape!".format(
+matching functions with '{2}' shape!".format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar

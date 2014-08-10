@@ -193,7 +193,8 @@ sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: \
 
 class TestXYZ_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.XYZ_to_RGB` definition units tests methods.
+    Defines :func:`colour.models.rgb.XYZ_to_RGB` definition units tests
+    methods.
     """
 
     def test_XYZ_to_RGB(self):

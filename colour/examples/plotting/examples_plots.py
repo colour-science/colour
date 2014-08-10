@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour plotting related examples.
+Showcases plotting examples.
 """
 
 from numpy import array

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour *difference* related examples.
+Showcases colour *difference* computations.
 """
 
 from numpy import array

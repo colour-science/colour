@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases some **Colour** package colour spectral bandpass dependence
-correction related examples.
+Showcases colour spectral bandpass dependence correction computations.
 """
 
 import colour

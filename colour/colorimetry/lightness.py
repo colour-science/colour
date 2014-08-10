@@ -105,7 +105,7 @@ def lightness_wyszecki1964(Y):
     """
 
     if not 1. < Y < 98.:
-        warning("'W*' Lightness calculation is only applicable for \
+        warning("'W*' Lightness computation is only applicable for \
 1% < 'Y' < 98%, unpredictable results may occur!")
 
     W = 25. * (Y ** (1. / 3.)) - 17.

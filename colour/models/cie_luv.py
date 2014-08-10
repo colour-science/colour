@@ -212,7 +212,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation \
+    .. [5]  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
             (Last accessed 24 February 2014)
 
     Examples
