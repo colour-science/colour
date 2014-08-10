@@ -2,16 +2,42 @@
 # -*- coding: utf-8 -*-
 
 """
-**plots.py**
+Plots
+=====
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines plotting objects for various dataset:
 
-**Description:**
-    Defines **Colour** package **plotting** plotting objects.
-
-**Others:**
-
+-   :func:`figure_size`
+-   :func:`aspect`
+-   :func:`bounding_box`
+-   :func:`display`
+-   :func:`colour_parameter`
+-   :func:`colour_parameters_plot`
+-   :func:`single_colour_plot`
+-   :func:`multi_colour_plot`
+-   :func:`colour_checker_plot`
+-   :func:`single_spd_plot`
+-   :func:`multi_spd_plot`
+-   :func:`single_cmfs_plot`
+-   :func:`multi_cmfs_plot`
+-   :func:`single_illuminant_relative_spd_plot`
+-   :func:`multi_illuminants_relative_spd_plot`
+-   :func:`visible_spectrum_plot`
+-   :func:`CIE_1931_chromaticity_diagram_plot`
+-   :func:`colourspaces_CIE_1931_chromaticity_diagram_plot`
+-   :func:`planckian_locus_CIE_1931_chromaticity_diagram_plot`
+-   :func:`CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`CIE_1976_UCS_chromaticity_diagram_plot`
+-   :func:`single_munsell_value_function_plot`
+-   :func:`multi_munsell_value_function_plot`
+-   :func:`single_lightness_function_plot`
+-   :func:`multi_lightness_function_plot`
+-   :func:`single_transfer_function_plot`
+-   :func:`multi_transfer_function_plot`
+-   :func:`blackbody_spectral_radiance_plot`
+-   :func:`blackbody_colours_plot`
+-   :func:`colour_rendering_index_bars_plot`
 """
 
 import bisect
@@ -67,8 +93,6 @@ __all__ = ["RESOURCES_DIRECTORY",
            "DEFAULT_FIGURE_SIZE",
            "DEFAULT_COLOUR_CYCLE",
            "COLOUR_PARAMETER",
-           "XYZ_to_sRGB",
-           "normalise_RGB",
            "figure_size",
            "aspect",
            "bounding_box",
@@ -106,8 +130,18 @@ __all__ = ["RESOURCES_DIRECTORY",
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                    "resources")
+"""
+Resources directory.
+
+RESOURCES_DIRECTORY : unicode
+"""
 
 DEFAULT_FIGURE_SIZE = 14, 7
+"""
+Default plots figure size.
+
+DEFAULT_FIGURE_SIZE : tuple
+"""
 
 DEFAULT_COLOUR_CYCLE = ("r", "g", "b", "c", "m", "y", "k")
 
@@ -125,10 +159,15 @@ def _get_cmfs(cmfs):
     """
     Returns the colour matching functions with given name.
 
-    :param cmfs: Colour matching functions name.
-    :type cmfs: Unicode
-    :return: Colour matching functions.
-    :rtype: RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
+    Parameters
+    ----------
+    cmfs : Unicode
+        Colour matching functions name.
+
+    Returns
+    -------
+    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
+        Colour matching functions.
     """
 
     cmfs, name = CMFS.get(cmfs), cmfs
@@ -143,10 +182,15 @@ def _get_illuminant(illuminant):
     """
     Returns the illuminant with given name.
 
-    :param illuminant: Illuminant name.
-    :type illuminant: Unicode
-    :return: Illuminant.
-    :rtype: SpectralPowerDistribution
+    Parameters
+    ----------
+    illuminant : Unicode
+        Illuminant name.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Illuminant.
     """
 
     illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
@@ -162,10 +206,15 @@ def _get_RGB_colourspace(colourspace):
     """
     Returns the *RGB* colourspace with given name.
 
-    :param colourspace: *RGB* Colourspace name.
-    :type colourspace: Unicode
-    :return: *RGB* Colourspace.
-    :rtype: RGB_Colourspace
+    Parameters
+    ----------
+    colourspace : Unicode
+        *RGB* Colourspace name.
+
+    Returns
+    -------
+    RGB_Colourspace
+        *RGB* Colourspace.
     """
 
     colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
@@ -181,12 +230,17 @@ def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 
-    :param colour_map: Matplotlib colour map.
-    :type colour_map: unicode
-    :param count: Cycle length.
-    :type count: int
-    :return: Colour cycle iterator.
-    :rtype: cycle
+    Parameters
+    ----------
+    colour_map : unicode, optional
+        Matplotlib colour map.
+    count : int, optional
+        Cycle length.
+
+    Returns
+    -------
+    cycle
+        Colour cycle iterator.
     """
 
     if colour_map is None:
@@ -198,16 +252,41 @@ def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
     return itertools.cycle(colour_cycle)
 
 
-def XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
+def _normalise_RGB(RGB):
+    """
+    Normalises given *RGB* colourspace values.
+
+    Parameters
+    ----------
+    RGB : array_like, (3, 1)
+        *RGB* colourspace matrix.
+
+    Returns
+    -------
+    ndarray, (3, 1)
+        Normalised *RGB* colourspace matrix.
+    """
+
+    RGB = np.ravel(RGB)
+    RGB /= np.max(RGB)
+    return np.clip(RGB, 0., 1.)
+
+
+def _XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
     """
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
 
-    :param XYZ: *CIE XYZ* colourspace matrix.
-    :type XYZ: array_like, (3, 1)
-    :param illuminant: Source illuminant chromaticity coordinates.
-    :type illuminant: array_like
-    :return: *sRGB* colour matrix.
-    :rtype: ndarray, (3, 1)
+    Parameters
+    ----------
+    XYZ : array_like, (3, 1)
+        *CIE XYZ* colourspace matrix.
+    illuminant : array_like, optional
+        Source illuminant chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray, (3, 1)
+        *sRGB* colour matrix.
     """
 
     sRGB = RGB_COLOURSPACES.get("sRGB")
@@ -218,39 +297,34 @@ def XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
                       sRGB.transfer_function)
 
 
-def normalise_RGB(RGB):
-    """
-    Normalises given *RGB* colourspace values.
-
-    :param RGB: *RGB* colourspace matrix.
-    :type RGB: array_like, (3, 1)
-    :return: Normalised *RGB* colourspace matrix.
-    :rtype: ndarray, (3, 1)
-    """
-
-    RGB = np.ravel(RGB)
-    RGB /= np.max(RGB)
-    return np.clip(RGB, 0., 1.)
-
-
 def figure_size(size=DEFAULT_FIGURE_SIZE):
     """
     Sets figures sizes.
 
-    :param size: Figure size.
-    :type size: tuple
-    :return: Object.
-    :rtype: object
+    Parameters
+    ----------
+    size : tuple, optional
+        Figure size.
+
+    Returns
+    -------
+    object
+        Object.
     """
 
     def figure_size_decorator(object):
         """
         Sets figures sizes.
 
-        :param object: Object to decorate.
-        :type object: object
-        :return: Object.
-        :rtype: object
+        Parameters
+        ----------
+        object : object
+            Object to decorate.
+
+        Returns
+        -------
+        object
+            Object.
         """
 
         @functools.wraps(object)
@@ -258,12 +332,17 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
             """
             Sets figures sizes.
 
-            :param \*args: Arguments.
-            :type \*args: \*
-            :param \*\*kwargs: Keywords arguments.
-            :type \*\*kwargs: \*\*
-            :return: Object.
-            :rtype: object
+            Parameters
+            ----------
+            \*args : \*
+                Arguments.
+            \*\*kwargs : \*\*
+                Keywords arguments.
+
+            Returns
+            -------
+            object
+                Object.
             """
 
             pylab.rcParams["figure.figsize"] = kwargs.get(
@@ -284,10 +363,15 @@ def aspect(**kwargs):
     """
     Sets the figure aspect.
 
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     settings = Structure(
@@ -337,10 +421,15 @@ def bounding_box(**kwargs):
     """
     Sets the plot bounding box.
 
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     settings = Structure(
@@ -369,10 +458,15 @@ def display(**kwargs):
     """
     Sets the figure display.
 
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
     """
 
     settings = Structure(
@@ -393,20 +487,25 @@ def display(**kwargs):
 def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
     """
     Defines a factory for
-    :attr:`colour.implementation.plotting.plots.COLOUR_PARAMETER` attribute.
+    :attr:`colour.plotting.plots.COLOUR_PARAMETER` attribute.
 
-    :param name: Colour name.
-    :type name: unicode
-    :param RGB: RGB Colour.
-    :type RGB: array_like
-    :param x: X data.
-    :type x: float
-    :param y0: Y0 data.
-    :type y0: float
-    :param y1: Y1 data.
-    :type y1: float
-    :return: ColourParameter.
-    :rtype: ColourParameter
+    Parameters
+    ----------
+    name : unicode, optional
+        Colour name.
+    RGB : array_like, optional
+        RGB Colour.
+    x : float, optional
+        X data.
+    y0 : float, optional
+        Y0 data.
+    y1 : float, optional
+        Y1 data.
+
+    Returns
+    -------
+    ColourParameter
+        ColourParameter.
     """
 
     return COLOUR_PARAMETER(name, RGB, x, y0, y1)
@@ -419,26 +518,31 @@ def colour_parameters_plot(colour_parameters,
     """
     Plots given colour colour_parameters.
 
-    Examples::
+    Parameters
+    ----------
+    colour_parameters : list
+        ColourParameter sequence.
+    y0_plot : bool, optional
+        Plot y0 line.
+    y1_plot : bool, optional
+        Plot y1 line.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0., 0.12300545])
-        >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
-        >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0., 0.14276247], y0=0, y1=0.35)
-        >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0., 0.15158707], y0=0, y1=0.05)
-        >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0., 0.15986838], y0=0, y1=-.25)
-        >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colour_parameters: ColourParameter sequence.
-    :type colour_parameters: list
-    :param y0_plot: Plot y0 line.
-    :type y0_plot: bool
-    :param y1_plot: Plot y1 line.
-    :type y1_plot: bool
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0., 0.12300545])
+    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
+    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0., 0.14276247], y0=0, y1=0.35)
+    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0., 0.15158707], y0=0, y1=0.05)
+    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0., 0.15986838], y0=0, y1=-.25)
+    >>> colour.plotting.colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
+    True
     """
 
     for i in range(len(colour_parameters) - 1):
@@ -505,17 +609,23 @@ def single_colour_plot(colour_parameter, **kwargs):
     """
     Plots given colour.
 
-    Examples::
+    Parameters
+    ----------
+    colour_parameter : ColourParameter
+        ColourParameter.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> single_colour_plot(colour_parameter(RGB=(0.32315746, 0.32983556, 0.33640183)))
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colour_parameter: ColourParameter.
-    :type colour_parameter: ColourParameter
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> RGB = (0.32315746, 0.32983556, 0.33640183)
+    >>> colour.plotting.single_colour_plot(colour_parameter(RGB))
+    True
     """
 
     return multi_colour_plot([colour_parameter], **kwargs)
@@ -533,33 +643,38 @@ def multi_colour_plot(colour_parameters,
     """
     Plots given colours.
 
-    Examples::
+    Parameters
+    ----------
+    colour_parameters : list
+        ColourParameter sequence.
+    width : float, optional
+        Colour polygon width.
+    height : float, optional
+        Colour polygon height.
+    spacing : float, optional
+        Colour polygons spacing.
+    across : int, optional
+        Colour polygons count per row.
+    text_display : bool, optional
+        Display colour text.
+    text_size : float, optional
+        Colour text size.
+    text_offset : float, optional
+        Colour text offset.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-        >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169)
-        >>> multi_colour_plot([cp1, cp2])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colour_parameters: ColourParameter sequence.
-    :type colour_parameters: list
-    :param width: Colour polygon width.
-    :type width: float
-    :param height: Colour polygon height.
-    :type height: float
-    :param spacing: Colour polygons spacing.
-    :type spacing: float
-    :param across: Colour polygons count per row.
-    :type across: int
-    :param text_display: Display colour text.
-    :type text_display: bool
-    :param text_size: Colour text size.
-    :type text_size: float
-    :param text_offset: Colour text offset.
-    :type text_offset: float
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
+    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169)
+    >>> colour.plotting.multi_colour_plot([cp1, cp2])
+    True
     """
 
     offsetX = offsetY = 0
@@ -604,17 +719,22 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     """
     Plots given colour checker.
 
-    Examples::
+    Parameters
+    ----------
+    colour_checker : unicode, optional
+        Color checker name.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour_checker_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colour_checker: Color checker name.
-    :type colour_checker: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.colour_checker_plot()
+    True
     """
 
     colour_checker, name = COLOURCHECKERS.get(colour_checker), colour_checker
@@ -627,7 +747,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     colour_parameters = []
     for index, label, x, y, Y in data:
         XYZ = xyY_to_XYZ((x, y, Y))
-        RGB = XYZ_to_sRGB(XYZ, illuminant)
+        RGB = _XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
             colour_parameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
@@ -675,21 +795,26 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given spectral power distribution.
 
-    Examples::
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution, optional
+        Spectral power distribution to plot.
+    cmfs : unicode
+        Standard observer colour matching functions used for spectrum creation.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> spd = colour.SpectralPowerDistribution(name="Custom", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
-        >>> single_spd_plot(spd)
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param spd: Spectral power distribution to plot.
-    :type spd: SpectralPowerDistribution
-    :param cmfs: Standard observer colour matching functions used for spectrum \
-    creation.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
+    >>> spd = colour.SpectralPowerDistribution("Custom", data)
+    >>> colour.plotting.single_spd_plot(spd)
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -703,7 +828,7 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
 
     for wavelength, value in spd:
         XYZ = wavelength_to_XYZ(wavelength, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
+        colours.append(_XYZ_to_sRGB(XYZ))
         y1.append(value)
 
     colours = np.array([np.ravel(x) for x in colours])
@@ -732,27 +857,32 @@ def multi_spd_plot(spds,
     """
     Plots given spectral power distributions.
 
-    Examples::
+    Parameters
+    ----------
+    spds : list, optional
+        Spectral power distributions to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for spectrum creation.
+    use_spds_colours : bool, optional
+        Use spectral power distributions colours.
+    normalise_spds_colours : bool
+        Should spectral power distributions colours normalised.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> spd1 = colour.SpectralPowerDistribution(name="Custom1", data={400: 0.0641, 420: 0.0645, 440: 0.0562})
-        >>> spd2 = colour.SpectralPowerDistribution(name="Custom2", data={400: 0.134, 420: 0.789, 440: 1.289})
-        >>> multi_spd_plot([spd1, spd2]))
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param spds: Spectral power distributions to plot.
-    :type spds: list
-    :param cmfs: Standard observer colour matching functions used for spectrum \
-    creation.
-    :type cmfs: unicode
-    :param use_spds_colours: Use spectral power distributions colours.
-    :type use_spds_colours: bool
-    :param normalise_spds_colours: Should spectral power distributions colours \
-    normalised.
-    :type normalise_spds_colours: bool
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> data1 = {400: 0.0641, 420: 0.0645, 440: 0.0562}
+    >>> data2 = {400: 0.134, 420: 0.789, 440: 1.289}
+    >>> spd1 = colour.SpectralPowerDistribution("Custom1", data1)
+    >>> spd2 = colour.SpectralPowerDistribution("Custom2", data2)
+    >>> multi_spd_plot([spd1, spd2]))
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -776,7 +906,7 @@ def multi_spd_plot(spds,
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100.
             if normalise_spds_colours:
                 XYZ /= np.max(XYZ)
-            RGB = XYZ_to_sRGB(XYZ)
+            RGB = _XYZ_to_sRGB(XYZ)
             RGB = np.clip(RGB, 0., 1.)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.name,
@@ -805,17 +935,22 @@ def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     """
     Plots given colour matching functions.
 
-    Examples::
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Colour matching functions to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfs: Colour matching functions to plot.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
+    True
     """
 
     settings = {"title": "'{0}' - Colour Matching Functions".format(cmfs)}
@@ -829,17 +964,22 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
     """
     Plots given colour matching functions.
 
-    Examples::
+    Parameters
+    ----------
+    cmfss : list, optional
+        Colour matching functions to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfss: Colour matching functions to plot.
-    :type cmfss: list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
+    True
     """
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
@@ -887,25 +1027,31 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
     return display(**settings)
 
 
-def single_illuminant_relative_spd_plot(illuminant="A",
-                                        cmfs="CIE 1931 2 Degree Standard Observer",
-                                        **kwargs):
+def single_illuminant_relative_spd_plot(
+        illuminant="A",
+        cmfs="CIE 1931 2 Degree Standard Observer",
+        **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
 
-    Examples::
+    Parameters
+    ----------
+    illuminant : unicode, optional
+        Factory illuminant to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> single_illuminant_relative_spd_plot("A")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param illuminant: Factory illuminant to plot.
-    :type illuminant: unicode
-    :param cmfs: Standard observer colour matching functions to plot.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.single_illuminant_relative_spd_plot("A")
+    True
     """
 
     title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
@@ -924,17 +1070,22 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
-    Examples::
+    Parameters
+    ----------
+    illuminants : tuple or list, optional
+        Factory illuminants to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> multi_illuminants_relative_spd_plot(["A", "B", "C"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param illuminants: Factory illuminants to plot.
-    :type illuminants: tuple or list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.multi_illuminants_relative_spd_plot(["A", "B", "C"])
+    True
     """
 
     spds = []
@@ -956,18 +1107,22 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
     colour matching functions.
 
-    Examples::
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for spectrum creation.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfs: Standard observer colour matching functions used for spectrum \
-    creation.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -980,7 +1135,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
     colours = []
     for i in wavelengths:
         XYZ = wavelength_to_XYZ(i, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
+        colours.append(_XYZ_to_sRGB(XYZ))
 
     colours = np.array([np.ravel(x) for x in colours])
     colours *= 1. / np.max(colours)
@@ -997,29 +1152,34 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
 
 
 @figure_size((32, 32))
-def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
-                                               spacing=0.00075,
-                                               cmfs="CIE 1931 2 Degree Standard Observer",
-                                               **kwargs):
+def CIE_1931_chromaticity_diagram_colours_plot(
+        surface=1.25,
+        spacing=0.00075,
+        cmfs="CIE 1931 2 Degree Standard Observer",
+        **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram* colours.
 
-    Examples::
+    Parameters
+    ----------
+    surface : float, optional
+        Generated markers surface.
+    spacing : float, optional
+        Spacing between markers.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> CIE_1931_chromaticity_diagram_colours_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param surface: Generated markers surface.
-    :type surface: float
-    :param spacing: Spacing between markers.
-    :type spacing: float
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1931_chromaticity_diagram_colours_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1040,7 +1200,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ((i, j))
-                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1064,18 +1224,23 @@ def CIE_1931_chromaticity_diagram_plot(
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.CIE_1931_chromaticity_diagram_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfs: Standard observer colour matching functions used for
-    diagram bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1931_chromaticity_diagram_plot()
+    True
+
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1168,20 +1333,25 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     """
     Plots given colourspaces in *CIE 1931 Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    colourspaces : list, optional
+        Colourspaces to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colourspaces_CIE_1931_chromaticity_diagram_plot(["sRGB", "ACES RGB"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colourspaces: Colourspaces to plot.
-    :type colourspaces: list
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> csps = ["sRGB", "ACES RGB"]
+    >>> colour.plotting.colourspaces_CIE_1931_chromaticity_diagram_plot(csps)
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1267,30 +1437,39 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
-        illuminants=["A", "B", "C"], **kwargs):
+        illuminants=["A", "B", "C"],
+        **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    illuminants : tuple or list, optional
+        Factory illuminants to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(["A", "B", "C"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param illuminants: Factory illuminants to plot.
-    :type illuminants: tuple or list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> ils = ["A", "B", "C"]
+    >>> colour.plotting.planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)
+    True
     """
 
     cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
+        "title": "{0} Illuminants - Planckian Locus\n \
+CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
             ", ".join(illuminants)) if illuminants else
-        "Planckian Locus\n CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
+        "Planckian Locus\n \
+CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1316,9 +1495,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     for illuminant in illuminants:
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
-            raise KeyError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: \
+'{1}'.".format(illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
 
@@ -1335,29 +1513,34 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
 
 @figure_size((32, 32))
-def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
-                                                   spacing=0.00075,
-                                                   cmfs="CIE 1931 2 Degree Standard Observer",
-                                                   **kwargs):
+def CIE_1960_UCS_chromaticity_diagram_colours_plot(
+        surface=1.25,
+        spacing=0.00075,
+        cmfs="CIE 1931 2 Degree Standard Observer",
+        **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colours.
 
-    Examples::
+    Parameters
+    ----------
+    surface : float, optional
+        Generated markers surface.
+    spacing : float, optional
+        Spacing between markers.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param surface: Generated markers surface.
-    :type surface: float
-    :param spacing: Spacing between markers.
-    :type spacing: float
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1960_UCS_chromaticity_diagram_colours_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1378,7 +1561,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ(UCS_uv_to_xy((i, j)))
-                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1402,18 +1585,22 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> CIE_1960_UCS_chromaticity_diagram_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1960_UCS_chromaticity_diagram_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1504,25 +1691,33 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    illuminants : tuple or list, optional
+        Factory illuminants to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(["A", "C", "E"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param illuminants: Factory illuminants to plot.
-    :type illuminants: tuple or list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> ils = ["A", "C", "E"]
+    >>> colour.plotting.planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)
+    True
     """
 
     cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
+        "title": "{0} Illuminants - Planckian Locus\n \
+CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
             ", ".join(illuminants)) if illuminants else
-        "Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
+        "Planckian Locus\n \
+CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
         "standalone": False}
     settings.update(kwargs)
 
@@ -1550,9 +1745,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     for illuminant in illuminants:
         uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
-            raise KeyError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+            raise KeyError("Illuminant '{0}' not found in factory illuminants: \
+'{1}'.".format(illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
 
@@ -1569,29 +1763,34 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 @figure_size((32, 32))
-def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
-                                                   spacing=0.00075,
-                                                   cmfs="CIE 1931 2 Degree Standard Observer",
-                                                   **kwargs):
+def CIE_1976_UCS_chromaticity_diagram_colours_plot(
+        surface=1.25,
+        spacing=0.00075,
+        cmfs="CIE 1931 2 Degree Standard Observer",
+        **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colours.
 
-    Examples::
+    Parameters
+    ----------
+    surface : float, optional
+        Generated markers surface.
+    spacing : float, optional
+        Spacing between markers.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param surface: Generated markers surface.
-    :type surface: float
-    :param spacing: Spacing between markers.
-    :type spacing: float
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1976_UCS_chromaticity_diagram_colours_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1612,7 +1811,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(surface=1.25,
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ(Luv_uv_to_xy((i, j)))
-                RGB = normalise_RGB(XYZ_to_sRGB(XYZ, illuminant))
+                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1636,18 +1835,22 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
-    Examples::
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> CIE_1976_UCS_chromaticity_diagram_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param cmfs: Standard observer colour matching functions used for diagram \
-    bounds.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.CIE_1976_UCS_chromaticity_diagram_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -1734,22 +1937,28 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_munsell_value_function_plot(function="Munsell Value Ladd 1955",
+def single_munsell_value_function_plot(function="Munsell Value ASTM D1535-08",
                                        **kwargs):
     """
     Plots given *Lightness* function.
 
-    Examples::
+    Parameters
+    ----------
+    function : unicode, optional
+        *Munsell* value function to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.single_munsell_value_function_plot("Munsell Value Ladd 1955")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param function: *Munsell* value function to plot.
-    :type function: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> f = "Munsell Value ASTM D1535-08"
+    >>> colour.plotting.single_munsell_value_function_plot(f)
+    True
     """
 
     settings = {"title": "{0} - Munsell Value Function".format(function)}
@@ -1760,32 +1969,38 @@ def single_munsell_value_function_plot(function="Munsell Value Ladd 1955",
 
 @figure_size((8, 8))
 def multi_munsell_value_function_plot(
-        functions=["Munsell Value Ladd 1955",
-                   "Munsell Value Saunderson 1944"],
+        functions=["Munsell Value ASTM D1535-08",
+                   "Munsell Value McCamy 1987"],
         **kwargs):
     """
     Plots given *Munsell* value functions.
 
-    Examples::
+    Parameters
+    ----------
+    functions : list, optional
+        *Munsell* value functions to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Munsell Value Saunderson 1944"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param functions: *Munsell* value functions to plot.
-    :type functions: list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> fs = ("Munsell Value ASTM D1535-08", "Munsell Value McCamy 1987")
+    >>> colour.plotting.multi_munsell_value_function_plot(fs)
+    True
     """
 
     samples = np.linspace(0., 100., 1000)
     for i, function in enumerate(functions):
         function, name = MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError(
-                "'{0}' 'Munsell value' function not found in supported 'Munsell value': '{1}'.".format(
-                    name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Munsell' value function not found in \
+supported 'Munsell' value functions: '{1}'.".format(
+                name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
@@ -1816,17 +2031,22 @@ def single_lightness_function_plot(function="Lightness 1976", **kwargs):
     """
     Plots given *Lightness* function.
 
-    Examples::
+    Parameters
+    ----------
+    function : unicode, optional
+        *Lightness* function to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.single_lightness_function_plot("Lightness 1976")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param function: *Lightness* function to plot.
-    :type function: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.single_lightness_function_plot("Lightness 1976")
+    True
     """
 
     settings = {"title": "{0} - Lightness Function".format(function)}
@@ -1842,26 +2062,32 @@ def multi_lightness_function_plot(
     """
     Plots given *Lightness* functions.
 
-    Examples::
+    Parameters
+    ----------
+    functions : list, optional
+        *Lightness* functions to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.multi_lightness_function_plot(["Lightness 1976", "Lightness Wyszecki 1964"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param functions: *Lightness* functions to plot.
-    :type functions: list
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> fs = ("Lightness 1976", "Lightness Wyszecki 1964")
+    >>> colour.multi_lightness_function_plot(fs)
+    True
     """
 
     samples = np.linspace(0., 100., 1000)
     for i, function in enumerate(functions):
         function, name = LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError(
-                "'{0}' 'Lightness' function not found in supported 'Lightness': '{1}'.".format(
-                    name, sorted(LIGHTNESS_FUNCTIONS.keys())))
+            raise KeyError("'{0}' 'Lightness' function not found in supported \
+'Lightness' functions: '{1}'.".format(
+                name, sorted(LIGHTNESS_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
@@ -1892,17 +2118,22 @@ def single_transfer_function_plot(colourspace="sRGB", **kwargs):
     """
     Plots given colourspace transfer function.
 
-    Examples::
+    Parameters
+    ----------
+    colourspace : unicode, optional
+        *RGB* Colourspace transfer function to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.single_transfer_function_plot("sRGB")
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colourspace: *RGB* Colourspace transfer function to plot.
-    :type colourspace: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.single_transfer_function_plot("sRGB")
+    True
     """
 
     settings = {"title": "{0} - Transfer Function".format(colourspace)}
@@ -1917,19 +2148,24 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
     """
     Plots given colourspaces transfer functions.
 
-    Examples::
+    Parameters
+    ----------
+    colourspaces : list, optional
+        Colourspaces transfer functions to plot.
+    inverse : bool
+        Plot inverse transfer functions.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.multi_transfer_function_plot(["sRGB", "Rec. 709"])
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param colourspaces: Colourspaces transfer functions to plot.
-    :type colourspaces: list
-    :param inverse: Plot inverse transfer functions.
-    :type inverse: bool
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting..multi_transfer_function_plot(["sRGB", "Rec. 709"])
+    True
     """
 
     samples = np.linspace(0., 1., 1000)
@@ -1964,28 +2200,34 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
     return display(**settings)
 
 
-def blackbody_spectral_radiance_plot(temperature=3500,
-                                     cmfs="CIE 1931 2 Degree Standard Observer",
-                                     blackbody="VY Canis Major",
-                                     **kwargs):
+def blackbody_spectral_radiance_plot(
+        temperature=3500,
+        cmfs="CIE 1931 2 Degree Standard Observer",
+        blackbody="VY Canis Major",
+        **kwargs):
     """
     Plots given blackbody spectral radiance.
 
-    Examples::
+    Parameters
+    ----------
+    temperature : float, optional
+        Blackbody temperature.
+    cmfs : unicode, optional
+        Standard observer colour matching functions.
+    blackbody : unicode, optional
+        Blackbody name.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.blackbody_spectral_radiance_plot(3500)
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param temperature: Blackbody temperature.
-    :type temperature: float
-    :param cmfs: Standard observer colour matching functions.
-    :type cmfs: unicode
-    :param blackbody: Blackbody name.
-    :type blackbody: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.blackbody_spectral_radiance_plot(3500)
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -2005,7 +2247,7 @@ def blackbody_spectral_radiance_plot(temperature=3500,
     single_spd_plot(spd, name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs) / 100.
-    RGB = normalise_RGB(XYZ_to_sRGB(XYZ))
+    RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
 
@@ -2033,23 +2275,28 @@ def blackbody_colours_plot(start=150,
     """
     Plots blackbody colours.
 
-    Examples::
+    Parameters
+    ----------
+    start : float, optional
+        Temperature range start in kelvins.
+    end : float, optional
+        Temperature range end in kelvins.
+    steps : float, optional
+        Temperature range steps.
+    cmfs : unicode, optional
+        Standard observer colour matching functions.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.blackbody_colours_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param start: Temperature range start in kelvins.
-    :type start: float
-    :param end: Temperature range end in kelvins.
-    :type end: float
-    :param steps: Temperature range steps.
-    :type steps: float
-    :param cmfs: Standard observer colour matching functions.
-    :type cmfs: unicode
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> colour.plotting.blackbody_colours_plot()
+    True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
@@ -2062,7 +2309,7 @@ def blackbody_colours_plot(start=150,
                                                     *cmfs.shape)
 
         XYZ = spectral_to_XYZ(spd, cmfs) / 100.
-        RGB = normalise_RGB(XYZ_to_sRGB(XYZ))
+        RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ))
 
         colours.append(RGB)
         temperatures.append(temperature)
@@ -2085,17 +2332,23 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     """
     Plots the *colour rendering index* of given illuminant.
 
-    Examples::
+    Parameters
+    ----------
+    illuminant : SpectralPowerDistribution
+        Illuminant to plot the *colour rendering index*.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-        >>> colour.blackbody_colours_plot()
-        True
+    Returns
+    -------
+    bool
+        Definition success.
 
-    :param illuminant: Illuminant to plot the *colour rendering index*.
-    :type illuminant: SpectralPowerDistribution
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
-    :return: Definition success.
-    :rtype: bool
+    Examples
+    --------
+    >>> il = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
+    >>> colour.plotting.colour_rendering_index_bars_plot(il)
+    True
     """
 
     figure, axis = matplotlib.pyplot.subplots()
@@ -2103,7 +2356,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colour_rendering_index, colour_rendering_indexes, additional_data = \
         get_colour_rendering_index(illuminant, additional_data=True)
 
-    colours = ([[1.] * 3] + [normalise_RGB(XYZ_to_sRGB(x.XYZ / 100.))
+    colours = ([[1.] * 3] + [_normalise_RGB(_XYZ_to_sRGB(x.XYZ / 100.))
                              for x in additional_data[0]])
     x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
                              key=lambda x: x[0])))

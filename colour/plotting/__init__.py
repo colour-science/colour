@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from __future__ import absolute_import
 
 from .plots import (
-    normalise_RGB,
     figure_size,
     aspect,
     bounding_box,
@@ -35,7 +37,7 @@ from .plots import single_transfer_function_plot, multi_transfer_function_plot
 from .plots import blackbody_spectral_radiance_plot, blackbody_colours_plot
 from .plots import colour_rendering_index_bars_plot
 
-__all__ = ["normalise_RGB", "figure_size", "aspect", "bounding_box", "display"]
+__all__ = ["_normalise_RGB", "figure_size", "aspect", "bounding_box", "display"]
 __all__ += ["colour_parameter",
             "colour_parameters_plot",
             "single_colour_plot",
