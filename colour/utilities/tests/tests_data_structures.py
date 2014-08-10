@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_data_structures.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.utilities.data_structures` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.utilities.data_structures` module.
 """
 
 from __future__ import unicode_literals
@@ -75,7 +66,8 @@ class TestStructure(unittest.TestCase):
 
     def test_structure_pickle(self):
         """
-        Tests :class:`colour.utilities.data_structures.Structure` class pickling.
+        Tests :class:`colour.utilities.data_structures.Structure` class
+        pickling.
         """
 
         structure = colour.utilities.data_structures.Structure(John="Doe",
@@ -98,7 +90,8 @@ class TestLookup(unittest.TestCase):
 
     def test_get_first_key_from_value(self):
         """
-        Tests :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value`
+        Tests
+        :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value`
         method.
         """
 
@@ -109,7 +102,8 @@ class TestLookup(unittest.TestCase):
 
     def test_get_keys_from_value(self):
         """
-        Tests :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value`
+        Tests
+        :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value`
         method.
         """
 

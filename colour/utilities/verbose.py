@@ -2,16 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**verbose.py**
+Verbose
+=======
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package verbose objects.
-
-**Others:**
-
+Defines verbose related objects.
 """
 
 from __future__ import unicode_literals
@@ -32,11 +26,23 @@ def warning(*args, **kwargs):
     """
     Issues a warning.
 
+    Parameters
+    ----------
+    \*args : \*
+        Arguments.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
-    :param \*args: Arguments.
-    :type \*args: \*
-    :param \*\*kwargs: Keywords arguments.
-    :type \*\*kwargs: \*\*
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> colour.utilities.warning("This is a warning!")
+    /Users/.../colour/utilities/verbose.py:42: UserWarning: This is a warning!
     """
 
     warnings.warn(*args, **kwargs)
+    return True

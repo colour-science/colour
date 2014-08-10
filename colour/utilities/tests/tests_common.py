@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_common.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.utilities.common` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.utilities.common` module.
 """
 
 from __future__ import unicode_literals

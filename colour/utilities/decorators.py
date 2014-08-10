@@ -2,15 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-**decorators.py**
+Decorators
+==========
 
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines **Colour** package generic decorators objects.
-
-**Others:**
+Defines various utility decorators.
 
 """
 
@@ -30,18 +25,24 @@ __all__ = ["memoize"]
 
 def memoize(cache=None):
     """
-    | Implements method / definition memoization.
-    | Any method / definition decorated will get its return value cached and
+    Implements method / definition memoization.
+
+    Any method / definition decorated will get its return value cached and
     restored whenever called with the same arguments.
 
-    :param cache: Alternate cache.
-    :type cache: dict
-    :return: Object.
-    :rtype: object
+    Parameters
+    ----------
+    cache : dict
+        Alternate cache.
 
-    References:
+    Returns
+    -------
+    object
+        Object.
 
-    -  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py
+    References
+    ----------
+    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py
     """
 
     if cache is None:
@@ -51,10 +52,15 @@ def memoize(cache=None):
         """
         Implements method / definition memoization.
 
-        :param object: Object to decorate.
-        :type object: object
-        :return: Object.
-        :rtype: object
+        Parameters
+        ----------
+        object : object
+            Object to decorate.
+
+        Returns
+        -------
+        object
+            Object.
         """
 
         @functools.wraps(object)
@@ -62,12 +68,17 @@ def memoize(cache=None):
             """
             Implements method / definition memoization.
 
-            :param \*args: Arguments.
-            :type \*args: \*
-            :param \*\*kwargs: Keywords arguments.
-            :type \*\*kwargs: \*\*
-            :return: Object.
-            :rtype: object
+            Parameters
+            ----------
+            \*args : \*
+                Arguments.
+            \*\*kwargs : \*\*
+                Keywords arguments.
+
+            Returns
+            -------
+            object
+                Object.
             """
 
             if kwargs:

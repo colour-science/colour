@@ -65,6 +65,7 @@ from .quality import *
 from . import quality
 from .temperature import *
 from . import temperature
+from . import utilities
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
