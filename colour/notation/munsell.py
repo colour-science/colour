@@ -9,20 +9,22 @@ Defines various objects for *Munsell Renotation System* computations:
 
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
--   :func:`munsell_value_priest1920`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *Priest et al. (1920)* method.
--   :func:`munsell_value_munsell1933`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *Munsell, Sloan, and Godlove (1933)* method.
--   :func:`munsell_value_moon1943`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
--   :func:`munsell_value_saunderson1944`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
--   :func:`munsell_value_ladd1955`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *Ladd and Pinney (1955)*  method.
--   :func:`munsell_value_mccamy1987`: *Munsell* value :math:`V` of given
-    *luminance* :math:`Y` using *McCamy (1987)*  method.
+-   :func:`munsell_value_priest1920`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using *Priest et al. (1920)* method.
+-   :func:`munsell_value_munsell1933`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using *Munsell, Sloan, and Godlove (1933)*
+    method.
+-   :func:`munsell_value_moon1943`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
+-   :func:`munsell_value_saunderson1944`: *Munsell* value :math:`V` computation
+    of given *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
+-   :func:`munsell_value_ladd1955`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using *Ladd and Pinney (1955)*  method.
+-   :func:`munsell_value_mccamy1987`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using *McCamy (1987)*  method.
 -   :func:`munsell_value_ASTM_D1535_08` [1]_ [2]_: *Munsell* value :math:`V`
-    of given *luminance* :math:`Y` using *ASTM D1535-08e1 (2008)* method.
+    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1 (2008)*
+    method.
 
 References
 ----------

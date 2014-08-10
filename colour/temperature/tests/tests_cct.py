@@ -2,16 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**tests_temperature.py**
-
-**Platform:**
-    Windows, Linux, Mac Os X.
-
-**Description:**
-    Defines units tests for :mod:`colour.temperature.cct` module.
-
-**Others:**
-
+Defines units tests for :mod:`colour.temperature.cct` module.
 """
 
 from __future__ import unicode_literals
@@ -202,13 +193,15 @@ class TestGetPlanckianTable(unittest.TestCase):
 
 class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
+    Defines
+    :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
     definition units tests methods.
     """
 
     def test_get_planckian_table_minimal_distance_index(self):
         """
-        Tests :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
+        Tests
+        :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
         definition.
         """
 
