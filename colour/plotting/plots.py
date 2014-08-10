@@ -1744,7 +1744,7 @@ def single_munsell_value_function_plot(function="Munsell Value Ladd 1955",
         >>> colour.single_munsell_value_function_plot("Munsell Value Ladd 1955")
         True
 
-    :param function: *Munsell value* function to plot.
+    :param function: *Munsell* value function to plot.
     :type function: unicode
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*
@@ -1764,14 +1764,14 @@ def multi_munsell_value_function_plot(
                    "Munsell Value Saunderson 1944"],
         **kwargs):
     """
-    Plots given *Munsell value* functions.
+    Plots given *Munsell* value functions.
 
     Examples::
 
         >>> colour.multi_munsell_value_function_plot(functions=["Munsell Value Ladd 1955", "Munsell Value Saunderson 1944"])
         True
 
-    :param functions: *Munsell value* functions to plot.
+    :param functions: *Munsell* value functions to plot.
     :type functions: list
     :param \*\*kwargs: Keywords arguments.
     :type \*\*kwargs: \*\*

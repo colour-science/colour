@@ -2,16 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-**munsell.py**
+Munsell Renotation System Dataset
+=================================
 
-**Platform:**
-    Windows, Linux, Mac Os X.
+Defines the *Munsell Renotation System* dataset.
 
-**Description:**
-    Defines **Colour** package *Munsell Renotation Sytem* colours.
-
-**Others:**
-
+References
+----------
+.. [1]  http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
 from __future__ import unicode_literals
@@ -26,7 +24,6 @@ __status__ = "Production"
 __all__ = ["MUNSELL_COLOURS"]
 
 
-# http://www.cis.rit.edu/research/mcsl2/online/munsell_data/all.dat
 MUNSELL_COLOURS = (
     (("2.5GY", 0.2, 2.0), (0.713, 1.414, 0.237)),
     (("5GY", 0.2, 2.0), (0.449, 1.145, 0.237)),
@@ -5023,3 +5020,13 @@ MUNSELL_COLOURS = (
     (("7.5Y", 10.0, 18.0), (0.462, 0.515, 102.57)),
     (("7.5Y", 10.0, 20.0), (0.467, 0.521, 102.57)),
     (("7.5Y", 10.0, 22.0), (0.472, 0.528, 102.57)))
+"""
+All published *Munsell* colours, including the extrapolated colors.
+
+MUNSELL_COLOURS : tuple
+   (("hue", "value", "chroma"), ("x", "y", "Y"))
+
+References
+----------
+.. [2]  http://www.cis.rit.edu/research/mcsl2/online/munsell_data/all.dat
+"""

@@ -10,12 +10,12 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell value* :math:`V` using *Newhall, Nickerson, and Judd (1943)*
+    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
     method.
 -   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 -   :func:`luminance_ASTM_D1535_08`: *luminance* :math:`Y` computation of given
-    *Munsell value* :math:`V` using *ASTM D1535-08e1 (2008)* method.
+    *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
 """
 
 from __future__ import unicode_literals
@@ -38,13 +38,13 @@ __all__ = ["luminance_newhall1943",
 
 def luminance_newhall1943(V):
     """
-    Returns the *luminance* :math:`Y` of given *Munsell value* :math:`V` using
+    Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *Newhall, Nickerson, and Judd (1943)* method.
 
     Parameters
     ----------
     V : float
-        *Munsell value* :math:`V`.
+        *Munsell* value :math:`V`.
 
     Returns
     -------
@@ -53,7 +53,7 @@ def luminance_newhall1943(V):
 
     Notes
     -----
-    -   Input *Munsell value* :math:`V` is in domain [0, 10].
+    -   Input *Munsell* value :math:`V` is in domain [0, 10].
     -   Output *luminance* :math:`Y` is in domain [0, 100].
 
     References
@@ -115,13 +115,13 @@ def luminance_1976(L, Yn=100.):
 
 def luminance_ASTM_D1535_08(V):
     """
-    Returns the *luminance* :math:`Y` of given *Munsell value* :math:`V` using
+    Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1 (2008)* method.
 
     Parameters
     ----------
     V : float
-        *Munsell value* :math:`V`.
+        *Munsell* value :math:`V`.
 
     Returns
     -------
@@ -130,7 +130,7 @@ def luminance_ASTM_D1535_08(V):
 
     Notes
     -----
-    -   Input *Munsell value* :math:`V` is in domain [0, 10].
+    -   Input *Munsell* value :math:`V` is in domain [0, 10].
     -   Output *luminance* :math:`Y` is in domain [0, 100].
 
     References
@@ -162,12 +162,12 @@ LUMINANCE_FUNCTIONS : dict
 def get_luminance(LV, Yn=100., method="Luminance 1976"):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
-    *Munsell value* :math:`V`.
+    *Munsell* value :math:`V`.
 
     Parameters
     ----------
     LV : float
-        *Lightness* :math:`L^*` or *Munsell value* :math:`V`.
+        *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     Yn : float, optional
         White reference *luminance* :math:`Y_n`.
     method : unicode, optional

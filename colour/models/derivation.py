@@ -55,7 +55,7 @@ def xy_to_z(xy):
 
     Examples
     --------
-    >>> xy_to_z((0.25, 0.25))
+    >>> colour.models.derivation.xy_to_z((0.25, 0.25))
     0.5
     """
 

@@ -919,10 +919,10 @@ planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot()
 # Plotting *CIE 1976 UCS Chromaticity Diagram*.
 CIE_1976_UCS_chromaticity_diagram_plot()
 
-# Plotting a single *Munsell value* function.
+# Plotting a single *Munsell* value function.
 single_munsell_value_function_plot("Munsell Value Ladd 1955")
 
-# Plotting multiple *Munsell value* functions.
+# Plotting multiple *Munsell* value functions.
 multi_munsell_value_function_plot(["Munsell Value Ladd 1955",
                                    "Munsell Value Saunderson 1944"])
 

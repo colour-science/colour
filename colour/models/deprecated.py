@@ -87,7 +87,8 @@ def RGB_to_HSV(RGB):
 
     Examples
     --------
-    >>> colour.RGB_to_HSV(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> colour.models.deprecated.RGB_to_HSV(RGB)
     array([[ 0.27867384],
            [ 0.744     ],
            [ 0.98039216]])
@@ -153,7 +154,8 @@ def HSV_to_RGB(HSV):
 
     Examples
     --------
-    >>> colour.HSV_to_RGB(np.array([0.27867384, 0.744, 0.98039216]))
+    >>> HSV = np.array([0.27867384, 0.744, 0.98039216])
+    >>> colour.models.deprecated.HSV_to_RGB(HSV)
     array([[ 0.49019606]
            [ 0.98039216]
            [ 0.25098039]])
@@ -228,7 +230,8 @@ def RGB_to_HSL(RGB):
 
     Examples
     --------
-    >>> colour.RGB_to_HSL(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> colour.models.deprecated.RGB_to_HSL(RGB)
     array([[ 0.27867384]
            [ 0.94897959]
            [ 0.61568627]])
@@ -295,7 +298,8 @@ def HSL_to_RGB(HSL):
 
     Examples
     --------
-    >>> colour.HSL_to_RGB(np.array([0.27867384, 0.94897959, 0.61568627]))
+    >>> HSL = np.array([0.27867384, 0.94897959, 0.61568627])
+    >>> colour.models.deprecated.HSL_to_RGB(HSL)
     array([[ 0.49019605]
            [ 0.98039216]
            [ 0.25098038]])
@@ -357,7 +361,8 @@ def RGB_to_CMY(RGB):
 
     Examples
     --------
-    >>> colour.RGB_to_CMY(np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> colour.models.deprecated.RGB_to_CMY(RGB)
     array([[ 0.50980392]
            [ 0.01960784]
            [ 0.74901961]])
@@ -393,7 +398,8 @@ def CMY_to_RGB(CMY):
 
     Examples
     --------
-    >>> colour.CMY_to_RGB(np.array([0.50980392, 0.01960784, 0.74901961]))
+    >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
+    >>> colour.models.deprecated.CMY_to_RGB(CMY)
     array([[ 0.49019608]
            [ 0.98039216]
            [ 0.25098039]])
@@ -429,7 +435,8 @@ def CMY_to_CMYK(CMY):
 
     Examples
     --------
-    >>> colour.CMY_to_CMYK(np.array([0.50980392, 0.01960784, 0.74901961]))
+    >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
+    >>> colour.models.deprecated.CMY_to_CMYK(CMY)
     array([[ 0.5       ]
            [ 0.        ]
            [ 0.744     ]
@@ -483,7 +490,8 @@ def CMYK_to_CMY(CMYK):
 
     Examples
     --------
-    >>> colour.CMYK_to_CMY(np.array([0.5, 0.,0.744, 0.01960784]))
+    >>> CMYK = np.array([0.5, 0.,0.744, 0.01960784])
+    >>> colour.models.deprecated.CMYK_to_CMY(CMYK)
     array([[ 0.50980392]
            [ 0.01960784]
            [ 0.74901961]])
@@ -515,7 +523,8 @@ def RGB_to_HEX(RGB):
 
     Examples
     --------
-    >>> colour.RGB_to_HEX(np.array([0.66666667, 0.86666667, 1.]))
+    >>> RGB = np.array([0.66666667, 0.86666667, 1.])
+    >>> colour.models.deprecated.RGB_to_HEX(RGB)
     #aaddff
     """
 
@@ -544,7 +553,8 @@ def HEX_to_RGB(HEX):
 
     Examples
     --------
-    >>> colour.HEX_to_RGB("#aaddff")
+    >>> HEX = "#aaddff"
+    >>> colour.models.deprecated.HEX_to_RGB(HEX)
     array([[ 0.66666667]
            [ 0.86666667]
            [ 1.        ]])
