@@ -9,6 +9,7 @@ __pycache__
 *.pyo
 
 .idea/
+dist/
 docs/ipython/.ipynb_checkpoints
 docs/sphinx/_build/
 references/
