@@ -10,7 +10,6 @@ __pycache__
 
 .idea/
 dist/
-docs/ipython/.ipynb_checkpoints
 docs/sphinx/_build/
 references/
 releases/
