@@ -22,7 +22,8 @@ from colour.algebra import (
     is_uniform,
     is_iterable,
     is_number,
-    is_integer)
+    is_integer,
+    normalise)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
@@ -37,7 +38,8 @@ __all__ = ["TestGetSteps",
            "TestIsUniform",
            "TestIsIterable",
            "TestIsNumber",
-           "TestIsEvenInteger"]
+           "TestIsInteger",
+           "TestNormalise"]
 
 
 class TestGetSteps(unittest.TestCase):
@@ -152,7 +154,7 @@ class TestIsNumber(unittest.TestCase):
         self.assertFalse(is_number("1"))
 
 
-class TestIsEvenInteger(unittest.TestCase):
+class TestIsInteger(unittest.TestCase):
     """
     Defines :func:`colour.algebra.common.is_integer` definition units
     tests methods.
@@ -166,6 +168,37 @@ class TestIsEvenInteger(unittest.TestCase):
         self.assertTrue(is_integer(1))
         self.assertTrue(is_integer(1.001))
         self.assertFalse(is_integer(1.01))
+
+
+class TestNormalise(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.common.normalise` definition units
+    tests methods.
+    """
+
+    def test_normalise(self):
+        """
+        Tests :func:`colour.algebra.common.normalise` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            normalise(np.array([0.1151847498, 0.1008, 0.0508937252])),
+            np.array([1., 0.87511585, 0.4418443]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            normalise(np.array([0.1151847498, 0.1008, 0.0508937252]),
+                      factor=10),
+            np.array([10., 8.75115848, 4.418443]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            normalise(np.array([-0.1151847498, -0.1008, 0.0508937252])),
+            np.array([0., 0., 1.]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            normalise(np.array([-0.1151847498, -0.1008, 0.0508937252]),
+                      clip=False),
+            np.array([-2.26324069, -1.9805978, 1.]),
+            decimal=7)
 
 
 if __name__ == "__main__":

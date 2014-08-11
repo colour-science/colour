@@ -10,7 +10,8 @@ from .common import (
     is_uniform,
     is_iterable,
     is_number,
-    is_integer)
+    is_integer,
+    normalise)
 from .coordinates import *
 from . import coordinates
 from .extrapolation import Extrapolator1d
@@ -26,7 +27,8 @@ __all__ = ["get_steps",
            "is_uniform",
            "is_iterable",
            "is_number",
-           "is_integer"]
+           "is_integer",
+           "normalise"]
 __all__ += coordinates.__all__
 __all__ += ["Extrapolator1d",
             "LinearInterpolator1d",

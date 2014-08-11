@@ -27,6 +27,7 @@ from .cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from .cie_uvw import XYZ_to_UVW
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
+from .common import XYZ_to_sRGB
 
 __all__ = ["RGB_Colourspace"]
 __all__ += ["get_normalised_primary_matrix",
@@ -48,3 +49,4 @@ __all__ += ["XYZ_to_UCS", "UCS_to_XYZ", "UCS_to_uv", "UCS_uv_to_xy"]
 __all__ += ["XYZ_to_UVW"]
 __all__ += ["XYZ_to_RGB", "RGB_to_XYZ"]
 __all__ += ["RGB_to_RGB"]
+__all__ += ["XYZ_to_sRGB"]
