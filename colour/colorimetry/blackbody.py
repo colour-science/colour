@@ -3,7 +3,7 @@
 
 """
 Blackbody - Planckian Radiator
-=============================
+==============================
 
 Defines objects to compute the spectral radiance of a planckian radiator and
 its spectral power distribution.
