@@ -65,6 +65,7 @@ from .quality import *
 from . import quality
 from .temperature import *
 from . import temperature
+from . import plotting
 from . import utilities
 
 __author__ = "Colour Developers"
