@@ -48,6 +48,8 @@ from .adaptation import *
 from . import adaptation
 from .algebra import *
 from . import algebra
+from .appearance import *
+from . import appearance
 from .colorimetry import *
 from . import colorimetry
 from . import constants
@@ -78,6 +80,7 @@ __status__ = "Production"
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
+__all__ += appearance.__all__
 __all__ += characterization.__all__
 __all__ += colorimetry.__all__
 __all__ += difference.__all__

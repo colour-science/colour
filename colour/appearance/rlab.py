@@ -5,6 +5,8 @@ import logging
 
 import numpy as np
 
+from colour.appearance import hunt
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -13,8 +15,6 @@ __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
 
 __all__ = ['XYZ_to_RLAB']
-
-from colour.appearance import hunt
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +87,8 @@ def XYZ_to_RLAB(x, y, z, x_n, y_n, z_n, y_n_abs, sigma, d):
         for layer in range(input_dim):
             a = np.diag(lms_a[..., layer])
             logger.debug('A layer {}: {}'.format(layer, a))
-            xyz_ref[..., layer] = R.dot(a).dot(hunt.xyz_to_rgb_m).dot(xyz[..., layer])
+            xyz_ref[..., layer] = R.dot(a).dot(hunt.xyz_to_rgb_m).dot(
+                xyz[..., layer])
 
     logger.debug('XYZ_ref: {}'.format(xyz_ref))
     x_ref, y_ref, z_ref = xyz_ref

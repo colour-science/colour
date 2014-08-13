@@ -18,6 +18,7 @@ Sub-Modules
    colour.models.cie_ucs
    colour.models.cie_uvw
    colour.models.cie_xyy
+   colour.models.common
    colour.models.deprecated
    colour.models.derivation
    colour.models.rgb

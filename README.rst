@@ -83,7 +83,12 @@ Highlights:
 -  Colour rendition charts spectral data.
 -  Colour appearance models:
 
+  -  ATD95
   -  CIECAM02
+  -  Hunt
+  -  LLAB
+  -  Nayatani95
+  -  RLAB
 
 -  Correlated colour temperature calculation:
 
