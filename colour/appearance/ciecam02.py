@@ -36,7 +36,7 @@ import colour.utilities.decorators
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
@@ -99,7 +99,7 @@ def get_luminance_level_adaptation_factor(LA):
     Examples::
 
         >>> get_luminance_level_adaptation_factor(318.31)
-        1.16754446415
+        1.16754446414718
 
     :param LA: Adapting field *luminance* in cd/m2.
     :type LA: float
@@ -163,7 +163,7 @@ def get_base_exponential_non_linearity(n):
     Examples::
 
         >>> get_base_exponential_non_linearity(0.2)
-        1.9272135955
+        1.9272135954999579
 
     :param n: Function of the luminance factor of the background.
     :type n: float
@@ -196,7 +196,7 @@ def get_viewing_condition_dependent_parameters(Yb, Yw, LA):
     Examples::
 
         >>> get_viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
-        (0.2, 1.16754446415, 1.00030400456, 1.00030400456, 1.9272135955)
+        (0.20000000000000001, 1.16754446414718, 1.0003040045593807, 1.0003040045593807, 1.9272135954999579)
 
     :param Yb: Adapting field *Y* tristimulus value.
     :type Yb: float
@@ -225,7 +225,7 @@ def get_degree_of_adaptation(F, LA):
     Examples::
 
         >>> get_degree_of_adaptation(1.0, 318.31)
-        0.994468780088
+        0.99446878008843742
 
     :param F: Surround maximum degree of adaptation.
     :type F: float
@@ -262,10 +262,10 @@ def apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
         >>> RGBw = np.array([94.930528, 103.536988, 108.717742])
         >>> Yw = 100.0
         >>> D = 0.994468780088
-        >>> apply_forward_full_chromatic_adaptation(1.0, 318.31)
-        array([[ 19.99370783]
-              [ 20.00393634]
-              [ 20.01326387]])
+        >>> apply_forward_full_chromatic_adaptation(RGB, RGBw, Yw, D)
+        array([[ 19.99370783],
+               [ 20.00393634],
+               [ 20.01326387]])
 
     :param RGB: *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
@@ -323,9 +323,9 @@ def RGB_to_HPE(RGB):
     Examples::
 
         >>> RGB_to_HPE(np.array([19.99370783, 20.00393634, 20.01326387]))
-        array([[ 19.99693975]
-              [ 20.00186123]
-              [ 20.0135053 ]])
+        array([[ 19.99693975],
+               [ 20.00186123],
+               [ 20.0135053 ]])
 
     :param RGB: *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
@@ -364,8 +364,8 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
         >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
         >>> FL = 1.16754446415
         >>> apply_forward_post_adaptation_non_linear_response_compression(RGB, FL)
-        array([[ 7.9463202 ]
-               [ 7.94711528]
+        array([[ 7.9463202 ],
+               [ 7.94711528],
                [ 7.94899595]])
 
     :param RGB: *CMCCAT2000* transform sharpened *RGB* matrix.
@@ -388,7 +388,7 @@ def apply_forward_post_adaptation_non_linear_response_compression(RGB, FL):
 
     # TODO: Check for negative values and their handling.
     RGBc = ((((400. * (FL * RGB / 100) ** 0.42) /
-              27.13 + (FL * RGB / 100) ** 0.42)) + 0.1).reshape((3, 1))
+              (27.13 + (FL * RGB / 100) ** 0.42))) + 0.1).reshape((3, 1))
     return RGBc
 
 
@@ -407,7 +407,7 @@ def get_forward_opponent_colour_dimensions(RGB):
     Examples::
 
         >>> get_forward_opponent_colour_dimensions(np.array([7.9463202, 7.94711528,7.94899595]))
-        (-0.000624112068243, -0.000506270106773)
+        (-0.00062411000000173189, -0.00050626888888870443)
 
     :param RGB: Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
@@ -461,7 +461,7 @@ def get_hue_quadrature(h):
     Examples::
 
         >>> get_hue_quadrature(-140.951567342)
-        278.060735856
+        278.06073585629122
 
     :param h: Hue angle in degrees.
     :type h: float
@@ -502,7 +502,7 @@ def get_forward_eccentricity_factor(h):
     Examples::
 
         >>> get_forward_eccentricity_factor(-140.951567342)
-        1.17400547285
+        1.1740054728513878
 
     :param h: Hue angle in degrees.
     :type h: float
@@ -539,7 +539,7 @@ def get_forward_achromatic_response(RGB, Nbb):
     Examples::
 
         >>> get_forward_achromatic_response(np.array([7.9463202, 7.94711528,7.94899595]), 1.0003040045593807)
-        23.9394809667
+        23.939480977081196
 
     :param RGB: Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
     :type RGB: array_like
@@ -579,7 +579,7 @@ def get_lightness_correlate(A, Aw, c, z):
     Examples::
 
         >>> get_lightness_correlate(23.9394809667, 46.1882087914, 0.69, 1.9272135955)
-        41.7310911324
+        41.73109113242645
 
     :param A: Achromatic response for the stimulus.
     :type A: float
@@ -616,7 +616,7 @@ def get_brightness_correlate(c, J, Aw, FL):
     Examples::
 
         >>> get_brightness_correlate(0.69, 41.7310911325, 46.1882087914, 1.16754446415)
-        195.371325966
+        195.37132596634626
 
     :param c: Surround exponential non linearity.
     :type c: float
@@ -673,7 +673,7 @@ def get_chroma_correlate(J, n, Nc, Ncb, et, a, b, RGBa):
         >>> b = -0.000506270106773
         >>> RGBa = np.array([7.9463202, 7.94711528,7.94899595])
         >>> get_chroma_correlate(J, n, Nc, Ncb, et, a, b, RGBa)
-        0.104707757171
+        0.10470775715680908
 
     :param J: *Lightness* correlate *J*.
     :type J: float
@@ -720,7 +720,7 @@ def get_colourfulness_correlate(C, FL):
     Examples::
 
         >>> get_colourfulness_correlate(0.104707757171, 1.16754446415)
-        0.108842175669
+        0.10884217566918239
 
     :param C: *Chroma* correlate *C*.
     :type C: float
@@ -753,7 +753,7 @@ def get_saturation_correlate(M, Q):
     Examples::
 
         >>> get_saturation_correlate(0.108842175669, 195.371325966)
-        2.36030537392
+        2.3603053739184565
 
     :param M: *Colourfulness* correlate *M*.
     :type M: float
@@ -812,7 +812,7 @@ def XYZ_to_CIECAM02(XYZ,
         >>> LA = 318.31
         >>> Yb = 20.0
         >>> XYZ_to_CIECAM02(XYZ, XYZw, LA, Yb)
-        CIECAM02_JChQMsH(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281, Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
+        CIECAM02_JChQMsH(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281, Q=195.37132596607677, M=0.10884217566922613, s=2.3603053739204443, H=278.06073585662813)
 
     :param XYZ: *CIE XYZ* colourspace stimulus matrix.
     :type XYZ: array_like

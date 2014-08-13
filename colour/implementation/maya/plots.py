@@ -3,7 +3,7 @@
 
 """
 Autodesk Maya - Plotting
-=======================
+========================
 
 Defines **Autodesk Maya** plotting objects.
 """
@@ -21,7 +21,7 @@ from colour.colorimetry import ILLUMINANTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
@@ -223,9 +223,9 @@ def Lab_colourspace_cube(colourspace, density=20):
         position = it_mesh_vertex.position(OpenMaya.MSpace.kObject)
         it_mesh_vertex.setPosition(
             get_mpoint(tuple(np.ravel(RGB_to_Lab((position[0],
-                                                 position[1],
-                                                 position[2],),
-                                                colourspace)))))
+                                                  position[1],
+                                                  position[2],),
+                                                 colourspace)))))
         it_mesh_vertex.next()
     set_attributes({"{0}.rotateX".format(cube): 180,
                     "{0}.rotateZ".format(cube): 90})

@@ -19,7 +19,7 @@ from colour.models import XYZ_to_xyY, xyY_to_XYZ, xy_to_XYZ, XYZ_to_xy
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
@@ -42,13 +42,13 @@ class TestXYZ_to_xyY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(np.array([11.80583421, 10.34, 5.15089229])),
-            np.array([0.4325, 0.3788, 10.34]).reshape((3, 1)),
+            XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229])),
+            np.array([0.4325, 0.3788, 0.1034]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(np.array([3.08690042, 3.2, 2.68925666])),
-            np.array([0.3439, 0.3565, 3.20]).reshape((3, 1)),
+            XYZ_to_xyY(np.array([0.0308690042, 0.032, 0.0268925666])),
+            np.array([0.3439, 0.3565, 0.0320]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -70,17 +70,17 @@ class TestxyY_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            xyY_to_XYZ(np.array([0.4325, 0.3788, 10.34])),
-            np.array([11.80583421, 10.34, 5.15089229]).reshape((3, 1)),
+            xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034])),
+            np.array([0.11805834, 0.1034, 0.05150892]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xyY_to_XYZ(np.array([0.3439, 0.3565, 3.20])),
-            np.array([3.08690042, 3.2, 2.68925666]).reshape((3, 1)),
+            xyY_to_XYZ(np.array([0.3439, 0.3565, 0.0320])),
+            np.array([0.030869, 0.032, 0.02689257]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xyY_to_XYZ(np.array([0.4325, 0., 10.34])),
+            xyY_to_XYZ(np.array([0.4325, 0., 0.1034])),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=7)
 

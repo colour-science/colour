@@ -15,7 +15,7 @@ import numpy as np
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
@@ -28,7 +28,8 @@ __all__ = ["FLOATING_POINT_NUMBER_PATTERN",
            "is_uniform",
            "is_iterable",
            "is_number",
-           "is_integer"]
+           "is_integer",
+           "normalise"]
 
 FLOATING_POINT_NUMBER_PATTERN = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
 
@@ -236,3 +237,34 @@ def is_integer(x):
     """
 
     return abs(x - round(x)) <= INTEGER_THRESHOLD
+
+
+def normalise(x, factor=1., clip=True):
+    """
+    Normalises given *array_like* :math:`x` variable values and optionally clip
+    them between.
+
+    Parameters
+    ----------
+    x : array_like
+        :math:`x` variable to normalise.
+    factor : float, optional
+        Normalization factor
+    clip : bool, optional
+        Clip values between in domain [0, "factor"].
+
+    Returns
+    -------
+    ndarray
+        Normalised :math:`x` variable.
+
+    Examples
+    --------
+    >>> colour.normalise(np.array(0.48224885, 0.31651974, 0.22070513]))
+    array([ 1.        ,  0.6563411 ,  0.45765818])
+    """
+
+    x = to_ndarray(x)
+    maximum = np.max(x)
+    x *= (1. / maximum) * factor
+    return np.clip(x, 0, factor) if clip else x

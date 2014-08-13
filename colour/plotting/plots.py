@@ -55,6 +55,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
+from colour.algebra import normalise
 from colour.colorimetry import (
     CMFS,
     ILLUMINANTS,
@@ -66,7 +67,6 @@ from colour.colorimetry import (
 from colour.characterization import COLOURCHECKERS
 from colour.models import POINTER_GAMUT_DATA, RGB_COLOURSPACES
 from colour.models import (
-    XYZ_to_RGB,
     UCS_uv_to_xy,
     XYZ_to_UCS,
     XYZ_to_xy,
@@ -75,7 +75,8 @@ from colour.models import (
     xyY_to_XYZ,
     XYZ_to_Luv,
     Luv_to_uv,
-    Luv_uv_to_xy)
+    Luv_uv_to_xy,
+    XYZ_to_sRGB)
 from colour.notation import MUNSELL_VALUE_FUNCTIONS
 from colour.quality import get_colour_rendering_index
 from colour.temperature import CCT_to_uv
@@ -84,7 +85,7 @@ from colour.utilities import Structure
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
 __status__ = "Production"
@@ -250,51 +251,6 @@ def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
                                colour_map)(np.linspace(0., 1., count))
 
     return itertools.cycle(colour_cycle)
-
-
-def _normalise_RGB(RGB):
-    """
-    Normalises given *RGB* colourspace values.
-
-    Parameters
-    ----------
-    RGB : array_like, (3, 1)
-        *RGB* colourspace matrix.
-
-    Returns
-    -------
-    ndarray, (3, 1)
-        Normalised *RGB* colourspace matrix.
-    """
-
-    RGB = np.ravel(RGB)
-    RGB /= np.max(RGB)
-    return np.clip(RGB, 0., 1.)
-
-
-def _XYZ_to_sRGB(XYZ, illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint):
-    """
-    Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
-
-    Parameters
-    ----------
-    XYZ : array_like, (3, 1)
-        *CIE XYZ* colourspace matrix.
-    illuminant : array_like, optional
-        Source illuminant chromaticity coordinates.
-
-    Returns
-    -------
-    ndarray, (3, 1)
-        *sRGB* colour matrix.
-    """
-
-    sRGB = RGB_COLOURSPACES.get("sRGB")
-    return XYZ_to_RGB(XYZ,
-                      illuminant,
-                      sRGB.whitepoint,
-                      sRGB.to_RGB,
-                      sRGB.transfer_function)
 
 
 def figure_size(size=DEFAULT_FIGURE_SIZE):
@@ -747,7 +703,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     colour_parameters = []
     for index, label, x, y, Y in data:
         XYZ = xyY_to_XYZ((x, y, Y))
-        RGB = _XYZ_to_sRGB(XYZ, illuminant)
+        RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
             colour_parameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
@@ -828,7 +784,7 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
 
     for wavelength, value in spd:
         XYZ = wavelength_to_XYZ(wavelength, cmfs)
-        colours.append(_XYZ_to_sRGB(XYZ))
+        colours.append(XYZ_to_sRGB(XYZ))
         y1.append(value)
 
     colours = np.array([np.ravel(x) for x in colours])
@@ -906,7 +862,7 @@ def multi_spd_plot(spds,
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100.
             if normalise_spds_colours:
                 XYZ /= np.max(XYZ)
-            RGB = _XYZ_to_sRGB(XYZ)
+            RGB = XYZ_to_sRGB(XYZ)
             RGB = np.clip(RGB, 0., 1.)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.name,
@@ -1135,7 +1091,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
     colours = []
     for i in wavelengths:
         XYZ = wavelength_to_XYZ(i, cmfs)
-        colours.append(_XYZ_to_sRGB(XYZ))
+        colours.append(XYZ_to_sRGB(XYZ))
 
     colours = np.array([np.ravel(x) for x in colours])
     colours *= 1. / np.max(colours)
@@ -1200,7 +1156,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ((i, j))
-                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1283,16 +1239,16 @@ def CIE_1931_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        normalise = lambda x: x / np.linalg.norm(x)
+        norme = lambda x: x / np.linalg.norm(x)
 
         xy = np.array([x, y])
         direction = np.array((-dy, dx))
 
         normal = (np.array((-dy, dx))
-                  if np.dot(normalise(xy - equal_energy),
-                            normalise(direction)) > 0 else
+                  if np.dot(norme(xy - equal_energy),
+                            norme(direction)) > 0 else
                   np.array((dy, -dx)))
-        normal = normalise(normal)
+        normal = norme(normal)
         normal /= 25
 
         pylab.plot([x, x + normal[0] * 0.75],
@@ -1562,7 +1518,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ(UCS_uv_to_xy((i, j)))
-                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1643,16 +1599,16 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        normalise = lambda x: x / np.linalg.norm(x)
+        norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
         direction = np.array((-dy, dx))
 
         normal = (np.array((-dy, dx))
-                  if np.dot(normalise(uv - equal_energy),
-                            normalise(direction)) > 0 else
+                  if np.dot(norme(uv - equal_energy),
+                            norme(direction)) > 0 else
                   np.array((dy, -dx)))
-        normal = normalise(normal)
+        normal = norme(normal)
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75],
@@ -1813,7 +1769,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
                 y_dot.append(j)
 
                 XYZ = xy_to_XYZ(Luv_uv_to_xy((i, j)))
-                RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ, illuminant))
+                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
 
                 colours.append(RGB)
 
@@ -1897,16 +1853,16 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        normalise = lambda x: x / np.linalg.norm(x)
+        norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
         direction = np.array((-dy, dx))
 
         normal = (np.array((-dy, dx))
-                  if np.dot(normalise(uv - equal_energy),
-                            normalise(direction)) > 0 else
+                  if np.dot(norme(uv - equal_energy),
+                            norme(direction)) > 0 else
                   np.array((dy, -dx)))
-        normal = normalise(normal)
+        normal = norme(normal)
         normal /= 25
 
         pylab.plot([u, u + normal[0] * 0.75],
@@ -2249,7 +2205,7 @@ def blackbody_spectral_radiance_plot(
     single_spd_plot(spd, name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs) / 100.
-    RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ))
+    RGB = normalise(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
 
@@ -2311,7 +2267,7 @@ def blackbody_colours_plot(start=150,
                                                     *cmfs.shape)
 
         XYZ = spectral_to_XYZ(spd, cmfs) / 100.
-        RGB = _normalise_RGB(_XYZ_to_sRGB(XYZ))
+        RGB = normalise(XYZ_to_sRGB(XYZ))
 
         colours.append(RGB)
         temperatures.append(temperature)
@@ -2358,7 +2314,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colour_rendering_index, colour_rendering_indexes, additional_data = \
         get_colour_rendering_index(illuminant, additional_data=True)
 
-    colours = ([[1.] * 3] + [_normalise_RGB(_XYZ_to_sRGB(x.XYZ / 100.))
+    colours = ([[1.] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100.))
                              for x in additional_data[0]])
     x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
                              key=lambda x: x[0])))
