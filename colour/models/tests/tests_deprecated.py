@@ -31,23 +31,23 @@ from colour.models.deprecated import (
     RGB_to_HEX,
     HEX_to_RGB)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestRGB_to_HSV",
-           "TestHSV_to_RGB",
-           "TestRGB_to_HSL",
-           "TestHSL_to_RGB",
-           "TestRGB_to_CMY",
-           "TestCMY_to_RGB",
-           "TestCMY_to_CMYK",
-           "TestCMYK_to_CMY",
-           "TestRGB_to_HEX",
-           "TestHEX_to_RGB"]
+__all__ = ['TestRGB_to_HSV',
+           'TestHSV_to_RGB',
+           'TestRGB_to_HSL',
+           'TestHSL_to_RGB',
+           'TestRGB_to_CMY',
+           'TestCMY_to_RGB',
+           'TestCMY_to_CMYK',
+           'TestCMYK_to_CMY',
+           'TestRGB_to_HEX',
+           'TestHEX_to_RGB']
 
 
 class TestRGB_to_HSV(unittest.TestCase):
@@ -278,13 +278,13 @@ class TestRGB_to_HEX(unittest.TestCase):
 
         self.assertEqual(
             RGB_to_HEX(np.array([0.25, 0.60, 0.05])),
-            "#3f990c")
+            '#3f990c')
         self.assertEqual(
             RGB_to_HEX(np.array([0., 0., 0.])),
-            "#000000")
+            '#000000')
         self.assertEqual(
             RGB_to_HEX(np.array([1., 1., 1.])),
-            "#ffffff")
+            '#ffffff')
 
 
 class TestHEX_to_RGB(unittest.TestCase):
@@ -299,18 +299,18 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            HEX_to_RGB("#3f990c"),
+            HEX_to_RGB('#3f990c'),
             np.array([0.25, 0.60, 0.05]).reshape((3, 1)),
             decimal=2)
         np.testing.assert_almost_equal(
-            HEX_to_RGB("#000000"),
+            HEX_to_RGB('#000000'),
             np.array([0., 0., 0.]).reshape((3, 1)),
             decimal=2)
         np.testing.assert_almost_equal(
-            HEX_to_RGB("#ffffff"),
+            HEX_to_RGB('#ffffff'),
             np.array([1., 1., 1.]).reshape((3, 1)),
             decimal=2)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

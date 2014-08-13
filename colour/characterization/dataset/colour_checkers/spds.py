@@ -11,7 +11,7 @@ Each *ColourChecker* data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
 follows::
 
-    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
+    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
 The following *ColourCheckers* data is available:
 
@@ -35,48 +35,48 @@ from __future__ import unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["COLOURCHECKER_INDEXES_TO_NAMES_MAPPING",
-           "COLORCHECKER_N_OHTA_SPDS_DATA",
-           "COLORCHECKER_N_OHTA_SPDS",
-           "BABELCOLOR_AVERAGE_SPDS_DATA",
-           "BABELCOLOR_AVERAGE_SPDS",
-           "COLOURCHECKERS_SPDS"]
+__all__ = ['COLOURCHECKER_INDEXES_TO_NAMES_MAPPING',
+           'COLORCHECKER_N_OHTA_SPDS_DATA',
+           'COLORCHECKER_N_OHTA_SPDS',
+           'BABELCOLOR_AVERAGE_SPDS_DATA',
+           'BABELCOLOR_AVERAGE_SPDS',
+           'COLOURCHECKERS_SPDS']
 
 COLOURCHECKER_INDEXES_TO_NAMES_MAPPING = {
-    1: "dark skin",
-    2: "light skin",
-    3: "blue sky",
-    4: "foliage",
-    5: "blue flower",
-    6: "bluish green",
-    7: "orange",
-    8: "purplish blue",
-    9: "moderate red",
-    10: "purple",
-    11: "yellow green",
-    12: "orange yellow",
-    13: "blue",
-    14: "green",
-    15: "red",
-    16: "yellow",
-    17: "magenta",
-    18: "cyan",
-    19: "white 9.5 (.05 D)",
-    20: "neutral 8 (.23 D)",
-    21: "neutral 6.5 (.44 D)",
-    22: "neutral 5 (.70 D)",
-    23: "neutral 3.5 (1.05 D)",
-    24: "black 2 (1.5 D)"}
+    1: 'dark skin',
+    2: 'light skin',
+    3: 'blue sky',
+    4: 'foliage',
+    5: 'blue flower',
+    6: 'bluish green',
+    7: 'orange',
+    8: 'purplish blue',
+    9: 'moderate red',
+    10: 'purple',
+    11: 'yellow green',
+    12: 'orange yellow',
+    13: 'blue',
+    14: 'green',
+    15: 'red',
+    16: 'yellow',
+    17: 'magenta',
+    18: 'cyan',
+    19: 'white 9.5 (.05 D)',
+    20: 'neutral 8 (.23 D)',
+    21: 'neutral 6.5 (.44 D)',
+    22: 'neutral 5 (.70 D)',
+    23: 'neutral 3.5 (1.05 D)',
+    24: 'black 2 (1.5 D)'}
 
 COLORCHECKER_N_OHTA_SPDS_DATA = {
-    "dark skin": {
+    'dark skin': {
         380: 0.048,
         385: 0.051,
         390: 0.055,
@@ -158,7 +158,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.448,
         775: 0.432,
         780: 0.421},
-    "light skin": {
+    'light skin': {
         380: 0.103,
         385: 0.12,
         390: 0.141,
@@ -240,7 +240,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.771,
         775: 0.747,
         780: 0.734},
-    "blue sky": {
+    'blue sky': {
         380: 0.113,
         385: 0.138,
         390: 0.174,
@@ -322,7 +322,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.11,
         775: 0.115,
         780: 0.12},
-    "foliage": {
+    'foliage': {
         380: 0.048,
         385: 0.049,
         390: 0.049,
@@ -404,7 +404,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.355,
         775: 0.346,
         780: 0.341},
-    "blue flower": {
+    'blue flower': {
         380: 0.123,
         385: 0.152,
         390: 0.197,
@@ -486,7 +486,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.5,
         775: 0.491,
         780: 0.487},
-    "bluish green": {
+    'bluish green': {
         380: 0.11,
         385: 0.133,
         390: 0.167,
@@ -568,7 +568,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.297,
         775: 0.296,
         780: 0.296},
-    "orange": {
+    'orange': {
         380: 0.053,
         385: 0.054,
         390: 0.054,
@@ -650,7 +650,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.616,
         775: 0.598,
         780: 0.582},
-    "purplish blue": {
+    'purplish blue': {
         380: 0.099,
         385: 0.12,
         390: 0.15,
@@ -732,7 +732,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.275,
         775: 0.294,
         780: 0.316},
-    "moderate red": {
+    'moderate red': {
         380: 0.096,
         385: 0.108,
         390: 0.123,
@@ -814,7 +814,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.566,
         775: 0.551,
         780: 0.54},
-    "purple": {
+    'purple': {
         380: 0.101,
         385: 0.115,
         390: 0.135,
@@ -896,7 +896,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.482,
         775: 0.471,
         780: 0.467},
-    "yellow green": {
+    'yellow green': {
         380: 0.056,
         385: 0.058,
         390: 0.059,
@@ -978,7 +978,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.426,
         775: 0.413,
         780: 0.404},
-    "orange yellow": {
+    'orange yellow': {
         380: 0.06,
         385: 0.061,
         390: 0.063,
@@ -1060,7 +1060,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.673,
         775: 0.653,
         780: 0.639},
-    "blue": {
+    'blue': {
         380: 0.069,
         385: 0.081,
         390: 0.096,
@@ -1142,7 +1142,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.168,
         775: 0.186,
         780: 0.204},
-    "green": {
+    'green': {
         380: 0.055,
         385: 0.056,
         390: 0.057,
@@ -1224,7 +1224,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.112,
         775: 0.112,
         780: 0.112},
-    "red": {
+    'red': {
         380: 0.052,
         385: 0.052,
         390: 0.052,
@@ -1306,7 +1306,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.702,
         775: 0.68,
         780: 0.664},
-    "yellow": {
+    'yellow': {
         380: 0.054,
         385: 0.053,
         390: 0.054,
@@ -1388,7 +1388,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.752,
         775: 0.728,
         780: 0.71},
-    "magenta": {
+    'magenta': {
         380: 0.118,
         385: 0.142,
         390: 0.179,
@@ -1470,7 +1470,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.785,
         775: 0.765,
         780: 0.752},
-    "cyan": {
+    'cyan': {
         380: 0.093,
         385: 0.11,
         390: 0.134,
@@ -1552,7 +1552,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.2,
         775: 0.208,
         780: 0.214},
-    "white 9.5 (.05 D)": {
+    'white 9.5 (.05 D)': {
         380: 0.153,
         385: 0.189,
         390: 0.245,
@@ -1634,7 +1634,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.88,
         775: 0.88,
         780: 0.879},
-    "neutral 8 (.23 D)": {
+    'neutral 8 (.23 D)': {
         380: 0.15,
         385: 0.184,
         390: 0.235,
@@ -1716,7 +1716,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.553,
         775: 0.551,
         780: 0.55},
-    "neutral 6.5 (.44 D)": {
+    'neutral 6.5 (.44 D)': {
         380: 0.138,
         385: 0.167,
         390: 0.206,
@@ -1798,7 +1798,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.327,
         775: 0.326,
         780: 0.325},
-    "neutral 5 (.70 D)": {
+    'neutral 5 (.70 D)': {
         380: 0.113,
         385: 0.131,
         390: 0.15,
@@ -1880,7 +1880,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.184,
         775: 0.184,
         780: 0.183},
-    "neutral 3.5 (1.05 D)": {
+    'neutral 3.5 (1.05 D)': {
         380: 0.074,
         385: 0.079,
         390: 0.084,
@@ -1962,7 +1962,7 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
         770: 0.083,
         775: 0.083,
         780: 0.083},
-    "black 2 (1.5 D)": {
+    'black 2 (1.5 D)': {
         380: 0.032,
         385: 0.033,
         390: 0.033,
@@ -2055,7 +2055,7 @@ COLORCHECKER_N_OHTA_SPDS : dict
 """
 
 BABELCOLOR_AVERAGE_SPDS_DATA = {
-    "dark skin": {
+    'dark skin': {
         380: 0.055,
         390: 0.058,
         400: 0.061,
@@ -2092,7 +2092,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.187,
         720: 0.196,
         730: 0.209},
-    "light skin": {
+    'light skin': {
         380: 0.117,
         390: 0.143,
         400: 0.175,
@@ -2129,7 +2129,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.7,
         720: 0.717,
         730: 0.734},
-    "blue sky": {
+    'blue sky': {
         380: 0.13,
         390: 0.177,
         400: 0.251,
@@ -2166,7 +2166,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.132,
         720: 0.135,
         730: 0.147},
-    "foliage": {
+    'foliage': {
         380: 0.051,
         390: 0.054,
         400: 0.056,
@@ -2203,7 +2203,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.12,
         720: 0.125,
         730: 0.13},
-    "blue flower": {
+    'blue flower': {
         380: 0.144,
         390: 0.198,
         400: 0.294,
@@ -2240,7 +2240,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.365,
         720: 0.377,
         730: 0.398},
-    "bluish green": {
+    'bluish green': {
         380: 0.136,
         390: 0.179,
         400: 0.247,
@@ -2277,7 +2277,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.233,
         720: 0.229,
         730: 0.229},
-    "orange": {
+    'orange': {
         380: 0.054,
         390: 0.054,
         400: 0.053,
@@ -2314,7 +2314,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.663,
         720: 0.663,
         730: 0.667},
-    "purplish blue": {
+    'purplish blue': {
         380: 0.122,
         390: 0.164,
         400: 0.229,
@@ -2351,7 +2351,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.244,
         720: 0.287,
         730: 0.332},
-    "moderate red": {
+    'moderate red': {
         380: 0.096,
         390: 0.115,
         400: 0.131,
@@ -2388,7 +2388,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.609,
         720: 0.609,
         730: 0.61},
-    "purple": {
+    'purple': {
         380: 0.092,
         390: 0.116,
         400: 0.146,
@@ -2425,7 +2425,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.396,
         720: 0.436,
         730: 0.478},
-    "yellow green": {
+    'yellow green': {
         380: 0.061,
         390: 0.061,
         400: 0.062,
@@ -2462,7 +2462,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.381,
         720: 0.378,
         730: 0.379},
-    "orange yellow": {
+    'orange yellow': {
         380: 0.063,
         390: 0.063,
         400: 0.063,
@@ -2499,7 +2499,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.68,
         720: 0.684,
         730: 0.688},
-    "blue": {
+    'blue': {
         380: 0.066,
         390: 0.079,
         400: 0.102,
@@ -2536,7 +2536,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.052,
         720: 0.057,
         730: 0.065},
-    "green": {
+    'green': {
         380: 0.052,
         390: 0.053,
         400: 0.054,
@@ -2573,7 +2573,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.115,
         720: 0.114,
         730: 0.114},
-    "red": {
+    'red': {
         380: 0.05,
         390: 0.049,
         400: 0.048,
@@ -2610,7 +2610,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.73,
         720: 0.734,
         730: 0.738},
-    "yellow": {
+    'yellow': {
         380: 0.058,
         390: 0.054,
         400: 0.052,
@@ -2647,7 +2647,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.796,
         720: 0.799,
         730: 0.804},
-    "magenta": {
+    'magenta': {
         380: 0.145,
         390: 0.195,
         400: 0.283,
@@ -2684,7 +2684,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.812,
         720: 0.817,
         730: 0.825},
-    "cyan": {
+    'cyan': {
         380: 0.108,
         390: 0.141,
         400: 0.192,
@@ -2721,7 +2721,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.072,
         720: 0.074,
         730: 0.079},
-    "white 9.5 (.05 D)": {
+    'white 9.5 (.05 D)': {
         380: 0.189,
         390: 0.255,
         400: 0.423,
@@ -2758,7 +2758,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.93,
         720: 0.93,
         730: 0.933},
-    "neutral 8 (.23 D)": {
+    'neutral 8 (.23 D)': {
         380: 0.171,
         390: 0.232,
         400: 0.365,
@@ -2795,7 +2795,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.568,
         720: 0.566,
         730: 0.566},
-    "neutral 6.5 (.44 D)": {
+    'neutral 6.5 (.44 D)': {
         380: 0.144,
         390: 0.192,
         400: 0.272,
@@ -2832,7 +2832,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.334,
         720: 0.332,
         730: 0.331},
-    "neutral 5 (.70 D)": {
+    'neutral 5 (.70 D)': {
         380: 0.105,
         390: 0.131,
         400: 0.163,
@@ -2869,7 +2869,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.173,
         720: 0.172,
         730: 0.171},
-    "neutral 3.5 (1.05 D)": {
+    'neutral 3.5 (1.05 D)': {
         380: 0.068,
         390: 0.077,
         400: 0.084,
@@ -2906,7 +2906,7 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
         710: 0.081,
         720: 0.081,
         730: 0.081},
-    "black 2 (1.5 D)": {
+    'black 2 (1.5 D)': {
         380: 0.031,
         390: 0.032,
         400: 0.032,
@@ -2953,12 +2953,12 @@ Average data derived from measurements of 30 *ColourChecker* charts.
 BABELCOLOR_AVERAGE_SPDS : dict
 """
 
-COLOURCHECKERS_SPDS = {"BabelColor Average": BABELCOLOR_AVERAGE_SPDS,
-                       "ColorChecker N Ohta": COLORCHECKER_N_OHTA_SPDS}
+COLOURCHECKERS_SPDS = {'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
+                       'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS}
 """
 Aggregated *ColourCheckers* spectral power distributions.
 
 COLOURCHECKERS : dict
-    ("BabelColor Average", "ColorChecker N Ohta")
+    ('BabelColor Average', 'ColorChecker N Ohta')
 
 """

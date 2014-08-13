@@ -25,23 +25,23 @@ from colour.temperature.cct import (
     get_planckian_table,
     get_planckian_table_minimal_distance_index)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestGetPlanckianTable",
-           "TestGetPlanckianTableMinimalDistanceIndex",
-           "Testuv_to_CCT_ohno2013",
-           "TestCCT_to_uv_ohno2013",
-           "Testuv_to_CCT_robertson1968",
-           "TestCCT_to_uv_robertson1968",
-           "Testxy_to_CCT_mccamy1992",
-           "Testxy_to_CCT_hernandez1999",
-           "TestCCT_to_xy_kang2002",
-           "TestCCT_to_xy_illuminant_D"]
+__all__ = ['TestGetPlanckianTable',
+           'TestGetPlanckianTableMinimalDistanceIndex',
+           'Testuv_to_CCT_ohno2013',
+           'TestCCT_to_uv_ohno2013',
+           'Testuv_to_CCT_robertson1968',
+           'TestCCT_to_uv_robertson1968',
+           'Testxy_to_CCT_mccamy1992',
+           'Testxy_to_CCT_hernandez1999',
+           'TestCCT_to_xy_kang2002',
+           'TestCCT_to_xy_illuminant_D']
 
 PLANCKIAN_TABLE = [
     PLANCKIAN_TABLE_TUVD(Ti=1000.0, ui=0.44801089464064786,
@@ -180,7 +180,7 @@ class TestGetPlanckianTable(unittest.TestCase):
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
-            "CIE 1931 2 Degree Standard Observer")
+            'CIE 1931 2 Degree Standard Observer')
         to_tuple = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
             [to_tuple(x) for x in get_planckian_table((0.1978, 0.3122),
@@ -206,7 +206,7 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
-            "CIE 1931 2 Degree Standard Observer")
+            'CIE 1931 2 Degree Standard Observer')
         self.assertEqual(
             get_planckian_table_minimal_distance_index(
                 get_planckian_table((0.1978, 0.3122),
@@ -229,7 +229,7 @@ class Testuv_to_CCT_ohno2013(unittest.TestCase):
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
-            "CIE 1931 2 Degree Standard Observer")
+            'CIE 1931 2 Degree Standard Observer')
         np.testing.assert_almost_equal(
             uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs),
             (6507.5470349001507, 0.0032236908012382953),
@@ -258,7 +258,7 @@ class TestCCT_to_uv_ohno2013(unittest.TestCase):
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
-            "CIE 1931 2 Degree Standard Observer")
+            'CIE 1931 2 Degree Standard Observer')
         np.testing.assert_almost_equal(
             CCT_to_uv_ohno2013(
                 6507.4342201047066, 0.003223690901512735, cmfs),
@@ -418,5 +418,5 @@ class TestCCT_to_xy_illuminant_D(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

@@ -22,17 +22,17 @@ from colour.models import (
     get_RGB_luminance)
 from colour.models.derivation import xy_to_z
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["Testxy_to_z",
-           "TestGetNormalisedPrimaryMatrix",
-           "TestGetRGBLuminanceEquation",
-           "TestGetRGBLuminance"]
+__all__ = ['Testxy_to_z',
+           'TestGetNormalisedPrimaryMatrix',
+           'TestGetRGBLuminanceEquation',
+           'TestGetRGBLuminance']
 
 
 class Testxy_to_z(unittest.TestCase):
@@ -120,7 +120,7 @@ class TestGetRGBLuminanceEquation(unittest.TestCase):
                 (0.32168, 0.33767)), unicode)
 
         self.assertTrue(re.match(
-            r"Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)",
+            r'Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)',
             get_RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
@@ -171,5 +171,5 @@ class TestGetRGBLuminance(unittest.TestCase):
             places=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

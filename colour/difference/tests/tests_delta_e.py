@@ -19,17 +19,17 @@ else:
 
 import colour.difference.delta_e
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestDelta_E_CIE_1976",
-           "TestDelta_E_CIE_1994",
-           "TestDelta_E_CIE_2000",
-           "TestDelta_E_CMC"]
+__all__ = ['TestDelta_E_CIE_1976',
+           'TestDelta_E_CIE_1994',
+           'TestDelta_E_CIE_2000',
+           'TestDelta_E_CMC']
 
 
 class TestDelta_E_CIE_1976(unittest.TestCase):
@@ -213,5 +213,5 @@ class TestDelta_E_CMC(unittest.TestCase):
             places=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

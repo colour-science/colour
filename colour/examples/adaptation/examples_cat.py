@@ -21,16 +21,16 @@ print(colour.get_chromatic_adaptation_matrix(
 print(colour.get_chromatic_adaptation_matrix(
     source_XYZ_matrix,
     target_XYZ_matrix,
-    method="Bradford"))
+    method='Bradford'))
 
 # Using :mod:`colour.illuminants` data and :mod:`colour.models.cie_xyy`
 # transformations.
 A_illuminant = colour.ILLUMINANTS[
-    "CIE 1931 2 Degree Standard Observer"]["A"]
+    'CIE 1931 2 Degree Standard Observer']['A']
 D60_illuminant = colour.ILLUMINANTS[
-    "CIE 1931 2 Degree Standard Observer"]["D60"]
+    'CIE 1931 2 Degree Standard Observer']['D60']
 
 print(colour.get_chromatic_adaptation_matrix(
     colour.xy_to_XYZ(A_illuminant),
     colour.xy_to_XYZ(D60_illuminant),
-    method="Von Kries"))
+    method='Von Kries'))

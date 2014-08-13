@@ -17,14 +17,14 @@ else:
 
 from colour.algebra import linear_regression
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["Y", "X1", "X2", "TestLinearRegression"]
+__all__ = ['Y', 'X1', 'X2', 'TestLinearRegression']
 
 Y = np.array([1, 2, 1, 3, 2, 3, 3, 4, 4, 3, 5, 3, 3, 2, 4, 5, 5, 5, 4, 3])
 X1 = np.array([
@@ -96,5 +96,5 @@ class TestLinearRegression(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

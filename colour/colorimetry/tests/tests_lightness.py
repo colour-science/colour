@@ -19,16 +19,16 @@ from colour.colorimetry import (
     lightness_wyszecki1964,
     lightness_1976)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestLightnessGlasser1958",
-           "TestLightnessWyszecki1964",
-           "TestLightness1976"]
+__all__ = ['TestLightnessGlasser1958',
+           'TestLightnessWyszecki1964',
+           'TestLightness1976']
 
 
 class TestLightnessGlasser1958(unittest.TestCase):
@@ -108,5 +108,5 @@ class TestLightness1976(unittest.TestCase):
             places=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

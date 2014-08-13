@@ -20,17 +20,17 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["xy_to_z",
-           "get_normalised_primary_matrix",
-           "get_RGB_luminance_equation",
-           "get_RGB_luminance"]
+__all__ = ['xy_to_z',
+           'get_normalised_primary_matrix',
+           'get_RGB_luminance_equation',
+           'get_RGB_luminance']
 
 
 def xy_to_z(xy):
@@ -146,7 +146,7 @@ def get_RGB_luminance_equation(primaries, whitepoint):
     Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
     """
 
-    return "Y = {0}(R) + {1}(G) + {2}(B)".format(
+    return 'Y = {0}(R) + {1}(G) + {2}(B)'.format(
         *np.ravel(get_normalised_primary_matrix(primaries, whitepoint))[3:6])
 
 

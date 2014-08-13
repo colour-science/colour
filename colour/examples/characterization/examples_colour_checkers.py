@@ -10,7 +10,7 @@ from numpy import ravel
 import colour
 
 # Displaying :attr:`colour.colour_checkers.COLOURCHECKERS` data.
-name, data, illuminant = colour.COLOURCHECKERS["ColorChecker 2005"]
+name, data, illuminant = colour.COLOURCHECKERS['ColorChecker 2005']
 for index, name, x, y, Y in data:
     print(index, name, x, y, Y)
 
@@ -22,10 +22,10 @@ for index, name, x, y, Y in data:
             array([[x], [y], [Y]]),
             illuminant,
             colour.ILLUMINANTS[
-                "CIE 1931 2 Degree Standard Observer"]["D65"],
+                'CIE 1931 2 Degree Standard Observer']['D65'],
             colour.sRGB_COLOURSPACE.to_RGB,
-            "Bradford",
+            'Bradford',
             colour.sRGB_COLOURSPACE.transfer_function))
 
     RGB = [int(round(x * 255)) if x >= 0 else 0 for x in ravel(RGB)]
-    print("'{0}': {1}".format(name, RGB))
+    print('"{0}": {1}'.format(name, RGB))

@@ -34,44 +34,44 @@ import colour.adaptation.cat
 import colour.utilities.decorators
 
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["CIECAM02_SURROUND_FCNC",
-           "CIECAM02_VIEWING_CONDITION_PARAMETERS",
-           "HPE",
-           "CAT02_CAT_INVERSE",
-           "HUE_DATA_FOR_HUE_QUADRATURE",
-           "CIECAM02_JCHQMSH",
-           "get_luminance_level_adaptation_factor",
-           "get_chromatic_induction_factors",
-           "get_base_exponential_non_linearity",
-           "get_viewing_condition_dependent_parameters",
-           "get_degree_of_adaptation",
-           "apply_forward_full_chromatic_adaptation",
-           "RGB_to_HPE",
-           "apply_forward_post_adaptation_non_linear_response_compression",
-           "get_forward_opponent_colour_dimensions",
-           "get_hue_quadrature",
-           "get_forward_eccentricity_factor",
-           "get_forward_achromatic_response",
-           "get_lightness_correlate",
-           "get_brightness_correlate",
-           "get_chroma_correlate",
-           "get_colourfulness_correlate",
-           "get_saturation_correlate",
-           "XYZ_to_CIECAM02"]
+__all__ = ['CIECAM02_SURROUND_FCNC',
+           'CIECAM02_VIEWING_CONDITION_PARAMETERS',
+           'HPE',
+           'CAT02_CAT_INVERSE',
+           'HUE_DATA_FOR_HUE_QUADRATURE',
+           'CIECAM02_JCHQMSH',
+           'get_luminance_level_adaptation_factor',
+           'get_chromatic_induction_factors',
+           'get_base_exponential_non_linearity',
+           'get_viewing_condition_dependent_parameters',
+           'get_degree_of_adaptation',
+           'apply_forward_full_chromatic_adaptation',
+           'RGB_to_HPE',
+           'apply_forward_post_adaptation_non_linear_response_compression',
+           'get_forward_opponent_colour_dimensions',
+           'get_hue_quadrature',
+           'get_forward_eccentricity_factor',
+           'get_forward_achromatic_response',
+           'get_lightness_correlate',
+           'get_brightness_correlate',
+           'get_chroma_correlate',
+           'get_colourfulness_correlate',
+           'get_saturation_correlate',
+           'XYZ_to_CIECAM02']
 
-CIECAM02_SURROUND_FCNC = namedtuple("CIECAM02_Surround", ("F", "c", "Nc"))
+CIECAM02_SURROUND_FCNC = namedtuple('CIECAM02_Surround', ('F', 'c', 'Nc'))
 
 CIECAM02_VIEWING_CONDITION_PARAMETERS = {
-    "Average": CIECAM02_SURROUND_FCNC(1., 0.69, 1.),
-    "Dim": CIECAM02_SURROUND_FCNC(0.9, 0.59, 0.95),
-    "Dark": CIECAM02_SURROUND_FCNC(0.8, 0.525, 0.8)}
+    'Average': CIECAM02_SURROUND_FCNC(1., 0.69, 1.),
+    'Dim': CIECAM02_SURROUND_FCNC(0.9, 0.59, 0.95),
+    'Dark': CIECAM02_SURROUND_FCNC(0.8, 0.525, 0.8)}
 
 HPE = np.array([[0.38971, 0.68898, -0.07868],
                 [-0.22981, 1.18340, 0.04641],
@@ -82,12 +82,12 @@ HPE_INVERSE = np.linalg.inv(HPE)
 CAT02_CAT_INVERSE = np.linalg.inv(colour.adaptation.cat.CAT02_CAT)
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
-    "hi": np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
-    "ei": np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
-    "Hi": np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
+    'hi': np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
+    'ei': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
+    'Hi': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
 
-CIECAM02_JCHQMSH = namedtuple("CIECAM02_JChQMsH",
-                              ("J", "C", "h", "Q", "M", "s", "H"))
+CIECAM02_JCHQMSH = namedtuple('CIECAM02_JChQMsH',
+                              ('J', 'C', 'h', 'Q', 'M', 's', 'H'))
 
 _CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE = {}
 
@@ -481,9 +481,9 @@ def get_hue_quadrature(h):
     (Last accessed 30 July 2014)
     """
 
-    hi = HUE_DATA_FOR_HUE_QUADRATURE.get("hi")
-    ei = HUE_DATA_FOR_HUE_QUADRATURE.get("ei")
-    Hi = HUE_DATA_FOR_HUE_QUADRATURE.get("Hi")
+    hi = HUE_DATA_FOR_HUE_QUADRATURE.get('hi')
+    ei = HUE_DATA_FOR_HUE_QUADRATURE.get('ei')
+    Hi = HUE_DATA_FOR_HUE_QUADRATURE.get('Hi')
 
     hp = h + 360 if h < hi[0] else h
     index = bisect.bisect_left(hi, hp) - 1
@@ -800,7 +800,7 @@ def XYZ_to_CIECAM02(XYZ,
                     LA,
                     Yb,
                     surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get(
-                        "Average"),
+                        'Average'),
                     discount_illuminant=False):
     """
     Converts given *CIE XYZ* colourspace matrix to *CIECAM02* representation.
@@ -912,7 +912,7 @@ def CIECAM02_to_XYZ(JChQMsH,
                     LA,
                     Yb,
                     surround=CIECAM02_VIEWING_CONDITION_PARAMETERS.get(
-                        "Average"),
+                        'Average'),
                     discount_illuminant=False):
     XYZw = np.array(XYZw).reshape((3, 1))
     Xw, Yw, Zw = np.ravel(XYZw)

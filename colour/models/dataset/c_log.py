@@ -23,20 +23,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["C_LOG_PRIMARIES",
-           "C_LOG_WHITEPOINT",
-           "C_LOG_TO_XYZ_MATRIX",
-           "XYZ_TO_C_LOG_MATRIX",
-           "C_LOG_TRANSFER_FUNCTION",
-           "C_LOG_INVERSE_TRANSFER_FUNCTION",
-           "C_LOG_COLOURSPACE"]
+__all__ = ['C_LOG_PRIMARIES',
+           'C_LOG_WHITEPOINT',
+           'C_LOG_TO_XYZ_MATRIX',
+           'XYZ_TO_C_LOG_MATRIX',
+           'C_LOG_TRANSFER_FUNCTION',
+           'C_LOG_INVERSE_TRANSFER_FUNCTION',
+           'C_LOG_COLOURSPACE']
 
 C_LOG_PRIMARIES = np.array(
     [0.6400, 0.3300,
@@ -49,7 +49,7 @@ C_LOG_PRIMARIES : ndarray, (3, 2)
 """
 
 C_LOG_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *C-Log* colourspace whitepoint.
 
@@ -88,7 +88,7 @@ C_LOG_INVERSE_TRANSFER_FUNCTION : object
 """
 
 C_LOG_COLOURSPACE = RGB_Colourspace(
-    "C-Log",
+    'C-Log',
     C_LOG_PRIMARIES,
     C_LOG_WHITEPOINT,
     C_LOG_TO_XYZ_MATRIX,

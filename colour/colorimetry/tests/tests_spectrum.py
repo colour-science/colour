@@ -19,23 +19,23 @@ else:
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.colorimetry.spectrum import TriSpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["SAMPLE_SPD_DATA",
-           "NON_UNIFORM_SAMPLE_SPD_DATA",
-           "ZEROS_SAMPLE_SPD_DATA",
-           "INTERPOLATED_SAMPLE_SPD_DATA",
-           "INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA"
-           "NORMALISED_SAMPLE_SPD_DATA"
-           "CIE_1931_2_DEGREE_STANDARD_OBSERVER",
-           "CMFS_DATA",
-           "TestSpectralPowerDistribution",
-           "TestTriSpectralPowerDistribution"]
+__all__ = ['SAMPLE_SPD_DATA',
+           'NON_UNIFORM_SAMPLE_SPD_DATA',
+           'ZEROS_SAMPLE_SPD_DATA',
+           'INTERPOLATED_SAMPLE_SPD_DATA',
+           'INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA'
+           'NORMALISED_SAMPLE_SPD_DATA'
+           'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+           'CMFS_DATA',
+           'TestSpectralPowerDistribution',
+           'TestTriSpectralPowerDistribution']
 
 SAMPLE_SPD_DATA = {
     340: 0.0000,
@@ -1530,7 +1530,7 @@ NORMALISED_SAMPLE_SPD_DATA = np.array([
     0.0, ])
 
 CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
-    "x_bar": {
+    'x_bar': {
         380: 0.001368,
         385: 0.002236,
         390: 0.004243,
@@ -1612,7 +1612,7 @@ CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
         770: 0.000083,
         775: 0.000059,
         780: 0.000042},
-    "y_bar": {
+    'y_bar': {
         380: 0.000039,
         385: 0.000064,
         390: 0.000120,
@@ -1694,7 +1694,7 @@ CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
         770: 0.000030,
         775: 0.000021,
         780: 0.000015},
-    "z_bar": {
+    'z_bar': {
         380: 0.006450,
         385: 0.010550,
         390: 0.020050,
@@ -1872,10 +1872,10 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self.__spd = SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)
+        self.__spd = SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)
 
         self.__non_uniform_sample_spd = SpectralPowerDistribution(
-            "Non Uniform Sample",
+            'Non Uniform Sample',
             NON_UNIFORM_SAMPLE_SPD_DATA)
 
         self.__phi = (1. + math.sqrt(5)) / 2.
@@ -1885,11 +1885,11 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("name",
-                               "data",
-                               "wavelengths",
-                               "values",
-                               "shape")
+        required_attributes = ('name',
+                               'data',
+                               'wavelengths',
+                               'values',
+                               'shape')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralPowerDistribution))
@@ -1899,14 +1899,14 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ("get",
-                            "is_uniform",
-                            "extrapolate",
-                            "interpolate",
-                            "align",
-                            "zeros",
-                            "normalise",
-                            "clone")
+        required_methods = ('get',
+                            'is_uniform',
+                            'extrapolate',
+                            'interpolate',
+                            'align',
+                            'zeros',
+                            'normalise',
+                            'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralPowerDistribution))
@@ -2095,7 +2095,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution(
-            "",
+            '',
             dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
         spd.extrapolate(10, 50)
 
@@ -2169,33 +2169,33 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self.__mapping = {"x": "x_bar",
-                          "y": "y_bar",
-                          "z": "z_bar"}
+        self.__mapping = {'x': 'x_bar',
+                          'y': 'y_bar',
+                          'z': 'z_bar'}
 
-        self.__labels = {"x": "x_bar",
-                         "y": "y_bar",
-                         "z": "z_bar"}
+        self.__labels = {'x': 'x_bar',
+                         'y': 'y_bar',
+                         'z': 'z_bar'}
 
         self.__tri_spd = TriSpectralPowerDistribution(
-            name="Tri Spd",
+            name='Tri Spd',
             data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
             mapping=self.__mapping,
             labels=self.__labels)
 
         self.__sample_tri_spd = TriSpectralPowerDistribution(
-            name="Sample Tri Spd",
-            data={"x_bar": SAMPLE_SPD_DATA,
-                  "y_bar": SAMPLE_SPD_DATA,
-                  "z_bar": SAMPLE_SPD_DATA},
+            name='Sample Tri Spd',
+            data={'x_bar': SAMPLE_SPD_DATA,
+                  'y_bar': SAMPLE_SPD_DATA,
+                  'z_bar': SAMPLE_SPD_DATA},
             mapping=self.__mapping,
             labels=self.__labels)
 
         self.__non_uniform_sample_tri_spd = TriSpectralPowerDistribution(
-            name="Non Uniform Sample Tri spd",
-            data={"x_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
-                  "y_bar": NON_UNIFORM_SAMPLE_SPD_DATA,
-                  "z_bar": NON_UNIFORM_SAMPLE_SPD_DATA},
+            name='Non Uniform Sample Tri spd',
+            data={'x_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
+                  'y_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
+                  'z_bar': NON_UNIFORM_SAMPLE_SPD_DATA},
             mapping=self.__mapping,
             labels=self.__labels)
 
@@ -2206,16 +2206,16 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("name",
-                               "mapping",
-                               "labels",
-                               "data",
-                               "x",
-                               "y",
-                               "z",
-                               "wavelengths",
-                               "values",
-                               "shape")
+        required_attributes = ('name',
+                               'mapping',
+                               'labels',
+                               'data',
+                               'x',
+                               'y',
+                               'z',
+                               'wavelengths',
+                               'values',
+                               'shape')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(TriSpectralPowerDistribution))
@@ -2225,14 +2225,14 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ("get",
-                            "is_uniform",
-                            "extrapolate",
-                            "interpolate",
-                            "align",
-                            "zeros",
-                            "normalise",
-                            "clone")
+        required_methods = ('get',
+                            'is_uniform',
+                            'extrapolate',
+                            'interpolate',
+                            'align',
+                            'zeros',
+                            'normalise',
+                            'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(TriSpectralPowerDistribution))
@@ -2246,7 +2246,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self.__tri_spd.wavelengths,
-            sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get("x_bar")))
+            sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get('x_bar')))
 
     def test_values(self):
         """
@@ -2259,11 +2259,11 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             self.__tri_spd.values,
             np.array(tuple(zip(*(
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    "x_bar").items())],
+                    'x_bar').items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    "y_bar").items())],
+                    'y_bar').items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    "z_bar").items())])))))
+                    'z_bar').items())])))))
 
     def test_shape(self):
         """
@@ -2459,11 +2459,11 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
         tri_spd = TriSpectralPowerDistribution(
-            name="",
+            name='',
             mapping=self.__mapping,
-            data={"x_bar": spd_data,
-                  "y_bar": spd_data,
-                  "z_bar": spd_data},
+            data={'x_bar': spd_data,
+                  'y_bar': spd_data,
+                  'z_bar': spd_data},
             labels=self.__labels)
 
         tri_spd.extrapolate(10, 50)
@@ -2521,11 +2521,11 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         tri_spd = TriSpectralPowerDistribution(
-            name="",
+            name='',
             mapping=self.__mapping,
-            data={"x_bar": SAMPLE_SPD_DATA,
-                  "y_bar": SAMPLE_SPD_DATA,
-                  "z_bar": SAMPLE_SPD_DATA},
+            data={'x_bar': SAMPLE_SPD_DATA,
+                  'y_bar': SAMPLE_SPD_DATA,
+                  'z_bar': SAMPLE_SPD_DATA},
             labels=self.__labels).clone()
 
         tri_spd.zeros(steps=1)
@@ -2555,5 +2555,5 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         self.assertFalse(self.__tri_spd is self.__tri_spd.clone())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

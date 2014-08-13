@@ -23,18 +23,18 @@ from colour.models import (
     Luv_to_LCHuv,
     LCHuv_to_Luv)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestXYZ_to_Luv",
-           "TestLuv_to_XYZ",
-           "TestLuv_to_uv",
-           "TestLuv_to_LCHuv",
-           "TestLCHuv_to_Luv"]
+__all__ = ['TestXYZ_to_Luv',
+           'TestLuv_to_XYZ',
+           'TestLuv_to_uv',
+           'TestLuv_to_LCHuv',
+           'TestLCHuv_to_Luv']
 
 
 class TestXYZ_to_Luv(unittest.TestCase):
@@ -253,5 +253,5 @@ class TestLuv_uv_to_xy(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

@@ -22,18 +22,18 @@ from colour.colorimetry import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from colour.colorimetry import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.colorimetry import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
-           "TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs",
-           "TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
-           "TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
-           "TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs"]
+__all__ = ['TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+           'TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+           'TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+           'TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+           'TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 
 
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
@@ -51,7 +51,7 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
         np.testing.assert_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs.get(435),
@@ -83,7 +83,7 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        cmfs = CMFS.get("CIE 1964 10 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs.get(435),
@@ -115,7 +115,7 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        cmfs = CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
+        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
             cmfs.get(435),
@@ -147,7 +147,7 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        cmfs = CMFS.get("CIE 2012 2 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 2012 2 Degree Standard Observer')
         np.testing.assert_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs.get(435),
@@ -179,7 +179,7 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         """
 
         # TODO: Update test to tolerance matching.
-        cmfs = CMFS.get("CIE 2012 10 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 2012 10 Degree Standard Observer')
         np.testing.assert_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs.get(435),
@@ -196,5 +196,5 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
             decimal=1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

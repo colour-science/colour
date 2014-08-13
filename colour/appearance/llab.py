@@ -5,18 +5,18 @@ import logging
 
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
 __all__ = ['XYZ_to_LLAB']
 
 logger = logging.getLogger(__name__)
 
-LLAB_result = namedtuple("LLAB_result", ("h_L", "Ch_L", "s_L", "L_L", "A_L", "B_L"))
+LLAB_result = namedtuple('LLAB_result', ('h_L', 'Ch_L', 's_L', 'L_L', 'A_L', 'B_L'))
 
 
 def XYZ_to_LLAB(x, y, z, x_0, y_0, z_0, y_b, f_s, f_l, f_c, l, d=1):

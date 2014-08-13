@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["PROPHOTO_RGB_PRIMARIES",
-           "PROPHOTO_RGB_WHITEPOINT",
-           "PROPHOTO_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_PROPHOTO_RGB_MATRIX",
-           "PROPHOTO_RGB_TRANSFER_FUNCTION",
-           "PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION",
-           "PROPHOTO_RGB_COLOURSPACE"]
+__all__ = ['PROPHOTO_RGB_PRIMARIES',
+           'PROPHOTO_RGB_WHITEPOINT',
+           'PROPHOTO_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_PROPHOTO_RGB_MATRIX',
+           'PROPHOTO_RGB_TRANSFER_FUNCTION',
+           'PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION',
+           'PROPHOTO_RGB_COLOURSPACE']
 
 PROPHOTO_RGB_PRIMARIES = np.array(
     [0.7347, 0.2653,
@@ -48,7 +48,7 @@ PROPHOTO_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 PROPHOTO_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *ProPhoto RGB* colourspace whitepoint.
 
@@ -89,7 +89,7 @@ PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
-    "ProPhoto RGB",
+    'ProPhoto RGB',
     PROPHOTO_RGB_PRIMARIES,
     PROPHOTO_RGB_WHITEPOINT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,

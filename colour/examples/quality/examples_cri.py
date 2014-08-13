@@ -9,16 +9,16 @@ import colour
 
 # Calculating *colour rendering index* of *F2* illuminant.
 print(colour.get_colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")))
+    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')))
 
 # Calculating *colour rendering index* of *F2* illuminant with detailed data.
 print(colour.get_colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get("F2"),
+    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'),
     additional_data=True))
 
 # Calculating *colour rendering index* of *A* illuminant.
 print(colour.get_colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get("A")))
+    colour.ILLUMINANTS_RELATIVE_SPDS.get('A')))
 
 SAMPLE_SPD_DATA = {
     380: 0.005883458,
@@ -105,4 +105,4 @@ SAMPLE_SPD_DATA = {
 
 # Calculating *colour rendering index* of a sample light.
 print(colour.get_colour_rendering_index(
-    colour.SpectralPowerDistribution("Sample", SAMPLE_SPD_DATA)))
+    colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))

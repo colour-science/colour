@@ -9,4 +9,4 @@ from .fitting import first_order_colour_fit
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ["first_order_colour_fit"]
+__all__ += ['first_order_colour_fit']

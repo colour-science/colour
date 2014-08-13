@@ -17,14 +17,14 @@ else:
 
 from colour.algebra import is_identity
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestIsIdentity"]
+__all__ = ['TestIsIdentity']
 
 
 class TestIsIdentity(unittest.TestCase):
@@ -48,5 +48,5 @@ class TestIsIdentity(unittest.TestCase):
             is_identity(np.array([1, 2, 0, 1]).reshape(2, 2), n=2))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

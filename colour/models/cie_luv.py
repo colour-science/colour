@@ -29,24 +29,24 @@ from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_XYZ
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["XYZ_to_Luv",
-           "Luv_to_XYZ",
-           "Luv_to_uv",
-           "Luv_uv_to_xy",
-           "Luv_to_LCHuv",
-           "LCHuv_to_Luv"]
+__all__ = ['XYZ_to_Luv',
+           'Luv_to_XYZ',
+           'Luv_to_uv',
+           'Luv_uv_to_xy',
+           'Luv_to_LCHuv',
+           'LCHuv_to_Luv']
 
 
 def XYZ_to_Luv(XYZ,
                illuminant=ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
     Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
 
@@ -97,7 +97,7 @@ def XYZ_to_Luv(XYZ,
 
 def Luv_to_XYZ(Luv,
                illuminant=ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
 
@@ -152,9 +152,9 @@ def Luv_to_XYZ(Luv,
 
 def Luv_to_uv(Luv,
               illuminant=ILLUMINANTS.get(
-                  "CIE 1931 2 Degree Standard Observer").get("D50")):
+                  'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Returns the *u'v'* chromaticity coordinates from given *CIE Luv*
+    Returns the *u"v"* chromaticity coordinates from given *CIE Luv*
     colourspace matrix.
 
     Parameters
@@ -167,12 +167,12 @@ def Luv_to_uv(Luv,
     Returns
     -------
     tuple
-        *u'v'* chromaticity coordinates.
+        *u"v"* chromaticity coordinates.
 
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
-    -   Output *u'v'* chromaticity coordinates are in domain [0, 1].
+    -   Output *u"v"* chromaticity coordinates are in domain [0, 1].
 
     References
     ----------
@@ -193,12 +193,12 @@ def Luv_to_uv(Luv,
 def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
-    *u'v'* chromaticity coordinates.
+    *u"v"* chromaticity coordinates.
 
     Parameters
     ----------
     uv : array_like
-        *CIE Luv u'v'* chromaticity coordinates.
+        *CIE Luv u"v"* chromaticity coordinates.
 
     Returns
     -------
@@ -207,7 +207,7 @@ def Luv_uv_to_xy(uv):
 
     Notes
     -----
-    -   Input *u'v'* chromaticity coordinates are in domain [0, 1].
+    -   Input *u"v"* chromaticity coordinates are in domain [0, 1].
     -   Output *xy* is in domain [0, 1].
 
     References

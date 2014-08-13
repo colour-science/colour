@@ -17,14 +17,14 @@ else:
 
 from colour.models import XYZ_to_sRGB
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestXYZ_to_sRGB"]
+__all__ = ['TestXYZ_to_sRGB']
 
 
 class TestXYZ_to_sRGB(unittest.TestCase):
@@ -62,7 +62,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]),
-                        chromatic_adaptation_method="Bradford"),
+                        chromatic_adaptation_method='Bradford'),
             np.array([0.48224885, 0.31651974, 0.22070513]).reshape((3, 1)),
             decimal=7)
 
@@ -73,5 +73,5 @@ class TestXYZ_to_sRGB(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

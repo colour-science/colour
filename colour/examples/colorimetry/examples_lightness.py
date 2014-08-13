@@ -26,4 +26,4 @@ print(colour.lightness_wyszecki1964(Y))
 print(colour.lightness_1976(Y))
 # Retrieving *Lightness* using the wrapper:
 print(colour.get_lightness(Y))
-print(colour.get_lightness(Y, method="Lightness Wyszecki 1964"))
+print(colour.get_lightness(Y, method='Lightness Wyszecki 1964'))

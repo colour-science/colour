@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["EKTA_SPACE_PS_5_PRIMARIES",
-           "EKTA_SPACE_PS_5_WHITEPOINT",
-           "EKTA_SPACE_PS_5_TO_XYZ_MATRIX",
-           "XYZ_TO_EKTA_SPACE_PS_5_MATRIX",
-           "EKTA_SPACE_PS_5_TRANSFER_FUNCTION",
-           "EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION",
-           "EKTA_SPACE_PS_5_COLOURSPACE"]
+__all__ = ['EKTA_SPACE_PS_5_PRIMARIES',
+           'EKTA_SPACE_PS_5_WHITEPOINT',
+           'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
+           'XYZ_TO_EKTA_SPACE_PS_5_MATRIX',
+           'EKTA_SPACE_PS_5_TRANSFER_FUNCTION',
+           'EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION',
+           'EKTA_SPACE_PS_5_COLOURSPACE']
 
 EKTA_SPACE_PS_5_PRIMARIES = np.array(
     [0.6947368421052631, 0.30526315789473685,
@@ -48,7 +48,7 @@ EKTA_SPACE_PS_5_PRIMARIES : ndarray, (3, 2)
 """
 
 EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION : object
 """
 
 EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
-    "Ekta Space PS 5",
+    'Ekta Space PS 5',
     EKTA_SPACE_PS_5_PRIMARIES,
     EKTA_SPACE_PS_5_WHITEPOINT,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,

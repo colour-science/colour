@@ -6,18 +6,18 @@ from collections import namedtuple
 import numpy as np
 
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
 __all__ = ['XYZ_to_ATD95']
 
 logger = logging.getLogger(__name__)
 
-ATD95_result = namedtuple("ATD95_result", ("H", "Br", "C", 'a_1', 't_1', 'd_1', 'a_2', 't_2', 'd_2'))
+ATD95_result = namedtuple('ATD95_result', ('H', 'Br', 'C', 'a_1', 't_1', 'd_1', 'a_2', 't_2', 'd_2'))
 
 
 def XYZ_to_ATD95(x, y, z, x_0, y_0, z_0, y_0_abs, k_1, k_2, sigma=300):

@@ -20,17 +20,17 @@ import numpy as np
 
 from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs",
-           "RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs",
-           "RGB_10_degree_cmfs_to_LMS_10_degree_cmfs",
-           "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs"]
+__all__ = ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+           'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+           'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -72,12 +72,12 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.01135774,  0.004102  ,  0.        ])
     """
 
-    cmfs = RGB_CMFS.get("Wright & Guild 1931 2 Degree RGB CMFs")
+    cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-matching functions with '{2}' shape!".format(
+        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
+matching functions with "{2}" shape!'.format(
             wavelength, cmfs.name, cmfs.shape))
 
     r = r_bar / (r_bar + g_bar + b_bar)
@@ -91,7 +91,7 @@ matching functions with '{2}' shape!".format(
     z = ((0.00000 * r + 0.01000 * g + 0.99000 * b) /
          (0.66697 * r + 1.13240 * g + 1.20063 * b))
 
-    V = PHOTOPIC_LEFS.get("CIE 1924 Photopic Standard Observer").clone()
+    V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
     V.align(*cmfs.shape)
     L = V.get(wavelength)
 
@@ -142,12 +142,12 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([  9.64321500e-03,   3.75263179e-03,  -4.10788300e-06])
     """
 
-    cmfs = RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-matching functions with '{2}' shape!".format(
+        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
+matching functions with "{2}" shape!'.format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
@@ -190,12 +190,12 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     array([ 0.00528607,  0.00032528,  0.        ])
     """
 
-    cmfs = RGB_CMFS.get("Stiles & Burch 1959 10 Degree RGB CMFs")
+    cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
     r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
-        raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-matching functions with '{2}' shape!".format(
+        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
+matching functions with "{2}" shape!'.format(
             wavelength, cmfs.name, cmfs.shape))
 
     l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
@@ -238,12 +238,12 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.01096778,  0.00419594,  0.        ])
     """
 
-    cmfs = LMS_CMFS.get("Stockman & Sharpe 2 Degree Cone Fundamentals")
+    cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-matching functions with '{2}' shape!".format(
+        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
+matching functions with "{2}" shape!'.format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
@@ -285,12 +285,12 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([ 0.00981623,  0.00377614,  0.        ])
     """
 
-    cmfs = LMS_CMFS.get("Stockman & Sharpe 10 Degree Cone Fundamentals")
+    cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise KeyError("'{0} nm' wavelength not available in '{1}' colour \
-matching functions with '{2}' shape!".format(
+        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
+matching functions with "{2}" shape!'.format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar

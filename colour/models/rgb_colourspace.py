@@ -15,14 +15,14 @@ import numpy as np
 
 from colour.algebra import to_ndarray
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RGB_Colourspace"]
+__all__ = ['RGB_Colourspace']
 
 
 class RGB_Colourspace(object):
@@ -97,8 +97,8 @@ class RGB_Colourspace(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
-                    "name", value)
+                '"{0}" attribute: "{1}" type is not in "str" or "unicode"!'.format(
+                    'name', value)
         self.__name = value
 
     @property
@@ -155,8 +155,8 @@ class RGB_Colourspace(object):
 
         if value is not None:
             assert type(value) in (tuple, list, np.ndarray, np.matrix), \
-                "'{0}' attribute: '{1}' type is not 'tuple', 'list', 'ndarray' \
-or 'matrix'!".format("whitepoint", value)
+                '"{0}" attribute: "{1}" type is not "tuple", "list", "ndarray" \
+or "matrix"!'.format('whitepoint', value)
         self.__whitepoint = value
 
     @property
@@ -240,9 +240,9 @@ or 'matrix'!".format("whitepoint", value)
         """
 
         if value is not None:
-            assert hasattr(value, "__call__"), \
-                "'{0}' attribute: '{1}' is not callable!".format(
-                    "transfer_function", value)
+            assert hasattr(value, '__call__'), \
+                '"{0}" attribute: "{1}" is not callable!'.format(
+                    'transfer_function', value)
         self.__transfer_function = value
 
     @property
@@ -270,7 +270,7 @@ or 'matrix'!".format("whitepoint", value)
         """
 
         if value is not None:
-            assert hasattr(value, "__call__"), \
-                "'{0}' attribute: '{1}' is not callable!".format(
-                    "inverse_transfer_function", value)
+            assert hasattr(value, '__call__'), \
+                '"{0}" attribute: "{1}" is not callable!'.format(
+                    'inverse_transfer_function', value)
         self.__inverse_transfer_function = value

@@ -17,17 +17,17 @@ else:
 
 from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestXYZ_to_Lab",
-           "TestLab_to_XYZ",
-           "TestLab_to_LCHab",
-           "TestLCHab_to_Lab"]
+__all__ = ['TestXYZ_to_Lab',
+           'TestLab_to_XYZ',
+           'TestLab_to_LCHab',
+           'TestLCHab_to_Lab']
 
 
 class TestXYZ_to_Lab(unittest.TestCase):
@@ -174,5 +174,5 @@ class TestLCHab_to_Lab(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

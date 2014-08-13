@@ -21,20 +21,20 @@ from colour.models import (
     RGB_to_XYZ,
     RGB_to_RGB)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["sRGB_LINEAR_COLORCHECKER_2005",
-           "ACES_COLORCHECKER_2005",
-           "sRGB_TRANSFER_FUNCTION",
-           "sRGB_INVERSE_TRANSFER_FUNCTION",
-           "TestXYZ_to_RGB",
-           "TestRGB_to_XYZ",
-           "TestRGB_to_RGB"]
+__all__ = ['sRGB_LINEAR_COLORCHECKER_2005',
+           'ACES_COLORCHECKER_2005',
+           'sRGB_TRANSFER_FUNCTION',
+           'sRGB_INVERSE_TRANSFER_FUNCTION',
+           'TestXYZ_to_RGB',
+           'TestRGB_to_XYZ',
+           'TestRGB_to_RGB']
 
 sRGB_LINEAR_COLORCHECKER_2005 = [
     [[0.4316, 0.3777, 0.1008],
@@ -212,7 +212,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                         [3.24100326, -1.53739899, -0.49861587,
                          -0.96922426, 1.87592999, 0.04155422,
                          0.05563942, -0.2040112, 1.05714897]).reshape((3, 3)),
-                    "Bradford",
+                    'Bradford',
                     sRGB_TRANSFER_FUNCTION),
                 RGB,
                 decimal=7)
@@ -228,7 +228,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                          -4.95903023e-01, 1.37331305e+00, 9.82400365e-02,
                          0.00000000e+00, 0.00000000e+00, 9.91252022e-01]
                     ).reshape((3, 3)),
-                    "CAT02"),
+                    'CAT02'),
                 RGB,
                 decimal=7)
 
@@ -254,7 +254,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                         [0.41238656, 0.35759149, 0.18045049,
                          0.21263682, 0.71518298, 0.0721802,
                          0.01933062, 0.11919716, 0.95037259]).reshape((3, 3)),
-                    "Bradford",
+                    'Bradford',
                     sRGB_INVERSE_TRANSFER_FUNCTION),
                 np.array(XYZ).reshape((3, 1)),
                 decimal=7)
@@ -270,7 +270,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                          3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
                          0.00000000e+00, 0.00000000e+00, 1.00882518e+00]
                     ).reshape((3, 3)),
-                    "CAT02"),
+                    'CAT02'),
                 np.array(XYZ).reshape((3, 1)),
                 decimal=7)
 
@@ -286,8 +286,8 @@ class TestRGB_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.RGB_to_RGB` definition.
         """
 
-        aces_rgb_colourspace = RGB_COLOURSPACES.get("ACES RGB")
-        sRGB_colourspace = RGB_COLOURSPACES.get("sRGB")
+        aces_rgb_colourspace = RGB_COLOURSPACES.get('ACES RGB')
+        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
 
         np.testing.assert_almost_equal(
             RGB_to_RGB((0.35521588, 0.41, 0.24177934),
@@ -307,10 +307,10 @@ class TestRGB_to_RGB(unittest.TestCase):
             RGB_to_RGB((0.35521588, 0.41, 0.24177934),
                        aces_rgb_colourspace,
                        sRGB_colourspace,
-                       "Bradford"),
+                       'Bradford'),
             np.array([0.33704409, 0.44133521, 0.21429761]).reshape((3, 1)),
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

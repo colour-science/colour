@@ -20,27 +20,27 @@ except ImportError as error:
 import os
 from collections import namedtuple
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["COLOR_LOOKUP_CURVES_TEMPLATE",
-           "Point",
-           "CurvesInformation",
-           "Curve",
-           "Lookup",
-           "get_curve_data",
-           "parse_curve_data_header",
-           "parse_curve_data",
-           "get_curve_axis_values",
-           "get_curve",
-           "get_lookup",
-           "format_curve_data",
-           "get_color_lookup_node",
-           "import_curves_data_csv_file"]
+__all__ = ['COLOR_LOOKUP_CURVES_TEMPLATE',
+           'Point',
+           'CurvesInformation',
+           'Curve',
+           'Lookup',
+           'get_curve_data',
+           'parse_curve_data_header',
+           'parse_curve_data',
+           'get_curve_axis_values',
+           'get_curve',
+           'get_lookup',
+           'format_curve_data',
+           'get_color_lookup_node',
+           'import_curves_data_csv_file']
 
 COLOR_LOOKUP_CURVES_TEMPLATE = (
     """master {{{0}}}
@@ -49,9 +49,9 @@ COLOR_LOOKUP_CURVES_TEMPLATE = (
     blue {{{3}}}
     alpha {{{4}}}""")
 
-Point = namedtuple("Point", ("x", "y"))
-CurvesInformation = namedtuple("CurvesInformation",
-                               ("curve", "axis", "values"))
+Point = namedtuple('Point', ('x', 'y'))
+CurvesInformation = namedtuple('CurvesInformation',
+                               ('curve', 'axis', 'values'))
 
 class Curve(object):
     """
@@ -132,8 +132,8 @@ def get_curve_data(file):
         CSV data.
     """
 
-    with open(file, "rb") as csv_file:
-        return tuple(csv.reader(csv_file, delimiter=","))
+    with open(file, 'rb') as csv_file:
+        return tuple(csv.reader(csv_file, delimiter=','))
 
 
 def parse_curve_data_header(header):
@@ -221,8 +221,8 @@ def get_curve(curves_information, name):
         Curve.
     """
 
-    return Curve(x=get_curve_axis_values(curves_information, name, "x"),
-                 y=get_curve_axis_values(curves_information, name, "y"))
+    return Curve(x=get_curve_axis_values(curves_information, name, 'x'),
+                 y=get_curve_axis_values(curves_information, name, 'y'))
 
 
 def get_lookup(curves_information):
@@ -241,11 +241,11 @@ def get_lookup(curves_information):
         Lookup.
     """
 
-    return Lookup(get_curve(curves_information, "master"),
-                  get_curve(curves_information, "red"),
-                  get_curve(curves_information, "green"),
-                  get_curve(curves_information, "blue"),
-                  get_curve(curves_information, "alpha"))
+    return Lookup(get_curve(curves_information, 'master'),
+                  get_curve(curves_information, 'red'),
+                  get_curve(curves_information, 'green'),
+                  get_curve(curves_information, 'blue'),
+                  get_curve(curves_information, 'alpha'))
 
 
 def format_curve_data(curve):
@@ -263,11 +263,11 @@ def format_curve_data(curve):
         Formatted curve data.
     """
 
-    curve_data = ""
+    curve_data = ''
     for point in curve.points:
-        curve_data += "x{0} {1} ".format(point.x, point.y)
-    return "curve C {0}".format(
-        curve_data) if curve_data is not "" else "curve C 0 1"
+        curve_data += 'x{0} {1} '.format(point.x, point.y)
+    return 'curve C {0}'.format(
+        curve_data) if curve_data is not '' else 'curve C 0 1'
 
 
 def get_color_lookup_node(file, template=COLOR_LOOKUP_CURVES_TEMPLATE):
@@ -287,9 +287,9 @@ def get_color_lookup_node(file, template=COLOR_LOOKUP_CURVES_TEMPLATE):
         ColorLookup node.
     """
 
-    color_lookup = nuke.nodes.ColorLookup(name="ColourLookup")
+    color_lookup = nuke.nodes.ColorLookup(name='ColourLookup')
     lookup = get_lookup(parse_curve_data(get_curve_data(file)))
-    color_lookup.knob("lut").fromScript(
+    color_lookup.knob('lut').fromScript(
         template.format(format_curve_data(lookup.master_curve),
                         format_curve_data(lookup.red_curve),
                         format_curve_data(lookup.green_curve),
@@ -308,8 +308,8 @@ def import_curves_data_csv_file():
         ColorLookup node.
     """
 
-    file = nuke.getFilename("Choose ColorLookup Node Curves Data CSV File",
-                            "*.csv")
+    file = nuke.getFilename('Choose ColorLookup Node Curves Data CSV File',
+                            '*.csv')
     if file is not None:
         if os.path.exists(file):
             return get_color_lookup_node(file)

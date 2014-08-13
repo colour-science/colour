@@ -16,14 +16,14 @@ import numpy as np
 
 from colour.algebra import is_number, to_ndarray
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["Extrapolator1d"]
+__all__ = ['Extrapolator1d']
 
 
 class Extrapolator1d(object):
@@ -49,7 +49,7 @@ class Extrapolator1d(object):
     interpolator : object
         Interpolator object.
     method : unicode, optional
-        ("Linear", "Constant"),
+        ('Linear', 'Constant'),
         Extrapolation method.
     left : int or float, optional
         Value to return for x < xi[0].
@@ -90,7 +90,7 @@ class Extrapolator1d(object):
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
-    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method="Constant")
+    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant')
     >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
     array([ 3.,  3.,  5.,  5.])
 
@@ -99,14 +99,14 @@ class Extrapolator1d(object):
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
-    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method="Constant", left=0)
+    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant', left=0)
     >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
     array([ 0.,  0.,  5.,  5.])
     """
 
     def __init__(self,
                  interpolator=None,
-                 method="Linear",
+                 method='Linear',
                  left=None,
                  right=None):
 
@@ -144,12 +144,12 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert hasattr(value, "x"), \
-                "'{0}' attribute has no 'x' attribute!".format(
-                    "interpolator", value)
-            assert hasattr(value, "y"), \
-                "'{0}' attribute has no 'y' attribute!".format(
-                    "interpolator", value)
+            assert hasattr(value, 'x'), \
+                '"{0}" attribute has no "x" attribute!'.format(
+                    'interpolator', value)
+            assert hasattr(value, 'y'), \
+                '"{0}" attribute has no "y" attribute!'.format(
+                    'interpolator', value)
 
         self.__interpolator = value
 
@@ -179,8 +179,8 @@ class Extrapolator1d(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-                    "method", value)
+                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
+                    'method', value)
         self.__method = value
 
     @property
@@ -208,8 +208,8 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), "'{0}' attribute: '{1}' type is not \
-'int', 'long', 'float' or 'complex'!".format("left", value)
+            assert is_number(value), '"{0}" attribute: "{1}" type is not \
+"int", "long", "float" or "complex"!'.format('left', value)
         self.__left = value
 
     @property
@@ -237,8 +237,8 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), "'{0}' attribute: '{1}' type is not \
-'int', 'long', 'float' or 'complex'!".format("right", value)
+            assert is_number(value), '"{0}" attribute: "{1}" type is not \
+"int", "long", "float" or "complex"!'.format('right', value)
         self.__right = value
 
     def __call__(self, x):
@@ -283,12 +283,12 @@ class Extrapolator1d(object):
 
         y = np.empty_like(x)
 
-        if self.__method == "Linear":
+        if self.__method == 'Linear':
             y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
                             (yi[1] - yi[0]) / (xi[1] - xi[0]))
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self.__method == "Constant":
+        elif self.__method == 'Constant':
             y[x < xi[0]] = xi[0]
             y[x > xi[-1]] = xi[-1]
 

@@ -23,21 +23,21 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 from colour.utilities import Structure
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["REC_2020_PRIMARIES",
-           "REC_2020_WHITEPOINT",
-           "REC_2020_TO_XYZ_MATRIX",
-           "XYZ_TO_REC_2020_MATRIX",
-           "REC_2020_CONSTANTS",
-           "REC_2020_TRANSFER_FUNCTION",
-           "REC_2020_INVERSE_TRANSFER_FUNCTION",
-           "REC_2020_COLOURSPACE"]
+__all__ = ['REC_2020_PRIMARIES',
+           'REC_2020_WHITEPOINT',
+           'REC_2020_TO_XYZ_MATRIX',
+           'XYZ_TO_REC_2020_MATRIX',
+           'REC_2020_CONSTANTS',
+           'REC_2020_TRANSFER_FUNCTION',
+           'REC_2020_INVERSE_TRANSFER_FUNCTION',
+           'REC_2020_COLOURSPACE']
 
 REC_2020_PRIMARIES = np.array(
     [0.708, 0.292,
@@ -50,7 +50,7 @@ REC_2020_PRIMARIES : ndarray, (3, 2)
 """
 
 REC_2020_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *Rec. 2020* colourspace whitepoint.
 
@@ -155,7 +155,7 @@ REC_2020_INVERSE_TRANSFER_FUNCTION : object
 """
 
 REC_2020_COLOURSPACE = RGB_Colourspace(
-    "Rec. 2020",
+    'Rec. 2020',
     REC_2020_PRIMARIES,
     REC_2020_WHITEPOINT,
     REC_2020_TO_XYZ_MATRIX,

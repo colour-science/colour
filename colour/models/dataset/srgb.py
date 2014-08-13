@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["sRGB_PRIMARIES",
-           "sRGB_WHITEPOINT",
-           "sRGB_TO_XYZ_MATRIX",
-           "XYZ_TO_sRGB_MATRIX",
-           "sRGB_TRANSFER_FUNCTION",
-           "sRGB_INVERSE_TRANSFER_FUNCTION",
-           "sRGB_COLOURSPACE"]
+__all__ = ['sRGB_PRIMARIES',
+           'sRGB_WHITEPOINT',
+           'sRGB_TO_XYZ_MATRIX',
+           'XYZ_TO_sRGB_MATRIX',
+           'sRGB_TRANSFER_FUNCTION',
+           'sRGB_INVERSE_TRANSFER_FUNCTION',
+           'sRGB_COLOURSPACE']
 
 sRGB_PRIMARIES = np.array([
     0.6400, 0.3300,
@@ -48,7 +48,7 @@ sRGB_PRIMARIES : ndarray, (3, 2)
 """
 
 sRGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *sRGB* colourspace whitepoint.
 
@@ -89,7 +89,7 @@ sRGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 sRGB_COLOURSPACE = RGB_Colourspace(
-    "sRGB",
+    'sRGB',
     sRGB_PRIMARIES,
     sRGB_WHITEPOINT,
     sRGB_TO_XYZ_MATRIX,

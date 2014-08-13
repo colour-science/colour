@@ -13,14 +13,14 @@ from __future__ import unicode_literals
 
 import functools
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2008 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["memoize"]
+__all__ = ['memoize']
 
 
 def memoize(cache=None):

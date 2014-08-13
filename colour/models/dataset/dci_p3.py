@@ -21,20 +21,20 @@ import numpy as np
 
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["DCI_P3_PRIMARIES",
-           "DCI_P3_WHITEPOINT",
-           "DCI_P3_TO_XYZ_MATRIX",
-           "XYZ_TO_DCI_P3_MATRIX",
-           "DCI_P3_TRANSFER_FUNCTION",
-           "DCI_P3_INVERSE_TRANSFER_FUNCTION",
-           "DCI_P3_COLOURSPACE"]
+__all__ = ['DCI_P3_PRIMARIES',
+           'DCI_P3_WHITEPOINT',
+           'DCI_P3_TO_XYZ_MATRIX',
+           'XYZ_TO_DCI_P3_MATRIX',
+           'DCI_P3_TRANSFER_FUNCTION',
+           'DCI_P3_INVERSE_TRANSFER_FUNCTION',
+           'DCI_P3_COLOURSPACE']
 
 DCI_P3_PRIMARIES = np.array([
     0.680, 0.320,
@@ -85,7 +85,7 @@ DCI_P3_INVERSE_TRANSFER_FUNCTION : object
 """
 
 DCI_P3_COLOURSPACE = RGB_Colourspace(
-    "DCI-P3",
+    'DCI-P3',
     DCI_P3_PRIMARIES,
     DCI_P3_WHITEPOINT,
     DCI_P3_TO_XYZ_MATRIX,

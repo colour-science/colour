@@ -22,19 +22,19 @@ from colour.colorimetry import (
     spectral_to_XYZ,
     wavelength_to_XYZ)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RELATIVE_SPD_DATA",
-           "TestSpectral_to_XYZ",
-           "TestWavelength_to_XYZ"]
+__all__ = ['RELATIVE_SPD_DATA',
+           'TestSpectral_to_XYZ',
+           'TestWavelength_to_XYZ']
 
 RELATIVE_SPD_DATA = SpectralPowerDistribution(
-    "Custom", {
+    'Custom', {
         340: 0.0000,
         345: 0.0000,
         350: 0.0000,
@@ -148,21 +148,21 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         definition.
         """
 
-        cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
         np.testing.assert_almost_equal(
             spectral_to_XYZ(
                 RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get("A").clone().zeros(*cmfs.shape)),
+                ILLUMINANTS_RELATIVE_SPDS.get('A').clone().zeros(*cmfs.shape)),
             np.array([14.46371626, 10.85832347, 2.04664796]).reshape((3, 1)),
             decimal=7)
 
-        cmfs = CMFS.get("CIE 1964 10 Degree Standard Observer")
+        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
         np.testing.assert_almost_equal(
             spectral_to_XYZ(
                 RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get("C").clone().zeros(*cmfs.shape)),
+                ILLUMINANTS_RELATIVE_SPDS.get('C').clone().zeros(*cmfs.shape)),
             np.array([10.7704252, 9.44870313, 6.62742289]).reshape((3, 1)),
             decimal=7)
 
@@ -170,7 +170,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
             spectral_to_XYZ(
                 RELATIVE_SPD_DATA.zeros(*cmfs.shape),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get("F2").clone().zeros(
+                ILLUMINANTS_RELATIVE_SPDS.get('F2').clone().zeros(
                     *cmfs.shape)),
             np.array([11.57830745, 9.98744967, 3.95396539]).reshape((3, 1)),
             decimal=7)
@@ -191,24 +191,24 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480,
-                CMFS.get("CIE 1931 2 Degree Standard Observer")),
+                CMFS.get('CIE 1931 2 Degree Standard Observer')),
             np.array([0.09564, 0.13902, 0.81295]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480,
-                CMFS.get("CIE 2012 2 Degree Standard Observer")),
+                CMFS.get('CIE 2012 2 Degree Standard Observer')),
             np.array([0.08182895, 0.1788048, 0.7552379]).reshape((3, 1)),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 641.5,
-                CMFS.get("CIE 2012 2 Degree Standard Observer")),
+                CMFS.get('CIE 2012 2 Degree Standard Observer')),
             np.array([0.44575583, 0.18184213, 0.]).reshape((3, 1)),
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

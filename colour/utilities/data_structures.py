@@ -14,15 +14,15 @@ Defines various data structures classes:
 
 from __future__ import unicode_literals
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["Structure",
-           "Lookup"]
+__all__ = ['Structure',
+           'Lookup']
 
 
 class Structure(dict):
@@ -42,22 +42,22 @@ class Structure(dict):
 
     Examples
     --------
-    >>> person = colour.utilities.Structure(firstName="Doe", lastName="John", gender="male")
+    >>> person = colour.utilities.Structure(firstName='Doe', lastName='John', gender='male')
     >>> person.firstName
-    'Doe'
+    "Doe"
     >>> person.keys()
-    ['gender', 'firstName', 'lastName']
-    >>> person["gender"]
-    'male'
-    >>> del(person["gender"])
-    >>> person["gender"]
+    ["gender", "firstName", "lastName"]
+    >>> person['gender']
+    "male"
+    >>> del(person['gender'])
+    >>> person['gender']
     Traceback (most recent call last):
-      File "<console>", line 1, in <module>
-    KeyError: 'gender'
+      File '<console>', line 1, in <module>
+    KeyError: "gender"
     >>> person.gender
     Traceback (most recent call last):
-      File "<console>", line 1, in <module>
-    AttributeError: 'Structure' object has no attribute 'gender'
+      File '<console>', line 1, in <module>
+    AttributeError: "Structure" object has no attribute "gender"
     """
 
     def __init__(self, *args, **kwargs):
@@ -77,7 +77,7 @@ class Structure(dict):
         try:
             return dict.__getitem__(self, attribute)
         except KeyError:
-            raise AttributeError("'{0}' object has no attribute '{1}'".format(
+            raise AttributeError('"{0}" object has no attribute "{1}"'.format(
                 self.__class__.__name__, attribute))
 
     def __setattr__(self, attribute, value):
@@ -138,12 +138,12 @@ class Lookup(dict):
 
     Examples
     --------
-    >>> person = colour.utilities.Lookup(firstName="Doe", lastName="John", gender="male")
-    >>> person.get_first_key_from_value("Doe")
-    'firstName'
-    >>> persons = colour.utilities.Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
-    >>> persons.get_keys_from_value("Doe")
-    ['Jane', 'John']
+    >>> person = colour.utilities.Lookup(firstName='Doe', lastName='John', gender='male')
+    >>> person.get_first_key_from_value('Doe')
+    "firstName"
+    >>> persons = colour.utilities.Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
+    >>> persons.get_keys_from_value('Doe')
+    ["Jane", "John"]
     """
 
     def get_first_key_from_value(self, value):

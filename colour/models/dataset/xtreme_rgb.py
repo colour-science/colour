@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["XTREME_RGB_PRIMARIES",
-           "XTREME_RGB_WHITEPOINT",
-           "XTREME_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_XTREME_RGB_MATRIX",
-           "XTREME_RGB_TRANSFER_FUNCTION",
-           "XTREME_RGB_INVERSE_TRANSFER_FUNCTION",
-           "XTREME_RGB_COLOURSPACE"]
+__all__ = ['XTREME_RGB_PRIMARIES',
+           'XTREME_RGB_WHITEPOINT',
+           'XTREME_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_XTREME_RGB_MATRIX',
+           'XTREME_RGB_TRANSFER_FUNCTION',
+           'XTREME_RGB_INVERSE_TRANSFER_FUNCTION',
+           'XTREME_RGB_COLOURSPACE']
 
 XTREME_RGB_PRIMARIES = np.array(
     [1., 0.,
@@ -48,7 +48,7 @@ XTREME_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *Xtreme RGB* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ XTREME_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 XTREME_RGB_COLOURSPACE = RGB_Colourspace(
-    "Xtreme RGB",
+    'Xtreme RGB',
     XTREME_RGB_PRIMARIES,
     XTREME_RGB_WHITEPOINT,
     XTREME_RGB_TO_XYZ_MATRIX,

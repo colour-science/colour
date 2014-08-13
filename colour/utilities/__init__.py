@@ -8,8 +8,8 @@ from .data_structures import Lookup, Structure
 from .decorators import memoize
 from .verbose import warning
 
-__all__ = ["is_scipy_installed", "is_string"]
-__all__ += ["Lookup", "Structure"]
-__all__ += ["memoize"]
-__all__ += ["warning"]
+__all__ = ['is_scipy_installed', 'is_string']
+__all__ += ['Lookup', 'Structure']
+__all__ += ['memoize']
+__all__ += ['warning']
 

@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["ADOBE_RGB_1998_PRIMARIES",
-           "ADOBE_RGB_1998_WHITEPOINT",
-           "ADOBE_RGB_1998_TO_XYZ_MATRIX",
-           "XYZ_TO_ADOBE_RGB_1998_MATRIX",
-           "ADOBE_RGB_1998_TRANSFER_FUNCTION",
-           "ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION",
-           "ADOBE_RGB_1998_COLOURSPACE"]
+__all__ = ['ADOBE_RGB_1998_PRIMARIES',
+           'ADOBE_RGB_1998_WHITEPOINT',
+           'ADOBE_RGB_1998_TO_XYZ_MATRIX',
+           'XYZ_TO_ADOBE_RGB_1998_MATRIX',
+           'ADOBE_RGB_1998_TRANSFER_FUNCTION',
+           'ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION',
+           'ADOBE_RGB_1998_COLOURSPACE']
 
 ADOBE_RGB_1998_PRIMARIES = np.array(
     [0.6400, 0.3300,
@@ -48,7 +48,7 @@ ADOBE_RGB_1998_PRIMARIES : ndarray, (3, 2)
 """
 
 ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *Adobe RGB 1998* colourspace whitepoint.
 
@@ -92,7 +92,7 @@ ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
-    "Adobe RGB 1998",
+    'Adobe RGB 1998',
     ADOBE_RGB_1998_PRIMARIES,
     ADOBE_RGB_1998_WHITEPOINT,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,

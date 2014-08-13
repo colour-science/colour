@@ -19,16 +19,16 @@ from colour.colorimetry.luminance import (
     luminance_1976,
     luminance_ASTM_D1535_08)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestLuminanceNewhall1943",
-           "TestLuminance1976",
-           "TestLuminanceASTM_D1535_08"]
+__all__ = ['TestLuminanceNewhall1943',
+           'TestLuminance1976',
+           'TestLuminanceASTM_D1535_08']
 
 
 class TestLuminanceNewhall1943(unittest.TestCase):
@@ -108,5 +108,5 @@ class TestLuminanceASTM_D1535_08(unittest.TestCase):
             places=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

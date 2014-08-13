@@ -16,14 +16,14 @@ else:
 
 import colour.utilities.common
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2008 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestIsString"]
+__all__ = ['TestIsString']
 
 
 class TestIsString(unittest.TestCase):
@@ -37,13 +37,13 @@ class TestIsString(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_string` definition.
         """
 
-        self.assertTrue(colour.utilities.common.is_string(str("Hello World!")))
-        self.assertTrue(colour.utilities.common.is_string("Hello World!"))
-        self.assertTrue(colour.utilities.common.is_string(r"Hello World!"))
+        self.assertTrue(colour.utilities.common.is_string(str('Hello World!')))
+        self.assertTrue(colour.utilities.common.is_string('Hello World!'))
+        self.assertTrue(colour.utilities.common.is_string(r'Hello World!'))
         self.assertFalse(colour.utilities.common.is_string(1))
         self.assertFalse(colour.utilities.common.is_string([1]))
         self.assertFalse(colour.utilities.common.is_string({1: None}))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

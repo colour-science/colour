@@ -22,20 +22,20 @@ import numpy as np
 from  colour.colorimetry.dataset import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RUSSELL_RGB_PRIMARIES",
-           "RUSSELL_RGB_WHITEPOINT",
-           "RUSSELL_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_RUSSELL_RGB_MATRIX",
-           "RUSSELL_RGB_TRANSFER_FUNCTION",
-           "RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION",
-           "RUSSELL_RGB_COLOURSPACE"]
+__all__ = ['RUSSELL_RGB_PRIMARIES',
+           'RUSSELL_RGB_WHITEPOINT',
+           'RUSSELL_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_RUSSELL_RGB_MATRIX',
+           'RUSSELL_RGB_TRANSFER_FUNCTION',
+           'RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION',
+           'RUSSELL_RGB_COLOURSPACE']
 
 RUSSELL_RGB_PRIMARIES = np.array(
     [0.6900, 0.3100,
@@ -48,7 +48,7 @@ RUSSELL_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 RUSSELL_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D55")
+    'CIE 1931 2 Degree Standard Observer').get('D55')
 """
 *Russell RGB* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
-    "Russell RGB",
+    'Russell RGB',
     RUSSELL_RGB_PRIMARIES,
     RUSSELL_RGB_WHITEPOINT,
     RUSSELL_RGB_TO_XYZ_MATRIX,

@@ -16,14 +16,14 @@ from colour.models import xyY_to_XYZ
 from colour.optimal import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 from colour.utilities import is_scipy_installed
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["is_within_macadam_limits"]
+__all__ = ['is_within_macadam_limits']
 
 _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE = {}
 _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
@@ -49,7 +49,7 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
 
     if optimal_colour_stimuli is None:
         raise KeyError(
-            "'{0}' not found in factory optimal colour stimuli: '{1}'.".format(
+            '"{0}" not found in factory optimal colour stimuli: "{1}".'.format(
                 illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
@@ -84,9 +84,9 @@ def is_within_macadam_limits(xyY, illuminant):
 
     Examples
     --------
-    >>> colour.is_within_macadam_limits((0.3205, 0.4131, 0.51), "A"))
+    >>> colour.is_within_macadam_limits((0.3205, 0.4131, 0.51), 'A'))
     True
-    >>> colour.is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
+    >>> colour.is_within_macadam_limits((0.0005, 0.0031, 0.001), 'A'))
     False
     """
 

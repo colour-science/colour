@@ -24,22 +24,22 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["XYZ_to_xyY",
-           "xyY_to_XYZ",
-           "xy_to_XYZ",
-           "XYZ_to_xy"]
+__all__ = ['XYZ_to_xyY',
+           'xyY_to_XYZ',
+           'xy_to_XYZ',
+           'XYZ_to_xy']
 
 
 def XYZ_to_xyY(XYZ,
                illuminant=ILLUMINANTS.get(
-                   "CIE 1931 2 Degree Standard Observer").get("D50")):
+                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
     Converts from *CIE XYZ* colourspace to *CIE xyY* colourspace and reference
     *illuminant*.
@@ -155,7 +155,7 @@ def xy_to_XYZ(xy):
 
 def XYZ_to_xy(XYZ,
               illuminant=ILLUMINANTS.get(
-                  "CIE 1931 2 Degree Standard Observer").get("D50")):
+                  'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* colourspace
     matrix.

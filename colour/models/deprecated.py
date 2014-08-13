@@ -27,7 +27,7 @@ They are provided for convenience and completeness.
 
 Warning
 -------
-Don't use that! Seriously...
+Don"t use that! Seriously...
 
 References
 ----------
@@ -42,23 +42,23 @@ from __future__ import unicode_literals
 import math
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RGB_to_HSV",
-           "HSV_to_RGB",
-           "RGB_to_HSL",
-           "HSL_to_RGB",
-           "RGB_to_CMY",
-           "CMY_to_RGB",
-           "CMY_to_CMYK",
-           "CMYK_to_CMY",
-           "RGB_to_HEX",
-           "HEX_to_RGB"]
+__all__ = ['RGB_to_HSV',
+           'HSV_to_RGB',
+           'RGB_to_HSL',
+           'HSL_to_RGB',
+           'RGB_to_CMY',
+           'CMY_to_RGB',
+           'CMY_to_CMYK',
+           'CMYK_to_CMY',
+           'RGB_to_HEX',
+           'HEX_to_RGB']
 
 
 def RGB_to_HSV(RGB):
@@ -530,7 +530,7 @@ def RGB_to_HEX(RGB):
 
     RGB = np.ravel(RGB)
     R, G, B = map(int, RGB * 255.)
-    return "#{0:02x}{1:02x}{2:02x}".format(R, G, B)
+    return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
 
 
 def HEX_to_RGB(HEX):
@@ -553,14 +553,14 @@ def HEX_to_RGB(HEX):
 
     Examples
     --------
-    >>> HEX = "#aaddff"
+    >>> HEX = '#aaddff'
     >>> colour.models.deprecated.HEX_to_RGB(HEX)
     array([[ 0.66666667]
            [ 0.86666667]
            [ 1.        ]])
     """
 
-    HEX = HEX.lstrip("#")
+    HEX = HEX.lstrip('#')
     length = len(HEX)
     return np.array([int(HEX[i:i + length // 3], 16) for i in
                      range(0, length, length // 3)]).reshape((3, 1)) / 255.

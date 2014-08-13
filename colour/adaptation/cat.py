@@ -26,20 +26,20 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["XYZ_SCALING_CAT",
-           "BRADFORD_CAT",
-           "VON_KRIES_CAT",
-           "FAIRCHILD_CAT",
-           "CAT02_CAT",
-           "CHROMATIC_ADAPTATION_METHODS",
-           "get_chromatic_adaptation_matrix"]
+__all__ = ['XYZ_SCALING_CAT',
+           'BRADFORD_CAT',
+           'VON_KRIES_CAT',
+           'FAIRCHILD_CAT',
+           'CAT02_CAT',
+           'CHROMATIC_ADAPTATION_METHODS',
+           'get_chromatic_adaptation_matrix']
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
@@ -89,20 +89,20 @@ CAT02_CAT : array_like, (3, 3)
 """
 
 CHROMATIC_ADAPTATION_METHODS = {
-    "XYZ Scaling": XYZ_SCALING_CAT,
-    "Bradford": BRADFORD_CAT,
-    "Von Kries": VON_KRIES_CAT,
-    "Fairchild": FAIRCHILD_CAT,
-    "CAT02": CAT02_CAT}
+    'XYZ Scaling': XYZ_SCALING_CAT,
+    'Bradford': BRADFORD_CAT,
+    'Von Kries': VON_KRIES_CAT,
+    'Fairchild': FAIRCHILD_CAT,
+    'CAT02': CAT02_CAT}
 """
 Supported chromatic adaptation transform methods.
 
 CHROMATIC_ADAPTATION_METHODS : dict
-    ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02")
+    ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild, 'CAT02')
 """
 
 
-def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
+def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     """
     Returns the *chromatic adaptation* matrix from given source and target
     *CIE XYZ* colourspace *array_like* variables.
@@ -114,7 +114,7 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
     XYZ2 : array_like, (3, 1)
         *CIE XYZ* target *array_like* variable.
     method : unicode, optional
-        ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild, "CAT02"),
+        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild, 'CAT02'),
         Chromatic adaptation method.
 
     Returns
@@ -141,8 +141,8 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method="CAT02"):
 
     if method_matrix is None:
         raise KeyError(
-            "'{0}' chromatic adaptation method is not defined! \
-Supported methods: '{1}'.".format(
+            '"{0}" chromatic adaptation method is not defined! \
+Supported methods: "{1}".'.format(
                 method, CHROMATIC_ADAPTATION_METHODS.keys()))
 
     pyb_source = np.ravel(np.dot(method_matrix, XYZ1))

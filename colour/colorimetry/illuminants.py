@@ -20,14 +20,14 @@ import numpy as np
 from colour.colorimetry import D_ILLUMINANTS_S_SPDS
 from colour.colorimetry import SpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["D_illuminant_relative_spd"]
+__all__ = ['D_illuminant_relative_spd']
 
 
 def D_illuminant_relative_spd(xy):
@@ -69,12 +69,12 @@ def D_illuminant_relative_spd(xy):
     M2 = (0.0300 - 31.4424 * xy[0] + 30.0717 * xy[1]) / M
 
     distribution = {}
-    start, end, steps = D_ILLUMINANTS_S_SPDS.get("S0").shape
+    start, end, steps = D_ILLUMINANTS_S_SPDS.get('S0').shape
     for i in np.arange(start, end + steps, steps):
-        S0 = D_ILLUMINANTS_S_SPDS.get("S0").get(i)
-        S1 = D_ILLUMINANTS_S_SPDS.get("S1").get(i)
-        S2 = D_ILLUMINANTS_S_SPDS.get("S2").get(i)
+        S0 = D_ILLUMINANTS_S_SPDS.get('S0').get(i)
+        S1 = D_ILLUMINANTS_S_SPDS.get('S1').get(i)
+        S2 = D_ILLUMINANTS_S_SPDS.get('S2').get(i)
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution("CIE Standard Illuminant D Series",
+    return SpectralPowerDistribution('CIE Standard Illuminant D Series',
                                      distribution)

@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["DON_RGB_4_PRIMARIES",
-           "DON_RGB_4_WHITEPOINT",
-           "DON_RGB_4_TO_XYZ_MATRIX",
-           "XYZ_TO_DON_RGB_4_MATRIX",
-           "DON_RGB_4_TRANSFER_FUNCTION",
-           "DON_RGB_4_INVERSE_TRANSFER_FUNCTION",
-           "DON_RGB_4_COLOURSPACE"]
+__all__ = ['DON_RGB_4_PRIMARIES',
+           'DON_RGB_4_WHITEPOINT',
+           'DON_RGB_4_TO_XYZ_MATRIX',
+           'XYZ_TO_DON_RGB_4_MATRIX',
+           'DON_RGB_4_TRANSFER_FUNCTION',
+           'DON_RGB_4_INVERSE_TRANSFER_FUNCTION',
+           'DON_RGB_4_COLOURSPACE']
 
 DON_RGB_4_PRIMARIES = np.array(
     [0.69612068965517238, 0.29956896551724138,
@@ -48,7 +48,7 @@ DON_RGB_4_PRIMARIES : ndarray, (3, 2)
 """
 
 DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *Don RGB 4* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ DON_RGB_4_INVERSE_TRANSFER_FUNCTION : object
 """
 
 DON_RGB_4_COLOURSPACE = RGB_Colourspace(
-    "Don RGB 4",
+    'Don RGB 4',
     DON_RGB_4_PRIMARIES,
     DON_RGB_4_WHITEPOINT,
     DON_RGB_4_TO_XYZ_MATRIX,

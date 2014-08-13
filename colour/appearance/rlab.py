@@ -7,18 +7,18 @@ import numpy as np
 
 from colour.appearance import hunt
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
 __all__ = ['XYZ_to_RLAB']
 
 logger = logging.getLogger(__name__)
 
-RLAB_result = namedtuple("RLAB_result", ("h", "C", "s", "L", "a", "b"))
+RLAB_result = namedtuple('RLAB_result', ('h', 'C', 's', 'L', 'a', 'b'))
 
 R = np.array([[1.9569, -1.1882, 0.2313],
               [0.3612, 0.6388, 0],

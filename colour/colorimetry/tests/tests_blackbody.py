@@ -19,17 +19,17 @@ from colour.colorimetry import (
     planck_law,
     blackbody_spectral_power_distribution)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["PLANCK_LAW_DATA",
-           "BLACKBODY_SPD_DATA",
-           "TestPlanckLaw",
-           "TestBlackbodySpectralPowerDistribution"]
+__all__ = ['PLANCK_LAW_DATA',
+           'BLACKBODY_SPD_DATA',
+           'TestPlanckLaw',
+           'TestBlackbodySpectralPowerDistribution']
 
 PLANCK_LAW_DATA = {
     1667: {
@@ -4546,5 +4546,5 @@ class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

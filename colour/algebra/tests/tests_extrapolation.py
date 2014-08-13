@@ -18,14 +18,14 @@ else:
 from colour.algebra import Extrapolator1d
 from colour.algebra import LinearInterpolator1d
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestExtrapolator1d"]
+__all__ = ['TestExtrapolator1d']
 
 
 class TestExtrapolator1d(unittest.TestCase):
@@ -39,7 +39,7 @@ class TestExtrapolator1d(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("interpolator",)
+        required_attributes = ('interpolator',)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Extrapolator1d))
@@ -69,5 +69,5 @@ class TestExtrapolator1d(unittest.TestCase):
         self.assertEqual(extrapolator(4.), 4.)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

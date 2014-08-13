@@ -19,16 +19,16 @@ from colour.colorimetry import (
     mesopic_weighting_function,
     mesopic_luminous_efficiency_function)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["MESOPIC_LEF_SPD_DATA",
-           "TestMesopicWeightingFunction",
-           "TestMesopicLuminousEfficiencyFunction"]
+__all__ = ['MESOPIC_LEF_SPD_DATA',
+           'TestMesopicWeightingFunction',
+           'TestMesopicLuminousEfficiencyFunction']
 
 MESOPIC_LEF_SPD_DATA = np.array([
     0.000423996221042,
@@ -452,15 +452,15 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         self.assertAlmostEqual(
             mesopic_weighting_function(500,
                                        0.2,
-                                       source="Red Heavy",
-                                       method="LRC"),
+                                       source='Red Heavy',
+                                       method='LRC'),
             0.9095099999999999,
             places=7)
         self.assertAlmostEqual(
             mesopic_weighting_function(700,
                                        10,
-                                       source="Red Heavy",
-                                       method="LRC"),
+                                       source='Red Heavy',
+                                       method='LRC'),
             0.004102,
             places=7)
 
@@ -485,5 +485,5 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

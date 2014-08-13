@@ -11,12 +11,12 @@ colourspace.
 The optimal colour stimuli data is in the form of a *dict* of
 *tuple* as follows::
 
-    {"name": tuple, ..., "name": tuple}
+    {'name': tuple, ..., 'name': tuple}
 
 where each *tuple* contains a collection of optimal colour stimulus *tuple* as
 follows::
 
-     (("x", "y", "Y"), ..., ("x", "y", "Y"))
+     (('x', 'y', 'Y'), ..., ('x', 'y', 'Y'))
 
 References
 ----------
@@ -25,17 +25,17 @@ References
 
 from __future__ import unicode_literals
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["A_OPTIMAL_COLOUR_STIMULI",
-           "C_OPTIMAL_COLOUR_STIMULI",
-           "D65_OPTIMAL_COLOUR_STIMULI",
-           "ILLUMINANTS_OPTIMAL_COLOUR_STIMULI"]
+__all__ = ['A_OPTIMAL_COLOUR_STIMULI',
+           'C_OPTIMAL_COLOUR_STIMULI',
+           'D65_OPTIMAL_COLOUR_STIMULI',
+           'ILLUMINANTS_OPTIMAL_COLOUR_STIMULI']
 
 A_OPTIMAL_COLOUR_STIMULI = (
     (0.0000, 0.0000, 0),
@@ -744,6 +744,6 @@ References
 """
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = {
-    "A": A_OPTIMAL_COLOUR_STIMULI,
-    "C": C_OPTIMAL_COLOUR_STIMULI,
-    "D65": D65_OPTIMAL_COLOUR_STIMULI}
+    'A': A_OPTIMAL_COLOUR_STIMULI,
+    'C': C_OPTIMAL_COLOUR_STIMULI,
+    'D65': D65_OPTIMAL_COLOUR_STIMULI}
