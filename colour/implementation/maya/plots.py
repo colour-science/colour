@@ -144,7 +144,7 @@ def RGB_to_Lab(RGB, colourspace):
     """
 
     return XYZ_to_Lab(
-        RGB_to_XYZ(np.array(RGB).reshape((3, 1)),
+        RGB_to_XYZ(np.array(RGB),
                    colourspace.whitepoint,
                    ILLUMINANTS.get(
                        'CIE 1931 2 Degree Standard Observer').get('E'),

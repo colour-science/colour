@@ -51,7 +51,7 @@ def spectral_to_XYZ(spd,
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -74,9 +74,7 @@ def spectral_to_XYZ(spd,
     >>> spd = colour.SpectralPowerDistribution('Custom', data)
     >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get('D50')
     >>> colour.spectral_to_XYZ(spd, cmfs, illuminant)
-    array([[  4.57648522e-04],
-           [  1.29648668e-05],
-           [  2.16158075e-03]])
+    array([  4.57648522e-04,   1.29648668e-05,   2.16158075e-03])
     """
 
     shape = cmfs.shape
@@ -110,7 +108,7 @@ def spectral_to_XYZ(spd,
                     normalising_factor * np.sum(y_products),
                     normalising_factor * np.sum(z_products)])
 
-    return XYZ.reshape((3, 1))
+    return XYZ
 
 
 @memoize(_WAVELENGTH_TO_XYZ_CACHE)
@@ -136,7 +134,7 @@ def wavelength_to_XYZ(wavelength,
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -149,9 +147,7 @@ def wavelength_to_XYZ(wavelength,
     --------
     >>> cmfs = colour.CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> colour.wavelength_to_XYZ(480)
-    array([[ 0.09564  ],
-           [ 0.13902  ],
-           [ 0.8129501]])
+    array([ 0.09564  ,  0.13902  ,  0.8129501])
     """
 
     start, end, steps = cmfs.shape
@@ -169,6 +165,6 @@ def wavelength_to_XYZ(wavelength,
                          for i in range(values.shape[-1])]
 
         return np.array([interpolator(wavelength)
-                         for interpolator in interpolators]).reshape((3, 1))
+                         for interpolator in interpolators])
     else:
-        return np.array(cmfs.get(wavelength)).reshape((3, 1))
+        return np.array(cmfs.get(wavelength))

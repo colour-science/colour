@@ -50,35 +50,35 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([0.96907232, 1., 1.12179215])),
-            np.array([100., -11.27488915, -29.36041662]).reshape((3, 1)),
+            np.array([100., -11.27488915, -29.36041662]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([1.92001986, 1., -0.1241347])),
-            np.array([100., 331.44911128, 72.55258319]).reshape((3, 1)),
+            np.array([100., 331.44911128, 72.55258319]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686])),
-            np.array([100., -36.17788915, -111.00091702]).reshape((3, 1)),
+            np.array([100., -36.17788915, -111.00091702]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
                        (0.44757, 0.40745)),
-            np.array([100., -97.02442861, -158.08546907]).reshape((3, 1)),
+            np.array([100., -97.02442861, -158.08546907]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
                        (1. / 3., 1. / 3.)),
-            np.array([100., -37.95520989, -92.29247371]).reshape((3, 1)),
+            np.array([100., -37.95520989, -92.29247371]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([1.0131677, 1., 2.11217686]),
                        (0.31271, 0.32902)),
-            np.array([100., -21.44928374, -85.33481874]).reshape((3, 1)),
+            np.array([100., -21.44928374, -85.33481874]),
             decimal=7)
 
 
@@ -95,35 +95,35 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., -11.27488915, -29.36041662])),
-            np.array([0.96907232, 1., 1.12179215]).reshape((3, 1)),
+            np.array([0.96907232, 1., 1.12179215]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., 331.44911128, 72.55258319])),
-            np.array([1.92001986, 1., -0.1241347]).reshape((3, 1)),
+            np.array([1.92001986, 1., -0.1241347]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., -36.17788915, -111.00091702])),
-            np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., -97.02442861, -158.08546907]),
                        (0.44757, 0.40745)),
-            np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., -37.95520989, -92.29247371]),
                        (1. / 3., 1. / 3.)),
-            np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([100., -21.44928374, -85.33481874]),
                        (0.31271, 0.32902)),
-            np.array([1.0131677, 1., 2.11217686]).reshape((3, 1)),
+            np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
 
@@ -185,17 +185,17 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(np.array([100., -11.27488915, -29.36041662])),
-            np.array([100., 31.45086945, 248.99237865]).reshape((3, 1)),
+            np.array([100., 31.45086945, 248.99237865]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(np.array([100., 331.44911128, 72.55258319])),
-            np.array([100., 339.2969064, 12.34702048]).reshape((3, 1)),
+            np.array([100., 339.2969064, 12.34702048]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(np.array([100., -36.17788915, -111.00091702])),
-            np.array([100., 116.74777618, 251.94795555]).reshape((3, 1)),
+            np.array([100., 116.74777618, 251.94795555]),
             decimal=7)
 
 
@@ -212,17 +212,17 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             LCHuv_to_Luv(np.array([100., 31.45086945, 248.99237865])),
-            np.array([100., -11.27488915, -29.36041662]).reshape((3, 1)),
+            np.array([100., -11.27488915, -29.36041662]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             LCHuv_to_Luv(np.array([100., 339.2969064, 12.34702048])),
-            np.array([100., 331.44911128, 72.55258319]).reshape((3, 1)),
+            np.array([100., 331.44911128, 72.55258319]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             LCHuv_to_Luv(np.array([100., 116.74777618, 251.94795555])),
-            np.array([100., -36.17788915, -111.00091702]).reshape((3, 1)),
+            np.array([100., -36.17788915, -111.00091702]),
             decimal=7)
 
 

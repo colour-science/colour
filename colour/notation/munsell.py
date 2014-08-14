@@ -1096,7 +1096,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     Parameters
     ----------
-    LCHab : array_like, (3, 1)
+    LCHab : array_like, (3,)
         *CIE LCHab* colourspace matrix.
 
     Returns
@@ -1323,7 +1323,7 @@ def munsell_specification_to_xyY(specification):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE xyY* colourspace matrix.
 
     Notes
@@ -1342,14 +1342,10 @@ def munsell_specification_to_xyY(specification):
     Examples
     --------
     >>> spc = (2.1, 8.0, 17.9, 4)
-    >>> colour.notation.munsell.colour.munsell_specification_to_xyY(spc)
-    array([[ 0.4400632 ]
-           [ 0.5522428 ]
-           [ 0.57619628]])
-    >>> colour.notation.munsell.colour.munsell_colour_to_xyY(8.9)
-    array([[ 0.31006  ]
-           [ 0.31616  ]
-           [ 0.7461345]])
+    >>> colour.notation.munsell.munsell_specification_to_xyY(spc)
+    array([ 0.4400632 ,  0.5522428 ,  0.57619628])
+    >>> colour.notation.munsell.munsell_specification_to_xyY(8.9)
+    array([ 0.31006  ,  0.31616  ,  0.7461345])
     """
 
     if is_grey_munsell_colour(specification):
@@ -1392,7 +1388,7 @@ def munsell_specification_to_xyY(specification):
         x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
         y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
-    return np.array([x, y, Y / 100.]).reshape((3, 1))
+    return np.array([x, y, Y / 100.])
 
 
 def munsell_colour_to_xyY(munsell_colour):
@@ -1406,7 +1402,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE xyY* colourspace matrix.
 
     Notes
@@ -1416,13 +1412,9 @@ def munsell_colour_to_xyY(munsell_colour):
     Examples
     --------
     >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
-    array([[ 0.38736945]
-           [ 0.35751656]
-           [ 0.59362   ]])
+    array([ 0.38736945,  0.35751656,  0.59362   ])
     >>> colour.munsell_colour_to_xyY('N8.9')
-    array([[ 0.31006  ]
-           [ 0.31616  ]
-           [ 0.7461345]])
+    array([ 0.31006  ,  0.31616  ,  0.7461345])
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -1435,7 +1427,7 @@ def xyY_to_munsell_specification(xyY):
 
     Parameters
     ----------
-    xyY : array_like, (3, 1)
+    xyY : array_like, (3,)
         *CIE xyY* colourspace matrix.
 
     Returns
@@ -1676,7 +1668,7 @@ def xyY_to_munsell_colour(xyY,
 
     Parameters
     ----------
-    xyY : array_like, (3, 1)
+    xyY : array_like, (3,)
         *CIE xyY* colourspace matrix.
     hue_decimals : int
         Hue formatting decimals.

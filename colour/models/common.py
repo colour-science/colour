@@ -35,7 +35,7 @@ def XYZ_to_sRGB(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
@@ -47,7 +47,7 @@ def XYZ_to_sRGB(XYZ,
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *sRGB* colour matrix.
 
     Notes
@@ -57,9 +57,7 @@ def XYZ_to_sRGB(XYZ,
     Examples
     --------
     >>> colour.XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([[ 0.48224885],
-           [ 0.31651974],
-           [ 0.22070513]])
+    array([ 0.48224885,  0.31651974,  0.22070513])
     """
 
     sRGB = RGB_COLOURSPACES.get('sRGB')

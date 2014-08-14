@@ -41,12 +41,12 @@ def XYZ_to_UCS(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE UCS* colourspace matrix.
 
     Notes
@@ -62,16 +62,14 @@ def XYZ_to_UCS(XYZ):
     Examples
     --------
     >>> colour.XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([[ 0.07870556]
-          [ 0.1034    ]
-          [ 0.12182529]])
+    array([ 0.07870556,  0.1034    ,  0.12182529])
     """
 
     X, Y, Z = np.ravel(XYZ)
 
     return np.array([2. / 3. * X,
                      Y,
-                     1. / 2. * (-X + 3. * Y + Z)]).reshape((3, 1))
+                     1. / 2. * (-X + 3. * Y + Z)])
 
 
 def UCS_to_XYZ(UVW):
@@ -80,12 +78,12 @@ def UCS_to_XYZ(UVW):
 
     Parameters
     ----------
-    UVW : array_like, (3, 1)
+    UVW : array_like, (3,)
         *CIE UCS* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -101,15 +99,13 @@ def UCS_to_XYZ(UVW):
     Examples
     --------
     >>> colour.UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529]))
-    array([[ 0.11805834]
-           [ 0.1034    ]
-           [ 0.05150892]])
+    array([ 0.11805834,  0.1034    ,  0.05150892])
     """
 
     U, V, W = np.ravel(UVW)
 
     return np.array(
-        [3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)]).reshape((3, 1))
+        [3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)])
 
 
 def UCS_to_uv(UVW):
@@ -119,7 +115,7 @@ def UCS_to_uv(UVW):
 
     Parameters
     ----------
-    UVW : array_like, (3, 1)
+    UVW : array_like, (3,)
         *CIE UCS* colourspace matrix.
 
     Returns

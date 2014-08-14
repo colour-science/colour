@@ -48,14 +48,14 @@ def XYZ_to_Lab(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE Lab* colourspace matrix.
 
     Notes
@@ -72,9 +72,7 @@ def XYZ_to_Lab(XYZ,
     Examples
     --------
     >>> colour.XYZ_to_Lab(np.array([0.92193107, 1., 1.03744246]))
-    array([[ 100.        ]
-           [  -7.41787844]
-           [ -15.85742105]])
+    array([ 100.        ,   -7.41787844,  -15.85742105])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -92,7 +90,7 @@ def XYZ_to_Lab(XYZ,
     a = 500. * (fx - fy)
     b = 200. * (fy - fz)
 
-    return np.array([L, a, b]).reshape((3, 1))
+    return np.array([L, a, b])
 
 
 def Lab_to_XYZ(Lab,
@@ -103,14 +101,14 @@ def Lab_to_XYZ(Lab,
 
     Parameters
     ----------
-    Lab : array_like, (3, 1)
+    Lab : array_like, (3,)
         *CIE Lab* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -127,9 +125,7 @@ def Lab_to_XYZ(Lab,
     Examples
     --------
     >>> colour.Lab_to_XYZ(np.array([100., -7.41787844, -15.85742105]))
-    array([[ 0.92193107]
-           [ 0.11070565]
-           [ 1.03744246]])
+    array([ 0.92193107,  1.        ,  1.03744246])
     """
 
     L, a, b = np.ravel(Lab)
@@ -147,7 +143,7 @@ def Lab_to_XYZ(Lab,
     Y = yr * Yr
     Z = zr * Zr
 
-    return np.array([X, Y, Z]).reshape((3, 1))
+    return np.array([X, Y, Z])
 
 
 def Lab_to_LCHab(Lab):
@@ -156,12 +152,12 @@ def Lab_to_LCHab(Lab):
 
     Parameters
     ----------
-    Lab : array_like, (3, 1)
+    Lab : array_like, (3,)
         *CIE Lab* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE LCHab* colourspace matrix.
 
     Notes
@@ -176,9 +172,7 @@ def Lab_to_LCHab(Lab):
     Examples
     --------
     >>> colour.Lab_to_LCHab(np.array([100., -7.41787844, -15.85742105]))
-    array([[ 100.        ]
-           [  17.50664796]
-           [ 244.93046842]])
+    array([ 100.        ,   17.50664796,  244.93046842])
     """
 
     L, a, b = np.ravel(Lab)
@@ -187,7 +181,7 @@ def Lab_to_LCHab(Lab):
     if H < 0.:
         H += 360.
 
-    return np.array([L, math.sqrt(a ** 2 + b ** 2), H]).reshape((3, 1))
+    return np.array([L, math.sqrt(a ** 2 + b ** 2), H])
 
 
 def LCHab_to_Lab(LCHab):
@@ -196,12 +190,12 @@ def LCHab_to_Lab(LCHab):
 
     Parameters
     ----------
-    LCHab : array_like, (3, 1)
+    LCHab : array_like, (3,)
         *CIE LCHab* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE Lab* colourspace matrix.
 
     Notes
@@ -216,14 +210,11 @@ def LCHab_to_Lab(LCHab):
     Examples
     --------
     >>> colour.LCHab_to_Lab(np.array([100., 17.50664796, 244.93046842]))
-    array([[ 100.        ]
-           [  -7.41787844]
-           [ -15.85742105]])
-
+    array([ 100.        ,   -7.41787844,  -15.85742105])
     """
 
     L, C, H = np.ravel(LCHab)
 
     return np.array([L,
                      C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))]).reshape((3, 1))
+                     C * math.sin(math.radians(H))])

@@ -38,7 +38,6 @@ import numpy as np
 import colour.adaptation.cat
 import colour.utilities.decorators
 
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -294,9 +293,7 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
     >>> LA = 318.31
     >>> Yb = 20.0
     >>> colour.CIECAM02_to_XYZ(specification, XYZw, LA, Yb)
-    array([[ 19.01],
-           [ 20.  ],
-           [ 21.78]])
+    array([ 19.01,  20.  ,  21.78])
     """
 
     XYZw = np.array(XYZw).reshape((3, 1))
@@ -519,7 +516,7 @@ def forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         Adapted *RGB* matrix.
 
     Examples
@@ -529,9 +526,7 @@ def forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     >>> Yw = 100.0
     >>> D = 0.994468780088
     >>> colour.appearance.ciecam02.forward_full_chromatic_adaptation(RGB, RGBw, Yw, D)
-    array([[ 19.99370783],
-           [ 20.00393634],
-           [ 20.01326387]])
+    array([ 19.99370783,  20.00393634,  20.01326387])
     """
 
     R, G, B = np.ravel(RGB)
@@ -543,7 +538,7 @@ def forward_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     Gc = equation(G, Gw)
     Bc = equation(B, Bw)
 
-    return np.array([Rc, Gc, Bc]).reshape((3, 1))
+    return np.array([Rc, Gc, Bc])
 
 
 def reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
@@ -565,7 +560,7 @@ def reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         Adapted *RGB* matrix.
 
     Examples
@@ -575,9 +570,7 @@ def reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     >>> Yw = 100.0
     >>> D = 0.994468780088
     >>> colour.appearance.ciecam02.reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D)
-    array([[ 18.985456],
-           [ 20.707422],
-           [ 21.747482]])
+    array([ 18.985456,  20.707422,  21.747482])
     """
 
     R, G, B = np.ravel(RGB)
@@ -589,7 +582,7 @@ def reverse_full_chromatic_adaptation(RGB, RGBw, Yw, D):
     Gc = equation(G, Gw)
     Bc = equation(B, Bw)
 
-    return np.array([Rc, Gc, Bc]).reshape((3, 1))
+    return np.array([Rc, Gc, Bc])
 
 
 def RGB_to_HPE(RGB):
@@ -603,20 +596,18 @@ def RGB_to_HPE(RGB):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *Hunt-Pointer-Estevez* colourspace matrix.
 
     Examples
     --------
     >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
     >>> colour.appearance.ciecam02.RGB_to_HPE(RGB)
-    array([[ 19.99693975],
-           [ 20.00186123],
-           [ 20.0135053 ]])
+    array([ 19.99693975,  20.00186123,  20.0135053 ])
     """
 
     pyb = np.dot(np.dot(HPE, CAT02_CAT_INVERSE), RGB)
-    return pyb.reshape((3, 1))
+    return pyb
 
 
 def HPE_to_RGB(pyb):
@@ -630,19 +621,17 @@ def HPE_to_RGB(pyb):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *RGB* matrix.
 
     Examples
     --------
     >>> HPE = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> colour.appearance.ciecam02.HPE_to_RGB(HPE)
-    array([[ 19.99370783],
-           [ 20.00393634],
-           [ 20.01326387]])
+    array([ 19.99370783,  20.00393634,  20.01326387])
     """
     RGB = np.dot(np.dot(colour.adaptation.cat.CAT02_CAT, HPE_INVERSE), pyb)
-    return RGB.reshape((3, 1))
+    return RGB
 
 
 def post_adaptation_non_linear_response_compression_forward(RGB, FL):
@@ -657,7 +646,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, FL):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
 
     Examples
@@ -665,14 +654,12 @@ def post_adaptation_non_linear_response_compression_forward(RGB, FL):
     >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> FL = 1.16754446415
     >>> colour.appearance.ciecam02.post_adaptation_non_linear_response_compression_forward(RGB, FL)
-    array([[ 7.9463202 ],
-           [ 7.94711528],
-           [ 7.94899595]])
+    array([ 7.9463202 ,  7.94711528,  7.94899595])
     """
 
     # TODO: Check for negative values and their handling.
     RGBc = ((((400. * (FL * RGB / 100) ** 0.42) /
-              (27.13 + (FL * RGB / 100) ** 0.42))) + 0.1).reshape((3, 1))
+              (27.13 + (FL * RGB / 100) ** 0.42))) + 0.1)
     return RGBc
 
 
@@ -688,7 +675,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, FL):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         Uncompressed *CMCCAT2000* transform sharpened *RGB* matrix.
 
     Examples
@@ -1213,7 +1200,7 @@ def get_post_adaptation_non_linear_response_compression_matrix(P2, a, b):
 
     Returns
     -------
-    tuple
+    ndarray, (3,)
         Points :math:`P`.
 
     Examples
@@ -1222,11 +1209,11 @@ def get_post_adaptation_non_linear_response_compression_matrix(P2, a, b):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> colour.appearance.ciecam02.get_post_adaptation_non_linear_response_compression_matrix(P2, a, b)
-    (30162.8908154037, 24.23720546710714, 1.05)
+    array([ 7.9463202 ,  7.94711528,  7.94899595])
     """
 
     Ra = (460. * P2 + 451. * a + 288. * b) / 1403.
     Ga = (460. * P2 - 891. * a - 261. * b) / 1403.
     Ba = (460. * P2 - 220. * a - 6300. * b) / 1403.
 
-    return np.ravel([Ra, Ga, Ba]).reshape((3, 1))
+    return np.array([Ra, Ga, Ba])

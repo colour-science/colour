@@ -40,14 +40,14 @@ def XYZ_to_UVW(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE 1964 U\*V*\W\** colourspace matrix.
 
     Notes
@@ -62,9 +62,7 @@ def XYZ_to_UVW(XYZ,
     Examples
     --------
     >>> colour.XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229]))
-    array([[ 24.25433719]
-           [  7.22054843]
-           [ 37.46450007]])
+    array([ 24.25433719,   7.22054843,  37.46450007])
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))
@@ -75,4 +73,4 @@ def XYZ_to_UVW(XYZ,
     U = 13. * W * (u - u0)
     V = 13. * W * (v - v0)
 
-    return np.array([U, V, W]).reshape((3, 1))
+    return np.array([U, V, W])

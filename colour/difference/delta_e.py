@@ -31,9 +31,9 @@ def delta_E_CIE_1976(lab1, lab2):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
 
     float
@@ -61,9 +61,9 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
     textiles : bool, optional
         Application specific weights.
@@ -126,9 +126,9 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
 
     Returns
@@ -234,9 +234,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
     l : float, optional
         Lightness weighting factor.

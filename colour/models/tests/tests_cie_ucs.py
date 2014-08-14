@@ -44,17 +44,17 @@ class TestXYZ_to_UCS(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_UCS(np.array([11.80583421, 10.34, 5.15089229])),
-            np.array([7.87055614, 10.34, 12.18252904]).reshape((3, 1)),
+            np.array([7.87055614, 10.34, 12.18252904]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UCS(np.array([3.08690042, 3.2, 2.68925666])),
-            np.array([2.05793361, 3.2, 4.60117812]).reshape((3, 1)),
+            np.array([2.05793361, 3.2, 4.60117812]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UCS(np.array([0.96907232, 1., 1.12179215])),
-            np.array([0.64604821, 1., 1.57635992]).reshape((3, 1)),
+            np.array([0.64604821, 1., 1.57635992]),
             decimal=7)
 
 
@@ -71,17 +71,17 @@ class TestUCS_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             UCS_to_XYZ(np.array([7.87055614, 10.34, 12.18252904])),
-            np.array([11.80583421, 10.34, 5.15089229]).reshape((3, 1)),
+            np.array([11.80583421, 10.34, 5.15089229]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             UCS_to_XYZ(np.array([2.05793361, 3.2, 4.60117812])),
-            np.array([3.08690042, 3.2, 2.68925666]).reshape((3, 1)),
+            np.array([3.08690042, 3.2, 2.68925666]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             UCS_to_XYZ(np.array([0.64604821, 1., 1.57635992])),
-            np.array([0.96907232, 1., 1.12179215]).reshape((3, 1)),
+            np.array([0.96907232, 1., 1.12179215]),
             decimal=7)
 
 

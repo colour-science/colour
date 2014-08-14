@@ -52,14 +52,14 @@ def XYZ_to_Luv(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE Luv* colourspace matrix.
 
     Notes
@@ -76,9 +76,7 @@ def XYZ_to_Luv(XYZ,
     Examples
     --------
     >>> colour.XYZ_to_Luv(np.array([0.92193107, 1., 1.03744246]))
-    array([[ 100.        ]
-           [ -20.04304247]
-           [ -45.09684555]])
+    array([ 100.        ,  -20.04304247,  -19.81676035])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -92,7 +90,7 @@ def XYZ_to_Luv(XYZ,
     v = (13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) -
                     (9. * Yr / (Xr + 15. * Yr + 3. * Zr))))
 
-    return np.array([L, u, v]).reshape((3, 1))
+    return np.array([L, u, v])
 
 
 def Luv_to_XYZ(Luv,
@@ -103,14 +101,14 @@ def Luv_to_XYZ(Luv,
 
     Parameters
     ----------
-    Luv : array_like, (3, 1)
+    Luv : array_like, (3,)
         *CIE Luv* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -127,9 +125,7 @@ def Luv_to_XYZ(Luv,
     Examples
     --------
     >>> colour.Luv_to_XYZ(np.array([100., -20.04304247, -19.81676035]))
-    array([[ 0.92193107]
-           [ 1.        ]
-           [ 1.03744246]])
+    array([ 0.92193107,  1.        ,  1.03744246])
     """
 
     L, u, v = np.ravel(Luv)
@@ -147,7 +143,7 @@ def Luv_to_XYZ(Luv,
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    return np.array([X, Y, Z]).reshape((3, 1))
+    return np.array([X, Y, Z])
 
 
 def Luv_to_uv(Luv,
@@ -159,7 +155,7 @@ def Luv_to_uv(Luv,
 
     Parameters
     ----------
-    Luv : array_like, (3, 1)
+    Luv : array_like, (3,)
         *CIE Luv* colourspace matrix.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
@@ -231,12 +227,12 @@ def Luv_to_LCHuv(Luv):
 
     Parameters
     ----------
-    Luv : array_like, (3, 1)
+    Luv : array_like, (3,)
         *CIE Luv* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE LCHuv* colourspace matrix.
 
     Notes
@@ -251,9 +247,7 @@ def Luv_to_LCHuv(Luv):
     Examples
     --------
     >>> colour.Luv_to_LCHuv(np.array([100., -20.04304247, -19.81676035]))
-    array([[ 100.        ]
-           [  28.18559104]
-           [ 224.6747382 ]])
+    array([ 100.        ,   28.18559104,  224.6747382 ])
     """
 
     L, u, v = np.ravel(Luv)
@@ -262,7 +256,7 @@ def Luv_to_LCHuv(Luv):
     if H < 0.:
         H += 360.
 
-    return np.array([L, math.sqrt(u ** 2 + v ** 2), H]).reshape((3, 1))
+    return np.array([L, math.sqrt(u ** 2 + v ** 2), H])
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -271,12 +265,12 @@ def LCHuv_to_Luv(LCHuv):
 
     Parameters
     ----------
-    LCHuv : array_like, (3, 1)
+    LCHuv : array_like, (3,)
         *CIE LCHuv* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE Luv* colourspace matrix.
 
     Notes
@@ -291,13 +285,11 @@ def LCHuv_to_Luv(LCHuv):
     Examples
     --------
     >>> colour.LCHuv_to_Luv(np.array([100., 28.18559104, 224.6747382]))
-    array([[ 100.        ]
-           [ -20.04304247]
-           [ -19.81676035]])
+    array([ 100.        ,  -20.04304247,  -19.81676035])
     """
 
     L, C, H = np.ravel(LCHuv)
 
     return np.array([L,
                      C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))]).reshape((3, 1))
+                     C * math.sin(math.radians(H))])

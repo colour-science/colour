@@ -157,7 +157,7 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
 
     Parameters
     ----------
-    RGB : array_like, (3, 1)
+    RGB : array_like, (3,)
         *RGB* chromaticity coordinate matrix.
     primaries : array_like, (3, 2)
         Primaries chromaticity coordinate matrix.

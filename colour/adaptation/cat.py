@@ -109,9 +109,9 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
 
     Parameters
     ----------
-    XYZ1 : array_like, (3, 1)
+    XYZ1 : array_like, (3,)
         *CIE XYZ* source *array_like* variable.
-    XYZ2 : array_like, (3, 1)
+    XYZ2 : array_like, (3,)
         *CIE XYZ* target *array_like* variable.
     method : unicode, optional
         ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild, 'CAT02'),

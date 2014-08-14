@@ -67,7 +67,7 @@ def is_within_macadam_limits(xyY, illuminant):
 
     Parameters
     ----------
-    xyY : array_like, (3, 1)
+    xyY : array_like, (3,)
         *CIE xyY* colourspace matrix.
     illuminant : unicode
         Illuminant.
