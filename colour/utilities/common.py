@@ -5,20 +5,20 @@
 Common Utilities
 ================
 
-Defines common utilities objects that don't fall in any specific category.
+Defines common utilities objects that don"t fall in any specific category.
 """
 
 from __future__ import unicode_literals
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["is_scipy_installed",
-           "is_string"]
+__all__ = ['is_scipy_installed',
+           'is_string']
 
 
 def is_scipy_installed(raise_exception=False):
@@ -46,7 +46,7 @@ def is_scipy_installed(raise_exception=False):
     except ImportError as error:
         if raise_exception:
             raise ImportError(
-                "'scipy' or specific 'scipy' Api features are not available: '{1}'.".format(
+                '"scipy" or specific "scipy" Api features are not available: "{1}".'.format(
                     error))
         return False
 
@@ -67,9 +67,9 @@ def is_string(data):
 
     Examples
     --------
-    >>> colour.utilities.is_string("I'm a string!")
+    >>> colour.utilities.is_string('I"m a string!')
     True
-    >>> colour.utilities.is_string(["I'm a string!"])
+    >>> colour.utilities.is_string(['I"m a string!'])
     False
     """
 

@@ -22,18 +22,18 @@ from __future__ import unicode_literals
 
 from colour.constants import CIE_E, CIE_K
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["luminance_newhall1943",
-           "luminance_1976",
-           "luminance_ASTM_D1535_08",
-           "LUMINANCE_FUNCTIONS",
-           "get_luminance"]
+__all__ = ['luminance_newhall1943',
+           'luminance_1976',
+           'luminance_ASTM_D1535_08',
+           'LUMINANCE_FUNCTIONS',
+           'get_luminance']
 
 
 def luminance_newhall1943(V):
@@ -149,17 +149,17 @@ def luminance_ASTM_D1535_08(V):
     return Y
 
 
-LUMINANCE_FUNCTIONS = {"Luminance Newhall 1943": luminance_newhall1943,
-                       "Luminance 1976": luminance_1976,
-                       "Luminance ASTM D1535-08": luminance_ASTM_D1535_08}
+LUMINANCE_FUNCTIONS = {'Luminance Newhall 1943': luminance_newhall1943,
+                       'Luminance 1976': luminance_1976,
+                       'Luminance ASTM D1535-08': luminance_ASTM_D1535_08}
 """
 Supported *luminance* computations methods.
 
 LUMINANCE_FUNCTIONS : dict
-    ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+    ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
 """
 
-def get_luminance(LV, Yn=100., method="Luminance 1976"):
+def get_luminance(LV, Yn=100., method='Luminance 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -171,7 +171,7 @@ def get_luminance(LV, Yn=100., method="Luminance 1976"):
     Yn : float, optional
         White reference *luminance* :math:`Y_n`.
     method : unicode, optional
-        ("Luminance Newhall 1943", "Luminance 1976", "Luminance ASTM D1535-08")
+        ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
         Computation method.
 
     Returns

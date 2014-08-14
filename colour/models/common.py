@@ -16,38 +16,38 @@ import numpy as np
 from colour.algebra import to_ndarray
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["XYZ_to_sRGB"]
+__all__ = ['XYZ_to_sRGB']
 
 
 def XYZ_to_sRGB(XYZ,
-                illuminant=RGB_COLOURSPACES.get("sRGB").whitepoint,
-                chromatic_adaptation_method="CAT02",
+                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                chromatic_adaptation_method='CAT02',
                 transfer_function=True):
     """
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3, 1)
+    XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
-        ("XYZ Scaling", "Bradford", "Von Kries", "Fairchild", "CAT02")
+        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
         *Chromatic adaptation* method.
     transfer_function : bool, optional
         Apply *sRGB* *transfer function*.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *sRGB* colour matrix.
 
     Notes
@@ -57,12 +57,10 @@ def XYZ_to_sRGB(XYZ,
     Examples
     --------
     >>> colour.XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([[ 0.48224885],
-           [ 0.31651974],
-           [ 0.22070513]])
+    array([ 0.48224885,  0.31651974,  0.22070513])
     """
 
-    sRGB = RGB_COLOURSPACES.get("sRGB")
+    sRGB = RGB_COLOURSPACES.get('sRGB')
     return XYZ_to_RGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,

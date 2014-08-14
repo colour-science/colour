@@ -23,19 +23,19 @@ from __future__ import unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["D_ILLUMINANTS_S_SPDS_DATA",
-           "D_ILLUMINANTS_S_SPDS"]
+__all__ = ['D_ILLUMINANTS_S_SPDS_DATA',
+           'D_ILLUMINANTS_S_SPDS']
 
 
 D_ILLUMINANTS_S_SPDS_DATA = {
-    "S0": {
+    'S0': {
         300: 0.04,
         310: 6.00,
         320: 29.60,
@@ -91,7 +91,7 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         820: 58.90,
         830: 61.90
     },
-    "S1": {
+    'S1': {
         300: 0.02,
         310: 4.50,
         320: 22.40,
@@ -147,7 +147,7 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         820: -9.30,
         830: -9.80
     },
-    "S2": {
+    'S2': {
         300: 0.0,
         310: 2.0,
         320: 4.0,
@@ -204,13 +204,13 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         830: 6.5}}
 
 D_ILLUMINANTS_S_SPDS = {
-    "S0": SpectralPowerDistribution("S0", D_ILLUMINANTS_S_SPDS_DATA.get("S0")),
-    "S1": SpectralPowerDistribution("S1", D_ILLUMINANTS_S_SPDS_DATA.get("S1")),
-    "S2": SpectralPowerDistribution("S2", D_ILLUMINANTS_S_SPDS_DATA.get("S2"))}
+    'S0': SpectralPowerDistribution('S0', D_ILLUMINANTS_S_SPDS_DATA.get('S0')),
+    'S1': SpectralPowerDistribution('S1', D_ILLUMINANTS_S_SPDS_DATA.get('S1')),
+    'S2': SpectralPowerDistribution('S2', D_ILLUMINANTS_S_SPDS_DATA.get('S2'))}
 """
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
 distributions
 
 D_ILLUMINANTS_S_SPDS : dict
-   ("S0", "S1", "S1")
+   ('S0', 'S1', 'S1')
 """

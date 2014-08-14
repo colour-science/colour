@@ -17,15 +17,15 @@ else:
 
 import colour.utilities.data_structures
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2008 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestStructure",
-           "TestLookup"]
+__all__ = ['TestStructure',
+           'TestLookup']
 
 
 class TestStructure(unittest.TestCase):
@@ -39,30 +39,30 @@ class TestStructure(unittest.TestCase):
         Tests :class:`colour.utilities.data_structures.Structure` class.
         """
 
-        structure = colour.utilities.data_structures.Structure(John="Doe",
-                                                               Jane="Doe")
-        self.assertIn("John", structure)
-        self.assertTrue(hasattr(structure, "John"))
-        setattr(structure, "John", "Nemo")
-        self.assertEqual(structure["John"], "Nemo")
-        structure["John"] = "Vador"
-        self.assertEqual(structure["John"], "Vador")
-        del (structure["John"])
-        self.assertNotIn("John", structure)
-        self.assertFalse(hasattr(structure, "John"))
-        structure.John = "Doe"
-        self.assertIn("John", structure)
-        self.assertTrue(hasattr(structure, "John"))
+        structure = colour.utilities.data_structures.Structure(John='Doe',
+                                                               Jane='Doe')
+        self.assertIn('John', structure)
+        self.assertTrue(hasattr(structure, 'John'))
+        setattr(structure, 'John', 'Nemo')
+        self.assertEqual(structure['John'], 'Nemo')
+        structure['John'] = 'Vador'
+        self.assertEqual(structure['John'], 'Vador')
+        del (structure['John'])
+        self.assertNotIn('John', structure)
+        self.assertFalse(hasattr(structure, 'John'))
+        structure.John = 'Doe'
+        self.assertIn('John', structure)
+        self.assertTrue(hasattr(structure, 'John'))
         del (structure.John)
-        self.assertNotIn("John", structure)
-        self.assertFalse(hasattr(structure, "John"))
+        self.assertNotIn('John', structure)
+        self.assertFalse(hasattr(structure, 'John'))
         structure = colour.utilities.data_structures.Structure(John=None,
                                                                Jane=None)
         self.assertIsNone(structure.John)
-        self.assertIsNone(structure["John"])
-        structure.update(**{"John": "Doe", "Jane": "Doe"})
-        self.assertEqual(structure.John, "Doe")
-        self.assertEqual(structure["John"], "Doe")
+        self.assertIsNone(structure['John'])
+        structure.update(**{'John': 'Doe', 'Jane': 'Doe'})
+        self.assertEqual(structure.John, 'Doe')
+        self.assertEqual(structure['John'], 'Doe')
 
     def test_structure_pickle(self):
         """
@@ -70,8 +70,8 @@ class TestStructure(unittest.TestCase):
         pickling.
         """
 
-        structure = colour.utilities.data_structures.Structure(John="Doe",
-                                                               Jane="Doe")
+        structure = colour.utilities.data_structures.Structure(John='Doe',
+                                                               Jane='Doe')
 
         data = pickle.dumps(structure)
         data = pickle.loads(data)
@@ -95,10 +95,10 @@ class TestLookup(unittest.TestCase):
         method.
         """
 
-        lookup = colour.utilities.data_structures.Lookup(firstName="Doe",
-                                                         lastName="John",
-                                                         gender="male")
-        self.assertEqual("firstName", lookup.get_first_key_from_value("Doe"))
+        lookup = colour.utilities.data_structures.Lookup(firstName='Doe',
+                                                         lastName='John',
+                                                         gender='male')
+        self.assertEqual('firstName', lookup.get_first_key_from_value('Doe'))
 
     def test_get_keys_from_value(self):
         """
@@ -107,12 +107,12 @@ class TestLookup(unittest.TestCase):
         method.
         """
 
-        lookup = colour.utilities.data_structures.Lookup(John="Doe",
-                                                         Jane="Doe",
-                                                         Luke="Skywalker")
-        self.assertListEqual(sorted(["Jane", "John"]),
-                             sorted(lookup.get_keys_from_value("Doe")))
+        lookup = colour.utilities.data_structures.Lookup(John='Doe',
+                                                         Jane='Doe',
+                                                         Luke='Skywalker')
+        self.assertListEqual(sorted(['Jane', 'John']),
+                             sorted(lookup.get_keys_from_value('Doe')))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

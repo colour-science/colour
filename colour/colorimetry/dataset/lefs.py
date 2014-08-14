@@ -11,7 +11,7 @@ The luminous efficiency data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
 follows::
 
-    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
+    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
 The following luminous efficiency functions are available:
 
@@ -47,22 +47,22 @@ from __future__ import unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["PHOTOPIC_LEFS_DATA",
-           "PHOTOPIC_LEFS",
-           "SCOTOPIC_LEFS_DATA",
-           "SCOTOPIC_LEFS",
-           "LEFS",
-           "MESOPIC_X_DATA"]
+__all__ = ['PHOTOPIC_LEFS_DATA',
+           'PHOTOPIC_LEFS',
+           'SCOTOPIC_LEFS_DATA',
+           'SCOTOPIC_LEFS',
+           'LEFS',
+           'MESOPIC_X_DATA']
 
 PHOTOPIC_LEFS_DATA = {
-    "CIE 1924 Photopic Standard Observer": {
+    'CIE 1924 Photopic Standard Observer': {
         360: 0.0000039170000,
         361: 0.0000043935810,
         362: 0.0000049296040,
@@ -534,7 +534,7 @@ PHOTOPIC_LEFS_DATA = {
         828: 0.0000005198080,
         829: 0.0000004846123,
         830: 0.0000004518100},
-    "Judd Modified CIE 1951 Photopic Standard Observer": {
+    'Judd Modified CIE 1951 Photopic Standard Observer': {
         370: 0.0001,
         380: 0.0004,
         390: 0.0015,
@@ -576,7 +576,7 @@ PHOTOPIC_LEFS_DATA = {
         750: 0.0001,
         760: 0.0001,
         770: 0.0000},
-    "Judd-Vos Modified CIE 1978 Photopic Standard Observer": {
+    'Judd-Vos Modified CIE 1978 Photopic Standard Observer': {
         380: 0.0002000000,
         381: 0.0002282100,
         382: 0.0002610900,
@@ -978,7 +978,7 @@ PHOTOPIC_LEFS_DATA = {
         778: 0.0000172169,
         779: 0.0000160646,
         780: 0.0000149900},
-    "CIE 1964 Photopic 10 Degree Standard Observer": {
+    'CIE 1964 Photopic 10 Degree Standard Observer': {
         360: 0.000000013398,
         361: 0.000000020294,
         362: 0.000000030560,
@@ -1450,7 +1450,7 @@ PHOTOPIC_LEFS_DATA = {
         828: 0.000000707440,
         829: 0.000000667480,
         830: 0.000000629700},
-    "CIE 2008 2 Degree Physiologically Relevant LEF": {
+    'CIE 2008 2 Degree Physiologically Relevant LEF': {
         390: 4.14616e-04,
         391: 5.02833e-04,
         392: 6.08499e-04,
@@ -1892,7 +1892,7 @@ PHOTOPIC_LEFS_DATA = {
         828: 7.91454e-07,
         829: 7.47077e-07,
         830: 7.05386e-07},
-    "CIE 2008 10 Degree Physiologically Relevant LEF": {
+    'CIE 2008 10 Degree Physiologically Relevant LEF': {
         390: 4.07678e-04,
         391: 4.97777e-04,
         392: 6.06475e-04,
@@ -2336,50 +2336,50 @@ PHOTOPIC_LEFS_DATA = {
         830: 6.34538e-07}}
 
 PHOTOPIC_LEFS = {
-    "CIE 1924 Photopic Standard Observer":
+    'CIE 1924 Photopic Standard Observer':
         SpectralPowerDistribution(
-            "CIE 1924 Photopic Standard Observer",
+            'CIE 1924 Photopic Standard Observer',
             PHOTOPIC_LEFS_DATA.get(
-                "CIE 1924 Photopic Standard Observer")),
-    "Judd Modified CIE 1951 Photopic Standard Observer":
+                'CIE 1924 Photopic Standard Observer')),
+    'Judd Modified CIE 1951 Photopic Standard Observer':
         SpectralPowerDistribution(
-            "Judd Modified CIE 1951 Photopic Standard Observer",
+            'Judd Modified CIE 1951 Photopic Standard Observer',
             PHOTOPIC_LEFS_DATA.get(
-                "Judd Modified CIE 1951 Photopic Standard Observer")),
-    "Judd-Vos Modified CIE 1978 Photopic Standard Observer":
+                'Judd Modified CIE 1951 Photopic Standard Observer')),
+    'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
         SpectralPowerDistribution(
-            "Judd-Vos Modified CIE 1978 Photopic Standard Observer",
+            'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
             PHOTOPIC_LEFS_DATA.get(
-                "Judd-Vos Modified CIE 1978 Photopic Standard Observer")),
-    "CIE 1964 Photopic 10 Degree Standard Observer":
+                'Judd-Vos Modified CIE 1978 Photopic Standard Observer')),
+    'CIE 1964 Photopic 10 Degree Standard Observer':
         SpectralPowerDistribution(
-            "CIE 1964 Photopic 10 Degree Standard Observer",
+            'CIE 1964 Photopic 10 Degree Standard Observer',
             PHOTOPIC_LEFS_DATA.get(
-                "CIE 1964 Photopic 10 Degree Standard Observer")),
-    "CIE 2008 2 Degree Physiologically Relevant LEF":
+                'CIE 1964 Photopic 10 Degree Standard Observer')),
+    'CIE 2008 2 Degree Physiologically Relevant LEF':
         SpectralPowerDistribution(
-            "CIE 2008 2 Degree Physiologically Relevant LEF",
+            'CIE 2008 2 Degree Physiologically Relevant LEF',
             PHOTOPIC_LEFS_DATA.get(
-                "CIE 2008 2 Degree Physiologically Relevant LEF")),
-    "CIE 2008 10 Degree Physiologically Relevant LEF":
+                'CIE 2008 2 Degree Physiologically Relevant LEF')),
+    'CIE 2008 10 Degree Physiologically Relevant LEF':
         SpectralPowerDistribution(
-            "CIE 2008 10 Degree Physiologically Relevant LEF",
+            'CIE 2008 10 Degree Physiologically Relevant LEF',
             PHOTOPIC_LEFS_DATA.get(
-                "CIE 2008 10 Degree Physiologically Relevant LEF"))}
+                'CIE 2008 10 Degree Physiologically Relevant LEF'))}
 """
 Photopic luminous efficiency functions.
 
 PHOTOPIC_LEFS : dict
-    ("CIE 1924 Photopic Standard Observer",
-    "Judd Modified CIE 1951 Photopic Standard Observer",
-    "Judd-Vos Modified CIE 1978 Photopic Standard Observer",
-    "CIE 1964 Photopic 10 Degree Standard Observer",
-    "CIE 2008 2 Degree Physiologically Relevant LEF",
-    "CIE 2008 10 Degree Physiologically Relevant LEF")
+    ('CIE 1924 Photopic Standard Observer',
+    'Judd Modified CIE 1951 Photopic Standard Observer',
+    'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
+    'CIE 1964 Photopic 10 Degree Standard Observer',
+    'CIE 2008 2 Degree Physiologically Relevant LEF',
+    'CIE 2008 10 Degree Physiologically Relevant LEF')
 """
 
 SCOTOPIC_LEFS_DATA = {
-    "CIE 1951 Scotopic Standard Observer": {
+    'CIE 1951 Scotopic Standard Observer': {
         380: 0.0005890000,
         381: 0.0006650000,
         382: 0.0007520000,
@@ -2783,14 +2783,14 @@ SCOTOPIC_LEFS_DATA = {
         780: 0.0000001390, }}
 
 SCOTOPIC_LEFS = {
-    "CIE 1951 Scotopic Standard Observer": SpectralPowerDistribution(
-        "CIE 1951 Scotopic Standard Observer",
-        SCOTOPIC_LEFS_DATA.get("CIE 1951 Scotopic Standard Observer"))}
+    'CIE 1951 Scotopic Standard Observer': SpectralPowerDistribution(
+        'CIE 1951 Scotopic Standard Observer',
+        SCOTOPIC_LEFS_DATA.get('CIE 1951 Scotopic Standard Observer'))}
 """
 Scotopic luminous efficiency functions.
 
 SCOTOPIC_LEFS : dict
-    ("CIE 1951 Scotopic Standard Observer",)
+    ('CIE 1951 Scotopic Standard Observer',)
 """
 
 LEFS = dict(PHOTOPIC_LEFS)
@@ -2798,37 +2798,37 @@ LEFS = dict(PHOTOPIC_LEFS)
 Aggregated luminous efficiency functions.
 
 LEFS : dict
-    ("CIE 1924 Photopic Standard Observer",
-    "Judd Modified CIE 1951 Photopic Standard Observer",
-    "Judd-Vos Modified CIE 1978 Photopic Standard Observer",
-    "CIE 1964 Photopic 10 Degree Standard Observer",
-    "CIE 2008 2 Degree Physiologically Relevant LEF",
-    "CIE 2008 10 Degree Physiologically Relevant LEF",
-    "CIE 1951 Scotopic Standard Observer")
+    ('CIE 1924 Photopic Standard Observer',
+    'Judd Modified CIE 1951 Photopic Standard Observer',
+    'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
+    'CIE 1964 Photopic 10 Degree Standard Observer',
+    'CIE 2008 2 Degree Physiologically Relevant LEF',
+    'CIE 2008 10 Degree Physiologically Relevant LEF',
+    'CIE 1951 Scotopic Standard Observer')
 """
 LEFS.update(SCOTOPIC_LEFS)
 
 MESOPIC_X_DATA = {
     0.01: {
-        "Blue Heavy": {
-            "MOVE": 0.13, "LRC": 0.04},
-        "Red Heavy": {
-            "MOVE": 0.00, "LRC": 0.01}},
+        'Blue Heavy': {
+            'MOVE': 0.13, 'LRC': 0.04},
+        'Red Heavy': {
+            'MOVE': 0.00, 'LRC': 0.01}},
     0.1: {
-        "Blue Heavy": {
-            "MOVE": 0.42, "LRC": 0.28},
-        "Red Heavy": {
-            "MOVE": 0.34, "LRC": 0.11}},
+        'Blue Heavy': {
+            'MOVE': 0.42, 'LRC': 0.28},
+        'Red Heavy': {
+            'MOVE': 0.34, 'LRC': 0.11}},
     1.0: {
-        "Blue Heavy": {
-            "MOVE": 0.70, "LRC": 1.00},
-        "Red Heavy": {
-            "MOVE": 0.68, "LRC": 1.00}},
+        'Blue Heavy': {
+            'MOVE': 0.70, 'LRC': 1.00},
+        'Red Heavy': {
+            'MOVE': 0.68, 'LRC': 1.00}},
     10: {
-        "Blue Heavy": {
-            "MOVE": 0.98, "LRC": 1.00},
-        "Red Heavy": {
-            "MOVE": 0.98, "LRC": 1.00}}}
+        'Blue Heavy': {
+            'MOVE': 0.98, 'LRC': 1.00},
+        'Red Heavy': {
+            'MOVE': 0.98, 'LRC': 1.00}}}
 
 """
 Weighting factors for the mesopic luminous efficiency function calculation.

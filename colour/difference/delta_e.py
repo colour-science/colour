@@ -11,17 +11,17 @@ from __future__ import unicode_literals
 import math
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["delta_E_CIE_1976",
-           "delta_E_CIE_1994",
-           "delta_E_CIE_2000",
-           "delta_E_CMC"]
+__all__ = ['delta_E_CIE_1976',
+           'delta_E_CIE_1994',
+           'delta_E_CIE_2000',
+           'delta_E_CMC']
 
 
 def delta_E_CIE_1976(lab1, lab2):
@@ -31,9 +31,9 @@ def delta_E_CIE_1976(lab1, lab2):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
 
     float
@@ -61,9 +61,9 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
     textiles : bool, optional
         Application specific weights.
@@ -126,9 +126,9 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
 
     Returns
@@ -234,9 +234,9 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
 
     Parameters
     ----------
-    lab1 : array_like, (3, 1)
+    lab1 : array_like, (3,)
         *CIE Lab* *array_like* colour 1.
-    lab2 : array_like, (3, 1)
+    lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
     l : float, optional
         Lightness weighting factor.

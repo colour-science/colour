@@ -58,77 +58,77 @@ from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS
 from colour.utilities import Lookup
 
-__author__ = "Colour Developers, Paul Centore"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers, Paul Centore'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["MUNSELL_GRAY_PATTERN",
-           "MUNSELL_COLOUR_PATTERN",
-           "MUNSELL_GRAY_FORMAT",
-           "MUNSELL_COLOUR_FORMAT",
-           "MUNSELL_GRAY_EXTENDED_FORMAT",
-           "MUNSELL_COLOUR_EXTENDED_FORMAT",
-           "MUNSELL_HUE_LETTER_CODES",
-           "MUNSELL_DEFAULT_ILLUMINANT",
-           "MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES",
-           "parse_munsell_colour",
-           "is_grey_munsell_colour",
-           "normalize_munsell_specification",
-           "munsell_colour_to_munsell_specification",
-           "munsell_specification_to_munsell_colour",
-           "get_xyY_from_renotation",
-           "is_specification_in_renotation",
-           "get_bounding_hues_from_renotation",
-           "hue_to_hue_angle",
-           "hue_angle_to_hue",
-           "hue_to_ASTM_hue",
-           "get_interpolation_method_from_renotation_ovoid",
-           "get_xy_from_renotation_ovoid",
-           "LCHab_to_munsell_specification",
-           "get_maximum_chroma_from_renotation",
-           "munsell_specification_to_xy",
-           "munsell_specification_to_xyY",
-           "munsell_colour_to_xyY",
-           "xyY_to_munsell_specification",
-           "xyY_to_munsell_colour",
-           "munsell_value_priest1920",
-           "munsell_value_munsell1933",
-           "munsell_value_moon1943",
-           "munsell_value_saunderson1944",
-           "munsell_value_ladd1955",
-           "munsell_value_mccamy1987",
-           "munsell_value_ASTM_D1535_08",
-           "MUNSELL_VALUE_FUNCTIONS",
-           "get_munsell_value"]
+__all__ = ['MUNSELL_GRAY_PATTERN',
+           'MUNSELL_COLOUR_PATTERN',
+           'MUNSELL_GRAY_FORMAT',
+           'MUNSELL_COLOUR_FORMAT',
+           'MUNSELL_GRAY_EXTENDED_FORMAT',
+           'MUNSELL_COLOUR_EXTENDED_FORMAT',
+           'MUNSELL_HUE_LETTER_CODES',
+           'MUNSELL_DEFAULT_ILLUMINANT',
+           'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
+           'parse_munsell_colour',
+           'is_grey_munsell_colour',
+           'normalize_munsell_specification',
+           'munsell_colour_to_munsell_specification',
+           'munsell_specification_to_munsell_colour',
+           'get_xyY_from_renotation',
+           'is_specification_in_renotation',
+           'get_bounding_hues_from_renotation',
+           'hue_to_hue_angle',
+           'hue_angle_to_hue',
+           'hue_to_ASTM_hue',
+           'get_interpolation_method_from_renotation_ovoid',
+           'get_xy_from_renotation_ovoid',
+           'LCHab_to_munsell_specification',
+           'get_maximum_chroma_from_renotation',
+           'munsell_specification_to_xy',
+           'munsell_specification_to_xyY',
+           'munsell_colour_to_xyY',
+           'xyY_to_munsell_specification',
+           'xyY_to_munsell_colour',
+           'munsell_value_priest1920',
+           'munsell_value_munsell1933',
+           'munsell_value_moon1943',
+           'munsell_value_saunderson1944',
+           'munsell_value_ladd1955',
+           'munsell_value_mccamy1987',
+           'munsell_value_ASTM_D1535_08',
+           'MUNSELL_VALUE_FUNCTIONS',
+           'get_munsell_value']
 
-MUNSELL_GRAY_PATTERN = "N(?P<value>{0})".format(FLOATING_POINT_NUMBER_PATTERN)
+MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
-    "(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})".format(
+    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
         FLOATING_POINT_NUMBER_PATTERN))
 
-MUNSELL_GRAY_FORMAT = "N{0}"
-MUNSELL_COLOUR_FORMAT = "{0} {1}/{2}"
-MUNSELL_GRAY_EXTENDED_FORMAT = "N{0:.{1}f}"
-MUNSELL_COLOUR_EXTENDED_FORMAT = "{0:.{1}f}{2} {3:.{4}f}/{5:.{6}f}"
+MUNSELL_GRAY_FORMAT = 'N{0}'
+MUNSELL_COLOUR_FORMAT = '{0} {1}/{2}'
+MUNSELL_GRAY_EXTENDED_FORMAT = 'N{0:.{1}f}'
+MUNSELL_COLOUR_EXTENDED_FORMAT = '{0:.{1}f}{2} {3:.{4}f}/{5:.{6}f}'
 
 MUNSELL_HUE_LETTER_CODES = Lookup({
-    "BG": 2,
-    "GY": 4,
-    "YR": 6,
-    "RP": 8,
-    "PB": 10,
-    "B": 1,
-    "G": 3,
-    "Y": 5,
-    "R": 7,
-    "P": 9})
+    'BG': 2,
+    'GY': 4,
+    'YR': 6,
+    'RP': 8,
+    'PB': 10,
+    'B': 1,
+    'G': 3,
+    'Y': 5,
+    'R': 7,
+    'P': 9})
 
-MUNSELL_DEFAULT_ILLUMINANT = "C"
+MUNSELL_DEFAULT_ILLUMINANT = 'C'
 MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get(
+    'CIE 1931 2 Degree Standard Observer').get(
     MUNSELL_DEFAULT_ILLUMINANT)
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
@@ -145,15 +145,15 @@ def _get_munsell_specifications():
     :attr:`colour.notation.dataset.munsell.MUNSELL_COLOURS` attribute in a 2
     columns form:
 
-    (("2.5GY", 0.2, 2.0), (0.713, 1.414, 0.237)),
-    (("5GY", 0.2, 2.0), (0.449, 1.145, 0.237)),
-    (("7.5GY", 0.2, 2.0), (0.262, 0.837, 0.237)),
+    (('2.5GY', 0.2, 2.0), (0.713, 1.414, 0.237)),
+    (('5GY', 0.2, 2.0), (0.449, 1.145, 0.237)),
+    (('7.5GY', 0.2, 2.0), (0.262, 0.837, 0.237)),
     ...,)
 
     The first column is converted from *Munsell* colour to specification using
     :def:`munsell_colour_to_munsell_specification` definition:
 
-    ("2.5GY", 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
+    ('2.5GY', 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
 
     Returns
     -------
@@ -237,9 +237,9 @@ def parse_munsell_colour(munsell_colour):
 
     Examples
     --------
-    >>> colour.notation.munsell.parse_munsell_colour("N5.2")
+    >>> colour.notation.munsell.parse_munsell_colour('N5.2')
     5.2
-    >>> colour.notation.munsell.parse_munsell_colour("0YR 2.0/4.0")
+    >>> colour.notation.munsell.parse_munsell_colour('0YR 2.0/4.0')
     (0.0, 2.0, 4.0, 6)
     """
 
@@ -247,18 +247,18 @@ def parse_munsell_colour(munsell_colour):
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return float(match.group("value"))
+        return float(match.group('value'))
     match = re.match(MUNSELL_COLOUR_PATTERN,
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return (float(match.group("hue")),
-                float(match.group("value")),
-                float(match.group("chroma")),
-                MUNSELL_HUE_LETTER_CODES.get(match.group("letter").upper()))
+        return (float(match.group('hue')),
+                float(match.group('value')),
+                float(match.group('chroma')),
+                MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
-    raise ValueError("'{0}' is not a valid 'Munsell Renotation System' colour \
-specification!".format(munsell_colour))
+    raise ValueError('"{0}" is not a valid "Munsell Renotation System" colour \
+specification!'.format(munsell_colour))
 
 
 def is_grey_munsell_colour(specification):
@@ -334,9 +334,9 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Examples
     --------
-    >>> colour.notation.munsell.munsell_colour_to_munsell_specification("N5.2")
+    >>> colour.notation.munsell.munsell_colour_to_munsell_specification('N5.2')
     5.2
-    >>> colour.notation.munsell.munsell_colour_to_munsell_specification("0YR 2.0/4.0")
+    >>> colour.notation.munsell.munsell_colour_to_munsell_specification('0YR 2.0/4.0')
     (10.0, 2.0, 4.0, 7)
     """
 
@@ -383,16 +383,16 @@ def munsell_specification_to_munsell_colour(specification,
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
         assert 0 <= hue <= 10, \
-            "'{0}' specification hue must be in domain [0, 10]!".format(
+            '"{0}" specification hue must be in domain [0, 10]!'.format(
                 specification)
         assert 0 <= value <= 10, \
-            "'{0}' specification value must be in domain [0, 10]!".format(
+            '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification)
         assert 2 <= chroma <= 50, \
-            "'{0}' specification chroma must be in domain [2, 50]!".format(
+            '"{0}" specification chroma must be in domain [2, 50]!'.format(
                 specification)
         assert code in code_values, \
-            "'{0}' specification code must one of '{1}'!".format(
+            '"{0}" specification code must one of "{1}"!'.format(
                 specification, code_values)
 
         if hue == 0:
@@ -438,8 +438,8 @@ def get_xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
-        raise ValueError("'{0}' specification does not exists in \
-'Munsell Renotation System' data!".format(specification))
+        raise ValueError('"{0}" specification does not exists in \
+"Munsell Renotation System" data!'.format(specification))
 
 
 def is_specification_in_renotation(specification):
@@ -671,7 +671,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
     Returns
     -------
-    unicode or None ("Linear", "Radial", None)
+    unicode or None ('Linear', 'Radial', None)
         Interpolation method.
 
     Notes
@@ -690,12 +690,12 @@ def get_interpolation_method_from_renotation_ovoid(specification):
     Examples
     --------
     >>> colour.notation.munsell.get_interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
-    'Radial'
+    "Radial"
     """
 
     interpolation_methods = {0: None,
-                             1: "Linear",
-                             2: "Radial"}
+                             1: 'Linear',
+                             2: 'Radial'}
     interpolation_method = 0
     if is_grey_munsell_colour(specification):
         # No interpolation needed for grey colours.
@@ -704,10 +704,10 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, \
-            "'{0}' specification value must be in domain [0, 10]!".format(
+            '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification)
         assert is_integer(value), \
-            "'{0}' specification value must be an integer!".format(
+            '"{0}" specification value must be an integer!'.format(
                 specification)
 
         value = round(value)
@@ -717,10 +717,10 @@ def get_interpolation_method_from_renotation_ovoid(specification):
             interpolation_method = 0
 
         assert 2 <= chroma <= 50, \
-            "'{0}' specification chroma must be in domain [2, 50]!".format(
+            '"{0}" specification chroma must be in domain [2, 50]!'.format(
                 specification)
         assert abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, \
-            "'{0}' specification chroma must be an integer and multiple of 2!".format(
+            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
                 specification)
 
         chroma = 2 * round(chroma / 2)
@@ -999,20 +999,20 @@ def get_xy_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 1 <= value <= 9, \
-            "'{0}' specification value must be in domain [1, 9]!".format(
+            '"{0}" specification value must be in domain [1, 9]!'.format(
                 specification)
         assert is_integer(value), \
-            "'{0}' specification value must be an integer!".format(
+            '"{0}" specification value must be an integer!'.format(
                 specification)
 
         value = round(value)
 
         assert 2 <= chroma <= 50, \
-            "'{0}' specification chroma must be in domain [2, 50]!".format(
+            '"{0}" specification chroma must be in domain [2, 50]!'.format(
                 specification)
         assert abs(
             2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, \
-            "'{0}' specification chroma must be an integer and multiple of 2!".format(
+            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
                 specification)
 
         chroma = 2 * round(chroma / 2)
@@ -1068,12 +1068,12 @@ def get_xy_from_renotation_ovoid(specification):
         interpolation_method = get_interpolation_method_from_renotation_ovoid(
             specification)
 
-        if interpolation_method == "Linear":
+        if interpolation_method == 'Linear':
             x = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                      [x_minus, x_plus])(hue_angle)
             y = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                      [y_minus, y_plus])(hue_angle)
-        elif interpolation_method == "Radial":
+        elif interpolation_method == 'Radial':
             theta = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                          [theta_minus, theta_plus])(hue_angle)
             rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
@@ -1083,7 +1083,7 @@ def get_xy_from_renotation_ovoid(specification):
             y = rho * math.sin(math.radians(theta)) + y_grey
         else:
             raise ValueError(
-                "Invalid interpolation method: '{0}'".format(
+                'Invalid interpolation method: "{0}"'.format(
                     interpolation_method))
 
         return x, y
@@ -1096,7 +1096,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     Parameters
     ----------
-    LCHab : array_like, (3, 1)
+    LCHab : array_like, (3,)
         *CIE LCHab* colourspace matrix.
 
     Returns
@@ -1193,7 +1193,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
         return 0
 
     assert 1 <= value <= 10, \
-        "'{0}' value must be in domain [1, 10]!".format(value)
+        '"{0}" value must be in domain [1, 10]!'.format(value)
 
     if value % 1 == 0:
         value_minus = value
@@ -1275,10 +1275,10 @@ def munsell_specification_to_xy(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, \
-            "'{0}' specification value must be in domain [0, 10]!".format(
+            '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification)
         assert is_integer(value), \
-            "'{0}' specification value must be an integer!".format(
+            '"{0}" specification value must be an integer!'.format(
                 specification)
 
         value = round(value)
@@ -1323,7 +1323,7 @@ def munsell_specification_to_xyY(specification):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE xyY* colourspace matrix.
 
     Notes
@@ -1342,14 +1342,10 @@ def munsell_specification_to_xyY(specification):
     Examples
     --------
     >>> spc = (2.1, 8.0, 17.9, 4)
-    >>> colour.notation.munsell.colour.munsell_specification_to_xyY(spc)
-    array([[ 0.4400632 ]
-           [ 0.5522428 ]
-           [ 0.57619628]])
-    >>> colour.notation.munsell.colour.munsell_colour_to_xyY(8.9)
-    array([[ 0.31006  ]
-           [ 0.31616  ]
-           [ 0.7461345]])
+    >>> colour.notation.munsell.munsell_specification_to_xyY(spc)
+    array([ 0.4400632 ,  0.5522428 ,  0.57619628])
+    >>> colour.notation.munsell.munsell_specification_to_xyY(8.9)
+    array([ 0.31006  ,  0.31616  ,  0.7461345])
     """
 
     if is_grey_munsell_colour(specification):
@@ -1358,10 +1354,10 @@ def munsell_specification_to_xyY(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= hue <= 10, \
-            "'{0}' specification hue must be in domain [0, 10]!".format(
+            '"{0}" specification hue must be in domain [0, 10]!'.format(
                 specification)
         assert 0 <= value <= 10, \
-            "'{0}' specification value must be in domain [0, 10]!".format(
+            '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification)
 
     Y = luminance_ASTM_D1535_08(value)
@@ -1392,7 +1388,7 @@ def munsell_specification_to_xyY(specification):
         x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
         y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
-    return np.array([x, y, Y / 100.]).reshape((3, 1))
+    return np.array([x, y, Y / 100.])
 
 
 def munsell_colour_to_xyY(munsell_colour):
@@ -1406,7 +1402,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE xyY* colourspace matrix.
 
     Notes
@@ -1415,14 +1411,10 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Examples
     --------
-    >>> colour.munsell_colour_to_xyY("4.2YR 8.1/5.3")
-    array([[ 0.38736945]
-           [ 0.35751656]
-           [ 0.59362   ]])
-    >>> colour.munsell_colour_to_xyY("N8.9")
-    array([[ 0.31006  ]
-           [ 0.31616  ]
-           [ 0.7461345]])
+    >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
+    array([ 0.38736945,  0.35751656,  0.59362   ])
+    >>> colour.munsell_colour_to_xyY('N8.9')
+    array([ 0.31006  ,  0.31616  ,  0.7461345])
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -1435,7 +1427,7 @@ def xyY_to_munsell_specification(xyY):
 
     Parameters
     ----------
-    xyY : array_like, (3, 1)
+    xyY : array_like, (3,)
         *CIE xyY* colourspace matrix.
 
     Returns
@@ -1462,7 +1454,7 @@ def xyY_to_munsell_specification(xyY):
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         raise ValueError(
-            "'{0}' is not within 'MacAdam' limits for illuminant '{1}'!".format(
+            '"{0}" is not within "MacAdam" limits for illuminant "{1}"!'.format(
                 xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     x, y, Y = np.ravel(xyY)
@@ -1540,8 +1532,8 @@ def xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError("Maximum inner iterations count reached \
-without convergence!")
+                raise RuntimeError('Maximum inner iterations count reached \
+without convergence!')
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (theta_input - theta_current)) % 360)
@@ -1625,8 +1617,8 @@ without convergence!")
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError("Maximum inner iterations count reached \
-without convergence!")
+                raise RuntimeError('Maximum inner iterations count reached \
+without convergence!')
 
             chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
                             chroma_current)
@@ -1664,7 +1656,7 @@ without convergence!")
             return tuple(specification_current)
 
     raise RuntimeError(
-        "Maximum outside iterations count reached without convergence!")
+        'Maximum outside iterations count reached without convergence!')
 
 
 def xyY_to_munsell_colour(xyY,
@@ -1676,7 +1668,7 @@ def xyY_to_munsell_colour(xyY,
 
     Parameters
     ----------
-    xyY : array_like, (3, 1)
+    xyY : array_like, (3,)
         *CIE xyY* colourspace matrix.
     hue_decimals : int
         Hue formatting decimals.
@@ -1965,25 +1957,25 @@ def munsell_value_ASTM_D1535_08(Y):
 
 
 MUNSELL_VALUE_FUNCTIONS = {
-    "Munsell Value Priest 1920": munsell_value_priest1920,
-    "Munsell Value Munsell 1933": munsell_value_munsell1933,
-    "Munsell Value Moon 1943": munsell_value_moon1943,
-    "Munsell Value Saunderson 1944": munsell_value_saunderson1944,
-    "Munsell Value Ladd 1955": munsell_value_ladd1955,
-    "Munsell Value McCamy 1987": munsell_value_mccamy1987,
-    "Munsell Value ASTM D1535-08": munsell_value_ASTM_D1535_08}
+    'Munsell Value Priest 1920': munsell_value_priest1920,
+    'Munsell Value Munsell 1933': munsell_value_munsell1933,
+    'Munsell Value Moon 1943': munsell_value_moon1943,
+    'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
+    'Munsell Value Ladd 1955': munsell_value_ladd1955,
+    'Munsell Value McCamy 1987': munsell_value_mccamy1987,
+    'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08}
 """
 Supported *Munsell* value computations methods.
 
 MUNSELL_VALUE_FUNCTIONS : dict
-    ("Munsell Value Priest 1920", "Munsell Value Munsell 1933",
-    "Munsell Value Moon 1943", "Munsell Value Saunderson 1944",
-    "Munsell Value Ladd 1955", "Munsell Value McCamy 1987",
-    "Munsell Value ASTM D1535-08")
+    ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
+    'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
+    'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
+    'Munsell Value ASTM D1535-08')
 """
 
 
-def get_munsell_value(Y, method="Munsell Value ASTM D1535-08"):
+def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using given method.
 
@@ -1992,10 +1984,10 @@ def get_munsell_value(Y, method="Munsell Value ASTM D1535-08"):
     Y : float
         *luminance* :math:`Y`.
     method : unicode, optional
-        ("Munsell Value Priest 1920", "Munsell Value Munsell 1933",
-        "Munsell Value Moon 1943", "Munsell Value Saunderson 1944",
-        "Munsell Value Ladd 1955", "Munsell Value McCamy 1987",
-        "Munsell Value ASTM D1535-08")
+        ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
+        'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
+        'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
+        'Munsell Value ASTM D1535-08')
         Computation method.
 
     Returns

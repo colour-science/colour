@@ -19,16 +19,16 @@ else:
 
 from colour.characterization.fitting import first_order_colour_fit
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["M1",
-           "M2",
-           "TestFirstOrderColourFit"]
+__all__ = ['M1',
+           'M2',
+           'TestFirstOrderColourFit']
 
 M1 = np.array([
     [0.1722480953, 0.09170660377, 0.06416938454],
@@ -103,5 +103,5 @@ class TestFirstOrderColourFit(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

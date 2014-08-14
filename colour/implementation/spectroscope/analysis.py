@@ -23,20 +23,20 @@ from colour import RGB_COLOURSPACES
 from colour import SpectralPowerDistribution
 from colour import TriSpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RGB_Spectrum",
-           "transfer_function",
-           "get_image",
-           "get_image_profile",
-           "calibrate_RGB_spectrum_profile",
-           "get_RGB_spectrum",
-           "get_luminance_spd"]
+__all__ = ['RGB_Spectrum',
+           'transfer_function',
+           'get_image',
+           'get_image_profile',
+           'calibrate_RGB_spectrum_profile',
+           'get_RGB_spectrum',
+           'get_luminance_spd']
 
 
 class RGB_Spectrum(TriSpectralPowerDistribution):
@@ -61,12 +61,12 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
-                                              mapping={"x": "R",
-                                                       "y": "G",
-                                                       "z": "B"},
-                                              labels={"x": "R",
-                                                      "y": "G",
-                                                      "z": "B"})
+                                              mapping={'x': 'R',
+                                                       'y': 'G',
+                                                       'z': 'B'},
+                                              labels={'x': 'R',
+                                                      'y': 'G',
+                                                      'z': 'B'})
 
     @property
     def R(self):
@@ -96,7 +96,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("R"))
+        raise AttributeError('"{0}" attribute is read only!'.format('R'))
 
     @property
     def G(self):
@@ -126,7 +126,7 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("G"))
+        raise AttributeError('"{0}" attribute is read only!'.format('G'))
 
     @property
     def B(self):
@@ -156,11 +156,11 @@ class RGB_Spectrum(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("B"))
+        raise AttributeError('"{0}" attribute is read only!'.format('B'))
 
 
 def transfer_function(image,
-                      colourspace=RGB_COLOURSPACES["sRGB"],
+                      colourspace=RGB_COLOURSPACES['sRGB'],
                       to_linear=False):
     """
     Evaluate given colourspace transfer / inverse transfer function on given
@@ -191,7 +191,7 @@ def transfer_function(image,
 
 
 def get_image(path,
-              colourspace=RGB_COLOURSPACES["sRGB"],
+              colourspace=RGB_COLOURSPACES['sRGB'],
               to_linear=True):
     """
     Reads image from given path.
@@ -325,7 +325,7 @@ def calibrate_RGB_spectrum_profile(profile, reference, measured, samples=None):
     B = dict(zip(wavelengths,
                  B_interpolator(r_to_m_interpolator(wavelengths))))
 
-    return RGB_Spectrum("RGB Spectrum", {"R": R, "G": G, "B": B})
+    return RGB_Spectrum('RGB Spectrum', {'R': R, 'G': G, 'B': B})
 
 
 def get_RGB_spectrum(image, reference, measured, samples=None):
@@ -362,7 +362,7 @@ def get_RGB_spectrum(image, reference, measured, samples=None):
 
 
 def get_luminance_spd(RGB_spectrum,
-                      colourspace=RGB_COLOURSPACES["sRGB"]):
+                      colourspace=RGB_COLOURSPACES['sRGB']):
     """
     Returns the luminance spectral power distribution of given RGB spectrum.
 
@@ -385,6 +385,6 @@ def get_luminance_spd(RGB_spectrum,
         colourspace.whitepoint)
 
     return SpectralPowerDistribution(
-        "RGB_spectrum",
+        'RGB_spectrum',
         dict([(wavelength, get_RGB_luminance(RGB))
               for wavelength, RGB in RGB_spectrum]))

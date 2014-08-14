@@ -5,18 +5,18 @@ import logging
 
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
 __all__ = ['XYZ_to_Hunt']
 
 logger = logging.getLogger(__name__)
 
-Hunt_result = namedtuple("Hunt_result", ("h_S", "C94", "s", "Q", "M94", "J"))
+Hunt_result = namedtuple('Hunt_result', ('h_S', 'C94', 's', 'Q', 'M94', 'J'))
 
 
 def XYZ_to_Hunt(x, y, z,

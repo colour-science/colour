@@ -20,4 +20,4 @@ print(colour.luminance_ASTM_D1535_08(3.74629715382))
 
 # Retrieving *luminance* using the wrapper:
 print(colour.get_luminance(37.9856290977))
-print(colour.get_luminance(3.74629715382, method="Luminance ASTM D1535-08"))
+print(colour.get_luminance(3.74629715382, method='Luminance ASTM D1535-08'))

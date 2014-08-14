@@ -11,16 +11,16 @@ Science and Technology (CODATA).
 
 from __future__ import unicode_literals
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["LIGHT_SPEED",
-           "PLANCK_CONSTANT",
-           "BOLTZMANN_CONSTANT"]
+__all__ = ['LIGHT_SPEED',
+           'PLANCK_CONSTANT',
+           'BOLTZMANN_CONSTANT']
 
 LIGHT_SPEED = 299792458
 """

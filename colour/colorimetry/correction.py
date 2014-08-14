@@ -15,16 +15,16 @@ The following correction methods are available:
 
 from __future__ import unicode_literals
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["bandpass_correction_stearns1988",
-           "BANDPASS_CORRECTION_METHODS",
-           "bandpass_correction"]
+__all__ = ['bandpass_correction_stearns1988',
+           'BANDPASS_CORRECTION_METHODS',
+           'bandpass_correction']
 
 ALPHA_STEARNS = 0.083
 
@@ -54,7 +54,7 @@ def bandpass_correction_stearns1988(spd):
     Examples
     --------
     >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-    >>> spd = colour.SpectralPowerDistribution("Spd", data)
+    >>> spd = colour.SpectralPowerDistribution('Spd', data)
     >>> corrected_spd = colour.bandpass_correction_stearns1988(spd)
     >>> corrected_spd.values
     array([ 48.01664   ,  70.37296888,  82.09195064,  88.72618   ])
@@ -74,16 +74,16 @@ def bandpass_correction_stearns1988(spd):
 
 
 BANDPASS_CORRECTION_METHODS = {
-    "Stearns 1988": bandpass_correction_stearns1988}
+    'Stearns 1988': bandpass_correction_stearns1988}
 """
 Supported spectral bandpass dependence correction methods.
 
 BANDPASS_CORRECTION_METHODS : dict
-    ("Stearns 1988",)
+    ('Stearns 1988',)
 """
 
 
-def bandpass_correction(spd, method="Stearns 1988"):
+def bandpass_correction(spd, method='Stearns 1988'):
     """
     Implements spectral bandpass dependence correction on given spectral power
     distribution using given method.
@@ -93,7 +93,7 @@ def bandpass_correction(spd, method="Stearns 1988"):
     spd : SpectralPowerDistribution
         Spectral power distribution.
     method : unicode
-        ("Stearns 1988",)
+        ('Stearns 1988',)
         Correction method.
 
     Returns

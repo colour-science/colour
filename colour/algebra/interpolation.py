@@ -21,16 +21,16 @@ import numpy as np
 from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
 from colour.utilities import is_scipy_installed, warning
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["LinearInterpolator1d",
-           "SplineInterpolator",
-           "SpragueInterpolator"]
+__all__ = ['LinearInterpolator1d',
+           'SplineInterpolator',
+           'SpragueInterpolator']
 
 
 class LinearInterpolator1d(object):
@@ -110,7 +110,7 @@ class LinearInterpolator1d(object):
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'x' independent variable must have exactly one dimension!"
+                '"x" independent variable must have exactly one dimension!'
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -145,7 +145,7 @@ class LinearInterpolator1d(object):
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'y' dependent variable must have exactly one dimension!"
+                '"y" dependent variable must have exactly one dimension!'
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -201,8 +201,8 @@ class LinearInterpolator1d(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                "'x' independent and 'y' dependent variables have different \
-dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
+                '"x" independent and "y" dependent variables have different \
+dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """
@@ -213,10 +213,10 @@ dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise ValueError('"{0}" is below interpolation range.'.format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
 if is_scipy_installed():
@@ -236,10 +236,10 @@ if is_scipy_installed():
             # consistency and avoid having to cast to float like in
             # :meth:`SpectralPowerDistribution.interpolate` method.
             super(SplineInterpolator, self).__init__(
-                kind="cubic", *args, **kwargs)
+                kind='cubic', *args, **kwargs)
 else:
-    warning("'scipy.interpolate.interp1d' interpolator is unavailable, using \
-'LinearInterpolator' instead!")
+    warning('"scipy.interpolate.interp1d" interpolator is unavailable, using \
+"LinearInterpolator" instead!')
 
     SplineInterpolator = LinearInterpolator
 
@@ -356,10 +356,10 @@ class SpragueInterpolator(object):
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'x' independent variable must have exactly one dimension!"
+                '"x" independent variable must have exactly one dimension!'
 
             assert is_uniform(value), \
-                "'x' independent variable is not uniform!"
+                '"x" independent variable is not uniform!'
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -403,10 +403,10 @@ class SpragueInterpolator(object):
             value = to_ndarray(value)
 
             assert value.ndim == 1, \
-                "'y' dependent variable must have exactly one dimension!"
+                '"y" dependent variable must have exactly one dimension!'
 
             assert len(value) >= 6, \
-                "'y' dependent variable values count must be in domain [6:]!"
+                '"y" dependent variable values count must be in domain [6:]!'
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -498,8 +498,8 @@ class SpragueInterpolator(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                "'x' independent and 'y' dependent variables have different \
-dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
+                '"x" independent and "y" dependent variables have different \
+dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """
@@ -510,7 +510,7 @@ dimensions: '{0}', '{1}'".format(len(self.__x), len(self.__y)))
         above_interpolation_range = x > self.__x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError("'{0}' is below interpolation range.".format(x))
+            raise ValueError('"{0}" is below interpolation range.'.format(x))
 
         if above_interpolation_range.any():
-            raise ValueError("'{0}' is above interpolation range.".format(x))
+            raise ValueError('"{0}" is above interpolation range.'.format(x))

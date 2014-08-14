@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["APPLE_RGB_PRIMARIES",
-           "APPLE_RGB_WHITEPOINT",
-           "APPLE_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_APPLE_RGB_MATRIX",
-           "APPLE_RGB_TRANSFER_FUNCTION",
-           "APPLE_RGB_INVERSE_TRANSFER_FUNCTION",
-           "APPLE_RGB_COLOURSPACE"]
+__all__ = ['APPLE_RGB_PRIMARIES',
+           'APPLE_RGB_WHITEPOINT',
+           'APPLE_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_APPLE_RGB_MATRIX',
+           'APPLE_RGB_TRANSFER_FUNCTION',
+           'APPLE_RGB_INVERSE_TRANSFER_FUNCTION',
+           'APPLE_RGB_COLOURSPACE']
 
 APPLE_RGB_PRIMARIES = np.array(
     [0.6250, 0.3400,
@@ -48,7 +48,7 @@ APPLE_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *Apple RGB* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ APPLE_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 APPLE_RGB_COLOURSPACE = RGB_Colourspace(
-    "Apple RGB",
+    'Apple RGB',
     APPLE_RGB_PRIMARIES,
     APPLE_RGB_WHITEPOINT,
     APPLE_RGB_TO_XYZ_MATRIX,

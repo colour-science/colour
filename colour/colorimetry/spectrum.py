@@ -23,15 +23,15 @@ from colour.algebra import (LinearInterpolator1d,
                             SplineInterpolator,
                             SpragueInterpolator)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["SpectralPowerDistribution",
-           "TriSpectralPowerDistribution"]
+__all__ = ['SpectralPowerDistribution',
+           'TriSpectralPowerDistribution']
 
 
 class SpectralPowerDistribution(object):
@@ -84,7 +84,7 @@ class SpectralPowerDistribution(object):
     Examples
     --------
     >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-    >>> spd = colour.SpectralPowerDistribution("Spd", data)
+    >>> spd = colour.SpectralPowerDistribution('Spd', data)
     >>> spd.wavelengths
     array([510, 520, 530, 540])
     >>> spd.values
@@ -125,8 +125,8 @@ class SpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
-                    "name", value)
+                '"{0}" attribute: "{1}" type is not in "str" or "unicode"!'.format(
+                    'name', value)
         self.__name = value
 
     @property
@@ -155,8 +155,8 @@ class SpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) is dict, \
-                "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                    "data", value)
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'data', value)
         self.__data = value
 
     @property
@@ -188,7 +188,7 @@ class SpectralPowerDistribution(object):
         """
 
         raise AttributeError(
-            "'{0}' attribute is read only!".format("wavelengths"))
+            '"{0}" attribute is read only!'.format('wavelengths'))
 
     @property
     def values(self):
@@ -219,7 +219,7 @@ class SpectralPowerDistribution(object):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("values"))
+        raise AttributeError('"{0}" attribute is read only!'.format('values'))
 
     @property
     def shape(self):
@@ -229,7 +229,7 @@ class SpectralPowerDistribution(object):
         Returns the shape of the spectral power distribution in the form of a
         tuple of *int* as follows::
 
-            ("start wavelength", "end wavelength", "steps between wavelengths")
+            ('start wavelength', 'end wavelength', 'steps between wavelengths')
 
         Returns
         -------
@@ -257,13 +257,13 @@ class SpectralPowerDistribution(object):
         Uniform spectral power distribution:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> colour.SpectralPowerDistribution("Spd", data).shape
+        >>> colour.SpectralPowerDistribution('Spd', data).shape
         (510, 550, 10)
 
         Non uniform spectral power distribution:
 
         >>> data = {512.3: 49.6700, 524.5: 69.5900, 532.4: 81.7300, 545.7: 88.1900}
-        >>> colour.SpectralPowerDistribution("Spd", data).shape
+        >>> colour.SpectralPowerDistribution('Spd', data).shape
         (512.3, 545.7, 7.8999999999999773)
         """
 
@@ -281,7 +281,7 @@ class SpectralPowerDistribution(object):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("shape"))
+        raise AttributeError('"{0}" attribute is read only!'.format('shape'))
 
     def __hash__(self):
         """
@@ -336,7 +336,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd[510]
         49.67
         """
@@ -360,7 +360,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        >>> spd = colour.SpectralPowerDistribution("Spd", {})
+        >>> spd = colour.SpectralPowerDistribution('Spd', {})
         >>> spd[510] = 49.6700
         >>> spd.values
         array([ 49.67])
@@ -384,7 +384,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> for wavelength, value in spd:
         >>>     print(wavelength, value)
         (510, 49.67)
@@ -417,7 +417,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> 510 in spd
         True
         """
@@ -441,7 +441,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> len(spd)
         4
         """
@@ -471,9 +471,9 @@ class SpectralPowerDistribution(object):
         --------
         >>> data1 = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> data2 = {510: 48.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900}
-        >>> spd1 = colour.SpectralPowerDistribution("Spd", data1)
-        >>> spd2 = colour.SpectralPowerDistribution("Spd", data2)
-        >>> spd3 = colour.SpectralPowerDistribution("Spd", data2)
+        >>> spd1 = colour.SpectralPowerDistribution('Spd', data1)
+        >>> spd2 = colour.SpectralPowerDistribution('Spd', data2)
+        >>> spd3 = colour.SpectralPowerDistribution('Spd', data2)
         >>> spd1 == spd2
         False
         >>> spd2 == spd3
@@ -509,9 +509,9 @@ class SpectralPowerDistribution(object):
         --------
         >>> data1 = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> data2 = {510: 48.6700, 520: 69.5900, 530: 81.7300, 540: 88.1900}
-        >>> spd1 = colour.SpectralPowerDistribution("Spd", data1)
-        >>> spd2 = colour.SpectralPowerDistribution("Spd", data2)
-        >>> spd3 = colour.SpectralPowerDistribution("Spd", data2)
+        >>> spd1 = colour.SpectralPowerDistribution('Spd', data1)
+        >>> spd2 = colour.SpectralPowerDistribution('Spd', data2)
+        >>> spd3 = colour.SpectralPowerDistribution('Spd', data2)
         >>> spd1 != spd2
         True
         >>> spd2 != spd3
@@ -577,7 +577,7 @@ class SpectralPowerDistribution(object):
         Adding a single *float* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd + 10
         >>> spd.values
         array([ 59.67,  79.59,  91.73,  98.19])
@@ -590,7 +590,7 @@ class SpectralPowerDistribution(object):
 
         Adding a :class:`SpectralPowerDistribution` class variable:
 
-        >>> spd_alternate = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd_alternate = colour.SpectralPowerDistribution('Spd', data)
         >>> spd + spd_alternate
         >>> spd.values
         array([ 110.34,  151.18,  176.46,  190.38])
@@ -633,7 +633,7 @@ class SpectralPowerDistribution(object):
         Subtracting a single *float* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd - 10
         >>> spd.values
         array([ 39.67,  59.59,  71.73,  78.19])
@@ -646,7 +646,7 @@ class SpectralPowerDistribution(object):
 
         Subtracting a :class:`SpectralPowerDistribution` class variable:
 
-        >>> spd_alternate = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd_alternate = colour.SpectralPowerDistribution('Spd', data)
         >>> spd - spd_alternate
         >>> spd.values
         array([-11., -12., -13., -14.])
@@ -686,7 +686,7 @@ class SpectralPowerDistribution(object):
         Multiplying a single *float* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd * 10
         >>> spd.values
         array([ 496.7,  695.9,  817.3,  881.9])
@@ -699,7 +699,7 @@ class SpectralPowerDistribution(object):
 
         Multiplying a :class:`SpectralPowerDistribution` class variable:
 
-        >>> spd_alternate = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd_alternate = colour.SpectralPowerDistribution('Spd', data)
         >>> spd * spd_alternate
         >>> spd.values
         array([  24671.089,   96855.362,  200393.787,  311099.044])
@@ -742,7 +742,7 @@ class SpectralPowerDistribution(object):
         Dividing a single *float* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd * 10
         >>> spd.values
         array([ 4.967,  6.959,  8.173,  8.819])
@@ -755,7 +755,7 @@ class SpectralPowerDistribution(object):
 
         Dividing a :class:`SpectralPowerDistribution` class variable:
 
-        >>> spd_alternate = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd_alternate = colour.SpectralPowerDistribution('Spd', data)
         >>> spd * spd_alternate
         >>> spd.values
         array([ 0.1       ,  0.05      ,  0.03333333,  0.025     ])
@@ -792,7 +792,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.get(510)
         49.67
         >>> spd.get(511)
@@ -820,7 +820,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.is_uniform()
         True
 
@@ -866,7 +866,7 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.extrapolate(400, 700).shape
         (400, 700, 10)
         >>> spd[400]
@@ -903,7 +903,7 @@ class SpectralPowerDistribution(object):
         steps : float, optional
             Wavelengths :math:`\lambda_n` range steps.
         method : unicode, optional
-            ("Sprague", "Cubic Spline", "Linear"),
+            ('Sprague', 'Cubic Spline', 'Linear'),
             Enforce given interpolation method.
 
         Returns
@@ -946,7 +946,7 @@ class SpectralPowerDistribution(object):
         Uniform data is using *Sprague* interpolation by default:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(steps=1)
         >>> spd[515]
         60.312180023923446
@@ -954,7 +954,7 @@ class SpectralPowerDistribution(object):
         Non uniform data is using *Cubic Spline* interpolation by default:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd[511] = 31.41
         >>> spd.interpolate(steps=1)
         >>> spd[515]
@@ -963,8 +963,8 @@ class SpectralPowerDistribution(object):
         Enforcing *Linear* interpolation:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
-        >>> spd.interpolate(steps=1, method="Linear")
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
+        >>> spd.interpolate(steps=1, method='Linear')
         >>> spd[515]
         59.63
         """
@@ -988,19 +988,19 @@ class SpectralPowerDistribution(object):
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
                 interpolator = SplineInterpolator(wavelengths, values)
-        elif method == "Sprague":
+        elif method == 'Sprague':
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
-                raise RuntimeError("'Sprague' interpolator can only be \
-used for interpolating functions having a uniformly spaced independent variable!")
-        elif method == "Cubic Spline":
+                raise RuntimeError('"Sprague" interpolator can only be \
+used for interpolating functions having a uniformly spaced independent variable!')
+        elif method == 'Cubic Spline':
             interpolator = SplineInterpolator(wavelengths, values)
-        elif method == "Linear":
+        elif method == 'Linear':
             interpolator = LinearInterpolator1d(wavelengths, values)
         else:
             raise ValueError(
-                "Undefined '{0}' interpolator!".format(method))
+                'Undefined "{0}" interpolator!'.format(method))
 
         self.__data = dict([(wavelength, float(interpolator(wavelength)))
                             for wavelength in
@@ -1036,7 +1036,7 @@ used for interpolating functions having a uniformly spaced independent variable!
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.align(start=505, end=565, steps=1)
         >>> spd.wavelengths
         array([ 505.,  506.,  507.,  508.,  509.,  510.,  511.,  512.,  513.,
@@ -1091,7 +1091,7 @@ used for interpolating functions having a uniformly spaced independent variable!
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.zeros(start=505, end=565, steps=1)
         >>> spd.values
         array([  0.  ,   0.  ,   0.  ,   0.  ,   0.  ,  49.67,   0.  ,   0.  ,
@@ -1132,7 +1132,7 @@ used for interpolating functions having a uniformly spaced independent variable!
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd.normalise()
         >>> spd.values
         array([ 0.56321578,  0.78909173,  0.92674906,  1.        ])
@@ -1157,7 +1157,7 @@ used for interpolating functions having a uniformly spaced independent variable!
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> spd = colour.SpectralPowerDistribution("Spd", data)
+        >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> print(id(spd))
         >>> spd_clone = spd.clone()
         >>> print(id(spd_clone))
@@ -1267,8 +1267,8 @@ class TriSpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                "'{0}' attribute: '{1}' type is not in 'str' or 'unicode'!".format(
-                    "name", value)
+                '"{0}" attribute: "{1}" type is not in "str" or "unicode"!'.format(
+                    'name', value)
         self.__name = value
 
     @property
@@ -1297,12 +1297,12 @@ class TriSpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) is dict, \
-                "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                    "mapping", value)
-            for axis in ("x", "y", "z"):
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'mapping', value)
+            for axis in ('x', 'y', 'z'):
                 assert axis in value.keys(), \
-                    "'{0}' attribute: '{1}' axis label is missing!".format(
-                        "mapping", axis)
+                    '"{0}" attribute: "{1}" axis label is missing!'.format(
+                        'mapping', axis)
         self.__mapping = value
 
     @property
@@ -1331,31 +1331,31 @@ class TriSpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) is dict, \
-                "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                    "data", value)
-            for axis in ("x", "y", "z"):
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'data', value)
+            for axis in ('x', 'y', 'z'):
                 assert self.__mapping.get(axis) in value.keys(), \
-                    "'{0}' attribute: '{1}' axis is missing!".format(
-                        "data", axis)
+                    '"{0}" attribute: "{1}" axis is missing!'.format(
+                        'data', axis)
 
             data = {}
-            for axis in ("x", "y", "z"):
+            for axis in ('x', 'y', 'z'):
                 data[axis] = SpectralPowerDistribution(
                     self.__mapping.get(axis),
                     value.get(self.__mapping.get(axis)))
 
             np.testing.assert_almost_equal(
-                data["x"].wavelengths,
-                data["y"].wavelengths,
-                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are \
-different!".format("data", self.__mapping.get("x"),
-                   self.__mapping.get("y")))
+                data['x'].wavelengths,
+                data['y'].wavelengths,
+                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
+different!'.format('data', self.__mapping.get('x'),
+                   self.__mapping.get('y')))
             np.testing.assert_almost_equal(
-                data["x"].wavelengths,
-                data["z"].wavelengths,
-                err_msg="'{0}' attribute: '{1}' and '{2}' wavelengths are \
-different!".format("data", self.__mapping.get("x"),
-                   self.__mapping.get("z")))
+                data['x'].wavelengths,
+                data['z'].wavelengths,
+                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
+different!'.format('data', self.__mapping.get('x'),
+                   self.__mapping.get('z')))
 
             self.__data = data
         else:
@@ -1387,12 +1387,12 @@ different!".format("data", self.__mapping.get("x"),
 
         if value is not None:
             assert type(value) is dict, \
-                "'{0}' attribute: '{1}' type is not 'dict'!".format(
-                    "labels", value)
-            for axis in ("x", "y", "z"):
+                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+                    'labels', value)
+            for axis in ('x', 'y', 'z'):
                 assert axis in value.keys(), \
-                    "'{0}' attribute: '{1}' axis label is missing!".format(
-                        "labels", axis)
+                    '"{0}" attribute: "{1}" axis label is missing!'.format(
+                        'labels', axis)
         self.__labels = value
 
     @property
@@ -1410,7 +1410,7 @@ different!".format("data", self.__mapping.get("x"),
         :attr:`TriSpectralPowerDistribution.x` is read only.
         """
 
-        return self.__data.get("x")
+        return self.__data.get('x')
 
     @x.setter
     def x(self, value):
@@ -1423,7 +1423,7 @@ different!".format("data", self.__mapping.get("x"),
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("x"))
+        raise AttributeError('"{0}" attribute is read only!'.format('x'))
 
     @property
     def y(self):
@@ -1440,7 +1440,7 @@ different!".format("data", self.__mapping.get("x"),
         :attr:`TriSpectralPowerDistribution.y` is read only.
         """
 
-        return self.__data.get("y")
+        return self.__data.get('y')
 
     @y.setter
     def y(self, value):
@@ -1453,7 +1453,7 @@ different!".format("data", self.__mapping.get("x"),
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("y"))
+        raise AttributeError('"{0}" attribute is read only!'.format('y'))
 
     @property
     def z(self):
@@ -1470,7 +1470,7 @@ different!".format("data", self.__mapping.get("x"),
         :attr:`TriSpectralPowerDistribution.z` is read only.
         """
 
-        return self.__data.get("z")
+        return self.__data.get('z')
 
     @z.setter
     def z(self, value):
@@ -1483,7 +1483,7 @@ different!".format("data", self.__mapping.get("x"),
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("z"))
+        raise AttributeError('"{0}" attribute is read only!'.format('z'))
 
     @property
     def wavelengths(self):
@@ -1514,7 +1514,7 @@ different!".format("data", self.__mapping.get("x"),
         """
 
         raise AttributeError(
-            "'{0}' attribute is read only!".format("wavelengths"))
+            '"{0}" attribute is read only!'.format('wavelengths'))
 
     @property
     def values(self):
@@ -1546,7 +1546,7 @@ different!".format("data", self.__mapping.get("x"),
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("values"))
+        raise AttributeError('"{0}" attribute is read only!'.format('values'))
 
     @property
     def shape(self):
@@ -1556,7 +1556,7 @@ different!".format("data", self.__mapping.get("x"),
         Returns the shape of the tri-spectral power distribution in the form of
         a tuple of *int* as follows::
 
-            ("start wavelength", "end wavelength", "steps between wavelengths")
+            ('start wavelength', 'end wavelength', 'steps between wavelengths')
 
         Returns
         -------
@@ -1578,9 +1578,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.shape
         (510, 540, 10)
         """
@@ -1598,7 +1598,7 @@ different!".format("data", self.__mapping.get("x"),
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("shape"))
+        raise AttributeError('"{0}" attribute is read only!'.format('shape'))
 
     def __hash__(self):
         """
@@ -1623,9 +1623,9 @@ different!".format("data", self.__mapping.get("x"),
                 (Last accessed 8 August 2014)
         """
 
-        return hash((frozenset(self.__data.get("x")),
-                     frozenset(self.__data.get("y")),
-                     frozenset(self.__data.get("z"))))
+        return hash((frozenset(self.__data.get('x')),
+                     frozenset(self.__data.get('y')),
+                     frozenset(self.__data.get('z'))))
 
     def __getitem__(self, wavelength):
         """
@@ -1654,9 +1654,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
         """
@@ -1685,9 +1685,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {}
         >>> y_bar = {}
         >>> z_bar = {}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[510] = (49.6700, 49.6700, 49.6700)
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
@@ -1717,9 +1717,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> for wavelength, value in tri_spd:
         >>>     print(wavelength, value)
         (510, array([ 49.67,  90.56,  12.43]))
@@ -1755,9 +1755,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> 510 in tri_spd
         True
 
@@ -1784,9 +1784,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> len(tri_spd)
         4
         """
@@ -1817,12 +1817,12 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data1 = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> data2 = {"x_bar": y_bar, "y_bar": x_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd1 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
-        >>> tri_spd2 = colour.TriSpectralPowerDistribution("Tri Spd", data2, mpg, lbl)
-        >>> tri_spd3 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> data2 = {'x_bar': y_bar, 'y_bar': x_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd1 = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd2 = colour.TriSpectralPowerDistribution('Tri Spd', data2, mpg, lbl)
+        >>> tri_spd3 = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd1 == tri_spd2
         False
         >>> tri_spd1 == tri_spd3
@@ -1859,12 +1859,12 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data1 = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> data2 = {"x_bar": y_bar, "y_bar": x_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd1 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
-        >>> tri_spd2 = colour.TriSpectralPowerDistribution("Tri Spd", data2, mpg, lbl)
-        >>> tri_spd3 = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> data2 = {'x_bar': y_bar, 'y_bar': x_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd1 = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd2 = colour.TriSpectralPowerDistribution('Tri Spd', data2, mpg, lbl)
+        >>> tri_spd3 = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd1 != tri_spd2
         True
         >>> tri_spd1 != tri_spd3
@@ -1933,9 +1933,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd + 10
         >>> tri_spd.values
         array([[  59.67,  100.56,   22.43],
@@ -1954,8 +1954,8 @@ different!".format("data", self.__mapping.get("x"),
 
         Adding a :class:`TriSpectralPowerDistribution` class variable:
 
-        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
-        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd + tri_spd_alternate
         >>> tri_spd.values
         array([[  73.1 ,  152.23,  115.99],
@@ -1966,7 +1966,7 @@ different!".format("data", self.__mapping.get("x"),
 
         values = self.values + self.__format_operand(x)
 
-        for i, axis in enumerate(("x", "y", "z")):
+        for i, axis in enumerate(('x', 'y', 'z')):
             self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
 
         return self
@@ -2006,9 +2006,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd - 10
         >>> tri_spd.values
         array([[ 39.67,  80.56,   2.43],
@@ -2027,8 +2027,8 @@ different!".format("data", self.__mapping.get("x"),
 
         Subtracting a :class:`TriSpectralPowerDistribution` class variable:
 
-        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
-        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd - tri_spd_alternate
         >>> tri_spd.values
         array([[ 26.24,  28.89, -91.13],
@@ -2074,9 +2074,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd * 10
         >>> tri_spd.values
         array([[ 496.7,  905.6,  124.3],
@@ -2095,8 +2095,8 @@ different!".format("data", self.__mapping.get("x"),
 
         Multiplying a :class:`TriSpectralPowerDistribution` class variable:
 
-        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
-        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd * tri_spd_alternate
         >>> tri_spd.values
         array([[  24695.924,  359849.216,  135079.296],
@@ -2107,7 +2107,7 @@ different!".format("data", self.__mapping.get("x"),
 
         values = self.values * self.__format_operand(x)
 
-        for i, axis in enumerate(("x", "y", "z")):
+        for i, axis in enumerate(('x', 'y', 'z')):
             self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
 
         return self
@@ -2147,9 +2147,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd / 10
         >>> tri_spd.values
         array([[ 4.967,  9.056,  1.243],
@@ -2168,8 +2168,8 @@ different!".format("data", self.__mapping.get("x"),
 
         Dividing a :class:`TriSpectralPowerDistribution` class variable:
 
-        >>> data1 = {"x_bar": z_bar, "y_bar": x_bar, "z_bar": y_bar}
-        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution("Tri Spd", data1, mpg, lbl)
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd_alternate = colour.TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
         >>> tri_spd / tri_spd_alternate
         >>> tri_spd.values
         array([[ 1.59839099,  0.36464667,  0.01830094],
@@ -2208,9 +2208,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
         >>> tri_spd.get(511)
@@ -2241,9 +2241,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.is_uniform()
         True
 
@@ -2294,9 +2294,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.extrapolate(400, 700).shape
         (400, 700, 10)
         >>> tri_spd[400]
@@ -2327,7 +2327,7 @@ different!".format("data", self.__mapping.get("x"),
         steps : float, optional
             Wavelengths :math:`\lambda_n` range steps.
         method : unicode, optional
-            ("Sprague", "Cubic Spline", "Linear"),
+            ('Sprague', 'Cubic Spline', 'Linear'),
             Enforce given interpolation method.
 
         Returns
@@ -2362,9 +2362,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.interpolate(steps=1)
         >>> tri_spd[515]
         array([ 60.30332087,  93.27163315,  13.86051361])
@@ -2374,9 +2374,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[511] = (31.41, 95.27, 15.06)
         >>> tri_spd.interpolate(steps=1)
         >>> tri_spd[515]
@@ -2387,10 +2387,10 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
-        >>> tri_spd.interpolate(steps=1, method="Linear")
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> tri_spd.interpolate(steps=1, method='Linear')
         >>> tri_spd[515]
         array([ 59.63,  88.95,  17.79])
         """
@@ -2429,9 +2429,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.align(start=505, end=565, steps=1)
         >>> tri_spd.wavelengths
         array([ 505.,  506.,  507.,  508.,  509.,  510.,  511.,  512.,  513.,
@@ -2535,9 +2535,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.zeros(start=505, end=565, steps=1)
         >>> tri_spd.values
         array([[  0.  ,   0.  ,   0.  ],
@@ -2632,9 +2632,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.normalise()
         >>> tri_spd.values
         array([[ 0.50559853,  0.9218241 ,  0.12652687],
@@ -2670,9 +2670,9 @@ different!".format("data", self.__mapping.get("x"),
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 89.76, 560: 90.28}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45, 550: 15.34, 560: 10.11}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28, 550: 91.61, 560: 98.24}
-        >>> data = {"x_bar": x_bar, "y_bar": y_bar, "z_bar": z_bar}
-        >>> mpg = lbl = {"x": "x_bar", "y": "y_bar", "z": "z_bar"}
-        >>> tri_spd = colour.TriSpectralPowerDistribution("Tri Spd", data, mpg, lbl)
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> print(id(tri_spd))
         >>> tri_spd_clone = tri_spd.clone()
         >>> print(id(tri_spd_clone))

@@ -18,18 +18,18 @@ else:
 from colour.algebra import LinearInterpolator1d
 from colour.algebra import SpragueInterpolator
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["POINTS_DATA_A",
-           "LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
-           "SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES",
-           "TestLinearInterpolator1d",
-           "TestSpragueInterpolator"]
+__all__ = ['POINTS_DATA_A',
+           'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+           'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+           'TestLinearInterpolator1d',
+           'TestSpragueInterpolator']
 
 POINTS_DATA_A = np.array([
     9.3700,
@@ -367,8 +367,8 @@ class TestLinearInterpolator1d(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("x",
-                               "y")
+        required_attributes = ('x',
+                               'y')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(LinearInterpolator1d))
@@ -417,8 +417,8 @@ class TestSpragueInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("x",
-                               "y")
+        required_attributes = ('x',
+                               'y')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpragueInterpolator))
@@ -456,5 +456,5 @@ class TestSpragueInterpolator(unittest.TestCase):
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

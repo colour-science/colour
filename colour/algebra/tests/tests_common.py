@@ -25,21 +25,21 @@ from colour.algebra import (
     is_integer,
     normalise)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestGetSteps",
-           "TestGetClosest",
-           "TestToNdarray",
-           "TestIsUniform",
-           "TestIsIterable",
-           "TestIsNumber",
-           "TestIsInteger",
-           "TestNormalise"]
+__all__ = ['TestGetSteps',
+           'TestGetClosest',
+           'TestToNdarray',
+           'TestIsUniform',
+           'TestIsIterable',
+           'TestIsNumber',
+           'TestIsInteger',
+           'TestNormalise']
 
 
 class TestGetSteps(unittest.TestCase):
@@ -126,7 +126,7 @@ class TestIsIterable(unittest.TestCase):
         Tests :func:`colour.algebra.common.is_iterable` definition.
         """
 
-        self.assertTrue(is_iterable(""))
+        self.assertTrue(is_iterable(''))
         self.assertTrue(is_iterable(()))
         self.assertTrue(is_iterable([]))
         self.assertTrue(is_iterable(dict()))
@@ -151,7 +151,7 @@ class TestIsNumber(unittest.TestCase):
         self.assertTrue(is_number(complex(1)))
         self.assertFalse(is_number((1,)))
         self.assertFalse(is_number([1]))
-        self.assertFalse(is_number("1"))
+        self.assertFalse(is_number('1'))
 
 
 class TestIsInteger(unittest.TestCase):
@@ -201,5 +201,5 @@ class TestNormalise(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

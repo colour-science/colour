@@ -19,21 +19,21 @@ except ImportError as error:
 from colour.models import RGB_to_XYZ, XYZ_to_Lab
 from colour.colorimetry import ILLUMINANTS
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["get_dag_path",
-           "get_mpoint",
-           "get_shapes",
-           "set_attributes",
-           "RGB_to_Lab",
-           "RGB_identity_cube",
-           "Lab_colourspace_cube",
-           "Lab_coordinates_system_representation"]
+__all__ = ['get_dag_path',
+           'get_mpoint',
+           'get_shapes',
+           'set_attributes',
+           'RGB_to_Lab',
+           'RGB_identity_cube',
+           'Lab_colourspace_cube',
+           'Lab_coordinates_system_representation']
 
 
 def get_dag_path(node):
@@ -144,12 +144,12 @@ def RGB_to_Lab(RGB, colourspace):
     """
 
     return XYZ_to_Lab(
-        RGB_to_XYZ(np.array(RGB).reshape((3, 1)),
+        RGB_to_XYZ(np.array(RGB),
                    colourspace.whitepoint,
                    ILLUMINANTS.get(
-                       "CIE 1931 2 Degree Standard Observer").get("E"),
+                       'CIE 1931 2 Degree Standard Observer').get('E'),
                    colourspace.to_XYZ,
-                   "Bradford",
+                   'Bradford',
                    colourspace.inverse_transfer_function),
         colourspace.whitepoint)
 
@@ -178,10 +178,10 @@ def RGB_identity_cube(name, density=20):
                          sy=density,
                          sz=density,
                          ch=False)[0]
-    set_attributes({"{0}.translateX".format(cube): .5,
-                    "{0}.translateY".format(cube): .5,
-                    "{0}.translateZ".format(cube): .5})
-    cmds.setAttr("{0}.displayColors".format(cube), True)
+    set_attributes({'{0}.translateX'.format(cube): .5,
+                    '{0}.translateY'.format(cube): .5,
+                    '{0}.translateZ'.format(cube): .5})
+    cmds.setAttr('{0}.displayColors'.format(cube), True)
 
     vertex_colour_array = OpenMaya.MColorArray()
     vertex_index_array = OpenMaya.MIntArray()
@@ -227,8 +227,8 @@ def Lab_colourspace_cube(colourspace, density=20):
                                                   position[2],),
                                                  colourspace)))))
         it_mesh_vertex.next()
-    set_attributes({"{0}.rotateX".format(cube): 180,
-                    "{0}.rotateZ".format(cube): 90})
+    set_attributes({'{0}.rotateX'.format(cube): 180,
+                    '{0}.rotateZ'.format(cube): 90})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
     return cube
 
@@ -243,25 +243,25 @@ def Lab_coordinates_system_representation():
         Definition success.
     """
 
-    group = cmds.createNode("transform")
+    group = cmds.createNode('transform')
 
     cube = cmds.polyCube(w=600, h=100, d=600, sx=12, sy=2, sz=12, ch=False)[0]
-    set_attributes({"{0}.translateY".format(cube): 50,
-                    "{0}.overrideEnabled".format(cube): True,
-                    "{0}.overrideDisplayType".format(cube): 2,
-                    "{0}.overrideShading".format(cube): False})
+    set_attributes({'{0}.translateY'.format(cube): 50,
+                    '{0}.overrideEnabled'.format(cube): True,
+                    '{0}.overrideDisplayType'.format(cube): 2,
+                    '{0}.overrideShading'.format(cube): False})
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
-    cmds.select(["{0}.f[0:167]".format(cube), "{0}.f[336:359]".format(cube)])
+    cmds.select(['{0}.f[0:167]'.format(cube), '{0}.f[336:359]'.format(cube)])
     cmds.delete()
 
     cmds.nurbsToPolygonsPref(polyType=1, chordHeightRatio=0.975)
 
-    for label, position, name in (("-a*", (-350, 0), "minus_a"),
-                                  ("+a*", (350, 0), "plus_a"),
-                                  ("-b*", (0, 350), "minus_b"),
-                                  ("+b*", (0, -350), "plus_b")):
+    for label, position, name in (('-a*', (-350, 0), 'minus_a'),
+                                  ('+a*', (350, 0), 'plus_a'),
+                                  ('-b*', (0, 350), 'minus_b'),
+                                  ('+b*', (0, -350), 'plus_b')):
         curves = cmds.listRelatives(
-            cmds.textCurves(f="Arial Black Bold", t=label)[0])
+            cmds.textCurves(f='Arial Black Bold', t=label)[0])
         mesh = cmds.polyUnite(*[cmds.planarSrf(x,
                                                ch=False,
                                                o=True,
@@ -273,21 +273,21 @@ def Lab_coordinates_system_representation():
         cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
         cmds.select(mesh)
         cmds.polyColorPerVertex(rgb=(0, 0, 0), cdo=True)
-        set_attributes({"{0}.translateX".format(mesh): position[0],
-                        "{0}.translateZ".format(mesh): position[1],
-                        "{0}.rotateX".format(mesh): -90,
-                        "{0}.scaleX".format(mesh): 50,
-                        "{0}.scaleY".format(mesh): 50,
-                        "{0}.scaleY".format(mesh): 50,
-                        "{0}.overrideEnabled".format(mesh): True,
-                        "{0}.overrideDisplayType".format(mesh): 2})
+        set_attributes({'{0}.translateX'.format(mesh): position[0],
+                        '{0}.translateZ'.format(mesh): position[1],
+                        '{0}.rotateX'.format(mesh): -90,
+                        '{0}.scaleX'.format(mesh): 50,
+                        '{0}.scaleY'.format(mesh): 50,
+                        '{0}.scaleY'.format(mesh): 50,
+                        '{0}.overrideEnabled'.format(mesh): True,
+                        '{0}.overrideDisplayType'.format(mesh): 2})
         cmds.delete(cmds.listRelatives(curves, parent=True))
         cmds.makeIdentity(mesh, apply=True, t=True, r=True, s=True)
         mesh = cmds.rename(mesh, name)
         cmds.parent(mesh, group)
 
-    cube = cmds.rename(cube, "grid")
+    cube = cmds.rename(cube, 'grid')
     cmds.parent(cube, group)
-    cmds.rename(group, "Lab_coordinates_system_representation")
+    cmds.rename(group, 'Lab_coordinates_system_representation')
 
     return True

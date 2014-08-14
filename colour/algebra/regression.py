@@ -20,14 +20,14 @@ import numpy as np
 
 from colour.algebra import to_ndarray
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["linear_regression"]
+__all__ = ['linear_regression']
 
 
 def linear_regression(y, x=None, additional_statistics=False):
@@ -97,7 +97,7 @@ def linear_regression(y, x=None, additional_statistics=False):
         x = to_ndarray(x)
         if len(x) != len(y):
             raise ValueError(
-                "'y' and 'x' variables have incompatible dimensions!")
+                '"y" and "x" variables have incompatible dimensions!')
 
     x = np.vstack([np.array(x).T, np.ones(len(x))]).T
     result = np.linalg.lstsq(x, y)

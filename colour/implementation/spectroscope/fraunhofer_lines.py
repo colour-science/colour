@@ -28,112 +28,112 @@ from colour.implementation.spectroscope.analysis import (
     get_luminance_spd,
     transfer_function)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RESOURCES_DIRECTORY",
-           "SUN_SPECTRUM_IMAGE",
-           "FRAUNHOFER_LINES_PUBLISHED",
-           "FRAUNHOFER_LINES_ELEMENTS_MAPPING",
-           "FRAUNHOFER_LINES_NOTABLE",
-           "FRAUNHOFER_LINES_CLUSTERED",
-           "FRAUNHOFER_LINES_MEASURED",
-           "fraunhofer_lines_plot"]
+__all__ = ['RESOURCES_DIRECTORY',
+           'SUN_SPECTRUM_IMAGE',
+           'FRAUNHOFER_LINES_PUBLISHED',
+           'FRAUNHOFER_LINES_ELEMENTS_MAPPING',
+           'FRAUNHOFER_LINES_NOTABLE',
+           'FRAUNHOFER_LINES_CLUSTERED',
+           'FRAUNHOFER_LINES_MEASURED',
+           'fraunhofer_lines_plot']
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), "resources")
+RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 SUN_SPECTRUM_IMAGE = os.path.join(RESOURCES_DIRECTORY,
-                                  "Fraunhofer_Lines_001.png")
+                                  'Fraunhofer_Lines_001.png')
 
 FRAUNHOFER_LINES_PUBLISHED = {
-    "y": 898.765,
-    "Z": 822.696,
-    "A": 759.370,
-    "B": 686.719,
-    "C": 656.281,
-    "a": 627.661,
-    "D1": 589.592,
-    "D2": 588.995,
-    "D3": 587.5618,
-    "e": 546.073,
-    "E2": 527.039,
-    "b1": 518.362,
-    "b2": 517.270,
-    "b3": 516.891,
-    "b4": 516.733,
-    "c": 495.761,
-    "F": 486.134,
-    "d": 466.814,
-    "e": 438.355,
-    "G": 430.790,
-    "h": 410.175,
-    "H": 396.847,
-    "K": 393.368,
-    "L": 382.044,
-    "N": 358.121,
-    "P": 336.112,
-    "T": 302.108,
-    "t": 299.444}
+    'y': 898.765,
+    'Z': 822.696,
+    'A': 759.370,
+    'B': 686.719,
+    'C': 656.281,
+    'a': 627.661,
+    'D1': 589.592,
+    'D2': 588.995,
+    'D3': 587.5618,
+    'e': 546.073,
+    'E2': 527.039,
+    'b1': 518.362,
+    'b2': 517.270,
+    'b3': 516.891,
+    'b4': 516.733,
+    'c': 495.761,
+    'F': 486.134,
+    'd': 466.814,
+    'e': 438.355,
+    'G': 430.790,
+    'h': 410.175,
+    'H': 396.847,
+    'K': 393.368,
+    'L': 382.044,
+    'N': 358.121,
+    'P': 336.112,
+    'T': 302.108,
+    't': 299.444}
 
 FRAUNHOFER_LINES_ELEMENTS_MAPPING = {
-    "y": "O2",
-    "Z": "O2",
-    "A": "O2",
-    "B": "O2",
-    "C": "H Alpha",
-    "a": "O2",
-    "D1": "Na",
-    "D2": "Na",
-    "D3": "He",
-    "e": "Hg",
-    "E2": "Fe",
-    "b1": "Mg",
-    "b2": "Mg",
-    "b3": "Fe",
-    "b4": "Mg",
-    "c": "Fe",
-    "F": "H Beta",
-    "d": "Fe",
-    "e": "Fe",
-    "G'": "H Gamma",
-    "G": "Fe",
-    "G": "Ca",
-    "h": "H Delta",
-    "H": "Ca+",
-    "K": "Ca+",
-    "L": "Fe",
-    "N": "Fe",
-    "P": "Ti+",
-    "T": "Fe",
-    "t": "Ni"}
+    'y': 'O2',
+    'Z': 'O2',
+    'A': 'O2',
+    'B': 'O2',
+    'C': 'H Alpha',
+    'a': 'O2',
+    'D1': 'Na',
+    'D2': 'Na',
+    'D3': 'He',
+    'e': 'Hg',
+    'E2': 'Fe',
+    'b1': 'Mg',
+    'b2': 'Mg',
+    'b3': 'Fe',
+    'b4': 'Mg',
+    'c': 'Fe',
+    'F': 'H Beta',
+    'd': 'Fe',
+    'e': 'Fe',
+    'G"': 'H Gamma',
+    'G': 'Fe',
+    'G': 'Ca',
+    'h': 'H Delta',
+    'H': 'Ca+',
+    'K': 'Ca+',
+    'L': 'Fe',
+    'N': 'Fe',
+    'P': 'Ti+',
+    'T': 'Fe',
+    't': 'Ni'}
 
 FRAUNHOFER_LINES_NOTABLE = (
-    "A",
-    "B",
-    "C",
-    "D1",
-    "D2",
-    "D3",
-    "E2",
-    "F",
-    "G",
-    "H",
-    "K")
+    'A',
+    'B',
+    'C',
+    'D1',
+    'D2',
+    'D3',
+    'E2',
+    'F',
+    'G',
+    'H',
+    'K')
 
-FRAUNHOFER_LINES_CLUSTERED = {"b[1-4]": ("b2", ("b4", "b3", "b1",), "b\n4-1"),
-                              "D[1-3]": ("D3", ("D2", "D1"), "D\n3-1")}
+FRAUNHOFER_LINES_CLUSTERED = {'b[1-4]': ('b2', ('b4', 'b3', 'b1',), 'b\n4-1'),
+                              'D[1-3]': ('D3', ('D2', 'D1'), 'D\n3-1')}
 
 FRAUNHOFER_LINES_MEASURED = {
-    "G": 134,
-    "F": 371,
-    "b4": 502,
-    "E2": 545,
-    "D1": 810,
-    "a": 974,
-    "C": 1095}
+    'G': 134,
+    'F': 371,
+    'b4': 502,
+    'E2': 545,
+    'D1': 810,
+    'a': 974,
+    'C': 1095}
 
 
 def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
@@ -158,7 +158,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
     height = len(RGB_spectrum.R.values) / 8
     luminance_spd = get_luminance_spd(RGB_spectrum).normalise(height)
 
-    pylab.title("The Solar Spectrum - Fraunhofer Lines")
+    pylab.title('The Solar Spectrum - Fraunhofer Lines')
 
     wavelengths = RGB_spectrum.wavelengths
     input, output = min(wavelengths), max(wavelengths)
@@ -168,7 +168,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                  extent=[input, output, 0, height])
 
     pylab.plot(luminance_spd.wavelengths,
-               luminance_spd.values, color="black",
+               luminance_spd.values, color='black',
                linewidth=1.)
 
     fraunhofer_wavelengths = np.array(
@@ -211,21 +211,21 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                        y1 * scale + (y1 * 0.025),
                        label,
                        clip_on=True,
-                       ha="center",
-                       va="bottom",
-                       fontdict={"size": "large" if is_large_line else"small"})
+                       ha='center',
+                       va='bottom',
+                       fontdict={'size': 'large' if is_large_line else'small'})
 
     r = lambda x: int(x / 100.) * 100
     matplotlib.pyplot.xticks(np.arange(r(input), r(output * 1.5), 20.))
 
-    settings = {"x_tighten": True,
-                "y_tighten": True,
-                "x_label": u"Wavelength λ (nm)",
-                "y_label": False,
-                "legend": False,
-                "limits": [input, output, 0, height],
-                "no_y_ticks": True,
-                "grid": True}
+    settings = {'x_tighten': True,
+                'y_tighten': True,
+                'x_label': u'Wavelength λ (nm)',
+                'y_label': False,
+                'legend': False,
+                'limits': [input, output, 0, height],
+                'no_y_ticks': True,
+                'grid': True}
 
     colour.plotting.bounding_box(**settings)
 
@@ -234,5 +234,5 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
     return colour.plotting.display(**settings)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fraunhofer_lines_plot()

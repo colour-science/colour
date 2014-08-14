@@ -42,4 +42,4 @@ print(colour.models.deprecated.RGB_to_HEX(
     [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
 
 # Converting from hex triplet representation to *RGB* colourspace.
-print(colour.models.deprecated.HEX_to_RGB("#7dfa40"))
+print(colour.models.deprecated.HEX_to_RGB('#7dfa40'))

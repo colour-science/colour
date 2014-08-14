@@ -29,18 +29,18 @@ from colour.quality.dataset.tcs import TCS_SPDS, TCS_INDEXES_TO_NAMES
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_illuminant_D, uv_to_CCT_robertson1968
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TSC_COLORIMETRY_DATA_NXYZUVUVW",
-           "get_colour_rendering_index"]
+__all__ = ['TSC_COLORIMETRY_DATA_NXYZUVUVW',
+           'get_colour_rendering_index']
 
-TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple("TscColorimetryData_nXYZuvUVW",
-                                            ("name", "XYZ", "uv", "UVW"))
+TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple('TscColorimetryData_nXYZuvUVW',
+                                            ('name', 'XYZ', 'uv', 'UVW'))
 
 
 def _get_tcs_colorimetry_data(test_spd,
@@ -156,12 +156,12 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     Examples
     --------
-    >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
+    >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour.get_colour_rendering_index(spd)
     64.1507331494
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     start, end, steps = cmfs.shape
     test_spd = test_spd.clone().align(start, end, steps)

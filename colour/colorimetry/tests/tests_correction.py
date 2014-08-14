@@ -19,16 +19,16 @@ from colour.colorimetry import (
     SpectralPowerDistribution,
     bandpass_correction_stearns1988)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["SPD_DATA",
-           "BANDPASS_CORRECTED_STEARNS_SPD_DATA",
-           "TestBandpassCorrectionStearns1988"]
+__all__ = ['SPD_DATA',
+           'BANDPASS_CORRECTED_STEARNS_SPD_DATA',
+           'TestBandpassCorrectionStearns1988']
 
 SPD_DATA = np.array([
     9.3700,
@@ -80,12 +80,12 @@ class TestBandpassCorrectionStearns1988(unittest.TestCase):
         """
 
         spd = SpectralPowerDistribution(
-            "Spd", dict(zip(range(len(SPD_DATA)), SPD_DATA)))
+            'Spd', dict(zip(range(len(SPD_DATA)), SPD_DATA)))
 
         np.testing.assert_almost_equal(
             bandpass_correction_stearns1988(spd).values,
             BANDPASS_CORRECTED_STEARNS_SPD_DATA)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

@@ -25,16 +25,16 @@ from __future__ import unicode_literals
 
 from colour.colorimetry import TriSpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["LMS_ConeFundamentals",
-           "RGB_ColourMatchingFunctions",
-           "XYZ_ColourMatchingFunctions"]
+__all__ = ['LMS_ConeFundamentals',
+           'RGB_ColourMatchingFunctions',
+           'XYZ_ColourMatchingFunctions']
 
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
@@ -61,12 +61,12 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
-                                              mapping={"x": "l_bar",
-                                                       "y": "m_bar",
-                                                       "z": "s_bar"},
-                                              labels={"x": "l\u0304",
-                                                      "y": "m\u0304",
-                                                      "z": "s\u0304"})
+                                              mapping={'x': 'l_bar',
+                                                       'y': 'm_bar',
+                                                       'z': 's_bar'},
+                                              labels={'x': 'l\u0304',
+                                                      'y': 'm\u0304',
+                                                      'z': 's\u0304'})
 
     @property
     def l_bar(self):
@@ -96,7 +96,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("l_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('l_bar'))
 
     @property
     def m_bar(self):
@@ -126,7 +126,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("m_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('m_bar'))
 
     @property
     def s_bar(self):
@@ -157,7 +157,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("s_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('s_bar'))
 
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -182,12 +182,12 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
-                                              mapping={"x": "r_bar",
-                                                       "y": "g_bar",
-                                                       "z": "b_bar"},
-                                              labels={"x": "r\u0304",
-                                                      "y": "g\u0304",
-                                                      "z": "b\u0304"})
+                                              mapping={'x': 'r_bar',
+                                                       'y': 'g_bar',
+                                                       'z': 'b_bar'},
+                                              labels={'x': 'r\u0304',
+                                                      'y': 'g\u0304',
+                                                      'z': 'b\u0304'})
 
     @property
     def r_bar(self):
@@ -217,7 +217,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("r_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('r_bar'))
 
     @property
     def g_bar(self):
@@ -248,7 +248,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("g_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('g_bar'))
 
     @property
     def b_bar(self):
@@ -279,7 +279,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("b_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('b_bar'))
 
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
@@ -305,12 +305,12 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
-                                              mapping={"x": "x_bar",
-                                                       "y": "y_bar",
-                                                       "z": "z_bar"},
-                                              labels={"x": "x\u0304",
-                                                      "y": "y\u0304",
-                                                      "z": "z\u0304"})
+                                              mapping={'x': 'x_bar',
+                                                       'y': 'y_bar',
+                                                       'z': 'z_bar'},
+                                              labels={'x': 'x\u0304',
+                                                      'y': 'y\u0304',
+                                                      'z': 'z\u0304'})
 
     @property
     def x_bar(self):
@@ -340,7 +340,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("x_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('x_bar'))
 
     @property
     def y_bar(self):
@@ -370,7 +370,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("y_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('y_bar'))
 
     @property
     def z_bar(self):
@@ -400,4 +400,4 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError("'{0}' attribute is read only!".format("z_bar"))
+        raise AttributeError('"{0}" attribute is read only!'.format('z_bar'))

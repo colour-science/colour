@@ -16,14 +16,14 @@ else:
 
 from colour.optimal import is_within_macadam_limits
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestIsWithinMacadamLimits"]
+__all__ = ['TestIsWithinMacadamLimits']
 
 
 class TestIsWithinMacadamLimits(unittest.TestCase):
@@ -39,14 +39,14 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         """
 
         self.assertTrue(
-            is_within_macadam_limits((0.3205, 0.4131, 0.51), "A"))
+            is_within_macadam_limits((0.3205, 0.4131, 0.51), 'A'))
         self.assertFalse(
-            is_within_macadam_limits((0.0005, 0.0031, 0.001), "A"))
+            is_within_macadam_limits((0.0005, 0.0031, 0.001), 'A'))
         self.assertTrue(
-            is_within_macadam_limits((0.4325, 0.3788, 0.1034), "C"))
+            is_within_macadam_limits((0.4325, 0.3788, 0.1034), 'C'))
         self.assertFalse(
-            is_within_macadam_limits((0.0025, 0.0088, 0.034), "C"))
+            is_within_macadam_limits((0.0025, 0.0088, 0.034), 'C'))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

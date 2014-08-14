@@ -19,22 +19,22 @@ from colour.colorimetry import (
     STANDARD_OBSERVERS_CMFS)
 from colour.utilities import memoize
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["spectral_to_XYZ",
-           "wavelength_to_XYZ"]
+__all__ = ['spectral_to_XYZ',
+           'wavelength_to_XYZ']
 
 _WAVELENGTH_TO_XYZ_CACHE = {}
 
 
 def spectral_to_XYZ(spd,
                     cmfs=STANDARD_OBSERVERS_CMFS.get(
-                        "CIE 1931 2 Degree Standard Observer"),
+                        'CIE 1931 2 Degree Standard Observer'),
                     illuminant=None):
     """
     Converts given spectral power distribution to *CIE XYZ* colourspace using
@@ -51,7 +51,7 @@ def spectral_to_XYZ(spd,
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -69,14 +69,12 @@ def spectral_to_XYZ(spd,
 
     Examples
     --------
-    >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> cmfs = colour.CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> data = {380: 0.0600, 390: 0.0600}
-    >>> spd = colour.SpectralPowerDistribution("Custom", data)
-    >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get("D50")
+    >>> spd = colour.SpectralPowerDistribution('Custom', data)
+    >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get('D50')
     >>> colour.spectral_to_XYZ(spd, cmfs, illuminant)
-    array([[  4.57648522e-04],
-           [  1.29648668e-05],
-           [  2.16158075e-03]])
+    array([  4.57648522e-04,   1.29648668e-05,   2.16158075e-03])
     """
 
     shape = cmfs.shape
@@ -87,7 +85,7 @@ def spectral_to_XYZ(spd,
         start, end, steps = shape
         range = np.arange(start, end + steps, steps)
         illuminant = SpectralPowerDistribution(
-            name="1.0",
+            name='1.0',
             data=dict(zip(*(tuple(range), [1.] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
@@ -110,13 +108,13 @@ def spectral_to_XYZ(spd,
                     normalising_factor * np.sum(y_products),
                     normalising_factor * np.sum(z_products)])
 
-    return XYZ.reshape((3, 1))
+    return XYZ
 
 
 @memoize(_WAVELENGTH_TO_XYZ_CACHE)
 def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
-                          "CIE 1931 2 Degree Standard Observer")):
+                          'CIE 1931 2 Degree Standard Observer')):
     """
     Converts given wavelength :math:`\lambda` to *CIE XYZ* colourspace using
     given colour matching functions.
@@ -136,7 +134,7 @@ def wavelength_to_XYZ(wavelength,
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
     Notes
@@ -147,17 +145,15 @@ def wavelength_to_XYZ(wavelength,
 
     Examples
     --------
-    >>> cmfs = colour.CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> cmfs = colour.CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> colour.wavelength_to_XYZ(480)
-    array([[ 0.09564  ],
-           [ 0.13902  ],
-           [ 0.8129501]])
+    array([ 0.09564  ,  0.13902  ,  0.8129501])
     """
 
     start, end, steps = cmfs.shape
     if wavelength < start or wavelength > end:
-        raise ValueError("'{0} nm' wavelength not in '{1} - {2}' nm supported"
-                         "wavelengths range!".format(wavelength, start, end))
+        raise ValueError('"{0} nm" wavelength not in "{1} - {2}" nm supported'
+                         'wavelengths range!'.format(wavelength, start, end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
@@ -169,6 +165,6 @@ def wavelength_to_XYZ(wavelength,
                          for i in range(values.shape[-1])]
 
         return np.array([interpolator(wavelength)
-                         for interpolator in interpolators]).reshape((3, 1))
+                         for interpolator in interpolators])
     else:
-        return np.array(cmfs.get(wavelength)).reshape((3, 1))
+        return np.array(cmfs.get(wavelength))

@@ -29,33 +29,33 @@ from colour.colorimetry import ILLUMINANTS
 from colour.utilities import Structure
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["ACES_RGB_PRIMARIES",
-           "ACES_RGB_WHITEPOINT",
-           "ACES_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_ACES_RGB_MATRIX",
-           "ACES_RGB_TRANSFER_FUNCTION",
-           "ACES_RGB_INVERSE_TRANSFER_FUNCTION",
-           "ACES_RGB_COLOURSPACE",
-           "ACES_RGB_LOG_CONSTANTS",
-           "ACES_RGB_LOG_TRANSFER_FUNCTION",
-           "ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION",
-           "ACES_RGB_LOG_COLOURSPACE",
-           "ACES_RGB_PROXY_10_CONSTANTS",
-           "ACES_RGB_PROXY_12_CONSTANTS",
-           "ACES_RGB_PROXY_CONSTANTS",
-           "ACES_RGB_PROXY_10_TRANSFER_FUNCTION",
-           "ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION",
-           "ACES_RGB_PROXY_12_TRANSFER_FUNCTION",
-           "ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION",
-           "ACES_RGB_PROXY_10_COLOURSPACE",
-           "ACES_RGB_PROXY_12_COLOURSPACE"]
+__all__ = ['ACES_RGB_PRIMARIES',
+           'ACES_RGB_WHITEPOINT',
+           'ACES_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_ACES_RGB_MATRIX',
+           'ACES_RGB_TRANSFER_FUNCTION',
+           'ACES_RGB_INVERSE_TRANSFER_FUNCTION',
+           'ACES_RGB_COLOURSPACE',
+           'ACES_RGB_LOG_CONSTANTS',
+           'ACES_RGB_LOG_TRANSFER_FUNCTION',
+           'ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION',
+           'ACES_RGB_LOG_COLOURSPACE',
+           'ACES_RGB_PROXY_10_CONSTANTS',
+           'ACES_RGB_PROXY_12_CONSTANTS',
+           'ACES_RGB_PROXY_CONSTANTS',
+           'ACES_RGB_PROXY_10_TRANSFER_FUNCTION',
+           'ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION',
+           'ACES_RGB_PROXY_12_TRANSFER_FUNCTION',
+           'ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION',
+           'ACES_RGB_PROXY_10_COLOURSPACE',
+           'ACES_RGB_PROXY_12_COLOURSPACE']
 
 ACES_RGB_PRIMARIES = np.array(
     [0.73470, 0.26530,
@@ -73,7 +73,7 @@ References
 """
 
 ACES_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D60")
+    'CIE 1931 2 Degree Standard Observer').get('D60')
 """
 *ACES RGB* colourspace whitepoint.
 
@@ -118,7 +118,7 @@ ACES_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_COLOURSPACE = RGB_Colourspace(
-    "ACES RGB",
+    'ACES RGB',
     ACES_RGB_PRIMARIES,
     ACES_RGB_WHITEPOINT,
     ACES_RGB_TO_XYZ_MATRIX,
@@ -215,7 +215,7 @@ ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace(
-    "ACES RGB Log",
+    'ACES RGB Log',
     ACES_RGB_PRIMARIES,
     ACES_RGB_WHITEPOINT,
     ACES_RGB_TO_XYZ_MATRIX,
@@ -258,17 +258,17 @@ ACES_RGB_PROXY_12_CONSTANTS = Structure(
 ACES_RGB_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_RGB_PROXY_CONSTANTS = {"10 Bit": ACES_RGB_PROXY_10_CONSTANTS,
-                            "12 Bit": ACES_RGB_PROXY_12_CONSTANTS}
+ACES_RGB_PROXY_CONSTANTS = {'10 Bit': ACES_RGB_PROXY_10_CONSTANTS,
+                            '12 Bit': ACES_RGB_PROXY_12_CONSTANTS}
 """
 Aggregated *ACES RGB Proxy* colourspace constants.
 
 ACES_RGB_PROXY_CONSTANTS : dict
-    ("10 Bit", "12 Bit")
+    ('10 Bit', '12 Bit')
 """
 
 
-def _aces_rgb_proxy_transfer_function(value, bit_depth="10 Bit"):
+def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
     """
     Defines the *ACES RGB Proxy* colourspace transfer function.
 
@@ -276,7 +276,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth="10 Bit"):
     ----------
     value : float
         value.
-    bit_depth : unicode ("10 Bit", "12 Bit")
+    bit_depth : unicode ('10 Bit', '12 Bit')
         *ACES RGB Proxy* bit depth.
 
     Returns
@@ -297,7 +297,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth="10 Bit"):
         return constants.CV_min
 
 
-def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 Bit"):
+def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
     """
     Defines the *ACES RGB Proxy* colourspace inverse transfer function.
 
@@ -305,7 +305,7 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 Bit"):
     ----------
     value : float
         value.
-    bit_depth : str ("10 Bit", "12 Bit")
+    bit_depth : str ('10 Bit', '12 Bit')
         *ACES RGB Proxy* bit depth.
 
     Returns
@@ -322,7 +322,7 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth="10 Bit"):
 
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth="10 Bit")
+    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit')
 """
 Transfer function from linear to *ACES RGB Proxy 10* colourspace.
 
@@ -330,7 +330,7 @@ ACES_RGB_PROXY_10_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="10 Bit")
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit')
 """
 Inverse transfer function from *ACES RGB Proxy 10* colourspace to linear.
 
@@ -338,7 +338,7 @@ ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth="12 Bit")
+    _aces_rgb_proxy_transfer_function(x, bit_depth='12 Bit')
 """
 Transfer function from linear to *ACES RGB Proxy 12* colourspace.
 
@@ -346,7 +346,7 @@ ACES_RGB_PROXY_12_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth="12 Bit")
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='12 Bit')
 """
 Inverse transfer function from *ACES RGB Proxy 12* colourspace to linear.
 
@@ -354,7 +354,7 @@ ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace(
-    "ACES RGB Proxy 10",
+    'ACES RGB Proxy 10',
     ACES_RGB_PRIMARIES,
     ACES_RGB_WHITEPOINT,
     ACES_RGB_TO_XYZ_MATRIX,
@@ -374,7 +374,7 @@ References
 """
 
 ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace(
-    "ACES RGB Proxy 12",
+    'ACES RGB Proxy 12',
     ACES_RGB_PRIMARIES,
     ACES_RGB_WHITEPOINT,
     ACES_RGB_TO_XYZ_MATRIX,

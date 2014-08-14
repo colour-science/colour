@@ -22,19 +22,19 @@ import warnings
 from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import memoize
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["C1",
-           "C2",
-           "N",
-           "planck_law",
-           "blackbody_spectral_radiance",
-           "blackbody_spectral_power_distribution"]
+__all__ = ['C1',
+           'C2',
+           'N',
+           'planck_law',
+           'blackbody_spectral_radiance',
+           'blackbody_spectral_power_distribution']
 
 C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
 C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
@@ -57,7 +57,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     References
     ----------
     .. [1]  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E.
-            Information on the Use of Planck's Equation for Standard Air.
+            Information on the Use of Planck"s Equation for Standard Air.
             <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
 
     Parameters
@@ -98,7 +98,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     try:
         with warnings.catch_warnings():
-            warnings.simplefilter("error")
+            warnings.simplefilter('error')
             return (((c1 * n ** -2 * l ** -5) / math.pi) *
                     (math.exp(c2 / (n * l * t)) - 1) ** -1)
     except (OverflowError, RuntimeWarning) as error:
@@ -152,13 +152,13 @@ def blackbody_spectral_power_distribution(temperature,
 
     Examples
     --------
-    >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get("CIE 1931 2 Degree Standard Observer")
+    >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> colour.blackbody_spectral_power_distribution(5000, *cmfs.shape)
     <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10616fe90>
     """
 
     return SpectralPowerDistribution(
-        name="{0}K Blackbody".format(temperature),
+        name='{0}K Blackbody'.format(temperature),
         data=dict((wavelength,
                    blackbody_spectral_radiance(
                        wavelength * 1e-9,

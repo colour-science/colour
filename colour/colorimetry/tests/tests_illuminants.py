@@ -17,16 +17,16 @@ else:
 
 from colour.colorimetry import D_illuminant_relative_spd
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["SAMPLE_SPD_DATA",
-           "D60_SPD_DATA",
-           "TestD_illuminantRelativeSpd"]
+__all__ = ['SAMPLE_SPD_DATA',
+           'D60_SPD_DATA',
+           'TestD_illuminantRelativeSpd']
 
 D60_SPD_DATA = {
     300: 0.029370758174922885,
@@ -104,5 +104,5 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
             decimal=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

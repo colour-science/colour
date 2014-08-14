@@ -38,10 +38,10 @@ print(colour.munsell_value_mccamy1987(Y))
 print(colour.munsell_value_ASTM_D1535_08(Y))
 # Retrieving *Munsell* value using the wrapper:
 print(colour.get_munsell_value(Y))
-print(colour.get_munsell_value(Y, method="Munsell Value Saunderson 1944"))
+print(colour.get_munsell_value(Y, method='Munsell Value Saunderson 1944'))
 
 # Converting from *CIE xyY* to *Munsell Colour*:
 print(colour.xyY_to_munsell_colour(array([0.38736945, 0.35751656, 0.59362])))
 # Converting from *CIE xyY* to *Munsell Colour*:
-print(colour.munsell_colour_to_xyY("4.2YR 8.1/5.3"))
-print(colour.munsell_colour_to_xyY("N8.9"))
+print(colour.munsell_colour_to_xyY('4.2YR 8.1/5.3'))
+print(colour.munsell_colour_to_xyY('N8.9'))

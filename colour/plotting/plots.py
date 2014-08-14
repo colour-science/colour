@@ -83,54 +83,54 @@ from colour.temperature import CCT_to_uv
 from colour.utilities import Structure
 
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RESOURCES_DIRECTORY",
-           "DEFAULT_FIGURE_SIZE",
-           "DEFAULT_COLOUR_CYCLE",
-           "COLOUR_PARAMETER",
-           "figure_size",
-           "aspect",
-           "bounding_box",
-           "display",
-           "colour_parameter",
-           "colour_parameters_plot",
-           "single_colour_plot",
-           "multi_colour_plot",
-           "colour_checker_plot",
-           "single_spd_plot",
-           "multi_spd_plot",
-           "single_cmfs_plot",
-           "multi_cmfs_plot",
-           "single_illuminant_relative_spd_plot",
-           "multi_illuminants_relative_spd_plot",
-           "visible_spectrum_plot",
-           "CIE_1931_chromaticity_diagram_colours_plot",
-           "CIE_1931_chromaticity_diagram_plot",
-           "colourspaces_CIE_1931_chromaticity_diagram_plot",
-           "planckian_locus_CIE_1931_chromaticity_diagram_plot",
-           "CIE_1960_UCS_chromaticity_diagram_colours_plot",
-           "CIE_1960_UCS_chromaticity_diagram_plot",
-           "planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot",
-           "CIE_1976_UCS_chromaticity_diagram_colours_plot",
-           "CIE_1976_UCS_chromaticity_diagram_plot",
-           "single_munsell_value_function_plot",
-           "multi_munsell_value_function_plot",
-           "single_lightness_function_plot",
-           "multi_lightness_function_plot",
-           "single_transfer_function_plot",
-           "multi_transfer_function_plot",
-           "blackbody_spectral_radiance_plot",
-           "blackbody_colours_plot",
-           "colour_rendering_index_bars_plot"]
+__all__ = ['RESOURCES_DIRECTORY',
+           'DEFAULT_FIGURE_SIZE',
+           'DEFAULT_COLOUR_CYCLE',
+           'COLOUR_PARAMETER',
+           'figure_size',
+           'aspect',
+           'bounding_box',
+           'display',
+           'colour_parameter',
+           'colour_parameters_plot',
+           'single_colour_plot',
+           'multi_colour_plot',
+           'colour_checker_plot',
+           'single_spd_plot',
+           'multi_spd_plot',
+           'single_cmfs_plot',
+           'multi_cmfs_plot',
+           'single_illuminant_relative_spd_plot',
+           'multi_illuminants_relative_spd_plot',
+           'visible_spectrum_plot',
+           'CIE_1931_chromaticity_diagram_colours_plot',
+           'CIE_1931_chromaticity_diagram_plot',
+           'colourspaces_CIE_1931_chromaticity_diagram_plot',
+           'planckian_locus_CIE_1931_chromaticity_diagram_plot',
+           'CIE_1960_UCS_chromaticity_diagram_colours_plot',
+           'CIE_1960_UCS_chromaticity_diagram_plot',
+           'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot',
+           'CIE_1976_UCS_chromaticity_diagram_colours_plot',
+           'CIE_1976_UCS_chromaticity_diagram_plot',
+           'single_munsell_value_function_plot',
+           'multi_munsell_value_function_plot',
+           'single_lightness_function_plot',
+           'multi_lightness_function_plot',
+           'single_transfer_function_plot',
+           'multi_transfer_function_plot',
+           'blackbody_spectral_radiance_plot',
+           'blackbody_colours_plot',
+           'colour_rendering_index_bars_plot']
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                   "resources")
+                                   'resources')
 """
 Resources directory.
 
@@ -144,16 +144,16 @@ Default plots figure size.
 DEFAULT_FIGURE_SIZE : tuple
 """
 
-DEFAULT_COLOUR_CYCLE = ("r", "g", "b", "c", "m", "y", "k")
+DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 
-COLOUR_PARAMETER = namedtuple("ColourParameter",
-                              ("name", "RGB", "x", "y0", "y1"))
+COLOUR_PARAMETER = namedtuple('ColourParameter',
+                              ('name', 'RGB', 'x', 'y0', 'y1'))
 
 # Defining default figure size.
-pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
+pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
 
 # Defining an alternative font that can display scientific notations.
-matplotlib.rc("font", **{"family": "sans-serif", "sans-serif": ["Helvetica"]})
+matplotlib.rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
 
 
 def _get_cmfs(cmfs):
@@ -174,7 +174,7 @@ def _get_cmfs(cmfs):
     cmfs, name = CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise KeyError(
-            "'{0}' not found in factory colour matching functions: '{1}'.".format(
+            '"{0}" not found in factory colour matching functions: "{1}".'.format(
                 name, sorted(cmfs.CMFS.keys())))
     return cmfs
 
@@ -197,7 +197,7 @@ def _get_illuminant(illuminant):
     illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise KeyError(
-            "'{0}' not found in factory illuminants: '{1}'.".format(
+            '"{0}" not found in factory illuminants: "{1}".'.format(
                 name, sorted(ILLUMINANTS_RELATIVE_SPDS.keys())))
 
     return illuminant
@@ -221,13 +221,13 @@ def _get_RGB_colourspace(colourspace):
     colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
         raise KeyError(
-            "'{0}' colourspace not found in factory colourspaces: '{1}'.".format(
+            '"{0}" colourspace not found in factory colourspaces: "{1}".'.format(
                 name, sorted(RGB_COLOURSPACES.keys())))
 
     return colourspace
 
 
-def _get_colour_cycle(colour_map="hsv", count=len(DEFAULT_COLOUR_CYCLE)):
+def _get_colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 
@@ -301,14 +301,14 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
                 Object.
             """
 
-            pylab.rcParams["figure.figsize"] = kwargs.get(
-                "figure_size") if kwargs.get(
-                "figure_size") is not None else size
+            pylab.rcParams['figure.figsize'] = kwargs.get(
+                'figure_size') if kwargs.get(
+                'figure_size') is not None else size
 
             try:
                 return object(*args, **kwargs)
             finally:
-                pylab.rcParams["figure.figsize"] = DEFAULT_FIGURE_SIZE
+                pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
 
         return figure_size_wrapper
 
@@ -331,23 +331,23 @@ def aspect(**kwargs):
     """
 
     settings = Structure(
-        **{"title": None,
-           "x_label": None,
-           "y_label": None,
-           "legend": False,
-           "legend_location": "upper right",
-           "x_ticker": False,
-           "y_ticker": False,
-           "x_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-           "y_ticker_locator": matplotlib.ticker.AutoMinorLocator(2),
-           "no_ticks": False,
-           "no_x_ticks": False,
-           "no_y_ticks": False,
-           "grid": False,
-           "axis_grid": "both",
-           "x_axis_line": False,
-           "y_axis_line": False,
-           "aspect": None})
+        **{'title': None,
+           'x_label': None,
+           'y_label': None,
+           'legend': False,
+           'legend_location': 'upper right',
+           'x_ticker': False,
+           'y_ticker': False,
+           'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
+           'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
+           'no_ticks': False,
+           'no_x_ticks': False,
+           'no_y_ticks': False,
+           'grid': False,
+           'axis_grid': 'both',
+           'x_axis_line': False,
+           'y_axis_line': False,
+           'aspect': None})
     settings.update(kwargs)
 
     settings.title and pylab.title(settings.title)
@@ -366,8 +366,8 @@ def aspect(**kwargs):
     if settings.no_y_ticks:
         matplotlib.pyplot.gca().set_yticks([])
     settings.grid and pylab.grid(which=settings.axis_grid)
-    settings.x_axis_line and pylab.axvline(0, color="black", linestyle="--")
-    settings.y_axis_line and pylab.axhline(0, color="black", linestyle="--")
+    settings.x_axis_line and pylab.axvline(0, color='black', linestyle='--')
+    settings.y_axis_line and pylab.axhline(0, color='black', linestyle='--')
     settings.aspect and matplotlib.pyplot.axes().set_aspect(settings.aspect)
 
     return True
@@ -389,11 +389,11 @@ def bounding_box(**kwargs):
     """
 
     settings = Structure(
-        **{"bounding_box": None,
-           "x_tighten": False,
-           "y_tighten": False,
-           "limits": [0., 1., 0., 1.],
-           "margins": [0., 0., 0., 0.]})
+        **{'bounding_box': None,
+           'x_tighten': False,
+           'y_tighten': False,
+           'limits': [0., 1., 0., 1.],
+           'margins': [0., 0., 0., 0.]})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -426,8 +426,8 @@ def display(**kwargs):
     """
 
     settings = Structure(
-        **{"standalone": True,
-           "filename": None})
+        **{'standalone': True,
+           'filename': None})
     settings.update(kwargs)
 
     if settings.standalone:
@@ -527,13 +527,13 @@ def colour_parameters_plot(colour_parameters,
     if all([x.y0 is not None for x in colour_parameters]):
         y0_plot and pylab.plot([x.x for x in colour_parameters],
                                [x.y0 for x in colour_parameters],
-                               color="black",
+                               color='black',
                                linewidth=2.)
 
     if all([x.y1 is not None for x in colour_parameters]):
         y1_plot and pylab.plot([x.x for x in colour_parameters],
                                [x.y1 for x in colour_parameters],
-                               color="black",
+                               color='black',
                                linewidth=2.)
 
     y_limit_min0 = min(
@@ -545,9 +545,9 @@ def colour_parameters_plot(colour_parameters,
     y_limit_max1 = max(
         [1. if x.y1 is None else x.y1 for x in colour_parameters])
 
-    settings = {"x_label": "Parameter",
-                "y_label": "Colour",
-                "limits": [min([0. if x.x is None else x.x
+    settings = {'x_label': 'Parameter',
+                'y_label': 'Colour',
+                'limits': [min([0. if x.x is None else x.x
                                 for x in colour_parameters]),
                            max([1. if x.x is None else x.x
                                 for x in colour_parameters]),
@@ -593,7 +593,7 @@ def multi_colour_plot(colour_parameters,
                       spacing=0.,
                       across=3,
                       text_display=True,
-                      text_size="large",
+                      text_size='large',
                       text_offset=0.075,
                       **kwargs):
     """
@@ -658,11 +658,11 @@ def multi_colour_plot(colour_parameters,
     x_limit_max = x_limit_max * width + x_limit_max * spacing - spacing
     y_limit_min = offsetY
 
-    settings = {"x_tighten": True,
-                "y_tighten": True,
-                "no_ticks": True,
-                "limits": [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
-                "aspect": "equal"}
+    settings = {'x_tighten': True,
+                'y_tighten': True,
+                'no_ticks': True,
+                'limits': [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
+                'aspect': 'equal'}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -671,7 +671,7 @@ def multi_colour_plot(colour_parameters,
     return display(**settings)
 
 
-def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
+def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
 
@@ -696,7 +696,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     colour_checker, name = COLOURCHECKERS.get(colour_checker), colour_checker
     if colour_checker is None:
         raise KeyError(
-            "Colour checker '{0}' not found in colour checkers: '{1}'.".format(
+            'Colour checker "{0}" not found in colour checkers: "{1}".'.format(
                 name, sorted(COLOURCHECKERS.keys())))
 
     _, data, illuminant = colour_checker
@@ -708,19 +708,19 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
         colour_parameters.append(
             colour_parameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
 
-    background_colour = "0.1"
+    background_colour = '0.1'
     matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
 
     width = height = 1.0
     spacing = 0.25
     across = 6
 
-    settings = {"standalone": False,
-                "width": width,
-                "height": height,
-                "spacing": spacing,
-                "across": across,
-                "margins": [-0.125, 0.125, -0.5, 0.125]}
+    settings = {'standalone': False,
+                'width': width,
+                'height': height,
+                'spacing': spacing,
+                'across': across,
+                'margins': [-0.125, 0.125, -0.5, 0.125]}
     settings.update(kwargs)
 
     multi_colour_plot(colour_parameters, **settings)
@@ -730,16 +730,16 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
 
     pylab.text(text_x,
                text_y,
-               "{0} - {1} - Colour Rendition Chart".format(
-                   name, RGB_COLOURSPACES.get("sRGB").name),
-               color="0.95",
+               '{0} - {1} - Colour Rendition Chart'.format(
+                   name, RGB_COLOURSPACES.get('sRGB').name),
+               color='0.95',
                clip_on=True,
-               ha="center")
+               ha='center')
 
-    settings.update({"title": name,
-                     "facecolor": background_colour,
-                     "edgecolor": None,
-                     "standalone": True})
+    settings.update({'title': name,
+                     'facecolor': background_colour,
+                     'edgecolor': None,
+                     'standalone': True})
 
     bounding_box(**settings)
     aspect(**settings)
@@ -747,7 +747,7 @@ def colour_checker_plot(colour_checker="ColorChecker 2005", **kwargs):
     return display(**settings)
 
 
-def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots given spectral power distribution.
 
@@ -768,7 +768,7 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     Examples
     --------
     >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
-    >>> spd = colour.SpectralPowerDistribution("Custom", data)
+    >>> spd = colour.SpectralPowerDistribution('Custom', data)
     >>> colour.plotting.single_spd_plot(spd)
     True
     """
@@ -791,12 +791,12 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
     colours *= 1. / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
-    settings = {"title": "'{0}' - {1}".format(spd.name, cmfs.name),
-                "x_label": u"Wavelength λ (nm)",
-                "y_label": "Spectral Power Distribution",
-                "x_tighten": True,
-                "x_ticker": True,
-                "y_ticker": True}
+    settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
+                'x_label': u'Wavelength λ (nm)',
+                'y_label': 'Spectral Power Distribution',
+                'x_tighten': True,
+                'x_ticker': True,
+                'y_ticker': True}
 
     settings.update(kwargs)
     return colour_parameters_plot(
@@ -806,7 +806,7 @@ def single_spd_plot(spd, cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
 
 
 def multi_spd_plot(spds,
-                   cmfs="CIE 1931 2 Degree Standard Observer",
+                   cmfs='CIE 1931 2 Degree Standard Observer',
                    use_spds_colours=False,
                    normalise_spds_colours=False,
                    **kwargs):
@@ -835,8 +835,8 @@ def multi_spd_plot(spds,
     --------
     >>> data1 = {400: 0.0641, 420: 0.0645, 440: 0.0562}
     >>> data2 = {400: 0.134, 420: 0.789, 440: 1.289}
-    >>> spd1 = colour.SpectralPowerDistribution("Custom1", data1)
-    >>> spd2 = colour.SpectralPowerDistribution("Custom2", data2)
+    >>> spd1 = colour.SpectralPowerDistribution('Custom1', data1)
+    >>> spd2 = colour.SpectralPowerDistribution('Custom2', data2)
     >>> multi_spd_plot([spd1, spd2]))
     True
     """
@@ -844,7 +844,7 @@ def multi_spd_plot(spds,
     cmfs, name = _get_cmfs(cmfs), cmfs
 
     if use_spds_colours:
-        illuminant = ILLUMINANTS_RELATIVE_SPDS.get("D65")
+        illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D65')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -856,7 +856,7 @@ def multi_spd_plot(spds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        matplotlib.pyplot.rc('axes', color_cycle=['r', 'g', 'b', 'y'])
+        matplotlib.pyplot.rc("axes", color_cycle=["r", "g", "b", "y"])
 
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100.
@@ -870,14 +870,14 @@ def multi_spd_plot(spds,
         else:
             pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
 
-    settings = {"x_label": u"Wavelength λ (nm)",
-                "y_label": "Spectral Power Distribution",
-                "x_tighten": True,
-                "legend": True,
-                "legend_location": "upper left",
-                "x_ticker": True,
-                "y_ticker": True,
-                "limits": [min(x_limit_min), max(x_limit_max),
+    settings = {'x_label': u'Wavelength λ (nm)',
+                'y_label': 'Spectral Power Distribution',
+                'x_tighten': True,
+                'legend': True,
+                'legend_location': 'upper left',
+                'x_ticker': True,
+                'y_ticker': True,
+                'limits': [min(x_limit_min), max(x_limit_max),
                            min(y_limit_min), max(y_limit_max)]}
     settings.update(kwargs)
 
@@ -887,7 +887,7 @@ def multi_spd_plot(spds,
     return display(**settings)
 
 
-def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots given colour matching functions.
 
@@ -905,18 +905,18 @@ def single_cmfs_plot(cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_cmfs_plot("CIE 1931 2 Degree Standard Observer")
+    >>> colour.plotting.single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
     True
     """
 
-    settings = {"title": "'{0}' - Colour Matching Functions".format(cmfs)}
+    settings = {'title': '"{0}" - Colour Matching Functions'.format(cmfs)}
     settings.update(kwargs)
 
     return multi_cmfs_plot([cmfs], **settings)
 
 
-def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
-                           "CIE 1964 10 Degree Standard Observer"], **kwargs):
+def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
+                           'CIE 1964 10 Degree Standard Observer'], **kwargs):
     """
     Plots given colour matching functions.
 
@@ -934,14 +934,14 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
 
     Examples
     --------
-    >>> colour.plotting.multi_cmfs_plot(["CIE 1931 2 Degree Standard Observer", "CIE 1964 10 Degree Standard Observer"])
+    >>> colour.plotting.multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer'])
     True
     """
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (("x", [1., 0., 0.]),
-                      ("y", [0., 1., 0.]),
-                      ("z", [0., 0., 1.])):
+    for axis, rgb in (('x', [1., 0., 0.]),
+                      ('y', [0., 1., 0.]),
+                      ('z', [0., 0., 1.])):
         for i, cmfs in enumerate(cmfss):
             cmfs, name = _get_cmfs(cmfs), cmfs
 
@@ -958,22 +958,22 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
             pylab.plot(wavelengths,
                        values,
                        color=rgb,
-                       label=u"{0} - {1}".format(
+                       label=u'{0} - {1}'.format(
                            cmfs.labels.get(axis), cmfs.name),
                        linewidth=2.)
 
     settings = {
-        "title": "{0} - Colour Matching Functions".format(", ".join(cmfss)),
-        "x_label": u"Wavelength λ (nm)",
-        "y_label": "Tristimulus Values",
-        "x_tighten": True,
-        "legend": True,
-        "legend_location": "upper right",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "y_axis_line": True,
-        "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min),
+        'title': '{0} - Colour Matching Functions'.format(', '.join(cmfss)),
+        'x_label': u'Wavelength λ (nm)',
+        'y_label': 'Tristimulus Values',
+        'x_tighten': True,
+        'legend': True,
+        'legend_location': 'upper right',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'y_axis_line': True,
+        'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
                    max(y_limit_max)]}
     settings.update(kwargs)
 
@@ -984,8 +984,8 @@ def multi_cmfs_plot(cmfss=["CIE 1931 2 Degree Standard Observer",
 
 
 def single_illuminant_relative_spd_plot(
-        illuminant="A",
-        cmfs="CIE 1931 2 Degree Standard Observer",
+        illuminant='A',
+        cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
@@ -1006,23 +1006,23 @@ def single_illuminant_relative_spd_plot(
 
     Examples
     --------
-    >>> colour.plotting.single_illuminant_relative_spd_plot("A")
+    >>> colour.plotting.single_illuminant_relative_spd_plot('A')
     True
     """
 
-    title = "Illuminant '{0}' - {1}".format(illuminant, cmfs)
+    title = 'Illuminant "{0}" - {1}'.format(illuminant, cmfs)
 
     illuminant, name = _get_illuminant(illuminant), illuminant
     cmfs, name = _get_cmfs(cmfs), cmfs
 
-    settings = {"title": title,
-                "y_label": "Relative Spectral Power Distribution"}
+    settings = {'title': title,
+                'y_label': 'Relative Spectral Power Distribution'}
     settings.update(kwargs)
 
     return single_spd_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
+def multi_illuminants_relative_spd_plot(illuminants=['A', 'B', 'C'], **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
@@ -1040,7 +1040,7 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.multi_illuminants_relative_spd_plot(["A", "B", "C"])
+    >>> colour.plotting.multi_illuminants_relative_spd_plot(['A', 'B', 'C'])
     True
     """
 
@@ -1049,15 +1049,15 @@ def multi_illuminants_relative_spd_plot(illuminants=["A", "B", "C"], **kwargs):
         spds.append(_get_illuminant(illuminant))
 
     settings = {
-        "title": "{0} - Illuminants Relative Spectral Power Distribution".format(
-            ", ".join(illuminants)),
-        "y_label": "Relative Spectral Power Distribution"}
+        'title': '{0} - Illuminants Relative Spectral Power Distribution'.format(
+            ', '.join(illuminants)),
+        'y_label': 'Relative Spectral Power Distribution'}
     settings.update(kwargs)
 
     return multi_spd_plot(spds, **settings)
 
 
-def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
+def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                           **kwargs):
     """
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
@@ -1077,7 +1077,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
 
     Examples
     --------
-    >>> colour.plotting.visible_spectrum_plot("CIE 1931 2 Degree Standard Observer")
+    >>> colour.plotting.visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
     True
     """
 
@@ -1097,9 +1097,9 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
     colours *= 1. / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
-    settings = {"title": "The Visible Spectrum - {0}".format(name),
-                "x_label": u"Wavelength λ (nm)",
-                "x_tighten": True}
+    settings = {'title': 'The Visible Spectrum - {0}'.format(name),
+                'x_label': u'Wavelength λ (nm)',
+                'x_tighten': True}
     settings.update(kwargs)
 
     return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
@@ -1111,7 +1111,7 @@ def visible_spectrum_plot(cmfs="CIE 1931 2 Degree Standard Observer",
 def CIE_1931_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
-        cmfs="CIE 1931 2 Degree Standard Observer",
+        cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram* colours.
@@ -1141,7 +1141,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
-        "CIE 1931 2 Degree Standard Observer").get("E")
+        'CIE 1931 2 Degree Standard Observer').get('E')
 
     XYZs = [value for key, value in cmfs]
 
@@ -1162,10 +1162,10 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {"no_ticks": True,
-                "bounding_box": [0., 1., 0., 1.],
-                "bbox_inches": "tight",
-                "pad_inches": 0}
+    settings = {'no_ticks': True,
+                'bounding_box': [0., 1., 0., 1.],
+                'bbox_inches': 'tight',
+                'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1176,7 +1176,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
 @figure_size((8, 8))
 def CIE_1931_chromaticity_diagram_plot(
-        cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
 
@@ -1203,9 +1203,9 @@ def CIE_1931_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(RESOURCES_DIRECTORY,
-                     "CIE_1931_Chromaticity_Diagram_{0}_Small.png".format(
-                         cmfs.name.replace(" ", "_"))))
-    pylab.imshow(image, interpolation="nearest", extent=(0, 1, 0, 1))
+                     'CIE_1931_Chromaticity_Diagram_{0}_Small.png'.format(
+                         cmfs.name.replace(' ', '_'))))
+    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
     labels = (
         [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620,
@@ -1221,12 +1221,12 @@ def CIE_1931_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(
         tuple(zip(wavelengths, tuple(zip(x, y)))))
 
-    pylab.plot(x, y, color="black", linewidth=2.)
-    pylab.plot((x[-1], x[0]), (y[-1], y[0]), color="black", linewidth=2.)
+    pylab.plot(x, y, color='black', linewidth=2.)
+    pylab.plot((x[-1], x[0]), (y[-1], y[0]), color='black', linewidth=2.)
 
     for label in labels:
         x, y = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(x, y, "o", color="black", linewidth=2.)
+        pylab.plot(x, y, 'o', color='black', linewidth=2.)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1253,26 +1253,26 @@ def CIE_1931_chromaticity_diagram_plot(
 
         pylab.plot([x, x + normal[0] * 0.75],
                    [y, y + normal[1] * 0.75],
-                   color="black",
+                   color='black',
                    linewidth=1.5)
         pylab.text(x + normal[0],
                    y + normal[1],
                    label,
                    clip_on=True,
-                   ha="left" if normal[0] >= 0 else "right",
-                   va="center",
-                   fontdict={"size": "small"})
+                   ha='left' if normal[0] >= 0 else 'right',
+                   va='center',
+                   fontdict={'size': 'small'})
 
     settings = {
-        "title": "CIE 1931 Chromaticity Diagram - {0}".format(name),
-        "x_label": "CIE x",
-        "y_label": "CIE y",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "bounding_box": [-0.1, 0.9, -0.1, 0.9],
-        "bbox_inches": "tight",
-        "pad_inches": 0}
+        'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(name),
+        'x_label': 'CIE x',
+        'y_label': 'CIE y',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'bounding_box': [-0.1, 0.9, -0.1, 0.9],
+        'bbox_inches': 'tight',
+        'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1283,8 +1283,8 @@ def CIE_1931_chromaticity_diagram_plot(
 
 @figure_size((8, 8))
 def colourspaces_CIE_1931_chromaticity_diagram_plot(
-        colourspaces=["sRGB", "ACES RGB", "Pointer Gamut"],
-        cmfs="CIE 1931 2 Degree Standard Observer",
+        colourspaces=['sRGB', 'ACES RGB', 'Pointer Gamut'],
+        cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots given colourspaces in *CIE 1931 Chromaticity Diagram*.
@@ -1305,15 +1305,15 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ["sRGB", "ACES RGB"]
+    >>> csps = ['sRGB', 'ACES RGB']
     >>> colour.plotting.colourspaces_CIE_1931_chromaticity_diagram_plot(csps)
     True
     """
 
     cmfs, name = _get_cmfs(cmfs), cmfs
 
-    settings = {"title": "{0} - {1}".format(", ".join(colourspaces), name),
-                "standalone": False}
+    settings = {'title': '{0} - {1}'.format(', '.join(colourspaces), name),
+                'standalone': False}
     settings.update(kwargs)
 
     if not CIE_1931_chromaticity_diagram_plot(**settings):
@@ -1322,18 +1322,18 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
     for colourspace in colourspaces:
-        if colourspace == "Pointer Gamut":
+        if colourspace == 'Pointer Gamut':
             x, y = tuple(zip(*POINTER_GAMUT_DATA))
             pylab.plot(x,
                        y,
-                       label="Pointer Gamut",
-                       color="0.95",
+                       label='Pointer Gamut',
+                       color='0.95',
                        linewidth=2.)
             pylab.plot([x[-1],
                         x[0]],
                        [y[-1],
                         y[0]],
-                       color="0.95",
+                       color='0.95',
                        linewidth=2.)
         else:
             colourspace, name = _get_RGB_colourspace(
@@ -1352,22 +1352,22 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        linewidth=2.)
             pylab.plot([whitepoint[0], whitepoint[0]],
                        [whitepoint[1], whitepoint[1]],
-                       "o",
+                       'o',
                        color=(r, g, b),
                        linewidth=2.)
             pylab.plot([primaries[0, 0], primaries[1, 0]],
                        [primaries[0, 1], primaries[1, 1]],
-                       "o-",
+                       'o-',
                        color=(r, g, b),
                        linewidth=2.)
             pylab.plot([primaries[1, 0], primaries[2, 0]],
                        [primaries[1, 1], primaries[2, 1]],
-                       "o-",
+                       'o-',
                        color=(r, g, b),
                        linewidth=2.)
             pylab.plot([primaries[2, 0], primaries[0, 0]],
                        [primaries[2, 1], primaries[0, 1]],
-                       "o-",
+                       'o-',
                        color=(r, g, b),
                        linewidth=2.)
 
@@ -1376,14 +1376,14 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
             x_limit_max.append(np.amax(primaries[:, 0]))
             y_limit_max.append(np.amax(primaries[:, 1]))
 
-    settings.update({"legend": True,
-                     "legend_location": "upper right",
-                     "x_tighten": True,
-                     "y_tighten": True,
-                     "limits": [min(x_limit_min), max(x_limit_max),
+    settings.update({'legend': True,
+                     'legend_location': 'upper right',
+                     'x_tighten': True,
+                     'y_tighten': True,
+                     'limits': [min(x_limit_min), max(x_limit_max),
                                 min(y_limit_min), max(y_limit_max)],
-                     "margins": [-0.05, 0.05, -0.05, 0.05],
-                     "standalone": True})
+                     'margins': [-0.05, 0.05, -0.05, 0.05],
+                     'standalone': True})
 
     bounding_box(**settings)
     aspect(**settings)
@@ -1393,7 +1393,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
-        illuminants=["A", "B", "C"],
+        illuminants=['A', 'B', 'C'],
         **kwargs):
     """
     Plots the planckian locus and given illuminants in
@@ -1413,20 +1413,20 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ils = ["A", "B", "C"]
+    >>> ils = ['A', 'B', 'C']
     >>> colour.plotting.planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)
     True
     """
 
-    cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
-            ", ".join(illuminants)) if illuminants else
-        "Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
-        "standalone": False}
+        'title': '{0} Illuminants - Planckian Locus\n \
+CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
+            ', '.join(illuminants)) if illuminants else
+        'Planckian Locus\n \
+CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'standalone': False}
     settings.update(kwargs)
 
     if not CIE_1931_chromaticity_diagram_plot(**settings):
@@ -1436,35 +1436,35 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
     x, y = tuple(zip(*[UCS_uv_to_xy(CCT_to_uv(x, 0., cmfs=cmfs))
                        for x in np.arange(start, end + 250, 250)]))
 
-    pylab.plot(x, y, color="black", linewidth=2.)
+    pylab.plot(x, y, color='black', linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, cmfs=cmfs))
         x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 0.025, cmfs=cmfs))
-        pylab.plot([x0, x1], [y0, y1], color="black", linewidth=2.)
-        pylab.annotate("{0}K".format(i),
+        pylab.plot([x0, x1], [y0, y1], color='black', linewidth=2.)
+        pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
-                       textcoords="offset points",
-                       size="x-small")
+                       textcoords='offset points',
+                       size='x-small')
 
     for illuminant in illuminants:
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
             raise KeyError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
+                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
                     illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
-        pylab.plot(xy[0], xy[1], "o", color="white", linewidth=2.)
+        pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2.)
 
         pylab.annotate(illuminant,
                        xy=(xy[0], xy[1]),
                        xytext=(-50, 30),
-                       textcoords="offset points",
-                       arrowprops=dict(arrowstyle="->",
-                                       connectionstyle="arc3, rad=-0.2"))
+                       textcoords='offset points',
+                       arrowprops=dict(arrowstyle='->',
+                                       connectionstyle='arc3, rad=-0.2'))
 
-    settings.update({"standalone": True})
+    settings.update({'standalone': True})
 
     return display(**settings)
 
@@ -1473,7 +1473,7 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
 def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
-        cmfs="CIE 1931 2 Degree Standard Observer",
+        cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colours.
@@ -1503,7 +1503,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
-        "CIE 1931 2 Degree Standard Observer").get("E")
+        'CIE 1931 2 Degree Standard Observer').get('E')
 
     UVWs = [XYZ_to_UCS(value) for key, value in cmfs]
 
@@ -1524,10 +1524,10 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {"no_ticks": True,
-                "bounding_box": [0., 1., 0., 1.],
-                "bbox_inches": "tight",
-                "pad_inches": 0}
+    settings = {'no_ticks': True,
+                'bounding_box': [0., 1., 0., 1.],
+                'bbox_inches': 'tight',
+                'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1538,7 +1538,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
 @figure_size((8, 8))
 def CIE_1960_UCS_chromaticity_diagram_plot(
-        cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -1564,9 +1564,9 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(RESOURCES_DIRECTORY,
-                     "CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png".format(
-                         cmfs.name.replace(" ", "_"))))
-    pylab.imshow(image, interpolation="nearest", extent=(0, 1, 0, 1))
+                     'CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png'.format(
+                         cmfs.name.replace(' ', '_'))))
+    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
     labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
@@ -1581,12 +1581,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(
         tuple(zip(wavelengths, tuple(zip(u, v)))))
 
-    pylab.plot(u, v, color="black", linewidth=2.)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color="black", linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2.)
+    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2.)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(u, v, "o", color="black", linewidth=2.)
+        pylab.plot(u, v, 'o', color='black', linewidth=2.)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1613,26 +1613,26 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
         pylab.plot([u, u + normal[0] * 0.75],
                    [v, v + normal[1] * 0.75],
-                   color="black",
+                   color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
                    v + normal[1],
                    label,
                    clip_on=True,
-                   ha="left" if normal[0] >= 0 else "right",
-                   va="center",
-                   fontdict={"size": "small"})
+                   ha='left' if normal[0] >= 0 else 'right',
+                   va='center',
+                   fontdict={'size': 'small'})
 
     settings = {
-        "title": "CIE 1960 UCS Chromaticity Diagram - {0}".format(name),
-        "x_label": "CIE u",
-        "y_label": "CIE v",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "bounding_box": [-0.075, 0.675, -0.15, 0.6],
-        "bbox_inches": "tight",
-        "pad_inches": 0}
+        'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(name),
+        'x_label': 'CIE u',
+        'y_label': 'CIE v',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'bounding_box': [-0.075, 0.675, -0.15, 0.6],
+        'bbox_inches': 'tight',
+        'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1643,7 +1643,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
-        illuminants=["A", "C", "E"], **kwargs):
+        illuminants=['A', 'C', 'E'], **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -1662,20 +1662,20 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ils = ["A", "C", "E"]
+    >>> ils = ['A', 'C', 'E']
     >>> colour.plotting.planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)
     True
     """
 
-    cmfs = CMFS.get("CIE 1931 2 Degree Standard Observer")
+    cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        "title": "{0} Illuminants - Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer".format(
-            ", ".join(illuminants)) if illuminants else
-        "Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
-        "standalone": False}
+        'title': '{0} Illuminants - Planckian Locus\n \
+CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
+            ', '.join(illuminants)) if illuminants else
+        'Planckian Locus\n \
+CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'standalone': False}
     settings.update(kwargs)
 
     if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
@@ -1687,35 +1687,35 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
     u, v = tuple(zip(*[CCT_to_uv(x, 0., cmfs=cmfs)
                        for x in np.arange(start, end + 250, 250)]))
 
-    pylab.plot(u, v, color="black", linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2.)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         u0, v0 = CCT_to_uv(i, -0.05)
         u1, v1 = CCT_to_uv(i, 0.05)
-        pylab.plot([u0, u1], [v0, v1], color="black", linewidth=2.)
-        pylab.annotate("{0}K".format(i),
+        pylab.plot([u0, u1], [v0, v1], color='black', linewidth=2.)
+        pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),
-                       textcoords="offset points",
-                       size="x-small")
+                       textcoords='offset points',
+                       size='x-small')
 
     for illuminant in illuminants:
         uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
             raise KeyError(
-                "Illuminant '{0}' not found in factory illuminants: '{1}'.".format(
+                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
                     illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
-        pylab.plot(uv[0], uv[1], "o", color="white", linewidth=2.)
+        pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2.)
 
         pylab.annotate(illuminant,
                        xy=(uv[0], uv[1]),
                        xytext=(-50, 30),
-                       textcoords="offset points",
-                       arrowprops=dict(arrowstyle="->",
-                                       connectionstyle="arc3, rad=-0.2"))
+                       textcoords='offset points',
+                       arrowprops=dict(arrowstyle='->',
+                                       connectionstyle='arc3, rad=-0.2'))
 
-    settings.update({"standalone": True})
+    settings.update({'standalone': True})
 
     return display(**settings)
 
@@ -1724,7 +1724,7 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer",
 def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
-        cmfs="CIE 1931 2 Degree Standard Observer",
+        cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colours.
@@ -1754,7 +1754,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     cmfs, name = _get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
-        "CIE 1931 2 Degree Standard Observer").get("D50")
+        'CIE 1931 2 Degree Standard Observer').get('D50')
 
     Luvs = [XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
@@ -1775,10 +1775,10 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {"no_ticks": True,
-                "bounding_box": [0., 1., 0., 1.],
-                "bbox_inches": "tight",
-                "pad_inches": 0}
+    settings = {'no_ticks': True,
+                'bounding_box': [0., 1., 0., 1.],
+                'bbox_inches': 'tight',
+                'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1789,7 +1789,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
 @figure_size((8, 8))
 def CIE_1976_UCS_chromaticity_diagram_plot(
-        cmfs="CIE 1931 2 Degree Standard Observer", **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -1815,9 +1815,9 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(RESOURCES_DIRECTORY,
-                     "CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png".format(
-                         cmfs.name.replace(" ", "_"))))
-    pylab.imshow(image, interpolation="nearest", extent=(0, 1, 0, 1))
+                     'CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png'.format(
+                         cmfs.name.replace(' ', '_'))))
+    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
     labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
@@ -1826,7 +1826,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     equal_energy = np.array([1. / 3.] * 2)
 
     illuminant = ILLUMINANTS.get(
-        "CIE 1931 2 Degree Standard Observer").get("D50")
+        'CIE 1931 2 Degree Standard Observer').get('D50')
 
     Luvs = [XYZ_to_Luv(value, illuminant) for key, value in cmfs]
 
@@ -1835,12 +1835,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths,
                                                     tuple(zip(u, v))))
 
-    pylab.plot(u, v, color="black", linewidth=2.)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color="black", linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2.)
+    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2.)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(u, v, "o", color="black", linewidth=2.)
+        pylab.plot(u, v, 'o', color='black', linewidth=2.)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1867,26 +1867,26 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
         pylab.plot([u, u + normal[0] * 0.75],
                    [v, v + normal[1] * 0.75],
-                   color="black",
+                   color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
                    v + normal[1],
                    label,
                    clip_on=True,
-                   ha="left" if normal[0] >= 0 else "right",
-                   va="center",
-                   fontdict={"size": "small"})
+                   ha='left' if normal[0] >= 0 else 'right',
+                   va='center',
+                   fontdict={'size': 'small'})
 
     settings = {
-        "title": "CIE 1976 UCS Chromaticity Diagram - {0}".format(name),
-        "x_label": "CIE u'",
-        "y_label": "CIE v'",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "bounding_box": [-0.1, .7, -.1, .7],
-        "bbox_inches": "tight",
-        "pad_inches": 0}
+        'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(name),
+        'x_label': 'CIE u"',
+        'y_label': 'CIE v"',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'bounding_box': [-0.1, .7, -.1, .7],
+        'bbox_inches': 'tight',
+        'pad_inches': 0}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -1895,7 +1895,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_munsell_value_function_plot(function="Munsell Value ASTM D1535-08",
+def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
                                        **kwargs):
     """
     Plots given *Lightness* function.
@@ -1914,12 +1914,12 @@ def single_munsell_value_function_plot(function="Munsell Value ASTM D1535-08",
 
     Examples
     --------
-    >>> f = "Munsell Value ASTM D1535-08"
+    >>> f = 'Munsell Value ASTM D1535-08'
     >>> colour.plotting.single_munsell_value_function_plot(f)
     True
     """
 
-    settings = {"title": "{0} - Munsell Value Function".format(function)}
+    settings = {'title': '{0} - Munsell Value Function'.format(function)}
     settings.update(kwargs)
 
     return multi_munsell_value_function_plot([function], **settings)
@@ -1927,8 +1927,8 @@ def single_munsell_value_function_plot(function="Munsell Value ASTM D1535-08",
 
 @figure_size((8, 8))
 def multi_munsell_value_function_plot(
-        functions=["Munsell Value ASTM D1535-08",
-                   "Munsell Value McCamy 1987"],
+        functions=['Munsell Value ASTM D1535-08',
+                   'Munsell Value McCamy 1987'],
         **kwargs):
     """
     Plots given *Munsell* value functions.
@@ -1947,7 +1947,7 @@ def multi_munsell_value_function_plot(
 
     Examples
     --------
-    >>> fs = ("Munsell Value ASTM D1535-08", "Munsell Value McCamy 1987")
+    >>> fs = ('Munsell Value ASTM D1535-08', 'Munsell Value McCamy 1987')
     >>> colour.plotting.multi_munsell_value_function_plot(fs)
     True
     """
@@ -1956,26 +1956,26 @@ def multi_munsell_value_function_plot(
     for i, function in enumerate(functions):
         function, name = MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError("'{0}' 'Munsell' value function not found in \
-supported 'Munsell' value functions: '{1}'.".format(
+            raise KeyError('"{0}" "Munsell" value function not found in \
+supported "Munsell" value functions: "{1}".'.format(
                 name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
-                   label=u"{0}".format(name),
+                   label=u'{0}'.format(name),
                    linewidth=2.)
 
     settings = {
-        "title": "{0} - Munsell Functions".format(", ".join(functions)),
-        "x_label": "Luminance Y",
-        "y_label": "Munsell Value V",
-        "x_tighten": True,
-        "legend": True,
-        "legend_location": "upper left",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "limits": [0., 100., 0., 100.]}
+        'title': '{0} - Munsell Functions'.format(', '.join(functions)),
+        'x_label': 'Luminance Y',
+        'y_label': 'Munsell Value V',
+        'x_tighten': True,
+        'legend': True,
+        'legend_location': 'upper left',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'limits': [0., 100., 0., 100.]}
 
     settings.update(kwargs)
 
@@ -1985,7 +1985,7 @@ supported 'Munsell' value functions: '{1}'.".format(
     return display(**settings)
 
 
-def single_lightness_function_plot(function="Lightness 1976", **kwargs):
+def single_lightness_function_plot(function='Lightness 1976', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -2003,11 +2003,11 @@ def single_lightness_function_plot(function="Lightness 1976", **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_lightness_function_plot("Lightness 1976")
+    >>> colour.plotting.single_lightness_function_plot('Lightness 1976')
     True
     """
 
-    settings = {"title": "{0} - Lightness Function".format(function)}
+    settings = {'title': '{0} - Lightness Function'.format(function)}
     settings.update(kwargs)
 
     return multi_lightness_function_plot([function], **settings)
@@ -2015,7 +2015,7 @@ def single_lightness_function_plot(function="Lightness 1976", **kwargs):
 
 @figure_size((8, 8))
 def multi_lightness_function_plot(
-        functions=["Lightness 1976", "Lightness Wyszecki 1964"],
+        functions=['Lightness 1976', 'Lightness Wyszecki 1964'],
         **kwargs):
     """
     Plots given *Lightness* functions.
@@ -2034,7 +2034,7 @@ def multi_lightness_function_plot(
 
     Examples
     --------
-    >>> fs = ("Lightness 1976", "Lightness Wyszecki 1964")
+    >>> fs = ('Lightness 1976', 'Lightness Wyszecki 1964')
     >>> colour.multi_lightness_function_plot(fs)
     True
     """
@@ -2043,26 +2043,26 @@ def multi_lightness_function_plot(
     for i, function in enumerate(functions):
         function, name = LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError("'{0}' 'Lightness' function not found in supported \
-'Lightness' functions: '{1}'.".format(
+            raise KeyError('"{0}" "Lightness" function not found in supported \
+"Lightness" functions: "{1}".'.format(
                 name, sorted(LIGHTNESS_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
-                   label=u"{0}".format(name),
+                   label=u'{0}'.format(name),
                    linewidth=2.)
 
     settings = {
-        "title": "{0} - Lightness Functions".format(", ".join(functions)),
-        "x_label": "Luminance Y",
-        "y_label": "Lightness L*",
-        "x_tighten": True,
-        "legend": True,
-        "legend_location": "upper left",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "limits": [0., 100., 0., 100.]}
+        'title': '{0} - Lightness Functions'.format(', '.join(functions)),
+        'x_label': 'Luminance Y',
+        'y_label': 'Lightness L*',
+        'x_tighten': True,
+        'legend': True,
+        'legend_location': 'upper left',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'limits': [0., 100., 0., 100.]}
 
     settings.update(kwargs)
 
@@ -2072,7 +2072,7 @@ def multi_lightness_function_plot(
     return display(**settings)
 
 
-def single_transfer_function_plot(colourspace="sRGB", **kwargs):
+def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     """
     Plots given colourspace transfer function.
 
@@ -2090,18 +2090,18 @@ def single_transfer_function_plot(colourspace="sRGB", **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_transfer_function_plot("sRGB")
+    >>> colour.plotting.single_transfer_function_plot('sRGB')
     True
     """
 
-    settings = {"title": "{0} - Transfer Function".format(colourspace)}
+    settings = {'title': '{0} - Transfer Function'.format(colourspace)}
     settings.update(kwargs)
 
     return multi_transfer_function_plot([colourspace], **settings)
 
 
 @figure_size((8, 8))
-def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
+def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
                                  inverse=False, **kwargs):
     """
     Plots given colourspaces transfer functions.
@@ -2122,7 +2122,7 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
 
     Examples
     --------
-    >>> colour.plotting..multi_transfer_function_plot(["sRGB", "Rec. 709"])
+    >>> colour.plotting..multi_transfer_function_plot(['sRGB', 'Rec. 709'])
     True
     """
 
@@ -2136,19 +2136,19 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
                          for x in samples])
         pylab.plot(samples,
                    RGBs,
-                   label=u"{0}".format(colourspace.name),
+                   label=u'{0}'.format(colourspace.name),
                    linewidth=2.)
 
     settings = {
-        "title": "{0} - Transfer Functions".format(
-            ", ".join(colourspaces)),
-        "x_tighten": True,
-        "legend": True,
-        "legend_location": "upper left",
-        "x_ticker": True,
-        "y_ticker": True,
-        "grid": True,
-        "limits": [0., 1., 0., 1.]}
+        'title': '{0} - Transfer Functions'.format(
+            ', '.join(colourspaces)),
+        'x_tighten': True,
+        'legend': True,
+        'legend_location': 'upper left',
+        'x_ticker': True,
+        'y_ticker': True,
+        'grid': True,
+        'limits': [0., 1., 0., 1.]}
 
     settings.update(kwargs)
 
@@ -2160,8 +2160,8 @@ def multi_transfer_function_plot(colourspaces=["sRGB", "Rec. 709"],
 
 def blackbody_spectral_radiance_plot(
         temperature=3500,
-        cmfs="CIE 1931 2 Degree Standard Observer",
-        blackbody="VY Canis Major",
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        blackbody='VY Canis Major',
         **kwargs):
     """
     Plots given blackbody spectral radiance.
@@ -2197,9 +2197,9 @@ def blackbody_spectral_radiance_plot(
     matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
 
-    settings = {"title": "{0} - Spectral Radiance".format(blackbody),
-                "y_label": u"W / (sr m²) / m",
-                "standalone": False}
+    settings = {'title': '{0} - Spectral Radiance'.format(blackbody),
+                'y_label': u'W / (sr m²) / m',
+                'standalone': False}
     settings.update(kwargs)
 
     single_spd_plot(spd, name, **settings)
@@ -2209,15 +2209,15 @@ def blackbody_spectral_radiance_plot(
 
     matplotlib.pyplot.subplot(212)
 
-    settings = {"title": "{0} - Colour".format(blackbody),
-                "x_label": "{0}K".format(temperature),
-                "y_label": "",
-                "aspect": None,
-                "standalone": False}
+    settings = {'title': '{0} - Colour'.format(blackbody),
+                'x_label': '{0}K'.format(temperature),
+                'y_label': '',
+                'aspect': None,
+                'standalone': False}
 
-    single_colour_plot(colour_parameter(name="", RGB=RGB), **settings)
+    single_colour_plot(colour_parameter(name='', RGB=RGB), **settings)
 
-    settings = {"standalone": True}
+    settings = {'standalone': True}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -2228,7 +2228,7 @@ def blackbody_spectral_radiance_plot(
 def blackbody_colours_plot(start=150,
                            end=12500,
                            steps=50,
-                           cmfs="CIE 1931 2 Degree Standard Observer",
+                           cmfs='CIE 1931 2 Degree Standard Observer',
                            **kwargs):
     """
     Plots blackbody colours.
@@ -2272,12 +2272,12 @@ def blackbody_colours_plot(start=150,
         colours.append(RGB)
         temperatures.append(temperature)
 
-    settings = {"title": "Blackbody Colours",
-                "x_label": "Temperature K",
-                "y_label": "",
-                "x_tighten": True,
-                "x_ticker": True,
-                "y_ticker": False}
+    settings = {'title': 'Blackbody Colours',
+                'x_label': 'Temperature K',
+                'y_label': '',
+                'x_tighten': True,
+                'x_ticker': True,
+                'y_ticker': False}
 
     settings.update(kwargs)
     return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
@@ -2304,7 +2304,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     Examples
     --------
-    >>> il = colour.ILLUMINANTS_RELATIVE_SPDS.get("F2")
+    >>> il = colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour.plotting.colour_rendering_index_bars_plot(il)
     True
     """
@@ -2330,7 +2330,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
                        100 + y_ticks_steps,
                        y_ticks_steps))
     pylab.xticks(x + width / 2.,
-                 ["Ra"] + ["R{0}".format(index) for index in x[1:]])
+                 ['Ra'] + ['R{0}'.format(index) for index in x[1:]])
 
     def label_bars(bars):
         for bar in bars:
@@ -2339,17 +2339,17 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
             value = height if np.sign(y) in (0, 1) else -height
             axis.text(bar.get_x() + bar.get_width() / 2.,
                       0.025 * height + height + y,
-                      "{0:.1f}".format(value),
-                      ha="center", va="bottom")
+                      '{0:.1f}'.format(value),
+                      ha='center', va='bottom')
 
     label_bars(bars)
 
     settings = {
-        "title": "Colour Rendering Index - {0}".format(illuminant.name),
-        "grid": True,
-        "x_tighten": True,
-        "y_tighten": True,
-        "limits": [-width, 14 + width * 2., -10. if positive else -110.,
+        'title': 'Colour Rendering Index - {0}'.format(illuminant.name),
+        'grid': True,
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': [-width, 14 + width * 2., -10. if positive else -110.,
                    110.]}
     settings.update(kwargs)
 

@@ -48,6 +48,8 @@ from .adaptation import *
 from . import adaptation
 from .algebra import *
 from . import algebra
+from .appearance import *
+from . import appearance
 from .colorimetry import *
 from . import colorimetry
 from . import constants
@@ -68,16 +70,17 @@ from . import temperature
 from . import plotting
 from . import utilities
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
+__all__ += appearance.__all__
 __all__ += characterization.__all__
 __all__ += colorimetry.__all__
 __all__ += difference.__all__
@@ -87,11 +90,11 @@ __all__ += notation.__all__
 __all__ += quality.__all__
 __all__ += temperature.__all__
 
-__application_name__ = "Colour"
+__application_name__ = 'Colour'
 
-__major_version__ = "0"
-__minor_version__ = "2"
-__change_version__ = "1"
-__version__ = ".".join((__major_version__,
+__major_version__ = '0'
+__minor_version__ = '2'
+__change_version__ = '1'
+__version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

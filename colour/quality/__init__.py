@@ -9,4 +9,4 @@ from .cri import get_colour_rendering_index
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ["get_colour_rendering_index"]
+__all__ += ['get_colour_rendering_index']

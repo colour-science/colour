@@ -22,18 +22,18 @@ from __future__ import unicode_literals
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import warning
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["lightness_glasser1958",
-           "lightness_wyszecki1964",
-           "lightness_1976",
-           "LIGHTNESS_FUNCTIONS",
-           "get_lightness"]
+__all__ = ['lightness_glasser1958',
+           'lightness_wyszecki1964',
+           'lightness_1976',
+           'LIGHTNESS_FUNCTIONS',
+           'get_lightness']
 
 
 def lightness_glasser1958(Y):
@@ -105,8 +105,8 @@ def lightness_wyszecki1964(Y):
     """
 
     if not 1. < Y < 98.:
-        warning("'W*' Lightness computation is only applicable for \
-1% < 'Y' < 98%, unpredictable results may occur!")
+        warning('"W*" Lightness computation is only applicable for \
+1% < "Y" < 98%, unpredictable results may occur!')
 
     W = 25. * (Y ** (1. / 3.)) - 17.
 
@@ -153,18 +153,18 @@ def lightness_1976(Y, Yn=100.):
     return L
 
 
-LIGHTNESS_FUNCTIONS = {"Lightness Glasser 1958": lightness_glasser1958,
-                       "Lightness Wyszecki 1964": lightness_wyszecki1964,
-                       "Lightness 1976": lightness_1976}
+LIGHTNESS_FUNCTIONS = {'Lightness Glasser 1958': lightness_glasser1958,
+                       'Lightness Wyszecki 1964': lightness_wyszecki1964,
+                       'Lightness 1976': lightness_1976}
 """
 Supported *Lightness* computations methods.
 
 LIGHTNESS_FUNCTIONS : dict
-    ("Lightness Glasser 1958", "Lightness Wyszecki 1964", "Lightness 1976")
+    ('Lightness Glasser 1958', 'Lightness Wyszecki 1964', 'Lightness 1976')
 """
 
 
-def get_lightness(Y, Yn=100., method="Lightness 1976"):
+def get_lightness(Y, Yn=100., method='Lightness 1976'):
     """
     Returns the *Lightness* :math:`L^*` using given method.
 
@@ -175,8 +175,8 @@ def get_lightness(Y, Yn=100., method="Lightness 1976"):
     Yn : float, optional
         White reference *luminance*.
     method : unicode, optional
-        ("Lightness Glasser 1958", "Lightness Wyszecki 1964",
-        "Lightness 1976"),
+        ('Lightness Glasser 1958', 'Lightness Wyszecki 1964',
+        'Lightness 1976'),
         Computation method.
 
     Returns

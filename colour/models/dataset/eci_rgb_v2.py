@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS, lightness_1976, luminance_1976
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["ECI_RGB_V2_PRIMARIES",
-           "ECI_RGB_V2_WHITEPOINT",
-           "ECI_RGB_V2_TO_XYZ_MATRIX",
-           "XYZ_TO_ECI_RGB_V2_MATRIX",
-           "ECI_RGB_V2_TRANSFER_FUNCTION",
-           "ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION",
-           "ECI_RGB_V2_COLOURSPACE"]
+__all__ = ['ECI_RGB_V2_PRIMARIES',
+           'ECI_RGB_V2_WHITEPOINT',
+           'ECI_RGB_V2_TO_XYZ_MATRIX',
+           'XYZ_TO_ECI_RGB_V2_MATRIX',
+           'ECI_RGB_V2_TRANSFER_FUNCTION',
+           'ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION',
+           'ECI_RGB_V2_COLOURSPACE']
 
 ECI_RGB_V2_PRIMARIES = np.array(
     [0.67010309278350522, 0.32989690721649484,
@@ -48,7 +48,7 @@ ECI_RGB_V2_PRIMARIES : ndarray, (3, 2)
 """
 
 ECI_RGB_V2_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *ECI RGB v2* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
-    "ECI RGB v2",
+    'ECI RGB v2',
     ECI_RGB_V2_PRIMARIES,
     ECI_RGB_V2_WHITEPOINT,
     ECI_RGB_V2_TO_XYZ_MATRIX,

@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["REC_709_PRIMARIES",
-           "REC_709_WHITEPOINT",
-           "REC_709_TO_XYZ_MATRIX",
-           "XYZ_TO_REC_709_MATRIX",
-           "REC_709_TRANSFER_FUNCTION",
-           "REC_709_INVERSE_TRANSFER_FUNCTION",
-           "REC_709_COLOURSPACE"]
+__all__ = ['REC_709_PRIMARIES',
+           'REC_709_WHITEPOINT',
+           'REC_709_TO_XYZ_MATRIX',
+           'XYZ_TO_REC_709_MATRIX',
+           'REC_709_TRANSFER_FUNCTION',
+           'REC_709_INVERSE_TRANSFER_FUNCTION',
+           'REC_709_COLOURSPACE']
 
 REC_709_PRIMARIES = np.array(
     [0.6400, 0.3300,
@@ -48,7 +48,7 @@ REC_709_PRIMARIES : ndarray, (3, 2)
 """
 
 REC_709_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *Rec. 709* colourspace whitepoint.
 
@@ -89,7 +89,7 @@ REC_709_INVERSE_TRANSFER_FUNCTION : object
 """
 
 REC_709_COLOURSPACE = RGB_Colourspace(
-    "Rec. 709",
+    'Rec. 709',
     REC_709_PRIMARIES,
     REC_709_WHITEPOINT,
     REC_709_TO_XYZ_MATRIX,

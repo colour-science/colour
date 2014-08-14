@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["MAX_RGB_PRIMARIES",
-           "MAX_RGB_WHITEPOINT",
-           "MAX_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_MAX_RGB_MATRIX",
-           "MAX_RGB_TRANSFER_FUNCTION",
-           "MAX_RGB_INVERSE_TRANSFER_FUNCTION",
-           "MAX_RGB_COLOURSPACE"]
+__all__ = ['MAX_RGB_PRIMARIES',
+           'MAX_RGB_WHITEPOINT',
+           'MAX_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_MAX_RGB_MATRIX',
+           'MAX_RGB_TRANSFER_FUNCTION',
+           'MAX_RGB_INVERSE_TRANSFER_FUNCTION',
+           'MAX_RGB_COLOURSPACE']
 
 MAX_RGB_PRIMARIES = np.array(
     [0.73413379, 0.26586621,
@@ -48,7 +48,7 @@ MAX_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 MAX_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *Max RGB* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ MAX_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 MAX_RGB_COLOURSPACE = RGB_Colourspace(
-    "Max RGB",
+    'Max RGB',
     MAX_RGB_PRIMARIES,
     MAX_RGB_WHITEPOINT,
     MAX_RGB_TO_XYZ_MATRIX,

@@ -5,7 +5,7 @@
 Algebra Common Utilities
 ========================
 
-Defines algebra common utilities objects that don't belong to any algebra
+Defines algebra common utilities objects that don"t belong to any algebra
 specific category.
 """
 
@@ -13,25 +13,25 @@ from __future__ import unicode_literals
 
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["FLOATING_POINT_NUMBER_PATTERN",
-           "INTEGER_THRESHOLD",
-           "get_steps",
-           "get_closest",
-           "to_ndarray",
-           "is_uniform",
-           "is_iterable",
-           "is_number",
-           "is_integer",
-           "normalise"]
+__all__ = ['FLOATING_POINT_NUMBER_PATTERN',
+           'INTEGER_THRESHOLD',
+           'get_steps',
+           'get_closest',
+           'to_ndarray',
+           'is_uniform',
+           'is_iterable',
+           'is_number',
+           'is_integer',
+           'normalise']
 
-FLOATING_POINT_NUMBER_PATTERN = "[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?"
+FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
 
 INTEGER_THRESHOLD = 0.001
 """
@@ -251,7 +251,7 @@ def normalise(x, factor=1., clip=True):
     factor : float, optional
         Normalization factor
     clip : bool, optional
-        Clip values between in domain [0, "factor"].
+        Clip values between in domain [0, 'factor'].
 
     Returns
     -------

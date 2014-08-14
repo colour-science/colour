@@ -23,20 +23,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["SMPTE_C_RGB_PRIMARIES",
-           "SMPTE_C_RGB_WHITEPOINT",
-           "SMPTE_C_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_SMPTE_C_RGB_MATRIX",
-           "SMPTE_C_RGB_TRANSFER_FUNCTION",
-           "SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION",
-           "SMPTE_C_RGB_COLOURSPACE"]
+__all__ = ['SMPTE_C_RGB_PRIMARIES',
+           'SMPTE_C_RGB_WHITEPOINT',
+           'SMPTE_C_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_SMPTE_C_RGB_MATRIX',
+           'SMPTE_C_RGB_TRANSFER_FUNCTION',
+           'SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION',
+           'SMPTE_C_RGB_COLOURSPACE']
 
 SMPTE_C_RGB_PRIMARIES = np.array(
     [0.630, 0.340,
@@ -49,7 +49,7 @@ SMPTE_C_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D65")
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *SMPTE-C RGB* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
-    "SMPTE-C RGB",
+    'SMPTE-C RGB',
     SMPTE_C_RGB_PRIMARIES,
     SMPTE_C_RGB_WHITEPOINT,
     SMPTE_C_RGB_TO_XYZ_MATRIX,

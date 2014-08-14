@@ -19,14 +19,14 @@ from colour.colorimetry import (
     ILLUMINANTS_RELATIVE_SPDS,
     SpectralPowerDistribution)
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestGetColourRenderingIndex"]
+__all__ = ['TestGetColourRenderingIndex']
 
 SAMPLE_SPD_DATA = {
     380: 0.005883458,
@@ -124,22 +124,22 @@ class TestGetColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get("F2")),
+            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('F2')),
             64.1507331494,
             places=7)
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get("A")),
+            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('A')),
             99.9978916846,
             places=7)
 
         self.assertAlmostEqual(
             get_colour_rendering_index(SpectralPowerDistribution(
-                "Sample",
+                'Sample',
                 SAMPLE_SPD_DATA)),
             70.805836753503698,
             places=7)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

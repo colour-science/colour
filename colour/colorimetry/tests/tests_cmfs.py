@@ -18,16 +18,16 @@ from colour.colorimetry import LMS_ConeFundamentals
 from colour.colorimetry import RGB_ColourMatchingFunctions
 from colour.colorimetry import XYZ_ColourMatchingFunctions
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TestLMS_ConeFundamentals",
-           "TestRGB_ColourMatchingFunctions",
-           "TestXYZ_ColourMatchingFunctions"]
+__all__ = ['TestLMS_ConeFundamentals',
+           'TestRGB_ColourMatchingFunctions',
+           'TestXYZ_ColourMatchingFunctions']
 
 
 class TestLMS_ConeFundamentals(unittest.TestCase):
@@ -41,19 +41,19 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("name",
-                               "mapping",
-                               "labels",
-                               "data",
-                               "x",
-                               "y",
-                               "z",
-                               "wavelengths",
-                               "values",
-                               "shape",
-                               "l_bar",
-                               "m_bar",
-                               "s_bar")
+        required_attributes = ('name',
+                               'mapping',
+                               'labels',
+                               'data',
+                               'x',
+                               'y',
+                               'z',
+                               'wavelengths',
+                               'values',
+                               'shape',
+                               'l_bar',
+                               'm_bar',
+                               's_bar')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(LMS_ConeFundamentals))
@@ -63,13 +63,13 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ("get",
-                            "extrapolate",
-                            "interpolate",
-                            "align",
-                            "zeros",
-                            "normalise",
-                            "clone")
+        required_methods = ('get',
+                            'extrapolate',
+                            'interpolate',
+                            'align',
+                            'zeros',
+                            'normalise',
+                            'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(LMS_ConeFundamentals))
@@ -86,19 +86,19 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("name",
-                               "mapping",
-                               "labels",
-                               "data",
-                               "x",
-                               "y",
-                               "z",
-                               "wavelengths",
-                               "values",
-                               "shape",
-                               "r_bar",
-                               "g_bar",
-                               "b_bar")
+        required_attributes = ('name',
+                               'mapping',
+                               'labels',
+                               'data',
+                               'x',
+                               'y',
+                               'z',
+                               'wavelengths',
+                               'values',
+                               'shape',
+                               'r_bar',
+                               'g_bar',
+                               'b_bar')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_ColourMatchingFunctions))
@@ -108,13 +108,13 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ("get",
-                            "extrapolate",
-                            "interpolate",
-                            "align",
-                            "zeros",
-                            "normalise",
-                            "clone")
+        required_methods = ('get',
+                            'extrapolate',
+                            'interpolate',
+                            'align',
+                            'zeros',
+                            'normalise',
+                            'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_ColourMatchingFunctions))
@@ -131,19 +131,19 @@ class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ("name",
-                               "mapping",
-                               "labels",
-                               "data",
-                               "x",
-                               "y",
-                               "z",
-                               "wavelengths",
-                               "values",
-                               "shape",
-                               "x_bar",
-                               "y_bar",
-                               "z_bar")
+        required_attributes = ('name',
+                               'mapping',
+                               'labels',
+                               'data',
+                               'x',
+                               'y',
+                               'z',
+                               'wavelengths',
+                               'values',
+                               'shape',
+                               'x_bar',
+                               'y_bar',
+                               'z_bar')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(XYZ_ColourMatchingFunctions))
@@ -153,17 +153,17 @@ class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ("get",
-                            "extrapolate",
-                            "interpolate",
-                            "align",
-                            "zeros",
-                            "normalise",
-                            "clone")
+        required_methods = ('get',
+                            'extrapolate',
+                            'interpolate',
+                            'align',
+                            'zeros',
+                            'normalise',
+                            'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(XYZ_ColourMatchingFunctions))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

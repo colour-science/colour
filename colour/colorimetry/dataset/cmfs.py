@@ -11,7 +11,7 @@ The colour matching functions data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
 follows::
 
-    {"name": TriSpectralPowerDistribution, ..., "name": TriSpectralPowerDistribution}
+    {'name': TriSpectralPowerDistribution, ..., 'name': TriSpectralPowerDistribution}
 
 The following colour matching functions are available:
 
@@ -53,27 +53,27 @@ from colour.colorimetry.cmfs import LMS_ConeFundamentals
 from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions
 from colour.colorimetry.cmfs import XYZ_ColourMatchingFunctions
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["LMS_CMFS_DATA",
-           "LMS_CMFS",
-           "RGB_CMFS_DATA",
-           "RGB_CMFS",
-           "STANDARD_OBSERVERS_CMFS_DATA",
-           "STANDARD_OBSERVERS_CMFS",
-           "CMFS"]
+__all__ = ['LMS_CMFS_DATA',
+           'LMS_CMFS',
+           'RGB_CMFS_DATA',
+           'RGB_CMFS',
+           'STANDARD_OBSERVERS_CMFS_DATA',
+           'STANDARD_OBSERVERS_CMFS',
+           'CMFS']
 
 
-# *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
+# *S-cone* spectral sensitivity data wasn"t measurable after 615 nm and has
 # been set to zero.
 LMS_CMFS_DATA = {
-    "Stockman & Sharpe 2 Degree Cone Fundamentals": {
-        "l_bar": {
+    'Stockman & Sharpe 2 Degree Cone Fundamentals': {
+        'l_bar': {
             390: 4.15003e-04,
             391: 5.02650e-04,
             392: 6.07367e-04,
@@ -515,7 +515,7 @@ LMS_CMFS_DATA = {
             828: 1.09348e-06,
             829: 1.03203e-06,
             830: 9.74306e-07},
-        "m_bar": {
+        'm_bar': {
             390: 3.68349e-04,
             391: 4.48015e-04,
             392: 5.43965e-04,
@@ -957,7 +957,7 @@ LMS_CMFS_DATA = {
             828: 1.06398e-07,
             829: 1.00711e-07,
             830: 9.53411e-08},
-        "s_bar": {
+        's_bar': {
             390: 9.54729e-03,
             391: 1.14794e-02,
             392: 1.37986e-02,
@@ -1399,8 +1399,8 @@ LMS_CMFS_DATA = {
             828: 0.,
             829: 0.,
             830: 0.}},
-    "Stockman & Sharpe 10 Degree Cone Fundamentals": {
-        "l_bar": {
+    'Stockman & Sharpe 10 Degree Cone Fundamentals': {
+        'l_bar': {
             390: 4.07619e-04,
             391: 4.97068e-04,
             392: 6.04713e-04,
@@ -1842,7 +1842,7 @@ LMS_CMFS_DATA = {
             828: 9.79788e-07,
             829: 9.24725e-07,
             830: 8.73008e-07},
-        "m_bar": {
+        'm_bar': {
             390: 3.58227e-04,
             391: 4.38660e-04,
             392: 5.36230e-04,
@@ -2284,7 +2284,7 @@ LMS_CMFS_DATA = {
             828: 9.47349e-08,
             829: 8.96718e-08,
             830: 8.48902e-08},
-        "s_bar": {
+        's_bar': {
             390: 6.14265e-03,
             391: 7.44280e-03,
             392: 9.01661e-03,
@@ -2728,23 +2728,23 @@ LMS_CMFS_DATA = {
             830: 0.}}}
 
 LMS_CMFS = {
-    "Stockman & Sharpe 2 Degree Cone Fundamentals": LMS_ConeFundamentals(
-        "Stockman & Sharpe 2 Degree Cone Fundamentals", LMS_CMFS_DATA.get(
-            "Stockman & Sharpe 2 Degree Cone Fundamentals")),
-    "Stockman & Sharpe 10 Degree Cone Fundamentals": LMS_ConeFundamentals(
-        "Stockman & Sharpe 10 Degree Cone Fundamentals", LMS_CMFS_DATA.get(
-            "Stockman & Sharpe 10 Degree Cone Fundamentals"))}
+    'Stockman & Sharpe 2 Degree Cone Fundamentals': LMS_ConeFundamentals(
+        'Stockman & Sharpe 2 Degree Cone Fundamentals', LMS_CMFS_DATA.get(
+            'Stockman & Sharpe 2 Degree Cone Fundamentals')),
+    'Stockman & Sharpe 10 Degree Cone Fundamentals': LMS_ConeFundamentals(
+        'Stockman & Sharpe 10 Degree Cone Fundamentals', LMS_CMFS_DATA.get(
+            'Stockman & Sharpe 10 Degree Cone Fundamentals'))}
 """
 *LMS* colour matching functions.
 
 LMS_CMFS : dict
-    ("Stockman & Sharpe 2 Degree Cone Fundamentals",
-    "Stockman & Sharpe 10 Degree Cone Fundamentals")
+    ('Stockman & Sharpe 2 Degree Cone Fundamentals',
+    'Stockman & Sharpe 10 Degree Cone Fundamentals')
 """
 
 RGB_CMFS_DATA = {
-    "Wright & Guild 1931 2 Degree RGB CMFs": {
-        "r_bar": {
+    'Wright & Guild 1931 2 Degree RGB CMFs': {
+        'r_bar': {
             380: 0.00003,
             385: 0.00005,
             390: 0.0001,
@@ -2826,7 +2826,7 @@ RGB_CMFS_DATA = {
             770: 0.00003,
             775: 0.00001,
             780: 0},
-        "g_bar": {
+        'g_bar': {
             380: -0.00001,
             385: -0.00002,
             390: -0.00004,
@@ -2908,7 +2908,7 @@ RGB_CMFS_DATA = {
             770: 0,
             775: 0,
             780: 0},
-        "b_bar": {
+        'b_bar': {
             380: 0.00117,
             385: 0.00189,
             390: 0.00359,
@@ -2991,8 +2991,8 @@ RGB_CMFS_DATA = {
             775: 0,
             780: 0},
     },
-    "Stiles & Burch 1955 2 Degree RGB CMFs": {
-        "r_bar": {
+    'Stiles & Burch 1955 2 Degree RGB CMFs': {
+        'r_bar': {
             390: 1.83970e-003,
             395: 4.61530e-003,
             400: 9.62640e-003,
@@ -3062,7 +3062,7 @@ RGB_CMFS_DATA = {
             720: 6.51770e-003,
             725: 4.53770e-003,
             730: 3.17420e-003},
-        "g_bar": {
+        'g_bar': {
             390: -4.53930e-004,
             395: -1.04640e-003,
             400: -2.16890e-003,
@@ -3132,7 +3132,7 @@ RGB_CMFS_DATA = {
             720: -5.76770e-005,
             725: -3.90030e-005,
             730: -2.65110e-005},
-        "b_bar": {
+        'b_bar': {
             390: 1.21520e-002,
             395: 3.11100e-002,
             400: 6.23710e-002,
@@ -3203,8 +3203,8 @@ RGB_CMFS_DATA = {
             725: 5.02770e-006,
             730: 4.12510e-006}
     },
-    "Stiles & Burch 1959 10 Degree RGB CMFs": {
-        "r_bar": {
+    'Stiles & Burch 1959 10 Degree RGB CMFs': {
+        'r_bar': {
             390: 1.5000e-03,
             395: 3.8000e-03,
             400: 8.9000e-03,
@@ -3294,7 +3294,7 @@ RGB_CMFS_DATA = {
             820: 8.1800e-06,
             825: 6.0900e-06,
             830: 4.5500e-06},
-        "g_bar": {
+        'g_bar': {
             390: -4.0000e-04,
             395: -1.0000e-03,
             400: -2.5000e-03,
@@ -3384,7 +3384,7 @@ RGB_CMFS_DATA = {
             820: -1.0900e-08,
             825: -5.7000e-09,
             830: -2.7700e-09},
-        "b_bar": {
+        'b_bar': {
             390: 6.2000e-03,
             395: 1.6100e-02,
             400: 4.0000e-02,
@@ -3476,27 +3476,27 @@ RGB_CMFS_DATA = {
             830: 4.4200e-11}}}
 
 RGB_CMFS = {
-    "Wright & Guild 1931 2 Degree RGB CMFs": RGB_ColourMatchingFunctions(
-        "Wright & Guild 1931 2 Degree RGB CMFs",
-        RGB_CMFS_DATA.get("Wright & Guild 1931 2 Degree RGB CMFs")),
-    "Stiles & Burch 1955 2 Degree RGB CMFs": RGB_ColourMatchingFunctions(
-        "Stiles & Burch 1955 2 Degree RGB CMFs",
-        RGB_CMFS_DATA.get("Stiles & Burch 1955 2 Degree RGB CMFs")),
-    "Stiles & Burch 1959 10 Degree RGB CMFs": RGB_ColourMatchingFunctions(
-        "Stiles & Burch 1959 10 Degree RGB CMFs",
-        RGB_CMFS_DATA.get("Stiles & Burch 1959 10 Degree RGB CMFs"))}
+    'Wright & Guild 1931 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+        'Wright & Guild 1931 2 Degree RGB CMFs',
+        RGB_CMFS_DATA.get('Wright & Guild 1931 2 Degree RGB CMFs')),
+    'Stiles & Burch 1955 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+        'Stiles & Burch 1955 2 Degree RGB CMFs',
+        RGB_CMFS_DATA.get('Stiles & Burch 1955 2 Degree RGB CMFs')),
+    'Stiles & Burch 1959 10 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+        'Stiles & Burch 1959 10 Degree RGB CMFs',
+        RGB_CMFS_DATA.get('Stiles & Burch 1959 10 Degree RGB CMFs'))}
 """
 *CIE RGB* colour matching functions.
 
 RGB_CMFS : dict
-    ("Wright & Guild 1931 2 Degree RGB CMFs",
-    "Stiles & Burch 1955 2 Degree RGB CMFs",
-    "Stiles & Burch 1959 10 Degree RGB CMFs")
+    ('Wright & Guild 1931 2 Degree RGB CMFs',
+    'Stiles & Burch 1955 2 Degree RGB CMFs',
+    'Stiles & Burch 1959 10 Degree RGB CMFs')
 """
 
 STANDARD_OBSERVERS_CMFS_DATA = {
-    "CIE 1931 2 Degree Standard Observer": {
-        "x_bar": {
+    'CIE 1931 2 Degree Standard Observer': {
+        'x_bar': {
             360: 0.000129900000,
             361: 0.000145847000,
             362: 0.000163802100,
@@ -3968,7 +3968,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             828: 0.000001439440,
             829: 0.000001341977,
             830: 0.000001251141},
-        "y_bar": {
+        'y_bar': {
             360: 0.000003917000,
             361: 0.000004393581,
             362: 0.000004929604,
@@ -4440,7 +4440,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             828: 0.000000519808,
             829: 0.000000484612,
             830: 0.000000451810},
-        "z_bar": {
+        'z_bar': {
             360: 0.000606100000,
             361: 0.000680879200,
             362: 0.000765145600,
@@ -4913,8 +4913,8 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 0.000000000000,
             830: 0.000000000000}
     },
-    "CIE 1964 10 Degree Standard Observer": {
-        "x_bar": {
+    'CIE 1964 10 Degree Standard Observer': {
+        'x_bar': {
             360: 0.000000122200,
             361: 0.000000185138,
             362: 0.000000278830,
@@ -5386,7 +5386,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             828: 0.000001746500,
             829: 0.000001647100,
             830: 0.000001553140},
-        "y_bar": {
+        'y_bar': {
             360: 0.000000013398,
             361: 0.000000020294,
             362: 0.000000030560,
@@ -5858,7 +5858,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             828: 0.000000707440,
             829: 0.000000667480,
             830: 0.000000629700},
-        "z_bar": {
+        'z_bar': {
             360: 0.000000535027,
             361: 0.000000810720,
             362: 0.000001221200,
@@ -6331,8 +6331,8 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 0.000000000000,
             830: 0.000000000000}
     },
-    "CIE 2012 2 Degree Standard Observer": {
-        "x_bar": {
+    'CIE 2012 2 Degree Standard Observer': {
+        'x_bar': {
             390: 3.769647e-03,
             391: 4.532416e-03,
             392: 5.446553e-03,
@@ -6775,7 +6775,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 1.867268e-06,
             830: 1.762465e-06,
         },
-        "y_bar": {
+        'y_bar': {
             390: 4.146161e-04,
             391: 5.028333e-04,
             392: 6.084991e-04,
@@ -7218,7 +7218,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 7.470770e-07,
             830: 7.053860e-07,
         },
-        "z_bar": {
+        'z_bar': {
             390: 1.847260e-02,
             391: 2.221101e-02,
             392: 2.669819e-02,
@@ -7662,8 +7662,8 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             830: 0.000000e+00,
         }
     },
-    "CIE 2012 10 Degree Standard Observer": {
-        "x_bar": {
+    'CIE 2012 10 Degree Standard Observer': {
+        'x_bar': {
             390: 2.952420e-03,
             391: 3.577275e-03,
             392: 4.332146e-03,
@@ -8106,7 +8106,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 1.673086e-06,
             830: 1.579199e-06,
         },
-        "y_bar": {
+        'y_bar': {
             390: 4.076779e-04,
             391: 4.977769e-04,
             392: 6.064754e-04,
@@ -8549,7 +8549,7 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 6.720421e-07,
             830: 6.345380e-07,
         },
-        "z_bar": {
+        'z_bar': {
             390: 1.318752e-02,
             391: 1.597879e-02,
             392: 1.935758e-02,
@@ -8993,30 +8993,30 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             830: 0.000000e+00, }}}
 
 STANDARD_OBSERVERS_CMFS = {
-    "CIE 1931 2 Degree Standard Observer": XYZ_ColourMatchingFunctions(
-        "CIE 1931 2 Degree Standard Observer",
+    'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+        'CIE 1931 2 Degree Standard Observer',
         STANDARD_OBSERVERS_CMFS_DATA.get(
-            "CIE 1931 2 Degree Standard Observer")),
-    "CIE 1964 10 Degree Standard Observer": XYZ_ColourMatchingFunctions(
-        "CIE 1964 10 Degree Standard Observer",
+            'CIE 1931 2 Degree Standard Observer')),
+    'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+        'CIE 1964 10 Degree Standard Observer',
         STANDARD_OBSERVERS_CMFS_DATA.get(
-            "CIE 1964 10 Degree Standard Observer")),
-    "CIE 2012 2 Degree Standard Observer": XYZ_ColourMatchingFunctions(
-        "CIE 2012 2 Degree Standard Observer",
+            'CIE 1964 10 Degree Standard Observer')),
+    'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+        'CIE 2012 2 Degree Standard Observer',
         STANDARD_OBSERVERS_CMFS_DATA.get(
-            "CIE 2012 2 Degree Standard Observer")),
-    "CIE 2012 10 Degree Standard Observer": XYZ_ColourMatchingFunctions(
-        "CIE 2012 10 Degree Standard Observer",
+            'CIE 2012 2 Degree Standard Observer')),
+    'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+        'CIE 2012 10 Degree Standard Observer',
         STANDARD_OBSERVERS_CMFS_DATA.get(
-            "CIE 2012 10 Degree Standard Observer"))}
+            'CIE 2012 10 Degree Standard Observer'))}
 """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
 STANDARD_OBSERVERS_CMFS : dict
-    ("CIE 1931 2 Degree Standard Observer",
-    "CIE 1964 10 Degree Standard Observer",
-    "CIE 2012 2 Degree Standard Observer",
-    "CIE 2012 10 Degree Standard Observer")
+    ('CIE 1931 2 Degree Standard Observer',
+    'CIE 1964 10 Degree Standard Observer',
+    'CIE 2012 2 Degree Standard Observer',
+    'CIE 2012 10 Degree Standard Observer')
 """
 
 CMFS = dict(LMS_CMFS)
@@ -9024,15 +9024,15 @@ CMFS = dict(LMS_CMFS)
 Aggregated colour matching functions.
 
 CMFS : dict
-    ("Stockman & Sharpe 10 Degree Cone Fundamentals",
-    "Stockman & Sharpe 2 Degree Cone Fundamentals",
-    "Wright & Guild 1931 2 Degree RGB CMFs",
-    "Stiles & Burch 1955 2 Degree RGB CMFs",
-    "Stiles & Burch 1959 10 Degree RGB CMFs",
-    "CIE 1931 2 Degree Standard Observer",
-    "CIE 1964 10 Degree Standard Observer",
-    "CIE 2012 2 Degree Standard Observer",
-    "CIE 2012 10 Degree Standard Observer")
+    ('Stockman & Sharpe 10 Degree Cone Fundamentals',
+    'Stockman & Sharpe 2 Degree Cone Fundamentals',
+    'Wright & Guild 1931 2 Degree RGB CMFs',
+    'Stiles & Burch 1955 2 Degree RGB CMFs',
+    'Stiles & Burch 1959 10 Degree RGB CMFs',
+    'CIE 1931 2 Degree Standard Observer',
+    'CIE 1964 10 Degree Standard Observer',
+    'CIE 2012 2 Degree Standard Observer',
+    'CIE 2012 10 Degree Standard Observer')
 """
 CMFS.update(RGB_CMFS)
 CMFS.update(STANDARD_OBSERVERS_CMFS)

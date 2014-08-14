@@ -66,13 +66,13 @@ non_uniform_spd_data = {
     820.9: 0.0000}
 
 base_spd = colour.SpectralPowerDistribution(
-    "Reference",
+    'Reference',
     uniform_spd_data)
 uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    "Uniform - Sprague Interpolation",
+    'Uniform - Sprague Interpolation',
     uniform_spd_data)
 non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    "Non Uniform - Cubic Spline Interpolation",
+    'Non Uniform - Cubic Spline Interpolation',
     non_uniform_spd_data)
 
 uniform_interpolated_spd.interpolate(steps=1)
@@ -83,7 +83,7 @@ x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
 pylab.plot(base_spd.wavelengths,
            base_spd.values,
-           "ro-",
+           'ro-',
            label=base_spd.name,
            linewidth=2.)
 pylab.plot(uniform_interpolated_spd.wavelengths,
@@ -100,14 +100,14 @@ x_limit_max.append(end)
 y_limit_min.append(min(base_spd.values))
 y_limit_max.append(max(base_spd.values))
 
-settings = {"x_label": u"Wavelength λ (nm)",
-            "y_label": "Spectral Power Distribution",
-            "x_tighten": True,
-            "legend": True,
-            "legend_location": "upper left",
-            "x_ticker": True,
-            "y_ticker": True,
-            "limits": [min(x_limit_min), max(x_limit_max), min(y_limit_min),
+settings = {'x_label': u'Wavelength λ (nm)',
+            'y_label': 'Spectral Power Distribution',
+            'x_tighten': True,
+            'legend': True,
+            'legend_location': 'upper left',
+            'x_ticker': True,
+            'y_ticker': True,
+            'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
                        max(y_limit_max)]}
 
 colour.plotting.bounding_box(**settings)

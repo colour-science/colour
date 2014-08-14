@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["ADOBE_WIDE_GAMUT_RGB_PRIMARIES",
-           "ADOBE_WIDE_GAMUT_RGB_WHITEPOINT",
-           "ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX",
-           "ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION",
-           "ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION",
-           "ADOBE_WIDE_GAMUT_RGB_COLOURSPACE"]
+__all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
+           'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT',
+           'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX',
+           'ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION',
+           'ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION',
+           'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE']
 
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
     [0.7347, 0.2653,
@@ -48,7 +48,7 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
@@ -87,7 +87,7 @@ ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
-    "Adobe Wide Gamut RGB",
+    'Adobe Wide Gamut RGB',
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,

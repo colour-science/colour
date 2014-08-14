@@ -22,20 +22,20 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, get_normalised_primary_matrix
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["COLOR_MATCH_RGB_PRIMARIES",
-           "COLOR_MATCH_RGB_WHITEPOINT",
-           "COLOR_MATCH_RGB_TO_XYZ_MATRIX",
-           "XYZ_TO_COLOR_MATCH_RGB_MATRIX",
-           "COLOR_MATCH_RGB_TRANSFER_FUNCTION",
-           "COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION",
-           "COLOR_MATCH_RGB_COLOURSPACE"]
+__all__ = ['COLOR_MATCH_RGB_PRIMARIES',
+           'COLOR_MATCH_RGB_WHITEPOINT',
+           'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_COLOR_MATCH_RGB_MATRIX',
+           'COLOR_MATCH_RGB_TRANSFER_FUNCTION',
+           'COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION',
+           'COLOR_MATCH_RGB_COLOURSPACE']
 
 COLOR_MATCH_RGB_PRIMARIES = np.array(
     [0.6300, 0.3400,
@@ -48,7 +48,7 @@ COLOR_MATCH_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
 COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
-    "CIE 1931 2 Degree Standard Observer").get("D50")
+    'CIE 1931 2 Degree Standard Observer').get('D50')
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION : object
 """
 
 COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
-    "ColorMatch RGB",
+    'ColorMatch RGB',
     COLOR_MATCH_RGB_PRIMARIES,
     COLOR_MATCH_RGB_WHITEPOINT,
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,

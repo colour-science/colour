@@ -27,7 +27,7 @@ They are provided for convenience and completeness.
 
 Warning
 -------
-Don't use that! Seriously...
+Don"t use that! Seriously...
 
 References
 ----------
@@ -42,23 +42,23 @@ from __future__ import unicode_literals
 import math
 import numpy as np
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["RGB_to_HSV",
-           "HSV_to_RGB",
-           "RGB_to_HSL",
-           "HSL_to_RGB",
-           "RGB_to_CMY",
-           "CMY_to_RGB",
-           "CMY_to_CMYK",
-           "CMYK_to_CMY",
-           "RGB_to_HEX",
-           "HEX_to_RGB"]
+__all__ = ['RGB_to_HSV',
+           'HSV_to_RGB',
+           'RGB_to_HSL',
+           'HSL_to_RGB',
+           'RGB_to_CMY',
+           'CMY_to_RGB',
+           'CMY_to_CMYK',
+           'CMYK_to_CMY',
+           'RGB_to_HEX',
+           'HEX_to_RGB']
 
 
 def RGB_to_HSV(RGB):
@@ -67,12 +67,12 @@ def RGB_to_HSV(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3, 1)
+    RGB : array_like, (3,)
         *RGB* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *HSV* matrix.
 
     Notes
@@ -87,11 +87,11 @@ def RGB_to_HSV(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> RGB = np.array([0.49019607843137253,
+                        0.9803921568627451,
+                        0.25098039215686274])
     >>> colour.models.deprecated.RGB_to_HSV(RGB)
-    array([[ 0.27867384],
-           [ 0.744     ],
-           [ 0.98039216]])
+    array([ 0.27867384,  0.744     ,  0.98039216])
     """
 
     R, G, B = np.ravel(RGB)
@@ -125,7 +125,7 @@ def RGB_to_HSV(RGB):
         if H > 1:
             H -= 1
 
-    return np.array([H, S, V]).reshape((3, 1))
+    return np.array([H, S, V])
 
 
 def HSV_to_RGB(HSV):
@@ -134,12 +134,12 @@ def HSV_to_RGB(HSV):
 
     Parameters
     ----------
-    HSV : array_like, (3, 1)
+    HSV : array_like, (3,)
         *HSV* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *RGB* colourspace matrix.
 
     Notes
@@ -156,9 +156,7 @@ def HSV_to_RGB(HSV):
     --------
     >>> HSV = np.array([0.27867384, 0.744, 0.98039216])
     >>> colour.models.deprecated.HSV_to_RGB(HSV)
-    array([[ 0.49019606]
-           [ 0.98039216]
-           [ 0.25098039]])
+    array([ 0.49019606,  0.98039216,  0.25098039])
     """
 
     H, S, V = np.ravel(HSV)
@@ -201,7 +199,7 @@ def HSV_to_RGB(HSV):
             G = j
             B = k
 
-    return np.array([R, G, B]).reshape((3, 1))
+    return np.array([R, G, B])
 
 
 def RGB_to_HSL(RGB):
@@ -210,12 +208,12 @@ def RGB_to_HSL(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3, 1)
+    RGB : array_like, (3,)
         *RGB* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *HSL* matrix.
 
     Notes
@@ -230,11 +228,11 @@ def RGB_to_HSL(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> RGB = np.array([0.49019607843137253,
+                        0.9803921568627451,
+                        0.25098039215686274])
     >>> colour.models.deprecated.RGB_to_HSL(RGB)
-    array([[ 0.27867384]
-           [ 0.94897959]
-           [ 0.61568627]])
+    array([ 0.27867384,  0.94897959,  0.61568627])
     """
 
     R, G, B = np.ravel(RGB)
@@ -269,7 +267,7 @@ def RGB_to_HSL(RGB):
         if H > 1:
             H -= 1
 
-    return np.array([H, S, L]).reshape((3, 1))
+    return np.array([H, S, L])
 
 
 def HSL_to_RGB(HSL):
@@ -278,12 +276,12 @@ def HSL_to_RGB(HSL):
 
     Parameters
     ----------
-    HSL : array_like, (3, 1)
+    HSL : array_like, (3,)
         *HSL* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *RGB* colourspace matrix.
 
     Notes
@@ -300,9 +298,7 @@ def HSL_to_RGB(HSL):
     --------
     >>> HSL = np.array([0.27867384, 0.94897959, 0.61568627])
     >>> colour.models.deprecated.HSL_to_RGB(HSL)
-    array([[ 0.49019605]
-           [ 0.98039216]
-           [ 0.25098038]])
+    array([ 0.49019605,  0.98039216,  0.25098038])
     """
 
     H, S, L = np.ravel(HSL)
@@ -332,7 +328,7 @@ def HSL_to_RGB(HSL):
         G = H_to_RGB(i, j, H)
         B = H_to_RGB(i, j, H - (1. / 3.))
 
-    return np.array([R, G, B]).reshape((3, 1))
+    return np.array([R, G, B])
 
 
 def RGB_to_CMY(RGB):
@@ -341,12 +337,12 @@ def RGB_to_CMY(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3, 1)
+    RGB : array_like, (3,)
         *RGB* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CMY* matrix.
 
     Notes
@@ -361,15 +357,15 @@ def RGB_to_CMY(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253, 0.9803921568627451, 0.25098039215686274])
+    >>> RGB = np.array([0.49019607843137253,
+                        0.9803921568627451,
+                        0.25098039215686274])
     >>> colour.models.deprecated.RGB_to_CMY(RGB)
-    array([[ 0.50980392]
-           [ 0.01960784]
-           [ 0.74901961]])
+    array([ 0.50980392,  0.01960784,  0.74901961])
     """
 
     R, G, B = np.ravel(RGB)
-    return np.array([1. - R, 1. - G, 1. - B]).reshape((3, 1))
+    return np.array([1. - R, 1. - G, 1. - B])
 
 
 def CMY_to_RGB(CMY):
@@ -378,12 +374,12 @@ def CMY_to_RGB(CMY):
 
     Parameters
     ----------
-    CMY : array_like, (3, 1)
+    CMY : array_like, (3,)
         *CMY* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *RGB* colourspace matrix.
 
     Notes
@@ -400,13 +396,11 @@ def CMY_to_RGB(CMY):
     --------
     >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
     >>> colour.models.deprecated.CMY_to_RGB(CMY)
-    array([[ 0.49019608]
-           [ 0.98039216]
-           [ 0.25098039]])
+    array([ 0.49019608,  0.98039216,  0.25098039])
     """
 
     C, M, Y = np.ravel(CMY)
-    return np.array([1. - C, 1. - M, 1. - Y]).reshape((3, 1))
+    return np.array([1. - C, 1. - M, 1. - Y])
 
 
 def CMY_to_CMYK(CMY):
@@ -415,12 +409,12 @@ def CMY_to_CMYK(CMY):
 
     Parameters
     ----------
-    CMY : array_like, (3, 1)
+    CMY : array_like, (3,)
         *CMY* colourspace matrix.
 
     Returns
     -------
-    ndarray, (4, 1)
+    ndarray, (4,)
         *CMYK* matrix.
 
     Notes
@@ -437,10 +431,7 @@ def CMY_to_CMYK(CMY):
     --------
     >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
     >>> colour.models.deprecated.CMY_to_CMYK(CMY)
-    array([[ 0.5       ]
-           [ 0.        ]
-           [ 0.744     ]
-           [ 0.01960784]])
+    array([ 0.5       ,  0.        ,  0.744     ,  0.01960784])
     """
 
     C, M, Y = np.ravel(CMY)
@@ -462,7 +453,7 @@ def CMY_to_CMYK(CMY):
         M = (M - K) / (1. - K)
         Y = (Y - K) / (1. - K)
 
-    return np.array([C, M, Y, K]).reshape((4, 1))
+    return np.array([C, M, Y, K])
 
 
 def CMYK_to_CMY(CMYK):
@@ -471,12 +462,12 @@ def CMYK_to_CMY(CMYK):
 
     Parameters
     ----------
-    CMYK : array_like, (4, 1)
+    CMYK : array_like, (4,)
         *CMYK* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *CMY* matrix.
 
     Notes
@@ -492,15 +483,13 @@ def CMYK_to_CMY(CMYK):
     --------
     >>> CMYK = np.array([0.5, 0.,0.744, 0.01960784])
     >>> colour.models.deprecated.CMYK_to_CMY(CMYK)
-    array([[ 0.50980392]
-           [ 0.01960784]
-           [ 0.74901961]])
+    array([ 0.50980392,  0.01960784,  0.74901961])
     """
 
     C, M, Y, K = np.ravel(CMYK)
 
     return np.array(
-        [C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K]).reshape((3, 1))
+        [C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K])
 
 
 def RGB_to_HEX(RGB):
@@ -509,7 +498,7 @@ def RGB_to_HEX(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3, 1)
+    RGB : array_like, (3,)
         *RGB* colourspace matrix.
 
     Returns
@@ -530,7 +519,7 @@ def RGB_to_HEX(RGB):
 
     RGB = np.ravel(RGB)
     R, G, B = map(int, RGB * 255.)
-    return "#{0:02x}{1:02x}{2:02x}".format(R, G, B)
+    return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
 
 
 def HEX_to_RGB(HEX):
@@ -544,7 +533,7 @@ def HEX_to_RGB(HEX):
 
     Returns
     -------
-    ndarray, (3, 1)
+    ndarray, (3,)
         *RGB* colourspace matrix.
 
     Notes
@@ -553,14 +542,12 @@ def HEX_to_RGB(HEX):
 
     Examples
     --------
-    >>> HEX = "#aaddff"
+    >>> HEX = '#aaddff'
     >>> colour.models.deprecated.HEX_to_RGB(HEX)
-    array([[ 0.66666667]
-           [ 0.86666667]
-           [ 1.        ]])
+    array([ 0.66666667,  0.86666667,  1.        ])
     """
 
-    HEX = HEX.lstrip("#")
+    HEX = HEX.lstrip('#')
     length = len(HEX)
     return np.array([int(HEX[i:i + length // 3], 16) for i in
-                     range(0, length, length // 3)]).reshape((3, 1)) / 255.
+                     range(0, length, length // 3)]) / 255.

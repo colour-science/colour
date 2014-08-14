@@ -92,10 +92,10 @@ sample_spd_data = {
     780: 0.421}
 
 # Creating the sample spectral power distribution.
-spd = colour.SpectralPowerDistribution("Sample", sample_spd_data)
+spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
 
-cmfs = colour.CMFS["CIE 1931 2 Degree Standard Observer"]
-illuminant = colour.ILLUMINANTS_RELATIVE_SPDS["A"]
+cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
+illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['A']
 
 # Calculating the sample spectral power distribution *CIE XYZ* tristimulus
 # values.
@@ -105,7 +105,7 @@ print(colour.spectral_to_XYZ(spd, cmfs, illuminant))
 # *CIE 1931 2 Degree Standard Observer*.
 print(colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs)))
 
-# From '546.1 nm' wavelength to *CIE XYZ* colourspace tristimulus values.
+# From "546.1 nm" wavelength to *CIE XYZ* colourspace tristimulus values.
 print(colour.wavelength_to_XYZ(
     546.1,
-    colour.CMFS["CIE 1931 2 Degree Standard Observer"]))
+    colour.CMFS['CIE 1931 2 Degree Standard Observer']))

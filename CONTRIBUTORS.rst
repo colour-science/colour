@@ -14,22 +14,22 @@ Development & Technical Support
 
 -   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
 
-    Continuous technical support
+    Continuous technical support.
 
 Acknowledgements
 ----------------
 
 -   **Paul Centore**, *Mathematician & Colour Scientist*
 
-    Matlab *Munsell Renotation System* implementation
+    Matlab *Munsell Renotation System* implementation.
 
 -   **Yoshi Ohno**, *Mathematician & Colour Scientist*.
 
-    *Ohno (2013)* correlated colour temperature calculation technical support
+    *Ohno (2013)* correlated colour temperature calculation technical support.
 
--   **Charles Poynton**, Colour Scientist
+-   **Charles Poynton**, Mathematician & Colour Scientist
 
-    Technical support
+    Technical support.
     
 About
 -----

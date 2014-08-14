@@ -11,7 +11,7 @@ The *CIE 1995* test colour samples data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
 follows::
 
-    {"name": SpectralPowerDistribution, ..., "name": SpectralPowerDistribution}
+    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
 References
 ----------
@@ -24,32 +24,32 @@ from __future__ import unicode_literals
 
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 
-__author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013 - 2014 - Colour Developers"
-__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
-__maintainer__ = "Colour Developers"
-__email__ = "colour-science@googlegroups.com"
-__status__ = "Production"
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-__all__ = ["TCS_APPROXIMATE_MUNSELL_NOTATIONS",
-           "TCS_SPDS_DATA",
-           "TCS_SPDS"]
+__all__ = ['TCS_APPROXIMATE_MUNSELL_NOTATIONS',
+           'TCS_SPDS_DATA',
+           'TCS_SPDS']
 
 TCS_INDEXES_TO_NAMES = {
-    1: "TCS01",
-    2: "TCS02",
-    3: "TCS03",
-    4: "TCS04",
-    5: "TCS05",
-    6: "TCS06",
-    7: "TCS07",
-    8: "TCS08",
-    9: "TCS09",
-    10: "TCS10",
-    11: "TCS11",
-    12: "TCS12",
-    13: "TCS13",
-    14: "TCS14"}
+    1: 'TCS01',
+    2: 'TCS02',
+    3: 'TCS03',
+    4: 'TCS04',
+    5: 'TCS05',
+    6: 'TCS06',
+    7: 'TCS07',
+    8: 'TCS08',
+    9: 'TCS09',
+    10: 'TCS10',
+    11: 'TCS11',
+    12: 'TCS12',
+    13: 'TCS13',
+    14: 'TCS14'}
 """
 Test colour samples indexes to names mapping.
 
@@ -57,20 +57,20 @@ TCS_INDEXES_TO_NAMES : dict
 """
 
 TCS_APPROXIMATE_MUNSELL_NOTATIONS = {
-    "TCS01": "7.5 R 6/4",
-    "TCS02": "5 Y 6/4",
-    "TCS03": "5 GY 6/8",
-    "TCS04": "2.5 G 6/6",
-    "TCS05": "10 BG 6/4",
-    "TCS06": "5 PB 6/8",
-    "TCS07": "2.5 P 6/8",
-    "TCS08": "10 P 6/8",
-    "TCS09": "4.5 R 4/13",
-    "TCS10": "5 Y 8/10",
-    "TCS11": "4.5 G 5/8",
-    "TCS12": "3 PB 3/11",
-    "TCS13": "5 YR 8/4",
-    "TCS14": "5 GY 4/4"}
+    'TCS01': '7.5 R 6/4',
+    'TCS02': '5 Y 6/4',
+    'TCS03': '5 GY 6/8',
+    'TCS04': '2.5 G 6/6',
+    'TCS05': '10 BG 6/4',
+    'TCS06': '5 PB 6/8',
+    'TCS07': '2.5 P 6/8',
+    'TCS08': '10 P 6/8',
+    'TCS09': '4.5 R 4/13',
+    'TCS10': '5 Y 8/10',
+    'TCS11': '4.5 G 5/8',
+    'TCS12': '3 PB 3/11',
+    'TCS13': '5 YR 8/4',
+    'TCS14': '5 GY 4/4'}
 """
 Test colour samples *Munsell* colour approximations.
 
@@ -78,7 +78,7 @@ TCS_APPROXIMATE_MUNSELL_NOTATIONS : dict
 """
 
 TCS_SPDS_DATA = {
-    "TCS01": {
+    'TCS01': {
         360: 0.116,
         365: 0.136,
         370: 0.159,
@@ -174,7 +174,7 @@ TCS_SPDS_DATA = {
         820: 0.465,
         825: 0.464,
         830: 0.464},
-    "TCS02": {
+    'TCS02': {
         360: 0.053,
         365: 0.055,
         370: 0.059,
@@ -270,7 +270,7 @@ TCS_SPDS_DATA = {
         820: 0.311,
         825: 0.311,
         830: 0.31},
-    "TCS03": {
+    'TCS03': {
         360: 0.058,
         365: 0.059,
         370: 0.061,
@@ -366,7 +366,7 @@ TCS_SPDS_DATA = {
         820: 0.548,
         825: 0.552,
         830: 0.555},
-    "TCS04": {
+    'TCS04': {
         360: 0.057,
         365: 0.059,
         370: 0.062,
@@ -462,7 +462,7 @@ TCS_SPDS_DATA = {
         820: 0.254,
         825: 0.264,
         830: 0.274},
-    "TCS05": {
+    'TCS05': {
         360: 0.143,
         365: 0.187,
         370: 0.233,
@@ -558,7 +558,7 @@ TCS_SPDS_DATA = {
         820: 0.265,
         825: 0.273,
         830: 0.28},
-    "TCS06": {
+    'TCS06': {
         360: 0.079,
         365: 0.081,
         370: 0.089,
@@ -654,7 +654,7 @@ TCS_SPDS_DATA = {
         820: 0.529,
         825: 0.532,
         830: 0.535},
-    "TCS07": {
+    'TCS07': {
         360: 0.15,
         365: 0.177,
         370: 0.218,
@@ -750,7 +750,7 @@ TCS_SPDS_DATA = {
         820: 0.59,
         825: 0.591,
         830: 0.592},
-    "TCS08": {
+    'TCS08': {
         360: 0.075,
         365: 0.078,
         370: 0.084,
@@ -846,7 +846,7 @@ TCS_SPDS_DATA = {
         820: 0.731,
         825: 0.731,
         830: 0.731},
-    "TCS09": {
+    'TCS09': {
         360: 0.069,
         365: 0.072,
         370: 0.073,
@@ -942,7 +942,7 @@ TCS_SPDS_DATA = {
         820: 0.837,
         825: 0.836,
         830: 0.836},
-    "TCS10": {
+    'TCS10': {
         360: 0.042,
         365: 0.043,
         370: 0.045,
@@ -1038,7 +1038,7 @@ TCS_SPDS_DATA = {
         820: 0.757,
         825: 0.756,
         830: 0.756},
-    "TCS11": {
+    'TCS11': {
         360: 0.074,
         365: 0.079,
         370: 0.086,
@@ -1134,7 +1134,7 @@ TCS_SPDS_DATA = {
         820: 0.388,
         825: 0.396,
         830: 0.403},
-    "TCS12": {
+    'TCS12': {
         360: 0.189,
         365: 0.175,
         370: 0.158,
@@ -1230,7 +1230,7 @@ TCS_SPDS_DATA = {
         820: 0.697,
         825: 0.7,
         830: 0.702},
-    "TCS13": {
+    'TCS13': {
         360: 0.071,
         365: 0.076,
         370: 0.082,
@@ -1326,7 +1326,7 @@ TCS_SPDS_DATA = {
         820: 0.745,
         825: 0.745,
         830: 0.745},
-    "TCS14": {
+    'TCS14': {
         360: 0.036,
         365: 0.036,
         370: 0.036,
