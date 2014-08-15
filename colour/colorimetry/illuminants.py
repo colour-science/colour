@@ -43,7 +43,7 @@ def D_illuminant_relative_spd(xy):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Page 146.
+            page  146.
     .. [2]  http://www.brucelindbloom.com/Eqn_DIlluminant.html
             (Last accessed 5 April 2014)
 

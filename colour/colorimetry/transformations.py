@@ -64,7 +64,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Pages 138, 139.
+            pages 138, 139.
 
     Examples
     --------
@@ -134,7 +134,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Page 141.
+            page  141.
 
     Examples
     --------
