@@ -13,7 +13,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'

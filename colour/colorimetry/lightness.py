@@ -17,7 +17,7 @@ The following methods are available:
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import warning

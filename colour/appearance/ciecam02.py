@@ -28,13 +28,12 @@ References
         (Last accessed 30 July 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import bisect
 import math
-from collections import namedtuple
-
 import numpy as np
+from collections import namedtuple
 
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,

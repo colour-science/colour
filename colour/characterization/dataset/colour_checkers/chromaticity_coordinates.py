@@ -28,7 +28,7 @@ References
 .. [2]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from collections import namedtuple
 

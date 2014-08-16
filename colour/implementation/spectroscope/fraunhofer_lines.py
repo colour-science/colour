@@ -13,6 +13,8 @@ References
 .. [1]  http://en.wikipedia.org/wiki/Fraunhofer_lines
 """
 
+from __future__ import division, unicode_literals
+
 import bisect
 
 import matplotlib.pyplot

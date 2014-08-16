@@ -37,7 +37,7 @@ References
         (Last accessed 10 August 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np

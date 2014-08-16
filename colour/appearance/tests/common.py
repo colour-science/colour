@@ -5,6 +5,8 @@
 Defines the common units tests objects for :mod:`colour.appearance` package.
 """
 
+from __future__ import division, unicode_literals
+
 import csv
 import numpy
 import os

@@ -5,6 +5,8 @@
 Showcases *interpolation* computations.
 """
 
+from __future__ import division, unicode_literals
+
 import pylab
 
 import colour

@@ -43,7 +43,7 @@ References
 .. [4]  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 

@@ -13,7 +13,7 @@ colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,
 colour.colorimetry.spectrum.SpectralPowerDistribution
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

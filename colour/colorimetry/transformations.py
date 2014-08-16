@@ -14,7 +14,7 @@ transformations:
 -   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

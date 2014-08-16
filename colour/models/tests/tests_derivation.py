@@ -5,10 +5,10 @@
 Defines units tests for :mod:`colour.models.rgb.derivation` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
-import sys
 import re
+import sys
 import numpy as np
 
 if sys.version_info[:2] <= (2, 6):

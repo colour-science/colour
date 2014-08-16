@@ -31,7 +31,7 @@ References
 .. [4]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 

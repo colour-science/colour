@@ -21,7 +21,7 @@ References
         published 10 August 2005, ISBN-13: 978-0470024256
 """
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import namedtuple

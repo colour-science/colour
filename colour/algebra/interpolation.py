@@ -12,10 +12,9 @@ Defines classes for interpolating variables.
     interpolation.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import bisect
-from matplotlib.delaunay.interpolate import LinearInterpolator
 import numpy as np
 
 from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
@@ -240,7 +239,7 @@ if is_scipy_installed():
                 kind='cubic', *args, **kwargs)
 else:
     warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
-             '"LinearInterpolator" instead!'))
+             '"LinearInterpolator1d" instead!'))
 
     SplineInterpolator = LinearInterpolator
 

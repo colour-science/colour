@@ -8,6 +8,8 @@ Autodesk Maya - Plotting
 Defines **Autodesk Maya** plotting objects.
 """
 
+from __future__ import division, unicode_literals
+
 import numpy as np
 
 try:

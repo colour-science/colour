@@ -22,7 +22,7 @@ References
 .. [3]  http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

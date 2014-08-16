@@ -47,7 +47,7 @@ References
 .. [6]  http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry.cmfs import LMS_ConeFundamentals
 from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions

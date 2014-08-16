@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.colorimetry.illuminants` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 import sys

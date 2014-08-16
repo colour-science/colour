@@ -12,6 +12,8 @@ References
 .. [1]  http://thomasmansencal.blogspot.fr/2014/07/a-homemade-spectroscope.html
 """
 
+from __future__ import division, unicode_literals
+
 import matplotlib.image
 import matplotlib.pyplot
 import numpy as np

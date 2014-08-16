@@ -20,7 +20,7 @@ References
 .. [2]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 

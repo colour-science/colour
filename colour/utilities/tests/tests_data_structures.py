@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.utilities.data_structures` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import pickle
 import sys

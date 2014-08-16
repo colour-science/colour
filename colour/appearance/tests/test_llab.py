@@ -5,6 +5,8 @@
 Defines units tests for :mod:`colour.appearance.llab` module.
 """
 
+from __future__ import division, unicode_literals
+
 import numpy as np
 from colour.appearance.llab import XYZ_to_LLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest

@@ -18,7 +18,7 @@ References
         (Last accessed 20 June 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.algebra import get_closest
 from colour.colorimetry import (

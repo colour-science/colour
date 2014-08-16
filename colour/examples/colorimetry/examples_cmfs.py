@@ -5,6 +5,8 @@
 Showcases *colour matching functions* computations.
 """
 
+from __future__ import division, unicode_literals
+
 import pprint
 import colour
 

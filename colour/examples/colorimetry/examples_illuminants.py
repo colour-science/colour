@@ -5,6 +5,8 @@
 Showcases *illuminants* dataset.
 """
 
+from __future__ import division, unicode_literals
+
 import colour
 
 # Retrieving *D60* illuminant chromaticity coordinates.

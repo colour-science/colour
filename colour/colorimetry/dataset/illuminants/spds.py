@@ -43,7 +43,7 @@ References
 .. [3]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 

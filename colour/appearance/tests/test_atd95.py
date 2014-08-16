@@ -5,6 +5,8 @@
 Defines units tests for :mod:`colour.appearance.atd95` module.
 """
 
+from __future__ import division, unicode_literals
+
 import numpy as np
 from numpy.testing.utils import assert_almost_equal
 

@@ -5,6 +5,8 @@
 Showcases *Luminance* computations.
 """
 
+from __future__ import division, unicode_literals
+
 import colour
 
 # Retrieving *luminance* of given *Munsell* value with

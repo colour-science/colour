@@ -10,7 +10,7 @@ Defines classes for extrapolating variables:
 -   :class:`Extrapolator1d`: 1-D function extrapolation.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

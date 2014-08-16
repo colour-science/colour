@@ -8,12 +8,11 @@ Tristimulus Values
 Defines objects for tristimulus values computation from spectral data.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
-
 from colour.colorimetry import (
     SpectralPowerDistribution,
     STANDARD_OBSERVERS_CMFS)

@@ -8,7 +8,7 @@ MacAdam Limits - Optimal Colour Stimuli
 Defines objects related to optimal colour stimuli computations.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

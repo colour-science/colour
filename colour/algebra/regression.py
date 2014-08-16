@@ -14,7 +14,7 @@ References
 .. [1]  http://en.wikipedia.org/wiki/Regression_analysis
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

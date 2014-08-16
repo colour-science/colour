@@ -8,7 +8,7 @@ Common Utilities
 Defines common utilities objects that don"t fall in any specific category.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'

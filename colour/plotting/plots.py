@@ -40,6 +40,8 @@ Defines plotting objects for various dataset:
 -   :func:`colour_rendering_index_bars_plot`
 """
 
+from __future__ import division
+
 import bisect
 import functools
 import itertools

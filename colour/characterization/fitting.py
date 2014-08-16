@@ -8,7 +8,7 @@ Colour Fitting
 Defines various objects for colour fitting, like colour matching two images.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

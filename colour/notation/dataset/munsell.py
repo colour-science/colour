@@ -12,7 +12,7 @@ References
 .. [1]  http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'

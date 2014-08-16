@@ -21,7 +21,7 @@ colour.colorimetry.dataset.cmfs,
 colour.colorimetry.spectrum.TriSpectralPowerDistribution
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry import TriSpectralPowerDistribution
 

@@ -19,7 +19,7 @@ References
         (Last accessed 5 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
 

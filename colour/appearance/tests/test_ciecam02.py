@@ -5,6 +5,8 @@
 Defines units tests for :mod:`colour.appearance.ciecam02` module.
 """
 
+from __future__ import division, unicode_literals
+
 import numpy as np
 from colour.appearance.ciecam02 import (
     CIECAM02_InductionFactors,

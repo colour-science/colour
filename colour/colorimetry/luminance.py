@@ -18,7 +18,7 @@ The following methods are available:
     *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.constants import CIE_E, CIE_K
 

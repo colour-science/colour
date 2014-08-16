@@ -5,6 +5,8 @@
 Defines units tests for :mod:`colour.appearance.hunt` module.
 """
 
+from __future__ import division, unicode_literals
+
 import numpy as np
 from colour.appearance.hunt import XYZ_to_Hunt
 from colour.appearance.tests.common import ColourAppearanceModelTest

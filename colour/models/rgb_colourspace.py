@@ -9,7 +9,7 @@ Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
 from :mod:`colour.models.dataset.aces_rgb`, etc...
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 

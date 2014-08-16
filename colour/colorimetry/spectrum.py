@@ -11,7 +11,7 @@ Defines the classes handling spectral data computation:
 -   :class:`TriSpectralPowerDistribution`
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import copy
 import itertools

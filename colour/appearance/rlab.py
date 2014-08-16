@@ -24,7 +24,7 @@ References
         locations 6019-6178.
 """
 
-from __future__ import division
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np

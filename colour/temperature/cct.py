@@ -37,7 +37,7 @@ References
 .. [1]  http://en.wikipedia.org/wiki/Color_temperature
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
