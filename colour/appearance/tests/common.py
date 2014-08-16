@@ -1,49 +1,85 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
-Copyright (c) 2014, Michael Mauderer, University of St Andrews
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
- * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
- * Neither the name of the University of St Andrews nor the names of its
-   contributors may be used to endorse or promote products derived from this
-   software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Defines the common units tests objects for :mod:`colour.appearance` package.
 """
+
+import csv
+import numpy
+import os
+import unittest
 from abc import abstractmethod
 from collections import defaultdict
-import csv
-import os
-
-import unittest
-import numpy
-
 from numpy.testing import assert_allclose, assert_almost_equal
 
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-science@googlegroups.com'
+__status__ = 'Production'
 
-class ColorAppearanceTest():
-    fixture_path = None
+__all__ = ['ColourAppearanceModelTest']
+
+class ColourAppearanceModelTest(object):
+    """
+    Defines the base class for tests of: mod:`colour.appearance` package.
+
+    Each colour appearance model is tested against a respective '.csv' file
+    from which content has been generated from data of the following file by
+    **Mark D. Fairchild**: http://rit-mcsl.org/fairchild//files/AppModEx.xls
+
+    Methods
+    -------
+    load_fixtures
+    get_output_specification_from_data
+    check_specification_attribute
+    check_model_consistency
+    test_forward_examples
+    """
+
+    FIXTURE_BASENAME = None
+    """
+    '.csv' file fixture path for the colour appearance model being tested,
+    must be reimplemented by each colour appearance model test sub-class.
+    """
+
+    LIMITED_FIXTURES = None
+    """
+    Limited list of fixtures to test the colour appearance model against.
+    """
+
+    OUTPUT_ATTRIBUTES = None
+    """
+    Binding the fixture attributes to the colour appearance model
+    specification attributes, must be reimplemented by each colour appearance
+    model test sub-class.
+    """
 
     @staticmethod
-    def load_fixture(file_name):
-        print(file_name)
+    def load_fixtures(file_name, fixtures_directory='fixtures'):
+        """
+        Loads the fixtures data with given name.
+
+        Parameters
+        ----------
+        file_name : unicode
+            '.csv' fixture file name.
+        fixtures_directory : unicode
+            Relative directory path containing the '.csv' fixtures files.
+
+        Returns
+        -------
+        list
+            Fixtures data as a *list* of *dict* where each *dict* is a fixture
+            case.
+        """
+
         path = os.path.dirname(__file__)
-        with open(os.path.join(path, 'fixtures', file_name)) as in_file:
+        with open(os.path.join(path,
+                               fixtures_directory,
+                               file_name)) as in_file:
             result = []
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
@@ -54,51 +90,139 @@ class ColorAppearanceTest():
                 result.append(case_data)
             return result
 
-    def check_model_consistency(self, data, output_parameter_dict):
-        for data_attr, model_attr in sorted(output_parameter_dict.items()):
-            yield self.check_model_attribute, data.get('Case'), data, model_attr, data[data_attr]
-
     @abstractmethod
-    def create_model_from_data(self, data):
+    def get_output_specification_from_data(self, data):
+        """
+        Returns the colour appearance model output specification from given
+        fixture data.
+
+        Parameters
+        ----------
+        data : list
+            Tested colour appearance model fixture data.
+
+        Returns
+        -------
+        *_Specification
+            Tested colour appearance model specification.
+        """
+
         pass
 
-    def check_model_attribute(self, case, data, model_attr, target):
-        model = self.create_model_from_data(data)
-        model_parameter = getattr(model, model_attr)
-        error_message = 'Parameter {} in test case {} does not match target value.\nExpected: {} \nReceived {}'.format(
-            model_attr, case, target, model_parameter)
+    def check_specification_attribute(self, case, data, attribute, expected):
+        """
+        Tests given colour appearance model specification attribute value.
 
-        assert_allclose(model_parameter, target, err_msg=error_message, rtol=0.01, atol=0.01, verbose=False)
-        assert_almost_equal(model_parameter, target, decimal=1, err_msg=error_message)
+        Parameters
+        ----------
+        case : int
+            Fixture case number.
+        data : dict.
+            Fixture case data.
+        attribute : unicode.
+            Tested attribute name.
+        expected : float.
+            Expected attribute value.
 
-    limited_fixtures = None
+        Returns
+        -------
+        None
+        """
 
-    def _get_fixtures(self):
-        # Sometimes it might be desirable to exclude s specific fixture for testing
-        fixtures = self.load_fixture(self.fixture_path)
-        if self.limited_fixtures is not None:
-            fixtures = [fixtures[index] for index in self.limited_fixtures]
+        specification = self.get_output_specification_from_data(data)
+        value = getattr(specification, attribute)
+
+        error_message = (
+            'Parameter "{0}" in test case "{1}" does not match target value.\n'
+            'Expected: "{2}" \n'
+            'Received "{3}"').format(attribute, case, expected, value)
+
+        assert_allclose(value,
+                        expected,
+                        err_msg=error_message,
+                        rtol=0.01,
+                        atol=0.01,
+                        verbose=False)
+
+        assert_almost_equal(value,
+                            expected,
+                            decimal=1,
+                            err_msg=error_message)
+
+    def check_model_consistency(self, data, output_attributes):
+        """
+        Checks the colour appearance model consistency with the tested colour
+        appearance model fixture case data.
+
+        Parameters
+        ----------
+        data : list
+            Tested model fixture case data.
+        output_attributes : dict.
+            Fixture case data parameters to the colour appearance model
+            specification output binding.
+
+        Returns
+        -------
+        tuple
+        """
+
+        for data_attr, specification_attr in sorted(output_attributes.items()):
+            yield (self.check_specification_attribute,
+                   data.get('Case'),
+                   data,
+                   specification_attr,
+                   data[data_attr])
+
+
+    def __get_fixtures(self):
+        """
+        Returns the fixtures case for tested colour appearance model and
+        filter them accordingly with
+        :attr:`ColourAppearanceModelTest.LIMITED_FIXTURES` value.
+
+        Returns
+        -------
+        list
+            Filtered fixtures case data.
+        """
+
+        fixtures = self.load_fixtures(self.FIXTURE_BASENAME)
+        if self.LIMITED_FIXTURES is not None:
+            fixtures = [fixtures[index] for index in self.LIMITED_FIXTURES]
         return fixtures
 
     def test_forward_examples(self):
-        # Go through all available fixtures
-        for data in self._get_fixtures():
-            # Create a single test for each output parameter
-            for test in self.check_model_consistency(data, self.output_parameter_dict):
+        """
+        Tests the forward colour appearance model implementation.
+
+        Returns
+        -------
+        tuple
+        """
+
+        for data in self.__get_fixtures():
+            for test in self.check_model_consistency(data,
+                                                     self.OUTPUT_ATTRIBUTES):
                 yield test
 
     @unittest.skip
-    def test_parallel_forward_example(self):
-        # Collect all fixture data in a single dict of lists
+    def test_parallel_forward_examples(self):
+        """
+        Not sure about this guy :)
+        """
+
+        # TODO: Check with Michael for this dead code path.
         data = defaultdict(list)
-        for fixture in self._get_fixtures():
+        for fixture in self.__get_fixtures():
             for key, value in fixture.items():
                 data[key].append(value)
-        # Turn lists into numpy.arrays
+
         for key in data:
             data[key] = numpy.array(data[key])
-        # Create tests
-        for test in self.check_model_consistency(data, self.output_parameter_dict):
+
+        for test in self.check_model_consistency(
+                data, self.OUTPUT_ATTRIBUTES):
             yield test
 
 

@@ -1,11 +1,37 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+RLAB Colour Appearance Model
+============================
+
+Defines *RLAB* colour appearance model objects:
+
+-   :attr:`RLAB_Specification`:
+-   :func:`XYZ_to_RLAB`
+
+References
+----------
+.. [1]  **Mark D. Fairchild**,
+        *Refinement of the RLAB color space*,
+        *Color Research & Application, Volume 21, Issue 5, pages 338–346,
+        October 1996*,
+        https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf
+        (Last accessed 16 August 2014)
+.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
+        The Wiley-IS&T Series in Imaging Science and Technology,
+        published June 2013, ASIN: B00DAYO8E2,
+        locations 6019-6178.
+"""
+
 from __future__ import division
 
-from collections import namedtuple
-import logging
-
+import math
 import numpy as np
+from collections import namedtuple
 
-from colour.appearance import hunt
+from colour.appearance.hunt import XYZ_to_rgb
+from colour.appearance.hunt import HPE_MATRIX
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -14,102 +40,149 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_RLAB']
+__all__ = ['R_MATRIX',
+           'RLAB_VIEWING_CONDITIONS',
+           'RLAB_Specification',
+           'XYZ_to_RLAB']
 
-logger = logging.getLogger(__name__)
+R_MATRIX = np.array(
+    [[1.9569, -1.1882, 0.2313],
+     [0.3612, 0.6388, 0.0000],
+     [0.0000, 0.0000, 1.0000]])
 
-RLAB_result = namedtuple('RLAB_result', ('h', 'C', 's', 'L', 'a', 'b'))
+RLAB_VIEWING_CONDITIONS = {
+    'Average': 1 / 2.3,
+    'Dim': 1 / 2.9,
+    'Dark': 1 / 3.5}
+"""
+Reference *RLAB* colour appearance model viewing conditions.
 
-R = np.array([[1.9569, -1.1882, 0.2313],
-              [0.3612, 0.6388, 0],
-              [0, 0, 1]])
+RLAB_VIEWING_CONDITIONS : dict
+('Average', 'Dim', 'Dark')
+"""
+
+RLAB_Specification = namedtuple('RLAB_Specification',
+                                ('h', 'C', 's', 'L', 'a', 'b'))
+"""
+Defines the *RLAB* colour appearance model specification.
+
+Parameters
+----------
+h : float
+    *Hue* angle :math:`h` in degrees.
+C : float
+    Correlate of *achromatic chroma* :math:`C`.
+s : float
+    Correlate of *saturation* :math:`s`.
+L : float
+    Correlate of *Lightness* :math:`L^R`.
+a : float
+    Red–green chromatic response :math:`a^R`.
+b : float
+    Yellow–blue chromatic response :math:`b^R`.
+"""
 
 
-def XYZ_to_RLAB(x, y, z, x_n, y_n, z_n, y_n_abs, sigma, d):
+def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
     """
-    Compute the RLAB model color appearance correlates.
+    Computes the RLAB model color appearance correlates.
 
     Parameters
     ----------
-    x, y, z : numeric or array_like
-        CIE XYZ values of test sample in domain [0, 100].
-    x_n, y_n, z_n : numeric or array_like
-        CIE XYZ values of reference white in domain [0, 100].
-    y_n_abs : numeric or array_like
-        Absolute luminance of a white object in cd/m^2.
-    sigma : numeric or array_like
-        Relative luminance parameter. For average surround set sigma=1/2.3,
-        for dim surround sigma=1/2.9 and for dark surround sigma=1/3.5.
-    d : numeric or array_like
-        Degree of adaptation in domain [0,1].
+    XYZ : array_like, (3, n)
+        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+        [0, 100].
+    XYZ_n : array_like, (3,)
+        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
+    Y_n : float
+        Absolute adapting luminance in :math:`cd/m^2`.
+    sigma : float
+        Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
+        for reference.
+    D : float
+        *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
     -------
-    RLAB_result
+    RLAB_Specification
+        *RLAB* colour appearance model specification.
 
-    References
-    ----------
-    .. [1] Fairchild, M. D. (1996). Refinement of the RLAB color space. *Color Research & Application*, 21(5), 338-346.
-    .. [2] Fairchild, M. D. (2013). *Color appearance models*, 3rd Ed. John Wiley & Sons.
+    Warning
+    -------
+    The input domain of that definition is non standard!
 
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ_n* colourspace matrix is in domain [0, 100].
+
+    Examples
+    --------
+    >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
+    >>> XYZ_n = np.array([ 109.85,  100.  ,   35.58])
+    >>> Y_n = 31.83,
+    >>> sigma = 0.4347
+    >>> D = 1.0
+    RLAB_Specification(h=286.4866886235703, C=54.864362624837483, s=1.1007810894189112, L=49.841301919348652, a=15.570098854544744, b=-52.608652405183015)
     """
 
-    xyz = np.array([x, y, z])
-    xyz_n = np.array([x_n, y_n, z_n])
+    X, Y, Z = np.ravel(XYZ)
 
-    lms = hunt.xyz_to_rgb(xyz)
-    lms_n = hunt.xyz_to_rgb(xyz_n)
-    logger.debug('LMS: {}'.format(lms))
-    logger.debug('LMS_n: {}'.format(lms_n))
+    # Converting to cone responses.
+    LMS = XYZ_to_rgb(XYZ)
+    LMS_n = XYZ_to_rgb(XYZ_n)
 
-    lms_e = (3 * lms_n) / (lms_n[0] + lms_n[1] + lms_n[2])
-    lms_p = (1 + (y_n_abs ** (1 / 3)) + lms_e) / (
-        1 + (y_n_abs ** (1 / 3)) + (1 / lms_e))
-    logger.debug('LMS_e: {}'.format(lms_e))
-    logger.debug('LMS_p: {}'.format(lms_p))
+    # Computing the :math:`A` matrix.
+    LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
+    LMS_p_L = ((1 + (Y_n ** (1 / 3)) + LMS_l_E) /
+               (1 + (Y_n ** (1 / 3)) + (1 / LMS_l_E)))
+    LMS_a_L = (LMS_p_L + D * (1 - LMS_p_L)) / LMS_n
 
-    lms_a = (lms_p + d * (1 - lms_p)) / lms_n
-    logger.debug('LMS_a: {}'.format(lms_a))
-
-    # If we want to allow arrays as input we need special handling here.
-    if len(np.shape(x)) == 0:
-        # Okay so just a number, we can do things by the book.
-        a = np.diag(lms_a)
-        logger.debug('A: {}'.format(a))
-        xyz_ref = R.dot(a).dot(hunt.xyz_to_rgb_m).dot(xyz)
+    # Special handling here to allow *array_like* variable input.
+    if len(np.shape(X)) == 0:
+        # *numeric* case.
+        # Implementation as per reference.
+        aR = np.diag(LMS_a_L)
+        XYZ_ref = R_MATRIX.dot(aR).dot(HPE_MATRIX).dot(XYZ)
     else:
-        # So we have an array. Since constructing huge multidimensional arrays might not bee the best idea,
-        # we will handle each input dimension separately.
+        # *array_like* case.
+        # Constructing huge multidimensional arrays might not be the best idea,
+        # we handle each input dimension separately.
+
         # First figure out how many values we have to deal with.
-        input_dim = len(x)
-        # No create the ouput array that we will fill layer by layer
-        xyz_ref = np.zeros((3, input_dim))
-        for layer in range(input_dim):
-            a = np.diag(lms_a[..., layer])
-            logger.debug('A layer {}: {}'.format(layer, a))
-            xyz_ref[..., layer] = R.dot(a).dot(hunt.xyz_to_rgb_m).dot(
-                xyz[..., layer])
+        dimension = len(X)
+        # Then create the output array that will be filled layer by layer.
+        XYZ_ref = np.zeros((3, dimension))
+        for layer in range(dimension):
+            aR = np.diag(LMS_a_L[..., layer])
+            XYZ_ref[..., layer] = (
+                R_MATRIX.dot(aR).dot(HPE_MATRIX).dot(XYZ[..., layer]))
 
-    logger.debug('XYZ_ref: {}'.format(xyz_ref))
-    x_ref, y_ref, z_ref = xyz_ref
+    X_ref, Y_ref, Z_ref = XYZ_ref
 
-    # Lightness
-    lightness = 100 * (y_ref ** sigma)
-    logger.debug('lightness: {}'.format(lightness))
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *Lightness* :math:`L^R`.
+    # -------------------------------------------------------------------------
+    lightness = 100 * (Y_ref ** sigma)
 
-    # Opponent Color Dimensions
-    a = 430 * ((x_ref ** sigma) - (y_ref ** sigma))
-    b = 170 * ((y_ref ** sigma) - (z_ref ** sigma))
-    logger.debug('a: {}'.format(a))
-    logger.debug('b: {}'.format(b))
+    # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
+    aR = 430 * ((X_ref ** sigma) - (Y_ref ** sigma))
+    bR = 170 * ((Y_ref ** sigma) - (Z_ref ** sigma))
 
-    # Hue
-    hue_angle = (360 * np.arctan2(b, a) / (2 * np.pi) + 360) % 360
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`h^R`.
+    # -------------------------------------------------------------------------
+    hue = math.degrees(np.arctan2(bR, aR)) % 360
+    # TODO: Implement hue composition computation.
 
-    # Chroma
-    chroma = np.sqrt((a ** 2) + (b ** 2))
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`C^R`.
+    # -------------------------------------------------------------------------
+    chroma = np.sqrt((aR ** 2) + (bR ** 2))
 
-    # Saturation
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`s^R`.
+    # -------------------------------------------------------------------------
     saturation = chroma / lightness
 
-    return RLAB_result(hue_angle, chroma, saturation, lightness, a, b, )
+    return RLAB_Specification(hue, chroma, saturation, lightness, aR, bR)
