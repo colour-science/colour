@@ -38,9 +38,9 @@ __all__ = ['BETA_RGB_PRIMARIES',
            'BETA_RGB_COLOURSPACE']
 
 BETA_RGB_PRIMARIES = np.array(
-    [0.6888, 0.3112,
-     0.1986, 0.7551,
-     0.1265, 0.0352]).reshape((3, 2))
+    [[0.6888, 0.3112],
+     [0.1986, 0.7551],
+     [0.1265, 0.0352]])
 """
 *Beta RGB* colourspace primaries.
 

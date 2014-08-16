@@ -58,9 +58,9 @@ __all__ = ['ACES_RGB_PRIMARIES',
            'ACES_RGB_PROXY_12_COLOURSPACE']
 
 ACES_RGB_PRIMARIES = np.array(
-    [0.73470, 0.26530,
-     0.00000, 1.00000,
-     0.00010, -0.07700]).reshape((3, 2))
+    [[0.73470, 0.26530],
+     [0.00000, 1.00000],
+     [0.00010, -0.07700]])
 """
 *ACES RGB* colourspace primaries.
 
@@ -81,9 +81,9 @@ ACES_RGB_WHITEPOINT : tuple
 """
 
 ACES_RGB_TO_XYZ_MATRIX = np.array(
-    [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-     3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
-     0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3))
+    [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+     [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+     [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
 """
 *ACES RGB* colourspace to *CIE XYZ* colourspace matrix.
 

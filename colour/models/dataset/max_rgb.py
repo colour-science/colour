@@ -38,9 +38,9 @@ __all__ = ['MAX_RGB_PRIMARIES',
            'MAX_RGB_COLOURSPACE']
 
 MAX_RGB_PRIMARIES = np.array(
-    [0.73413379, 0.26586621,
-     0.10039113, 0.89960887,
-     0.03621495, 0.]).reshape((3, 2))
+    [[0.73413379, 0.26586621],
+     [0.10039113, 0.89960887],
+     [0.03621495, 0.00000000]])
 """
 *Max RGB* colourspace primaries.
 

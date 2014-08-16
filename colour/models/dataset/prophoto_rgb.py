@@ -38,9 +38,9 @@ __all__ = ['PROPHOTO_RGB_PRIMARIES',
            'PROPHOTO_RGB_COLOURSPACE']
 
 PROPHOTO_RGB_PRIMARIES = np.array(
-    [0.7347, 0.2653,
-     0.1596, 0.8404,
-     0.0366, 0.0001]).reshape((3, 2))
+    [[0.7347, 0.2653],
+     [0.1596, 0.8404],
+     [0.0366, 0.0001]])
 """
 *ProPhoto RGB* colourspace primaries.
 
@@ -56,9 +56,9 @@ PROPHOTO_RGB_WHITEPOINT : tuple
 """
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = np.array(
-    [7.97667235e-01, 1.35192231e-01, 3.13525290e-02,
-     2.88037454e-01, 7.11876883e-01, 8.56626476e-05,
-     0.00000000e+00, 0.00000000e+00, 8.25188285e-01]).reshape((3, 3))
+    [[7.97667235e-01, 1.35192231e-01, 3.13525290e-02],
+     [2.88037454e-01, 7.11876883e-01, 8.56626476e-05],
+     [0.00000000e+00, 0.00000000e+00, 8.25188285e-01]])
 """
 *ProPhoto RGB* colourspace to *CIE XYZ* colourspace matrix.
 

@@ -39,9 +39,9 @@ __all__ = ['S_LOG_PRIMARIES',
            'S_LOG_COLOURSPACE']
 
 S_LOG_PRIMARIES = np.array(
-    [0.73, 0.28,
-     0.14, 0.855,
-     0.10, -0.05]).reshape((3, 2))
+    [[0.73, 0.28],
+     [0.14, 0.855],
+     [0.10, -0.05]])
 """
 *S-Log* colourspace primaries.
 

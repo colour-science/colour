@@ -38,9 +38,9 @@ __all__ = ['CIE_RGB_PRIMARIES',
            'CIE_RGB_COLOURSPACE']
 
 CIE_RGB_PRIMARIES = np.array(
-    [0.7350, 0.2650,
-     0.2740, 0.7170,
-     0.1670, 0.0090]).reshape((3, 2))
+    [[0.7350, 0.2650],
+     [0.2740, 0.7170],
+     [0.1670, 0.0090]])
 """
 *CIE RGB* colourspace primaries.
 
@@ -56,9 +56,9 @@ CIE_RGB_WHITEPOINT : tuple
 """
 
 CIE_RGB_TO_XYZ_MATRIX = (1. / 0.17697 *
-                         np.array([0.49, 0.31, 0.20,
-                                   0.17697, 0.81240, 0.01063,
-                                   0.00, 0.01, 0.99]).reshape((3, 3)))
+                         np.array([[0.49, 0.31, 0.20],
+                                   [0.17697, 0.81240, 0.01063],
+                                   [0.00, 0.01, 0.99]]))
 """
 *CIE RGB* colourspace to *CIE XYZ* colourspace matrix.
 

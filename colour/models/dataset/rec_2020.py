@@ -40,9 +40,9 @@ __all__ = ['REC_2020_PRIMARIES',
            'REC_2020_COLOURSPACE']
 
 REC_2020_PRIMARIES = np.array(
-    [0.708, 0.292,
-     0.170, 0.797,
-     0.131, 0.046]).reshape((3, 2))
+    [[0.708, 0.292],
+     [0.170, 0.797],
+     [0.131, 0.046]])
 """
 *Rec. 2020* colourspace primaries.
 

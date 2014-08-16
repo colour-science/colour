@@ -38,9 +38,9 @@ __all__ = ['XTREME_RGB_PRIMARIES',
            'XTREME_RGB_COLOURSPACE']
 
 XTREME_RGB_PRIMARIES = np.array(
-    [1., 0.,
-     0., 1.,
-     0., 0.]).reshape((3, 2))
+    [[1., 0.],
+     [0., 1.],
+     [0., 0.]])
 """
 *Xtreme RGB* colourspace primaries.
 

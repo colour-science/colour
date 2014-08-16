@@ -38,9 +38,9 @@ __all__ = ['COLOR_MATCH_RGB_PRIMARIES',
            'COLOR_MATCH_RGB_COLOURSPACE']
 
 COLOR_MATCH_RGB_PRIMARIES = np.array(
-    [0.6300, 0.3400,
-     0.2950, 0.6050,
-     0.1500, 0.0750]).reshape((3, 2))
+    [[0.6300, 0.3400],
+     [0.2950, 0.6050],
+     [0.1500, 0.0750]])
 """
 *ColorMatch RGB* colourspace primaries.
 

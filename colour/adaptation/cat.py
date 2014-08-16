@@ -38,6 +38,7 @@ __all__ = ['XYZ_SCALING_CAT',
            'VON_KRIES_CAT',
            'FAIRCHILD_CAT',
            'CAT02_CAT',
+           'CAT02_INVERSE_CAT',
            'CHROMATIC_ADAPTATION_METHODS',
            'get_chromatic_adaptation_matrix']
 
@@ -49,9 +50,9 @@ XYZ_SCALING_CAT : array_like, (3, 3)
 """
 
 BRADFORD_CAT = np.array(
-    [0.8951000, 0.2664000, -0.1614000,
-     -0.7502000, 1.7135000, 0.0367000,
-     0.0389000, -0.0685000, 1.0296000]).reshape((3, 3))
+    [[0.8951000, 0.2664000, -0.1614000],
+     [-0.7502000, 1.7135000, 0.0367000],
+     [0.0389000, -0.0685000, 1.0296000]])
 """
 *Bradford* chromatic adaptation transform. [1]_
 
@@ -59,9 +60,9 @@ BRADFORD_CAT : array_like, (3, 3)
 """
 
 VON_KRIES_CAT = np.array(
-    [0.4002400, 0.7076000, -0.0808100,
-     -0.2263000, 1.1653200, 0.0457000,
-     0.0000000, 0.0000000, 0.9182200]).reshape((3, 3))
+    [[0.4002400, 0.7076000, -0.0808100],
+     [-0.2263000, 1.1653200, 0.0457000],
+     [0.0000000, 0.0000000, 0.9182200]])
 """
 *Von Kries* chromatic adaptation transform. [1]_
 
@@ -69,9 +70,9 @@ VON_KRIES_CAT : array_like, (3, 3)
 """
 
 FAIRCHILD_CAT = np.array(
-    [.8562, .3372, -.1934,
-     -.8360, 1.8327, .0033,
-     .0357, -.0469, 1.0112]).reshape((3, 3))
+    [[.8562, .3372, -.1934],
+     [-.8360, 1.8327, .0033],
+     [.0357, -.0469, 1.0112]])
 """
 *Fairchild* chromatic adaptation transform. [2]_
 
@@ -79,13 +80,20 @@ FAIRCHILD_CAT : array_like, (3, 3)
 """
 
 CAT02_CAT = np.array(
-    [0.7328, 0.4296, -0.1624,
-     -0.7036, 1.6975, 0.0061,
-     0.0030, 0.0136, 0.9834]).reshape((3, 3))
+    [[0.7328, 0.4296, -0.1624],
+     [-0.7036, 1.6975, 0.0061],
+     [0.0030, 0.0136, 0.9834]])
 """
 *CAT02* chromatic adaptation transform. [3]_
 
 CAT02_CAT : array_like, (3, 3)
+"""
+
+CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
+"""
+Inverse *CAT02* chromatic adaptation transform. [3]_
+
+CAT02_INVERSE_CAT : array_like, (3, 3)
 """
 
 CHROMATIC_ADAPTATION_METHODS = {
@@ -141,16 +149,16 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
 
     if method_matrix is None:
         raise KeyError(
-            '"{0}" chromatic adaptation method is not defined! \
-Supported methods: "{1}".'.format(
-                method, CHROMATIC_ADAPTATION_METHODS.keys()))
+            '"{0}" chromatic adaptation method is not defined! Supported '
+            'methods: "{1}".'.format(method,
+                                     CHROMATIC_ADAPTATION_METHODS.keys()))
 
-    pyb_source = np.ravel(np.dot(method_matrix, XYZ1))
-    pyb_target = np.ravel(np.dot(method_matrix, XYZ2))
+    rgb_source = np.ravel(np.dot(method_matrix, XYZ1))
+    rgb_target = np.ravel(np.dot(method_matrix, XYZ2))
     crd = np.diagflat(np.array(
-        [[pyb_target[0] / pyb_source[0],
-          pyb_target[1] / pyb_source[1],
-          pyb_target[2] / pyb_source[2]]])).reshape((3, 3))
+        [[rgb_target[0] / rgb_source[0],
+          rgb_target[1] / rgb_source[1],
+          rgb_target[2] / rgb_source[2]]])).reshape((3, 3))
     cat = np.dot(np.dot(np.linalg.inv(method_matrix), crd), method_matrix)
 
     return cat

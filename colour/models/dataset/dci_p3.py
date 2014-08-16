@@ -36,10 +36,10 @@ __all__ = ['DCI_P3_PRIMARIES',
            'DCI_P3_INVERSE_TRANSFER_FUNCTION',
            'DCI_P3_COLOURSPACE']
 
-DCI_P3_PRIMARIES = np.array([
-    0.680, 0.320,
-    0.265, 0.690,
-    0.150, 0.060]).reshape((3, 2))
+DCI_P3_PRIMARIES = np.array(
+    [[0.680, 0.320],
+     [0.265, 0.690],
+     [0.150, 0.060]])
 """
 *DCI-P3* colourspace primaries.
 
@@ -54,9 +54,9 @@ DCI_P3_WHITEPOINT : tuple
 """
 
 DCI_P3_TO_XYZ_MATRIX = np.array(
-    [0.44516982, 0.27713441, 0.17228267,
-     0.20949168, 0.72159525, 0.06891307,
-     0., 0.04706056, 0.90735539]).reshape((3, 3))
+    [[0.44516982, 0.27713441, 0.17228267],
+     [0.20949168, 0.72159525, 0.06891307],
+     [0., 0.04706056, 0.90735539]])
 """
 *DCI-P3* colourspace to *CIE XYZ* colourspace matrix.
 

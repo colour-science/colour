@@ -137,9 +137,9 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA : dict
 # @formatter:on
 
 ALEXA_WIDE_GAMUT_RGB_PRIMARIES = np.array(
-    [0.6840, 0.3130,
-     0.2210, 0.8480,
-     0.0861, -0.1020]).reshape((3, 2))
+    [[0.6840, 0.3130],
+     [0.2210, 0.8480],
+     [0.0861, -0.1020]])
 """
 *ALEXA Wide Gamut RGB* colourspace primaries.
 
@@ -155,9 +155,9 @@ ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : tuple
 """
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
-    [0.638008, 0.214704, 0.097744,
-     0.291954, 0.823841, -0.115795,
-     0.002798, -0.067034, 1.153294]).reshape((3, 3))
+    [[0.638008, 0.214704, 0.097744],
+     [0.291954, 0.823841, -0.115795],
+     [0.002798, -0.067034, 1.153294]])
 """
 *ALEXA Wide Gamut RGB* colourspace to *CIE XYZ* colourspace matrix.
 
