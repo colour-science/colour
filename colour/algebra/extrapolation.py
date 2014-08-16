@@ -208,8 +208,9 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), '"{0}" attribute: "{1}" type is not \
-"int", "long", "float" or "complex"!'.format('left', value)
+            assert is_number(value), \
+                ('"{0}" attribute: "{1}" type is not '
+                 '"int", "float" or "complex"!').format('left', value)
         self.__left = value
 
     @property
@@ -237,8 +238,10 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), '"{0}" attribute: "{1}" type is not \
-"int", "long", "float" or "complex"!'.format('right', value)
+            assert is_number(value), \
+                ('"{0}" attribute: "{1}" type is not '
+                 '"int", "float" or "complex"!').format('right', value)
+
         self.__right = value
 
     def __call__(self, x):

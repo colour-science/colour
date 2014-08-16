@@ -72,16 +72,16 @@ XYZ_TO_REC_709_MATRIX = np.linalg.inv(REC_709_TO_XYZ_MATRIX)
 XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 """
 
-REC_709_TRANSFER_FUNCTION = lambda x: \
-    x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099
+REC_709_TRANSFER_FUNCTION = lambda x: (
+    x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099)
 """
 Transfer function from linear to *Rec. 709* colourspace.
 
 REC_709_TRANSFER_FUNCTION : object
 """
 
-REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45)
+REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45))
 """
 Inverse transfer function from *Rec. 709* colourspace to linear.
 

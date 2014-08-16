@@ -277,8 +277,8 @@ def delta_E_CMC(lab1, lab2, l=2., c=1.):
         h1 -= 360.
 
     t = (0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168.)) / 180.))
-         if h1 >= 164. and h1 <= 345. else \
-             0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.)))
+         if h1 >= 164. and h1 <= 345. else
+         0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35.)) / 180.)))
     c4 = c1 * c1 * c1 * c1
     f = math.sqrt(c4 / (c4 + 1900.))
     sh = sc * (f * t + 1. - f)

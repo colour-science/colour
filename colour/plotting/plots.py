@@ -1956,9 +1956,10 @@ def multi_munsell_value_function_plot(
     for i, function in enumerate(functions):
         function, name = MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError('"{0}" "Munsell" value function not found in \
-supported "Munsell" value functions: "{1}".'.format(
-                name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
+            raise KeyError(
+                ('"{0}" "Munsell" value function not found in '
+                 'supported "Munsell" value functions: "{1}".').format(
+                    name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
@@ -2043,9 +2044,10 @@ def multi_lightness_function_plot(
     for i, function in enumerate(functions):
         function, name = LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
-            raise KeyError('"{0}" "Lightness" function not found in supported \
-"Lightness" functions: "{1}".'.format(
-                name, sorted(LIGHTNESS_FUNCTIONS.keys())))
+            raise KeyError(
+                ('"{0}" "Lightness" function not found in supported '
+                 '"Lightness" functions: "{1}".').format(
+                    name, sorted(LIGHTNESS_FUNCTIONS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],

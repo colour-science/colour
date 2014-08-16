@@ -321,32 +321,32 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
                        constants.steps_per_stop) + constants.mid_log_offset)))
 
 
-ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit')
+ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit'))
 """
 Transfer function from linear to *ACES RGB Proxy 10* colourspace.
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit')
+ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit'))
 """
 Inverse transfer function from *ACES RGB Proxy 10* colourspace to linear.
 
 ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth='12 Bit')
+ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_transfer_function(x, bit_depth='12 Bit'))
 """
 Transfer function from linear to *ACES RGB Proxy 12* colourspace.
 
 ACES_RGB_PROXY_12_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='12 Bit')
+ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='12 Bit'))
 """
 Inverse transfer function from *ACES RGB Proxy 12* colourspace to linear.
 

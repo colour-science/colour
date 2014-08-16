@@ -82,8 +82,8 @@ def mesopic_weighting_function(wavelength,
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
             raise KeyError(
-                '"{0} nm" wavelength not available in "{1}" \
-luminous efficiency function with "{2}" shape!'.format(
+                ('"{0} nm" wavelength not available in "{1}" '
+                 'luminous efficiency function with "{2}" shape!').format(
                     wavelength, function.name, function.shape))
 
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())

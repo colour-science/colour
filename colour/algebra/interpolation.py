@@ -201,8 +201,9 @@ class LinearInterpolator1d(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                '"x" independent and "y" dependent variables have different \
-dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
+                ('"x" independent and "y" dependent variables have different '
+                 'dimensions: "{0}", "{1}"').format(len(self.__x),
+                                                    len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """
@@ -238,8 +239,8 @@ if is_scipy_installed():
             super(SplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
 else:
-    warning('"scipy.interpolate.interp1d" interpolator is unavailable, using \
-"LinearInterpolator" instead!')
+    warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
+             '"LinearInterpolator" instead!'))
 
     SplineInterpolator = LinearInterpolator
 
@@ -498,8 +499,9 @@ class SpragueInterpolator(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                '"x" independent and "y" dependent variables have different \
-dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
+                ('"x" independent and "y" dependent variables have different '
+                 'dimensions: "{0}", "{1}"').format(len(self.__x),
+                                                    len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """

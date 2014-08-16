@@ -77,8 +77,8 @@ Transfer function from linear to *ECI RGB v2* colourspace.
 ECI_RGB_V2_TRANSFER_FUNCTION : object
 """
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    luminance_1976(x * 100.) / 100.
+ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    luminance_1976(x * 100.) / 100.)
 """
 Inverse transfer function from *ECI RGB v2* colourspace to linear.
 

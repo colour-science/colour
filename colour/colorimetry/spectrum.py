@@ -992,8 +992,10 @@ class SpectralPowerDistribution(object):
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
-                raise RuntimeError('"Sprague" interpolator can only be \
-used for interpolating functions having a uniformly spaced independent variable!')
+                raise RuntimeError(
+                    ('"Sprague" interpolator can only be used for '
+                     'interpolating functions having a uniformly spaced '
+                     'independent variable!'))
         elif method == 'Cubic Spline':
             interpolator = SplineInterpolator(wavelengths, values)
         elif method == 'Linear':
@@ -1347,15 +1349,17 @@ class TriSpectralPowerDistribution(object):
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['y'].wavelengths,
-                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
-different!'.format('data', self.__mapping.get('x'),
-                   self.__mapping.get('y')))
+                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
+                         'different!').format('data',
+                                              self.__mapping.get('x'),
+                                              self.__mapping.get('y')))
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['z'].wavelengths,
-                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
-different!'.format('data', self.__mapping.get('x'),
-                   self.__mapping.get('z')))
+                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
+                         'different!').format('data',
+                                              self.__mapping.get('x'),
+                                              self.__mapping.get('z')))
 
             self.__data = data
         else:

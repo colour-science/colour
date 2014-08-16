@@ -71,16 +71,16 @@ XYZ_TO_C_LOG_MATRIX = np.linalg.inv(C_LOG_TO_XYZ_MATRIX)
 XYZ_TO_C_LOG_MATRIX : array_like, (3, 3)
 """
 
-C_LOG_TRANSFER_FUNCTION = lambda x: \
-    0.529136 * math.log10(10.1596 * x + 1) + 0.0730597
+C_LOG_TRANSFER_FUNCTION = lambda x: (
+    0.529136 * math.log10(10.1596 * x + 1) + 0.0730597)
 """
 Transfer function from linear to *C-Log* colourspace.
 
 C_LOG_TRANSFER_FUNCTION : object
 """
 
-C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x))
+C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x)))
 """
 Inverse transfer function from *C-Log* colourspace to linear.
 

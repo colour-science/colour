@@ -295,12 +295,14 @@ def uv_to_CCT_ohno2013(uv,
         planckian_table = get_planckian_table(uv, cmfs, start, end, count)
         index = get_planckian_table_minimal_distance_index(planckian_table)
         if index == 0:
-            warning('Minimal distance index is on lowest planckian table bound, \
-unpredictable results may occur!')
+            warning(
+                ('Minimal distance index is on lowest planckian table bound, '
+                 'unpredictable results may occur!'))
             index += 1
         elif index == len(planckian_table) - 1:
-            warning('Minimal distance index is on highest planckian table bound, \
-unpredictable results may occur!')
+            warning(
+                ('Minimal distance index is on highest planckian table bound, '
+                 'unpredictable results may occur!'))
             index -= 1
 
         start = planckian_table[index - 1].Ti
@@ -573,6 +575,7 @@ UV_TO_CCT_METHODS : dict
     ('Ohno 2013', 'Robertson 1968')
 """
 
+
 def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
@@ -599,10 +602,11 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
         return UV_TO_CCT_METHODS.get(method)(uv, **kwargs)
     else:
         if 'cmfs' in kwargs:
-            if kwargs.get('cmfs').name != \
-                    'CIE 1931 2 Degree Standard Observer':
-                raise ValueError('"Robertson (1968)" method is only valid for \
-"CIE 1931 2 Degree Standard Observer"!')
+            if kwargs.get('cmfs').name != (
+                    'CIE 1931 2 Degree Standard Observer'):
+                raise ValueError(
+                    ('"Robertson (1968)" method is only valid for '
+                     '"CIE 1931 2 Degree Standard Observer"!'))
 
         return UV_TO_CCT_METHODS.get(method)(uv)
 
@@ -616,6 +620,7 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 CCT_TO_UV_METHODS : dict
     ('Ohno 2013', 'Robertson 1968')
 """
+
 
 def CCT_to_uv(CCT, Duv=0., method='Ohno 2013', **kwargs):
     """
@@ -645,10 +650,11 @@ def CCT_to_uv(CCT, Duv=0., method='Ohno 2013', **kwargs):
         return CCT_TO_UV_METHODS.get(method)(CCT, Duv, **kwargs)
     else:
         if 'cmfs' in kwargs:
-            if kwargs.get('cmfs').name != \
-                    'CIE 1931 2 Degree Standard Observer':
-                raise ValueError('"Robertson (1968)" method is only valid for \
-"CIE 1931 2 Degree Standard Observer"!')
+            if kwargs.get('cmfs').name != (
+                    'CIE 1931 2 Degree Standard Observer'):
+                raise ValueError(
+                    ('"Robertson (1968)" method is only valid for '
+                     '"CIE 1931 2 Degree Standard Observer"!'))
 
         return CCT_TO_UV_METHODS.get(method)(CCT, Duv)
 
@@ -850,6 +856,7 @@ XY_TO_CCT_METHODS : dict
     ('McCamy 1992', 'Hernandez 1999')
 """
 
+
 def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
@@ -880,6 +887,7 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* colourspace
 CCT_TO_XY_METHODS : dict
     ('Kang 2002', 'CIE Illuminant D Series')
 """
+
 
 def CCT_to_xy(CCT, method='Kang 2002'):
     """

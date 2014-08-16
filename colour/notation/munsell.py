@@ -257,8 +257,9 @@ def parse_munsell_colour(munsell_colour):
                 float(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
-    raise ValueError('"{0}" is not a valid "Munsell Renotation System" colour \
-specification!'.format(munsell_colour))
+    raise ValueError(
+        ('"{0}" is not a valid "Munsell Renotation System" colour '
+         'specification!').format(munsell_colour))
 
 
 def is_grey_munsell_colour(specification):
@@ -438,8 +439,9 @@ def get_xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
-        raise ValueError('"{0}" specification does not exists in \
-"Munsell Renotation System" data!'.format(specification))
+        raise ValueError(('"{0}" specification does not exists in '
+                          '"Munsell Renotation System" data!').format(
+            specification))
 
 
 def is_specification_in_renotation(specification):
@@ -1532,8 +1534,8 @@ def xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError('Maximum inner iterations count reached \
-without convergence!')
+                raise RuntimeError(('Maximum inner iterations count reached '
+                                    'without convergence!'))
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (theta_input - theta_current)) % 360)
@@ -1617,8 +1619,8 @@ without convergence!')
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError('Maximum inner iterations count reached \
-without convergence!')
+                raise RuntimeError(('Maximum inner iterations count reached '
+                                    'without convergence!'))
 
             chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
                             chroma_current)
