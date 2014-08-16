@@ -33,7 +33,6 @@ __status__ = 'Production'
 __all__ = ['D_ILLUMINANTS_S_SPDS_DATA',
            'D_ILLUMINANTS_S_SPDS']
 
-
 D_ILLUMINANTS_S_SPDS_DATA = {
     'S0': {
         300: 0.04,

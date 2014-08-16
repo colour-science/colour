@@ -15,7 +15,7 @@ from colour.characterization.dataset.colour_checkers.chromaticity_coordinates im
 
 # Retrieving *Lightness* of given *xyY* components.
 xyY = COLORCHECKER_2005_DATA[0][2:5]
-Y = ravel(xyY)[2] * 100.
+Y = ravel(xyY)[2] * 100
 # Scaled *luminance* :math:`Y` reference:
 print(Y)
 # Retrieving *Lightness* *CIE Lab* reference:

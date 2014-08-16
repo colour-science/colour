@@ -142,7 +142,7 @@ class TestGetRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             get_RGB_luminance(
-                np.array([50., 50., 50.]),
+                np.array([50, 50, 50]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
@@ -152,7 +152,7 @@ class TestGetRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             get_RGB_luminance(
-                np.array([74.6, 16.1, 100.]),
+                np.array([74.6, 16.1, 100]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),

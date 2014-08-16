@@ -762,7 +762,7 @@ class SpectralPowerDistribution(object):
         """
 
         self.__data = dict(zip(self.wavelengths,
-                               self.values * (1. / self.__format_operand(x))))
+                               self.values * (1 / self.__format_operand(x))))
 
         return self
 
@@ -1111,12 +1111,12 @@ class SpectralPowerDistribution(object):
                              tuple(zip((start, end, steps), self.shape))]
 
         self.__data = dict(
-            [(wavelength, self.get(wavelength, 0.)) for wavelength in
+            [(wavelength, self.get(wavelength, 0)) for wavelength in
              np.arange(start, end + steps, steps)])
 
         return self
 
-    def normalise(self, factor=1.):
+    def normalise(self, factor=1):
         """
         Normalises the spectral power distribution with given normalization
         factor.
@@ -1140,7 +1140,7 @@ class SpectralPowerDistribution(object):
         array([ 0.56321578,  0.78909173,  0.92674906,  1.        ])
         """
 
-        return (self * (1. / max(self.values))) * factor
+        return (self * (1 / max(self.values))) * factor
 
     def clone(self):
         """
@@ -2182,7 +2182,7 @@ class TriSpectralPowerDistribution(object):
                [ 0.39073992,  0.05318063,  0.51331912]])
         """
 
-        return self * (1. / self.__format_operand(x))
+        return self * (1 / self.__format_operand(x))
 
     # Python 3 compatibility.
     __truediv__ = __div__
@@ -2612,7 +2612,7 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def normalise(self, factor=1.):
+    def normalise(self, factor=1):
         """
         Normalises the tri-spectral power distribution with given normalization
         factor.
@@ -2651,7 +2651,7 @@ class TriSpectralPowerDistribution(object):
 
         maximum = max(np.ravel(self.values))
         for i in self.__mapping.keys():
-            getattr(self, i) * (1. / maximum) * factor
+            getattr(self, i) * (1 / maximum) * factor
 
         return self
 

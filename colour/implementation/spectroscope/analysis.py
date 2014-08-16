@@ -380,7 +380,7 @@ def get_luminance_spd(RGB_spectrum,
         and normalised to [0, 100] domain.
     """
 
-    RGB_spectrum = RGB_spectrum.clone().normalise(100.)
+    RGB_spectrum = RGB_spectrum.clone().normalise(100)
     get_RGB_luminance = lambda x: colour.get_RGB_luminance(
         x,
         colourspace.primaries,

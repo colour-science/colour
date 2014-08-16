@@ -201,7 +201,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
     g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
     z_bar = (0.0105107859 * g_bar + 0.991427669 * z_bar
-             if wavelength <= 505 else 0.)
+             if wavelength <= 505 else 0)
 
     return np.array([l_bar, g_bar, z_bar])
 

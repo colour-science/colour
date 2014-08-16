@@ -113,9 +113,9 @@ def xyY_to_XYZ(xyY):
     x, y, Y = np.ravel(xyY)
 
     if y == 0:
-        return np.array([0., 0., 0.])
+        return np.array([0, 0, 0])
     else:
-        return np.array([x * Y / y, Y, (1. - x - y) * Y / y])
+        return np.array([x * Y / y, Y, (1 - x - y) * Y / y])
 
 
 def xy_to_XYZ(xy):
@@ -144,7 +144,7 @@ def xy_to_XYZ(xy):
     array([ 1.,  1.,  2.])
     """
 
-    return xyY_to_XYZ(np.array([xy[0], xy[1], 1.]))
+    return xyY_to_XYZ(np.array([xy[0], xy[1], 1]))
 
 
 def XYZ_to_xy(XYZ,
@@ -173,9 +173,9 @@ def XYZ_to_xy(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_xy(np.array([0.97137399, 1., 1.04462134]))
+    >>> colour.XYZ_to_xy(np.array([0.97137399, 1, 1.04462134]))
     (0.32207410281368043, 0.33156550013623531)
-    >>> colour.XYZ_to_xy((0.97137399, 1., 1.04462134))
+    >>> colour.XYZ_to_xy((0.97137399, 1, 1.04462134))
     (0.32207410281368043, 0.33156550013623531)
     """
 

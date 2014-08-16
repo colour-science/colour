@@ -289,6 +289,6 @@ def get_final_response(value):
     0.17879314415234579
     """
 
-    return value / (200. + abs(value))
+    return value / (200 + abs(value))
 
 

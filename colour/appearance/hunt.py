@@ -67,9 +67,9 @@ Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
 
 HUNT_VIEWING_CONDITIONS = {
     'Small Areas, Uniform Background & Surrounds': \
-        Hunt_InductionFactors(1., 300.),
-    'Normal Scenes': Hunt_InductionFactors(1., 75.),
-    'Television & CRT, Dim Surrounds': Hunt_InductionFactors(1., 25.),
+        Hunt_InductionFactors(1, 300),
+    'Normal Scenes': Hunt_InductionFactors(1, 75),
+    'Television & CRT, Dim Surrounds': Hunt_InductionFactors(1, 25),
     'Large Transparencies On Light Boxes': Hunt_InductionFactors(0.7, 25),
     'Projected Transparencies, Dark Surrounds': Hunt_InductionFactors(0.7, 10)}
 """
@@ -388,10 +388,10 @@ def get_luminance_level_adaptation_factor(L_A):
     1.16754446415
     """
 
-    k = 1. / (5. * L_A + 1)
+    k = 1 / (5 * L_A + 1)
     k4 = k ** 4
     F_L = (0.2
-           * k4 * (5. * L_A) + 0.1 * (1. - k4) ** 2 * (5. * L_A) ** (1. / 3.))
+           * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * (5 * L_A) ** (1 / 3))
     return F_L
 
 
@@ -418,7 +418,7 @@ def get_illuminant_scotopic_luminance(L_A, CCT):
     769.937628654
     """
 
-    CCT = 2.26 * L_A * ((CCT / 4000.) - 0.4) ** (1. / 3.)
+    CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
     return CCT
 
 
@@ -439,7 +439,7 @@ def XYZ_to_rgb(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20, 21.78])
     >>> colour.appearance.hunt.XYZ_to_rgb(XYZ)
     array([  97.3732571,  101.5496803,  108.88     ])
     """
@@ -532,12 +532,12 @@ def get_chromatic_adaptation(XYZ,
     Y_w = XYZ_w[1]
     Y_b = XYZ_b[1]
 
-    h_rgb = 3. * rgb_w / (rgb_w.sum())
+    h_rgb = 3 * rgb_w / (rgb_w.sum())
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
-        F_rgb = ((1. + (L_A ** (1. / 3.)) + h_rgb) /
-                 (1. + (L_A ** (1. / 3.)) + (1. / h_rgb)))
+        F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) /
+                 (1 + (L_A ** (1 / 3)) + (1 / h_rgb)))
     else:
         F_rgb = np.ones(np.shape(h_rgb))
 
@@ -550,7 +550,7 @@ def get_chromatic_adaptation(XYZ,
         D_rgb = np.zeros(np.shape(F_rgb))
 
     # Computing cone bleach factors.
-    B_rgb = (10 ** 7) / ((10 ** 7) + 5. * L_A * (rgb_w / 100.))
+    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -558,7 +558,7 @@ def get_chromatic_adaptation(XYZ,
         rgb_w = get_adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = 1. + B_rgb * (f_n(F_L * F_rgb * rgb / rgb_w) + D_rgb)
+    rgb_a = 1 + B_rgb * (f_n(F_L * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 
@@ -591,7 +591,7 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 
     Examples
     --------
-    >>> rgb_p = np.array([98.0719355, 101.1375595, 100.])
+    >>> rgb_p = np.array([98.0719355, 101.1375595, 100])
     >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
     >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
     >>> p = 0.1
@@ -600,8 +600,8 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     """
 
     p_rgb = rgb_p / rgb_b
-    rgb_w = (rgb_w * (((1. - p) * p_rgb + (1. + p) / p_rgb) ** 0.5) /
-             (((1. + p) * p_rgb + (1. - p) / p_rgb) ** 0.5))
+    rgb_w = (rgb_w * (((1 - p) * p_rgb + (1 + p) / p_rgb) ** 0.5) /
+             (((1 + p) * p_rgb + (1 - p) / p_rgb) ** 0.5))
 
     return rgb_w
 
@@ -630,7 +630,7 @@ def get_achromatic_post_adaptation_signal(rgb):
 
     r, g, b = np.ravel(rgb)
 
-    A = 2. * r + g + (1. / 20.) * b - 3.05 + 1.
+    A = 2 * r + g + (1 / 20) * b - 3.05 + 1
 
     return A
 
@@ -690,8 +690,8 @@ def get_hue_angle(C):
     """
 
     C_1, C_2, C_3 = np.ravel(C)
-    hue = (180. * np.arctan2(0.5 * (C_2 - C_3) / 4.5,
-                             C_1 - (C_2 / 11.)) / np.pi) % 360
+    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5,
+                            C_1 - (C_2 / 11)) / np.pi) % 360
     return hue
 
 
@@ -822,7 +822,7 @@ def get_redness_greenness_response(C, e_s, N_c, N_cb):
 
     C_1, C_2, C_3 = C
 
-    M_rg = 100. * (C_1 - (C_2 / 11)) * (e_s * (10 / 13) * N_c * N_cb)
+    M_rg = 100 * (C_1 - (C_2 / 11)) * (e_s * (10 / 13) * N_c * N_cb)
 
     return M_rg
 
@@ -919,11 +919,11 @@ def get_achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     15.506854623621885
     """
 
-    j = 0.00001 / ((5. * L_AS / 2.26) + 0.00001)
+    j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
 
     # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
-    F_LS = 3800. * (j ** 2) * (5. * L_AS / 2.26)
-    F_LS += 0.2 * ((1. - (j ** 2)) ** 0.4) * ((5. * L_AS / 2.26) ** (1. / 6.))
+    F_LS = 3800 * (j ** 2) * (5 * L_AS / 2.26)
+    F_LS += 0.2 * ((1 - (j ** 2)) ** 0.4) * ((5 * L_AS / 2.26) ** (1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
     B_S = 0.5 / (1 + 0.3 * ((5 * L_AS / 2.26) * (S / S_W)) ** 0.3)
@@ -968,10 +968,10 @@ def get_brightness_correlate(A, A_w, M, N_b):
     22.2097654913
     """
 
-    N_1 = ((7. * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
-    N_2 = (7. * A_w * N_b ** 0.362) / 200.
+    N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
+    N_2 = (7 * A_w * N_b ** 0.362) / 200
 
-    Q = ((7. * (A + (M / 100.))) ** 0.6) * N_1 - N_2
+    Q = ((7 * (A + (M / 100))) ** 0.6) * N_1 - N_2
     return Q
 
 
@@ -1005,7 +1005,7 @@ def get_lightness_correlate(Y_b, Y_w, Q, Q_w):
     30.046267862
     """
 
-    Z = 1. + (Y_b / Y_w) ** 0.5
+    Z = 1 + (Y_b / Y_w) ** 0.5
     J = 100 * (Q / Q_w) ** Z
 
     return J

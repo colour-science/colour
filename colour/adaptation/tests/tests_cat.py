@@ -51,7 +51,7 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             get_chromatic_adaptation_matrix(
-                numpy.array([1.92001986, 1., -0.1241347]),
+                numpy.array([1.92001986, 1, -0.1241347]),
                 numpy.array([1.0131677, 1.000, 2.11217686])),
             numpy.array(
                 [0.91344833, -1.20588903, -3.74768526,
@@ -61,7 +61,7 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
 
         numpy.testing.assert_almost_equal(
             get_chromatic_adaptation_matrix(
-                numpy.array([1.92001986, 1., -0.1241347]),
+                numpy.array([1.92001986, 1, -0.1241347]),
                 numpy.array([1.0131677, 1.000, 2.11217686])),
             numpy.linalg.inv(get_chromatic_adaptation_matrix(
                 numpy.array([1.0131677, 1.000, 2.11217686]),

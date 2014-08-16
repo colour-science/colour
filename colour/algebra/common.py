@@ -239,7 +239,7 @@ def is_integer(x):
     return abs(x - round(x)) <= INTEGER_THRESHOLD
 
 
-def normalise(x, factor=1., clip=True):
+def normalise(x, factor=1, clip=True):
     """
     Normalises given *array_like* :math:`x` variable values and optionally clip
     them between.
@@ -266,5 +266,5 @@ def normalise(x, factor=1., clip=True):
 
     x = to_ndarray(x)
     maximum = np.max(x)
-    x *= (1. / maximum) * factor
+    x *= (1 / maximum) * factor
     return np.clip(x, 0, factor) if clip else x

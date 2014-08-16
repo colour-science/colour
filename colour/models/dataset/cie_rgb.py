@@ -55,7 +55,7 @@ CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
 CIE_RGB_WHITEPOINT : tuple
 """
 
-CIE_RGB_TO_XYZ_MATRIX = (1. / 0.17697 *
+CIE_RGB_TO_XYZ_MATRIX = (1 / 0.17697 *
                          np.array([[0.49, 0.31, 0.20],
                                    [0.17697, 0.81240, 0.01063],
                                    [0.00, 0.01, 0.99]]))

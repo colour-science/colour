@@ -134,8 +134,8 @@ ACES_RGB_COLOURSPACE : RGB_Colourspace
 ACES_RGB_LOG_CONSTANTS = Structure(
     log_unity=32768,
     log_xperstop=2048,
-    denorm_trans=math.pow(2., -15),
-    denorm_fake0=math.pow(2., -16))
+    denorm_trans=math.pow(2, -15),
+    denorm_fake0=math.pow(2, -16))
 """
 *ACES RGB Log* colourspace constants.
 
@@ -160,11 +160,11 @@ def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
         Companded value.
     """
 
-    if value < 0.:
-        return 0.
+    if value < 0:
+        return 0
 
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
-        value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2.)
+        value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2)
 
     value = ((math.log10(value) / math.log10(2)) *
              ACES_RGB_LOG_CONSTANTS.log_xperstop +
@@ -191,11 +191,11 @@ def _aces_rgb_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    value = (math.pow(2.,
+    value = (math.pow(2,
                       (value - ACES_RGB_LOG_CONSTANTS.log_unity) /
                       ACES_RGB_LOG_CONSTANTS.log_xperstop))
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
-        value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2.
+        value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2
 
     return value
 
@@ -235,10 +235,10 @@ References
 """
 
 ACES_RGB_PROXY_10_CONSTANTS = Structure(
-    CV_min=0.,
-    CV_max=1023.,
-    steps_per_stop=50.,
-    mid_CV_offset=425.,
+    CV_min=0,
+    CV_max=1023,
+    steps_per_stop=50,
+    mid_CV_offset=425,
     mid_log_offset=-2.5)
 """
 *ACES RGB Proxy 10* colourspace constants.
@@ -247,10 +247,10 @@ ACES_RGB_PROXY_10_CONSTANTS : Structure
 """
 
 ACES_RGB_PROXY_12_CONSTANTS = Structure(
-    CV_min=0.,
-    CV_max=4095.,
-    steps_per_stop=200.,
-    mid_CV_offset=1700.,
+    CV_min=0,
+    CV_max=4095,
+    steps_per_stop=200,
+    mid_CV_offset=1700,
     mid_log_offset=-2.5)
 """
 *ACES RGB Proxy 12* colourspace constants.
@@ -287,7 +287,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
-    if value > 0.:
+    if value > 0:
         return max(constants.CV_min,
                    min(constants.CV_max,
                        ((math.log10(value) / (math.log10(2)) -
@@ -316,7 +316,7 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
-    return math.pow(2.,
+    return math.pow(2,
                     ((((value - constants.mid_CV_offset) /
                        constants.steps_per_stop) + constants.mid_log_offset)))
 

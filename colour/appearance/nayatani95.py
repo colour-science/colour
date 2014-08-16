@@ -141,8 +141,8 @@ def XYZ_to_Nayatani95(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
-    >>> XYZ_n = np.array([95.05, 100., 108.88])
+    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ_n = np.array([95.05, 100, 108.88])
     >>> Y_o = 20.0
     >>> E_o = 5000.0
     >>> E_or = 1000.0
@@ -166,7 +166,7 @@ def XYZ_to_Nayatani95(XYZ,
     xi, eta, zeta = x_e_z = get_intermediate_values(XYZ_n)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o * E_o) / (100. * np.pi)) * x_e_z
+    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * x_e_z
 
     # Computing stimulus cone responses.
     R, G, B = RGB = XYZ_to_RGB_Nayatani95(np.array([X, Y, Z]))
@@ -275,7 +275,7 @@ def illuminance_to_luminance(E, Y_f):
     318.3098861837907
     """
 
-    return Y_f * E / (100. * np.pi)
+    return Y_f * E / (100 * np.pi)
 
 
 def get_intermediate_values(XYZ_n):
@@ -294,7 +294,7 @@ def get_intermediate_values(XYZ_n):
 
     Examples
     --------
-    >>> XYZ_n = np.array([95.05, 100., 108.88])
+    >>> XYZ_n = np.array([95.05, 100, 108.88])
     >>> colour.appearance.nayatani95.get_intermediate_values(XYZ_n)
     array([ 1.00004219,  0.99998001,  0.99975794])
     """
@@ -326,7 +326,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20, 21.78])
     >>> colour.appearance.nayatani95.XYZ_to_RGB(XYZ)
     array([ 20.0005206  19.999783   19.9988316])
     """
@@ -438,7 +438,7 @@ def get_scaling_coefficient(x, y):
     1.0
     """
 
-    return 1.758 if x >= (20. * y) else 1
+    return 1.758 if x >= (20 * y) else 1
 
 
 def get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):

@@ -91,7 +91,7 @@ class Extrapolator1d(object):
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant')
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
     array([ 3.,  3.,  5.,  5.])
 
     Using defined *left* boundary and *Constant* extrapolation method:
@@ -100,7 +100,7 @@ class Extrapolator1d(object):
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant', left=0)
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  5.,  5.])
     """
 

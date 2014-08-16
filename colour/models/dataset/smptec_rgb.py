@@ -15,7 +15,6 @@ References
         (Last accessed 13 April 2014)
 """
 
-
 from __future__ import division, unicode_literals
 
 import numpy as np

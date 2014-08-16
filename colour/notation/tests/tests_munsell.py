@@ -4090,7 +4090,7 @@ class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
         """
 
         self.assertEqual(
-            munsell_specification_to_munsell_colour((10., 2.0, 4.0, 7)),
+            munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7)),
             '10.0R 2.0/4.0')
         self.assertEqual(
             munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 9)),
@@ -4254,17 +4254,17 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
 
         self.assertTupleEqual(
             LCHab_to_munsell_specification(
-                np.array([100., 21.57210357, 272.2281935])),
+                np.array([100, 21.57210357, 272.2281935])),
             (5.6189426388888819, 10.0, 4.3144207139999997, 10))
 
         self.assertTupleEqual(
             LCHab_to_munsell_specification(
-                np.array([100., 426.67945353, 72.39590835])),
+                np.array([100, 426.67945353, 72.39590835])),
             (0.10997454166666643, 10.0, 85.335890706000001, 5))
 
         self.assertTupleEqual(
             LCHab_to_munsell_specification(
-                np.array([100., 74.05216981, 276.45318193])),
+                np.array([100, 74.05216981, 276.45318193])),
             (6.7925505361111194, 10.0, 14.810433961999999, 10))
 
 

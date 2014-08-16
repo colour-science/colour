@@ -23,7 +23,6 @@ __status__ = 'Production'
 
 __all__ = ['MUNSELL_COLOURS']
 
-
 MUNSELL_COLOURS = (
     (('2.5GY', 0.2, 2.0), (0.713, 1.414, 0.237)),
     (('5GY', 0.2, 2.0), (0.449, 1.145, 0.237)),

@@ -73,7 +73,7 @@ def luminance_newhall1943(V):
     return Y
 
 
-def luminance_1976(L, Yn=100.):
+def luminance_1976(L, Yn=100):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
@@ -106,7 +106,7 @@ def luminance_1976(L, Yn=100.):
     10.08
     """
 
-    Y = ((((L + 16.) / 116.) ** 3.) * Yn
+    Y = ((((L + 16) / 116) ** 3) * Yn
          if L > CIE_K * CIE_E else
          (L / CIE_K) * Yn)
 
@@ -159,7 +159,8 @@ LUMINANCE_FUNCTIONS : dict
     ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
 """
 
-def get_luminance(LV, Yn=100., method='Luminance 1976'):
+
+def get_luminance(LV, Yn=100, method='Luminance 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.

@@ -62,11 +62,11 @@ class TestExtrapolator1d(unittest.TestCase):
 
         extrapolator = Extrapolator1d(
             LinearInterpolator1d(
-                np.array([5., 6., 7.]),
-                np.array([5., 6., 7.])))
+                np.array([5, 6, 7]),
+                np.array([5, 6, 7])))
 
-        np.testing.assert_almost_equal(extrapolator([4., 8.]), [4., 8.])
-        self.assertEqual(extrapolator(4.), 4.)
+        np.testing.assert_almost_equal(extrapolator([4, 8]), [4., 8.])
+        self.assertEqual(extrapolator(4), 4.)
 
 
 if __name__ == '__main__':

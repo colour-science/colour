@@ -155,7 +155,7 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> colour.cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
+    >>> colour.cylindrical_to_cartesian(np.array([6, 0.32175055, 3.16227766]))
     array([ 3.        ,  0.99999999,  6.        ])
     """
 

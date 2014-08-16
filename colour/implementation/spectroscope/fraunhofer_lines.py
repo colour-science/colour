@@ -171,7 +171,7 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
 
     pylab.plot(luminance_spd.wavelengths,
                luminance_spd.values, color='black',
-               linewidth=1.)
+               linewidth=1)
 
     fraunhofer_wavelengths = np.array(
         sorted(FRAUNHOFER_LINES_PUBLISHED.values()))
@@ -217,8 +217,8 @@ def fraunhofer_lines_plot(image=SUN_SPECTRUM_IMAGE):
                        va='bottom',
                        fontdict={'size': 'large' if is_large_line else'small'})
 
-    r = lambda x: int(x / 100.) * 100
-    matplotlib.pyplot.xticks(np.arange(r(input), r(output * 1.5), 20.))
+    r = lambda x: int(x / 100) * 100
+    matplotlib.pyplot.xticks(np.arange(r(input), r(output * 1.5), 20))
 
     settings = {'x_tighten': True,
                 'y_tighten': True,

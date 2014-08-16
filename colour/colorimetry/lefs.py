@@ -92,7 +92,7 @@ def mesopic_weighting_function(wavelength,
     x = MESOPIC_X_DATA.get(
         mesopic_x_luminance_values[index]).get(source).get(method)
 
-    Vm = ((1. - x) *
+    Vm = ((1 - x) *
           scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength))
 
     return Vm

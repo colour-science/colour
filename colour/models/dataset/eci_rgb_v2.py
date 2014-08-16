@@ -70,7 +70,7 @@ XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
-ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: lightness_1976(x * 100.) / 100.
+ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: lightness_1976(x * 100) / 100
 """
 Transfer function from linear to *ECI RGB v2* colourspace.
 
@@ -78,7 +78,7 @@ ECI_RGB_V2_TRANSFER_FUNCTION : object
 """
 
 ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    luminance_1976(x * 100.) / 100.)
+    luminance_1976(x * 100) / 100)
 """
 Inverse transfer function from *ECI RGB v2* colourspace to linear.
 

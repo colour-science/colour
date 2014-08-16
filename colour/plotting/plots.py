@@ -250,7 +250,7 @@ def _get_colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
         colour_cycle = DEFAULT_COLOUR_CYCLE
     else:
         colour_cycle = getattr(matplotlib.pyplot.cm,
-                               colour_map)(np.linspace(0., 1., count))
+                               colour_map)(np.linspace(0, 1, count))
 
     return itertools.cycle(colour_cycle)
 
@@ -394,8 +394,8 @@ def bounding_box(**kwargs):
         **{'bounding_box': None,
            'x_tighten': False,
            'y_tighten': False,
-           'limits': [0., 1., 0., 1.],
-           'margins': [0., 0., 0., 0.]})
+           'limits': [0, 1, 0, 1],
+           'margins': [0, 0, 0, 0]})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -494,11 +494,11 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0., 0.12300545])
-    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0., 0.13328537], y0=0, y1=0.25)
-    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0., 0.14276247], y0=0, y1=0.35)
-    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0., 0.15158707], y0=0, y1=0.05)
-    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0., 0.15986838], y0=0, y1=-.25)
+    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0, 0.12300545])
+    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
+    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
+    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
+    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
     >>> colour.plotting.colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
     True
     """
@@ -506,16 +506,16 @@ def colour_parameters_plot(colour_parameters,
     for i in range(len(colour_parameters) - 1):
         x0 = colour_parameters[i].x
         x01 = colour_parameters[i + 1].x
-        y0 = (0.
+        y0 = (0
               if colour_parameters[i].y0 is None else
               colour_parameters[i].y0)
-        y1 = (1.
+        y1 = (1
               if colour_parameters[i].y1 is None else
               colour_parameters[i].y1)
-        y01 = (0.
+        y01 = (0
                if colour_parameters[i].y0 is None else
                colour_parameters[i + 1].y0)
-        y11 = (1.
+        y11 = (1
                if colour_parameters[i].y1 is None else
                colour_parameters[i + 1].y1)
 
@@ -530,28 +530,28 @@ def colour_parameters_plot(colour_parameters,
         y0_plot and pylab.plot([x.x for x in colour_parameters],
                                [x.y0 for x in colour_parameters],
                                color='black',
-                               linewidth=2.)
+                               linewidth=2)
 
     if all([x.y1 is not None for x in colour_parameters]):
         y1_plot and pylab.plot([x.x for x in colour_parameters],
                                [x.y1 for x in colour_parameters],
                                color='black',
-                               linewidth=2.)
+                               linewidth=2)
 
     y_limit_min0 = min(
-        [0. if x.y0 is None else x.y0 for x in colour_parameters])
+        [0 if x.y0 is None else x.y0 for x in colour_parameters])
     y_limit_max0 = max(
-        [1. if x.y0 is None else x.y0 for x in colour_parameters])
+        [1 if x.y0 is None else x.y0 for x in colour_parameters])
     y_limit_min1 = min(
-        [0. if x.y1 is None else x.y1 for x in colour_parameters])
+        [0 if x.y1 is None else x.y1 for x in colour_parameters])
     y_limit_max1 = max(
-        [1. if x.y1 is None else x.y1 for x in colour_parameters])
+        [1 if x.y1 is None else x.y1 for x in colour_parameters])
 
     settings = {'x_label': 'Parameter',
                 'y_label': 'Colour',
-                'limits': [min([0. if x.x is None else x.x
+                'limits': [min([0 if x.x is None else x.x
                                 for x in colour_parameters]),
-                           max([1. if x.x is None else x.x
+                           max([1 if x.x is None else x.x
                                 for x in colour_parameters]),
                            y_limit_min0,
                            y_limit_max1]}
@@ -590,9 +590,9 @@ def single_colour_plot(colour_parameter, **kwargs):
 
 
 def multi_colour_plot(colour_parameters,
-                      width=1.,
-                      height=1.,
-                      spacing=0.,
+                      width=1,
+                      height=1,
+                      spacing=0,
                       across=3,
                       text_display=True,
                       text_size='large',
@@ -790,7 +790,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         y1.append(value)
 
     colours = np.array([np.ravel(x) for x in colours])
-    colours *= 1. / np.max(colours)
+    colours *= 1 / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
     settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
@@ -861,16 +861,16 @@ def multi_spd_plot(spds,
         matplotlib.pyplot.rc("axes", color_cycle=["r", "g", "b", "y"])
 
         if use_spds_colours:
-            XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100.
+            XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
                 XYZ /= np.max(XYZ)
             RGB = XYZ_to_sRGB(XYZ)
-            RGB = np.clip(RGB, 0., 1.)
+            RGB = np.clip(RGB, 0, 1)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.name,
-                       linewidth=2.)
+                       linewidth=2)
         else:
-            pylab.plot(wavelengths, values, label=spd.name, linewidth=2.)
+            pylab.plot(wavelengths, values, label=spd.name, linewidth=2)
 
     settings = {'x_label': u'Wavelength λ (nm)',
                 'y_label': 'Spectral Power Distribution',
@@ -941,9 +941,9 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
     """
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (('x', [1., 0., 0.]),
-                      ('y', [0., 1., 0.]),
-                      ('z', [0., 0., 1.])):
+    for axis, rgb in (('x', [1, 0, 0]),
+                      ('y', [0, 1, 0]),
+                      ('z', [0, 0, 1])):
         for i, cmfs in enumerate(cmfss):
             cmfs, name = _get_cmfs(cmfs), cmfs
 
@@ -962,7 +962,7 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
                        color=rgb,
                        label=u'{0} - {1}'.format(
                            cmfs.labels.get(axis), cmfs.name),
-                       linewidth=2.)
+                       linewidth=2)
 
     settings = {
         'title': '{0} - Colour Matching Functions'.format(', '.join(cmfss)),
@@ -1096,7 +1096,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         colours.append(XYZ_to_sRGB(XYZ))
 
     colours = np.array([np.ravel(x) for x in colours])
-    colours *= 1. / np.max(colours)
+    colours *= 1 / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
     settings = {'title': 'The Visible Spectrum - {0}'.format(name),
@@ -1151,8 +1151,8 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     path = matplotlib.path.Path(tuple(zip(x, y)))
     x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0., 1., spacing):
-        for j in np.arange(0., 1., spacing):
+    for i in np.arange(0, 1, spacing):
+        for j in np.arange(0, 1, spacing):
             if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
                 x_dot.append(i)
                 y_dot.append(j)
@@ -1165,7 +1165,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
     settings = {'no_ticks': True,
-                'bounding_box': [0., 1., 0., 1.],
+                'bounding_box': [0, 1, 0, 1],
                 'bbox_inches': 'tight',
                 'pad_inches': 0}
     settings.update(kwargs)
@@ -1214,7 +1214,7 @@ def CIE_1931_chromaticity_diagram_plot(
          700])
 
     wavelengths = cmfs.wavelengths
-    equal_energy = np.array([1. / 3.] * 2)
+    equal_energy = np.array([1 / 3] * 2)
 
     XYZs = [value for key, value in cmfs]
 
@@ -1223,12 +1223,12 @@ def CIE_1931_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(
         tuple(zip(wavelengths, tuple(zip(x, y)))))
 
-    pylab.plot(x, y, color='black', linewidth=2.)
-    pylab.plot((x[-1], x[0]), (y[-1], y[0]), color='black', linewidth=2.)
+    pylab.plot(x, y, color='black', linewidth=2)
+    pylab.plot((x[-1], x[0]), (y[-1], y[0]), color='black', linewidth=2)
 
     for label in labels:
         x, y = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(x, y, 'o', color='black', linewidth=2.)
+        pylab.plot(x, y, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1330,13 +1330,13 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        y,
                        label='Pointer Gamut',
                        color='0.95',
-                       linewidth=2.)
+                       linewidth=2)
             pylab.plot([x[-1],
                         x[0]],
                        [y[-1],
                         y[0]],
                        color='0.95',
-                       linewidth=2.)
+                       linewidth=2)
         else:
             colourspace, name = _get_RGB_colourspace(
                 colourspace), colourspace
@@ -1351,27 +1351,27 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        [whitepoint[1], whitepoint[1]],
                        color=(r, g, b),
                        label=colourspace.name,
-                       linewidth=2.)
+                       linewidth=2)
             pylab.plot([whitepoint[0], whitepoint[0]],
                        [whitepoint[1], whitepoint[1]],
                        'o',
                        color=(r, g, b),
-                       linewidth=2.)
+                       linewidth=2)
             pylab.plot([primaries[0, 0], primaries[1, 0]],
                        [primaries[0, 1], primaries[1, 1]],
                        'o-',
                        color=(r, g, b),
-                       linewidth=2.)
+                       linewidth=2)
             pylab.plot([primaries[1, 0], primaries[2, 0]],
                        [primaries[1, 1], primaries[2, 1]],
                        'o-',
                        color=(r, g, b),
-                       linewidth=2.)
+                       linewidth=2)
             pylab.plot([primaries[2, 0], primaries[0, 0]],
                        [primaries[2, 1], primaries[0, 1]],
                        'o-',
                        color=(r, g, b),
-                       linewidth=2.)
+                       linewidth=2)
 
             x_limit_min.append(np.amin(primaries[:, 0]))
             y_limit_min.append(np.amin(primaries[:, 1]))
@@ -1435,15 +1435,15 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
         return
 
     start, end = 1667, 100000
-    x, y = tuple(zip(*[UCS_uv_to_xy(CCT_to_uv(x, 0., cmfs=cmfs))
+    x, y = tuple(zip(*[UCS_uv_to_xy(CCT_to_uv(x, 0, cmfs=cmfs))
                        for x in np.arange(start, end + 250, 250)]))
 
-    pylab.plot(x, y, color='black', linewidth=2.)
+    pylab.plot(x, y, color='black', linewidth=2)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, cmfs=cmfs))
         x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 0.025, cmfs=cmfs))
-        pylab.plot([x0, x1], [y0, y1], color='black', linewidth=2.)
+        pylab.plot([x0, x1], [y0, y1], color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
@@ -1457,7 +1457,7 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
                 'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
                     illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
-        pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2.)
+        pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2)
 
         pylab.annotate(illuminant,
                        xy=(xy[0], xy[1]),
@@ -1513,8 +1513,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     path = matplotlib.path.Path(tuple(zip(u, v)))
     x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0., 1., spacing):
-        for j in np.arange(0., 1., spacing):
+    for i in np.arange(0, 1, spacing):
+        for j in np.arange(0, 1, spacing):
             if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
                 x_dot.append(i)
                 y_dot.append(j)
@@ -1527,7 +1527,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
     settings = {'no_ticks': True,
-                'bounding_box': [0., 1., 0., 1.],
+                'bounding_box': [0, 1, 0, 1],
                 'bbox_inches': 'tight',
                 'pad_inches': 0}
     settings.update(kwargs)
@@ -1574,7 +1574,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
 
     wavelengths = cmfs.wavelengths
-    equal_energy = np.array([1. / 3.] * 2)
+    equal_energy = np.array([1 / 3] * 2)
 
     UVWs = [XYZ_to_UCS(value) for key, value in cmfs]
 
@@ -1583,12 +1583,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(
         tuple(zip(wavelengths, tuple(zip(u, v)))))
 
-    pylab.plot(u, v, color='black', linewidth=2.)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2)
+    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(u, v, 'o', color='black', linewidth=2.)
+        pylab.plot(u, v, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1686,15 +1686,15 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
     xy_to_uv = lambda x: UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
 
     start, end = 1667, 100000
-    u, v = tuple(zip(*[CCT_to_uv(x, 0., cmfs=cmfs)
+    u, v = tuple(zip(*[CCT_to_uv(x, 0, cmfs=cmfs)
                        for x in np.arange(start, end + 250, 250)]))
 
-    pylab.plot(u, v, color='black', linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         u0, v0 = CCT_to_uv(i, -0.05)
         u1, v1 = CCT_to_uv(i, 0.05)
-        pylab.plot([u0, u1], [v0, v1], color='black', linewidth=2.)
+        pylab.plot([u0, u1], [v0, v1], color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),
@@ -1708,7 +1708,7 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
                 'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
                     illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
-        pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2.)
+        pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 
         pylab.annotate(illuminant,
                        xy=(uv[0], uv[1]),
@@ -1764,8 +1764,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     path = matplotlib.path.Path(tuple(zip(u, v)))
     x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0., 1., spacing):
-        for j in np.arange(0., 1., spacing):
+    for i in np.arange(0, 1, spacing):
+        for j in np.arange(0, 1, spacing):
             if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
                 x_dot.append(i)
                 y_dot.append(j)
@@ -1778,7 +1778,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
     settings = {'no_ticks': True,
-                'bounding_box': [0., 1., 0., 1.],
+                'bounding_box': [0, 1, 0, 1],
                 'bbox_inches': 'tight',
                 'pad_inches': 0}
     settings.update(kwargs)
@@ -1825,7 +1825,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
 
     wavelengths = cmfs.wavelengths
-    equal_energy = np.array([1. / 3.] * 2)
+    equal_energy = np.array([1 / 3] * 2)
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('D50')
@@ -1837,12 +1837,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths,
                                                     tuple(zip(u, v))))
 
-    pylab.plot(u, v, color='black', linewidth=2.)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2.)
+    pylab.plot(u, v, color='black', linewidth=2)
+    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(u, v, 'o', color='black', linewidth=2.)
+        pylab.plot(u, v, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -1954,7 +1954,7 @@ def multi_munsell_value_function_plot(
     True
     """
 
-    samples = np.linspace(0., 100., 1000)
+    samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
         function, name = MUNSELL_VALUE_FUNCTIONS.get(function), function
         if function is None:
@@ -1966,7 +1966,7 @@ def multi_munsell_value_function_plot(
         pylab.plot(samples,
                    [function(x) for x in samples],
                    label=u'{0}'.format(name),
-                   linewidth=2.)
+                   linewidth=2)
 
     settings = {
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
@@ -1978,7 +1978,7 @@ def multi_munsell_value_function_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0., 100., 0., 100.]}
+        'limits': [0, 100, 0, 100]}
 
     settings.update(kwargs)
 
@@ -2042,7 +2042,7 @@ def multi_lightness_function_plot(
     True
     """
 
-    samples = np.linspace(0., 100., 1000)
+    samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
         function, name = LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
@@ -2054,7 +2054,7 @@ def multi_lightness_function_plot(
         pylab.plot(samples,
                    [function(x) for x in samples],
                    label=u'{0}'.format(name),
-                   linewidth=2.)
+                   linewidth=2)
 
     settings = {
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
@@ -2066,7 +2066,7 @@ def multi_lightness_function_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0., 100., 0., 100.]}
+        'limits': [0, 100, 0, 100]}
 
     settings.update(kwargs)
 
@@ -2130,7 +2130,7 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
     True
     """
 
-    samples = np.linspace(0., 1., 1000)
+    samples = np.linspace(0, 1, 1000)
     for i, colourspace in enumerate(colourspaces):
         colourspace, name = _get_RGB_colourspace(colourspace), colourspace
 
@@ -2141,7 +2141,7 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
         pylab.plot(samples,
                    RGBs,
                    label=u'{0}'.format(colourspace.name),
-                   linewidth=2.)
+                   linewidth=2)
 
     settings = {
         'title': '{0} - Transfer Functions'.format(
@@ -2152,7 +2152,7 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0., 1., 0., 1.]}
+        'limits': [0, 1, 0, 1]}
 
     settings.update(kwargs)
 
@@ -2208,7 +2208,7 @@ def blackbody_spectral_radiance_plot(
 
     single_spd_plot(spd, name, **settings)
 
-    XYZ = spectral_to_XYZ(spd, cmfs) / 100.
+    XYZ = spectral_to_XYZ(spd, cmfs) / 100
     RGB = normalise(XYZ_to_sRGB(XYZ))
 
     matplotlib.pyplot.subplot(212)
@@ -2270,7 +2270,7 @@ def blackbody_colours_plot(start=150,
         spd = blackbody_spectral_power_distribution(temperature,
                                                     *cmfs.shape)
 
-        XYZ = spectral_to_XYZ(spd, cmfs) / 100.
+        XYZ = spectral_to_XYZ(spd, cmfs) / 100
         RGB = normalise(XYZ_to_sRGB(XYZ))
 
         colours.append(RGB)
@@ -2318,8 +2318,8 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     colour_rendering_index, colour_rendering_indexes, additional_data = \
         get_colour_rendering_index(illuminant, additional_data=True)
 
-    colours = ([[1.] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100.))
-                             for x in additional_data[0]])
+    colours = ([[1] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100))
+                            for x in additional_data[0]])
     x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
                              key=lambda x: x[0])))
     x, y = np.array([0] + list(x)), np.array(
@@ -2333,7 +2333,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     pylab.yticks(range(0 if positive else -100,
                        100 + y_ticks_steps,
                        y_ticks_steps))
-    pylab.xticks(x + width / 2.,
+    pylab.xticks(x + width / 2,
                  ['Ra'] + ['R{0}'.format(index) for index in x[1:]])
 
     def label_bars(bars):
@@ -2341,7 +2341,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
             y = bar.get_y()
             height = bar.get_height()
             value = height if np.sign(y) in (0, 1) else -height
-            axis.text(bar.get_x() + bar.get_width() / 2.,
+            axis.text(bar.get_x() + bar.get_width() / 2,
                       0.025 * height + height + y,
                       '{0:.1f}'.format(value),
                       ha='center', va='bottom')
@@ -2353,8 +2353,8 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
         'grid': True,
         'x_tighten': True,
         'y_tighten': True,
-        'limits': [-width, 14 + width * 2., -10. if positive else -110.,
-                   110.]}
+        'limits': [-width, 14 + width * 2, -10 if positive else -110,
+                   110]}
     settings.update(kwargs)
 
     bounding_box(**settings)

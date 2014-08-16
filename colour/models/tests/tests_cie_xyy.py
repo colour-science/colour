@@ -80,7 +80,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xyY_to_XYZ(np.array([0.4325, 0., 0.1034])),
+            xyY_to_XYZ(np.array([0.4325, 0, 0.1034])),
             np.array([0., 0., 0.]),
             decimal=7)
 
@@ -124,7 +124,7 @@ class TestXYZ_to_xy(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_xy((0.97137399, 1., 1.04462134)),
+            XYZ_to_xy((0.97137399, 1, 1.04462134)),
             (0.32207410281368043, 0.3315655001362353),
             decimal=7)
 

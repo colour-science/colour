@@ -35,7 +35,7 @@ print(colour.models.deprecated.CMY_to_CMYK(
     [0.50980392, 0.01960784, 0.74901961]))
 
 # Converting from *CMYK* colourspace to *CMY* colourspace.
-print(colour.models.deprecated.CMYK_to_CMY([0.5, 0., 0.744, 0.01960784]))
+print(colour.models.deprecated.CMYK_to_CMY([0.5, 0, 0.744, 0.01960784]))
 
 # Converting from *RGB* colourspace to hex triplet representation.
 print(colour.models.deprecated.RGB_to_HEX(

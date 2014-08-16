@@ -108,7 +108,7 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
             if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
             REC_2020_CONSTANTS.alpha(is_10_bits_system) *
             (value ** 0.45) -
-            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.))
+            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1))
 
 
 def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
@@ -136,8 +136,8 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     return (value / 4.5
             if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) /
-             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1. / 0.45))
+            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1)) /
+             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1 / 0.45))
 
 
 REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function

@@ -118,8 +118,8 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
-    >>> XYZ_n = np.array([ 109.85,  100.  ,   35.58])
+    >>> XYZ = np.array([ 19.01,  20  ,  21.78])
+    >>> XYZ_n = np.array([ 109.85,  100  ,   35.58])
     >>> Y_n = 31.83,
     >>> sigma = 0.4347
     >>> D = 1.0

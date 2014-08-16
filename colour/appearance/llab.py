@@ -62,15 +62,15 @@ LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
 
 LLAB_VIEWING_CONDITIONS = {
     'Reference Samples & Images, Average Surround, Subtending > 4': \
-        LLAB_InductionFactors(1., 3., 0., 1.),
+        LLAB_InductionFactors(1, 3, 0, 1),
     'Reference Samples & Images, Average Surround, Subtending < 4': \
-        LLAB_InductionFactors(1., 3., 1., 1.),
+        LLAB_InductionFactors(1, 3, 1, 1),
     'Television & VDU Displays, Dim Surround': \
-        LLAB_InductionFactors(0.7, 3.5, 1., 1.),
+        LLAB_InductionFactors(0.7, 3.5, 1, 1),
     'Cut Sheet Transparency, Dim Surround': \
-        LLAB_InductionFactors(1., 5., 1., 1.1),
+        LLAB_InductionFactors(1, 5, 1, 1.1),
     '35mm Projection Transparency, Dark Surround': \
-        LLAB_InductionFactors(0.7, 4., 1., 1.)}
+        LLAB_InductionFactors(0.7, 4, 1, 1)}
 """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
@@ -166,8 +166,8 @@ def XYZ_to_LLAB(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
-    >>> XYZ_0 = np.array([  95.05,  100.  ,  108.88])
+    >>> XYZ = np.array([ 19.01,  20  ,  21.78])
+    >>> XYZ_0 = np.array([  95.05,  100  ,  108.88])
     >>> Y_b = 20.0
     >>> F_S = 3.0
     >>> F_L = 1.0
@@ -247,7 +247,7 @@ def XYZ_to_RGB_LLAB(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20, 21.78])
     >>> colour.appearance.llab.XYZ_to_RGB(XYZ)
     array([ 0.94142795,  1.0404012 ,  1.08970885])
     """
@@ -327,14 +327,14 @@ def f(x, F_S):
     Examples
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179]
-    >>> colour.appearance.llab.f(0.20000918623399996, 3.)
+    >>> colour.appearance.llab.f(0.20000918623399996, 3)
     array(0.5848125010758818)
     """
 
     x_m = np.where(x > 0.008856,
-                   x ** (1. / F_S),
-                   ((((0.008856 ** (1. / F_S)) -
-                      (16. / 116.)) / 0.008856) * x + (16. / 116.)))
+                   x ** (1 / F_S),
+                   ((((0.008856 ** (1 / F_S)) -
+                      (16 / 116)) / 0.008856) * x + (16 / 116)))
     return x_m
 
 
@@ -375,12 +375,12 @@ def get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     X, Y, Z = np.ravel(XYZ)
 
     # Account for background lightness contrast.
-    z = 1. + F_L * ((Y_b / 100.) ** 0.5)
+    z = 1 + F_L * ((Y_b / 100) ** 0.5)
 
     # Computing modified *CIE Lab* colourspace matrix.
-    L = 116. * (f(Y / 100., F_S) ** z) - 16.
-    a = 500. * (f(X / 95.05, F_S) - f(Y / 100., F_S))
-    b = 200. * (f(Y / 100., F_S) - f(Z / 108.88, F_S))
+    L = 116 * (f(Y / 100, F_S) ** z) - 16
+    a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
+    b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
     return np.array([L, a, b])
 

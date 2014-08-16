@@ -85,7 +85,7 @@ CIECAM02_InductionFactors = namedtuple('CIECAM02_InductionFactors',
                                        ('F', 'c', 'N_c'))
 
 CIECAM02_VIEWING_CONDITIONS = {
-    'Average': CIECAM02_InductionFactors(1., 0.69, 1.),
+    'Average': CIECAM02_InductionFactors(1, 0.69, 1),
     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)}
 """
@@ -194,7 +194,7 @@ def XYZ_to_CIECAM02(XYZ,
 
     # Computing degree of adaptation :math:`D`.
     D = get_degree_of_adaptation(surround.F,
-                                 L_A) if not discount_illuminant else 1.
+                                 L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
     RGB_c = get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -328,7 +328,7 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
 
     # Computing degree of adaptation :math:`D`.
     D = get_degree_of_adaptation(surround.F,
-                                 L_A) if not discount_illuminant else 1.
+                                 L_A) if not discount_illuminant else 1
 
     # Computation full chromatic adaptation.
     RGB_wc = get_full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
@@ -399,7 +399,7 @@ def get_chromatic_induction_factors(n):
     (1.0003040045593807, 1.0003040045593807)
     """
 
-    N_bb = N_cb = 0.725 * (1. / n) ** 0.2
+    N_bb = N_cb = 0.725 * (1 / n) ** 0.2
     return N_bb, N_cb
 
 
@@ -485,7 +485,7 @@ def get_degree_of_adaptation(F, L_A):
     0.99446878008843742
     """
 
-    D = F * (1. - (1. / 3.6) * np.exp((-L_A - 42.) / 92.))
+    D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
     return D
 
 
@@ -568,7 +568,7 @@ def get_full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     R, G, B = np.ravel(RGB)
     R_w, G_w, B_w = np.ravel(RGB_w)
 
-    equation = lambda x, y: x / (Y_w * (D / y) + 1. - D)
+    equation = lambda x, y: x / (Y_w * (D / y) + 1 - D)
 
     R_c = equation(R, R_w)
     G_c = equation(G, G_w)
@@ -653,7 +653,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     """
 
     # TODO: Check for negative values and their handling.
-    RGB_c = ((((400. * (F_L * RGB / 100) ** 0.42) /
+    RGB_c = ((((400 * (F_L * RGB / 100) ** 0.42) /
                (27.13 + (F_L * RGB / 100) ** 0.42))) + 0.1)
     return RGB_c
 
@@ -682,8 +682,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     """
 
     RGB_p = ((np.sign(RGB - 0.1) *
-              (100. / F_L) * ((27.13 * np.abs(RGB - 0.1)) /
-                              (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+              (100 / F_L) * ((27.13 * np.abs(RGB - 0.1)) /
+                             (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
     return RGB_p
 
 
@@ -711,8 +711,8 @@ def get_opponent_colour_dimensions_forward(RGB):
 
     R, G, B = np.ravel(RGB)
 
-    a = R - 12. * G / 11. + B / 11.
-    b = (R + G - 2. * B) / 9.
+    a = R - 12 * G / 11 + B / 11
+    b = (R + G - 2 * B) / 9
 
     return a, b
 
@@ -748,15 +748,15 @@ def get_opponent_colour_dimensions_reverse(P, h):
     sin_hr, cos_hr = math.sin(hr), math.cos(hr)
     P_4 = P_1 / sin_hr
     P_5 = P_1 / cos_hr
-    n = P_2 * (2. + P_3) * (460. / 1403.)
+    n = P_2 * (2 + P_3) * (460 / 1403)
 
     if abs(sin_hr) >= abs(cos_hr):
-        b = n / (P_4 + (2. + P_3) * (220. / 1403.) * (cos_hr / sin_hr) - (
-            27. / 1403.) + P_3 * (6300. / 1403))
+        b = n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) - (
+            27 / 1403) + P_3 * (6300 / 1403))
         a = b * (cos_hr / sin_hr)
     else:
-        a = n / (P_5 + (2. + P_3) * (220. / 1403.) - (
-            (27. / 1403.) - P_3 * (6300. / 1403.)) * (sin_hr / cos_hr))
+        a = n / (P_5 + (2 + P_3) * (220 / 1403) - (
+            (27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))
         b = a * (sin_hr / cos_hr)
 
     return a, b
@@ -843,7 +843,7 @@ def get_eccentricity_factor(h):
     1.1740054728513878
     """
 
-    e_t = 1. / 4. * (math.cos(2. + h * math.pi / 180.) + 3.8)
+    e_t = 1 / 4 * (math.cos(2 + h * math.pi / 180) + 3.8)
     return e_t
 
 
@@ -875,7 +875,7 @@ def get_achromatic_response_forward(RGB, N_bb):
 
     R, G, B = np.ravel(RGB)
 
-    A = (2. * R + G + (1. / 20.) * B - 0.305) * N_bb
+    A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
     return A
 
 
@@ -912,7 +912,7 @@ def get_achromatic_response_reverse(A_w, J, c, z):
     23.93948096673739
     """
 
-    A = A_w * (J / 100.) ** (1. / (c * z))
+    A = A_w * (J / 100) ** (1 / (c * z))
     return A
 
 
@@ -946,7 +946,7 @@ def get_lightness_correlate(A, A_w, c, z):
     41.73109113242645
     """
 
-    J = 100. * (A / A_w) ** (c * z)
+    J = 100 * (A / A_w) ** (c * z)
     return J
 
 
@@ -980,7 +980,7 @@ def get_brightness_correlate(c, J, A_w, F_L):
     195.37132596634626
     """
 
-    Q = (4. / c) * math.sqrt(J / 100.) * (A_w + 4) * F_L ** 0.25
+    Q = (4 / c) * math.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
     return Q
 
 
@@ -1022,8 +1022,8 @@ def get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     """
 
     Ra, Ga, Ba = np.ravel(RGB_a)
-    t = ((50000. / 13.) * N_c * N_cb) * (e_t * (a ** 2 + b ** 2) ** 0.5) / (
-        Ra + Ga + 21. * Ba / 20.)
+    t = ((50000 / 13) * N_c * N_cb) * (e_t * (a ** 2 + b ** 2) ** 0.5) / (
+        Ra + Ga + 21 * Ba / 20)
     return t
 
 
@@ -1055,7 +1055,7 @@ def get_temporary_magnitude_quantity_reverse(C, J, n):
     0.14974620292124402
     """
 
-    t = (C / (math.sqrt(J / 100.) * (1.64 - 0.29 ** n) ** 0.73)) ** (1. / 0.9)
+    t = (C / (math.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
     return t
 
 
@@ -1102,7 +1102,7 @@ def get_chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     """
 
     t = get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = t ** 0.9 * (J / 100.) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
+    C = t ** 0.9 * (J / 100) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
 
     return C
 
@@ -1159,7 +1159,7 @@ def get_saturation_correlate(M, Q):
     2.3603053739184565
     """
 
-    s = 100. * (M / Q) ** 0.5
+    s = 100 * (M / Q) ** 0.5
     return s
 
 
@@ -1199,9 +1199,9 @@ def get_P(N_c, N_cb, e_t, t, A, N_bb):
     (30162.8908154037, 24.23720546710714, 1.05)
     """
 
-    P_1 = ((50000. / 13.) * N_c * N_cb * e_t) / t
+    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
-    P_3 = 21. / 20.
+    P_3 = 21 / 20
 
     return P_1, P_2, P_3
 
@@ -1233,8 +1233,8 @@ def get_post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     array([ 7.9463202 ,  7.94711528,  7.94899595])
     """
 
-    R_a = (460. * P_2 + 451. * a + 288. * b) / 1403.
-    G_a = (460. * P_2 - 891. * a - 261. * b) / 1403.
-    B_a = (460. * P_2 - 220. * a - 6300. * b) / 1403.
+    R_a = (460 * P_2 + 451 * a + 288 * b) / 1403
+    G_a = (460 * P_2 - 891 * a - 261 * b) / 1403
+    B_a = (460 * P_2 - 220 * a - 6300 * b) / 1403
 
     return np.array([R_a, G_a, B_a])

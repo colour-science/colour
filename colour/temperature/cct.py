@@ -202,7 +202,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     for Ti in np.linspace(start, end, count):
         spd = blackbody_spectral_power_distribution(Ti, *cmfs.shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
-        XYZ *= 1. / np.max(XYZ)
+        XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
@@ -323,8 +323,8 @@ def uv_to_CCT_ohno2013(uv,
     T = Tip + (Tin - Tip) * (x / l)
 
     vtx = vip + (vin - vip) * (x / l)
-    sign = 1. if vx - vtx >= 0. else -1.
-    Duv = (dip ** 2 - x ** 2) ** (1. / 2.) * sign
+    sign = 1 if vx - vtx >= 0 else -1
+    Duv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
 
     # Parabolic solution.
     if Duv < 0.002:
@@ -335,7 +335,7 @@ def uv_to_CCT_ohno2013(uv,
         c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin
                + din * (Ti - Tip) * Tip * Ti) * X ** -1)
 
-        T = -b / (2. * a)
+        T = -b / (2 * a)
 
         Duv = sign * (a * T ** 2 + b * T + c)
 
@@ -343,7 +343,7 @@ def uv_to_CCT_ohno2013(uv,
 
 
 def CCT_to_uv_ohno2013(CCT,
-                       Duv=0.,
+                       Duv=0,
                        cmfs=STANDARD_OBSERVERS_CMFS.get(
                            'CIE 1931 2 Degree Standard Observer')):
     """
@@ -381,16 +381,16 @@ def CCT_to_uv_ohno2013(CCT,
 
     spd = blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     XYZ = spectral_to_XYZ(spd, cmfs)
-    XYZ *= 1. / np.max(XYZ)
+    XYZ *= 1 / np.max(XYZ)
     UVW = XYZ_to_UCS(XYZ)
     u0, v0 = UCS_to_uv(UVW)
 
-    if Duv == 0.:
+    if Duv == 0:
         return u0, v0
     else:
         spd = blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
-        XYZ *= 1. / np.max(XYZ)
+        XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         u1, v1 = UCS_to_uv(UVW)
 
@@ -448,7 +448,7 @@ def uv_to_CCT_robertson1968(uv):
         du = 1.0
         dv = wr_ruvt.t
 
-        len = math.sqrt(1. + dv * dv)
+        len = math.sqrt(1 + dv * dv)
 
         du /= len
         dv /= len
@@ -458,7 +458,7 @@ def uv_to_CCT_robertson1968(uv):
 
         dt = -uu * dv + vv * du
 
-        if dt <= 0. or i == 30:
+        if dt <= 0 or i == 30:
             if dt > 0.0:
                 dt = 0.0
 
@@ -469,13 +469,13 @@ def uv_to_CCT_robertson1968(uv):
             else:
                 f = dt / (last_dt + dt)
 
-            T = 1.0e6 / (wr_ruvt_previous.r * f + wr_ruvt.r * (1. - f))
+            T = 1.0e6 / (wr_ruvt_previous.r * f + wr_ruvt.r * (1 - f))
 
-            uu = u - (wr_ruvt_previous.u * f + wr_ruvt.u * (1. - f))
-            vv = v - (wr_ruvt_previous.v * f + wr_ruvt.v * (1. - f))
+            uu = u - (wr_ruvt_previous.u * f + wr_ruvt.u * (1 - f))
+            vv = v - (wr_ruvt_previous.v * f + wr_ruvt.v * (1 - f))
 
-            du = du * (1. - f) + last_du * f
-            dv = dv * (1. - f) + last_dv * f
+            du = du * (1 - f) + last_du * f
+            dv = dv * (1 - f) + last_dv * f
 
             len = math.sqrt(du * du + dv * dv)
 
@@ -493,7 +493,7 @@ def uv_to_CCT_robertson1968(uv):
     return T, -Duv
 
 
-def CCT_to_uv_robertson1968(CCT, Duv=0.):
+def CCT_to_uv_robertson1968(CCT, Duv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
@@ -537,13 +537,13 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
         if r < wr_ruvt_next.r or i == 29:
             f = (wr_ruvt_next.r - r) / (wr_ruvt_next.r - wr_ruvt.r)
 
-            u = wr_ruvt.u * f + wr_ruvt_next.u * (1. - f)
-            v = wr_ruvt.v * f + wr_ruvt_next.v * (1. - f)
+            u = wr_ruvt.u * f + wr_ruvt_next.u * (1 - f)
+            v = wr_ruvt.v * f + wr_ruvt_next.v * (1 - f)
 
             uu1 = uu2 = 1.0
             vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
-            len1, len2 = math.sqrt(1. + vv1 * vv1), math.sqrt(1. + vv2 * vv2)
+            len1, len2 = math.sqrt(1 + vv1 * vv1), math.sqrt(1 + vv2 * vv2)
 
             uu1 /= len1
             vv1 /= len1
@@ -551,8 +551,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0.):
             uu2 /= len2
             vv2 /= len2
 
-            uu3 = uu1 * f + uu2 * (1. - f)
-            vv3 = vv1 * f + vv2 * (1. - f)
+            uu3 = uu1 * f + uu2 * (1 - f)
+            vv3 = vv1 * f + vv2 * (1 - f)
 
             len3 = math.sqrt(uu3 * uu3 + vv3 * vv3)
 
@@ -622,7 +622,7 @@ CCT_TO_UV_METHODS : dict
 """
 
 
-def CCT_to_uv(CCT, Duv=0., method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
@@ -689,7 +689,7 @@ def xy_to_CCT_mccamy1992(xy):
     x, y = xy
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449. * math.pow(n, 3) + 3525 * math.pow(n, 2) - 6823.3 * n + 5520.33
+    CCT = -449 * math.pow(n, 3) + 3525 * math.pow(n, 2) - 6823.3 * n + 5520.33
 
     return CCT
 

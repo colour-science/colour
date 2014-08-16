@@ -198,7 +198,7 @@ def RGB_identity_cube(name, density=20):
     fn_mesh.setVertexColors(vertex_colour_array, vertex_index_array, None)
 
     cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
-    cmds.xform(cube, a=True, rotatePivot=(0., 0., 0.), scalePivot=(0., 0., 0.))
+    cmds.xform(cube, a=True, rotatePivot=(0, 0, 0), scalePivot=(0, 0, 0))
     return cmds.rename(cube, name)
 
 
@@ -271,7 +271,7 @@ def Lab_coordinates_system_representation():
                                 for x in curves],
                               ch=False)[0]
         cmds.xform(mesh, cp=True)
-        cmds.xform(mesh, translation=(0., 0., 0.), absolute=True)
+        cmds.xform(mesh, translation=(0, 0, 0), absolute=True)
         cmds.makeIdentity(cube, apply=True, t=True, r=True, s=True)
         cmds.select(mesh)
         cmds.polyColorPerVertex(rgb=(0, 0, 0), cdo=True)

@@ -80,7 +80,7 @@ S_LOG_TRANSFER_FUNCTION : object
 """
 
 S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    (math.pow(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584))
+    (math.pow(10, ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584))
 """
 Inverse transfer function from *S-Log* colourspace to linear.
 

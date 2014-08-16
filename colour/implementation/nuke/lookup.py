@@ -53,6 +53,7 @@ Point = namedtuple('Point', ('x', 'y'))
 CurvesInformation = namedtuple('CurvesInformation',
                                ('curve', 'axis', 'values'))
 
+
 class Curve(object):
     """
     Stores curve data with the :class:`Point` class.

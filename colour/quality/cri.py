@@ -87,7 +87,7 @@ def _get_tcs_colorimetry_data(test_spd,
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
 
         if chromatic_adaptation:
-            get_c = lambda x, y: (4. - x - 10. * y) / y
+            get_c = lambda x, y: (4 - x - 10 * y) / y
             get_d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
 
             test_c, test_d = get_c(test_u, test_v), get_d(test_u, test_v)
@@ -101,9 +101,9 @@ def _get_tcs_colorimetry_data(test_spd,
             tcs_v = (5.52 / (16.518 + 1.481 * reference_c / test_c * tcs_c -
                              reference_d / test_d * tcs_d))
 
-        tcs_W = 25. * tcs_xyY[-1] ** (1. / 3.) - 17.
-        tcs_U = 13. * tcs_W * (tcs_u - reference_u)
-        tcs_V = 13. * tcs_W * (tcs_v - reference_v)
+        tcs_W = 25 * tcs_xyY[-1] ** (1 / 3) - 17
+        tcs_U = 13 * tcs_W * (tcs_u - reference_u)
+        tcs_V = 13 * tcs_W * (tcs_v - reference_v)
 
         tcs_data.append(
             TSC_COLORIMETRY_DATA_NXYZUVUVW(tcs_spd.name,
@@ -133,7 +133,7 @@ def _get_colour_rendering_indexes(test_data, reference_data):
 
     colour_rendering_indexes = {}
     for i in range(len(test_data)):
-        colour_rendering_indexes[i + 1] = 100. - 4.6 * np.linalg.norm(
+        colour_rendering_indexes[i + 1] = 100 - 4.6 * np.linalg.norm(
             reference_data[i].UVW - test_data[i].UVW)
     return colour_rendering_indexes
 
@@ -174,7 +174,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, Duv = uv_to_CCT_robertson1968(uv)
 
-    if CCT < 5000.:
+    if CCT < 5000:
         reference_spd = blackbody_spectral_power_distribution(CCT, *cmfs.shape)
     else:
         xy = CCT_to_xy_illuminant_D(CCT)

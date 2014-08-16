@@ -132,7 +132,7 @@ class TestIsIterable(unittest.TestCase):
         self.assertTrue(is_iterable(dict()))
         self.assertTrue(is_iterable(np.array([])))
         self.assertFalse(is_iterable(1))
-        self.assertFalse(is_iterable(2.))
+        self.assertFalse(is_iterable(2))
 
 
 class TestIsNumber(unittest.TestCase):
@@ -147,7 +147,7 @@ class TestIsNumber(unittest.TestCase):
         """
 
         self.assertTrue(is_number(1))
-        self.assertTrue(is_number(1.))
+        self.assertTrue(is_number(1))
         self.assertTrue(is_number(complex(1)))
         self.assertFalse(is_number((1,)))
         self.assertFalse(is_number([1]))

@@ -15,14 +15,14 @@ from colour.plotting import *
 # Plotting a single colour.
 single_colour_plot(colour_parameter('Neutral 5 (.70 D)',
                                     RGB=(0.32315746, 0.32983556, 0.33640183)),
-                   text_size=32.)
+                   text_size=32)
 
 # Plotting multiples colours.
 multi_colour_plot(
     [colour_parameter('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
      colour_parameter('Light Skin', RGB=(0.77875824, 0.5772645, 0.50453169))],
-    spacing=0.,
-    text_size=32.)
+    spacing=0,
+    text_size=32)
 
 # Plotting colour checkers.
 print(sorted(colour.COLOURCHECKERS.keys()))
@@ -46,8 +46,9 @@ multi_illuminants_relative_spd_plot(['A', 'B', 'C'],
                                     normalise_spds_colours=True)
 
 # Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
-multi_spd_plot([value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
-               title='CIE Standard Illuminant D Series - S Distributions')
+multi_spd_plot(
+    [value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
+    title='CIE Standard Illuminant D Series - S Distributions')
 
 # Defining a sample spectral power distribution data.
 sample_spd_data = {
@@ -864,7 +865,7 @@ multi_spd_plot(colour.PHOTOPIC_LEFS.values(),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0., 0., 0., .1])
+               margins=[0, 0, 0, .1])
 
 # Comparing photopic and scotopic luminous efficiency functions.
 multi_spd_plot(
@@ -874,9 +875,9 @@ multi_spd_plot(
     y_label='Luminous Efficiency',
     legend_location='upper right',
     y_tighten=True,
-    margins=[0., 0., 0., .1])
+    margins=[0, 0, 0, .1])
 
-# Plotting a mesopic luminous efficiency function with photopic luminance of 0.2.
+# Plotting a mesopic luminous efficiency function with photopic luminance of 0.2
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
@@ -886,7 +887,7 @@ multi_spd_plot([mesopic_luminous_efficiency_function,
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0., 0., 0., .1])
+               margins=[0, 0, 0, .1])
 
 # Plotting *CIE 1931 Chromaticity Diagram*.
 CIE_1931_chromaticity_diagram_plot()
@@ -902,7 +903,7 @@ colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
     primaries=array([[0.1, 0.2],
                      [0.3, 0.15],
                      [0.05, 0.6]]),
-    whitepoint=(1. / 3., 1. / 3.))
+    whitepoint=(1 / 3, 1 / 3))
 
 print(sorted(colour.RGB_COLOURSPACES.keys()))
 colourspaces_CIE_1931_chromaticity_diagram_plot(['sRGB', 'Awful RGB'])
