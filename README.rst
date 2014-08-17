@@ -219,7 +219,6 @@ Convenience deprecated colourspaces transformations:
 
 -  Colour rendering index calculation.
 -  Colour rendition chart data.
--  RGB colourspaces visualisation within **Autodesk Maya**.
 -  First order colour fit.
 -  Comprehensive plotting capabilities.
 
