@@ -14,6 +14,8 @@ Defines various data structures classes:
 
 from __future__ import division, unicode_literals
 
+from collections import Mapping, MutableMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -22,7 +24,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['Structure',
-           'Lookup']
+           'Lookup',
+           'CaseInsensitiveMapping']
 
 
 class Structure(dict):
@@ -68,6 +71,15 @@ class Structure(dict):
         """
         Returns given attribute value.
 
+        Parameters
+        ----------
+        attribute : unicode
+            Attribute name.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`dict.__getattr__` method.
+
         Returns
         -------
         object
@@ -90,6 +102,10 @@ class Structure(dict):
             Attribute.
         value : object
             Value.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`dict.__setattr__` method.
         """
 
         dict.__setitem__(self, attribute, value)
@@ -105,6 +121,10 @@ class Structure(dict):
         ----------
         attribute : object
             Attribute.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`dict.__delattr__` method.
         """
 
         dict.__delitem__(self, attribute)
@@ -114,7 +134,7 @@ class Structure(dict):
 
     def update(self, *args, **kwargs):
         """
-        Reimplements the :meth:`Dict.update` method.
+        Updates both keys and sibling attributes.
 
         Parameters
         ----------
@@ -122,6 +142,10 @@ class Structure(dict):
             Arguments.
         \*\*kwargs : \*\*
             Keywords arguments.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`dict.update` method.
         """
 
         dict.update(self, *args, **kwargs)
@@ -134,7 +158,7 @@ class Lookup(dict):
 
     References
     ----------
-    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
+    .. [2]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
 
     Examples
     --------
@@ -148,7 +172,7 @@ class Lookup(dict):
 
     def get_first_key_from_value(self, value):
         """
-        Gets the first key from given value.
+        Gets the first key with given value.
 
         Parameters
         ----------
@@ -166,7 +190,7 @@ class Lookup(dict):
 
     def get_keys_from_value(self, value):
         """
-        Gets the keys from given value.
+        Gets the keys with given value.
 
         Parameters
         ----------
@@ -179,3 +203,244 @@ class Lookup(dict):
         """
 
         return [key for key, data in self.items() if data == value]
+
+
+class CaseInsensitiveMapping(MutableMapping):
+    """
+    Implements a case-insensitive mutable mapping / *dict* object.
+
+    Allows values retrieving from keys while ignoring the key case.
+    The keys are expected to be unicode or string-like objects supporting the
+    :meth:`str.lower` method.
+
+    Parameters
+    ----------
+    data : dict
+        *dict* of data to store into the mapping at initialisation.
+    \*\*kwargs : dict
+        Key / Value pairs to store into the mapping at initialisation.
+
+    Warning
+    -------
+    The keys are expected to be unicode or string-like objects.
+
+
+    References
+    ----------
+    .. [3]  https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
+
+    Examples
+    --------
+    >>> methods = CaseInsensitiveMapping({"McCamy": 1, "Hernandez": 2})
+    >>> methods["mccamy"]
+    1
+    """
+
+    def __init__(self, data=None, **kwargs):
+        self.__data = dict()
+
+        if data is None:
+            data = {}
+
+        self.update(data, **kwargs)
+
+    def __setitem__(self, item, value):
+        """
+        Sets given item with given value.
+
+        The item is stored as lower in the mapping while the original name and
+        its value are stored together as the value in a *tuple*:
+
+        {"item.lower()": ("item", value)}
+
+        Parameters
+        ----------
+        item : object
+            Attribute.
+        value : object
+            Value.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
+        """
+
+        self.__data[item.lower()] = (item, value)
+
+    def __getitem__(self, item):
+        """
+        Returns the value of given item.
+
+        The item value is retrieved using its lower name in the mapping.
+
+        Parameters
+        ----------
+        item : unicode
+            Item name.
+
+        Returns
+        -------
+        object
+            Item value
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__getitem__` method.
+        """
+
+        return self.__data[item.lower()][1]
+
+    def __delitem__(self, item):
+        """
+        Deletes the item with given name.
+
+        The item is deleted from the mapping using its lower name.
+
+        Parameters
+        ----------
+        item : unicode
+            Item name.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__delitem__` method.
+        """
+
+        del self.__data[item.lower()]
+
+    def __contains__(self, item):
+        """
+        Returns if the mapping contains given item.
+
+        Parameters
+        ----------
+        item : unicode
+            Item name.
+
+        Returns
+        -------
+        bool
+            Is item in mapping.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__contains__` method.
+        """
+
+        return item.lower() in self.__data
+
+    def __iter__(self):
+        """
+        Iterates over the items names in the mapping.
+
+        The item names returned are the original input ones.
+
+        Returns
+        -------
+        generator
+            Item names.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__iter__` method.
+        """
+
+        return (item for item, value in self.__data.values())
+
+    def __len__(self):
+        """
+        Returns the items count.
+
+        Returns
+        -------
+        int
+            Items count.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__iter__` method.
+        """
+
+        return len(self.__data)
+
+    def __eq__(self, object):
+        """
+        Returns the equality with given object.
+
+        Returns
+        -------
+        bool
+            Equality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__eq__` method.
+        """
+
+        if isinstance(object, Mapping):
+            object = CaseInsensitiveMapping(object)
+        else:
+            return NotImplemented
+        return dict(self.lower_items()) == dict(object.lower_items())
+
+    def __ne__(self, object):
+        """
+        Returns the inequality with given object.
+
+        Returns
+        -------
+        bool
+            Inequality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__ne__` method.
+        """
+
+        return not (self == object)
+
+    def __repr__(self):
+        """
+        Returns the mapping representation with the original item names.
+
+        Returns
+        -------
+        unicode
+            Mapping representation.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__repr__` method.
+        """
+
+        return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
+
+
+    def copy(self):
+        """
+        Returns a copy of the mapping.
+
+        Returns
+        -------
+        CaseInsensitiveMapping
+            Mapping copy.
+
+        Notes
+        -----
+        -   The :class:`CaseInsensitiveMapping` class copy returned is a simple
+            *copy* not a *deepcopy*.
+        """
+
+        return CaseInsensitiveMapping(self.__data.values())
+
+    def lower_items(self):
+        """
+        Iterates over the lower items names.
+
+        Returns
+        -------
+        generator
+            Lower item names.
+        """
+
+        return ((item, value[1]) for (item, value) in self.__data.items())
