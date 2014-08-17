@@ -34,6 +34,7 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -2953,8 +2954,9 @@ Average data derived from measurements of 30 *ColourChecker* charts.
 BABELCOLOR_AVERAGE_SPDS : dict
 """
 
-COLOURCHECKERS_SPDS = {'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
-                       'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS}
+COLOURCHECKERS_SPDS = CaseInsensitiveMapping(
+    {'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
+     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS})
 """
 Aggregated *ColourCheckers* spectral power distributions.
 

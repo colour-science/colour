@@ -52,6 +52,7 @@ from __future__ import division, unicode_literals
 from colour.colorimetry.cmfs import LMS_ConeFundamentals
 from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions
 from colour.colorimetry.cmfs import XYZ_ColourMatchingFunctions
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -69,7 +70,7 @@ __all__ = ['LMS_CMFS_DATA',
            'CMFS']
 
 
-# *S-cone* spectral sensitivity data wasn"t measurable after 615 nm and has
+# *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
 # been set to zero.
 LMS_CMFS_DATA = {
     'Stockman & Sharpe 2 Degree Cone Fundamentals': {
@@ -2727,13 +2728,13 @@ LMS_CMFS_DATA = {
             829: 0.,
             830: 0.}}}
 
-LMS_CMFS = {
-    'Stockman & Sharpe 2 Degree Cone Fundamentals': LMS_ConeFundamentals(
+LMS_CMFS = CaseInsensitiveMapping(
+    {'Stockman & Sharpe 2 Degree Cone Fundamentals': LMS_ConeFundamentals(
         'Stockman & Sharpe 2 Degree Cone Fundamentals', LMS_CMFS_DATA.get(
             'Stockman & Sharpe 2 Degree Cone Fundamentals')),
-    'Stockman & Sharpe 10 Degree Cone Fundamentals': LMS_ConeFundamentals(
-        'Stockman & Sharpe 10 Degree Cone Fundamentals', LMS_CMFS_DATA.get(
-            'Stockman & Sharpe 10 Degree Cone Fundamentals'))}
+     'Stockman & Sharpe 10 Degree Cone Fundamentals': LMS_ConeFundamentals(
+         'Stockman & Sharpe 10 Degree Cone Fundamentals', LMS_CMFS_DATA.get(
+             'Stockman & Sharpe 10 Degree Cone Fundamentals'))})
 """
 *LMS* colour matching functions.
 
@@ -3475,16 +3476,16 @@ RGB_CMFS_DATA = {
             825: 8.6400e-11,
             830: 4.4200e-11}}}
 
-RGB_CMFS = {
-    'Wright & Guild 1931 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+RGB_CMFS = CaseInsensitiveMapping(
+    {'Wright & Guild 1931 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
         'Wright & Guild 1931 2 Degree RGB CMFs',
         RGB_CMFS_DATA.get('Wright & Guild 1931 2 Degree RGB CMFs')),
-    'Stiles & Burch 1955 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
-        'Stiles & Burch 1955 2 Degree RGB CMFs',
-        RGB_CMFS_DATA.get('Stiles & Burch 1955 2 Degree RGB CMFs')),
-    'Stiles & Burch 1959 10 Degree RGB CMFs': RGB_ColourMatchingFunctions(
-        'Stiles & Burch 1959 10 Degree RGB CMFs',
-        RGB_CMFS_DATA.get('Stiles & Burch 1959 10 Degree RGB CMFs'))}
+     'Stiles & Burch 1955 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+         'Stiles & Burch 1955 2 Degree RGB CMFs',
+         RGB_CMFS_DATA.get('Stiles & Burch 1955 2 Degree RGB CMFs')),
+     'Stiles & Burch 1959 10 Degree RGB CMFs': RGB_ColourMatchingFunctions(
+         'Stiles & Burch 1959 10 Degree RGB CMFs',
+         RGB_CMFS_DATA.get('Stiles & Burch 1959 10 Degree RGB CMFs'))})
 """
 *CIE RGB* colour matching functions.
 
@@ -8992,23 +8993,24 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             829: 0.000000e+00,
             830: 0.000000e+00, }}}
 
-STANDARD_OBSERVERS_CMFS = {
-    'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-        'CIE 1931 2 Degree Standard Observer',
-        STANDARD_OBSERVERS_CMFS_DATA.get(
-            'CIE 1931 2 Degree Standard Observer')),
-    'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-        'CIE 1964 10 Degree Standard Observer',
-        STANDARD_OBSERVERS_CMFS_DATA.get(
-            'CIE 1964 10 Degree Standard Observer')),
-    'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-        'CIE 2012 2 Degree Standard Observer',
-        STANDARD_OBSERVERS_CMFS_DATA.get(
-            'CIE 2012 2 Degree Standard Observer')),
-    'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-        'CIE 2012 10 Degree Standard Observer',
-        STANDARD_OBSERVERS_CMFS_DATA.get(
-            'CIE 2012 10 Degree Standard Observer'))}
+STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping(
+    {
+        'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+            'CIE 1931 2 Degree Standard Observer',
+            STANDARD_OBSERVERS_CMFS_DATA.get(
+                'CIE 1931 2 Degree Standard Observer')),
+        'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+            'CIE 1964 10 Degree Standard Observer',
+            STANDARD_OBSERVERS_CMFS_DATA.get(
+                'CIE 1964 10 Degree Standard Observer')),
+        'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+            'CIE 2012 2 Degree Standard Observer',
+            STANDARD_OBSERVERS_CMFS_DATA.get(
+                'CIE 2012 2 Degree Standard Observer')),
+        'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+            'CIE 2012 10 Degree Standard Observer',
+            STANDARD_OBSERVERS_CMFS_DATA.get(
+                'CIE 2012 10 Degree Standard Observer'))})
 """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
@@ -9019,7 +9021,7 @@ STANDARD_OBSERVERS_CMFS : dict
     'CIE 2012 10 Degree Standard Observer')
 """
 
-CMFS = dict(LMS_CMFS)
+CMFS = CaseInsensitiveMapping(LMS_CMFS)
 """
 Aggregated colour matching functions.
 

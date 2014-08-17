@@ -181,6 +181,9 @@ class Extrapolator1d(object):
             assert type(value) in (str, unicode), \
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
                     'method', value)
+
+            value = value.lower()
+
         self.__method = value
 
     @property
@@ -286,12 +289,12 @@ class Extrapolator1d(object):
 
         y = np.empty_like(x)
 
-        if self.__method == 'Linear':
+        if self.__method == 'linear':
             y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
                             (yi[1] - yi[0]) / (xi[1] - xi[0]))
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self.__method == 'Constant':
+        elif self.__method == 'constant':
             y[x < xi[0]] = xi[0]
             y[x > xi[-1]] = xi[-1]
 

@@ -39,7 +39,7 @@ from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,
                                     HPE_MATRIX_INVERSE,
                                     get_luminance_level_adaptation_factor)
-from colour.utilities import memoize
+from colour.utilities import CaseInsensitiveMapping, memoize
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -84,10 +84,10 @@ __all__ = ['CIECAM02_InductionFactors',
 CIECAM02_InductionFactors = namedtuple('CIECAM02_InductionFactors',
                                        ('F', 'c', 'N_c'))
 
-CIECAM02_VIEWING_CONDITIONS = {
-    'Average': CIECAM02_InductionFactors(1, 0.69, 1),
-    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
-    'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)}
+CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
+    {'Average': CIECAM02_InductionFactors(1, 0.69, 1),
+     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
+     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)})
 """
 Reference *CIECAM02* colour appearance model viewing conditions.
 

@@ -28,6 +28,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.utilities import Structure
 from colour.models import RGB_Colourspace
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -258,8 +259,9 @@ ACES_RGB_PROXY_12_CONSTANTS = Structure(
 ACES_RGB_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_RGB_PROXY_CONSTANTS = {'10 Bit': ACES_RGB_PROXY_10_CONSTANTS,
-                            '12 Bit': ACES_RGB_PROXY_12_CONSTANTS}
+ACES_RGB_PROXY_CONSTANTS = CaseInsensitiveMapping(
+    {'10 Bit': ACES_RGB_PROXY_10_CONSTANTS,
+     '12 Bit': ACES_RGB_PROXY_12_CONSTANTS})
 """
 Aggregated *ACES RGB Proxy* colourspace constants.
 

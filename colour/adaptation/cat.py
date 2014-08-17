@@ -26,6 +26,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import CaseInsensitiveMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -96,12 +98,12 @@ Inverse *CAT02* chromatic adaptation transform. [3]_
 CAT02_INVERSE_CAT : array_like, (3, 3)
 """
 
-CHROMATIC_ADAPTATION_METHODS = {
-    'XYZ Scaling': XYZ_SCALING_CAT,
-    'Bradford': BRADFORD_CAT,
-    'Von Kries': VON_KRIES_CAT,
-    'Fairchild': FAIRCHILD_CAT,
-    'CAT02': CAT02_CAT}
+CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping(
+    {'XYZ Scaling': XYZ_SCALING_CAT,
+     'Bradford': BRADFORD_CAT,
+     'Von Kries': VON_KRIES_CAT,
+     'Fairchild': FAIRCHILD_CAT,
+     'CAT02': CAT02_CAT})
 """
 Supported chromatic adaptation transform methods.
 

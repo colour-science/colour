@@ -25,6 +25,8 @@ References
 
 from __future__ import division, unicode_literals
 
+from colour.utilities import CaseInsensitiveMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -743,7 +745,7 @@ References
         pages 778, 779.
 """
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = {
-    'A': A_OPTIMAL_COLOUR_STIMULI,
-    'C': C_OPTIMAL_COLOUR_STIMULI,
-    'D65': D65_OPTIMAL_COLOUR_STIMULI}
+ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping(
+    {'A': A_OPTIMAL_COLOUR_STIMULI,
+     'C': C_OPTIMAL_COLOUR_STIMULI,
+     'D65': D65_OPTIMAL_COLOUR_STIMULI})

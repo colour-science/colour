@@ -22,6 +22,7 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -202,10 +203,13 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         820: 6.1,
         830: 6.5}}
 
-D_ILLUMINANTS_S_SPDS = {
-    'S0': SpectralPowerDistribution('S0', D_ILLUMINANTS_S_SPDS_DATA.get('S0')),
-    'S1': SpectralPowerDistribution('S1', D_ILLUMINANTS_S_SPDS_DATA.get('S1')),
-    'S2': SpectralPowerDistribution('S2', D_ILLUMINANTS_S_SPDS_DATA.get('S2'))}
+D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping(
+    {'S0': SpectralPowerDistribution('S0',
+                                     D_ILLUMINANTS_S_SPDS_DATA.get('S0')),
+     'S1': SpectralPowerDistribution('S1',
+                                     D_ILLUMINANTS_S_SPDS_DATA.get('S1')),
+     'S2': SpectralPowerDistribution('S2',
+                                     D_ILLUMINANTS_S_SPDS_DATA.get('S2'))})
 """
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
 distributions

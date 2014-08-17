@@ -15,6 +15,8 @@ The following correction methods are available:
 
 from __future__ import division, unicode_literals
 
+from colour.utilities import CaseInsensitiveMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -73,8 +75,8 @@ def bandpass_correction_stearns1988(spd):
     return spd
 
 
-BANDPASS_CORRECTION_METHODS = {
-    'Stearns 1988': bandpass_correction_stearns1988}
+BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
+    {'Stearns 1988': bandpass_correction_stearns1988})
 """
 Supported spectral bandpass dependence correction methods.
 

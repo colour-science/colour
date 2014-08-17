@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import warning
+from colour.utilities import CaseInsensitiveMapping, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -65,13 +65,17 @@ __all__ = ['Hunt_InductionFactors',
 
 Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
 
-HUNT_VIEWING_CONDITIONS = {
-    'Small Areas, Uniform Background & Surrounds': \
-        Hunt_InductionFactors(1, 300),
-    'Normal Scenes': Hunt_InductionFactors(1, 75),
-    'Television & CRT, Dim Surrounds': Hunt_InductionFactors(1, 25),
-    'Large Transparencies On Light Boxes': Hunt_InductionFactors(0.7, 25),
-    'Projected Transparencies, Dark Surrounds': Hunt_InductionFactors(0.7, 10)}
+HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
+    {'Small Areas, Uniform Background & Surrounds': \
+         Hunt_InductionFactors(1, 300),
+     'Normal Scenes': \
+         Hunt_InductionFactors(1, 75),
+     'Television & CRT, Dim Surrounds': \
+         Hunt_InductionFactors(1, 25),
+     'Large Transparencies On Light Boxes': \
+         Hunt_InductionFactors(0.7, 25),
+     'Projected Transparencies, Dark Surrounds': \
+         Hunt_InductionFactors(0.7, 10)})
 """
 Reference *Hunt* colour appearance model viewing conditions.
 

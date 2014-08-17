@@ -20,7 +20,7 @@ The following methods are available:
 from __future__ import division, unicode_literals
 
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import warning
+from colour.utilities import CaseInsensitiveMapping, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -153,9 +153,10 @@ def lightness_1976(Y, Yn=100):
     return L
 
 
-LIGHTNESS_FUNCTIONS = {'Lightness Glasser 1958': lightness_glasser1958,
-                       'Lightness Wyszecki 1964': lightness_wyszecki1964,
-                       'Lightness 1976': lightness_1976}
+LIGHTNESS_FUNCTIONS = CaseInsensitiveMapping(
+    {'Lightness Glasser 1958': lightness_glasser1958,
+     'Lightness Wyszecki 1964': lightness_wyszecki1964,
+     'Lightness 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.
 

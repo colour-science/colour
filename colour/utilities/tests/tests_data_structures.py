@@ -240,7 +240,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
         self.assertListEqual(sorted([item for item in mapping.lower_items()]),
-                             ['jane', 'john'])
+                             [('jane', 'Doe'), ('john', 'Doe')])
 
 
 if __name__ == '__main__':

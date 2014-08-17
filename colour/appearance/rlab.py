@@ -32,6 +32,7 @@ from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_to_rgb
 from colour.appearance.hunt import HPE_MATRIX
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -50,10 +51,10 @@ R_MATRIX = np.array(
      [0.3612, 0.6388, 0.0000],
      [0.0000, 0.0000, 1.0000]])
 
-RLAB_VIEWING_CONDITIONS = {
-    'Average': 1 / 2.3,
-    'Dim': 1 / 2.9,
-    'Dark': 1 / 3.5}
+RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
+    {'Average': 1 / 2.3,
+     'Dim': 1 / 2.9,
+     'Dark': 1 / 3.5})
 """
 Reference *RLAB* colour appearance model viewing conditions.
 

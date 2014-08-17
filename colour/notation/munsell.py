@@ -56,7 +56,7 @@ from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS
-from colour.utilities import Lookup
+from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -1958,14 +1958,14 @@ def munsell_value_ASTM_D1535_08(Y):
     return V
 
 
-MUNSELL_VALUE_FUNCTIONS = {
-    'Munsell Value Priest 1920': munsell_value_priest1920,
-    'Munsell Value Munsell 1933': munsell_value_munsell1933,
-    'Munsell Value Moon 1943': munsell_value_moon1943,
-    'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
-    'Munsell Value Ladd 1955': munsell_value_ladd1955,
-    'Munsell Value McCamy 1987': munsell_value_mccamy1987,
-    'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08}
+MUNSELL_VALUE_FUNCTIONS = CaseInsensitiveMapping(
+    {'Munsell Value Priest 1920': munsell_value_priest1920,
+     'Munsell Value Munsell 1933': munsell_value_munsell1933,
+     'Munsell Value Moon 1943': munsell_value_moon1943,
+     'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
+     'Munsell Value Ladd 1955': munsell_value_ladd1955,
+     'Munsell Value McCamy 1987': munsell_value_mccamy1987,
+     'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08})
 """
 Supported *Munsell* value computations methods.
 

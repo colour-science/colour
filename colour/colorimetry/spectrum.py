@@ -22,6 +22,7 @@ from colour.algebra import is_iterable, is_uniform, get_steps, to_ndarray
 from colour.algebra import (LinearInterpolator1d,
                             SplineInterpolator,
                             SpragueInterpolator)
+from colour.utilities import is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -983,12 +984,15 @@ class SpectralPowerDistribution(object):
         shape_start = math.ceil(shape_start)
         shape_end = math.floor(shape_end)
 
+        if is_string(method):
+            method = method.lower()
+
         if method is None:
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
                 interpolator = SplineInterpolator(wavelengths, values)
-        elif method == 'Sprague':
+        elif method == 'sprague':
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
@@ -996,9 +1000,9 @@ class SpectralPowerDistribution(object):
                     ('"Sprague" interpolator can only be used for '
                      'interpolating functions having a uniformly spaced '
                      'independent variable!'))
-        elif method == 'Cubic Spline':
+        elif method == 'cubic spline':
             interpolator = SplineInterpolator(wavelengths, values)
-        elif method == 'Linear':
+        elif method == 'linear':
             interpolator = LinearInterpolator1d(wavelengths, values)
         else:
             raise ValueError(

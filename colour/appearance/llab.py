@@ -34,6 +34,8 @@ import math
 import numpy as np
 from collections import namedtuple
 
+from colour.utilities import CaseInsensitiveMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
@@ -60,17 +62,17 @@ __all__ = ['LLAB_InductionFactors',
 LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
                                    ('D', 'F_S', 'F_L', 'F_C'))
 
-LLAB_VIEWING_CONDITIONS = {
-    'Reference Samples & Images, Average Surround, Subtending > 4': \
-        LLAB_InductionFactors(1, 3, 0, 1),
-    'Reference Samples & Images, Average Surround, Subtending < 4': \
-        LLAB_InductionFactors(1, 3, 1, 1),
-    'Television & VDU Displays, Dim Surround': \
-        LLAB_InductionFactors(0.7, 3.5, 1, 1),
-    'Cut Sheet Transparency, Dim Surround': \
-        LLAB_InductionFactors(1, 5, 1, 1.1),
-    '35mm Projection Transparency, Dark Surround': \
-        LLAB_InductionFactors(0.7, 4, 1, 1)}
+LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
+    {'Reference Samples & Images, Average Surround, Subtending > 4': \
+         LLAB_InductionFactors(1, 3, 0, 1),
+     'Reference Samples & Images, Average Surround, Subtending < 4': \
+         LLAB_InductionFactors(1, 3, 1, 1),
+     'Television & VDU Displays, Dim Surround': \
+         LLAB_InductionFactors(0.7, 3.5, 1, 1),
+     'Cut Sheet Transparency, Dim Surround': \
+         LLAB_InductionFactors(1, 5, 1, 1.1),
+     '35mm Projection Transparency, Dark Surround': \
+         LLAB_InductionFactors(0.7, 4, 1, 1)})
 """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 

@@ -21,6 +21,7 @@ The following methods are available:
 from __future__ import division, unicode_literals
 
 from colour.constants import CIE_E, CIE_K
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -149,9 +150,10 @@ def luminance_ASTM_D1535_08(V):
     return Y
 
 
-LUMINANCE_FUNCTIONS = {'Luminance Newhall 1943': luminance_newhall1943,
-                       'Luminance 1976': luminance_1976,
-                       'Luminance ASTM D1535-08': luminance_ASTM_D1535_08}
+LUMINANCE_FUNCTIONS = CaseInsensitiveMapping(
+    {'Luminance Newhall 1943': luminance_newhall1943,
+     'Luminance 1976': luminance_1976,
+     'Luminance ASTM D1535-08': luminance_ASTM_D1535_08})
 """
 Supported *luminance* computations methods.
 

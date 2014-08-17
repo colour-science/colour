@@ -48,7 +48,7 @@ from colour.colorimetry import (
     blackbody_spectral_power_distribution,
     spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import warning
+from colour.utilities import CaseInsensitiveMapping, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -565,8 +565,9 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             return u, v
 
 
-UV_TO_CCT_METHODS = {'Ohno 2013': uv_to_CCT_ohno2013,
-                     'Robertson 1968': uv_to_CCT_robertson1968}
+UV_TO_CCT_METHODS = CaseInsensitiveMapping(
+    {'Ohno 2013': uv_to_CCT_ohno2013,
+     'Robertson 1968': uv_to_CCT_robertson1968})
 """
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
@@ -611,8 +612,9 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
         return UV_TO_CCT_METHODS.get(method)(uv)
 
 
-CCT_TO_UV_METHODS = {'Ohno 2013': CCT_to_uv_ohno2013,
-                     'Robertson 1968': CCT_to_uv_robertson1968}
+CCT_TO_UV_METHODS = CaseInsensitiveMapping(
+    {'Ohno 2013': CCT_to_uv_ohno2013,
+     'Robertson 1968': CCT_to_uv_robertson1968})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
@@ -846,8 +848,9 @@ def CCT_to_xy_illuminant_D(CCT):
     return x, y
 
 
-XY_TO_CCT_METHODS = {'McCamy 1992': xy_to_CCT_mccamy1992,
-                     'Hernandez 1999': xy_to_CCT_hernandez1999}
+XY_TO_CCT_METHODS = CaseInsensitiveMapping(
+    {'McCamy 1992': xy_to_CCT_mccamy1992,
+     'Hernandez 1999': xy_to_CCT_hernandez1999})
 """
 Supported *CIE XYZ* colourspace *xy* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
@@ -878,8 +881,9 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     return XY_TO_CCT_METHODS.get(method)(xy)
 
 
-CCT_TO_XY_METHODS = {'Kang 2002': CCT_to_xy_kang2002,
-                     'CIE Illuminant D Series': CCT_to_xy_illuminant_D}
+CCT_TO_XY_METHODS = CaseInsensitiveMapping(
+    {'Kang 2002': CCT_to_xy_kang2002,
+     'CIE Illuminant D Series': CCT_to_xy_illuminant_D})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* colourspace
 *xy* chromaticity coordinates computation methods.
