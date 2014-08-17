@@ -8,7 +8,7 @@ Development & Technical Support
 
     Project coordination, overall development.
 
--   **Michael Mauderer**, *Computer Science Researcher*
+-   **Michael Mauderer**, *HCI Researcher @ University of St Andrews*
     
     Colour appearance models, overall development.
 
