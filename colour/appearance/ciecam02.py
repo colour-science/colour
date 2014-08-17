@@ -95,6 +95,8 @@ CIECAM02_VIEWING_CONDITIONS : dict
 ('Average', 'Dim', 'Dark')
 """
 
+_CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE = {}
+
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_i': np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
     'e_i': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
@@ -122,8 +124,6 @@ s : float
 H : float
     Hue :math:`h` quadrature :math:`H`.
 """
-
-_CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE = {}
 
 
 def XYZ_to_CIECAM02(XYZ,
