@@ -8994,23 +8994,22 @@ STANDARD_OBSERVERS_CMFS_DATA = {
             830: 0.000000e+00, }}}
 
 STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping(
-    {
-        'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-            'CIE 1931 2 Degree Standard Observer',
-            STANDARD_OBSERVERS_CMFS_DATA.get(
-                'CIE 1931 2 Degree Standard Observer')),
-        'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-            'CIE 1964 10 Degree Standard Observer',
-            STANDARD_OBSERVERS_CMFS_DATA.get(
-                'CIE 1964 10 Degree Standard Observer')),
-        'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-            'CIE 2012 2 Degree Standard Observer',
-            STANDARD_OBSERVERS_CMFS_DATA.get(
-                'CIE 2012 2 Degree Standard Observer')),
-        'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
-            'CIE 2012 10 Degree Standard Observer',
-            STANDARD_OBSERVERS_CMFS_DATA.get(
-                'CIE 2012 10 Degree Standard Observer'))})
+    {'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+        'CIE 1931 2 Degree Standard Observer',
+        STANDARD_OBSERVERS_CMFS_DATA.get(
+            'CIE 1931 2 Degree Standard Observer')),
+     'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+         'CIE 1964 10 Degree Standard Observer',
+         STANDARD_OBSERVERS_CMFS_DATA.get(
+             'CIE 1964 10 Degree Standard Observer')),
+     'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+         'CIE 2012 2 Degree Standard Observer',
+         STANDARD_OBSERVERS_CMFS_DATA.get(
+             'CIE 2012 2 Degree Standard Observer')),
+     'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
+         'CIE 2012 10 Degree Standard Observer',
+         STANDARD_OBSERVERS_CMFS_DATA.get(
+             'CIE 2012 10 Degree Standard Observer'))})
 """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
