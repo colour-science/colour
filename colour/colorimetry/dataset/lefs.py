@@ -2377,7 +2377,16 @@ PHOTOPIC_LEFS : dict
     'CIE 1964 Photopic 10 Degree Standard Observer',
     'CIE 2008 2 Degree Physiologically Relevant LEF',
     'CIE 2008 10 Degree Physiologically Relevant LEF')
+
+Aliases:
+
+-   'cie_2_1924': 'CIE 1931 2 Degree Standard Observer'
+-   'cie_10_1964': 'CIE 1964 Photopic 10 Degree Standard Observer'
 """
+PHOTOPIC_LEFS['cie_2_1924'] = (
+    PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'])
+PHOTOPIC_LEFS['cie_10_1964'] = (
+    PHOTOPIC_LEFS['CIE 1964 Photopic 10 Degree Standard Observer'])
 
 SCOTOPIC_LEFS_DATA = {
     'CIE 1951 Scotopic Standard Observer': {
@@ -2792,7 +2801,13 @@ Scotopic luminous efficiency functions.
 
 SCOTOPIC_LEFS : dict
     ('CIE 1951 Scotopic Standard Observer',)
+
+Aliases:
+
+-   'cie_1951': 'CIE 1951 Scotopic Standard Observer'
 """
+SCOTOPIC_LEFS['cie_1951'] = (
+    SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer'])
 
 LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
 """

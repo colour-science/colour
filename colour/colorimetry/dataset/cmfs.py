@@ -9018,7 +9018,16 @@ STANDARD_OBSERVERS_CMFS : dict
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
     'CIE 2012 10 Degree Standard Observer')
+
+Aliases:
+
+-   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
+-   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
+STANDARD_OBSERVERS_CMFS['cie_2_1931'] = (
+    STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'])
+STANDARD_OBSERVERS_CMFS['cie_10_1964'] = (
+    STANDARD_OBSERVERS_CMFS['CIE 1964 10 Degree Standard Observer'])
 
 CMFS = CaseInsensitiveMapping(LMS_CMFS)
 """

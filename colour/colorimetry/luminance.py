@@ -159,7 +159,16 @@ Supported *luminance* computations methods.
 
 LUMINANCE_FUNCTIONS : dict
     ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
+
+Aliases:
+
+-   'Lstar1976': 'Luminance 1976'
+-   'astm2008': 'Luminance ASTM D1535-08'
 """
+LUMINANCE_FUNCTIONS['Lstar1976'] = (
+    LUMINANCE_FUNCTIONS['Luminance 1976'])
+LUMINANCE_FUNCTIONS['astm2008'] = (
+    LUMINANCE_FUNCTIONS['Luminance ASTM D1535-08'])
 
 
 def get_luminance(LV, Yn=100, method='Luminance 1976'):

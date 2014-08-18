@@ -63,16 +63,16 @@ LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
                                    ('D', 'F_S', 'F_L', 'F_C'))
 
 LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Reference Samples & Images, Average Surround, Subtending > 4': \
-         LLAB_InductionFactors(1, 3, 0, 1),
-     'Reference Samples & Images, Average Surround, Subtending < 4': \
-         LLAB_InductionFactors(1, 3, 1, 1),
-     'Television & VDU Displays, Dim Surround': \
-         LLAB_InductionFactors(0.7, 3.5, 1, 1),
-     'Cut Sheet Transparency, Dim Surround': \
-         LLAB_InductionFactors(1, 5, 1, 1.1),
-     '35mm Projection Transparency, Dark Surround': \
-         LLAB_InductionFactors(0.7, 4, 1, 1)})
+    {'Reference Samples & Images, Average Surround, Subtending > 4': (
+        LLAB_InductionFactors(1, 3, 0, 1)),
+     'Reference Samples & Images, Average Surround, Subtending < 4': (
+         LLAB_InductionFactors(1, 3, 1, 1)),
+     'Television & VDU Displays, Dim Surround': (
+         LLAB_InductionFactors(0.7, 3.5, 1, 1)),
+     'Cut Sheet Transparency, Dim Surround': (
+         LLAB_InductionFactors(1, 5, 1, 1.1)),
+     '35mm Projection Transparency, Dark Surround': (
+         LLAB_InductionFactors(0.7, 4, 1, 1))})
 """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
@@ -82,7 +82,32 @@ LLAB_VIEWING_CONDITIONS : dict
 'Television & VDU Displays, Dim Surround',
 'Cut Sheet Transparency, Dim Surround':,
 '35mm Projection Transparency, Dark Surround')
+
+Aliases:
+
+-   'ref_average_4_plus':
+    'Reference Samples & Images, Average Surround, Subtending > 4'
+-   'ref_average_4_minus':
+    'Reference Samples & Images, Average Surround, Subtending < 4'
+-   'tv_dim': 'Television & VDU Displays, Dim Surround'
+-   'sheet_dim': 'Cut Sheet Transparency, Dim Surround'
+-   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
+LLAB_VIEWING_CONDITIONS['ref_average_4_plus'] = (
+    LLAB_VIEWING_CONDITIONS[
+        'Reference Samples & Images, Average Surround, Subtending > 4'])
+LLAB_VIEWING_CONDITIONS['ref_average_4_minus'] = (
+    LLAB_VIEWING_CONDITIONS[
+        'Reference Samples & Images, Average Surround, Subtending < 4'])
+LLAB_VIEWING_CONDITIONS['tv_dim'] = (
+    LLAB_VIEWING_CONDITIONS[
+        'Television & VDU Displays, Dim Surround'])
+LLAB_VIEWING_CONDITIONS['sheet_dim'] = (
+    LLAB_VIEWING_CONDITIONS[
+        'Cut Sheet Transparency, Dim Surround'])
+LLAB_VIEWING_CONDITIONS['projected_dark'] = (
+    LLAB_VIEWING_CONDITIONS[
+        '35mm Projection Transparency, Dark Surround'])
 
 LLAB_XYZ_TO_RGB_MATRIX = np.array(
     [[0.8951, 0.2664, -0.1614],

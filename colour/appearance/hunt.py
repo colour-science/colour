@@ -66,16 +66,16 @@ __all__ = ['Hunt_InductionFactors',
 Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
 
 HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Small Areas, Uniform Background & Surrounds': \
-         Hunt_InductionFactors(1, 300),
-     'Normal Scenes': \
-         Hunt_InductionFactors(1, 75),
-     'Television & CRT, Dim Surrounds': \
-         Hunt_InductionFactors(1, 25),
-     'Large Transparencies On Light Boxes': \
-         Hunt_InductionFactors(0.7, 25),
-     'Projected Transparencies, Dark Surrounds': \
-         Hunt_InductionFactors(0.7, 10)})
+    {'Small Areas, Uniform Background & Surrounds': (
+        Hunt_InductionFactors(1, 300)),
+     'Normal Scenes': (
+         Hunt_InductionFactors(1, 75)),
+     'Television & CRT, Dim Surrounds': (
+         Hunt_InductionFactors(1, 25)),
+     'Large Transparencies On Light Boxes': (
+         Hunt_InductionFactors(0.7, 25)),
+     'Projected Transparencies, Dark Surrounds': (
+         Hunt_InductionFactors(0.7, 10))})
 """
 Reference *Hunt* colour appearance model viewing conditions.
 
@@ -85,7 +85,26 @@ HUNT_VIEWING_CONDITIONS : dict
 'Television & CRT, Dim Surrounds',
 'Large Transparencies On Light Boxes',
 'Projected Transparencies, Dark Surrounds')
+
+Aliases:
+
+-   'small_uniform': 'Small Areas, Uniform Background & Surrounds'
+-   'normal': 'Normal Scenes'
+-   'tv_dim': 'Television & CRT, Dim Surrounds'
+-   'light_boxes': 'Large Transparencies On Light Boxes'
+-   'projected_dark': 'Projected Transparencies, Dark Surrounds'
+
 """
+HUNT_VIEWING_CONDITIONS['small_uniform'] = (
+    HUNT_VIEWING_CONDITIONS['Small Areas, Uniform Background & Surrounds'])
+HUNT_VIEWING_CONDITIONS['normal'] = (
+    HUNT_VIEWING_CONDITIONS['Normal Scenes'])
+HUNT_VIEWING_CONDITIONS['tv_dim'] = (
+    HUNT_VIEWING_CONDITIONS['Television & CRT, Dim Surrounds'])
+HUNT_VIEWING_CONDITIONS['light_boxes'] = (
+    HUNT_VIEWING_CONDITIONS['Large Transparencies On Light Boxes'])
+HUNT_VIEWING_CONDITIONS['projected_dark'] = (
+    HUNT_VIEWING_CONDITIONS['Projected Transparencies, Dark Surrounds'])
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_s': np.array([20.14, 90.00, 164.25, 237.53]),

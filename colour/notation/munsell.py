@@ -1974,7 +1974,13 @@ MUNSELL_VALUE_FUNCTIONS : dict
     'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
     'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
     'Munsell Value ASTM D1535-08')
+
+Aliases:
+
+-   'astm2008': 'Munsell Value ASTM D1535-08'
 """
+MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
+    MUNSELL_VALUE_FUNCTIONS['Munsell Value ASTM D1535-08'])
 
 
 def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):

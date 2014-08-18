@@ -574,7 +574,14 @@ colour temperature :math:`T_{cp}` computation methods.
 
 UV_TO_CCT_METHODS : dict
     ('Ohno 2013', 'Robertson 1968')
+
+Aliases:
+
+-   'ohno2013': 'Ohno 2013'
+-   'robertson1968': 'Robertson 1968'
 """
+UV_TO_CCT_METHODS['ohno2013'] = UV_TO_CCT_METHODS['Ohno 2013']
+UV_TO_CCT_METHODS['robertson1968'] = UV_TO_CCT_METHODS['Robertson 1968']
 
 
 def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
@@ -621,7 +628,14 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 CCT_TO_UV_METHODS : dict
     ('Ohno 2013', 'Robertson 1968')
+
+Aliases:
+
+-   'ohno2013': 'Ohno 2013'
+-   'robertson1968': 'Robertson 1968'
 """
+CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
+CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
 def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
@@ -857,7 +871,14 @@ colour temperature :math:`T_{cp}` computation methods.
 
 XY_TO_CCT_METHODS : dict
     ('McCamy 1992', 'Hernandez 1999')
+
+Aliases:
+
+-   'mccamy1992': 'McCamy 1992'
+-   'hernandez1999': 'Hernandez 1999'
 """
+XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
+XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
 
 def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
@@ -871,6 +892,8 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
         *xy* chromaticity coordinates.
     method : unicode ('McCamy 1992', 'Hernandez 1999')
         Computation method.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -890,7 +913,14 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* colourspace
 
 CCT_TO_XY_METHODS : dict
     ('Kang 2002', 'CIE Illuminant D Series')
+
+Aliases:
+
+-   'kang2002': 'Kang 2002'
+-   'cie_d': 'Hernandez 1999'
 """
+CCT_TO_XY_METHODS['kang2002'] = CCT_TO_XY_METHODS['Kang 2002']
+CCT_TO_XY_METHODS['cie_d'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
 
 
 def CCT_to_xy(CCT, method='Kang 2002'):

@@ -200,4 +200,11 @@ Aggregated *ColourCheckers* chromaticity coordinates.
 
 COLOURCHECKERS : dict
     ('BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976')
+
+Aliases:
+
+-   'babel_average': 'BabelColor Average'
+-   'cc2005': 'ColorChecker 2005'
 """
+COLOURCHECKERS['babel_average'] = COLOURCHECKERS['BabelColor Average']
+COLOURCHECKERS['cc2005'] = COLOURCHECKERS['ColorChecker 2005']

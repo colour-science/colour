@@ -162,7 +162,12 @@ Supported *Lightness* computations methods.
 
 LIGHTNESS_FUNCTIONS : dict
     ('Lightness Glasser 1958', 'Lightness Wyszecki 1964', 'Lightness 1976')
+
+Aliases:
+
+-   'Lstar1976': 'Lightness 1976'
 """
+LIGHTNESS_FUNCTIONS['Lstar1976'] = LIGHTNESS_FUNCTIONS['Lightness 1976']
 
 
 def get_lightness(Y, Yn=100, method='Lightness 1976'):

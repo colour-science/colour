@@ -118,7 +118,16 @@ Aggregated *CIE* illuminants chromaticity coordinates.
 
 ILLUMINANTS : dict
    ('CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer')
+
+Aliases:
+
+-   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
+-   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
+ILLUMINANTS['cie_2_1931'] = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
+ILLUMINANTS['cie_10_1964'] = (
+    ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
 
 # cmfs=colour.STANDARD_OBSERVERS_CMFS.get(
 # 'CIE 1931 2 Degree Standard Observer')
