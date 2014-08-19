@@ -219,7 +219,6 @@ Convenience deprecated colourspaces transformations:
 
 -  Colour rendering index calculation.
 -  Colour rendition chart data.
--  RGB colourspaces visualisation within **Autodesk Maya**.
 -  First order colour fit.
 -  Comprehensive plotting capabilities.
 
@@ -272,7 +271,7 @@ References
 Algebra
 -------
 
--  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014), **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
+-  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9.2.4 Method of interpolation for uniformly spaced independent variable <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014), **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, page  33.
 
 Planckian Radiator
 ------------------
@@ -291,7 +290,7 @@ Chromatic Adaptation Transforms
 Colour Appearance Models
 ------------------------
 
--  **CIECAM02**, **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, Pages 265-277., **CIECAM02**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Pages 88-92., `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_ (Last accessed 30 July 2014)
+-  **CIECAM02**, **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published 19 November 2004, ISBN-13: 978-0470012161, pages 265-277., **CIECAM02**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, pages 88-92., `The CIECAM02 Color Appearance Model <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_ (Last accessed 30 July 2014)
 
 Colour Rendering Index
 ----------------------
@@ -327,8 +326,8 @@ Colour Matching Functions
 -  `CIE 1964 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/cie.htm>`_ (Last accessed 24 February 2014)
 -  `CIE 2012 2 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
 -  `CIE 2012 10 Degree Standard Observer <http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm>`_ (Last accessed 24 February 2014)
--  **Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 138, 139.
--  **Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 141.
+-  **Wright & Guild 1931 2 Degree RGB CMFs to CIE 1931 2 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, pages 138, 139.
+-  **Stiles & Burch 1959 10 Degree RGB CMFs to CIE 1964 10 Degree Standard Observer**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, page  141.
 -  `Stiles & Burch 1959 10 Degree RGB CMFs to Stockman & Sharpe 10 Degree Cone Fundamentals <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_ (Last accessed 23 June 2014)
 -  `Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm>`_ (Last accessed 25 June 2014)
 -  `Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer <http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm>`_ (Last accessed 25 June 2014)
@@ -342,12 +341,12 @@ Cone Fundamentals
 Correlated Colour Temperature
 -----------------------------
 
--  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 227
+-  **Alan R. Roberston**, *Adobe DNG SDK 1.3.0.0*: *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp* (Last accessed 2 December 2013), **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, page  227
 -  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv <http://dx.doi.org/10.1080/15502724.2014.839020>`_ (Last accessed 3 March 2014)
 -  **C. S. McCamy**, `Correlated Colour Temperature Approximation <http://en.wikipedia.org/wiki/Color_temperature#Approximation>`_ (Last accessed 28 June 2014)
 -  **Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero**, `Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_ (Last accessed 28 June 2014)
 -  **Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim**, `Design of Advanced Color - Temperature Control System for HDTV Applications <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_ (Last accessed 29 June 2014)
--  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 145
+-  **CIE Method of Calculating D-Illuminants**, **D. B. Judd, D. L. Macadam, G. Wyszecki, H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, page  145
 
 Deprecated Transformations
 --------------------------
@@ -457,9 +456,9 @@ Munsell Value
 Optimal Colour Stimuli
 -----------------------------
 
--  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 776, 777
--  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, Pages 361, 367
--  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Pages 778, 779
+-  **A**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, pages 776, 777
+-  **C**, **David MacAdam**. *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25, pages 361, 367
+-  **D65**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, pages 778, 779
 
 RGB Colourspaces
 ----------------
@@ -497,8 +496,8 @@ RGB Colourspaces
 Spectrum
 --------
 
--  **Spectral to XYZ Tristimulus Values**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, Page 158.
--  **Stearns Spectral Bandpass Dependence Correction**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
+-  **Spectral to XYZ Tristimulus Values**, **Wyszecki & Stiles**, *Color Science - Concepts and Methods Data and Formulae - Second Edition*, Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3, page  158.
+-  **Stearns Spectral Bandpass Dependence Correction**, **Stephen Westland, Caterina Ripamonti, Vien Cheung**, *Computational Colour Science Using MATLAB, 2nd Edition*, The Wiley-IS&T Series in Imaging Science and Technology, published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
 -  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 9. INTERPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 -  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolationn <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_, `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: 10. EXTRAPOLATION <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_ (Last accessed 28 May 2014)
 

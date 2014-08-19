@@ -13,7 +13,7 @@ See Also
 colour.colorimetry.spectrum.SpectralPowerDistribution
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -38,7 +38,7 @@ __all__ = ['C1',
 
 C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
 C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
-N = 1.
+N = 1
 
 _PLANCK_LAW_CACHE = {}
 

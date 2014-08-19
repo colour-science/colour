@@ -33,7 +33,7 @@ print(colour.xyY_to_XYZ(array([[0.4325], [0.3788], [10.34]])))
 print(colour.xy_to_XYZ((0.25, 0.25)))
 
 # From *CIE XYZ* colourspace to chromaticity coordinates.
-print(colour.XYZ_to_xy(array([[0.97137399], [1.], [1.04462134]])))
+print(colour.XYZ_to_xy(array([[0.97137399], [1], [1.04462134]])))
 
 # From *CIE XYZ* colourspace to *RGB* colourspace.
 # From *CIE XYZ* colourspace to *sRGB* colourspace.
@@ -56,48 +56,48 @@ print(colour.RGB_to_XYZ(
     colour.sRGB_COLOURSPACE.inverse_transfer_function))
 
 # From *CIE XYZ* colourspace to *CIE UCS* colourspace.
-print(colour.XYZ_to_UCS(array([[0.92193107], [1.], [1.03744246]])))
+print(colour.XYZ_to_UCS(array([[0.92193107], [1], [1.03744246]])))
 
 # From *CIE UCS* colourspace to *CIE XYZ* colourspace.
-print(colour.UCS_to_XYZ(array([[0.61462071], [1.], [1.55775569]])))
+print(colour.UCS_to_XYZ(array([[0.61462071], [1], [1.55775569]])))
 
 # From *CIE UCS* colourspace to *uv* chromaticity coordinates.
-print(colour.UCS_to_uv(array([[0.61462071], [1.], [1.55775569]])))
+print(colour.UCS_to_uv(array([[0.61462071], [1], [1.55775569]])))
 
 # From *CIE UCS* colourspace *uv* chromaticity coordinates to *xy* chromaticity
 # coordinates.
 print(colour.UCS_uv_to_xy((0.19374142046952561, 0.31522110680182841)))
 
 # From *CIE XYZ* colourspace to *CIE UVW* colourspace.
-print(colour.XYZ_to_UVW(array([[0.92193107], [1.], [1.03744246]])))
+print(colour.XYZ_to_UVW(array([[0.92193107], [1], [1.03744246]])))
 
 # From *CIE XYZ* colourspace to *CIE Luv* colourspace.
-print(colour.XYZ_to_Luv(array([[0.92193107], [1.], [1.03744246]])))
+print(colour.XYZ_to_Luv(array([[0.92193107], [1], [1.03744246]])))
 
 # From *CIE Luv* colourspace to *CIE XYZ* colourspace.
-print(colour.Luv_to_XYZ(array([[100.], [-20.04304247], [-19.81676035]])))
+print(colour.Luv_to_XYZ(array([[100], [-20.04304247], [-19.81676035]])))
 
 # From *CIE Luv* colourspace to *uv* chromaticity coordinates.
-print(colour.Luv_to_uv(array([[100.], [-20.04304247], [-19.81676035]])))
+print(colour.Luv_to_uv(array([[100], [-20.04304247], [-19.81676035]])))
 
 # From *CIE Luv* colourspace *uv* chromaticity coordinates to *xy* chromaticity
 # coordinates.
 print(colour.Luv_uv_to_xy((0.19374142100850045, 0.47283165896209456)))
 
 # From *CIE Luv* colourspace to *CIE LCHuv* colourspace.
-print(colour.Luv_to_LCHuv(array([[100.], [-20.04304247], [-19.81676035]])))
+print(colour.Luv_to_LCHuv(array([[100], [-20.04304247], [-19.81676035]])))
 
 # From *CIE LCHuv* colourspace to *CIE Luv* colourspace.
-print(colour.LCHuv_to_Luv(array([[100.], [28.18559104], [224.6747382]])))
+print(colour.LCHuv_to_Luv(array([[100], [28.18559104], [224.6747382]])))
 
 # From *CIE XYZ* colourspace to *CIE Lab* colourspace.
-print(colour.XYZ_to_Lab(array([[0.92193107], [1.], [1.03744246]])))
+print(colour.XYZ_to_Lab(array([[0.92193107], [1], [1.03744246]])))
 
 # From *CIE Lab* colourspace to *CIE XYZ* colourspace.
-print(colour.Lab_to_XYZ(array([[100.], [-7.41787844], [-15.85742105]])))
+print(colour.Lab_to_XYZ(array([[100], [-7.41787844], [-15.85742105]])))
 
 # From *CIE Lab* colourspace to *CIE LCHab* colourspace.
-print(colour.Lab_to_LCHab(array([[100.], [-7.41787844], [-15.85742105]])))
+print(colour.Lab_to_LCHab(array([[100], [-7.41787844], [-15.85742105]])))
 
 # From *CIE LCHab* colourspace to *CIE Lab* colourspace.
-print(colour.LCHab_to_Lab(array([[100.], [17.50664796], [244.93046842]])))
+print(colour.LCHab_to_Lab(array([[100], [17.50664796], [244.93046842]])))

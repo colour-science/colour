@@ -20,7 +20,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -75,7 +75,7 @@ def XYZ_to_Luv(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_Luv(np.array([0.92193107, 1., 1.03744246]))
+    >>> colour.XYZ_to_Luv(np.array([0.92193107, 1, 1.03744246]))
     array([ 100.        ,  -20.04304247,  -19.81676035])
     """
 
@@ -84,11 +84,11 @@ def XYZ_to_Luv(XYZ,
 
     yr = Y / Yr
 
-    L = 116. * yr ** ( 1. / 3.) - 16. if yr > CIE_E else CIE_K * yr
-    u = (13. * L * ((4. * X / (X + 15. * Y + 3. * Z)) -
-                    (4. * Xr / (Xr + 15. * Yr + 3. * Zr))))
-    v = (13. * L * ((9. * Y / (X + 15. * Y + 3. * Z)) -
-                    (9. * Yr / (Xr + 15. * Yr + 3. * Zr))))
+    L = 116 * yr ** ( 1 / 3) - 16 if yr > CIE_E else CIE_K * yr
+    u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
+                   (4 * Xr / (Xr + 15 * Yr + 3 * Zr))))
+    v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
+                   (9 * Yr / (Xr + 15 * Yr + 3 * Zr))))
 
     return np.array([L, u, v])
 
@@ -124,21 +124,21 @@ def Luv_to_XYZ(Luv,
 
     Examples
     --------
-    >>> colour.Luv_to_XYZ(np.array([100., -20.04304247, -19.81676035]))
+    >>> colour.Luv_to_XYZ(np.array([100, -20.04304247, -19.81676035]))
     array([ 0.92193107,  1.        ,  1.03744246])
     """
 
     L, u, v = np.ravel(Luv)
     Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
-    Y = ((L + 16.) / 116.) ** 3. if L > CIE_E * CIE_K else L / CIE_K
+    Y = ((L + 16) / 116) ** 3 if L > CIE_E * CIE_K else L / CIE_K
 
-    a = 1. / 3. * ((52. * L / (u + 13. * L *
-                               (4. * Xr / (Xr + 15. * Yr + 3. * Zr)))) - 1.)
-    b = -5. * Y
-    c = -1. / 3.0
-    d = Y * (39. * L / (v + 13. * L *
-                        (9. * Yr / (Xr + 15. * Yr + 3. * Zr))) - 5.)
+    a = 1 / 3 * ((52 * L / (u + 13 * L *
+                            (4 * Xr / (Xr + 15 * Yr + 3 * Zr)))) - 1)
+    b = -5 * Y
+    c = -1 / 3.0
+    d = Y * (39 * L / (v + 13 * L *
+                       (9 * Yr / (Xr + 15 * Yr + 3 * Zr))) - 5)
 
     X = (d - b) / (a - c)
     Z = X * a + b
@@ -177,13 +177,13 @@ def Luv_to_uv(Luv,
 
     Examples
     --------
-    >>> colour.Luv_to_uv(np.array([100., -20.04304247, -19.81676035]))
+    >>> colour.Luv_to_uv(np.array([100, -20.04304247, -19.81676035]))
     (0.19374142100850045, 0.47283165896209456)
     """
 
     X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
 
-    return 4. * X / (X + 15. * Y + 3. * Z), 9. * Y / (X + 15. * Y + 3. * Z)
+    return 4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)
 
 
 def Luv_uv_to_xy(uv):
@@ -217,8 +217,8 @@ def Luv_uv_to_xy(uv):
     (0.32207410281368043, 0.33156550013623537)
     """
 
-    return (9. * uv[0] / (6. * uv[0] - 16. * uv[1] + 12.), 4. * uv[1] /
-            (6. * uv[0] - 16. * uv[1] + 12.))
+    return (9 * uv[0] / (6 * uv[0] - 16 * uv[1] + 12), 4 * uv[1] /
+            (6 * uv[0] - 16 * uv[1] + 12))
 
 
 def Luv_to_LCHuv(Luv):
@@ -246,15 +246,15 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> colour.Luv_to_LCHuv(np.array([100., -20.04304247, -19.81676035]))
+    >>> colour.Luv_to_LCHuv(np.array([100, -20.04304247, -19.81676035]))
     array([ 100.        ,   28.18559104,  224.6747382 ])
     """
 
     L, u, v = np.ravel(Luv)
 
-    H = 180. * math.atan2(v, u) / math.pi
-    if H < 0.:
-        H += 360.
+    H = 180 * math.atan2(v, u) / math.pi
+    if H < 0:
+        H += 360
 
     return np.array([L, math.sqrt(u ** 2 + v ** 2), H])
 
@@ -284,7 +284,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> colour.LCHuv_to_Luv(np.array([100., 28.18559104, 224.6747382]))
+    >>> colour.LCHuv_to_Luv(np.array([100, 28.18559104, 224.6747382]))
     array([ 100.        ,  -20.04304247,  -19.81676035])
     """
 

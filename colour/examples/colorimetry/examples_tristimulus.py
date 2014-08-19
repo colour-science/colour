@@ -5,6 +5,8 @@
 Showcases *tristimulus* values computations.
 """
 
+from __future__ import division, unicode_literals
+
 import colour
 
 # Defining a sample spectral power distribution data.

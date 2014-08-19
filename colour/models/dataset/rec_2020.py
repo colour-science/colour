@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -40,9 +40,9 @@ __all__ = ['REC_2020_PRIMARIES',
            'REC_2020_COLOURSPACE']
 
 REC_2020_PRIMARIES = np.array(
-    [0.708, 0.292,
-     0.170, 0.797,
-     0.131, 0.046]).reshape((3, 2))
+    [[0.708, 0.292],
+     [0.170, 0.797],
+     [0.131, 0.046]])
 """
 *Rec. 2020* colourspace primaries.
 
@@ -108,7 +108,7 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
             if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
             REC_2020_CONSTANTS.alpha(is_10_bits_system) *
             (value ** 0.45) -
-            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.))
+            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1))
 
 
 def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
@@ -136,8 +136,8 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     return (value / 4.5
             if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1.)) /
-             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1. / 0.45))
+            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1)) /
+             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1 / 0.45))
 
 
 REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function

@@ -36,7 +36,7 @@ References
         (Last accessed 26 July 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -56,7 +56,7 @@ from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS
-from colour.utilities import Lookup
+from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -257,8 +257,9 @@ def parse_munsell_colour(munsell_colour):
                 float(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
-    raise ValueError('"{0}" is not a valid "Munsell Renotation System" colour \
-specification!'.format(munsell_colour))
+    raise ValueError(
+        ('"{0}" is not a valid "Munsell Renotation System" colour '
+         'specification!').format(munsell_colour))
 
 
 def is_grey_munsell_colour(specification):
@@ -313,7 +314,7 @@ def normalize_munsell_specification(specification):
         hue, value, chroma, code = specification
         if hue == 0:
             # 0YR is equivalent to 10R.
-            hue, code = 10., (code + 1) % 10
+            hue, code = 10, (code + 1) % 10
         return value if chroma == 0 else (hue, value, chroma, code)
 
 
@@ -371,7 +372,7 @@ def munsell_specification_to_munsell_colour(specification,
     --------
     >>> colour.notation.munsell.munsell_specification_to_munsell_colour(5.2)
     N5.2
-    >>> colour.notation.munsell.munsell_specification_to_munsell_colour((10., 2.0, 4.0, 7))
+    >>> colour.notation.munsell.munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7))
     10.0R 2.0/4.0
     """
 
@@ -438,8 +439,9 @@ def get_xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS[specifications.index(specification)][1]
     except ValueError as error:
-        raise ValueError('"{0}" specification does not exists in \
-"Munsell Renotation System" data!'.format(specification))
+        raise ValueError(('"{0}" specification does not exists in '
+                          '"Munsell Renotation System" data!').format(
+            specification))
 
 
 def is_specification_in_renotation(specification):
@@ -1116,7 +1118,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     Examples
     --------
-    >>> LCHab = np.array([100., 17.50664796, 244.93046842])
+    >>> LCHab = np.array([100, 17.50664796, 244.93046842])
     >>> colour.notation.munsell.LCHab_to_munsell_specification(LCHab)
     (8.036241227777781, 10.0, 3.5013295919999998, 1)
     """
@@ -1150,8 +1152,8 @@ def LCHab_to_munsell_specification(LCHab):
     if hue == 0:
         hue = 10
 
-    value = L / 10.
-    chroma = C / 5.
+    value = L / 10
+    chroma = C / 5
 
     return (hue, value, chroma, code)
 
@@ -1388,7 +1390,7 @@ def munsell_specification_to_xyY(specification):
         x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
         y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
-    return np.array([x, y, Y / 100.])
+    return np.array([x, y, Y / 100])
 
 
 def munsell_colour_to_xyY(munsell_colour):
@@ -1480,7 +1482,7 @@ def xyY_to_munsell_specification(xyY):
     Xr, Yr, Zr = np.ravel(xyY_to_XYZ((xi, yi, Y)))
 
     XYZ = np.array((X, Y, Z))
-    XYZr = np.array(((1. / Yr) * Xr, 1., (1. / Yr) * Zr))
+    XYZr = np.array(((1 / Yr) * Xr, 1, (1 / Yr) * Zr))
 
     Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
     LCHab = Lab_to_LCHab(Lab)
@@ -1488,7 +1490,7 @@ def xyY_to_munsell_specification(xyY):
         LCHab_to_munsell_specification(LCHab))
     specification_current = [hue_initial,
                              value,
-                             (5. / 5.5) * chroma_initial,
+                             (5 / 5.5) * chroma_initial,
                              code_initial]
 
     convergence_threshold = 0.0001
@@ -1532,8 +1534,8 @@ def xyY_to_munsell_specification(xyY):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError('Maximum inner iterations count reached \
-without convergence!')
+                raise RuntimeError(('Maximum inner iterations count reached '
+                                    'without convergence!'))
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
                                 (theta_input - theta_current)) % 360)
@@ -1617,8 +1619,8 @@ without convergence!')
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
-                raise RuntimeError('Maximum inner iterations count reached \
-without convergence!')
+                raise RuntimeError(('Maximum inner iterations count reached '
+                                    'without convergence!'))
 
             chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
                             chroma_current)
@@ -1730,8 +1732,8 @@ def munsell_value_priest1920(Y):
     3.17490157328
     """
 
-    Y /= 100.
-    V = 10. * math.sqrt(Y)
+    Y /= 100
+    V = 10 * math.sqrt(Y)
 
     return V
 
@@ -1876,7 +1878,7 @@ def munsell_value_ladd1955(Y):
     3.69528622419
     """
 
-    V = 2.468 * (Y ** (1. / 3.)) - 1.636
+    V = 2.468 * (Y ** (1 / 3)) - 1.636
 
     return V
 
@@ -1916,10 +1918,10 @@ def munsell_value_mccamy1987(Y):
     if Y <= 0.9:
         V = 0.87445 * (Y ** 0.9967)
     else:
-        V = (2.49268 * (Y ** (1. / 3.)) - 1.5614 -
+        V = (2.49268 * (Y ** (1 / 3)) - 1.5614 -
              (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
              (0.0133 / (Y ** 2.3)) +
-             0.0084 * math.sin(4.1 * (Y ** (1. / 3.)) + 1) +
+             0.0084 * math.sin(4.1 * (Y ** (1 / 3)) + 1) +
              (0.0221 / Y) * math.sin(0.39 * (Y - 2)) -
              (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53)))
     return V
@@ -1956,14 +1958,14 @@ def munsell_value_ASTM_D1535_08(Y):
     return V
 
 
-MUNSELL_VALUE_FUNCTIONS = {
-    'Munsell Value Priest 1920': munsell_value_priest1920,
-    'Munsell Value Munsell 1933': munsell_value_munsell1933,
-    'Munsell Value Moon 1943': munsell_value_moon1943,
-    'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
-    'Munsell Value Ladd 1955': munsell_value_ladd1955,
-    'Munsell Value McCamy 1987': munsell_value_mccamy1987,
-    'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08}
+MUNSELL_VALUE_FUNCTIONS = CaseInsensitiveMapping(
+    {'Munsell Value Priest 1920': munsell_value_priest1920,
+     'Munsell Value Munsell 1933': munsell_value_munsell1933,
+     'Munsell Value Moon 1943': munsell_value_moon1943,
+     'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
+     'Munsell Value Ladd 1955': munsell_value_ladd1955,
+     'Munsell Value McCamy 1987': munsell_value_mccamy1987,
+     'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08})
 """
 Supported *Munsell* value computations methods.
 
@@ -1972,7 +1974,13 @@ MUNSELL_VALUE_FUNCTIONS : dict
     'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
     'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
     'Munsell Value ASTM D1535-08')
+
+Aliases:
+
+-   'astm2008': 'Munsell Value ASTM D1535-08'
 """
+MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
+    MUNSELL_VALUE_FUNCTIONS['Munsell Value ASTM D1535-08'])
 
 
 def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):

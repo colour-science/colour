@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['PAL_SECAM_RGB_PRIMARIES',
            'PAL_SECAM_RGB_COLOURSPACE']
 
 PAL_SECAM_RGB_PRIMARIES = np.array(
-    [0.64, 0.33,
-     0.29, 0.60,
-     0.15, 0.06]).reshape((3, 2))
+    [[0.64, 0.33],
+     [0.29, 0.60],
+     [0.15, 0.06]])
 """
 *Pal/Secam RGB* colourspace primaries.
 

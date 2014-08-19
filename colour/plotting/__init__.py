@@ -3,61 +3,97 @@
 
 from __future__ import absolute_import
 
-from .plots import (
+from .common import (
+    PLOTTING_RESOURCES_DIRECTORY,
+    DEFAULT_FIGURE_SIZE,
+    DEFAULT_COLOUR_CYCLE,
+    ColourParameter,
+    get_colour_cycle,
     figure_size,
     aspect,
     bounding_box,
-    display)
-from .plots import (
+    display,
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
     multi_colour_plot)
-from .plots import colour_checker_plot
-from .plots import single_spd_plot, multi_spd_plot
-from .plots import single_cmfs_plot, multi_cmfs_plot
-from .plots import (
+from .colorimetry import (
+    get_cmfs,
+    get_illuminant,
+    single_spd_plot,
+    multi_spd_plot,
+    single_cmfs_plot,
+    multi_cmfs_plot,
     single_illuminant_relative_spd_plot,
-    multi_illuminants_relative_spd_plot)
-from .plots import visible_spectrum_plot
-from .plots import CIE_1931_chromaticity_diagram_plot
-from .plots import (
+    multi_illuminants_relative_spd_plot,
+    visible_spectrum_plot,
+    single_lightness_function_plot,
+    multi_lightness_function_plot,
+    blackbody_spectral_radiance_plot,
+    blackbody_colours_plot)
+from .characterization import colour_checker_plot
+from .diagrams import (
+    CIE_1931_chromaticity_diagram_plot,
+    CIE_1960_UCS_chromaticity_diagram_plot,
+    CIE_1976_UCS_chromaticity_diagram_plot)
+from .models import (
+    get_RGB_colourspace,
     colourspaces_CIE_1931_chromaticity_diagram_plot,
-    planckian_locus_CIE_1931_chromaticity_diagram_plot)
-from .plots import CIE_1960_UCS_chromaticity_diagram_plot
-from .plots import planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot
-from .plots import CIE_1976_UCS_chromaticity_diagram_plot
-from .plots import (
+    single_transfer_function_plot,
+    multi_transfer_function_plot)
+from .notation import (
     single_munsell_value_function_plot,
     multi_munsell_value_function_plot)
-from .plots import (
-    single_lightness_function_plot,
-    multi_lightness_function_plot)
-from .plots import single_transfer_function_plot, multi_transfer_function_plot
-from .plots import blackbody_spectral_radiance_plot, blackbody_colours_plot
-from .plots import colour_rendering_index_bars_plot
+from .quality import colour_rendering_index_bars_plot
+from .temperature import (
+    planckian_locus_CIE_1931_chromaticity_diagram_plot,
+    planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot)
 
-__all__ = ['figure_size', 'aspect', 'bounding_box', 'display']
-__all__ += ['colour_parameter',
-            'colour_parameters_plot',
-            'single_colour_plot',
-            'multi_colour_plot']
-__all__ += ['colour_checker_plot']
-__all__ += ['single_spd_plot', 'multi_spd_plot']
-__all__ += ['single_cmfs_plot', 'multi_cmfs_plot']
-__all__ += ['single_illuminant_relative_spd_plot',
-            'multi_illuminants_relative_spd_plot']
-__all__ += ['visible_spectrum_plot']
-__all__ += ['CIE_1931_chromaticity_diagram_plot']
-__all__ += ['colourspaces_CIE_1931_chromaticity_diagram_plot',
-            'planckian_locus_CIE_1931_chromaticity_diagram_plot']
-__all__ += ['CIE_1960_UCS_chromaticity_diagram_plot']
-__all__ += ['planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
-__all__ += ['CIE_1976_UCS_chromaticity_diagram_plot']
-__all__ += ['single_munsell_value_function_plot',
-            'multi_munsell_value_function_plot']
-__all__ += ['single_lightness_function_plot', 'multi_lightness_function_plot']
-__all__ += ['single_transfer_function_plot', 'multi_transfer_function_plot']
-__all__ += ['blackbody_spectral_radiance_plot', 'blackbody_colours_plot']
-__all__ += ['colour_rendering_index_bars_plot']
+__all__ = [
+    'PLOTTING_RESOURCES_DIRECTORY',
+    'DEFAULT_FIGURE_SIZE',
+    'DEFAULT_COLOUR_CYCLE',
+    'ColourParameter',
+    'get_colour_cycle',
+    'figure_size',
+    'aspect',
+    'bounding_box',
+    'display',
+    'colour_parameter',
+    'colour_parameters_plot',
+    'single_colour_plot',
+    'multi_colour_plot']
+__all__ += [
+    'get_cmfs',
+    'get_illuminant',
+    'single_spd_plot',
+    'multi_spd_plot',
+    'single_cmfs_plot',
+    'multi_cmfs_plot',
+    'single_illuminant_relative_spd_plot',
+    'multi_illuminants_relative_spd_plot',
+    'visible_spectrum_plot',
+    'single_lightness_function_plot',
+    'multi_lightness_function_plot',
+    'blackbody_spectral_radiance_plot',
+    'blackbody_colours_plot']
+__all__ += [
+    'colour_checker_plot']
+__all__ += [
+    'CIE_1931_chromaticity_diagram_plot',
+    'CIE_1960_UCS_chromaticity_diagram_plot',
+    'CIE_1976_UCS_chromaticity_diagram_plot']
+__all__ += [
+    'get_RGB_colourspace',
+    'colourspaces_CIE_1931_chromaticity_diagram_plot',
+    'single_transfer_function_plot',
+    'multi_transfer_function_plot']
+__all__ += [
+    'single_munsell_value_function_plot',
+    'multi_munsell_value_function_plot']
+__all__ += [
+    'colour_rendering_index_bars_plot']
+__all__ += [
+    'planckian_locus_CIE_1931_chromaticity_diagram_plot',
+    'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
 

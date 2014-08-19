@@ -12,10 +12,9 @@ Defines classes for interpolating variables.
     interpolation.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import bisect
-from matplotlib.delaunay.interpolate import LinearInterpolator
 import numpy as np
 
 from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
@@ -201,8 +200,9 @@ class LinearInterpolator1d(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                '"x" independent and "y" dependent variables have different \
-dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
+                ('"x" independent and "y" dependent variables have different '
+                 'dimensions: "{0}", "{1}"').format(len(self.__x),
+                                                    len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """
@@ -238,8 +238,8 @@ if is_scipy_installed():
             super(SplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
 else:
-    warning('"scipy.interpolate.interp1d" interpolator is unavailable, using \
-"LinearInterpolator" instead!')
+    warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
+             '"LinearInterpolator1d" instead!'))
 
     SplineInterpolator = LinearInterpolator
 
@@ -283,7 +283,7 @@ class SpragueInterpolator(object):
     .. [2]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
             *Computational Colour Science Using MATLAB, 2nd Edition*,
             The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, Page 33.
+            published July 2012, ISBN-13: 978-0-470-66569-5, page  33.
 
     Examples
     --------
@@ -413,16 +413,16 @@ class SpragueInterpolator(object):
 
             yp1 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[0],
-                np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+                np.array(value[0:6]).reshape((6, 1)))) / 209)[0]
             yp2 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[1],
-                np.array(value[0:6]).reshape((6, 1)))) / 209.)[0]
+                np.array(value[0:6]).reshape((6, 1)))) / 209)[0]
             yp3 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[2],
-                np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+                np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
             yp4 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[3],
-                np.array(value[-6:]).reshape((6, 1)))) / 209.)[0]
+                np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
 
             self.__yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
@@ -475,16 +475,16 @@ class SpragueInterpolator(object):
         r = self.__yp
 
         a0p = r[i]
-        a1p = ((2. * r[i - 2] - 16. * r[i - 1] + 16. * r[i + 1] - 2. *
-                r[i + 2]) / 24.)
-        a2p = ((-r[i - 2] + 16. * r[i - 1] - 30. * r[i] + 16. * r[i + 1] -
-                r[i + 2]) / 24.)
-        a3p = ((-9. * r[i - 2] + 39. * r[i - 1] - 70. * r[i] + 66. *
-                r[i + 1] - 33. * r[i + 2] + 7 * r[i + 3]) / 24.)
-        a4p = ((13. * r[i - 2] - 64. * r[i - 1] + 126. * r[i] - 124. *
-                r[i + 1] + 61. * r[i + 2] - 12 * r[i + 3]) / 24.)
-        a5p = ((-5. * r[i - 2] + 25. * r[i - 1] - 50. * r[i] + 50. *
-                r[i + 1] - 25. * r[i + 2] + 5 * r[i + 3]) / 24.)
+        a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 *
+                r[i + 2]) / 24)
+        a2p = ((-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] -
+                r[i + 2]) / 24)
+        a3p = ((-9 * r[i - 2] + 39 * r[i - 1] - 70 * r[i] + 66 *
+                r[i + 1] - 33 * r[i + 2] + 7 * r[i + 3]) / 24)
+        a4p = ((13 * r[i - 2] - 64 * r[i - 1] + 126 * r[i] - 124 *
+                r[i + 1] + 61 * r[i + 2] - 12 * r[i + 3]) / 24)
+        a5p = ((-5 * r[i - 2] + 25 * r[i - 1] - 50 * r[i] + 50 *
+                r[i + 1] - 25 * r[i + 2] + 5 * r[i + 3]) / 24)
 
         y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
              a5p * X ** 5)
@@ -498,8 +498,9 @@ class SpragueInterpolator(object):
 
         if len(self.__x) != len(self.__y):
             raise ValueError(
-                '"x" independent and "y" dependent variables have different \
-dimensions: "{0}", "{1}"'.format(len(self.__x), len(self.__y)))
+                ('"x" independent and "y" dependent variables have different '
+                 'dimensions: "{0}", "{1}"').format(len(self.__x),
+                                                    len(self.__y)))
 
     def __validate_interpolation_range(self, x):
         """

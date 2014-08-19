@@ -28,11 +28,12 @@ References
 .. [2]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from collections import namedtuple
 
 from colour.colorimetry import ILLUMINANTS
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -184,19 +185,26 @@ Kollmorgen.
 COLORCHECKER_1976 : list
 """
 
-COLOURCHECKERS = {
-    'BabelColor Average': COLOURCHECKER('BabelColor Average',
-                                        BABELCOLOR_AVERAGE,
-                                        BABELCOLOR_AVERAGE_ILLUMINANT),
-    'ColorChecker 2005': COLOURCHECKER('ColorChecker 2005',
-                                       COLORCHECKER_2005,
-                                       COLORCHECKER_2005_ILLUMINANT),
-    'ColorChecker 1976': COLOURCHECKER('ColorChecker 1976',
-                                       COLORCHECKER_1976,
-                                       COLORCHECKER_1976_ILLUMINANT)}
+COLOURCHECKERS = CaseInsensitiveMapping(
+    {'BabelColor Average': COLOURCHECKER('BabelColor Average',
+                                         BABELCOLOR_AVERAGE,
+                                         BABELCOLOR_AVERAGE_ILLUMINANT),
+     'ColorChecker 2005': COLOURCHECKER('ColorChecker 2005',
+                                        COLORCHECKER_2005,
+                                        COLORCHECKER_2005_ILLUMINANT),
+     'ColorChecker 1976': COLOURCHECKER('ColorChecker 1976',
+                                        COLORCHECKER_1976,
+                                        COLORCHECKER_1976_ILLUMINANT)})
 """
 Aggregated *ColourCheckers* chromaticity coordinates.
 
 COLOURCHECKERS : dict
     ('BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976')
+
+Aliases:
+
+-   'babel_average': 'BabelColor Average'
+-   'cc2005': 'ColorChecker 2005'
 """
+COLOURCHECKERS['babel_average'] = COLOURCHECKERS['BabelColor Average']
+COLOURCHECKERS['cc2005'] = COLOURCHECKERS['ColorChecker 2005']

@@ -15,7 +15,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['PROPHOTO_RGB_PRIMARIES',
            'PROPHOTO_RGB_COLOURSPACE']
 
 PROPHOTO_RGB_PRIMARIES = np.array(
-    [0.7347, 0.2653,
-     0.1596, 0.8404,
-     0.0366, 0.0001]).reshape((3, 2))
+    [[0.7347, 0.2653],
+     [0.1596, 0.8404],
+     [0.0366, 0.0001]])
 """
 *ProPhoto RGB* colourspace primaries.
 
@@ -56,9 +56,9 @@ PROPHOTO_RGB_WHITEPOINT : tuple
 """
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = np.array(
-    [7.97667235e-01, 1.35192231e-01, 3.13525290e-02,
-     2.88037454e-01, 7.11876883e-01, 8.56626476e-05,
-     0.00000000e+00, 0.00000000e+00, 8.25188285e-01]).reshape((3, 3))
+    [[7.97667235e-01, 1.35192231e-01, 3.13525290e-02],
+     [2.88037454e-01, 7.11876883e-01, 8.56626476e-05],
+     [0.00000000e+00, 0.00000000e+00, 8.25188285e-01]])
 """
 *ProPhoto RGB* colourspace to *CIE XYZ* colourspace matrix.
 
@@ -72,16 +72,16 @@ XYZ_TO_PROPHOTO_RGB_MATRIX = np.linalg.inv(PROPHOTO_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
 
-PROPHOTO_RGB_TRANSFER_FUNCTION = lambda x: \
-    x * 16 if x < 0.001953 else x ** (1 / 1.8)
+PROPHOTO_RGB_TRANSFER_FUNCTION = lambda x: (
+    x * 16 if x < 0.001953 else x ** (1 / 1.8))
 """
 Transfer function from linear to *ProPhoto RGB* colourspace.
 
 PROPHOTO_RGB_TRANSFER_FUNCTION : object
 """
 
-PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda \
-        x: x / 16 if x < 0.001953 else x ** 1.8
+PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    x / 16 if x < 0.001953 else x ** 1.8)
 """
 Inverse transfer function from *ProPhoto RGB* colourspace to linear.
 

@@ -5,6 +5,8 @@
 Showcases *ColourChecker* computations.
 """
 
+from __future__ import division, unicode_literals
+
 from numpy import array
 from numpy import ravel
 import colour

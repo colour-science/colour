@@ -15,7 +15,7 @@ References
         (Last accessed 12 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['DON_RGB_4_PRIMARIES',
            'DON_RGB_4_COLOURSPACE']
 
 DON_RGB_4_PRIMARIES = np.array(
-    [0.69612068965517238, 0.29956896551724138,
-     0.21468298109010012, 0.7652947719688542,
-     0.12993762993762992, 0.035343035343035345]).reshape((3, 2))
+    [[0.69612068965517238, 0.29956896551724138],
+     [0.21468298109010012, 0.7652947719688542],
+     [0.12993762993762992, 0.035343035343035345]])
 """
 *Don RGB 4* colourspace primaries.
 

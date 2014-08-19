@@ -15,7 +15,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['ADOBE_RGB_1998_PRIMARIES',
            'ADOBE_RGB_1998_COLOURSPACE']
 
 ADOBE_RGB_1998_PRIMARIES = np.array(
-    [0.6400, 0.3300,
-     0.2100, 0.7100,
-     0.1500, 0.0600]).reshape((3, 2))
+    [[0.6400, 0.3300],
+     [0.2100, 0.7100],
+     [0.1500, 0.0600]])
 """
 *Adobe RGB 1998* colourspace primaries.
 
@@ -56,9 +56,9 @@ ADOBE_RGB_1998_WHITEPOINT : tuple
 """
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(
-    [0.57666809, 0.18556195, 0.1881985,
-     0.29734449, 0.62737611, 0.0752794,
-     0.02703132, 0.07069027, 0.99117879]).reshape((3, 3))
+    [[0.57666809, 0.18556195, 0.1881985],
+     [0.29734449, 0.62737611, 0.0752794],
+     [0.02703132, 0.07069027, 0.99117879]])
 """
 *Adobe RGB 1998* colourspace to *CIE XYZ* colourspace matrix.
 
@@ -77,14 +77,14 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_RGB_1998_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
+ADOBE_RGB_1998_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
 """
 Transfer function from linear to *Adobe RGB 1998* colourspace.
 
 ADOBE_RGB_1998_TRANSFER_FUNCTION : object
 """
 
-ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
+ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
 """
 Inverse transfer function from *Adobe RGB 1998* colourspace to linear.
 

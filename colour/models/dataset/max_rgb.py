@@ -15,7 +15,7 @@ References
         (Last accessed 12 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['MAX_RGB_PRIMARIES',
            'MAX_RGB_COLOURSPACE']
 
 MAX_RGB_PRIMARIES = np.array(
-    [0.73413379, 0.26586621,
-     0.10039113, 0.89960887,
-     0.03621495, 0.]).reshape((3, 2))
+    [[0.73413379, 0.26586621],
+     [0.10039113, 0.89960887],
+     [0.03621495, 0.00000000]])
 """
 *Max RGB* colourspace primaries.
 

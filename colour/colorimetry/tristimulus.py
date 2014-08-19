@@ -8,12 +8,11 @@ Tristimulus Values
 Defines objects for tristimulus values computation from spectral data.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
-
 from colour.colorimetry import (
     SpectralPowerDistribution,
     STANDARD_OBSERVERS_CMFS)
@@ -65,7 +64,7 @@ def spectral_to_XYZ(spd,
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Page 158.
+            page  158.
 
     Examples
     --------
@@ -86,7 +85,7 @@ def spectral_to_XYZ(spd,
         range = np.arange(start, end + steps, steps)
         illuminant = SpectralPowerDistribution(
             name='1.0',
-            data=dict(zip(*(tuple(range), [1.] * len(range)))))
+            data=dict(zip(*(tuple(range), [1] * len(range)))))
     else:
         if illuminant.shape != cmfs.shape:
             illuminant = illuminant.clone().zeros(*shape)
@@ -102,7 +101,7 @@ def spectral_to_XYZ(spd,
     y_products = spd * y_bar * illuminant
     z_products = spd * z_bar * illuminant
 
-    normalising_factor = 100. / np.sum(y_bar * illuminant)
+    normalising_factor = 100 / np.sum(y_bar * illuminant)
 
     XYZ = np.array([normalising_factor * np.sum(x_products),
                     normalising_factor * np.sum(y_products),

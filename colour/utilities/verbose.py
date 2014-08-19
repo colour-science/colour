@@ -8,7 +8,7 @@ Verbose
 Defines verbose related objects.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import warnings
 

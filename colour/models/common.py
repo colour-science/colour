@@ -9,11 +9,10 @@ Defines various colour models common utilities.
 
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import to_ndarray
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 
 __author__ = 'Colour Developers'

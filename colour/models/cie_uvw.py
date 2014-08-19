@@ -15,7 +15,7 @@ References
         (Last accessed 10 June 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -69,8 +69,8 @@ def XYZ_to_UVW(XYZ,
     u, v = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ)))
     u0, v0 = np.ravel(UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(illuminant))))
 
-    W = 25. * Y ** (1. / 3.) - 17.
-    U = 13. * W * (u - u0)
-    V = 13. * W * (v - v0)
+    W = 25 * Y ** (1 / 3) - 17
+    U = 13 * W * (u - u0)
+    V = 13 * W * (v - v0)
 
     return np.array([U, V, W])

@@ -18,7 +18,7 @@ References
         (Last accessed 20 June 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.algebra import get_closest
 from colour.colorimetry import (
@@ -82,8 +82,8 @@ def mesopic_weighting_function(wavelength,
     for function in (photopic_lef, scotopic_lef):
         if function.get(wavelength) is None:
             raise KeyError(
-                '"{0} nm" wavelength not available in "{1}" \
-luminous efficiency function with "{2}" shape!'.format(
+                ('"{0} nm" wavelength not available in "{1}" '
+                 'luminous efficiency function with "{2}" shape!').format(
                     wavelength, function.name, function.shape))
 
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
@@ -92,7 +92,7 @@ luminous efficiency function with "{2}" shape!'.format(
     x = MESOPIC_X_DATA.get(
         mesopic_x_luminance_values[index]).get(source).get(method)
 
-    Vm = ((1. - x) *
+    Vm = ((1 - x) *
           scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength))
 
     return Vm

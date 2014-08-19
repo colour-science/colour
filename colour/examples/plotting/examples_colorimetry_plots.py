@@ -2,34 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases plotting examples.
+Showcases colorimetry plotting examples.
 """
 
-from numpy import array
-
 import colour
-from colour.characterization.dataset.colour_checkers.spds import (
-    COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import *
-
-# Plotting a single colour.
-single_colour_plot(colour_parameter('Neutral 5 (.70 D)',
-                                    RGB=(0.32315746, 0.32983556, 0.33640183)),
-                   text_size=32.)
-
-# Plotting multiples colours.
-multi_colour_plot(
-    [colour_parameter('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
-     colour_parameter('Light Skin', RGB=(0.77875824, 0.5772645, 0.50453169))],
-    spacing=0.,
-    text_size=32.)
-
-# Plotting colour checkers.
-print(sorted(colour.COLOURCHECKERS.keys()))
-colour_checker_plot('ColorChecker 1976')
-colour_checker_plot('BabelColor Average', text_display=False)
-colour_checker_plot('ColorChecker 1976', text_display=False)
-colour_checker_plot('ColorChecker 2005', text_display=False)
 
 # Plotting a single illuminant relative spectral power distribution.
 single_illuminant_relative_spd_plot('F1')
@@ -46,8 +23,9 @@ multi_illuminants_relative_spd_plot(['A', 'B', 'C'],
                                     normalise_spds_colours=True)
 
 # Plotting *CIE Standard Illuminant D Series* S spectral power distributions.
-multi_spd_plot([value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
-               title='CIE Standard Illuminant D Series - S Distributions')
+multi_spd_plot(
+    [value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
+    title='CIE Standard Illuminant D Series - S Distributions')
 
 # Defining a sample spectral power distribution data.
 sample_spd_data = {
@@ -815,13 +793,6 @@ bandpass_corrected_street_light_spd = colour.bandpass_correction(
 multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
                title='Stearns Bandpass Correction')
 
-# Plotting multiple *ColorChecker* relative spectral power distributions.
-multi_spd_plot([colour.COLOURCHECKERS_SPDS.get('BabelColor Average').get(value)
-                for key, value in
-                sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
-               use_spds_colours=True,
-               title='BabelColor Average - Relative Spectral Power Distributions')
-
 # Plotting given single *cone fundamentals* colour matching functions.
 single_cmfs_plot('Stockman & Sharpe 2 Degree Cone Fundamentals',
                  y_label='Sensitivity',
@@ -864,7 +835,7 @@ multi_spd_plot(colour.PHOTOPIC_LEFS.values(),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0., 0., 0., .1])
+               margins=[0, 0, 0, .1])
 
 # Comparing photopic and scotopic luminous efficiency functions.
 multi_spd_plot(
@@ -874,9 +845,9 @@ multi_spd_plot(
     y_label='Luminous Efficiency',
     legend_location='upper right',
     y_tighten=True,
-    margins=[0., 0., 0., .1])
+    margins=[0, 0, 0, .1])
 
-# Plotting a mesopic luminous efficiency function with photopic luminance of 0.2.
+# Plotting a mesopic luminous efficiency function with photopic luminance of 0.2
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
@@ -886,57 +857,13 @@ multi_spd_plot([mesopic_luminous_efficiency_function,
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0., 0., 0., .1])
-
-# Plotting *CIE 1931 Chromaticity Diagram*.
-CIE_1931_chromaticity_diagram_plot()
-
-# Plotting colourspaces in *CIE 1931 Chromaticity Diagram*.
-print(sorted(colour.RGB_COLOURSPACES.keys()))
-colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ['sRGB', 'ACES RGB', 'Adobe RGB 1998'])
-
-# Plotting a single custom colourspace in *CIE 1931 Chromaticity Diagram*.
-colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
-    'Awful RGB',
-    primaries=array([[0.1, 0.2],
-                     [0.3, 0.15],
-                     [0.05, 0.6]]),
-    whitepoint=(1. / 3., 1. / 3.))
-
-print(sorted(colour.RGB_COLOURSPACES.keys()))
-colourspaces_CIE_1931_chromaticity_diagram_plot(['sRGB', 'Awful RGB'])
-
-# Plotting planckian locus in *CIE 1931 Chromaticity Diagram*.
-planckian_locus_CIE_1931_chromaticity_diagram_plot()
-
-# Plotting *CIE 1960 UCS Chromaticity Diagram*.
-CIE_1960_UCS_chromaticity_diagram_plot()
-
-# Plotting planckian locus in *CIE 1960 UCS Chromaticity Diagram*.
-planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot()
-
-# Plotting *CIE 1976 UCS Chromaticity Diagram*.
-CIE_1976_UCS_chromaticity_diagram_plot()
-
-# Plotting a single *Munsell* value function.
-single_munsell_value_function_plot('Munsell Value Ladd 1955')
-
-# Plotting multiple *Munsell* value functions.
-multi_munsell_value_function_plot(['Munsell Value Ladd 1955',
-                                   'Munsell Value Saunderson 1944'])
+               margins=[0, 0, 0, .1])
 
 # Plotting a single *Lightness* function.
 single_lightness_function_plot('Lightness 1976')
 
 # Plotting multiple *Lightness* functions.
 multi_lightness_function_plot(['Lightness 1976', 'Lightness Glasser 1958'])
-
-# Plotting a single colourspace transfer function.
-single_transfer_function_plot('sRGB')
-
-# Plotting multiple colourspaces transfer functions.
-multi_transfer_function_plot(['sRGB', 'Rec. 709'])
 
 # Plotting various blackbody spectral radiance.
 blackbody_spectral_radiance_plot(temperature=3500,
@@ -1647,8 +1574,3 @@ multi_spd_plot(blackbodies_spds,
 
 # Plotting blackbody colours.
 blackbody_colours_plot()
-
-# Plotting various illuminants *colour rendering index*.
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'))
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F10'))
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('D50'))

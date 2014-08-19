@@ -18,7 +18,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -67,9 +67,9 @@ def XYZ_to_UCS(XYZ):
 
     X, Y, Z = np.ravel(XYZ)
 
-    return np.array([2. / 3. * X,
+    return np.array([2 / 3 * X,
                      Y,
-                     1. / 2. * (-X + 3. * Y + Z)])
+                     1 / 2 * (-X + 3 * Y + Z)])
 
 
 def UCS_to_XYZ(UVW):
@@ -105,7 +105,7 @@ def UCS_to_XYZ(UVW):
     U, V, W = np.ravel(UVW)
 
     return np.array(
-        [3. / 2. * U, V, 3. / 2. * U - (3. * V) + (2. * W)])
+        [3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)])
 
 
 def UCS_to_uv(UVW):
@@ -175,5 +175,5 @@ def UCS_uv_to_xy(uv):
     (0.7072386352886122, 0.4129510522116816)
     """
 
-    return (3. * uv[0] / (2. * uv[0] - 8. * uv[1] + 4.),
-            2. * uv[1] / (2. * uv[0] - 8. * uv[1] + 4.))
+    return (3 * uv[0] / (2 * uv[0] - 8 * uv[1] + 4),
+            2 * uv[1] / (2 * uv[0] - 8 * uv[1] + 4))

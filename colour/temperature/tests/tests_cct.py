@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.temperature.cct` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import sys
 import numpy as np
@@ -184,10 +184,10 @@ class TestGetPlanckianTable(unittest.TestCase):
         to_tuple = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
             [to_tuple(x) for x in get_planckian_table((0.1978, 0.3122),
-                                                     cmfs,
-                                                     1000,
-                                                     1010,
-                                                     10)],
+                                                      cmfs,
+                                                      1000,
+                                                      1010,
+                                                      10)],
             [to_tuple(x) for x in PLANCKIAN_TABLE])
 
 

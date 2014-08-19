@@ -19,7 +19,7 @@ print(colour.get_normalised_primary_matrix(
 
 # Retrieving *normalised primary matrix* from *ACES RGB* colourspace to
 # *CIE XYZ* colourspace.
-print(    colour.get_normalised_primary_matrix(
+print(colour.get_normalised_primary_matrix(
     colour.ACES_RGB_COLOURSPACE.primaries,
     colour.ACES_RGB_COLOURSPACE.whitepoint))
 
@@ -31,6 +31,6 @@ print(np.linalg.inv(colour.get_normalised_primary_matrix(
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
 print(colour.get_RGB_luminance(
-    array([56., 16., 100.]),
+    array([56, 16, 100]),
     colour.sRGB_COLOURSPACE.primaries,
     colour.sRGB_COLOURSPACE.whitepoint))

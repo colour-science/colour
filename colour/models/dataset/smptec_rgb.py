@@ -15,8 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -39,9 +38,9 @@ __all__ = ['SMPTE_C_RGB_PRIMARIES',
            'SMPTE_C_RGB_COLOURSPACE']
 
 SMPTE_C_RGB_PRIMARIES = np.array(
-    [0.630, 0.340,
-     0.310, 0.595,
-     0.155, 0.070]).reshape((3, 2))
+    [[0.630, 0.340],
+     [0.310, 0.595],
+     [0.155, 0.070]])
 """
 *SMPTE-C RGB* colourspace primaries.
 

@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -39,9 +39,9 @@ __all__ = ['S_LOG_PRIMARIES',
            'S_LOG_COLOURSPACE']
 
 S_LOG_PRIMARIES = np.array(
-    [0.73, 0.28,
-     0.14, 0.855,
-     0.10, -0.05]).reshape((3, 2))
+    [[0.73, 0.28],
+     [0.14, 0.855],
+     [0.10, -0.05]])
 """
 *S-Log* colourspace primaries.
 
@@ -71,16 +71,16 @@ XYZ_TO_S_LOG_MATRIX = np.linalg.inv(S_LOG_TO_XYZ_MATRIX)
 XYZ_TO_S_LOG_MATRIX : array_like, (3, 3)
 """
 
-S_LOG_TRANSFER_FUNCTION = lambda x: \
-    (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03
+S_LOG_TRANSFER_FUNCTION = lambda x: (
+    (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03)
 """
 Transfer function from linear to *S-Log* colourspace.
 
 S_LOG_TRANSFER_FUNCTION : object
 """
 
-S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    (math.pow(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    (math.pow(10, ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584))
 """
 Inverse transfer function from *S-Log* colourspace to linear.
 

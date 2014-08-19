@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -37,9 +37,10 @@ __all__ = ['NTSC_RGB_PRIMARIES',
            'NTSC_RGB_INVERSE_TRANSFER_FUNCTION',
            'NTSC_RGB_COLOURSPACE']
 
-NTSC_RGB_PRIMARIES = np.array([0.67, 0.33,
-                               0.21, 0.71,
-                               0.14, 0.08]).reshape((3, 2))
+NTSC_RGB_PRIMARIES = np.array(
+    [[0.67, 0.33],
+     [0.21, 0.71],
+     [0.14, 0.08]])
 """
 *NTSC RGB* colourspace primaries.
 

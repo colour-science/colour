@@ -18,9 +18,10 @@ The following methods are available:
     *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.constants import CIE_E, CIE_K
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -73,7 +74,7 @@ def luminance_newhall1943(V):
     return Y
 
 
-def luminance_1976(L, Yn=100.):
+def luminance_1976(L, Yn=100):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
@@ -106,7 +107,7 @@ def luminance_1976(L, Yn=100.):
     10.08
     """
 
-    Y = ((((L + 16.) / 116.) ** 3.) * Yn
+    Y = ((((L + 16) / 116) ** 3) * Yn
          if L > CIE_K * CIE_E else
          (L / CIE_K) * Yn)
 
@@ -149,17 +150,28 @@ def luminance_ASTM_D1535_08(V):
     return Y
 
 
-LUMINANCE_FUNCTIONS = {'Luminance Newhall 1943': luminance_newhall1943,
-                       'Luminance 1976': luminance_1976,
-                       'Luminance ASTM D1535-08': luminance_ASTM_D1535_08}
+LUMINANCE_FUNCTIONS = CaseInsensitiveMapping(
+    {'Luminance Newhall 1943': luminance_newhall1943,
+     'Luminance 1976': luminance_1976,
+     'Luminance ASTM D1535-08': luminance_ASTM_D1535_08})
 """
 Supported *luminance* computations methods.
 
 LUMINANCE_FUNCTIONS : dict
     ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
-"""
 
-def get_luminance(LV, Yn=100., method='Luminance 1976'):
+Aliases:
+
+-   'Lstar1976': 'Luminance 1976'
+-   'astm2008': 'Luminance ASTM D1535-08'
+"""
+LUMINANCE_FUNCTIONS['Lstar1976'] = (
+    LUMINANCE_FUNCTIONS['Luminance 1976'])
+LUMINANCE_FUNCTIONS['astm2008'] = (
+    LUMINANCE_FUNCTIONS['Luminance ASTM D1535-08'])
+
+
+def get_luminance(LV, Yn=100, method='Luminance 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.

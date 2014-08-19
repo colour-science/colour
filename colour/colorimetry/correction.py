@@ -13,7 +13,9 @@ The following correction methods are available:
     spectral bandpass dependence correction method.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
+
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -39,7 +41,7 @@ def bandpass_correction_stearns1988(spd):
     .. [1]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
             *Computational Colour Science Using MATLAB, 2nd Edition*,
             The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, Page 38.
+            published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
 
     Parameters
     ----------
@@ -65,7 +67,7 @@ def bandpass_correction_stearns1988(spd):
     values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
         values[i] = (-ALPHA_STEARNS * values[i - 1] +
-                     (1. + 2. * ALPHA_STEARNS) *
+                     (1 + 2 * ALPHA_STEARNS) *
                      values[i] - ALPHA_STEARNS * values[i + 1])
 
     for i, (wavelength, value) in enumerate(spd):
@@ -73,8 +75,8 @@ def bandpass_correction_stearns1988(spd):
     return spd
 
 
-BANDPASS_CORRECTION_METHODS = {
-    'Stearns 1988': bandpass_correction_stearns1988}
+BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
+    {'Stearns 1988': bandpass_correction_stearns1988})
 """
 Supported spectral bandpass dependence correction methods.
 

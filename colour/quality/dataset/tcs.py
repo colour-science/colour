@@ -20,9 +20,10 @@ References
 .. [2]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app7/asset/app7.pdf?v=1&t=hw7zl300&s=060f34ef1feb8bfa754b9c63c68bcc0808ac6730
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
-from colour.colorimetry.spectrum import SpectralPowerDistribution
+from colour.colorimetry import SpectralPowerDistribution
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -56,21 +57,21 @@ Test colour samples indexes to names mapping.
 TCS_INDEXES_TO_NAMES : dict
 """
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS = {
-    'TCS01': '7.5 R 6/4',
-    'TCS02': '5 Y 6/4',
-    'TCS03': '5 GY 6/8',
-    'TCS04': '2.5 G 6/6',
-    'TCS05': '10 BG 6/4',
-    'TCS06': '5 PB 6/8',
-    'TCS07': '2.5 P 6/8',
-    'TCS08': '10 P 6/8',
-    'TCS09': '4.5 R 4/13',
-    'TCS10': '5 Y 8/10',
-    'TCS11': '4.5 G 5/8',
-    'TCS12': '3 PB 3/11',
-    'TCS13': '5 YR 8/4',
-    'TCS14': '5 GY 4/4'}
+TCS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping(
+    {'TCS01': '7.5 R 6/4',
+     'TCS02': '5 Y 6/4',
+     'TCS03': '5 GY 6/8',
+     'TCS04': '2.5 G 6/6',
+     'TCS05': '10 BG 6/4',
+     'TCS06': '5 PB 6/8',
+     'TCS07': '2.5 P 6/8',
+     'TCS08': '10 P 6/8',
+     'TCS09': '4.5 R 4/13',
+     'TCS10': '5 Y 8/10',
+     'TCS11': '4.5 G 5/8',
+     'TCS12': '3 PB 3/11',
+     'TCS13': '5 YR 8/4',
+     'TCS14': '5 GY 4/4'})
 """
 Test colour samples *Munsell* colour approximations.
 

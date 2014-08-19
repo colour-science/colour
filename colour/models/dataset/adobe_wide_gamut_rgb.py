@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
            'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE']
 
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
-    [0.7347, 0.2653,
-     0.1152, 0.8264,
-     0.1566, 0.0177]).reshape((3, 2))
+    [[0.7347, 0.2653],
+     [0.1152, 0.8264],
+     [0.1566, 0.0177]])
 """
 *Adobe Wide Gamut RGB* colourspace primaries.
 
@@ -72,14 +72,14 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563. / 256.))
+ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
 """
 Transfer function from linear to *Adobe Wide Gamut RGB* colourspace.
 
 ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION : object
 """
 
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563. / 256.)
+ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
 """
 Inverse transfer function from *Adobe Wide Gamut RGB* colourspace to linear.
 

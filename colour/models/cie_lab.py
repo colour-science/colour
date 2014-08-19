@@ -18,7 +18,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -71,7 +71,7 @@ def XYZ_to_Lab(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_Lab(np.array([0.92193107, 1., 1.03744246]))
+    >>> colour.XYZ_to_Lab(np.array([0.92193107, 1, 1.03744246]))
     array([ 100.        ,   -7.41787844,  -15.85742105])
     """
 
@@ -82,13 +82,13 @@ def XYZ_to_Lab(XYZ,
     yr = Y / Yr
     zr = Z / Zr
 
-    fx = xr ** (1. / 3.) if xr > CIE_E else (CIE_K * xr + 16.) / 116.
-    fy = yr ** (1. / 3.) if yr > CIE_E else (CIE_K * yr + 16.) / 116.
-    fz = zr ** (1. / 3.) if zr > CIE_E else (CIE_K * zr + 16.) / 116.
+    fx = xr ** (1 / 3) if xr > CIE_E else (CIE_K * xr + 16) / 116
+    fy = yr ** (1 / 3) if yr > CIE_E else (CIE_K * yr + 16) / 116
+    fz = zr ** (1 / 3) if zr > CIE_E else (CIE_K * zr + 16) / 116
 
-    L = 116. * fy - 16.
-    a = 500. * (fx - fy)
-    b = 200. * (fy - fz)
+    L = 116 * fy - 16
+    a = 500 * (fx - fy)
+    b = 200 * (fy - fz)
 
     return np.array([L, a, b])
 
@@ -124,20 +124,20 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> colour.Lab_to_XYZ(np.array([100., -7.41787844, -15.85742105]))
+    >>> colour.Lab_to_XYZ(np.array([100, -7.41787844, -15.85742105]))
     array([ 0.92193107,  1.        ,  1.03744246])
     """
 
     L, a, b = np.ravel(Lab)
     Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
 
-    fy = (L + 16.) / 116.
-    fx = a / 500. + fy
-    fz = fy - b / 200.
+    fy = (L + 16) / 116
+    fx = a / 500 + fy
+    fz = fy - b / 200
 
-    xr = fx ** 3. if fx ** 3. > CIE_E else (116. * fx - 16.) / CIE_K
-    yr = ((L + 16.) / 116.) ** 3. if L > CIE_K * CIE_E else L / CIE_K
-    zr = fz ** 3. if fz ** 3. > CIE_E else (116. * fz - 16.) / CIE_K
+    xr = fx ** 3 if fx ** 3 > CIE_E else (116 * fx - 16) / CIE_K
+    yr = ((L + 16) / 116) ** 3 if L > CIE_K * CIE_E else L / CIE_K
+    zr = fz ** 3 if fz ** 3 > CIE_E else (116 * fz - 16) / CIE_K
 
     X = xr * Xr
     Y = yr * Yr
@@ -171,15 +171,15 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> colour.Lab_to_LCHab(np.array([100., -7.41787844, -15.85742105]))
+    >>> colour.Lab_to_LCHab(np.array([100, -7.41787844, -15.85742105]))
     array([ 100.        ,   17.50664796,  244.93046842])
     """
 
     L, a, b = np.ravel(Lab)
 
-    H = 180. * math.atan2(b, a) / math.pi
-    if H < 0.:
-        H += 360.
+    H = 180 * math.atan2(b, a) / math.pi
+    if H < 0:
+        H += 360
 
     return np.array([L, math.sqrt(a ** 2 + b ** 2), H])
 
@@ -209,7 +209,7 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> colour.LCHab_to_Lab(np.array([100., 17.50664796, 244.93046842]))
+    >>> colour.LCHab_to_Lab(np.array([100, 17.50664796, 244.93046842]))
     array([ 100.        ,   -7.41787844,  -15.85742105])
     """
 

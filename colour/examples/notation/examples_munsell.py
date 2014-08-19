@@ -13,13 +13,13 @@ from colour.characterization.dataset.colour_checkers.chromaticity_coordinates im
     COLORCHECKER_2005_DATA)
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
-print(colour.get_RGB_luminance(array([56., 16., 100.]),
+print(colour.get_RGB_luminance(array([56, 16, 100]),
                                colour.sRGB_COLOURSPACE.primaries,
                                colour.sRGB_COLOURSPACE.whitepoint))
 
 # Retrieving *Munsell* value and *Lightness* of given *xyY* components.
 xyY = COLORCHECKER_2005_DATA[0][2:5]
-Y = ravel(xyY)[2] * 100.
+Y = ravel(xyY)[2] * 100
 # Scaled *luminance* :math:`Y` reference:
 print(Y)
 # Retrieving *Munsell* value with *Priest et al.* 1920 method:

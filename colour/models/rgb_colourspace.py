@@ -9,7 +9,7 @@ Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
 from :mod:`colour.models.dataset.aces_rgb`, etc...
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -155,8 +155,8 @@ class RGB_Colourspace(object):
 
         if value is not None:
             assert type(value) in (tuple, list, np.ndarray, np.matrix), \
-                '"{0}" attribute: "{1}" type is not "tuple", "list", "ndarray" \
-or "matrix"!'.format('whitepoint', value)
+                ('"{0}" attribute: "{1}" type is not "tuple", "list", '
+                 '"ndarray" or "matrix"!').format('whitepoint', value)
         self.__whitepoint = value
 
     @property

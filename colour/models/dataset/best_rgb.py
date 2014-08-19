@@ -15,7 +15,7 @@ References
         (Last accessed 11 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['BEST_RGB_PRIMARIES',
            'BEST_RGB_COLOURSPACE']
 
 BEST_RGB_PRIMARIES = np.array(
-    [0.73519163763066209, 0.26480836236933797,
-     0.2153361344537815, 0.77415966386554624,
-     0.13012295081967212, 0.034836065573770496]).reshape((3, 2))
+    [[0.73519163763066209, 0.26480836236933797],
+     [0.2153361344537815, 0.77415966386554624],
+     [0.13012295081967212, 0.034836065573770496]])
 """
 *Best RGB* colourspace primaries.
 

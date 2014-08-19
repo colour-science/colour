@@ -8,7 +8,7 @@ MacAdam Limits - Optimal Colour Stimuli
 Defines objects related to optimal colour stimuli computations.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -55,7 +55,7 @@ def _get_XYZ_optimal_colour_stimuli(illuminant):
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
     if cached_ocs is None:
         _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
-            np.array([np.ravel(xyY_to_XYZ(x) / 100.)
+            np.array([np.ravel(xyY_to_XYZ(x) / 100)
                       for x in optimal_colour_stimuli]))
     return cached_ocs
 

@@ -20,7 +20,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -28,6 +28,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.utilities import Structure
 from colour.models import RGB_Colourspace
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -58,9 +59,9 @@ __all__ = ['ACES_RGB_PRIMARIES',
            'ACES_RGB_PROXY_12_COLOURSPACE']
 
 ACES_RGB_PRIMARIES = np.array(
-    [0.73470, 0.26530,
-     0.00000, 1.00000,
-     0.00010, -0.07700]).reshape((3, 2))
+    [[0.73470, 0.26530],
+     [0.00000, 1.00000],
+     [0.00010, -0.07700]])
 """
 *ACES RGB* colourspace primaries.
 
@@ -81,9 +82,9 @@ ACES_RGB_WHITEPOINT : tuple
 """
 
 ACES_RGB_TO_XYZ_MATRIX = np.array(
-    [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-     3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
-     0.00000000e+00, 0.00000000e+00, 1.00882518e+00]).reshape((3, 3))
+    [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+     [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+     [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
 """
 *ACES RGB* colourspace to *CIE XYZ* colourspace matrix.
 
@@ -134,8 +135,8 @@ ACES_RGB_COLOURSPACE : RGB_Colourspace
 ACES_RGB_LOG_CONSTANTS = Structure(
     log_unity=32768,
     log_xperstop=2048,
-    denorm_trans=math.pow(2., -15),
-    denorm_fake0=math.pow(2., -16))
+    denorm_trans=math.pow(2, -15),
+    denorm_fake0=math.pow(2, -16))
 """
 *ACES RGB Log* colourspace constants.
 
@@ -160,11 +161,11 @@ def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
         Companded value.
     """
 
-    if value < 0.:
-        return 0.
+    if value < 0:
+        return 0
 
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
-        value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2.)
+        value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2)
 
     value = ((math.log10(value) / math.log10(2)) *
              ACES_RGB_LOG_CONSTANTS.log_xperstop +
@@ -191,11 +192,11 @@ def _aces_rgb_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    value = (math.pow(2.,
+    value = (math.pow(2,
                       (value - ACES_RGB_LOG_CONSTANTS.log_unity) /
                       ACES_RGB_LOG_CONSTANTS.log_xperstop))
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
-        value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2.
+        value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2
 
     return value
 
@@ -235,10 +236,10 @@ References
 """
 
 ACES_RGB_PROXY_10_CONSTANTS = Structure(
-    CV_min=0.,
-    CV_max=1023.,
-    steps_per_stop=50.,
-    mid_CV_offset=425.,
+    CV_min=0,
+    CV_max=1023,
+    steps_per_stop=50,
+    mid_CV_offset=425,
     mid_log_offset=-2.5)
 """
 *ACES RGB Proxy 10* colourspace constants.
@@ -247,10 +248,10 @@ ACES_RGB_PROXY_10_CONSTANTS : Structure
 """
 
 ACES_RGB_PROXY_12_CONSTANTS = Structure(
-    CV_min=0.,
-    CV_max=4095.,
-    steps_per_stop=200.,
-    mid_CV_offset=1700.,
+    CV_min=0,
+    CV_max=4095,
+    steps_per_stop=200,
+    mid_CV_offset=1700,
     mid_log_offset=-2.5)
 """
 *ACES RGB Proxy 12* colourspace constants.
@@ -258,8 +259,9 @@ ACES_RGB_PROXY_12_CONSTANTS = Structure(
 ACES_RGB_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_RGB_PROXY_CONSTANTS = {'10 Bit': ACES_RGB_PROXY_10_CONSTANTS,
-                            '12 Bit': ACES_RGB_PROXY_12_CONSTANTS}
+ACES_RGB_PROXY_CONSTANTS = CaseInsensitiveMapping(
+    {'10 Bit': ACES_RGB_PROXY_10_CONSTANTS,
+     '12 Bit': ACES_RGB_PROXY_12_CONSTANTS})
 """
 Aggregated *ACES RGB Proxy* colourspace constants.
 
@@ -287,7 +289,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
-    if value > 0.:
+    if value > 0:
         return max(constants.CV_min,
                    min(constants.CV_max,
                        ((math.log10(value) / (math.log10(2)) -
@@ -316,37 +318,37 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
-    return math.pow(2.,
+    return math.pow(2,
                     ((((value - constants.mid_CV_offset) /
                        constants.steps_per_stop) + constants.mid_log_offset)))
 
 
-ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit')
+ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit'))
 """
 Transfer function from linear to *ACES RGB Proxy 10* colourspace.
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit')
+ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit'))
 """
 Inverse transfer function from *ACES RGB Proxy 10* colourspace to linear.
 
 ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_transfer_function(x, bit_depth='12 Bit')
+ACES_RGB_PROXY_12_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_transfer_function(x, bit_depth='12 Bit'))
 """
 Transfer function from linear to *ACES RGB Proxy 12* colourspace.
 
 ACES_RGB_PROXY_12_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='12 Bit')
+ACES_RGB_PROXY_12_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='12 Bit'))
 """
 Inverse transfer function from *ACES RGB Proxy 12* colourspace to linear.
 

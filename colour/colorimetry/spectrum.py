@@ -11,7 +11,7 @@ Defines the classes handling spectral data computation:
 -   :class:`TriSpectralPowerDistribution`
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import copy
 import itertools
@@ -22,6 +22,7 @@ from colour.algebra import is_iterable, is_uniform, get_steps, to_ndarray
 from colour.algebra import (LinearInterpolator1d,
                             SplineInterpolator,
                             SpragueInterpolator)
+from colour.utilities import is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -762,7 +763,7 @@ class SpectralPowerDistribution(object):
         """
 
         self.__data = dict(zip(self.wavelengths,
-                               self.values * (1. / self.__format_operand(x))))
+                               self.values * (1 / self.__format_operand(x))))
 
         return self
 
@@ -983,20 +984,25 @@ class SpectralPowerDistribution(object):
         shape_start = math.ceil(shape_start)
         shape_end = math.floor(shape_end)
 
+        if is_string(method):
+            method = method.lower()
+
         if method is None:
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
                 interpolator = SplineInterpolator(wavelengths, values)
-        elif method == 'Sprague':
+        elif method == 'sprague':
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
-                raise RuntimeError('"Sprague" interpolator can only be \
-used for interpolating functions having a uniformly spaced independent variable!')
-        elif method == 'Cubic Spline':
+                raise RuntimeError(
+                    ('"Sprague" interpolator can only be used for '
+                     'interpolating functions having a uniformly spaced '
+                     'independent variable!'))
+        elif method == 'cubic spline':
             interpolator = SplineInterpolator(wavelengths, values)
-        elif method == 'Linear':
+        elif method == 'linear':
             interpolator = LinearInterpolator1d(wavelengths, values)
         else:
             raise ValueError(
@@ -1109,12 +1115,12 @@ used for interpolating functions having a uniformly spaced independent variable!
                              tuple(zip((start, end, steps), self.shape))]
 
         self.__data = dict(
-            [(wavelength, self.get(wavelength, 0.)) for wavelength in
+            [(wavelength, self.get(wavelength, 0)) for wavelength in
              np.arange(start, end + steps, steps)])
 
         return self
 
-    def normalise(self, factor=1.):
+    def normalise(self, factor=1):
         """
         Normalises the spectral power distribution with given normalization
         factor.
@@ -1138,7 +1144,7 @@ used for interpolating functions having a uniformly spaced independent variable!
         array([ 0.56321578,  0.78909173,  0.92674906,  1.        ])
         """
 
-        return (self * (1. / max(self.values))) * factor
+        return (self * (1 / max(self.values))) * factor
 
     def clone(self):
         """
@@ -1347,15 +1353,17 @@ class TriSpectralPowerDistribution(object):
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['y'].wavelengths,
-                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
-different!'.format('data', self.__mapping.get('x'),
-                   self.__mapping.get('y')))
+                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
+                         'different!').format('data',
+                                              self.__mapping.get('x'),
+                                              self.__mapping.get('y')))
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['z'].wavelengths,
-                err_msg='"{0}" attribute: "{1}" and "{2}" wavelengths are \
-different!'.format('data', self.__mapping.get('x'),
-                   self.__mapping.get('z')))
+                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
+                         'different!').format('data',
+                                              self.__mapping.get('x'),
+                                              self.__mapping.get('z')))
 
             self.__data = data
         else:
@@ -2178,7 +2186,7 @@ different!'.format('data', self.__mapping.get('x'),
                [ 0.39073992,  0.05318063,  0.51331912]])
         """
 
-        return self * (1. / self.__format_operand(x))
+        return self * (1 / self.__format_operand(x))
 
     # Python 3 compatibility.
     __truediv__ = __div__
@@ -2608,7 +2616,7 @@ different!'.format('data', self.__mapping.get('x'),
 
         return self
 
-    def normalise(self, factor=1.):
+    def normalise(self, factor=1):
         """
         Normalises the tri-spectral power distribution with given normalization
         factor.
@@ -2647,7 +2655,7 @@ different!'.format('data', self.__mapping.get('x'),
 
         maximum = max(np.ravel(self.values))
         for i in self.__mapping.keys():
-            getattr(self, i) * (1. / maximum) * factor
+            getattr(self, i) * (1 / maximum) * factor
 
         return self
 

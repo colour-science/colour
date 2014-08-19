@@ -14,7 +14,7 @@ transformations:
 -   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -64,7 +64,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Pages 138, 139.
+            pages 138, 139.
 
     Examples
     --------
@@ -76,8 +76,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
-matching functions with "{2}" shape!'.format(
+        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
+                        'matching functions with "{2}" shape!').format(
             wavelength, cmfs.name, cmfs.shape))
 
     r = r_bar / (r_bar + g_bar + b_bar)
@@ -134,7 +134,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            Page 141.
+            page  141.
 
     Examples
     --------
@@ -146,8 +146,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, b_bar):
-        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
-matching functions with "{2}" shape!'.format(
+        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
+                        'matching functions with "{2}" shape!').format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
@@ -194,14 +194,14 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
         wavelength), cmfs.b_bar.get(wavelength)
     if None in (r_bar, g_bar, z_bar):
-        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
-matching functions with "{2}" shape!'.format(
+        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
+                        'matching functions with "{2}" shape!').format(
             wavelength, cmfs.name, cmfs.shape))
 
     l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
     g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
     z_bar = (0.0105107859 * g_bar + 0.991427669 * z_bar
-             if wavelength <= 505 else 0.)
+             if wavelength <= 505 else 0)
 
     return np.array([l_bar, g_bar, z_bar])
 
@@ -242,8 +242,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
-matching functions with "{2}" shape!'.format(
+        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
+                        'matching functions with "{2}" shape!').format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
@@ -289,8 +289,8 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
         wavelength), cmfs.s_bar.get(wavelength)
     if None in (l_bar, m_bar, s_bar):
-        raise KeyError('"{0} nm" wavelength not available in "{1}" colour \
-matching functions with "{2}" shape!'.format(
+        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
+                        'matching functions with "{2}" shape!').format(
             wavelength, cmfs.name, cmfs.shape))
 
     x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar

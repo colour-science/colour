@@ -37,7 +37,7 @@ References
         (Last accessed 10 August 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -103,22 +103,22 @@ def RGB_to_HSV(RGB):
     V = maximum
 
     if delta == 0:
-        H = 0.
-        S = 0.
+        H = 0
+        S = 0
     else:
 
         S = delta / maximum
 
-        delta_R = (((maximum - R) / 6.) + (delta / 2.)) / delta
-        delta_G = (((maximum - G) / 6.) + (delta / 2.)) / delta
-        delta_B = (((maximum - B) / 6.) + (delta / 2.)) / delta
+        delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
+        delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
+        delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
 
         if R == maximum:
             H = delta_B - delta_G
         elif G == maximum:
-            H = (1. / 3.) + delta_R - delta_B
+            H = (1 / 3) + delta_R - delta_B
         elif B == maximum:
-            H = (2. / 3.) + delta_G - delta_R
+            H = (2 / 3) + delta_G - delta_R
 
         if H < 0:
             H += 1
@@ -166,14 +166,14 @@ def HSV_to_RGB(HSV):
         G = V
         B = V
     else:
-        h = H * 6.
-        if h == 6.:
+        h = H * 6
+        if h == 6:
             h = 0
 
         i = math.floor(h)
-        j = V * (1. - S)
-        k = V * (1. - S * (h - i))
-        l = V * (1. - S * (1. - (h - i)))
+        j = V * (1 - S)
+        k = V * (1 - S * (h - i))
+        l = V * (1 - S * (1 - (h - i)))
         if i == 0:
             R = V
             G = l
@@ -244,23 +244,23 @@ def RGB_to_HSL(RGB):
     L = (maximum + minimum) / 2
 
     if delta == 0:
-        H = 0.
-        S = 0.
+        H = 0
+        S = 0
     else:
 
         S = delta / (maximum + minimum) if L < 0.5 else delta / (
             2 - maximum - minimum)
 
-        delta_R = (((maximum - R) / 6.) + (delta / 2.)) / delta
-        delta_G = (((maximum - G) / 6.) + (delta / 2.)) / delta
-        delta_B = (((maximum - B) / 6.) + (delta / 2.)) / delta
+        delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
+        delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
+        delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
 
         if R == maximum:
             H = delta_B - delta_G
         elif G == maximum:
-            H = (1. / 3.) + delta_R - delta_B
+            H = (1 / 3) + delta_R - delta_B
         elif B == maximum:
-            H = (2. / 3.) + delta_G - delta_R
+            H = (2 / 3) + delta_G - delta_R
 
         if H < 0:
             H += 1
@@ -314,19 +314,19 @@ def HSL_to_RGB(HSL):
             if vH > 1:
                 vH -= 1
             if 6 * vH < 1:
-                return vi + (vj - vi) * 6. * vH
+                return vi + (vj - vi) * 6 * vH
             if 2 * vH < 1:
                 return vj
             if 3 * vH < 2:
-                return vi + (vj - vi) * ((2. / 3.) - vH) * 6.
+                return vi + (vj - vi) * ((2 / 3) - vH) * 6
             return vi
 
-        j = L * (1. + S) if L < 0.5 else (L + S) - (S * L)
+        j = L * (1 + S) if L < 0.5 else (L + S) - (S * L)
         i = 2 * L - j
 
-        R = H_to_RGB(i, j, H + (1. / 3.))
+        R = H_to_RGB(i, j, H + (1 / 3))
         G = H_to_RGB(i, j, H)
-        B = H_to_RGB(i, j, H - (1. / 3.))
+        B = H_to_RGB(i, j, H - (1 / 3))
 
     return np.array([R, G, B])
 
@@ -365,7 +365,7 @@ def RGB_to_CMY(RGB):
     """
 
     R, G, B = np.ravel(RGB)
-    return np.array([1. - R, 1. - G, 1. - B])
+    return np.array([1 - R, 1 - G, 1 - B])
 
 
 def CMY_to_RGB(CMY):
@@ -400,7 +400,7 @@ def CMY_to_RGB(CMY):
     """
 
     C, M, Y = np.ravel(CMY)
-    return np.array([1. - C, 1. - M, 1. - Y])
+    return np.array([1 - C, 1 - M, 1 - Y])
 
 
 def CMY_to_CMYK(CMY):
@@ -436,7 +436,7 @@ def CMY_to_CMYK(CMY):
 
     C, M, Y = np.ravel(CMY)
 
-    K = 1.
+    K = 1
 
     if C < K:
         K = C
@@ -445,13 +445,13 @@ def CMY_to_CMYK(CMY):
     if Y < K:
         K = Y
     if K == 1:
-        C = 0.
-        M = 0.
-        Y = 0.
+        C = 0
+        M = 0
+        Y = 0
     else:
-        C = (C - K) / (1. - K)
-        M = (M - K) / (1. - K)
-        Y = (Y - K) / (1. - K)
+        C = (C - K) / (1 - K)
+        M = (M - K) / (1 - K)
+        Y = (Y - K) / (1 - K)
 
     return np.array([C, M, Y, K])
 
@@ -481,7 +481,7 @@ def CMYK_to_CMY(CMYK):
 
     Examples
     --------
-    >>> CMYK = np.array([0.5, 0.,0.744, 0.01960784])
+    >>> CMYK = np.array([0.5, 0,0.744, 0.01960784])
     >>> colour.models.deprecated.CMYK_to_CMY(CMYK)
     array([ 0.50980392,  0.01960784,  0.74901961])
     """
@@ -489,7 +489,7 @@ def CMYK_to_CMY(CMYK):
     C, M, Y, K = np.ravel(CMYK)
 
     return np.array(
-        [C * (1. - K) + K, M * (1. - K) + K, Y * (1. - K) + K])
+        [C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
 
 
 def RGB_to_HEX(RGB):
@@ -512,13 +512,13 @@ def RGB_to_HEX(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.66666667, 0.86666667, 1.])
+    >>> RGB = np.array([0.66666667, 0.86666667, 1])
     >>> colour.models.deprecated.RGB_to_HEX(RGB)
     #aaddff
     """
 
     RGB = np.ravel(RGB)
-    R, G, B = map(int, RGB * 255.)
+    R, G, B = map(int, RGB * 255)
     return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
 
 
@@ -550,4 +550,4 @@ def HEX_to_RGB(HEX):
     HEX = HEX.lstrip('#')
     length = len(HEX)
     return np.array([int(HEX[i:i + length // 3], 16) for i in
-                     range(0, length, length // 3)]) / 255.
+                     range(0, length, length // 3)]) / 255

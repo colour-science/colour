@@ -31,9 +31,10 @@ References
 .. [4]  http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -2953,12 +2954,19 @@ Average data derived from measurements of 30 *ColourChecker* charts.
 BABELCOLOR_AVERAGE_SPDS : dict
 """
 
-COLOURCHECKERS_SPDS = {'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
-                       'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS}
+COLOURCHECKERS_SPDS = CaseInsensitiveMapping(
+    {'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
+     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS})
 """
 Aggregated *ColourCheckers* spectral power distributions.
 
 COLOURCHECKERS : dict
     ('BabelColor Average', 'ColorChecker N Ohta')
 
+Aliases:
+
+-   'babel_average': 'BabelColor Average'
+-   'cc_ohta': 'ColorChecker N Ohta'
 """
+COLOURCHECKERS_SPDS['babel_average'] = COLOURCHECKERS_SPDS['BabelColor Average']
+COLOURCHECKERS_SPDS['cc_ohta'] = COLOURCHECKERS_SPDS['ColorChecker N Ohta']

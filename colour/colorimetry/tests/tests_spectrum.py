@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.colorimetry.spectrum` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -1878,7 +1878,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             'Non Uniform Sample',
             NON_UNIFORM_SAMPLE_SPD_DATA)
 
-        self.__phi = (1. + math.sqrt(5)) / 2.
+        self.__phi = (1 + math.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """
@@ -2043,7 +2043,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         # TODO: Implements tests for spd * spd.
         spd = self.__spd.clone()
         values = spd.values
-        np.testing.assert_almost_equal((spd * 2.).values, values * 2.)
+        np.testing.assert_almost_equal((spd * 2).values, values * 2)
 
         spd = self.__spd.clone()
         values = spd.values
@@ -2059,7 +2059,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         # TODO: Implements tests for spd / spd.
         spd = self.__spd.clone()
         values = spd.values
-        np.testing.assert_almost_equal((spd / 2.).values, values / 2.)
+        np.testing.assert_almost_equal((spd / 2).values, values / 2)
 
         spd = self.__spd.clone()
         values = spd.values
@@ -2146,7 +2146,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().normalise(100.).values,
+            self.__spd.clone().normalise(100).values,
             NORMALISED_SAMPLE_SPD_DATA)
 
     def test_clone(self):
@@ -2199,7 +2199,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             mapping=self.__mapping,
             labels=self.__labels)
 
-        self.__phi = (1. + math.sqrt(5)) / 2.
+        self.__phi = (1 + math.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """
@@ -2341,7 +2341,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         clone_tri_spd = self.__tri_spd.clone()
-        clone_tri_spd[500] = (0., 0., 0.)
+        clone_tri_spd[500] = (0, 0, 0)
 
         self.assertNotEqual(self.__tri_spd, clone_tri_spd)
 
@@ -2542,7 +2542,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            self.__sample_tri_spd.clone().normalise(100.).values,
+            self.__sample_tri_spd.clone().normalise(100).values,
             np.array([[x] * 3 for x in NORMALISED_SAMPLE_SPD_DATA]))
 
     def test_clone(self):

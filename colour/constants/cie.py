@@ -8,7 +8,7 @@ CIE Constants
 Defines *CIE* constants.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -20,7 +20,7 @@ __status__ = 'Production'
 __all__ = ['CIE_E',
            'CIE_K']
 
-CIE_E = 216. / 24389.0
+CIE_E = 216 / 24389
 """
 *CIE* :math:`\epsilon` constant.
 
@@ -43,7 +43,7 @@ References
 
 """
 
-CIE_K = 24389. / 27.0
+CIE_K = 24389 / 27
 """
 *CIE* :math:`k` constant.
 

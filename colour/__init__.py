@@ -18,7 +18,6 @@ Subpackages
 -   constants: *CIE* and *CODATA* constants.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
--   implementation: Various implementations of the API.
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.

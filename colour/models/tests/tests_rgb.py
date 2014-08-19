@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.models.rgb` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import sys
 import numpy as np
@@ -184,11 +184,11 @@ ACES_COLORCHECKER_2005 = [
      (0.029948148148148147, 0.031099999999999999, 0.026879474130619162),
      np.array([0.03111895, 0.03126787, 0.03256784])]]
 
-sRGB_TRANSFER_FUNCTION = lambda x: \
-    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055
+sRGB_TRANSFER_FUNCTION = lambda x: (
+    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055)
 
-sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4
+sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4)
 
 
 class TestXYZ_to_RGB(unittest.TestCase):

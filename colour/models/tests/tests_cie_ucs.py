@@ -5,7 +5,7 @@
 Defines units tests for :mod:`colour.models.cie_ucs` module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import sys
 import numpy as np
@@ -53,7 +53,7 @@ class TestXYZ_to_UCS(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UCS(np.array([0.96907232, 1., 1.12179215])),
+            XYZ_to_UCS(np.array([0.96907232, 1, 1.12179215])),
             np.array([0.64604821, 1., 1.57635992]),
             decimal=7)
 
@@ -80,7 +80,7 @@ class TestUCS_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_XYZ(np.array([0.64604821, 1., 1.57635992])),
+            UCS_to_XYZ(np.array([0.64604821, 1, 1.57635992])),
             np.array([0.96907232, 1., 1.12179215]),
             decimal=7)
 
@@ -107,7 +107,7 @@ class TestUCS_to_uv(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_uv(np.array([0.64604821, 1., 1.57635992])),
+            UCS_to_uv(np.array([0.64604821, 1, 1.57635992])),
             (0.20048615319251942, 0.31032692311386395),
             decimal=7)
 

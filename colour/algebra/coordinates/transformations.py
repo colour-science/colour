@@ -19,7 +19,7 @@ References
 .. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import math
 import numpy as np
@@ -155,7 +155,7 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> colour.cylindrical_to_cartesian(np.array([6., 0.32175055, 3.16227766]))
+    >>> colour.cylindrical_to_cartesian(np.array([6, 0.32175055, 3.16227766]))
     array([ 3.        ,  0.99999999,  6.        ])
     """
 

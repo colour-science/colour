@@ -15,7 +15,7 @@ References
         (Last accessed 24 February 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -37,10 +37,10 @@ __all__ = ['sRGB_PRIMARIES',
            'sRGB_INVERSE_TRANSFER_FUNCTION',
            'sRGB_COLOURSPACE']
 
-sRGB_PRIMARIES = np.array([
-    0.6400, 0.3300,
-    0.3000, 0.6000,
-    0.1500, 0.0600]).reshape((3, 2))
+sRGB_PRIMARIES = np.array(
+    [[0.6400, 0.3300],
+     [0.3000, 0.6000],
+     [0.1500, 0.0600]])
 """
 *sRGB* colourspace primaries.
 
@@ -56,9 +56,9 @@ sRGB_WHITEPOINT : tuple
 """
 
 sRGB_TO_XYZ_MATRIX = np.array(
-    [0.41238656, 0.35759149, 0.18045049,
-     0.21263682, 0.71518298, 0.0721802,
-     0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
+    [[0.41238656, 0.35759149, 0.18045049],
+     [0.21263682, 0.71518298, 0.0721802],
+     [0.01933062, 0.11919716, 0.95037259]])
 """
 *sRGB* colourspace to *CIE XYZ* colourspace matrix.
 
@@ -72,16 +72,16 @@ XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
-sRGB_TRANSFER_FUNCTION = lambda x: \
-    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055
+sRGB_TRANSFER_FUNCTION = lambda x: (
+    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055)
 """
 Transfer function from linear to *sRGB* colourspace.
 
 sRGB_TRANSFER_FUNCTION : object
 """
 
-sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4
+sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4)
 """
 Inverse transfer function from *sRGB* colourspace to linear.
 

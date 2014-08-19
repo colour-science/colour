@@ -5,6 +5,8 @@
 Showcases *interpolation* computations.
 """
 
+from __future__ import division, unicode_literals
+
 import pylab
 
 import colour
@@ -85,15 +87,15 @@ pylab.plot(base_spd.wavelengths,
            base_spd.values,
            'ro-',
            label=base_spd.name,
-           linewidth=2.)
+           linewidth=2)
 pylab.plot(uniform_interpolated_spd.wavelengths,
            uniform_interpolated_spd.values,
            label=uniform_interpolated_spd.name,
-           linewidth=2.)
+           linewidth=2)
 pylab.plot(non_uniform_interpolated_spd.wavelengths,
            non_uniform_interpolated_spd.values,
            label=non_uniform_interpolated_spd.name,
-           linewidth=2.)
+           linewidth=2)
 
 x_limit_min.append(start)
 x_limit_max.append(end)

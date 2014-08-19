@@ -6,7 +6,7 @@ Defines units tests for :mod:`colour.algebra.coordinates.transformations`
 module.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import sys
 import numpy as np

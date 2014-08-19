@@ -23,7 +23,9 @@ References
 .. [1]  http://en.wikipedia.org/wiki/Gamut#Surfaces
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
+
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -271,7 +273,7 @@ References
         *Color Science - Concepts and Methods Data and Formulae -
         Second Edition*,
         Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        Pages 776, 777.
+        pages 776, 777.
 """
 
 C_OPTIMAL_COLOUR_STIMULI = (
@@ -483,7 +485,7 @@ References
 ----------
 .. [3]  **David MacAdam**,
         *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25,
-        Pages 361, 367.
+        pages 361, 367.
 """
 
 D65_OPTIMAL_COLOUR_STIMULI = (
@@ -740,10 +742,10 @@ References
         *Color Science - Concepts and Methods Data and Formulae -
         Second Edition*,
         Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        Pages 778, 779.
+        pages 778, 779.
 """
 
-ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = {
-    'A': A_OPTIMAL_COLOUR_STIMULI,
-    'C': C_OPTIMAL_COLOUR_STIMULI,
-    'D65': D65_OPTIMAL_COLOUR_STIMULI}
+ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping(
+    {'A': A_OPTIMAL_COLOUR_STIMULI,
+     'C': C_OPTIMAL_COLOUR_STIMULI,
+     'D65': D65_OPTIMAL_COLOUR_STIMULI})

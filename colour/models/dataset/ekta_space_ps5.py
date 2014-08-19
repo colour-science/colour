@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['EKTA_SPACE_PS_5_PRIMARIES',
            'EKTA_SPACE_PS_5_COLOURSPACE']
 
 EKTA_SPACE_PS_5_PRIMARIES = np.array(
-    [0.6947368421052631, 0.30526315789473685,
-     0.26000000000000001, 0.69999999999999996,
-     0.10972850678733032, 0.0045248868778280547]).reshape((3, 2))
+    [[0.6947368421052631, 0.30526315789473685],
+     [0.26000000000000001, 0.69999999999999996],
+     [0.10972850678733032, 0.0045248868778280547]])
 """
 *Ekta Space PS 5* colourspace primaries.
 

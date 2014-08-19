@@ -10,7 +10,7 @@ Defines classes for extrapolating variables:
 -   :class:`Extrapolator1d`: 1-D function extrapolation.
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -91,7 +91,7 @@ class Extrapolator1d(object):
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant')
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
     array([ 3.,  3.,  5.,  5.])
 
     Using defined *left* boundary and *Constant* extrapolation method:
@@ -100,7 +100,7 @@ class Extrapolator1d(object):
     >>> y = np.array([1, 2, 3])
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant', left=0)
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8., 9.]))
+    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  5.,  5.])
     """
 
@@ -181,6 +181,9 @@ class Extrapolator1d(object):
             assert type(value) in (str, unicode), \
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
                     'method', value)
+
+            value = value.lower()
+
         self.__method = value
 
     @property
@@ -208,8 +211,9 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), '"{0}" attribute: "{1}" type is not \
-"int", "long", "float" or "complex"!'.format('left', value)
+            assert is_number(value), \
+                ('"{0}" attribute: "{1}" type is not '
+                 '"int", "float" or "complex"!').format('left', value)
         self.__left = value
 
     @property
@@ -237,8 +241,10 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert is_number(value), '"{0}" attribute: "{1}" type is not \
-"int", "long", "float" or "complex"!'.format('right', value)
+            assert is_number(value), \
+                ('"{0}" attribute: "{1}" type is not '
+                 '"int", "float" or "complex"!').format('right', value)
+
         self.__right = value
 
     def __call__(self, x):
@@ -283,12 +289,12 @@ class Extrapolator1d(object):
 
         y = np.empty_like(x)
 
-        if self.__method == 'Linear':
+        if self.__method == 'linear':
             y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
                             (yi[1] - yi[0]) / (xi[1] - xi[0]))
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self.__method == 'Constant':
+        elif self.__method == 'constant':
             y[x < xi[0]] = xi[0]
             y[x > xi[-1]] = xi[-1]
 

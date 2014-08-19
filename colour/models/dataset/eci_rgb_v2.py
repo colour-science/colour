@@ -15,7 +15,7 @@ References
         (Last accessed 13 April 2014)
 """
 
-from __future__ import unicode_literals
+from __future__ import division, unicode_literals
 
 import numpy as np
 
@@ -38,9 +38,9 @@ __all__ = ['ECI_RGB_V2_PRIMARIES',
            'ECI_RGB_V2_COLOURSPACE']
 
 ECI_RGB_V2_PRIMARIES = np.array(
-    [0.67010309278350522, 0.32989690721649484,
-     0.20990566037735847, 0.70990566037735836,
-     0.14006179196704427, 0.080329557157569509]).reshape((3, 2))
+    [[0.67010309278350522, 0.32989690721649484],
+     [0.20990566037735847, 0.70990566037735836],
+     [0.14006179196704427, 0.080329557157569509]])
 """
 *ECI RGB v2* colourspace primaries.
 
@@ -70,15 +70,15 @@ XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
-ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: lightness_1976(x * 100.) / 100.
+ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: lightness_1976(x * 100) / 100
 """
 Transfer function from linear to *ECI RGB v2* colourspace.
 
 ECI_RGB_V2_TRANSFER_FUNCTION : object
 """
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: \
-    luminance_1976(x * 100.) / 100.
+ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: (
+    luminance_1976(x * 100) / 100)
 """
 Inverse transfer function from *ECI RGB v2* colourspace to linear.
 
