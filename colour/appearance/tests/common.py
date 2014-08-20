@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines the common units tests objects for :mod:`colour.appearance` package.
+Defines the common unit tests objects for :mod:`colour.appearance` package.
 """
 
 from __future__ import division, unicode_literals

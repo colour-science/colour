@@ -155,6 +155,11 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
             'methods: "{1}".'.format(method,
                                      CHROMATIC_ADAPTATION_METHODS.keys()))
 
+    if (XYZ1 == XYZ2).all():
+        # Skip the chromatic adaptation computation if the two input matrices
+        # are the same, because no adaptation is needed.
+        return np.identity(3)
+
     rgb_source = np.ravel(np.dot(method_matrix, XYZ1))
     rgb_target = np.ravel(np.dot(method_matrix, XYZ2))
     crd = np.diagflat(np.array(

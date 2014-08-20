@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.luminance` module.
+Defines unit tests for :mod:`colour.colorimetry.luminance` module.
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +34,7 @@ __all__ = ['TestLuminanceNewhall1943',
 class TestLuminanceNewhall1943(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.luminance.luminance_newhall1943`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_luminance_newhall1943(self):
@@ -60,7 +60,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 class TestLuminance1976(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.luminance.luminance_1976` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_luminance_1976(self):
@@ -85,7 +85,7 @@ class TestLuminance1976(unittest.TestCase):
 class TestLuminanceASTM_D1535_08(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_luminance_1976(self):

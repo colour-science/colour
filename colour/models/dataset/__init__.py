@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+from .aces_rgb_idt import ACES_RICD
 from .aces_rgb import ACES_RGB_COLOURSPACE, ACES_RGB_LOG_COLOURSPACE
 from .aces_rgb import (
     ACES_RGB_PROXY_10_COLOURSPACE,
@@ -84,7 +85,8 @@ RGB_COLOURSPACES['adobe1998'] = (
 RGB_COLOURSPACES['prophoto'] = (
     RGB_COLOURSPACES[PROPHOTO_RGB_COLOURSPACE.name])
 
-__all__ = ['RGB_COLOURSPACES']
+__all__ = ['ACES_RICD']
+__all__ += ['RGB_COLOURSPACES']
 __all__ += ['ACES_RGB_COLOURSPACE',
             'ACES_RGB_LOG_COLOURSPACE',
             'ACES_RGB_PROXY_10_COLOURSPACE',

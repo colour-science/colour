@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.appearance.atd95` module.
+Defines unit tests for :mod:`colour.appearance.atd95` module.
 """
 
 from __future__ import division, unicode_literals
@@ -26,7 +26,7 @@ __all__ = ['TestATD95ColourAppearanceModel']
 
 class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.atd95` module units tests methods for
+    Defines :mod:`colour.appearance.atd95` module unit tests methods for
     *ATD (1995)* colour vision model.
     """
 

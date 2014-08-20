@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.correction` module.
+Defines unit tests for :mod:`colour.colorimetry.correction` module.
 """
 
 from __future__ import division, unicode_literals
@@ -70,7 +70,7 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_bandpass_correction_stearns1988(self):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.common` module.
+Defines unit tests for :mod:`colour.models.common` module.
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +29,7 @@ __all__ = ['TestXYZ_to_sRGB']
 
 class TestXYZ_to_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.common.XYZ_to_sRGB` definition units tests
+    Defines :func:`colour.models.common.XYZ_to_sRGB` definition unit tests
     methods.
     """
 

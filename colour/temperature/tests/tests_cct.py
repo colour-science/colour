@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.temperature.cct` module.
+Defines unit tests for :mod:`colour.temperature.cct` module.
 """
 
 from __future__ import division, unicode_literals
@@ -195,7 +195,7 @@ class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
     Defines
     :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_planckian_table_minimal_distance_index(self):
@@ -279,7 +279,7 @@ class TestCCT_to_uv_ohno2013(unittest.TestCase):
 class Testuv_to_CCT_robertson1968(unittest.TestCase):
     """
     Defines :func:`colour.temperature.cct.uv_to_CCT_robertson1968` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_uv_to_CCT_robertson1968(self):
@@ -288,18 +288,17 @@ class Testuv_to_CCT_robertson1968(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         for key, value in TEMPERATURE_DUV_TO_UV.items():
-            np.testing.assert_almost_equal(
+            np.testing.assert_allclose(
                 uv_to_CCT_robertson1968(value),
                 key,
-                decimal=0)
+                atol=0.25)
 
 
 class TestCCT_to_uv_robertson1968(unittest.TestCase):
     """
     Defines :func:`colour.temperature.cct.CCT_to_uv_robertson1968` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_CCT_to_uv_robertson1968(self):
@@ -319,7 +318,7 @@ class TestCCT_to_uv_robertson1968(unittest.TestCase):
 class Testxy_to_CCT_mccamy1992(unittest.TestCase):
     """
     Defines :func:`colour.temperature.cct.xy_to_CCT_mccamy1992` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_xy_to_CCT_mccamy1992(self):
@@ -345,7 +344,7 @@ class Testxy_to_CCT_mccamy1992(unittest.TestCase):
 class Testxy_to_CCT_hernandez1999(unittest.TestCase):
     """
     Defines :func:`colour.temperature.cct.xy_to_CCT_hernandez1999` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_xy_to_CCT_hernandez1999(self):
@@ -396,7 +395,7 @@ class TestCCT_to_xy_kang2002(unittest.TestCase):
 class TestCCT_to_xy_illuminant_D(unittest.TestCase):
     """
     Defines :func:`colour.temperature.cct.CCT_to_xy_illuminant_D` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_CCT_to_xy_illuminant_D(self):

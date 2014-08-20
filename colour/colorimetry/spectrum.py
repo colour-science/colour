@@ -19,9 +19,11 @@ import math
 import numpy as np
 
 from colour.algebra import is_iterable, is_uniform, get_steps, to_ndarray
-from colour.algebra import (LinearInterpolator1d,
-                            SplineInterpolator,
-                            SpragueInterpolator)
+from colour.algebra import (
+    Extrapolator1d,
+    LinearInterpolator1d,
+    SplineInterpolator,
+    SpragueInterpolator)
 from colour.utilities import is_string
 
 __author__ = 'Colour Developers'
@@ -56,6 +58,7 @@ class SpectralPowerDistribution(object):
     data
     wavelengths
     values
+    items
     shape
 
     Methods
@@ -221,6 +224,33 @@ class SpectralPowerDistribution(object):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('values'))
+
+    @property
+    def items(self):
+        """
+        Property for **self.items** attribute. This is a convenient attribute
+        used to iterate over the spectral power distribution.
+
+        Returns
+        -------
+        generator
+            Spectral power distribution data generator.
+        """
+
+        return self.__iter__()
+
+    @items.setter
+    def items(self, value):
+        """
+        Setter for **self.items** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('items'))
 
     @property
     def shape(self):
@@ -835,7 +865,12 @@ class SpectralPowerDistribution(object):
 
         return is_uniform(self.wavelengths)
 
-    def extrapolate(self, start, end):
+    def extrapolate(self,
+                    start,
+                    end,
+                    method='Constant',
+                    left=None,
+                    right=None):
         """
         Extrapolates the spectral power distribution following *CIE 15:2004*
         recommendation.
@@ -846,6 +881,13 @@ class SpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range start in nm.
         end : float
             Wavelengths :math:`\lambda_n` range end in nm.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -876,14 +918,18 @@ class SpectralPowerDistribution(object):
         88.19
         """
 
-        # TODO: Implement support for *Extrapolator1d* class.
-        start_wavelength, end_wavelength, steps = self.shape
+        extrapolator = Extrapolator1d(
+            LinearInterpolator1d(self.wavelengths,
+                                 self.values),
+            method=method,
+            left=left,
+            right=right)
 
-        minimum, maximum = self.get(start_wavelength), self.get(end_wavelength)
+        start_wavelength, end_wavelength, steps = self.shape
         for i in np.arange(start_wavelength, start - steps, -steps):
-            self[i] = minimum
+            self[i] = extrapolator(float(i))
         for i in np.arange(end_wavelength, end + steps, steps):
-            self[i] = maximum
+            self[i] = extrapolator(float(i))
 
         return self
 
@@ -1015,7 +1061,13 @@ class SpectralPowerDistribution(object):
                                       steps)])
         return self
 
-    def align(self, start, end, steps):
+    def align(self,
+              start,
+              end,
+              steps,
+              method='Constant',
+              left=None,
+              right=None):
         """
         Aligns the spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
@@ -1028,6 +1080,13 @@ class SpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range end in nm.
         steps : float
             Wavelengths :math:`\lambda_n` range steps.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -1071,7 +1130,7 @@ class SpectralPowerDistribution(object):
         """
 
         self.interpolate(start, end, steps)
-        self.extrapolate(start, end)
+        self.extrapolate(start, end, method, left, right)
 
         return self
 
@@ -1203,6 +1262,7 @@ class TriSpectralPowerDistribution(object):
     z
     wavelengths
     values
+    items
     shape
 
     Methods
@@ -1555,6 +1615,34 @@ class TriSpectralPowerDistribution(object):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('values'))
+
+    @property
+    def items(self):
+        """
+        Property for **self.items** attribute. This is a convenient attribute
+        used to iterate over the tri-spectral power distribution.
+
+        Returns
+        -------
+        generator
+            Tri-spectral power distribution data generator.
+        """
+
+        return self.__iter__()
+
+    @items.setter
+    def items(self, value):
+        """
+        Setter for **self.items** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('items'))
+
 
     @property
     def shape(self):
@@ -2268,7 +2356,12 @@ class TriSpectralPowerDistribution(object):
                 return False
         return True
 
-    def extrapolate(self, start, end):
+    def extrapolate(self,
+                    start,
+                    end,
+                    method='Constant',
+                    left=None,
+                    right=None):
         """
         Extrapolates the tri-spectral power distribution following
         *CIE 15:2004* recommendation.
@@ -2279,6 +2372,13 @@ class TriSpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range start in nm.
         end : float
             Wavelengths :math:`\lambda_n` range end in nm.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -2314,7 +2414,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).extrapolate(start, end)
+            getattr(self, i).extrapolate(start, end, method, left, right)
 
         return self
 
@@ -2408,7 +2508,13 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def align(self, start, end, steps):
+    def align(self,
+              start,
+              end,
+              steps,
+              method='Constant',
+              left=None,
+              right=None):
         """
         Aligns the tri-spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
@@ -2421,6 +2527,13 @@ class TriSpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range end in nm.
         steps : float
             Wavelengths :math:`\lambda_n` range steps.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -2515,7 +2628,7 @@ class TriSpectralPowerDistribution(object):
 
         for i in self.__mapping.keys():
             getattr(self, i).interpolate(start, end, steps)
-            getattr(self, i).extrapolate(start, end)
+            getattr(self, i).extrapolate(start, end, method, left, right)
 
         return self
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.matrix` module.
+Defines unit tests for :mod:`colour.algebra.matrix` module.
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +29,7 @@ __all__ = ['TestIsIdentity']
 
 class TestIsIdentity(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.matrix.is_identity` definition units tests
+    Defines :func:`colour.algebra.matrix.is_identity` definition unit tests
     methods.
     """
 

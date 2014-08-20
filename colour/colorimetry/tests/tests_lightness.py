@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.lightness` module.
+Defines unit tests for :mod:`colour.colorimetry.lightness` module.
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +34,7 @@ __all__ = ['TestLightnessGlasser1958',
 class TestLightnessGlasser1958(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lightness.lightness_glasser1958`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_lightness_glasser1958(self):
@@ -60,7 +60,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
 class TestLightnessWyszecki1964(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lightness.lightness_wyszecki1964`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_lightness_wyszecki1964(self):
@@ -86,7 +86,7 @@ class TestLightnessWyszecki1964(unittest.TestCase):
 class TestLightness1976(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lightness.lightness_1976` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_lightness_1976(self):

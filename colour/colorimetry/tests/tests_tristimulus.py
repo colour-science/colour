@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.tristimulus` module.
+Defines unit tests for :mod:`colour.colorimetry.tristimulus` module.
 """
 
 from __future__ import division, unicode_literals
@@ -139,7 +139,7 @@ RELATIVE_SPD_DATA = SpectralPowerDistribution(
 class TestSpectral_to_XYZ(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_spectral_to_XYZ(self):
@@ -179,7 +179,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
 class TestWavelength_to_XYZ(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_wavelength_to_XYZ(self):

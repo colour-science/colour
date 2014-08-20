@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.cie_luv` module.
+Defines unit tests for :mod:`colour.models.cie_luv` module.
 """
 
 from __future__ import division, unicode_literals
@@ -39,7 +39,7 @@ __all__ = ['TestXYZ_to_Luv',
 
 class TestXYZ_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.XYZ_to_Luv` definition units tests
+    Defines :func:`colour.models.cie_luv.XYZ_to_Luv` definition unit tests
     methods.
     """
 
@@ -84,7 +84,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
 class TestLuv_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_XYZ` definition units tests
+    Defines :func:`colour.models.cie_luv.Luv_to_XYZ` definition unit tests
     methods.
     """
 
@@ -129,7 +129,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
 class TestLuv_to_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_uv` definition units tests
+    Defines :func:`colour.models.cie_luv.Luv_to_uv` definition unit tests
     methods.
     """
 
@@ -174,7 +174,7 @@ class TestLuv_to_uv(unittest.TestCase):
 
 class TestLuv_to_LCHuv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_LCHuv` definition units tests
+    Defines :func:`colour.models.cie_luv.Luv_to_LCHuv` definition unit tests
     methods.
     """
 
@@ -201,7 +201,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
 class TestLCHuv_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.LCHuv_to_Luv` definition units tests
+    Defines :func:`colour.models.cie_luv.LCHuv_to_Luv` definition unit tests
     methods.
     """
 
@@ -228,7 +228,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
 class TestLuv_uv_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_uv_to_xy` definition units tests
+    Defines :func:`colour.models.cie_luv.Luv_uv_to_xy` definition unit tests
     methods.
     """
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.difference.delta_e` module.
+Defines unit tests for :mod:`colour.difference.delta_e` module.
 """
 
 from __future__ import division, unicode_literals
@@ -33,7 +33,7 @@ __all__ = ['TestDelta_E_CIE_1976',
 class TestDelta_E_CIE_1976(unittest.TestCase):
     """
     Defines :func:`colour.difference.delta_e.delta_E_CIE_1976`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_delta_E_CIE_1976(self):
@@ -67,7 +67,7 @@ class TestDelta_E_CIE_1976(unittest.TestCase):
 class TestDelta_E_CIE_1994(unittest.TestCase):
     """
     Defines :func:`colour.difference.delta_e.delta_E_CIE_1994` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_delta_E_CIE_1994(self):
@@ -124,7 +124,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
 class TestDelta_E_CIE_2000(unittest.TestCase):
     """
     Defines :func:`colour.difference.delta_e.delta_E_CIE_2000` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_delta_E_CIE_2000(self):

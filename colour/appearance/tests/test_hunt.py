@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.appearance.hunt` module.
+Defines unit tests for :mod:`colour.appearance.hunt` module.
 """
 
 from __future__ import division, unicode_literals
@@ -23,7 +23,7 @@ __all__ = ['TestHuntColourAppearanceModel']
 
 class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.hunt` module units tests methods for
+    Defines :mod:`colour.appearance.hunt` module unit tests methods for
     *Hunt* colour appearance model.
     """
 

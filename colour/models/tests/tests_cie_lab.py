@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.cie_lab` module.
+Defines unit tests for :mod:`colour.models.cie_lab` module.
 """
 
 from __future__ import division, unicode_literals
@@ -32,7 +32,7 @@ __all__ = ['TestXYZ_to_Lab',
 
 class TestXYZ_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.XY§Z_to_Lab` definition units tests
+    Defines :func:`colour.models.cie_lab.XYZ_to_Lab` definition unit tests
     methods.
     """
 
@@ -77,7 +77,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_XYZ` definition units tests
+    Defines :func:`colour.models.cie_lab.Lab_to_XYZ` definition unit tests
     methods.
     """
 
@@ -122,7 +122,7 @@ class TestLab_to_XYZ(unittest.TestCase):
 
 class TestLab_to_LCHab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_LCHab` definition units tests
+    Defines :func:`colour.models.cie_lab.Lab_to_LCHab` definition unit tests
     methods.
     """
 
@@ -149,7 +149,7 @@ class TestLab_to_LCHab(unittest.TestCase):
 
 class TestLCHab_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.LCHab_to_Lab` definition units tests
+    Defines :func:`colour.models.cie_lab.LCHab_to_Lab` definition unit tests
     methods.
     """
 

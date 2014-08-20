@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.deprecated` module.
+Defines unit tests for :mod:`colour.models.deprecated` module.
 """
 
 from __future__ import division, unicode_literals
@@ -52,7 +52,7 @@ __all__ = ['TestRGB_to_HSV',
 
 class TestRGB_to_HSV(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HSV` definition units tests
+    Defines :func:`colour.models.deprecated.RGB_to_HSV` definition unit tests
     methods.
     """
 
@@ -79,7 +79,7 @@ class TestRGB_to_HSV(unittest.TestCase):
 
 class TestHSV_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HSV_to_RGB` definition units tests
+    Defines :func:`colour.models.deprecated.HSV_to_RGB` definition unit tests
     methods.
     """
 
@@ -106,7 +106,7 @@ class TestHSV_to_RGB(unittest.TestCase):
 
 class TestRGB_to_HSL(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HSL` definition units tests
+    Defines :func:`colour.models.deprecated.RGB_to_HSL` definition unit tests
     methods.
     """
 
@@ -133,7 +133,7 @@ class TestRGB_to_HSL(unittest.TestCase):
 
 class TestHSL_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HSL_to_RGB` definition units tests
+    Defines :func:`colour.models.deprecated.HSL_to_RGB` definition unit tests
     methods.
     """
 
@@ -160,7 +160,7 @@ class TestHSL_to_RGB(unittest.TestCase):
 
 class TestRGB_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_CMY` definition units tests methods.
+    Defines :func:`colour.models.deprecated.RGB_to_CMY` definition unit tests methods.
     """
 
     def test_RGB_to_CMY(self):
@@ -186,7 +186,7 @@ class TestRGB_to_CMY(unittest.TestCase):
 
 class TestCMY_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMY_to_RGB` definition units tests
+    Defines :func:`colour.models.deprecated.CMY_to_RGB` definition unit tests
     methods.
     """
 
@@ -213,7 +213,7 @@ class TestCMY_to_RGB(unittest.TestCase):
 
 class TestCMY_to_CMYK(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMY_to_CMYK` definition units tests
+    Defines :func:`colour.models.deprecated.CMY_to_CMYK` definition unit tests
     methods.
     """
 
@@ -240,7 +240,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
 class TestCMYK_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.CMYK_to_CMY` definition units tests
+    Defines :func:`colour.models.deprecated.CMYK_to_CMY` definition unit tests
     methods.
     """
 
@@ -267,7 +267,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
 class TestRGB_to_HEX(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_HEX` definition units tests
+    Defines :func:`colour.models.deprecated.RGB_to_HEX` definition unit tests
     methods.
     """
 
@@ -289,7 +289,7 @@ class TestRGB_to_HEX(unittest.TestCase):
 
 class TestHEX_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.HEX_to_RGB` definition units tests
+    Defines :func:`colour.models.deprecated.HEX_to_RGB` definition unit tests
     methods.
     """
 

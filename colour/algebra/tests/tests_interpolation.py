@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.interpolation` module.
+Defines unit tests for :mod:`colour.algebra.interpolation` module.
 """
 
 from __future__ import division, unicode_literals
@@ -409,7 +409,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
 class TestSpragueInterpolator(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class
-    units tests methods.
+    unit tests methods.
     """
 
     def test_required_attributes(self):

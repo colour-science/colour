@@ -77,7 +77,7 @@ def read_spectral_data_from_csv_file(path,
 
     with open(path) as csv_file:
         reader = csv.DictReader(csv_file,
-                                delimiter=delimiter,
+                                delimiter=str(delimiter),
                                 fieldnames=fields)
         if len(reader.fieldnames) == 1:
             raise RuntimeError(('A "CSV" spectral data file should define '
@@ -172,7 +172,7 @@ def write_spds_to_csv_file(spds,
     with open(path, 'w') as csv_file:
         fields = list(fields) if fields is not None else sorted(spds.keys())
         writer = csv.DictWriter(csv_file,
-                                delimiter=delimiter,
+                                delimiter=str(delimiter),
                                 fieldnames=['wavelength'] + fields)
         writer.writeheader()
         for wavelength in wavelengths:

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.cie_xyy` module.
+Defines unit tests for :mod:`colour.models.cie_xyy` module.
 """
 
 from __future__ import division, unicode_literals
@@ -32,7 +32,7 @@ __all__ = ['TestXYZ_to_xyY',
 
 class TestXYZ_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xyY` definition units tests
+    Defines :func:`colour.models.cie_xyy.XYZ_to_xyY` definition unit tests
     methods.
     """
 
@@ -60,7 +60,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xyY_to_XYZ` definition units tests
+    Defines :func:`colour.models.cie_xyy.xyY_to_XYZ` definition unit tests
     methods.
     """
 
@@ -87,7 +87,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
 class Testxy_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xy_to_XYZ` definition units tests
+    Defines :func:`colour.models.cie_xyy.xy_to_XYZ` definition unit tests
     methods.
     """
 
@@ -114,7 +114,7 @@ class Testxy_to_XYZ(unittest.TestCase):
 
 class TestXYZ_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xy` definition units tests
+    Defines :func:`colour.models.cie_xyy.XYZ_to_xy` definition unit tests
     methods.
     """
 

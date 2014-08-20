@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.appearance.llab` module.
+Defines unit tests for :mod:`colour.appearance.llab` module.
 """
 
 from __future__ import division, unicode_literals
@@ -23,7 +23,7 @@ __all__ = ['TestLLABColourAppearanceModel']
 
 class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.llab` module units tests methods for
+    Defines :mod:`colour.appearance.llab` module unit tests methods for
     *LLAB(l:c)* colour appearance model.
     """
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.rgb.derivation` module.
+Defines unit tests for :mod:`colour.models.rgb.derivation` module.
 """
 
 from __future__ import division, unicode_literals
@@ -37,7 +37,7 @@ __all__ = ['Testxy_to_z',
 
 class Testxy_to_z(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.xy_to_z` definition units tests
+    Defines :func:`colour.models.rgb.derivation.xy_to_z` definition unit tests
     methods.
     """
 
@@ -65,7 +65,7 @@ class Testxy_to_z(unittest.TestCase):
 class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.derivation.get_normalised_primary_matrix`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_normalised_primary_matrix(self):
@@ -103,7 +103,7 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
 class TestGetRGBLuminanceEquation(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.derivation.get_RGB_luminance_equation`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_RGB_luminance_equation(self):
@@ -131,7 +131,7 @@ class TestGetRGBLuminanceEquation(unittest.TestCase):
 class TestGetRGBLuminance(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.derivation.get_RGB_luminance` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_get_RGB_luminance(self):

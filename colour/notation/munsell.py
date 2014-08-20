@@ -1581,7 +1581,7 @@ def xyY_to_munsell_specification(xyY):
         hue_angle_difference_new = Extrapolator1d(
             LinearInterpolator1d(
                 theta_differences,
-                hue_angles_differences))(0.) % 360
+                hue_angles_differences))(0) % 360
         hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
 
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
