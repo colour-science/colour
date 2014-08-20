@@ -28,6 +28,7 @@ from .cie_uvw import XYZ_to_UVW
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
 from .common import XYZ_to_sRGB
+from .aces_rgb_idt import spectral_to_aces_relative_exposure_values
 
 __all__ = ['RGB_Colourspace']
 __all__ += ['get_normalised_primary_matrix',
@@ -50,3 +51,4 @@ __all__ += ['XYZ_to_UVW']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB']
 __all__ += ['XYZ_to_sRGB']
+__all__ += ['spectral_to_aces_relative_exposure_values']
