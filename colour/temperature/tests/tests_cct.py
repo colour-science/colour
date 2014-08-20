@@ -288,12 +288,11 @@ class Testuv_to_CCT_robertson1968(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         for key, value in TEMPERATURE_DUV_TO_UV.items():
-            np.testing.assert_almost_equal(
+            np.testing.assert_allclose(
                 uv_to_CCT_robertson1968(value),
                 key,
-                decimal=0)
+                atol=0.25)
 
 
 class TestCCT_to_uv_robertson1968(unittest.TestCase):
