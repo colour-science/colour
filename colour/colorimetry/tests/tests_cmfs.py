@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.cmfs` module.
+Defines unit tests for :mod:`colour.colorimetry.cmfs` module.
 """
 
 from __future__ import division, unicode_literals
@@ -78,7 +78,7 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
 class TestRGB_ColourMatchingFunctions(unittest.TestCase):
     """
     Defines :class:`colour.colorimetry.cmfs.RGB_ColourMatchingFunctions` class
-    units tests methods.
+    unit tests methods.
     """
 
     def test_required_attributes(self):
@@ -123,7 +123,7 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
 class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
     """
     Defines :class:`colour.colorimetry.cmfs.XYZ_ColourMatchingFunctions` class
-    units tests methods.
+    unit tests methods.
     """
 
     def test_required_attributes(self):

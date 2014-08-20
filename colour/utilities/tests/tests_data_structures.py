@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.utilities.data_structures` module.
+Defines unit tests for :mod:`colour.utilities.data_structures` module.
 """
 
 from __future__ import division, unicode_literals
@@ -83,7 +83,7 @@ class TestStructure(unittest.TestCase):
 
 class TestLookup(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.data_structures.Lookup` class units tests
+    Defines :class:`colour.utilities.data_structures.Lookup` class unit tests
     methods.
     """
 
@@ -112,7 +112,7 @@ class TestLookup(unittest.TestCase):
 class TestCaseInsensitiveMapping(unittest.TestCase):
     """
     Defines :class:`colour.utilities.data_structures.CaseInsensitiveMapping`
-    class units tests methods.
+    class unit tests methods.
     """
 
     def test__setitem__(self):

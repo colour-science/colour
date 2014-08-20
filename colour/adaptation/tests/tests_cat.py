@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.adaptation.cat` module.
+Defines unit tests for :mod:`colour.adaptation.cat` module.
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +30,7 @@ __all__ = ['TestGetChromaticAdaptationMatrix']
 class TestGetChromaticAdaptationMatrix(unittest.TestCase):
     """
     Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_chromatic_adaptation_matrix(self):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.spectrum` module.
+Defines unit tests for :mod:`colour.colorimetry.spectrum` module.
 """
 
 from __future__ import division, unicode_literals
@@ -1864,7 +1864,7 @@ CMFS_DATA = {
 class TestSpectralPowerDistribution(unittest.TestCase):
     """
     Defines :class:`colour.colorimetry.spectrum.SpectralDistribution` class
-    units tests methods.
+    unit tests methods.
     """
 
     def setUp(self):
@@ -2161,7 +2161,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 class TestTriSpectralPowerDistribution(unittest.TestCase):
     """
     Defines :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
-    class units tests methods.
+    class unit tests methods.
     """
 
     def setUp(self):

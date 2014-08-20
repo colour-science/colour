@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.extrapolation` module.
+Defines unit tests for :mod:`colour.algebra.extrapolation` module.
 """
 
 from __future__ import division, unicode_literals

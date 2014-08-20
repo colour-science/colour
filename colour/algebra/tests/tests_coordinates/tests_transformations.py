@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.coordinates.transformations`
+Defines unit tests for :mod:`colour.algebra.coordinates.transformations`
 module.
 """
 
@@ -35,7 +35,7 @@ __all__ = ['TestCartesianToSpherical',
 class TestCartesianToSpherical(unittest.TestCase):
     """
     Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_cartesian_to_spherical(self):
@@ -61,7 +61,7 @@ class TestCartesianToSpherical(unittest.TestCase):
 class TestSphericalToCartesian(unittest.TestCase):
     """
     Defines :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_spherical_to_cartesian(self):
@@ -87,7 +87,7 @@ class TestSphericalToCartesian(unittest.TestCase):
 class TestCartesianToCylindrical(unittest.TestCase):
     """
     Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_cartesian_to_cylindrical(self):
@@ -113,7 +113,7 @@ class TestCartesianToCylindrical(unittest.TestCase):
 class TestCylindricalToCartesian(unittest.TestCase):
     """
     Defines :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_cylindrical_to_cartesian(self):

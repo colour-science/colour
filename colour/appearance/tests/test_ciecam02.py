@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.appearance.ciecam02` module.
+Defines unit tests for :mod:`colour.appearance.ciecam02` module.
 """
 
 from __future__ import division, unicode_literals
@@ -25,7 +25,7 @@ __all__ = ['TestCIECAM02ColourAppearanceModel']
 
 class TestCIECAM02ColourAppearanceModel(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.ciecam02` module units tests methods for
+    Defines :mod:`colour.appearance.ciecam02` module unit tests methods for
     *CIECAM02* colour appearance model.
     """
 

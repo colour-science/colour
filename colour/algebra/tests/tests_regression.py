@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.regression` module.
+Defines unit tests for :mod:`colour.algebra.regression` module.
 """
 
 from __future__ import division, unicode_literals
@@ -74,7 +74,7 @@ X2 = np.array([
 class TestLinearRegression(unittest.TestCase):
     """
     Defines :func:`colour.algebra.regression.linear_regression` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_linear_regression(self):

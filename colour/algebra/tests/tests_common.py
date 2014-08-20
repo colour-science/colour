@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.algebra.common` module.
+Defines unit tests for :mod:`colour.algebra.common` module.
 """
 
 from __future__ import division, unicode_literals
@@ -44,7 +44,7 @@ __all__ = ['TestGetSteps',
 
 class TestGetSteps(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_steps` definition units tests
+    Defines :func:`colour.algebra.common.get_steps` definition unit tests
     methods.
     """
 
@@ -61,7 +61,7 @@ class TestGetSteps(unittest.TestCase):
 
 class TestGetClosest(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_closest` definition units tests
+    Defines :func:`colour.algebra.common.get_closest` definition unit tests
     methods.
     """
 
@@ -85,7 +85,7 @@ class TestGetClosest(unittest.TestCase):
 
 class TestToNdarray(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.to_ndarray` definition units tests
+    Defines :func:`colour.algebra.common.to_ndarray` definition unit tests
     methods.
     """
 
@@ -102,7 +102,7 @@ class TestToNdarray(unittest.TestCase):
 
 class TestIsUniform(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_uniform` definition units tests
+    Defines :func:`colour.algebra.common.is_uniform` definition unit tests
     methods.
     """
 
@@ -117,7 +117,7 @@ class TestIsUniform(unittest.TestCase):
 
 class TestIsIterable(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_iterable` definition units tests
+    Defines :func:`colour.algebra.common.is_iterable` definition unit tests
     methods.
     """
 
@@ -137,7 +137,7 @@ class TestIsIterable(unittest.TestCase):
 
 class TestIsNumber(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_number` definition units tests
+    Defines :func:`colour.algebra.common.is_number` definition unit tests
     methods.
     """
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.utilities.common` module.
+Defines unit tests for :mod:`colour.utilities.common` module.
 """
 
 from __future__ import division, unicode_literals
@@ -28,7 +28,7 @@ __all__ = ['TestIsString']
 
 class TestIsString(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_string` definition units tests
+    Defines :func:`colour.utilities.common.is_string` definition unit tests
     methods.
     """
 

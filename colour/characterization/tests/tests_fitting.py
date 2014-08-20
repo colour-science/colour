@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.characterization.fitting.fitting` package.
+Defines unit tests for :mod:`colour.characterization.fitting.fitting` package.
 """
 
 from __future__ import division, unicode_literals
@@ -84,7 +84,7 @@ M2 = np.array([
 class TestFirstOrderColourFit(unittest.TestCase):
     """
     Defines :func:`colour.characterization.fitting.first_order_colour_fit`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_first_order_colour_fit(self):

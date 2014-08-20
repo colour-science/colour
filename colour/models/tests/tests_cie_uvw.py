@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.cie_uvw` module.
+Defines unit tests for :mod:`colour.models.cie_uvw` module.
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +29,7 @@ __all__ = ['TestXYZ_to_UVW']
 
 class TestXYZ_to_UVW(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition units tests
+    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition unit tests
     methods.
     """
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.models.rgb` module.
+Defines unit tests for :mod:`colour.models.rgb` module.
 """
 
 from __future__ import division, unicode_literals
@@ -193,7 +193,7 @@ sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
 
 class TestXYZ_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.XYZ_to_RGB` definition units tests
+    Defines :func:`colour.models.rgb.XYZ_to_RGB` definition unit tests
     methods.
     """
 
@@ -235,7 +235,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
 class TestRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_XYZ` definition units tests
+    Defines :func:`colour.models.rgb.RGB_to_XYZ` definition unit tests
     methods.
     """
 
@@ -276,7 +276,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_RGB` definition units tests
+    Defines :func:`colour.models.rgb.RGB_to_RGB` definition unit tests
     methods.
     """
 

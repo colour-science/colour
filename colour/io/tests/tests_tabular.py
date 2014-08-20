@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.io.tabular` module.
+Defines unit tests for :mod:`colour.io.tabular` module.
 """
 
 from __future__ import division, unicode_literals
@@ -125,7 +125,7 @@ COLORCHECKER_N_OHTA_1 = {
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
     Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
-    definition units tests
+    definition unit tests
     methods.
     """
 

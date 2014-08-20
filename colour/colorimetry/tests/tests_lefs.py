@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.lefs` module.
+Defines unit tests for :mod:`colour.colorimetry.lefs` module.
 """
 
 from __future__ import division, unicode_literals
@@ -436,7 +436,7 @@ MESOPIC_LEF_SPD_DATA = np.array([
 class TestMesopicWeightingFunction(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.lefs.mesopic_weighting_function`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_mesopic_weighting_function(self):
@@ -469,7 +469,7 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
     Defines
     :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_mesopic_luminous_efficiency_function(self):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.appearance.nayatani95` module.
+Defines unit tests for :mod:`colour.appearance.nayatani95` module.
 """
 
 from __future__ import division, unicode_literals
@@ -23,7 +23,7 @@ __all__ = ['TestNayatani95ColourAppearanceModel']
 
 class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
     """
-    Defines :mod:`colour.appearance.nayatani95` module units tests methods for
+    Defines :mod:`colour.appearance.nayatani95` module unit tests methods for
     *Nayatani (1995)* colour appearance model.
     """
 

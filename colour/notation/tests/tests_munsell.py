@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.notation.munsell` module.
+Defines unit tests for :mod:`colour.notation.munsell` module.
 """
 
 from __future__ import division, unicode_literals
@@ -3986,7 +3986,7 @@ NON_CONVERGING_XYY = (
 class TestParseMunsellColour(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.parse_munsell_colour` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_parse_munsell_colour(self):
@@ -4005,7 +4005,7 @@ class TestParseMunsellColour(unittest.TestCase):
 class TestIsGreyMunsellColour(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.is_grey_munsell_colour` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_is_grey_munsell_colour(self):
@@ -4022,7 +4022,7 @@ class TestIsGreyMunsellColour(unittest.TestCase):
 class TestNormalizeMunsellSpecification(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.normalize_munsell_specification`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_normalize_munsell_specification(self):
@@ -4049,7 +4049,7 @@ class TestMunsellColourToMunsellSpecification(unittest.TestCase):
     """
     Defines
     :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_colour_to_munsell_specification(self):
@@ -4079,7 +4079,7 @@ class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
     """
     Defines
     :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_specification_to_munsell_colour(self):
@@ -4105,7 +4105,7 @@ class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
 class TestGet_xyY_fromRenotation(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.get_xyY_from_renotation` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_get_xyY_from_renotation(self):
@@ -4125,7 +4125,7 @@ class TestGet_xyY_fromRenotation(unittest.TestCase):
 class TestIsSpecificationInRenotation(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.is_specification_in_renotation`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_is_specification_in_renotation(self):
@@ -4142,7 +4142,7 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
 class TestGetBoundingHuesFromRenotation(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.get_bounding_hues_from_renotation`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_bounding_hues_from_renotation(self):
@@ -4206,7 +4206,7 @@ class TestGetInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
     Defines
     :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_interpolation_method_from_renotation_ovoid(self):
@@ -4225,7 +4225,7 @@ class TestGetInterpolationMethodFromRenotationOvoid(unittest.TestCase):
 class TestGet_xy_fromRenotationOvoid(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.get_xy_from_renotation_ovoid`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_xy_from_renotation_ovoid(self):
@@ -4243,7 +4243,7 @@ class TestGet_xy_fromRenotationOvoid(unittest.TestCase):
 class TestLCHabToMunsellSpecification(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.LCHab_to_munsell_specification`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_LCHab_to_munsell_specification(self):
@@ -4271,7 +4271,7 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
 class TestGetMaximumChromaFromRenotation(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.get_maximum_chroma_from_renotation`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_get_maximum_chroma_from_renotation(self):
@@ -4292,7 +4292,7 @@ class TestGetMaximumChromaFromRenotation(unittest.TestCase):
 class TestMunsellSpecification_to_xy(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_specification_to_xy`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_specification_to_xy(self):
@@ -4312,7 +4312,7 @@ class TestMunsellSpecification_to_xy(unittest.TestCase):
 class TestMunsellSpecification_to_xyY(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_specification_to_xyY`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_specification_to_xyY(self):
@@ -4337,7 +4337,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 class TestMunsellColour_to_xyY(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_munsell_colour_to_xyY(self):
@@ -4354,7 +4354,7 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 class TestxyY_to_munsell_specification(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.xyY_to_munsell_specification`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_xyY_to_munsell_specification(self):
@@ -4378,7 +4378,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 class TestxyY_to_munsell_colour(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_xyY_to_munsell_colour(self):
@@ -4395,7 +4395,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
 class TestMunsellValuePriest1920(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_priest1920` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_munsell_value_priest1920(self):
@@ -4415,7 +4415,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
 class TestMunsellValueMunsell1933(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_munsell1933`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_value_munsell1933(self):
@@ -4435,7 +4435,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
 class TestMunsellValueMoon1943(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_moon1943` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_munsell_value_moon1943(self):
@@ -4455,7 +4455,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 class TestMunsellValueSaunderson1944(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_saunderson1944`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_value_saunderson1944(self):
@@ -4475,7 +4475,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
 class TestMunsellValueLadd1955(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_ladd1955` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_munsell_value_ladd1955(self):
@@ -4495,7 +4495,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
 class TestMunsellValueMcCamy1992(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_mccamy1987` definition
-    units tests methods.
+    unit tests methods.
     """
 
     def test_munsell_value_mccamy1987(self):
@@ -4515,7 +4515,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
 class TestMunsellValueASTM_D1535_08(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.munsell_value_ASTM_D1535_08`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_munsell_value_ASTM_D1535_08(self):

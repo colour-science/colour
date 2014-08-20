@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.quality.cri` module.
+Defines unit tests for :mod:`colour.quality.cri` module.
 """
 
 from __future__ import division, unicode_literals
@@ -115,7 +115,7 @@ SAMPLE_SPD_DATA = {
 class TestGetColourRenderingIndex(unittest.TestCase):
     """
     Defines :func:`colour.quality.cri.get_colour_rendering_index`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_xy_to_z(self):

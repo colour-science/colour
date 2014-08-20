@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.illuminants` module.
+Defines unit tests for :mod:`colour.colorimetry.illuminants` module.
 """
 
 from __future__ import division, unicode_literals
@@ -88,7 +88,7 @@ D60_SPD_DATA = {
 class TestD_illuminantRelativeSpd(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_D_illuminant_relative_spd(self):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.optimal.macadam_limits` module.
+Defines unit tests for :mod:`colour.optimal.macadam_limits` module.
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +29,7 @@ __all__ = ['TestIsWithinMacadamLimits']
 class TestIsWithinMacadamLimits(unittest.TestCase):
     """
     Defines :func:`colour.optimal.macadam_limits.is_within_macadam_limits`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_is_within_macadam_limits(self):

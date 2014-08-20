@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.colorimetry.blackbody` module.
+Defines unit tests for :mod:`colour.colorimetry.blackbody` module.
 """
 
 from __future__ import division, unicode_literals
@@ -4530,7 +4530,7 @@ class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
     """
     Defines
     :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
-    definition units tests methods.
+    definition unit tests methods.
     """
 
     def test_blackbody_power_spectral_distribution(self):
