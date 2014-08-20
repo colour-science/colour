@@ -9,6 +9,7 @@ __pycache__
 *.pyo
 
 .idea/
+.ramblings/
 dist/
 docs/sphinx/_build/
 references/

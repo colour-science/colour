@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-CSV Input / Output
-==================
+CSV Tabular Data Input / Output
+===============================
 
-Defines various input / output objects for *CSV* files.
+Defines various input / output objects for *CSV* tabular data files:
+
+-   :func:`read_spectral_data_from_csv_file`
+-   :func:`read_spds_from_csv_file`
+-   :func:`write_spds_to_csv_file`
 """
 
 from __future__ import division, unicode_literals
@@ -22,8 +26,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['read_spectral_data_from_csv_file',
-           'get_spds_from_csv_file',
-           'set_spds_to_csv_file']
+           'read_spds_from_csv_file',
+           'write_spds_to_csv_file']
 
 
 def read_spectral_data_from_csv_file(path,
@@ -95,10 +99,10 @@ def read_spectral_data_from_csv_file(path,
         return data
 
 
-def get_spds_from_csv_file(path,
-                           delimiter=',',
-                           fields=None,
-                           default=0):
+def read_spds_from_csv_file(path,
+                            delimiter=',',
+                            fields=None,
+                            default=0):
     """
     Reads the spectral data from given *CSV* file and return its content as a
     *dict* of :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
@@ -133,12 +137,12 @@ def get_spds_from_csv_file(path,
     return spds
 
 
-def set_spds_to_csv_file(spds,
-                         path,
-                         delimiter=',',
-                         fields=None):
+def write_spds_to_csv_file(spds,
+                           path,
+                           delimiter=',',
+                           fields=None):
     """
-    Write the given spectral power distributions to given *CSV* file.
+    Writes the given spectral power distributions to given *CSV* file.
 
     Parameters
     ----------

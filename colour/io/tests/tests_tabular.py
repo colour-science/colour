@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines units tests for :mod:`colour.io.csv` module.
+Defines units tests for :mod:`colour.io.tabular` module.
 """
 
 from __future__ import division, unicode_literals
@@ -18,10 +18,10 @@ else:
 import tempfile
 
 from colour.colorimetry import SpectralPowerDistribution
-from colour.io.csv import (
+from colour.io.tabular import (
     read_spectral_data_from_csv_file,
-    get_spds_from_csv_file,
-    set_spds_to_csv_file)
+    read_spds_from_csv_file,
+    write_spds_to_csv_file)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
@@ -31,7 +31,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['RESOURCES_DIRECTORY',
-           'TestReadSpectralDataFromCsvFile']
+           'COLORCHECKER_N_OHTA_1',
+           'TestReadSpectralDataFromCsvFile',
+           'TestReadSpdsFromCsvFile',
+           'TestWriteSpdsToCsvFile']
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
@@ -121,14 +124,14 @@ COLORCHECKER_N_OHTA_1 = {
 
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.csv.read_spectral_data_from_csv_file`
+    Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
     definition units tests
     methods.
     """
 
     def test_read_spectral_data_from_csv_file(self):
         """
-        Tests :func:`colour.io.csv.read_spectral_data_from_csv_file`
+        Tests :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
         """
 
@@ -157,20 +160,20 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         self.assertEqual(data['s_bar'][760], -1)
 
 
-class TestGetSpdsFromCsvFile(unittest.TestCase):
+class TestReadSpdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.csv.get_spds_from_csv_file` definition units tests
-    methods.
+    Defines :func:`colour.io.tabular.read_spds_from_csv_file` definition units
+    tests methods.
     """
 
-    def test_get_spds_from_csv_file(self):
+    def test_read_spds_from_csv_file(self):
         """
-        Tests :func:`colour.io.csv.get_spds_from_csv_file` definition.
+        Tests :func:`colour.io.tabular.read_spds_from_csv_file` definition.
         """
 
         colorchecker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                            'colorchecker_n_ohta.csv')
-        spds = get_spds_from_csv_file(colorchecker_n_ohta)
+        spds = read_spds_from_csv_file(colorchecker_n_ohta)
         for spd in spds.values():
             self.assertIsInstance(spd, SpectralPowerDistribution)
 
@@ -179,10 +182,10 @@ class TestGetSpdsFromCsvFile(unittest.TestCase):
                                                    COLORCHECKER_N_OHTA_1))
 
 
-class TestSetSpdsToCsvFile(unittest.TestCase):
+class TestWriteSpdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.csv.set_spds_to_csv_file` definition units tests
-    methods.
+    Defines :func:`colour.io.tabular.write_spds_to_csv_file` definition units
+    tests methods.
     """
 
     def setUp(self):
@@ -199,22 +202,22 @@ class TestSetSpdsToCsvFile(unittest.TestCase):
 
         shutil.rmtree(self.__temporary_directory)
 
-    def test_set_spds_to_csv_file(self):
+    def test_write_spds_to_csv_file(self):
         """
-        Tests :func:`colour.io.csv.set_spds_to_csv_file` definition.
+        Tests :func:`colour.io.tabular.write_spds_to_csv_file` definition.
         """
 
         colorchecker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                            'colorchecker_n_ohta.csv')
-        spds = get_spds_from_csv_file(colorchecker_n_ohta)
+        spds = read_spds_from_csv_file(colorchecker_n_ohta)
         colorchecker_n_ohta_test = os.path.join(self.__temporary_directory,
                                                 'colorchecker_n_ohta.csv')
-        set_spds_to_csv_file(spds, colorchecker_n_ohta_test)
-        spds_test = get_spds_from_csv_file(colorchecker_n_ohta_test)
+        write_spds_to_csv_file(spds, colorchecker_n_ohta_test)
+        spds_test = read_spds_from_csv_file(colorchecker_n_ohta_test)
         for key, value in spds.items():
             self.assertEqual(value, spds_test[key])
-        set_spds_to_csv_file(spds, colorchecker_n_ohta_test, fields=['1'])
-        spds_test = get_spds_from_csv_file(colorchecker_n_ohta_test)
+        write_spds_to_csv_file(spds, colorchecker_n_ohta_test, fields=['1'])
+        spds_test = read_spds_from_csv_file(colorchecker_n_ohta_test)
         self.assertEqual(len(spds_test), 1)
 
 
