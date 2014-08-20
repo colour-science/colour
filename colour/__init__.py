@@ -18,6 +18,7 @@ Subpackages
 -   constants: *CIE* and *CODATA* constants.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
+-   io: Input / output objects.
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
@@ -56,6 +57,8 @@ from .difference import *
 from . import difference
 from .characterization import *
 from . import characterization
+from .io import *
+from . import io
 from .models import *
 from . import models
 from .optimal import *
@@ -83,6 +86,7 @@ __all__ += appearance.__all__
 __all__ += characterization.__all__
 __all__ += colorimetry.__all__
 __all__ += difference.__all__
+__all__ += io.__all__
 __all__ += models.__all__
 __all__ += optimal.__all__
 __all__ += notation.__all__
