@@ -32,7 +32,7 @@ __all__ = ['TestXYZ_to_Lab',
 
 class TestXYZ_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.XY§Z_to_Lab` definition unit tests
+    Defines :func:`colour.models.cie_lab.XYZ_to_Lab` definition unit tests
     methods.
     """
 
