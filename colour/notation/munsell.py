@@ -55,7 +55,7 @@ from colour.algebra.common import (
 from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
-from colour.notation import MUNSELL_COLOURS
+from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers, Paul Centore'
@@ -166,7 +166,7 @@ def _get_munsell_specifications():
         _MUNSELL_SPECIFICATIONS_CACHE = [
             munsell_colour_to_munsell_specification(
                 MUNSELL_COLOUR_FORMAT.format(*colour[0]))
-            for colour in MUNSELL_COLOURS]
+            for colour in MUNSELL_COLOURS_ALL]
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
@@ -206,7 +206,7 @@ def _get_munsell_maximum_chromas_from_renotation():
     global _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
     if _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE is None:
         chromas = OrderedDict()
-        for munsell_colour in MUNSELL_COLOURS:
+        for munsell_colour in MUNSELL_COLOURS_ALL:
             hue, value, chroma, code = munsell_colour_to_munsell_specification(
                 MUNSELL_COLOUR_FORMAT.format(*munsell_colour[0]))
             index = (hue, value, code)
@@ -437,7 +437,7 @@ def get_xyY_from_renotation(specification):
 
     specifications = _get_munsell_specifications()
     try:
-        return MUNSELL_COLOURS[specifications.index(specification)][1]
+        return MUNSELL_COLOURS_ALL[specifications.index(specification)][1]
     except ValueError as error:
         raise ValueError(('"{0}" specification does not exists in '
                           '"Munsell Renotation System" data!').format(

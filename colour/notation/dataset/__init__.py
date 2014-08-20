@@ -3,6 +3,8 @@
 
 from __future__ import absolute_import
 
-from .munsell import MUNSELL_COLOURS
+from .munsell import *
+from . import munsell
 
-__all__ = ['MUNSELL_COLOURS']
+__all__ = []
+__all__ += munsell.__all__
