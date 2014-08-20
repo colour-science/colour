@@ -1061,7 +1061,13 @@ class SpectralPowerDistribution(object):
                                       steps)])
         return self
 
-    def align(self, start, end, steps):
+    def align(self,
+              start,
+              end,
+              steps,
+              method='Constant',
+              left=None,
+              right=None):
         """
         Aligns the spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
@@ -1074,6 +1080,13 @@ class SpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range end in nm.
         steps : float
             Wavelengths :math:`\lambda_n` range steps.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -1117,7 +1130,7 @@ class SpectralPowerDistribution(object):
         """
 
         self.interpolate(start, end, steps)
-        self.extrapolate(start, end)
+        self.extrapolate(start, end, method, left, right)
 
         return self
 
@@ -2495,7 +2508,13 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def align(self, start, end, steps):
+    def align(self,
+              start,
+              end,
+              steps,
+              method='Constant',
+              left=None,
+              right=None):
         """
         Aligns the tri-spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
@@ -2508,6 +2527,13 @@ class TriSpectralPowerDistribution(object):
             Wavelengths :math:`\lambda_n` range end in nm.
         steps : float
             Wavelengths :math:`\lambda_n` range steps.
+        method : unicode, optional
+            ('Linear', 'Constant'),
+            Extrapolation method.
+        left : int or float, optional
+            Value to return for low extrapolation range.
+        right : int or float, optional
+            Value to return for high extrapolation range.
 
         Returns
         -------
@@ -2602,7 +2628,7 @@ class TriSpectralPowerDistribution(object):
 
         for i in self.__mapping.keys():
             getattr(self, i).interpolate(start, end, steps)
-            getattr(self, i).extrapolate(start, end)
+            getattr(self, i).extrapolate(start, end, method, left, right)
 
         return self
 
