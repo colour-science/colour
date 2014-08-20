@@ -50,22 +50,21 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs.get(435),
-            decimal=2)
+            atol=0.0025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
             cmfs.get(545),
-            decimal=2)
+            atol=0.0025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
             cmfs.get(700),
-            decimal=2)
+            atol=0.0025)
 
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
@@ -82,22 +81,21 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs.get(435),
-            decimal=1)
+            atol=0.025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs.get(545),
-            decimal=1)
+            atol=0.025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs.get(700),
-            decimal=1)
+            atol=0.025)
 
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
@@ -114,22 +112,21 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
             cmfs.get(435),
-            decimal=1)
+            atol=0.0025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(545),
             cmfs.get(545),
-            decimal=1)
+            atol=0.0025)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700),
             cmfs.get(700),
-            decimal=1)
+            atol=0.0025)
 
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
@@ -146,22 +143,21 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get('CIE 2012 2 Degree Standard Observer')
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs.get(435),
-            decimal=1)
+            atol=0.00015)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
             cmfs.get(545),
-            decimal=1)
+            atol=0.00015)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
             cmfs.get(700),
-            decimal=1)
+            atol=0.00015)
 
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
@@ -178,22 +174,21 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         definition.
         """
 
-        # TODO: Update test to tolerance matching.
         cmfs = CMFS.get('CIE 2012 10 Degree Standard Observer')
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs.get(435),
-            decimal=1)
+            atol=0.00015)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs.get(545),
-            decimal=1)
+            atol=0.00015)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs.get(700),
-            decimal=1)
+            atol=0.00015)
 
 
 if __name__ == '__main__':
