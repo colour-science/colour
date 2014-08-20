@@ -92,7 +92,7 @@ class Extrapolator1d(object):
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant')
     >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
-    array([ 3.,  3.,  5.,  5.])
+    array([ 1.,  1.,  3.,  3.])
 
     Using defined *left* boundary and *Constant* extrapolation method:
 
@@ -101,7 +101,7 @@ class Extrapolator1d(object):
     >>> interpolator = colour.LinearInterpolator1d(x, y)
     >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant', left=0)
     >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
-    array([ 0.,  0.,  5.,  5.])
+    array([ 0.,  0.,  3.,  3.])
     """
 
     def __init__(self,
@@ -265,7 +265,7 @@ class Extrapolator1d(object):
         xe = self.__evaluate(to_ndarray(x))
 
         if is_number(x):
-            return type(x)(xe)
+            return float(xe)
         else:
             return xe
 
@@ -295,8 +295,8 @@ class Extrapolator1d(object):
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
         elif self.__method == 'constant':
-            y[x < xi[0]] = xi[0]
-            y[x > xi[-1]] = xi[-1]
+            y[x < xi[0]] = yi[0]
+            y[x > xi[-1]] = yi[-1]
 
         if self.__left is not None:
             y[x < xi[0]] = self.__left
