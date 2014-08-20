@@ -56,6 +56,7 @@ class SpectralPowerDistribution(object):
     data
     wavelengths
     values
+    items
     shape
 
     Methods
@@ -221,6 +222,33 @@ class SpectralPowerDistribution(object):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('values'))
+
+    @property
+    def items(self):
+        """
+        Property for **self.items** attribute. This is a convenient attribute
+        used to iterate over the spectral power distribution.
+
+        Returns
+        -------
+        generator
+            Spectral power distribution data generator.
+        """
+
+        return self.__iter__()
+
+    @items.setter
+    def items(self, value):
+        """
+        Setter for **self.items** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('items'))
 
     @property
     def shape(self):
@@ -1203,6 +1231,7 @@ class TriSpectralPowerDistribution(object):
     z
     wavelengths
     values
+    items
     shape
 
     Methods
@@ -1555,6 +1584,34 @@ class TriSpectralPowerDistribution(object):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('values'))
+
+    @property
+    def items(self):
+        """
+        Property for **self.items** attribute. This is a convenient attribute
+        used to iterate over the tri-spectral power distribution.
+
+        Returns
+        -------
+        generator
+            Tri-spectral power distribution data generator.
+        """
+
+        return self.__iter__()
+
+    @items.setter
+    def items(self, value):
+        """
+        Setter for **self.items** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('items'))
+
 
     @property
     def shape(self):
