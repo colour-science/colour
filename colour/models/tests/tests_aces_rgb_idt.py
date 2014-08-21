@@ -57,13 +57,13 @@ class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
             dict(zip(wavelengths, [1] * len(wavelengths))))
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(perfect_reflector),
-            np.array([1., 1., 1.]))
+            np.array([0.97783784, 0.97783784, 0.97783784]))
 
         dark_skin = (
             COLOURCHECKERS_SPDS.get('ColorChecker N Ohta').get('dark skin'))
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(dark_skin),
-            np.array([0.11713776, 0.08461404, 0.05545923]))
+            np.array([0.11876978, 0.08708666, 0.0589442]))
 
 
 if __name__ == '__main__':
