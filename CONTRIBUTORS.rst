@@ -33,11 +33,11 @@ Acknowledgements
 
 -   **Alex Forsythe**, *Image Engineering Manager @ Academy of Motion Picture Arts and Sciences*
 
-    ACES RGB IDT Technical support.
+    *ACES RGB IDT* technical support.
 
 -   **Scott Dyer**, *Image Engineering @ Academy of Motion Picture Arts and Sciences*
 
-    ACES RGB IDT Technical support.
+    *ACES RGB IDT* technical support.
 
 About
 -----
