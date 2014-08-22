@@ -44,7 +44,7 @@ def xy_to_z(xy):
 
     Returns
     -------
-    float
+    numeric
         *z* coordinate.
 
     References
@@ -166,7 +166,7 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
 
     Returns
     -------
-    float
+    numeric
         *Luminance* :math:`y`.
 
     References

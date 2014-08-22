@@ -63,7 +63,19 @@ class TestLMS_ConeFundamentals(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('get',
+        required_methods = ('__hash__',
+                            '__getitem__',
+                            '__setitem__',
+                            '__iter__',
+                            '__contains__',
+                            '__len__',
+                            '__eq__',
+                            '__ne__',
+                            '__add__',
+                            '__sub__',
+                            '__mul__',
+                            '__div__',
+                            'get',
                             'extrapolate',
                             'interpolate',
                             'align',
@@ -108,7 +120,19 @@ class TestRGB_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('get',
+        required_methods = ('__hash__',
+                            '__getitem__',
+                            '__setitem__',
+                            '__iter__',
+                            '__contains__',
+                            '__len__',
+                            '__eq__',
+                            '__ne__',
+                            '__add__',
+                            '__sub__',
+                            '__mul__',
+                            '__div__',
+                            'get',
                             'extrapolate',
                             'interpolate',
                             'align',
@@ -153,7 +177,19 @@ class TestXYZ_ColourMatchingFunctions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('get',
+        required_methods = ('__hash__',
+                            '__getitem__',
+                            '__setitem__',
+                            '__iter__',
+                            '__contains__',
+                            '__len__',
+                            '__eq__',
+                            '__ne__',
+                            '__add__',
+                            '__sub__',
+                            '__mul__',
+                            '__div__',
+                            'get',
                             'extrapolate',
                             'interpolate',
                             'align',

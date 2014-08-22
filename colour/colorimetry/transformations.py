@@ -40,7 +40,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
 
     Returns
@@ -92,7 +92,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
          (0.66697 * r + 1.13240 * g + 1.20063 * b))
 
     V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
-    V.align(*cmfs.shape)
+    V.align(cmfs.shape)
     L = V.get(wavelength)
 
     x_bar = x / y * L
@@ -110,7 +110,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
 
     Returns
@@ -165,7 +165,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
 
     Returns
@@ -214,7 +214,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
 
     Returns
@@ -261,7 +261,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
 
     Returns

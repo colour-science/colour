@@ -69,8 +69,7 @@ def D_illuminant_relative_spd(xy):
     M2 = (0.0300 - 31.4424 * xy[0] + 30.0717 * xy[1]) / M
 
     distribution = {}
-    start, end, steps = D_ILLUMINANTS_S_SPDS.get('S0').shape
-    for i in np.arange(start, end + steps, steps):
+    for i in D_ILLUMINANTS_S_SPDS.get('S0').shape:
         S0 = D_ILLUMINANTS_S_SPDS.get('S0').get(i)
         S1 = D_ILLUMINANTS_S_SPDS.get('S1').get(i)
         S2 = D_ILLUMINANTS_S_SPDS.get('S2').get(i)

@@ -430,7 +430,8 @@ MESOPIC_LEF_SPD_DATA = np.array([
     9.95726582356e-06,
     9.29144016011e-06,
     8.67065568628e-06,
-    8.0917805149e-06])
+    8.0917805149e-06,
+    7.55189380944e-06])
 
 
 class TestMesopicWeightingFunction(unittest.TestCase):

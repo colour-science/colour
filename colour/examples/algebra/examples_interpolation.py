@@ -77,10 +77,10 @@ non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
     'Non Uniform - Cubic Spline Interpolation',
     non_uniform_spd_data)
 
-uniform_interpolated_spd.interpolate(steps=1)
-non_uniform_interpolated_spd.interpolate(steps=1)
+uniform_interpolated_spd.interpolate(colour.SpectralShape(steps=1))
+non_uniform_interpolated_spd.interpolate(colour.SpectralShape(steps=1))
 
-start, end, steps = base_spd.shape
+shape = base_spd.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
 pylab.plot(base_spd.wavelengths,
@@ -97,8 +97,8 @@ pylab.plot(non_uniform_interpolated_spd.wavelengths,
            label=non_uniform_interpolated_spd.name,
            linewidth=2)
 
-x_limit_min.append(start)
-x_limit_max.append(end)
+x_limit_min.append(shape.start)
+x_limit_max.append(shape.end)
 y_limit_min.append(min(base_spd.values))
 y_limit_max.append(max(base_spd.values))
 

@@ -21,7 +21,7 @@ from colour.algebra import (
     to_ndarray,
     is_uniform,
     is_iterable,
-    is_number,
+    is_numeric,
     is_integer,
     normalise)
 
@@ -37,7 +37,7 @@ __all__ = ['TestGetSteps',
            'TestToNdarray',
            'TestIsUniform',
            'TestIsIterable',
-           'TestIsNumber',
+           'TestIsNumeric',
            'TestIsInteger',
            'TestNormalise']
 
@@ -135,23 +135,23 @@ class TestIsIterable(unittest.TestCase):
         self.assertFalse(is_iterable(2))
 
 
-class TestIsNumber(unittest.TestCase):
+class TestIsNumeric(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.is_number` definition unit tests
+    Defines :func:`colour.algebra.common.is_numeric` definition unit tests
     methods.
     """
 
-    def test_is_number(self):
+    def test_is_numeric(self):
         """
-        Tests :func:`colour.algebra.common.is_number` definition.
+        Tests :func:`colour.algebra.common.is_numeric` definition.
         """
 
-        self.assertTrue(is_number(1))
-        self.assertTrue(is_number(1))
-        self.assertTrue(is_number(complex(1)))
-        self.assertFalse(is_number((1,)))
-        self.assertFalse(is_number([1]))
-        self.assertFalse(is_number('1'))
+        self.assertTrue(is_numeric(1))
+        self.assertTrue(is_numeric(1))
+        self.assertTrue(is_numeric(complex(1)))
+        self.assertFalse(is_numeric((1,)))
+        self.assertFalse(is_numeric([1]))
+        self.assertFalse(is_numeric('1'))
 
 
 class TestIsInteger(unittest.TestCase):

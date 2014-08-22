@@ -87,14 +87,14 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     Parameters
     ----------
-    value : float
+    value : numeric
         value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
-    :rtype: float
+    :rtype: numeric
     :return: Companded value.
 
     References
@@ -117,14 +117,14 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     Parameters
     ----------
-    value : float
+    value : numeric
         value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
-    :rtype: float
+    :rtype: numeric
     :return: Companded value.
 
     References

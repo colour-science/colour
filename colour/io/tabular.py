@@ -58,7 +58,7 @@ def read_spectral_data_from_csv_file(path,
     fields : array_like, optional
         *CSV* file spectral data fields names. If no value is provided the
         first line of the file will be used as spectral data fields names.
-    default : float, optional
+    default : numeric, optional
         Default value for fields row with missing value.
 
     Returns
@@ -117,7 +117,7 @@ def read_spds_from_csv_file(path,
     fields : array_like, optional
         *CSV* file spectral data fields names. If no value is provided the
         first line of the file will be used for as spectral data fields names.
-    default : float
+    default : numeric
         Default value for fields row with missing value.
 
     Returns

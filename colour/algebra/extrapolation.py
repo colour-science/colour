@@ -14,7 +14,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import is_number, to_ndarray
+from colour.algebra import is_numeric, to_ndarray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -51,9 +51,9 @@ class Extrapolator1d(object):
     method : unicode, optional
         ('Linear', 'Constant'),
         Extrapolation method.
-    left : int or float, optional
+    left : numeric, optional
         Value to return for x < xi[0].
-    right : int or float, optional
+    right : numeric, optional
         Value to return for x > xi[-1].
 
     Methods
@@ -71,7 +71,7 @@ class Extrapolator1d(object):
 
     Examples
     --------
-    Extrapolating a single float variable:
+    Extrapolating a single numeric variable:
 
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
@@ -193,7 +193,7 @@ class Extrapolator1d(object):
 
         Returns
         -------
-        int or long or float or complex
+        numeric
             self.__left
         """
 
@@ -206,14 +206,14 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-        value : int or long or float or complex
+        value : numeric
             Attribute value.
         """
 
         if value is not None:
-            assert is_number(value), \
-                ('"{0}" attribute: "{1}" type is not '
-                 '"int", "float" or "complex"!').format('left', value)
+            assert is_numeric(value), (
+                '"{0}" attribute: "{1}" type is not "numeric"!').format(
+                'left', value)
         self.__left = value
 
     @property
@@ -223,7 +223,7 @@ class Extrapolator1d(object):
 
         Returns
         -------
-        int or long or float or complex
+        numeric
             self.__right
         """
 
@@ -236,15 +236,14 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-        value : int or long or float or complex
+        value : numeric
             Attribute value.
         """
 
         if value is not None:
-            assert is_number(value), \
-                ('"{0}" attribute: "{1}" type is not '
-                 '"int", "float" or "complex"!').format('right', value)
-
+            assert is_numeric(value), (
+                '"{0}" attribute: "{1}" type is not "numeric"!').format(
+                'right', value)
         self.__right = value
 
     def __call__(self, x):
@@ -253,7 +252,7 @@ class Extrapolator1d(object):
 
         Parameters
         ----------
-        x : float or array_like
+        x : numeric or array_like
             Point(s) to evaluate the Extrapolator1d at.
 
         Returns
@@ -264,7 +263,7 @@ class Extrapolator1d(object):
 
         xe = self.__evaluate(to_ndarray(x))
 
-        if is_number(x):
+        if is_numeric(x):
             return float(xe)
         else:
             return xe

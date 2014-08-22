@@ -27,7 +27,7 @@ __all__ = ['FLOATING_POINT_NUMBER_PATTERN',
            'to_ndarray',
            'is_uniform',
            'is_iterable',
-           'is_number',
+           'is_numeric',
            'is_integer',
            'normalise']
 
@@ -37,7 +37,7 @@ INTEGER_THRESHOLD = 0.001
 """
 Integer threshold value.
 
-INTEGER_THRESHOLD : float
+INTEGER_THRESHOLD : numeric
 """
 
 
@@ -74,12 +74,12 @@ def get_closest(y, x):
     ----------
     y : array_like
         Variable to search for the closest element.
-    x : int or float
+    x : numeric
         Reference variable.
 
     Returns
     -------
-    int or float
+    numeric
         Closest :math:`y` variable element.
 
     Examples
@@ -176,7 +176,7 @@ def is_iterable(x):
         return False
 
 
-def is_number(x):
+def is_numeric(x):
     """
     Returns if given :math:`x` variable is a number.
 
@@ -196,13 +196,14 @@ def is_number(x):
 
     Examples
     --------
-    >>> is_number(1)
+    >>> is_numeric(1)
     True
-    >>> is_number((1,))
+    >>> is_numeric((1,))
     False
     """
 
-    return isinstance(x, (int, float, complex))
+    return isinstance(x, (int, float, complex,
+                          np.integer, np.floating, np.complex))
 
 
 def is_integer(x):
@@ -226,7 +227,7 @@ def is_integer(x):
 
     See Also
     --------
-    is_number
+    is_numeric
 
     Examples
     --------
@@ -248,7 +249,7 @@ def normalise(x, factor=1, clip=True):
     ----------
     x : array_like
         :math:`x` variable to normalise.
-    factor : float, optional
+    factor : numeric, optional
         Normalization factor
     clip : bool, optional
         Clip values between in domain [0, 'factor'].

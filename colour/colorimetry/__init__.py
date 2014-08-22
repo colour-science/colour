@@ -3,9 +3,16 @@
 
 from __future__ import absolute_import
 
-from .spectrum import SpectralPowerDistribution, TriSpectralPowerDistribution
+from .spectrum import (
+    SpectralShape,
+    DEFAULT_SPECTRAL_SHAPE,
+    SpectralPowerDistribution,
+    TriSpectralPowerDistribution,
+    constant_spd,
+    zeros_spd,
+    ones_spd)
 from .blackbody import (
-    blackbody_spectral_power_distribution,
+    blackbody_spd,
     blackbody_spectral_radiance,
     planck_law)
 from .dataset import *
@@ -40,8 +47,14 @@ from .transformations import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .tristimulus import spectral_to_XYZ, wavelength_to_XYZ
 
-__all__ = ['SpectralPowerDistribution', 'TriSpectralPowerDistribution']
-__all__ += ['blackbody_spectral_power_distribution',
+__all__ = ['SpectralShape',
+           'DEFAULT_SPECTRAL_SHAPE',
+           'SpectralPowerDistribution',
+           'TriSpectralPowerDistribution',
+           'constant_spd',
+           'zeros_spd',
+           'ones_spd']
+__all__ += ['blackbody_spd',
             'blackbody_spectral_radiance',
             'planck_law']
 __all__ += dataset.__all__

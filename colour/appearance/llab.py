@@ -129,19 +129,19 @@ Defines the *LLAB(l:c)* colour appearance model specification.
 
 Parameters
 ----------
-h_L : float
+h_L : numeric
     *Hue* angle :math:`h_L` in degrees.
-Ch_L : float
+Ch_L : numeric
     Correlate of *chroma* :math:`Ch_L`.
-s_L : float
+s_L : numeric
     Correlate of *saturation* :math:`s_L`.
-L_L : float
+L_L : numeric
     Correlate of *Lightness* :math:`L_L`.
-C_L : float
+C_L : numeric
     Correlate of *colourfulness* :math:`C_L`.
-A_L : float
+A_L : numeric
     Opponent signal :math:`A_L`.
-B_L : float
+B_L : numeric
     Opponent signal :math:`B_L`.
 """
 
@@ -164,17 +164,17 @@ def XYZ_to_LLAB(XYZ,
         [0, 100].
     XYZ_0 : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_b : float
+    Y_b : numeric
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : float
+    F_S : numeric
         Surround induction factor :math:`F_S`.
-    F_L : float
+    F_L : numeric
         Lightness induction factor :math:`F_L`.
-    F_C : float
+    F_C : numeric
         Chroma induction factor :math:`F_C`.
-    L : float
+    L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    D : float, optional
+    D : numeric, optional
          *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
@@ -296,9 +296,9 @@ def get_chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     RGB_0r : array_like, (3,)
         *RGB* normalised cone responses matrix of reference illuminant
         *CIE Standard Illuminant D Series* *D65*.
-    Y : float
+    Y : numeric
         Tristimulus values :math:`Y` of the stimulus.
-    D : float, optional
+    D : numeric, optional
          *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
@@ -341,14 +341,14 @@ def f(x, F_S):
 
     Parameters
     ----------
-    x : float or array_like
+    x : numeric or array_like
         Visual response variable :math:`x`.
-    F_S : float
+    F_S : numeric
         Surround induction factor :math:`F_S`.
 
     Returns
     -------
-    float or array_like
+    numeric or array_like
         Modeled visual response variable :math:`x`.
 
     Examples
@@ -377,11 +377,11 @@ def get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     ----------
     XYZ : array_like, (3,)
         Adapted *CIE XYZ* colourspace matrix.
-    Y_b : float
+    Y_b : numeric
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : float
+    F_S : numeric
         Surround induction factor :math:`F_S`.
-    F_L : float
+    F_L : numeric
         Lightness induction factor :math:`F_L`.
 
     Returns
@@ -418,14 +418,14 @@ def get_hue_angle(a, b):
 
     Parameters
     ----------
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    float
+    numeric
         *Hue* angle :math:`h_L` in degrees.
 
     Examples
@@ -444,14 +444,14 @@ def get_chroma_correlate(a, b):
 
     Parameters
     ----------
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *chroma* :math:`Ch_L`.
 
     Examples
@@ -471,18 +471,18 @@ def get_colourfulness_correlate(L, L_L, Ch_L, F_C):
 
     Parameters
     ----------
-    L : float
+    L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    L_L : float
+    L_L : numeric
         Correlate of *Lightness* :math:`L_L`.
-    Ch_L : float
+    Ch_L : numeric
         Correlate of *chroma* :math:`Ch_L`.
-    F_C : float
+    F_C : numeric
         Chroma induction factor :math:`F_C`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *colourfulness* :math:`C_L`.
 
     Examples
@@ -508,14 +508,14 @@ def get_saturation_correlate(Ch_L, L_L):
 
     Parameters
     ----------
-    Ch_L : float
+    Ch_L : numeric
         Correlate of *chroma* :math:`Ch_L`.
-    L_L : float
+    L_L : numeric
         Correlate of *Lightness* :math:`L_L`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *saturation* :math:`S_L`.
 
     Examples
@@ -537,9 +537,9 @@ def get_final_opponent_signals(C_L, h_L):
 
     Parameters
     ----------
-    C_L : float
+    C_L : numeric
         Correlate of *colourfulness* :math:`C_L`.
-    h_L : float
+    h_L : numeric
         Correlate of *hue* :math:`h_L` in radians.
 
     Returns

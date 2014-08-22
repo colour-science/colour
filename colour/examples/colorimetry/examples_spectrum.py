@@ -106,13 +106,13 @@ print(spd.is_uniform())
 clone_spd = spd.clone()
 
 # Interpolating the cloned sample spectral power distribution.
-clone_spd.interpolate(start=360, end=780, steps=1)
+clone_spd.interpolate(colour.SpectralShape(360, 780, 1))
 print(clone_spd[666])
 
 # Extrapolating the cloned sample spectral power distribution.
-clone_spd.extrapolate(start=340, end=830)
+clone_spd.extrapolate(colour.SpectralShape(340, 830))
 print(clone_spd[340], clone_spd[360])
 
 # Aligning the cloned sample spectral power distribution.
-clone_spd.align(start=400, end=700, steps=5)
+clone_spd.align(colour.SpectralShape(400, 700, 5))
 print(clone_spd[400], clone_spd[700])

@@ -24,7 +24,7 @@ CIE_E = 216 / 24389
 """
 *CIE* :math:`\epsilon` constant.
 
-CIE_E : float
+CIE_E : numeric
 
 Notes
 -----
@@ -47,7 +47,7 @@ CIE_K = 24389 / 27
 """
 *CIE* :math:`k` constant.
 
-CIE_K : float
+CIE_K : numeric
 
 Notes
 -----

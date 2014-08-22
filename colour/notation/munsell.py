@@ -47,7 +47,7 @@ from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
     cartesian_to_cylindrical,
-    is_number,
+    is_numeric,
     is_integer)
 from colour.algebra.common import (
     INTEGER_THRESHOLD,
@@ -269,7 +269,7 @@ def is_grey_munsell_colour(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -285,7 +285,7 @@ def is_grey_munsell_colour(specification):
     True
     """
 
-    return is_number(specification)
+    return is_numeric(specification)
 
 
 def normalize_munsell_specification(specification):
@@ -294,12 +294,12 @@ def normalize_munsell_specification(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
     -------
-    float or tuple
+    numeric or tuple
         Normalised *Munsell* *Colorlab* specification.
 
     Examples
@@ -330,7 +330,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Returns
     -------
-    float or tuple
+    numeric or tuple
         Normalised *Munsell* *Colorlab* specification.
 
     Examples
@@ -354,7 +354,7 @@ def munsell_specification_to_munsell_colour(specification,
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
     hue_decimals : int, optional
         Hue formatting decimals.
@@ -421,7 +421,7 @@ def get_xyY_from_renotation(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -451,7 +451,7 @@ def is_specification_in_renotation(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -481,9 +481,9 @@ def get_bounding_hues_from_renotation(hue, code):
 
     Parameters
     ----------
-    hue : float
+    hue : numeric
         *Munsell* *Colorlab* specification hue.
-    code : float
+    code : numeric
         *Munsell* *Colorlab* specification code.
 
     Returns
@@ -538,14 +538,14 @@ def hue_to_hue_angle(hue, code):
 
     Parameters
     ----------
-    hue : float
+    hue : numeric
         *Munsell* *Colorlab* specification hue.
-    code : float
+    code : numeric
         *Munsell* *Colorlab* specification code.
 
     Returns
     -------
-    float
+    numeric
         Hue angle in degrees.
 
     References
@@ -573,7 +573,7 @@ def hue_angle_to_hue(hue_angle):
 
     Parameters
     ----------
-    hue_angle : float
+    hue_angle : numeric
         Hue angle in degrees.
 
     Returns
@@ -634,14 +634,14 @@ def hue_to_ASTM_hue(hue, code):
 
     Parameters
     ----------
-    hue : float
+    hue : numeric
         *Munsell* *Colorlab* specification hue.
-    code : float
+    code : numeric
         *Munsell* *Colorlab* specification code.
 
     Returns
     -------
-    float
+    numeric
         *ASM* hue number.
 
     References
@@ -668,7 +668,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -966,7 +966,7 @@ def get_xy_from_renotation_ovoid(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -1166,16 +1166,16 @@ def get_maximum_chroma_from_renotation(hue, value, code):
 
     Parameters
     ----------
-    hue : float
+    hue : numeric
         *Munsell* *Colorlab* specification hue.
-    value : float
+    value : numeric
         *Munsell* value code.
-    code : float
+    code : numeric
         *Munsell* *Colorlab* specification code.
 
     Returns
     -------
-    float
+    numeric
         Maximum chroma.
 
     References
@@ -1243,7 +1243,7 @@ def munsell_specification_to_xy(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -1320,7 +1320,7 @@ def munsell_specification_to_xyY(specification):
 
     Parameters
     ----------
-    specification : float or tuple
+    specification : numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Returns
@@ -1434,7 +1434,7 @@ def xyY_to_munsell_specification(xyY):
 
     Returns
     -------
-    float or tuple
+    numeric or tuple
         *Munsell* *Colorlab* specification.
 
     Notes
@@ -1708,12 +1708,12 @@ def munsell_value_priest1920(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1745,12 +1745,12 @@ def munsell_value_munsell1933(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1782,12 +1782,12 @@ def munsell_value_moon1943(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1818,12 +1818,12 @@ def munsell_value_saunderson1944(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1854,12 +1854,12 @@ def munsell_value_ladd1955(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1890,12 +1890,12 @@ def munsell_value_mccamy1987(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes
@@ -1934,12 +1934,12 @@ def munsell_value_ASTM_D1535_08(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`..
 
     Notes
@@ -1989,7 +1989,7 @@ def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
         ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
@@ -2000,7 +2000,7 @@ def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):
 
     Returns
     -------
-    float
+    numeric
         *Munsell* value :math:`V`.
 
     Notes

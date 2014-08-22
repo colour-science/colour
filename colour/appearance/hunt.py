@@ -124,17 +124,17 @@ Defines the *Hunt* colour appearance model specification.
 
 Parameters
 ----------
-h_S : float
+h_S : numeric
     *Hue* angle :math:`h_S` in degrees.
-C_94 : float
+C_94 : numeric
     Correlate of *chroma* :math:`C_94`.
-s : float
+s : numeric
     Correlate of *saturation* :math:`s`.
-Q : float
+Q : numeric
     Correlate of *brightness* :math:`Q`.
-M_94 : float
+M_94 : numeric
     Correlate of *colourfulness* :math:`M_94`.
-J : float
+J : numeric
     Correlate of *Lightness* :math:`J`.
 """
 
@@ -167,37 +167,37 @@ def XYZ_to_Hunt(XYZ,
         *CIE XYZ* colourspace matrix of background in domain [0, 100].
     XYZ_w : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    N_c : float
+    N_c : numeric
          Chromatic surround induction factor :math:`N_c`.
-    N_b : float
+    N_b : numeric
          Brightness surround induction factor :math:`N_b`.
-    L_AS : float, optional
+    L_AS : numeric, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
-    CCT_w : float, optional
+    CCT_w : numeric, optional
         Correlated color temperature :math`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
-    N_cb : float, optional
+    N_cb : numeric, optional
         Chromatic background induction factor :math:`N_{cb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
-    N_bb : float, optional
+    N_bb : numeric, optional
         Brightness background induction factor :math:`N_{bb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
     XYZ_p : array_like, (3,), optional
         *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
-    p : float, optional
+    p : numeric, optional
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
-    S : float, optional
+    S : numeric, optional
         Scotopic response :math:`S` to the stimulus, approximated using
         tristimulus values :math:`Y` of the stimulus if not specified.
-    S_w : float, optional
+    S_w : numeric, optional
         Scotopic response :math:`S_w` for the reference white, approximated
         using the tristimulus values :math:`Y_w` of the reference white if not
         specified.
@@ -397,12 +397,12 @@ def get_luminance_level_adaptation_factor(L_A):
 
     Parameters
     ----------
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
     -------
-    float
+    numeric
         *Luminance* level adaptation factor :math:`F_L`
 
     Examples
@@ -425,14 +425,14 @@ def get_illuminant_scotopic_luminance(L_A, CCT):
 
     Parameters
     ----------
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    CCT : float
+    CCT : numeric
         Correlated color temperature :math`T_{cp}` of the illuminant.
 
     Returns
     -------
-    float
+    numeric
         Approximate scotopic luminance :math:`L_{AS}`.
 
     Examples
@@ -477,12 +477,12 @@ def f_n(x):
 
     Parameters
     ----------
-    x : float or array_like
+    x : numeric or array_like
         Visual response variable :math:`x`.
 
     Returns
     -------
-    float or array_like
+    numeric or array_like
         Modeled visual response variable :math:`x`.
 
 
@@ -517,14 +517,14 @@ def get_chromatic_adaptation(XYZ,
         *CIE XYZ* colourspace matrix of background in domain [0, 100].
     XYZ_w : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    F_L : float
+    F_L : numeric
         Luminance adaptation factor :math:`F_L`.
     XYZ_p : array_like, (3,), optional
         *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
-    p : float, optional
+    p : numeric, optional
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
@@ -601,7 +601,7 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     rgb_w :  array_like, (3,)
         Cone signals matrix *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` of
         the reference white.
-    p : float
+    p : numeric
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
@@ -641,7 +641,7 @@ def get_achromatic_post_adaptation_signal(rgb):
 
     Returns
     -------
-    float
+    numeric
         Achromatic post adaptation signal :math:`A`.
 
     Examples
@@ -702,7 +702,7 @@ def get_hue_angle(C):
 
     Returns
     -------
-    float
+    numeric
         *Hue* angle :math:`h`.
 
     Examples
@@ -724,7 +724,7 @@ def get_eccentricity_factor(hue):
 
     Parameters
     ----------
-    float
+    numeric
         Hue angle :math:`h`.
 
     Returns
@@ -754,12 +754,12 @@ def get_low_luminance_tritanopia_factor(L_A):
 
     Parameters
     ----------
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
     -------
-    float
+    numeric
         Low luminance tritanopia factor :math:`F_t`.
 
     Examples
@@ -780,18 +780,18 @@ def get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     ----------
     C : array_like
         Colour difference signals :math:`C`.
-    e_s : float
+    e_s : numeric
         Eccentricity factor :math:`e_s`.
-    N_c : float
+    N_c : numeric
          Chromatic surround induction factor :math:`N_c`.
-    N_b : float
+    N_b : numeric
          Brightness surround induction factor :math:`N_b`.
-    F_t : float
+    F_t : numeric
         Low luminance tritanopia factor :math:`F_t`.
 
     Returns
     -------
-    float
+    numeric
         Yellowness / blueness response :math:`M_{yb}`.
 
     Examples
@@ -821,16 +821,16 @@ def get_redness_greenness_response(C, e_s, N_c, N_cb):
     ----------
     C : array_like
         Colour difference signals :math:`C`.
-    e_s : float
+    e_s : numeric
         Eccentricity factor :math:`e_s`.
-    N_c : float
+    N_c : numeric
          Chromatic surround induction factor :math:`N_c`.
-    N_b : float
+    N_b : numeric
          Brightness surround induction factor :math:`N_b`.
 
     Returns
     -------
-    float
+    numeric
         Redness / greenness response :math:`M_{rg}`.
 
     Examples
@@ -856,14 +856,14 @@ def get_overall_chromatic_response(M_yb, M_rg):
 
     Parameters
     ----------
-    M_yb : float
+    M_yb : numeric
          Yellowness / blueness response :math:`M_{yb}`.
-    M_rg : float
+    M_rg : numeric
          Redness / greenness response :math:`M_{rg}`.
 
     Returns
     -------
-    float
+    numeric
         Overall chromatic response :math:`M`.
 
     Examples
@@ -885,7 +885,7 @@ def get_saturation_correlate(M, rgb_a):
 
     Parameters
     ----------
-    M : float
+    M : numeric
          Overall chromatic response :math:`M`.
     rgb_a : array_like, (3,)
         Adapted *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace
@@ -893,7 +893,7 @@ def get_saturation_correlate(M, rgb_a):
 
     Returns
     -------
-    float
+    numeric
         *Saturation* correlate :math:`s`.
 
     Examples
@@ -915,20 +915,20 @@ def get_achromatic_signal(L_AS, S, S_W, N_bb, A_a):
 
     Parameters
     ----------
-    L_AS : float
+    L_AS : numeric
         Scotopic luminance :math:`L_{AS}` of the illuminant.
-    S : float
+    S : numeric
         Scotopic response :math:`S` to the stimulus.
-    S_w : float
+    S_w : numeric
         Scotopic response :math:`S_w` for the reference white.
-    N_bb : float
+    N_bb : numeric
         Brightness background induction factor :math:`N_{bb}`.
-    A_a: float
+    A_a: numeric
         Achromatic post adaptation signal of the stimulus :math:`A_a`.
 
     Returns
     -------
-    float
+    numeric
         Achromatic signal :math:`A`.
 
     Examples
@@ -967,18 +967,18 @@ def get_brightness_correlate(A, A_w, M, N_b):
 
     Parameters
     ----------
-    A : float
+    A : numeric
          Achromatic signal :math:`A`.
-    A_a: float
+    A_a: numeric
         Achromatic post adaptation signal of the reference white :math:`A_w`.
-    M : float
+    M : numeric
         Overall chromatic response :math:`M`.
-    N_b : float
+    N_b : numeric
          Brightness surround induction factor :math:`N_b`.
 
     Returns
     -------
-    float
+    numeric
         *Brightness* correlate :math:`Q`.
 
     Examples
@@ -1004,18 +1004,18 @@ def get_lightness_correlate(Y_b, Y_w, Q, Q_w):
 
     Parameters
     ----------
-    Y_b : float
+    Y_b : numeric
          Tristimulus values :math:`Y_b` the background.
-    Y_w : float
+    Y_w : numeric
          Tristimulus values :math:`Y_b` the reference white.
-    Q : float
+    Q : numeric
         *Brightness* correlate :math:`Q` of the stimulus.
-    Q_w : float
+    Q_w : numeric
         *Brightness* correlate :math:`Q` of the reference white.
 
     Returns
     -------
-    float
+    numeric
         *Lightness* correlate :math:`J`.
 
     Examples
@@ -1040,20 +1040,20 @@ def get_chroma_correlate(s, Y_b, Y_w, Q, Q_w):
 
     Parameters
     ----------
-    s : float
+    s : numeric
         *Saturation* correlate :math:`s`.
-    Y_b : float
+    Y_b : numeric
          Tristimulus values :math:`Y_b` the background.
-    Y_w : float
+    Y_w : numeric
          Tristimulus values :math:`Y_b` the reference white.
-    Q : float
+    Q : numeric
         *Brightness* correlate :math:`Q` of the stimulus.
-    Q_w : float
+    Q_w : numeric
         *Brightness* correlate :math:`Q` of the reference white.
 
     Returns
     -------
-    float
+    numeric
         *Chroma* correlate :math:`C_94`.
 
     Examples
@@ -1080,14 +1080,14 @@ def get_colourfulness_correlate(F_L, C_94):
 
     Parameters
     ----------
-    F_L : float
+    F_L : numeric
         Luminance adaptation factor :math:`F_L`.
-    float
+    numeric
         *Chroma* correlate :math:`C_94`.
 
     Returns
     -------
-    float
+    numeric
         *Colourfulness* correlate :math:`M_94`.
 
     Examples

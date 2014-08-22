@@ -184,7 +184,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
 
     Parameters
     ----------
-    value : float
+    value : numeric
         value.
     firmware : unicode,
         ('SUP 2.x', 'SUP 3.x')
@@ -197,7 +197,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
 
     Returns
     -------
-    float
+    numeric
         Companded value.
     """
 
@@ -217,7 +217,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
 
     Parameters
     ----------
-    value : float
+    value : numeric
         value.
     firmware : unicode,
         ('SUP 2.x', 'SUP 3.x')
@@ -230,7 +230,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
 
     Returns
     -------
-    float
+    numeric
         Companded value.
     """
 

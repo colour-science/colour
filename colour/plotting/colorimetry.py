@@ -29,11 +29,13 @@ import pylab
 from colour.algebra import normalise
 from colour.colorimetry import (
     CMFS,
+    DEFAULT_SPECTRAL_SHAPE,
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHTNESS_FUNCTIONS,
+    SpectralShape,
     spectral_to_XYZ,
     wavelength_to_XYZ,
-    blackbody_spectral_power_distribution)
+    blackbody_spd)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
     aspect,
@@ -141,9 +143,9 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    start, end, steps = cmfs.shape
-    spd = spd.clone().interpolate(start, end, steps)
-    wavelengths = np.arange(start, end + steps, steps)
+    shape = cmfs.shape
+    spd = spd.clone().interpolate(shape)
+    wavelengths = shape.range()
 
     colours = []
     y1 = []
@@ -216,9 +218,9 @@ def multi_spd_plot(spds,
     for spd in spds:
         wavelengths, values = tuple(zip(*[(key, value) for key, value in spd]))
 
-        start, end, steps = spd.shape
-        x_limit_min.append(start)
-        x_limit_max.append(end)
+        shape = spd.shape
+        x_limit_min.append(shape.start)
+        x_limit_max.append(shape.end)
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
@@ -315,9 +317,9 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
             wavelengths, values = tuple(
                 zip(*[(key, value) for key, value in getattr(cmfs, axis)]))
 
-            start, end, steps = cmfs.shape
-            x_limit_min.append(start)
-            x_limit_max.append(end)
+            shape = cmfs.shape
+            x_limit_min.append(shape.start)
+            x_limit_max.append(shape.end)
             y_limit_min.append(min(values))
             y_limit_max.append(max(values))
 
@@ -448,11 +450,9 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = cmfs.clone().align(DEFAULT_SPECTRAL_SHAPE)
 
-    cmfs = cmfs.clone().interpolate(360, 830)
-
-    start, end, steps = cmfs.shape
-    wavelengths = np.arange(start, end + steps, steps)
+    wavelengths = cmfs.shape.range()
 
     colours = []
     for i in wavelengths:
@@ -571,7 +571,7 @@ def blackbody_spectral_radiance_plot(
 
     Parameters
     ----------
-    temperature : float, optional
+    temperature : numeric, optional
         Blackbody temperature.
     cmfs : unicode, optional
         Standard observer colour matching functions.
@@ -595,7 +595,7 @@ def blackbody_spectral_radiance_plot(
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
-    spd = blackbody_spectral_power_distribution(temperature, *cmfs.shape)
+    spd = blackbody_spd(temperature, cmfs.shape)
 
     matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
@@ -628,9 +628,7 @@ def blackbody_spectral_radiance_plot(
     return display(**settings)
 
 
-def blackbody_colours_plot(start=150,
-                           end=12500,
-                           steps=50,
+def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
                            cmfs='CIE 1931 2 Degree Standard Observer',
                            **kwargs):
     """
@@ -638,12 +636,8 @@ def blackbody_colours_plot(start=150,
 
     Parameters
     ----------
-    start : float, optional
-        Temperature range start in kelvins.
-    end : float, optional
-        Temperature range end in kelvins.
-    steps : float, optional
-        Temperature range steps.
+    shape : SpectralShape, optional
+        Spectral shape to use as plot boundaries.
     cmfs : unicode, optional
         Standard observer colour matching functions.
     \*\*kwargs : \*\*
@@ -665,9 +659,8 @@ def blackbody_colours_plot(start=150,
     colours = []
     temperatures = []
 
-    for temperature in np.arange(start, end + steps, steps):
-        spd = blackbody_spectral_power_distribution(temperature,
-                                                    *cmfs.shape)
+    for temperature in shape:
+        spd = blackbody_spd(temperature, cmfs.shape)
 
         XYZ = spectral_to_XYZ(spd, cmfs) / 100
         RGB = normalise(XYZ_to_sRGB(XYZ))

@@ -71,10 +71,10 @@ def spectral_to_aces_relative_exposure_values(
 
     shape = ACES_RICD.shape
     if spd.shape != ACES_RICD.shape:
-        spd = spd.clone().zeros(*shape)
+        spd = spd.clone().zeros(shape)
 
     if illuminant.shape != ACES_RICD.shape:
-        illuminant = illuminant.clone().zeros(*shape)
+        illuminant = illuminant.clone().zeros(shape)
 
     spd = spd.values
     illuminant = illuminant.values

@@ -9,7 +9,7 @@ from .common import (
     to_ndarray,
     is_uniform,
     is_iterable,
-    is_number,
+    is_numeric,
     is_integer,
     normalise)
 from .coordinates import *
@@ -26,7 +26,7 @@ __all__ = ['get_steps',
            'to_ndarray',
            'is_uniform',
            'is_iterable',
-           'is_number',
+           'is_numeric',
            'is_integer',
            'normalise']
 __all__ += coordinates.__all__
