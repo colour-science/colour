@@ -40,9 +40,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['SpectralShape',
-           'DEFAULT_SPECTRAL_SHAPE',
            'SpectralPowerDistribution',
            'TriSpectralPowerDistribution',
+           'DEFAULT_SPECTRAL_SHAPE',
            'constant_spd',
            'zeros_spd',
            'ones_spd']
@@ -411,15 +411,6 @@ class SpectralShape(object):
                                      self.__steps)
 
         return self.__range
-
-
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
-"""
-Default spectral shape using the shape of
-*CIE 1931 2 Degree Standard Observer*.
-
-DEFAULT_SPECTRAL_SHAPE : SpectralShape
-"""
 
 
 class SpectralPowerDistribution(object):
@@ -3148,6 +3139,15 @@ class TriSpectralPowerDistribution(object):
         """
 
         return copy.deepcopy(self)
+
+
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
+"""
+Default spectral shape using the shape of
+*CIE 1931 2 Degree Standard Observer*.
+
+DEFAULT_SPECTRAL_SHAPE : SpectralShape
+"""
 
 
 def constant_spd(k,

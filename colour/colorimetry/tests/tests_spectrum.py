@@ -19,7 +19,11 @@ else:
 from colour.colorimetry.spectrum import (
     SpectralShape,
     SpectralPowerDistribution,
-    TriSpectralPowerDistribution)
+    TriSpectralPowerDistribution,
+    DEFAULT_SPECTRAL_SHAPE,
+    constant_spd,
+    zeros_spd,
+    ones_spd)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,12 +36,15 @@ __all__ = ['SAMPLE_SPD_DATA',
            'NON_UNIFORM_SAMPLE_SPD_DATA',
            'ZEROS_SAMPLE_SPD_DATA',
            'INTERPOLATED_SAMPLE_SPD_DATA',
-           'INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA'
+           'INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA',
            'NORMALISED_SAMPLE_SPD_DATA'
            'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
            'CMFS_DATA',
            'TestSpectralPowerDistribution',
-           'TestTriSpectralPowerDistribution']
+           'TestTriSpectralPowerDistribution',
+           'TestConstantSpd',
+           'TestZerosSpd',
+           'TestOnes_spd']
 
 SAMPLE_SPD_DATA = {
     340: 0.0000,
@@ -2148,7 +2155,6 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        # TODO: Implements tests for spd + spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal(
@@ -2160,6 +2166,12 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         random = np.random.random(len(values))
         np.testing.assert_almost_equal((spd + random).values, values + random)
 
+        spd1 = self.__spd.clone()
+        spd2 = self.__spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 + spd2).values,
+            self.__spd.values + self.__spd.values)
+
     def test__sub__(self):
         """
         Tests
@@ -2167,7 +2179,6 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        # TODO: Implements tests for spd - spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal(
@@ -2179,6 +2190,12 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         random = np.random.random(len(values))
         np.testing.assert_almost_equal((spd - random).values, values - random)
 
+        spd1 = self.__spd.clone()
+        spd2 = self.__spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 - spd2).values,
+            self.__spd.values - self.__spd.values)
+
     def test__mul__(self):
         """
         Tests
@@ -2186,7 +2203,6 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        # TODO: Implements tests for spd * spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal((spd * 2).values, values * 2)
@@ -2196,6 +2212,12 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         random = np.random.random(len(values))
         np.testing.assert_almost_equal((spd * random).values, values * random)
 
+        spd1 = self.__spd.clone()
+        spd2 = self.__spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 * spd2).values,
+            self.__spd.values * self.__spd.values)
+
     def test__div__(self):
         """
         Tests
@@ -2203,7 +2225,6 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        # TODO: Implements tests for spd / spd.
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal((spd / 2).values, values / 2)
@@ -2212,6 +2233,15 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         values = spd.values
         random = np.random.random(len(values))
         np.testing.assert_almost_equal((spd / random).values, values / random)
+
+        # Avoiding zero division for testing purpose.
+        spd = self.__spd.clone() + 0.001
+
+        spd1 = spd.clone()
+        spd2 = spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 / spd2).values,
+            spd.values / spd.values)
 
     def test_get(self):
         """
@@ -2529,6 +2559,12 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             (tri_spd + random).values,
             values + random)
 
+        tri_spd1 = self.__tri_spd.clone()
+        tri_spd2 = self.__tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 + tri_spd2).values,
+            self.__tri_spd.values + self.__tri_spd.values)
+
     def test__sub__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__sub__`
@@ -2547,6 +2583,12 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             (tri_spd - random).values,
             values - random)
+
+        tri_spd1 = self.__tri_spd.clone()
+        tri_spd2 = self.__tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 - tri_spd2).values,
+            self.__tri_spd.values - self.__tri_spd.values)
 
     def test__mul__(self):
         """
@@ -2567,6 +2609,12 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             (tri_spd * random).values,
             values * random)
 
+        tri_spd1 = self.__tri_spd.clone()
+        tri_spd2 = self.__tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 * tri_spd2).values,
+            self.__tri_spd.values * self.__tri_spd.values)
+
     def test__div__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`
@@ -2585,6 +2633,15 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             (tri_spd / random).values,
             values / random)
+
+        # Avoiding zero division for testing purpose.
+        tri_spd = self.__tri_spd.clone() + 0.001
+
+        tri_spd1 = tri_spd.clone()
+        tri_spd2 = tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 / tri_spd2).values,
+            tri_spd.values / tri_spd.values)
 
     def test_get(self):
         """
@@ -2718,6 +2775,62 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         self.assertFalse(self.__tri_spd is self.__tri_spd.clone())
+
+
+class TestConstantSpd(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.constant_spd` definition unit
+    tests methods.
+    """
+
+    def test_constant_spd(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.constant_spd`
+        definition.
+        """
+
+        k = 3.1415
+
+        spd = constant_spd(k)
+        self.assertEqual(spd[360], k)
+        self.assertEqual(spd[555], k)
+        self.assertEqual(spd[830], k)
+
+
+class TestZerosSpd(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.zeros_spd` definition unit
+    tests methods.
+    """
+
+    def test_zeros_spd(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.zeros_spd`
+        definition.
+        """
+
+        spd = zeros_spd()
+        self.assertEqual(spd[360], 0.)
+        self.assertEqual(spd[555], 0.)
+        self.assertEqual(spd[830], 0.)
+
+
+class TestOnes_spd(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.spectrum.ones_spd` definition unit
+    tests methods.
+    """
+
+    def test_ones_spd(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.ones_spd`
+        definition.
+        """
+
+        spd = ones_spd()
+        self.assertEqual(spd[360], 1.)
+        self.assertEqual(spd[555], 1.)
+        self.assertEqual(spd[830], 1.)
 
 
 if __name__ == '__main__':

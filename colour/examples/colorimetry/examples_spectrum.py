@@ -116,3 +116,12 @@ print(clone_spd[340], clone_spd[360])
 # Aligning the cloned sample spectral power distribution.
 clone_spd.align(colour.SpectralShape(400, 700, 5))
 print(clone_spd[400], clone_spd[700])
+
+# Creating a constant filled spectral power distribution.
+print(colour.constant_spd(3.1415)[400])
+
+# Creating a zeros filled spectral power distribution.
+print(colour.zeros_spd()[400])
+
+# Creating a ones filled spectral power distribution.
+print(colour.ones_spd()[400])

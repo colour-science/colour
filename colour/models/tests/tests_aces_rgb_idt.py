@@ -16,7 +16,10 @@ else:
     import unittest
 
 from colour.characterization import COLOURCHECKERS_SPDS
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import (
+    SpectralPowerDistribution,
+    constant_spd,
+    ones_spd)
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
 
 __author__ = 'Colour Developers'
@@ -44,17 +47,13 @@ class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
         definition.
         """
 
-        wavelengths = ACES_RICD.wavelengths
-        grey_reflector = SpectralPowerDistribution(
-            '18%',
-            dict(zip(wavelengths, [0.18] * len(wavelengths))))
+        shape = ACES_RICD.shape
+        grey_reflector = constant_spd(0.18, shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(grey_reflector),
             np.array([0.18, 0.18, 0.18]))
 
-        perfect_reflector = SpectralPowerDistribution(
-            '100%',
-            dict(zip(wavelengths, [1] * len(wavelengths))))
+        perfect_reflector = ones_spd(shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(perfect_reflector),
             np.array([1., 1., 1.]))
