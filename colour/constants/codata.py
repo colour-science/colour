@@ -18,9 +18,24 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LIGHT_SPEED',
-           'PLANCK_CONSTANT',
-           'BOLTZMANN_CONSTANT']
+__all__ = ['AVOGADRO_CONSTANT',
+           'BOLTZMANN_CONSTANT',
+           'LIGHT_SPEED',
+           'PLANCK_CONSTANT']
+
+AVOGADRO_CONSTANT = 6.02214179e23
+"""
+Avogadro constant.
+
+AVOGADRO_CONSTANT : float
+"""
+
+BOLTZMANN_CONSTANT = 1.38065e-23
+"""
+Boltzmann constant.
+
+BOLTZMANN_CONSTANT : float
+"""
 
 LIGHT_SPEED = 299792458
 """
@@ -36,9 +51,3 @@ Planck constant.
 PLANCK_CONSTANT : float
 """
 
-BOLTZMANN_CONSTANT = 1.38065e-23
-"""
-Boltzmann constant.
-
-BOLTZMANN_CONSTANT : float
-"""
