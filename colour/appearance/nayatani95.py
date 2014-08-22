@@ -76,19 +76,19 @@ Defines the *Nayatani (1995)* colour appearance model specification.
 
 Parameters
 ----------
-B_r : float
+B_r : numeric
     Correlate of *brightness* :math:`B_r`.
-L_star_P : float
+L_star_P : numeric
     Correlate of *achromatic Lightness* :math:`L_p^\star`.
-L_star_N : float
+L_star_N : numeric
     Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
-theta : float
+theta : numeric
     *Hue* angle :math:`\\theta` in degrees.
-S : float
+S : numeric
     Correlate of *saturation* :math:`S`.
-C : float
+C : numeric
     Correlate of *chroma* :math:`C`.
-M : float
+M : numeric
     Correlate of *colourfulness* :math:`M`.
 """
 
@@ -109,15 +109,15 @@ def XYZ_to_Nayatani95(XYZ,
         [0, 100].
     XYZ_n : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_o : float
+    Y_o : numeric
         Luminance factor :math:`Y_o` of achromatic background as percentage in
         domain [0.18,]
-    E_o : float
+    E_o : numeric
         Illuminance :math:`E_o` of the viewing field in lux.
-    E_or : float
+    E_or : numeric
         Normalising illuminance :math:`E_{or}` in lux usually in domain
         [1000, 3000]
-    n : float, optional
+    n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
     Returns
@@ -259,14 +259,14 @@ def illuminance_to_luminance(E, Y_f):
 
     Parameters
     ----------
-    E : float
+    E : numeric
         *Illuminance* :math:`E` in lux.
-    Y_f : float
+    Y_f : numeric
         *Luminance* factor :math:`Y_f` in :math:`cd/m^2`.
 
     Returns
     -------
-    float
+    numeric
         *Luminance* :math:`Y` in :math:`cd/m^2`.
 
     Examples
@@ -341,12 +341,12 @@ def get_beta_1(x):
 
     Parameters
     ----------
-    x: float
+    x: numeric
         Middle and long-wavelength sensitive cone response.
 
     Returns
     -------
-    float
+    numeric
         Exponent :math:`\beta_1`.
 
     Examples
@@ -365,12 +365,12 @@ def get_beta_2(x):
 
     Parameters
     ----------
-    x: float
+    x: numeric
         Short-wavelength sensitive cone response.
 
     Returns
     -------
-    float
+    numeric
         Exponent :math:`\beta_2`.
 
     Examples
@@ -420,14 +420,14 @@ def get_scaling_coefficient(x, y):
 
     Parameters
     ----------
-    x: float
+    x: numeric
         Cone response.
-    y: float
+    y: numeric
         Intermediate value.
 
     Returns
     -------
-    float
+    numeric
         Scaling coefficient :math:`e(R)` or :math:`e(G)`.
 
     Examples
@@ -455,19 +455,19 @@ def get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
          `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-    bL_or: float
+    bL_or: numeric
          Normalising chromatic adaptation exponential factor
          :math:`\beta_1(B_or)`.
-    eR: float
+    eR: numeric
          Scaling coefficient :math:`e(R)`.
-    eG: float
+    eG: numeric
          Scaling coefficient :math:`e(G)`.
-    n : float, optional
+    n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
     Returns
     -------
-    float
+    numeric
         Achromatic response :math:`Q`.
 
     Examples
@@ -508,12 +508,12 @@ def get_tritanopic_response(RGB, bRGB_o, x_e_z, n):
          `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-    n : float, optional
+    n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
     Returns
     -------
-    float
+    numeric
         Tritanopic response :math:`t`.
 
     Examples
@@ -551,12 +551,12 @@ def get_protanopic_response(RGB, bRGB_o, x_e_z, n):
          `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-    n : float, optional
+    n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
     Returns
     -------
-    float
+    numeric
         Protanopic response :math:`p`.
 
     Examples
@@ -589,14 +589,14 @@ def get_brightness_correlate(bRGB_o, bL_or, Q):
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
          `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
-    bL_or: float
+    bL_or: numeric
          Normalising chromatic adaptation exponential factor
          :math:`\beta_1(B_or)`.
-    Q : float
+    Q : numeric
         Achromatic response :math:`Q`.
     Returns
     -------
-    float
+    numeric
         *Brightness* correlate :math:`B_r`.
 
     Examples
@@ -626,15 +626,15 @@ def get_ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
          `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-    bL_or: float
+    bL_or: numeric
          Normalising chromatic adaptation exponential factor
          :math:`\beta_1(B_or)`.
-    n : float, optional
+    n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
     Returns
     -------
-    float
+    numeric
         Ideal white *brightness* correlate :math:`B_{rw}`.
 
     Examples
@@ -665,12 +665,12 @@ def get_achromatic_lightness_correlate(Q):
 
     Parameters
     ----------
-    Q : float
+    Q : numeric
         Achromatic response :math:`Q`.
 
     Returns
     -------
-    float
+    numeric
         *Achromatic Lightness* correlate :math:`L_p^\star`.
 
     Examples
@@ -689,14 +689,14 @@ def get_normalised_achromatic_lightness_correlate(B_r, B_rw):
 
     Parameters
     ----------
-    B_r : float
+    B_r : numeric
         *Brightness* correlate :math:`B_r`.
-    B_rw : float
+    B_rw : numeric
         Ideal white *brightness* correlate :math:`B_{rw}`.
 
     Returns
     -------
-    float
+    numeric
         *Normalised achromatic Lightness* correlate :math:`L_n^\star`.
 
     Examples
@@ -716,14 +716,14 @@ def get_hue_angle(p, t):
 
     Parameters
     ----------
-    p : float
+    p : numeric
         Protanopic response :math:`p`.
-    t : float
+    t : numeric
         Tritanopic response :math:`t`.
 
     Returns
     -------
-    float
+    numeric
         *Hue* angle :math:`h` in degrees.
 
     Examples
@@ -745,12 +745,12 @@ def chromatic_strength_function(theta):
 
     Parameters
     ----------
-    theta : float
+    theta : numeric
         Hue angle :math:`\\theta`
 
     Returns
     -------
-    float
+    numeric
         Corrected saturation scale.
 
     Examples
@@ -778,19 +778,19 @@ def get_saturation_components(h, bL_or, t, p):
 
     Parameters
     ----------
-    h: float
+    h: numeric
         Correlate of *hue* :math:`h` in degrees.
-    bL_or: float
+    bL_or: numeric
          Normalising chromatic adaptation exponential factor
          :math:`\beta_1(B_or)`.
-    t : float
+    t : numeric
         Tritanopic response :math:`t`.
-    p : float
+    p : numeric
         Protanopic response :math:`p`.
 
     Returns
     -------
-    float
+    numeric
         *Saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
 
     Examples
@@ -816,14 +816,14 @@ def get_saturation_correlate(S_RG, S_YB):
 
     Parameters
     ----------
-    S_RG : float
+    S_RG : numeric
         *Saturation* component :math:`S_{RG}`.
-    S_YB : float
+    S_YB : numeric
         *Saturation* component :math:`S_{YB}`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *saturation* :math:`S`.
 
     Examples
@@ -845,16 +845,16 @@ def get_chroma_components(L_star_p, S_RG, S_YB):
 
     Parameters
     ----------
-    L_star_p : float
+    L_star_p : numeric
         *Achromatic Lightness* correlate :math:`L_p^\star`.
-    S_RG : float
+    S_RG : numeric
         *Saturation* component :math:`S_{RG}`.
-    S_YB : float
+    S_YB : numeric
         *Saturation* component :math:`S_{YB}`.
 
     Returns
     -------
-    float
+    numeric
         *Chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Examples
@@ -878,14 +878,14 @@ def get_chroma_correlate(L_star_p, S):
 
     Parameters
     ----------
-    L_star_p : float
+    L_star_p : numeric
         *Achromatic Lightness* correlate :math:`L_p^\star`.
-    S : float
+    S : numeric
         Correlate of *saturation* :math:`S`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *chroma* :math:`C`.
 
     Examples
@@ -906,16 +906,16 @@ def get_colourfulness_components(C_RG, C_YB, B_rw):
 
     Parameters
     ----------
-    C_RG : float
+    C_RG : numeric
         *Chroma* component :math:`C_{RG}`.
-    C_YB : float
+    C_YB : numeric
         *Chroma* component :math:`C_{YB}`.
-    B_rw : float
+    B_rw : numeric
         Ideal white *brightness* correlate :math:`B_{rw}`.
 
     Returns
     -------
-    float
+    numeric
         *Colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
 
     Examples
@@ -939,14 +939,14 @@ def get_colourfulness_correlate(C, B_rw):
 
     Parameters
     ----------
-    C : float
+    C : numeric
         Correlate of *chroma* :math:`C`.
-    B_rw : float
+    B_rw : numeric
         Ideal white *brightness* correlate :math:`B_{rw}`.
 
     Returns
     -------
-    float
+    numeric
         Correlate of *colourfulness* :math:`M`.
 
     Examples

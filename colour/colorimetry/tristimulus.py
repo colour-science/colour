@@ -14,8 +14,9 @@ import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
 from colour.colorimetry import (
+    STANDARD_OBSERVERS_CMFS,
     SpectralPowerDistribution,
-    STANDARD_OBSERVERS_CMFS)
+    ones_spd)
 from colour.utilities import memoize
 
 __author__ = 'Colour Developers'
@@ -78,17 +79,13 @@ def spectral_to_XYZ(spd,
 
     shape = cmfs.shape
     if spd.shape != cmfs.shape:
-        spd = spd.clone().zeros(*shape)
+        spd = spd.clone().zeros(shape)
 
     if illuminant is None:
-        start, end, steps = shape
-        range = np.arange(start, end + steps, steps)
-        illuminant = SpectralPowerDistribution(
-            name='1.0',
-            data=dict(zip(*(tuple(range), [1] * len(range)))))
+        illuminant = ones_spd(shape)
     else:
         if illuminant.shape != cmfs.shape:
-            illuminant = illuminant.clone().zeros(*shape)
+            illuminant = illuminant.clone().zeros(shape)
 
     illuminant = illuminant.values
     spd = spd.values
@@ -126,7 +123,7 @@ def wavelength_to_XYZ(wavelength,
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength :math:`\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
@@ -149,10 +146,12 @@ def wavelength_to_XYZ(wavelength,
     array([ 0.09564  ,  0.13902  ,  0.8129501])
     """
 
-    start, end, steps = cmfs.shape
-    if wavelength < start or wavelength > end:
+    shape = cmfs.shape
+    if wavelength < shape.start or wavelength > shape.end:
         raise ValueError('"{0} nm" wavelength not in "{1} - {2}" nm supported'
-                         'wavelengths range!'.format(wavelength, start, end))
+                         'wavelengths range!'.format(wavelength,
+                                                     shape.start,
+                                                     shape.end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values

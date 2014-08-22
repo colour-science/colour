@@ -309,11 +309,11 @@ def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
         Colour name.
     RGB : array_like, optional
         RGB Colour.
-    x : float, optional
+    x : numeric, optional
         X data.
-    y0 : float, optional
+    y0 : numeric, optional
         Y0 data.
-    y1 : float, optional
+    y1 : numeric, optional
         Y1 data.
 
     Returns
@@ -461,19 +461,19 @@ def multi_colour_plot(colour_parameters,
     ----------
     colour_parameters : list
         ColourParameter sequence.
-    width : float, optional
+    width : numeric, optional
         Colour polygon width.
-    height : float, optional
+    height : numeric, optional
         Colour polygon height.
-    spacing : float, optional
+    spacing : numeric, optional
         Colour polygons spacing.
     across : int, optional
         Colour polygons count per row.
     text_display : bool, optional
         Display colour text.
-    text_size : float, optional
+    text_size : numeric, optional
         Colour text size.
-    text_offset : float, optional
+    text_offset : numeric, optional
         Colour text offset.
     \*\*kwargs : \*\*
         Keywords arguments.

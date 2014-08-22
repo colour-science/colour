@@ -26,19 +26,19 @@ LIGHT_SPEED = 299792458
 """
 Speed of light in vacuum.
 
-LIGHT_SPEED : float
+LIGHT_SPEED : numeric
 """
 
 PLANCK_CONSTANT = 6.62607e-34
 """
 Planck constant.
 
-PLANCK_CONSTANT : float
+PLANCK_CONSTANT : numeric
 """
 
 BOLTZMANN_CONSTANT = 1.38065e-23
 """
 Boltzmann constant.
 
-BOLTZMANN_CONSTANT : float
+BOLTZMANN_CONSTANT : numeric
 """

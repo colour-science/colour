@@ -44,12 +44,12 @@ def luminance_newhall1943(V):
 
     Parameters
     ----------
-    V : float
+    V : numeric
         *Munsell* value :math:`V`.
 
     Returns
     -------
-    float
+    numeric
         *luminance* :math:`Y`.
 
     Notes
@@ -81,14 +81,14 @@ def luminance_1976(L, Yn=100):
 
     Parameters
     ----------
-    L : float
+    L : numeric
         *Lightness* :math:`L^*`
-    Yn : float
+    Yn : numeric
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    float
+    numeric
         *luminance* :math:`Y`.
 
     Notes
@@ -121,12 +121,12 @@ def luminance_ASTM_D1535_08(V):
 
     Parameters
     ----------
-    V : float
+    V : numeric
         *Munsell* value :math:`V`.
 
     Returns
     -------
-    float
+    numeric
         *luminance* :math:`Y`.
 
     Notes
@@ -178,9 +178,9 @@ def get_luminance(LV, Yn=100, method='Luminance 1976'):
 
     Parameters
     ----------
-    LV : float
+    LV : numeric
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
-    Yn : float, optional
+    Yn : numeric, optional
         White reference *luminance* :math:`Y_n`.
     method : unicode, optional
         ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
@@ -188,7 +188,7 @@ def get_luminance(LV, Yn=100, method='Luminance 1976'):
 
     Returns
     -------
-    float
+    numeric
         *luminance* :math:`Y`.
 
     Notes

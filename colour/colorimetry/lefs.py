@@ -22,6 +22,7 @@ from __future__ import division, unicode_literals
 
 from colour.algebra import get_closest
 from colour.colorimetry import (
+    SpectralShape,
     SpectralPowerDistribution,
     PHOTOPIC_LEFS,
     SCOTOPIC_LEFS)
@@ -52,10 +53,10 @@ def mesopic_weighting_function(wavelength,
 
     Parameters
     ----------
-    wavelength : int or float
+    wavelength : numeric
         Wavelength :math:`\lambda` to calculate the mesopic weighting function
         factor.
-    Lp : float
+    Lp : numeric
         Photopic luminance :math:`L_p`.
     source : unicode
         ('Blue Heavy', 'Red Heavy'),
@@ -70,7 +71,7 @@ def mesopic_weighting_function(wavelength,
 
     Returns
     -------
-    float
+    numeric
         Mesopic weighting function factor.
 
     Examples
@@ -112,7 +113,7 @@ def mesopic_luminous_efficiency_function(
 
     Parameters
     ----------
-    Lp : float
+    Lp : numeric
         Photopic luminance :math:`L_p`.
     source : unicode
         ('Blue Heavy', 'Red Heavy'),
@@ -138,9 +139,10 @@ def mesopic_luminous_efficiency_function(
 
     photopic_lef_shape = photopic_lef.shape
     scotopic_lef_shape = scotopic_lef.shape
-    start, end, steps = (max(photopic_lef_shape[0], scotopic_lef_shape[0]),
-                         min(photopic_lef_shape[1], scotopic_lef_shape[1]),
-                         max(photopic_lef_shape[2], scotopic_lef_shape[2]))
+    shape = SpectralShape(
+        max(photopic_lef_shape.start, scotopic_lef_shape.start),
+        min(photopic_lef_shape.end, scotopic_lef_shape.end),
+        max(photopic_lef_shape.steps, scotopic_lef_shape.steps))
 
     spd_data = dict((i,
                      mesopic_weighting_function(
@@ -150,7 +152,7 @@ def mesopic_luminous_efficiency_function(
                          method,
                          photopic_lef,
                          scotopic_lef))
-                    for i in range(start, end, steps))
+                    for i in shape)
 
     spd = SpectralPowerDistribution(
         '{0} Lp Mesopic Luminous Efficiency Function'.format(Lp),

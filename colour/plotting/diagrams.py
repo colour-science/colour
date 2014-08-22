@@ -69,9 +69,9 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     Parameters
     ----------
-    surface : float, optional
+    surface : numeric, optional
         Generated markers surface.
-    spacing : float, optional
+    spacing : numeric, optional
         Spacing between markers.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -243,9 +243,9 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     Parameters
     ----------
-    surface : float, optional
+    surface : numeric, optional
         Generated markers surface.
-    spacing : float, optional
+    spacing : numeric, optional
         Spacing between markers.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -415,9 +415,9 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     Parameters
     ----------
-    surface : float, optional
+    surface : numeric, optional
         Generated markers surface.
-    spacing : float, optional
+    spacing : numeric, optional
         Spacing between markers.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.

@@ -45,7 +45,7 @@ from collections import namedtuple
 
 from colour.colorimetry import (
     STANDARD_OBSERVERS_CMFS,
-    blackbody_spectral_power_distribution,
+    blackbody_spd,
     spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import CaseInsensitiveMapping, warning
@@ -167,9 +167,9 @@ def get_planckian_table(uv, cmfs, start, end, count):
         *uv* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    start : float
+    start : numeric
         Temperature range start in kelvins.
-    end : float
+    end : numeric
         Temperature range end in kelvins.
     count : int
         Temperatures count in the planckian table.
@@ -198,9 +198,11 @@ def get_planckian_table(uv, cmfs, start, end, count):
 
     ux, vx = uv
 
+    shape = cmfs.shape
+
     planckian_table = []
     for Ti in np.linspace(start, end, count):
-        spd = blackbody_spectral_power_distribution(Ti, *cmfs.shape)
+        spd = blackbody_spd(Ti, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
@@ -260,9 +262,9 @@ def uv_to_CCT_ohno2013(uv,
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-    start : float, optional
+    start : numeric, optional
         Temperature range start in kelvins.
-    end : float, optional
+    end : numeric, optional
         Temperature range end in kelvins.
     count : int, optional
         Temperatures count in the planckian tables.
@@ -353,9 +355,9 @@ def CCT_to_uv_ohno2013(CCT,
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : float, optional
+    Duv : numeric, optional
         :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
@@ -377,9 +379,10 @@ def CCT_to_uv_ohno2013(CCT,
     (0.19779977151790701, 0.31219970605380082)
     """
 
+    shape = cmfs.shape
     delta = 0.01
 
-    spd = blackbody_spectral_power_distribution(CCT, *cmfs.shape)
+    spd = blackbody_spd(CCT, shape)
     XYZ = spectral_to_XYZ(spd, cmfs)
     XYZ *= 1 / np.max(XYZ)
     UVW = XYZ_to_UCS(XYZ)
@@ -388,7 +391,7 @@ def CCT_to_uv_ohno2013(CCT,
     if Duv == 0:
         return u0, v0
     else:
-        spd = blackbody_spectral_power_distribution(CCT + delta, *cmfs.shape)
+        spd = blackbody_spd(CCT + delta, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
@@ -501,9 +504,9 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : float
+    Duv : numeric
         :math:`\Delta_{uv}`.
 
     Returns
@@ -646,9 +649,9 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : float
+    Duv : numeric
         :math:`\Delta_{uv}`.
     method : unicode
         ('Ohno 2013', 'Robertson 1968')
@@ -688,7 +691,7 @@ def xy_to_CCT_mccamy1992(xy):
 
     Returns
     -------
-    float
+    numeric
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -723,7 +726,7 @@ def xy_to_CCT_hernandez1999(xy):
 
     Returns
     -------
-    float
+    numeric
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -764,7 +767,7 @@ def CCT_to_xy_kang2002(CCT):
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
 
     Returns
@@ -825,7 +828,7 @@ def CCT_to_xy_illuminant_D(CCT):
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
 
     Returns
@@ -897,7 +900,7 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
 
     Returns
     -------
-    float
+    numeric
         Correlated colour temperature :math:`T_{cp}`.
     """
 
@@ -930,7 +933,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
 
     Parameters
     ----------
-    CCT : float
+    CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
     method : unicode ('Kang 2002', 'CIE Illuminant D Series')
         Computation method.

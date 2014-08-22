@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import get_steps, is_number, is_uniform, to_ndarray
+from colour.algebra import get_steps, is_numeric, is_uniform, to_ndarray
 from colour.utilities import is_scipy_installed, warning
 
 __author__ = 'Colour Developers'
@@ -59,7 +59,7 @@ class LinearInterpolator1d(object):
 
     Examples
     --------
-    Interpolating a single float variable:
+    Interpolating a single numeric variable:
 
     >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
@@ -158,7 +158,7 @@ class LinearInterpolator1d(object):
 
         Parameters
         ----------
-        x : float or array_like
+        x : numeric or array_like
             Point(s) to evaluate the interpolant at.
 
         Returns
@@ -168,7 +168,7 @@ class LinearInterpolator1d(object):
         """
 
         xi = self.__evaluate(to_ndarray(x))
-        if is_number(x):
+        if is_numeric(x):
             return float(xi)
         else:
             return xi
@@ -233,7 +233,7 @@ if is_scipy_installed():
 
         def __init__(self, *args, **kwargs):
             # TODO: Implements proper wrapper to ensure return values
-            # consistency and avoid having to cast to float like in
+            # consistency and avoid having to cast to numeric like in
             # :meth:`SpectralPowerDistribution.interpolate` method.
             super(SplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
@@ -287,7 +287,7 @@ class SpragueInterpolator(object):
 
     Examples
     --------
-    Interpolating a single float variable:
+    Interpolating a single numeric variable:
 
     >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
@@ -434,12 +434,12 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-        x : float or array_like
+        x : numeric or array_like
             Point(s) to evaluate the interpolant at.
 
         Returns
         -------
-        float or ndarray
+        numeric or ndarray
             Interpolated value(s).
         """
 
@@ -454,7 +454,7 @@ class SpragueInterpolator(object):
 
         Parameters
         ----------
-        x : float
+        x : numeric
             Point to evaluate the interpolant at.
 
         Returns

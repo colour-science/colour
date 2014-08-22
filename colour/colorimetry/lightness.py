@@ -43,12 +43,12 @@ def lightness_glasser1958(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Lightness* :math:`L^*`.
 
     Notes
@@ -80,12 +80,12 @@ def lightness_wyszecki1964(Y):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
 
     Returns
     -------
-    float
+    numeric
         *Lightness* :math:`W^*`.
 
     Notes
@@ -121,14 +121,14 @@ def lightness_1976(Y, Yn=100):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
-    Yn : float, optional
+    Yn : numeric, optional
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    float
+    numeric
         *Lightness* :math:`L^*`.
 
     Notes
@@ -176,9 +176,9 @@ def get_lightness(Y, Yn=100, method='Lightness 1976'):
 
     Parameters
     ----------
-    Y : float
+    Y : numeric
         *luminance* :math:`Y`.
-    Yn : float, optional
+    Yn : numeric, optional
         White reference *luminance*.
     method : unicode, optional
         ('Lightness Glasser 1958', 'Lightness Wyszecki 1964',
@@ -187,7 +187,7 @@ def get_lightness(Y, Yn=100, method='Lightness 1976'):
 
     Returns
     -------
-    float
+    numeric
         *Lightness* :math:`L^*`.
 
     Notes

@@ -23,7 +23,7 @@ from collections import namedtuple
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.colorimetry import (
     D_illuminant_relative_spd,
-    blackbody_spectral_power_distribution,
+    blackbody_spd,
     spectral_to_XYZ)
 from colour.quality.dataset.tcs import TCS_SPDS, TCS_INDEXES_TO_NAMES
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
@@ -151,7 +151,7 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     Returns
     -------
-    float or (float, dict)
+    numeric or (numeric, dict)
         Colour rendering index, Tsc data.
 
     Examples
@@ -163,23 +163,23 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
 
-    start, end, steps = cmfs.shape
-    test_spd = test_spd.clone().align(start, end, steps)
+    shape = cmfs.shape
+    test_spd = test_spd.clone().align(shape)
 
     tcs_spds = {}
     for index, tcs_spd in sorted(TCS_SPDS.items()):
-        tcs_spds[index] = tcs_spd.clone().align(start, end, steps)
+        tcs_spds[index] = tcs_spd.clone().align(shape)
 
     XYZ = spectral_to_XYZ(test_spd, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, Duv = uv_to_CCT_robertson1968(uv)
 
     if CCT < 5000:
-        reference_spd = blackbody_spectral_power_distribution(CCT, *cmfs.shape)
+        reference_spd = blackbody_spd(CCT, shape)
     else:
         xy = CCT_to_xy_illuminant_D(CCT)
         reference_spd = D_illuminant_relative_spd(xy)
-        reference_spd.align(start, end, steps)
+        reference_spd.align(shape)
 
     test_tcs_colorimetry_data = _get_tcs_colorimetry_data(
         test_spd,

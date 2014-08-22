@@ -109,19 +109,19 @@ Defines the *CIECAM02* colour appearance model specification.
 
 Parameters
 ----------
-J : float
+J : numeric
     Correlate of *Lightness* :math:`J`.
-C : float
+C : numeric
     Correlate of *chroma* :math:`C`.
-h : float
+h : numeric
     *Hue* angle :math:`h` in degrees.
-Q : float
+Q : numeric
     Correlate of *brightness* :math:`Q`.
-M : float
+M : numeric
     Correlate of *colourfulness* :math:`M`.
-s : float
+s : numeric
     Correlate of *saturation* :math:`s`.
-H : float
+H : numeric
     Hue :math:`h` quadrature :math:`H`.
 """
 
@@ -145,9 +145,9 @@ def XYZ_to_CIECAM02(XYZ,
         [0, 100].
     XYZ_w : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    Y_b : float
+    Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
     surround : CIECAM02_InductionFactors
         Surround viewing conditions induction factors.
@@ -273,9 +273,9 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
         *CIECAM02* specification.
     XYZ_w : array_like
         *CIE XYZ* colourspace matrix of reference white.
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    Y_b : float
+    Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
     surround : CIECAM02_Surround
         Surround viewing conditions.
@@ -385,7 +385,7 @@ def get_chromatic_induction_factors(n):
 
     Parameters
     ----------
-    n : float
+    n : numeric
         Function of the luminance factor of the background :math:`n`.
 
     Returns
@@ -409,12 +409,12 @@ def get_base_exponential_non_linearity(n):
 
     Parameters
     ----------
-    n : float
+    n : numeric
         Function of the luminance factor of the background :math:`n`.
 
     Returns
     -------
-    float
+    numeric
         Base exponential non linearity :math:`z`.
 
     Examples
@@ -434,11 +434,11 @@ def get_viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Parameters
     ----------
-    Y_b : float
+    Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
-    Y_w : float
+    Y_w : numeric
         Whitepoint *Y* tristimulus value :math:`Y_w`.
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
@@ -469,14 +469,14 @@ def get_degree_of_adaptation(F, L_A):
 
     Parameters
     ----------
-    F : float
+    F : numeric
         Surround maximum degree of adaptation :math:`F`.
-    L_A : float
+    L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
     -------
-    float
+    numeric
         Degree of adaptation :math:`D`.
 
     Examples
@@ -501,9 +501,9 @@ def get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
         *CMCCAT2000* transform sharpened *RGB* matrix.
     RGB_w : array_like
         *CMCCAT2000* transform sharpened whitepoint *RGB_w* matrix.
-    Y_w : float
+    Y_w : numeric
         Whitepoint *Y* tristimulus value :math:`Y_w`.
-    D : float
+    D : numeric
         Degree of adaptation :math:`D`.
 
     Returns
@@ -545,9 +545,9 @@ def get_full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
         *CMCCAT2000* transform sharpened *RGB* matrix.
     RGB_w : array_like
         *CMCCAT2000* transform sharpened whitepoint *RGB_w* matrix.
-    Y_w : float
+    Y_w : numeric
         Whitepoint *Y* tristimulus value :math:`Y_w`.
-    D : float
+    D : numeric
         Degree of adaptation :math:`D`.
 
     Returns
@@ -726,7 +726,7 @@ def get_opponent_colour_dimensions_reverse(P, h):
     ----------
     p : array_like
         Points :math:`P`.
-    h : float
+    h : numeric
         Hue :math:`h` in degrees.
 
     Returns
@@ -768,14 +768,14 @@ def get_hue_angle(a, b):
 
     Parameters
     ----------
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    float
+    numeric
         *Hue* angle :math:`h` in degrees.
 
     Examples
@@ -794,12 +794,12 @@ def get_hue_quadrature(h):
 
     Parameters
     ----------
-    h : float
+    h : numeric
         Hue :math:`h` angle in degrees.
 
     Returns
     -------
-    float
+    numeric
         Hue quadrature.
 
     Examples
@@ -829,12 +829,12 @@ def get_eccentricity_factor(h):
 
     Parameters
     ----------
-    h : float
+    h : numeric
         Hue :math:`h` angle in degrees.
 
     Returns
     -------
-    float
+    numeric
         Eccentricity factor :math:`e_t`.
 
     Examples
@@ -857,12 +857,12 @@ def get_achromatic_response_forward(RGB, N_bb):
     ----------
     RGB : array_like
         Compressed *CMCCAT2000* transform sharpened *RGB* matrix.
-    N_bb : float
+    N_bb : numeric
         Chromatic induction factor :math:`N_{bb}`.
 
     Returns
     -------
-    float
+    numeric
         Achromatic response :math:`A`.
 
     Examples
@@ -888,18 +888,18 @@ def get_achromatic_response_reverse(A_w, J, c, z):
 
     Parameters
     ----------
-    A_w : float
+    A_w : numeric
         Achromatic response :math:`A_w` for the whitepoint.
-    J : float
+    J : numeric
         *Lightness* correlate :math:`J`.
-    c : float
+    c : numeric
         Surround exponential non linearity :math:`c`.
-    z : float
+    z : numeric
         Base exponential non linearity :math:`z`.
 
     Returns
     -------
-    float
+    numeric
         Achromatic response :math:`A`.
 
     Examples
@@ -922,18 +922,18 @@ def get_lightness_correlate(A, A_w, c, z):
 
     Parameters
     ----------
-    A : float
+    A : numeric
         Achromatic response :math:`A` for the stimulus.
-    A_w : float
+    A_w : numeric
         Achromatic response :math:`A_w` for the whitepoint.
-    c : float
+    c : numeric
         Surround exponential non linearity :math:`c`.
-    z : float
+    z : numeric
         Base exponential non linearity :math:`z`.
 
     Returns
     -------
-    float
+    numeric
         *Lightness* correlate :math:`J`.
 
     Examples
@@ -956,18 +956,18 @@ def get_brightness_correlate(c, J, A_w, F_L):
 
     Parameters
     ----------
-    c : float
+    c : numeric
         Surround exponential non linearity :math:`c`.
-    J : float
+    J : numeric
         *Lightness* correlate :math:`J`.
-    A_w : float
+    A_w : numeric
         Achromatic response :math:`A_w` for the whitepoint.
-    F_L : float
+    F_L : numeric
         *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
-    float
+    numeric
         *Brightness* correlate :math:`Q`.
 
     Examples
@@ -991,22 +991,22 @@ def get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
 
     Parameters
     ----------
-    N_c : float
+    N_c : numeric
         Surround chromatic induction factor :math:`N_{c}`.
-    N_cb : float
+    N_cb : numeric
         Chromatic induction factor :math:`N_{cb}`.
-    e_t : float
+    e_t : numeric
         Eccentricity factor :math:`e_t`.
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
     RGB_a : array_like
         Compressed stimulus *CMCCAT2000* transform sharpened *RGB* matrix.
 
     Returns
     -------
-    float
+    numeric
          Temporary magnitude quantity :math:`t`.
 
     Examples
@@ -1034,16 +1034,16 @@ def get_temporary_magnitude_quantity_reverse(C, J, n):
 
     Parameters
     ----------
-    C : float
+    C : numeric
         *Chroma* correlate :math:`C`.
-    J : float
+    J : numeric
         *Lightness* correlate :math:`J`.
-    n : float
+    n : numeric
         Function of the luminance factor of the background :math:`n`.
 
     Returns
     -------
-    float
+    numeric
          Temporary magnitude quantity :math:`t`.
 
     Examples
@@ -1065,26 +1065,26 @@ def get_chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
 
     Parameters
     ----------
-    J : float
+    J : numeric
         *Lightness* correlate :math:`J`.
-    n : float
+    n : numeric
         Function of the luminance factor of the background :math:`n`.
-    N_c : float
+    N_c : numeric
         Surround chromatic induction factor :math:`N_{c}`.
-    N_cb : float
+    N_cb : numeric
         Chromatic induction factor :math:`N_{cb}`.
-    e_t : float
+    e_t : numeric
         Eccentricity factor :math:`e_t`.
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
     RGB_a : array_like
         Compressed stimulus *CMCCAT2000* transform sharpened *RGB* matrix.
 
     Returns
     -------
-    float
+    numeric
         *Chroma* correlate :math:`C`.
 
     Examples
@@ -1113,14 +1113,14 @@ def get_colourfulness_correlate(C, F_L):
 
     Parameters
     ----------
-    C : float
+    C : numeric
         *Chroma* correlate :math:`C`.
-    F_L : float
+    F_L : numeric
         *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
-    float
+    numeric
         *Colourfulness* correlate :math:`M`.
 
     Examples
@@ -1141,14 +1141,14 @@ def get_saturation_correlate(M, Q):
 
     Parameters
     ----------
-    M : float
+    M : numeric
         *Colourfulness* correlate :math:`M`.
-    Q : float
+    Q : numeric
         *Brightness* correlate :math:`C`.
 
     Returns
     -------
-    float
+    numeric
         *Saturation* correlate :math:`s`.
 
     Examples
@@ -1169,17 +1169,17 @@ def get_P(N_c, N_cb, e_t, t, A, N_bb):
 
     Parameters
     ----------
-    N_c : float
+    N_c : numeric
         Surround chromatic induction factor :math:`N_{c}`.
-    N_cb : float
+    N_cb : numeric
         Chromatic induction factor :math:`N_{cb}`.
-    e_t : float
+    e_t : numeric
         Eccentricity factor :math:`e_t`.
-    t : float
+    t : numeric
         Temporary magnitude quantity :math:`t`.
-    A : float
+    A : numeric
         Achromatic response  :math:`A` for the stimulus.
-    N_bb : float
+    N_bb : numeric
         Chromatic induction factor :math:`N_{bb}`.
 
     Returns
@@ -1212,11 +1212,11 @@ def get_post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
 
     Parameters
     ----------
-    P_2 : float
+    P_2 : numeric
         Point :math:`P_2`.
-    a : float
+    a : numeric
         Opponent colour dimension :math:`a`.
-    b : float
+    b : numeric
         Opponent colour dimension :math:`b`.
 
     Returns

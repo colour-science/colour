@@ -16,8 +16,9 @@ else:
     import unittest
 
 from colour.colorimetry import (
+    SpectralShape,
     planck_law,
-    blackbody_spectral_power_distribution)
+    blackbody_spd)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -29,7 +30,7 @@ __status__ = 'Production'
 __all__ = ['PLANCK_LAW_DATA',
            'BLACKBODY_SPD_DATA',
            'TestPlanckLaw',
-           'TestBlackbodySpectralPowerDistribution']
+           'TestBlackbodySpd']
 
 PLANCK_LAW_DATA = {
     1667: {
@@ -4526,22 +4527,22 @@ class TestPlanckLaw(unittest.TestCase):
                     decimal=7)
 
 
-class TestBlackbodySpectralPowerDistribution(unittest.TestCase):
+class TestBlackbodySpd(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+    :func:`colour.colorimetry.blackbody.blackbody_spd`
     definition unit tests methods.
     """
 
-    def test_blackbody_power_spectral_distribution(self):
+    def test_blackbody_spd(self):
         """
         Tests
-        :func:`colour.colorimetry.blackbody.blackbody_spectral_power_distribution`
+        :func:`colour.colorimetry.blackbody.blackbody_spd`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            blackbody_spectral_power_distribution(5000, 360, 830, 1).values,
+            blackbody_spd(5000, SpectralShape(360, 830, 1)).values,
             BLACKBODY_SPD_DATA,
             decimal=7)
 

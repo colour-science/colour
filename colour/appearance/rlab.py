@@ -69,17 +69,17 @@ Defines the *RLAB* colour appearance model specification.
 
 Parameters
 ----------
-h : float
+h : numeric
     *Hue* angle :math:`h` in degrees.
-C : float
+C : numeric
     Correlate of *achromatic chroma* :math:`C`.
-s : float
+s : numeric
     Correlate of *saturation* :math:`s`.
-L : float
+L : numeric
     Correlate of *Lightness* :math:`L^R`.
-a : float
+a : numeric
     Red–green chromatic response :math:`a^R`.
-b : float
+b : numeric
     Yellow–blue chromatic response :math:`b^R`.
 """
 
@@ -95,12 +95,12 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
         [0, 100].
     XYZ_n : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_n : float
+    Y_n : numeric
         Absolute adapting luminance in :math:`cd/m^2`.
-    sigma : float
+    sigma : numeric
         Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
         for reference.
-    D : float
+    D : numeric
         *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns

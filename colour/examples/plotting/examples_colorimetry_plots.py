@@ -1549,11 +1549,11 @@ for key, value in ASTM_G_173.items():
     ASTM_G_173[key] = value * 1.37905559e+13
 
 ASTM_G_173_spd = colour.SpectralPowerDistribution('ASTM G-173', ASTM_G_173)
-ASTM_G_173_spd.interpolate(steps=5, method='Linear')
+ASTM_G_173_spd.interpolate(colour.SpectralShape(steps=5), method='Linear')
 
-blackbody_spd = colour.blackbody_spectral_power_distribution(
+blackbody_spd = colour.blackbody_spd(
     5778,
-    *ASTM_G_173_spd.shape)
+    ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
 multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
@@ -1562,7 +1562,7 @@ multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
 
 # Plotting various *blackbodies* spectral power distributions.
 blackbodies_spds = [
-    colour.blackbody_spectral_power_distribution(i, 0, 10000, 10)
+    colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
     for i in range(1000, 15000, 1000)]
 
 multi_spd_plot(blackbodies_spds,

@@ -55,27 +55,27 @@ Defines the *ATD (1995)* colour vision model specification.
 
 Parameters
 ----------
-H : float
+H : numeric
     *Hue* angle :math:`H` in degrees.
-Br : float
+Br : numeric
     Correlate of *brightness* :math:`Br`.
-C : float
+C : numeric
     Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
     terms saturation and chroma interchangeably. However, :math:`C` is here a
     measure of saturation rather than chroma since it is measured relative to
     the achromatic response for the stimulus rather than that of a similarly
     illuminated white.
-A_1 : float
+A_1 : numeric
     First stage :math:`A_1` response.
-T_1 : float
+T_1 : numeric
     First stage :math:`T_1` response.
-D_1 : float
+D_1 : numeric
     First stage :math:`D_1` response.
-A_2 : float
+A_2 : numeric
     Second stage :math:`A_2` response.
-T_2 : float
+T_2 : numeric
     Second stage :math:`A_2` response.
-D_2 : float
+D_2 : numeric
     Second stage :math:`D_2` response.
 """
 
@@ -91,13 +91,13 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
         [0, 100].
     XYZ_0 : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_0 : float
+    Y_0 : numeric
         Absolute adapting field luminance in :math:`cd/m^2`.
-    k_1 : float
+    k_1 : numeric
         Application specific weight :math:`k_1`.
-    k_2 : float
+    k_2 : numeric
         Application specific weight :math:`k_2`.
-    sigma : float
+    sigma : numeric
         Constant :math:`\sigma` varied to predict different types of data.
 
     Returns
@@ -178,7 +178,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
 
-    absolute_adapting_field_luminance : float
+    absolute_adapting_field_luminance : numeric
         Absolute adapting field luminance in :math:`cd/m^2`.
 
     Returns
@@ -275,12 +275,12 @@ def get_final_response(value):
 
     Parameters
     ----------
-    value : float
+    value : numeric
          Opponent colour dimension.
 
     Returns
     -------
-    float
+    numeric
         Final response of opponent colour dimension.
 
     Examples

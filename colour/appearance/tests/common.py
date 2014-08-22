@@ -124,7 +124,7 @@ class ColourAppearanceModelTest(object):
             Fixture case data.
         attribute : unicode.
             Tested attribute name.
-        expected : float.
+        expected : numeric.
             Expected attribute value.
 
         Returns

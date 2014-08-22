@@ -7,6 +7,7 @@ Spectrum
 
 Defines the classes handling spectral data computation:
 
+-   :class:`SpectralShape`
 -   :class:`SpectralPowerDistribution`
 -   :class:`TriSpectralPowerDistribution`
 """
@@ -18,7 +19,12 @@ import itertools
 import math
 import numpy as np
 
-from colour.algebra import is_iterable, is_uniform, get_steps, to_ndarray
+from colour.algebra import (
+    is_iterable,
+    is_numeric,
+    is_uniform,
+    get_steps,
+    to_ndarray)
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
@@ -33,8 +39,378 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SpectralPowerDistribution',
-           'TriSpectralPowerDistribution']
+__all__ = ['SpectralShape',
+           'SpectralPowerDistribution',
+           'TriSpectralPowerDistribution',
+           'DEFAULT_SPECTRAL_SHAPE',
+           'constant_spd',
+           'zeros_spd',
+           'ones_spd']
+
+
+class SpectralShape(object):
+    """
+    Defines the base object for spectral power distribution shape.
+
+    Parameters
+    ----------
+    start : numeric, optional
+        Wavelengths :math:`\lambda_{i}`: range start in nm.
+    end : numeric, optional
+        Wavelengths :math:`\lambda_{i}`: range end in nm.
+    steps : numeric, optional
+        Wavelengths :math:`\lambda_{i}`: range steps.
+
+    Attributes
+    ----------
+    start
+    end
+    steps
+
+    Methods
+    -------
+    __repr__
+    __contains__
+    __len__
+    __eq__
+    __ne__
+    range
+
+    Examples
+    --------
+    >>> SpectralShape(360, 830, 1)
+    SpectralShape(360, 830, 1)
+    """
+
+    def __init__(self, start=None, end=None, steps=None):
+        # Attribute storing the spectral shape range for caching purpose.
+        self.__range = None
+
+        self.__start = None
+        self.__end = None
+        self.__steps = None
+        self.start = start
+        self.end = end
+        self.steps = steps
+
+    @property
+    def start(self):
+        """
+        Property for **self.__start** private attribute.
+
+        Returns
+        -------
+        numeric
+            self.__start.
+        """
+
+        return self.__start
+
+    @start.setter
+    def start(self, value):
+        """
+        Setter for **self.__start** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                    'start', value))
+            if self.__end is not None:
+                assert value < self.__end, (
+                    '"{0}" attribute value must be strictly less than '
+                    '"{1}"!'.format('start', self.__end))
+
+        # Invalidating the *range* cache.
+        if value != self.__start:
+            self.__range = None
+
+        self.__start = value
+
+    @property
+    def end(self):
+        """
+        Property for **self.__end** private attribute.
+
+        Returns
+        -------
+        numeric
+            self.__end.
+        """
+
+        return self.__end
+
+    @end.setter
+    def end(self, value):
+        """
+        Setter for **self.__end** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                    'end', value))
+            if self.__start is not None:
+                assert value > self.__start, (
+                    '"{0}" attribute value must be strictly greater than '
+                    '"{1}"!'.format('end', self.__start))
+
+        # Invalidating the *range* cache.
+        if value != self.__end:
+            self.__range = None
+
+        self.__end = value
+
+    @property
+    def steps(self):
+        """
+        Property for **self.__steps** private attribute.
+
+        Returns
+        -------
+        numeric
+            self.__steps.
+        """
+
+        return self.__steps
+
+    @steps.setter
+    def steps(self, value):
+        """
+        Setter for **self.__steps** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                    'steps', value))
+
+        # Invalidating the *range* cache.
+        if value != self.__steps:
+            self.__range = None
+
+        self.__steps = value
+
+    def __str__(self):
+        """
+        Returns a nice formatted string representation.
+
+        Returns
+        -------
+        unicode
+            Nice formatted string representation.
+        """
+
+        return '({0}, {1}, {2})'.format(self.__start,
+                                        self.__end,
+                                        self.__steps)
+
+    def __repr__(self):
+        """
+        Returns a formatted string representation.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+
+        return 'SpectralShape({0}, {1}, {2})'.format(self.__start,
+                                                     self.__end,
+                                                     self.__steps)
+
+    def __iter__(self):
+        """
+        Returns a generator for the spectral power distribution data.
+
+        Returns
+        -------
+        generator
+            Spectral power distribution data generator.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__iter__` method.
+
+        Examples
+        --------
+        >>> shape = SpectralShape(0, 10, 1)
+        >>> for wavelength in shape:
+        >>>     print(wavelength)
+        0
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        """
+
+        return iter(self.range())
+
+    def __contains__(self, wavelength):
+        """
+        Returns if the spectral shape contains the given wavelength
+        :math:`\lambda`.
+
+        Parameters
+        ----------
+        wavelength : numeric
+            Wavelength :math:`\lambda`.
+
+        Returns
+        -------
+        bool
+            Is wavelength :math:`\lambda` in the spectral shape.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__contains__` method.
+
+        Examples
+        --------
+        >>> 0.5 in SpectralShape(0, 10, 0.1)
+        True
+        >>> 0.51 in SpectralShape(0, 10, 0.1)
+        False
+        """
+
+        return wavelength in self.range()
+
+    def __len__(self):
+        """
+        Returns the spectral shape wavelengths :math:`\lambda_n`
+        count.
+
+        Returns
+        -------
+        int
+            Spectral shape wavelengths :math:`\lambda_n` count.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__len__` method.
+
+        Examples
+        --------
+        >>> len(colour.SpectralShape(0, 10, 0.1))
+        101
+        """
+
+        return len(self.range())
+
+    def __eq__(self, shape):
+        """
+        Returns the spectral shape equality with given other spectral shape.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape to compare for equality.
+
+        Returns
+        -------
+        bool
+            Spectral shape equality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__eq__` method.
+
+        Examples
+        --------
+        >>> SpectralShape(0, 10, 0.1) == SpectralShape(0, 10, 0.1)
+        True
+        >>> SpectralShape(0, 10, 0.1) == SpectralShape(0, 10, 1)
+        False
+        """
+
+        return isinstance(shape, self.__class__) and np.array_equal(
+            self.range(), shape.range())
+
+    def __ne__(self, shape):
+        """
+        Returns the spectral shape inequality with given other spectral shape.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape to compare for inequality.
+
+        Returns
+        -------
+        bool
+            Spectral shape inequality.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__ne__` method.
+
+        Examples
+        --------
+        >>> SpectralShape(0, 10, 0.1) != SpectralShape(0, 10, 0.1)
+        False
+        >>> SpectralShape(0, 10, 0.1) != SpectralShape(0, 10, 1)
+        True
+        """
+
+        return not (self == shape)
+
+    def range(self):
+        """
+        Returns an iterable range for the spectral power distribution shape.
+
+        Returns
+        -------
+        ndarray
+            Iterable range for the spectral power distribution shape
+
+        Examples
+        --------
+        >>> SpectralShape(0, 10, 0.1).range()
+        array([  0. ,   0.1,   0.2,   0.3,   0.4,   0.5,   0.6,   0.7,   0.8,
+                 0.9,   1. ,   1.1,   1.2,   1.3,   1.4,   1.5,   1.6,   1.7,
+                 1.8,   1.9,   2. ,   2.1,   2.2,   2.3,   2.4,   2.5,   2.6,
+                 2.7,   2.8,   2.9,   3. ,   3.1,   3.2,   3.3,   3.4,   3.5,
+                 3.6,   3.7,   3.8,   3.9,   4. ,   4.1,   4.2,   4.3,   4.4,
+                 4.5,   4.6,   4.7,   4.8,   4.9,   5. ,   5.1,   5.2,   5.3,
+                 5.4,   5.5,   5.6,   5.7,   5.8,   5.9,   6. ,   6.1,   6.2,
+                 6.3,   6.4,   6.5,   6.6,   6.7,   6.8,   6.9,   7. ,   7.1,
+                 7.2,   7.3,   7.4,   7.5,   7.6,   7.7,   7.8,   7.9,   8. ,
+                 8.1,   8.2,   8.3,   8.4,   8.5,   8.6,   8.7,   8.8,   8.9,
+                 9. ,   9.1,   9.2,   9.3,   9.4,   9.5,   9.6,   9.7,   9.8,
+                 9.9,  10. ])
+        """
+
+        if None in (self.__start, self.__end, self.__steps):
+            raise ValueError(('One of the spectral shape "start", "end" or '
+                              '"steps" attributes is not defined!'))
+
+        if self.__range is None:
+            self.__range = np.arange(self.__start,
+                                     self.__end + self.__steps,
+                                     self.__steps)
+
+        return self.__range
 
 
 class SpectralPowerDistribution(object):
@@ -94,7 +470,7 @@ class SpectralPowerDistribution(object):
     >>> spd.values
     array([ 49.67,  69.59,  81.73,  88.19])
     >>> spd.shape
-    (510, 540, 10)
+    SpectralShape(510, 540, 10)
     """
 
     def __init__(self, name, data):
@@ -129,7 +505,7 @@ class SpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                '"{0}" attribute: "{1}" type is not in "str" or "unicode"!'.format(
+                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
                     'name', value)
         self.__name = value
 
@@ -258,14 +634,11 @@ class SpectralPowerDistribution(object):
         Property for **self.shape** attribute.
 
         Returns the shape of the spectral power distribution in the form of a
-        tuple of *int* as follows::
-
-            ('start wavelength', 'end wavelength', 'steps between wavelengths')
+        :class:`SpectralShape` class instance.
 
         Returns
         -------
-        tuple
-            (start, end, steps),
+        SpectralShape
             Spectral power distribution shape.
 
         See Also
@@ -289,17 +662,18 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> colour.SpectralPowerDistribution('Spd', data).shape
-        (510, 550, 10)
+        SpectralShape(510, 550, 10)
 
         Non uniform spectral power distribution:
 
         >>> data = {512.3: 49.6700, 524.5: 69.5900, 532.4: 81.7300, 545.7: 88.1900}
         >>> colour.SpectralPowerDistribution('Spd', data).shape
-        (512.3, 545.7, 7.8999999999999773)
+        SpectralShape(512.3, 545.7, 7.8999999999999773)
         """
 
-        steps = get_steps(self.wavelengths)
-        return min(self.data.keys()), max(self.data.keys()), min(steps)
+        return SpectralShape(min(self.data.keys()),
+                             max(self.data.keys()),
+                             min(get_steps(self.wavelengths)))
 
     @shape.setter
     def shape(self, value):
@@ -348,12 +722,12 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength: float
+        wavelength: numeric
             Wavelength :math:`\lambda` to retrieve the value.
 
         Returns
         -------
-        float
+        numeric
             Wavelength :math:`\lambda` value.
 
         See Also
@@ -380,9 +754,9 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda` to set.
-        value : float
+        value : numeric
             Value for wavelength :math:`\lambda`.
 
         Notes
@@ -433,7 +807,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda`.
 
         Returns
@@ -511,11 +885,7 @@ class SpectralPowerDistribution(object):
         True
         """
 
-        for wavelength, value in self:
-            if value != spd.get(wavelength):
-                return False
-
-        return True
+        return isinstance(spd, self.__class__) and spd.data == self.data
 
     def __ne__(self, spd):
         """
@@ -553,19 +923,19 @@ class SpectralPowerDistribution(object):
 
     def __format_operand(self, x):
         """
-        Formats given :math:`x` variable operand to *float* or *ndarray*.
+        Formats given :math:`x` variable operand to *numeric* or *ndarray*.
 
         This method is a convenient method to prepare the given :math:`x`
         variable for the arithmetic operations below.
 
         Parameters
         ----------
-        x : float or ndarray or SpectralPowerDistribution
+        x : numeric or ndarray or SpectralPowerDistribution
             Variable to format.
 
         Returns
         -------
-        float or ndarray
+        numeric or ndarray
             Formatted operand.
         """
 
@@ -582,7 +952,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or SpectralPowerDistribution
+        x : numeric or array_like or SpectralPowerDistribution
             Variable to add.
 
         Returns
@@ -605,7 +975,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        Adding a single *float* variable:
+        Adding a single *numeric* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
@@ -638,7 +1008,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or SpectralPowerDistribution
+        x : numeric or array_like or SpectralPowerDistribution
             Variable to subtract.
 
         Returns
@@ -661,7 +1031,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        Subtracting a single *float* variable:
+        Subtracting a single *numeric* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
@@ -691,7 +1061,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or SpectralPowerDistribution
+        x : numeric or array_like or SpectralPowerDistribution
             Variable to multiply.
 
         Returns
@@ -714,7 +1084,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        Multiplying a single *float* variable:
+        Multiplying a single *numeric* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
@@ -747,7 +1117,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or SpectralPowerDistribution
+        x : numeric or array_like or SpectralPowerDistribution
             Variable to divide.
 
         Returns
@@ -770,7 +1140,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        Dividing a single *float* variable:
+        Dividing a single *numeric* variable:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
@@ -806,14 +1176,14 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda` to retrieve the value.
-        default : None or float, optional
+        default : None or numeric, optional
             Wavelength :math:`\lambda` default value.
 
         Returns
         -------
-        float
+        numeric
             Wavelength :math:`\lambda` value.
 
         See Also
@@ -866,8 +1236,7 @@ class SpectralPowerDistribution(object):
         return is_uniform(self.wavelengths)
 
     def extrapolate(self,
-                    start,
-                    end,
+                    shape,
                     method='Constant',
                     left=None,
                     right=None):
@@ -877,16 +1246,14 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        start : float
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float
-            Wavelengths :math:`\lambda_n` range end in nm.
+        shape : SpectralShape
+            Spectral shape used for extrapolation.
         method : unicode, optional
             ('Linear', 'Constant'),
             Extrapolation method.
-        left : int or float, optional
+        left : numeric, optional
             Value to return for low extrapolation range.
-        right : int or float, optional
+        right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -910,8 +1277,8 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
-        >>> spd.extrapolate(400, 700).shape
-        (400, 700, 10)
+        >>> spd.extrapolate(colour.SpectralShape(400, 700)).shape
+        SpectralShape(400, 700, 10)
         >>> spd[400]
         49.67
         >>> spd[700]
@@ -925,15 +1292,19 @@ class SpectralPowerDistribution(object):
             left=left,
             right=right)
 
-        start_wavelength, end_wavelength, steps = self.shape
-        for i in np.arange(start_wavelength, start - steps, -steps):
+        spd_shape = self.shape
+        for i in np.arange(spd_shape.start,
+                           shape.start - spd_shape.steps,
+                           -spd_shape.steps):
             self[i] = extrapolator(float(i))
-        for i in np.arange(end_wavelength, end + steps, steps):
+        for i in np.arange(spd_shape.end,
+                           shape.end + spd_shape.steps,
+                           spd_shape.steps):
             self[i] = extrapolator(float(i))
 
         return self
 
-    def interpolate(self, start=None, end=None, steps=None, method=None):
+    def interpolate(self, shape=SpectralShape(), method=None):
         """
         Interpolates the spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
@@ -943,12 +1314,8 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        start : float, optional
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float, optional
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float, optional
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape, optional
+            Spectral shape used for interpolation.
         method : unicode, optional
             ('Sprague', 'Cubic Spline', 'Linear'),
             Enforce given interpolation method.
@@ -994,7 +1361,7 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(steps=1)
+        >>> spd.interpolate(colour.SpectralShape(steps=1))
         >>> spd[515]
         60.312180023923446
 
@@ -1003,7 +1370,7 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
         >>> spd[511] = 31.41
-        >>> spd.interpolate(steps=1)
+        >>> spd.interpolate(colour.SpectralShape(steps=1))
         >>> spd[515]
         21.479222237517757
 
@@ -1011,24 +1378,24 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(steps=1, method='Linear')
+        >>> spd.interpolate(colour.SpectralShape(steps=1), method='Linear')
         >>> spd[515]
         59.63
         """
 
-        shape_start, shape_end, shape_steps = self.shape
-        boundaries = tuple(zip((start, end, steps),
-                               (shape_start, shape_end, shape_steps)))
-        start, end, steps = [x[0] if x[0] is not None else x[1]
-                             for x in boundaries]
-
-        wavelengths, values = self.wavelengths, self.values
-        is_uniform = self.is_uniform()
+        spd_shape = self.shape
+        boundaries = zip((shape.start, shape.end, shape.steps),
+                         (spd_shape.start, spd_shape.end, spd_shape.end))
+        boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
+        shape = SpectralShape(*boundaries)
 
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional steps like 0.1, etc...
-        shape_start = math.ceil(shape_start)
-        shape_end = math.floor(shape_end)
+        shape.start = max(shape.start, math.ceil(spd_shape.start))
+        shape.end = min(shape.end, math.floor(spd_shape.end))
+
+        wavelengths, values = self.wavelengths, self.values
+        is_uniform = self.is_uniform()
 
         if is_string(method):
             method = method.lower()
@@ -1055,37 +1422,28 @@ class SpectralPowerDistribution(object):
                 'Undefined "{0}" interpolator!'.format(method))
 
         self.__data = dict([(wavelength, float(interpolator(wavelength)))
-                            for wavelength in
-                            np.arange(max(start, shape_start),
-                                      min(end, shape_end) + steps,
-                                      steps)])
+                            for wavelength in shape])
         return self
 
     def align(self,
-              start,
-              end,
-              steps,
+              shape,
               method='Constant',
               left=None,
               right=None):
         """
-        Aligns the spectral power distribution to given shape: Interpolates
-        first then extrapolates to fit the given range.
+        Aligns the spectral power distribution to given spectral shape:
+        Interpolates first then extrapolates to fit the given range.
 
         Parameters
         ----------
-        start : float
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape
+            Spectral shape used for alignment.
         method : unicode, optional
             ('Linear', 'Constant'),
             Extrapolation method.
-        left : int or float, optional
+        left : numeric, optional
             Value to return for low extrapolation range.
-        right : int or float, optional
+        right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -1102,7 +1460,7 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
-        >>> spd.align(start=505, end=565, steps=1)
+        >>> spd.align(colour.SpectralShape(505, 565, 1))
         >>> spd.wavelengths
         array([ 505.,  506.,  507.,  508.,  509.,  510.,  511.,  512.,  513.,
                 514.,  515.,  516.,  517.,  518.,  519.,  520.,  521.,  522.,
@@ -1129,24 +1487,20 @@ class SpectralPowerDistribution(object):
                 77.18      ,  77.18      ,  77.18      ,  77.18      ,  77.18])
         """
 
-        self.interpolate(start, end, steps)
-        self.extrapolate(start, end, method, left, right)
+        self.interpolate(shape)
+        self.extrapolate(shape, method, left, right)
 
         return self
 
-    def zeros(self, start=None, end=None, steps=None):
+    def zeros(self, shape=SpectralShape()):
         """
         Zeros fills the spectral power distribution: Missing values will be
-        replaced with zeroes to fit the defined range.
+        replaced with zeros to fit the defined range.
 
         Parameters
         ----------
-        start : float, optional
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float, optional
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float, optional
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape, optional
+            Spectral shape used for zeros fill.
 
         Returns
         -------
@@ -1157,7 +1511,7 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = colour.SpectralPowerDistribution('Spd', data)
-        >>> spd.zeros(start=505, end=565, steps=1)
+        >>> spd.zeros(colour.SpectralShape(505, 565, 1))
         >>> spd.values
         array([  0.  ,   0.  ,   0.  ,   0.  ,   0.  ,  49.67,   0.  ,   0.  ,
                  0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ,  69.59,
@@ -1169,13 +1523,14 @@ class SpectralPowerDistribution(object):
                  0.  ,   0.  ,   0.  ,   0.  ,   0.  ])
         """
 
-        start, end, steps = [x[0] if x[0] is not None else x[1]
-                             for x in
-                             tuple(zip((start, end, steps), self.shape))]
+        spd_shape = self.shape
+        boundaries = zip((shape.start, shape.end, shape.steps),
+                         (spd_shape.start, spd_shape.end, spd_shape.end))
+        boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
+        shape = SpectralShape(*boundaries)
 
         self.__data = dict(
-            [(wavelength, self.get(wavelength, 0)) for wavelength in
-             np.arange(start, end + steps, steps)])
+            [(wavelength, self.get(wavelength, 0)) for wavelength in shape])
 
         return self
 
@@ -1186,7 +1541,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        factor : float, optional
+        factor : numeric, optional
             Normalization factor
 
         Returns
@@ -1333,7 +1688,7 @@ class TriSpectralPowerDistribution(object):
 
         if value is not None:
             assert type(value) in (str, unicode), \
-                '"{0}" attribute: "{1}" type is not in "str" or "unicode"!'.format(
+                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
                     'name', value)
         self.__name = value
 
@@ -1650,14 +2005,11 @@ class TriSpectralPowerDistribution(object):
         Property for **self.shape** attribute.
 
         Returns the shape of the tri-spectral power distribution in the form of
-        a tuple of *int* as follows::
-
-            ('start wavelength', 'end wavelength', 'steps between wavelengths')
+        a :class:`SpectralShape` class instance.
 
         Returns
         -------
-        tuple
-            (start, end, steps),
+        SpectralShape
             Tri-spectral power distribution shape.
 
         See Also
@@ -1678,7 +2030,7 @@ class TriSpectralPowerDistribution(object):
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd.shape
-        (510, 540, 10)
+        SpectralShape(510, 540, 10)
         """
 
         return self.x.shape
@@ -1729,7 +2081,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength: float
+        wavelength: numeric
             Wavelength :math:`\lambda` to retrieve the values.
 
         Returns
@@ -1767,7 +2119,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda` to set.
         value : array_like
             Value for wavelength :math:`\lambda`.
@@ -1833,7 +2185,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda`.
 
         Returns
@@ -1925,6 +2277,9 @@ class TriSpectralPowerDistribution(object):
         True
         """
 
+        if not isinstance(tri_spd, self.__class__):
+            return False
+
         equality = True
         for axis in self.__mapping:
             equality *= getattr(self, axis) == getattr(tri_spd, axis)
@@ -1971,19 +2326,19 @@ class TriSpectralPowerDistribution(object):
 
     def __format_operand(self, x):
         """
-        Formats given :math:`x` variable operand to *float* or *ndarray*.
+        Formats given :math:`x` variable operand to *numeric* or *ndarray*.
 
         This method is a convenient method to prepare the given :math:`x`
         variable for the arithmetic operations below.
 
         Parameters
         ----------
-        x : float or ndarray or TriSpectralPowerDistribution
+        x : numeric or ndarray or TriSpectralPowerDistribution
             Variable to format.
 
         Returns
         -------
-        float or ndarray
+        numeric or ndarray
             Formatted operand.
         """
 
@@ -2000,7 +2355,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or TriSpectralPowerDistribution
+        x : numeric or array_like or TriSpectralPowerDistribution
             Variable to add.
 
         Returns
@@ -2024,7 +2379,7 @@ class TriSpectralPowerDistribution(object):
 
         Examples
         --------
-        Adding a single *float* variable:
+        Adding a single *numeric* variable:
 
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
@@ -2073,7 +2428,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or TriSpectralPowerDistribution
+        x : numeric or array_like or TriSpectralPowerDistribution
             Variable to subtract.
 
         Returns
@@ -2097,7 +2452,7 @@ class TriSpectralPowerDistribution(object):
 
         Examples
         --------
-        Subtracting a single *float* variable:
+        Subtracting a single *numeric* variable:
 
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
@@ -2141,7 +2496,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or TriSpectralPowerDistribution
+        x : numeric or array_like or TriSpectralPowerDistribution
             Variable to multiply.
 
         Returns
@@ -2165,7 +2520,7 @@ class TriSpectralPowerDistribution(object):
 
         Examples
         --------
-        Multiplying a single *float* variable:
+        Multiplying a single *numeric* variable:
 
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
@@ -2214,7 +2569,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        x : float or array_like or TriSpectralPowerDistribution
+        x : numeric or array_like or TriSpectralPowerDistribution
             Variable to divide.
 
         Returns
@@ -2238,7 +2593,7 @@ class TriSpectralPowerDistribution(object):
 
         Examples
         --------
-        Dividing a single *float* variable:
+        Dividing a single *numeric* variable:
 
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
@@ -2285,14 +2640,14 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : float
+        wavelength : numeric
             Wavelength :math:`\lambda` to retrieve the values.
-        default : None or float, optional
+        default : None or numeric, optional
             Wavelength :math:`\lambda` default values.
 
         Returns
         -------
-        float
+        numeric
             Wavelength :math:`\lambda` values.
 
         See Also
@@ -2357,8 +2712,7 @@ class TriSpectralPowerDistribution(object):
         return True
 
     def extrapolate(self,
-                    start,
-                    end,
+                    shape,
                     method='Constant',
                     left=None,
                     right=None):
@@ -2368,16 +2722,14 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        start : float
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float
-            Wavelengths :math:`\lambda_n` range end in nm.
+        shape : SpectralShape
+            Spectral shape used for extrapolation.
         method : unicode, optional
             ('Linear', 'Constant'),
             Extrapolation method.
-        left : int or float, optional
+        left : numeric, optional
             Value to return for low extrapolation range.
-        right : int or float, optional
+        right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -2405,8 +2757,8 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.extrapolate(400, 700).shape
-        (400, 700, 10)
+        >>> tri_spd.extrapolate(colour.SpectralShape(400, 700)).shape
+        SpectralShape(400, 700, 10)
         >>> tri_spd[400]
         array([ 49.67,  90.56,  12.43])
         >>> tri_spd[700]
@@ -2414,11 +2766,11 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).extrapolate(start, end, method, left, right)
+            getattr(self, i).extrapolate(shape, method, left, right)
 
         return self
 
-    def interpolate(self, start=None, end=None, steps=None, method=None):
+    def interpolate(self, shape=SpectralShape(), method=None):
         """
         Interpolates the tri-spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
@@ -2428,12 +2780,8 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        start : float, optional
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float, optional
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float, optional
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape, optional
+            Spectral shape used for interpolation.
         method : unicode, optional
             ('Sprague', 'Cubic Spline', 'Linear'),
             Enforce given interpolation method.
@@ -2473,7 +2821,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.interpolate(steps=1)
+        >>> tri_spd.interpolate(colour.SpectralShape(steps=1))
         >>> tri_spd[515]
         array([ 60.30332087,  93.27163315,  13.86051361])
 
@@ -2486,7 +2834,7 @@ class TriSpectralPowerDistribution(object):
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[511] = (31.41, 95.27, 15.06)
-        >>> tri_spd.interpolate(steps=1)
+        >>> tri_spd.interpolate(colour.SpectralShape(steps=1))
         >>> tri_spd[515]
         array([  21.47104053,  100.64300155,   18.8165196 ])
 
@@ -2498,20 +2846,18 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.interpolate(steps=1, method='Linear')
+        >>> tri_spd.interpolate(colour.SpectralShape(steps=1), method='Linear')
         >>> tri_spd[515]
         array([ 59.63,  88.95,  17.79])
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).interpolate(start, end, steps, method)
+            getattr(self, i).interpolate(shape, method)
 
         return self
 
     def align(self,
-              start,
-              end,
-              steps,
+              shape,
               method='Constant',
               left=None,
               right=None):
@@ -2521,18 +2867,14 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        start : float
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape
+            Spectral shape used for alignment.
         method : unicode, optional
             ('Linear', 'Constant'),
             Extrapolation method.
-        left : int or float, optional
+        left : numeric, optional
             Value to return for low extrapolation range.
-        right : int or float, optional
+        right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -2553,7 +2895,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.align(start=505, end=565, steps=1)
+        >>> tri_spd.align(colour.SpectralShape(505, 565, 1))
         >>> tri_spd.wavelengths
         array([ 505.,  506.,  507.,  508.,  509.,  510.,  511.,  512.,  513.,
                 514.,  515.,  516.,  517.,  518.,  519.,  520.,  521.,  522.,
@@ -2627,24 +2969,19 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).interpolate(start, end, steps)
-            getattr(self, i).extrapolate(start, end, method, left, right)
+            getattr(self, i).align(shape, method, left, right)
 
         return self
 
-    def zeros(self, start=None, end=None, steps=None):
+    def zeros(self, shape=SpectralShape()):
         """
         Zeros fills the tri-spectral power distribution: Missing values will be
-        replaced with zeroes to fit the defined range.
+        replaced with zeros to fit the defined range.
 
         Parameters
         ----------
-        start : float, optional
-            Wavelengths :math:`\lambda_n` range start in nm.
-        end : float, optional
-            Wavelengths :math:`\lambda_n` range end in nm.
-        steps : float, optional
-            Wavelengths :math:`\lambda_n` range steps.
+        shape : SpectralShape, optional
+            Spectral shape used for zeros fill.
 
         Returns
         -------
@@ -2659,7 +2996,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = colour.TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.zeros(start=505, end=565, steps=1)
+        >>> tri_spd.zeros(colour.SpectralShape(505, 565, 1))
         >>> tri_spd.values
         array([[  0.  ,   0.  ,   0.  ],
                [  0.  ,   0.  ,   0.  ],
@@ -2725,7 +3062,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).zeros(start, end, steps)
+            getattr(self, i).zeros(shape)
 
         return self
 
@@ -2736,7 +3073,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        factor : float, optional
+        factor : numeric, optional
             Normalization factor
 
         Returns
@@ -2802,3 +3139,123 @@ class TriSpectralPowerDistribution(object):
         """
 
         return copy.deepcopy(self)
+
+
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
+"""
+Default spectral shape using the shape of
+*CIE 1931 2 Degree Standard Observer*.
+
+DEFAULT_SPECTRAL_SHAPE : SpectralShape
+"""
+
+
+def constant_spd(k,
+                 shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    Returns a spectral power distribution of given spectral shape filled with
+    constant :math:`k` values.
+
+    Parameters
+    ----------
+    k : numeric
+        Constant :math:`k` to fill the spectral power distribution with.
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Constant :math:`k` to filled spectral power distribution.
+
+    Notes
+    -----
+    -   By default, the spectral power distribution will use the shape given
+        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> spd = colour.constant_spd(100)
+    >>> spd.shape
+    SpectralShape(360, 830, 1)
+    >>> spd[400]
+    100.0
+    """
+
+    wavelengths = shape.range()
+    values = np.full(len(wavelengths), k)
+
+    name = '{0} Constant'.format(k)
+    return SpectralPowerDistribution(name, dict(zip(wavelengths, values)))
+
+
+def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    Returns a spectral power distribution of given spectral shape filled with
+    zeros.
+
+    Parameters
+    ----------
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Zeros filled spectral power distribution.
+
+    See Also
+    --------
+    constant_spd
+
+    Notes
+    -----
+    -   By default, the spectral power distribution will use the shape given
+        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> spd = colour.zeros_spd()
+    >>> spd.shape
+    SpectralShape(360, 830, 1)
+    >>> spd[400]
+    0.0
+    """
+
+    return constant_spd(0, shape)
+
+
+def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    Returns a spectral power distribution of given spectral shape filled with
+    ones.
+
+    Parameters
+    ----------
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Ones filled spectral power distribution.
+
+    See Also
+    --------
+    constant_spd
+
+    Notes
+    -----
+    -   By default, the spectral power distribution will use the shape given
+        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    Examples
+    --------
+    >>> spd = colour.ones_spd()
+    >>> spd.shape
+    SpectralShape(360, 830, 1)
+    >>> spd[400]
+    1.0
+    """
+
+    return constant_spd(1, shape)

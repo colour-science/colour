@@ -36,7 +36,7 @@ def delta_E_CIE_1976(lab1, lab2):
     lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
 
-    float
+    numeric
         Colour difference :math:`\Delta E_{ab}`.
 
     References
@@ -70,7 +70,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
 
     Returns
     -------
-    float
+    numeric
         Colour difference :math:`\Delta E_{ab}`.
 
     References
@@ -133,7 +133,7 @@ def delta_E_CIE_2000(lab1, lab2):
 
     Returns
     -------
-    float
+    numeric
         Colour difference :math:`\Delta E_{ab}`.
 
     References
@@ -238,14 +238,14 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
         *CIE Lab* *array_like* colour 1.
     lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
-    l : float, optional
+    l : numeric, optional
         Lightness weighting factor.
-    c : float, optional
+    c : numeric, optional
         Chroma weighting factor.
 
     Returns
     -------
-    float
+    numeric
         Colour difference :math:`\Delta E_{ab}`.
 
     References

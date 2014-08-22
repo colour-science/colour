@@ -16,10 +16,11 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 from __future__ import division, unicode_literals
 
 import math
-import numpy as np
 import warnings
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE,
+    SpectralPowerDistribution)
 from colour.utilities import memoize
 
 __author__ = 'Colour Developers'
@@ -34,7 +35,7 @@ __all__ = ['C1',
            'N',
            'planck_law',
            'blackbody_spectral_radiance',
-           'blackbody_spectral_power_distribution']
+           'blackbody_spd']
 
 C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
 C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
@@ -62,21 +63,21 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Parameters
     ----------
-    wavelength : float
+    wavelength : numeric
         Wavelength in meters.
-    temperature : float
+    temperature : numeric
         Temperature :math:`T[K]` in kelvin degrees.
-    c1 : float, optional
+    c1 : numeric, optional
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA), and is
         :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
-    c2 : float, optional
+    c2 : numeric, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
         :math:`c2=1,4388x10.2\ m/K`.
-    n : float, optional
+    n : numeric, optional
         Medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
@@ -84,7 +85,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Returns
     -------
-    float
+    numeric
         Radiance in *watts per steradian per square metre*.
 
     Examples
@@ -108,38 +109,33 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 blackbody_spectral_radiance = planck_law
 
 
-def blackbody_spectral_power_distribution(temperature,
-                                          start=None,
-                                          end=None,
-                                          steps=None,
-                                          c1=C1,
-                                          c2=C2,
-                                          n=N):
+def blackbody_spd(temperature,
+                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  c1=C1,
+                  c2=C2,
+                  n=N):
     """
     Returns the spectral power distribution of the planckian radiator for given
     temperature :math:`T[K]`.
 
     Parameters
     ----------
-    temperature : float
+    temperature : numeric
         Temperature :math:`T[K]` in kelvin degrees.
-    start : float
-        Wavelengths range start in nm.
-    end : float
-        Wavelengths range end in nm.
-    steps : float
-        Wavelengths range steps.
-    c1 : float, optional
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution of the
+        planckian radiator.
+    c1 : numeric, optional
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA), and is
         :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
-    c2 : float, optional
+    c2 : numeric, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
         :math:`c2=1,4388x10.2\ m/K`.
-    n : float, optional
+    n : numeric, optional
         Medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
@@ -153,16 +149,13 @@ def blackbody_spectral_power_distribution(temperature,
     Examples
     --------
     >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> colour.blackbody_spectral_power_distribution(5000, *cmfs.shape)
+    >>> colour.blackbody_spd(5000, cmfs.shape)
     <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10616fe90>
     """
 
     return SpectralPowerDistribution(
         name='{0}K Blackbody'.format(temperature),
-        data=dict((wavelength,
-                   blackbody_spectral_radiance(
-                       wavelength * 1e-9,
-                       temperature,
-                       c1, c2,
-                       n))
-                  for wavelength in np.arange(start, end + steps, steps)))
+        data=dict(
+            (wavelength, blackbody_spectral_radiance(
+                wavelength * 1e-9, temperature, c1, c2, n))
+            for wavelength in shape))
