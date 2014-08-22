@@ -31,7 +31,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['spectral_to_aces_relative_exposure_values']
+__all__ = ['FLARE_PERCENTAGE',
+           'S_FLARE_FACTOR',
+           'spectral_to_aces_relative_exposure_values']
+
+FLARE_PERCENTAGE = 0.00500
+S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
 def spectral_to_aces_relative_exposure_values(
@@ -71,10 +76,10 @@ def spectral_to_aces_relative_exposure_values(
 
     shape = ACES_RICD.shape
     if spd.shape != ACES_RICD.shape:
-        spd = spd.clone().zeros(shape)
+        spd = spd.clone().align(shape)
 
     if illuminant.shape != ACES_RICD.shape:
-        illuminant = illuminant.clone().zeros(shape)
+        illuminant = illuminant.clone().align(shape)
 
     spd = spd.values
     illuminant = illuminant.values
@@ -94,5 +99,9 @@ def spectral_to_aces_relative_exposure_values(
     E_b = k_b * np.sum(illuminant * spd * b_bar)
 
     E_rgb = np.array([E_r, E_g, E_b])
+
+    # Accounting for flare.
+    E_rgb += FLARE_PERCENTAGE
+    E_rgb *= S_FLARE_FACTOR
 
     return E_rgb

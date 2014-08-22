@@ -30,7 +30,15 @@ Acknowledgements
 -   **Charles Poynton**, Mathematician & Colour Scientist
 
     Technical support.
-    
+
+-   **Alex Forsythe**, *Image Engineering Manager @ Academy of Motion Picture Arts and Sciences*
+
+    *ACES RGB IDT* technical support.
+
+-   **Scott Dyer**, *Image Engineering @ Academy of Motion Picture Arts and Sciences*
+
+    *ACES RGB IDT* technical support.
+
 About
 -----
 
