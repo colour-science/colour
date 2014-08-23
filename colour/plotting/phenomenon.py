@@ -140,7 +140,7 @@ def the_blue_sky_plot(
 
     settings = {
         'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
-        'y_label': u'W / (sr m²) / m',
+        'y_label': u'W / m-2 / nm-1',
         'standalone': False}
     settings.update(kwargs)
 
@@ -150,7 +150,7 @@ def the_blue_sky_plot(
 
     settings = {
         'title': 'The Blue Sky - Colour',
-        'x_label': ('The sky is blue because molecules in the atmoshpere '
+        'x_label': ('The sky is blue because molecules in the atmosphere '
                     'scatter shorter wavelengths more than longer ones.\n'
                     'The synthetic spectral power distribution is computed as '
                     'follows: '
