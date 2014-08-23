@@ -118,7 +118,7 @@ class TestGetColourRenderingIndex(unittest.TestCase):
     definition unit tests methods.
     """
 
-    def test_xy_to_z(self):
+    def test_get_colour_rendering_index(self):
         """
         Tests :func:`colour.quality.cri.get_colour_rendering_index` definition.
         """
