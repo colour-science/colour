@@ -22,6 +22,9 @@ from __future__ import division, unicode_literals
 
 import math
 
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE,
+    SpectralPowerDistribution)
 from colour.constants import AVOGADRO_CONSTANT
 
 __author__ = 'Colour Developers'
@@ -637,7 +640,7 @@ def rayleigh_optical_depth(wavelength,
     Returns
     -------
     numeric
-        Rayleigh optical depth :math:`T_r(\lambda)`
+        Rayleigh optical depth :math:`T_r(\lambda)`.
 
     Warning
     -------
@@ -670,3 +673,68 @@ def rayleigh_optical_depth(wavelength,
 
 
 rayleigh_scattering = rayleigh_optical_depth
+
+
+def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
+                            CO2_concentration=STANDARD_CO2_CONCENTRATION,
+                            temperature=STANDARD_AIR_TEMPERATURE,
+                            pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+                            latitude=DEFAULT_LATITUDE,
+                            altitude=DEFAULT_ALTITUDE,
+                            avogadro_constant=AVOGADRO_CONSTANT,
+                            n_s=air_refraction_index_bodhaine1999,
+                            F_air=F_air_bodhaine1999):
+    """
+    Returns the rayleigh spectral power distribution for given spectral shape.
+
+    Parameters
+    ----------
+    shape : SpectralShape, optional
+        Spectral shape used to create the rayleigh scattering spectral power
+        distribution.
+    CO2_concentration : numeric, optional
+        :math:`CO_2` concentration in parts per million (ppm).
+    temperature : numeric, optional
+        Air temperature :math:`T[K]` in kelvin degrees.
+    pressure : numeric
+        Surface pressure :math:`P` of the measurement site.
+    latitude : numeric, optional
+        Latitude of the site in degrees.
+    altitude : numeric, optional
+        Altitude of the site in meters.
+    avogadro_constant : numeric, optional
+        *Avogadro*'s number (molecules :math:`mol^{-1}`).
+    n_s : object
+        Air refraction index :math:`n_s` computation method.
+    F_air : object
+        :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+        *King Factor* computation method.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Rayleigh optical depth spectral power distribution.
+
+    Examples
+    --------
+    >>> colour.rayleigh_scattering_spd()
+    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10594ab90>
+    """
+
+    return SpectralPowerDistribution(
+        name=('Rayleigh Scattering - {0} ppm, {1} K, {2} Pa, {3} Degrees, '
+              '{4} m').format(CO2_concentration,
+                              temperature,
+                              pressure,
+                              latitude,
+                              altitude),
+        data=dict((wavelength, rayleigh_scattering(wavelength * 10e-8,
+                                                   CO2_concentration,
+                                                   temperature,
+                                                   pressure,
+                                                   latitude,
+                                                   altitude,
+                                                   avogadro_constant,
+                                                   n_s,
+                                                   F_air))
+                  for wavelength in shape))

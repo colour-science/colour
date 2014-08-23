@@ -13,18 +13,18 @@ Highlights:
 
 -  RGB and XYZ colour matching functions spectral data:
 
-  -  Wright & Guild 1931 2 Degree RGB CMFs RGB colour matching functions.
-  -  Stiles & Burch 1955 2 Degree RGB CMFs RGB colour matching functions.
-  -  Stiles & Burch 1959 10 Degree RGB CMFs RGB colour matching functions.
-  -  CIE 1931 2 Degree Standard Observer XYZ colour matching functions.
-  -  CIE 1964 10 Degree Standard Observer XYZ colour matching functions.
-  -  CIE 2012 2 Degree Standard Observer XYZ colour matching functions.
-  -  CIE 2012 10 Degree Standard Observer XYZ colour matching functions.
+  -  Wright & Guild 1931 2 Degree RGB CMFs RGB colour matching functions
+  -  Stiles & Burch 1955 2 Degree RGB CMFs RGB colour matching functions
+  -  Stiles & Burch 1959 10 Degree RGB CMFs RGB colour matching functions
+  -  CIE 1931 2 Degree Standard Observer XYZ colour matching functions
+  -  CIE 1964 10 Degree Standard Observer XYZ colour matching functions
+  -  CIE 2012 2 Degree Standard Observer XYZ colour matching functions
+  -  CIE 2012 10 Degree Standard Observer XYZ colour matching functions
 
 -  Cone fundamentals spectral data:
 
-  -  Stockman & Sharpe 2 Degree Cone Fundamentals.
-  -  Stockman & Sharpe 10 Degree Cone Fundamentals.
+  -  Stockman & Sharpe 2 Degree Cone Fundamentals
+  -  Stockman & Sharpe 10 Degree Cone Fundamentals
 
 -  Photopic & Scotopic luminous efficiency functions spectral data:
 
@@ -80,7 +80,7 @@ Highlights:
   -  HP4
   -  HP5
 
--  Colour rendition charts spectral data.
+-  Colour rendition charts spectral data
 -  Colour appearance models:
 
   -  ATD95
@@ -90,14 +90,14 @@ Highlights:
   -  Nayatani95
   -  RLAB
 
--  Correlated colour temperature calculation:
+-  Correlated colour temperature computation methods:
 
-  -  Roberston method implementation.
-  -  Yoshi Ohno method implementation.
-  -  McCamy method implementation.
-  -  Hernandez-Andres, Lee & Romero method implementation.
-  -  Kang, Moon, Hong, Lee, Cho and Kim implementation.
-  -  CIE Illuminant D Series implementation.
+  -  Roberston
+  -  Yoshi Ohno
+  -  McCamy
+  -  Hernandez-Andres, Lee & Romero
+  -  Kang, Moon, Hong, Lee, Cho and Kim
+  -  CIE Illuminant D Series
 
 -  Colour matching functions conversions for educational purpose:
 
@@ -107,18 +107,18 @@ Highlights:
   -  Stockman & Sharpe 2 Degree Cone Fundamentals to CIE 2012 2 Degree Standard Observer
   -  Stockman & Sharpe 10 Degree Cone Fundamentals to CIE 2012 10 Degree Standard Observer
 
--  Spectral power distribution data manipulation and conversion to tristimulus values.
--  Blackbody spectral radiance calculation.
--  Spectral bandpass correction.
--  Sprague interpolation.
+-  Spectral power distribution data manipulation and conversion to tristimulus values
+-  Blackbody spectral radiance computation
+-  Spectral bandpass correction
+-  Sprague interpolation
 -  Chromatic adaptation with following methods:
 
-  -  XYZ Scaling.
-  -  Bradford.
-  -  Von Kries.
-  -  CAT02.
+  -  XYZ Scaling
+  -  Bradford
+  -  Von Kries
+  -  CAT02
 
--  Luminance, Munsell value and Lightness calculations:
+-  Luminance, Munsell value and Lightness computations:
 
   -  Luminance Newhall 1943
   -  Luminance 1976
@@ -166,61 +166,65 @@ Highlights:
 
 -  Colourspaces transformations:
 
-  -  Wavelength to XYZ.
-  -  Spectral to XYZ.
-  -  XYZ to xyY.
-  -  xyY to XYZ.
-  -  xy to XYZ.
-  -  XYZ to xy.
-  -  XYZ to RGB.
-  -  RGB to XYZ.
-  -  RGB to RGB.
-  -  XYZ to UCS.
-  -  UCS to XYZ.
-  -  UCS to uv.
-  -  UCS uv to xy.
-  -  XYZ to UVW.
-  -  XYZ to Luv.
-  -  Luv to XYZ.
-  -  Luv to uv.
-  -  Luv uv to xy.
-  -  Luv to LCHuv.
-  -  LCHuv to Luv.
-  -  XYZ to Lab.
-  -  Lab to XYZ.
-  -  Lab to LCHab.
-  -  LCHab to Lab.
-  -  uv to CCT, Duv.
-  -  CCT, Duv to uv.
-  -  xyY to Munsell Colour.
-  -  Munsell Colour to xyY.
+  -  Wavelength to XYZ
+  -  Spectral to XYZ
+  -  XYZ to xyY
+  -  xyY to XYZ
+  -  xy to XYZ
+  -  XYZ to xy
+  -  XYZ to RGB
+  -  RGB to XYZ
+  -  RGB to RGB
+  -  XYZ to UCS
+  -  UCS to XYZ
+  -  UCS to uv
+  -  UCS uv to xy
+  -  XYZ to UVW
+  -  XYZ to Luv
+  -  Luv to XYZ
+  -  Luv to uv
+  -  Luv uv to xy
+  -  Luv to LCHuv
+  -  LCHuv to Luv
+  -  XYZ to Lab
+  -  Lab to XYZ
+  -  Lab to LCHab
+  -  LCHab to Lab
+  -  uv to CCT, Duv
+  -  CCT, Duv to uv
+  -  xyY to Munsell Colour
+  -  Munsell Colour to xyY
 
-Convenience deprecated colourspaces transformations:
+-  Convenience deprecated colourspaces transformations:
 
-  -  RGB to HSV.
-  -  HSV to RGB.
-  -  RGB to HSL.
-  -  HSL to RGB.
-  -  RGB to CMY.
-  -  CMY to RGB.
-  -  CMY to CMYK.
-  -  CMYK to CMY.
-  -  RGB to HEX.
-  -  HEX to RGB.
+  -  RGB to HSV
+  -  HSV to RGB
+  -  RGB to HSL
+  -  HSL to RGB
+  -  RGB to CMY
+  -  CMY to RGB
+  -  CMY to CMYK
+  -  CMYK to CMY
+  -  RGB to HEX
+  -  HEX to RGB
 
--  Illuminants chromaticity coordinates data.
--  Colourspaces derivation.
--  Colour difference calculation with following methods:
+-  Illuminants chromaticity coordinates data
+-  Colourspaces derivation
+-  Colour difference computation with following methods:
 
-  -  ΔE CIE 1976.
-  -  ΔE CIE 1994.
-  -  ΔE CIE 2000.
-  -  ΔE CMC.
+  -  ΔE CIE 1976
+  -  ΔE CIE 1994
+  -  ΔE CIE 2000
+  -  ΔE CMC
 
--  Colour rendering index calculation.
--  Colour rendition chart data.
--  First order colour fit.
--  Comprehensive plotting capabilities.
+-  Optical Phenomenon:
+
+  -  Rayleigh Optical Depth
+
+-  Colour rendering index computation
+-  Colour rendition chart data
+-  First order colour fit
+-  Comprehensive plotting capabilities
 
 Installation
 ------------
