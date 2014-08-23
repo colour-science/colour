@@ -73,11 +73,13 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        'title': '{0} Illuminants - Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
-            ', '.join(illuminants)) if illuminants else
-        'Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'title': ('{0} Illuminants - Planckian Locus\n'
+                  'CIE 1931 Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer').format(
+            ', '.join(illuminants))
+        if illuminants else
+        ('Planckian Locus\nCIE 1931 Chromaticity Diagram - '
+         'CIE 1931 2 Degree Standard Observer'),
         'standalone': False}
     settings.update(kwargs)
 
@@ -150,11 +152,13 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        'title': '{0} Illuminants - Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
-            ', '.join(illuminants)) if illuminants else
-        'Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'title': ('{0} Illuminants - Planckian Locus\n'
+                  'CIE 1960 UCS Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer').format(
+            ', '.join(illuminants))
+        if illuminants else
+        ('Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - '
+         'CIE 1931 2 Degree Standard Observer'),
         'standalone': False}
     settings.update(kwargs)
 

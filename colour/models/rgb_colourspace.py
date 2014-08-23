@@ -96,9 +96,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), \
+            assert type(value) in (str, unicode), (
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
-                    'name', value)
+                    'name', value))
         self.__name = value
 
     @property
@@ -154,9 +154,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (tuple, list, np.ndarray, np.matrix), \
+            assert type(value) in (tuple, list, np.ndarray, np.matrix), (
                 ('"{0}" attribute: "{1}" type is not "tuple", "list", '
-                 '"ndarray" or "matrix"!').format('whitepoint', value)
+                 '"ndarray" or "matrix"!').format('whitepoint', value))
         self.__whitepoint = value
 
     @property
@@ -240,9 +240,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert hasattr(value, '__call__'), \
+            assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'transfer_function', value)
+                    'transfer_function', value))
         self.__transfer_function = value
 
     @property
@@ -270,7 +270,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert hasattr(value, '__call__'), \
+            assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'inverse_transfer_function', value)
+                    'inverse_transfer_function', value))
         self.__inverse_transfer_function = value

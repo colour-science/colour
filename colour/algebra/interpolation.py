@@ -108,8 +108,8 @@ class LinearInterpolator1d(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"x" independent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"x" independent variable must have exactly one dimension!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -143,8 +143,8 @@ class LinearInterpolator1d(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"y" dependent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"y" dependent variable must have exactly one dimension!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -355,11 +355,11 @@ class SpragueInterpolator(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"x" independent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"x" independent variable must have exactly one dimension!')
 
-            assert is_uniform(value), \
-                '"x" independent variable is not uniform!'
+            assert is_uniform(value), (
+                '"x" independent variable is not uniform!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -402,11 +402,11 @@ class SpragueInterpolator(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"y" dependent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"y" dependent variable must have exactly one dimension!')
 
-            assert len(value) >= 6, \
-                '"y" dependent variable values count must be in domain [6:]!'
+            assert len(value) >= 6, (
+                '"y" dependent variable values count must be in domain [6:]!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)

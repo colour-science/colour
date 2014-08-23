@@ -504,9 +504,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), \
+            assert type(value) in (str, unicode), (
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
-                    'name', value)
+                    'name', value))
         self.__name = value
 
     @property
@@ -534,9 +534,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, \
+            assert type(value) is dict, (
                 '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'data', value)
+                    'data', value))
         self.__data = value
 
     @property
@@ -1687,9 +1687,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), \
+            assert type(value) in (str, unicode), (
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
-                    'name', value)
+                    'name', value))
         self.__name = value
 
     @property
@@ -1717,13 +1717,13 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, \
+            assert type(value) is dict, (
                 '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'mapping', value)
+                    'mapping', value))
             for axis in ('x', 'y', 'z'):
-                assert axis in value.keys(), \
+                assert axis in value.keys(), (
                     '"{0}" attribute: "{1}" axis label is missing!'.format(
-                        'mapping', axis)
+                        'mapping', axis))
         self.__mapping = value
 
     @property
@@ -1751,13 +1751,13 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, \
+            assert type(value) is dict, (
                 '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'data', value)
+                    'data', value))
             for axis in ('x', 'y', 'z'):
-                assert self.__mapping.get(axis) in value.keys(), \
+                assert self.__mapping.get(axis) in value.keys(), (
                     '"{0}" attribute: "{1}" axis is missing!'.format(
-                        'data', axis)
+                        'data', axis))
 
             data = {}
             for axis in ('x', 'y', 'z'):
@@ -1809,13 +1809,13 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, \
+            assert type(value) is dict, (
                 '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'labels', value)
+                    'labels', value))
             for axis in ('x', 'y', 'z'):
-                assert axis in value.keys(), \
+                assert axis in value.keys(), (
                     '"{0}" attribute: "{1}" axis label is missing!'.format(
-                        'labels', axis)
+                        'labels', axis))
         self.__labels = value
 
     @property

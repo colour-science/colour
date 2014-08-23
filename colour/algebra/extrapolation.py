@@ -144,12 +144,12 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert hasattr(value, 'x'), \
+            assert hasattr(value, 'x'), (
                 '"{0}" attribute has no "x" attribute!'.format(
-                    'interpolator', value)
-            assert hasattr(value, 'y'), \
+                    'interpolator', value))
+            assert hasattr(value, 'y'), (
                 '"{0}" attribute has no "y" attribute!'.format(
-                    'interpolator', value)
+                    'interpolator', value))
 
         self.__interpolator = value
 
@@ -178,9 +178,9 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), \
+            assert type(value) in (str, unicode), (
                 '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
-                    'method', value)
+                    'method', value))
 
             value = value.lower()
 

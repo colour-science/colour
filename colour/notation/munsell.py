@@ -383,18 +383,18 @@ def munsell_specification_to_munsell_colour(specification,
         hue, value, chroma, code = specification
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
-        assert 0 <= hue <= 10, \
+        assert 0 <= hue <= 10, (
             '"{0}" specification hue must be in domain [0, 10]!'.format(
-                specification)
-        assert 0 <= value <= 10, \
+                specification))
+        assert 0 <= value <= 10, (
             '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification)
-        assert 2 <= chroma <= 50, \
+                specification))
+        assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification)
-        assert code in code_values, \
+                specification))
+        assert code in code_values, (
             '"{0}" specification code must one of "{1}"!'.format(
-                specification, code_values)
+                specification, code_values))
 
         if hue == 0:
             hue, code = 10, (code + 1) % 10
@@ -705,12 +705,12 @@ def get_interpolation_method_from_renotation_ovoid(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 0 <= value <= 10, \
+        assert 0 <= value <= 10, (
             '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification)
-        assert is_integer(value), \
+                specification))
+        assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
-                specification)
+                specification))
 
         value = round(value)
 
@@ -718,12 +718,13 @@ def get_interpolation_method_from_renotation_ovoid(specification):
         if value == 10:
             interpolation_method = 0
 
-        assert 2 <= chroma <= 50, \
+        assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification)
-        assert abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, \
-            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
-                specification)
+                specification))
+        assert abs(
+            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, (
+            ('"{0}" specification chroma must be an integer and '
+             'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -1000,22 +1001,22 @@ def get_xy_from_renotation_ovoid(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 1 <= value <= 9, \
+        assert 1 <= value <= 9, (
             '"{0}" specification value must be in domain [1, 9]!'.format(
-                specification)
-        assert is_integer(value), \
+                specification))
+        assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
-                specification)
+                specification))
 
         value = round(value)
 
-        assert 2 <= chroma <= 50, \
+        assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification)
+                specification))
         assert abs(
-            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, \
-            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
-                specification)
+            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, (
+            ('"{0}" specification chroma must be an integer and '
+             'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -1194,8 +1195,8 @@ def get_maximum_chroma_from_renotation(hue, value, code):
     if value >= 9.99:
         return 0
 
-    assert 1 <= value <= 10, \
-        '"{0}" value must be in domain [1, 10]!'.format(value)
+    assert 1 <= value <= 10, (
+        '"{0}" value must be in domain [1, 10]!'.format(value))
 
     if value % 1 == 0:
         value_minus = value
@@ -1276,12 +1277,12 @@ def munsell_specification_to_xy(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 0 <= value <= 10, \
+        assert 0 <= value <= 10, (
             '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification)
-        assert is_integer(value), \
+                specification))
+        assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
-                specification)
+                specification))
 
         value = round(value)
 
@@ -1355,12 +1356,12 @@ def munsell_specification_to_xyY(specification):
     else:
         hue, value, chroma, code = specification
 
-        assert 0 <= hue <= 10, \
+        assert 0 <= hue <= 10, (
             '"{0}" specification hue must be in domain [0, 10]!'.format(
-                specification)
-        assert 0 <= value <= 10, \
+                specification))
+        assert 0 <= value <= 10, (
             '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification)
+                specification))
 
     Y = luminance_ASTM_D1535_08(value)
 
