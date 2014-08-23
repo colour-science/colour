@@ -3,6 +3,11 @@
 
 from __future__ import absolute_import
 
-from .rayleigh import rayleigh_optical_depth, rayleigh_scattering
+from .rayleigh import (
+    scattering_cross_section,
+    rayleigh_optical_depth,
+    rayleigh_scattering)
 
-__all__ = ['rayleigh_optical_depth, rayleigh_scattering']
+__all__ = ['scattering_cross_section',
+           'rayleigh_optical_depth',
+           'rayleigh_scattering']

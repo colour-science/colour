@@ -22,6 +22,7 @@ Subpackages
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
+-   phenomenon: Computation of various optical phenomenons.
 -   plotting: Diagrams, plots, etc...
 -   quality: Colour quality computation.
 -   temperature: Colour temperature and correlated colour temperature
@@ -63,6 +64,8 @@ from .models import *
 from . import models
 from .optimal import *
 from . import optimal
+from .phenomenon import *
+from . import phenomenon
 from .notation import *
 from . import notation
 from .quality import *
@@ -89,6 +92,7 @@ __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
 __all__ += optimal.__all__
+__all__ += phenomenon.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
 __all__ += temperature.__all__
