@@ -600,11 +600,11 @@ def scattering_cross_section(wavelength,
 
 
 def rayleigh_optical_depth(wavelength,
-                           P=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-                           latitude=DEFAULT_LATITUDE,
-                           altitude=DEFAULT_ALTITUDE,
                            CO2_concentration=STANDARD_CO2_CONCENTRATION,
                            temperature=STANDARD_AIR_TEMPERATURE,
+                           pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+                           latitude=DEFAULT_LATITUDE,
+                           altitude=DEFAULT_ALTITUDE,
                            avogadro_constant=AVOGADRO_CONSTANT,
                            n_s=air_refraction_index_bodhaine1999,
                            F_air=F_air_bodhaine1999):
@@ -616,16 +616,16 @@ def rayleigh_optical_depth(wavelength,
     ----------
     wavelength : numeric
         Wavelength :math:`\lambda` in centimeters (cm).
-    P : numeric
+    CO2_concentration : numeric, optional
+        :math:`CO_2` concentration in parts per million (ppm).
+    temperature : numeric, optional
+        Air temperature :math:`T[K]` in kelvin degrees.
+    pressure : numeric
         Surface pressure :math:`P` of the measurement site.
     latitude : numeric, optional
         Latitude of the site in degrees.
     altitude : numeric, optional
         Altitude of the site in meters.
-    CO2_concentration : numeric, optional
-        :math:`CO_2` concentration in parts per million (ppm).
-    temperature : numeric, optional
-        Air temperature :math:`T[K]` in kelvin degrees.
     avogadro_constant : numeric, optional
         *Avogadro*'s number (molecules :math:`mol^{-1}`).
     n_s : object
@@ -660,7 +660,7 @@ def rayleigh_optical_depth(wavelength,
                                      F_air)
 
     # Conversion from pascal to dyne/cm2.
-    P = P * 10
+    P = pressure * 10
     m_a = mean_molecular_weights(CO2_c)
     g = gravity_list1968(latitude, altitude)
 
