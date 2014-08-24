@@ -38,7 +38,7 @@ from collections import namedtuple
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,
                                     HPE_MATRIX_INVERSE,
-                                    get_luminance_level_adaptation_factor)
+                                    luminance_level_adaptation_factor)
 from colour.utilities import CaseInsensitiveMapping, memoize
 
 __author__ = 'Colour Developers'
@@ -54,32 +54,32 @@ __all__ = ['CIECAM02_InductionFactors',
            'CIECAM02_Specification',
            'XYZ_to_CIECAM02',
            'CIECAM02_to_XYZ',
-           'get_chromatic_induction_factors',
-           'get_base_exponential_non_linearity',
-           'get_viewing_condition_dependent_parameters',
-           'get_degree_of_adaptation',
-           'get_full_chromatic_adaptation_forward',
-           'get_full_chromatic_adaptation_reverse',
+           'chromatic_induction_factors',
+           'base_exponential_non_linearity',
+           'viewing_condition_dependent_parameters',
+           'degree_of_adaptation',
+           'full_chromatic_adaptation_forward',
+           'full_chromatic_adaptation_reverse',
            'RGB_to_rgb',
            'rgb_to_RGB',
            'post_adaptation_non_linear_response_compression_forward',
            'post_adaptation_non_linear_response_compression_reverse',
-           'get_opponent_colour_dimensions_forward',
-           'get_opponent_colour_dimensions_reverse',
-           'get_hue_angle',
-           'get_hue_quadrature',
-           'get_eccentricity_factor',
-           'get_achromatic_response_forward',
-           'get_achromatic_response_reverse',
-           'get_lightness_correlate',
-           'get_brightness_correlate',
-           'get_temporary_magnitude_quantity_forward',
-           'get_temporary_magnitude_quantity_reverse',
-           'get_chroma_correlate',
-           'get_colourfulness_correlate',
-           'get_saturation_correlate',
-           'get_P',
-           'get_post_adaptation_non_linear_response_compression_matrix']
+           'opponent_colour_dimensions_forward',
+           'opponent_colour_dimensions_reverse',
+           'hue_angle',
+           'hue_quadrature',
+           'eccentricity_factor',
+           'achromatic_response_forward',
+           'achromatic_response_reverse',
+           'lightness_correlate',
+           'brightness_correlate',
+           'temporary_magnitude_quantity_forward',
+           'temporary_magnitude_quantity_reverse',
+           'chroma_correlate',
+           'colourfulness_correlate',
+           'saturation_correlate',
+           'P',
+           'post_adaptation_non_linear_response_compression_matrix']
 
 CIECAM02_InductionFactors = namedtuple('CIECAM02_InductionFactors',
                                        ('F', 'c', 'N_c'))
@@ -183,9 +183,9 @@ def XYZ_to_CIECAM02(XYZ,
     X, Y, Z = np.ravel(XYZ)
     X_w, Y_w, Z_w = np.ravel(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = get_viewing_condition_dependent_parameters(Y_b,
-                                                                       Y_w,
-                                                                       L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b,
+                                                                   Y_w,
+                                                                   L_A)
 
     # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -193,12 +193,12 @@ def XYZ_to_CIECAM02(XYZ,
     RGB_w = np.dot(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = get_degree_of_adaptation(surround.F,
-                                 L_A) if not discount_illuminant else 1
+    D = degree_of_adaptation(surround.F,
+                             L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
-    RGB_c = get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    RGB_wc = get_full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_p = RGB_to_rgb(RGB_c)
@@ -211,46 +211,46 @@ def XYZ_to_CIECAM02(XYZ,
         RGB_pw, F_L)
 
     # Converting to preliminary cartesian coordinates.
-    a, b = get_opponent_colour_dimensions_forward(RGB_a)
+    a, b = opponent_colour_dimensions_forward(RGB_a)
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h`.
-    h = get_hue_angle(a, b)
+    h = hue_angle(a, b)
     # -------------------------------------------------------------------------
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = get_hue_quadrature(h)
+    H = hue_quadrature(h)
 
     # Computing eccentricity factor *e_t*.
-    e_t = get_eccentricity_factor(h)
+    e_t = eccentricity_factor(h)
 
     # Computing achromatic responses for the stimulus and the whitepoint.
-    A = get_achromatic_response_forward(RGB_a, N_bb)
-    A_w = get_achromatic_response_forward(RGB_aw, N_bb)
+    A = achromatic_response_forward(RGB_a, N_bb)
+    A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
     # -------------------------------------------------------------------------
-    J = get_lightness_correlate(A, A_w, surround.c, z)
+    J = lightness_correlate(A, A_w, surround.c, z)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
     # -------------------------------------------------------------------------
-    Q = get_brightness_correlate(surround.c, J, A_w, F_L)
+    Q = brightness_correlate(surround.c, J, A_w, F_L)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
     # -------------------------------------------------------------------------
-    C = get_chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
+    C = chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
-    M = get_colourfulness_correlate(C, F_L)
+    M = colourfulness_correlate(C, F_L)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
     # -------------------------------------------------------------------------
-    s = get_saturation_correlate(M, Q)
+    s = saturation_correlate(M, Q)
 
     return CIECAM02_Specification(J, C, h, Q, M, s, H)
 
@@ -315,9 +315,9 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
     X_w, Y_w, Zw = np.ravel(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = get_viewing_condition_dependent_parameters(Y_b,
-                                                                       Y_w,
-                                                                       L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b,
+                                                                   Y_w,
+                                                                   L_A)
 
     J, C, h, Q, M, s, H = CIECAM02_Specification
 
@@ -327,11 +327,11 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
     RGB_w = np.dot(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = get_degree_of_adaptation(surround.F,
-                                 L_A) if not discount_illuminant else 1
+    D = degree_of_adaptation(surround.F,
+                             L_A) if not discount_illuminant else 1
 
     # Computation full chromatic adaptation.
-    RGB_wc = get_full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_pw = RGB_to_rgb(RGB_wc)
@@ -341,26 +341,26 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
         RGB_pw, F_L)
 
     # Computing achromatic responses for the stimulus and the whitepoint.
-    A_w = get_achromatic_response_forward(RGB_aw, N_bb)
+    A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Computing temporary magnitude quantity :math:`t`.
-    t = get_temporary_magnitude_quantity_reverse(C, J, n)
+    t = temporary_magnitude_quantity_reverse(C, J, n)
 
     # Computing eccentricity factor *e_t*.
-    e_t = get_eccentricity_factor(h)
+    e_t = eccentricity_factor(h)
 
     # Computing achromatic response :math:`A` for the stimulus.
-    A = get_achromatic_response_reverse(A_w, J, surround.c, z)
+    A = achromatic_response_reverse(A_w, J, surround.c, z)
 
     # Computing *P_1* to *P_3*.
-    P_1, P_2, P_3 = get_P(surround.N_c, N_cb, e_t, t, A, N_bb)
+    P_1, P_2, P_3 = P(surround.N_c, N_cb, e_t, t, A, N_bb)
 
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = get_opponent_colour_dimensions_reverse((P_1, P_2, P_3), h)
+    a, b = opponent_colour_dimensions_reverse((P_1, P_2, P_3), h)
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = get_post_adaptation_non_linear_response_compression_matrix(P_2, a,
-                                                                       b)
+    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a,
+                                                                   b)
 
     # Applying reverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_reverse(RGB_a,
@@ -370,7 +370,7 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
     RGB_c = rgb_to_RGB(RGB_p)
 
     # Applying reverse full chromatic adaptation.
-    RGB = get_full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
+    RGB = full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
 
     # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # colourspace matrices.
@@ -379,7 +379,7 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
     return XYZ
 
 
-def get_chromatic_induction_factors(n):
+def chromatic_induction_factors(n):
     """
     Returns the chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
 
@@ -395,7 +395,7 @@ def get_chromatic_induction_factors(n):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_chromatic_induction_factors(0.2)
+    >>> colour.appearance.ciecam02.chromatic_induction_factors(0.2)
     (1.0003040045593807, 1.0003040045593807)
     """
 
@@ -403,7 +403,7 @@ def get_chromatic_induction_factors(n):
     return N_bb, N_cb
 
 
-def get_base_exponential_non_linearity(n):
+def base_exponential_non_linearity(n):
     """
     Returns the base exponential non linearity :math:`n`.
 
@@ -419,7 +419,7 @@ def get_base_exponential_non_linearity(n):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_base_exponential_non_linearity(0.2)
+    >>> colour.appearance.ciecam02.base_exponential_non_linearity(0.2)
     1.9272135954999579
     """
 
@@ -428,7 +428,7 @@ def get_base_exponential_non_linearity(n):
 
 
 @memoize(_CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE)
-def get_viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
+def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     """
     Returns the viewing condition dependent parameters.
 
@@ -448,20 +448,20 @@ def get_viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+    >>> colour.appearance.ciecam02.viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
     (0.20000000000000001, 1.16754446414718, 1.0003040045593807, 1.0003040045593807, 1.9272135954999579)
     """
 
     n = Y_b / Y_w
 
-    F_L = get_luminance_level_adaptation_factor(L_A)
-    N_bb, N_cb = get_chromatic_induction_factors(n)
-    z = get_base_exponential_non_linearity(n)
+    F_L = luminance_level_adaptation_factor(L_A)
+    N_bb, N_cb = chromatic_induction_factors(n)
+    z = base_exponential_non_linearity(n)
 
     return n, F_L, N_bb, N_cb, z
 
 
-def get_degree_of_adaptation(F, L_A):
+def degree_of_adaptation(F, L_A):
     """
     Returns the degree of adaptation :math:`D` from given surround maximum
     degree of adaptation :math:`F` and Adapting field *luminance* :math:`L_A`
@@ -481,7 +481,7 @@ def get_degree_of_adaptation(F, L_A):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_degree_of_adaptation(1.0, 318.31)
+    >>> colour.appearance.ciecam02.degree_of_adaptation(1.0, 318.31)
     0.99446878008843742
     """
 
@@ -489,7 +489,7 @@ def get_degree_of_adaptation(F, L_A):
     return D
 
 
-def get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
+def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     """
     Applies full chromatic adaptation to given *CMCCAT2000* transform sharpened
     *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint *RGB_w*
@@ -517,7 +517,7 @@ def get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> colour.appearance.ciecam02.get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
+    >>> colour.appearance.ciecam02.full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
     array([ 19.99370783,  20.00393634,  20.01326387])
     """
 
@@ -533,7 +533,7 @@ def get_full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     return np.array([R_c, G_c, B_c])
 
 
-def get_full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
+def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     """
     Reverts full chromatic adaptation of given *CMCCAT2000* transform sharpened
     *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint *RGB_w*
@@ -561,7 +561,7 @@ def get_full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> colour.appearance.ciecam02.get_full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D)
+    >>> colour.appearance.ciecam02.full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D)
     array([ 18.985456,  20.707422,  21.747482])
     """
 
@@ -687,7 +687,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     return RGB_p
 
 
-def get_opponent_colour_dimensions_forward(RGB):
+def opponent_colour_dimensions_forward(RGB):
     """
     Returns opponent colour dimensions from given compressed *CMCCAT2000*
     transform sharpened *RGB* matrix for forward *CIECAM02* implementation
@@ -705,7 +705,7 @@ def get_opponent_colour_dimensions_forward(RGB):
     Examples
     --------
     >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> colour.appearance.ciecam02.get_opponent_colour_dimensions_forward(RGB)
+    >>> colour.appearance.ciecam02.opponent_colour_dimensions_forward(RGB)
     (-0.00062411000000173189, -0.00050626888888870443)
     """
 
@@ -717,7 +717,7 @@ def get_opponent_colour_dimensions_forward(RGB):
     return a, b
 
 
-def get_opponent_colour_dimensions_reverse(P, h):
+def opponent_colour_dimensions_reverse(P, h):
     """
     Returns opponent colour dimensions from given points :math:`P` and hue :math:`h`
     in degrees for reverse *CIECAM02* implementation.
@@ -738,7 +738,7 @@ def get_opponent_colour_dimensions_reverse(P, h):
     --------
     >>> p = (30162.890815335879, 24.237205467134817, 1.05)
     >>> h = -140.9515673417281
-    >>> colour.appearance.ciecam02.get_opponent_colour_dimensions_reverse(p, h)
+    >>> colour.appearance.ciecam02.opponent_colour_dimensions_reverse(p, h)
     (-0.0006241120682426434, -0.0005062701067729668)
     """
 
@@ -762,7 +762,7 @@ def get_opponent_colour_dimensions_reverse(P, h):
     return a, b
 
 
-def get_hue_angle(a, b):
+def hue_angle(a, b):
     """
     Returns the *hue* angle :math:`h` in degrees.
 
@@ -780,7 +780,7 @@ def get_hue_angle(a, b):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_hue_correlate(-0.0006241120682426434, -0.0005062701067729668)
+    >>> colour.appearance.ciecam02.hue_correlate(-0.0006241120682426434, -0.0005062701067729668)
     219.0484326582719
     """
 
@@ -788,7 +788,7 @@ def get_hue_angle(a, b):
     return h
 
 
-def get_hue_quadrature(h):
+def hue_quadrature(h):
     """
     Returns the hue quadrature from given hue :math:`h` angle in degrees.
 
@@ -804,7 +804,7 @@ def get_hue_quadrature(h):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_hue_quadrature(-140.951567342)
+    >>> colour.appearance.ciecam02.hue_quadrature(-140.951567342)
     278.06073585629122
     """
 
@@ -822,7 +822,7 @@ def get_hue_quadrature(h):
     return H
 
 
-def get_eccentricity_factor(h):
+def eccentricity_factor(h):
     """
     Returns the eccentricity factor :math:`e_t` from given hue :math:`h` angle
     for forward *CIECAM02* implementation.
@@ -839,7 +839,7 @@ def get_eccentricity_factor(h):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.get_eccentricity_factor(-140.951567342)
+    >>> colour.appearance.ciecam02.eccentricity_factor(-140.951567342)
     1.1740054728513878
     """
 
@@ -847,7 +847,7 @@ def get_eccentricity_factor(h):
     return e_t
 
 
-def get_achromatic_response_forward(RGB, N_bb):
+def achromatic_response_forward(RGB, N_bb):
     """
     Returns the achromatic response :math:`A` from given compressed
     *CMCCAT2000* transform sharpened *RGB* matrix and :math:`N_{bb}` chromatic
@@ -869,7 +869,7 @@ def get_achromatic_response_forward(RGB, N_bb):
     --------
     >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
     >>> N_bb = 1.0003040045593807
-    >>> colour.appearance.ciecam02.get_achromatic_response_forward(RGB, N_bb)
+    >>> colour.appearance.ciecam02.achromatic_response_forward(RGB, N_bb)
     23.939480977081196
     """
 
@@ -879,7 +879,7 @@ def get_achromatic_response_forward(RGB, N_bb):
     return A
 
 
-def get_achromatic_response_reverse(A_w, J, c, z):
+def achromatic_response_reverse(A_w, J, c, z):
     """
     Returns the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
@@ -908,7 +908,7 @@ def get_achromatic_response_reverse(A_w, J, c, z):
     >>> J = 41.73109113251392
     >>> c = 0.69
     >>> z = 1.9272135954999579
-    >>> colour.appearance.ciecam02.get_achromatic_response_reverse(A_w, J, c, z)
+    >>> colour.appearance.ciecam02.achromatic_response_reverse(A_w, J, c, z)
     23.93948096673739
     """
 
@@ -916,7 +916,7 @@ def get_achromatic_response_reverse(A_w, J, c, z):
     return A
 
 
-def get_lightness_correlate(A, A_w, c, z):
+def lightness_correlate(A, A_w, c, z):
     """
     Returns the *Lightness* correlate :math:`J`.
 
@@ -942,7 +942,7 @@ def get_lightness_correlate(A, A_w, c, z):
     >>> A_w = 46.1882087914
     >>> c = 0.69
     >>> z = 1.9272135955
-    >>> colour.appearance.ciecam02.get_lightness_correlate(A, A_w, c, z)
+    >>> colour.appearance.ciecam02.lightness_correlate(A, A_w, c, z)
     41.73109113242645
     """
 
@@ -950,7 +950,7 @@ def get_lightness_correlate(A, A_w, c, z):
     return J
 
 
-def get_brightness_correlate(c, J, A_w, F_L):
+def brightness_correlate(c, J, A_w, F_L):
     """
     Returns the *brightness* correlate :math:`Q`.
 
@@ -976,7 +976,7 @@ def get_brightness_correlate(c, J, A_w, F_L):
     >>> J = 41.7310911325
     >>> A_w = 46.1882087914
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.get_brightness_correlate(c, J, A_w, F_L)
+    >>> colour.appearance.ciecam02.brightness_correlate(c, J, A_w, F_L)
     195.37132596634626
     """
 
@@ -984,7 +984,7 @@ def get_brightness_correlate(c, J, A_w, F_L):
     return Q
 
 
-def get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
+def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     """
     Returns the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
     implementation.
@@ -1017,7 +1017,7 @@ def get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
-    >>> colour.appearance.ciecam02.get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
+    >>> colour.appearance.ciecam02.temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
     0.14974620289879878
     """
 
@@ -1027,7 +1027,7 @@ def get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     return t
 
 
-def get_temporary_magnitude_quantity_reverse(C, J, n):
+def temporary_magnitude_quantity_reverse(C, J, n):
     """
     Returns the temporary magnitude quantity :math:`t`. for reverse *CIECAM02*
     implementation.
@@ -1051,7 +1051,7 @@ def get_temporary_magnitude_quantity_reverse(C, J, n):
     >>> C = 0.1047077571711053
     >>> J = 41.73109113251392
     >>> n = 0.2
-    >>> colour.appearance.ciecam02.get_temporary_magnitude_quantity_reverse(C, J, n)
+    >>> colour.appearance.ciecam02.temporary_magnitude_quantity_reverse(C, J, n)
     0.14974620292124402
     """
 
@@ -1059,7 +1059,7 @@ def get_temporary_magnitude_quantity_reverse(C, J, n):
     return t
 
 
-def get_chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
+def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     """
     Returns the *chroma* correlate :math:`C`.
 
@@ -1097,17 +1097,17 @@ def get_chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> colour.appearance.ciecam02.get_chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)
+    >>> colour.appearance.ciecam02.chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)
     0.10470775715680908
     """
 
-    t = get_temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
+    t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
     C = t ** 0.9 * (J / 100) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
 
     return C
 
 
-def get_colourfulness_correlate(C, F_L):
+def colourfulness_correlate(C, F_L):
     """
     Returns the *colourfulness* correlate :math:`M`.
 
@@ -1127,7 +1127,7 @@ def get_colourfulness_correlate(C, F_L):
     --------
     >>> C = 0.104707757171
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.get_colourfulness_correlate(C, F_L)
+    >>> colour.appearance.ciecam02.colourfulness_correlate(C, F_L)
     0.10884217566918239
     """
 
@@ -1135,7 +1135,7 @@ def get_colourfulness_correlate(C, F_L):
     return M
 
 
-def get_saturation_correlate(M, Q):
+def saturation_correlate(M, Q):
     """
     Returns the *saturation* correlate :math:`s`.
 
@@ -1155,7 +1155,7 @@ def get_saturation_correlate(M, Q):
     --------
     >>> M = 0.108842175669
     >>> Q = 195.371325966
-    >>> colour.appearance.ciecam02.get_saturation_correlate()
+    >>> colour.appearance.ciecam02.saturation_correlate()
     2.3603053739184565
     """
 
@@ -1163,7 +1163,7 @@ def get_saturation_correlate(M, Q):
     return s
 
 
-def get_P(N_c, N_cb, e_t, t, A, N_bb):
+def P(N_c, N_cb, e_t, t, A, N_bb):
     """
     Returns the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
 
@@ -1195,7 +1195,7 @@ def get_P(N_c, N_cb, e_t, t, A, N_bb):
     >>> t = 0.149746202921
     >>> A = 23.9394809667
     >>> N_bb = 1.00030400456
-    >>> colour.appearance.ciecam02.get_P(N_c, N_cb, e_t, t, A, N_bb)
+    >>> colour.appearance.ciecam02.P(N_c, N_cb, e_t, t, A, N_bb)
     (30162.8908154037, 24.23720546710714, 1.05)
     """
 
@@ -1206,7 +1206,7 @@ def get_P(N_c, N_cb, e_t, t, A, N_bb):
     return P_1, P_2, P_3
 
 
-def get_post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
+def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     """
     Returns the post adaptation non linear response compression matrix.
 
@@ -1229,7 +1229,7 @@ def get_post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> colour.appearance.ciecam02.get_post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    >>> colour.appearance.ciecam02.post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
     array([ 7.9463202 ,  7.94711528,  7.94899595])
     """
 

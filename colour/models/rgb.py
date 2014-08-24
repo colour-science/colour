@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models import xy_to_XYZ
-from colour.adaptation import get_chromatic_adaptation_matrix
+from colour.adaptation import chromatic_adaptation_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -83,9 +83,9 @@ def XYZ_to_RGB(XYZ,
     array([ 0.17303501,  0.08211033,  0.05672498])
     """
 
-    cat = get_chromatic_adaptation_matrix(xy_to_XYZ(illuminant_XYZ),
-                                          xy_to_XYZ(illuminant_RGB),
-                                          method=chromatic_adaptation_method)
+    cat = chromatic_adaptation_matrix(xy_to_XYZ(illuminant_XYZ),
+                                      xy_to_XYZ(illuminant_RGB),
+                                      method=chromatic_adaptation_method)
 
     adapted_XYZ = np.dot(cat, XYZ)
 
@@ -155,7 +155,7 @@ def RGB_to_XYZ(RGB,
 
     XYZ = np.dot(to_XYZ.reshape((3, 3)), RGB.reshape((3, 1)))
 
-    cat = get_chromatic_adaptation_matrix(
+    cat = chromatic_adaptation_matrix(
         xy_to_XYZ(illuminant_RGB),
         xy_to_XYZ(illuminant_XYZ),
         method=chromatic_adaptation_method)
@@ -199,7 +199,7 @@ def RGB_to_RGB(RGB,
     array([ 0.35793347,  0.4007138 ,  0.26157046])
     """
 
-    cat = get_chromatic_adaptation_matrix(
+    cat = chromatic_adaptation_matrix(
         xy_to_XYZ(input_colourspace.whitepoint),
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_method)

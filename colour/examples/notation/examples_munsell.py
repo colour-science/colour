@@ -13,9 +13,9 @@ from colour.characterization.dataset.colour_checkers.chromaticity_coordinates im
     COLORCHECKER_2005_DATA)
 
 # Retrieving *RGB* *luminance* of given *RGB* components.
-print(colour.get_RGB_luminance(array([56, 16, 100]),
-                               colour.sRGB_COLOURSPACE.primaries,
-                               colour.sRGB_COLOURSPACE.whitepoint))
+print(colour.RGB_luminance(array([56, 16, 100]),
+                           colour.sRGB_COLOURSPACE.primaries,
+                           colour.sRGB_COLOURSPACE.whitepoint))
 
 # Retrieving *Munsell* value and *Lightness* of given *xyY* components.
 xyY = COLORCHECKER_2005_DATA[0][2:5]
@@ -37,8 +37,8 @@ print(colour.munsell_value_mccamy1987(Y))
 # Retrieving *Munsell* value with *ASTM D1535-08e1* 2008 method.
 print(colour.munsell_value_ASTM_D1535_08(Y))
 # Retrieving *Munsell* value using the wrapper:
-print(colour.get_munsell_value(Y))
-print(colour.get_munsell_value(Y, method='Munsell Value Saunderson 1944'))
+print(colour.munsell_value(Y))
+print(colour.munsell_value(Y, method='Munsell Value Saunderson 1944'))
 
 # Converting from *CIE xyY* to *Munsell Colour*:
 print(colour.xyY_to_munsell_colour(array([0.38736945, 0.35751656, 0.59362])))

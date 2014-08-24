@@ -17,9 +17,9 @@ else:
     import unittest
 
 from colour.models import (
-    get_normalised_primary_matrix,
-    get_RGB_luminance_equation,
-    get_RGB_luminance)
+    normalised_primary_matrix,
+    RGB_luminance_equation,
+    RGB_luminance)
 from colour.models.derivation import xy_to_z
 
 __author__ = 'Colour Developers'
@@ -30,9 +30,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['Testxy_to_z',
-           'TestGetNormalisedPrimaryMatrix',
-           'TestGetRGBLuminanceEquation',
-           'TestGetRGBLuminance']
+           'TestNormalisedPrimaryMatrix',
+           'TestRGBLuminanceEquation',
+           'TestRGBLuminance']
 
 
 class Testxy_to_z(unittest.TestCase):
@@ -62,21 +62,21 @@ class Testxy_to_z(unittest.TestCase):
             decimal=7)
 
 
-class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
+class TestNormalisedPrimaryMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.get_normalised_primary_matrix`
+    Defines :func:`colour.models.rgb.derivation.normalised_primary_matrix`
     definition unit tests methods.
     """
 
-    def test_get_normalised_primary_matrix(self):
+    def test_normalised_primary_matrix(self):
         """
         Tests
-        :func:`colour.models.rgb.derivation.get_normalised_primary_matrix`
+        :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            get_normalised_primary_matrix(
+            normalised_primary_matrix(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
@@ -89,7 +89,7 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            get_normalised_primary_matrix(
+            normalised_primary_matrix(
                 np.array([0.640, 0.330,
                           0.300, 0.600,
                           0.150, 0.060]),
@@ -100,20 +100,20 @@ class TestGetNormalisedPrimaryMatrix(unittest.TestCase):
             decimal=7)
 
 
-class TestGetRGBLuminanceEquation(unittest.TestCase):
+class TestRGBLuminanceEquation(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.get_RGB_luminance_equation`
+    Defines :func:`colour.models.rgb.derivation.RGB_luminance_equation`
     definition unit tests methods.
     """
 
-    def test_get_RGB_luminance_equation(self):
+    def test_RGB_luminance_equation(self):
         """
-        Tests :func:`colour.models.rgb.derivation.get_RGB_luminance_equation`
+        Tests :func:`colour.models.rgb.derivation.RGB_luminance_equation`
         definition.
         """
 
         self.assertIsInstance(
-            get_RGB_luminance_equation(
+            RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
@@ -121,27 +121,27 @@ class TestGetRGBLuminanceEquation(unittest.TestCase):
 
         self.assertTrue(re.match(
             r'Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)',
-            get_RGB_luminance_equation(
+            RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 (0.32168, 0.33767))))
 
 
-class TestGetRGBLuminance(unittest.TestCase):
+class TestRGBLuminance(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.get_RGB_luminance` definition
+    Defines :func:`colour.models.rgb.derivation.RGB_luminance` definition
     unit tests methods.
     """
 
-    def test_get_RGB_luminance(self):
+    def test_RGB_luminance(self):
         """
-        Tests:func:`colour.models.rgb.derivation.get_RGB_luminance`
+        Tests:func:`colour.models.rgb.derivation.RGB_luminance`
         definition.
         """
 
         self.assertAlmostEqual(
-            get_RGB_luminance(
+            RGB_luminance(
                 np.array([50, 50, 50]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
@@ -151,7 +151,7 @@ class TestGetRGBLuminance(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            get_RGB_luminance(
+            RGB_luminance(
                 np.array([74.6, 16.1, 100]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
@@ -161,7 +161,7 @@ class TestGetRGBLuminance(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            get_RGB_luminance(
+            RGB_luminance(
                 np.array([40.6, 4.2, 67.4]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,

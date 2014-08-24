@@ -87,26 +87,26 @@ class TestLookup(unittest.TestCase):
     methods.
     """
 
-    def test_get_first_key_from_value(self):
+    def test_first_key_from_value(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value`
+        :meth:`colour.utilities.data_structures.Lookup.first_key_from_value`
         method.
         """
 
         lookup = Lookup(firstName='Doe', lastName='John', gender='male')
-        self.assertEqual('firstName', lookup.get_first_key_from_value('Doe'))
+        self.assertEqual('firstName', lookup.first_key_from_value('Doe'))
 
-    def test_get_keys_from_value(self):
+    def test_keys_from_value(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value`
+        :meth:`colour.utilities.data_structures.Lookup.keys_from_value`
         method.
         """
 
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
         self.assertListEqual(sorted(['Jane', 'John']),
-                             sorted(lookup.get_keys_from_value('Doe')))
+                             sorted(lookup.keys_from_value('Doe')))
 
 
 class TestCaseInsensitiveMapping(unittest.TestCase):

@@ -79,16 +79,16 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
            'normalize_munsell_specification',
            'munsell_colour_to_munsell_specification',
            'munsell_specification_to_munsell_colour',
-           'get_xyY_from_renotation',
+           'xyY_from_renotation',
            'is_specification_in_renotation',
-           'get_bounding_hues_from_renotation',
+           'bounding_hues_from_renotation',
            'hue_to_hue_angle',
            'hue_angle_to_hue',
            'hue_to_ASTM_hue',
-           'get_interpolation_method_from_renotation_ovoid',
-           'get_xy_from_renotation_ovoid',
+           'interpolation_method_from_renotation_ovoid',
+           'xy_from_renotation_ovoid',
            'LCHab_to_munsell_specification',
-           'get_maximum_chroma_from_renotation',
+           'maximum_chroma_from_renotation',
            'munsell_specification_to_xy',
            'munsell_specification_to_xyY',
            'munsell_colour_to_xyY',
@@ -102,7 +102,7 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
            'munsell_value_mccamy1987',
            'munsell_value_ASTM_D1535_08',
            'MUNSELL_VALUE_FUNCTIONS',
-           'get_munsell_value']
+           'munsell_value']
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
@@ -136,7 +136,7 @@ _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
 _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE = None
 
 
-def _get_munsell_specifications():
+def _munsell_specifications():
     """
     Returns the *Munsell Renotation System* specifications and caches them if
     not existing.
@@ -170,7 +170,7 @@ def _get_munsell_specifications():
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
-def _get_munsell_value_ASTM_D1535_08_interpolator():
+def _munsell_value_ASTM_D1535_08_interpolator():
     """
     Returns the *Munsell* value interpolator for *ASTM D1535-08* method and
     caches it if not existing.
@@ -192,7 +192,7 @@ def _get_munsell_value_ASTM_D1535_08_interpolator():
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
 
-def _get_munsell_maximum_chromas_from_renotation():
+def _munsell_maximum_chromas_from_renotation():
     """
     Returns the maximum *Munsell* chromas from *Munsell Renotation System* data
     and caches them if not existing.
@@ -403,7 +403,7 @@ def munsell_specification_to_munsell_colour(specification,
             return MUNSELL_GRAY_EXTENDED_FORMAT.format(
                 specification, value_decimals)
         else:
-            hue_letter = MUNSELL_HUE_LETTER_CODES.get_first_key_from_value(
+            hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(
                 code)
             return MUNSELL_COLOUR_EXTENDED_FORMAT.format(hue,
                                                          hue_decimals,
@@ -414,7 +414,7 @@ def munsell_specification_to_munsell_colour(specification,
                                                          chroma_decimals)
 
 
-def get_xyY_from_renotation(specification):
+def xyY_from_renotation(specification):
     """
     Returns given existing *Munsell* *Colorlab* specification *CIE xyY*
     colourspace vector from *Munsell Renotation System* data.
@@ -431,11 +431,11 @@ def get_xyY_from_renotation(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.get_xyY_from_renotation((2.5, 0.2, 2.0, 4))
+    >>> colour.notation.munsell.xyY_from_renotation((2.5, 0.2, 2.0, 4))
     (0.713, 1.414, 0.237)
     """
 
-    specifications = _get_munsell_specifications()
+    specifications = _munsell_specifications()
     try:
         return MUNSELL_COLOURS_ALL[specifications.index(specification)][1]
     except ValueError as error:
@@ -468,13 +468,13 @@ def is_specification_in_renotation(specification):
     """
 
     try:
-        get_xyY_from_renotation(specification)
+        xyY_from_renotation(specification)
         return True
     except ValueError as error:
         return False
 
 
-def get_bounding_hues_from_renotation(hue, code):
+def bounding_hues_from_renotation(hue, code):
     """
     Returns for a given hue the two bounding hues from
     *Munsell Renotation System* data.
@@ -499,7 +499,7 @@ def get_bounding_hues_from_renotation(hue, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.get_bounding_hues_from_renotation(3.2, 4)
+    >>> colour.notation.munsell.bounding_hues_from_renotation(3.2, 4)
     ((2.5, 4), (5.0, 4))
     """
 
@@ -660,7 +660,7 @@ def hue_to_ASTM_hue(hue, code):
     return 100 if ASTM_hue == 0 else ASTM_hue
 
 
-def get_interpolation_method_from_renotation_ovoid(specification):
+def interpolation_method_from_renotation_ovoid(specification):
     """
     Returns whether to use linear or radial interpolation when drawing ovoids
     through data points in the *Munsell Renotation System* data from given
@@ -691,7 +691,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.get_interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    >>> colour.notation.munsell.interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
     "Radial"
     """
 
@@ -957,7 +957,7 @@ def get_interpolation_method_from_renotation_ovoid(specification):
     return interpolation_methods.get(interpolation_method)
 
 
-def get_xy_from_renotation_ovoid(specification):
+def xy_from_renotation_ovoid(specification):
     """
     Converts given *Munsell* *Colorlab* specification to *xy* chromaticity
     coordinates on *Munsell Renotation System* ovoid.
@@ -990,9 +990,9 @@ def get_xy_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.get_xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    >>> colour.notation.munsell.xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
     (0.4333, 0.5602)
-    >>> colour.notation.munsell.get_xy_from_renotation_ovoid(8)
+    >>> colour.notation.munsell.xy_from_renotation_ovoid(8)
     (0.31006, 0.31616)
     """
 
@@ -1029,24 +1029,24 @@ def get_xy_from_renotation_ovoid(specification):
                     abs(hue - 7.5) < threshold or
                     abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
-            x, y, Y = get_xyY_from_renotation((hue, value, chroma, code))
+            x, y, Y = xyY_from_renotation((hue, value, chroma, code))
             return x, y
 
-        hue_cw, hue_ccw = get_bounding_hues_from_renotation(hue, code)
+        hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
         hue_minus, code_minus = hue_cw
         hue_plus, code_plus = hue_ccw
 
         x_grey, y_grey = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
 
         specification_minus = (hue_minus, value, chroma, code_minus)
-        x_minus, y_minus, Y_minus = get_xyY_from_renotation(
+        x_minus, y_minus, Y_minus = xyY_from_renotation(
             specification_minus)
         z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
         theta_minus = math.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
-        x_plus, y_plus, Y_plus = get_xyY_from_renotation(specification_plus)
+        x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
         z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
         theta_plus = math.degrees(theta_plus)
@@ -1068,7 +1068,7 @@ def get_xy_from_renotation_ovoid(specification):
                 lower_hue_angle -= 360
                 hue_angle -= 360
 
-        interpolation_method = get_interpolation_method_from_renotation_ovoid(
+        interpolation_method = interpolation_method_from_renotation_ovoid(
             specification)
 
         if interpolation_method == 'Linear':
@@ -1159,7 +1159,7 @@ def LCHab_to_munsell_specification(LCHab):
     return (hue, value, chroma, code)
 
 
-def get_maximum_chroma_from_renotation(hue, value, code):
+def maximum_chroma_from_renotation(hue, value, code):
     """
     Returns the maximum *Munsell* chroma from *Munsell Renotation System* data
     using given *Munsell* *Colorlab* specification hue, *Munsell* *Colorlab*
@@ -1187,7 +1187,7 @@ def get_maximum_chroma_from_renotation(hue, value, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.get_maximum_chroma_from_renotation(2.5, 5, 5)
+    >>> colour.notation.munsell.maximum_chroma_from_renotation(2.5, 5, 5)
     14.0
     """
 
@@ -1205,11 +1205,11 @@ def get_maximum_chroma_from_renotation(hue, value, code):
         value_minus = math.floor(value)
         value_plus = value_minus + 1
 
-    hue_cw, hue_ccw = get_bounding_hues_from_renotation(hue, code)
+    hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
     hue_cw, code_cw = hue_cw
     hue_ccw, code_ccw = hue_ccw
 
-    maximum_chromas = _get_munsell_maximum_chromas_from_renotation()
+    maximum_chromas = _munsell_maximum_chromas_from_renotation()
     spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
     ma_limit_mcw = maximum_chromas[
@@ -1296,10 +1296,10 @@ def munsell_specification_to_xy(specification):
             # Smallest chroma ovoid collapses to illuminant chromaticity coordinates.
             x_minus, y_minus = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
         else:
-            x_minus, y_minus = get_xy_from_renotation_ovoid(
+            x_minus, y_minus = xy_from_renotation_ovoid(
                 (hue, value, chroma_minus, code))
 
-        x_plus, y_plus = get_xy_from_renotation_ovoid(
+        x_plus, y_plus = xy_from_renotation_ovoid(
             (hue, value, chroma_plus, code))
 
         if chroma_minus == chroma_plus:
@@ -1504,9 +1504,9 @@ def xyY_to_munsell_specification(xyY):
         hue_current, value_current, chroma_current, code_current = specification_current
         hue_angle_current = hue_to_hue_angle(hue_current, code_current)
 
-        chroma_maximum = get_maximum_chroma_from_renotation(hue_current,
-                                                            value,
-                                                            code_current)
+        chroma_maximum = maximum_chroma_from_renotation(hue_current,
+                                                        value,
+                                                        code_current)
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -1597,9 +1597,9 @@ def xyY_to_munsell_specification(xyY):
 
         # TODO: Consider refactoring implementation.
         hue_current, value_current, chroma_current, code_current = specification_current
-        chroma_maximum = get_maximum_chroma_from_renotation(hue_current,
-                                                            value,
-                                                            code_current)
+        chroma_maximum = maximum_chroma_from_renotation(hue_current,
+                                                        value,
+                                                        code_current)
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -1954,7 +1954,7 @@ def munsell_value_ASTM_D1535_08(Y):
     3.74629711426
     """
 
-    V = _get_munsell_value_ASTM_D1535_08_interpolator()(Y)
+    V = _munsell_value_ASTM_D1535_08_interpolator()(Y)
 
     return V
 
@@ -1984,7 +1984,7 @@ MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
     MUNSELL_VALUE_FUNCTIONS['Munsell Value ASTM D1535-08'])
 
 
-def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):
+def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using given method.
 
@@ -2011,7 +2011,7 @@ def get_munsell_value(Y, method='Munsell Value ASTM D1535-08'):
 
     Examples
     --------
-    >>> colour.get_munsell_value(10.08)
+    >>> colour.munsell_value(10.08)
     3.7344764769311354
     """
 

@@ -14,7 +14,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.quality import get_colour_rendering_index
+from colour.quality import colour_rendering_index
 from colour.colorimetry import (
     ILLUMINANTS_RELATIVE_SPDS,
     SpectralPowerDistribution)
@@ -26,7 +26,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestGetColourRenderingIndex']
+__all__ = ['TestColourRenderingIndex']
 
 SAMPLE_SPD_DATA = {
     380: 0.005883458,
@@ -112,29 +112,29 @@ SAMPLE_SPD_DATA = {
     780: 0.002936635}
 
 
-class TestGetColourRenderingIndex(unittest.TestCase):
+class TestColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cri.get_colour_rendering_index`
+    Defines :func:`colour.quality.cri.colour_rendering_index`
     definition unit tests methods.
     """
 
-    def test_get_colour_rendering_index(self):
+    def test_colour_rendering_index(self):
         """
-        Tests :func:`colour.quality.cri.get_colour_rendering_index` definition.
+        Tests :func:`colour.quality.cri.colour_rendering_index` definition.
         """
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('F2')),
+            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('F2')),
             64.1507331494,
             places=7)
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('A')),
+            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('A')),
             99.9978916846,
             places=7)
 
         self.assertAlmostEqual(
-            get_colour_rendering_index(SpectralPowerDistribution(
+            colour_rendering_index(SpectralPowerDistribution(
                 'Sample',
                 SAMPLE_SPD_DATA)),
             70.805836753503698,

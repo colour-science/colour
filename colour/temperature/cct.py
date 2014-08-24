@@ -65,8 +65,8 @@ __all__ = ['PLANCKIAN_TABLE_TUVD',
            'ROBERTSON_ISOTEMPERATURE_LINES_DATA',
            'ROBERTSON_ISOTEMPERATURE_LINES_RUVT',
            'ROBERTSON_ISOTEMPERATURE_LINES',
-           'get_planckian_table',
-           'get_planckian_table_minimal_distance_index',
+           'planckian_table',
+           'planckian_table_minimal_distance_index',
            'uv_to_CCT_ohno2013',
            'CCT_to_uv_ohno2013',
            'uv_to_CCT_robertson1968',
@@ -155,7 +155,7 @@ ROBERTSON_ISOTEMPERATURE_LINES = [
     for x in ROBERTSON_ISOTEMPERATURE_LINES_DATA]
 
 
-def get_planckian_table(uv, cmfs, start, end, count):
+def planckian_table(uv, cmfs, start, end, count):
     """
     Returns a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
@@ -183,7 +183,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     --------
     >>> import pprint
     >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> pprint.pprint(colour.temperature.cct.get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
+    >>> pprint.pprint(colour.temperature.cct.planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
     [PlanckianTableTuvdi(Ti=1000.0, ui=0.44800695592713469, vi=0.35462532232761207, di=0.2537783063402483),
      PlanckianTableTuvdi(Ti=1001.1111111111111, ui=0.44774688726773565, vi=0.3546478595072966, di=0.25352567371290297),
      PlanckianTableTuvdi(Ti=1002.2222222222222, ui=0.44748712505363253, vi=0.35467035108531186, di=0.2532733526031864),
@@ -213,7 +213,7 @@ def get_planckian_table(uv, cmfs, start, end, count):
     return planckian_table
 
 
-def get_planckian_table_minimal_distance_index(planckian_table):
+def planckian_table_minimal_distance_index(planckian_table):
     """
     Returns the shortest distance index in given planckian table using
     *Yoshi Ohno (2013)* method.
@@ -231,7 +231,7 @@ def get_planckian_table_minimal_distance_index(planckian_table):
     Examples
     --------
     >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> colour.temperature.get_planckian_table_minimal_distance_index(get_planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
+    >>> colour.temperature.planckian_table_minimal_distance_index(planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)))
     9
     """
 
@@ -294,27 +294,25 @@ def uv_to_CCT_ohno2013(uv,
 
     # Planckian table creation through cascade expansion.
     for i in range(iterations):
-        planckian_table = get_planckian_table(uv, cmfs, start, end, count)
-        index = get_planckian_table_minimal_distance_index(planckian_table)
+        table = planckian_table(uv, cmfs, start, end, count)
+        index = planckian_table_minimal_distance_index(table)
         if index == 0:
             warning(
                 ('Minimal distance index is on lowest planckian table bound, '
                  'unpredictable results may occur!'))
             index += 1
-        elif index == len(planckian_table) - 1:
+        elif index == len(table) - 1:
             warning(
                 ('Minimal distance index is on highest planckian table bound, '
                  'unpredictable results may occur!'))
             index -= 1
 
-        start = planckian_table[index - 1].Ti
-        end = planckian_table[index + 1].Ti
+        start = table[index - 1].Ti
+        end = table[index + 1].Ti
 
     ux, vx = uv
 
-    Tuvdip, Tuvdi, Tuvdin = (planckian_table[index - 1],
-                             planckian_table[index],
-                             planckian_table[index + 1])
+    Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
     Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
     Ti, ui, vi, di = Tuvdi.Ti, Tuvdi.ui, Tuvdi.vi, Tuvdi.di
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
@@ -524,7 +522,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             page  227.
     .. [7]  *Adobe DNG SDK 1.3.0.0*:
             *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
-            *dng_temperature::Get_xy_coord*.
+            *dng_temperature::xy_coord*.
     Examples
     --------
     >>> colour.CCT_to_uv_robertson1968(6500.0081378199056, 0.0083333312442250979)

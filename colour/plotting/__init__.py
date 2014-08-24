@@ -10,7 +10,7 @@ from .common import (
     DEFAULT_FIGURE_SIZE,
     DEFAULT_COLOUR_CYCLE,
     ColourParameter,
-    get_colour_cycle,
+    colour_cycle,
     figure_size,
     aspect,
     bounding_box,
@@ -20,8 +20,8 @@ from .common import (
     single_colour_plot,
     multi_colour_plot)
 from .colorimetry import (
-    get_cmfs,
-    get_illuminant,
+    cmfs,
+    illuminant,
     single_spd_plot,
     multi_spd_plot,
     single_cmfs_plot,
@@ -39,7 +39,7 @@ from .diagrams import (
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot)
 from .models import (
-    get_RGB_colourspace,
+    RGB_colourspace,
     colourspaces_CIE_1931_chromaticity_diagram_plot,
     single_transfer_function_plot,
     multi_transfer_function_plot)
@@ -59,7 +59,7 @@ __all__ += [
     'DEFAULT_FIGURE_SIZE',
     'DEFAULT_COLOUR_CYCLE',
     'ColourParameter',
-    'get_colour_cycle',
+    'colour_cycle',
     'figure_size',
     'aspect',
     'bounding_box',
@@ -69,8 +69,8 @@ __all__ += [
     'single_colour_plot',
     'multi_colour_plot']
 __all__ += [
-    'get_cmfs',
-    'get_illuminant',
+    'cmfs',
+    'illuminant',
     'single_spd_plot',
     'multi_spd_plot',
     'single_cmfs_plot',
@@ -89,7 +89,7 @@ __all__ += [
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot']
 __all__ += [
-    'get_RGB_colourspace',
+    'RGB_colourspace',
     'colourspaces_CIE_1931_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']

@@ -7,7 +7,7 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`get_colour_cycle`
+-   :func:`colour_cycle`
 -   :func:`figure_size`
 -   :func:`aspect`
 -   :func:`bounding_box`
@@ -47,7 +47,7 @@ __all__ = [
     'DEFAULT_FIGURE_SIZE',
     'DEFAULT_COLOUR_CYCLE',
     'ColourParameter',
-    'get_colour_cycle',
+    'colour_cycle',
     'figure_size',
     'aspect',
     'bounding_box',
@@ -85,7 +85,7 @@ pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
 matplotlib.rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
 
 
-def get_colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
+def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
     """
     Returns a colour cycle iterator using given colour map.
 

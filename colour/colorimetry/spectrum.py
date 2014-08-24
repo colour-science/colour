@@ -23,7 +23,7 @@ from colour.algebra import (
     is_iterable,
     is_numeric,
     is_uniform,
-    get_steps,
+    steps,
     to_ndarray)
 from colour.algebra import (
     Extrapolator1d,
@@ -673,7 +673,7 @@ class SpectralPowerDistribution(object):
 
         return SpectralShape(min(self.data.keys()),
                              max(self.data.keys()),
-                             min(get_steps(self.wavelengths)))
+                             min(steps(self.wavelengths)))
 
     @shape.setter
     def shape(self, value):

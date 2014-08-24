@@ -36,7 +36,7 @@ class ColourAppearanceModelTest(object):
     Methods
     -------
     load_fixtures
-    get_output_specification_from_data
+    output_specification_from_data
     check_specification_attribute
     check_model_consistency
     test_forward_examples
@@ -94,7 +94,7 @@ class ColourAppearanceModelTest(object):
             return result
 
     @abstractmethod
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the colour appearance model output specification from given
         fixture data.
@@ -132,7 +132,7 @@ class ColourAppearanceModelTest(object):
         None
         """
 
-        specification = self.get_output_specification_from_data(data)
+        specification = self.output_specification_from_data(data)
         value = getattr(specification, attribute)
 
         error_message = (
@@ -178,7 +178,7 @@ class ColourAppearanceModelTest(object):
                    data[data_attr])
 
 
-    def __get_fixtures(self):
+    def fixtures(self):
         """
         Returns the fixtures case for tested colour appearance model and
         filter them accordingly with
@@ -204,7 +204,7 @@ class ColourAppearanceModelTest(object):
         tuple
         """
 
-        for data in self.__get_fixtures():
+        for data in self.fixtures():
             for test in self.check_model_consistency(data,
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
@@ -217,7 +217,7 @@ class ColourAppearanceModelTest(object):
 
         # TODO: Check with Michael for this dead code path.
         data = defaultdict(list)
-        for fixture in self.__get_fixtures():
+        for fixture in self.fixtures():
             for key, value in fixture.items():
                 data[key].append(value)
 

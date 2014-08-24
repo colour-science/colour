@@ -25,7 +25,7 @@ print('Inverse transfer function: "{0}"'.format(
 
 # Calculating *ACES RGB* to *sRGB* transformation matrix.
 print('"ACES RGB" colourspace to "sRGB" colourspace matrix:')
-cat = colour.get_chromatic_adaptation_matrix(
+cat = colour.chromatic_adaptation_matrix(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES RGB'].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
 print(np.dot(colour.RGB_COLOURSPACES['sRGB'].to_RGB,

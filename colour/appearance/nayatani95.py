@@ -41,26 +41,26 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
            'Nayatani95_Specification',
            'XYZ_to_Nayatani95',
            'illuminance_to_luminance',
-           'get_intermediate_values',
+           'intermediate_values',
            'XYZ_to_RGB_Nayatani95',
-           'get_beta_1',
-           'get_beta_2',
-           'get_chromatic_adaptation_exponential_factors',
-           'get_scaling_coefficient',
-           'get_achromatic_response',
-           'get_tritanopic_response',
-           'get_protanopic_response',
-           'get_brightness_correlate',
-           'get_ideal_white_brightness_correlate',
-           'get_achromatic_lightness_correlate',
-           'get_normalised_achromatic_lightness_correlate',
-           'get_hue_angle',
-           'get_saturation_components',
-           'get_saturation_correlate',
-           'get_chroma_components',
-           'get_chroma_correlate',
-           'get_colourfulness_components',
-           'get_colourfulness_correlate',
+           'beta_1',
+           'beta_2',
+           'chromatic_adaptation_exponential_factors',
+           'scaling_coefficient',
+           'achromatic_response',
+           'tritanopic_response',
+           'protanopic_response',
+           'brightness_correlate',
+           'ideal_white_brightness_correlate',
+           'achromatic_lightness_correlate',
+           'normalised_achromatic_lightness_correlate',
+           'hue_angle',
+           'saturation_components',
+           'saturation_correlate',
+           'chroma_components',
+           'chroma_correlate',
+           'colourfulness_components',
+           'colourfulness_correlate',
            'chromatic_strength_function', ]
 
 NAYATANI95_XYZ_TO_RGB_MATRIX = np.array(
@@ -163,7 +163,7 @@ def XYZ_to_Nayatani95(XYZ,
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xi, eta, zeta = x_e_z = get_intermediate_values(XYZ_n)
+    xi, eta, zeta = x_e_z = intermediate_values(XYZ_n)
 
     # Computing adapting field cone responses.
     RGB_o = ((Y_o * E_o) / (100 * np.pi)) * x_e_z
@@ -172,76 +172,77 @@ def XYZ_to_Nayatani95(XYZ,
     R, G, B = RGB = XYZ_to_RGB_Nayatani95(np.array([X, Y, Z]))
 
     # Computing exponential factors of the chromatic adaptation.
-    bRGB_o = get_chromatic_adaptation_exponential_factors(RGB_o)
-    bL_or = get_beta_1(L_or)
+    bRGB_o = chromatic_adaptation_exponential_factors(RGB_o)
+    bL_or = beta_1(L_or)
 
     # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`
-    eR = get_scaling_coefficient(R, xi)
-    eG = get_scaling_coefficient(G, eta)
+    eR = scaling_coefficient(R, xi)
+    eG = scaling_coefficient(G, eta)
 
     # Computing opponent colour dimensions.
     # Computing achromatic response :math:`Q`:
-    achromatic_response = get_achromatic_response(RGB, bRGB_o, x_e_z,
-                                                  bL_or, eR, eG, n)
+    Q_response = achromatic_response(RGB, bRGB_o, x_e_z,
+                                     bL_or, eR, eG, n)
 
     # Computing tritanopic response :math:`t`:
-    tritanopic_response = get_tritanopic_response(RGB, bRGB_o, x_e_z, n)
+    t_response = tritanopic_response(RGB, bRGB_o, x_e_z, n)
 
-    protanopic_response = get_protanopic_response(RGB, bRGB_o, x_e_z, n)
+    # Computing protanopic response :math:`p`:
+    p_response = protanopic_response(RGB, bRGB_o, x_e_z, n)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`B_r`.
     # -------------------------------------------------------------------------
-    brightness = get_brightness_correlate(bRGB_o, bL_or, achromatic_response)
+    brightness = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = get_ideal_white_brightness_correlate(bRGB_o,
-                                                                  x_e_z,
-                                                                  bL_or,
-                                                                  n)
+    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o,
+                                                              x_e_z,
+                                                              bL_or,
+                                                              n)
 
 
     # -------------------------------------------------------------------------
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
     # -------------------------------------------------------------------------
     lightness_achromatic = (
-        get_achromatic_lightness_correlate(achromatic_response))
+        achromatic_lightness_correlate(Q_response))
 
     # -------------------------------------------------------------------------
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\star`.
     # -------------------------------------------------------------------------
     lightness_achromatic_normalised = (
-        get_normalised_achromatic_lightness_correlate(brightness,
-                                                      brightness_ideal_white))
+        normalised_achromatic_lightness_correlate(brightness,
+                                                  brightness_ideal_white))
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`\\theta`.
     # -------------------------------------------------------------------------
-    hue = get_hue_angle(protanopic_response, tritanopic_response)
+    hue = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`S`.
     # -------------------------------------------------------------------------
-    S_RG, S_YB = get_saturation_components(hue, bL_or,
-                                           tritanopic_response,
-                                           protanopic_response)
-    saturation = get_saturation_correlate(S_RG, S_YB)
+    S_RG, S_YB = saturation_components(hue, bL_or,
+                                       t_response,
+                                       p_response)
+    saturation = saturation_correlate(S_RG, S_YB)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
     # -------------------------------------------------------------------------
-    C_RG, C_YB = get_chroma_components(lightness_achromatic, S_RG, S_YB)
-    chroma = get_chroma_correlate(lightness_achromatic, saturation)
+    C_RG, C_YB = chroma_components(lightness_achromatic, S_RG, S_YB)
+    chroma = chroma_correlate(lightness_achromatic, saturation)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
     # TODO: Investigate components usage?
-    M_RG, M_YB = get_colourfulness_components(C_RG, C_YB,
-                                              brightness_ideal_white)
-    colorfulness = get_colourfulness_correlate(chroma, brightness_ideal_white)
+    M_RG, M_YB = colourfulness_components(C_RG, C_YB,
+                                          brightness_ideal_white)
+    colorfulness = colourfulness_correlate(chroma, brightness_ideal_white)
 
     return Nayatani95_Specification(brightness,
                                     lightness_achromatic,
@@ -278,7 +279,7 @@ def illuminance_to_luminance(E, Y_f):
     return Y_f * E / (100 * np.pi)
 
 
-def get_intermediate_values(XYZ_n):
+def intermediate_values(XYZ_n):
     """
     Returns the intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
 
@@ -295,7 +296,7 @@ def get_intermediate_values(XYZ_n):
     Examples
     --------
     >>> XYZ_n = np.array([95.05, 100, 108.88])
-    >>> colour.appearance.nayatani95.get_intermediate_values(XYZ_n)
+    >>> colour.appearance.nayatani95.intermediate_values(XYZ_n)
     array([ 1.00004219,  0.99998001,  0.99975794])
     """
 
@@ -334,7 +335,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     return NAYATANI95_XYZ_TO_RGB_MATRIX.dot(XYZ)
 
 
-def get_beta_1(x):
+def beta_1(x):
     """
     Computes the exponent :math:`\beta_1` for the middle and long-wavelength
     sensitive cones.
@@ -351,14 +352,14 @@ def get_beta_1(x):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.get_beta_1(318.323316315)
+    >>> colour.appearance.nayatani95.beta_1(318.323316315)
     4.61062222647
     """
 
     return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
 
 
-def get_beta_2(x):
+def beta_2(x):
     """
     Computes the exponent :math:`\beta_2` for the short-wavelength sensitive
     cones.
@@ -375,14 +376,14 @@ def get_beta_2(x):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.get_beta_2(318.323316315)
+    >>> colour.appearance.nayatani95.beta_2(318.323316315)
     4.6520698609530138
     """
 
     return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
 
 
-def get_chromatic_adaptation_exponential_factors(RGB_o):
+def chromatic_adaptation_exponential_factors(RGB_o):
     """
     Returns the chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
     `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)` of given cone responses.
@@ -401,20 +402,20 @@ def get_chromatic_adaptation_exponential_factors(RGB_o):
     Examples
     --------
     >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
-    >>> colour.appearance.nayatani95.get_chromatic_adaptation_exponential_factors(RGB_o)
+    >>> colour.appearance.nayatani95.chromatic_adaptation_exponential_factors(RGB_o)
     array([ 4.61062223,  4.61058926,  4.65206986])
     """
 
     R_o, G_o, B_o = np.ravel(RGB_o)
 
-    bR_o = get_beta_1(R_o)
-    bG_o = get_beta_1(G_o)
-    bB_o = get_beta_2(B_o)
+    bR_o = beta_1(R_o)
+    bG_o = beta_1(G_o)
+    bB_o = beta_2(B_o)
 
     return np.array([bR_o, bG_o, bB_o])
 
 
-def get_scaling_coefficient(x, y):
+def scaling_coefficient(x, y):
     """
     Returns the scaling coefficient :math:`e(R)` or :math:`e(G)`.
 
@@ -434,14 +435,14 @@ def get_scaling_coefficient(x, y):
     --------
     >>> x = 20.000520600000002
     >>> y = 1.000042192
-    >>> colour.appearance.nayatani95.get_scaling_coefficient(x, y)
+    >>> colour.appearance.nayatani95.scaling_coefficient(x, y)
     1.0
     """
 
     return 1.758 if x >= (20 * y) else 1
 
 
-def get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
+def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     """
     Returns the achromatic response :math:`Q` from given stimulus cone
     responses.
@@ -479,7 +480,7 @@ def get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)
+    >>> colour.appearance.nayatani95.achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)
     -0.000117024294955
     """
 
@@ -494,7 +495,7 @@ def get_achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     return Q
 
 
-def get_tritanopic_response(RGB, bRGB_o, x_e_z, n):
+def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     """
     Returns the tritanopic response :math:`t` from given stimulus cone
     responses.
@@ -522,7 +523,7 @@ def get_tritanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.get_tritanopic_response(RGB, bRGB_o, x_e_z, n)
+    >>> colour.appearance.nayatani95.tritanopic_response(RGB, bRGB_o, x_e_z, n)
     -1.7703650668990973e-05
     """
 
@@ -537,7 +538,7 @@ def get_tritanopic_response(RGB, bRGB_o, x_e_z, n):
     return t
 
 
-def get_protanopic_response(RGB, bRGB_o, x_e_z, n):
+def protanopic_response(RGB, bRGB_o, x_e_z, n):
     """
     Returns the protanopic response :math:`p` from given stimulus cone
     responses.
@@ -565,7 +566,7 @@ def get_protanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.get_protanopic_response(RGB, bRGB_o, x_e_z, n)
+    >>> colour.appearance.nayatani95.protanopic_response(RGB, bRGB_o, x_e_z, n)
     -8.002142682085493e-05
     """
 
@@ -580,7 +581,7 @@ def get_protanopic_response(RGB, bRGB_o, x_e_z, n):
     return p
 
 
-def get_brightness_correlate(bRGB_o, bL_or, Q):
+def brightness_correlate(bRGB_o, bL_or, Q):
     """
     Returns the *brightness* correlate :math:`B_r`.
 
@@ -604,7 +605,7 @@ def get_brightness_correlate(bRGB_o, bL_or, Q):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> bL_or = 3.6810214956040888
     >>> Q = -0.000117024294955
-    >>> colour.appearance.nayatani95.get_brightness_correlate(bRGB_o, bL_or, Q)
+    >>> colour.appearance.nayatani95.brightness_correlate(bRGB_o, bL_or, Q)
     62.626673467230766
     """
 
@@ -615,7 +616,7 @@ def get_brightness_correlate(bRGB_o, bL_or, Q):
     return B_r
 
 
-def get_ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
+def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     """
     Returns the ideal white *brightness* correlate :math:`B_{rw}`.
 
@@ -643,7 +644,7 @@ def get_ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.get_ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)
+    >>> colour.appearance.nayatani95.ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)
     125.24353925846037
     """
 
@@ -659,7 +660,7 @@ def get_ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     return B_rw
 
 
-def get_achromatic_lightness_correlate(Q):
+def achromatic_lightness_correlate(Q):
     """
     Returns the *achromatic Lightness* correlate :math:`L_p^\star`.
 
@@ -676,14 +677,14 @@ def get_achromatic_lightness_correlate(Q):
     Examples
     --------
     >>> Q = -0.000117024294955
-    >>> colour.appearance.nayatani95.get_achromatic_lightness_correlate(Q)
+    >>> colour.appearance.nayatani95.achromatic_lightness_correlate(Q)
     49.99988297570504
     """
 
     return Q + 50
 
 
-def get_normalised_achromatic_lightness_correlate(B_r, B_rw):
+def normalised_achromatic_lightness_correlate(B_r, B_rw):
     """
     Returns the *normalised achromatic Lightness* correlate :math:`L_n^\star`.
 
@@ -703,14 +704,14 @@ def get_normalised_achromatic_lightness_correlate(B_r, B_rw):
     --------
     >>> B_r = 62.626673467230766
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.get_normalised_achromatic_lightness_correlate(B_r, B_rw)
+    >>> colour.appearance.nayatani95.normalised_achromatic_lightness_correlate(B_r, B_rw)
     50.003915441889944
     """
 
     return 100 * (B_r / B_rw)
 
 
-def get_hue_angle(p, t):
+def hue_angle(p, t):
     """
     Returns the *hue* angle :math:`h` in degrees.
 
@@ -730,7 +731,7 @@ def get_hue_angle(p, t):
     --------
     >>> p = -8.002142682085493e-05
     >>> t = -1.7703650668990973e-05
-    >>> colour.appearance.nayatani95.get_hue_correlate(p, t)
+    >>> colour.appearance.nayatani95.hue_correlate(p, t)
     257.52503009852325
     """
 
@@ -772,7 +773,7 @@ def chromatic_strength_function(theta):
     return E_s
 
 
-def get_saturation_components(h, bL_or, t, p):
+def saturation_components(h, bL_or, t, p):
     """
     Returns the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
 
@@ -799,7 +800,7 @@ def get_saturation_components(h, bL_or, t, p):
     >>> bL_or = 3.6810214956040888
     >>> t = -1.7706764677181658e-05
     >>> p = -8.0023561356363753e-05
-    >>> colour.appearance.nayatani95.get_saturation_components(h, bL_or, t, p)
+    >>> colour.appearance.nayatani95.saturation_components(h, bL_or, t, p)
     (-0.0028852716381965863, -0.013039632941332499)
     """
 
@@ -810,7 +811,7 @@ def get_saturation_components(h, bL_or, t, p):
     return S_RG, S_YB
 
 
-def get_saturation_correlate(S_RG, S_YB):
+def saturation_correlate(S_RG, S_YB):
     """
     Returns the correlate of *saturation* :math:`S`.
 
@@ -830,7 +831,7 @@ def get_saturation_correlate(S_RG, S_YB):
     --------
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> colour.appearance.nayatani95.get_saturation_correlate(S_RG, S_YB)
+    >>> colour.appearance.nayatani95.saturation_correlate(S_RG, S_YB)
     0.013355029751777615
     """
 
@@ -839,7 +840,7 @@ def get_saturation_correlate(S_RG, S_YB):
     return S
 
 
-def get_chroma_components(L_star_p, S_RG, S_YB):
+def chroma_components(L_star_p, S_RG, S_YB):
     """
     Returns the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
@@ -862,7 +863,7 @@ def get_chroma_components(L_star_p, S_RG, S_YB):
     >>> L_star_p = 49.99988297570504
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> colour.appearance.nayatani95.get_chroma_components(L_star_p, S_RG, S_YB)
+    >>> colour.appearance.nayatani95.chroma_components(L_star_p, S_RG, S_YB)
     (-0.0028852716381965863, -0.013039632941332499)
     """
 
@@ -872,7 +873,7 @@ def get_chroma_components(L_star_p, S_RG, S_YB):
     return C_RG, C_YB
 
 
-def get_chroma_correlate(L_star_p, S):
+def chroma_correlate(L_star_p, S):
     """
     Returns the correlate of *chroma* :math:`C`.
 
@@ -892,7 +893,7 @@ def get_chroma_correlate(L_star_p, S):
     --------
     >>> L_star_p = 49.99988297570504
     >>> S = 0.013355029751777615
-    >>> colour.appearance.nayatani95.get_chroma_correlate(L_star_p, S)
+    >>> colour.appearance.nayatani95.chroma_correlate(L_star_p, S)
     0.013355007871688761
     """
 
@@ -900,7 +901,7 @@ def get_chroma_correlate(L_star_p, S):
     return C
 
 
-def get_colourfulness_components(C_RG, C_YB, B_rw):
+def colourfulness_components(C_RG, C_YB, B_rw):
     """
     Returns the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
 
@@ -923,7 +924,7 @@ def get_colourfulness_components(C_RG, C_YB, B_rw):
     >>> C_RG = -0.0028852716381965863
     >>> C_YB = -0.013039632941332499
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.get_colourfulness_components(C_RG, C_YB, B_rw)
+    >>> colour.appearance.nayatani95.colourfulness_components(C_RG, C_YB, B_rw)
     (-0.0036136163168979645, -0.0163312978020369)
     """
 
@@ -933,7 +934,7 @@ def get_colourfulness_components(C_RG, C_YB, B_rw):
     return M_RG, M_YB
 
 
-def get_colourfulness_correlate(C, B_rw):
+def colourfulness_correlate(C, B_rw):
     """
     Returns the correlate of *colourfulness* :math:`M`.
 
@@ -953,7 +954,7 @@ def get_colourfulness_correlate(C, B_rw):
     --------
     >>> C = 0.013355007871688761
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.get_colourfulness_correlate(C, B_rw)
+    >>> colour.appearance.nayatani95.colourfulness_correlate(C, B_rw)
     0.016726284526748986
     """
 

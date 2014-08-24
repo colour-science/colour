@@ -16,8 +16,8 @@ else:
     import unittest
 
 from colour.algebra import (
-    get_steps,
-    get_closest,
+    steps,
+    closest,
     to_ndarray,
     is_uniform,
     is_iterable,
@@ -32,8 +32,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestGetSteps',
-           'TestGetClosest',
+__all__ = ['TestSteps',
+           'TestClosest',
            'TestToNdarray',
            'TestIsUniform',
            'TestIsIterable',
@@ -42,32 +42,32 @@ __all__ = ['TestGetSteps',
            'TestNormalise']
 
 
-class TestGetSteps(unittest.TestCase):
+class TestSteps(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_steps` definition unit tests
+    Defines :func:`colour.algebra.common.steps` definition unit tests
     methods.
     """
 
-    def test_get_steps(self):
+    def test_steps(self):
         """
-        Tests :func:`colour.algebra.common.get_steps` definition.
+        Tests :func:`colour.algebra.common.steps` definition.
         """
 
-        self.assertTupleEqual(get_steps(range(0, 10, 2)), (2,))
+        self.assertTupleEqual(steps(range(0, 10, 2)), (2,))
         self.assertTupleEqual(
-            tuple(sorted(get_steps([1, 2, 3, 4, 6, 6.5]))),
+            tuple(sorted(steps([1, 2, 3, 4, 6, 6.5]))),
             (0.5, 1, 2))
 
 
-class TestGetClosest(unittest.TestCase):
+class TestClosest(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.get_closest` definition unit tests
+    Defines :func:`colour.algebra.common.closest` definition unit tests
     methods.
     """
 
-    def test_get_closest(self):
+    def test_closest(self):
         """
-        Tests :func:`colour.algebra.common.get_closest` definition.
+        Tests :func:`colour.algebra.common.closest` definition.
         """
 
         y = np.array(
@@ -78,9 +78,9 @@ class TestGetClosest(unittest.TestCase):
              46.84480573,
              25.40026416])
 
-        self.assertEqual(get_closest(y, 63.05), 62.70988028)
-        self.assertEqual(get_closest(y, 24.90), 25.40026416)
-        self.assertEqual(get_closest(y, 51.15), 46.84480573)
+        self.assertEqual(closest(y, 63.05), 62.70988028)
+        self.assertEqual(closest(y, 24.90), 25.40026416)
+        self.assertEqual(closest(y, 51.15), 46.84480573)
 
 
 class TestToNdarray(unittest.TestCase):

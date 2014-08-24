@@ -23,16 +23,16 @@ from colour.notation.munsell import (
     munsell_colour_to_munsell_specification,
     munsell_specification_to_munsell_colour)
 from colour.notation.munsell import (
-    get_xyY_from_renotation,
+    xyY_from_renotation,
     is_specification_in_renotation)
-from colour.notation.munsell import get_bounding_hues_from_renotation
+from colour.notation.munsell import bounding_hues_from_renotation
 from colour.notation.munsell import hue_to_hue_angle, hue_angle_to_hue
 from colour.notation.munsell import hue_to_ASTM_hue
 from colour.notation.munsell import (
-    get_interpolation_method_from_renotation_ovoid,
-    get_xy_from_renotation_ovoid)
+    interpolation_method_from_renotation_ovoid,
+    xy_from_renotation_ovoid)
 from colour.notation.munsell import LCHab_to_munsell_specification
-from colour.notation.munsell import get_maximum_chroma_from_renotation
+from colour.notation.munsell import maximum_chroma_from_renotation
 from colour.notation.munsell import munsell_specification_to_xy
 from colour.notation.munsell import (
     munsell_specification_to_xyY,
@@ -72,16 +72,16 @@ __all__ = ['MUNSELL_SPECIFICATIONS',
            'TestNormalizeMunsellSpecification',
            'TestMunsellColourToMunsellSpecification',
            'TestMunsellSpecificationToMunsellColour',
-           'TestGet_xyY_fromRenotation',
+           'Test_xyY_fromRenotation',
            'TestIsSpecificationInRenotation',
-           'TestGetBoundingHuesFromRenotation',
+           'TestBoundingHuesFromRenotation',
            'TestHueToHueAngle',
            'TestHueAngleToHue',
            'TestHueTo_ASTM_hue',
-           'TestGetInterpolationMethodFromRenotationOvoid',
-           'TestGet_xy_fromRenotationOvoid',
+           'TestInterpolationMethodFromRenotationOvoid',
+           'Test_xy_fromRenotationOvoid',
            'TestLCHabToMunsellSpecification',
-           'TestGetMaximumChromaFromRenotation',
+           'TestMaximumChromaFromRenotation',
            'TestMunsellSpecification_to_xy',
            'TestMunsellSpecification_to_xyY',
            'TestMunsellColour_to_xyY',
@@ -4102,23 +4102,23 @@ class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
                          'N5.2')
 
 
-class TestGet_xyY_fromRenotation(unittest.TestCase):
+class Test_xyY_fromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.get_xyY_from_renotation` definition
+    Defines :func:`colour.notation.munsell.xyY_from_renotation` definition
     unit tests methods.
     """
 
-    def test_get_xyY_from_renotation(self):
+    def test_xyY_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.get_xyY_from_renotation`
+        Tests :func:`colour.notation.munsell.xyY_from_renotation`
         definition.
         """
 
-        self.assertTupleEqual(get_xyY_from_renotation((2.5, 0.2, 2.0, 4)),
+        self.assertTupleEqual(xyY_from_renotation((2.5, 0.2, 2.0, 4)),
                               (0.713, 1.414, 0.237))
-        self.assertTupleEqual(get_xyY_from_renotation((5.0, 0.2, 2.0, 4)),
+        self.assertTupleEqual(xyY_from_renotation((5.0, 0.2, 2.0, 4)),
                               (0.449, 1.145, 0.237))
-        self.assertTupleEqual(get_xyY_from_renotation((7.5, 0.2, 2.0, 4)),
+        self.assertTupleEqual(xyY_from_renotation((7.5, 0.2, 2.0, 4)),
                               (0.262, 0.837, 0.237))
 
 
@@ -4139,21 +4139,21 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
         self.assertFalse(is_specification_in_renotation((25.0, 0.2, 2.0, 4)))
 
 
-class TestGetBoundingHuesFromRenotation(unittest.TestCase):
+class TestBoundingHuesFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.get_bounding_hues_from_renotation`
+    Defines :func:`colour.notation.munsell.bounding_hues_from_renotation`
     definition unit tests methods.
     """
 
-    def test_get_bounding_hues_from_renotation(self):
+    def test_bounding_hues_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.get_bounding_hues_from_renotation`
+        Tests :func:`colour.notation.munsell.bounding_hues_from_renotation`
         definition.
         """
 
         for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
             hue, value, chroma, code = specification
-            self.assertTupleEqual(get_bounding_hues_from_renotation(hue, code),
+            self.assertTupleEqual(bounding_hues_from_renotation(hue, code),
                                   MUNSELL_BOUNDING_HUES[i])
 
 
@@ -4202,41 +4202,41 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
             self.assertEqual(hue_to_ASTM_hue(hue, code), angle)
 
 
-class TestGetInterpolationMethodFromRenotationOvoid(unittest.TestCase):
+class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
     Defines
-    :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
+    :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`
     definition unit tests methods.
     """
 
-    def test_get_interpolation_method_from_renotation_ovoid(self):
+    def test_interpolation_method_from_renotation_ovoid(self):
         """
         Tests
-        :func:`colour.notation.munsell.get_interpolation_method_from_renotation_ovoid`
+        :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`
         definition.
         """
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             self.assertEqual(
-                get_interpolation_method_from_renotation_ovoid(specification),
+                interpolation_method_from_renotation_ovoid(specification),
                 MUNSELL_INTERPOLATION_METHODS[i])
 
 
-class TestGet_xy_fromRenotationOvoid(unittest.TestCase):
+class Test_xy_fromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.get_xy_from_renotation_ovoid`
+    Defines :func:`colour.notation.munsell.xy_from_renotation_ovoid`
     definition unit tests methods.
     """
 
-    def test_get_xy_from_renotation_ovoid(self):
+    def test_xy_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.notation.munsell.get_xy_from_renotation_ovoid`
+        Tests :func:`colour.notation.munsell.xy_from_renotation_ovoid`
         definition.
         """
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             if is_specification_in_renotation(specification):
-                self.assertEqual(get_xy_from_renotation_ovoid(specification),
+                self.assertEqual(xy_from_renotation_ovoid(specification),
                                  MUNSELL_XY_FROM_RENOTATION_OVOID[i])
 
 
@@ -4268,24 +4268,24 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
             (6.7925505361111194, 10.0, 14.810433961999999, 10))
 
 
-class TestGetMaximumChromaFromRenotation(unittest.TestCase):
+class TestMaximumChromaFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.get_maximum_chroma_from_renotation`
+    Defines :func:`colour.notation.munsell.maximum_chroma_from_renotation`
     definition unit tests methods.
     """
 
-    def test_get_maximum_chroma_from_renotation(self):
+    def test_maximum_chroma_from_renotation(self):
         """
         Tests
-        :func:`colour.notation.munsell.get_maximum_chroma_from_renotation`
+        :func:`colour.notation.munsell.maximum_chroma_from_renotation`
         definition.
         """
 
-        self.assertEqual(get_maximum_chroma_from_renotation(2.5, 5, 5),
+        self.assertEqual(maximum_chroma_from_renotation(2.5, 5, 5),
                          14.0)
-        self.assertEqual(get_maximum_chroma_from_renotation(8.675, 1.225, 10),
+        self.assertEqual(maximum_chroma_from_renotation(8.675, 1.225, 10),
                          48.0)
-        self.assertEqual(get_maximum_chroma_from_renotation(6.875, 3.425, 1),
+        self.assertEqual(maximum_chroma_from_renotation(6.875, 3.425, 1),
                          16.0)
 
 

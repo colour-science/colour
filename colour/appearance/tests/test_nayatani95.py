@@ -37,7 +37,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
                          'B_r': 'B_r',
                          'M': 'M'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *Nayatani (1995)* colour appearance model output
         specification from given data.

@@ -37,7 +37,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
                          'A_L': 'A_L',
                          'B_L': 'B_L'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *LLAB(l:c)* colour appearance model output specification
         from given data.

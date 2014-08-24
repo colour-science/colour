@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -57,8 +57,8 @@ REC_2020_WHITEPOINT = ILLUMINANTS.get(
 REC_2020_WHITEPOINT : tuple
 """
 
-REC_2020_TO_XYZ_MATRIX = get_normalised_primary_matrix(REC_2020_PRIMARIES,
-                                                       REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
+                                                   REC_2020_WHITEPOINT)
 """
 *Rec. 2020* colourspace to *CIE XYZ* colourspace matrix.
 

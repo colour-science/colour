@@ -31,7 +31,7 @@ from colour.plotting import (
     bounding_box,
     display,
     colour_parameter,
-    get_cmfs,
+    cmfs,
     single_colour_plot,
     single_spd_plot)
 
@@ -86,7 +86,7 @@ def single_rayleigh_scattering_spd_plot(
 
     title = 'Rayleigh Scattering'
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs, name = cmfs(cmfs), cmfs
 
     settings = {'title': title,
                 'y_label': 'Optical Depth'}
@@ -125,7 +125,7 @@ def the_blue_sky_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs, name = cmfs(cmfs), cmfs
 
     ASTM_G_173_spd = ASTM_G_173_ETR.clone()
     rayleigh_spd = rayleigh_scattering_spd()

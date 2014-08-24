@@ -20,7 +20,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.algebra import get_closest
+from colour.algebra import closest
 from colour.colorimetry import (
     SpectralShape,
     SpectralPowerDistribution,
@@ -89,7 +89,7 @@ def mesopic_weighting_function(wavelength,
 
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
     index = mesopic_x_luminance_values.index(
-        get_closest(mesopic_x_luminance_values, Lp))
+        closest(mesopic_x_luminance_values, Lp))
     x = MESOPIC_X_DATA.get(
         mesopic_x_luminance_values[index]).get(source).get(method)
 

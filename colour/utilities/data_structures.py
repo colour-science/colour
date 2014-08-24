@@ -163,14 +163,14 @@ class Lookup(dict):
     Examples
     --------
     >>> person = colour.utilities.Lookup(firstName='Doe', lastName='John', gender='male')
-    >>> person.get_first_key_from_value('Doe')
+    >>> person.first_key_from_value('Doe')
     "firstName"
     >>> persons = colour.utilities.Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-    >>> persons.get_keys_from_value('Doe')
+    >>> persons.keys_from_value('Doe')
     ["Jane", "John"]
     """
 
-    def get_first_key_from_value(self, value):
+    def first_key_from_value(self, value):
         """
         Gets the first key with given value.
 
@@ -188,7 +188,7 @@ class Lookup(dict):
             if data == value:
                 return key
 
-    def get_keys_from_value(self, value):
+    def keys_from_value(self, value):
         """
         Gets the keys with given value.
 

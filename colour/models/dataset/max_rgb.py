@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,8 +55,8 @@ MAX_RGB_WHITEPOINT = ILLUMINANTS.get(
 MAX_RGB_WHITEPOINT : tuple
 """
 
-MAX_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(MAX_RGB_PRIMARIES,
-                                                      MAX_RGB_WHITEPOINT)
+MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,
+                                                  MAX_RGB_WHITEPOINT)
 """
 *Max RGB* colourspace to *CIE XYZ* colourspace matrix.
 

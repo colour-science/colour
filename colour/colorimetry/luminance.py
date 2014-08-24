@@ -34,7 +34,7 @@ __all__ = ['luminance_newhall1943',
            'luminance_1976',
            'luminance_ASTM_D1535_08',
            'LUMINANCE_FUNCTIONS',
-           'get_luminance']
+           'luminance']
 
 
 def luminance_newhall1943(V):
@@ -171,7 +171,7 @@ LUMINANCE_FUNCTIONS['astm2008'] = (
     LUMINANCE_FUNCTIONS['Luminance ASTM D1535-08'])
 
 
-def get_luminance(LV, Yn=100, method='Luminance 1976'):
+def luminance(LV, Yn=100, method='Luminance 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -199,7 +199,7 @@ def get_luminance(LV, Yn=100, method='Luminance 1976'):
 
     Examples
     --------
-    >>> get_luminance(3.74629715382)
+    >>> luminance(3.74629715382)
     37.9856290977
     """
 

@@ -50,14 +50,14 @@ __all__ = ['LLAB_InductionFactors',
            'LLAB_Specification',
            'XYZ_to_LLAB',
            'XYZ_to_RGB_LLAB',
-           'get_chromatic_adaptation',
+           'chromatic_adaptation',
            'f',
-           'get_opponent_colour_dimensions',
-           'get_hue_angle',
-           'get_chroma_correlate',
-           'get_colourfulness_correlate',
-           'get_saturation_correlate',
-           'get_final_opponent_signals']
+           'opponent_colour_dimensions',
+           'hue_angle',
+           'chroma_correlate',
+           'colourfulness_correlate',
+           'saturation_correlate',
+           'final_opponent_signals']
 
 LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
                                    ('D', 'F_S', 'F_L', 'F_C'))
@@ -213,41 +213,41 @@ def XYZ_to_LLAB(XYZ,
     RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
 
     # Computing chromatic adaptation.
-    XYZ_r = get_chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D)
+    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L_L`.
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
-    lightness, a, b = get_opponent_colour_dimensions(XYZ_r, Y_b, F_S, F_L)
+    lightness, a, b = opponent_colour_dimensions(XYZ_r, Y_b, F_S, F_L)
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`Ch_L`.
     # -------------------------------------------------------------------------
-    chroma = get_chroma_correlate(a, b)
+    chroma = chroma_correlate(a, b)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`C_L`.
     # -------------------------------------------------------------------------
-    colourfulness = get_colourfulness_correlate(L, lightness, chroma, F_C)
+    colourfulness = colourfulness_correlate(L, lightness, chroma, F_C)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`S_L`.
     # -------------------------------------------------------------------------
-    saturation = get_saturation_correlate(chroma, lightness)
+    saturation = saturation_correlate(chroma, lightness)
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h_L`.
     # -------------------------------------------------------------------------
-    hue = get_hue_angle(a, b)
+    hue = hue_angle(a, b)
     h_Lr = math.radians(hue)
     # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
     # Computing final opponent signals.
     # -------------------------------------------------------------------------
-    A_L, B_L = get_final_opponent_signals(colourfulness, h_Lr)
+    A_L, B_L = final_opponent_signals(colourfulness, h_Lr)
 
     return LLAB_Specification(hue,
                               chroma,
@@ -282,7 +282,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     return LLAB_XYZ_TO_RGB_MATRIX.dot(XYZ / XYZ[1])
 
 
-def get_chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
+def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     """
     Applies chromatic adaptation to given *RGB* normalised cone responses
     matrix.
@@ -312,7 +312,7 @@ def get_chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     >>> RGB_0 = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> Y = 20.0
-    >>> colour.appearance.llab.get_chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)
+    >>> colour.appearance.llab.chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)
     array([ 19.00999572,  20.00091862,  21.77993863])
     """
 
@@ -365,7 +365,7 @@ def f(x, F_S):
     return x_m
 
 
-def get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
+def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     """
     Returns opponent colour dimensions from given adapted *CIE XYZ* colourspace
     matrix.
@@ -395,7 +395,7 @@ def get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     >>> Y_b = 20.0
     >>> F_S = 3.0
     >>> F_L = 1.0
-    >>> colour.appearance.llab.get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L)
+    >>> colour.appearance.llab.opponent_colour_dimensions(XYZ, Y_b, F_S, F_L)
     array([  3.73680475e+01,  -4.49864756e-03,  -5.26046353e-03])
     """
 
@@ -412,7 +412,7 @@ def get_opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     return np.array([L, a, b])
 
 
-def get_hue_angle(a, b):
+def hue_angle(a, b):
     """
     Returns the *hue* angle :math:`h_L` in degrees.
 
@@ -430,7 +430,7 @@ def get_hue_angle(a, b):
 
     Examples
     --------
-    >>> colour.appearance.llab.get_hue_correlate(-4.49864756e-03, -5.26046353e-03)
+    >>> colour.appearance.llab.hue_correlate(-4.49864756e-03, -5.26046353e-03)
     229.4635727085839
     """
 
@@ -438,7 +438,7 @@ def get_hue_angle(a, b):
     return h_L
 
 
-def get_chroma_correlate(a, b):
+def chroma_correlate(a, b):
     """
     Returns the correlate of *chroma* :math:`Ch_L`.
 
@@ -456,7 +456,7 @@ def get_chroma_correlate(a, b):
 
     Examples
     --------
-    >>> colour.appearance.llab.get_chroma_correlate(-4.49864756e-03, -5.26046353e-03)
+    >>> colour.appearance.llab.chroma_correlate(-4.49864756e-03, -5.26046353e-03)
     0.0086506620569251902
     """
 
@@ -465,7 +465,7 @@ def get_chroma_correlate(a, b):
     return Ch_L
 
 
-def get_colourfulness_correlate(L, L_L, Ch_L, F_C):
+def colourfulness_correlate(L, L_L, Ch_L, F_C):
     """
     Returns the correlate of *colourfulness* :math:`C_L`.
 
@@ -491,7 +491,7 @@ def get_colourfulness_correlate(L, L_L, Ch_L, F_C):
     >>> L_L = 37.368047493928195
     >>> Ch_L = 0.0086506620517144972
     >>> F_C = 1.0
-    >>> colour.appearance.llab.get_colourfulness_correlate(L, L_L, Ch_L, F_C)
+    >>> colour.appearance.llab.colourfulness_correlate(L, L_L, Ch_L, F_C)
     0.0183832899143
     """
 
@@ -502,7 +502,7 @@ def get_colourfulness_correlate(L, L_L, Ch_L, F_C):
     return C_L
 
 
-def get_saturation_correlate(Ch_L, L_L):
+def saturation_correlate(Ch_L, L_L):
     """
     Returns the correlate of *saturation* :math:`S_L`.
 
@@ -522,7 +522,7 @@ def get_saturation_correlate(Ch_L, L_L):
     --------
     >>> Ch_L = 0.0086506620517144972
     >>> L_L = 37.368047493928195
-    >>> colour.appearance.llab.get_saturation_correlate(Ch_L, L_L)
+    >>> colour.appearance.llab.saturation_correlate(Ch_L, L_L)
     0.00023149890432782482
     """
 
@@ -531,7 +531,7 @@ def get_saturation_correlate(Ch_L, L_L):
     return S_L
 
 
-def get_final_opponent_signals(C_L, h_L):
+def final_opponent_signals(C_L, h_L):
     """
     Returns the final opponent signals :math:`A_L` and :math:`B_L`.
 
@@ -551,7 +551,7 @@ def get_final_opponent_signals(C_L, h_L):
     --------
     >>> C_L = 0.0183832899143
     >>> h_L = 4.004894857014253
-    >>> colour.appearance.llab.get_final_opponent_signals(C_L, h_L)
+    >>> colour.appearance.llab.final_opponent_signals(C_L, h_L)
     (-0.01194787670977202, -0.013971169965331903)
     """
 

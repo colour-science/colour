@@ -11,7 +11,7 @@ import numpy as np
 from numpy.testing.utils import assert_almost_equal
 
 from colour.appearance import XYZ_to_ATD95
-from colour.appearance.atd95 import XYZ_to_LMS_ATD95, get_final_response
+from colour.appearance.atd95 import XYZ_to_LMS_ATD95, final_response
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -43,7 +43,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         'C': 'C',
         'H': 'H'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *ATD (1995)* colour vision model output specification from
         given data.
@@ -79,12 +79,12 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         assert_almost_equal(M, 0.9303058494144267)
         assert_almost_equal(S, 0.7252006614718631)
 
-    def test_get_final_response(self):
+    def test_final_response(self):
         """
-        Tests :func:`colour.appearance.atd95.get_final_response` definition.
+        Tests :func:`colour.appearance.atd95.final_response` definition.
         """
 
-        assert_almost_equal(get_final_response(0), 0)
-        assert_almost_equal(get_final_response(100), 1.0 / 3.0)
-        assert_almost_equal(get_final_response(200), 0.5)
-        assert_almost_equal(get_final_response(10000), 0.980392157)
+        assert_almost_equal(final_response(0), 0)
+        assert_almost_equal(final_response(100), 1.0 / 3.0)
+        assert_almost_equal(final_response(200), 0.5)
+        assert_almost_equal(final_response(10000), 0.980392157)

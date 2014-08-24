@@ -2968,5 +2968,6 @@ Aliases:
 -   'babel_average': 'BabelColor Average'
 -   'cc_ohta': 'ColorChecker N Ohta'
 """
-COLOURCHECKERS_SPDS['babel_average'] = COLOURCHECKERS_SPDS['BabelColor Average']
+COLOURCHECKERS_SPDS['babel_average'] = COLOURCHECKERS_SPDS[
+    'BabelColor Average']
 COLOURCHECKERS_SPDS['cc_ohta'] = COLOURCHECKERS_SPDS['ColorChecker N Ohta']

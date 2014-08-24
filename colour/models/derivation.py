@@ -28,9 +28,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['xy_to_z',
-           'get_normalised_primary_matrix',
-           'get_RGB_luminance_equation',
-           'get_RGB_luminance']
+           'normalised_primary_matrix',
+           'RGB_luminance_equation',
+           'RGB_luminance']
 
 
 def xy_to_z(xy):
@@ -62,7 +62,7 @@ def xy_to_z(xy):
     return 1 - xy[0] - xy[1]
 
 
-def get_normalised_primary_matrix(primaries, whitepoint):
+def normalised_primary_matrix(primaries, whitepoint):
     """
     Returns the *normalised primary matrix* using given *primaries* and
     *whitepoint* matrices.
@@ -89,7 +89,7 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     --------
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.get_normalised_primary_matrix(primaries, whitepoint)
+    >>> colour.normalised_primary_matrix(primaries, whitepoint)
     array([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
            [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
            [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
@@ -115,7 +115,7 @@ def get_normalised_primary_matrix(primaries, whitepoint):
     return npm
 
 
-def get_RGB_luminance_equation(primaries, whitepoint):
+def RGB_luminance_equation(primaries, whitepoint):
     """
     Returns the *luminance equation* from given *primaries* and *whitepoint*
     matrices.
@@ -142,15 +142,15 @@ def get_RGB_luminance_equation(primaries, whitepoint):
     --------
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.get_RGB_luminance_equation(primaries, whitepoint)
+    >>> colour.RGB_luminance_equation(primaries, whitepoint)
     Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
     """
 
     return 'Y = {0}(R) + {1}(G) + {2}(B)'.format(
-        *np.ravel(get_normalised_primary_matrix(primaries, whitepoint))[3:6])
+        *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6])
 
 
-def get_RGB_luminance(RGB, primaries, whitepoint):
+def RGB_luminance(RGB, primaries, whitepoint):
     """
     Returns the *luminance* :math:`y` of given *RGB* components from given
     *primaries* and *whitepoint* matrices.
@@ -179,12 +179,12 @@ def get_RGB_luminance(RGB, primaries, whitepoint):
     >>> RGB = np.array([40.6, 4.2, 67.4])
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.get_RGB_luminance(primaries, whitepoint)
+    >>> colour.RGB_luminance(primaries, whitepoint)
     12.1616018403
     """
 
     R, G, B = np.ravel(RGB)
-    X, Y, Z = np.ravel(get_normalised_primary_matrix(primaries,
-                                                     whitepoint))[3:6]
+    X, Y, Z = np.ravel(normalised_primary_matrix(primaries,
+                                                 whitepoint))[3:6]
 
     return X * R + Y * G + Z * B

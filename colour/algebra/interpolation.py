@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import get_steps, is_numeric, is_uniform, to_ndarray
+from colour.algebra import steps, is_numeric, is_uniform, to_ndarray
 from colour.utilities import is_scipy_installed, warning
 
 __author__ = 'Colour Developers'
@@ -364,12 +364,12 @@ class SpragueInterpolator(object):
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
 
-            steps = get_steps(value)[0]
+            value_steps = steps(value)[0]
 
-            xp1 = value[0] - steps * 2
-            xp2 = value[0] - steps
-            xp3 = value[-1] + steps
-            xp4 = value[-1] + steps * 2
+            xp1 = value[0] - value_steps * 2
+            xp2 = value[0] - value_steps
+            xp3 = value[-1] + value_steps
+            xp4 = value[-1] + value_steps * 2
 
             self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 

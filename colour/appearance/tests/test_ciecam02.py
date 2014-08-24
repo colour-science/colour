@@ -37,7 +37,7 @@ class TestCIECAM02ColourAppearanceModel(ColourAppearanceModelTest):
                          'M': 'M',
                          'S': 's'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *CIECAM02* colour appearance model output specification
         from given data.

@@ -22,8 +22,8 @@ __status__ = 'Production'
 
 __all__ = ['FLOATING_POINT_NUMBER_PATTERN',
            'INTEGER_THRESHOLD',
-           'get_steps',
-           'get_closest',
+           'steps',
+           'closest',
            'to_ndarray',
            'is_uniform',
            'is_iterable',
@@ -41,7 +41,7 @@ INTEGER_THRESHOLD : numeric
 """
 
 
-def get_steps(distribution):
+def steps(distribution):
     """
     Returns the steps of given distribution.
 
@@ -58,7 +58,7 @@ def get_steps(distribution):
     Examples
     --------
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> colour.get_steps(y)
+    >>> colour.steps(y)
     (1,)
     """
 
@@ -66,7 +66,7 @@ def get_steps(distribution):
                       for i in range(len(distribution) - 1)]))
 
 
-def get_closest(y, x):
+def closest(y, x):
     """
     Returns closest :math:`y` variable element to reference :math:`x` variable.
 
@@ -85,7 +85,7 @@ def get_closest(y, x):
     Examples
     --------
     >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
-    >>> get_closest(63, y)
+    >>> closest(63, y)
     62.70988028
     """
 
@@ -143,7 +143,7 @@ def is_uniform(distribution):
     False
     """
 
-    return True if len(get_steps(distribution)) == 1 else False
+    return True if len(steps(distribution)) == 1 else False
 
 
 def is_iterable(x):

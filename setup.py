@@ -22,10 +22,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_long_description']
+__all__ = ['long_description']
 
 
-def get_long_description():
+def long_description():
     """
     Returns the Package long description.
 
@@ -61,7 +61,7 @@ setup(name='colour-science',
       description=('Colour is a Python colour science package implementing a '
                    'comprehensive number of colour theory transformations and '
                    'algorithms.'),
-      long_description=get_long_description(),
+      long_description=long_description(),
       install_requires=['matplotlib>=1.3.1', 'numpy>=1.8.1'],
       classifiers=['Development Status :: 5 - Production/Stable',
                    'Environment :: Console',

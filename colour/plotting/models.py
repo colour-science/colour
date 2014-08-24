@@ -25,7 +25,7 @@ from colour.plotting import (
     bounding_box,
     display,
     figure_size,
-    get_cmfs)
+    cmfs)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -34,13 +34,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_RGB_colourspace',
+__all__ = ['RGB_colourspace',
            'colourspaces_CIE_1931_chromaticity_diagram_plot',
            'single_transfer_function_plot',
            'multi_transfer_function_plot']
 
 
-def get_RGB_colourspace(colourspace):
+def RGB_colourspace(colourspace):
     """
     Returns the *RGB* colourspace with given name.
 
@@ -93,7 +93,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs, name = cmfs(cmfs), cmfs
 
     settings = {'title': '{0} - {1}'.format(', '.join(colourspaces), name),
                 'standalone': False}
@@ -119,7 +119,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color='0.95',
                        linewidth=2)
         else:
-            colourspace, name = get_RGB_colourspace(
+            colourspace, name = RGB_colourspace(
                 colourspace), colourspace
 
             random_colour = lambda: float(random.randint(64, 224)) / 255
@@ -230,7 +230,7 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
 
     samples = np.linspace(0, 1, 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = get_RGB_colourspace(colourspace), colourspace
+        colourspace, name = RGB_colourspace(colourspace), colourspace
 
         RGBs = np.array([colourspace.inverse_transfer_function(x)
                          if inverse else

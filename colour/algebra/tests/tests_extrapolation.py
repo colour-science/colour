@@ -96,5 +96,6 @@ class TestExtrapolator1d(unittest.TestCase):
                                        [1., 1., 0., 0.])
         self.assertEqual(extrapolator(9), 0.)
 
+
 if __name__ == '__main__':
     unittest.main()

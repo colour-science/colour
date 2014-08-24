@@ -22,8 +22,8 @@ from colour.temperature import CCT_to_xy_kang2002, CCT_to_xy_illuminant_D
 from colour.temperature import xy_to_CCT_mccamy1992, xy_to_CCT_hernandez1999
 from colour.temperature.cct import (
     PLANCKIAN_TABLE_TUVD,
-    get_planckian_table,
-    get_planckian_table_minimal_distance_index)
+    planckian_table,
+    planckian_table_minimal_distance_index)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,8 +32,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestGetPlanckianTable',
-           'TestGetPlanckianTableMinimalDistanceIndex',
+__all__ = ['TestPlanckianTable',
+           'TestPlanckianTableMinimalDistanceIndex',
            'Testuv_to_CCT_ohno2013',
            'TestCCT_to_uv_ohno2013',
            'Testuv_to_CCT_robertson1968',
@@ -168,52 +168,52 @@ TEMPERATURE_DUV_TO_UV = {
     (49500, 0.05): (0.13306271297358735, 0.2815076927785103)}
 
 
-class TestGetPlanckianTable(unittest.TestCase):
+class TestPlanckianTable(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.cct.get_planckian_table` definition units
+    Defines :func:`colour.temperature.cct.planckian_table` definition units
     tests methods.
     """
 
-    def test_get_planckian_table(self):
+    def test_planckian_table(self):
         """
-        Tests :func:`colour.temperature.cct.get_planckian_table` definition.
+        Tests :func:`colour.temperature.cct.planckian_table` definition.
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer')
         to_tuple = lambda x: (x.Ti, x.ui, x.vi, x.di)
         np.testing.assert_almost_equal(
-            [to_tuple(x) for x in get_planckian_table((0.1978, 0.3122),
-                                                      cmfs,
-                                                      1000,
-                                                      1010,
-                                                      10)],
+            [to_tuple(x) for x in planckian_table((0.1978, 0.3122),
+                                                  cmfs,
+                                                  1000,
+                                                  1010,
+                                                  10)],
             [to_tuple(x) for x in PLANCKIAN_TABLE])
 
 
-class TestGetPlanckianTableMinimalDistanceIndex(unittest.TestCase):
+class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
     Defines
-    :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
+    :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
     definition unit tests methods.
     """
 
-    def test_get_planckian_table_minimal_distance_index(self):
+    def test_planckian_table_minimal_distance_index(self):
         """
         Tests
-        :func:`colour.temperature.cct.get_planckian_table_minimal_distance_index`
+        :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
         definition.
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer')
         self.assertEqual(
-            get_planckian_table_minimal_distance_index(
-                get_planckian_table((0.1978, 0.3122),
-                                    cmfs,
-                                    1000,
-                                    1010,
-                                    10)),
+            planckian_table_minimal_distance_index(
+                planckian_table((0.1978, 0.3122),
+                                cmfs,
+                                1000,
+                                1010,
+                                10)),
             9)
 
 

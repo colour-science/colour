@@ -33,7 +33,7 @@ __all__ = ['lightness_glasser1958',
            'lightness_wyszecki1964',
            'lightness_1976',
            'LIGHTNESS_FUNCTIONS',
-           'get_lightness']
+           'lightness']
 
 
 def lightness_glasser1958(Y):
@@ -170,7 +170,7 @@ Aliases:
 LIGHTNESS_FUNCTIONS['Lstar1976'] = LIGHTNESS_FUNCTIONS['Lightness 1976']
 
 
-def get_lightness(Y, Yn=100, method='Lightness 1976'):
+def lightness(Y, Yn=100, method='Lightness 1976'):
     """
     Returns the *Lightness* :math:`L^*` using given method.
 
@@ -197,7 +197,7 @@ def get_lightness(Y, Yn=100, method='Lightness 1976'):
 
     Examples
     --------
-    >>> get_lightness(10.08, 100)
+    >>> lightness(10.08, 100)
     37.9856290977
     """
 
