@@ -1,12 +1,27 @@
 colour.plotting Package
 =======================
 
+Sub-Packages
+------------
+
+.. toctree::
+
+    colour.plotting.dataset
+
 Sub-Modules
 -----------
 
 .. toctree::
 
-   colour.plotting.plots
+   colour.plotting.characterisation
+   colour.plotting.colorimetry
+   colour.plotting.common
+   colour.plotting.diagrams
+   colour.plotting.models
+   colour.plotting.notation
+   colour.plotting.phenomenon
+   colour.plotting.quality
+   colour.plotting.temperature
 
 Module Contents
 ---------------

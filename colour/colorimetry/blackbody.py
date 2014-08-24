@@ -142,7 +142,7 @@ def blackbody_spd(temperature,
         CIE 15:2004 recommends using :math:`n=1`.
 
     Returns
-    ----------
+    -------
     SpectralPowerDistribution
         Blackbody spectral power distribution.
 

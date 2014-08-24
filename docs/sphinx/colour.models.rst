@@ -13,6 +13,7 @@ Sub-Modules
 
 .. toctree::
 
+   colour.models.aces_rgb_idt
    colour.models.cie_lab
    colour.models.cie_luv
    colour.models.cie_ucs

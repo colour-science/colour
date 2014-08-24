@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases characterization plotting examples.
+Showcases characterisation plotting examples.
 """
 
 import colour
-from colour.characterization.dataset.colour_checkers.spds import (
+from colour.characterisation.dataset.colour_checkers.spds import (
     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import *
 

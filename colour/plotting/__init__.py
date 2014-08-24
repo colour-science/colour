@@ -33,7 +33,7 @@ from .colorimetry import (
     multi_lightness_function_plot,
     blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
-from .characterization import colour_checker_plot
+from .characterisation import colour_checker_plot
 from .diagrams import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,

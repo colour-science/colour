@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 from numpy import ravel
 
 import colour
-from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import (
+from colour.characterisation.dataset.colour_checkers.chromaticity_coordinates import (
     COLORCHECKER_2005_DATA)
 
 # Retrieving *Lightness* of given *xyY* components.

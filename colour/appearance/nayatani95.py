@@ -337,7 +337,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
 
 def beta_1(x):
     """
-    Computes the exponent :math:`\beta_1` for the middle and long-wavelength
+    Computes the exponent :math:`\\beta_1` for the middle and long-wavelength
     sensitive cones.
 
     Parameters
@@ -348,7 +348,7 @@ def beta_1(x):
     Returns
     -------
     numeric
-        Exponent :math:`\beta_1`.
+        Exponent :math:`\\beta_1`.
 
     Examples
     --------
@@ -361,7 +361,7 @@ def beta_1(x):
 
 def beta_2(x):
     """
-    Computes the exponent :math:`\beta_2` for the short-wavelength sensitive
+    Computes the exponent :math:`\\beta_2` for the short-wavelength sensitive
     cones.
 
     Parameters
@@ -372,7 +372,7 @@ def beta_2(x):
     Returns
     -------
     numeric
-        Exponent :math:`\beta_2`.
+        Exponent :math:`\\beta_2`.
 
     Examples
     --------
@@ -385,8 +385,8 @@ def beta_2(x):
 
 def chromatic_adaptation_exponential_factors(RGB_o):
     """
-    Returns the chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-    `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)` of given cone responses.
+    Returns the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+    `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
 
     Parameters
     ----------
@@ -396,8 +396,8 @@ def chromatic_adaptation_exponential_factors(RGB_o):
     Returns
     -------
     ndarray, (3,)
-        Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-        `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+        `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
 
     Examples
     --------
@@ -452,13 +452,13 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     RGB: ndarray, (3,)
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
-         Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-         `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
-         :math:`\beta_1(B_or)`.
+         :math:`\\beta_1(B_or)`.
     eR: numeric
          Scaling coefficient :math:`e(R)`.
     eG: numeric
@@ -505,8 +505,8 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     RGB: ndarray, (3,)
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
-         Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-         `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
@@ -548,8 +548,8 @@ def protanopic_response(RGB, bRGB_o, x_e_z, n):
     RGB: ndarray, (3,)
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
-         Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-         `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
@@ -588,11 +588,11 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     Parameters
     ----------
     bRGB_o: ndarray, (3,)
-         Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-         `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
-         :math:`\beta_1(B_or)`.
+         :math:`\\beta_1(B_or)`.
     Q : numeric
         Achromatic response :math:`Q`.
     Returns
@@ -623,13 +623,13 @@ def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     Parameters
     ----------
     bRGB_o: ndarray, (3,)
-         Chromatic adaptation exponential factors :math:`\beta_1(R_o)`,
-         `math:`\beta_1(G_o)` and :math:`\beta_2(B_o)`.
+         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     x_e_z: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
-         :math:`\beta_1(B_or)`.
+         :math:`\\beta_1(B_or)`.
     n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
 
@@ -783,7 +783,7 @@ def saturation_components(h, bL_or, t, p):
         Correlate of *hue* :math:`h` in degrees.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
-         :math:`\beta_1(B_or)`.
+         :math:`\\beta_1(B_or)`.
     t : numeric
         Tritanopic response :math:`t`.
     p : numeric

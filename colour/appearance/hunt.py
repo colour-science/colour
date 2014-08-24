@@ -177,7 +177,7 @@ def XYZ_to_Hunt(XYZ,
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
     CCT_w : numeric, optional
-        Correlated color temperature :math`T_{cp}`: of the illuminant, needed
+        Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
     N_cb : numeric, optional
         Chromatic background induction factor :math:`N_{cb}`, approximated
@@ -428,7 +428,7 @@ def illuminant_scotopic_luminance(L_A, CCT):
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     CCT : numeric
-        Correlated color temperature :math`T_{cp}` of the illuminant.
+        Correlated color temperature :math:`T_{cp}` of the illuminant.
 
     Returns
     -------
@@ -448,7 +448,7 @@ def illuminant_scotopic_luminance(L_A, CCT):
 def XYZ_to_rgb(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *Hunt-Pointer-Estevez*
-    :math:`\rho\gamma\beta` colourspace.
+    :math:`\\rho\gamma\\beta` colourspace.
 
     Parameters
     ----------
@@ -458,7 +458,7 @@ def XYZ_to_rgb(XYZ):
     Returns
     -------
     ndarray, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Examples
     --------
@@ -593,13 +593,13 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     Parameters
     ----------
     rgb_p :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` matrix of
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
         the proximal field.
     rgb_b :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` matrix of
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
         the background.
     rgb_w :  array_like, (3,)
-        Cone signals matrix *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` of
+        Cone signals matrix *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` of
         the reference white.
     p : numeric
         Simultaneous contrast / assimilation factor :math:`p` with value in
@@ -609,7 +609,7 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     Returns
     -------
     ndarray:
-        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta`
+        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
         matrix of the reference white.
 
     Examples
@@ -632,12 +632,12 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 def achromatic_post_adaptation_signal(rgb):
     """
     Returns the achromatic post adaptation signal :math:`A` from given
-    *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+    *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Parameters
     ----------
     rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Returns
     -------
@@ -661,13 +661,13 @@ def achromatic_post_adaptation_signal(rgb):
 def colour_difference_signals(rgb):
     """
     Returns the colour difference signals :math:`C_1`, :math:`C_2` and
-    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta`
+    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
     colourspace matrix.
 
     Parameters
     ----------
     rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Returns
     -------
@@ -888,7 +888,7 @@ def saturation_correlate(M, rgb_a):
     M : numeric
          Overall chromatic response :math:`M`.
     rgb_a : array_like, (3,)
-        Adapted *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace
+        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
         matrix.
 
     Returns

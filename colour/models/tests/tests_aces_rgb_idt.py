@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.characterization import COLOURCHECKERS_SPDS
+from colour.characterisation import COLOURCHECKERS_SPDS
 from colour.colorimetry import (
     SpectralPowerDistribution,
     constant_spd,
