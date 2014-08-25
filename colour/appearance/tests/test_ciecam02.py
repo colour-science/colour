@@ -21,7 +21,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestCIECAM02ColourAppearanceModelForward']
+__all__ = ['TestCIECAM02ColourAppearanceModelForward',
+           'TestCIECAM02ColourAppearanceModelReverse']
 
 
 class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
@@ -77,8 +78,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
     OUTPUT_ATTRIBUTES = {'X': 0,
                          'Y': 1,
-                         'Z': 2,
-    }
+                         'Z': 2}
 
     def get_output_specification_from_data(self, data):
         """

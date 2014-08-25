@@ -305,8 +305,8 @@ def CIECAM02_to_XYZ(J, C, h,
     >>> XYZ_w = np.array([96.4219075, 100.00, 82.520490])
     >>> L_A = 100
     >>> Y_b = 20.0
-    >>> colour.CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)
-    array([ 28.84520828,  18.40375563,   2.67430173])
+    >>> colour.CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
+    array([ 28.8452082...,  18.4037556...,   2.6743017...])
     """
 
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
