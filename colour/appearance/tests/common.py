@@ -203,7 +203,7 @@ class ColourAppearanceModelTest(object):
         -------
         tuple
         """
-        for data in self.__get_fixtures():
+        for data in self.fixtures():
              for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
                 yield test
 

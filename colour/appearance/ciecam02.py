@@ -1044,7 +1044,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     >>> J = 41.749268505999
     >>> n = 0.2
     >>> temporary_magnitude_quantity_reverse(C, J, n) # doctest: +ELLIPSIS
-    0.1497462...
+    202.3873619...
    """
 
     t = (C / (math.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
