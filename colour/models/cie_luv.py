@@ -75,8 +75,8 @@ def XYZ_to_Luv(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_Luv(np.array([0.92193107, 1, 1.03744246]))
-    array([ 100.        ,  -20.04304247,  -19.81676035])
+    >>> XYZ_to_Luv(np.array([0.92193107, 1, 1.03744246])) # doctest: +ELLIPSIS
+    array([ 100.        ,  -20.0430424...,  -19.8167603...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -124,8 +124,8 @@ def Luv_to_XYZ(Luv,
 
     Examples
     --------
-    >>> colour.Luv_to_XYZ(np.array([100, -20.04304247, -19.81676035]))
-    array([ 0.92193107,  1.        ,  1.03744246])
+    >>> Luv_to_XYZ(np.array([100, -20.04304247, -19.81676035])) # doctest: +ELLIPSIS
+    array([ 0.9219310...,  1.        ,  1.0374424...])
     """
 
     L, u, v = np.ravel(Luv)
@@ -177,8 +177,8 @@ def Luv_to_uv(Luv,
 
     Examples
     --------
-    >>> colour.Luv_to_uv(np.array([100, -20.04304247, -19.81676035]))
-    (0.19374142100850045, 0.47283165896209456)
+    >>> Luv_to_uv(np.array([100, -20.04304247, -19.81676035])) # doctest: +ELLIPSIS
+    (0.1937414..., 0.4728316...)
     """
 
     X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -213,8 +213,8 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
-    >>> colour.Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052))
-    (0.32207410281368043, 0.33156550013623537)
+    >>> Luv_uv_to_xy((0.2033733344733139, 0.3140500001549052)) # doctest: +ELLIPSIS
+    (0.2233388..., 0.1532803...)
     """
 
     return (9 * uv[0] / (6 * uv[0] - 16 * uv[1] + 12), 4 * uv[1] /
@@ -246,8 +246,8 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> colour.Luv_to_LCHuv(np.array([100, -20.04304247, -19.81676035]))
-    array([ 100.        ,   28.18559104,  224.6747382 ])
+    >>> Luv_to_LCHuv(np.array([100, -20.04304247, -19.81676035])) # doctest: +ELLIPSIS
+    array([ 100.        ,   28.1855910...,  224.6747382...])
     """
 
     L, u, v = np.ravel(Luv)
@@ -284,8 +284,8 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> colour.LCHuv_to_Luv(np.array([100, 28.18559104, 224.6747382]))
-    array([ 100.        ,  -20.04304247,  -19.81676035])
+    >>> LCHuv_to_Luv(np.array([100, 28.18559104, 224.6747382])) # doctest: +ELLIPSIS
+    array([ 100.        ,  -20.0430424...,  -19.8167603...])
     """
 
     L, C, H = np.ravel(LCHuv)

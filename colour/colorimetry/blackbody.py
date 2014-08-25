@@ -90,7 +90,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Examples
     --------
-    >>> colour.planck_law(500 * 1e-9, 5500)
+    >>> planck_law(500 * 1e-9, 5500)
     20472701909806.58
     """
 
@@ -148,9 +148,10 @@ def blackbody_spd(temperature,
 
     Examples
     --------
-    >>> cmfs = colour.STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> colour.blackbody_spd(5000, cmfs.shape)
-    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10616fe90>
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> blackbody_spd(5000, cmfs.shape) # doctest: +ELLIPSIS
+    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 
     return SpectralPowerDistribution(

@@ -55,7 +55,7 @@ def xy_to_z(xy):
 
     Examples
     --------
-    >>> colour.models.derivation.xy_to_z((0.25, 0.25))
+    >>> xy_to_z((0.25, 0.25))
     0.5
     """
 
@@ -89,10 +89,10 @@ def normalised_primary_matrix(primaries, whitepoint):
     --------
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.normalised_primary_matrix(primaries, whitepoint)
-    array([[  9.52552396e-01,   0.00000000e+00,   9.36786317e-05],
-           [  3.43966450e-01,   7.28166097e-01,  -7.21325464e-02],
-           [  0.00000000e+00,   0.00000000e+00,   1.00882518e+00]])
+    >>> normalised_primary_matrix(primaries, whitepoint) # doctest: +ELLIPSIS
+    array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
+           [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
+           [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
     """
 
     # Add *z* coordinates to the primaries and transposing the matrix.
@@ -142,8 +142,8 @@ def RGB_luminance_equation(primaries, whitepoint):
     --------
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.RGB_luminance_equation(primaries, whitepoint)
-    Y = 0.343966449765(R) + 0.728166096613(G) + -0.0721325463786(B)
+    >>> RGB_luminance_equation(primaries, whitepoint) # doctest: +ELLIPSIS
+    'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
     return 'Y = {0}(R) + {1}(G) + {2}(B)'.format(
@@ -179,8 +179,8 @@ def RGB_luminance(RGB, primaries, whitepoint):
     >>> RGB = np.array([40.6, 4.2, 67.4])
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> colour.RGB_luminance(primaries, whitepoint)
-    12.1616018403
+    >>> RGB_luminance(RGB, primaries, whitepoint) # doctest: +ELLIPSIS
+    12.1616018...
     """
 
     R, G, B = np.ravel(RGB)

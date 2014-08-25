@@ -512,7 +512,7 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> Y_w = 100.0
     >>> D = 0.994468780088
     >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D) # doctest: +ELLIPSIS
-    array([ 19.99370...,  20.00393...,  20.01326...])
+    array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
     R, G, B = np.ravel(RGB)
@@ -555,8 +555,8 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D) # doctest: +ELLIPSIS
-    array([ 18.985...,  20.707...,  21.747...])
+    >>> full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D)
+    array([ 18.985456,  20.707422,  21.747482])
     """
 
     R, G, B = np.ravel(RGB)
@@ -590,7 +590,7 @@ def RGB_to_rgb(RGB):
     --------
     >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
     >>> RGB_to_rgb(RGB) # doctest: +ELLIPSIS
-    array([ 19.99693...,  20.00186...,  20.0135... ])
+    array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
     rgb = np.dot(np.dot(HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
@@ -616,7 +616,7 @@ def rgb_to_RGB(rgb):
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> rgb_to_RGB(rgb) # doctest: +ELLIPSIS
-    array([ 19.99370...,  20.00393...,  20.01326...])
+    array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
     RGB = np.dot(np.dot(CAT02_CAT, HPE_MATRIX_INVERSE), rgb)
@@ -642,8 +642,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L) # doctest: +ELLIPSIS
-    array([ 7.9463... ,  7.94711...,  7.94899...])
+    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)  # doctest: +ELLIPSIS
+    array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
     # TODO: Check for negative values and their handling.
@@ -672,7 +672,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
     >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L) # doctest: +ELLIPSIS
-    array([ 19.99693...,  20.00186...,  20.01350...])
+    array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
     RGB_p = ((np.sign(RGB - 0.1) *
@@ -1224,7 +1224,7 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b) # doctest: +ELLIPSIS
-    array([ 7.94632... ,  7.94711...,  7.94899...])
+    array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
     R_a = (460 * P_2 + 451 * a + 288 * b) / 1403

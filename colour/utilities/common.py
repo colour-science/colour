@@ -67,9 +67,9 @@ def is_string(data):
 
     Examples
     --------
-    >>> colour.utilities.is_string('I"m a string!')
+    >>> is_string('I`m a string!')
     True
-    >>> colour.utilities.is_string(['I"m a string!'])
+    >>> is_string(['I`m a string!'])
     False
     """
 

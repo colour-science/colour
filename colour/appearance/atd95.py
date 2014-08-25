@@ -191,7 +191,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
     >>> Y_0 = 318.31
     >>> luminance_to_retinal_illuminance(XYZ, Y_0) # doctest: +ELLIPSIS
-    array([ 479.44459...,  499.31743...,  534.56316...])
+    array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
     return 18. * (absolute_adapting_field_luminance * XYZ / 100.) ** 0.8
@@ -216,7 +216,7 @@ def XYZ_to_LMS_ATD95(XYZ):
     >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
     >>> Y_0 = 318.31
     >>> luminance_to_retinal_illuminance(XYZ, Y_0) # doctest: +ELLIPSIS
-    array([ 479.44459...,  499.31743...,  534.56316...])
+    array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
     X, Y, Z = np.ravel(XYZ)

@@ -20,8 +20,8 @@ from .common import (
     single_colour_plot,
     multi_colour_plot)
 from .colorimetry import (
-    cmfs,
-    illuminant,
+    get_cmfs,
+    get_illuminant,
     single_spd_plot,
     multi_spd_plot,
     single_cmfs_plot,
@@ -39,7 +39,7 @@ from .diagrams import (
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot)
 from .models import (
-    RGB_colourspace,
+    get_RGB_colourspace,
     colourspaces_CIE_1931_chromaticity_diagram_plot,
     single_transfer_function_plot,
     multi_transfer_function_plot)
@@ -69,8 +69,8 @@ __all__ += [
     'single_colour_plot',
     'multi_colour_plot']
 __all__ += [
-    'cmfs',
-    'illuminant',
+    'get_cmfs',
+    'get_illuminant',
     'single_spd_plot',
     'multi_spd_plot',
     'single_cmfs_plot',
@@ -89,7 +89,7 @@ __all__ += [
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot']
 __all__ += [
-    'RGB_colourspace',
+    'get_RGB_colourspace',
     'colourspaces_CIE_1931_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']

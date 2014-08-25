@@ -55,7 +55,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.colour_checker_plot()
+    >>> colour_checker_plot() # doctest: +SKIP
     True
     """
 

@@ -76,8 +76,8 @@ def mesopic_weighting_function(wavelength,
 
     Examples
     --------
-    >>> colour.mesopic_weighting_function(500, 0.2)
-    0.70522
+    >>> mesopic_weighting_function(500, 0.2) # doctest: +ELLIPSIS
+    0.7052200...
     """
 
     for function in (photopic_lef, scotopic_lef):
@@ -133,8 +133,8 @@ def mesopic_luminous_efficiency_function(
 
     Examples
     --------
-    >>> colour.mesopic_luminous_efficiency_function(0.2)
-    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x105f606d0>
+    >>> mesopic_luminous_efficiency_function(0.2) # doctest: +ELLIPSIS
+    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 
     photopic_lef_shape = photopic_lef.shape

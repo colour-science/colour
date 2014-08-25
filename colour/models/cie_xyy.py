@@ -68,7 +68,7 @@ def XYZ_to_xyY(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
+    >>> XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
     array([ 0.4325,  0.3788,  0.1034])
     """
 
@@ -106,8 +106,8 @@ def xyY_to_XYZ(xyY):
 
     Examples
     --------
-    >>> colour.xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034]))
-    array([ 0.11805834,  0.1034    ,  0.05150892])
+    >>> xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034])) # doctest: +ELLIPSIS
+    array([ 0.1180583...,  0.1034    ,  0.0515089...])
     """
 
     x, y, Y = np.ravel(xyY)
@@ -140,7 +140,7 @@ def xy_to_XYZ(xy):
 
     Examples
     --------
-    >>> colour.xy_to_XYZ((0.25, 0.25))
+    >>> xy_to_XYZ((0.25, 0.25))
     array([ 1.,  1.,  2.])
     """
 
@@ -173,10 +173,10 @@ def XYZ_to_xy(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_xy(np.array([0.97137399, 1, 1.04462134]))
-    (0.32207410281368043, 0.33156550013623531)
-    >>> colour.XYZ_to_xy((0.97137399, 1, 1.04462134))
-    (0.32207410281368043, 0.33156550013623531)
+    >>> XYZ_to_xy(np.array([0.97137399, 1, 1.04462134])) # doctest: +ELLIPSIS
+    (0.3220741..., 0.3315655...)
+    >>> XYZ_to_xy((0.97137399, 1, 1.04462134)) # doctest: +ELLIPSIS
+    (0.3220741..., 0.3315655...)
     """
 
     xyY = np.ravel(XYZ_to_xyY(XYZ, illuminant))

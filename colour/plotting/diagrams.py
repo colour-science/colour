@@ -41,7 +41,7 @@ from colour.plotting import (
     bounding_box,
     display,
     figure_size,
-    cmfs)
+    get_cmfs)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -85,11 +85,11 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1931_chromaticity_diagram_colours_plot()
+    >>> CIE_1931_chromaticity_diagram_colours_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('E')
@@ -145,12 +145,12 @@ def CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1931_chromaticity_diagram_plot()
+    >>> CIE_1931_chromaticity_diagram_plot() # doctest: +SKIP
     True
 
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -259,11 +259,11 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1960_UCS_chromaticity_diagram_colours_plot()
+    >>> CIE_1960_UCS_chromaticity_diagram_colours_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('E')
@@ -319,11 +319,11 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1960_UCS_chromaticity_diagram_plot()
+    >>> CIE_1960_UCS_chromaticity_diagram_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -431,11 +431,11 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1976_UCS_chromaticity_diagram_colours_plot()
+    >>> CIE_1976_UCS_chromaticity_diagram_colours_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('D50')
@@ -491,11 +491,11 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> colour.plotting.CIE_1976_UCS_chromaticity_diagram_plot()
+    >>> CIE_1976_UCS_chromaticity_diagram_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,

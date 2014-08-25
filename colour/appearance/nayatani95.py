@@ -146,8 +146,8 @@ def XYZ_to_Nayatani95(XYZ,
     >>> Y_o = 20.0
     >>> E_o = 5000.0
     >>> E_or = 1000.0
-    >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
-    Nayatani95_Specification(B_r=62.626673450940629, L_star_P=49.999882975705042, L_star_N=50.003915441089511, theta=257.52322689806243, S=0.013355029751777615, C=0.013355007871688761, M=0.016726284522665977)
+    >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or) # doctest: +ELLIPSIS
+    Nayatani95_Specification(B_r=62.6266734..., L_star_P=49.9998829..., L_star_N=50.0039154..., theta=257.5232268..., S=0.0133550..., C=0.0133550..., M=0.0167262...)
     """
 
     if np.any(Y_o < 0.18):
@@ -272,8 +272,8 @@ def illuminance_to_luminance(E, Y_f):
 
     Examples
     --------
-    >>> illuminance_to_luminance(5000.0, 20.0)
-    318.3098861837907
+    >>> illuminance_to_luminance(5000.0, 20.0) # doctest: +ELLIPSIS
+    318.3098861...
     """
 
     return Y_f * E / (100 * np.pi)
@@ -296,8 +296,8 @@ def intermediate_values(XYZ_n):
     Examples
     --------
     >>> XYZ_n = np.array([95.05, 100, 108.88])
-    >>> intermediate_values(XYZ_n)
-    array([ 1.00004219,  0.99998001,  0.99975794])
+    >>> intermediate_values(XYZ_n) # doctest: +ELLIPSIS
+    array([ 1.0000421...,  0.9999800...,  0.9997579...])
     """
 
     # Illuminant chromaticity coordinates.
@@ -328,8 +328,8 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> XYZ_to_RGB_Nayatani95(XYZ)
-    array([ 20.0005206  19.999783   19.9988316])
+    >>> XYZ_to_RGB_Nayatani95(XYZ) # doctest: +ELLIPSIS
+    array([ 20.000520...,  19.999783...,  19.998831...])
     """
 
     return NAYATANI95_XYZ_TO_RGB_MATRIX.dot(XYZ)
@@ -352,8 +352,8 @@ def beta_1(x):
 
     Examples
     --------
-    >>> beta_1(318.323316315)
-    4.610622226468477
+    >>> beta_1(318.323316315) # doctest: +ELLIPSIS
+    4.6106222...
     """
 
     return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
@@ -376,8 +376,8 @@ def beta_2(x):
 
     Examples
     --------
-    >>> beta_2(318.323316315)
-    4.6522416269907305
+    >>> beta_2(318.323316315) # doctest: +ELLIPSIS
+    4.6522416...
     """
 
     return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
@@ -402,8 +402,8 @@ def chromatic_adaptation_exponential_factors(RGB_o):
     Examples
     --------
     >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
-    >>> chromatic_adaptation_exponential_factors(RGB_o)
-    array([ 4.61062223,  4.61058926,  4.65206986])
+    >>> chromatic_adaptation_exponential_factors(RGB_o) # doctest: +ELLIPSIS
+    array([ 4.6106222...,  4.6105892...,  4.6520698...])
     """
 
     R_o, G_o, B_o = np.ravel(RGB_o)
@@ -480,8 +480,8 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)
-    -0.00011699549874007374
+    >>> achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n) # doctest: +ELLIPSIS
+    -0.0001169...
     """
 
     R, G, B = RGB
@@ -523,8 +523,8 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> tritanopic_response(RGB, bRGB_o, x_e_z, n)
-    -1.7703650668990973e-05
+    >>> tritanopic_response(RGB, bRGB_o, x_e_z, n) # doctest: +ELLIPSIS
+    -1.7703650...e-05
     """
 
     R, G, B = RGB
@@ -566,8 +566,8 @@ def protanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> protanopic_response(RGB, bRGB_o, x_e_z, n)
-    -8.002142682085493e-05
+    >>> protanopic_response(RGB, bRGB_o, x_e_z, n) # doctest: +ELLIPSIS
+    -8.0021426...e-05
     """
 
     R, G, B = RGB
@@ -605,8 +605,8 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> bL_or = 3.6810214956040888
     >>> Q = -0.000117024294955
-    >>> brightness_correlate(bRGB_o, bL_or, Q)
-    62.626673467230766
+    >>> brightness_correlate(bRGB_o, bL_or, Q) # doctest: +ELLIPSIS
+    62.6266734...
     """
 
     bR_o, bG_o, bB_o = bRGB_o
@@ -644,8 +644,8 @@ def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> n = 1.0
-    >>> ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)
-    125.24353925846037
+    >>> ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n) # doctest: +ELLIPSIS
+    125.2435392...
     """
 
     bR_o, bG_o, bB_o = bRGB_o
@@ -677,8 +677,8 @@ def achromatic_lightness_correlate(Q):
     Examples
     --------
     >>> Q = -0.000117024294955
-    >>> achromatic_lightness_correlate(Q)
-    49.99988297570504
+    >>> achromatic_lightness_correlate(Q) # doctest: +ELLIPSIS
+    49.9998829...
     """
 
     return Q + 50
@@ -704,8 +704,8 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     --------
     >>> B_r = 62.626673467230766
     >>> B_rw = 125.24353925846037
-    >>> normalised_achromatic_lightness_correlate(B_r, B_rw)
-    50.003915441889944
+    >>> normalised_achromatic_lightness_correlate(B_r, B_rw) # doctest: +ELLIPSIS
+    50.0039154...
     """
 
     return 100 * (B_r / B_rw)
@@ -731,8 +731,8 @@ def hue_angle(p, t):
     --------
     >>> p = -8.002142682085493e-05
     >>> t = -1.7703650668990973e-05
-    >>> hue_angle(p, t)
-    257.52503009852325
+    >>> hue_angle(p, t) # doctest: +ELLIPSIS
+    257.5250300...
     """
 
     h_L = math.degrees(np.arctan2(p, t)) % 360
@@ -756,8 +756,8 @@ def chromatic_strength_function(theta):
 
     Examples
     --------
-    >>> chromatic_strength_function(4.49462820973)
-    1.2267869824136324
+    >>> chromatic_strength_function(4.49462820973) # doctest: +ELLIPSIS
+    1.2267869...
     """
 
     E_s = 0.9394
@@ -800,8 +800,8 @@ def saturation_components(h, bL_or, t, p):
     >>> bL_or = 3.6810214956040888
     >>> t = -1.7706764677181658e-05
     >>> p = -8.0023561356363753e-05
-    >>> saturation_components(h, bL_or, t, p)
-    (-0.0028852716381965863, -0.013039632941332499)
+    >>> saturation_components(h, bL_or, t, p) # doctest: +ELLIPSIS
+    (-0.0028852..., -0.0130396...)
     """
 
     E_s = chromatic_strength_function(math.radians(h))
@@ -831,8 +831,8 @@ def saturation_correlate(S_RG, S_YB):
     --------
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> saturation_correlate(S_RG, S_YB)
-    0.013355029751777615
+    >>> saturation_correlate(S_RG, S_YB) # doctest: +ELLIPSIS
+    0.0133550...
     """
 
     S = np.sqrt((S_RG ** 2) + (S_YB ** 2))
@@ -863,8 +863,8 @@ def chroma_components(L_star_p, S_RG, S_YB):
     >>> L_star_p = 49.99988297570504
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> chroma_components(L_star_p, S_RG, S_YB)
-    (-0.0028852669111386173, -0.013039611577971077)
+    >>> chroma_components(L_star_p, S_RG, S_YB) # doctest: +ELLIPSIS
+    (-0.0028852..., -0.0130396...)
     """
 
     C_RG = ((L_star_p / 50) ** 0.7) * S_RG
@@ -893,8 +893,8 @@ def chroma_correlate(L_star_p, S):
     --------
     >>> L_star_p = 49.99988297570504
     >>> S = 0.013355029751777615
-    >>> chroma_correlate(L_star_p, S)
-    0.013355007871688761
+    >>> chroma_correlate(L_star_p, S) # doctest: +ELLIPSIS
+    0.0133550...
     """
 
     C = ((L_star_p / 50) ** 0.7) * S
@@ -924,8 +924,8 @@ def colourfulness_components(C_RG, C_YB, B_rw):
     >>> C_RG = -0.0028852716381965863
     >>> C_YB = -0.013039632941332499
     >>> B_rw = 125.24353925846037
-    >>> colourfulness_components(C_RG, C_YB, B_rw)
-    (-0.0036136163168979645, -0.0163312978020369)
+    >>> colourfulness_components(C_RG, C_YB, B_rw) # doctest: +ELLIPSIS
+    (-0.0036136..., -0.0163312...)
     """
 
     M_RG = C_RG * B_rw / 100
@@ -954,8 +954,8 @@ def colourfulness_correlate(C, B_rw):
     --------
     >>> C = 0.013355007871688761
     >>> B_rw = 125.24353925846037
-    >>> colourfulness_correlate(C, B_rw)
-    0.016726284526748986
+    >>> colourfulness_correlate(C, B_rw) # doctest: +ELLIPSIS
+    0.0167262...
     """
 
     M = C * B_rw / 100

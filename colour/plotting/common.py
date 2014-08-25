@@ -355,7 +355,7 @@ def colour_parameters_plot(colour_parameters,
     >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
     >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
     >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
-    >>> colour.plotting.colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
+    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5]) # doctest: +SKIP
     True
     """
 
@@ -438,7 +438,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> colour.plotting.single_colour_plot(colour_parameter(RGB))
+    >>> single_colour_plot(colour_parameter(RGB)) # doctest: +SKIP
     True
     """
 
@@ -486,8 +486,8 @@ def multi_colour_plot(colour_parameters,
     Examples
     --------
     >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169)
-    >>> colour.plotting.multi_colour_plot([cp1, cp2])
+    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169))
+    >>> multi_colour_plot([cp1, cp2]) # doctest: +SKIP
     True
     """
 

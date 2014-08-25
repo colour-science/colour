@@ -68,8 +68,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
-    array([ 0.01135774,  0.004102  ,  0.        ])
+    >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700) # doctest: +ELLIPSIS
+    array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
     cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
@@ -138,8 +138,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
-    array([  9.64321500e-03,   3.75263179e-03,  -4.10788300e-06])
+    >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    array([  9.6432150...e-03,   3.7526317...e-03,  -4.1078830...e-06])
     """
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
@@ -186,8 +186,8 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)
-    array([ 0.00528607,  0.00032528,  0.        ])
+    >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
@@ -234,8 +234,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)
-    array([ 0.01096778,  0.00419594,  0.        ])
+    >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700) # doctest: +ELLIPSIS
+    array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
@@ -281,8 +281,8 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)
-    array([ 0.00981623,  0.00377614,  0.        ])
+    >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')

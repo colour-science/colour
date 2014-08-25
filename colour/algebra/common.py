@@ -274,7 +274,7 @@ def normalise(x, factor=1, clip=True):
     Examples
     --------
     >>> normalise(np.array([0.48224885, 0.31651974, 0.22070513])) # doctest: +ELLIPSIS
-    array([ 1.        ,  0.65634... ,  0.45765...])
+    array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 
     x = to_ndarray(x)

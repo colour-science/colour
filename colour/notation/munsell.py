@@ -247,8 +247,8 @@ def munsell_value_priest1920(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_priest1920(10.08)
-    3.17490157328
+    >>> munsell_value_priest1920(10.08) # doctest: +ELLIPSIS
+    3.1749015...
     """
 
     Y /= 100
@@ -284,8 +284,8 @@ def munsell_value_munsell1933(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_munsell1933(10.08)
-    3.79183555086
+    >>> munsell_value_munsell1933(10.08) # doctest: +ELLIPSIS
+    3.7918355...
     """
 
     V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
@@ -321,8 +321,8 @@ def munsell_value_moon1943(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_moon1943(10.08)
-    3.74629715382
+    >>> munsell_value_moon1943(10.08) # doctest: +ELLIPSIS
+    3.7462971...
     """
 
     V = 1.4 * Y ** 0.426
@@ -357,8 +357,8 @@ def munsell_value_saunderson1944(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_saunderson1944(10.08)
-    3.68650805994
+    >>> munsell_value_saunderson1944(10.08) # doctest: +ELLIPSIS
+    3.6865080...
     """
 
     V = 2.357 * (Y ** 0.343) - 1.52
@@ -393,8 +393,8 @@ def munsell_value_ladd1955(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_ladd1955(10.08)
-    3.69528622419
+    >>> munsell_value_ladd1955(10.08) # doctest: +ELLIPSIS
+    3.6952862...
     """
 
     V = 2.468 * (Y ** (1 / 3)) - 1.636
@@ -430,8 +430,8 @@ def munsell_value_mccamy1987(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_mccamy1987(10.08)
-    3.73472352585
+    >>> munsell_value_mccamy1987(10.08) # doctest: +ELLIPSIS
+    3.7347235...
     """
 
     if Y <= 0.9:
@@ -468,8 +468,8 @@ def munsell_value_ASTM_D1535_08(Y):
 
     Examples
     --------
-    >>> colour.munsell_value_ASTM_D1535_08(10.1488096782)
-    3.74629711426
+    >>> munsell_value_ASTM_D1535_08(10.1488096782) # doctest: +ELLIPSIS
+    3.7462971...
     """
 
     V = _munsell_value_ASTM_D1535_08_interpolator()(Y)
@@ -529,8 +529,8 @@ def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
 
     Examples
     --------
-    >>> colour.munsell_value(10.08)
-    3.7344764769311354
+    >>> munsell_value(10.08) # doctest: +ELLIPSIS
+    3.7344764...
     """
 
     return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
@@ -567,10 +567,10 @@ def munsell_specification_to_xyY(specification):
     Examples
     --------
     >>> spc = (2.1, 8.0, 17.9, 4)
-    >>> colour.notation.munsell.munsell_specification_to_xyY(spc)
-    array([ 0.4400632 ,  0.5522428 ,  0.57619628])
-    >>> colour.notation.munsell.munsell_specification_to_xyY(8.9)
-    array([ 0.31006  ,  0.31616  ,  0.7461345])
+    >>> munsell_specification_to_xyY(spc) # doctest: +ELLIPSIS
+    array([ 0.4400632...,  0.5522428...,  0.5761962...])
+    >>> munsell_specification_to_xyY(8.9) # doctest: +ELLIPSIS
+    array([ 0.31006  ,  0.31616  ,  0.746134...])
     """
 
     if is_grey_munsell_colour(specification):
@@ -636,10 +636,10 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Examples
     --------
-    >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
-    array([ 0.38736945,  0.35751656,  0.59362   ])
-    >>> colour.munsell_colour_to_xyY('N8.9')
-    array([ 0.31006  ,  0.31616  ,  0.7461345])
+    >>> munsell_colour_to_xyY('4.2YR 8.1/5.3') # doctest: +ELLIPSIS
+    array([ 0.3873694...,  0.3575165...,  0.59362   ])
+    >>> munsell_colour_to_xyY('N8.9') # doctest: +ELLIPSIS
+    array([ 0.31006  ,  0.31616  ,  0.746134...])
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -673,8 +673,8 @@ def xyY_to_munsell_specification(xyY):
     Examples
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
-    >>> colour.notation.munsell.xyY_to_munsell_specification(xyY)
-    (4.1742530270757179, 8.0999999757342671, 5.3044360044459644, 6)
+    >>> xyY_to_munsell_specification(xyY) # doctest: +ELLIPSIS
+    (4.1742530..., 8.0999999..., 5.3044360..., 6)
     """
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
@@ -913,8 +913,8 @@ def xyY_to_munsell_colour(xyY,
 
     Examples
     --------
-    >>> colour.xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362]))
-    4.2YR 8.1/5.3
+    >>> xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362]))
+    '4.2YR 8.1/5.3'
     """
 
     specification = xyY_to_munsell_specification(xyY)
@@ -941,9 +941,9 @@ def parse_munsell_colour(munsell_colour):
 
     Examples
     --------
-    >>> colour.notation.munsell.parse_munsell_colour('N5.2')
+    >>> parse_munsell_colour('N5.2')
     5.2
-    >>> colour.notation.munsell.parse_munsell_colour('0YR 2.0/4.0')
+    >>> parse_munsell_colour('0YR 2.0/4.0')
     (0.0, 2.0, 4.0, 6)
     """
 
@@ -983,9 +983,9 @@ def is_grey_munsell_colour(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.is_grey_munsell_colour((0.0, 2.0, 4.0, 6))
+    >>> is_grey_munsell_colour((0.0, 2.0, 4.0, 6))
     False
-    >>> colour.notation.munsell.is_grey_munsell_colour(0.5)
+    >>> is_grey_munsell_colour(0.5)
     True
     """
 
@@ -1008,8 +1008,8 @@ def normalize_munsell_specification(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.normalize_munsell_specification((0.0, 2.0, 4.0, 6))
-    (10.0, 2.0, 4.0, 7)
+    >>> normalize_munsell_specification((0.0, 2.0, 4.0, 6))
+    (10, 2.0, 4.0, 7)
     """
 
     if is_grey_munsell_colour(specification):
@@ -1039,10 +1039,10 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Examples
     --------
-    >>> colour.notation.munsell.munsell_colour_to_munsell_specification('N5.2')
+    >>> munsell_colour_to_munsell_specification('N5.2')
     5.2
-    >>> colour.notation.munsell.munsell_colour_to_munsell_specification('0YR 2.0/4.0')
-    (10.0, 2.0, 4.0, 7)
+    >>> munsell_colour_to_munsell_specification('0YR 2.0/4.0')
+    (10, 2.0, 4.0, 7)
     """
 
     return normalize_munsell_specification(
@@ -1074,10 +1074,10 @@ def munsell_specification_to_munsell_colour(specification,
 
     Examples
     --------
-    >>> colour.notation.munsell.munsell_specification_to_munsell_colour(5.2)
-    N5.2
-    >>> colour.notation.munsell.munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7))
-    10.0R 2.0/4.0
+    >>> munsell_specification_to_munsell_colour(5.2)
+    'N5.2'
+    >>> munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7))
+    '10.0R 2.0/4.0'
     """
 
     if is_grey_munsell_colour(specification):
@@ -1135,7 +1135,7 @@ def xyY_from_renotation(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.xyY_from_renotation((2.5, 0.2, 2.0, 4))
+    >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))
     (0.713, 1.414, 0.237)
     """
 
@@ -1165,9 +1165,9 @@ def is_specification_in_renotation(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.is_specification_in_renotation((2.5, 0.2, 2.0, 4))
+    >>> is_specification_in_renotation((2.5, 0.2, 2.0, 4))
     True
-    >>> colour.notation.munsell.is_specification_in_renotation((64, 0.2, 2.0, 4))
+    >>> is_specification_in_renotation((64, 0.2, 2.0, 4))
     False
     """
 
@@ -1203,7 +1203,7 @@ def bounding_hues_from_renotation(hue, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.bounding_hues_from_renotation(3.2, 4)
+    >>> bounding_hues_from_renotation(3.2, 4)
     ((2.5, 4), (5.0, 4))
     """
 
@@ -1260,7 +1260,7 @@ def hue_to_hue_angle(hue, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.hue_to_hue_angle(3.2, 4)
+    >>> hue_to_hue_angle(3.2, 4)
     65.5
     """
 
@@ -1294,8 +1294,8 @@ def hue_angle_to_hue(hue_angle):
 
     Examples
     --------
-    >>> colour.notation.munsell.hue_angle_to_hue(65.54)
-    (3.216000000000001, 4)
+    >>> hue_angle_to_hue(65.54) # doctest: +ELLIPSIS
+    (3.2160000..., 4)
     """
 
     single_hue = LinearInterpolator1d(
@@ -1356,7 +1356,7 @@ def hue_to_ASTM_hue(hue, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.hue_to_ASTM_hue(3.2, 4)
+    >>> hue_to_ASTM_hue(3.2, 4)
     33.2
     """
 
@@ -1395,8 +1395,8 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
-    "Radial"
+    >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    'Radial'
     """
 
     interpolation_methods = {0: None,
@@ -1694,9 +1694,9 @@ def xy_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
     (0.4333, 0.5602)
-    >>> colour.notation.munsell.xy_from_renotation_ovoid(8)
+    >>> xy_from_renotation_ovoid(8)
     (0.31006, 0.31616)
     """
 
@@ -1824,8 +1824,8 @@ def LCHab_to_munsell_specification(LCHab):
     Examples
     --------
     >>> LCHab = np.array([100, 17.50664796, 244.93046842])
-    >>> colour.notation.munsell.LCHab_to_munsell_specification(LCHab)
-    (8.036241227777781, 10.0, 3.5013295919999998, 1)
+    >>> LCHab_to_munsell_specification(LCHab) # doctest: +ELLIPSIS
+    (8.0362412..., 10.0, 3.5013295..., 1)
     """
 
     L, C, Hab = np.ravel(LCHab)
@@ -1891,7 +1891,7 @@ def maximum_chroma_from_renotation(hue, value, code):
 
     Examples
     --------
-    >>> colour.notation.munsell.maximum_chroma_from_renotation(2.5, 5, 5)
+    >>> maximum_chroma_from_renotation(2.5, 5, 5)
     14.0
     """
 
@@ -1970,9 +1970,9 @@ def munsell_specification_to_xy(specification):
 
     Examples
     --------
-    >>> colour.notation.munsell.munsell_specification_to_xy((2.1, 8.0, 17.9, 4))
+    >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))
     (0.4400632, 0.5522428)
-    >>> colour.notation.munsell.munsell_specification_to_xy(8)
+    >>> munsell_specification_to_xy(8)
     (0.31006, 0.31616)
     """
 

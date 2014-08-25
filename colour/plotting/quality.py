@@ -54,14 +54,15 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     Examples
     --------
-    >>> il = colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour.plotting.colour_rendering_index_bars_plot(il)
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> colour_rendering_index_bars_plot(illuminant) # doctest: +SKIP
     True
     """
 
     figure, axis = matplotlib.pyplot.subplots()
 
-    colour_rendering_index, colour_rendering_indexes, additional_data = \
+    cri, colour_rendering_indexes, additional_data = \
         colour_rendering_index(illuminant, additional_data=True)
 
     colours = ([[1] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100))
@@ -69,7 +70,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
                              key=lambda x: x[0])))
     x, y = np.array([0] + list(x)), np.array(
-        [colour_rendering_index] + list(y))
+        [cri] + list(y))
 
     positive = True if np.sign(min(y)) in (0, 1) else False
 
@@ -84,10 +85,10 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     def label_bars(bars):
         for bar in bars:
-            y = bar.y()
-            height = bar.height()
+            y = bar.get_y()
+            height = bar.get_height()
             value = height if np.sign(y) in (0, 1) else -height
-            axis.text(bar.x() + bar.width() / 2,
+            axis.text(bar.get_x() + bar.get_width() / 2,
                       0.025 * height + height + y,
                       '{0:.1f}'.format(value),
                       ha='center', va='bottom')

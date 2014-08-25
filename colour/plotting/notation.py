@@ -54,7 +54,7 @@ def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
     Examples
     --------
     >>> f = 'Munsell Value ASTM D1535-08'
-    >>> colour.plotting.single_munsell_value_function_plot(f)
+    >>> single_munsell_value_function_plot(f) # doctest: +SKIP
     True
     """
 
@@ -87,7 +87,7 @@ def multi_munsell_value_function_plot(
     Examples
     --------
     >>> fs = ('Munsell Value ASTM D1535-08', 'Munsell Value McCamy 1987')
-    >>> colour.plotting.multi_munsell_value_function_plot(fs)
+    >>> multi_munsell_value_function_plot(fs) # doctest: +SKIP
     True
     """
 

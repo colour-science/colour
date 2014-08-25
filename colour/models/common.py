@@ -55,8 +55,8 @@ def XYZ_to_sRGB(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([ 0.48224885,  0.31651974,  0.22070513])
+    >>> XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229])) # doctest: +ELLIPSIS
+    array([ 0.4822488...,  0.3165197...,  0.2207051...])
     """
 
     sRGB = RGB_COLOURSPACES.get('sRGB')

@@ -79,8 +79,8 @@ def XYZ_to_RGB(XYZ,
     >>> illuminant_RGB =  (0.31271, 0.32902)
     >>> chromatic_adaptation_method =  'Bradford'
     >>> to_RGB =  np.array([3.24100326, -1.53739899, -0.49861587, -0.96922426,  1.87592999,  0.04155422, 0.05563942, -0.2040112 ,  1.05714897]).reshape((3, 3))
-    >>> colour.XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, to_RGB, chromatic_adaptation_method)
-    array([ 0.17303501,  0.08211033,  0.05672498])
+    >>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, to_RGB, chromatic_adaptation_method) # doctest: +ELLIPSIS
+    array([ 0.1730350...,  0.0821103...,  0.0567249...])
     """
 
     cat = chromatic_adaptation_matrix(xy_to_XYZ(illuminant_XYZ),
@@ -145,8 +145,8 @@ def RGB_to_XYZ(RGB,
     >>> illuminant_XYZ = (0.34567, 0.35850)
     >>> chromatic_adaptation_method =  'Bradford'
     >>> to_XYZ = np.array([0.41238656, 0.35759149, 0.18045049, 0.21263682, 0.71518298, 0.0721802, 0.01933062, 0.11919716, 0.95037259]).reshape((3, 3))
-    >>> colour.RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, to_XYZ, chromatic_adaptation_method)
-    array([ 0.11518475,  0.1008    ,  0.05089373])
+    >>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, to_XYZ, chromatic_adaptation_method) # doctest: +ELLIPSIS
+    array([ 0.1151847...,  0.1008    ,  0.0508937...])
     """
 
     if inverse_transfer_function is not None:
@@ -194,9 +194,10 @@ def RGB_to_RGB(RGB,
 
     Examples
     --------
+    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
     >>> RGB = np.array([0.35521588, 0.41, 0.24177934])
-    >>> colour.RGB_to_RGB(RGB, colour.sRGB_COLOURSPACE, colour.PROPHOTO_RGB_COLOURSPACE)
-    array([ 0.35793347,  0.4007138 ,  0.26157046])
+    >>> RGB_to_RGB(RGB, sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE) # doctest: +ELLIPSIS
+    array([ 0.3579334...,  0.4007138...,  0.2615704...])
     """
 
     cat = chromatic_adaptation_matrix(

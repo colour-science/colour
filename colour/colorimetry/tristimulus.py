@@ -15,7 +15,6 @@ import numpy as np
 from colour.algebra import SplineInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     STANDARD_OBSERVERS_CMFS,
-    SpectralPowerDistribution,
     ones_spd)
 from colour.utilities import memoize
 
@@ -69,12 +68,13 @@ def spectral_to_XYZ(spd,
 
     Examples
     --------
-    >>> cmfs = colour.CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> from colour import CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution
+    >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> data = {380: 0.0600, 390: 0.0600}
-    >>> spd = colour.SpectralPowerDistribution('Custom', data)
-    >>> illuminant = colour.ILLUMINANTS_RELATIVE_SPDS.get('D50')
-    >>> colour.spectral_to_XYZ(spd, cmfs, illuminant)
-    array([  4.57648522e-04,   1.29648668e-05,   2.16158075e-03])
+    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D50')
+    >>> spectral_to_XYZ(spd, cmfs, illuminant) # doctest: +ELLIPSIS
+    array([  4.5764852...e-04,   1.2964866...e-05,   2.1615807...e-03])
     """
 
     shape = cmfs.shape
@@ -141,9 +141,10 @@ def wavelength_to_XYZ(wavelength,
 
     Examples
     --------
-    >>> cmfs = colour.CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> colour.wavelength_to_XYZ(480)
-    array([ 0.09564  ,  0.13902  ,  0.8129501])
+    >>> from colour import CMFS
+    >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> wavelength_to_XYZ(480) # doctest: +ELLIPSIS
+    array([ 0.09564  ,  0.13902  ,  0.812950...])
     """
 
     shape = cmfs.shape

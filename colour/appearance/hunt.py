@@ -464,7 +464,7 @@ def XYZ_to_rgb(XYZ):
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
     >>> XYZ_to_rgb(XYZ) # doctest: +ELLIPSIS
-    array([ 19.47433...,  20.31012...,  21.78     ])
+    array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
     return HPE_MATRIX.dot(XYZ)
@@ -490,7 +490,7 @@ def f_n(x):
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
     >>> f_n(x) # doctest: +ELLIPSIS
-    array([ 5.89685...,  5.89695...,  5.89759...])
+    array([ 5.8968592...,  5.8969521...,  5.8975927...])
     """
 
     x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
@@ -546,8 +546,8 @@ def chromatic_adaptation(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> F_L = 1.16754446415
-    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L) # doctest: +ELLIPSIS
-    array([ 6.89594...,  6.89599...,  6.89657...])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)  # doctest: +ELLIPSIS
+    array([ 6.8959454...,  6.8959991...,  6.8965708...])
     """
 
     rgb = XYZ_to_rgb(XYZ)
@@ -619,7 +619,7 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
     >>> p = 0.1
     >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p) # doctest: +ELLIPSIS
-    array([ 88.07927...,  91.85695...,  98.48765...])
+    array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
     p_rgb = rgb_p / rgb_b

@@ -61,8 +61,8 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229]))
-    array([ 24.25433719,   7.22054843,  37.46450007])
+    >>> XYZ_to_UVW(np.array([11.80583421, 10.34, 5.15089229])) # doctest: +ELLIPSIS
+    array([ 24.2543371...,   7.2205484...,  37.4645000...])
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))

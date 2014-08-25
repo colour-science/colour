@@ -45,22 +45,13 @@ class Structure(dict):
 
     Examples
     --------
-    >>> person = colour.utilities.Structure(firstName='Doe', lastName='John', gender='male')
+    >>> person = Structure(firstName='Doe', lastName='John', gender='male')
     >>> person.firstName
-    "Doe"
-    >>> person.keys()
-    ["gender", "firstName", "lastName"]
+    'Doe'
+    >>> sorted(person.keys())
+    ['firstName', 'gender', 'lastName']
     >>> person['gender']
-    "male"
-    >>> del(person['gender'])
-    >>> person['gender']
-    Traceback (most recent call last):
-      File '<console>', line 1, in <module>
-    KeyError: "gender"
-    >>> person.gender
-    Traceback (most recent call last):
-      File '<console>', line 1, in <module>
-    AttributeError: "Structure" object has no attribute "gender"
+    'male'
     """
 
     def __init__(self, *args, **kwargs):
@@ -162,12 +153,12 @@ class Lookup(dict):
 
     Examples
     --------
-    >>> person = colour.utilities.Lookup(firstName='Doe', lastName='John', gender='male')
+    >>> person = Lookup(firstName='Doe', lastName='John', gender='male')
     >>> person.first_key_from_value('Doe')
-    "firstName"
-    >>> persons = colour.utilities.Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-    >>> persons.keys_from_value('Doe')
-    ["Jane", "John"]
+    'firstName'
+    >>> persons = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
+    >>> sorted(persons.keys_from_value('Doe'))
+    ['Jane', 'John']
     """
 
     def first_key_from_value(self, value):
@@ -231,8 +222,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Examples
     --------
-    >>> methods = CaseInsensitiveMapping({"McCamy": 1, "Hernandez": 2})
-    >>> methods["mccamy"]
+    >>> methods = CaseInsensitiveMapping({'McCamy': 1, 'Hernandez': 2})
+    >>> methods['mccamy']
     1
     """
 

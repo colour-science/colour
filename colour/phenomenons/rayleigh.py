@@ -117,8 +117,8 @@ def air_refraction_index_penndorf1957(wavelength, *args):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.air_refraction_index_penndorf1957(0.555)
-    1.000277729533864
+    >>> air_refraction_index_penndorf1957(0.555) # doctest: +ELLIPSIS
+    1.0002777...
     """
 
     wl = wavelength
@@ -151,8 +151,8 @@ def air_refraction_index_edlen1966(wavelength, *args):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.air_refraction_index_edlen1966(0.555)
-    1.000277727690364
+    >>> air_refraction_index_edlen1966(0.555) # doctest: +ELLIPSIS
+    1.0002777...
     """
 
     wl = wavelength
@@ -186,8 +186,8 @@ def air_refraction_index_peck1972(wavelength, *args):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.air_refraction_index_peck1972(0.555)
-    1.0002777265414837
+    >>> air_refraction_index_peck1972(0.555) # doctest: +ELLIPSIS
+    1.0002777...
     """
 
     wl = wavelength
@@ -224,8 +224,8 @@ def air_refraction_index_bodhaine1999(
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.air_refraction_index_bodhaine1999(0.555)
-    1.0002777265414837
+    >>> air_refraction_index_bodhaine1999(0.555) # doctest: +ELLIPSIS
+    1.0002777...
     """
 
     wl = wavelength
@@ -252,8 +252,8 @@ def N2_depolarisation(wavelength):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.N2_depolarisation(0.555)
-    1.0350291372453535
+    >>> N2_depolarisation(0.555) # doctest: +ELLIPSIS
+    1.0350291...
     """
 
     wl = wavelength
@@ -279,8 +279,8 @@ def O2_depolarisation(wavelength):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.O2_depolarisation(0.555)
-    1.1020225362010714
+    >>> O2_depolarisation(0.555) # doctest: +ELLIPSIS
+    1.1020225...
     """
 
     wl = wavelength
@@ -317,7 +317,7 @@ def F_air_penndorf1957(*args):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.F_air_penndorf1957(0.555)
+    >>> F_air_penndorf1957(0.555)
     1.0608
     """
 
@@ -351,8 +351,8 @@ def F_air_young1981(*args):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.F_air_young1981(0.555)
-    1.0480
+    >>> F_air_young1981(0.555)
+    1.048
     """
 
     return 1.0480
@@ -380,8 +380,8 @@ def F_air_bates1984(wavelength):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.F_air_bates1984(0.555)
-    1.048153579718658
+    >>> F_air_bates1984(0.555) # doctest: +ELLIPSIS
+    1.0481535...
     """
 
     wl = wavelength
@@ -422,8 +422,8 @@ def F_air_bodhaine1999(wavelength,
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.F_air_bodhaine1999(0.555)
-    1.1246916702401561
+    >>> F_air_bodhaine1999(0.555) # doctest: +ELLIPSIS
+    1.1246916...
     """
 
     wl = wavelength
@@ -464,10 +464,10 @@ def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.molecular_density(288.15)
-    2.546902105274093e+19
-    >>> colour.phenomenons.rayleigh.molecular_density(288.15, 6.0221367e23)
-    2.5468999525961638e+19
+    >>> molecular_density(288.15) # doctest: +ELLIPSIS
+    2.5469021...e+19
+    >>> molecular_density(288.15, 6.0221367e23) # doctest: +ELLIPSIS
+    2.5468999...e+19
     """
 
     T = temperature
@@ -492,8 +492,8 @@ def mean_molecular_weights(CO2_concentration=STANDARD_CO2_CONCENTRATION):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.mean_molecular_weights()
-    28.964016679999997
+    >>> mean_molecular_weights() # doctest: +ELLIPSIS
+    28.9640166...
     """
 
     CO2_c = CO2_concentration * 1.0e-6
@@ -522,15 +522,15 @@ def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.gravity_list1968()
-    978.0356070576
-    >>> colour.phenomenons.rayleigh.gravity_list1968(0, 1500)
-    977.5726106461989
+    >>> gravity_list1968() # doctest: +ELLIPSIS
+    978.0356070...
+    >>> gravity_list1968(0, 1500) # doctest: +ELLIPSIS
+    977.5726106...
 
     Gravity :math:`g` for Paris:
 
-    >>> colour.phenomenons.rayleigh.gravity_list1968(48.8567, 35)
-    980.9524178426182
+    >>> gravity_list1968(48.8567, 35) # doctest: +ELLIPSIS
+    980.9524178...
     """
 
     cos2phi = math.cos(2 * math.radians(latitude))
@@ -585,8 +585,8 @@ def scattering_cross_section(wavelength,
 
     Examples
     --------
-    >>> colour.phenomenons.rayleigh.scattering_cross_section(555 * 10e-8)
-    4.661330902337604e-27
+    >>> scattering_cross_section(555 * 10e-8) # doctest: +ELLIPSIS
+    4.6613309...e-27
     """
 
     wl = wavelength
@@ -650,8 +650,8 @@ def rayleigh_optical_depth(wavelength,
 
     Examples
     --------
-    >>> colour.rayleigh_optical_depth(555 * 10e-8)
-    0.10040701772896546
+    >>> rayleigh_optical_depth(555 * 10e-8) # doctest: +ELLIPSIS
+    0.1004070...
     """
 
     CO2_c = CO2_concentration
@@ -717,8 +717,8 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
 
     Examples
     --------
-    >>> colour.rayleigh_scattering_spd()
-    <colour.colorimetry.spectrum.SpectralPowerDistribution at 0x10594ab90>
+    >>> rayleigh_scattering_spd() # doctest: +ELLIPSIS
+    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 
     return SpectralPowerDistribution(

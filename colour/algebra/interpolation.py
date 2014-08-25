@@ -298,7 +298,7 @@ class SpragueInterpolator(object):
     Interpolating an *array_like* variable:
 
     >>> f([0.25, 0.75]) # doctest: +ELLIPSIS
-    array([ 6.72951...,  7.81406...])
+    array([ 6.7295161...,  7.8140625...])
     """
 
     SPRAGUE_C_COEFFICIENTS = np.array(

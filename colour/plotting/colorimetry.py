@@ -53,8 +53,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['cmfs',
-           'illuminant',
+__all__ = ['get_cmfs',
+           'get_illuminant',
            'single_spd_plot',
            'multi_spd_plot',
            'single_cmfs_plot',
@@ -68,7 +68,7 @@ __all__ = ['cmfs',
            'blackbody_colours_plot']
 
 
-def cmfs(cmfs):
+def get_cmfs(cmfs):
     """
     Returns the colour matching functions with given name.
 
@@ -91,7 +91,7 @@ def cmfs(cmfs):
     return cmfs
 
 
-def illuminant(illuminant):
+def get_illuminant(illuminant):
     """
     Returns the illuminant with given name.
 
@@ -135,13 +135,14 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
+    >>> from colour import SpectralPowerDistribution
     >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
-    >>> spd = colour.SpectralPowerDistribution('Custom', data)
-    >>> colour.plotting.single_spd_plot(spd)
+    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> single_spd_plot(spd) # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     shape = cmfs.shape
     spd = spd.clone().interpolate(shape)
@@ -201,15 +202,16 @@ def multi_spd_plot(spds,
 
     Examples
     --------
+    >>> from colour import SpectralPowerDistribution
     >>> data1 = {400: 0.0641, 420: 0.0645, 440: 0.0562}
     >>> data2 = {400: 0.134, 420: 0.789, 440: 1.289}
-    >>> spd1 = colour.SpectralPowerDistribution('Custom1', data1)
-    >>> spd2 = colour.SpectralPowerDistribution('Custom2', data2)
-    >>> multi_spd_plot([spd1, spd2]))
+    >>> spd1 = SpectralPowerDistribution('Custom1', data1)
+    >>> spd2 = SpectralPowerDistribution('Custom2', data2)
+    >>> multi_spd_plot([spd1, spd2])) # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     if use_spds_colours:
         illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D65')
@@ -273,7 +275,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
+    >>> single_cmfs_plot('CIE 1931 2 Degree Standard Observer') # doctest: +SKIP
     True
     """
 
@@ -302,7 +304,7 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> colour.plotting.multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer'])
+    >>> multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer']) # doctest: +SKIP
     True
     """
 
@@ -311,7 +313,7 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
                       ('y', [0, 1, 0]),
                       ('z', [0, 0, 1])):
         for i, cmfs in enumerate(cmfss):
-            cmfs, name = cmfs(cmfs), cmfs
+            cmfs, name = get_cmfs(cmfs), cmfs
 
             rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]
             wavelengths, values = tuple(
@@ -374,14 +376,14 @@ def single_illuminant_relative_spd_plot(
 
     Examples
     --------
-    >>> colour.plotting.single_illuminant_relative_spd_plot('A')
+    >>> single_illuminant_relative_spd_plot('A') # doctest: +SKIP
     True
     """
 
     title = 'Illuminant "{0}" - {1}'.format(illuminant, cmfs)
 
-    illuminant, name = illuminant(illuminant), illuminant
-    cmfs, name = cmfs(cmfs), cmfs
+    illuminant, name = get_illuminant(illuminant), illuminant
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     settings = {'title': title,
                 'y_label': 'Relative Spectral Power Distribution'}
@@ -408,13 +410,13 @@ def multi_illuminants_relative_spd_plot(illuminants=['A', 'B', 'C'], **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.multi_illuminants_relative_spd_plot(['A', 'B', 'C'])
+    >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C']) # doctest: +SKIP
     True
     """
 
     spds = []
     for illuminant in illuminants:
-        spds.append(illuminant(illuminant))
+        spds.append(get_illuminant(illuminant))
 
     settings = {
         'title': '{0} - Illuminants Relative Spectral Power Distribution'.format(
@@ -445,11 +447,11 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> colour.plotting.visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
+    >>> visible_spectrum_plot('CIE 1931 2 Degree Standard Observer') # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
     cmfs = cmfs.clone().align(DEFAULT_SPECTRAL_SHAPE)
 
     wavelengths = cmfs.shape.range()
@@ -491,7 +493,7 @@ def single_lightness_function_plot(function='Lightness 1976', **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_lightness_function_plot('Lightness 1976')
+    >>> single_lightness_function_plot('Lightness 1976') # doctest: +SKIP
     True
     """
 
@@ -523,7 +525,7 @@ def multi_lightness_function_plot(
     Examples
     --------
     >>> fs = ('Lightness 1976', 'Lightness Wyszecki 1964')
-    >>> colour.multi_lightness_function_plot(fs)
+    >>> multi_lightness_function_plot(fs) # doctest: +SKIP
     True
     """
 
@@ -587,11 +589,11 @@ def blackbody_spectral_radiance_plot(
 
     Examples
     --------
-    >>> colour.plotting.blackbody_spectral_radiance_plot(3500)
+    >>> blackbody_spectral_radiance_plot(3500) # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
@@ -650,11 +652,11 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
 
     Examples
     --------
-    >>> colour.plotting.blackbody_colours_plot()
+    >>> blackbody_colours_plot() # doctest: +SKIP
     True
     """
 
-    cmfs, name = cmfs(cmfs), cmfs
+    cmfs, name = get_cmfs(cmfs), cmfs
 
     colours = []
     temperatures = []
