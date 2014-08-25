@@ -34,6 +34,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+import colour
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'

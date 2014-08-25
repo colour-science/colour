@@ -25,6 +25,7 @@ References
 
 from __future__ import division, unicode_literals
 
+import colour
 import math
 import numpy as np
 from collections import namedtuple

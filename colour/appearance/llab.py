@@ -34,6 +34,7 @@ import math
 import numpy as np
 from collections import namedtuple
 
+import colour
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'

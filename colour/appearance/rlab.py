@@ -26,10 +26,12 @@ References
 
 from __future__ import division, unicode_literals
 
+
 import math
 import numpy as np
 from collections import namedtuple
 
+import colour
 from colour.appearance.hunt import XYZ_to_rgb
 from colour.appearance.hunt import HPE_MATRIX
 from colour.utilities import CaseInsensitiveMapping
