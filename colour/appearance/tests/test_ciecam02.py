@@ -96,17 +96,9 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             *CIECAM02* colour appearance model specification.
         """
 
-        specification = CIECAM02_Specification(data['J'],
-                                               data['C'],
-                                               data['H'],
-                                               data['Q'],
-                                               data['M'],
-                                               data['S'],
-                                               data['H'])
-
         XYZ_w = np.array([data['X_W'], data['Y_W'], data['Z_W']])
 
-        specification = CIECAM02_to_XYZ(specification,
+        specification = CIECAM02_to_XYZ(data['J'], data['C'], data['H'],
                                         XYZ_w,
                                         data['L_A'],
                                         data['Y_b'],
@@ -114,7 +106,6 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                                                                   data['c'],
                                                                   data['N_c']))
         return specification
-
 
 
     def check_specification_attribute(self, case, data, attribute, expected):

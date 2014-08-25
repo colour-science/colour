@@ -35,6 +35,7 @@ import math
 import numpy as np
 from collections import namedtuple
 
+import colour
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,
                                     HPE_MATRIX_INVERSE,
@@ -255,7 +256,7 @@ def XYZ_to_CIECAM02(XYZ,
     return CIECAM02_Specification(J, C, h, Q, M, s, H)
 
 
-def CIECAM02_to_XYZ(CIECAM02_Specification,
+def CIECAM02_to_XYZ(J, C, h,
                     XYZ_w,
                     L_A,
                     Y_b,
@@ -298,23 +299,20 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
 
     Examples
     --------
-    >>> specification = CIECAM02_Specification(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281,                                               Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
-    >>> XYZ_w = np.array([95.05, 100.00, 108.88])
-    >>> L_A = 318.31
+    >>> J = 41.7310911
+    >>> C = 68.8364136
+    >>> h = 38.7201874
+    >>> XYZ_w = np.array([96.4219075, 100.00, 82.520490])
+    >>> L_A = 100
     >>> Y_b = 20.0
-    >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)
-    array([ 19.01,  20.  ,  21.78])
+    >>> colour.CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)
+    array([ 28.84520828,  18.40375563,   2.67430173])
     """
 
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
     X_w, Y_w, Zw = np.ravel(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b,
-                                                                   Y_w,
-                                                                   L_A)
-
-    J, C, h, Q, M, s, H = CIECAM02_Specification
-
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
 
     # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -1042,12 +1040,12 @@ def temporary_magnitude_quantity_reverse(C, J, n):
 
     Examples
     --------
-    >>> C = 0.1047077571711053
-    >>> J = 41.73109113251392
+    >>> C = 68.8364136888275
+    >>> J = 41.749268505999
     >>> n = 0.2
     >>> temporary_magnitude_quantity_reverse(C, J, n) # doctest: +ELLIPSIS
     0.1497462...
-    """
+   """
 
     t = (C / (math.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
     return t
