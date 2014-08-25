@@ -174,7 +174,9 @@ def write_spds_to_csv_file(spds,
         writer = csv.DictWriter(csv_file,
                                 delimiter=str(delimiter),
                                 fieldnames=['wavelength'] + fields)
-        writer.writeheader()
+        # Python 2.7.x / 3.4.x only.
+        # writer.writeheader()
+        writer.writerow(dict((name, name) for name in writer.fieldnames))
         for wavelength in wavelengths:
             row = {'wavelength': wavelength}
             row.update(

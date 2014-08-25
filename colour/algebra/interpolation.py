@@ -64,8 +64,9 @@ class LinearInterpolator1d(object):
     >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator1d(x, y)
-    >>> f(0.5)
-    7.645
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> f(0.5) # doctest: +ELLIPSIS
+    7.64...
 
     Interpolating an *array_like* variable:
 
@@ -241,7 +242,7 @@ else:
     warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
              '"LinearInterpolator1d" instead!'))
 
-    SplineInterpolator = LinearInterpolator
+    SplineInterpolator = LinearInterpolator1d
 
 
 class SpragueInterpolator(object):

@@ -224,7 +224,7 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
 
     Examples
     --------
-    >>> .multi_transfer_function_plot(['sRGB', 'Rec. 709']) # doctest: +SKIP
+    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709']) # doctest: +SKIP
     True
     """
 

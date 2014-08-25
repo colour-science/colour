@@ -90,8 +90,9 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Examples
     --------
-    >>> planck_law(500 * 1e-9, 5500)
-    20472701909806.58
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> planck_law(500 * 1e-9, 5500) # doctest: +ELLIPSIS
+    20472701909806.5...
     """
 
     t = temperature

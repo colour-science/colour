@@ -142,7 +142,8 @@ def RGB_luminance_equation(primaries, whitepoint):
     --------
     >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> RGB_luminance_equation(primaries, whitepoint) # doctest: +ELLIPSIS
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> RGB_luminance_equation(primaries, whitepoint) # doctest: +SKIP
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 

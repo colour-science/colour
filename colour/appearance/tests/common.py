@@ -10,7 +10,12 @@ from __future__ import division, unicode_literals
 import csv
 import numpy
 import os
-import unittest
+import sys
+
+if sys.version_info[:2] <= (2, 6):
+    import unittest2 as unittest
+else:
+    import unittest
 from abc import abstractmethod
 from collections import defaultdict
 from numpy.testing import assert_allclose, assert_almost_equal
@@ -204,7 +209,8 @@ class ColourAppearanceModelTest(object):
         tuple
         """
         for data in self.fixtures():
-             for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
+            for test in self.check_model_consistency(data,
+                                                     self.OUTPUT_ATTRIBUTES):
                 yield test
 
     @unittest.skip

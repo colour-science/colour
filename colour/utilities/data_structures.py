@@ -46,11 +46,13 @@ class Structure(dict):
     Examples
     --------
     >>> person = Structure(firstName='Doe', lastName='John', gender='male')
-    >>> person.firstName
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> person.firstName # doctest: +SKIP
     'Doe'
     >>> sorted(person.keys())
     ['firstName', 'gender', 'lastName']
-    >>> person['gender']
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> person['gender'] # doctest: +SKIP
     'male'
     """
 

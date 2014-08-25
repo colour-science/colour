@@ -41,8 +41,12 @@ from __future__ import division, unicode_literals
 import math
 import numpy as np
 import re
-from collections import OrderedDict
+import sys
 
+if sys.version_info[:2] <= (2, 6):
+    from ordereddict import OrderedDict
+else:
+    from collections import OrderedDict
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
@@ -913,7 +917,8 @@ def xyY_to_munsell_colour(xyY,
 
     Examples
     --------
-    >>> xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362]))
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362])) # doctest: +SKIP
     '4.2YR 8.1/5.3'
     """
 
@@ -941,8 +946,8 @@ def parse_munsell_colour(munsell_colour):
 
     Examples
     --------
-    >>> parse_munsell_colour('N5.2')
-    5.2
+    >>> parse_munsell_colour('N5.2') # doctest: +ELLIPSIS
+    5.2...
     >>> parse_munsell_colour('0YR 2.0/4.0')
     (0.0, 2.0, 4.0, 6)
     """
@@ -1039,8 +1044,8 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Examples
     --------
-    >>> munsell_colour_to_munsell_specification('N5.2')
-    5.2
+    >>> munsell_colour_to_munsell_specification('N5.2') # doctest: +ELLIPSIS
+    5.2...
     >>> munsell_colour_to_munsell_specification('0YR 2.0/4.0')
     (10, 2.0, 4.0, 7)
     """
@@ -1074,9 +1079,11 @@ def munsell_specification_to_munsell_colour(specification,
 
     Examples
     --------
-    >>> munsell_specification_to_munsell_colour(5.2)
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> munsell_specification_to_munsell_colour(5.2) # doctest: +SKIP
     'N5.2'
-    >>> munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7))
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7)) # doctest: +SKIP
     '10.0R 2.0/4.0'
     """
 
@@ -1135,8 +1142,8 @@ def xyY_from_renotation(specification):
 
     Examples
     --------
-    >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))
-    (0.713, 1.414, 0.237)
+    >>> xyY_from_renotation((2.5, 0.2, 2.0, 4)) # doctest: +ELLIPSIS
+    (0.71..., 1.41..., 0.23...)
     """
 
     specifications = _munsell_specifications()
@@ -1356,8 +1363,8 @@ def hue_to_ASTM_hue(hue, code):
 
     Examples
     --------
-    >>> hue_to_ASTM_hue(3.2, 4)
-    33.2
+    >>> hue_to_ASTM_hue(3.2, 4) # doctest: +ELLIPSIS
+    33.2...
     """
 
     ASTM_hue = 10 * ((7 - code) % 10) + hue
@@ -1395,7 +1402,8 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4)) # doctest: +SKIP
     'Radial'
     """
 
@@ -1694,8 +1702,8 @@ def xy_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
-    (0.4333, 0.5602)
+    >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4)) # doctest: +ELLIPSIS
+    (0.4333..., 0.5602...)
     >>> xy_from_renotation_ovoid(8)
     (0.31006, 0.31616)
     """
@@ -1970,10 +1978,11 @@ def munsell_specification_to_xy(specification):
 
     Examples
     --------
-    >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))
-    (0.4400632, 0.5522428)
-    >>> munsell_specification_to_xy(8)
-    (0.31006, 0.31616)
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4)) # doctest: +ELLIPSIS
+    (0.440063..., 0.552242...)
+    >>> munsell_specification_to_xy(8) # doctest: +ELLIPSIS
+    (0.31006..., 0.31616...)
     """
 
     if is_grey_munsell_colour(specification):
