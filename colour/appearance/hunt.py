@@ -237,8 +237,8 @@ def XYZ_to_Hunt(XYZ,
     >>> N_c = 1.0
     >>> N_b = 75.0
     >>> CCT_w = 6504.0
-    >>> colour.XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)
-    Hunt_Specification(h_S=269.2737594461446, C94=0.12105083993634971, s=0.019909320692941452, Q=22.209765491265024, M94=0.12389643825999687, J=30.0462678619607)
+    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w) # doctest: +ELLIPSIS
+    Hunt_Specification(h_S=269.2737594..., C_94=0.1210508..., s=0.0199093..., Q=22.2097654..., M_94=0.1238964..., J=30.0462678...)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -407,8 +407,8 @@ def luminance_level_adaptation_factor(L_A):
 
     Examples
     --------
-    >>> colour.appearance.hunt.luminance_level_adaptation_factor(318.31)
-    1.16754446415
+    >>> luminance_level_adaptation_factor(318.31) # doctest: +ELLIPSIS
+    1.1675444...
     """
 
     k = 1 / (5 * L_A + 1)
@@ -437,8 +437,8 @@ def illuminant_scotopic_luminance(L_A, CCT):
 
     Examples
     --------
-    >>> colour.appearance.hunt.illuminant_scotopic_luminance(318.31, 6504.0)
-    769.937628654
+    >>> illuminant_scotopic_luminance(318.31, 6504.0) # doctest: +ELLIPSIS
+    769.9376286...
     """
 
     CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
@@ -463,8 +463,8 @@ def XYZ_to_rgb(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> colour.appearance.hunt.XYZ_to_rgb(XYZ)
-    array([  97.3732571,  101.5496803,  108.88     ])
+    >>> XYZ_to_rgb(XYZ) # doctest: +ELLIPSIS
+    array([ 19.47433...,  20.31012...,  21.78     ])
     """
 
     return HPE_MATRIX.dot(XYZ)
@@ -488,9 +488,9 @@ def f_n(x):
 
     Examples
     --------
-    >>> x = np.array([0.23350512, 0.23351103, 0.23355179]
-    >>> colour.appearance.hunt.f_n(x)
-    array([ 5.89685921,  5.89695207,  5.89759265]))
+    >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
+    >>> f_n(x) # doctest: +ELLIPSIS
+    array([ 5.89685...,  5.89695...,  5.89759...])
     """
 
     x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
@@ -546,8 +546,8 @@ def chromatic_adaptation(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> F_L = 1.16754446415
-    >>> colour.appearance.hunt.chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)
-    array([ 6.89594549,  6.89599915,  6.89657085])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L) # doctest: +ELLIPSIS
+    array([ 6.89594...,  6.89599...,  6.89657...])
     """
 
     rgb = XYZ_to_rgb(XYZ)
@@ -618,8 +618,8 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
     >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
     >>> p = 0.1
-    >>> colour.appearance.hunt.adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)
-    array([ 88.07927426,  91.85695535,  98.48765433])
+    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p) # doctest: +ELLIPSIS
+    array([ 88.07927...,  91.85695...,  98.48765...])
     """
 
     p_rgb = rgb_p / rgb_b
@@ -647,8 +647,8 @@ def achromatic_post_adaptation_signal(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.achromatic_post_adaptation_signal(rgb)
-    18.9827186648
+    >>> achromatic_post_adaptation_signal(rgb) # doctest: +ELLIPSIS
+    18.9827186...
     """
 
     r, g, b = np.ravel(rgb)
@@ -677,8 +677,8 @@ def colour_difference_signals(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.colour_difference_signals(rgb)
-    (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> colour_difference_signals(rgb) # doctest: +ELLIPSIS
+    (-5.3659999...e-05, -0.0005717..., 0.0006253...)
     """
 
     r, g, b = np.ravel(rgb)
@@ -708,8 +708,8 @@ def hue_angle(C):
     Examples
     --------
     >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
-    >>> colour.appearance.hunt.hue_correlate(C)
-    269.273759446
+    >>> hue_angle(C) # doctest: +ELLIPSIS
+    269.2737594...
     """
 
     C_1, C_2, C_3 = np.ravel(C)
@@ -734,8 +734,8 @@ def eccentricity_factor(hue):
 
     Examples
     --------
-    >>> colour.appearance.hunt.eccentricity_factor(269.273759)
-    1.1108365061157834
+    >>> eccentricity_factor(269.273759) # doctest: +ELLIPSIS
+    1.1108365...
     """
 
     h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
@@ -764,8 +764,8 @@ def low_luminance_tritanopia_factor(L_A):
 
     Examples
     --------
-    >>> colour.appearance.hunt.low_luminance_tritanopia_factor(318.31)
-    0.99968593951195
+    >>> low_luminance_tritanopia_factor(318.31) # doctest: +ELLIPSIS
+    0.9996859...
     """
 
     F_t = L_A / (L_A + 0.1)
@@ -801,8 +801,8 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
     >>> F_t =0.99968593951195
-    >>> colour.appearance.hunt.yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
-    -0.008237223618824608
+    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t) # doctest: +ELLIPSIS
+    -0.0082372...
     """
 
     C_1, C_2, C_3 = C
@@ -839,8 +839,8 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
-    >>> colour.appearance.hunt.redness_greenness_response(C, e_s, N_c, N_cb)
-    -0.00010444758327626432
+    >>> redness_greenness_response(C, e_s, N_c, N_cb) # doctest: +ELLIPSIS
+    -0.0001044...
     """
 
     C_1, C_2, C_3 = C
@@ -870,8 +870,8 @@ def overall_chromatic_response(M_yb, M_rg):
     --------
     >>> M_yb = -0.008237223618824608
     >>> M_rg = -0.00010444758327626432
-    >>> colour.appearance.hunt.overall_chromatic_response(M_yb, M_rg)
-    0.008237885787274198
+    >>> overall_chromatic_response(M_yb, M_rg) # doctest: +ELLIPSIS
+    0.0082378...
     """
 
     M = ((M_yb ** 2) + (M_rg ** 2)) ** 0.5
@@ -900,8 +900,8 @@ def saturation_correlate(M, rgb_a):
     --------
     >>> M = 0.008237885787274198
     >>> rgb_a = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.saturation_correlate(M, rgb_a)
-    0.0199093206929
+    >>> saturation_correlate(M, rgb_a) # doctest: +ELLIPSIS
+    0.0199093...
     """
 
     s = 50 * M / np.ravel(rgb_a).sum()
@@ -938,8 +938,8 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     >>> S_W = 100.0
     >>> N_bb = 0.72499999999999998
     >>> A_a = 18.982718664838487
-    >>> colour.appearance.hunt.achromatic_signal(L_AS, S, S_W, N_bb, A_a)
-    15.506854623621885
+    >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a) # doctest: +ELLIPSIS
+    15.5068546...
     """
 
     j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
@@ -987,8 +987,8 @@ def brightness_correlate(A, A_w, M, N_b):
     >>> A_w = 35.718916676317086
     >>> M = 0.0082378857872741976
     >>> N_b = 75.0
-    >>> colour.appearance.hunt.brightness_correlate(A, A_w, M, N_b)
-    22.2097654913
+    >>> brightness_correlate(A, A_w, M, N_b) # doctest: +ELLIPSIS
+    22.2097654...
     """
 
     N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
@@ -1024,8 +1024,8 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> colour.appearance.hunt.lightness_correlate(Y_b, Y_w, Q, Q_w)
-    30.046267862
+    >>> lightness_correlate(Y_b, Y_w, Q, Q_w) # doctest: +ELLIPSIS
+    30.0462678...
     """
 
     Z = 1 + (Y_b / Y_w) ** 0.5
@@ -1063,8 +1063,8 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> colour.appearance.hunt.chroma_correlate(s, Y_b, Y_w, Q, Q_w)
-    0.12105083993617581
+    >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w) # doctest: +ELLIPSIS
+    0.1210508...
     """
 
     C_94 = (2.44 * (s ** 0.69) *
@@ -1094,8 +1094,8 @@ def colourfulness_correlate(F_L, C_94):
     --------
     >>> F_L = 1.16754446414718
     >>> C_94 = 0.12105083993617581
-    >>> colour.appearance.hunt.colourfulness_correlate(F_L, C_94)
-    0.12389643825999687
+    >>> colourfulness_correlate(F_L, C_94) # doctest: +ELLIPSIS
+    0.1238964...
     """
 
     M_94 = F_L ** 0.15 * C_94

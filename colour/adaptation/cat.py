@@ -141,10 +141,18 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     --------
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
-    >>> colour.chromatic_adaptation_matrix(XYZ1, XYZ2)
-    array([[ 0.87145615, -0.13204674,  0.40394832],
-           [-0.09638805,  1.04909781,  0.1604033 ],
-           [ 0.0080207 ,  0.02826367,  3.06023196]])
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2) # doctest: +ELLIPSIS
+    array([[ 0.87145..., -0.13204...,  0.40394...],
+           [-0.09638...,  1.04909...,  0.1604... ],
+           [ 0.0080... ,  0.02826...,  3.06023...]])
+
+    Using *Bradford* method:
+    >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2, 'Bradford') # doctest: +ELLIPSIS
+    array([[ 0.85181..., -0.11347...,  0.4124... ],
+           [-0.12776...,  1.09289...,  0.13415...],
+           [ 0.08453..., -0.14349...,  3.30753...]])
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)

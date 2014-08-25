@@ -66,27 +66,27 @@ def linear_regression(y, x=None, additional_statistics=False):
     Linear regression with the dependent and already known :math:`y` variable:
 
     >>> y = np.array([1,2,1,3,2,3,3,4,4,3])
-    >>> colour.linear_regression(y)
-    array([ 0.29090909,  1.        ])
+    >>> linear_regression(y) # doctest: +ELLIPSIS
+    array([ 0.29090...,  1.        ])
 
     Linear regression with the dependent :math:`y` variable and independent
     :math:`x` variable:
 
     >>> x1 = np.array([40, 45, 38, 50, 48, 55, 53, 55, 58, 40])
-    >>> colour.linear_regression(y, x1)
-    array([ 0.12251941, -3.30543572])
+    >>> linear_regression(y, x1) # doctest: +ELLIPSIS
+    array([ 0.12251..., -3.30543...])
 
     Multiple linear regression with the dependent :math:`y` variable and
     multiple independent :math:`x_i` variables:
 
     >>> x2 = np.array([25, 20, 30, 30, 28, 30, 34, 36, 32, 34])
-    >>> colour.linear_regression(y, tuple(zip(x1, x2)))
-    array([ 0.09980023,  0.08762575, -4.83038079])
+    >>> linear_regression(y, tuple(zip(x1, x2))) # doctest: +ELLIPSIS
+    array([ 0.09980...,  0.08762..., -4.83038...])
 
     Multiple linear regression with additional statistics:
 
-    >>> colour.linear_regression(y, tuple(zip(x1, x2)), additional_statistics=True)
-    (array([ 0.09980023,  0.08762575, -4.83038079]), array([ 2.13762499]))
+    >>> linear_regression(y, tuple(zip(x1, x2)), additional_statistics=True) # doctest: +ELLIPSIS
+    (array([ 0.09980...,  0.08762..., -4.83038...]), array([ 2.13762...]))
     """
 
     y = to_ndarray(y)

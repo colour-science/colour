@@ -200,8 +200,8 @@ def XYZ_to_LLAB(XYZ,
     >>> F_L = 1.0
     >>> F_C = 1.0
     >>> L = 318.31
-    >>> colour.XYZ_to_LLAB(XYZ, XYZ_0, Y_b, F_S, F_L, F_C, L)
-    LLAB_Specification(h_L=229.46357270056598, Ch_L=0.0086506620517144972, s_L=0.00023149890432782482, L_L=37.368047493928195, C_L=0.018383289914270105, A_L=-0.011947876709772017, B_L=-0.013971169965331907)
+    >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, F_S, F_L, F_C, L)
+    LLAB_Specification(h_L=229.46357270056598, Ch_L=0.0086506620517144972, s_L=0.00023149890432782482, L_L=37.368047493928195, C_L=0.018383289914270105, A_L=-0.01194787670977202, B_L=-0.013971169965331903)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -275,7 +275,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> colour.appearance.llab.XYZ_to_RGB(XYZ)
+    >>> XYZ_to_RGB_LLAB(XYZ)
     array([ 0.94142795,  1.0404012 ,  1.08970885])
     """
 
@@ -312,7 +312,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     >>> RGB_0 = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> Y = 20.0
-    >>> colour.appearance.llab.chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)
+    >>> chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)
     array([ 19.00999572,  20.00091862,  21.77993863])
     """
 
@@ -353,8 +353,8 @@ def f(x, F_S):
 
     Examples
     --------
-    >>> x = np.array([0.23350512, 0.23351103, 0.23355179]
-    >>> colour.appearance.llab.f(0.20000918623399996, 3)
+    >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
+    >>> f(0.20000918623399996, 3)
     array(0.5848125010758818)
     """
 
@@ -395,8 +395,8 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     >>> Y_b = 20.0
     >>> F_S = 3.0
     >>> F_L = 1.0
-    >>> colour.appearance.llab.opponent_colour_dimensions(XYZ, Y_b, F_S, F_L)
-    array([  3.73680475e+01,  -4.49864756e-03,  -5.26046353e-03])
+    >>> opponent_colour_dimensions(XYZ, Y_b, F_S, F_L)
+    array([  3.73680475e+01,  -4.49864432e-03,  -5.26046478e-03])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -430,7 +430,7 @@ def hue_angle(a, b):
 
     Examples
     --------
-    >>> colour.appearance.llab.hue_correlate(-4.49864756e-03, -5.26046353e-03)
+    >>> hue_angle(-4.49864756e-03, -5.26046353e-03)
     229.4635727085839
     """
 
@@ -456,7 +456,7 @@ def chroma_correlate(a, b):
 
     Examples
     --------
-    >>> colour.appearance.llab.chroma_correlate(-4.49864756e-03, -5.26046353e-03)
+    >>> chroma_correlate(-4.49864756e-03, -5.26046353e-03)
     0.0086506620569251902
     """
 
@@ -491,8 +491,8 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     >>> L_L = 37.368047493928195
     >>> Ch_L = 0.0086506620517144972
     >>> F_C = 1.0
-    >>> colour.appearance.llab.colourfulness_correlate(L, L_L, Ch_L, F_C)
-    0.0183832899143
+    >>> colourfulness_correlate(L, L_L, Ch_L, F_C)
+    0.018383289914270105
     """
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
@@ -522,7 +522,7 @@ def saturation_correlate(Ch_L, L_L):
     --------
     >>> Ch_L = 0.0086506620517144972
     >>> L_L = 37.368047493928195
-    >>> colour.appearance.llab.saturation_correlate(Ch_L, L_L)
+    >>> saturation_correlate(Ch_L, L_L)
     0.00023149890432782482
     """
 
@@ -551,8 +551,8 @@ def final_opponent_signals(C_L, h_L):
     --------
     >>> C_L = 0.0183832899143
     >>> h_L = 4.004894857014253
-    >>> colour.appearance.llab.final_opponent_signals(C_L, h_L)
-    (-0.01194787670977202, -0.013971169965331903)
+    >>> final_opponent_signals(C_L, h_L)
+    (-0.011947876709791451, -0.013971169965354625)
     """
 
     A_L = C_L * np.cos(h_L)

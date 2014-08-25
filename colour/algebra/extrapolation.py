@@ -73,34 +73,35 @@ class Extrapolator1d(object):
     --------
     Extrapolating a single numeric variable:
 
+    >>> from colour.algebra import LinearInterpolator1d
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator1d(x, y)
-    >>> Extrapolator1d = colour.Extrapolator1d(interpolator)
-    >>> Extrapolator1d(1)
-    -1
+    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> extrapolator = Extrapolator1d(interpolator)
+    >>> extrapolator(1)
+    -1.0
 
     Extrapolating an *array_like* variable:
 
-    >>> Extrapolator1d(np.array([6, 7 , 8]))
-    array([4, 5, 6])
+    >>> extrapolator(np.array([6, 7 , 8]))
+    array([ 4.,  5.,  6.])
 
     Using the *Constant* extrapolation method:
 
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator1d(x, y)
-    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant')
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
+    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> extrapolator = Extrapolator1d(interpolator, method='Constant')
+    >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 1.,  1.,  3.,  3.])
 
     Using defined *left* boundary and *Constant* extrapolation method:
 
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = colour.LinearInterpolator1d(x, y)
-    >>> Extrapolator1d = colour.Extrapolator1d(interpolator, method='Constant', left=0)
-    >>> Extrapolator1d(np.array([0.1, 0.2, 8, 9]))
+    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> extrapolator = Extrapolator1d(interpolator, method='Constant', left=0)
+    >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  3.,  3.])
     """
 

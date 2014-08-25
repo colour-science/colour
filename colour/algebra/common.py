@@ -57,9 +57,17 @@ def steps(distribution):
 
     Examples
     --------
+    Uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> colour.steps(y)
+    >>> steps(y)
     (1,)
+
+    Non-uniformly spaced variable:
+
+    >>> y = np.array([1, 2, 3, 4, 8])
+    >>> steps(y)
+    (1, 4)
     """
 
     return tuple(set([distribution[i + 1] - distribution[i]
@@ -85,7 +93,7 @@ def closest(y, x):
     Examples
     --------
     >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
-    >>> closest(63, y)
+    >>> closest(y, 63)
     62.70988028
     """
 
@@ -110,7 +118,7 @@ def to_ndarray(x, data_type=np.float_):
     Examples
     --------
     >>> to_ndarray(1)
-    [1]
+    array([ 1.])
     """
 
     return (np.array(x, dtype=data_type)
@@ -134,12 +142,16 @@ def is_uniform(distribution):
 
     Examples
     --------
+    Uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> colour.is_uniform(y)
+    >>> is_uniform(y)
     True
 
+    Non-uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3.1415, 4, 5])
-    >>> colour.is_uniform(y)
+    >>> is_uniform(y)
     False
     """
 
@@ -261,8 +273,8 @@ def normalise(x, factor=1, clip=True):
 
     Examples
     --------
-    >>> colour.normalise(np.array(0.48224885, 0.31651974, 0.22070513]))
-    array([ 1.        ,  0.6563411 ,  0.45765818])
+    >>> normalise(np.array([0.48224885, 0.31651974, 0.22070513])) # doctest: +ELLIPSIS
+    array([ 1.        ,  0.65634... ,  0.45765...])
     """
 
     x = to_ndarray(x)

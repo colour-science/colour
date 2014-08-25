@@ -174,8 +174,8 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
-    CIECAM02_Specification(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281, Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
+    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
+    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., Q=195.3713259..., M=0.1088421..., s=2.3603053..., H=278.0607358...)
     """
 
     XYZ = np.array(XYZ).reshape((3, 1))
@@ -298,17 +298,11 @@ def CIECAM02_to_XYZ(CIECAM02_Specification,
 
     Examples
     --------
-    >>> specification = colour.CIECAM02_Specification(J=41.731091132513917,
-                                                      C=0.1047077571711053,
-                                                      h=-140.9515673417281,
-                                                      Q=195.37132596607671,
-                                                      M=0.1088421756692261,
-                                                      s=2.3603053739204447,
-                                                      H=278.06073585662813)
+    >>> specification = CIECAM02_Specification(J=41.731091132513917, C=0.1047077571711053, h=-140.9515673417281,                                               Q=195.37132596607671, M=0.1088421756692261, s=2.3603053739204447, H=278.06073585662813)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> colour.CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)
+    >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)
     array([ 19.01,  20.  ,  21.78])
     """
 
@@ -395,8 +389,8 @@ def chromatic_induction_factors(n):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.chromatic_induction_factors(0.2)
-    (1.0003040045593807, 1.0003040045593807)
+    >>> chromatic_induction_factors(0.2) # doctest: +ELLIPSIS
+    (1.0003040..., 1.0003040...)
     """
 
     N_bb = N_cb = 0.725 * (1 / n) ** 0.2
@@ -419,8 +413,8 @@ def base_exponential_non_linearity(n):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.base_exponential_non_linearity(0.2)
-    1.9272135954999579
+    >>> base_exponential_non_linearity(0.2) # doctest: +ELLIPSIS
+    1.9272135...
     """
 
     z = 1.48 + math.sqrt(n)
@@ -448,8 +442,8 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
-    (0.20000000000000001, 1.16754446414718, 1.0003040045593807, 1.0003040045593807, 1.9272135954999579)
+    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31) # doctest: +ELLIPSIS
+    (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """
 
     n = Y_b / Y_w
@@ -481,8 +475,8 @@ def degree_of_adaptation(F, L_A):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.degree_of_adaptation(1.0, 318.31)
-    0.99446878008843742
+    >>> degree_of_adaptation(1.0, 318.31) # doctest: +ELLIPSIS
+    0.9944687...
     """
 
     D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
@@ -517,8 +511,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> colour.appearance.ciecam02.full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    array([ 19.99370783,  20.00393634,  20.01326387])
+    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D) # doctest: +ELLIPSIS
+    array([ 19.99370...,  20.00393...,  20.01326...])
     """
 
     R, G, B = np.ravel(RGB)
@@ -561,8 +555,8 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> colour.appearance.ciecam02.full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D)
-    array([ 18.985456,  20.707422,  21.747482])
+    >>> full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D) # doctest: +ELLIPSIS
+    array([ 18.985...,  20.707...,  21.747...])
     """
 
     R, G, B = np.ravel(RGB)
@@ -595,8 +589,8 @@ def RGB_to_rgb(RGB):
     Examples
     --------
     >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
-    >>> colour.appearance.ciecam02.RGB_to_rgb(RGB)
-    array([ 19.99693975,  20.00186123,  20.0135053 ])
+    >>> RGB_to_rgb(RGB) # doctest: +ELLIPSIS
+    array([ 19.99693...,  20.00186...,  20.0135... ])
     """
 
     rgb = np.dot(np.dot(HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
@@ -621,8 +615,8 @@ def rgb_to_RGB(rgb):
     Examples
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.0135053])
-    >>> colour.appearance.ciecam02.rgb_to_RGB(rgb)
-    array([ 19.99370783,  20.00393634,  20.01326387])
+    >>> rgb_to_RGB(rgb) # doctest: +ELLIPSIS
+    array([ 19.99370...,  20.00393...,  20.01326...])
     """
 
     RGB = np.dot(np.dot(CAT02_CAT, HPE_MATRIX_INVERSE), rgb)
@@ -648,8 +642,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.post_adaptation_non_linear_response_compression_forward(RGB, F_L)
-    array([ 7.9463202 ,  7.94711528,  7.94899595])
+    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L) # doctest: +ELLIPSIS
+    array([ 7.9463... ,  7.94711...,  7.94899...])
     """
 
     # TODO: Check for negative values and their handling.
@@ -677,8 +671,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     --------
     >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.post_adaptation_non_linear_response_compression_reverse(RGB, F_L)
-    array([ 19.99693978,  20.00186124,  20.01350528])
+    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L) # doctest: +ELLIPSIS
+    array([ 19.99693...,  20.00186...,  20.01350...])
     """
 
     RGB_p = ((np.sign(RGB - 0.1) *
@@ -705,8 +699,8 @@ def opponent_colour_dimensions_forward(RGB):
     Examples
     --------
     >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> colour.appearance.ciecam02.opponent_colour_dimensions_forward(RGB)
-    (-0.00062411000000173189, -0.00050626888888870443)
+    >>> opponent_colour_dimensions_forward(RGB) # doctest: +ELLIPSIS
+    (-0.0006241..., -0.0005062...)
     """
 
     R, G, B = np.ravel(RGB)
@@ -738,8 +732,8 @@ def opponent_colour_dimensions_reverse(P, h):
     --------
     >>> p = (30162.890815335879, 24.237205467134817, 1.05)
     >>> h = -140.9515673417281
-    >>> colour.appearance.ciecam02.opponent_colour_dimensions_reverse(p, h)
-    (-0.0006241120682426434, -0.0005062701067729668)
+    >>> opponent_colour_dimensions_reverse(p, h) # doctest: +ELLIPSIS
+    (-0.0006241..., -0.0005062...)
     """
 
     P_1, P_2, P_3 = P
@@ -780,8 +774,8 @@ def hue_angle(a, b):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.hue_correlate(-0.0006241120682426434, -0.0005062701067729668)
-    219.0484326582719
+    >>> hue_angle(-0.0006241120682426434, -0.0005062701067729668) # doctest: +ELLIPSIS
+    219.0484326...
     """
 
     h = math.degrees(np.arctan2(b, a)) % 360
@@ -804,8 +798,8 @@ def hue_quadrature(h):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.hue_quadrature(-140.951567342)
-    278.06073585629122
+    >>> hue_quadrature(-140.951567342) # doctest: +ELLIPSIS
+    278.0607358...
     """
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
@@ -839,8 +833,8 @@ def eccentricity_factor(h):
 
     Examples
     --------
-    >>> colour.appearance.ciecam02.eccentricity_factor(-140.951567342)
-    1.1740054728513878
+    >>> eccentricity_factor(-140.951567342) # doctest: +ELLIPSIS
+    1.1740054...
     """
 
     e_t = 1 / 4 * (math.cos(2 + h * math.pi / 180) + 3.8)
@@ -869,8 +863,8 @@ def achromatic_response_forward(RGB, N_bb):
     --------
     >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
     >>> N_bb = 1.0003040045593807
-    >>> colour.appearance.ciecam02.achromatic_response_forward(RGB, N_bb)
-    23.939480977081196
+    >>> achromatic_response_forward(RGB, N_bb) # doctest: +ELLIPSIS
+    23.9394809...
     """
 
     R, G, B = np.ravel(RGB)
@@ -908,8 +902,8 @@ def achromatic_response_reverse(A_w, J, c, z):
     >>> J = 41.73109113251392
     >>> c = 0.69
     >>> z = 1.9272135954999579
-    >>> colour.appearance.ciecam02.achromatic_response_reverse(A_w, J, c, z)
-    23.93948096673739
+    >>> achromatic_response_reverse(A_w, J, c, z) # doctest: +ELLIPSIS
+    23.9394809...
     """
 
     A = A_w * (J / 100) ** (1 / (c * z))
@@ -942,8 +936,8 @@ def lightness_correlate(A, A_w, c, z):
     >>> A_w = 46.1882087914
     >>> c = 0.69
     >>> z = 1.9272135955
-    >>> colour.appearance.ciecam02.lightness_correlate(A, A_w, c, z)
-    41.73109113242645
+    >>> lightness_correlate(A, A_w, c, z) # doctest: +ELLIPSIS
+    41.7310911...
     """
 
     J = 100 * (A / A_w) ** (c * z)
@@ -976,8 +970,8 @@ def brightness_correlate(c, J, A_w, F_L):
     >>> J = 41.7310911325
     >>> A_w = 46.1882087914
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.brightness_correlate(c, J, A_w, F_L)
-    195.37132596634626
+    >>> brightness_correlate(c, J, A_w, F_L) # doctest: +ELLIPSIS
+    195.3713259...
     """
 
     Q = (4 / c) * math.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
@@ -1017,8 +1011,8 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
-    >>> colour.appearance.ciecam02.temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    0.14974620289879878
+    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a) # doctest: +ELLIPSIS
+    0.1497462...
     """
 
     Ra, Ga, Ba = np.ravel(RGB_a)
@@ -1051,8 +1045,8 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     >>> C = 0.1047077571711053
     >>> J = 41.73109113251392
     >>> n = 0.2
-    >>> colour.appearance.ciecam02.temporary_magnitude_quantity_reverse(C, J, n)
-    0.14974620292124402
+    >>> temporary_magnitude_quantity_reverse(C, J, n) # doctest: +ELLIPSIS
+    0.1497462...
     """
 
     t = (C / (math.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
@@ -1097,8 +1091,8 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> colour.appearance.ciecam02.chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)
-    0.10470775715680908
+    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a) # doctest: +ELLIPSIS
+    0.1047077...
     """
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
@@ -1127,8 +1121,8 @@ def colourfulness_correlate(C, F_L):
     --------
     >>> C = 0.104707757171
     >>> F_L = 1.16754446415
-    >>> colour.appearance.ciecam02.colourfulness_correlate(C, F_L)
-    0.10884217566918239
+    >>> colourfulness_correlate(C, F_L) # doctest: +ELLIPSIS
+    0.1088421...
     """
 
     M = C * F_L ** 0.25
@@ -1155,8 +1149,8 @@ def saturation_correlate(M, Q):
     --------
     >>> M = 0.108842175669
     >>> Q = 195.371325966
-    >>> colour.appearance.ciecam02.saturation_correlate()
-    2.3603053739184565
+    >>> saturation_correlate(M, Q) # doctest: +ELLIPSIS
+    2.3603053...
     """
 
     s = 100 * (M / Q) ** 0.5
@@ -1195,8 +1189,8 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     >>> t = 0.149746202921
     >>> A = 23.9394809667
     >>> N_bb = 1.00030400456
-    >>> colour.appearance.ciecam02.P(N_c, N_cb, e_t, t, A, N_bb)
-    (30162.8908154037, 24.23720546710714, 1.05)
+    >>> P(N_c, N_cb, e_t, t, A, N_bb) # doctest: +ELLIPSIS
+    (30162.8908154..., 24.2372054..., 1.05)
     """
 
     P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
@@ -1229,8 +1223,8 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> colour.appearance.ciecam02.post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
-    array([ 7.9463202 ,  7.94711528,  7.94899595])
+    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b) # doctest: +ELLIPSIS
+    array([ 7.94632... ,  7.94711...,  7.94899...])
     """
 
     R_a = (460 * P_2 + 451 * a + 288 * b) / 1403

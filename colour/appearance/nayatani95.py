@@ -146,7 +146,7 @@ def XYZ_to_Nayatani95(XYZ,
     >>> Y_o = 20.0
     >>> E_o = 5000.0
     >>> E_or = 1000.0
-    >>> colour.XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
+    >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
     Nayatani95_Specification(B_r=62.626673450940629, L_star_P=49.999882975705042, L_star_N=50.003915441089511, theta=257.52322689806243, S=0.013355029751777615, C=0.013355007871688761, M=0.016726284522665977)
     """
 
@@ -272,7 +272,7 @@ def illuminance_to_luminance(E, Y_f):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.illuminance_to_luminance(5000.0, 20.0)
+    >>> illuminance_to_luminance(5000.0, 20.0)
     318.3098861837907
     """
 
@@ -296,7 +296,7 @@ def intermediate_values(XYZ_n):
     Examples
     --------
     >>> XYZ_n = np.array([95.05, 100, 108.88])
-    >>> colour.appearance.nayatani95.intermediate_values(XYZ_n)
+    >>> intermediate_values(XYZ_n)
     array([ 1.00004219,  0.99998001,  0.99975794])
     """
 
@@ -328,7 +328,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> colour.appearance.nayatani95.XYZ_to_RGB(XYZ)
+    >>> XYZ_to_RGB_Nayatani95(XYZ)
     array([ 20.0005206  19.999783   19.9988316])
     """
 
@@ -352,8 +352,8 @@ def beta_1(x):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.beta_1(318.323316315)
-    4.61062222647
+    >>> beta_1(318.323316315)
+    4.610622226468477
     """
 
     return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
@@ -376,8 +376,8 @@ def beta_2(x):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.beta_2(318.323316315)
-    4.6520698609530138
+    >>> beta_2(318.323316315)
+    4.6522416269907305
     """
 
     return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
@@ -402,7 +402,7 @@ def chromatic_adaptation_exponential_factors(RGB_o):
     Examples
     --------
     >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
-    >>> colour.appearance.nayatani95.chromatic_adaptation_exponential_factors(RGB_o)
+    >>> chromatic_adaptation_exponential_factors(RGB_o)
     array([ 4.61062223,  4.61058926,  4.65206986])
     """
 
@@ -435,8 +435,8 @@ def scaling_coefficient(x, y):
     --------
     >>> x = 20.000520600000002
     >>> y = 1.000042192
-    >>> colour.appearance.nayatani95.scaling_coefficient(x, y)
-    1.0
+    >>> scaling_coefficient(x, y)
+    1
     """
 
     return 1.758 if x >= (20 * y) else 1
@@ -480,8 +480,8 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)
-    -0.000117024294955
+    >>> achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)
+    -0.00011699549874007374
     """
 
     R, G, B = RGB
@@ -523,7 +523,7 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.tritanopic_response(RGB, bRGB_o, x_e_z, n)
+    >>> tritanopic_response(RGB, bRGB_o, x_e_z, n)
     -1.7703650668990973e-05
     """
 
@@ -566,7 +566,7 @@ def protanopic_response(RGB, bRGB_o, x_e_z, n):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.protanopic_response(RGB, bRGB_o, x_e_z, n)
+    >>> protanopic_response(RGB, bRGB_o, x_e_z, n)
     -8.002142682085493e-05
     """
 
@@ -605,7 +605,7 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> bL_or = 3.6810214956040888
     >>> Q = -0.000117024294955
-    >>> colour.appearance.nayatani95.brightness_correlate(bRGB_o, bL_or, Q)
+    >>> brightness_correlate(bRGB_o, bL_or, Q)
     62.626673467230766
     """
 
@@ -644,7 +644,7 @@ def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> n = 1.0
-    >>> colour.appearance.nayatani95.ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)
+    >>> ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)
     125.24353925846037
     """
 
@@ -677,7 +677,7 @@ def achromatic_lightness_correlate(Q):
     Examples
     --------
     >>> Q = -0.000117024294955
-    >>> colour.appearance.nayatani95.achromatic_lightness_correlate(Q)
+    >>> achromatic_lightness_correlate(Q)
     49.99988297570504
     """
 
@@ -704,7 +704,7 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     --------
     >>> B_r = 62.626673467230766
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.normalised_achromatic_lightness_correlate(B_r, B_rw)
+    >>> normalised_achromatic_lightness_correlate(B_r, B_rw)
     50.003915441889944
     """
 
@@ -731,7 +731,7 @@ def hue_angle(p, t):
     --------
     >>> p = -8.002142682085493e-05
     >>> t = -1.7703650668990973e-05
-    >>> colour.appearance.nayatani95.hue_correlate(p, t)
+    >>> hue_angle(p, t)
     257.52503009852325
     """
 
@@ -756,8 +756,8 @@ def chromatic_strength_function(theta):
 
     Examples
     --------
-    >>> colour.appearance.nayatani95.chromatic_strength_function(4.49462820973)
-    1.22678698241
+    >>> chromatic_strength_function(4.49462820973)
+    1.2267869824136324
     """
 
     E_s = 0.9394
@@ -800,7 +800,7 @@ def saturation_components(h, bL_or, t, p):
     >>> bL_or = 3.6810214956040888
     >>> t = -1.7706764677181658e-05
     >>> p = -8.0023561356363753e-05
-    >>> colour.appearance.nayatani95.saturation_components(h, bL_or, t, p)
+    >>> saturation_components(h, bL_or, t, p)
     (-0.0028852716381965863, -0.013039632941332499)
     """
 
@@ -831,7 +831,7 @@ def saturation_correlate(S_RG, S_YB):
     --------
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> colour.appearance.nayatani95.saturation_correlate(S_RG, S_YB)
+    >>> saturation_correlate(S_RG, S_YB)
     0.013355029751777615
     """
 
@@ -863,8 +863,8 @@ def chroma_components(L_star_p, S_RG, S_YB):
     >>> L_star_p = 49.99988297570504
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> colour.appearance.nayatani95.chroma_components(L_star_p, S_RG, S_YB)
-    (-0.0028852716381965863, -0.013039632941332499)
+    >>> chroma_components(L_star_p, S_RG, S_YB)
+    (-0.0028852669111386173, -0.013039611577971077)
     """
 
     C_RG = ((L_star_p / 50) ** 0.7) * S_RG
@@ -893,7 +893,7 @@ def chroma_correlate(L_star_p, S):
     --------
     >>> L_star_p = 49.99988297570504
     >>> S = 0.013355029751777615
-    >>> colour.appearance.nayatani95.chroma_correlate(L_star_p, S)
+    >>> chroma_correlate(L_star_p, S)
     0.013355007871688761
     """
 
@@ -924,7 +924,7 @@ def colourfulness_components(C_RG, C_YB, B_rw):
     >>> C_RG = -0.0028852716381965863
     >>> C_YB = -0.013039632941332499
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.colourfulness_components(C_RG, C_YB, B_rw)
+    >>> colourfulness_components(C_RG, C_YB, B_rw)
     (-0.0036136163168979645, -0.0163312978020369)
     """
 
@@ -954,7 +954,7 @@ def colourfulness_correlate(C, B_rw):
     --------
     >>> C = 0.013355007871688761
     >>> B_rw = 125.24353925846037
-    >>> colour.appearance.nayatani95.colourfulness_correlate(C, B_rw)
+    >>> colourfulness_correlate(C, B_rw)
     0.016726284526748986
     """
 

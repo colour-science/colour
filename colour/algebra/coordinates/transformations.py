@@ -57,8 +57,8 @@ def cartesian_to_spherical(vector):
 
     Examples
     --------
-    >>> colour.cartesian_to_spherical(np.array([3, 1, 6]))
-    array([6.78232998  1.08574654  0.32175055])
+    >>> cartesian_to_spherical(np.array([3, 1, 6])) # doctest: +ELLIPSIS
+    array([ 6.78232...,  1.08574...,  0.32175...])
     """
 
     r = np.linalg.norm(vector)
@@ -90,8 +90,8 @@ def spherical_to_cartesian(vector):
 
     Examples
     --------
-    >>> colour.spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055]))
-    array([ 3.        ,  0.99999999,  6.        ])
+    >>> spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055])) # doctest: +ELLIPSIS
+    array([ 3.        ,  0.99999...,  6.        ])
     """
 
     r, theta, phi = np.ravel(vector)
@@ -123,8 +123,8 @@ def cartesian_to_cylindrical(vector):
 
     Examples
     --------
-    >>> colour.cartesian_to_cylindrical(np.array([3, 1, 6]))
-    array([ 6.        ,  0.32175055,  3.16227766])
+    >>> cartesian_to_cylindrical(np.array([3, 1, 6])) # doctest: +ELLIPSIS
+    array([ 6.        ,  0.32175...,  3.16227...])
     """
 
     x, y, z = np.ravel(vector)
@@ -155,8 +155,8 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> colour.cylindrical_to_cartesian(np.array([6, 0.32175055, 3.16227766]))
-    array([ 3.        ,  0.99999999,  6.        ])
+    >>> cylindrical_to_cartesian(np.array([6, 0.32175055, 3.16227766])) # doctest: +ELLIPSIS
+    array([ 3.        ,  0.99999...,  6.        ])
     """
 
     z, theta, rho = np.ravel(vector)
