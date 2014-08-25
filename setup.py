@@ -8,8 +8,8 @@ Pypi Setup
 
 from __future__ import unicode_literals
 
-import codecs
-import re
+import sys
+
 from setuptools import setup
 from setuptools import find_packages
 
@@ -22,32 +22,27 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['long_description']
+__all__ = ['DESCRIPTION']
 
+DESCRIPTION = ('Colour is a Python colour science package implementing a '
+               'comprehensive number of colour theory transformations and '
+               'algorithms.')
 
-def long_description():
-    """
-    Returns the Package long description.
+INSTALLATION_REQUIREMENTS = [
+    'matplotlib>=1.3.1',
+    'numpy>=1.8.2',
+    'scipy>=0.14.0']
 
-    Returns
-    -------
-    unicode
-        Package long description.
-    """
+if sys.version_info[:2] <= (2, 6):
+    INSTALLATION_REQUIREMENTS += [
+        'ordereddict>=1.1',
+        'unittest2>=0.5.1']
 
-    description = []
-    with codecs.open('README.rst', encoding='utf-8', errors='ignore') as file:
-        for line in file:
-            if '.. code:: python' in line and len(description) >= 2:
-                blockLine = description[-2]
-                if re.search(r':$', blockLine) and not re.search(r'::$',
-                                                                 blockLine):
-                    description[-2] = '::'.join(blockLine.rsplit(':', 1))
-                continue
+TESTS_REQUIREMENTS = (
+    'nose>=1.3.4',)
 
-            description.append(line)
-    return ''.join(description)
-
+DOCS_REQUIREMENTS = (
+    'sphinx>=1.2.2',)
 
 setup(name='colour-science',
       version=colour.__version__,
@@ -58,11 +53,12 @@ setup(name='colour-science',
       scripts=[],
       url='http://github.com/colour-science/colour',
       license='',
-      description=('Colour is a Python colour science package implementing a '
-                   'comprehensive number of colour theory transformations and '
-                   'algorithms.'),
-      long_description=long_description(),
-      install_requires=['matplotlib>=1.3.1', 'numpy>=1.8.1'],
+      description=DESCRIPTION,
+      long_description=DESCRIPTION,
+      install_requires=INSTALLATION_REQUIREMENTS,
+      extras_require={
+          'tests': TESTS_REQUIREMENTS,
+          'docs': DOCS_REQUIREMENTS},
       classifiers=['Development Status :: 5 - Production/Stable',
                    'Environment :: Console',
                    'Intended Audience :: Developers',

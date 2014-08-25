@@ -1,5 +1,11 @@
-..  image:: https://secure.travis-ci.org/colour-science/colour.png?branch=master
+.. image:: https://travis-ci.org/colour-science/colour.svg?branch=master
+    :target: https://travis-ci.org/colour-science/colour
+.. image:: https://coveralls.io/repos/colour-science/colour/badge.png?branch=master
+  :target: https://coveralls.io/r/colour-science/colour?branch=master
 ..  image:: https://gemnasium.com/colour-science/colour.png
+.. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
+ :target: https://waffle.io/colour-science/colour
+ :alt: 'Stories in Ready'
 
 Colour Science for Python
 =========================

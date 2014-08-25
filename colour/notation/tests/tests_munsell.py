@@ -67,6 +67,17 @@ __all__ = ['MUNSELL_SPECIFICATIONS',
            'XYY_TO_MUNSELL_SPECIFICATIONS',
            'XYY_TO_MUNSELL_GREYS_SPECIFICATIONS',
            'NON_CONVERGING_XYY',
+           'TestMunsellValuePriest1920',
+           'TestMunsellValueMunsell1933',
+           'TestMunsellValueMoon1943',
+           'TestMunsellValueSaunderson1944',
+           'TestMunsellValueLadd1955',
+           'TestMunsellValueMcCamy1992',
+           'TestMunsellValueASTM_D1535_08',
+           'TestMunsellSpecification_to_xyY',
+           'TestMunsellColour_to_xyY',
+           'TestxyY_to_munsell_specification',
+           'TestxyY_to_munsell_colour',
            'TestParseMunsellColour',
            'TestIsGreyMunsellColour',
            'TestNormalizeMunsellSpecification',
@@ -82,18 +93,7 @@ __all__ = ['MUNSELL_SPECIFICATIONS',
            'Test_xy_fromRenotationOvoid',
            'TestLCHabToMunsellSpecification',
            'TestMaximumChromaFromRenotation',
-           'TestMunsellSpecification_to_xy',
-           'TestMunsellSpecification_to_xyY',
-           'TestMunsellColour_to_xyY',
-           'TestxyY_to_munsell_specification',
-           'TestxyY_to_munsell_colour',
-           'TestMunsellValuePriest1920',
-           'TestMunsellValueMunsell1933',
-           'TestMunsellValueMoon1943',
-           'TestMunsellValueSaunderson1944',
-           'TestMunsellValueLadd1955',
-           'TestMunsellValueMcCamy1992',
-           'TestMunsellValueASTM_D1535_08']
+           'TestMunsellSpecification_to_xy']
 
 # TODO: Investigate if tests can be simplified by using a common valid set of
 # specifications.
@@ -3983,6 +3983,234 @@ NON_CONVERGING_XYY = (
     np.array([0.22907253, 0.06719948, 0.06903321]))
 
 
+class TestMunsellValuePriest1920(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_priest1920` definition
+    unit tests methods.
+    """
+
+    def test_munsell_value_priest1920(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_priest1920`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_priest1920(10.08), 3.17490157328,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_priest1920(56.76), 7.53392328073,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_priest1920(98.32), 9.91564420499,
+                               places=7)
+
+
+class TestMunsellValueMunsell1933(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_munsell1933`
+    definition unit tests methods.
+    """
+
+    def test_munsell_value_munsell1933(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_munsell1933`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_munsell1933(10.08), 3.79183555086,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_munsell1933(56.76), 8.27013181776,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_munsell1933(98.32), 9.95457710587,
+                               places=7)
+
+
+class TestMunsellValueMoon1943(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_moon1943` definition
+    unit tests methods.
+    """
+
+    def test_munsell_value_moon1943(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_moon1943`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_moon1943(10.08), 3.74629715382,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_moon1943(56.76), 7.8225814259,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_moon1943(98.32), 9.88538236116,
+                               places=7)
+
+
+class TestMunsellValueSaunderson1944(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_saunderson1944`
+    definition unit tests methods.
+    """
+
+    def test_munsell_value_saunderson1944(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_saunderson1944`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_saunderson1944(10.08),
+                               3.68650805994, places=7)
+        self.assertAlmostEqual(munsell_value_saunderson1944(56.76),
+                               7.89881184275, places=7)
+        self.assertAlmostEqual(munsell_value_saunderson1944(98.32),
+                               9.85197100995, places=7)
+
+
+class TestMunsellValueLadd1955(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_ladd1955` definition
+    unit tests methods.
+    """
+
+    def test_munsell_value_ladd1955(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_ladd1955`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_ladd1955(10.08), 3.69528622419,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_ladd1955(56.76), 7.84875137062,
+                               places=7)
+        self.assertAlmostEqual(munsell_value_ladd1955(98.32), 9.75492813681,
+                               places=7)
+
+
+class TestMunsellValueMcCamy1992(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_mccamy1987` definition
+    unit tests methods.
+    """
+
+    def test_munsell_value_mccamy1987(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_mccamy1987`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_mccamy1987(10.08),
+                               3.7347235258546316, places=7)
+        self.assertAlmostEqual(munsell_value_mccamy1987(56.76),
+                               7.951693123402992, places=7)
+        self.assertAlmostEqual(munsell_value_mccamy1987(98.32),
+                               9.935265378231314, places=7)
+
+
+class TestMunsellValueASTM_D1535_08(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_value_ASTM_D1535_08`
+    definition unit tests methods.
+    """
+
+    def test_munsell_value_ASTM_D1535_08(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_ASTM_D1535_08`
+        definition.
+        """
+
+        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(10.08),
+                               3.7344764769311354, places=7)
+        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(56.76),
+                               7.94992421224809, places=7)
+        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(98.32),
+                               9.934372853115544, places=7)
+
+
+class TestMunsellSpecification_to_xyY(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_specification_to_xyY`
+    definition unit tests methods.
+    """
+
+    def test_munsell_specification_to_xyY(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        definition.
+        """
+
+        for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
+            np.testing.assert_almost_equal(
+                munsell_specification_to_xyY(specification),
+                np.array(MUNSELL_COLOURS_TO_XYY[i]),
+                decimal=7)
+
+        for i, specification in enumerate(MUNSELL_GREYS_SPECIFICATIONS):
+            np.testing.assert_almost_equal(
+                munsell_specification_to_xyY(specification),
+                np.array(MUNSELL_GREYS_TO_XYY[i]),
+                decimal=7)
+
+
+class TestMunsellColour_to_xyY(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
+    unit tests methods.
+    """
+
+    def test_munsell_colour_to_xyY(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition.
+        """
+
+        # TODO: This test is covered by the previous class,
+        # do we need a dedicated one?
+
+        pass
+
+
+class TestxyY_to_munsell_specification(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.xyY_to_munsell_specification`
+    definition unit tests methods.
+    """
+
+    def test_xyY_to_munsell_specification(self):
+        """
+        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        definition.
+        """
+
+        for xyY, specification in XYY_TO_MUNSELL_SPECIFICATIONS:
+            np.testing.assert_almost_equal(
+                xyY_to_munsell_specification(xyY),
+                specification,
+                decimal=7)
+
+        for xyY in NON_CONVERGING_XYY:
+            self.assertRaises((RuntimeError, ValueError),
+                              xyY_to_munsell_specification, xyY)
+
+        for xyY, specification in XYY_TO_MUNSELL_GREYS_SPECIFICATIONS:
+            np.testing.assert_almost_equal(
+                xyY_to_munsell_specification(xyY),
+                specification,
+                decimal=7)
+
+
+class TestxyY_to_munsell_colour(unittest.TestCase):
+    """
+    Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
+    unit tests methods.
+    """
+
+    def test_xyY_to_munsell_colour(self):
+        """
+        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition.
+        """
+
+        # TODO: This test is covered by the previous class,
+        # do we need a dedicated one?
+
+        pass
+
+
 class TestParseMunsellColour(unittest.TestCase):
     """
     Defines :func:`colour.notation.munsell.parse_munsell_colour` definition
@@ -4302,234 +4530,14 @@ class TestMunsellSpecification_to_xy(unittest.TestCase):
         """
 
         for specification, xy in MUNSELL_SPECIFICATIONS_TO_XY:
-            self.assertEqual(munsell_specification_to_xy(specification), xy)
+            np.testing.assert_almost_equal(
+                munsell_specification_to_xy(specification),
+                xy,
+                decimal=7)
 
         for specification in MUNSELL_GREYS_SPECIFICATIONS:
             self.assertEqual(munsell_specification_to_xy(specification),
                              (0.31006, 0.31616))
-
-
-class TestMunsellSpecification_to_xyY(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_specification_to_xyY`
-    definition unit tests methods.
-    """
-
-    def test_munsell_specification_to_xyY(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
-        definition.
-        """
-
-        for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
-            np.testing.assert_almost_equal(
-                munsell_specification_to_xyY(specification),
-                np.array(MUNSELL_COLOURS_TO_XYY[i]),
-                decimal=7)
-
-        for i, specification in enumerate(MUNSELL_GREYS_SPECIFICATIONS):
-            np.testing.assert_almost_equal(
-                munsell_specification_to_xyY(specification),
-                np.array(MUNSELL_GREYS_TO_XYY[i]),
-                decimal=7)
-
-
-class TestMunsellColour_to_xyY(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
-    unit tests methods.
-    """
-
-    def test_munsell_colour_to_xyY(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition.
-        """
-
-        # TODO: This test is covered by the previous class,
-        # do we need a dedicated one?
-
-        pass
-
-
-class TestxyY_to_munsell_specification(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.xyY_to_munsell_specification`
-    definition unit tests methods.
-    """
-
-    def test_xyY_to_munsell_specification(self):
-        """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
-        definition.
-        """
-
-        for xyY, specification in XYY_TO_MUNSELL_SPECIFICATIONS:
-            self.assertTupleEqual(xyY_to_munsell_specification(xyY),
-                                  specification)
-
-        for xyY in NON_CONVERGING_XYY:
-            self.assertRaises((RuntimeError, ValueError),
-                              xyY_to_munsell_specification, xyY)
-
-        for xyY, specification in XYY_TO_MUNSELL_GREYS_SPECIFICATIONS:
-            self.assertEqual(xyY_to_munsell_specification(xyY), specification)
-
-
-class TestxyY_to_munsell_colour(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
-    unit tests methods.
-    """
-
-    def test_xyY_to_munsell_colour(self):
-        """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition.
-        """
-
-        # TODO: This test is covered by the previous class,
-        # do we need a dedicated one?
-
-        pass
-
-
-class TestMunsellValuePriest1920(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_priest1920` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_priest1920(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_priest1920`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_priest1920(10.08), 3.17490157328,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_priest1920(56.76), 7.53392328073,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_priest1920(98.32), 9.91564420499,
-                               places=7)
-
-
-class TestMunsellValueMunsell1933(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_munsell1933`
-    definition unit tests methods.
-    """
-
-    def test_munsell_value_munsell1933(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_munsell1933`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_munsell1933(10.08), 3.79183555086,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_munsell1933(56.76), 8.27013181776,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_munsell1933(98.32), 9.95457710587,
-                               places=7)
-
-
-class TestMunsellValueMoon1943(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_moon1943` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_moon1943(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_moon1943`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_moon1943(10.08), 3.74629715382,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_moon1943(56.76), 7.8225814259,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_moon1943(98.32), 9.88538236116,
-                               places=7)
-
-
-class TestMunsellValueSaunderson1944(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_saunderson1944`
-    definition unit tests methods.
-    """
-
-    def test_munsell_value_saunderson1944(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_saunderson1944`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_saunderson1944(10.08),
-                               3.68650805994, places=7)
-        self.assertAlmostEqual(munsell_value_saunderson1944(56.76),
-                               7.89881184275, places=7)
-        self.assertAlmostEqual(munsell_value_saunderson1944(98.32),
-                               9.85197100995, places=7)
-
-
-class TestMunsellValueLadd1955(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_ladd1955` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_ladd1955(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_ladd1955`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_ladd1955(10.08), 3.69528622419,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_ladd1955(56.76), 7.84875137062,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_ladd1955(98.32), 9.75492813681,
-                               places=7)
-
-
-class TestMunsellValueMcCamy1992(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_mccamy1987` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_mccamy1987(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_mccamy1987`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_mccamy1987(10.08),
-                               3.7347235258546316, places=7)
-        self.assertAlmostEqual(munsell_value_mccamy1987(56.76),
-                               7.951693123402992, places=7)
-        self.assertAlmostEqual(munsell_value_mccamy1987(98.32),
-                               9.935265378231314, places=7)
-
-
-class TestMunsellValueASTM_D1535_08(unittest.TestCase):
-    """
-    Defines :func:`colour.notation.munsell.munsell_value_ASTM_D1535_08`
-    definition unit tests methods.
-    """
-
-    def test_munsell_value_ASTM_D1535_08(self):
-        """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTM_D1535_08`
-        definition.
-        """
-
-        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(10.08),
-                               3.7344764769311354, places=7)
-        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(56.76),
-                               7.94992421224809, places=7)
-        self.assertAlmostEqual(munsell_value_ASTM_D1535_08(98.32),
-                               9.934372853115544, places=7)
 
 
 if __name__ == '__main__':
