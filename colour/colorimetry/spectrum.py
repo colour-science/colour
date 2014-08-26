@@ -1222,7 +1222,7 @@ class SpectralPowerDistribution(object):
 
         try:
             return self.__getitem__(wavelength)
-        except KeyError as error:
+        except KeyError:
             return default
 
     def is_uniform(self):
@@ -2762,7 +2762,7 @@ class TriSpectralPowerDistribution(object):
 
         try:
             return self.__getitem__(wavelength)
-        except KeyError as error:
+        except KeyError:
             return default
 
     def is_uniform(self):

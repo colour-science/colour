@@ -446,7 +446,7 @@ class SpragueInterpolator(object):
 
         try:
             return np.array([self.__evaluate(element) for element in x])
-        except TypeError as error:
+        except TypeError:
             return self.__evaluate(x)
 
     def __evaluate(self, x):

@@ -97,7 +97,7 @@ def read_spectral_data_from_csv_file(path,
             for field in fields:
                 try:
                     value = float(line[field])
-                except ValueError as error:
+                except ValueError:
                     value = default
 
                 data[field][float(line[wavelength])] = value

@@ -1175,11 +1175,11 @@ def xyY_from_renotation(specification):
     specifications = _munsell_specifications()
     try:
         return MUNSELL_COLOURS_ALL[specifications.index(specification)][1]
-    except ValueError as error:
+    except ValueError:
         # TODO: Should raise KeyError, need to check the tests.
-        raise ValueError(('"{0}" specification does not exists in '
-                          '"Munsell Renotation System" data!').format(
-            specification))
+        raise ValueError(
+            ('"{0}" specification does not exists in '
+             '"Munsell Renotation System" data!').format(specification))
 
 
 def is_specification_in_renotation(specification):
@@ -1208,7 +1208,7 @@ def is_specification_in_renotation(specification):
     try:
         xyY_from_renotation(specification)
         return True
-    except ValueError as error:
+    except ValueError:
         return False
 
 
