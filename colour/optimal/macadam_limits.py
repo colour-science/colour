@@ -102,4 +102,3 @@ def is_within_macadam_limits(xyY, illuminant):
 
         simplex = triangulation.find_simplex(np.ravel(xyY_to_XYZ(xyY)))
         return True if simplex != -1 else False
-
