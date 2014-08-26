@@ -85,7 +85,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> CIE_1931_chromaticity_diagram_colours_plot() # doctest: +SKIP
+    >>> CIE_1931_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     True
     """
 
@@ -145,7 +145,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1931_chromaticity_diagram_plot() # doctest: +SKIP
+    >>> CIE_1931_chromaticity_diagram_plot()  # doctest: +SKIP
     True
 
     """
@@ -259,7 +259,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> CIE_1960_UCS_chromaticity_diagram_colours_plot() # doctest: +SKIP
+    >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     True
     """
 
@@ -319,7 +319,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1960_UCS_chromaticity_diagram_plot() # doctest: +SKIP
+    >>> CIE_1960_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
     True
     """
 
@@ -431,7 +431,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> CIE_1976_UCS_chromaticity_diagram_colours_plot() # doctest: +SKIP
+    >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     True
     """
 
@@ -491,7 +491,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1976_UCS_chromaticity_diagram_plot() # doctest: +SKIP
+    >>> CIE_1976_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
     True
     """
 

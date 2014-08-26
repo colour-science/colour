@@ -11,7 +11,7 @@ Defines the *S-Log* colourspace:
 
 References
 ----------
-.. [1]  http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
+.. [1]  http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 

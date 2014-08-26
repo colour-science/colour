@@ -11,7 +11,9 @@ The colour matching functions data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
 follows::
 
-    {'name': TriSpectralPowerDistribution, ..., 'name': TriSpectralPowerDistribution}
+    {'name': TriSpectralPowerDistribution,
+    ...,
+    'name': TriSpectralPowerDistribution}
 
 The following colour matching functions are available:
 

@@ -7,11 +7,12 @@ Showcases *colour matching functions* computations.
 
 from __future__ import division, unicode_literals
 
-import pprint
+from pprint import pprint
+
 import colour
 
 # Displaying available *colour matching functions*.
-pprint.pprint(colour.CMFS)
+pprint(colour.CMFS)
 
 # Converting from *Wright & Guild 1931 2 Degree RGB CMFs* colour matching
 # functions to *CIE 1931 2 Degree Standard Observer*.

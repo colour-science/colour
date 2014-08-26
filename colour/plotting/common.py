@@ -103,12 +103,12 @@ def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
     """
 
     if colour_map is None:
-        colour_cycle = DEFAULT_COLOUR_CYCLE
+        cycle = DEFAULT_COLOUR_CYCLE
     else:
-        colour_cycle = getattr(matplotlib.pyplot.cm,
-                               colour_map)(np.linspace(0, 1, count))
+        cycle = getattr(matplotlib.pyplot.cm,
+                        colour_map)(np.linspace(0, 1, count))
 
-    return itertools.cycle(colour_cycle)
+    return itertools.cycle(cycle)
 
 
 def figure_size(size=DEFAULT_FIGURE_SIZE):
@@ -123,25 +123,25 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
     Returns
     -------
     object
-        Object.
+        Callable object.
     """
 
-    def figure_size_decorator(object):
+    def figure_size_decorator(callable):
         """
         Sets figures sizes.
 
         Parameters
         ----------
-        object : object
-            Object to decorate.
+        callable : object
+            Callable object to decorate.
 
         Returns
         -------
         object
-            Object.
+            Callable object.
         """
 
-        @functools.wraps(object)
+        @functools.wraps(callable)
         def figure_size_wrapper(*args, **kwargs):
             """
             Sets figures sizes.
@@ -156,7 +156,7 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
             Returns
             -------
             object
-                Object.
+                Callable object.
             """
 
             pylab.rcParams['figure.figsize'] = (
@@ -165,7 +165,7 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
                 size)
 
             try:
-                return object(*args, **kwargs)
+                return callable(*args, **kwargs)
             finally:
                 pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
 
@@ -233,9 +233,9 @@ def aspect(**kwargs):
     if settings.grid:
         pylab.grid(which=settings.axis_grid)
     if settings.x_axis_line:
-        pylab.axvline(0, color='black', linestyle='--')
+        pylab.axvline(color='black', linestyle='--')
     if settings.y_axis_line:
-        pylab.axhline(0, color='black', linestyle='--')
+        pylab.axhline(color='black', linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
 
@@ -266,8 +266,10 @@ def bounding_box(**kwargs):
     settings.update(kwargs)
 
     if settings.bounding_box is None:
-        x_limit_min, x_limit_max, y_limit_min, y_limit_max = settings.limits
-        x_margin_min, x_margin_max, y_margin_min, y_margin_max = settings.margins
+        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (
+            settings.limits)
+        x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
+            settings.margins)
         if settings.x_tighten:
             pylab.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
         if settings.y_tighten:
@@ -362,11 +364,11 @@ def colour_parameters_plot(colour_parameters,
     Examples
     --------
     >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
-    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
-    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
-    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
-    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5]) # doctest: +SKIP
+    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)  # noqa
+    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)  # noqa
+    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)  # noqa
+    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)  # noqa
+    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])  # noqa  # doctest: +SKIP
     True
     """
 
@@ -451,7 +453,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> single_colour_plot(colour_parameter(RGB)) # doctest: +SKIP
+    >>> single_colour_plot(colour_parameter(RGB))  # doctest: +SKIP
     True
     """
 
@@ -500,7 +502,7 @@ def multi_colour_plot(colour_parameters,
     --------
     >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169))
-    >>> multi_colour_plot([cp1, cp2]) # doctest: +SKIP
+    >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
     True
     """
 

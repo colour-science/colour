@@ -30,7 +30,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
     FIXTURE_BASENAME = 'nayatani95.csv'
 
     OUTPUT_ATTRIBUTES = {'L_star_P': 'L_star_P',
-                         'L_star_P': 'L_star_P',
+                         'L_star_N': 'L_star_N',
                          'theta': 'theta',
                          'C': 'C',
                          'S': 'S',

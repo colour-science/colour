@@ -63,10 +63,15 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given illuminant is not found in the factory illuminants.
+
     Examples
     --------
     >>> ils = ['A', 'B', 'C']
-    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(ils) # doctest: +SKIP
+    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -109,8 +114,9 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
             raise KeyError(
-                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                ('Illuminant "{0}" not found in factory illuminants: '
+                 '"{1}".').format(illuminant,
+                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2)
 
@@ -146,10 +152,15 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given illuminant is not found in the factory illuminants.
+
     Examples
     --------
     >>> ils = ['A', 'C', 'E']
-    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils) # doctest: +SKIP
+    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -194,8 +205,9 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
             raise KeyError(
-                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                ('Illuminant "{0}" not found in factory illuminants: '
+                 '"{1}".').format(illuminant,
+                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 

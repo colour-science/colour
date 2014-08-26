@@ -74,9 +74,15 @@ def mesopic_weighting_function(wavelength,
     numeric
         Mesopic weighting function factor.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in either luminous
+        efficiency function.
+
     Examples
     --------
-    >>> mesopic_weighting_function(500, 0.2) # doctest: +ELLIPSIS
+    >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
     0.7052200...
     """
 
@@ -133,7 +139,7 @@ def mesopic_luminous_efficiency_function(
 
     Examples
     --------
-    >>> mesopic_luminous_efficiency_function(0.2) # doctest: +ELLIPSIS
+    >>> mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 

@@ -4440,7 +4440,7 @@ class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     def test_interpolation_method_from_renotation_ovoid(self):
         """
         Tests
-        :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`
+        :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`  # noqa
         definition.
         """
 

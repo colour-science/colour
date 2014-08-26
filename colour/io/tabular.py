@@ -66,6 +66,11 @@ def read_spectral_data_from_csv_file(path,
     dict
         *CSV* file content.
 
+    Raises
+    ------
+    RuntimeError
+        If the *CSV* spectral data file doesn't define the appropriate fields.
+
     Notes
     -----
     -   A "CSV" spectral data file should define at least define two fields:
@@ -161,6 +166,11 @@ def write_spds_to_csv_file(spds,
     -------
     bool
         Definition success.
+
+    Raises
+    ------
+    RuntimeError
+        If the given spectral power distributions have different shapes.
     """
 
     shapes = [spd.shape for spd in spds.values()]

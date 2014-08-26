@@ -29,10 +29,10 @@ Defines various objects for *Munsell Renotation System* computations:
 References
 ----------
 .. [1]  **Paul Centore**, `Munsell and Kubelka-Munk Toolbox
-        <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_
+        <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_  # noqa
         (Last accessed 26 July 2014)
 .. [2]  **Paul Centore**,
-        http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf
+        http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf  # noqa
         (Last accessed 26 July 2014)
 """
 
@@ -110,7 +110,7 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
-    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
+    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(  # noqa
         FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'
@@ -251,7 +251,7 @@ def munsell_value_priest1920(Y):
 
     Examples
     --------
-    >>> munsell_value_priest1920(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_priest1920(10.08)  # doctest: +ELLIPSIS
     3.1749015...
     """
 
@@ -288,7 +288,7 @@ def munsell_value_munsell1933(Y):
 
     Examples
     --------
-    >>> munsell_value_munsell1933(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_munsell1933(10.08)  # doctest: +ELLIPSIS
     3.7918355...
     """
 
@@ -325,7 +325,7 @@ def munsell_value_moon1943(Y):
 
     Examples
     --------
-    >>> munsell_value_moon1943(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_moon1943(10.08)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
@@ -361,7 +361,7 @@ def munsell_value_saunderson1944(Y):
 
     Examples
     --------
-    >>> munsell_value_saunderson1944(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_saunderson1944(10.08)  # doctest: +ELLIPSIS
     3.6865080...
     """
 
@@ -397,7 +397,7 @@ def munsell_value_ladd1955(Y):
 
     Examples
     --------
-    >>> munsell_value_ladd1955(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_ladd1955(10.08)  # doctest: +ELLIPSIS
     3.6952862...
     """
 
@@ -434,7 +434,7 @@ def munsell_value_mccamy1987(Y):
 
     Examples
     --------
-    >>> munsell_value_mccamy1987(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value_mccamy1987(10.08)  # doctest: +ELLIPSIS
     3.7347235...
     """
 
@@ -452,8 +452,8 @@ def munsell_value_mccamy1987(Y):
 
 def munsell_value_ASTM_D1535_08(Y):
     """
-    Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using a reverse
-    lookup table from *ASTM D1535-08e1 (2008)* method.
+    Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    a reverse lookup table from *ASTM D1535-08e1 (2008)* method.
 
     Parameters
     ----------
@@ -472,7 +472,7 @@ def munsell_value_ASTM_D1535_08(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTM_D1535_08(10.1488096782) # doctest: +ELLIPSIS
+    >>> munsell_value_ASTM_D1535_08(10.1488096782)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
@@ -508,7 +508,8 @@ MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
 
 def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     """
-    Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using given method.
+    Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
+    given method.
 
     Parameters
     ----------
@@ -533,7 +534,7 @@ def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
 
     Examples
     --------
-    >>> munsell_value(10.08) # doctest: +ELLIPSIS
+    >>> munsell_value(10.08)  # doctest: +ELLIPSIS
     3.7344764...
     """
 
@@ -571,9 +572,9 @@ def munsell_specification_to_xyY(specification):
     Examples
     --------
     >>> spc = (2.1, 8.0, 17.9, 4)
-    >>> munsell_specification_to_xyY(spc) # doctest: +ELLIPSIS
+    >>> munsell_specification_to_xyY(spc)  # doctest: +ELLIPSIS
     array([ 0.4400632...,  0.5522428...,  0.5761962...])
-    >>> munsell_specification_to_xyY(8.9) # doctest: +ELLIPSIS
+    >>> munsell_specification_to_xyY(8.9)  # doctest: +ELLIPSIS
     array([ 0.31006  ,  0.31616  ,  0.746134...])
     """
 
@@ -640,9 +641,9 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Examples
     --------
-    >>> munsell_colour_to_xyY('4.2YR 8.1/5.3') # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
     array([ 0.3873694...,  0.3575165...,  0.59362   ])
-    >>> munsell_colour_to_xyY('N8.9') # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY('N8.9')  # doctest: +ELLIPSIS
     array([ 0.31006  ,  0.31616  ,  0.746134...])
     """
 
@@ -664,6 +665,15 @@ def xyY_to_munsell_specification(xyY):
     numeric or tuple
         *Munsell* *Colorlab* specification.
 
+    Raises
+    ------
+    ValueError
+        If the given *CIE xyY* colourspace matrix is not within *MacAdam*
+        limits.
+    RuntimeError
+        If the maximum iterations count has been reached without converging to
+        a result.
+
     Notes
     -----
     -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
@@ -677,14 +687,14 @@ def xyY_to_munsell_specification(xyY):
     Examples
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
-    >>> xyY_to_munsell_specification(xyY) # doctest: +ELLIPSIS
+    >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
     (4.1742530..., 8.0999999..., 5.3044360..., 6)
     """
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         raise ValueError(
-            '"{0}" is not within "MacAdam" limits for illuminant "{1}"!'.format(
-                xyY, MUNSELL_DEFAULT_ILLUMINANT))
+            ('"{0}" is not within "MacAdam" limits for illuminant '
+             '"{1}"!').format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     x, y, Y = np.ravel(xyY)
 
@@ -727,7 +737,8 @@ def xyY_to_munsell_specification(xyY):
     while iterations <= iterations_maximum:
         iterations += 1
 
-        hue_current, value_current, chroma_current, code_current = specification_current
+        hue_current, value_current, chroma_current, code_current = (
+            specification_current)
         hue_angle_current = hue_to_hue_angle(hue_current, code_current)
 
         chroma_maximum = maximum_chroma_from_renotation(hue_current,
@@ -822,7 +833,8 @@ def xyY_to_munsell_specification(xyY):
             return tuple(specification_current)
 
         # TODO: Consider refactoring implementation.
-        hue_current, value_current, chroma_current, code_current = specification_current
+        hue_current, value_current, chroma_current, code_current = (
+            specification_current)
         chroma_maximum = maximum_chroma_from_renotation(hue_current,
                                                         value,
                                                         code_current)
@@ -917,8 +929,9 @@ def xyY_to_munsell_colour(xyY,
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> xyY_to_munsell_colour(np.array([0.38736945, 0.35751656, 0.59362])) # doctest: +SKIP
+    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> xyY_to_munsell_colour(xyY)  # doctest: +SKIP
     '4.2YR 8.1/5.3'
     """
 
@@ -944,9 +957,15 @@ def parse_munsell_colour(munsell_colour):
     float or tuple
         Intermediate *Munsell* *Colorlab* specification.
 
+    Raises
+    ------
+    ValueError
+        If the given specification is not a valid *Munsell Renotation System*
+        colour specification.
+
     Examples
     --------
-    >>> parse_munsell_colour('N5.2') # doctest: +ELLIPSIS
+    >>> parse_munsell_colour('N5.2')  # doctest: +ELLIPSIS
     5.2...
     >>> parse_munsell_colour('0YR 2.0/4.0')
     (0.0, 2.0, 4.0, 6)
@@ -1044,7 +1063,7 @@ def munsell_colour_to_munsell_specification(munsell_colour):
 
     Examples
     --------
-    >>> munsell_colour_to_munsell_specification('N5.2') # doctest: +ELLIPSIS
+    >>> munsell_colour_to_munsell_specification('N5.2')  # doctest: +ELLIPSIS
     5.2...
     >>> munsell_colour_to_munsell_specification('0YR 2.0/4.0')
     (10, 2.0, 4.0, 7)
@@ -1079,11 +1098,12 @@ def munsell_specification_to_munsell_colour(specification,
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> munsell_specification_to_munsell_colour(5.2) # doctest: +SKIP
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> munsell_specification_to_munsell_colour(5.2)  # doctest: +SKIP
     'N5.2'
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7)) # doctest: +SKIP
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> spc = (10, 2.0, 4.0, 7)
+    >>> munsell_specification_to_munsell_colour(spc)  # doctest: +SKIP
     '10.0R 2.0/4.0'
     """
 
@@ -1140,9 +1160,15 @@ def xyY_from_renotation(specification):
     tuple
         *CIE xyY* colourspace vector.
 
+    Raises
+    ------
+    ValueError
+        If the given specification doesn't exist in *Munsell Renotation System*
+        data.
+
     Examples
     --------
-    >>> xyY_from_renotation((2.5, 0.2, 2.0, 4)) # doctest: +ELLIPSIS
+    >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))  # doctest: +ELLIPSIS
     (0.71..., 1.41..., 0.23...)
     """
 
@@ -1150,6 +1176,7 @@ def xyY_from_renotation(specification):
     try:
         return MUNSELL_COLOURS_ALL[specifications.index(specification)][1]
     except ValueError as error:
+        # TODO: Should raise KeyError, need to check the tests.
         raise ValueError(('"{0}" specification does not exists in '
                           '"Munsell Renotation System" data!').format(
             specification))
@@ -1301,7 +1328,7 @@ def hue_angle_to_hue(hue_angle):
 
     Examples
     --------
-    >>> hue_angle_to_hue(65.54) # doctest: +ELLIPSIS
+    >>> hue_angle_to_hue(65.54)  # doctest: +ELLIPSIS
     (3.2160000..., 4)
     """
 
@@ -1363,7 +1390,7 @@ def hue_to_ASTM_hue(hue, code):
 
     Examples
     --------
-    >>> hue_to_ASTM_hue(3.2, 4) # doctest: +ELLIPSIS
+    >>> hue_to_ASTM_hue(3.2, 4)  # doctest: +ELLIPSIS
     33.2...
     """
 
@@ -1402,8 +1429,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4)) # doctest: +SKIP
+    >>> spc = (2.5, 5.0, 12.0, 4)
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> interpolation_method_from_renotation_ovoid()  # doctest: +SKIP
     'Radial'
     """
 
@@ -1687,6 +1715,12 @@ def xy_from_renotation_ovoid(specification):
     tuple
         *xy* chromaticity coordinates.
 
+    Raises
+    ------
+    ValueError
+        If an invalid interpolation method is retrieved from internal
+        computations.
+
     Notes
     -----
     -   Input *Munsell* *Colorlab* specification value must be an integer in
@@ -1702,7 +1736,7 @@ def xy_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4)) # doctest: +ELLIPSIS
+    >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))  # doctest: +ELLIPSIS
     (0.4333..., 0.5602...)
     >>> xy_from_renotation_ovoid(8)
     (0.31006, 0.31616)
@@ -1733,7 +1767,7 @@ def xy_from_renotation_ovoid(specification):
         chroma = 2 * round(chroma / 2)
 
         # Checking if renotation data is available without interpolation using
-        # given treshold.
+        # given threshold.
         threshold = 0.001
         if (abs(hue) < threshold or
                     abs(hue - 2.5) < threshold or
@@ -1781,14 +1815,14 @@ def xy_from_renotation_ovoid(specification):
                 hue_angle -= 360
 
         interpolation_method = interpolation_method_from_renotation_ovoid(
-            specification)
+            specification).lower()
 
-        if interpolation_method == 'Linear':
+        if interpolation_method == 'linear':
             x = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                      [x_minus, x_plus])(hue_angle)
             y = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                      [y_minus, y_plus])(hue_angle)
-        elif interpolation_method == 'Radial':
+        elif interpolation_method == 'radial':
             theta = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                          [theta_minus, theta_plus])(hue_angle)
             rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
@@ -1832,7 +1866,7 @@ def LCHab_to_munsell_specification(LCHab):
     Examples
     --------
     >>> LCHab = np.array([100, 17.50664796, 244.93046842])
-    >>> LCHab_to_munsell_specification(LCHab) # doctest: +ELLIPSIS
+    >>> LCHab_to_munsell_specification(LCHab)  # doctest: +ELLIPSIS
     (8.0362412..., 10.0, 3.5013295..., 1)
     """
 
@@ -1868,7 +1902,7 @@ def LCHab_to_munsell_specification(LCHab):
     value = L / 10
     chroma = C / 5
 
-    return (hue, value, chroma, code)
+    return hue, value, chroma, code
 
 
 def maximum_chroma_from_renotation(hue, value, code):
@@ -1979,9 +2013,9 @@ def munsell_specification_to_xy(specification):
     Examples
     --------
     >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4)) # doctest: +ELLIPSIS
+    >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
     (0.440063..., 0.552242...)
-    >>> munsell_specification_to_xy(8) # doctest: +ELLIPSIS
+    >>> munsell_specification_to_xy(8)  # doctest: +ELLIPSIS
     (0.31006..., 0.31616...)
     """
 
@@ -2006,8 +2040,10 @@ def munsell_specification_to_xy(specification):
             chroma_plus = chroma_minus + 2
 
         if chroma_minus == 0:
-            # Smallest chroma ovoid collapses to illuminant chromaticity coordinates.
-            x_minus, y_minus = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
+            # Smallest chroma ovoid collapses to illuminant chromaticity
+            # coordinates.
+            x_minus, y_minus = (
+                MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES)
         else:
             x_minus, y_minus = xy_from_renotation_ovoid(
                 (hue, value, chroma_minus, code))

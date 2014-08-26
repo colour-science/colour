@@ -57,7 +57,8 @@ def cartesian_to_spherical(vector):
 
     Examples
     --------
-    >>> cartesian_to_spherical(np.array([3, 1, 6])) # doctest: +ELLIPSIS
+    >>> vector = np.array([3, 1, 6])
+    >>> cartesian_to_spherical(vector)  # doctest: +ELLIPSIS
     array([ 6.7823299...,  1.0857465...,  0.3217505...])
     """
 
@@ -90,7 +91,8 @@ def spherical_to_cartesian(vector):
 
     Examples
     --------
-    >>> spherical_to_cartesian(np.array([6.78232998, 1.08574654, 0.32175055])) # doctest: +ELLIPSIS
+    >>> vector = np.array([6.78232998, 1.08574654, 0.32175055])
+    >>> spherical_to_cartesian(vector)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
@@ -123,7 +125,8 @@ def cartesian_to_cylindrical(vector):
 
     Examples
     --------
-    >>> cartesian_to_cylindrical(np.array([3, 1, 6])) # doctest: +ELLIPSIS
+    >>> vector = np.array([3, 1, 6])
+    >>> cartesian_to_cylindrical(vector)  # doctest: +ELLIPSIS
     array([ 6.        ,  0.3217505...,  3.1622776...])
     """
 
@@ -155,7 +158,8 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> cylindrical_to_cartesian(np.array([6, 0.32175055, 3.16227766])) # doctest: +ELLIPSIS
+    >>> vector = np.array([6, 0.32175055, 3.16227766])
+    >>> cylindrical_to_cartesian(vector)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 

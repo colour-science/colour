@@ -59,7 +59,7 @@ def bandpass_correction_stearns1988(spd):
     >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
     >>> spd = SpectralPowerDistribution('Spd', data)
     >>> corrected_spd = bandpass_correction_stearns1988(spd)
-    >>> corrected_spd.values # doctest: +ELLIPSIS
+    >>> corrected_spd.values  # doctest: +ELLIPSIS
     array([ 48.01664   ,  70.3729688...,  82.0919506...,  88.72618   ])
     """
 

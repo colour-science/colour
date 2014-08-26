@@ -81,13 +81,19 @@ def get_cmfs(cmfs):
     -------
     RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
         Colour matching functions.
+
+    Raises
+    ------
+    KeyError
+        If the given colour matching functions is not found in the factory
+        colour matching functions.
     """
 
     cmfs, name = CMFS.get(cmfs), cmfs
     if cmfs is None:
         raise KeyError(
-            '"{0}" not found in factory colour matching functions: "{1}".'.format(
-                name, sorted(cmfs.CMFS.keys())))
+            ('"{0}" not found in factory colour matching functions: '
+             '"{1}".').format(name, sorted(cmfs.CMFS.keys())))
     return cmfs
 
 
@@ -104,6 +110,11 @@ def get_illuminant(illuminant):
     -------
     SpectralPowerDistribution
         Illuminant.
+
+    Raises
+    ------
+    KeyError
+        If the given illuminant is not found in the factory illuminants.
     """
 
     illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
@@ -138,7 +149,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     >>> from colour import SpectralPowerDistribution
     >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
     >>> spd = SpectralPowerDistribution('Custom', data)
-    >>> single_spd_plot(spd) # doctest: +SKIP
+    >>> single_spd_plot(spd)  # doctest: +SKIP
     True
     """
 
@@ -207,7 +218,7 @@ def multi_spd_plot(spds,
     >>> data2 = {400: 0.134, 420: 0.789, 440: 1.289}
     >>> spd1 = SpectralPowerDistribution('Custom1', data1)
     >>> spd2 = SpectralPowerDistribution('Custom2', data2)
-    >>> multi_spd_plot([spd1, spd2])) # doctest: +SKIP
+    >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
     True
     """
 
@@ -275,7 +286,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
-    >>> single_cmfs_plot('CIE 1931 2 Degree Standard Observer') # doctest: +SKIP
+    >>> single_cmfs_plot()  # doctest: +SKIP
     True
     """
 
@@ -303,7 +314,10 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
 
     Examples
     --------
-    >>> multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer']) # doctest: +SKIP
+    >>> cmfss = [
+    ... 'CIE 1931 2 Degree Standard Observer',
+    ... 'CIE 1964 10 Degree Standard Observer']
+    >>> multi_cmfs_plot(cmfss)  # doctest: +SKIP
     True
     """
 
@@ -379,7 +393,7 @@ def single_illuminant_relative_spd_plot(
 
     Examples
     --------
-    >>> single_illuminant_relative_spd_plot('A') # doctest: +SKIP
+    >>> single_illuminant_relative_spd_plot()  # doctest: +SKIP
     True
     """
 
@@ -413,7 +427,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
     Examples
     --------
-    >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C']) # doctest: +SKIP
+    >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
     True
     """
 
@@ -425,7 +439,8 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
         spds.append(get_illuminant(illuminant))
 
     settings = {
-        'title': '{0} - Illuminants Relative Spectral Power Distribution'.format(
+        'title': (
+            '{0} - Illuminants Relative Spectral Power Distribution').format(
             ', '.join(illuminants)),
         'y_label': 'Relative Spectral Power Distribution'}
     settings.update(kwargs)
@@ -453,7 +468,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> visible_spectrum_plot('CIE 1931 2 Degree Standard Observer') # doctest: +SKIP
+    >>> visible_spectrum_plot()  # doctest: +SKIP
     True
     """
 
@@ -499,7 +514,7 @@ def single_lightness_function_plot(function='Lightness 1976', **kwargs):
 
     Examples
     --------
-    >>> single_lightness_function_plot('Lightness 1976') # doctest: +SKIP
+    >>> single_lightness_function_plot()  # doctest: +SKIP
     True
     """
 
@@ -526,10 +541,16 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given *Lightness* function is not found in the factory
+        *Lightness* functions.
+
     Examples
     --------
     >>> fs = ('Lightness 1976', 'Lightness Wyszecki 1964')
-    >>> multi_lightness_function_plot(fs) # doctest: +SKIP
+    >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
     True
     """
 
@@ -541,7 +562,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         function, name = LIGHTNESS_FUNCTIONS.get(function), function
         if function is None:
             raise KeyError(
-                ('"{0}" "Lightness" function not found in supported '
+                ('"{0}" "Lightness" function not found in factory '
                  '"Lightness" functions: "{1}".').format(
                     name, sorted(LIGHTNESS_FUNCTIONS.keys())))
 
@@ -596,7 +617,7 @@ def blackbody_spectral_radiance_plot(
 
     Examples
     --------
-    >>> blackbody_spectral_radiance_plot(3500) # doctest: +SKIP
+    >>> blackbody_spectral_radiance_plot()  # doctest: +SKIP
     True
     """
 
@@ -659,7 +680,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
 
     Examples
     --------
-    >>> blackbody_colours_plot() # doctest: +SKIP
+    >>> blackbody_colours_plot()  # doctest: +SKIP
     True
     """
 

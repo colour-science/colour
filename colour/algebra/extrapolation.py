@@ -178,8 +178,8 @@ class Extrapolator1d(object):
 
         if value is not None:
             assert type(value) in (str, unicode), (
-                '"{0}" attribute: "{1}" type is not "str" or "unicode"!'.format(
-                    'method', value))
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('method', value))
 
             value = value.lower()
 

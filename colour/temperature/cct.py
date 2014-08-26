@@ -182,9 +182,10 @@ def planckian_table(uv, cmfs, start, end, count):
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> import pprint
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> pprint.pprint(planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)) # doctest: +ELLIPSIS
+    >>> from pprint import pprint
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> pprint(planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))  # noqa  # doctest: +ELLIPSIS
     [PlanckianTable_Tuvdi(Ti=1000.0, ui=0.4480108..., vi=0.3546249..., di=0.2537821...),
      PlanckianTable_Tuvdi(Ti=1001.1111111..., ui=0.4477508..., vi=0.3546475..., di=0.2535294...),
      PlanckianTable_Tuvdi(Ti=1002.2222222..., ui=0.4474910..., vi=0.3546700..., di=0.2532771...),
@@ -201,7 +202,7 @@ def planckian_table(uv, cmfs, start, end, count):
 
     shape = cmfs.shape
 
-    planckian_table = []
+    table = []
     for Ti in np.linspace(start, end, count):
         spd = blackbody_spd(Ti, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
@@ -209,9 +210,9 @@ def planckian_table(uv, cmfs, start, end, count):
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
         di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
-        planckian_table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
+        table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
-    return planckian_table
+    return table
 
 
 def planckian_table_minimal_distance_index(planckian_table):
@@ -232,8 +233,10 @@ def planckian_table_minimal_distance_index(planckian_table):
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> planckian_table_minimal_distance_index(planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10))
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> table = planckian_table((0.1978, 0.3122), cmfs, 1000, 1010, 10)
+    >>> planckian_table_minimal_distance_index(table)
     9
     """
 
@@ -286,8 +289,9 @@ def uv_to_CCT_ohno2013(uv,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs) # doctest: +ELLIPSIS
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs)  # doctest: +ELLIPSIS
     (6507.5470349..., 0.0032236...)
     """
 
@@ -376,8 +380,11 @@ def CCT_to_uv_ohno2013(CCT,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> CCT_to_uv_ohno2013(6507.4342201047066, 0.003223690901512735, cmfs) # doctest: +ELLIPSIS
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> CCT = 6507.4342201047066
+    >>> Duv = 0.003223690901512735
+    >>> CCT_to_uv_ohno2013(CCT, Duv, cmfs)  # doctest: +ELLIPSIS
     (0.1978003..., 0.3122005...)
     """
 
@@ -438,7 +445,8 @@ def uv_to_CCT_robertson1968(uv):
 
     Examples
     --------
-    >>> uv_to_CCT_robertson1968((0.19374137599822966, 0.31522104394059397)) # doctest: +ELLIPSIS
+    >>> uv = (0.19374137599822966, 0.31522104394059397)
+    >>> uv_to_CCT_robertson1968(uv)  # doctest: +ELLIPSIS
     (6500.0162879..., 0.0083333...)
     """
 
@@ -529,7 +537,9 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             *dng_temperature::xy_coord*.
     Examples
     --------
-    >>> CCT_to_uv_robertson1968(6500.0081378199056, 0.0083333312442250979) # doctest: +ELLIPSIS
+    >>> CCT = 6500.0081378199056
+    >>> Duv = 0.0083333312442250979
+    >>> CCT_to_uv_robertson1968(CCT, Duv)  # doctest: +ELLIPSIS
     (0.1937413..., 0.3152210...)
     """
 
@@ -611,11 +621,17 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     tuple
         Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
 
+    Raises
+    ------
+    ValueError
+        If the computation method is not defined.
+
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> uv_to_CCT((0.1978, 0.3122), cmfs=cmfs) # doctest: +ELLIPSIS
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> uv_to_CCT((0.1978, 0.3122), cmfs=cmfs)  # doctest: +ELLIPSIS
     (6507.5470349..., 0.0032236...)
     """
 
@@ -673,6 +689,21 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     -------
     tuple
         *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Raises
+    ------
+    ValueError
+        If the computation method is not defined.
+
+    Examples
+    --------
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> CCT = 6507.4342201047066
+    >>> Duv = 0.003223690901512735
+    >>> CCT_to_uv(CCT, Duv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    (0.1978003..., 0.3122005...)
     """
 
     if method == 'Ohno 2013':
@@ -711,7 +742,7 @@ def xy_to_CCT_mccamy1992(xy):
 
     Examples
     --------
-    >>> xy_to_CCT_mccamy1992((0.31271, 0.32902)) # doctest: +ELLIPSIS
+    >>> xy_to_CCT_mccamy1992((0.31271, 0.32902))  # doctest: +ELLIPSIS
     6504.3893830...
     """
 
@@ -747,7 +778,7 @@ def xy_to_CCT_hernandez1999(xy):
 
     Examples
     --------
-    >>> xy_to_CCT_hernandez1999((0.31271, 0.32902)) # doctest: +ELLIPSIS
+    >>> xy_to_CCT_hernandez1999((0.31271, 0.32902))  # doctest: +ELLIPSIS
     6500.0421533...
     """
 
@@ -784,15 +815,20 @@ def CCT_to_xy_kang2002(CCT):
     tuple
         *xy* chromaticity coordinates.
 
+    Raises
+    ------
+    ValueError
+        If the correlated colour temperature is not in appropriate domain.
+
     References
     ----------
     .. [10] `Design of Advanced Color -
             Temperature Control System for HDTV Applications
-            <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_
+            <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_  # noqa
 
     Examples
     --------
-    >>> CCT_to_xy_kang2002(6504.38938305) # doctest: +ELLIPSIS
+    >>> CCT_to_xy_kang2002(6504.38938305)  # doctest: +ELLIPSIS
     (0.3134259..., 0.3235959...)
     """
 
@@ -845,6 +881,11 @@ def CCT_to_xy_illuminant_D(CCT):
     tuple
         *xy* chromaticity coordinates.
 
+    Raises
+    ------
+    ValueError
+        If the correlated colour temperature is not in appropriate domain.
+
     References
     ----------
     .. [11] **Wyszecki & Stiles**,
@@ -855,7 +896,7 @@ def CCT_to_xy_illuminant_D(CCT):
             page  145.
     Examples
     --------
-    >>> CCT_to_xy_illuminant_D(6504.38938305) # doctest: +ELLIPSIS
+    >>> CCT_to_xy_illuminant_D(6504.38938305)  # doctest: +ELLIPSIS
     (0.3127077..., 0.3291128...)
     """
 

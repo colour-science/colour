@@ -158,7 +158,7 @@ def colour_rendering_index(test_spd, additional_data=False):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour_rendering_index(spd) # doctest: +ELLIPSIS
+    >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
     64.1507331...
     """
 

@@ -91,7 +91,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     Examples
     --------
     >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> planck_law(500 * 1e-9, 5500) # doctest: +ELLIPSIS
+    >>> planck_law(500 * 1e-9, 5500)  # doctest: +ELLIPSIS
     20472701909806.5...
     """
 
@@ -150,8 +150,8 @@ def blackbody_spd(temperature,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> blackbody_spd(5000, cmfs.shape) # doctest: +ELLIPSIS
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')  # noqa
+    >>> blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 

@@ -6,11 +6,12 @@ Showcases *RGB* *colourspaces* computations.
 """
 
 import numpy as np
-import pprint
+from pprint import pprint
+
 import colour
 
 # Displaying :attr:`colour.RGB_COLOURSPACES` data.
-pprint.pprint(sorted(colour.RGB_COLOURSPACES.keys()))
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 
 colourspace = colour.RGB_COLOURSPACES['ACES RGB']
 print('Name: "{0}"'.format(colourspace.name))

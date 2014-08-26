@@ -132,6 +132,11 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     ndarray, (3, 3)
         Chromatic adaptation matrix.
 
+    Raises
+    ------
+    KeyError
+        If chromatic adaptation method is not defined.
+
     References
     ----------
     .. [4]  http://brucelindbloom.com/Eqn_ChromAdapt.html
@@ -141,7 +146,7 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     --------
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
-    >>> chromatic_adaptation_matrix(XYZ1, XYZ2) # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2)  # doctest: +ELLIPSIS
     array([[ 0.8714561..., -0.1320467...,  0.4039483...],
            [-0.0963880...,  1.0490978...,  0.160403... ],
            [ 0.0080207...,  0.0282636...,  3.0602319...]])
@@ -149,7 +154,8 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     Using *Bradford* method:
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
-    >>> chromatic_adaptation_matrix(XYZ1, XYZ2, 'Bradford') # doctest: +ELLIPSIS
+    >>> method = 'Bradford'
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2, method)  # doctest: +ELLIPSIS
     array([[ 0.8518131..., -0.1134786...,  0.4124804...],
            [-0.1277659...,  1.0928930...,  0.1341559...],
            [ 0.0845323..., -0.1434969...,  3.3075309...]])

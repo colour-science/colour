@@ -383,6 +383,12 @@ class SpectralShape(object):
         ndarray
             Iterable range for the spectral power distribution shape
 
+        Raises
+        ------
+        RuntimeError
+            If one of spectral shape *start*, *end* or *steps* attributes is
+            not defined.
+
         Examples
         --------
         >>> SpectralShape(0, 10, 0.1).range()
@@ -401,8 +407,8 @@ class SpectralShape(object):
         """
 
         if None in (self.__start, self.__end, self.__steps):
-            raise ValueError(('One of the spectral shape "start", "end" or '
-                              '"steps" attributes is not defined!'))
+            raise RuntimeError(('One of the spectral shape "start", "end" or '
+                                '"steps" attributes is not defined!'))
 
         if self.__range is None:
             self.__range = np.arange(self.__start,
@@ -667,7 +673,7 @@ class SpectralPowerDistribution(object):
 
         >>> data = {512.3: 49.6700, 524.5: 69.5900, 532.4: 81.7300, 545.7: 88.1900}
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> SpectralPowerDistribution('Spd', data).shape # doctest: +ELLIPSIS
+        >>> SpectralPowerDistribution('Spd', data).shape  # doctest: +ELLIPSIS
         SpectralShape(512.3, 545.7, 7...)
         """
 
@@ -743,7 +749,7 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd[510] # doctest: +ELLIPSIS
+        >>> spd[510]  # doctest: +ELLIPSIS
         49.67...
         """
 
@@ -792,7 +798,7 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> for wavelength, value in spd: print((wavelength, value)) # doctest: +ELLIPSIS
+        >>> for wavelength, value in spd: print((wavelength, value))  # doctest: +ELLIPSIS
         (510, 49.6...)
         (520, 69.5...)
         (530, 81.7...)
@@ -980,14 +986,14 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd + 10 # doctest: +ELLIPSIS
+        >>> spd + 10  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> spd.values
         array([ 59.67,  79.59,  91.73,  98.19])
 
         Adding an *array_like* variable:
 
-        >>> spd + [1, 2, 3, 4] # doctest: +ELLIPSIS
+        >>> spd + [1, 2, 3, 4]  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> spd.values
         array([  60.67,   81.59,   94.73,  102.19])
@@ -995,7 +1001,7 @@ class SpectralPowerDistribution(object):
         Adding a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd + spd_alternate # doctest: +ELLIPSIS
+        >>> spd + spd_alternate  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> spd.values
         array([ 110.34,  151.18,  176.46,  190.38])
@@ -1208,9 +1214,9 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd.get(510) # doctest: +ELLIPSIS
+        >>> spd.get(510)  # doctest: +ELLIPSIS
         49.67...
-        >>> spd.get(511) # doctest: +SKIP
+        >>> spd.get(511)  # doctest: +SKIP
         None
         """
 
@@ -1294,10 +1300,10 @@ class SpectralPowerDistribution(object):
         >>> spd.extrapolate(SpectralShape(400, 700)).shape
         SpectralShape(400, 700, 10)
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd[400] # doctest: +ELLIPSIS
+        >>> spd[400]  # doctest: +ELLIPSIS
         49.67...
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd[700] # doctest: +ELLIPSIS
+        >>> spd[700]  # doctest: +ELLIPSIS
         88.1...
         """
 
@@ -1341,6 +1347,14 @@ class SpectralPowerDistribution(object):
         SpectralPowerDistribution
             Interpolated spectral power distribution.
 
+        Raises
+        ------
+        RuntimeError
+            If the *Sprague* interpolation method is forced with a
+            non-uniformly spaced independent variable.
+        ValueError
+            If the interpolation method is not defined.
+
         See Also
         --------
         SpectralPowerDistribution.align
@@ -1377,9 +1391,9 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(SpectralShape(steps=1)) # doctest: +ELLIPSIS
+        >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
-        >>> spd[515] # doctest: +ELLIPSIS
+        >>> spd[515]  # doctest: +ELLIPSIS
         60.3121800...
 
         Non uniform data is using *Cubic Spline* interpolation by default:
@@ -1387,19 +1401,19 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd[511] = 31.41
-        >>> spd.interpolate(SpectralShape(steps=1)) # doctest: +ELLIPSIS
+        >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
-        >>> spd[515] # doctest: +ELLIPSIS
+        >>> spd[515]  # doctest: +ELLIPSIS
         21.4792222...
 
         Enforcing *Linear* interpolation:
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(SpectralShape(steps=1), method='Linear') # doctest: +ELLIPSIS
+        >>> spd.interpolate(SpectralShape(steps=1), method='Linear')  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd[515] # doctest: +ELLIPSIS
+        >>> spd[515]  # doctest: +ELLIPSIS
         59.63...
         """
 
@@ -1480,16 +1494,16 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.align(SpectralShape(505, 565, 1)) # doctest: +ELLIPSIS
+        >>> spd.align(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
-        >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> spd.wavelengths # doctest: +SKIP
+        >>> # Doctests skip for Python 2.x compatibility.
+        >>> spd.wavelengths  # doctest: +SKIP
         array([505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517,
                518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530,
                531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543,
                544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556,
                557, 558, 559, 560, 561, 562, 563, 564, 565])
-        >>> spd.values # doctest: +ELLIPSIS
+        >>> spd.values  # doctest: +ELLIPSIS
         array([ 49.67     ...,  49.67     ...,  49.67     ...,  49.67     ...,
                 49.67     ...,  49.67     ...,  51.8341162...,  53.9856467...,
                 56.1229464...,  58.2366197...,  60.3121800...,  62.3327095...,
@@ -1531,7 +1545,7 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19, 550: 86.26, 560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.zeros(SpectralShape(505, 565, 1)) # doctest: +ELLIPSIS
+        >>> spd.zeros(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> spd.values
         array([  0.  ,   0.  ,   0.  ,   0.  ,   0.  ,  49.67,   0.  ,   0.  ,
@@ -1574,9 +1588,9 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.normalise() # doctest: +ELLIPSIS
+        >>> spd.normalise()  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
-        >>> spd.values # doctest: +ELLIPSIS
+        >>> spd.values  # doctest: +ELLIPSIS
         array([ 0.5632157...,  0.7890917...,  0.9267490...,  1.        ])
         """
 
@@ -1600,10 +1614,10 @@ class SpectralPowerDistribution(object):
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> print(spd) # doctest: +ELLIPSIS
+        >>> print(spd)  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         >>> spd_clone = spd.clone()
-        >>> print(spd_clone) # doctest: +ELLIPSIS
+        >>> print(spd_clone)  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
         """
 
@@ -2422,7 +2436,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd + 10 # doctest: +ELLIPSIS
+        >>> tri_spd + 10  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  59.67,  100.56,   22.43],
@@ -2432,7 +2446,7 @@ class TriSpectralPowerDistribution(object):
 
         Adding an *array_like* variable:
 
-        >>> tri_spd + [(1, 2, 3)] * 4 # doctest: +ELLIPSIS
+        >>> tri_spd + [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  60.67,  102.56,   25.43],
@@ -2444,7 +2458,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd_alternate = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd + tri_spd_alternate # doctest: +ELLIPSIS
+        >>> tri_spd + tri_spd_alternate  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  73.1 ,  152.23,  115.99],
@@ -2498,7 +2512,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd - 10 # doctest: +ELLIPSIS
+        >>> tri_spd - 10  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[ 39.67,  80.56,   2.43],
@@ -2508,7 +2522,7 @@ class TriSpectralPowerDistribution(object):
 
         Subtracting an *array_like* variable:
 
-        >>> tri_spd - [(1, 2, 3)] * 4 # doctest: +ELLIPSIS
+        >>> tri_spd - [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[ 38.67,  78.56,  -0.57],
@@ -2520,7 +2534,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd_alternate = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd - tri_spd_alternate # doctest: +ELLIPSIS
+        >>> tri_spd - tri_spd_alternate  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[ 26.24,  28.89, -91.13],
@@ -2569,7 +2583,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd * 10 # doctest: +ELLIPSIS
+        >>> tri_spd * 10  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[ 496.7,  905.6,  124.3],
@@ -2579,7 +2593,7 @@ class TriSpectralPowerDistribution(object):
 
         Multiplying an *array_like* variable:
 
-        >>> tri_spd * [(1, 2, 3)] * 4 # doctest: +ELLIPSIS
+        >>> tri_spd * [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  1986.8,   7244.8,   1491.6],
@@ -2591,7 +2605,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd_alternate = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd * tri_spd_alternate # doctest: +ELLIPSIS
+        >>> tri_spd * tri_spd_alternate  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  24695.924,  359849.216,  135079.296],
@@ -2645,7 +2659,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd / 10 # doctest: +ELLIPSIS
+        >>> tri_spd / 10  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[ 4.967,  9.056,  1.243],
@@ -2655,9 +2669,9 @@ class TriSpectralPowerDistribution(object):
 
         Dividing an *array_like* variable:
 
-        >>> tri_spd / [(1, 2, 3)] * 4 # doctest: +ELLIPSIS
+        >>> tri_spd / [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd.values # doctest: +ELLIPSIS
+        >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 19.868     ,  18.112     ,   1.6573333...],
                [ 27.836     ,  17.468     ,   3.0866666...],
                [ 32.692     ,   9.152     ,   9.064    ...],
@@ -2667,9 +2681,9 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd_alternate = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd / tri_spd_alternate # doctest: +ELLIPSIS
+        >>> tri_spd / tri_spd_alternate  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd.values # doctest: +ELLIPSIS
+        >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 1.5983909...,  0.3646466...,  0.0183009...],
                [ 1.2024190...,  0.2510130...,  0.0353408...],
                [ 0.4809061...,  0.1119784...,  0.1980769...],
@@ -2711,7 +2725,7 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
-        >>> tri_spd.get(511) # doctest: +SKIP
+        >>> tri_spd.get(511)  # doctest: +SKIP
         None
         """
 
@@ -2868,7 +2882,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.interpolate(SpectralShape(steps=1)) # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
         array([ 60.30332087,  93.27163315,  13.86051361])
@@ -2882,7 +2896,7 @@ class TriSpectralPowerDistribution(object):
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd[511] = (31.41, 95.27, 15.06)
-        >>> tri_spd.interpolate(SpectralShape(steps=1)) # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
         array([  21.47104053,  100.64300155,   18.8165196 ])
@@ -2895,7 +2909,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.interpolate(SpectralShape(steps=1), method='Linear') # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(SpectralShape(steps=1), method='Linear')  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
         array([ 59.63,  88.95,  17.79])
@@ -2945,16 +2959,16 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.align(SpectralShape(505, 565, 1)) # doctest: +ELLIPSIS
+        >>> tri_spd.align(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
-        >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> tri_spd.wavelengths # doctest: +SKIP
+        >>> # Doctests skip for Python 2.x compatibility.
+        >>> tri_spd.wavelengths  # doctest: +SKIP
         array([505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517,
                518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530,
                531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543,
                544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556,
                557, 558, 559, 560, 561, 562, 563, 564, 565])
-        >>> tri_spd.values # doctest: +ELLIPSIS
+        >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 49.67     ...,  90.56     ...,  12.43     ...],
                [ 49.67     ...,  90.56     ...,  12.43     ...],
                [ 49.67     ...,  90.56     ...,  12.43     ...],
@@ -3046,7 +3060,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.zeros(SpectralShape(505, 565, 1)) # doctest: +ELLIPSIS
+        >>> tri_spd.zeros(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
         array([[  0.  ,   0.  ,   0.  ],
@@ -3144,9 +3158,9 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> tri_spd.normalise() # doctest: +ELLIPSIS
+        >>> tri_spd.normalise()  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd.values # doctest: +ELLIPSIS
+        >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 0.5055985...,  0.9218241...,  0.1265268...],
                [ 0.7083672...,  0.8890472...,  0.2356473...],
                [ 0.8319421...,  0.4657980...,  0.6919788...],
@@ -3183,10 +3197,10 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
-        >>> print(tri_spd) # doctest: +ELLIPSIS
+        >>> print(tri_spd)  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd_clone = tri_spd.clone()
-        >>> print(tri_spd_clone) # doctest: +ELLIPSIS
+        >>> print(tri_spd_clone)  # doctest: +ELLIPSIS
         <colour.colorimetry.spectrum.TriSpectralPowerDistribution object at 0x...>
         """
 

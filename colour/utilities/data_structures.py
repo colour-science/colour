@@ -41,18 +41,18 @@ class Structure(dict):
 
     References
     ----------
-    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
+    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
 
     Examples
     --------
     >>> person = Structure(firstName='Doe', lastName='John', gender='male')
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> person.firstName # doctest: +SKIP
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> person.firstName  # doctest: +SKIP
     'Doe'
     >>> sorted(person.keys())
     ['firstName', 'gender', 'lastName']
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> person['gender'] # doctest: +SKIP
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> person['gender']  # doctest: +SKIP
     'male'
     """
 
@@ -77,6 +77,11 @@ class Structure(dict):
         -------
         object
             Attribute value.
+
+        Raises
+        ------
+        AttributeError
+            If the attribute is not defined.
         """
 
         try:
@@ -151,7 +156,7 @@ class Lookup(dict):
 
     References
     ----------
-    .. [2]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
+    .. [2]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
 
     Examples
     --------
@@ -220,7 +225,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     References
     ----------
-    .. [3]  https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
+    .. [3]  https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37  # noqa
 
     Examples
     --------
@@ -356,9 +361,14 @@ class CaseInsensitiveMapping(MutableMapping):
 
         return len(self.__data)
 
-    def __eq__(self, object):
+    def __eq__(self, item):
         """
         Returns the equality with given object.
+
+        Parameters
+        ----------
+        item
+            Object item.
 
         Returns
         -------
@@ -370,15 +380,20 @@ class CaseInsensitiveMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__eq__` method.
         """
 
-        if isinstance(object, Mapping):
-            object = CaseInsensitiveMapping(object)
+        if isinstance(item, Mapping):
+            item = CaseInsensitiveMapping(item)
         else:
             return NotImplemented
-        return dict(self.lower_items()) == dict(object.lower_items())
+        return dict(self.lower_items()) == dict(item.lower_items())
 
-    def __ne__(self, object):
+    def __ne__(self, item):
         """
         Returns the inequality with given object.
+
+        Parameters
+        ----------
+        item
+            Object item.
 
         Returns
         -------
@@ -390,7 +405,7 @@ class CaseInsensitiveMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__ne__` method.
         """
 
-        return not (self == object)
+        return not (self == item)
 
     def __repr__(self):
         """
@@ -407,7 +422,6 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
-
 
     def copy(self):
         """

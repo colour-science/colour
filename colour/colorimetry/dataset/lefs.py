@@ -5,7 +5,8 @@
 Luminous Efficiency Functions Spectral Power Distributions
 ==========================================================
 
-Defines various luminous efficiency functions involved in spectral computations.
+Defines various luminous efficiency functions involved in spectral
+computations.
 
 The luminous efficiency data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
@@ -40,7 +41,8 @@ References
 .. [1]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
 .. [2]  http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
 .. [3]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
-.. [4]  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_ (Last accessed 20 June 2014)
+.. [4]  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_  # noqa
+        (Last accessed 20 June 2014)
 """
 
 from __future__ import division, unicode_literals

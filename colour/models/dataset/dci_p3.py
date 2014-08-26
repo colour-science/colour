@@ -11,7 +11,7 @@ Defines the *DCI-P3* colourspace:
 
 References
 ----------
-.. [1]  http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
+.. [1]  http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf  # noqa
         (Last accessed 24 February 2014)
 """
 

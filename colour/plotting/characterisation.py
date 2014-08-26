@@ -53,16 +53,23 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If the given colour rendition chart is not found in the factory colour
+        rendition charts.
+
     Examples
     --------
-    >>> colour_checker_plot() # doctest: +SKIP
+    >>> colour_checker_plot()  # doctest: +SKIP
     True
     """
 
     colour_checker, name = COLOURCHECKERS.get(colour_checker), colour_checker
     if colour_checker is None:
         raise KeyError(
-            'Colour checker "{0}" not found in colour checkers: "{1}".'.format(
+            ('Colour checker "{0}" not found in '
+             'factory colour checkers: "{1}".').format(
                 name, sorted(COLOURCHECKERS.keys())))
 
     _, data, illuminant = colour_checker

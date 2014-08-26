@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *Munsell Renotation Sytem* computations.
+Showcases *Munsell Renotation System* computations.
 """
 
 from numpy import array
 from numpy import ravel
 
 import colour
-from colour.characterisation.dataset.colour_checkers.chromaticity_coordinates import (
+from colour.characterisation.dataset.colour_checkers.chromaticity_coordinates import (  # noqa
     COLORCHECKER_2005_DATA)
 
 # Retrieving *RGB* *luminance* of given *RGB* components.

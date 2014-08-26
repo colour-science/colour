@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-CIE Standard Illuminant D Series :math:`S_n(\lambda)` Spectral Power Distributions
-==================================================================================
+CIE Standard Illuminant D Series :math:`S_n(\lambda)` Spectral Power Distributions  # noqa
+==================================================================================  # noqa
 
 Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral
 power distributions involved in the computation of
@@ -12,7 +12,8 @@ power distributions involved in the computation of
 References
 ----------
 .. [1]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae - Second Edition*,
+        *Color Science - Concepts and Methods Data and Formulae -
+        Second Edition*,
         Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
         page  146.
 .. [2]  http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html

@@ -14,7 +14,7 @@ Implements rayleigh scattering / optical depth in the atmosphere computation:
 References
 ----------
 .. [1]  `On Rayleigh Optical Depth Calculations
-        <http://journals.ametsoc.org/doi/pdf/10.1175/1520-0426(1999)016%3C1854%3AORODC%3E2.0.CO%3B2>`_
+        <http://journals.ametsoc.org/doi/pdf/10.1175/1520-0426(1999)016%3C1854%3AORODC%3E2.0.CO%3B2>`_  # noqa
 .. [2]  http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
@@ -117,7 +117,7 @@ def air_refraction_index_penndorf1957(wavelength, *args):
 
     Examples
     --------
-    >>> air_refraction_index_penndorf1957(0.555) # doctest: +ELLIPSIS
+    >>> air_refraction_index_penndorf1957(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -151,7 +151,7 @@ def air_refraction_index_edlen1966(wavelength, *args):
 
     Examples
     --------
-    >>> air_refraction_index_edlen1966(0.555) # doctest: +ELLIPSIS
+    >>> air_refraction_index_edlen1966(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -186,7 +186,7 @@ def air_refraction_index_peck1972(wavelength, *args):
 
     Examples
     --------
-    >>> air_refraction_index_peck1972(0.555) # doctest: +ELLIPSIS
+    >>> air_refraction_index_peck1972(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -224,7 +224,7 @@ def air_refraction_index_bodhaine1999(
 
     Examples
     --------
-    >>> air_refraction_index_bodhaine1999(0.555) # doctest: +ELLIPSIS
+    >>> air_refraction_index_bodhaine1999(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -252,7 +252,7 @@ def N2_depolarisation(wavelength):
 
     Examples
     --------
-    >>> N2_depolarisation(0.555) # doctest: +ELLIPSIS
+    >>> N2_depolarisation(0.555)  # doctest: +ELLIPSIS
     1.0350291...
     """
 
@@ -279,7 +279,7 @@ def O2_depolarisation(wavelength):
 
     Examples
     --------
-    >>> O2_depolarisation(0.555) # doctest: +ELLIPSIS
+    >>> O2_depolarisation(0.555)  # doctest: +ELLIPSIS
     1.1020225...
     """
 
@@ -380,7 +380,7 @@ def F_air_bates1984(wavelength):
 
     Examples
     --------
-    >>> F_air_bates1984(0.555) # doctest: +ELLIPSIS
+    >>> F_air_bates1984(0.555)  # doctest: +ELLIPSIS
     1.0481535...
     """
 
@@ -422,7 +422,7 @@ def F_air_bodhaine1999(wavelength,
 
     Examples
     --------
-    >>> F_air_bodhaine1999(0.555) # doctest: +ELLIPSIS
+    >>> F_air_bodhaine1999(0.555)  # doctest: +ELLIPSIS
     1.1246916...
     """
 
@@ -464,9 +464,9 @@ def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
 
     Examples
     --------
-    >>> molecular_density(288.15) # doctest: +ELLIPSIS
+    >>> molecular_density(288.15)  # doctest: +ELLIPSIS
     2.5469021...e+19
-    >>> molecular_density(288.15, 6.0221367e23) # doctest: +ELLIPSIS
+    >>> molecular_density(288.15, 6.0221367e23)  # doctest: +ELLIPSIS
     2.5468999...e+19
     """
 
@@ -492,7 +492,7 @@ def mean_molecular_weights(CO2_concentration=STANDARD_CO2_CONCENTRATION):
 
     Examples
     --------
-    >>> mean_molecular_weights() # doctest: +ELLIPSIS
+    >>> mean_molecular_weights()  # doctest: +ELLIPSIS
     28.9640166...
     """
 
@@ -522,14 +522,14 @@ def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
 
     Examples
     --------
-    >>> gravity_list1968() # doctest: +ELLIPSIS
+    >>> gravity_list1968()  # doctest: +ELLIPSIS
     978.0356070...
-    >>> gravity_list1968(0, 1500) # doctest: +ELLIPSIS
+    >>> gravity_list1968(0, 1500)  # doctest: +ELLIPSIS
     977.5726106...
 
     Gravity :math:`g` for Paris:
 
-    >>> gravity_list1968(48.8567, 35) # doctest: +ELLIPSIS
+    >>> gravity_list1968(48.8567, 35)  # doctest: +ELLIPSIS
     980.9524178...
     """
 
@@ -585,7 +585,7 @@ def scattering_cross_section(wavelength,
 
     Examples
     --------
-    >>> scattering_cross_section(555 * 10e-8) # doctest: +ELLIPSIS
+    >>> scattering_cross_section(555 * 10e-8)  # doctest: +ELLIPSIS
     4.6613309...e-27
     """
 
@@ -650,7 +650,7 @@ def rayleigh_optical_depth(wavelength,
 
     Examples
     --------
-    >>> rayleigh_optical_depth(555 * 10e-8) # doctest: +ELLIPSIS
+    >>> rayleigh_optical_depth(555 * 10e-8)  # doctest: +ELLIPSIS
     0.1004070...
     """
 
@@ -717,7 +717,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
 
     Examples
     --------
-    >>> rayleigh_scattering_spd() # doctest: +ELLIPSIS
+    >>> rayleigh_scattering_spd()  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 

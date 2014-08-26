@@ -11,7 +11,7 @@ Defines the *Rec. 709* colourspace:
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
         (Last accessed 24 February 2014)
 """
 

@@ -174,13 +174,12 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
+    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
     CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., Q=195.3713259..., M=0.1088421..., s=2.3603053..., H=278.0607358...)
     """
 
     XYZ = np.array(XYZ).reshape((3, 1))
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
-    X, Y, Z = np.ravel(XYZ)
     X_w, Y_w, Z_w = np.ravel(XYZ_w)
 
     n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b,
@@ -304,14 +303,16 @@ def CIECAM02_to_XYZ(J, C, h,
     >>> XYZ_w = np.array([96.4219075, 100.00, 82.520490])
     >>> L_A = 100
     >>> Y_b = 20.0
-    >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
+    >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
     array([ 28.8452082...,  18.4037556...,   2.6743017...])
     """
 
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
     X_w, Y_w, Zw = np.ravel(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b,
+                                                                   Y_w,
+                                                                   L_A)
 
     # Converting *CIE XYZ* colourspace matrices to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -386,7 +387,7 @@ def chromatic_induction_factors(n):
 
     Examples
     --------
-    >>> chromatic_induction_factors(0.2) # doctest: +ELLIPSIS
+    >>> chromatic_induction_factors(0.2)  # doctest: +ELLIPSIS
     (1.0003040..., 1.0003040...)
     """
 
@@ -410,7 +411,7 @@ def base_exponential_non_linearity(n):
 
     Examples
     --------
-    >>> base_exponential_non_linearity(0.2) # doctest: +ELLIPSIS
+    >>> base_exponential_non_linearity(0.2)  # doctest: +ELLIPSIS
     1.9272135...
     """
 
@@ -439,7 +440,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31) # doctest: +ELLIPSIS
+    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)  # noqa  # doctest: +ELLIPSIS
     (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """
 
@@ -472,7 +473,7 @@ def degree_of_adaptation(F, L_A):
 
     Examples
     --------
-    >>> degree_of_adaptation(1.0, 318.31) # doctest: +ELLIPSIS
+    >>> degree_of_adaptation(1.0, 318.31)  # doctest: +ELLIPSIS
     0.9944687...
     """
 
@@ -483,8 +484,8 @@ def degree_of_adaptation(F, L_A):
 def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     """
     Applies full chromatic adaptation to given *CMCCAT2000* transform sharpened
-    *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint *RGB_w*
-    matrix.
+    *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint
+    *RGB_w* matrix.
 
     Parameters
     ----------
@@ -508,7 +509,7 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D) # doctest: +ELLIPSIS
+    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)  # noqa  # doctest: +ELLIPSIS
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
@@ -527,8 +528,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
 def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     """
     Reverts full chromatic adaptation of given *CMCCAT2000* transform sharpened
-    *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint *RGB_w*
-    matrix.
+    *RGB* matrix using given *CMCCAT2000* transform sharpened whitepoint
+    *RGB_w* matrix.
 
     Parameters
     ----------
@@ -586,7 +587,7 @@ def RGB_to_rgb(RGB):
     Examples
     --------
     >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
-    >>> RGB_to_rgb(RGB) # doctest: +ELLIPSIS
+    >>> RGB_to_rgb(RGB)  # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
@@ -612,7 +613,7 @@ def rgb_to_RGB(rgb):
     Examples
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.0135053])
-    >>> rgb_to_RGB(rgb) # doctest: +ELLIPSIS
+    >>> rgb_to_RGB(rgb)  # doctest: +ELLIPSIS
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
@@ -639,7 +640,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
@@ -668,7 +669,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     --------
     >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L) # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
@@ -695,8 +696,8 @@ def opponent_colour_dimensions_forward(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> opponent_colour_dimensions_forward(RGB) # doctest: +ELLIPSIS
+    >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> opponent_colour_dimensions_forward(RGB)  # doctest: +ELLIPSIS
     (-0.0006241..., -0.0005062...)
     """
 
@@ -710,8 +711,8 @@ def opponent_colour_dimensions_forward(RGB):
 
 def opponent_colour_dimensions_reverse(P, h):
     """
-    Returns opponent colour dimensions from given points :math:`P` and hue :math:`h`
-    in degrees for reverse *CIECAM02* implementation.
+    Returns opponent colour dimensions from given points :math:`P` and hue
+    :math:`h` in degrees for reverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -729,7 +730,7 @@ def opponent_colour_dimensions_reverse(P, h):
     --------
     >>> p = (30162.890815335879, 24.237205467134817, 1.05)
     >>> h = -140.9515673417281
-    >>> opponent_colour_dimensions_reverse(p, h) # doctest: +ELLIPSIS
+    >>> opponent_colour_dimensions_reverse(p, h)  # doctest: +ELLIPSIS
     (-0.0006241..., -0.0005062...)
     """
 
@@ -771,7 +772,9 @@ def hue_angle(a, b):
 
     Examples
     --------
-    >>> hue_angle(-0.0006241120682426434, -0.0005062701067729668) # doctest: +ELLIPSIS
+    >>> a = -0.0006241120682426434
+    >>> b = -0.0005062701067729668
+    >>> hue_angle(a, b)  # doctest: +ELLIPSIS
     219.0484326...
     """
 
@@ -795,7 +798,7 @@ def hue_quadrature(h):
 
     Examples
     --------
-    >>> hue_quadrature(-140.951567342) # doctest: +ELLIPSIS
+    >>> hue_quadrature(-140.951567342)  # doctest: +ELLIPSIS
     278.0607358...
     """
 
@@ -830,7 +833,7 @@ def eccentricity_factor(h):
 
     Examples
     --------
-    >>> eccentricity_factor(-140.951567342) # doctest: +ELLIPSIS
+    >>> eccentricity_factor(-140.951567342)  # doctest: +ELLIPSIS
     1.1740054...
     """
 
@@ -858,9 +861,9 @@ def achromatic_response_forward(RGB, N_bb):
 
     Examples
     --------
-    >>> RGB = np.array([7.9463202, 7.94711528,7.94899595])
+    >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
     >>> N_bb = 1.0003040045593807
-    >>> achromatic_response_forward(RGB, N_bb) # doctest: +ELLIPSIS
+    >>> achromatic_response_forward(RGB, N_bb)  # doctest: +ELLIPSIS
     23.9394809...
     """
 
@@ -899,7 +902,7 @@ def achromatic_response_reverse(A_w, J, c, z):
     >>> J = 41.73109113251392
     >>> c = 0.69
     >>> z = 1.9272135954999579
-    >>> achromatic_response_reverse(A_w, J, c, z) # doctest: +ELLIPSIS
+    >>> achromatic_response_reverse(A_w, J, c, z)  # doctest: +ELLIPSIS
     23.9394809...
     """
 
@@ -933,7 +936,7 @@ def lightness_correlate(A, A_w, c, z):
     >>> A_w = 46.1882087914
     >>> c = 0.69
     >>> z = 1.9272135955
-    >>> lightness_correlate(A, A_w, c, z) # doctest: +ELLIPSIS
+    >>> lightness_correlate(A, A_w, c, z)  # doctest: +ELLIPSIS
     41.7310911...
     """
 
@@ -967,7 +970,7 @@ def brightness_correlate(c, J, A_w, F_L):
     >>> J = 41.7310911325
     >>> A_w = 46.1882087914
     >>> F_L = 1.16754446415
-    >>> brightness_correlate(c, J, A_w, F_L) # doctest: +ELLIPSIS
+    >>> brightness_correlate(c, J, A_w, F_L)  # doctest: +ELLIPSIS
     195.3713259...
     """
 
@@ -1008,7 +1011,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
-    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a) # doctest: +ELLIPSIS
+    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
     0.1497462...
     """
 
@@ -1042,7 +1045,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     >>> C = 68.8364136888275
     >>> J = 41.749268505999
     >>> n = 0.2
-    >>> temporary_magnitude_quantity_reverse(C, J, n) # doctest: +ELLIPSIS
+    >>> temporary_magnitude_quantity_reverse(C, J, n)  # doctest: +ELLIPSIS
     202.3873619...
    """
 
@@ -1087,8 +1090,8 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> e_t = 1.17400547285
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> RGB_a = np.array([7.9463202, 7.94711528,7.94899595])
-    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a) # doctest: +ELLIPSIS
+    >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
     0.1047077...
     """
 
@@ -1118,7 +1121,7 @@ def colourfulness_correlate(C, F_L):
     --------
     >>> C = 0.104707757171
     >>> F_L = 1.16754446415
-    >>> colourfulness_correlate(C, F_L) # doctest: +ELLIPSIS
+    >>> colourfulness_correlate(C, F_L)  # doctest: +ELLIPSIS
     0.1088421...
     """
 
@@ -1146,7 +1149,7 @@ def saturation_correlate(M, Q):
     --------
     >>> M = 0.108842175669
     >>> Q = 195.371325966
-    >>> saturation_correlate(M, Q) # doctest: +ELLIPSIS
+    >>> saturation_correlate(M, Q)  # doctest: +ELLIPSIS
     2.3603053...
     """
 
@@ -1186,7 +1189,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     >>> t = 0.149746202921
     >>> A = 23.9394809667
     >>> N_bb = 1.00030400456
-    >>> P(N_c, N_cb, e_t, t, A, N_bb) # doctest: +ELLIPSIS
+    >>> P(N_c, N_cb, e_t, t, A, N_bb)  # doctest: +ELLIPSIS
     (30162.8908154..., 24.2372054..., 1.05)
     """
 
@@ -1220,7 +1223,7 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b) # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)  # noqa  # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 

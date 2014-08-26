@@ -34,6 +34,11 @@ def is_scipy_installed(raise_exception=False):
     -------
     bool
         Is *scipy* installed.
+
+    Raises
+    ------
+    ImportError
+        If *scipy* is not installed.
     """
 
     try:
@@ -45,9 +50,8 @@ def is_scipy_installed(raise_exception=False):
         return True
     except ImportError as error:
         if raise_exception:
-            raise ImportError(
-                '"scipy" or specific "scipy" Api features are not available: "{1}".'.format(
-                    error))
+            raise ImportError(('"scipy" or specific "scipy" Api features '
+                               'are not available: "{1}".').format(error))
         return False
 
 

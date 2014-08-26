@@ -74,7 +74,7 @@ def spectral_to_aces_relative_exposure_values(
     --------
     >>> from colour import COLOURCHECKERS_SPDS
     >>> spd = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
-    >>> spectral_to_aces_relative_exposure_values(spd) # doctest: +ELLIPSIS
+    >>> spectral_to_aces_relative_exposure_values(spd)  # doctest: +ELLIPSIS
     array([ 0.1187697...,  0.0870866...,  0.0589442...])
     """
 

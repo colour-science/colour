@@ -16,7 +16,7 @@ References
         *Refinement of the RLAB color space*,
         *Color Research & Application, Volume 21, Issue 5, pages 338–346,
         October 1996*,
-        https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf
+        https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf  # noqa
         (Last accessed 16 August 2014)
 .. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
@@ -31,7 +31,6 @@ import math
 import numpy as np
 from collections import namedtuple
 
-import colour
 from colour.appearance.hunt import XYZ_to_rgb
 from colour.appearance.hunt import HPE_MATRIX
 from colour.utilities import CaseInsensitiveMapping
@@ -121,8 +120,8 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20  ,  21.78])
-    >>> XYZ_n = np.array([ 109.85,  100  ,   35.58])
+    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
     >>> sigma = 0.4347
     >>> D = 1.0

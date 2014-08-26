@@ -56,7 +56,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour_rendering_index_bars_plot(illuminant) # doctest: +SKIP
+    >>> colour_rendering_index_bars_plot(illuminant)  # doctest: +SKIP
     True
     """
 

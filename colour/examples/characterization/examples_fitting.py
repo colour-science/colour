@@ -11,7 +11,8 @@ import numpy as np
 
 import colour
 
-# Fitting measured *ColorChecker* colour rendition chart data to a reference one.
+# Fitting measured *ColorChecker* colour rendition chart data to a reference
+# one.
 reference = np.array(
     [[0.172906, 0.08205715, 0.05711951],
      [0.5680735, 0.29250361, 0.21942],

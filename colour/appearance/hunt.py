@@ -237,7 +237,7 @@ def XYZ_to_Hunt(XYZ,
     >>> N_c = 1.0
     >>> N_b = 75.0
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w) # doctest: +ELLIPSIS
+    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
     Hunt_Specification(h_S=269.2737594..., C_94=0.1210508..., s=0.0199093..., Q=22.2097654..., M_94=0.1238964..., J=30.0462678...)
     """
 
@@ -407,7 +407,7 @@ def luminance_level_adaptation_factor(L_A):
 
     Examples
     --------
-    >>> luminance_level_adaptation_factor(318.31) # doctest: +ELLIPSIS
+    >>> luminance_level_adaptation_factor(318.31)  # doctest: +ELLIPSIS
     1.1675444...
     """
 
@@ -437,7 +437,7 @@ def illuminant_scotopic_luminance(L_A, CCT):
 
     Examples
     --------
-    >>> illuminant_scotopic_luminance(318.31, 6504.0) # doctest: +ELLIPSIS
+    >>> illuminant_scotopic_luminance(318.31, 6504.0)  # doctest: +ELLIPSIS
     769.9376286...
     """
 
@@ -463,7 +463,7 @@ def XYZ_to_rgb(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> XYZ_to_rgb(XYZ) # doctest: +ELLIPSIS
+    >>> XYZ_to_rgb(XYZ)  # doctest: +ELLIPSIS
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
@@ -489,7 +489,7 @@ def f_n(x):
     Examples
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
-    >>> f_n(x) # doctest: +ELLIPSIS
+    >>> f_n(x)  # doctest: +ELLIPSIS
     array([ 5.8968592...,  5.8969521...,  5.8975927...])
     """
 
@@ -618,7 +618,7 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
     >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
     >>> p = 0.1
-    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p) # doctest: +ELLIPSIS
+    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)  # noqa  # doctest: +ELLIPSIS
     array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
@@ -647,7 +647,7 @@ def achromatic_post_adaptation_signal(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> achromatic_post_adaptation_signal(rgb) # doctest: +ELLIPSIS
+    >>> achromatic_post_adaptation_signal(rgb)  # doctest: +ELLIPSIS
     18.9827186...
     """
 
@@ -677,7 +677,7 @@ def colour_difference_signals(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour_difference_signals(rgb) # doctest: +ELLIPSIS
+    >>> colour_difference_signals(rgb)  # doctest: +ELLIPSIS
     (-5.3659999...e-05, -0.0005717..., 0.0006253...)
     """
 
@@ -707,8 +707,10 @@ def hue_angle(C):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
-    >>> hue_angle(C) # doctest: +ELLIPSIS
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
+    >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
 
@@ -734,7 +736,7 @@ def eccentricity_factor(hue):
 
     Examples
     --------
-    >>> eccentricity_factor(269.273759) # doctest: +ELLIPSIS
+    >>> eccentricity_factor(269.273759)  # doctest: +ELLIPSIS
     1.1108365...
     """
 
@@ -764,7 +766,7 @@ def low_luminance_tritanopia_factor(L_A):
 
     Examples
     --------
-    >>> low_luminance_tritanopia_factor(318.31) # doctest: +ELLIPSIS
+    >>> low_luminance_tritanopia_factor(318.31)  # doctest: +ELLIPSIS
     0.9996859...
     """
 
@@ -796,12 +798,14 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
     >>> F_t =0.99968593951195
-    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t) # doctest: +ELLIPSIS
+    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)  # noqa  # doctest: +ELLIPSIS
     -0.0082372...
     """
 
@@ -835,11 +839,13 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
-    >>> redness_greenness_response(C, e_s, N_c, N_cb) # doctest: +ELLIPSIS
+    >>> redness_greenness_response(C, e_s, N_c, N_cb)  # doctest: +ELLIPSIS
     -0.0001044...
     """
 
@@ -870,7 +876,7 @@ def overall_chromatic_response(M_yb, M_rg):
     --------
     >>> M_yb = -0.008237223618824608
     >>> M_rg = -0.00010444758327626432
-    >>> overall_chromatic_response(M_yb, M_rg) # doctest: +ELLIPSIS
+    >>> overall_chromatic_response(M_yb, M_rg)  # doctest: +ELLIPSIS
     0.0082378...
     """
 
@@ -900,7 +906,7 @@ def saturation_correlate(M, rgb_a):
     --------
     >>> M = 0.008237885787274198
     >>> rgb_a = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> saturation_correlate(M, rgb_a) # doctest: +ELLIPSIS
+    >>> saturation_correlate(M, rgb_a)  # doctest: +ELLIPSIS
     0.0199093...
     """
 
@@ -938,7 +944,7 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     >>> S_W = 100.0
     >>> N_bb = 0.72499999999999998
     >>> A_a = 18.982718664838487
-    >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a) # doctest: +ELLIPSIS
+    >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a)  # doctest: +ELLIPSIS
     15.5068546...
     """
 
@@ -987,7 +993,7 @@ def brightness_correlate(A, A_w, M, N_b):
     >>> A_w = 35.718916676317086
     >>> M = 0.0082378857872741976
     >>> N_b = 75.0
-    >>> brightness_correlate(A, A_w, M, N_b) # doctest: +ELLIPSIS
+    >>> brightness_correlate(A, A_w, M, N_b)  # doctest: +ELLIPSIS
     22.2097654...
     """
 
@@ -1024,7 +1030,7 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> lightness_correlate(Y_b, Y_w, Q, Q_w) # doctest: +ELLIPSIS
+    >>> lightness_correlate(Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
     30.0462678...
     """
 
@@ -1063,7 +1069,7 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w) # doctest: +ELLIPSIS
+    >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
     0.1210508...
     """
 
@@ -1094,7 +1100,7 @@ def colourfulness_correlate(F_L, C_94):
     --------
     >>> F_L = 1.16754446414718
     >>> C_94 = 0.12105083993617581
-    >>> colourfulness_correlate(F_L, C_94) # doctest: +ELLIPSIS
+    >>> colourfulness_correlate(F_L, C_94)  # doctest: +ELLIPSIS
     0.1238964...
     """
 

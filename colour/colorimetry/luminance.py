@@ -64,7 +64,7 @@ def luminance_newhall1943(V):
 
     Examples
     --------
-    >>> luminance_newhall1943(3.74629715382) # doctest: +ELLIPSIS
+    >>> luminance_newhall1943(3.74629715382)  # doctest: +ELLIPSIS
     10.4089874...
     """
 
@@ -103,7 +103,7 @@ def luminance_1976(L, Yn=100):
 
     Examples
     --------
-    >>> luminance_1976(37.9856290977) # doctest: +ELLIPSIS
+    >>> luminance_1976(37.9856290977)  # doctest: +ELLIPSIS
     10.0800000...
     """
 
@@ -136,11 +136,11 @@ def luminance_ASTM_D1535_08(V):
 
     References
     ----------
-    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
+    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System  # noqa
 
     Examples
     --------
-    >>> luminance_ASTM_D1535_08(3.74629715382) # doctest: +ELLIPSIS
+    >>> luminance_ASTM_D1535_08(3.74629715382)  # doctest: +ELLIPSIS
     10.1488096...
     """
 
@@ -199,7 +199,7 @@ def luminance(LV, Yn=100, method='Luminance 1976'):
 
     Examples
     --------
-    >>> luminance(37.9856290977) # doctest: +ELLIPSIS
+    >>> luminance(37.9856290977)  # doctest: +ELLIPSIS
     10.0800000...
     """
 

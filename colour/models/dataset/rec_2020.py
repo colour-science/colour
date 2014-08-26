@@ -11,7 +11,7 @@ Defines the *Rec. 2020* colourspace:
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -100,7 +100,7 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
     References
     ----------
     .. [2]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 13 April 2014)
     """
 
@@ -130,7 +130,7 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     References
     ----------
     .. [3]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 13 April 2014)
     """
 

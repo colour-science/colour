@@ -11,7 +11,7 @@ Defines the *C-Log* colourspace:
 
 References
 ----------
-.. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+.. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa
         (Last accessed 18 April 2014)
 """
 

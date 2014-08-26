@@ -92,7 +92,7 @@ def closest(y, x):
 
     Examples
     --------
-    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
+    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])  # noqa
     >>> closest(y, 63)
     62.70988028
     """
@@ -220,7 +220,7 @@ def is_numeric(x):
 
 def is_integer(x):
     """
-    Returns if given :math:`x` variable is an integer through thresholding.
+    Returns if given :math:`x` variable is an integer under given threshold.
 
     Parameters
     ----------
@@ -234,8 +234,8 @@ def is_integer(x):
 
     Notes
     -----
-    The determination threshold is defined by the
-    :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
+    -   The determination threshold is defined by the
+        :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
 
     See Also
     --------
@@ -273,7 +273,8 @@ def normalise(x, factor=1, clip=True):
 
     Examples
     --------
-    >>> normalise(np.array([0.48224885, 0.31651974, 0.22070513])) # doctest: +ELLIPSIS
+    >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
+    >>> normalise(x)  # doctest: +ELLIPSIS
     array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 

@@ -11,7 +11,7 @@ Defines the *SMPTE-C RGB* colourspace:
 
 References
 ----------
-.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
+.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 

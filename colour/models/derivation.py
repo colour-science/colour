@@ -12,7 +12,7 @@ and whitepoint.
 References
 ----------
 .. [1]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations
-        <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
+        <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
         (Last accessed 24 February 2014)
 """
 
@@ -51,7 +51,7 @@ def xy_to_z(xy):
     ----------
     .. [2]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.2
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
 
     Examples
     --------
@@ -83,13 +83,13 @@ def normalised_primary_matrix(primaries, whitepoint):
     ----------
     .. [3]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.2 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
 
     Examples
     --------
-    >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> normalised_primary_matrix(primaries, whitepoint) # doctest: +ELLIPSIS
+    >>> normalised_primary_matrix(pms, whitepoint)  # doctest: +ELLIPSIS
     array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
            [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
            [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
@@ -136,14 +136,14 @@ def RGB_luminance_equation(primaries, whitepoint):
     ----------
     .. [4]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.8
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
 
     Examples
     --------
-    >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> RGB_luminance_equation(primaries, whitepoint) # doctest: +SKIP
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> RGB_luminance_equation(pms, whitepoint)  # doctest: +SKIP
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
@@ -174,13 +174,13 @@ def RGB_luminance(RGB, primaries, whitepoint):
     ----------
     .. [5]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.3 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
     Examples
     --------
     >>> RGB = np.array([40.6, 4.2, 67.4])
-    >>> primaries = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = (0.32168, 0.33767)
-    >>> RGB_luminance(RGB, primaries, whitepoint) # doctest: +ELLIPSIS
+    >>> RGB_luminance(RGB, pms, whitepoint)  # doctest: +ELLIPSIS
     12.1616018...
     """
 

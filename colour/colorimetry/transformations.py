@@ -48,6 +48,12 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     ndarray, (3,)
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in the colour matching
+        functions.
+
     See Also
     --------
     :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
@@ -68,7 +74,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700) # doctest: +ELLIPSIS
+    >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
@@ -118,6 +124,12 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     ndarray, (3,)
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in the colour matching
+        functions.
+
     See Also
     --------
     :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
@@ -138,7 +150,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([  9.6432150...e-03,   3.7526317...e-03,  -4.1078830...e-06])
     """
 
@@ -174,6 +186,12 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
         *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
         values.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in the colour matching
+        functions.
+
     Notes
     -----
     -   Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already
@@ -186,7 +204,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
@@ -222,6 +240,12 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     ndarray, (3,)
         *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in the colour matching
+        functions.
+
     Notes
     -----
     -   Data for the *CIE 2012 2 Degree Standard Observer* already exists,
@@ -234,7 +258,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700) # doctest: +ELLIPSIS
+    >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
@@ -269,6 +293,12 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     ndarray, (3,)
         *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
 
+    Raises
+    ------
+    KeyError
+        If wavelength :math:`\lambda` is not available in the colour matching
+        functions.
+
     Notes
     -----
     -   Data for the *CIE 2012 10 Degree Standard Observer* already exists,
@@ -281,7 +311,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700) # doctest: +ELLIPSIS
+    >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 

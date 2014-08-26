@@ -56,12 +56,13 @@ def XYZ_to_UCS(XYZ):
 
     References
     ----------
-    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229])) # doctest: +ELLIPSIS
+    >>> XYZ = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0787055...,  0.1034    ,  0.1218252...])
     """
 
@@ -93,12 +94,13 @@ def UCS_to_XYZ(UVW):
 
     References
     ----------
-    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529])) # doctest: +ELLIPSIS
+    >>> UCS = np.array([0.07870556, 0.1034, 0.12182529])
+    >>> UCS_to_XYZ(UCS)  # doctest: +ELLIPSIS
     array([ 0.1180583...,  0.1034    ,  0.0515089...])
     """
 
@@ -130,12 +132,13 @@ def UCS_to_uv(UVW):
 
     References
     ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> UCS_to_uv(np.array([0.1180583421, 0.1034, 0.0515089229])) # doctest: +ELLIPSIS
+    >>> UCS = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
     (0.4324999..., 0.3788000...)
     """
 
@@ -166,12 +169,13 @@ def UCS_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> UCS_uv_to_xy((0.43249999995420696, 0.378800000065942)) # doctest: +ELLIPSIS
+    >>> uv = (0.43249999995420696, 0.378800000065942)
+    >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     (0.7072386..., 0.4129510...)
     """
 

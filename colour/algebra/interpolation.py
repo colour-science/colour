@@ -61,11 +61,11 @@ class LinearInterpolator1d(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator1d(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
-    >>> f(0.5) # doctest: +ELLIPSIS
+    >>> f(0.5)  # doctest: +ELLIPSIS
     7.64...
 
     Interpolating an *array_like* variable:
@@ -290,15 +290,15 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
-    >>> f(0.5) # doctest: +ELLIPSIS
+    >>> f(0.5)  # doctest: +ELLIPSIS
     7.2185025...
 
     Interpolating an *array_like* variable:
 
-    >>> f([0.25, 0.75]) # doctest: +ELLIPSIS
+    >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 6.7295161...,  7.8140625...])
     """
 
@@ -315,7 +315,7 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_  # noqa
     """
 
     def __init__(self, x=None, y=None):

@@ -193,8 +193,8 @@ def XYZ_to_LLAB(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20  ,  21.78])
-    >>> XYZ_0 = np.array([  95.05,  100  ,  108.88])
+    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ_0 = np.array([95.05, 100, 108.88])
     >>> Y_b = 20.0
     >>> F_S = 3.0
     >>> F_L = 1.0
@@ -456,7 +456,9 @@ def chroma_correlate(a, b):
 
     Examples
     --------
-    >>> chroma_correlate(-4.49864756e-03, -5.26046353e-03)  # doctest: +ELLIPSIS
+    >>> a = -4.49864756e-03
+    >>> b = -5.26046353e-03
+    >>> chroma_correlate(a, b)  # doctest: +ELLIPSIS
     0.0086506...
     """
 

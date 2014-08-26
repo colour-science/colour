@@ -12,7 +12,8 @@ import pylab
 import colour
 import colour.plotting
 
-# Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation methods.
+# Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation
+# methods.
 uniform_spd_data = {
     340: 0.0000,
     360: 0.0000,

@@ -63,7 +63,7 @@ def lightness_glasser1958(Y):
 
     Examples
     --------
-    >>> lightness_glasser1958(10.08) # doctest: +ELLIPSIS
+    >>> lightness_glasser1958(10.08)  # doctest: +ELLIPSIS
     36.2505626...
     """
 
@@ -100,7 +100,7 @@ def lightness_wyszecki1964(Y):
 
     Examples
     --------
-    >>> lightness_wyszecki1964(10.08) # doctest: +ELLIPSIS
+    >>> lightness_wyszecki1964(10.08)  # doctest: +ELLIPSIS
     37.0041149...
     """
 
@@ -143,7 +143,7 @@ def lightness_1976(Y, Yn=100):
 
     Examples
     --------
-    >>> lightness_1976(10.08, 100) # doctest: +ELLIPSIS
+    >>> lightness_1976(10.08)  # doctest: +ELLIPSIS
     37.9856290...
     """
 
@@ -197,7 +197,7 @@ def lightness(Y, Yn=100, method='Lightness 1976'):
 
     Examples
     --------
-    >>> lightness(10.08, 100) # doctest: +ELLIPSIS
+    >>> lightness(10.08)  # doctest: +ELLIPSIS
     37.9856290...
     """
 

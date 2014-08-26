@@ -11,7 +11,7 @@ category.
 
 from __future__ import division, unicode_literals
 
-import pprint
+from pprint import pformat
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -38,4 +38,4 @@ def format_spectral_data(data):
         Spectral data pretty representation.
     """
 
-    return pprint.pformat(data)
+    return pformat(data)

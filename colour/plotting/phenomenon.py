@@ -80,7 +80,7 @@ def single_rayleigh_scattering_spd_plot(
 
     Examples
     --------
-    >>> single_rayleigh_scattering_spd_plot() # doctest: +SKIP
+    >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
     True
     """
 
@@ -121,7 +121,7 @@ def the_blue_sky_plot(
 
     Examples
     --------
-    >>> the_blue_sky_plot() # doctest: +SKIP
+    >>> the_blue_sky_plot()  # doctest: +SKIP
     True
     """
 

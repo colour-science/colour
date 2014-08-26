@@ -108,7 +108,6 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                                                                   data['N_c']))
         return specification
 
-
     def check_specification_attribute(self, case, data, attribute, expected):
         """
         Tests given colour appearance model specification attribute value.

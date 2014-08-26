@@ -48,7 +48,7 @@ def delta_E_CIE_1976(lab1, lab2):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_1976(lab1, lab2) # doctest: +ELLIPSIS
+    >>> delta_E_CIE_1976(lab1, lab2)  # doctest: +ELLIPSIS
     451.7133019...
     """
     return np.linalg.norm(np.array(lab1) - np.array(lab2))
@@ -82,7 +82,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_1994(lab1, lab2) # doctest: +ELLIPSIS
+    >>> delta_E_CIE_1994(lab1, lab2)  # doctest: +ELLIPSIS
     88.3355530...
     """
 
@@ -146,7 +146,7 @@ def delta_E_CIE_2000(lab1, lab2):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_2000(lab1, lab2) # doctest: +ELLIPSIS
+    >>> delta_E_CIE_2000(lab1, lab2)  # doctest: +ELLIPSIS
     94.0356490...
     """
 
@@ -257,7 +257,7 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CMC(lab1, lab2) # doctest: +ELLIPSIS
+    >>> delta_E_CMC(lab1, lab2)  # doctest: +ELLIPSIS
     172.7047712...
     """
 
@@ -277,7 +277,7 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
         h1 -= 360
 
     t = (0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168)) / 180))
-         if h1 >= 164 and h1 <= 345 else
+         if 164 <= h1 <= 345 else
          0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35)) / 180)))
     c4 = c1 * c1 * c1 * c1
     f = math.sqrt(c4 / (c4 + 1900))

@@ -56,6 +56,11 @@ def linear_regression(y, x=None, additional_statistics=False):
     ndarray, ({{mn, mn-1, ..., b}, {sum_of_squares_residual}})
         Regression statistics.
 
+    Raises
+    ------
+    ValueError
+        If :math:`y` and :math:`x` variables have incompatible dimensions.
+
     References
     ----------
     .. [2]  http://en.wikipedia.org/wiki/Simple_linear_regression
@@ -65,27 +70,27 @@ def linear_regression(y, x=None, additional_statistics=False):
     --------
     Linear regression with the dependent and already known :math:`y` variable:
 
-    >>> y = np.array([1,2,1,3,2,3,3,4,4,3])
-    >>> linear_regression(y) # doctest: +ELLIPSIS
+    >>> y = np.array([1, 2, 1, 3, 2, 3, 3, 4, 4, 3])
+    >>> linear_regression(y)  # doctest: +ELLIPSIS
     array([ 0.2909090...,  1.        ])
 
     Linear regression with the dependent :math:`y` variable and independent
     :math:`x` variable:
 
     >>> x1 = np.array([40, 45, 38, 50, 48, 55, 53, 55, 58, 40])
-    >>> linear_regression(y, x1) # doctest: +ELLIPSIS
+    >>> linear_regression(y, x1)  # doctest: +ELLIPSIS
     array([ 0.1225194..., -3.3054357...])
 
     Multiple linear regression with the dependent :math:`y` variable and
     multiple independent :math:`x_i` variables:
 
     >>> x2 = np.array([25, 20, 30, 30, 28, 30, 34, 36, 32, 34])
-    >>> linear_regression(y, tuple(zip(x1, x2))) # doctest: +ELLIPSIS
+    >>> linear_regression(y, tuple(zip(x1, x2)))  # doctest: +ELLIPSIS
     array([ 0.0998002...,  0.0876257..., -4.8303807...])
 
     Multiple linear regression with additional statistics:
 
-    >>> linear_regression(y, tuple(zip(x1, x2)), additional_statistics=True) # doctest: +ELLIPSIS
+    >>> linear_regression(y, tuple(zip(x1, x2)), True)  # doctest: +ELLIPSIS
     (array([ 0.0998002...,  0.0876257..., -4.8303807...]), array([ 2.1376249...]))
     """
 

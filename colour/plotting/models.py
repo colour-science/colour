@@ -53,13 +53,18 @@ def get_RGB_colourspace(colourspace):
     -------
     RGB_Colourspace
         *RGB* Colourspace.
+
+    Raises
+    ------
+    KeyError
+        If the given colourspace is not found in the factory colourspaces.
     """
 
     colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
         raise KeyError(
-            '"{0}" colourspace not found in factory colourspaces: "{1}".'.format(
-                name, sorted(RGB_COLOURSPACES.keys())))
+            ('"{0}" colourspace not found in factory colourspaces: '
+             '"{1}".').format(name, sorted(RGB_COLOURSPACES.keys())))
 
     return colourspace
 
@@ -89,7 +94,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES RGB']
-    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps) # doctest: +SKIP
+    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # doctest: +SKIP
     True
     """
 
@@ -195,7 +200,7 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
 
     Examples
     --------
-    >>> single_transfer_function_plot('sRGB') # doctest: +SKIP
+    >>> single_transfer_function_plot()  # doctest: +SKIP
     True
     """
 
@@ -227,7 +232,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Examples
     --------
-    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709']) # doctest: +SKIP
+    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709'])  # doctest: +SKIP
     True
     """
 
