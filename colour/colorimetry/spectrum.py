@@ -2035,7 +2035,6 @@ class TriSpectralPowerDistribution(object):
 
         raise AttributeError('"{0}" attribute is read only!'.format('items'))
 
-
     @property
     def shape(self):
         """

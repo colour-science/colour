@@ -25,10 +25,10 @@ References
 
 from __future__ import division, unicode_literals
 
-import colour
 import math
 import numpy as np
 from collections import namedtuple
+
 from colour.models import XYZ_to_xy
 
 __author__ = 'Colour Developers'
@@ -961,4 +961,3 @@ def colourfulness_correlate(C, B_rw):
 
     M = C * B_rw / 100
     return M
-

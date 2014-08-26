@@ -83,4 +83,3 @@ __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['spectral_to_XYZ', 'wavelength_to_XYZ']
-

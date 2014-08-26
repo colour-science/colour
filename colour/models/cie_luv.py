@@ -84,7 +84,7 @@ def XYZ_to_Luv(XYZ,
 
     yr = Y / Yr
 
-    L = 116 * yr ** ( 1 / 3) - 16 if yr > CIE_E else CIE_K * yr
+    L = 116 * yr ** (1 / 3) - 16 if yr > CIE_E else CIE_K * yr
     u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
                    (4 * Xr / (Xr + 15 * Yr + 3 * Zr))))
     v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -

@@ -167,3 +167,4 @@ def wavelength_to_XYZ(wavelength,
                          for interpolator in interpolators])
     else:
         return np.array(cmfs.get(wavelength))
+

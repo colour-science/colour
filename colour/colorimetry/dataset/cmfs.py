@@ -9046,4 +9046,3 @@ CMFS : dict
 """
 CMFS.update(RGB_CMFS)
 CMFS.update(STANDARD_OBSERVERS_CMFS)
-

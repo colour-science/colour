@@ -29,4 +29,3 @@ __all__ += ['munsell_value_priest1920',
             'munsell_value_mccamy1987',
             'munsell_value_ASTM_D1535_08']
 __all__ += ['munsell_colour_to_xyY', 'xyY_to_munsell_colour']
-

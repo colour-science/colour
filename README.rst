@@ -1,16 +1,19 @@
-.. image:: https://travis-ci.org/colour-science/colour.svg?branch=master
-    :target: https://travis-ci.org/colour-science/colour
-.. image:: https://coveralls.io/repos/colour-science/colour/badge.png?branch=master
-  :target: https://coveralls.io/r/colour-science/colour?branch=master
-..  image:: https://gemnasium.com/colour-science/colour.png
-.. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
- :target: https://waffle.io/colour-science/colour
- :alt: 'Stories in Ready'
-
 Colour Science for Python
 =========================
 
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+
+.. image:: https://travis-ci.org/colour-science/colour.svg?branch=master
+    :target: https://travis-ci.org/colour-science/colour
+.. image:: https://coveralls.io/repos/colour-science/colour/badge.png?branch=master
+    :target: https://coveralls.io/r/colour-science/colour?branch=master
+.. image:: https://landscape.io/github/colour-science/colour/master/landscape.png
+    :target: https://landscape.io/github/colour-science/colour/master
+    :alt: Code Health
+..  image:: https://gemnasium.com/colour-science/colour.png
+.. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
+    :target: https://waffle.io/colour-science/colour
+    :alt: 'Stories in Ready'
 
 `Colour <https://github.com/colour-science/colour>`_ is a `Python <https://www.python.org/>`_ colour science package implementing a comprehensive number of colour theory transformations and algorithms.
 

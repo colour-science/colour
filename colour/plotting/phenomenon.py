@@ -169,4 +169,3 @@ def the_blue_sky_plot(
     bounding_box(**settings)
     aspect(**settings)
     return display(**settings)
-

@@ -11,7 +11,8 @@ import numpy as np
 from numpy.testing.utils import assert_allclose, assert_almost_equal
 from colour.appearance.ciecam02 import (
     CIECAM02_InductionFactors,
-    XYZ_to_CIECAM02, CIECAM02_Specification, CIECAM02_to_XYZ)
+    XYZ_to_CIECAM02,
+    CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -147,4 +148,3 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                             expected,
                             decimal=1,
                             err_msg=error_message)
-

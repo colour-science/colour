@@ -22,4 +22,5 @@ multi_spd_plot([colour.COLOURCHECKERS_SPDS.get('BabelColor Average').get(value)
                 for key, value in
                 sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
                use_spds_colours=True,
-               title='BabelColor Average - Relative Spectral Power Distributions')
+               title=('BabelColor Average - '
+                      'Relative Spectral Power Distributions'))

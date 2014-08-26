@@ -101,4 +101,3 @@ __all__ += ['colour_rendering_index_bars_plot']
 __all__ += [
     'planckian_locus_CIE_1931_chromaticity_diagram_plot',
     'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
-

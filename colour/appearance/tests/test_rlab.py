@@ -61,4 +61,3 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
                                     data['sigma'],
                                     data['D'])
         return specification
-

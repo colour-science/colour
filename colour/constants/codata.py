@@ -50,4 +50,3 @@ Planck constant.
 
 PLANCK_CONSTANT : numeric
 """
-

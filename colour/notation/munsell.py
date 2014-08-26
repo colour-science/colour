@@ -757,7 +757,7 @@ def xyY_to_munsell_specification(xyY):
         extrapolate = False
 
         while np.sign(min(theta_differences)) == np.sign(
-                max(theta_differences)) and extrapolate == False:
+                max(theta_differences)) and extrapolate is False:
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:

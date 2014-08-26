@@ -15,8 +15,6 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import D_ILLUMINANTS_S_SPDS
 from colour.colorimetry import SpectralPowerDistribution
 

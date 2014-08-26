@@ -233,5 +233,3 @@ class ColourAppearanceModelTest(object):
 
         for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
             yield test
-
-
