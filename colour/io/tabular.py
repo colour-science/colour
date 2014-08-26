@@ -78,6 +78,42 @@ def read_spectral_data_from_csv_file(path,
         spectral power distribution.
     -   If no value is provided for the fields names, the first line of the
         file will be used as spectral data fields names.
+
+    Examples
+    --------
+    >>> import os
+    >>> from pprint import pprint
+    >>> csv_file = os.path.join(
+    ...     os.path.dirname(__file__),
+    ...     'tests',
+    ...     'resources',
+    ...     'colorchecker_n_ohta.csv')
+    >>> spds_data = read_spectral_data_from_csv_file(csv_file)
+    >>> pprint(sorted(spds_data.keys()))
+    ['1',
+     '10',
+     '11',
+     '12',
+     '13',
+     '14',
+     '15',
+     '16',
+     '17',
+     '18',
+     '19',
+     '2',
+     '20',
+     '21',
+     '22',
+     '23',
+     '24',
+     '3',
+     '4',
+     '5',
+     '6',
+     '7',
+     '8',
+     '9']
     """
 
     with open(path) as csv_file:
@@ -130,6 +166,66 @@ def read_spds_from_csv_file(path,
     dict
         :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
         classes of given *CSV* file.
+
+    Examples
+    --------
+    >>> import os
+    >>> from pprint import pprint
+    >>> csv_file = os.path.join(
+    ...     os.path.dirname(__file__),
+    ...     'tests',
+    ...     'resources',
+    ...     'colorchecker_n_ohta.csv')
+    >>> spds = read_spds_from_csv_file(csv_file)
+    >>> pprint(sorted(spds.items()))  # doctest: +ELLIPSIS
+    [('1',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('10',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('11',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('12',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('13',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('14',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('15',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('16',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('17',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('18',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('19',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('2',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('20',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('21',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('22',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('23',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('24',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('3',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('4',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('5',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('6',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('7',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('8',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('9',
+      <...SpectralPowerDistribution object at 0x...>)]
     """
 
     data = read_spectral_data_from_csv_file(path,
