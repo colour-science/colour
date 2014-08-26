@@ -182,7 +182,6 @@ class ColourAppearanceModelTest(object):
                    specification_attr,
                    data[data_attr])
 
-
     def fixtures(self):
         """
         Returns the fixtures case for tested colour appearance model and

@@ -1,8 +1,3 @@
-Colour Science for Python
-=========================
-
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
-
 .. image:: https://travis-ci.org/colour-science/colour.svg?branch=master
     :target: https://travis-ci.org/colour-science/colour
 .. image:: https://coveralls.io/repos/colour-science/colour/badge.png?branch=master
@@ -14,6 +9,11 @@ Colour Science for Python
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://waffle.io/colour-science/colour
     :alt: 'Stories in Ready'
+
+Colour Science for Python
+=========================
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
 
 `Colour <https://github.com/colour-science/colour>`_ is a `Python <https://www.python.org/>`_ colour science package implementing a comprehensive number of colour theory transformations and algorithms.
 

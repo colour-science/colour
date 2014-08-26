@@ -45,7 +45,7 @@ __all__ = ['planckian_locus_CIE_1931_chromaticity_diagram_plot',
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
-        illuminants=['A', 'B', 'C'],
+        illuminants=None,
         **kwargs):
     """
     Plots the planckian locus and given illuminants in
@@ -53,7 +53,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    illuminants : tuple or list, optional
+    illuminants : array_like, optional
         Factory illuminants to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -69,6 +69,9 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(ils) # doctest: +SKIP
     True
     """
+
+    if illuminants is None:
+        illuminants = ('A', 'B', 'C')
 
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
@@ -125,14 +128,15 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
-        illuminants=['A', 'C', 'E'], **kwargs):
+        illuminants=None,
+        **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    illuminants : tuple or list, optional
+    illuminants : array_like, optional
         Factory illuminants to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -148,6 +152,9 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils) # doctest: +SKIP
     True
     """
+
+    if illuminants is None:
+        illuminants = ('A', 'C', 'E')
 
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 

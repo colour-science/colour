@@ -285,14 +285,13 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     return multi_cmfs_plot([cmfs], **settings)
 
 
-def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
-                           'CIE 1964 10 Degree Standard Observer'], **kwargs):
+def multi_cmfs_plot(cmfss=None, **kwargs):
     """
     Plots given colour matching functions.
 
     Parameters
     ----------
-    cmfss : list, optional
+    cmfss : array_like, optional
         Colour matching functions to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -307,6 +306,10 @@ def multi_cmfs_plot(cmfss=['CIE 1931 2 Degree Standard Observer',
     >>> multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer', 'CIE 1964 10 Degree Standard Observer']) # doctest: +SKIP
     True
     """
+
+    if cmfss is None:
+        cmfss = ('CIE 1931 2 Degree Standard Observer',
+                 'CIE 1964 10 Degree Standard Observer')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for axis, rgb in (('x', [1, 0, 0]),
@@ -392,13 +395,13 @@ def single_illuminant_relative_spd_plot(
     return single_spd_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spd_plot(illuminants=['A', 'B', 'C'], **kwargs):
+def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
     Parameters
     ----------
-    illuminants : tuple or list, optional
+    illuminants : array_like, optional
         Factory illuminants to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -413,6 +416,9 @@ def multi_illuminants_relative_spd_plot(illuminants=['A', 'B', 'C'], **kwargs):
     >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C']) # doctest: +SKIP
     True
     """
+
+    if illuminants is None:
+        illuminants = ('A', 'B', 'C')
 
     spds = []
     for illuminant in illuminants:
@@ -504,15 +510,13 @@ def single_lightness_function_plot(function='Lightness 1976', **kwargs):
 
 
 @figure_size((8, 8))
-def multi_lightness_function_plot(
-        functions=['Lightness 1976', 'Lightness Wyszecki 1964'],
-        **kwargs):
+def multi_lightness_function_plot(functions=None, **kwargs):
     """
     Plots given *Lightness* functions.
 
     Parameters
     ----------
-    functions : list, optional
+    functions : array_like, optional
         *Lightness* functions to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -528,6 +532,9 @@ def multi_lightness_function_plot(
     >>> multi_lightness_function_plot(fs) # doctest: +SKIP
     True
     """
+
+    if functions is None:
+        functions = ('Lightness 1976', 'Lightness Wyszecki 1964')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):

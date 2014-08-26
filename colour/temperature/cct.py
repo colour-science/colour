@@ -453,10 +453,10 @@ def uv_to_CCT_robertson1968(uv):
         du = 1.0
         dv = wr_ruvt.t
 
-        len = math.sqrt(1 + dv * dv)
+        length = math.sqrt(1 + dv * dv)
 
-        du /= len
-        dv /= len
+        du /= length
+        dv /= length
 
         uu = u - wr_ruvt.u
         vv = v - wr_ruvt.v
@@ -482,10 +482,10 @@ def uv_to_CCT_robertson1968(uv):
             du = du * (1 - f) + last_du * f
             dv = dv * (1 - f) + last_dv * f
 
-            len = math.sqrt(du * du + dv * dv)
+            length = math.sqrt(du * du + dv * dv)
 
-            du /= len
-            dv /= len
+            du /= length
+            dv /= length
 
             Duv = uu * du + vv * dv
 
@@ -548,13 +548,14 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu1 = uu2 = 1.0
             vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
-            len1, len2 = math.sqrt(1 + vv1 * vv1), math.sqrt(1 + vv2 * vv2)
+            length1 = math.sqrt(1 + vv1 * vv1)
+            length2 = math.sqrt(1 + vv2 * vv2)
 
-            uu1 /= len1
-            vv1 /= len1
+            uu1 /= length1
+            vv1 /= length1
 
-            uu2 /= len2
-            vv2 /= len2
+            uu2 /= length2
+            vv2 /= length2
 
             uu3 = uu1 * f + uu2 * (1 - f)
             vv3 = vv1 * f + vv2 * (1 - f)

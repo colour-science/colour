@@ -26,7 +26,6 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-import colour
 from colour.utilities import CaseInsensitiveMapping, warning
 
 __author__ = 'Colour Developers'

@@ -35,7 +35,6 @@ import math
 import numpy as np
 from collections import namedtuple
 
-import colour
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,
                                     HPE_MATRIX_INVERSE,
@@ -305,7 +304,7 @@ def CIECAM02_to_XYZ(J, C, h,
     >>> XYZ_w = np.array([96.4219075, 100.00, 82.520490])
     >>> L_A = 100
     >>> Y_b = 20.0
-    >>> colour.CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
+    >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b) # doctest: +ELLIPSIS
     array([ 28.8452082...,  18.4037556...,   2.6743017...])
     """
 

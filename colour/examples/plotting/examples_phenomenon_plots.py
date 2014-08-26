@@ -5,7 +5,6 @@
 Showcases optical phenomenons plotting examples.
 """
 
-import colour
 from colour.phenomenons import rayleigh_scattering_spd
 from colour.plotting import *
 
