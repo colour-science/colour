@@ -8,7 +8,7 @@ Defines the common unit tests objects for :mod:`colour.appearance` package.
 from __future__ import division, unicode_literals
 
 import csv
-import numpy
+import numpy as np
 import os
 import sys
 
@@ -16,9 +16,9 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+
 from abc import abstractmethod
 from collections import defaultdict
-from numpy.testing import assert_allclose, assert_almost_equal
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -145,17 +145,17 @@ class ColourAppearanceModelTest(object):
             'Expected: "{2}" \n'
             'Received "{3}"').format(attribute, case, expected, value)
 
-        assert_allclose(value,
-                        expected,
-                        err_msg=error_message,
-                        rtol=0.01,
-                        atol=0.01,
-                        verbose=False)
+        np.testing.assert_allclose(value,
+                                   expected,
+                                   err_msg=error_message,
+                                   rtol=0.01,
+                                   atol=0.01,
+                                   verbose=False)
 
-        assert_almost_equal(value,
-                            expected,
-                            decimal=1,
-                            err_msg=error_message)
+        np.testing.assert_almost_equal(value,
+                                       expected,
+                                       decimal=1,
+                                       err_msg=error_message)
 
     def check_model_consistency(self, data, output_attributes):
         """
@@ -228,7 +228,7 @@ class ColourAppearanceModelTest(object):
                 data[key].append(value)
 
         for key in data:
-            data[key] = numpy.array(data[key])
+            data[key] = np.array(data[key])
 
         for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
             yield test

@@ -31,6 +31,11 @@ References
 from __future__ import division, unicode_literals
 
 import bisect
+
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
 import math
 import numpy as np
 from collections import namedtuple
@@ -39,7 +44,7 @@ from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
 from colour.appearance.hunt import (HPE_MATRIX,
                                     HPE_MATRIX_INVERSE,
                                     luminance_level_adaptation_factor)
-from colour.utilities import CaseInsensitiveMapping, memoize
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -94,8 +99,6 @@ Reference *CIECAM02* colour appearance model viewing conditions.
 CIECAM02_VIEWING_CONDITIONS : dict
 ('Average', 'Dim', 'Dark')
 """
-
-_CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE = {}
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_i': np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
@@ -419,7 +422,7 @@ def base_exponential_non_linearity(n):
     return z
 
 
-@memoize(_CIECAM02_VIEWING_CONDITION_DEPENDENT_PARAMETERS_CACHE)
+@lru_cache(maxsize=8192)
 def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     """
     Returns the viewing condition dependent parameters.

@@ -22,16 +22,25 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DESCRIPTION']
+__all__ = ['SHORT_DESCRIPTION',
+           'LONG_DESCRIPTION',
+           'INSTALLATION_REQUIREMENTS',
+           'TESTS_REQUIREMENTS',
+           'DOCS_REQUIREMENTS']
 
-DESCRIPTION = ('Colour is a Python colour science package implementing a '
-               'comprehensive number of colour theory transformations and '
-               'algorithms.')
+SHORT_DESCRIPTION = 'Colour Science for Python'
+LONG_DESCRIPTION = ('Colour is a Python colour science package implementing a '
+                    'comprehensive number of colour theory transformations '
+                    'and algorithms.')
 
 INSTALLATION_REQUIREMENTS = [
     'matplotlib>=1.3.1',
     'numpy>=1.8.2',
     'scipy>=0.14.0']
+
+if sys.version_info[:2] <= (2, 7):
+    INSTALLATION_REQUIREMENTS += [
+        'backports.functools_lru_cache>=1.0.1']
 
 if sys.version_info[:2] <= (2, 6):
     INSTALLATION_REQUIREMENTS += [
@@ -53,17 +62,18 @@ setup(name='colour-science',
       scripts=[],
       url='http://github.com/colour-science/colour',
       license='',
-      description=DESCRIPTION,
-      long_description=DESCRIPTION,
+      description=SHORT_DESCRIPTION,
+      long_description=LONG_DESCRIPTION,
       install_requires=INSTALLATION_REQUIREMENTS,
       extras_require={
           'tests': TESTS_REQUIREMENTS,
           'docs': DOCS_REQUIREMENTS},
-      classifiers=['Development Status :: 5 - Production/Stable',
+      classifiers=['Development Status :: 4 - Beta',
                    'Environment :: Console',
                    'Intended Audience :: Developers',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
+                   'Programming Language :: Python :: 2.6',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.4',
                    'Topic :: Utilities'])

@@ -7,9 +7,9 @@ Defines unit tests for :mod:`colour.models.rgb.derivation` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import re
 import sys
-import numpy as np
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest

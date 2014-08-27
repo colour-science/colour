@@ -15,13 +15,16 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
 import math
 import warnings
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
     SpectralPowerDistribution)
-from colour.utilities import memoize
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -41,10 +44,8 @@ C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
 C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
 N = 1
 
-_PLANCK_LAW_CACHE = {}
 
-
-@memoize(_PLANCK_LAW_CACHE)
+@lru_cache(maxsize=8192)
 def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature

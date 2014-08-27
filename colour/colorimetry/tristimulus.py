@@ -10,13 +10,16 @@ Defines objects for tristimulus values computation from spectral data.
 
 from __future__ import division, unicode_literals
 
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     STANDARD_OBSERVERS_CMFS,
     ones_spd)
-from colour.utilities import memoize
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -27,8 +30,6 @@ __status__ = 'Production'
 
 __all__ = ['spectral_to_XYZ',
            'wavelength_to_XYZ']
-
-_WAVELENGTH_TO_XYZ_CACHE = {}
 
 
 def spectral_to_XYZ(spd,
@@ -107,7 +108,7 @@ def spectral_to_XYZ(spd,
     return XYZ
 
 
-@memoize(_WAVELENGTH_TO_XYZ_CACHE)
+@lru_cache(maxsize=8192)
 def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           'CIE 1931 2 Degree Standard Observer')):
