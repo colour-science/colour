@@ -6,6 +6,8 @@
     :target: https://landscape.io/github/colour-science/colour/master
     :alt: Code Health
 ..  image:: https://gemnasium.com/colour-science/colour.png
+    :target: https://gemnasium.com/KelSolaar/TravisRamblings
+    :alt: Dependency Status
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://waffle.io/colour-science/colour
     :alt: 'Stories in Ready'
