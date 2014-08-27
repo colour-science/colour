@@ -801,7 +801,7 @@ def hue_quadrature(h):
 
     Examples
     --------
-    >>> hue_quadrature(-140.951567342)  # doctest: +ELLIPSIS
+    >>> hue_quadrature(219.0484326582719)  # doctest: +ELLIPSIS
     278.0607358...
     """
 
@@ -809,13 +809,25 @@ def hue_quadrature(h):
     e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
     H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
 
-    h_p = h + 360 if h < h_i[0] else h
-    index = bisect.bisect_left(h_i, h_p) - 1
+    i = bisect.bisect_left(h_i, h) - 1
 
-    H = (H_i[index] + ((100 * (h_p - h_i[index]) / e_i[index]) /
-                       ((h_p - h_i[index]) / e_i[index] +
-                        (h_i[index + 1] - h_p) / e_i[index + 1])))
+    h_ii = h_i[i]
+    e_ii = e_i[i]
+    H_ii = H_i[i]
+    h_ii1 = h_i[i + 1]
+    e_ii1 = e_i[i + 1]
 
+    if h < 20.14:
+        H = 385.9
+        H += (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8)
+    elif h >= 237.53:
+        H = H_ii
+        H += ((85.9 * (h - h_ii) / e_ii) /
+              ((h - h_ii) / e_ii + (360 - h) / 0.856))
+    else:
+        H = H_ii
+        H += ((100 * (h - h_ii) / e_ii) /
+              ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
     return H
 
 
