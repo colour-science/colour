@@ -33,15 +33,15 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
     FIXTURE_BASENAME = 'atd95.csv'
 
     OUTPUT_ATTRIBUTES = {
+        'H': 'h',
+        'C': 'C',
+        'Br': 'Q',
         'A_1': 'A_1',
         'T_1': 'T_1',
         'D_1': 'D_1',
         'A_2': 'A_2',
         'T_2': 'T_2',
-        'D_2': 'D_2',
-        'Br': 'Br',
-        'C': 'C',
-        'H': 'H'}
+        'D_2': 'D_2'}
 
     def output_specification_from_data(self, data):
         """

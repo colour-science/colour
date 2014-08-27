@@ -29,13 +29,13 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'llab.csv'
 
-    OUTPUT_ATTRIBUTES = {'L_L': 'L_L',
-                         'Ch_L': 'Ch_L',
-                         's_L': 's_L',
-                         'h_L': 'h_L',
-                         'C_L': 'C_L',
-                         'A_L': 'A_L',
-                         'B_L': 'B_L'}
+    OUTPUT_ATTRIBUTES = {'L_L': 'J',
+                         'Ch_L': 'C',
+                         'h_L': 'h',
+                         's_L': 's',
+                         'C_L': 'M',
+                         'A_L': 'a',
+                         'B_L': 'b'}
 
     def output_specification_from_data(self, data):
         """

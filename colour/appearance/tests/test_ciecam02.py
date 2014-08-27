@@ -35,10 +35,12 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
     FIXTURE_BASENAME = 'ciecam02.csv'
 
     OUTPUT_ATTRIBUTES = {'J': 'J',
-                         'Q': 'Q',
                          'C': 'C',
+                         'h': 'h',
+                         's': 's',
+                         'Q': 'Q',
                          'M': 'M',
-                         'S': 's'}
+                         'H': 'H'}
 
     def output_specification_from_data(self, data):
         """
@@ -57,7 +59,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_w = np.array([data['X_W'], data['Y_W'], data['Z_W']])
+        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_CIECAM02(XYZ,
                                         XYZ_w,
@@ -97,9 +99,9 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             *CIECAM02* colour appearance model specification.
         """
 
-        XYZ_w = np.array([data['X_W'], data['Y_W'], data['Z_W']])
+        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
 
-        specification = CIECAM02_to_XYZ(data['J'], data['C'], data['H'],
+        specification = CIECAM02_to_XYZ(data['J'], data['C'], data['h'],
                                         XYZ_w,
                                         data['L_A'],
                                         data['Y_b'],

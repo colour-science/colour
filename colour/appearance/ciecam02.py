@@ -106,7 +106,7 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
 
 CIECAM02_Specification = namedtuple('CIECAM02_Specification',
-                                    ('J', 'C', 'h', 'Q', 'M', 's', 'H'))
+                                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
 """
 Defines the *CIECAM02* colour appearance model specification.
 
@@ -118,14 +118,16 @@ C : numeric
     Correlate of *chroma* :math:`C`.
 h : numeric
     *Hue* angle :math:`h` in degrees.
+s : numeric
+    Correlate of *saturation* :math:`s`.
 Q : numeric
     Correlate of *brightness* :math:`Q`.
 M : numeric
     Correlate of *colourfulness* :math:`M`.
-s : numeric
-    Correlate of *saturation* :math:`s`.
 H : numeric
-    Hue :math:`h` quadrature :math:`H`.
+    *Hue* :math:`h` quadrature :math:`H`.
+HC : numeric
+    *Hue* :math:`h` composition :math:`H^C`.
 """
 
 
@@ -178,7 +180,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., Q=195.3713259..., M=0.1088421..., s=2.3603053..., H=278.0607358...)
+    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
     XYZ = np.array(XYZ).reshape((3, 1))
@@ -221,6 +223,7 @@ def XYZ_to_CIECAM02(XYZ,
     # -------------------------------------------------------------------------
     # Computing hue :math:`h` quadrature :math:`H`.
     H = hue_quadrature(h)
+    # TODO: Compute hue composition.
 
     # Computing eccentricity factor *e_t*.
     e_t = eccentricity_factor(h)
@@ -254,7 +257,7 @@ def XYZ_to_CIECAM02(XYZ,
     # -------------------------------------------------------------------------
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(J, C, h, Q, M, s, H)
+    return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
 def CIECAM02_to_XYZ(J, C, h,
@@ -801,7 +804,7 @@ def hue_quadrature(h):
 
     Examples
     --------
-    >>> hue_quadrature(-140.951567342)  # doctest: +ELLIPSIS
+    >>> hue_quadrature(219.0484326582719)  # doctest: +ELLIPSIS
     278.0607358...
     """
 
@@ -809,13 +812,25 @@ def hue_quadrature(h):
     e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
     H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
 
-    h_p = h + 360 if h < h_i[0] else h
-    index = bisect.bisect_left(h_i, h_p) - 1
+    i = bisect.bisect_left(h_i, h) - 1
 
-    H = (H_i[index] + ((100 * (h_p - h_i[index]) / e_i[index]) /
-                       ((h_p - h_i[index]) / e_i[index] +
-                        (h_i[index + 1] - h_p) / e_i[index + 1])))
+    h_ii = h_i[i]
+    e_ii = e_i[i]
+    H_ii = H_i[i]
+    h_ii1 = h_i[i + 1]
+    e_ii1 = e_i[i + 1]
 
+    if h < 20.14:
+        H = 385.9
+        H += (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8)
+    elif h >= 237.53:
+        H = H_ii
+        H += ((85.9 * (h - h_ii) / e_ii) /
+              ((h - h_ii) / e_ii + (360 - h) / 0.856))
+    else:
+        H = H_ii
+        H += ((100 * (h - h_ii) / e_ii) /
+              ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
     return H
 
 
