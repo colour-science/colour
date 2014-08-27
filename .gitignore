@@ -9,6 +9,7 @@
 .settings
 __pycache__
 dist
-docs/sphinx/_build
+docs/_build
+docs/colour*.rst
 references
 releases

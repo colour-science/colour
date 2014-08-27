@@ -15,7 +15,7 @@ export PROJECT=$( dirname "${BASH_SOURCE[0]}" )/..
 
 export UTILITIES=$PROJECT/utilities
 export PACKAGE=$PROJECT/colour
-export SPHINX_DOCUMENTATION=$PROJECT/docs/sphinx
+export SPHINX_DOCUMENTATION=$PROJECT/docs
 export SPHINX_DOCUMENTATION_BUILD=$SPHINX_DOCUMENTATION/_build
 
 #! Removing previous build elements.
