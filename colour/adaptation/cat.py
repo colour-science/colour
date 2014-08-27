@@ -152,6 +152,7 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
            [ 0.0080207...,  0.0282636...,  3.0602319...]])
 
     Using *Bradford* method:
+
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
     >>> method = 'Bradford'
