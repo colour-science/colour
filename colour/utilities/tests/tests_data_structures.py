@@ -47,13 +47,13 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(structure['John'], 'Nemo')
         structure['John'] = 'Vador'
         self.assertEqual(structure['John'], 'Vador')
-        del (structure['John'])
+        del structure['John']
         self.assertNotIn('John', structure)
         self.assertFalse(hasattr(structure, 'John'))
         structure.John = 'Doe'
         self.assertIn('John', structure)
         self.assertTrue(hasattr(structure, 'John'))
-        del (structure.John)
+        del structure.John
         self.assertNotIn('John', structure)
         self.assertFalse(hasattr(structure, 'John'))
 
@@ -87,26 +87,26 @@ class TestLookup(unittest.TestCase):
     methods.
     """
 
-    def test_get_first_key_from_value(self):
+    def test_first_key_from_value(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.Lookup.get_first_key_from_value`
+        :meth:`colour.utilities.data_structures.Lookup.first_key_from_value`
         method.
         """
 
         lookup = Lookup(firstName='Doe', lastName='John', gender='male')
-        self.assertEqual('firstName', lookup.get_first_key_from_value('Doe'))
+        self.assertEqual('firstName', lookup.first_key_from_value('Doe'))
 
-    def test_get_keys_from_value(self):
+    def test_keys_from_value(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.Lookup.get_keys_from_value`
+        :meth:`colour.utilities.data_structures.Lookup.keys_from_value`
         method.
         """
 
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
         self.assertListEqual(sorted(['Jane', 'John']),
-                             sorted(lookup.get_keys_from_value('Doe')))
+                             sorted(lookup.keys_from_value('Doe')))
 
 
 class TestCaseInsensitiveMapping(unittest.TestCase):
@@ -118,7 +118,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test__setitem__(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__setitem__`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__setitem__`  # noqa
         method.
         """
 
@@ -131,7 +131,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test__getitem__(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__getitem__`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__getitem__`  # noqa
         method.
         """
 
@@ -145,7 +145,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test__delitem__(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__delitem__`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__delitem__`  # noqa
         method.
         """
 
@@ -160,7 +160,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test__contains__(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__contains__`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__contains__`  # noqa
         method.
         """
 
@@ -174,7 +174,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test__iter__(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__iter__`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__iter__`  # noqa
         method.
         """
 
@@ -234,7 +234,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     def test_lower_items(self):
         """
         Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.lower_items`
+        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.lower_items`  # noqa
         method.
         """
 

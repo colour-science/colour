@@ -6,11 +6,12 @@ Showcases *RGB* *colourspaces* computations.
 """
 
 import numpy as np
-import pprint
+from pprint import pprint
+
 import colour
 
 # Displaying :attr:`colour.RGB_COLOURSPACES` data.
-pprint.pprint(sorted(colour.RGB_COLOURSPACES.keys()))
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 
 colourspace = colour.RGB_COLOURSPACES['ACES RGB']
 print('Name: "{0}"'.format(colourspace.name))
@@ -25,7 +26,7 @@ print('Inverse transfer function: "{0}"'.format(
 
 # Calculating *ACES RGB* to *sRGB* transformation matrix.
 print('"ACES RGB" colourspace to "sRGB" colourspace matrix:')
-cat = colour.get_chromatic_adaptation_matrix(
+cat = colour.chromatic_adaptation_matrix(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES RGB'].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
 print(np.dot(colour.RGB_COLOURSPACES['sRGB'].to_RGB,

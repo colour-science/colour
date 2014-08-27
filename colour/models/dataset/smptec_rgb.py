@@ -11,7 +11,7 @@ Defines the *SMPTE-C RGB* colourspace:
 
 References
 ----------
-.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf
+.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,7 +55,7 @@ SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
 SMPTE_C_RGB_WHITEPOINT : tuple
 """
 
-SMPTE_C_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(
+SMPTE_C_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
 """
 *SMPTE-C RGB* colourspace to *CIE XYZ* colourspace matrix.

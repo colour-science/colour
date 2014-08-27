@@ -42,26 +42,26 @@ __all__ = ['Hunt_InductionFactors',
            'HPE_MATRIX_INVERSE',
            'Hunt_Specification',
            'XYZ_to_Hunt',
-           'get_luminance_level_adaptation_factor',
-           'get_illuminant_scotopic_luminance',
+           'luminance_level_adaptation_factor',
+           'illuminant_scotopic_luminance',
            'XYZ_to_rgb',
            'f_n',
-           'get_chromatic_adaptation',
-           'get_adjusted_reference_white_signals',
-           'get_achromatic_post_adaptation_signal',
-           'get_colour_difference_signals',
-           'get_hue_angle',
-           'get_eccentricity_factor',
-           'get_low_luminance_tritanopia_factor',
-           'get_yellowness_blueness_response',
-           'get_redness_greenness_response',
-           'get_overall_chromatic_response',
-           'get_saturation_correlate',
-           'get_achromatic_signal',
-           'get_brightness_correlate',
-           'get_lightness_correlate',
-           'get_chroma_correlate',
-           'get_colourfulness_correlate', ]
+           'chromatic_adaptation',
+           'adjusted_reference_white_signals',
+           'achromatic_post_adaptation_signal',
+           'colour_difference_signals',
+           'hue_angle',
+           'eccentricity_factor',
+           'low_luminance_tritanopia_factor',
+           'yellowness_blueness_response',
+           'redness_greenness_response',
+           'overall_chromatic_response',
+           'saturation_correlate',
+           'achromatic_signal',
+           'brightness_correlate',
+           'lightness_correlate',
+           'chroma_correlate',
+           'colourfulness_correlate', ]
 
 Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
 
@@ -177,7 +177,7 @@ def XYZ_to_Hunt(XYZ,
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
     CCT_w : numeric, optional
-        Correlated color temperature :math`T_{cp}`: of the illuminant, needed
+        Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
     N_cb : numeric, optional
         Chromatic background induction factor :math:`N_{cb}`, approximated
@@ -237,8 +237,8 @@ def XYZ_to_Hunt(XYZ,
     >>> N_c = 1.0
     >>> N_b = 75.0
     >>> CCT_w = 6504.0
-    >>> colour.XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)
-    Hunt_Specification(h_S=269.2737594461446, C94=0.12105083993634971, s=0.019909320692941452, Q=22.209765491265024, M94=0.12389643825999687, J=30.0462678619607)
+    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
+    Hunt_Specification(h_S=269.2737594..., C_94=0.1210508..., s=0.0199093..., Q=22.2097654..., M_94=0.1238964..., J=30.0462678...)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -269,7 +269,7 @@ def XYZ_to_Hunt(XYZ,
                          'illuminant or its correlated colour temperature '
                          '"CCT_w" must be specified!')
     if L_AS is None:
-        L_AS = get_illuminant_scotopic_luminance(L_A, CCT_w)
+        L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         warning('Unspecified "L_AS" argument, using approximation from "CCT": '
                 '"{0}"'.format(L_AS))
 
@@ -292,96 +292,96 @@ def XYZ_to_Hunt(XYZ,
     XYZ_p = np.array([X_p, Y_p, Z_p])
 
     # Computing luminance level adaptation factor :math:`F_L`.
-    F_L = get_luminance_level_adaptation_factor(L_A)
+    F_L = luminance_level_adaptation_factor(L_A)
 
     # Computing test sample chromatic adaptation.
-    rgb_a = get_chromatic_adaptation(XYZ,
-                                     XYZ_w,
-                                     XYZ_b,
-                                     L_A,
-                                     F_L,
-                                     XYZ_p,
-                                     p,
-                                     helson_judd_effect,
-                                     discount_illuminant)
+    rgb_a = chromatic_adaptation(XYZ,
+                                 XYZ_w,
+                                 XYZ_b,
+                                 L_A,
+                                 F_L,
+                                 XYZ_p,
+                                 p,
+                                 helson_judd_effect,
+                                 discount_illuminant)
 
     # Computing reference white chromatic adaptation.
-    rgb_aw = get_chromatic_adaptation(XYZ_w,
-                                      XYZ_w,
-                                      XYZ_b,
-                                      L_A,
-                                      F_L,
-                                      XYZ_p,
-                                      p,
-                                      helson_judd_effect,
-                                      discount_illuminant)
+    rgb_aw = chromatic_adaptation(XYZ_w,
+                                  XYZ_w,
+                                  XYZ_b,
+                                  L_A,
+                                  F_L,
+                                  XYZ_p,
+                                  p,
+                                  helson_judd_effect,
+                                  discount_illuminant)
 
     # Computing opponent colour dimensions.
     # Computing achromatic post adaptation signals.
-    A_a = get_achromatic_post_adaptation_signal(rgb_a)
-    A_aw = get_achromatic_post_adaptation_signal(rgb_aw)
+    A_a = achromatic_post_adaptation_signal(rgb_a)
+    A_aw = achromatic_post_adaptation_signal(rgb_aw)
 
     # Computing colour difference signals.
-    C = get_colour_difference_signals(rgb_a)
-    C_w = get_colour_difference_signals(rgb_aw)
+    C = colour_difference_signals(rgb_a)
+    C_w = colour_difference_signals(rgb_aw)
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h_s`.
     # -------------------------------------------------------------------------
-    hue = get_hue_angle(C)
-    hue_w = get_hue_angle(C_w)
+    hue = hue_angle(C)
+    hue_w = hue_angle(C_w)
     # TODO: Implement hue quadrature computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
     # -------------------------------------------------------------------------
     # Computing eccentricity factors.
-    e_s = get_eccentricity_factor(hue)
-    e_s_w = get_eccentricity_factor(hue_w)
+    e_s = eccentricity_factor(hue)
+    e_s_w = eccentricity_factor(hue_w)
 
     # Computing low luminance tritanopia factor :math:`F_t`.
-    F_t = get_low_luminance_tritanopia_factor(L_A)
+    F_t = low_luminance_tritanopia_factor(L_A)
 
-    M_yb = get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
-    M_rg = get_redness_greenness_response(C, e_s, N_c, N_cb)
-    M_yb_w = get_yellowness_blueness_response(C_w, e_s, N_c, N_cb, F_t)
-    M_rg_w = get_redness_greenness_response(C_w, e_s, N_c, N_cb)
+    M_yb = yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
+    M_rg = redness_greenness_response(C, e_s, N_c, N_cb)
+    M_yb_w = yellowness_blueness_response(C_w, e_s, N_c, N_cb, F_t)
+    M_rg_w = redness_greenness_response(C_w, e_s, N_c, N_cb)
 
     # Computing overall chromatic response.
-    M = get_overall_chromatic_response(M_yb, M_rg)
-    M_w = get_overall_chromatic_response(M_yb_w, M_rg_w)
+    M = overall_chromatic_response(M_yb, M_rg)
+    M_w = overall_chromatic_response(M_yb_w, M_rg_w)
 
-    saturation = get_saturation_correlate(M, rgb_a)
+    saturation = saturation_correlate(M, rgb_a)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
     # -------------------------------------------------------------------------
     # Computing achromatic signal :math:`A`.
-    A = get_achromatic_signal(L_AS, S, S_W, N_bb, A_a)
-    A_w = get_achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
+    A = achromatic_signal(L_AS, S, S_W, N_bb, A_a)
+    A_w = achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
 
-    brightness = get_brightness_correlate(A, A_w, M, N_b)
-    brightness_w = get_brightness_correlate(A_w, A_w, M_w, N_b)
+    brightness = brightness_correlate(A, A_w, M, N_b)
+    brightness_w = brightness_correlate(A_w, A_w, M_w, N_b)
     # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
     # -------------------------------------------------------------------------
-    lightness = get_lightness_correlate(Y_b, Y_w, brightness, brightness_w)
+    lightness = lightness_correlate(Y_b, Y_w, brightness, brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C_{94}`.
     # -------------------------------------------------------------------------
-    chroma = get_chroma_correlate(saturation,
-                                  Y_b,
-                                  Y_w,
-                                  brightness,
-                                  brightness_w)
+    chroma = chroma_correlate(saturation,
+                              Y_b,
+                              Y_w,
+                              brightness,
+                              brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M_{94}`.
     # -------------------------------------------------------------------------
-    colorfulness = get_colourfulness_correlate(F_L, chroma)
+    colorfulness = colourfulness_correlate(F_L, chroma)
 
     return Hunt_Specification(hue,
                               chroma,
@@ -391,7 +391,7 @@ def XYZ_to_Hunt(XYZ,
                               lightness)
 
 
-def get_luminance_level_adaptation_factor(L_A):
+def luminance_level_adaptation_factor(L_A):
     """
     Returns the *luminance* level adaptation factor :math:`F_L`.
 
@@ -407,8 +407,8 @@ def get_luminance_level_adaptation_factor(L_A):
 
     Examples
     --------
-    >>> colour.appearance.hunt.get_luminance_level_adaptation_factor(318.31)
-    1.16754446415
+    >>> luminance_level_adaptation_factor(318.31)  # doctest: +ELLIPSIS
+    1.1675444...
     """
 
     k = 1 / (5 * L_A + 1)
@@ -418,7 +418,7 @@ def get_luminance_level_adaptation_factor(L_A):
     return F_L
 
 
-def get_illuminant_scotopic_luminance(L_A, CCT):
+def illuminant_scotopic_luminance(L_A, CCT):
     """
     Returns the approximate scotopic luminance :math:`L_{AS}` of the
     illuminant.
@@ -428,7 +428,7 @@ def get_illuminant_scotopic_luminance(L_A, CCT):
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     CCT : numeric
-        Correlated color temperature :math`T_{cp}` of the illuminant.
+        Correlated color temperature :math:`T_{cp}` of the illuminant.
 
     Returns
     -------
@@ -437,8 +437,8 @@ def get_illuminant_scotopic_luminance(L_A, CCT):
 
     Examples
     --------
-    >>> colour.appearance.hunt.get_illuminant_scotopic_luminance(318.31, 6504.0)
-    769.937628654
+    >>> illuminant_scotopic_luminance(318.31, 6504.0)  # doctest: +ELLIPSIS
+    769.9376286...
     """
 
     CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
@@ -448,7 +448,7 @@ def get_illuminant_scotopic_luminance(L_A, CCT):
 def XYZ_to_rgb(XYZ):
     """
     Converts from *CIE XYZ* colourspace to *Hunt-Pointer-Estevez*
-    :math:`\rho\gamma\beta` colourspace.
+    :math:`\\rho\gamma\\beta` colourspace.
 
     Parameters
     ----------
@@ -458,13 +458,13 @@ def XYZ_to_rgb(XYZ):
     Returns
     -------
     ndarray, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> colour.appearance.hunt.XYZ_to_rgb(XYZ)
-    array([  97.3732571,  101.5496803,  108.88     ])
+    >>> XYZ_to_rgb(XYZ)  # doctest: +ELLIPSIS
+    array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
     return HPE_MATRIX.dot(XYZ)
@@ -488,24 +488,24 @@ def f_n(x):
 
     Examples
     --------
-    >>> x = np.array([0.23350512, 0.23351103, 0.23355179]
-    >>> colour.appearance.hunt.f_n(x)
-    array([ 5.89685921,  5.89695207,  5.89759265]))
+    >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
+    >>> f_n(x)  # doctest: +ELLIPSIS
+    array([ 5.8968592...,  5.8969521...,  5.8975927...])
     """
 
     x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
     return x_m
 
 
-def get_chromatic_adaptation(XYZ,
-                             XYZ_w,
-                             XYZ_b,
-                             L_A,
-                             F_L,
-                             XYZ_p=None,
-                             p=None,
-                             helson_judd_effect=False,
-                             discount_illuminant=True):
+def chromatic_adaptation(XYZ,
+                         XYZ_w,
+                         XYZ_b,
+                         L_A,
+                         F_L,
+                         XYZ_p=None,
+                         p=None,
+                         helson_judd_effect=False,
+                         discount_illuminant=True):
     """
     Applies chromatic adaptation to given *CIE XYZ* colourspace matrix.
 
@@ -546,8 +546,8 @@ def get_chromatic_adaptation(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> F_L = 1.16754446415
-    >>> colour.appearance.hunt.get_chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)
-    array([ 6.89594549,  6.89599915,  6.89657085])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)  # doctest: +ELLIPSIS
+    array([ 6.8959454...,  6.8959991...,  6.8965708...])
     """
 
     rgb = XYZ_to_rgb(XYZ)
@@ -578,7 +578,7 @@ def get_chromatic_adaptation(XYZ,
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
         rgb_p = XYZ_to_rgb(XYZ_p)
-        rgb_w = get_adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
+        rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
     rgb_a = 1 + B_rgb * (f_n(F_L * F_rgb * rgb / rgb_w) + D_rgb)
@@ -586,20 +586,20 @@ def get_chromatic_adaptation(XYZ,
     return rgb_a
 
 
-def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
+def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     """
     Adjusts the white point for simultaneous chromatic contrast.
 
     Parameters
     ----------
     rgb_p :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` matrix of
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
         the proximal field.
     rgb_b :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` matrix of
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
         the background.
     rgb_w :  array_like, (3,)
-        Cone signals matrix *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` of
+        Cone signals matrix *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` of
         the reference white.
     p : numeric
         Simultaneous contrast / assimilation factor :math:`p` with value in
@@ -609,7 +609,7 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     Returns
     -------
     ndarray:
-        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta`
+        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
         matrix of the reference white.
 
     Examples
@@ -618,8 +618,8 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
     >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
     >>> p = 0.1
-    >>> colour.appearance.hunt.get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)
-    array([ 88.07927426,  91.85695535,  98.48765433])
+    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)  # noqa  # doctest: +ELLIPSIS
+    array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
     p_rgb = rgb_p / rgb_b
@@ -629,15 +629,15 @@ def get_adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     return rgb_w
 
 
-def get_achromatic_post_adaptation_signal(rgb):
+def achromatic_post_adaptation_signal(rgb):
     """
     Returns the achromatic post adaptation signal :math:`A` from given
-    *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+    *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Parameters
     ----------
     rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Returns
     -------
@@ -647,8 +647,8 @@ def get_achromatic_post_adaptation_signal(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.get_achromatic_post_adaptation_signal(rgb)
-    18.9827186648
+    >>> achromatic_post_adaptation_signal(rgb)  # doctest: +ELLIPSIS
+    18.9827186...
     """
 
     r, g, b = np.ravel(rgb)
@@ -658,16 +658,16 @@ def get_achromatic_post_adaptation_signal(rgb):
     return A
 
 
-def get_colour_difference_signals(rgb):
+def colour_difference_signals(rgb):
     """
     Returns the colour difference signals :math:`C_1`, :math:`C_2` and
-    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta`
+    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
     colourspace matrix.
 
     Parameters
     ----------
     rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace matrix.
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
     Returns
     -------
@@ -677,8 +677,8 @@ def get_colour_difference_signals(rgb):
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.get_colour_difference_signals(rgb)
-    (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> colour_difference_signals(rgb)  # doctest: +ELLIPSIS
+    (-5.3659999...e-05, -0.0005717..., 0.0006253...)
     """
 
     r, g, b = np.ravel(rgb)
@@ -690,7 +690,7 @@ def get_colour_difference_signals(rgb):
     return C_1, C_2, C_3
 
 
-def get_hue_angle(C):
+def hue_angle(C):
     """
     Returns the *hue* angle :math:`h` from given colour difference signals
     :math:`C`.
@@ -707,9 +707,11 @@ def get_hue_angle(C):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
-    >>> colour.appearance.hunt.get_hue_correlate(C)
-    269.273759446
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
+    >>> hue_angle(C)  # doctest: +ELLIPSIS
+    269.2737594...
     """
 
     C_1, C_2, C_3 = np.ravel(C)
@@ -718,7 +720,7 @@ def get_hue_angle(C):
     return hue
 
 
-def get_eccentricity_factor(hue):
+def eccentricity_factor(hue):
     """
     Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`.
 
@@ -734,8 +736,8 @@ def get_eccentricity_factor(hue):
 
     Examples
     --------
-    >>> colour.appearance.hunt.get_eccentricity_factor(269.273759)
-    1.1108365061157834
+    >>> eccentricity_factor(269.273759)  # doctest: +ELLIPSIS
+    1.1108365...
     """
 
     h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
@@ -747,7 +749,7 @@ def get_eccentricity_factor(hue):
     return float(x)
 
 
-def get_low_luminance_tritanopia_factor(L_A):
+def low_luminance_tritanopia_factor(L_A):
     """
     Returns the low luminance tritanopia factor :math:`F_t` from given adapting
     field *luminance* :math:`L_A` in :math:`cd/m^2`.
@@ -764,15 +766,15 @@ def get_low_luminance_tritanopia_factor(L_A):
 
     Examples
     --------
-    >>> colour.appearance.hunt.get_low_luminance_tritanopia_factor(318.31)
-    0.99968593951195
+    >>> low_luminance_tritanopia_factor(318.31)  # doctest: +ELLIPSIS
+    0.9996859...
     """
 
     F_t = L_A / (L_A + 0.1)
     return F_t
 
 
-def get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
+def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     """
     Returns the yellowness / blueness response :math:`M_{yb}`.
 
@@ -796,13 +798,15 @@ def get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
     >>> F_t =0.99968593951195
-    >>> colour.appearance.hunt.get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
-    -0.008237223618824608
+    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)  # noqa  # doctest: +ELLIPSIS
+    -0.0082372...
     """
 
     C_1, C_2, C_3 = C
@@ -813,7 +817,7 @@ def get_yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     return M_yb
 
 
-def get_redness_greenness_response(C, e_s, N_c, N_cb):
+def redness_greenness_response(C, e_s, N_c, N_cb):
     """
     Returns the redness / greenness response :math:`M_{yb}`.
 
@@ -835,12 +839,14 @@ def get_redness_greenness_response(C, e_s, N_c, N_cb):
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05, -0.00057169938364687312, 0.00062535803946683899)
+    >>> C = (-5.3658655819965873e-05,
+    ...      -0.00057169938364687312,
+    ...      0.00062535803946683899)
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
-    >>> colour.appearance.hunt.get_redness_greenness_response(C, e_s, N_c, N_cb)
-    -0.00010444758327626432
+    >>> redness_greenness_response(C, e_s, N_c, N_cb)  # doctest: +ELLIPSIS
+    -0.0001044...
     """
 
     C_1, C_2, C_3 = C
@@ -850,7 +856,7 @@ def get_redness_greenness_response(C, e_s, N_c, N_cb):
     return M_rg
 
 
-def get_overall_chromatic_response(M_yb, M_rg):
+def overall_chromatic_response(M_yb, M_rg):
     """
     Returns the overall chromatic response :math:`M`.
 
@@ -870,8 +876,8 @@ def get_overall_chromatic_response(M_yb, M_rg):
     --------
     >>> M_yb = -0.008237223618824608
     >>> M_rg = -0.00010444758327626432
-    >>> colour.appearance.hunt.get_overall_chromatic_response(M_yb, M_rg)
-    0.008237885787274198
+    >>> overall_chromatic_response(M_yb, M_rg)  # doctest: +ELLIPSIS
+    0.0082378...
     """
 
     M = ((M_yb ** 2) + (M_rg ** 2)) ** 0.5
@@ -879,7 +885,7 @@ def get_overall_chromatic_response(M_yb, M_rg):
     return M
 
 
-def get_saturation_correlate(M, rgb_a):
+def saturation_correlate(M, rgb_a):
     """
     Returns the *saturation* correlate :math:`s`.
 
@@ -888,7 +894,7 @@ def get_saturation_correlate(M, rgb_a):
     M : numeric
          Overall chromatic response :math:`M`.
     rgb_a : array_like, (3,)
-        Adapted *Hunt-Pointer-Estevez* :math:`\rho\gamma\beta` colourspace
+        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
         matrix.
 
     Returns
@@ -900,8 +906,8 @@ def get_saturation_correlate(M, rgb_a):
     --------
     >>> M = 0.008237885787274198
     >>> rgb_a = np.array([6.89594549, 6.89599915, 6.89657085])
-    >>> colour.appearance.hunt.get_saturation_correlate(M, rgb_a)
-    0.0199093206929
+    >>> saturation_correlate(M, rgb_a)  # doctest: +ELLIPSIS
+    0.0199093...
     """
 
     s = 50 * M / np.ravel(rgb_a).sum()
@@ -909,7 +915,7 @@ def get_saturation_correlate(M, rgb_a):
     return s
 
 
-def get_achromatic_signal(L_AS, S, S_W, N_bb, A_a):
+def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     """
     Returns the achromatic signal :math:`A`.
 
@@ -938,8 +944,8 @@ def get_achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     >>> S_W = 100.0
     >>> N_bb = 0.72499999999999998
     >>> A_a = 18.982718664838487
-    >>> colour.appearance.hunt.get_achromatic_signal(L_AS, S, S_W, N_bb, A_a)
-    15.506854623621885
+    >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a)  # doctest: +ELLIPSIS
+    15.5068546...
     """
 
     j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
@@ -961,7 +967,7 @@ def get_achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     return A
 
 
-def get_brightness_correlate(A, A_w, M, N_b):
+def brightness_correlate(A, A_w, M, N_b):
     """
     Returns the *brightness* correlate :math:`Q`.
 
@@ -987,8 +993,8 @@ def get_brightness_correlate(A, A_w, M, N_b):
     >>> A_w = 35.718916676317086
     >>> M = 0.0082378857872741976
     >>> N_b = 75.0
-    >>> colour.appearance.hunt.get_brightness_correlate(A, A_w, M, N_b)
-    22.2097654913
+    >>> brightness_correlate(A, A_w, M, N_b)  # doctest: +ELLIPSIS
+    22.2097654...
     """
 
     N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
@@ -998,7 +1004,7 @@ def get_brightness_correlate(A, A_w, M, N_b):
     return Q
 
 
-def get_lightness_correlate(Y_b, Y_w, Q, Q_w):
+def lightness_correlate(Y_b, Y_w, Q, Q_w):
     """
     Returns the *Lightness* correlate :math:`J`.
 
@@ -1024,8 +1030,8 @@ def get_lightness_correlate(Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> colour.appearance.hunt.get_lightness_correlate(Y_b, Y_w, Q, Q_w)
-    30.046267862
+    >>> lightness_correlate(Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
+    30.0462678...
     """
 
     Z = 1 + (Y_b / Y_w) ** 0.5
@@ -1034,7 +1040,7 @@ def get_lightness_correlate(Y_b, Y_w, Q, Q_w):
     return J
 
 
-def get_chroma_correlate(s, Y_b, Y_w, Q, Q_w):
+def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     """
     Returns the *chroma* correlate :math:`C_94`.
 
@@ -1063,8 +1069,8 @@ def get_chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     >>> Y_w = 100.0
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
-    >>> colour.appearance.hunt.get_chroma_correlate(s, Y_b, Y_w, Q, Q_w)
-    0.12105083993617581
+    >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
+    0.1210508...
     """
 
     C_94 = (2.44 * (s ** 0.69) *
@@ -1074,7 +1080,7 @@ def get_chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     return C_94
 
 
-def get_colourfulness_correlate(F_L, C_94):
+def colourfulness_correlate(F_L, C_94):
     """
     Returns the *colourfulness* correlate :math:`M_94`.
 
@@ -1094,8 +1100,8 @@ def get_colourfulness_correlate(F_L, C_94):
     --------
     >>> F_L = 1.16754446414718
     >>> C_94 = 0.12105083993617581
-    >>> colour.appearance.hunt.get_colourfulness_correlate(F_L, C_94)
-    0.12389643825999687
+    >>> colourfulness_correlate(F_L, C_94)  # doctest: +ELLIPSIS
+    0.1238964...
     """
 
     M_94 = F_L ** 0.15 * C_94

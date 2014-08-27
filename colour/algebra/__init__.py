@@ -4,8 +4,8 @@
 from __future__ import absolute_import
 
 from .common import (
-    get_steps,
-    get_closest,
+    steps,
+    closest,
     to_ndarray,
     is_uniform,
     is_iterable,
@@ -21,8 +21,8 @@ from .interpolation import (LinearInterpolator1d,
 from .matrix import is_identity
 from .regression import linear_regression
 
-__all__ = ['get_steps',
-           'get_closest',
+__all__ = ['steps',
+           'closest',
            'to_ndarray',
            'is_uniform',
            'is_iterable',

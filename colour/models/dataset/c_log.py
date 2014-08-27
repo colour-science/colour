@@ -11,7 +11,7 @@ Defines the *C-Log* colourspace:
 
 References
 ----------
-.. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+.. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa
         (Last accessed 18 April 2014)
 """
 
@@ -21,7 +21,7 @@ import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -56,8 +56,8 @@ C_LOG_WHITEPOINT = ILLUMINANTS.get(
 C_LOG_WHITEPOINT : tuple
 """
 
-C_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(C_LOG_PRIMARIES,
-                                                    C_LOG_WHITEPOINT)
+C_LOG_TO_XYZ_MATRIX = normalised_primary_matrix(C_LOG_PRIMARIES,
+                                                C_LOG_WHITEPOINT)
 """
 *C-Log* colourspace to *CIE XYZ* colourspace matrix.
 

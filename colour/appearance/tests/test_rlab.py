@@ -36,7 +36,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
                          'b': 'b',
                          'h': 'h'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *RLAB* colour appearance model output specification
         from given data.
@@ -61,4 +61,3 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
                                     data['sigma'],
                                     data['D'])
         return specification
-

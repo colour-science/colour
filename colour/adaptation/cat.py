@@ -42,7 +42,7 @@ __all__ = ['XYZ_SCALING_CAT',
            'CAT02_CAT',
            'CAT02_INVERSE_CAT',
            'CHROMATIC_ADAPTATION_METHODS',
-           'get_chromatic_adaptation_matrix']
+           'chromatic_adaptation_matrix']
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
@@ -112,7 +112,7 @@ CHROMATIC_ADAPTATION_METHODS : dict
 """
 
 
-def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
+def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     """
     Returns the *chromatic adaptation* matrix from given source and target
     *CIE XYZ* colourspace *array_like* variables.
@@ -132,6 +132,11 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     ndarray, (3, 3)
         Chromatic adaptation matrix.
 
+    Raises
+    ------
+    KeyError
+        If chromatic adaptation method is not defined.
+
     References
     ----------
     .. [4]  http://brucelindbloom.com/Eqn_ChromAdapt.html
@@ -141,10 +146,19 @@ def get_chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
     --------
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
-    >>> colour.get_chromatic_adaptation_matrix(XYZ1, XYZ2)
-    array([[ 0.87145615, -0.13204674,  0.40394832],
-          [-0.09638805,  1.04909781,  0.1604033 ],
-          [ 0.0080207 ,  0.02826367,  3.06023196]])
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2)  # doctest: +ELLIPSIS
+    array([[ 0.8714561..., -0.1320467...,  0.4039483...],
+           [-0.0963880...,  1.0490978...,  0.160403... ],
+           [ 0.0080207...,  0.0282636...,  3.0602319...]])
+
+    Using *Bradford* method:
+    >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
+    >>> method = 'Bradford'
+    >>> chromatic_adaptation_matrix(XYZ1, XYZ2, method)  # doctest: +ELLIPSIS
+    array([[ 0.8518131..., -0.1134786...,  0.4124804...],
+           [-0.1277659...,  1.0928930...,  0.1341559...],
+           [ 0.0845323..., -0.1434969...,  3.3075309...]])
     """
 
     method_matrix = CHROMATIC_ADAPTATION_METHODS.get(method)

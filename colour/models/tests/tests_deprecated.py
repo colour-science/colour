@@ -160,7 +160,8 @@ class TestHSL_to_RGB(unittest.TestCase):
 
 class TestRGB_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.deprecated.RGB_to_CMY` definition unit tests methods.
+    Defines :func:`colour.models.deprecated.RGB_to_CMY` definition unit tests
+    methods.
     """
 
     def test_RGB_to_CMY(self):

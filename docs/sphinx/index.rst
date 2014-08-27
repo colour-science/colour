@@ -1,18 +1,52 @@
-Welcome to Colour |version|'s documentation!
-=============================================
+..  image:: https://secure.travis-ci.org/colour-science/colour.png?branch=master
+..  image:: https://gemnasium.com/colour-science/colour.png
 
-Contents:
+Colour Science for Python
+=========================
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+
+`Colour <https://github.com/colour-science/colour>`_ is a `Python <https://www.python.org/>`_ colour science package implementing a comprehensive number of colour theory transformations and algorithms.
+
+It is open source and freely available and under the `New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
+
+Features
+--------
+
+`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.local/features.php>`_ page for more information.
+
+Installation
+------------
+
+The installation procedure is described in the `Installation Guide <http://colour-science.local/installation.php>`_.
+
+Usage
+-----
+
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx :doc:`API Reference <api>` and the `IPython Notebooks <http://colour-science.org/notebooks.php>`_ with detailed historical and theoritical context and images:
+
+-   :doc:`API Reference <api>`
+-   `IPython Notebooks <http://colour-science.org/notebooks.php>`_
+
+.. raw:: html
+
+    <div id="hidden-toctree">
 
 .. toctree::
-   :maxdepth: 4
 
    colour
 
+.. raw:: html
 
-Indices and tables
-==================
+    </div>
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Changes
+-------
 
+About
+-----
+
+| **Colour** by Colour Developers - 2013 - 2014
+| Copyright © 2013 - 2014 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
+| `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

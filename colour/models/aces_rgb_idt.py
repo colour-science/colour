@@ -72,6 +72,10 @@ def spectral_to_aces_relative_exposure_values(
 
     Examples
     --------
+    >>> from colour import COLOURCHECKERS_SPDS
+    >>> spd = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
+    >>> spectral_to_aces_relative_exposure_values(spd)  # doctest: +ELLIPSIS
+    array([ 0.1187697...,  0.0870866...,  0.0589442...])
     """
 
     shape = ACES_RICD.shape
@@ -88,11 +92,11 @@ def spectral_to_aces_relative_exposure_values(
                            ACES_RICD.g_bar.values,
                            ACES_RICD.b_bar.values)
 
-    get_k = lambda x, y: 1 / np.sum(x * y)
+    k = lambda x, y: 1 / np.sum(x * y)
 
-    k_r = get_k(illuminant, r_bar)
-    k_g = get_k(illuminant, g_bar)
-    k_b = get_k(illuminant, b_bar)
+    k_r = k(illuminant, r_bar)
+    k_g = k(illuminant, g_bar)
+    k_b = k(illuminant, b_bar)
 
     E_r = k_r * np.sum(illuminant * spd * r_bar)
     E_g = k_g * np.sum(illuminant * spd * g_bar)

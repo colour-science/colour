@@ -11,7 +11,7 @@ Defines the *Pal/Secam RGB* colourspace:
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,7 +55,7 @@ PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
 PAL_SECAM_RGB_WHITEPOINT : tuple
 """
 
-PAL_SECAM_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(
+PAL_SECAM_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     PAL_SECAM_RGB_PRIMARIES, PAL_SECAM_RGB_WHITEPOINT)
 """
 *Pal/Secam RGB* colourspace to *CIE XYZ* colourspace matrix.

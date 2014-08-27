@@ -40,7 +40,7 @@ def warning(*args, **kwargs):
 
     Examples
     --------
-    >>> colour.utilities.warning('This is a warning!')
+    >>> colour.utilities.warning('This is a warning!')  # doctest: +SKIP
     /Users/.../colour/utilities/verbose.py:42: UserWarning: This is a warning!
     """
 

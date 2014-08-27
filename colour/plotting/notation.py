@@ -54,7 +54,7 @@ def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
     Examples
     --------
     >>> f = 'Munsell Value ASTM D1535-08'
-    >>> colour.plotting.single_munsell_value_function_plot(f)
+    >>> single_munsell_value_function_plot(f)  # doctest: +SKIP
     True
     """
 
@@ -66,15 +66,14 @@ def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
 
 @figure_size((8, 8))
 def multi_munsell_value_function_plot(
-        functions=['Munsell Value ASTM D1535-08',
-                   'Munsell Value McCamy 1987'],
+        functions=None,
         **kwargs):
     """
     Plots given *Munsell* value functions.
 
     Parameters
     ----------
-    functions : list, optional
+    functions : array_like, optional
         *Munsell* value functions to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -84,12 +83,22 @@ def multi_munsell_value_function_plot(
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given *Munsell* value function is not found in the
+        factory *Munsell* value functions.
+
     Examples
     --------
     >>> fs = ('Munsell Value ASTM D1535-08', 'Munsell Value McCamy 1987')
-    >>> colour.plotting.multi_munsell_value_function_plot(fs)
+    >>> multi_munsell_value_function_plot(fs)  # doctest: +SKIP
     True
     """
+
+    if functions is None:
+        functions = ('Munsell Value ASTM D1535-08',
+                     'Munsell Value McCamy 1987')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
@@ -97,7 +106,7 @@ def multi_munsell_value_function_plot(
         if function is None:
             raise KeyError(
                 ('"{0}" "Munsell" value function not found in '
-                 'supported "Munsell" value functions: "{1}".').format(
+                 'factory "Munsell" value functions: "{1}".').format(
                     name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
 
         pylab.plot(samples,

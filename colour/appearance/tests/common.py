@@ -10,7 +10,12 @@ from __future__ import division, unicode_literals
 import csv
 import numpy
 import os
-import unittest
+import sys
+
+if sys.version_info[:2] <= (2, 6):
+    import unittest2 as unittest
+else:
+    import unittest
 from abc import abstractmethod
 from collections import defaultdict
 from numpy.testing import assert_allclose, assert_almost_equal
@@ -36,7 +41,7 @@ class ColourAppearanceModelTest(object):
     Methods
     -------
     load_fixtures
-    get_output_specification_from_data
+    output_specification_from_data
     check_specification_attribute
     check_model_consistency
     test_forward_examples
@@ -94,7 +99,7 @@ class ColourAppearanceModelTest(object):
             return result
 
     @abstractmethod
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the colour appearance model output specification from given
         fixture data.
@@ -132,7 +137,7 @@ class ColourAppearanceModelTest(object):
         None
         """
 
-        specification = self.get_output_specification_from_data(data)
+        specification = self.output_specification_from_data(data)
         value = getattr(specification, attribute)
 
         error_message = (
@@ -177,8 +182,7 @@ class ColourAppearanceModelTest(object):
                    specification_attr,
                    data[data_attr])
 
-
-    def __get_fixtures(self):
+    def fixtures(self):
         """
         Returns the fixtures case for tested colour appearance model and
         filter them accordingly with
@@ -195,16 +199,15 @@ class ColourAppearanceModelTest(object):
             fixtures = [fixtures[index] for index in self.LIMITED_FIXTURES]
         return fixtures
 
-    def test_forward_examples(self):
+    def test_examples(self):
         """
-        Tests the forward colour appearance model implementation.
+        Tests the colour appearance model implementation.
 
         Returns
         -------
         tuple
         """
-
-        for data in self.__get_fixtures():
+        for data in self.fixtures():
             for test in self.check_model_consistency(data,
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
@@ -212,20 +215,20 @@ class ColourAppearanceModelTest(object):
     @unittest.skip
     def test_parallel_forward_examples(self):
         """
-        Not sure about this guy :)
+        Tests the colour appearance model implementation with array-like input.
+
+        Returns
+        -------
+        tuple
         """
 
-        # TODO: Check with Michael for this dead code path.
         data = defaultdict(list)
-        for fixture in self.__get_fixtures():
+        for fixture in self.fixtures():
             for key, value in fixture.items():
                 data[key].append(value)
 
         for key in data:
             data[key] = numpy.array(data[key])
 
-        for test in self.check_model_consistency(
-                data, self.OUTPUT_ATTRIBUTES):
+        for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
             yield test
-
-

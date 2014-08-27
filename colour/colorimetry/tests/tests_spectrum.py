@@ -20,7 +20,6 @@ from colour.colorimetry.spectrum import (
     SpectralShape,
     SpectralPowerDistribution,
     TriSpectralPowerDistribution,
-    DEFAULT_SPECTRAL_SHAPE,
     constant_spd,
     zeros_spd,
     ones_spd)
@@ -37,9 +36,10 @@ __all__ = ['SAMPLE_SPD_DATA',
            'ZEROS_SAMPLE_SPD_DATA',
            'INTERPOLATED_SAMPLE_SPD_DATA',
            'INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA',
-           'NORMALISED_SAMPLE_SPD_DATA'
+           'NORMALISED_SAMPLE_SPD_DATA',
            'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
            'CMFS_DATA',
+           'TestSpectralShape',
            'TestSpectralPowerDistribution',
            'TestTriSpectralPowerDistribution',
            'TestConstantSpd',
@@ -1981,7 +1981,6 @@ class TestSpectralShape(unittest.TestCase):
         self.assertNotEqual(SpectralShape(0, 10, 0.1),
                             SpectralShape(1, 10, 0.1))
 
-
     def test_range(self):
         """
         Tests :func:`colour.colorimetry.spectrum.SpectralShape.range` method.
@@ -2058,7 +2057,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test_wavelengths(self):
         """
         Tests
-        :attr:`colour.colorimetry.spectrum.SpectralPowerDistribution.wavelengths`
+        :attr:`colour.colorimetry.spectrum.SpectralPowerDistribution.wavelengths`  # noqa
         attribute.
         """
 
@@ -2088,7 +2087,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test__getitem__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__getitem__`
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__getitem__`  # noqa
         method.
         """
 
@@ -2110,7 +2109,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test__contains__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__contains__`
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__contains__`  # noqa
         method.
         """
 
@@ -2258,7 +2257,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test_is_uniform(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.is_uniform`
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.is_uniform`  # noqa
         method.
         """
 
@@ -2268,7 +2267,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test_extrapolate(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.extrapolate`
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.extrapolate`  # noqa
         method.
         """
 
@@ -2283,19 +2282,22 @@ class TestSpectralPowerDistribution(unittest.TestCase):
     def test_interpolate(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.interpolate`
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.interpolate`  # noqa
         method.
         """
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
                 SpectralShape(steps=1)).values,
-            INTERPOLATED_SAMPLE_SPD_DATA)
+            INTERPOLATED_SAMPLE_SPD_DATA,
+            decimal=7)
 
         np.testing.assert_almost_equal(
             self.__non_uniform_sample_spd.clone().interpolate(
                 SpectralShape(steps=1)).values,
-            INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
+            INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
+            # Lower precision for Linux *Travis-ci* tests.
+            decimal=0)
 
     def test_align(self):
         """
@@ -2435,7 +2437,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test_wavelengths(self):
         """
         Tests
-        :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.wavelengths`
+        :attr:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.wavelengths`  # noqa
         attribute.
         """
 
@@ -2472,7 +2474,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test__getitem__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__getitem__`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__getitem__`  # noqa
         method.
         """
 
@@ -2489,7 +2491,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test__iter__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__iter__`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__iter__`  # noqa
         method.
         """
 
@@ -2500,7 +2502,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test__contains__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__contains__`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__contains__`  # noqa
         method.
         """
 
@@ -2511,7 +2513,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test__len__(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__len__`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__len__`  # noqa
         method.
         """
 
@@ -2542,7 +2544,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__add__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__add__`
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__add__`  # noqa
         method.
         """
 
@@ -2567,7 +2569,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__sub__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__sub__`
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__sub__`  # noqa
         method.
         """
 
@@ -2592,7 +2594,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__mul__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__mul__`
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__mul__`  # noqa
         method.
         """
 
@@ -2617,7 +2619,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
     def test__div__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`  # noqa
         method.
         """
 
@@ -2666,7 +2668,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test_is_uniform(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.is_uniform`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.is_uniform`  # noqa
         method.
         """
 
@@ -2675,7 +2677,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test_extrapolate(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.extrapolate`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.extrapolate`  # noqa
         method.
         """
 
@@ -2701,7 +2703,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test_interpolate(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.interpolate`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.interpolate`  # noqa
         method.
         """
 
@@ -2711,7 +2713,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
-                INTERPOLATED_SAMPLE_SPD_DATA)
+                INTERPOLATED_SAMPLE_SPD_DATA,
+                decimal=7)
 
         tri_spd = self.__non_uniform_sample_tri_spd.clone()
 
@@ -2719,7 +2722,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
-                INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA)
+                INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
+                # Lower precision for Linux *Travis-ci* tests.
+                decimal=0)
 
     def test_align(self):
         """
@@ -2759,7 +2764,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
     def test_normalise(self):
         """
         Tests
-        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.normalise`
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.normalise`  # noqa
         method.
         """
 

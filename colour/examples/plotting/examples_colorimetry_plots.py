@@ -111,7 +111,7 @@ sample_spd_data = {
     775: 0.432,
     780: 0.421}
 
-# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt
+# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
 galvanized_steel_metal_spd_data = {
     360: 2.24,
     362: 2.25,
@@ -336,7 +336,7 @@ galvanized_steel_metal_spd_data = {
     800: 9.21,
     820: 8.59}
 
-# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
+# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt  # noqa
 white_marble_spd_data = {
     360: 40.93,
     362: 41.58,
@@ -571,11 +571,9 @@ single_spd_plot(colour.SpectralPowerDistribution(
 
 # Plotting multiple relative spectral power distributions.
 multi_spd_plot([colour.SpectralPowerDistribution(
-    'Galvanized Steel Metal',
-    galvanized_steel_metal_spd_data),
+    'Galvanized Steel Metal', galvanized_steel_metal_spd_data),
                 colour.SpectralPowerDistribution(
-                    'White Marble',
-                    white_marble_spd_data)])
+                    'White Marble', white_marble_spd_data)])
 
 # Spectral bandpass dependence correction.
 street_light_spd_data = {
@@ -798,7 +796,7 @@ single_cmfs_plot('Stockman & Sharpe 2 Degree Cone Fundamentals',
                  y_label='Sensitivity',
                  bounding_box=[390, 870, 0, 1.1])
 
-# Comparing given multiple *cone fundamentals* colour matching functionss.
+# Comparing given multiple *cone fundamentals* colour matching functions.
 multi_cmfs_plot(['Stockman & Sharpe 2 Degree Cone Fundamentals',
                  'Stockman & Sharpe 10 Degree Cone Fundamentals'],
                 y_label='Sensitivity',
@@ -847,7 +845,8 @@ multi_spd_plot(
     y_tighten=True,
     margins=[0, 0, 0, .1])
 
-# Plotting a mesopic luminous efficiency function with photopic luminance of 0.2
+# Plotting a mesopic luminous efficiency function with
+# photopic luminance of 0.2.
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 

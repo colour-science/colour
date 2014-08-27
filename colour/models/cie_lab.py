@@ -71,8 +71,8 @@ def XYZ_to_Lab(XYZ,
 
     Examples
     --------
-    >>> colour.XYZ_to_Lab(np.array([0.92193107, 1, 1.03744246]))
-    array([ 100.        ,   -7.41787844,  -15.85742105])
+    >>> XYZ_to_Lab(np.array([0.92193107, 1, 1.03744246]))  # doctest: +ELLIPSIS
+    array([ 100.        ,   -7.4178784...,  -15.8574210...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -124,8 +124,9 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> colour.Lab_to_XYZ(np.array([100, -7.41787844, -15.85742105]))
-    array([ 0.92193107,  1.        ,  1.03744246])
+    >>> Lab = np.array([100, -7.41787844, -15.85742105])
+    >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
+    array([ 0.9219310...,  1.        ,  1.0374424...])
     """
 
     L, a, b = np.ravel(Lab)
@@ -171,8 +172,9 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> colour.Lab_to_LCHab(np.array([100, -7.41787844, -15.85742105]))
-    array([ 100.        ,   17.50664796,  244.93046842])
+    >>> Lab = np.array([100, -7.41787844, -15.85742105])
+    >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
+    array([ 100.        ,   17.5066479...,  244.9304684...])
     """
 
     L, a, b = np.ravel(Lab)
@@ -209,8 +211,9 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> colour.LCHab_to_Lab(np.array([100, 17.50664796, 244.93046842]))
-    array([ 100.        ,   -7.41787844,  -15.85742105])
+    >>> LCHab = np.array([100, 17.50664796, 244.93046842])
+    >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
+    array([ 100.        ,   -7.4178784...,  -15.8574210...])
     """
 
     L, C, H = np.ravel(LCHab)

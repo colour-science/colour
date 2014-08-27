@@ -9,14 +9,15 @@ Sub-Packages
     colour.adaptation
     colour.algebra
     colour.appearance
-    colour.characterization
+    colour.characterisation
     colour.colorimetry
     colour.constants
     colour.difference
-    colour.implementation
+    colour.io
     colour.models
     colour.notation
     colour.optimal
+    colour.phenomenons
     colour.plotting
     colour.quality
     colour.temperature

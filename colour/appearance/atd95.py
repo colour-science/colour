@@ -45,8 +45,8 @@ __all__ = ['ATD95_Specification',
            'XYZ_to_ATD95',
            'luminance_to_retinal_illuminance',
            'XYZ_to_LMS_ATD95',
-           'get_opponent_colour_dimensions',
-           'get_final_response']
+           'opponent_colour_dimensions',
+           'final_response']
 
 ATD95_Specification = namedtuple('ATD95_Specification', (
     'H', 'Br', 'C', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
@@ -125,8 +125,8 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     >>> Y_0 = 318.31
     >>> k_1 = 0.0
     >>> k_2 = 50.0
-    >>> colour.XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)
-    ATD95_Specification(H=1.9089869677948668, Br=0.1814003693517946, C=1.2064060487501733, A_1=0.17879314415234579, T_1=0.028694273266804574, D_1=0.010758451876359426, A_2=0.019218221450414588, T_2=0.020537744425618377, D_2=0.010758451876359426)
+    >>> XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)  # doctest: +ELLIPSIS
+    ATD95_Specification(H=1.9089869..., Br=0.1814003..., C=1.2064060..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
     """
 
     XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
@@ -140,7 +140,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     LMS_g = LMS * (sigma / (sigma + LMS_a))
 
     # Computing opponent colour dimensions.
-    A_1, T_1, D_1, A_2, T_2, D_2 = get_opponent_colour_dimensions(LMS_g)
+    A_1, T_1, D_1, A_2, T_2, D_2 = opponent_colour_dimensions(LMS_g)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Br`.
@@ -188,10 +188,10 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
+    >>> XYZ = np.array([19.01, 20., 21.78])
     >>> Y_0 = 318.31
-    >>> colour.appearance.atd95.luminance_to_retinal_illuminance(XYZ, Y_0)
-    array([ 479.44459244,  499.31743137,  534.56316731])
+    >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
+    array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
     return 18. * (absolute_adapting_field_luminance * XYZ / 100.) ** 0.8
@@ -213,10 +213,10 @@ def XYZ_to_LMS_ATD95(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([ 19.01,  20.  ,  21.78])
+    >>> XYZ = np.array([19.01, 20., 21.78])
     >>> Y_0 = 318.31
-    >>> colour.appearance.atd95.luminance_to_retinal_illuminance(XYZ, Y_0)
-    array([ 479.44459244,  499.31743137,  534.56316731])
+    >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
+    array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -228,7 +228,7 @@ def XYZ_to_LMS_ATD95(XYZ):
     return np.array([L, M, S])
 
 
-def get_opponent_colour_dimensions(LMS_g):
+def opponent_colour_dimensions(LMS_g):
     """
     Returns opponent colour dimensions from given post adaptation cone signals
     matrix.
@@ -245,9 +245,15 @@ def get_opponent_colour_dimensions(LMS_g):
 
     Examples
     --------
+    >>> from pprint import pprint
     >>> LMS_g = np.array([6.95457922, 7.08945043, 6.44069316])
-    >>> colour.appearance.atd95.get_opponent_colour_dimensions(LMS_g)
-    (0.17879314415234579, 0.028694273266804574, 0.010758451876359426, 0.019218221450414588, 0.020537744425618377, 0.010758451876359426)
+    >>> pprint(opponent_colour_dimensions(LMS_g))  # doctest: +ELLIPSIS
+    (0.1787931...,
+     0.0286942...,
+     0.0107584...,
+     0.0192182...,
+     0.0205377...,
+     0.0107584...)
     """
 
     L_g, M_g, S_g = LMS_g
@@ -259,17 +265,17 @@ def get_opponent_colour_dimensions(LMS_g):
     T_2i = 0.43 * T_1i + 0.76 * D_1i
     D_2i = D_1i
 
-    A_1 = get_final_response(A_1i)
-    T_1 = get_final_response(T_1i)
-    D_1 = get_final_response(D_1i)
-    A_2 = get_final_response(A_2i)
-    T_2 = get_final_response(T_2i)
-    D_2 = get_final_response(D_2i)
+    A_1 = final_response(A_1i)
+    T_1 = final_response(T_1i)
+    D_1 = final_response(D_1i)
+    A_2 = final_response(A_2i)
+    T_2 = final_response(T_2i)
+    D_2 = final_response(D_2i)
 
     return A_1, T_1, D_1, A_2, T_2, D_2
 
 
-def get_final_response(value):
+def final_response(value):
     """
     Returns the final response of given opponent colour dimension.
 
@@ -285,10 +291,8 @@ def get_final_response(value):
 
     Examples
     --------
-    >>> colour.appearance.atd95.get_final_response(43.54399695501678)
-    0.17879314415234579
+    >>> final_response(43.54399695501678)  # doctest: +ELLIPSIS
+    0.1787931...
     """
 
     return value / (200 + abs(value))
-
-

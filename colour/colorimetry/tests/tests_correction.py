@@ -69,13 +69,15 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+    Defines
+    :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
     definition unit tests methods.
     """
 
     def test_bandpass_correction_stearns1988(self):
         """
-        Tests :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+        Tests
+        :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
         definition.
         """
 

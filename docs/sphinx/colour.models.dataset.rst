@@ -7,6 +7,7 @@ Sub-Modules
 .. toctree::
 
    colour.models.dataset.aces_rgb
+   colour.models.dataset.aces_rgb_idt
    colour.models.dataset.adobe_rgb_1998
    colour.models.dataset.adobe_wide_gamut_rgb
    colour.models.dataset.alexa_wide_gamut_rgb

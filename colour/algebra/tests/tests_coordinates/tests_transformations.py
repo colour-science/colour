@@ -34,13 +34,15 @@ __all__ = ['TestCartesianToSpherical',
 
 class TestCartesianToSpherical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
+    Defines
+    :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
     definition unit tests methods.
     """
 
     def test_cartesian_to_spherical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
         definition.
         """
 
@@ -60,13 +62,15 @@ class TestCartesianToSpherical(unittest.TestCase):
 
 class TestSphericalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
+    Defines
+    :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
     definition unit tests methods.
     """
 
     def test_spherical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
+        Tests
+        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
         definition.
         """
 
@@ -86,13 +90,15 @@ class TestSphericalToCartesian(unittest.TestCase):
 
 class TestCartesianToCylindrical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
+    Defines
+    :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
     definition unit tests methods.
     """
 
     def test_cartesian_to_cylindrical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
         definition.
         """
 
@@ -112,13 +118,15 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
 class TestCylindricalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`
+    Defines
+    :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
     definition unit tests methods.
     """
 
     def test_cylindrical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
         definition.
         """
 

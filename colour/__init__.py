@@ -13,7 +13,7 @@ Subpackages
 -   adaptation: Chromatic adaptation transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
--   characterization: Colour fitting and camera characterization.
+-   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
 -   difference: Colour difference computations.
@@ -22,7 +22,7 @@ Subpackages
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
--   phenomenon: Computation of various optical phenomenons.
+-   phenomenons: Computation of various optical phenomenons.
 -   plotting: Diagrams, plots, etc...
 -   quality: Colour quality computation.
 -   temperature: Colour temperature and correlated colour temperature
@@ -56,16 +56,16 @@ from . import colorimetry
 from . import constants
 from .difference import *
 from . import difference
-from .characterization import *
-from . import characterization
+from .characterisation import *
+from . import characterisation
 from .io import *
 from . import io
 from .models import *
 from . import models
 from .optimal import *
 from . import optimal
-from .phenomenon import *
-from . import phenomenon
+from .phenomenons import *
+from . import phenomenons
 from .notation import *
 from . import notation
 from .quality import *
@@ -86,13 +86,13 @@ __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
 __all__ += appearance.__all__
-__all__ += characterization.__all__
+__all__ += characterisation.__all__
 __all__ += colorimetry.__all__
 __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
 __all__ += optimal.__all__
-__all__ += phenomenon.__all__
+__all__ += phenomenons.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
 __all__ += temperature.__all__

@@ -11,7 +11,7 @@ Defines the *NTSC RGB* colourspace:
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,8 +55,8 @@ NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
 NTSC_RGB_WHITEPOINT : tuple
 """
 
-NTSC_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(NTSC_RGB_PRIMARIES,
-                                                       NTSC_RGB_WHITEPOINT)
+NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,
+                                                   NTSC_RGB_WHITEPOINT)
 """
 *NTSC RGB* colourspace to *CIE XYZ* colourspace matrix.
 

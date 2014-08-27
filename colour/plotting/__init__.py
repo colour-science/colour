@@ -10,7 +10,7 @@ from .common import (
     DEFAULT_FIGURE_SIZE,
     DEFAULT_COLOUR_CYCLE,
     ColourParameter,
-    get_colour_cycle,
+    colour_cycle,
     figure_size,
     aspect,
     bounding_box,
@@ -33,7 +33,7 @@ from .colorimetry import (
     multi_lightness_function_plot,
     blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
-from .characterization import colour_checker_plot
+from .characterisation import colour_checker_plot
 from .diagrams import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
@@ -59,7 +59,7 @@ __all__ += [
     'DEFAULT_FIGURE_SIZE',
     'DEFAULT_COLOUR_CYCLE',
     'ColourParameter',
-    'get_colour_cycle',
+    'colour_cycle',
     'figure_size',
     'aspect',
     'bounding_box',
@@ -101,4 +101,3 @@ __all__ += ['colour_rendering_index_bars_plot']
 __all__ += [
     'planckian_locus_CIE_1931_chromaticity_diagram_plot',
     'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
-

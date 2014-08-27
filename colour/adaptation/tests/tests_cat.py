@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.adaptation import get_chromatic_adaptation_matrix
+from colour.adaptation import chromatic_adaptation_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -24,23 +24,23 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestGetChromaticAdaptationMatrix']
+__all__ = ['TestChromaticAdaptationMatrix']
 
 
-class TestGetChromaticAdaptationMatrix(unittest.TestCase):
+class TestChromaticAdaptationMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+    Defines :func:`colour.adaptation.cat.chromatic_adaptation_matrix`
     definition unit tests methods.
     """
 
-    def test_get_chromatic_adaptation_matrix(self):
+    def test_chromatic_adaptation_matrix(self):
         """
-        Tests :func:`colour.adaptation.cat.get_chromatic_adaptation_matrix`
+        Tests :func:`colour.adaptation.cat.chromatic_adaptation_matrix`
         definition.
         """
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.09923822, 1.000, 0.35445412]),
                 numpy.array([0.96907232, 1.000, 1.121792157])),
             numpy.array(
@@ -50,7 +50,7 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.92001986, 1, -0.1241347]),
                 numpy.array([1.0131677, 1.000, 2.11217686])),
             numpy.array(
@@ -60,15 +60,15 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.92001986, 1, -0.1241347]),
                 numpy.array([1.0131677, 1.000, 2.11217686])),
-            numpy.linalg.inv(get_chromatic_adaptation_matrix(
+            numpy.linalg.inv(chromatic_adaptation_matrix(
                 numpy.array([1.0131677, 1.000, 2.11217686]),
                 numpy.array([1.92001986, 1., -0.1241347]))))
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.09850, 1.00000, 0.35585]),
                 numpy.array([0.99072, 1.00000, 0.85223]),
                 method='XYZ Scaling'),
@@ -78,7 +78,7 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.09850, 1.00000, 0.35585]),
                 numpy.array([0.99072, 1.00000, 0.85223]),
                 method='Bradford'),
@@ -89,7 +89,7 @@ class TestGetChromaticAdaptationMatrix(unittest.TestCase):
             decimal=7)
 
         numpy.testing.assert_almost_equal(
-            get_chromatic_adaptation_matrix(
+            chromatic_adaptation_matrix(
                 numpy.array([1.09850, 1.00000, 0.35585]),
                 numpy.array([0.99072, 1.00000, 0.85223]),
                 method='Von Kries'),

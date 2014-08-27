@@ -5,9 +5,9 @@ from __future__ import absolute_import
 
 from .rgb_colourspace import RGB_Colourspace
 from .derivation import (
-    get_normalised_primary_matrix,
-    get_RGB_luminance_equation,
-    get_RGB_luminance)
+    normalised_primary_matrix,
+    RGB_luminance_equation,
+    RGB_luminance)
 from .dataset import *
 from . import dataset
 from .cie_xyy import (
@@ -31,9 +31,9 @@ from .common import XYZ_to_sRGB
 from .aces_rgb_idt import spectral_to_aces_relative_exposure_values
 
 __all__ = ['RGB_Colourspace']
-__all__ += ['get_normalised_primary_matrix',
-            'get_RGB_luminance_equation',
-            'get_RGB_luminance']
+__all__ += ['normalised_primary_matrix',
+            'RGB_luminance_equation',
+            'RGB_luminance']
 __all__ += dataset.__all__
 __all__ += ['XYZ_to_xyY',
             'xyY_to_XYZ',

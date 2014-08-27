@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import get_steps, is_numeric, is_uniform, to_ndarray
+from colour.algebra import steps, is_numeric, is_uniform, to_ndarray
 from colour.utilities import is_scipy_installed, warning
 
 __author__ = 'Colour Developers'
@@ -61,11 +61,12 @@ class LinearInterpolator1d(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
     >>> x = np.arange(len(y))
-    >>> f = colour.LinearInterpolator1d(x, y)
-    >>> f(0.5)
-    7.645
+    >>> f = LinearInterpolator1d(x, y)
+    >>> # Doctests ellipsis for Python 2.x compatibility.
+    >>> f(0.5)  # doctest: +ELLIPSIS
+    7.64...
 
     Interpolating an *array_like* variable:
 
@@ -108,8 +109,8 @@ class LinearInterpolator1d(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"x" independent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"x" independent variable must have exactly one dimension!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -143,8 +144,8 @@ class LinearInterpolator1d(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"y" dependent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"y" dependent variable must have exactly one dimension!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -241,7 +242,7 @@ else:
     warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
              '"LinearInterpolator1d" instead!'))
 
-    SplineInterpolator = LinearInterpolator
+    SplineInterpolator = LinearInterpolator1d
 
 
 class SpragueInterpolator(object):
@@ -289,16 +290,16 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
     >>> x = np.arange(len(y))
-    >>> f = colour.SpragueInterpolator(x, y)
-    >>> f(0.5)
-    7.21850256056
+    >>> f = SpragueInterpolator(x, y)
+    >>> f(0.5)  # doctest: +ELLIPSIS
+    7.2185025...
 
     Interpolating an *array_like* variable:
 
-    >>> f([0.25, 0.75])
-    array([ 6.72951612,  7.81406251])
+    >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
+    array([ 6.7295161...,  7.8140625...])
     """
 
     SPRAGUE_C_COEFFICIENTS = np.array(
@@ -314,7 +315,7 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_  # noqa
     """
 
     def __init__(self, x=None, y=None):
@@ -355,21 +356,21 @@ class SpragueInterpolator(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"x" independent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"x" independent variable must have exactly one dimension!')
 
-            assert is_uniform(value), \
-                '"x" independent variable is not uniform!'
+            assert is_uniform(value), (
+                '"x" independent variable is not uniform!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
 
-            steps = get_steps(value)[0]
+            value_steps = steps(value)[0]
 
-            xp1 = value[0] - steps * 2
-            xp2 = value[0] - steps
-            xp3 = value[-1] + steps
-            xp4 = value[-1] + steps * 2
+            xp1 = value[0] - value_steps * 2
+            xp2 = value[0] - value_steps
+            xp3 = value[-1] + value_steps
+            xp4 = value[-1] + value_steps * 2
 
             self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
@@ -402,11 +403,11 @@ class SpragueInterpolator(object):
         if value is not None:
             value = to_ndarray(value)
 
-            assert value.ndim == 1, \
-                '"y" dependent variable must have exactly one dimension!'
+            assert value.ndim == 1, (
+                '"y" dependent variable must have exactly one dimension!')
 
-            assert len(value) >= 6, \
-                '"y" dependent variable values count must be in domain [6:]!'
+            assert len(value) >= 6, (
+                '"y" dependent variable values count must be in domain [6:]!')
 
             if not issubclass(value.dtype.type, np.inexact):
                 value = value.astype(np.float_)
@@ -445,7 +446,7 @@ class SpragueInterpolator(object):
 
         try:
             return np.array([self.__evaluate(element) for element in x])
-        except TypeError as error:
+        except TypeError:
             return self.__evaluate(x)
 
     def __evaluate(self, x):

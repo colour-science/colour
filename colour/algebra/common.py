@@ -22,8 +22,8 @@ __status__ = 'Production'
 
 __all__ = ['FLOATING_POINT_NUMBER_PATTERN',
            'INTEGER_THRESHOLD',
-           'get_steps',
-           'get_closest',
+           'steps',
+           'closest',
            'to_ndarray',
            'is_uniform',
            'is_iterable',
@@ -41,7 +41,7 @@ INTEGER_THRESHOLD : numeric
 """
 
 
-def get_steps(distribution):
+def steps(distribution):
     """
     Returns the steps of given distribution.
 
@@ -57,16 +57,24 @@ def get_steps(distribution):
 
     Examples
     --------
+    Uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> colour.get_steps(y)
+    >>> steps(y)
     (1,)
+
+    Non-uniformly spaced variable:
+
+    >>> y = np.array([1, 2, 3, 4, 8])
+    >>> steps(y)
+    (1, 4)
     """
 
     return tuple(set([distribution[i + 1] - distribution[i]
                       for i in range(len(distribution) - 1)]))
 
 
-def get_closest(y, x):
+def closest(y, x):
     """
     Returns closest :math:`y` variable element to reference :math:`x` variable.
 
@@ -84,8 +92,8 @@ def get_closest(y, x):
 
     Examples
     --------
-    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])
-    >>> get_closest(63, y)
+    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])  # noqa
+    >>> closest(y, 63)
     62.70988028
     """
 
@@ -110,7 +118,7 @@ def to_ndarray(x, data_type=np.float_):
     Examples
     --------
     >>> to_ndarray(1)
-    [1]
+    array([ 1.])
     """
 
     return (np.array(x, dtype=data_type)
@@ -134,16 +142,20 @@ def is_uniform(distribution):
 
     Examples
     --------
+    Uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> colour.is_uniform(y)
+    >>> is_uniform(y)
     True
 
+    Non-uniformly spaced variable:
+
     >>> y = np.array([1, 2, 3.1415, 4, 5])
-    >>> colour.is_uniform(y)
+    >>> is_uniform(y)
     False
     """
 
-    return True if len(get_steps(distribution)) == 1 else False
+    return True if len(steps(distribution)) == 1 else False
 
 
 def is_iterable(x):
@@ -208,7 +220,7 @@ def is_numeric(x):
 
 def is_integer(x):
     """
-    Returns if given :math:`x` variable is an integer through thresholding.
+    Returns if given :math:`x` variable is an integer under given threshold.
 
     Parameters
     ----------
@@ -222,8 +234,8 @@ def is_integer(x):
 
     Notes
     -----
-    The determination threshold is defined by the
-    :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
+    -   The determination threshold is defined by the
+        :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
 
     See Also
     --------
@@ -261,8 +273,9 @@ def normalise(x, factor=1, clip=True):
 
     Examples
     --------
-    >>> colour.normalise(np.array(0.48224885, 0.31651974, 0.22070513]))
-    array([ 1.        ,  0.6563411 ,  0.45765818])
+    >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
+    >>> normalise(x)  # doctest: +ELLIPSIS
+    array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 
     x = to_ndarray(x)

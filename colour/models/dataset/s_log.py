@@ -11,7 +11,7 @@ Defines the *S-Log* colourspace:
 
 References
 ----------
-.. [1]  http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
+.. [1]  http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -21,7 +21,7 @@ import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -56,8 +56,8 @@ S_LOG_WHITEPOINT = ILLUMINANTS.get(
 S_LOG_WHITEPOINT : tuple
 """
 
-S_LOG_TO_XYZ_MATRIX = get_normalised_primary_matrix(S_LOG_PRIMARIES,
-                                                    S_LOG_WHITEPOINT)
+S_LOG_TO_XYZ_MATRIX = normalised_primary_matrix(S_LOG_PRIMARIES,
+                                                S_LOG_WHITEPOINT)
 """
 *S-Log* colourspace to *CIE XYZ* colourspace matrix.
 

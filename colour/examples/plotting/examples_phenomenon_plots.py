@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases optical phenomenon plotting examples.
+Showcases optical phenomenons plotting examples.
 """
 
-import colour
-from colour.phenomenon import rayleigh_scattering_spd
+from colour.phenomenons import rayleigh_scattering_spd
 from colour.plotting import *
 
 # Plotting a single *Rayleigh Scattering* spectral power distribution.

@@ -39,14 +39,14 @@ __all__ = ['TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
     definition unit tests methods.
     """
 
     def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
         Tests
-        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
         definition.
         """
 
@@ -70,14 +70,14 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
     definition unit tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
         Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
         definition.
         """
 
@@ -101,14 +101,14 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
     definition unit tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
         Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
         definition.
         """
 
@@ -132,14 +132,14 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+    :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
     definition unit tests methods.
     """
 
     def test_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
         Tests
-        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
         definition.
         """
 
@@ -163,14 +163,14 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+    :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
     definition unit tests methods.
     """
 
     def test_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
         Tests
-        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
         definition.
         """
 

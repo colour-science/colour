@@ -30,14 +30,14 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
     FIXTURE_BASENAME = 'nayatani95.csv'
 
     OUTPUT_ATTRIBUTES = {'L_star_P': 'L_star_P',
-                         'L_star_P': 'L_star_P',
+                         'L_star_N': 'L_star_N',
                          'theta': 'theta',
                          'C': 'C',
                          'S': 'S',
                          'B_r': 'B_r',
                          'M': 'M'}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the *Nayatani (1995)* colour appearance model output
         specification from given data.

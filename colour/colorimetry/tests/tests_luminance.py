@@ -69,16 +69,28 @@ class TestLuminance1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_1976(37.9856290977, 100),
+            luminance_1976(37.9856290977),
             10.08,
             places=7)
         self.assertAlmostEqual(
-            luminance_1976(80.0444155585, 100),
+            luminance_1976(80.0444155585),
             56.76,
             places=7)
         self.assertAlmostEqual(
-            luminance_1976(99.3467279026, 100),
+            luminance_1976(99.3467279026),
             98.32,
+            places=7)
+        self.assertAlmostEqual(
+            luminance_1976(37.9856290977, 50),
+            5.040000000013152,
+            places=7)
+        self.assertAlmostEqual(
+            luminance_1976(37.9856290977, 75),
+            7.560000000019728,
+            places=7)
+        self.assertAlmostEqual(
+            luminance_1976(37.9856290977, 95),
+            9.576000000024989,
             places=7)
 
 

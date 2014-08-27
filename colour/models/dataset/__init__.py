@@ -13,7 +13,6 @@ from .adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
 from .alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLOURSPACE
 from .apple_rgb import APPLE_RGB_COLOURSPACE
 from .best_rgb import BEST_RGB_COLOURSPACE
-from .best_rgb import BEST_RGB_COLOURSPACE
 from .beta_rgb import BETA_RGB_COLOURSPACE
 from .c_log import C_LOG_COLOURSPACE
 from .cie_rgb import CIE_RGB_COLOURSPACE

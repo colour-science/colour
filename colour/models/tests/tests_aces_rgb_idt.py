@@ -15,9 +15,8 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.characterization import COLOURCHECKERS_SPDS
+from colour.characterisation import COLOURCHECKERS_SPDS
 from colour.colorimetry import (
-    SpectralPowerDistribution,
     constant_spd,
     ones_spd)
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
@@ -29,21 +28,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_Lab',
-           'TestLab_to_XYZ',
-           'TestLab_to_LCHab',
-           'TestLCHab_to_Lab']
+__all__ = ['TestSpectralToAcesRelativeExposureValues']
 
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
-    Defines :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`
+    Defines
+    :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`  # noqa
     definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
-        Tests :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`
+        Tests
+        :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`  # noqa
         definition.
         """
 

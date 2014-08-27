@@ -11,4 +11,3 @@ from .tabular import (
 __all__ = ['read_spectral_data_from_csv_file',
            'read_spds_from_csv_file',
            'write_spds_to_csv_file']
-

@@ -53,20 +53,25 @@ def get_RGB_colourspace(colourspace):
     -------
     RGB_Colourspace
         *RGB* Colourspace.
+
+    Raises
+    ------
+    KeyError
+        If the given colourspace is not found in the factory colourspaces.
     """
 
     colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
     if colourspace is None:
         raise KeyError(
-            '"{0}" colourspace not found in factory colourspaces: "{1}".'.format(
-                name, sorted(RGB_COLOURSPACES.keys())))
+            ('"{0}" colourspace not found in factory colourspaces: '
+             '"{1}".').format(name, sorted(RGB_COLOURSPACES.keys())))
 
     return colourspace
 
 
 @figure_size((8, 8))
 def colourspaces_CIE_1931_chromaticity_diagram_plot(
-        colourspaces=['sRGB', 'ACES RGB', 'Pointer Gamut'],
+        colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
@@ -89,9 +94,12 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES RGB']
-    >>> colour.plotting.colourspaces_CIE_1931_chromaticity_diagram_plot(csps)
+    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # doctest: +SKIP
     True
     """
+
+    if colourspaces is None:
+        colourspaces = ('sRGB', 'ACES RGB', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -192,7 +200,7 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
 
     Examples
     --------
-    >>> colour.plotting.single_transfer_function_plot('sRGB')
+    >>> single_transfer_function_plot()  # doctest: +SKIP
     True
     """
 
@@ -203,7 +211,7 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
 
 
 @figure_size((8, 8))
-def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
+def multi_transfer_function_plot(colourspaces=None,
                                  inverse=False, **kwargs):
     """
     Plots given colourspaces transfer functions.
@@ -224,9 +232,12 @@ def multi_transfer_function_plot(colourspaces=['sRGB', 'Rec. 709'],
 
     Examples
     --------
-    >>> colour.plotting..multi_transfer_function_plot(['sRGB', 'Rec. 709'])
+    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709'])  # doctest: +SKIP
     True
     """
+
+    if colourspaces is None:
+        colourspaces = ['sRGB', 'Rec. 709']
 
     samples = np.linspace(0, 1, 1000)
     for i, colourspace in enumerate(colourspaces):

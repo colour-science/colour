@@ -5,7 +5,7 @@
 Optical Phenomenon Plotting
 ===========================
 
-Defines the optical phenomenon plotting objects:
+Defines the optical phenomenons plotting objects:
 
 -   :func:`rayleigh_scattering_spd_plot`
 -   :func:`the_blue_sky_plot`
@@ -18,8 +18,8 @@ import matplotlib.pyplot
 from colour.algebra import normalise
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import XYZ_to_sRGB
-from colour.phenomenon import rayleigh_scattering_spd
-from colour.phenomenon.rayleigh import (
+from colour.phenomenons import rayleigh_scattering_spd
+from colour.phenomenons.rayleigh import (
     STANDARD_CO2_CONCENTRATION,
     STANDARD_AIR_TEMPERATURE,
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -80,7 +80,7 @@ def single_rayleigh_scattering_spd_plot(
 
     Examples
     --------
-    >>> colour.plotting.rayleigh_scattering_spd_plot()
+    >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
     True
     """
 
@@ -121,7 +121,7 @@ def the_blue_sky_plot(
 
     Examples
     --------
-    >>> colour.plotting.the_blue_sky_plot()
+    >>> the_blue_sky_plot()  # doctest: +SKIP
     True
     """
 
@@ -140,7 +140,7 @@ def the_blue_sky_plot(
 
     settings = {
         'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
-        'y_label': u'W / (sr m²) / m',
+        'y_label': u'W / m-2 / nm-1',
         'standalone': False}
     settings.update(kwargs)
 
@@ -150,7 +150,7 @@ def the_blue_sky_plot(
 
     settings = {
         'title': 'The Blue Sky - Colour',
-        'x_label': ('The sky is blue because molecules in the atmoshpere '
+        'x_label': ('The sky is blue because molecules in the atmosphere '
                     'scatter shorter wavelengths more than longer ones.\n'
                     'The synthetic spectral power distribution is computed as '
                     'follows: '
@@ -169,4 +169,3 @@ def the_blue_sky_plot(
     bounding_box(**settings)
     aspect(**settings)
     return display(**settings)
-

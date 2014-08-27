@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,7 +55,7 @@ EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get(
 EKTA_SPACE_PS_5_WHITEPOINT : tuple
 """
 
-EKTA_SPACE_PS_5_TO_XYZ_MATRIX = get_normalised_primary_matrix(
+EKTA_SPACE_PS_5_TO_XYZ_MATRIX = normalised_primary_matrix(
     EKTA_SPACE_PS_5_PRIMARIES, EKTA_SPACE_PS_5_WHITEPOINT)
 """
 *Ekta Space PS 5* colourspace to *CIE XYZ* colourspace matrix.

@@ -34,7 +34,7 @@ __all__ = ['luminance_newhall1943',
            'luminance_1976',
            'luminance_ASTM_D1535_08',
            'LUMINANCE_FUNCTIONS',
-           'get_luminance']
+           'luminance']
 
 
 def luminance_newhall1943(V):
@@ -64,8 +64,8 @@ def luminance_newhall1943(V):
 
     Examples
     --------
-    >>> luminance_newhall1943(3.74629715382)
-    10.4089874577
+    >>> luminance_newhall1943(3.74629715382)  # doctest: +ELLIPSIS
+    10.4089874...
     """
 
     Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (
@@ -103,8 +103,8 @@ def luminance_1976(L, Yn=100):
 
     Examples
     --------
-    >>> luminance_1976(37.9856290977)
-    10.08
+    >>> luminance_1976(37.9856290977)  # doctest: +ELLIPSIS
+    10.0800000...
     """
 
     Y = ((((L + 16) / 116) ** 3) * Yn
@@ -136,12 +136,12 @@ def luminance_ASTM_D1535_08(V):
 
     References
     ----------
-    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System
+    -  http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System  # noqa
 
     Examples
     --------
-    >>> luminance_ASTM_D1535_08(3.74629715382)
-    10.1488096782
+    >>> luminance_ASTM_D1535_08(3.74629715382)  # doctest: +ELLIPSIS
+    10.1488096...
     """
 
     Y = 1.1914 * V - 0.22533 * (V * V) + 0.23352 * (V ** 3) - 0.020484 * (
@@ -171,7 +171,7 @@ LUMINANCE_FUNCTIONS['astm2008'] = (
     LUMINANCE_FUNCTIONS['Luminance ASTM D1535-08'])
 
 
-def get_luminance(LV, Yn=100, method='Luminance 1976'):
+def luminance(LV, Yn=100, method='Luminance 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -199,8 +199,8 @@ def get_luminance(LV, Yn=100, method='Luminance 1976'):
 
     Examples
     --------
-    >>> get_luminance(3.74629715382)
-    37.9856290977
+    >>> luminance(37.9856290977)  # doctest: +ELLIPSIS
+    10.0800000...
     """
 
     if Yn is None or method is not None:

@@ -95,16 +95,28 @@ class TestLightness1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            lightness_1976(10.08, 100),
+            lightness_1976(10.08),
             37.9856290977,
             places=7)
         self.assertAlmostEqual(
-            lightness_1976(56.76, 100),
+            lightness_1976(56.76),
             80.0444155585,
             places=7)
         self.assertAlmostEqual(
-            lightness_1976(98.32, 100),
+            lightness_1976(98.32),
             99.3467279026,
+            places=7)
+        self.assertAlmostEqual(
+            lightness_1976(10.08, 50),
+            52.01763049195023,
+            places=7)
+        self.assertAlmostEqual(
+            lightness_1976(10.08, 75),
+            43.41887325541973,
+            places=7)
+        self.assertAlmostEqual(
+            lightness_1976(10.08, 95),
+            38.91659875709282,
             places=7)
 
 

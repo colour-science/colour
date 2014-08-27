@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 from numpy import ravel
 
 import colour
-from colour.characterization.dataset.colour_checkers.chromaticity_coordinates import (
+from colour.characterisation.dataset.colour_checkers.chromaticity_coordinates import (  # noqa
     COLORCHECKER_2005_DATA)
 
 # Retrieving *Lightness* of given *xyY* components.
@@ -27,5 +27,5 @@ print(colour.lightness_wyszecki1964(Y))
 # Retrieving *Lightness* with *1976* method:
 print(colour.lightness_1976(Y))
 # Retrieving *Lightness* using the wrapper:
-print(colour.get_lightness(Y))
-print(colour.get_lightness(Y, method='Lightness Wyszecki 1964'))
+print(colour.lightness(Y))
+print(colour.lightness(Y, method='Lightness Wyszecki 1964'))

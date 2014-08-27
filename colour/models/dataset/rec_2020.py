@@ -11,7 +11,7 @@ Defines the *Rec. 2020* colourspace:
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf
+.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf  # noqa
         (Last accessed 13 April 2014)
 """
 
@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -57,8 +57,8 @@ REC_2020_WHITEPOINT = ILLUMINANTS.get(
 REC_2020_WHITEPOINT : tuple
 """
 
-REC_2020_TO_XYZ_MATRIX = get_normalised_primary_matrix(REC_2020_PRIMARIES,
-                                                       REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
+                                                   REC_2020_WHITEPOINT)
 """
 *Rec. 2020* colourspace to *CIE XYZ* colourspace matrix.
 
@@ -100,7 +100,7 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
     References
     ----------
     .. [2]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 13 April 2014)
     """
 
@@ -130,7 +130,7 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     References
     ----------
     .. [3]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 13 April 2014)
     """
 

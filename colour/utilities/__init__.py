@@ -12,4 +12,3 @@ __all__ = ['is_scipy_installed', 'is_string']
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['memoize']
 __all__ += ['warning']
-

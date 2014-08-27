@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,8 +55,8 @@ DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
 DON_RGB_4_WHITEPOINT : tuple
 """
 
-DON_RGB_4_TO_XYZ_MATRIX = get_normalised_primary_matrix(DON_RGB_4_PRIMARIES,
-                                                        DON_RGB_4_WHITEPOINT)
+DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
+                                                    DON_RGB_4_WHITEPOINT)
 """
 *Don RGB 4* colourspace to *CIE XYZ* colourspace matrix.
 

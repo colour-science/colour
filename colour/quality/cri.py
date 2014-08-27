@@ -7,7 +7,7 @@ Colour Rendering Index
 
 Defines *colour rendering index* computation objects:
 
--   :func:`get_colour_rendering_index`
+-   :func:`colour_rendering_index`
 
 References
 ----------
@@ -37,17 +37,17 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TSC_COLORIMETRY_DATA_NXYZUVUVW',
-           'get_colour_rendering_index']
+           'colour_rendering_index']
 
 TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple('TscColorimetryData_nXYZuvUVW',
                                             ('name', 'XYZ', 'uv', 'UVW'))
 
 
-def _get_tcs_colorimetry_data(test_spd,
-                              reference_spd,
-                              tsc_spds,
-                              cmfs,
-                              chromatic_adaptation=False):
+def _tcs_colorimetry_data(test_spd,
+                          reference_spd,
+                          tsc_spds,
+                          cmfs,
+                          chromatic_adaptation=False):
     """
     Returns the *test colour samples* colorimetry data.
 
@@ -87,13 +87,13 @@ def _get_tcs_colorimetry_data(test_spd,
         tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
 
         if chromatic_adaptation:
-            get_c = lambda x, y: (4 - x - 10 * y) / y
-            get_d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
+            c = lambda x, y: (4 - x - 10 * y) / y
+            d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
 
-            test_c, test_d = get_c(test_u, test_v), get_d(test_u, test_v)
-            reference_c, reference_d = (get_c(reference_u, reference_v),
-                                        get_d(reference_u, reference_v))
-            tcs_c, tcs_d = get_c(tcs_u, tcs_v), get_d(tcs_u, tcs_v)
+            test_c, test_d = c(test_u, test_v), d(test_u, test_v)
+            reference_c, reference_d = (c(reference_u, reference_v),
+                                        d(reference_u, reference_v))
+            tcs_c, tcs_d = c(tcs_u, tcs_v), d(tcs_u, tcs_v)
             tcs_u = ((10.872 + 0.404 * reference_c / test_c * tcs_c - 4 *
                       reference_d / test_d * tcs_d) /
                      (16.518 + 1.481 * reference_c / test_c * tcs_c -
@@ -114,7 +114,7 @@ def _get_tcs_colorimetry_data(test_spd,
     return tcs_data
 
 
-def _get_colour_rendering_indexes(test_data, reference_data):
+def _colour_rendering_indexes(test_data, reference_data):
     """
     Returns the *test colour samples* rendering indexes.
 
@@ -138,7 +138,7 @@ def _get_colour_rendering_indexes(test_data, reference_data):
     return colour_rendering_indexes
 
 
-def get_colour_rendering_index(test_spd, additional_data=False):
+def colour_rendering_index(test_spd, additional_data=False):
     """
     Returns the *colour rendering index* of given spectral power distribution.
 
@@ -156,9 +156,10 @@ def get_colour_rendering_index(test_spd, additional_data=False):
 
     Examples
     --------
-    >>> spd = colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour.get_colour_rendering_index(spd)
-    64.1507331494
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
+    64.1507331...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
@@ -181,18 +182,18 @@ def get_colour_rendering_index(test_spd, additional_data=False):
         reference_spd = D_illuminant_relative_spd(xy)
         reference_spd.align(shape)
 
-    test_tcs_colorimetry_data = _get_tcs_colorimetry_data(
+    test_tcs_colorimetry_data = _tcs_colorimetry_data(
         test_spd,
         reference_spd,
         tcs_spds,
         cmfs,
         chromatic_adaptation=True)
-    reference_tcs_colorimetry_data = _get_tcs_colorimetry_data(
+    reference_tcs_colorimetry_data = _tcs_colorimetry_data(
         reference_spd,
         reference_spd,
         tcs_spds, cmfs)
 
-    colour_rendering_indexes = _get_colour_rendering_indexes(
+    colour_rendering_indexes = _colour_rendering_indexes(
         test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
     colour_rendering_index = np.average(

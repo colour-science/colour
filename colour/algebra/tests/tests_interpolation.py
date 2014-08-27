@@ -358,7 +358,8 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
 
 class TestLinearInterpolator1d(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator1d` class units
+    Defines
+    :func:`colour.algebra.interpolation.LinearInterpolator1d` class units
     tests methods.
     """
 
@@ -385,7 +386,8 @@ class TestLinearInterpolator1d(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
+        Tests
+        :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
         method.
         """
 

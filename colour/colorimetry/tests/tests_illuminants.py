@@ -24,8 +24,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SAMPLE_SPD_DATA',
-           'D60_SPD_DATA',
+__all__ = ['D60_SPD_DATA',
            'TestD_illuminantRelativeSpd']
 
 D60_SPD_DATA = {

@@ -27,8 +27,7 @@ __status__ = 'Production'
 __all__ = ['TestXYZ_to_UCS',
            'TestUCS_to_XYZ',
            'TestUCS_to_uv',
-           'TestUCS_uv_to_xy',
-           'TestXYZ_to_UVW']
+           'TestUCS_uv_to_xy']
 
 
 class TestXYZ_to_UCS(unittest.TestCase):

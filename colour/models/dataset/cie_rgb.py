@@ -11,7 +11,7 @@ Defines the *CIE RGB* colourspace:
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
+.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data  # noqa
         (Last accessed 24 February 2014)
 """
 

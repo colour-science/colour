@@ -38,24 +38,24 @@ def memoize(cache=None):
     Returns
     -------
     object
-        Object.
+        Callable object.
 
     References
     ----------
-    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py
+    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/decorators.py  # noqa
     """
 
     if cache is None:
         cache = {}
 
-    def memoize_decorator(object):
+    def memoize_decorator(callable):
         """
         Implements method / definition memoization.
 
         Parameters
         ----------
         object : object
-            Object to decorate.
+            Callable object to decorate.
 
         Returns
         -------
@@ -63,7 +63,7 @@ def memoize(cache=None):
             Object.
         """
 
-        @functools.wraps(object)
+        @functools.wraps(callable)
         def memoize_wrapper(*args, **kwargs):
             """
             Implements method / definition memoization.
@@ -78,7 +78,7 @@ def memoize(cache=None):
             Returns
             -------
             object
-                Object.
+                Callable object.
             """
 
             if kwargs:
@@ -87,7 +87,7 @@ def memoize(cache=None):
                 key = args
 
             if key not in cache:
-                cache[key] = object(*args, **kwargs)
+                cache[key] = callable(*args, **kwargs)
 
             return cache[key]
 

@@ -208,7 +208,8 @@ Transfer function from linear to *ACES RGB Log* colourspace.
 ACES_RGB_LOG_TRANSFER_FUNCTION : object
 """
 
-ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = _aces_rgb_log_inverse_transfer_function
+ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION = (
+    _aces_rgb_log_inverse_transfer_function)
 """
 Inverse transfer function from *ACES RGB Log* colourspace to linear.
 
@@ -231,7 +232,7 @@ ACES_RGB_LOG_COLOURSPACE : RGB_Colourspace
 References
 ----------
 .. [5]  `Logarithmic Encoding of ACES Data for use within Color Grading Systems
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_  # noqa
         (Last accessed 17 May 2014)
 """
 
@@ -324,7 +325,7 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: (
-    _aces_rgb_proxy_transfer_function(x, bit_depth='10 Bit'))
+    _aces_rgb_proxy_transfer_function(x))
 """
 Transfer function from linear to *ACES RGB Proxy 10* colourspace.
 
@@ -332,7 +333,7 @@ ACES_RGB_PROXY_10_TRANSFER_FUNCTION : object
 """
 
 ACES_RGB_PROXY_10_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    _aces_rgb_proxy_inverse_transfer_function(x, bit_depth='10 Bit'))
+    _aces_rgb_proxy_inverse_transfer_function(x))
 """
 Inverse transfer function from *ACES RGB Proxy 10* colourspace to linear.
 
@@ -371,7 +372,7 @@ ACES_RGB_PROXY_10_COLOURSPACE : RGB_Colourspace
 References
 ----------
 .. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_  # noqa
         (Last accessed 17 May 2014)
 """
 
@@ -391,6 +392,6 @@ ACES_RGB_PROXY_12_COLOURSPACE : RGB_Colourspace
 References
 ----------
 .. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_
+        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_  # noqa
         (Last accessed 17 May 2014)
 """

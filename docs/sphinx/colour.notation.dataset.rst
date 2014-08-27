@@ -1,12 +1,12 @@
 colour.notation.dataset Package
 ===============================
 
-Sub-Modules
------------
+Sub-Packages
+------------
 
 .. toctree::
 
-   colour.notation.dataset.munsell
+    colour.notation.dataset.munsell
 
 Module Contents
 ---------------

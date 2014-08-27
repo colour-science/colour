@@ -56,13 +56,14 @@ def XYZ_to_UCS(XYZ):
 
     References
     ----------
-    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> colour.XYZ_to_UCS(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([ 0.07870556,  0.1034    ,  0.12182529])
+    >>> XYZ = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.0787055...,  0.1034    ,  0.1218252...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -93,13 +94,14 @@ def UCS_to_XYZ(UVW):
 
     References
     ----------
-    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> colour.UCS_to_XYZ(np.array([0.07870556, 0.1034, 0.12182529]))
-    array([ 0.11805834,  0.1034    ,  0.05150892])
+    >>> UCS = np.array([0.07870556, 0.1034, 0.12182529])
+    >>> UCS_to_XYZ(UCS)  # doctest: +ELLIPSIS
+    array([ 0.1180583...,  0.1034    ,  0.0515089...])
     """
 
     U, V, W = np.ravel(UVW)
@@ -130,13 +132,14 @@ def UCS_to_uv(UVW):
 
     References
     ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> colour.UCS_to_uv(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    (0.43249999995420696, 0.378800000065942)
+    >>> UCS = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
+    (0.4324999..., 0.3788000...)
     """
 
     U, V, W = np.ravel(UVW)
@@ -166,13 +169,14 @@ def UCS_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ
+    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
             (Last accessed 24 February 2014)
 
     Examples
     --------
-    >>> colour.UCS_uv_to_xy((0.43249999995420696, 0.378800000065942))
-    (0.7072386352886122, 0.4129510522116816)
+    >>> uv = (0.43249999995420696, 0.378800000065942)
+    >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
+    (0.7072386..., 0.4129510...)
     """
 
     return (3 * uv[0] / (2 * uv[0] - 8 * uv[1] + 4),

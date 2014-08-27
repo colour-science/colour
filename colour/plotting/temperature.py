@@ -45,7 +45,7 @@ __all__ = ['planckian_locus_CIE_1931_chromaticity_diagram_plot',
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
-        illuminants=['A', 'B', 'C'],
+        illuminants=None,
         **kwargs):
     """
     Plots the planckian locus and given illuminants in
@@ -53,7 +53,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    illuminants : tuple or list, optional
+    illuminants : array_like, optional
         Factory illuminants to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -63,21 +63,31 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given illuminant is not found in the factory illuminants.
+
     Examples
     --------
     >>> ils = ['A', 'B', 'C']
-    >>> colour.plotting.planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)
+    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
     True
     """
+
+    if illuminants is None:
+        illuminants = ('A', 'B', 'C')
 
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        'title': '{0} Illuminants - Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
-            ', '.join(illuminants)) if illuminants else
-        'Planckian Locus\n \
-CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'title': ('{0} Illuminants - Planckian Locus\n'
+                  'CIE 1931 Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer').format(
+            ', '.join(illuminants))
+        if illuminants else
+        ('Planckian Locus\nCIE 1931 Chromaticity Diagram - '
+         'CIE 1931 2 Degree Standard Observer'),
         'standalone': False}
     settings.update(kwargs)
 
@@ -104,8 +114,9 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
             raise KeyError(
-                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                ('Illuminant "{0}" not found in factory illuminants: '
+                 '"{1}".').format(illuminant,
+                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2)
 
@@ -123,14 +134,15 @@ CIE 1931 Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
 
 @figure_size((8, 8))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
-        illuminants=['A', 'C', 'E'], **kwargs):
+        illuminants=None,
+        **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    illuminants : tuple or list, optional
+    illuminants : array_like, optional
         Factory illuminants to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -140,21 +152,31 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     bool
         Definition success.
 
+    Raises
+    ------
+    KeyError
+        If one of the given illuminant is not found in the factory illuminants.
+
     Examples
     --------
     >>> ils = ['A', 'C', 'E']
-    >>> colour.plotting.planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)
+    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
     True
     """
+
+    if illuminants is None:
+        illuminants = ('A', 'C', 'E')
 
     cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     settings = {
-        'title': '{0} Illuminants - Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer'.format(
-            ', '.join(illuminants)) if illuminants else
-        'Planckian Locus\n \
-CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
+        'title': ('{0} Illuminants - Planckian Locus\n'
+                  'CIE 1960 UCS Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer').format(
+            ', '.join(illuminants))
+        if illuminants else
+        ('Planckian Locus\nCIE 1960 UCS Chromaticity Diagram - '
+         'CIE 1931 2 Degree Standard Observer'),
         'standalone': False}
     settings.update(kwargs)
 
@@ -183,8 +205,9 @@ CIE 1960 UCS Chromaticity Diagram - CIE 1931 2 Degree Standard Observer',
         uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
         if uv is None:
             raise KeyError(
-                'Illuminant "{0}" not found in factory illuminants: "{1}".'.format(
-                    illuminant, sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                ('Illuminant "{0}" not found in factory illuminants: '
+                 '"{1}".').format(illuminant,
+                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
         pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 

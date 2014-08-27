@@ -87,11 +87,9 @@ def RGB_to_HSV(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253,
-                        0.9803921568627451,
-                        0.25098039215686274])
-    >>> colour.models.deprecated.RGB_to_HSV(RGB)
-    array([ 0.27867384,  0.744     ,  0.98039216])
+    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB_to_HSV(RGB)  # doctest: +ELLIPSIS
+    array([ 0.2786738...,  0.744     ,  0.98039216])
     """
 
     R, G, B = np.ravel(RGB)
@@ -155,8 +153,8 @@ def HSV_to_RGB(HSV):
     Examples
     --------
     >>> HSV = np.array([0.27867384, 0.744, 0.98039216])
-    >>> colour.models.deprecated.HSV_to_RGB(HSV)
-    array([ 0.49019606,  0.98039216,  0.25098039])
+    >>> HSV_to_RGB(HSV)  # doctest: +ELLIPSIS
+    array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
     H, S, V = np.ravel(HSV)
@@ -228,11 +226,9 @@ def RGB_to_HSL(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253,
-                        0.9803921568627451,
-                        0.25098039215686274])
-    >>> colour.models.deprecated.RGB_to_HSL(RGB)
-    array([ 0.27867384,  0.94897959,  0.61568627])
+    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB_to_HSL(RGB)  # doctest: +ELLIPSIS
+    array([ 0.2786738...,  0.9489796...,  0.6156862...])
     """
 
     R, G, B = np.ravel(RGB)
@@ -297,8 +293,8 @@ def HSL_to_RGB(HSL):
     Examples
     --------
     >>> HSL = np.array([0.27867384, 0.94897959, 0.61568627])
-    >>> colour.models.deprecated.HSL_to_RGB(HSL)
-    array([ 0.49019605,  0.98039216,  0.25098038])
+    >>> HSL_to_RGB(HSL)  # doctest: +ELLIPSIS
+    array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
     H, S, L = np.ravel(HSL)
@@ -309,6 +305,10 @@ def HSL_to_RGB(HSL):
         B = L
     else:
         def H_to_RGB(vi, vj, vH):
+            """
+            Converts *hue* value to *RGB* colourspace.
+            """
+
             if vH < 0:
                 vH += 1
             if vH > 1:
@@ -357,11 +357,9 @@ def RGB_to_CMY(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019607843137253,
-                        0.9803921568627451,
-                        0.25098039215686274])
-    >>> colour.models.deprecated.RGB_to_CMY(RGB)
-    array([ 0.50980392,  0.01960784,  0.74901961])
+    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB_to_CMY(RGB)  # doctest: +ELLIPSIS
+    array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
     R, G, B = np.ravel(RGB)
@@ -395,8 +393,8 @@ def CMY_to_RGB(CMY):
     Examples
     --------
     >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
-    >>> colour.models.deprecated.CMY_to_RGB(CMY)
-    array([ 0.49019608,  0.98039216,  0.25098039])
+    >>> CMY_to_RGB(CMY)  # doctest: +ELLIPSIS
+    array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
     C, M, Y = np.ravel(CMY)
@@ -430,8 +428,8 @@ def CMY_to_CMYK(CMY):
     Examples
     --------
     >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
-    >>> colour.models.deprecated.CMY_to_CMYK(CMY)
-    array([ 0.5       ,  0.        ,  0.744     ,  0.01960784])
+    >>> CMY_to_CMYK(CMY)  # doctest: +ELLIPSIS
+    array([ 0.5       ,  0.        ,  0.744     ,  0.0196078...])
     """
 
     C, M, Y = np.ravel(CMY)
@@ -481,9 +479,9 @@ def CMYK_to_CMY(CMYK):
 
     Examples
     --------
-    >>> CMYK = np.array([0.5, 0,0.744, 0.01960784])
-    >>> colour.models.deprecated.CMYK_to_CMY(CMYK)
-    array([ 0.50980392,  0.01960784,  0.74901961])
+    >>> CMYK = np.array([0.5, 0, 0.744, 0.01960784])
+    >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
+    array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
     C, M, Y, K = np.ravel(CMYK)
@@ -513,8 +511,9 @@ def RGB_to_HEX(RGB):
     Examples
     --------
     >>> RGB = np.array([0.66666667, 0.86666667, 1])
-    >>> colour.models.deprecated.RGB_to_HEX(RGB)
-    #aaddff
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> RGB_to_HEX(RGB)  # doctest: +SKIP
+    '#aaddff'
     """
 
     RGB = np.ravel(RGB)
@@ -543,8 +542,8 @@ def HEX_to_RGB(HEX):
     Examples
     --------
     >>> HEX = '#aaddff'
-    >>> colour.models.deprecated.HEX_to_RGB(HEX)
-    array([ 0.66666667,  0.86666667,  1.        ])
+    >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
+    array([ 0.6666666...,  0.8666666...,  1.        ])
     """
 
     HEX = HEX.lstrip('#')

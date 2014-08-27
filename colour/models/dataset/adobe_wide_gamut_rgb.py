@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, get_normalised_primary_matrix
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -55,7 +55,7 @@ ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
 ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : tuple
 """
 
-ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = get_normalised_primary_matrix(
+ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 """
