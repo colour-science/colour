@@ -34,22 +34,16 @@ The installation procedure is described in the `Installation Guide <http://colou
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx :doc:`API Reference <api>` and the `IPython Notebooks <http://colour-science.org/notebooks.php>`_ with detailed historical and theoritical context and images:
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour-science.org/api.php>` and the `IPython Notebooks <http://colour-science.org/notebooks.php>`_ with detailed historical and theoritical context and images:
 
--   :doc:`API Reference <api>`
+-   `API Reference <http://colour-science.org/api.php>`
 -   `IPython Notebooks <http://colour-science.org/notebooks.php>`_
 
-.. raw:: html
+Contributing
+------------
 
-    <div id="hidden-toctree">
+If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.local/contributing.php
 
-.. toctree::
-
-   colour
-
-.. raw:: html
-
-    </div>
 
 Changes
 -------

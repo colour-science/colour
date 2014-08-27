@@ -4,7 +4,7 @@ Contributing
 Contributing to Colour
 ----------------------
 
-If you want to contribute to **Colour**, please refer to the following document: http://colour-science.local/contribute.php
+If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.local/contributing.php
 
 About
 -----

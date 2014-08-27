@@ -1,6 +1,3 @@
-..  image:: https://secure.travis-ci.org/colour-science/colour.png?branch=master
-..  image:: https://gemnasium.com/colour-science/colour.png
-
 Colour Science for Python
 =========================
 
@@ -39,6 +36,12 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 .. raw:: html
 
     </div>
+
+
+Contributing
+------------
+
+If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.local/contributing.php
 
 Changes
 -------
