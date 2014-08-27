@@ -26,7 +26,6 @@ References
 
 from __future__ import division, unicode_literals
 
-
 import math
 import numpy as np
 from collections import namedtuple
@@ -44,6 +43,7 @@ __status__ = 'Production'
 
 __all__ = ['R_MATRIX',
            'RLAB_VIEWING_CONDITIONS',
+           'RLAB_ReferenceSpecification',
            'RLAB_Specification',
            'XYZ_to_RLAB']
 
@@ -63,21 +63,54 @@ RLAB_VIEWING_CONDITIONS : dict
 ('Average', 'Dim', 'Dark')
 """
 
-RLAB_Specification = namedtuple('RLAB_Specification',
-                                ('h', 'C', 's', 'L', 'a', 'b'))
+RLAB_ReferenceSpecification = namedtuple(
+    'RLAB_ReferenceSpecification',
+    ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))
 """
-Defines the *RLAB* colour appearance model specification.
+Defines the *RLAB* colour appearance model reference specification.
+
+This specification has field names consistent with **Mark D. Fairchild**
+reference.
 
 Parameters
 ----------
-h : numeric
-    *Hue* angle :math:`h` in degrees.
-C : numeric
-    Correlate of *achromatic chroma* :math:`C`.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-L : numeric
+LR : numeric
     Correlate of *Lightness* :math:`L^R`.
+CR : numeric
+    Correlate of *achromatic chroma* :math:`C^R`.
+hR : numeric
+    *Hue* angle :math:`h^R` in degrees.
+sR : numeric
+    Correlate of *saturation* :math:`s^R`.
+HR : numeric
+    *Hue* :math:`h` composition :math:`H^R`.
+aR : numeric
+    Red–green chromatic response :math:`a^R`.
+bR : numeric
+    Yellow–blue chromatic response :math:`b^R`.
+"""
+
+RLAB_Specification = namedtuple('RLAB_Specification',
+                                ('J', 'C', 'h', 's', 'HC', 'a', 'b'))
+"""
+Defines the *RLAB* colour appearance model specification.
+
+This specification has field names consistent with the remaining colour
+appearance models in :mod:`colour.appearance` but diverge from
+**Mark D. Fairchild** reference.
+
+Parameters
+----------
+J : numeric
+    Correlate of *Lightness* :math:`L^R`.
+C : numeric
+    Correlate of *achromatic chroma* :math:`C^R`.
+h : numeric
+    *Hue* angle :math:`h^R` in degrees.
+s : numeric
+    Correlate of *saturation* :math:`s^R`.
+HC : numeric
+    *Hue* :math:`h` composition :math:`H^C`.
 a : numeric
     Red–green chromatic response :math:`a^R`.
 b : numeric
@@ -126,7 +159,7 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
     >>> sigma = 0.4347
     >>> D = 1.0
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
-    RLAB_Specification(h=286.4866886..., C=54.8643626..., s=1.1007810..., L=49.8413019..., a=15.5700988..., b=-52.6086524...)
+    RLAB_Specification(J=49.8413019..., C=54.8643626..., h=286.4866886..., s=1.1007810..., HC=None, a=15.5700988..., b=-52.6086524...)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -166,7 +199,7 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L^R`.
     # -------------------------------------------------------------------------
-    lightness = 100 * (Y_ref ** sigma)
+    LR = 100 * (Y_ref ** sigma)
 
     # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
     aR = 430 * ((X_ref ** sigma) - (Y_ref ** sigma))
@@ -175,17 +208,17 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h^R`.
     # -------------------------------------------------------------------------
-    hue = math.degrees(np.arctan2(bR, aR)) % 360
+    hR = math.degrees(np.arctan2(bR, aR)) % 360
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C^R`.
     # -------------------------------------------------------------------------
-    chroma = np.sqrt((aR ** 2) + (bR ** 2))
+    CR = np.sqrt((aR ** 2) + (bR ** 2))
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s^R`.
     # -------------------------------------------------------------------------
-    saturation = chroma / lightness
+    sR = CR / LR
 
-    return RLAB_Specification(hue, chroma, saturation, lightness, aR, bR)
+    return RLAB_Specification(LR, CR, hR, sR, None, aR, bR)

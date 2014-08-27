@@ -40,6 +40,7 @@ __all__ = ['Hunt_InductionFactors',
            'HUE_DATA_FOR_HUE_QUADRATURE',
            'HPE_MATRIX',
            'HPE_MATRIX_INVERSE',
+           'Hunt_ReferenceSpecification',
            'Hunt_Specification',
            'XYZ_to_Hunt',
            'luminance_level_adaptation_factor',
@@ -117,25 +118,62 @@ HPE_MATRIX = np.array(
 
 HPE_MATRIX_INVERSE = np.linalg.inv(HPE_MATRIX)
 
-Hunt_Specification = namedtuple('Hunt_Specification',
-                                ('h_S', 'C_94', 's', 'Q', 'M_94', 'J'))
+Hunt_ReferenceSpecification = namedtuple(
+    'Hunt_ReferenceSpecification',
+    ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))
 """
-Defines the *Hunt* colour appearance model specification.
+Defines the *Hunt* colour appearance model reference specification.
+
+This specification has field names consistent with **Mark D. Fairchild**
+reference.
 
 Parameters
 ----------
-h_S : numeric
-    *Hue* angle :math:`h_S` in degrees.
+J : numeric
+    Correlate of *Lightness* :math:`J`.
 C_94 : numeric
     Correlate of *chroma* :math:`C_94`.
+h_S : numeric
+    *Hue* angle :math:`h_S` in degrees.
 s : numeric
     Correlate of *saturation* :math:`s`.
 Q : numeric
     Correlate of *brightness* :math:`Q`.
 M_94 : numeric
     Correlate of *colourfulness* :math:`M_94`.
+H : numeric
+    *Hue* :math:`h` quadrature :math:`H`.
+H_C : numeric
+    *Hue* :math:`h` composition :math:`H_C`.
+"""
+
+Hunt_Specification = namedtuple('Hunt_Specification',
+                                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
+"""
+Defines the *Hunt* colour appearance model specification.
+
+This specification has field names consistent with the remaining colour
+appearance models in :mod:`colour.appearance` but diverge from
+**Mark D. Fairchild** reference.
+
+Parameters
+----------
 J : numeric
     Correlate of *Lightness* :math:`J`.
+C : numeric
+    Correlate of *chroma* :math:`C_94`.
+h : numeric
+    *Hue* angle :math:`h_S` in degrees.
+s : numeric
+    Correlate of *saturation* :math:`s`.
+Q : numeric
+    Correlate of *brightness* :math:`Q`.
+M : numeric
+    Correlate of *colourfulness* :math:`M_94`.
+H : numeric
+    *Hue* :math:`h` quadrature :math:`H`.
+HC : numeric
+    *Hue* :math:`h` composition :math:`H_C`.
 """
 
 
@@ -238,7 +276,7 @@ def XYZ_to_Hunt(XYZ,
     >>> N_b = 75.0
     >>> CCT_w = 6504.0
     >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
-    Hunt_Specification(h_S=269.2737594..., C_94=0.1210508..., s=0.0199093..., Q=22.2097654..., M_94=0.1238964..., J=30.0462678...)
+    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -328,15 +366,15 @@ def XYZ_to_Hunt(XYZ,
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h_s`.
     # -------------------------------------------------------------------------
-    hue = hue_angle(C)
+    h = hue_angle(C)
     hue_w = hue_angle(C_w)
-    # TODO: Implement hue quadrature computation.
+    # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
     # -------------------------------------------------------------------------
     # Computing eccentricity factors.
-    e_s = eccentricity_factor(hue)
+    e_s = eccentricity_factor(h)
     e_s_w = eccentricity_factor(hue_w)
 
     # Computing low luminance tritanopia factor :math:`F_t`.
@@ -351,7 +389,7 @@ def XYZ_to_Hunt(XYZ,
     M = overall_chromatic_response(M_yb, M_rg)
     M_w = overall_chromatic_response(M_yb_w, M_rg_w)
 
-    saturation = saturation_correlate(M, rgb_a)
+    s = saturation_correlate(M, rgb_a)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
@@ -360,35 +398,30 @@ def XYZ_to_Hunt(XYZ,
     A = achromatic_signal(L_AS, S, S_W, N_bb, A_a)
     A_w = achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
 
-    brightness = brightness_correlate(A, A_w, M, N_b)
+    Q = brightness_correlate(A, A_w, M, N_b)
     brightness_w = brightness_correlate(A_w, A_w, M_w, N_b)
     # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
     # -------------------------------------------------------------------------
-    lightness = lightness_correlate(Y_b, Y_w, brightness, brightness_w)
+    J = lightness_correlate(Y_b, Y_w, Q, brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C_{94}`.
     # -------------------------------------------------------------------------
-    chroma = chroma_correlate(saturation,
-                              Y_b,
-                              Y_w,
-                              brightness,
-                              brightness_w)
+    C_94 = chroma_correlate(s,
+                            Y_b,
+                            Y_w,
+                            Q,
+                            brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M_{94}`.
     # -------------------------------------------------------------------------
-    colorfulness = colourfulness_correlate(F_L, chroma)
+    M_94 = colourfulness_correlate(F_L, C_94)
 
-    return Hunt_Specification(hue,
-                              chroma,
-                              saturation,
-                              brightness,
-                              colorfulness,
-                              lightness)
+    return Hunt_Specification(J, C_94, h, s, Q, M_94, None, None)
 
 
 def luminance_level_adaptation_factor(L_A):

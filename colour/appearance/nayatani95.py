@@ -39,6 +39,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
+           'Nayatani95_ReferenceSpecification',
            'Nayatani95_Specification',
            'XYZ_to_Nayatani95',
            'illuminance_to_luminance',
@@ -69,28 +70,67 @@ NAYATANI95_XYZ_TO_RGB_MATRIX = np.array(
      [-0.22630, 1.16532, 0.04570],
      [0.00000, 0.00000, 0.91822]])
 
-Nayatani95_Specification = namedtuple(
-    'Nayatani95_Specification',
-    ('B_r', 'L_star_P', 'L_star_N', 'theta', 'S', 'C', 'M'))
+Nayatani95_ReferenceSpecification = namedtuple(
+    'Nayatani95_ReferenceSpecification',
+    ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))
 """
-Defines the *Nayatani (1995)* colour appearance model specification.
+Defines the *Nayatani (1995)* colour appearance model reference specification.
+
+This specification has field names consistent with **Mark D. Fairchild**
+reference.
 
 Parameters
 ----------
-B_r : numeric
-    Correlate of *brightness* :math:`B_r`.
-L_star_P : numeric
+Lstar_P : numeric
     Correlate of *achromatic Lightness* :math:`L_p^\star`.
-L_star_N : numeric
-    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+C : numeric
+    Correlate of *chroma* :math:`C`.
 theta : numeric
     *Hue* angle :math:`\\theta` in degrees.
 S : numeric
     Correlate of *saturation* :math:`S`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
+B_r : numeric
+    Correlate of *brightness* :math:`B_r`.
 M : numeric
     Correlate of *colourfulness* :math:`M`.
+H : numeric
+    *Hue* :math:`h` quadrature :math:`H`.
+H_C : numeric
+    *Hue* :math:`h` composition :math:`H_C`.
+Lstar_N : numeric
+    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+"""
+
+Nayatani95_Specification = namedtuple(
+    'Nayatani95_Specification',
+    ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))
+"""
+Defines the *Nayatani (1995)* colour appearance model specification.
+
+This specification has field names consistent with the remaining colour
+appearance models in :mod:`colour.appearance` but diverge from
+**Mark D. Fairchild** reference.
+
+Parameters
+----------
+Lstar_P : numeric
+    Correlate of *achromatic Lightness* :math:`L_p^\star`.
+C : numeric
+    Correlate of *chroma* :math:`C`.
+h : numeric
+    *Hue* angle :math:`\\theta` in degrees.
+s : numeric
+    Correlate of *saturation* :math:`S`.
+Q : numeric
+    Correlate of *brightness* :math:`B_r`.
+M : numeric
+    Correlate of *colourfulness* :math:`M`.
+H : numeric
+    *Hue* :math:`h` quadrature :math:`H`.
+HC : numeric
+    *Hue* :math:`h` composition :math:`H_C`.
+Lstar_N : numeric
+    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
 """
 
 
@@ -148,7 +188,7 @@ def XYZ_to_Nayatani95(XYZ,
     >>> E_o = 5000.0
     >>> E_or = 1000.0
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
-    Nayatani95_Specification(B_r=62.6266734..., L_star_P=49.9998829..., L_star_N=50.0039154..., theta=257.5232268..., S=0.0133550..., C=0.0133550..., M=0.0167262...)
+    Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, HC=None, Lstar_N=50.0039154...)
     """
 
     if np.any(Y_o < 0.18):
@@ -194,7 +234,7 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`B_r`.
     # -------------------------------------------------------------------------
-    brightness = brightness_correlate(bRGB_o, bL_or, Q_response)
+    B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
     brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o,
@@ -205,36 +245,36 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
     # -------------------------------------------------------------------------
-    lightness_achromatic = (
+    Lstar_P = (
         achromatic_lightness_correlate(Q_response))
 
     # -------------------------------------------------------------------------
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\star`.
     # -------------------------------------------------------------------------
-    lightness_achromatic_normalised = (
-        normalised_achromatic_lightness_correlate(brightness,
+    Lstar_N = (
+        normalised_achromatic_lightness_correlate(B_r,
                                                   brightness_ideal_white))
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`\\theta`.
     # -------------------------------------------------------------------------
-    hue = hue_angle(p_response, t_response)
+    theta = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`S`.
     # -------------------------------------------------------------------------
-    S_RG, S_YB = saturation_components(hue, bL_or,
+    S_RG, S_YB = saturation_components(theta, bL_or,
                                        t_response,
                                        p_response)
-    saturation = saturation_correlate(S_RG, S_YB)
+    S = saturation_correlate(S_RG, S_YB)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
     # -------------------------------------------------------------------------
-    C_RG, C_YB = chroma_components(lightness_achromatic, S_RG, S_YB)
-    chroma = chroma_correlate(lightness_achromatic, saturation)
+    C_RG, C_YB = chroma_components(Lstar_P, S_RG, S_YB)
+    C = chroma_correlate(Lstar_P, S)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
@@ -242,15 +282,17 @@ def XYZ_to_Nayatani95(XYZ,
     # TODO: Investigate components usage?
     M_RG, M_YB = colourfulness_components(C_RG, C_YB,
                                           brightness_ideal_white)
-    colorfulness = colourfulness_correlate(chroma, brightness_ideal_white)
+    M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return Nayatani95_Specification(brightness,
-                                    lightness_achromatic,
-                                    lightness_achromatic_normalised,
-                                    hue,
-                                    saturation,
-                                    chroma,
-                                    colorfulness)
+    return Nayatani95_Specification(Lstar_P,
+                                    C,
+                                    theta,
+                                    S,
+                                    B_r,
+                                    M,
+                                    None,
+                                    None,
+                                    Lstar_N)
 
 
 def illuminance_to_luminance(E, Y_f):
@@ -840,13 +882,13 @@ def saturation_correlate(S_RG, S_YB):
     return S
 
 
-def chroma_components(L_star_p, S_RG, S_YB):
+def chroma_components(Lstar_P, S_RG, S_YB):
     """
     Returns the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Parameters
     ----------
-    L_star_p : numeric
+    Lstar_P : numeric
         *Achromatic Lightness* correlate :math:`L_p^\star`.
     S_RG : numeric
         *Saturation* component :math:`S_{RG}`.
@@ -860,26 +902,26 @@ def chroma_components(L_star_p, S_RG, S_YB):
 
     Examples
     --------
-    >>> L_star_p = 49.99988297570504
+    >>> Lstar_P = 49.99988297570504
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
-    >>> chroma_components(L_star_p, S_RG, S_YB)  # doctest: +ELLIPSIS
+    >>> chroma_components(Lstar_P, S_RG, S_YB)  # doctest: +ELLIPSIS
     (-0.0028852..., -0.0130396...)
     """
 
-    C_RG = ((L_star_p / 50) ** 0.7) * S_RG
-    C_YB = ((L_star_p / 50) ** 0.7) * S_YB
+    C_RG = ((Lstar_P / 50) ** 0.7) * S_RG
+    C_YB = ((Lstar_P / 50) ** 0.7) * S_YB
 
     return C_RG, C_YB
 
 
-def chroma_correlate(L_star_p, S):
+def chroma_correlate(Lstar_P, S):
     """
     Returns the correlate of *chroma* :math:`C`.
 
     Parameters
     ----------
-    L_star_p : numeric
+    Lstar_P : numeric
         *Achromatic Lightness* correlate :math:`L_p^\star`.
     S : numeric
         Correlate of *saturation* :math:`S`.
@@ -891,13 +933,13 @@ def chroma_correlate(L_star_p, S):
 
     Examples
     --------
-    >>> L_star_p = 49.99988297570504
+    >>> Lstar_P = 49.99988297570504
     >>> S = 0.013355029751777615
-    >>> chroma_correlate(L_star_p, S)  # doctest: +ELLIPSIS
+    >>> chroma_correlate(Lstar_P, S)  # doctest: +ELLIPSIS
     0.0133550...
     """
 
-    C = ((L_star_p / 50) ** 0.7) * S
+    C = ((Lstar_P / 50) ** 0.7) * S
     return C
 
 

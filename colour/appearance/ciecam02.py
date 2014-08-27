@@ -106,7 +106,7 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
 
 CIECAM02_Specification = namedtuple('CIECAM02_Specification',
-                                    ('J', 'C', 'h', 'Q', 'M', 's', 'H'))
+                                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
 """
 Defines the *CIECAM02* colour appearance model specification.
 
@@ -118,14 +118,16 @@ C : numeric
     Correlate of *chroma* :math:`C`.
 h : numeric
     *Hue* angle :math:`h` in degrees.
+s : numeric
+    Correlate of *saturation* :math:`s`.
 Q : numeric
     Correlate of *brightness* :math:`Q`.
 M : numeric
     Correlate of *colourfulness* :math:`M`.
-s : numeric
-    Correlate of *saturation* :math:`s`.
 H : numeric
-    Hue :math:`h` quadrature :math:`H`.
+    *Hue* :math:`h` quadrature :math:`H`.
+HC : numeric
+    *Hue* :math:`h` composition :math:`H^C`.
 """
 
 
@@ -178,7 +180,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., Q=195.3713259..., M=0.1088421..., s=2.3603053..., H=278.0607358...)
+    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
     XYZ = np.array(XYZ).reshape((3, 1))
@@ -221,6 +223,7 @@ def XYZ_to_CIECAM02(XYZ,
     # -------------------------------------------------------------------------
     # Computing hue :math:`h` quadrature :math:`H`.
     H = hue_quadrature(h)
+    # TODO: Compute hue composition.
 
     # Computing eccentricity factor *e_t*.
     e_t = eccentricity_factor(h)
@@ -254,7 +257,7 @@ def XYZ_to_CIECAM02(XYZ,
     # -------------------------------------------------------------------------
     s = saturation_correlate(M, Q)
 
-    return CIECAM02_Specification(J, C, h, Q, M, s, H)
+    return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
 def CIECAM02_to_XYZ(J, C, h,

@@ -41,30 +41,73 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ATD95_Specification',
+__all__ = ['ATD95_ReferenceSpecification',
+           'ATD95_Specification',
            'XYZ_to_ATD95',
            'luminance_to_retinal_illuminance',
            'XYZ_to_LMS_ATD95',
            'opponent_colour_dimensions',
            'final_response']
 
-ATD95_Specification = namedtuple('ATD95_Specification', (
-    'H', 'Br', 'C', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
+ATD95_ReferenceSpecification = namedtuple('ATD95_ReferenceSpecification', (
+    'H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
 """
-Defines the *ATD (1995)* colour vision model specification.
+Defines the *ATD (1995)* colour vision model reference specification.
+
+This specification has field names consistent with **Mark D. Fairchild**
+reference.
 
 Parameters
 ----------
 H : numeric
     *Hue* angle :math:`H` in degrees.
-Br : numeric
-    Correlate of *brightness* :math:`Br`.
 C : numeric
     Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
     terms saturation and chroma interchangeably. However, :math:`C` is here a
     measure of saturation rather than chroma since it is measured relative to
     the achromatic response for the stimulus rather than that of a similarly
     illuminated white.
+Br : numeric
+    Correlate of *brightness* :math:`Br`.
+A_1 : numeric
+    First stage :math:`A_1` response.
+T_1 : numeric
+    First stage :math:`T_1` response.
+D_1 : numeric
+    First stage :math:`D_1` response.
+A_2 : numeric
+    Second stage :math:`A_2` response.
+T_2 : numeric
+    Second stage :math:`A_2` response.
+D_2 : numeric
+    Second stage :math:`D_2` response.
+"""
+
+ATD95_Specification = namedtuple('ATD95_Specification', (
+    'h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
+"""
+Defines the *ATD (1995)* colour vision model specification.
+
+This specification has field names consistent with the remaining colour
+appearance models in :mod:`colour.appearance` but diverge from
+**Mark D. Fairchild** reference.
+
+Notes
+-----
+-   This specification is the one used in the current model implementation.
+
+Parameters
+----------
+h : numeric
+    *Hue* angle :math:`H` in degrees.
+C : numeric
+    Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+    terms saturation and chroma interchangeably. However, :math:`C` is here a
+    measure of saturation rather than chroma since it is measured relative to
+    the achromatic response for the stimulus rather than that of a similarly
+    illuminated white.
+Q : numeric
+    Correlate of *brightness* :math:`Br`.
 A_1 : numeric
     First stage :math:`A_1` response.
 T_1 : numeric
@@ -126,7 +169,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     >>> k_1 = 0.0
     >>> k_2 = 50.0
     >>> XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)  # doctest: +ELLIPSIS
-    ATD95_Specification(H=1.9089869..., Br=0.1814003..., C=1.2064060..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
+    ATD95_Specification(h=1.9089869..., C=1.2064060..., Q=0.1814003..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
     """
 
     XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
@@ -145,27 +188,19 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Br`.
     # -------------------------------------------------------------------------
-    brightness = (A_1 ** 2 + T_1 ** 2 + D_1 ** 2) ** 0.5
+    Br = (A_1 ** 2 + T_1 ** 2 + D_1 ** 2) ** 0.5
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`C`.
     # -------------------------------------------------------------------------
-    saturation = (T_2 ** 2 + D_2 ** 2) ** 0.5 / A_2
+    C = (T_2 ** 2 + D_2 ** 2) ** 0.5 / A_2
 
     # -------------------------------------------------------------------------
     # Computing the *hue* :math:`H`.
     # -------------------------------------------------------------------------
-    hue = T_2 / D_2
+    H = T_2 / D_2
 
-    return ATD95_Specification(hue,
-                               brightness,
-                               saturation,
-                               A_1,
-                               T_1,
-                               D_1,
-                               A_2,
-                               T_2,
-                               D_2)
+    return ATD95_Specification(H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
 
 
 def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
