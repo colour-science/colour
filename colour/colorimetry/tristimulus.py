@@ -54,9 +54,13 @@ def spectral_to_XYZ(spd,
     ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
+    Warning
+    -------
+    The output domain of that definition is non standard!
+
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 100].
 
     References
     ----------
