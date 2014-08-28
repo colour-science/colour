@@ -46,7 +46,7 @@ __status__ = 'Production'
 __all__ = ['LLAB_InductionFactors',
            'LLAB_VIEWING_CONDITIONS',
            'LLAB_XYZ_TO_RGB_MATRIX',
-           'LLAB_XYZ_TO_RGB_INVERSE_MATRIX',
+           'LLAB_RGB_TO_XYZ_MATRIX',
            'LLAB_ReferenceSpecification',
            'LLAB_Specification',
            'XYZ_to_LLAB',
@@ -114,13 +114,27 @@ LLAB_XYZ_TO_RGB_MATRIX = np.array(
     [[0.8951, 0.2664, -0.1614],
      [-0.7502, 1.7135, 0.0367],
      [0.0389, -0.0685, 1.0296]])
+"""
+*LLAB(l:c)* colour appearance model *CIE XYZ* colourspace matrix to normalised
+cone responses matrix.
 
-# LLAB_XYZ_TO_RGB_INVERSE_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
-# TODO: Investigate rounding issues.
-LLAB_XYZ_TO_RGB_INVERSE_MATRIX = np.array(
-    [[0.987, -0.1471, 0.1600],
-     [0.4323, 0.5184, 0.0493],
-     [-0.0085, 0.0400, 0.9685]])
+LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+"""
+
+LLAB_RGB_TO_XYZ_MATRIX = np.around(
+    np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX),
+    decimals=4)
+"""
+*LLAB(l:c)* colour appearance model normalised cone responses to *CIE XYZ*
+colourspace matrix.
+
+Notes
+-----
+-   This matrix has been rounded on purpose to 4 decimals so that we keep
+consistency with **Mark D. Fairchild** implementation results.
+
+LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 LLAB_ReferenceSpecification = namedtuple(
     'LLAB_ReferenceSpecification',
@@ -358,7 +372,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     RGB_r = np.array([R_r, G_r, B_r])
 
-    X_r, Y_r, Z_r = LLAB_XYZ_TO_RGB_INVERSE_MATRIX.dot(RGB_r * Y)
+    X_r, Y_r, Z_r = LLAB_RGB_TO_XYZ_MATRIX.dot(RGB_r * Y)
 
     return np.array([X_r, Y_r, Z_r])
 
