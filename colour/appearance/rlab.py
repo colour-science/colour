@@ -31,7 +31,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_to_rgb
-from colour.appearance.hunt import HPE_MATRIX
+from colour.appearance.hunt import XYZ_TO_HPE_MATRIX
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -51,6 +51,11 @@ R_MATRIX = np.array(
     [[1.9569, -1.1882, 0.2313],
      [0.3612, 0.6388, 0.0000],
      [0.0000, 0.0000, 1.0000]])
+"""
+*RLAB* colour appearance model precomputed helper matrix.
+
+R_MATRIX : array_like, (3, 3)
+"""
 
 RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Average': 1 / 2.3,
@@ -179,7 +184,7 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
         # *numeric* case.
         # Implementation as per reference.
         aR = np.diag(LMS_a_L)
-        XYZ_ref = R_MATRIX.dot(aR).dot(HPE_MATRIX).dot(XYZ)
+        XYZ_ref = R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ)
     else:
         # *array_like* case.
         # Constructing huge multidimensional arrays might not be the best idea,
@@ -192,7 +197,7 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
         for layer in range(dimension):
             aR = np.diag(LMS_a_L[..., layer])
             XYZ_ref[..., layer] = (
-                R_MATRIX.dot(aR).dot(HPE_MATRIX).dot(XYZ[..., layer]))
+                R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ[..., layer]))
 
     X_ref, Y_ref, Z_ref = XYZ_ref
 

@@ -41,8 +41,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
-from colour.appearance.hunt import (HPE_MATRIX,
-                                    HPE_MATRIX_INVERSE,
+from colour.appearance.hunt import (XYZ_TO_HPE_MATRIX,
+                                    HPE_TO_XYZ_MATRIX,
                                     luminance_level_adaptation_factor)
 from colour.utilities import CaseInsensitiveMapping
 
@@ -597,7 +597,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = np.dot(np.dot(HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
+    rgb = np.dot(np.dot(XYZ_TO_HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
     return rgb
 
 
@@ -623,7 +623,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.dot(np.dot(CAT02_CAT, HPE_MATRIX_INVERSE), rgb)
+    RGB = np.dot(np.dot(CAT02_CAT, HPE_TO_XYZ_MATRIX), rgb)
     return RGB
 
 

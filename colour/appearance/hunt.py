@@ -38,8 +38,8 @@ __status__ = 'Production'
 __all__ = ['Hunt_InductionFactors',
            'HUNT_VIEWING_CONDITIONS',
            'HUE_DATA_FOR_HUE_QUADRATURE',
-           'HPE_MATRIX',
-           'HPE_MATRIX_INVERSE',
+           'XYZ_TO_HPE_MATRIX',
+           'HPE_TO_XYZ_MATRIX',
            'Hunt_ReferenceSpecification',
            'Hunt_Specification',
            'XYZ_to_Hunt',
@@ -111,12 +111,24 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_s': np.array([20.14, 90.00, 164.25, 237.53]),
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])}
 
-HPE_MATRIX = np.array(
+XYZ_TO_HPE_MATRIX = np.array(
     [[0.38971, 0.68898, -0.07868],
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
+"""
+*Hunt* colour appearance model *CIE XYZ* colourspace matrix to
+*Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
-HPE_MATRIX_INVERSE = np.linalg.inv(HPE_MATRIX)
+XYZ_TO_HPE_MATRIX : array_like, (3, 3)
+"""
+
+HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
+"""
+*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+colourspace to *CIE XYZ* colourspace matrix matrix.
+
+HPE_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
 
 Hunt_ReferenceSpecification = namedtuple(
     'Hunt_ReferenceSpecification',
@@ -500,7 +512,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return HPE_MATRIX.dot(XYZ)
+    return XYZ_TO_HPE_MATRIX.dot(XYZ)
 
 
 def f_n(x):

@@ -69,6 +69,12 @@ NAYATANI95_XYZ_TO_RGB_MATRIX = np.array(
     [[0.40024, 0.70760, -0.08081],
      [-0.22630, 1.16532, 0.04570],
      [0.00000, 0.00000, 0.91822]])
+"""
+*Nayatani (1995)* colour appearance model *CIE XYZ* colourspace to cone
+responses matrix.
+
+NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+"""
 
 Nayatani95_ReferenceSpecification = namedtuple(
     'Nayatani95_ReferenceSpecification',
