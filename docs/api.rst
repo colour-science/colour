@@ -4,6 +4,7 @@ API Reference
 Contents:
 
 .. toctree::
+   :titlesonly:
 
    colour
 
