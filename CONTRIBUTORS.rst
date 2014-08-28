@@ -9,7 +9,7 @@ Development & Technical Support
     Project coordination, overall development.
 
 -   **Michael Mauderer**, *HCI Researcher @ University of St Andrews*
-    
+
     Colour appearance models, overall development.
 
 -   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
@@ -38,6 +38,11 @@ Acknowledgements
 -   **Scott Dyer**, *Image Engineering @ Academy of Motion Picture Arts and Sciences*
 
     *ACES RGB IDT* technical support.
+
+Special Mentions
+----------------
+
+-   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
 About
 -----
