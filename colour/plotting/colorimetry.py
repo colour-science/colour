@@ -167,9 +167,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         colours.append(XYZ_to_sRGB(XYZ))
         y1.append(value)
 
-    colours = np.array([np.ravel(x) for x in colours])
-    colours *= 1 / np.max(colours)
-    colours = np.clip(colours, 0, 1)
+    colours = normalise(colours)
 
     settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
                 'x_label': u'Wavelength λ (nm)',
@@ -242,9 +240,8 @@ def multi_spd_plot(spds,
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
-                XYZ /= np.max(XYZ)
-            RGB = XYZ_to_sRGB(XYZ)
-            RGB = np.clip(RGB, 0, 1)
+                XYZ = normalise(XYZ, clip=False)
+            RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.name,
                        linewidth=2)
@@ -400,7 +397,6 @@ def single_illuminant_relative_spd_plot(
     title = 'Illuminant "{0}" - {1}'.format(illuminant, cmfs)
 
     illuminant, name = get_illuminant(illuminant), illuminant
-    cmfs, name = get_cmfs(cmfs), cmfs
 
     settings = {'title': title,
                 'y_label': 'Relative Spectral Power Distribution'}
@@ -637,8 +633,8 @@ def blackbody_spectral_radiance_plot(
 
     single_spd_plot(spd, name, **settings)
 
-    XYZ = spectral_to_XYZ(spd, cmfs) / 100
-    RGB = normalise(XYZ_to_sRGB(XYZ))
+    XYZ = spectral_to_XYZ(spd, cmfs)
+    RGB = normalise(XYZ_to_sRGB(XYZ / 100))
 
     matplotlib.pyplot.subplot(212)
 
@@ -692,8 +688,8 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     for temperature in shape:
         spd = blackbody_spd(temperature, cmfs.shape)
 
-        XYZ = spectral_to_XYZ(spd, cmfs) / 100
-        RGB = normalise(XYZ_to_sRGB(XYZ))
+        XYZ = spectral_to_XYZ(spd, cmfs)
+        RGB = normalise(XYZ_to_sRGB(XYZ / 100))
 
         colours.append(RGB)
         temperatures.append(temperature)

@@ -93,6 +93,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
                 'height': height,
                 'spacing': spacing,
                 'across': across,
+                'text_size': 8,
                 'margins': [-0.125, 0.125, -0.5, 0.125]}
     settings.update(kwargs)
 

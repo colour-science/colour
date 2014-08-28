@@ -84,6 +84,9 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
                  ['Ra'] + ['R{0}'.format(index) for index in x[1:]])
 
     def label_bars(bars):
+        """
+        Add labels above given bars.
+        """
         for bar in bars:
             y = bar.get_y()
             height = bar.get_height()
