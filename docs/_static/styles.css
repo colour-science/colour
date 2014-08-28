@@ -39,3 +39,7 @@ pre {
 #hidden-toctree {
     display: none;
 }
+
+ul {
+    padding-left: 20px;
+}
