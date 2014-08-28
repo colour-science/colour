@@ -18,7 +18,7 @@ Subpackages
 -   constants: *CIE* and *CODATA* constants.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
--   io: Input / output objects.
+-   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
