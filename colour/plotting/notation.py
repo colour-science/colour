@@ -16,7 +16,7 @@ from __future__ import division
 import numpy as np
 import pylab
 
-from colour.notation import MUNSELL_VALUE_FUNCTIONS
+from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     aspect,
     bounding_box,
@@ -102,12 +102,12 @@ def multi_munsell_value_function_plot(
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
-        function, name = MUNSELL_VALUE_FUNCTIONS.get(function), function
+        function, name = MUNSELL_VALUE_METHODS.get(function), function
         if function is None:
             raise KeyError(
                 ('"{0}" "Munsell" value function not found in '
                  'factory "Munsell" value functions: "{1}".').format(
-                    name, sorted(MUNSELL_VALUE_FUNCTIONS.keys())))
+                    name, sorted(MUNSELL_VALUE_METHODS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],

@@ -21,10 +21,12 @@ __status__ = 'Production'
 __all__ = ['delta_E_CIE_1976',
            'delta_E_CIE_1994',
            'delta_E_CIE_2000',
-           'delta_E_CMC']
+           'delta_E_CMC',
+           'DELTA_E_METHODS',
+           'delta_e']
 
 
-def delta_E_CIE_1976(lab1, lab2):
+def delta_E_CIE_1976(lab1, lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given
     *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
@@ -35,7 +37,12 @@ def delta_E_CIE_1976(lab1, lab2):
         *CIE Lab* *array_like* colour 1.
     lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        :math:`\Delta E_{ab}` computation objects.
 
+    Returns
+    -------
     numeric
         Colour difference :math:`\Delta E_{ab}`.
 
@@ -54,7 +61,7 @@ def delta_E_CIE_1976(lab1, lab2):
     return np.linalg.norm(np.array(lab1) - np.array(lab2))
 
 
-def delta_E_CIE_1994(lab1, lab2, textiles=True):
+def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     *array_like* colours using *CIE 1994* recommendation.
@@ -67,6 +74,9 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
         *CIE Lab* *array_like* colour 2.
     textiles : bool, optional
         Application specific weights.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
@@ -84,6 +94,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
     >>> delta_E_CIE_1994(lab1, lab2)  # doctest: +ELLIPSIS
     88.3355530...
+    >>> delta_E_CIE_1994(lab1, lab2, textiles=False)  # doctest: +ELLIPSIS
+    83.7792255...
     """
 
     k1 = 0.048 if textiles else 0.045
@@ -119,7 +131,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True):
     return math.sqrt(L + C + H)
 
 
-def delta_E_CIE_2000(lab1, lab2):
+def delta_E_CIE_2000(lab1, lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     *array_like* colours using *CIE 2000* recommendation.
@@ -130,6 +142,9 @@ def delta_E_CIE_2000(lab1, lab2):
         *CIE Lab* *array_like* colour 1.
     lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
@@ -294,3 +309,66 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     v3 = sh
 
     return math.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
+
+
+DELTA_E_METHODS = {
+    'CIE 1976': delta_E_CIE_1976,
+    'CIE 1994': delta_E_CIE_1994,
+    'CIE 2000': delta_E_CIE_2000,
+    'CMC': delta_E_CMC,
+}
+"""
+Supported *Delta E* computations methods.
+
+DELTA_E_METHODS : dict
+    ('CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC')
+
+Aliases:
+
+-   'cie1976': 'CIE 1976'
+-   'cie1994': 'CIE 1994'
+-   'cie2000': 'CIE 2000'
+"""
+DELTA_E_METHODS['cie1976'] = DELTA_E_METHODS['CIE 1976']
+DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
+DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
+
+
+def delta_e(lab1, lab2, method='CMC', **kwargs):
+    """
+    Returns the *Lightness* :math:`L^*` using given method.
+
+    Parameters
+    ----------
+    lab1 : array_like, (3,)
+        *CIE Lab* *array_like* colour 1.
+    lab2 : array_like, (3,)
+        *CIE Lab* *array_like* colour 2.
+    method : unicode, optional
+        ('CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC')
+        Computation method.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    numeric
+        Colour difference :math:`\Delta E_{ab}`.
+
+    Examples
+    --------
+    >>> lab1 = np.array([100, 21.57210357, 272.2281935])
+    >>> lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> delta_e(lab1, lab2)  # doctest: +ELLIPSIS
+    172.7047712...
+    >>> delta_e(lab1, lab2, method='CIE 1976')  # doctest: +ELLIPSIS
+    451.7133019...
+    >>> delta_e(lab1, lab2, method='CIE 1994')  # doctest: +ELLIPSIS
+    88.3355530...
+    >>> delta_e(lab1, lab2, method='CIE 1994', textiles=False)  # noqa  # doctest: +ELLIPSIS
+    83.7792255...
+    >>> delta_e(lab1, lab2, method='CIE 2000')  # doctest: +ELLIPSIS
+    94.0356490...
+    """
+
+    return DELTA_E_METHODS.get(method)(lab1, lab2, **kwargs)

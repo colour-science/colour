@@ -33,11 +33,11 @@ __status__ = 'Production'
 __all__ = ['luminance_newhall1943',
            'luminance_1976',
            'luminance_ASTM_D1535_08',
-           'LUMINANCE_FUNCTIONS',
+           'LUMINANCE_METHODS',
            'luminance']
 
 
-def luminance_newhall1943(V):
+def luminance_newhall1943(V, **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *Newhall, Nickerson, and Judd (1943)* method.
@@ -46,6 +46,9 @@ def luminance_newhall1943(V):
     ----------
     V : numeric
         *Munsell* value :math:`V`.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *luminance* computation objects.
 
     Returns
     -------
@@ -114,7 +117,7 @@ def luminance_1976(L, Yn=100):
     return Y
 
 
-def luminance_ASTM_D1535_08(V):
+def luminance_ASTM_D1535_08(V, **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1 (2008)* method.
@@ -123,6 +126,9 @@ def luminance_ASTM_D1535_08(V):
     ----------
     V : numeric
         *Munsell* value :math:`V`.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *luminance* computation objects.
 
     Returns
     -------
@@ -150,14 +156,14 @@ def luminance_ASTM_D1535_08(V):
     return Y
 
 
-LUMINANCE_FUNCTIONS = CaseInsensitiveMapping(
+LUMINANCE_METHODS = CaseInsensitiveMapping(
     {'Newhall 1943': luminance_newhall1943,
      'CIE Lab 1976': luminance_1976,
      'ASTM D1535-08': luminance_ASTM_D1535_08})
 """
 Supported *luminance* computations methods.
 
-LUMINANCE_FUNCTIONS : dict
+LUMINANCE_METHODS : dict
     ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
 
 Aliases:
@@ -165,13 +171,13 @@ Aliases:
 -   'Lstar1976': 'CIE Lab 1976'
 -   'astm2008': 'ASTM D1535-08'
 """
-LUMINANCE_FUNCTIONS['Lstar1976'] = (
-    LUMINANCE_FUNCTIONS['CIE Lab 1976'])
-LUMINANCE_FUNCTIONS['astm2008'] = (
-    LUMINANCE_FUNCTIONS['ASTM D1535-08'])
+LUMINANCE_METHODS['Lstar1976'] = (
+    LUMINANCE_METHODS['CIE Lab 1976'])
+LUMINANCE_METHODS['astm2008'] = (
+    LUMINANCE_METHODS['ASTM D1535-08'])
 
 
-def luminance(LV, Yn=100, method='CIE Lab 1976'):
+def luminance(LV, method='CIE Lab 1976', **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -180,11 +186,11 @@ def luminance(LV, Yn=100, method='CIE Lab 1976'):
     ----------
     LV : numeric
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
-    Yn : numeric, optional
-        White reference *luminance* :math:`Y_n`.
     method : unicode, optional
         ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
         Computation method.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -193,17 +199,22 @@ def luminance(LV, Yn=100, method='CIE Lab 1976'):
 
     Notes
     -----
-    -   Input *LV* is in domain [0, 100] or [0, 10] and *luminance* :math:`Y_n`
-        is in domain [0, 100].
+    -   Input *LV* is in domain [0, 100] or [0, 10] and optional *luminance*
+        :math:`Y_n` is in domain [0, 100].
     -   Output *luminance* :math:`Y` is in domain [0, 100].
 
     Examples
     --------
     >>> luminance(37.9856290977)  # doctest: +ELLIPSIS
     10.0800000...
+    >>> luminance(37.9856290977, Yn=100)  # doctest: +ELLIPSIS
+    10.0800000...
+    >>> luminance(37.9856290977, Yn=95)  # doctest: +ELLIPSIS
+    9.5760000...
+    >>> luminance(3.74629715382, method='Newhall 1943')  # doctest: +ELLIPSIS
+    10.4089874...
+    >>> luminance(3.74629715382, method='ASTM D1535-08')  # doctest: +ELLIPSIS
+    10.1488096...
     """
 
-    if Yn is None or method is not None:
-        return LUMINANCE_FUNCTIONS.get(method)(LV)
-    else:
-        return luminance_1976(LV, Yn)
+    return LUMINANCE_METHODS.get(method)(LV, **kwargs)

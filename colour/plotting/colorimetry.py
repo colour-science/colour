@@ -31,7 +31,7 @@ from colour.colorimetry import (
     CMFS,
     DEFAULT_SPECTRAL_SHAPE,
     ILLUMINANTS_RELATIVE_SPDS,
-    LIGHTNESS_FUNCTIONS,
+    LIGHTNESS_METHODS,
     SpectralShape,
     spectral_to_XYZ,
     wavelength_to_XYZ,
@@ -555,12 +555,12 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
-        function, name = LIGHTNESS_FUNCTIONS.get(function), function
+        function, name = LIGHTNESS_METHODS.get(function), function
         if function is None:
             raise KeyError(
                 ('"{0}" "Lightness" function not found in factory '
                  '"Lightness" functions: "{1}".').format(
-                    name, sorted(LIGHTNESS_FUNCTIONS.keys())))
+                    name, sorted(LIGHTNESS_METHODS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],

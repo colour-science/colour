@@ -32,11 +32,11 @@ __status__ = 'Production'
 __all__ = ['lightness_glasser1958',
            'lightness_wyszecki1964',
            'lightness_1976',
-           'LIGHTNESS_FUNCTIONS',
+           'LIGHTNESS_METHODS',
            'lightness']
 
 
-def lightness_glasser1958(Y):
+def lightness_glasser1958(Y, **kwargs):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     *Glasser et al. (1958)* method.
@@ -45,6 +45,9 @@ def lightness_glasser1958(Y):
     ----------
     Y : numeric
         *luminance* :math:`Y`.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *Lightness* computation objects.
 
     Returns
     -------
@@ -72,7 +75,7 @@ def lightness_glasser1958(Y):
     return L_star
 
 
-def lightness_wyszecki1964(Y):
+def lightness_wyszecki1964(Y, **kwargs):
     """
     Returns the *Lightness* :math:`W^*` of given *luminance* :math:`Y` using
     *Wyszecki (1964)* method.
@@ -82,6 +85,9 @@ def lightness_wyszecki1964(Y):
     ----------
     Y : numeric
         *luminance* :math:`Y`.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *Lightness* computation objects.
 
     Returns
     -------
@@ -153,24 +159,24 @@ def lightness_1976(Y, Yn=100):
     return L
 
 
-LIGHTNESS_FUNCTIONS = CaseInsensitiveMapping(
+LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_glasser1958,
      'Wyszecki 1964': lightness_wyszecki1964,
      'CIE Lab 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.
 
-LIGHTNESS_FUNCTIONS : dict
+LIGHTNESS_METHODS : dict
     ('Glasser 1958', 'Wyszecki 1964', 'CIE Lab 1976')
 
 Aliases:
 
 -   'Lstar1976': 'CIE Lab 1976'
 """
-LIGHTNESS_FUNCTIONS['Lstar1976'] = LIGHTNESS_FUNCTIONS['CIE Lab 1976']
+LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE Lab 1976']
 
 
-def lightness(Y, Yn=100, method='CIE Lab 1976'):
+def lightness(Y, method='CIE Lab 1976', **kwargs):
     """
     Returns the *Lightness* :math:`L^*` using given method.
 
@@ -178,12 +184,11 @@ def lightness(Y, Yn=100, method='CIE Lab 1976'):
     ----------
     Y : numeric
         *luminance* :math:`Y`.
-    Yn : numeric, optional
-        White reference *luminance*.
     method : unicode, optional
-        ('Glasser 1958', 'Wyszecki 1964',
-        'CIE Lab 1976'),
+        ('Glasser 1958', 'Wyszecki 1964', 'CIE Lab 1976'),
         Computation method.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -192,16 +197,22 @@ def lightness(Y, Yn=100, method='CIE Lab 1976'):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` and :math:`Y_n` are in domain [0, 100].
+    -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
+        [0, 100].
     -   Output *Lightness* :math:`L^*` is in domain [0, 100].
 
     Examples
     --------
     >>> lightness(10.08)  # doctest: +ELLIPSIS
     37.9856290...
+    >>> lightness(10.08, Yn=100)  # doctest: +ELLIPSIS
+    37.9856290...
+    >>> lightness(10.08, Yn=95)  # doctest: +ELLIPSIS
+    38.9165987...
+    >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
+    36.2505626...
+    >>> lightness(10.08, method='Wyszecki 1964')  # doctest: +ELLIPSIS
+    37.0041149...
     """
 
-    if Yn is None or method is not None:
-        return LIGHTNESS_FUNCTIONS.get(method)(Y)
-    else:
-        return lightness_1976(Y, Yn)
+    return LIGHTNESS_METHODS.get(method)(Y, **kwargs)
