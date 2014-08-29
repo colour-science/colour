@@ -162,21 +162,21 @@ def lightness_1976(Y, Yn=100):
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_glasser1958,
      'Wyszecki 1964': lightness_wyszecki1964,
-     'CIE Lab 1976': lightness_1976})
+     'CIE 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.
 
 LIGHTNESS_METHODS : dict
-    ('Glasser 1958', 'Wyszecki 1964', 'CIE Lab 1976')
+    ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976')
 
 Aliases:
 
--   'Lstar1976': 'CIE Lab 1976'
+-   'Lstar1976': 'CIE 1976'
 """
-LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE Lab 1976']
+LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE 1976']
 
 
-def lightness(Y, method='CIE Lab 1976', **kwargs):
+def lightness(Y, method='CIE 1976', **kwargs):
     """
     Returns the *Lightness* :math:`L^*` using given method.
 
@@ -185,7 +185,7 @@ def lightness(Y, method='CIE Lab 1976', **kwargs):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Glasser 1958', 'Wyszecki 1964', 'CIE Lab 1976'),
+        ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976'),
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

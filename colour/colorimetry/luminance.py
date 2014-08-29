@@ -158,26 +158,26 @@ def luminance_ASTM_D1535_08(V, **kwargs):
 
 LUMINANCE_METHODS = CaseInsensitiveMapping(
     {'Newhall 1943': luminance_newhall1943,
-     'CIE Lab 1976': luminance_1976,
+     'CIE 1976': luminance_1976,
      'ASTM D1535-08': luminance_ASTM_D1535_08})
 """
 Supported *luminance* computations methods.
 
 LUMINANCE_METHODS : dict
-    ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
+    ('Newhall 1943', 'CIE 1976', 'ASTM D1535-08')
 
 Aliases:
 
--   'Lstar1976': 'CIE Lab 1976'
+-   'cie1976': 'CIE 1976'
 -   'astm2008': 'ASTM D1535-08'
 """
-LUMINANCE_METHODS['Lstar1976'] = (
-    LUMINANCE_METHODS['CIE Lab 1976'])
+LUMINANCE_METHODS['cie1976'] = (
+    LUMINANCE_METHODS['CIE 1976'])
 LUMINANCE_METHODS['astm2008'] = (
     LUMINANCE_METHODS['ASTM D1535-08'])
 
 
-def luminance(LV, method='CIE Lab 1976', **kwargs):
+def luminance(LV, method='CIE 1976', **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -187,7 +187,7 @@ def luminance(LV, method='CIE Lab 1976', **kwargs):
     LV : numeric
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
-        ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
+        ('Newhall 1943', 'CIE 1976', 'ASTM D1535-08')
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

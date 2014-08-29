@@ -492,7 +492,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                                   **settings)
 
 
-def single_lightness_function_plot(function='CIE Lab 1976', **kwargs):
+def single_lightness_function_plot(function='CIE 1976', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -545,13 +545,13 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('CIE Lab 1976', 'Wyszecki 1964')
+    >>> fs = ('CIE 1976', 'Wyszecki 1964')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
     True
     """
 
     if functions is None:
-        functions = ('CIE Lab 1976', 'Wyszecki 1964')
+        functions = ('CIE 1976', 'Wyszecki 1964')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
