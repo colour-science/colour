@@ -86,8 +86,23 @@ __all__ = ['CIECAM02_InductionFactors',
            'P',
            'post_adaptation_non_linear_response_compression_matrix']
 
-CIECAM02_InductionFactors = namedtuple('CIECAM02_InductionFactors',
-                                       ('F', 'c', 'N_c'))
+
+class CIECAM02_InductionFactors(
+    namedtuple('CIECAM02_InductionFactors',
+               ('F', 'c', 'N_c'))):
+    """
+    *CIECAM02* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    F : numeric
+        Maximum degree of adaptation :math:`F`.
+    c : numeric
+        Exponential non linearity :math:`c`.
+    N_c : numeric
+        Chromatic induction factor :math:`N_c`.
+    """
+
 
 CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Average': CIECAM02_InductionFactors(1, 0.69, 1),
@@ -105,30 +120,32 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_i': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
 
-CIECAM02_Specification = namedtuple('CIECAM02_Specification',
-                                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
-"""
-Defines the *CIECAM02* colour appearance model specification.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`J`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-h : numeric
-    *Hue* angle :math:`h` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-Q : numeric
-    Correlate of *brightness* :math:`Q`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-"""
+class CIECAM02_Specification(
+    namedtuple('CIECAM02_Specification',
+               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+    """
+    Defines the *CIECAM02* colour appearance model specification.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    h : numeric
+        *Hue* angle :math:`h` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    """
 
 
 def XYZ_to_CIECAM02(XYZ,

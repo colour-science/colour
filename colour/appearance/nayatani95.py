@@ -76,68 +76,71 @@ responses matrix.
 NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-Nayatani95_ReferenceSpecification = namedtuple(
-    'Nayatani95_ReferenceSpecification',
-    ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))
-"""
-Defines the *Nayatani (1995)* colour appearance model reference specification.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
+class Nayatani95_ReferenceSpecification(
+    namedtuple('Nayatani95_ReferenceSpecification', (
+            'Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
+    """
+    Defines the *Nayatani (1995)* colour appearance model reference
+    specification.
 
-Parameters
-----------
-Lstar_P : numeric
-    Correlate of *achromatic Lightness* :math:`L_p^\star`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-theta : numeric
-    *Hue* angle :math:`\\theta` in degrees.
-S : numeric
-    Correlate of *saturation* :math:`S`.
-B_r : numeric
-    Correlate of *brightness* :math:`B_r`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-H_C : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-Lstar_N : numeric
-    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
 
-Nayatani95_Specification = namedtuple(
-    'Nayatani95_Specification',
-    ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))
-"""
-Defines the *Nayatani (1995)* colour appearance model specification.
+    Parameters
+    ----------
+    Lstar_P : numeric
+        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    theta : numeric
+        *Hue* angle :math:`\\theta` in degrees.
+    S : numeric
+        Correlate of *saturation* :math:`S`.
+    B_r : numeric
+        Correlate of *brightness* :math:`B_r`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    H_C : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    Lstar_N : numeric
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+    """
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
 
-Parameters
-----------
-Lstar_P : numeric
-    Correlate of *achromatic Lightness* :math:`L_p^\star`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-h : numeric
-    *Hue* angle :math:`\\theta` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`S`.
-Q : numeric
-    Correlate of *brightness* :math:`B_r`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-Lstar_N : numeric
-    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
-"""
+class Nayatani95_Specification(
+    namedtuple('Nayatani95_Specification',
+               ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
+    """
+    Defines the *Nayatani (1995)* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    Lstar_P : numeric
+        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    h : numeric
+        *Hue* angle :math:`\\theta` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`S`.
+    Q : numeric
+        Correlate of *brightness* :math:`B_r`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    Lstar_N : numeric
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+    """
 
 
 def XYZ_to_Nayatani95(XYZ,

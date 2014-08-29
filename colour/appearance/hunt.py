@@ -64,7 +64,21 @@ __all__ = ['Hunt_InductionFactors',
            'chroma_correlate',
            'colourfulness_correlate', ]
 
-Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
+
+class Hunt_InductionFactors(
+    namedtuple('Hunt_InductionFactors',
+               ('N_c', 'N_b'))):
+    """
+    *Hunt* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    N_c : numeric
+        Chromatic surround induction factor :math:`N_c`.
+    N_b : numeric
+        *Brightness* surround induction factor :math:`N_b`.
+    """
+
 
 HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Small Areas, Uniform Background & Surrounds': (
@@ -130,63 +144,66 @@ colourspace to *CIE XYZ* colourspace matrix matrix.
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-Hunt_ReferenceSpecification = namedtuple(
-    'Hunt_ReferenceSpecification',
-    ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))
-"""
-Defines the *Hunt* colour appearance model reference specification.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
+class Hunt_ReferenceSpecification(
+    namedtuple('Hunt_ReferenceSpecification',
+               ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
+    """
+    Defines the *Hunt* colour appearance model reference specification.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`J`.
-C_94 : numeric
-    Correlate of *chroma* :math:`C_94`.
-h_S : numeric
-    *Hue* angle :math:`h_S` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-Q : numeric
-    Correlate of *brightness* :math:`Q`.
-M_94 : numeric
-    Correlate of *colourfulness* :math:`M_94`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-H_C : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
 
-Hunt_Specification = namedtuple('Hunt_Specification',
-                                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
-"""
-Defines the *Hunt* colour appearance model specification.
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C_94 : numeric
+        Correlate of *chroma* :math:`C_94`.
+    h_S : numeric
+        *Hue* angle :math:`h_S` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M_94 : numeric
+        Correlate of *colourfulness* :math:`M_94`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    H_C : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    """
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`J`.
-C : numeric
-    Correlate of *chroma* :math:`C_94`.
-h : numeric
-    *Hue* angle :math:`h_S` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-Q : numeric
-    Correlate of *brightness* :math:`Q`.
-M : numeric
-    Correlate of *colourfulness* :math:`M_94`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-"""
+class Hunt_Specification(
+    namedtuple('Hunt_Specification',
+               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+    """
+    Defines the *Hunt* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C : numeric
+        Correlate of *chroma* :math:`C_94`.
+    h : numeric
+        *Hue* angle :math:`h_S` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M_94`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    """
 
 
 def XYZ_to_Hunt(XYZ,

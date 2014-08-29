@@ -60,8 +60,25 @@ __all__ = ['LLAB_InductionFactors',
            'saturation_correlate',
            'final_opponent_signals']
 
-LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
-                                   ('D', 'F_S', 'F_L', 'F_C'))
+
+class LLAB_InductionFactors(
+    namedtuple('LLAB_InductionFactors',
+               ('D', 'F_S', 'F_L', 'F_C'))):
+    """
+    *LLAB(l:c)* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    D : numeric
+        *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+    F_S : numeric
+        Surround induction factor :math:`F_S`.
+    F_L : numeric
+        *Lightness* induction factor :math:`F_L`.
+    F_C : numeric
+        *Chroma* induction factor :math:`F_C`.
+    """
+
 
 LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Reference Samples & Images, Average Surround, Subtending > 4': (
@@ -131,69 +148,71 @@ colourspace matrix.
 Notes
 -----
 -   This matrix has been rounded on purpose to 4 decimals so that we keep
-consistency with **Mark D. Fairchild** implementation results.
+    consistency with **Mark D. Fairchild** implementation results.
 
 LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-LLAB_ReferenceSpecification = namedtuple(
-    'LLAB_ReferenceSpecification',
-    ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))
-"""
-Defines the *LLAB(l:c)* colour appearance model reference specification.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
+class LLAB_ReferenceSpecification(
+    namedtuple('LLAB_ReferenceSpecification',
+               ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
+    """
+    Defines the *LLAB(l:c)* colour appearance model reference specification.
 
-Parameters
-----------
-L_L : numeric
-    Correlate of *Lightness* :math:`L_L`.
-Ch_L : numeric
-    Correlate of *chroma* :math:`Ch_L`.
-h_L : numeric
-    *Hue* angle :math:`h_L` in degrees.
-s_L : numeric
-    Correlate of *saturation* :math:`s_L`.
-C_L : numeric
-    Correlate of *colourfulness* :math:`C_L`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-A_L : numeric
-    Opponent signal :math:`A_L`.
-B_L : numeric
-    Opponent signal :math:`B_L`.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
 
-LLAB_Specification = namedtuple(
-    'LLAB_Specification',
-    ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))
-"""
-Defines the *LLAB(l:c)* colour appearance model specification.
+    Parameters
+    ----------
+    L_L : numeric
+        Correlate of *Lightness* :math:`L_L`.
+    Ch_L : numeric
+        Correlate of *chroma* :math:`Ch_L`.
+    h_L : numeric
+        *Hue* angle :math:`h_L` in degrees.
+    s_L : numeric
+        Correlate of *saturation* :math:`s_L`.
+    C_L : numeric
+        Correlate of *colourfulness* :math:`C_L`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    A_L : numeric
+        Opponent signal :math:`A_L`.
+    B_L : numeric
+        Opponent signal :math:`B_L`.
+    """
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`L_L`.
-C : numeric
-    Correlate of *chroma* :math:`Ch_L`.
-h : numeric
-    *Hue* angle :math:`h_L` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s_L`.
-M : numeric
-    Correlate of *colourfulness* :math:`C_L`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-a : numeric
-    Opponent signal :math:`A_L`.
-b : numeric
-    Opponent signal :math:`B_L`.
-"""
+class LLAB_Specification(
+    namedtuple('LLAB_Specification',
+               ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
+    """
+    Defines the *LLAB(l:c)* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`L_L`.
+    C : numeric
+        Correlate of *chroma* :math:`Ch_L`.
+    h : numeric
+        *Hue* angle :math:`h_L` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s_L`.
+    M : numeric
+        Correlate of *colourfulness* :math:`C_L`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    a : numeric
+        Opponent signal :math:`A_L`.
+    b : numeric
+        Opponent signal :math:`B_L`.
+    """
 
 
 def XYZ_to_LLAB(XYZ,
@@ -219,13 +238,13 @@ def XYZ_to_LLAB(XYZ,
     F_S : numeric
         Surround induction factor :math:`F_S`.
     F_L : numeric
-        Lightness induction factor :math:`F_L`.
+        *Lightness* induction factor :math:`F_L`.
     F_C : numeric
-        Chroma induction factor :math:`F_C`.
+        *Chroma* induction factor :math:`F_C`.
     L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
     D : numeric, optional
-         *Discounting-the-Illuminant* factor in domain [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
 
     Returns
     -------

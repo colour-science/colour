@@ -68,59 +68,62 @@ RLAB_VIEWING_CONDITIONS : dict
 ('Average', 'Dim', 'Dark')
 """
 
-RLAB_ReferenceSpecification = namedtuple(
-    'RLAB_ReferenceSpecification',
-    ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))
-"""
-Defines the *RLAB* colour appearance model reference specification.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
+class RLAB_ReferenceSpecification(
+    namedtuple('RLAB_ReferenceSpecification',
+               ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
+    """
+    Defines the *RLAB* colour appearance model reference specification.
 
-Parameters
-----------
-LR : numeric
-    Correlate of *Lightness* :math:`L^R`.
-CR : numeric
-    Correlate of *achromatic chroma* :math:`C^R`.
-hR : numeric
-    *Hue* angle :math:`h^R` in degrees.
-sR : numeric
-    Correlate of *saturation* :math:`s^R`.
-HR : numeric
-    *Hue* :math:`h` composition :math:`H^R`.
-aR : numeric
-    Red–green chromatic response :math:`a^R`.
-bR : numeric
-    Yellow–blue chromatic response :math:`b^R`.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
 
-RLAB_Specification = namedtuple('RLAB_Specification',
-                                ('J', 'C', 'h', 's', 'HC', 'a', 'b'))
-"""
-Defines the *RLAB* colour appearance model specification.
+    Parameters
+    ----------
+    LR : numeric
+        Correlate of *Lightness* :math:`L^R`.
+    CR : numeric
+        Correlate of *achromatic chroma* :math:`C^R`.
+    hR : numeric
+        *Hue* angle :math:`h^R` in degrees.
+    sR : numeric
+        Correlate of *saturation* :math:`s^R`.
+    HR : numeric
+        *Hue* :math:`h` composition :math:`H^R`.
+    aR : numeric
+        Red–green chromatic response :math:`a^R`.
+    bR : numeric
+        Yellow–blue chromatic response :math:`b^R`.
+    """
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`L^R`.
-C : numeric
-    Correlate of *achromatic chroma* :math:`C^R`.
-h : numeric
-    *Hue* angle :math:`h^R` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s^R`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-a : numeric
-    Red–green chromatic response :math:`a^R`.
-b : numeric
-    Yellow–blue chromatic response :math:`b^R`.
-"""
+class RLAB_Specification(
+    namedtuple('RLAB_Specification',
+               ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
+    """
+    Defines the *RLAB* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`L^R`.
+    C : numeric
+        Correlate of *achromatic chroma* :math:`C^R`.
+    h : numeric
+        *Hue* angle :math:`h^R` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s^R`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    a : numeric
+        Red–green chromatic response :math:`a^R`.
+    b : numeric
+        Yellow–blue chromatic response :math:`b^R`.
+    """
 
 
 def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):

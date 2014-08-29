@@ -49,78 +49,82 @@ __all__ = ['ATD95_ReferenceSpecification',
            'opponent_colour_dimensions',
            'final_response']
 
-ATD95_ReferenceSpecification = namedtuple('ATD95_ReferenceSpecification', (
-    'H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
-"""
-Defines the *ATD (1995)* colour vision model reference specification.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
+class ATD95_ReferenceSpecification(
+    namedtuple('ATD95_ReferenceSpecification',
+               ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+    """
+    Defines the *ATD (1995)* colour vision model reference specification.
 
-Parameters
-----------
-H : numeric
-    *Hue* angle :math:`H` in degrees.
-C : numeric
-    Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
-    terms saturation and chroma interchangeably. However, :math:`C` is here a
-    measure of saturation rather than chroma since it is measured relative to
-    the achromatic response for the stimulus rather than that of a similarly
-    illuminated white.
-Br : numeric
-    Correlate of *brightness* :math:`Br`.
-A_1 : numeric
-    First stage :math:`A_1` response.
-T_1 : numeric
-    First stage :math:`T_1` response.
-D_1 : numeric
-    First stage :math:`D_1` response.
-A_2 : numeric
-    Second stage :math:`A_2` response.
-T_2 : numeric
-    Second stage :math:`A_2` response.
-D_2 : numeric
-    Second stage :math:`D_2` response.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
 
-ATD95_Specification = namedtuple('ATD95_Specification', (
-    'h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))
-"""
-Defines the *ATD (1995)* colour vision model specification.
+    Parameters
+    ----------
+    H : numeric
+        *Hue* angle :math:`H` in degrees.
+    C : numeric
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        terms saturation and chroma interchangeably. However, :math:`C` is here
+        a measure of saturation rather than chroma since it is measured
+        relative to the achromatic response for the stimulus rather than that
+        of a similarly illuminated white.
+    Br : numeric
+        Correlate of *brightness* :math:`Br`.
+    A_1 : numeric
+        First stage :math:`A_1` response.
+    T_1 : numeric
+        First stage :math:`T_1` response.
+    D_1 : numeric
+        First stage :math:`D_1` response.
+    A_2 : numeric
+        Second stage :math:`A_2` response.
+    T_2 : numeric
+        Second stage :math:`A_2` response.
+    D_2 : numeric
+        Second stage :math:`D_2` response.
+    """
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
 
-Notes
------
--   This specification is the one used in the current model implementation.
+class ATD95_Specification(
+    namedtuple('ATD95_Specification',
+               ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+    """
+    Defines the *ATD (1995)* colour vision model specification.
 
-Parameters
-----------
-h : numeric
-    *Hue* angle :math:`H` in degrees.
-C : numeric
-    Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
-    terms saturation and chroma interchangeably. However, :math:`C` is here a
-    measure of saturation rather than chroma since it is measured relative to
-    the achromatic response for the stimulus rather than that of a similarly
-    illuminated white.
-Q : numeric
-    Correlate of *brightness* :math:`Br`.
-A_1 : numeric
-    First stage :math:`A_1` response.
-T_1 : numeric
-    First stage :math:`T_1` response.
-D_1 : numeric
-    First stage :math:`D_1` response.
-A_2 : numeric
-    Second stage :math:`A_2` response.
-T_2 : numeric
-    Second stage :math:`A_2` response.
-D_2 : numeric
-    Second stage :math:`D_2` response.
-"""
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
+
+    Parameters
+    ----------
+    h : numeric
+        *Hue* angle :math:`H` in degrees.
+    C : numeric
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        terms saturation and chroma interchangeably. However, :math:`C` is here
+        a measure of saturation rather than chroma since it is measured
+        relative to the achromatic response for the stimulus rather than that
+        of a similarly illuminated white.
+    Q : numeric
+        Correlate of *brightness* :math:`Br`.
+    A_1 : numeric
+        First stage :math:`A_1` response.
+    T_1 : numeric
+        First stage :math:`T_1` response.
+    D_1 : numeric
+        First stage :math:`D_1` response.
+    A_2 : numeric
+        Second stage :math:`A_2` response.
+    T_2 : numeric
+        Second stage :math:`A_2` response.
+    D_2 : numeric
+        Second stage :math:`D_2` response.
+    """
 
 
 def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
