@@ -238,7 +238,7 @@ def XYZ_to_LLAB(
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    surround : LLAB_InductionFactors
+    surround : LLAB_InductionFactors, optional
          Surround viewing conditions induction factors.
 
     Returns

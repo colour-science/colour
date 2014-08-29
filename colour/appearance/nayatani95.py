@@ -78,8 +78,9 @@ NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 
 class Nayatani95_ReferenceSpecification(
-    namedtuple('Nayatani95_ReferenceSpecification', (
-            'Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
+    namedtuple(
+        'Nayatani95_ReferenceSpecification',
+        ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.

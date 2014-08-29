@@ -144,7 +144,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
         Application specific weight :math:`k_1`.
     k_2 : numeric
         Application specific weight :math:`k_2`.
-    sigma : numeric
+    sigma : numeric, optional
         Constant :math:`\sigma` varied to predict different types of data.
 
     Returns

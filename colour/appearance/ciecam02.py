@@ -173,9 +173,9 @@ def XYZ_to_CIECAM02(XYZ,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
-    surround : CIECAM02_InductionFactors
+    surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions induction factors.
-    discount_illuminant : bool
+    discount_illuminant : bool, optional
         Truth value indicating if the illuminant should be discounted.
 
     Returns
@@ -302,9 +302,9 @@ def CIECAM02_to_XYZ(J, C, h,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
-    surround : CIECAM02_Surround
+    surround : CIECAM02_Surround, optional
         Surround viewing conditions.
-    discount_illuminant : bool
+    discount_illuminant : bool, optional
         Discount the illuminant.
 
     Returns

@@ -251,7 +251,7 @@ def XYZ_to_Hunt(XYZ,
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    surround : Hunt_InductionFactors
+    surround : Hunt_InductionFactors, optional
          Surround viewing conditions induction factors.
     L_AS : numeric, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
