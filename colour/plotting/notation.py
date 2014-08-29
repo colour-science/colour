@@ -34,7 +34,7 @@ __all__ = ['single_munsell_value_function_plot',
            'multi_munsell_value_function_plot']
 
 
-def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
+def single_munsell_value_function_plot(function='ASTM D1535-08',
                                        **kwargs):
     """
     Plots given *Lightness* function.
@@ -53,7 +53,7 @@ def single_munsell_value_function_plot(function='Munsell Value ASTM D1535-08',
 
     Examples
     --------
-    >>> f = 'Munsell Value ASTM D1535-08'
+    >>> f = 'ASTM D1535-08'
     >>> single_munsell_value_function_plot(f)  # doctest: +SKIP
     True
     """
@@ -91,14 +91,14 @@ def multi_munsell_value_function_plot(
 
     Examples
     --------
-    >>> fs = ('Munsell Value ASTM D1535-08', 'Munsell Value McCamy 1987')
+    >>> fs = ('ASTM D1535-08', 'McCamy 1987')
     >>> multi_munsell_value_function_plot(fs)  # doctest: +SKIP
     True
     """
 
     if functions is None:
-        functions = ('Munsell Value ASTM D1535-08',
-                     'Munsell Value McCamy 1987')
+        functions = ('ASTM D1535-08',
+                     'McCamy 1987')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):

@@ -482,31 +482,29 @@ def munsell_value_ASTM_D1535_08(Y):
 
 
 MUNSELL_VALUE_FUNCTIONS = CaseInsensitiveMapping(
-    {'Munsell Value Priest 1920': munsell_value_priest1920,
-     'Munsell Value Munsell 1933': munsell_value_munsell1933,
-     'Munsell Value Moon 1943': munsell_value_moon1943,
-     'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
-     'Munsell Value Ladd 1955': munsell_value_ladd1955,
-     'Munsell Value McCamy 1987': munsell_value_mccamy1987,
-     'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08})
+    {'Priest 1920': munsell_value_priest1920,
+     'Munsell 1933': munsell_value_munsell1933,
+     'Moon 1943': munsell_value_moon1943,
+     'Saunderson 1944': munsell_value_saunderson1944,
+     'Ladd 1955': munsell_value_ladd1955,
+     'McCamy 1987': munsell_value_mccamy1987,
+     'ASTM D1535-08': munsell_value_ASTM_D1535_08})
 """
 Supported *Munsell* value computations methods.
 
 MUNSELL_VALUE_FUNCTIONS : dict
-    ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
-    'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
-    'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
-    'Munsell Value ASTM D1535-08')
+    ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
 
 Aliases:
 
--   'astm2008': 'Munsell Value ASTM D1535-08'
+-   'astm2008': 'ASTM D1535-08'
 """
 MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
-    MUNSELL_VALUE_FUNCTIONS['Munsell Value ASTM D1535-08'])
+    MUNSELL_VALUE_FUNCTIONS['ASTM D1535-08'])
 
 
-def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
+def munsell_value(Y, method='ASTM D1535-08'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     given method.
@@ -516,10 +514,10 @@ def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
-        'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
-        'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
-        'Munsell Value ASTM D1535-08')
+        ('Priest 1920', 'Munsell 1933',
+        'Moon 1943', 'Saunderson 1944',
+        'Ladd 1955', 'McCamy 1987',
+        'ASTM D1535-08')
         Computation method.
 
     Returns

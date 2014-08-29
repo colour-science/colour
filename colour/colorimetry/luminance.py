@@ -151,27 +151,27 @@ def luminance_ASTM_D1535_08(V):
 
 
 LUMINANCE_FUNCTIONS = CaseInsensitiveMapping(
-    {'Luminance Newhall 1943': luminance_newhall1943,
-     'Luminance 1976': luminance_1976,
-     'Luminance ASTM D1535-08': luminance_ASTM_D1535_08})
+    {'Newhall 1943': luminance_newhall1943,
+     'CIE Lab 1976': luminance_1976,
+     'ASTM D1535-08': luminance_ASTM_D1535_08})
 """
 Supported *luminance* computations methods.
 
 LUMINANCE_FUNCTIONS : dict
-    ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
+    ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
 
 Aliases:
 
--   'Lstar1976': 'Luminance 1976'
--   'astm2008': 'Luminance ASTM D1535-08'
+-   'Lstar1976': 'CIE Lab 1976'
+-   'astm2008': 'ASTM D1535-08'
 """
 LUMINANCE_FUNCTIONS['Lstar1976'] = (
-    LUMINANCE_FUNCTIONS['Luminance 1976'])
+    LUMINANCE_FUNCTIONS['CIE Lab 1976'])
 LUMINANCE_FUNCTIONS['astm2008'] = (
-    LUMINANCE_FUNCTIONS['Luminance ASTM D1535-08'])
+    LUMINANCE_FUNCTIONS['ASTM D1535-08'])
 
 
-def luminance(LV, Yn=100, method='Luminance 1976'):
+def luminance(LV, Yn=100, method='CIE Lab 1976'):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
@@ -183,7 +183,7 @@ def luminance(LV, Yn=100, method='Luminance 1976'):
     Yn : numeric, optional
         White reference *luminance* :math:`Y_n`.
     method : unicode, optional
-        ('Luminance Newhall 1943', 'Luminance 1976', 'Luminance ASTM D1535-08')
+        ('Newhall 1943', 'CIE Lab 1976', 'ASTM D1535-08')
         Computation method.
 
     Returns
