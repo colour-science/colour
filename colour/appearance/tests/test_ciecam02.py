@@ -8,8 +8,8 @@ Defines unit tests for :mod:`colour.appearance.ciecam02` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from numpy.testing.utils import assert_allclose, assert_almost_equal
-from colour.appearance.ciecam02 import (
+
+from colour.appearance import (
     CIECAM02_InductionFactors,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
@@ -138,14 +138,14 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             'Expected: "{2}" \n'
             'Received "{3}"').format(attribute, case, expected, value)
 
-        assert_allclose(value,
-                        expected,
-                        err_msg=error_message,
-                        rtol=0.01,
-                        atol=0.01,
-                        verbose=False)
+        np.testing.assert_allclose(value,
+                                   expected,
+                                   err_msg=error_message,
+                                   rtol=0.01,
+                                   atol=0.01,
+                                   verbose=False)
 
-        assert_almost_equal(value,
-                            expected,
-                            decimal=1,
-                            err_msg=error_message)
+        np.testing.assert_almost_equal(value,
+                                       expected,
+                                       decimal=1,
+                                       err_msg=error_message)

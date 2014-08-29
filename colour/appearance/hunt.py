@@ -7,7 +7,9 @@ Hunt Colour Appearance Model
 
 Defines *Hunt* colour appearance model objects:
 
--   :attr:`Hunt_Specification`:
+-   :class:`Hunt_InductionFactors`
+-   :attr:`HUNT_VIEWING_CONDITIONS`
+-   :class:`Hunt_Specification`
 -   :func:`XYZ_to_Hunt`
 
 References
@@ -62,12 +64,12 @@ __all__ = ['Hunt_InductionFactors',
            'brightness_correlate',
            'lightness_correlate',
            'chroma_correlate',
-           'colourfulness_correlate', ]
+           'colourfulness_correlate']
 
 
 class Hunt_InductionFactors(
     namedtuple('Hunt_InductionFactors',
-               ('N_c', 'N_b'))):
+               ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
     *Hunt* colour appearance model induction factors.
 
@@ -77,7 +79,23 @@ class Hunt_InductionFactors(
         Chromatic surround induction factor :math:`N_c`.
     N_b : numeric
         *Brightness* surround induction factor :math:`N_b`.
+    N_cb : numeric, optional
+        Chromatic background induction factor :math:`N_{cb}`, approximated
+        using tristimulus values :math:`Y_w` and :math:`Y_b` of
+        respectively the reference white and the background if not specified.
+    N_bb : numeric, optional
+        *Brightness* background induction factor :math:`N_{bb}`, approximated
+        using tristimulus values :math:`Y_w` and :math:`Y_b` of
+        respectively the reference white and the background if not specified.
     """
+
+    def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
+        """
+        Returns a new instance of the :class:`Hunt_InductionFactors` class.
+        """
+
+        return super(Hunt_InductionFactors, cls).__new__(
+            cls, N_c, N_b, N_cb, N_bb)
 
 
 HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
@@ -95,11 +113,11 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : dict
-('Small Areas, Uniform Background & Surrounds',
-'Normal Scenes',
-'Television & CRT, Dim Surrounds',
-'Large Transparencies On Light Boxes',
-'Projected Transparencies, Dark Surrounds')
+    ('Small Areas, Uniform Background & Surrounds',
+    'Normal Scenes',
+    'Television & CRT, Dim Surrounds',
+    'Large Transparencies On Light Boxes',
+    'Projected Transparencies, Dark Surrounds')
 
 Aliases:
 
@@ -210,12 +228,9 @@ def XYZ_to_Hunt(XYZ,
                 XYZ_b,
                 XYZ_w,
                 L_A,
-                N_c,
-                N_b,
+                surround=HUNT_VIEWING_CONDITIONS.get('Normal Scenes'),
                 L_AS=None,
                 CCT_w=None,
-                N_cb=None,
-                N_bb=None,
                 XYZ_p=None,
                 p=None,
                 S=None,
@@ -236,24 +251,14 @@ def XYZ_to_Hunt(XYZ,
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    N_c : numeric
-         Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric
-         Brightness surround induction factor :math:`N_b`.
+    surround : Hunt_InductionFactors
+         Surround viewing conditions induction factors.
     L_AS : numeric, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
     CCT_w : numeric, optional
         Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
-    N_cb : numeric, optional
-        Chromatic background induction factor :math:`N_{cb}`, approximated
-        using tristimulus values :math:`Y_w` and :math:`Y_b` of
-        respectively the reference white and the background if not specified.
-    N_bb : numeric, optional
-        Brightness background induction factor :math:`N_{bb}`, approximated
-        using tristimulus values :math:`Y_w` and :math:`Y_b` of
-        respectively the reference white and the background if not specified.
     XYZ_p : array_like, (3,), optional
         *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
@@ -301,10 +306,9 @@ def XYZ_to_Hunt(XYZ,
     >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> N_c = 1.0
-    >>> N_b = 75.0
+    >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
@@ -322,11 +326,11 @@ def XYZ_to_Hunt(XYZ,
         warning('Unspecified proximal field "XYZ_p" argument, using '
                 'background "XYZ_b" as approximation!')
 
-    if N_cb is None:
+    if surround.N_cb is None:
         N_cb = 0.725 * (Y_w / Y_b) ** 0.2
         warning('Unspecified "N_cb" argument, using approximation: '
                 '"{0}"'.format(N_cb))
-    if N_bb is None:
+    if surround.N_bb is None:
         N_bb = 0.725 * (Y_w / Y_b) ** 0.2
         warning('Unspecified "N_bb" argument, using approximation: '
                 '"{0}"'.format(N_bb))
@@ -409,10 +413,10 @@ def XYZ_to_Hunt(XYZ,
     # Computing low luminance tritanopia factor :math:`F_t`.
     F_t = low_luminance_tritanopia_factor(L_A)
 
-    M_yb = yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
-    M_rg = redness_greenness_response(C, e_s, N_c, N_cb)
-    M_yb_w = yellowness_blueness_response(C_w, e_s, N_c, N_cb, F_t)
-    M_rg_w = redness_greenness_response(C_w, e_s, N_c, N_cb)
+    M_yb = yellowness_blueness_response(C, e_s, surround.N_c, N_cb, F_t)
+    M_rg = redness_greenness_response(C, e_s, surround.N_c, N_cb)
+    M_yb_w = yellowness_blueness_response(C_w, e_s, surround.N_c, N_cb, F_t)
+    M_rg_w = redness_greenness_response(C_w, e_s, surround.N_c, N_cb)
 
     # Computing overall chromatic response.
     M = overall_chromatic_response(M_yb, M_rg)
@@ -427,8 +431,8 @@ def XYZ_to_Hunt(XYZ,
     A = achromatic_signal(L_AS, S, S_W, N_bb, A_a)
     A_w = achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
 
-    Q = brightness_correlate(A, A_w, M, N_b)
-    brightness_w = brightness_correlate(A_w, A_w, M_w, N_b)
+    Q = brightness_correlate(A, A_w, M, surround.N_b)
+    brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
     # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
     # -------------------------------------------------------------------------

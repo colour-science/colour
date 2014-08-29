@@ -7,7 +7,9 @@ LLAB(l:c) Colour Appearance Model
 
 Defines *LLAB(l:c)* colour appearance model objects:
 
--   :attr:`LLAB_Specification`:
+-   :class:`LLAB_InductionFactors`
+-   :attr:`LLAB_VIEWING_CONDITIONS`
+-   :class:`LLAB_Specification`
 -   :func:`XYZ_to_LLAB`
 
 References
@@ -70,7 +72,7 @@ class LLAB_InductionFactors(
     Parameters
     ----------
     D : numeric
-        *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
     F_S : numeric
         Surround induction factor :math:`F_S`.
     F_L : numeric
@@ -95,11 +97,11 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : dict
-('Reference Samples & Images, Average Surround, Subtending > 4',
-'Reference Samples & Images, Average Surround, Subtending < 4',
-'Television & VDU Displays, Dim Surround',
-'Cut Sheet Transparency, Dim Surround':,
-'35mm Projection Transparency, Dark Surround')
+    ('Reference Samples & Images, Average Surround, Subtending > 4',
+    'Reference Samples & Images, Average Surround, Subtending < 4',
+    'Television & VDU Displays, Dim Surround',
+    'Cut Sheet Transparency, Dim Surround':,
+    '35mm Projection Transparency, Dark Surround')
 
 Aliases:
 
@@ -215,14 +217,13 @@ class LLAB_Specification(
     """
 
 
-def XYZ_to_LLAB(XYZ,
-                XYZ_0,
-                Y_b,
-                F_S,
-                F_L,
-                F_C,
-                L,
-                D=1):
+def XYZ_to_LLAB(
+        XYZ,
+        XYZ_0,
+        Y_b,
+        L,
+        surround=LLAB_VIEWING_CONDITIONS.get(
+            'Reference Samples & Images, Average Surround, Subtending < 4')):
     """
     Computes the *LLAB(L:c)* colour appearance model correlates.
 
@@ -235,16 +236,10 @@ def XYZ_to_LLAB(XYZ,
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     Y_b : numeric
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : numeric
-        Surround induction factor :math:`F_S`.
-    F_L : numeric
-        *Lightness* induction factor :math:`F_L`.
-    F_C : numeric
-        *Chroma* induction factor :math:`F_C`.
     L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    D : numeric, optional
-         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+    surround : LLAB_InductionFactors
+         Surround viewing conditions induction factors.
 
     Returns
     -------
@@ -265,11 +260,9 @@ def XYZ_to_LLAB(XYZ,
     >>> XYZ = np.array([19.01, 20, 21.78])
     >>> XYZ_0 = np.array([95.05, 100, 108.88])
     >>> Y_b = 20.0
-    >>> F_S = 3.0
-    >>> F_L = 1.0
-    >>> F_C = 1.0
     >>> L = 318.31
-    >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, F_S, F_L, F_C, L)  # doctest: +ELLIPSIS
+    >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+    >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     LLAB_Specification(J=37.3680474..., C=0.0086506..., h=229.4635727..., s=0.0002314..., M=0.0183832..., HC=None, a=-0.0119478..., b=-0.0139711...)
     """
 
@@ -282,13 +275,16 @@ def XYZ_to_LLAB(XYZ,
     RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
 
     # Computing chromatic adaptation.
-    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D)
+    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, surround.D)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L_L`.
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
-    L_L, a, b = opponent_colour_dimensions(XYZ_r, Y_b, F_S, F_L)
+    L_L, a, b = opponent_colour_dimensions(XYZ_r,
+                                           Y_b,
+                                           surround.F_S,
+                                           surround.F_L)
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
@@ -299,7 +295,7 @@ def XYZ_to_LLAB(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`C_L`.
     # -------------------------------------------------------------------------
-    C_L = colourfulness_correlate(L, L_L, Ch_L, F_C)
+    C_L = colourfulness_correlate(L, L_L, Ch_L, surround.F_C)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s_L`.

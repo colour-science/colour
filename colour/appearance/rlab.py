@@ -7,7 +7,9 @@ RLAB Colour Appearance Model
 
 Defines *RLAB* colour appearance model objects:
 
--   :attr:`RLAB_Specification`:
+-   :attr:`RLAB_VIEWING_CONDITIONS`
+-   :attr:`RLAB_D_FACTOR`
+-   :class:`RLAB_Specification`
 -   :func:`XYZ_to_RLAB`
 
 References
@@ -43,6 +45,7 @@ __status__ = 'Production'
 
 __all__ = ['R_MATRIX',
            'RLAB_VIEWING_CONDITIONS',
+           'RLAB_D_FACTOR',
            'RLAB_ReferenceSpecification',
            'RLAB_Specification',
            'XYZ_to_RLAB']
@@ -65,8 +68,33 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *RLAB* colour appearance model viewing conditions.
 
 RLAB_VIEWING_CONDITIONS : dict
-('Average', 'Dim', 'Dark')
+    ('Average', 'Dim', 'Dark')
 """
+
+RLAB_D_FACTOR = CaseInsensitiveMapping(
+    {'Hard Copy Images': 1,
+     'Soft Copy Images': 0,
+     'Projected Transparencies, Dark Room': 0.5})
+"""
+*RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+
+RLAB_D_FACTOR : dict
+    ('Hard Copy Images',
+    'Soft Copy Images',
+    'Projected Transparencies, Dark Room')
+
+Aliases:
+
+-   'hard_cp_img': 'Hard Copy Images'
+-   'soft_cp_img': 'Soft Copy Images'
+-   'projected_dark': 'Projected Transparencies, Dark Room'
+"""
+RLAB_D_FACTOR['hard_cp_img'] = (
+    RLAB_D_FACTOR['Hard Copy Images'])
+RLAB_D_FACTOR['soft_cp_img'] = (
+    RLAB_D_FACTOR['Soft Copy Images'])
+RLAB_D_FACTOR['projected_dark'] = (
+    RLAB_D_FACTOR['Projected Transparencies, Dark Room'])
 
 
 class RLAB_ReferenceSpecification(
@@ -126,7 +154,11 @@ class RLAB_Specification(
     """
 
 
-def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
+def XYZ_to_RLAB(XYZ,
+                XYZ_n,
+                Y_n,
+                sigma=RLAB_VIEWING_CONDITIONS.get('Average'),
+                D=RLAB_D_FACTOR.get('Hard Copy Images')):
     """
     Computes the RLAB model color appearance correlates.
 
@@ -139,10 +171,10 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     Y_n : numeric
         Absolute adapting luminance in :math:`cd/m^2`.
-    sigma : numeric
+    sigma : numeric, optional
         Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
         for reference.
-    D : numeric
+    D : numeric, optional
         *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
@@ -164,10 +196,10 @@ def XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D):
     >>> XYZ = np.array([19.01, 20, 21.78])
     >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
-    >>> sigma = 0.4347
-    >>> D = 1.0
+    >>> sigma = RLAB_VIEWING_CONDITIONS['Average']
+    >>> D = RLAB_D_FACTOR['Hard Copy Images']
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
-    RLAB_Specification(J=49.8413019..., C=54.8643626..., h=286.4866886..., s=1.1007810..., HC=None, a=15.5700988..., b=-52.6086524...)
+    RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
     X, Y, Z = np.ravel(XYZ)

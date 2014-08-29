@@ -7,7 +7,9 @@ CIECAM02
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :func:`CIECAM02_Specification`
+-   :class:`CIECAM02_InductionFactors`
+-   :attr:`CIECAM02_VIEWING_CONDITIONS`
+-   :class:`CIECAM02_Specification`
 -   :func:`XYZ_to_CIECAM02`
 -   :func:`CIECAM02_to_XYZ`
 
@@ -112,7 +114,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *CIECAM02* colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : dict
-('Average', 'Dim', 'Dark')
+    ('Average', 'Dim', 'Dark')
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
@@ -196,7 +198,8 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
+    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
