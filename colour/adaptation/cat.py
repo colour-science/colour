@@ -170,6 +170,8 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
             'methods: "{1}".'.format(method,
                                      CHROMATIC_ADAPTATION_METHODS.keys()))
 
+    XYZ1, XYZ2 = np.ravel(XYZ1), np.ravel(XYZ2)
+
     if (XYZ1 == XYZ2).all():
         # Skip the chromatic adaptation computation if the two input matrices
         # are the same, because no adaptation is needed.
