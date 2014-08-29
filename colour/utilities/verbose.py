@@ -10,7 +10,8 @@ Defines verbose related objects.
 
 from __future__ import division, unicode_literals
 
-from textwrap import wrap
+from itertools import chain
+from textwrap import TextWrapper
 from warnings import warn
 
 __author__ = 'Colour Developers'
@@ -47,48 +48,55 @@ def message_box(message, width=79, padding=3):
     >>> message = ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
     ...     'sed do eiusmod tempor incididunt ut labore et dolore magna '
     ...     'aliqua.')
-    >>> message_box(message)
-    ┌─────────────────────────────────────────────────────────────────────────────┐
-    │                                                                             │
-    │   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod   │
-    │   tempor incididunt ut labore et dolore magna aliqua.                       │
-    │                                                                             │
-    └─────────────────────────────────────────────────────────────────────────────┘
+    >>> message_box(message, width=75)
+    ===========================================================================
+    *                                                                         *
+    *   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do       *
+    *   eiusmod tempor incididunt ut labore et dolore magna aliqua.           *
+    *                                                                         *
+    ===========================================================================
     True
     >>> message_box(message, width=60)
-    ┌──────────────────────────────────────────────────────────┐
-    │                                                          │
-    │   Lorem ipsum dolor sit amet, consectetur adipiscing     │
-    │   elit, sed do eiusmod tempor incididunt ut labore et    │
-    │   dolore magna aliqua.                                   │
-    │                                                          │
-    └──────────────────────────────────────────────────────────┘
+    ============================================================
+    *                                                          *
+    *   Lorem ipsum dolor sit amet, consectetur adipiscing     *
+    *   elit, sed do eiusmod tempor incididunt ut labore et    *
+    *   dolore magna aliqua.                                   *
+    *                                                          *
+    ============================================================
     True
-    >>> message_box(message, padding=16)
-    ┌─────────────────────────────────────────────────────────────────────────────┐
-    │                                                                             │
-    │                Lorem ipsum dolor sit amet, consectetur                      │
-    │                adipiscing elit, sed do eiusmod tempor                       │
-    │                incididunt ut labore et dolore magna aliqua.                 │
-    │                                                                             │
-    └─────────────────────────────────────────────────────────────────────────────┘
+    >>> message_box(message, width=75, padding=16)
+    ===========================================================================
+    *                                                                         *
+    *                Lorem ipsum dolor sit amet, consectetur                  *
+    *                adipiscing elit, sed do eiusmod tempor                   *
+    *                incididunt ut labore et dolore magna                     *
+    *                aliqua.                                                  *
+    *                                                                         *
+    ===========================================================================
     True
     """
 
     ideal_width = width - padding * 2
-    inner = lambda text: '│{0}{1}{2}{0}│'.format(
+    inner = lambda text: '*{0}{1}{2}{0}*'.format(
         ' ' * padding,
         text,
         (' ' * (width - len(text) - padding * 2 - 2)))
 
-    print('┌{0}┐'.format('─' * (width - 2)))
+    print('=' * (width))
     print(inner(''))
 
-    for line in wrap(message, width=ideal_width):
+    wrapper = TextWrapper(width=ideal_width,
+                          break_long_words=False,
+                          replace_whitespace=False)
+
+    lines = [wrapper.wrap(line) for line in message.split("\n")]
+    lines = [' ' if len(line) == 0 else line for line in lines]
+    for line in chain(*lines):
         print(inner(line.expandtabs()))
 
     print(inner(''))
-    print('└{0}┘'.format('─' * (width - 2)))
+    print('=' * (width))
     return True
 
 
