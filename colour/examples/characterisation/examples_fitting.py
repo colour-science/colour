@@ -10,9 +10,16 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 import colour
+from colour.utilities.verbose import message_box
 
-# Fitting measured *ColorChecker* colour rendition chart data to a reference
-# one.
+message_box('Colour Fitting Computations')
+
+message_box(('Fitting a "measured" "ColorChecker" colour rendition chart data '
+             'to a "reference" one.\nThe output matrix is the transformation '
+             'from "measured" values to "reference" values.\nThis example '
+             'uses "first order" colour fitting based on "multiple linear '
+             'regressions".'))
+
 reference = np.array(
     [[0.172906, 0.08205715, 0.05711951],
      [0.5680735, 0.29250361, 0.21942],

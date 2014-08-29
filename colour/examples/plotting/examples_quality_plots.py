@@ -7,8 +7,11 @@ Showcases colour quality plotting examples.
 
 import colour
 from colour.plotting import *
+from colour.utilities.verbose import message_box
 
-# Plotting various illuminants *colour rendering index*.
+message_box('Colour Quality Plots')
+
+message_box('Plotting various illuminants "colour rendering index".')
 colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'))
 colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F10'))
 colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('D50'))

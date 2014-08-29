@@ -7,12 +7,18 @@ Showcases optical phenomenons plotting examples.
 
 from colour.phenomenons import rayleigh_scattering_spd
 from colour.plotting import *
+from colour.utilities.verbose import message_box
 
-# Plotting a single *Rayleigh Scattering* spectral power distribution.
+message_box('Optical Phenomenons Plots')
+
+message_box(('Plotting a single "Rayleigh Scattering" spectral power '
+             'distribution.'))
 single_rayleigh_scattering_spd_plot()
 
-# Comparing multiple *Rayleigh Scattering* spectral power distributions with
-# different :math:`C0_2` concentrations.
+print('\n')
+
+message_box(('Comparing multiple "Rayleigh Scattering" spectral power '
+             'distributions with different CO_2 concentrations.'))
 name_template = 'Rayleigh Scattering - CO2: {0} ppm'
 rayleigh_spds = []
 for ppm in (0, 50, 300):
@@ -25,5 +31,7 @@ multi_spd_plot(rayleigh_spds,
                y_label='Optical Depth',
                legend_location='upper right')
 
-# Plotting *The Blue Sky*.
+print('\n')
+
+message_box('Plotting "The blue Sky".')
 the_blue_sky_plot()

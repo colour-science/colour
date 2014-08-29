@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *interpolation* computations.
+Showcases interpolation computations.
 """
 
 from __future__ import division, unicode_literals
@@ -10,10 +10,14 @@ from __future__ import division, unicode_literals
 import pylab
 
 import colour
-import colour.plotting
+from colour.plotting import *
+from colour.utilities.verbose import message_box
 
-# Comparing *CIE* *Sprague* and *cubic spline* recommended interpolation
-# methods.
+message_box('Interpolation Computations')
+
+message_box(('Comparing "CIE" "Sprague" and "Cubic Spline" recommended '
+             'interpolation methods.'))
+
 uniform_spd_data = {
     340: 0.0000,
     360: 0.0000,
@@ -113,6 +117,6 @@ settings = {'x_label': u'Wavelength λ (nm)',
             'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
                        max(y_limit_max)]}
 
-colour.plotting.bounding_box(**settings)
-colour.plotting.aspect(**settings)
-colour.plotting.display(**settings)
+bounding_box(**settings)
+aspect(**settings)
+display(**settings)

@@ -77,7 +77,7 @@ def message_box(message, width=79, padding=3):
     True
     """
 
-    ideal_width = width - padding * 2
+    ideal_width = width - padding * 2 - 2
     inner = lambda text: '*{0}{1}{2}{0}*'.format(
         ' ' * padding,
         text,

@@ -5,99 +5,197 @@
 Showcases colour models computations.
 """
 
-from numpy import array
 import colour
+from colour.utilities.verbose import message_box
 
-# Displaying explicit *A* illuminant chromaticity coordinates under
-# *CIE 1931 2 Degree Standard Observer*.
-print(colour.ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('A'))
+message_box('Colour Models Computations')
 
-# From *CIE XYZ* colourspace to *CIE xyY* colourspace.
-print(colour.XYZ_to_xyY(array([[0.1180583421], [0.1034], [0.0515089229]])))
+XYZ = [1.14176346, 1., 0.49815206]
+message_box(('Converting to "CIE xyY" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_xyY(XYZ))
 
-# Any definitions accepting 3 x 1 matrices will accept a tuple / list input.
-print(colour.XYZ_to_xyY([0.1180583421, 0.1034, 0.0515089229]))
+print('\n')
 
-# Default reference illuminant in case X == Y == Z == 0 is *D50*.
-print(colour.XYZ_to_xyY(array([[0], [0], [0]])))
+message_box(('The default illuminant if X == Y == Z == 0 is '
+             'CIE Standard Illuminant D Series D50".'))
+print(colour.XYZ_to_xyY([0, 0, 0]))
 
-# Using an alternative illuminant.
+print('\n')
+
+message_box('Using an alternative illuminant.')
 print(colour.XYZ_to_xyY(
-    array([[0], [0], [0]]),
+    [0, 0, 0],
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60']))
 
-# From *CIE xyY* colourspace to *CIE XYZ* colourspace.
-print(colour.xyY_to_XYZ(array([[0.4325], [0.3788], [10.34]])))
+print('\n')
 
-# From chromaticity coordinates to *CIE XYZ* colourspace.
-print(colour.xy_to_XYZ((0.25, 0.25)))
+xyY = [0.4325, 0.3788, 1.]
+message_box(('Converting to "CIE XYZ" colourspace from given "CIE xyY" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(xyY)))
+print(colour.xyY_to_XYZ(xyY))
 
-# From *CIE XYZ* colourspace to chromaticity coordinates.
-print(colour.XYZ_to_xy(array([[0.97137399], [1], [1.04462134]])))
+print('\n')
 
-# From *CIE XYZ* colourspace to *RGB* colourspace.
-# From *CIE XYZ* colourspace to *sRGB* colourspace.
+message_box(('Converting to "xy" chromaticity coordinates from given '
+             '"CIE XYZ" colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_xy(XYZ))
+
+print('\n')
+
+xy = (0.43249999995420696, 0.378800000065942)
+message_box(('Converting to "CIE XYZ" colourspace from given "xy" '
+             'chromaticity coordinates:\n'
+             '\n\t{0}'.format(xy)))
+print(colour.xy_to_XYZ(xy))
+
+print('\n')
+
+message_box(('Converting to "RGB" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_RGB(
-    array([0.1180583421, 0.1034, 0.0515089229]),
+    XYZ,
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.sRGB_COLOURSPACE.to_RGB,
     'Bradford',
     colour.sRGB_COLOURSPACE.transfer_function))
 
-# From *RGB* colourspace to *CIE XYZ* colourspace.
-# From *sRGB* colourspace to *CIE XYZ* colourspace.
+print('\n')
+
+RGB = [1.26651054, 0.91394181, 0.76936593]
+message_box(('Converting to "CIE XYZ" colourspace from given "RGB" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(RGB)))
 print(colour.RGB_to_XYZ(
-    array([[3.40552203], [2.48159742], [2.11932818]]),
+    RGB,
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     colour.sRGB_COLOURSPACE.to_XYZ,
     'Bradford',
     colour.sRGB_COLOURSPACE.inverse_transfer_function))
 
-# From *CIE XYZ* colourspace to *CIE UCS* colourspace.
-print(colour.XYZ_to_UCS(array([[0.92193107], [1], [1.03744246]])))
+print('\n')
 
-# From *CIE UCS* colourspace to *CIE XYZ* colourspace.
-print(colour.UCS_to_XYZ(array([[0.61462071], [1], [1.55775569]])))
+message_box(('Converting to "sRGB" colourspace from given "CIE XYZ" '
+             'colourspace values using convenient definition:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_sRGB(
+    XYZ,
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))
 
-# From *CIE UCS* colourspace to *uv* chromaticity coordinates.
-print(colour.UCS_to_uv(array([[0.61462071], [1], [1.55775569]])))
+print('\n')
 
-# From *CIE UCS* colourspace *uv* chromaticity coordinates to *xy* chromaticity
-# coordinates.
-print(colour.UCS_uv_to_xy((0.19374142046952561, 0.31522110680182841)))
+message_box(('Converting to "CIE UCS" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_UCS(XYZ))
 
-# From *CIE XYZ* colourspace to *CIE UVW* colourspace.
-print(colour.XYZ_to_UVW(array([[0.92193107], [1], [1.03744246]])))
+print('\n')
 
-# From *CIE XYZ* colourspace to *CIE Luv* colourspace.
-print(colour.XYZ_to_Luv(array([[0.92193107], [1], [1.03744246]])))
+UCS = [0.76117564, 1., 1.1781943]
+message_box(('Converting to "CIE XYZ" colourspace from given "CIE UCS" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(UCS)))
+print(colour.UCS_to_XYZ(UCS))
 
-# From *CIE Luv* colourspace to *CIE XYZ* colourspace.
-print(colour.Luv_to_XYZ(array([[100], [-20.04304247], [-19.81676035]])))
+print('\n')
 
-# From *CIE Luv* colourspace to *uv* chromaticity coordinates.
-print(colour.Luv_to_uv(array([[100], [-20.04304247], [-19.81676035]])))
+message_box(('Converting to "uv" chromaticity coordinates from given '
+             '"CIE UCS" colourspace values:\n'
+             '\n\t{0}'.format(UCS)))
+print(colour.UCS_to_uv(UCS))
 
-# From *CIE Luv* colourspace *uv* chromaticity coordinates to *xy* chromaticity
-# coordinates.
-print(colour.Luv_uv_to_xy((0.19374142100850045, 0.47283165896209456)))
+print('\n')
 
-# From *CIE Luv* colourspace to *CIE LCHuv* colourspace.
-print(colour.Luv_to_LCHuv(array([[100], [-20.04304247], [-19.81676035]])))
+uv = (0.25895877536258677, 0.34020896328551287)
+message_box(('Converting to "xy" chromaticity coordinates from given '
+             '"CIE UCS" colourspace "uv" chromaticity coordinates:\n'
+             '\n\t{0}'.format(uv)))
+print(colour.UCS_uv_to_xy(uv))
 
-# From *CIE LCHuv* colourspace to *CIE Luv* colourspace.
-print(colour.LCHuv_to_Luv(array([[100], [28.18559104], [224.6747382]])))
+print('\n')
 
-# From *CIE XYZ* colourspace to *CIE Lab* colourspace.
-print(colour.XYZ_to_Lab(array([[0.92193107], [1], [1.03744246]])))
+message_box(('Converting to "CIE UVW" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_UVW(XYZ))
 
-# From *CIE Lab* colourspace to *CIE XYZ* colourspace.
-print(colour.Lab_to_XYZ(array([[100], [-7.41787844], [-15.85742105]])))
+print('\n')
 
-# From *CIE Lab* colourspace to *CIE LCHab* colourspace.
-print(colour.Lab_to_LCHab(array([[100], [-7.41787844], [-15.85742105]])))
+message_box(('Converting to "CIE Luv" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Luv(XYZ))
 
-# From *CIE LCHab* colourspace to *CIE Lab* colourspace.
-print(colour.LCHab_to_Lab(array([[100], [17.50664796], [244.93046842]])))
+print('\n')
+
+Luv = [100., 64.73951819, 28.90956141]
+message_box(('Converting to "CIE XYZ" colourspace from given "CIE Luv" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(Luv)))
+print(colour.Luv_to_XYZ(Luv))
+
+print('\n')
+
+message_box(('Converting to "u"v"" chromaticity coordinates from given '
+             '"CIE Luv" colourspace values:\n'
+             '\n\t{0}'.format(Luv)))
+print(colour.Luv_to_uv(Luv))
+
+print('\n')
+
+uv = (0.25895877536234663, 0.51031344493132547)
+message_box(('Converting to "xy" chromaticity coordinates from given '
+             '"CIE Luv" colourspace "u"v"" chromaticity coordinates:\n'
+             '\n\t{0}'.format(uv)))
+print(colour.Luv_uv_to_xy(uv))
+
+print('\n')
+
+message_box(('Converting to "CIE LCHuv" colourspace from given "CIE Luv" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(Luv)))
+print(colour.Luv_to_LCHuv(Luv))
+
+print('\n')
+
+LCHuv = [100., 70.90111393, 24.06324597]
+message_box(('Converting to "CIE Luv" colourspace from given "CIE LCHuv" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(LCHuv)))
+print(colour.LCHuv_to_Luv(LCHuv))
+
+print('\n')
+
+message_box(('Converting to "CIE Lab" colourspace from given "CIE XYZ" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Lab(XYZ))
+
+print('\n')
+
+Lab = [100., 28.97832184, 30.96902832]
+message_box(('Converting to "CIE XYZ" colourspace from given "CIE Lab" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(Lab)))
+print(colour.Lab_to_XYZ(Lab))
+
+print('\n')
+
+message_box(('Converting to "CIE LCHab" colourspace from given "CIE Lab" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(Lab)))
+print(colour.Lab_to_LCHab(Lab))
+
+print('\n')
+
+LCHab = [100., 42.41254357, 46.90195532]
+message_box(('Converting to "CIE Lab" colourspace from given "CIE LCHab" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(LCHab)))
+print(colour.LCHab_to_Lab(LCHab))

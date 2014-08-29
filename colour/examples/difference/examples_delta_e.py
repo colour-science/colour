@@ -2,49 +2,58 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases colour *difference* computations.
+Showcases *Delta E* colour difference computations.
 """
 
-from numpy import array
 import colour
+from colour.utilities.verbose import message_box
 
-# Retrieving *Delta E CIE 1976* colour.colorimetry.difference, *CIE Lab*
-# colourspace colors are expected as input.
-print(colour.delta_E_CIE_1976(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835])))
-# Using simplified syntax form.
-print(colour.delta_E_CIE_1976([100, 21.57210357, 272.2281935],
-                              [100, 426.67945353, 72.39590835]))
+message_box('"Delta E" Computations')
 
-# Retrieving *Delta E CIE 1994* colour.colorimetry.difference, *CIE Lab*
-# colourspace colors are expected as input.
-print(colour.delta_E_CIE_1994(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835])))
+Lab1 = [100, 21.57210357, 272.2281935]
+Lab2 = [100, 426.67945353, 72.39590835]
+message_box(('Computing "Delta E" with "CIE 1976" method from given *CIE Lab* '
+             'colourspace matrices:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CIE_1976(Lab1, Lab2))
+print(colour.delta_E(Lab1, Lab2, method='CIE 1976'))
 
-# Retrieving *Delta E CIE 1994* colour.colorimetry.difference for
-# *graphics arts* applications.
-print(colour.delta_E_CIE_1994(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835]),
-    textiles=False))
+print('\n')
 
-# Retrieving *Delta E CIE 2000* colour.colorimetry.difference, *CIE Lab*
-# colourspace colors are expected as input.
-print(colour.delta_E_CIE_2000(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835])))
+message_box(('Computing "Delta E" with "CIE 1994" method from given *CIE Lab* '
+             'colourspace matrices:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CIE_1994(Lab1, Lab2))
+print(colour.delta_E(Lab1, Lab2, method='CIE 1994'))
 
-# Retrieving *Delta E CMC* colour.colorimetry.difference, *CIE Lab*
-# colourspace colors are expected as input.
-print(colour.delta_E_CMC(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835])))
+print('\n')
 
-# Retrieving *Delta E CMC* colour.colorimetry.difference with imperceptibility
-# threshold.
-print(colour.delta_E_CMC(
-    array([100, 21.57210357, 272.2281935]),
-    array([100, 426.67945353, 72.39590835]),
-    l=1))
+message_box(('Computing "Delta E" with "CIE 1994" method from given *CIE Lab* '
+             'colourspace matrices for "graphics arts" applications:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CIE_1994(Lab1, Lab2, textiles=False))
+print(colour.delta_E(Lab1, Lab2, method='CIE 1994', textiles=False))
+
+print('\n')
+
+message_box(('Computing "Delta E" with "CIE 2000" method from given *CIE Lab* '
+             'colourspace matrices:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CIE_2000(Lab1, Lab2))
+print(colour.delta_E(Lab1, Lab2, method='CIE 2000'))
+
+print('\n')
+
+message_box(('Computing "Delta E" with "CMC" method from given *CIE Lab* '
+             'colourspace matrices:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CMC(Lab1, Lab2))
+print(colour.delta_E(Lab1, Lab2, method='CMC'))
+
+print('\n')
+
+message_box(('Computing "Delta E" with "CMC" method from given *CIE Lab* '
+             'colourspace matrices with imperceptibility threshold:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E_CMC(Lab1, Lab2, l=1))
+print(colour.delta_E(Lab1, Lab2, method='CMC', l=1))

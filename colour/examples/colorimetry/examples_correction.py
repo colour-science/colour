@@ -7,9 +7,17 @@ Showcases colour spectral bandpass dependence correction computations.
 
 from __future__ import division, unicode_literals
 
-import colour
+import numpy as np
 
-# Defining a sample spectral power distribution data.
+import colour
+from colour.utilities.verbose import message_box
+
+message_box('Spectral Bandpass Dependence Correction')
+
+message_box(('Applying spectral bandpass dependence correction on a sample '
+             'spectral power distribution using "Stearns and Stearns (1988)" '
+             'method:\n'
+             '\n\t("Measured Values", "Corrected Values")'))
 sample_spd_data = {
     380: 0.048,
     385: 0.051,
@@ -93,8 +101,6 @@ sample_spd_data = {
     775: 0.432,
     780: 0.421}
 
-# Creating the sample spectral power distribution.
 spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
-
-# Correcting spectral bandpass.
-print(colour.bandpass_correction(spd).values)
+uncorrected_values = spd.values
+print(np.dstack((uncorrected_values, colour.bandpass_correction(spd).values)))

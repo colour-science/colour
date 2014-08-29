@@ -27,7 +27,7 @@ They are provided for convenience and completeness.
 
 Warning
 -------
-Don"t use that! Seriously...
+Don't use that! Seriously...
 
 References
 ----------
