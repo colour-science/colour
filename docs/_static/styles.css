@@ -1,4 +1,8 @@
 /* -- Colour - Styles ------------------------------------------------------ */
+.navbar-form {
+    padding: 0;
+}
+
 tt.descclassname {
     display: none;
 }
