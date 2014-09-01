@@ -46,6 +46,8 @@ If you would like to contribute to **Colour**, please refer to the following gui
 Changes
 -------
 
+The releases changes are available on Github: https://github.com/colour-science/colour/releases
+
 About
 -----
 

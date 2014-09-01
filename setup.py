@@ -68,7 +68,7 @@ setup(name='colour-science',
       extras_require={
           'tests': TESTS_REQUIREMENTS,
           'docs': DOCS_REQUIREMENTS},
-      classifiers=['Development Status :: 4 - Beta',
+      classifiers=['Development Status :: 3 - Alpha',
                    'Environment :: Console',
                    'Intended Audience :: Developers',
                    'Natural Language :: English',

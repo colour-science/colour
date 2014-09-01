@@ -1,18 +1,10 @@
-Colour - 0.1.0 - Stable
-=======================
-
-.. .changes
+Colour - Changes
+================
 
 Changes
 =======
 
-
-0.1.0 - Alpha
---------------
-
--  Initial release of **Colour**.
-
-.. .about
+The releases changes are available on Github: https://github.com/colour-science/colour/releases
 
 About
 -----
