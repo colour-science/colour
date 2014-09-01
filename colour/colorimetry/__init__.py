@@ -15,7 +15,7 @@ from .blackbody import (
     blackbody_spd,
     blackbody_spectral_radiance,
     planck_law)
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .cmfs import (
     LMS_ConeFundamentals,

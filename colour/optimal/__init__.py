@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .macadam_limits import is_within_macadam_limits
 

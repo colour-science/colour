@@ -6,7 +6,7 @@ Showcases optical phenomenons plotting examples.
 """
 
 from colour.phenomenons import rayleigh_scattering_spd
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Optical Phenomenons Plots')

@@ -6,7 +6,7 @@ Showcases colour quality plotting examples.
 """
 
 import colour
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Colour Quality Plots')

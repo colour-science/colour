@@ -45,32 +45,32 @@ if sys.version_info[0] >= 3:
     builtins.reduce = functools.reduce
     itertools.izip = zip
 
-from .adaptation import *
+from .adaptation import *  # noqa
 from . import adaptation
-from .algebra import *
+from .algebra import *  # noqa
 from . import algebra
-from .appearance import *
+from .appearance import *  # noqa
 from . import appearance
-from .colorimetry import *
+from .colorimetry import *  # noqa
 from . import colorimetry
 from . import constants
-from .difference import *
+from .difference import *  # noqa
 from . import difference
-from .characterisation import *
+from .characterisation import *  # noqa
 from . import characterisation
-from .io import *
+from .io import *  # noqa
 from . import io
-from .models import *
+from .models import *  # noqa
 from . import models
-from .optimal import *
+from .optimal import *  # noqa
 from . import optimal
-from .phenomenons import *
+from .phenomenons import *  # noqa
 from . import phenomenons
-from .notation import *
+from .notation import *  # noqa
 from . import notation
-from .quality import *
+from .quality import *  # noqa
 from . import quality
-from .temperature import *
+from .temperature import *  # noqa
 from . import temperature
 from . import plotting
 from . import utilities

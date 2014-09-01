@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .munsell import MUNSELL_VALUE_METHODS
 from .munsell import munsell_value

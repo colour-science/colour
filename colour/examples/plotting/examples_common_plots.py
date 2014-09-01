@@ -5,7 +5,7 @@
 Showcases common plotting examples.
 """
 
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Common Plots')

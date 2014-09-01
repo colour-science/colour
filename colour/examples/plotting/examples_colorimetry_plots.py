@@ -8,7 +8,7 @@ Showcases colorimetry plotting examples.
 from pprint import pprint
 
 import colour
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Colorimetry Plots')

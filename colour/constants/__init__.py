@@ -3,9 +3,9 @@
 
 from __future__ import absolute_import
 
-from .cie import *
+from .cie import *  # noqa
 from . import cie
-from .codata import *
+from .codata import *  # noqa
 from . import codata
 
 __all__ = []

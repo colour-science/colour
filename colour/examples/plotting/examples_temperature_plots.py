@@ -6,7 +6,7 @@ Showcases colour temperature and correlated colour temperature plotting
 examples.
 """
 
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Colour Temperature and Correlated Colour Temperature Plots')

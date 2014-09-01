@@ -9,7 +9,7 @@ from numpy import array
 
 from pprint import pprint
 import colour
-from colour.plotting import *
+from colour.plotting import *  # noqa
 from colour.utilities.verbose import message_box
 
 message_box('Colour Models Plots')
