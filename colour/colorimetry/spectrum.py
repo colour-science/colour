@@ -10,6 +10,11 @@ Defines the classes handling spectral data computation:
 -   :class:`SpectralShape`
 -   :class:`SpectralPowerDistribution`
 -   :class:`TriSpectralPowerDistribution`
+
+See Also
+--------
+`Spectrum IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/spectrum.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

@@ -2,10 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-MacAdam Limits - Optimal Colour Stimuli
+Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
 Defines objects related to optimal colour stimuli computations.
+
+See Also
+--------
+`Optimal Colour Stimuli - MacAdam Limits IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/optimal/macadam_limits.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

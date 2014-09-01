@@ -26,6 +26,11 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
 
+See Also
+--------
+`Munsell Renotation System IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Paul Centore**, `Munsell and Kubelka-Munk Toolbox

@@ -12,6 +12,11 @@ Defines *RLAB* colour appearance model objects:
 -   :class:`RLAB_Specification`
 -   :func:`XYZ_to_RLAB`
 
+See Also
+--------
+`RLAB Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/rlab.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Mark D. Fairchild**,

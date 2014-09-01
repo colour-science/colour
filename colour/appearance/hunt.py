@@ -12,6 +12,11 @@ Defines *Hunt* colour appearance model objects:
 -   :class:`Hunt_Specification`
 -   :func:`XYZ_to_Hunt`
 
+See Also
+--------
+`Hunt Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/hunt.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,

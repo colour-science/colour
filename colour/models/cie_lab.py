@@ -12,6 +12,11 @@ Defines the *CIE Lab* colourspace transformations:
 -   :func:`Lab_to_LCHab`
 -   :func:`LCHab_to_Lab`
 
+See Also
+--------
+`CIE Lab Colourspace IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_lab.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Lab_color_space

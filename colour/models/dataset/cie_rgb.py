@@ -9,6 +9,11 @@ Defines the *CIE RGB* colourspace:
 
 -   :attr:`CIE_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data  # noqa

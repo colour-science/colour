@@ -21,6 +21,11 @@ The following *ColourCheckers* data is available:
 -   :attr:`COLORCHECKER_1976`: *ColourChecker* developed by *McCamy and Al.* at
     Macbeth, a Division of Kollmorgen.
 
+See Also
+--------
+`Colour Fitting IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/characterisation/fitting.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls

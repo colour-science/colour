@@ -116,10 +116,7 @@ html_theme_options = {
     'bootswatch_theme': 'colour',
     'source_link_position': False,
     'navbar_links': [
-        ('colour-science', 'http://colour-science.org', True),
-        ('API Reference', 'api'),
-        ('IPython Notebooks', 'http://colour-science.org/notebooks.php', True)
-    ]}
+        ('colour-science.org', 'http://colour-science.org', True)]}
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -195,7 +192,7 @@ html_static_path = ['_static']
 # html_use_opensearch = ''
 
 # This is the file name suffix for HTML files (e.g. '.xhtml').
-#html_file_suffix = None
+# html_file_suffix = None
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'ColourDoc'
@@ -352,37 +349,51 @@ epub_exclude_files = ['search.html']
 autoclass_content = 'both'
 
 
+# def __autodoc_process_docstring(app,
+#                                 what,
+#                                 name,
+#                                 obj,
+#                                 options,
+#                                 lines,
+#                                 offset=[0]):
+#     """
+#     Process the docstrings for references counting.
+#     """
+#
+#     references = []
+#     for line in lines:
+#         match = re.match('^.. \[([a-z0-9_.-])\]',
+#                          line.strip(),
+#                          re.IGNORECASE)
+#         if match:
+#             references.append(match.group(1))
+#
+#     references.sort(key=lambda x: -len(x))
+#     for i, line in enumerate(lines):
+#         for reference in references:
+#             if re.match('^\d+$', reference):
+#                 new_reference = '{0}'.format((offset[0] + int(reference)))
+#             else:
+#                 new_reference = '{0}{1}'.format(reference, offset[0])
+#             lines[i] = lines[i].replace('[{0}]_'.format(reference),
+#                                         '[{0}]_'.format(new_reference))
+#             lines[i] = lines[i].replace('.. [{0}]'.format(reference),
+#                                         '.. [{0}]'.format(new_reference))
+#
+#     offset[0] += len(references)
+
+
 def __autodoc_process_docstring(app,
                                 what,
                                 name,
                                 obj,
                                 options,
-                                lines,
-                                offset=[0]):
+                                lines):
     """
-    Process the docstrings for references counting.
+    Process the docstrings to remove the *# noqa* *flake8* pragma.
     """
-
-    references = []
-    for line in lines:
-        match = re.match('^.. \[([a-z0-9_.-])\]', line.strip(), re.IGNORECASE)
-        if match:
-            references.append(match.group(1))
-
-    references.sort(key=lambda x: -len(x))
     for i, line in enumerate(lines):
-        for reference in references:
-            if re.match('^\d+$', reference):
-                new_reference = '{0}'.format((offset[0] + int(reference)))
-            else:
-                new_reference = '{0}{1}'.format(reference, offset[0])
-            lines[i] = lines[i].replace('[{0}]_'.format(reference),
-                                        '[{0}]_'.format(new_reference))
-            lines[i] = lines[i].replace('.. [{0}]'.format(reference),
-                                        '.. [{0}]'.format(new_reference))
+        lines[i] = line.replace('# noqa', '')
 
-    offset[0] += len(references)
-
-
-    # def setup(app):
-    #     app.connect('autodoc-process-docstring', __autodoc_process_docstring)
+def setup(app):
+    app.connect('autodoc-process-docstring', __autodoc_process_docstring)

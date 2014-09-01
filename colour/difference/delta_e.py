@@ -14,6 +14,11 @@ The following methods are available:
 -   :func:`delta_E_CIE_2000`
 -   :func:`delta_E_CMC`
 
+See Also
+--------
+`Delta E - Colour Difference IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/difference/delta_e.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Color_difference

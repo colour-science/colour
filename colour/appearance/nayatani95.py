@@ -10,6 +10,11 @@ Defines *Nayatani (1995)* colour appearance model objects:
 -   :class:`Nayatani95_Specification`
 -   :func:`XYZ_to_Nayatani95`
 
+See Also
+--------
+`Nayatani (1995) Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/nayatani95.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,

@@ -15,6 +15,11 @@ The following methods are available:
     given *luminance* :math:`Y` using *Wyszecki (1964)* method.
 -   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
+
+See Also
+--------
+`Lightness IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lightness.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

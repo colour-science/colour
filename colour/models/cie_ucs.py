@@ -12,6 +12,11 @@ Defines the *CIE UCS* colourspace transformations:
 -   :func:`UCS_to_uv`
 -   :func:`UCS_uv_to_xy`
 
+See Also
+--------
+`CIE UCS Colourspace IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_ucs.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/CIE_1960_color_space

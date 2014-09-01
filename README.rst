@@ -24,25 +24,25 @@ It is open source and freely available and under the `New BSD License <http://op
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.local/features.php>`_ page for more information.
+`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.org/features.php>`_ page for more information.
 
 Installation
 ------------
 
-The installation procedure is described in the `Installation Guide <http://colour-science.local/installation.php>`_.
+The installation procedure is described in the `Installation Guide <http://colour-science.org/installation.php>`_.
 
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour-science.org/api.php>`_ and the `IPython Notebooks <http://colour-science.org/notebooks.php>`_ with detailed historical and theoritical context and images:
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx :doc:`API Reference <api>` and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
 
 -   `API Reference <http://colour-science.org/api.php>`_
--   `IPython Notebooks <http://colour-science.org/notebooks.php>`_
+-   `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
 
 Contributing
 ------------
 
-If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.local/contributing.php
+If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.org/contributing.php
 
 
 Changes

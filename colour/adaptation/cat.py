@@ -15,6 +15,11 @@ colourspace matrices:
 -   :attr:`FAIRCHILD_CAT`: *Fairchild* CAT [2]_
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
 
+See Also
+--------
+`Chromatic Adaptation Transforms IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/cat.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html

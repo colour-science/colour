@@ -11,6 +11,11 @@ The following correction methods are available:
 
 -   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)*
     spectral bandpass dependence correction method.
+
+See Also
+--------
+`Spectral Bandpass Dependence Correction IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/correction.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

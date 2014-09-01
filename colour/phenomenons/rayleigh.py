@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Rayleigh Optical Depth / Scattering in the Atmosphere
+Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
 
 Implements rayleigh scattering / optical depth in the atmosphere computation:
@@ -10,6 +10,11 @@ Implements rayleigh scattering / optical depth in the atmosphere computation:
 -   :func:`scattering_cross_section`
 -   :func:`rayleigh_optical_depth`
 -   :func:`rayleigh_scattering`
+
+See Also
+--------
+`Rayleigh Optical Depth - Scattering in the Atmosphere IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/phenomenons/rayleigh.ipynb>`_  # noqa
 
 References
 ----------

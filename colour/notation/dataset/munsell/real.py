@@ -10,6 +10,11 @@ within *MacAdam* limits *Munsell* colours only. They are the colours listed in
 the original 1943 renotation article, *Newhall, Judd and Nickerson*, *JOSA*,
 (1943).
 
+See Also
+--------
+`Munsell Renotation System IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.cis.rit.edu/research/mcsl2/online/munsell.php

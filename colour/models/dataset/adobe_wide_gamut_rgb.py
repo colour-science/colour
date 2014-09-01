@@ -9,6 +9,11 @@ Defines the *Adobe Wide Gamut RGB* colourspace:
 
 -   :attr:`ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space

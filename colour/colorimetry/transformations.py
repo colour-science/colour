@@ -12,6 +12,11 @@ transformations:
 -   :func:`RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 -   :func:`RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
 -   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+
+See Also
+--------
+`Colour Matching Functions IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/cmfs.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

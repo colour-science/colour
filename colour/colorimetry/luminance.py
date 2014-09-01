@@ -16,6 +16,11 @@ The following methods are available:
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 -   :func:`luminance_ASTM_D1535_08`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
+
+See Also
+--------
+`Luminance IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/luminance.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

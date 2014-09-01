@@ -14,6 +14,11 @@ Defines the *CIE Luv* colourspace transformations:
 -   :func:`Luv_to_LCHuv`
 -   :func:`LCHuv_to_Luv`
 
+See Also
+--------
+`CIE Luv Colourspace IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_luv.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/CIELUV

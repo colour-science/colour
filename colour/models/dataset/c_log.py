@@ -9,6 +9,11 @@ Defines the *C-Log* colourspace:
 
 -   :attr:`C_LOG_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa

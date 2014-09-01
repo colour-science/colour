@@ -19,6 +19,11 @@ The following *ColourCheckers* data is available:
 -   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 
+See Also
+--------
+`Colour Fitting IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/characterisation/fitting.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **N. Ohta**, *The Basis of Color Reproduction Engineering (Japanese)*,

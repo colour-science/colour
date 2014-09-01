@@ -10,6 +10,11 @@ Defines *ATD (1995)* colour vision model objects:
 -   :class:`ATD95_Specification`
 -   :func:`XYZ_to_ATD95`
 
+See Also
+--------
+`ATD (1995) Colour Vision Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/atd95.ipynb>`_  # noqa
+
 Notes
 -----
 -   According to *CIE TC1-34* definition of a colour appearance model, the

@@ -9,6 +9,11 @@ Defines the *ProPhoto RGB* colourspace:
 
 -   :attr:`PROPHOTO_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.color.org/ROMMRGB.pdf
