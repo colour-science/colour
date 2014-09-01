@@ -21,7 +21,8 @@ message_box(('Converting to "CIECAM02" colour appearance model specification '
              'using given parameters:\n'
              '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tL_A: {2}\n\tY_b: {3}'
              '\n\tSurround: {4}'.format(XYZ, XYZ_w, L_A, Y_b, surround)))
-print(colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround))
+specification = colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
+print(specification)
 
 print('\n')
 

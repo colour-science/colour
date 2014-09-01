@@ -54,12 +54,12 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_b = np.array([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
         XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ_b = np.array([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_Hunt(XYZ,
-                                    XYZ_b,
                                     XYZ_w,
+                                    XYZ_b,
                                     data['L_A'],
                                     Hunt_InductionFactors(
                                         data['N_c'],

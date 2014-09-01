@@ -225,8 +225,8 @@ class Hunt_Specification(
 
 
 def XYZ_to_Hunt(XYZ,
-                XYZ_b,
                 XYZ_w,
+                XYZ_b,
                 L_A,
                 surround=HUNT_VIEWING_CONDITIONS.get('Normal Scenes'),
                 L_AS=None,
@@ -245,10 +245,10 @@ def XYZ_to_Hunt(XYZ,
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix of test sample / stimulus in domain
         [0, 100].
-    XYZ_b : array_like, (3,)
-        *CIE XYZ* colourspace matrix of background in domain [0, 100].
     XYZ_w : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
+    XYZ_b : array_like, (3,)
+        *CIE XYZ* colourspace matrix of background in domain [0, 100].
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     surround : Hunt_InductionFactors, optional
@@ -303,12 +303,12 @@ def XYZ_to_Hunt(XYZ,
     Examples
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
+    >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
