@@ -9,6 +9,11 @@ Defines the *SMPTE-C RGB* colourspace:
 
 -   :attr:`SMPTE_C_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf  # noqa

@@ -8,6 +8,11 @@ Munsell Renotation System Dataset - All Munsell Colours
 Defines the *Munsell Renotation System* *All* dataset. Those are *all*
 published *Munsell* colours, including the extrapolated colors.
 
+See Also
+--------
+`Munsell Renotation System IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.cis.rit.edu/research/mcsl2/online/munsell.php

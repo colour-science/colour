@@ -21,6 +21,11 @@ The following *CIE* illuminants are available:
     FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 
+See Also
+--------
+`Illuminants IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+
 Notes
 -----
 -   *CIE* illuminants with chromaticity coordinates not defined in the

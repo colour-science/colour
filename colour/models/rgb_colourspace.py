@@ -7,6 +7,11 @@ RGB Colourspace
 
 Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
 from :mod:`colour.models.dataset.aces_rgb`, etc...
+
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals

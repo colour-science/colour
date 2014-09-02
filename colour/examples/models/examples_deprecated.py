@@ -2,44 +2,85 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *deprecated* colour models computations.
+Showcases deprecated colour models computations.
 """
 
 import colour.models.deprecated
+from colour.utilities.verbose import message_box
 
-# Converting from *RGB* colourspace to *HSV* colourspace.
-print(colour.models.deprecated.RGB_to_HSV(
-    [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+message_box(('Deprecated Colour Models Computations\n'
+             '\nDon\'t use that! Seriously...'))
 
-# Converting from *HSV* colourspace to *RGB* colourspace.
-print(colour.models.deprecated.HSV_to_RGB([0.27867384, 0.744, 0.98039216]))
+RGB = [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]
+message_box(('Converting to "HSV" colourspace from given "RGB" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.models.deprecated.RGB_to_HSV(RGB))
 
-# Converting from *RGB* colourspace to *HSL* colourspace.
-print(colour.models.deprecated.RGB_to_HSL(
-    [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+print('\n')
 
-# Converting from *HSL* colourspace to *RGB* colourspace.
-print(colour.models.deprecated.HSL_to_RGB(
-    [0.27867384, 0.94897959, 0.61568627]))
+HSV = [0.27867384, 0.744, 0.98039216]
+message_box(('Converting to "RGB" colourspace from given "HSV" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(HSV)))
+print(colour.models.deprecated.HSV_to_RGB(HSV))
 
-# Converting from *RGB* colourspace to *CMY* colourspace.
-print(colour.models.deprecated.RGB_to_CMY(
-    [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+print('\n')
 
-# Converting from *CMY* colourspace to *RGB* colourspace.
-print(colour.models.deprecated.CMY_to_RGB(
-    [0.50980392, 0.01960784, 0.74901961]))
+message_box(('Converting to "HSL" colourspace from given "RGB" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.models.deprecated.RGB_to_HSL(RGB))
 
-# Converting from *CMY* colourspace to *CMYK* colourspace.
-print(colour.models.deprecated.CMY_to_CMYK(
-    [0.50980392, 0.01960784, 0.74901961]))
+print('\n')
 
-# Converting from *CMYK* colourspace to *CMY* colourspace.
-print(colour.models.deprecated.CMYK_to_CMY([0.5, 0, 0.744, 0.01960784]))
+HSL = [0.27867384, 0.94897959, 0.61568627]
+message_box(('Converting to "RGB" colourspace from given "HSL" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(HSL)))
+print(colour.models.deprecated.HSL_to_RGB(HSL))
 
-# Converting from *RGB* colourspace to hex triplet representation.
-print(colour.models.deprecated.RGB_to_HEX(
-    [0.49019607843137253, 0.9803921568627451, 0.25098039215686274]))
+print('\n')
 
-# Converting from hex triplet representation to *RGB* colourspace.
-print(colour.models.deprecated.HEX_to_RGB('#7dfa40'))
+message_box(('Converting to "CMY" colourspace from given "RGB" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.models.deprecated.RGB_to_CMY(RGB))
+
+print('\n')
+
+CMY = [0.50980392, 0.01960784, 0.74901961]
+message_box(('Converting to "RGB" colourspace from given "CMY" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(CMY)))
+print(colour.models.deprecated.CMY_to_RGB(CMY))
+
+print('\n')
+
+message_box(('Converting to "CMYK" colourspace from given "CMY" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(CMY)))
+print(colour.models.deprecated.CMY_to_CMYK(CMY))
+
+print('\n')
+
+CMYK = [0.5, 0, 0.744, 0.01960784]
+message_box(('Converting to "CMY" colourspace from given "CMYK" colourspace '
+             'values:\n'
+             '\n\t{0}'.format(CMYK)))
+print(colour.models.deprecated.CMYK_to_CMY(CMYK))
+
+print('\n')
+
+message_box(('Converting to "hex triplet" representation from given "RGB" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.models.deprecated.RGB_to_HEX(RGB))
+
+print('\n')
+
+hex_triplet = '#7dfa40'
+message_box(('Converting to "RGB" colourspace from given "hex triplet" '
+             'representation:\n'
+             '\n\t{0}'.format(hex_triplet)))
+print(colour.models.deprecated.HEX_to_RGB(hex_triplet))

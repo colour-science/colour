@@ -2,14 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-CIECAM02
-========
+CIECAM02 Colour Appearance Model
+================================
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :func:`CIECAM02_Specification`
+-   :class:`CIECAM02_InductionFactors`
+-   :attr:`CIECAM02_VIEWING_CONDITIONS`
+-   :class:`CIECAM02_Specification`
 -   :func:`XYZ_to_CIECAM02`
 -   :func:`CIECAM02_to_XYZ`
+
+See Also
+--------
+`CIECAM02 Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/ciecam02.ipynb>`_  # noqa
 
 References
 ----------
@@ -41,8 +48,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
-from colour.appearance.hunt import (HPE_MATRIX,
-                                    HPE_MATRIX_INVERSE,
+from colour.appearance.hunt import (XYZ_TO_HPE_MATRIX,
+                                    HPE_TO_XYZ_MATRIX,
                                     luminance_level_adaptation_factor)
 from colour.utilities import CaseInsensitiveMapping
 
@@ -86,8 +93,23 @@ __all__ = ['CIECAM02_InductionFactors',
            'P',
            'post_adaptation_non_linear_response_compression_matrix']
 
-CIECAM02_InductionFactors = namedtuple('CIECAM02_InductionFactors',
-                                       ('F', 'c', 'N_c'))
+
+class CIECAM02_InductionFactors(
+    namedtuple('CIECAM02_InductionFactors',
+               ('F', 'c', 'N_c'))):
+    """
+    *CIECAM02* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    F : numeric
+        Maximum degree of adaptation :math:`F`.
+    c : numeric
+        Exponential non linearity :math:`c`.
+    N_c : numeric
+        Chromatic induction factor :math:`N_c`.
+    """
+
 
 CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Average': CIECAM02_InductionFactors(1, 0.69, 1),
@@ -97,7 +119,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *CIECAM02* colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : dict
-('Average', 'Dim', 'Dark')
+    ('Average', 'Dim', 'Dark')
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
@@ -105,30 +127,32 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_i': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
 
-CIECAM02_Specification = namedtuple('CIECAM02_Specification',
-                                    ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))
-"""
-Defines the *CIECAM02* colour appearance model specification.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`J`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-h : numeric
-    *Hue* angle :math:`h` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-Q : numeric
-    Correlate of *brightness* :math:`Q`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-"""
+class CIECAM02_Specification(
+    namedtuple('CIECAM02_Specification',
+               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+    """
+    Defines the *CIECAM02* colour appearance model specification.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    h : numeric
+        *Hue* angle :math:`h` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    """
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -154,9 +178,9 @@ def XYZ_to_CIECAM02(XYZ,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
-    surround : CIECAM02_InductionFactors
+    surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions induction factors.
-    discount_illuminant : bool
+    discount_illuminant : bool, optional
         Truth value indicating if the illuminant should be discounted.
 
     Returns
@@ -179,7 +203,8 @@ def XYZ_to_CIECAM02(XYZ,
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
+    >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
+    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
@@ -282,9 +307,9 @@ def CIECAM02_to_XYZ(J, C, h,
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     Y_b : numeric
         Adapting field *Y* tristimulus value :math:`Y_b`.
-    surround : CIECAM02_Surround
+    surround : CIECAM02_Surround, optional
         Surround viewing conditions.
-    discount_illuminant : bool
+    discount_illuminant : bool, optional
         Discount the illuminant.
 
     Returns
@@ -303,14 +328,14 @@ def CIECAM02_to_XYZ(J, C, h,
 
     Examples
     --------
-    >>> J = 41.7310911
-    >>> C = 68.8364136
-    >>> h = 38.7201874
-    >>> XYZ_w = np.array([96.4219075, 100.00, 82.520490])
-    >>> L_A = 100
+    >>> J = 41.731091132513917
+    >>> C = 0.1047077571711053
+    >>> h = 219.0484326582719
+    >>> XYZ_w = np.array([95.05, 100.00, 108.88])
+    >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    array([ 28.8452082...,  18.4037556...,   2.6743017...])
+    array([ 19.01...,  20...  ,  21.78...])
     """
 
     XYZ_w = np.array(XYZ_w).reshape((3, 1))
@@ -597,7 +622,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = np.dot(np.dot(HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
+    rgb = np.dot(np.dot(XYZ_TO_HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
     return rgb
 
 
@@ -623,7 +648,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.dot(np.dot(CAT02_CAT, HPE_MATRIX_INVERSE), rgb)
+    RGB = np.dot(np.dot(CAT02_CAT, HPE_TO_XYZ_MATRIX), rgb)
     return RGB
 
 

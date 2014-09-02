@@ -6,6 +6,13 @@ Tristimulus Values
 ==================
 
 Defines objects for tristimulus values computation from spectral data.
+
+See Also
+--------
+`Colour Matching Functions IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/cmfs.ipynb>`_  # noqa
+`Spectrum IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/spectrum.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -54,9 +61,13 @@ def spectral_to_XYZ(spd,
     ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
+    Warning
+    -------
+    The output domain of that definition is non standard!
+
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 100].
 
     References
     ----------

@@ -9,6 +9,11 @@ Defines the *Munsell Renotation System* *1929* dataset. Those are the colours
 appearing in the 1929 *Munsell Book of Color*. These data has been used in the
 scaling experiments leading to the 1943 renotation.
 
+See Also
+--------
+`Munsell Renotation System IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.cis.rit.edu/research/mcsl2/online/munsell.php

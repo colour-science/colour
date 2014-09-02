@@ -12,6 +12,11 @@ Defines the *CIE xyY* colourspace transformations:
 -   :func:`xy_to_XYZ`
 -   :func:`XYZ_to_xy`
 
+See Also
+--------
+`CIE xyY Colourspace IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_xyy.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space

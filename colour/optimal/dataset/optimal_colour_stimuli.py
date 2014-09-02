@@ -18,6 +18,11 @@ follows::
 
      (('x', 'y', 'Y'), ..., ('x', 'y', 'Y'))
 
+See Also
+--------
+`Optimal Colour Stimuli - MacAdam Limits IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/optimal/macadam_limits.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Gamut#Surfaces

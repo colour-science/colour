@@ -26,6 +26,11 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
 
+See Also
+--------
+`Munsell Renotation System IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Paul Centore**, `Munsell and Kubelka-Munk Toolbox
@@ -85,7 +90,7 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
            'munsell_value_ladd1955',
            'munsell_value_mccamy1987',
            'munsell_value_ASTM_D1535_08',
-           'MUNSELL_VALUE_FUNCTIONS',
+           'MUNSELL_VALUE_METHODS',
            'munsell_value',
            'munsell_specification_to_xyY',
            'munsell_colour_to_xyY',
@@ -481,32 +486,30 @@ def munsell_value_ASTM_D1535_08(Y):
     return V
 
 
-MUNSELL_VALUE_FUNCTIONS = CaseInsensitiveMapping(
-    {'Munsell Value Priest 1920': munsell_value_priest1920,
-     'Munsell Value Munsell 1933': munsell_value_munsell1933,
-     'Munsell Value Moon 1943': munsell_value_moon1943,
-     'Munsell Value Saunderson 1944': munsell_value_saunderson1944,
-     'Munsell Value Ladd 1955': munsell_value_ladd1955,
-     'Munsell Value McCamy 1987': munsell_value_mccamy1987,
-     'Munsell Value ASTM D1535-08': munsell_value_ASTM_D1535_08})
+MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
+    {'Priest 1920': munsell_value_priest1920,
+     'Munsell 1933': munsell_value_munsell1933,
+     'Moon 1943': munsell_value_moon1943,
+     'Saunderson 1944': munsell_value_saunderson1944,
+     'Ladd 1955': munsell_value_ladd1955,
+     'McCamy 1987': munsell_value_mccamy1987,
+     'ASTM D1535-08': munsell_value_ASTM_D1535_08})
 """
 Supported *Munsell* value computations methods.
 
-MUNSELL_VALUE_FUNCTIONS : dict
-    ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
-    'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
-    'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
-    'Munsell Value ASTM D1535-08')
+MUNSELL_VALUE_METHODS : dict
+    ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
 
 Aliases:
 
--   'astm2008': 'Munsell Value ASTM D1535-08'
+-   'astm2008': 'ASTM D1535-08'
 """
-MUNSELL_VALUE_FUNCTIONS['astm2008'] = (
-    MUNSELL_VALUE_FUNCTIONS['Munsell Value ASTM D1535-08'])
+MUNSELL_VALUE_METHODS['astm2008'] = (
+    MUNSELL_VALUE_METHODS['ASTM D1535-08'])
 
 
-def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
+def munsell_value(Y, method='ASTM D1535-08'):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     given method.
@@ -516,10 +519,8 @@ def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Munsell Value Priest 1920', 'Munsell Value Munsell 1933',
-        'Munsell Value Moon 1943', 'Munsell Value Saunderson 1944',
-        'Munsell Value Ladd 1955', 'Munsell Value McCamy 1987',
-        'Munsell Value ASTM D1535-08')
+        ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
+        'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
         Computation method.
 
     Returns
@@ -536,9 +537,21 @@ def munsell_value(Y, method='Munsell Value ASTM D1535-08'):
     --------
     >>> munsell_value(10.08)  # doctest: +ELLIPSIS
     3.7344764...
+    >>> munsell_value(10.08, method='Priest 1920')  # doctest: +ELLIPSIS
+    3.1749015...
+    >>> munsell_value(10.08, method='Munsell 1933')  # doctest: +ELLIPSIS
+    3.7918355...
+    >>> munsell_value(10.08, method='Moon 1943')  # doctest: +ELLIPSIS
+    3.7462971...
+    >>> munsell_value(10.08, method='Saunderson 1944')  # doctest: +ELLIPSIS
+    3.6865080...
+    >>> munsell_value(10.08, method='Ladd 1955')  # doctest: +ELLIPSIS
+    3.6952862...
+    >>> munsell_value(10.08, method='McCamy 1987')  # doctest: +ELLIPSIS
+    3.7347235...
     """
 
-    return MUNSELL_VALUE_FUNCTIONS.get(method)(Y)
+    return MUNSELL_VALUE_METHODS.get(method)(Y)
 
 
 def munsell_specification_to_xyY(specification):

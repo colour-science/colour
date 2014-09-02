@@ -7,8 +7,13 @@ Nayatani (1995) Colour Appearance Model
 
 Defines *Nayatani (1995)* colour appearance model objects:
 
--   :func:`Nayatani95_Specification`
+-   :class:`Nayatani95_Specification`
 -   :func:`XYZ_to_Nayatani95`
+
+See Also
+--------
+`Nayatani (1995) Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/nayatani95.ipynb>`_  # noqa
 
 References
 ----------
@@ -69,69 +74,79 @@ NAYATANI95_XYZ_TO_RGB_MATRIX = np.array(
     [[0.40024, 0.70760, -0.08081],
      [-0.22630, 1.16532, 0.04570],
      [0.00000, 0.00000, 0.91822]])
-
-Nayatani95_ReferenceSpecification = namedtuple(
-    'Nayatani95_ReferenceSpecification',
-    ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))
 """
-Defines the *Nayatani (1995)* colour appearance model reference specification.
+*Nayatani (1995)* colour appearance model *CIE XYZ* colourspace to cone
+responses matrix.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
-
-Parameters
-----------
-Lstar_P : numeric
-    Correlate of *achromatic Lightness* :math:`L_p^\star`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-theta : numeric
-    *Hue* angle :math:`\\theta` in degrees.
-S : numeric
-    Correlate of *saturation* :math:`S`.
-B_r : numeric
-    Correlate of *brightness* :math:`B_r`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-H_C : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-Lstar_N : numeric
-    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-Nayatani95_Specification = namedtuple(
-    'Nayatani95_Specification',
-    ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))
-"""
-Defines the *Nayatani (1995)* colour appearance model specification.
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
+class Nayatani95_ReferenceSpecification(
+    namedtuple(
+        'Nayatani95_ReferenceSpecification',
+        ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
+    """
+    Defines the *Nayatani (1995)* colour appearance model reference
+    specification.
 
-Parameters
-----------
-Lstar_P : numeric
-    Correlate of *achromatic Lightness* :math:`L_p^\star`.
-C : numeric
-    Correlate of *chroma* :math:`C`.
-h : numeric
-    *Hue* angle :math:`\\theta` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`S`.
-Q : numeric
-    Correlate of *brightness* :math:`B_r`.
-M : numeric
-    Correlate of *colourfulness* :math:`M`.
-H : numeric
-    *Hue* :math:`h` quadrature :math:`H`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H_C`.
-Lstar_N : numeric
-    Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
-"""
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
+
+    Parameters
+    ----------
+    Lstar_P : numeric
+        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    theta : numeric
+        *Hue* angle :math:`\\theta` in degrees.
+    S : numeric
+        Correlate of *saturation* :math:`S`.
+    B_r : numeric
+        Correlate of *brightness* :math:`B_r`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    H_C : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    Lstar_N : numeric
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+    """
+
+
+class Nayatani95_Specification(
+    namedtuple('Nayatani95_Specification',
+               ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
+    """
+    Defines the *Nayatani (1995)* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    Lstar_P : numeric
+        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+    C : numeric
+        Correlate of *chroma* :math:`C`.
+    h : numeric
+        *Hue* angle :math:`\\theta` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`S`.
+    Q : numeric
+        Correlate of *brightness* :math:`B_r`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    Lstar_N : numeric
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+    """
 
 
 def XYZ_to_Nayatani95(XYZ,
@@ -279,7 +294,7 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
-    # TODO: Investigate components usage?
+    # TODO: Investigate components usage.
     M_RG, M_YB = colourfulness_components(C_RG, C_YB,
                                           brightness_ideal_white)
     M = colourfulness_correlate(C, brightness_ideal_white)

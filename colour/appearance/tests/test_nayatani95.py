@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.nayatani95` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.nayatani95 import XYZ_to_Nayatani95
+
+from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'

@@ -7,8 +7,15 @@ LLAB(l:c) Colour Appearance Model
 
 Defines *LLAB(l:c)* colour appearance model objects:
 
--   :attr:`LLAB_Specification`:
+-   :class:`LLAB_InductionFactors`
+-   :attr:`LLAB_VIEWING_CONDITIONS`
+-   :class:`LLAB_Specification`
 -   :func:`XYZ_to_LLAB`
+
+See Also
+--------
+`LLAB(l:c) Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/llab.ipynb>`_  # noqa
 
 References
 ----------
@@ -46,7 +53,7 @@ __status__ = 'Production'
 __all__ = ['LLAB_InductionFactors',
            'LLAB_VIEWING_CONDITIONS',
            'LLAB_XYZ_TO_RGB_MATRIX',
-           'LLAB_XYZ_TO_RGB_INVERSE_MATRIX',
+           'LLAB_RGB_TO_XYZ_MATRIX',
            'LLAB_ReferenceSpecification',
            'LLAB_Specification',
            'XYZ_to_LLAB',
@@ -60,8 +67,25 @@ __all__ = ['LLAB_InductionFactors',
            'saturation_correlate',
            'final_opponent_signals']
 
-LLAB_InductionFactors = namedtuple('LLAB_InductionFactors',
-                                   ('D', 'F_S', 'F_L', 'F_C'))
+
+class LLAB_InductionFactors(
+    namedtuple('LLAB_InductionFactors',
+               ('D', 'F_S', 'F_L', 'F_C'))):
+    """
+    *LLAB(l:c)* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    D : numeric
+         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+    F_S : numeric
+        Surround induction factor :math:`F_S`.
+    F_L : numeric
+        *Lightness* induction factor :math:`F_L`.
+    F_C : numeric
+        *Chroma* induction factor :math:`F_C`.
+    """
+
 
 LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Reference Samples & Images, Average Surround, Subtending > 4': (
@@ -78,11 +102,11 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : dict
-('Reference Samples & Images, Average Surround, Subtending > 4',
-'Reference Samples & Images, Average Surround, Subtending < 4',
-'Television & VDU Displays, Dim Surround',
-'Cut Sheet Transparency, Dim Surround':,
-'35mm Projection Transparency, Dark Surround')
+    ('Reference Samples & Images, Average Surround, Subtending > 4',
+    'Reference Samples & Images, Average Surround, Subtending < 4',
+    'Television & VDU Displays, Dim Surround',
+    'Cut Sheet Transparency, Dim Surround':,
+    '35mm Projection Transparency, Dark Surround')
 
 Aliases:
 
@@ -114,82 +138,97 @@ LLAB_XYZ_TO_RGB_MATRIX = np.array(
     [[0.8951, 0.2664, -0.1614],
      [-0.7502, 1.7135, 0.0367],
      [0.0389, -0.0685, 1.0296]])
-
-# LLAB_XYZ_TO_RGB_INVERSE_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
-# TODO: Investigate rounding issues.
-LLAB_XYZ_TO_RGB_INVERSE_MATRIX = np.array(
-    [[0.987, -0.1471, 0.1600],
-     [0.4323, 0.5184, 0.0493],
-     [-0.0085, 0.0400, 0.9685]])
-
-LLAB_ReferenceSpecification = namedtuple(
-    'LLAB_ReferenceSpecification',
-    ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))
 """
-Defines the *LLAB(l:c)* colour appearance model reference specification.
+*LLAB(l:c)* colour appearance model *CIE XYZ* colourspace matrix to normalised
+cone responses matrix.
 
-This specification has field names consistent with **Mark D. Fairchild**
-reference.
-
-Parameters
-----------
-L_L : numeric
-    Correlate of *Lightness* :math:`L_L`.
-Ch_L : numeric
-    Correlate of *chroma* :math:`Ch_L`.
-h_L : numeric
-    *Hue* angle :math:`h_L` in degrees.
-s_L : numeric
-    Correlate of *saturation* :math:`s_L`.
-C_L : numeric
-    Correlate of *colourfulness* :math:`C_L`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-A_L : numeric
-    Opponent signal :math:`A_L`.
-B_L : numeric
-    Opponent signal :math:`B_L`.
+LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-LLAB_Specification = namedtuple(
-    'LLAB_Specification',
-    ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))
+LLAB_RGB_TO_XYZ_MATRIX = np.around(
+    np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX),
+    decimals=4)
 """
-Defines the *LLAB(l:c)* colour appearance model specification.
+*LLAB(l:c)* colour appearance model normalised cone responses to *CIE XYZ*
+colourspace matrix.
 
-This specification has field names consistent with the remaining colour
-appearance models in :mod:`colour.appearance` but diverge from
-**Mark D. Fairchild** reference.
+Notes
+-----
+-   This matrix has been rounded on purpose to 4 decimals so that we keep
+    consistency with **Mark D. Fairchild** implementation results.
 
-Parameters
-----------
-J : numeric
-    Correlate of *Lightness* :math:`L_L`.
-C : numeric
-    Correlate of *chroma* :math:`Ch_L`.
-h : numeric
-    *Hue* angle :math:`h_L` in degrees.
-s : numeric
-    Correlate of *saturation* :math:`s_L`.
-M : numeric
-    Correlate of *colourfulness* :math:`C_L`.
-HC : numeric
-    *Hue* :math:`h` composition :math:`H^C`.
-a : numeric
-    Opponent signal :math:`A_L`.
-b : numeric
-    Opponent signal :math:`B_L`.
+LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 
-def XYZ_to_LLAB(XYZ,
-                XYZ_0,
-                Y_b,
-                F_S,
-                F_L,
-                F_C,
-                L,
-                D=1):
+class LLAB_ReferenceSpecification(
+    namedtuple('LLAB_ReferenceSpecification',
+               ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
+    """
+    Defines the *LLAB(l:c)* colour appearance model reference specification.
+
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
+
+    Parameters
+    ----------
+    L_L : numeric
+        Correlate of *Lightness* :math:`L_L`.
+    Ch_L : numeric
+        Correlate of *chroma* :math:`Ch_L`.
+    h_L : numeric
+        *Hue* angle :math:`h_L` in degrees.
+    s_L : numeric
+        Correlate of *saturation* :math:`s_L`.
+    C_L : numeric
+        Correlate of *colourfulness* :math:`C_L`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    A_L : numeric
+        Opponent signal :math:`A_L`.
+    B_L : numeric
+        Opponent signal :math:`B_L`.
+    """
+
+
+class LLAB_Specification(
+    namedtuple('LLAB_Specification',
+               ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
+    """
+    Defines the *LLAB(l:c)* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`L_L`.
+    C : numeric
+        Correlate of *chroma* :math:`Ch_L`.
+    h : numeric
+        *Hue* angle :math:`h_L` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s_L`.
+    M : numeric
+        Correlate of *colourfulness* :math:`C_L`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H^C`.
+    a : numeric
+        Opponent signal :math:`A_L`.
+    b : numeric
+        Opponent signal :math:`B_L`.
+    """
+
+
+def XYZ_to_LLAB(
+        XYZ,
+        XYZ_0,
+        Y_b,
+        L,
+        surround=LLAB_VIEWING_CONDITIONS.get(
+            'Reference Samples & Images, Average Surround, Subtending < 4')):
     """
     Computes the *LLAB(L:c)* colour appearance model correlates.
 
@@ -202,16 +241,10 @@ def XYZ_to_LLAB(XYZ,
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     Y_b : numeric
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : numeric
-        Surround induction factor :math:`F_S`.
-    F_L : numeric
-        Lightness induction factor :math:`F_L`.
-    F_C : numeric
-        Chroma induction factor :math:`F_C`.
     L : numeric
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    D : numeric, optional
-         *Discounting-the-Illuminant* factor in domain [0, 1].
+    surround : LLAB_InductionFactors, optional
+         Surround viewing conditions induction factors.
 
     Returns
     -------
@@ -232,11 +265,9 @@ def XYZ_to_LLAB(XYZ,
     >>> XYZ = np.array([19.01, 20, 21.78])
     >>> XYZ_0 = np.array([95.05, 100, 108.88])
     >>> Y_b = 20.0
-    >>> F_S = 3.0
-    >>> F_L = 1.0
-    >>> F_C = 1.0
     >>> L = 318.31
-    >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, F_S, F_L, F_C, L)  # doctest: +ELLIPSIS
+    >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+    >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     LLAB_Specification(J=37.3680474..., C=0.0086506..., h=229.4635727..., s=0.0002314..., M=0.0183832..., HC=None, a=-0.0119478..., b=-0.0139711...)
     """
 
@@ -249,13 +280,16 @@ def XYZ_to_LLAB(XYZ,
     RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
 
     # Computing chromatic adaptation.
-    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D)
+    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, surround.D)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L_L`.
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
-    L_L, a, b = opponent_colour_dimensions(XYZ_r, Y_b, F_S, F_L)
+    L_L, a, b = opponent_colour_dimensions(XYZ_r,
+                                           Y_b,
+                                           surround.F_S,
+                                           surround.F_L)
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
@@ -266,7 +300,7 @@ def XYZ_to_LLAB(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`C_L`.
     # -------------------------------------------------------------------------
-    C_L = colourfulness_correlate(L, L_L, Ch_L, F_C)
+    C_L = colourfulness_correlate(L, L_L, Ch_L, surround.F_C)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s_L`.
@@ -358,7 +392,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     RGB_r = np.array([R_r, G_r, B_r])
 
-    X_r, Y_r, Z_r = LLAB_XYZ_TO_RGB_INVERSE_MATRIX.dot(RGB_r * Y)
+    X_r, Y_r, Z_r = LLAB_RGB_TO_XYZ_MATRIX.dot(RGB_r * Y)
 
     return np.array([X_r, Y_r, Z_r])
 

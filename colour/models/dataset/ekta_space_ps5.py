@@ -9,6 +9,11 @@ Defines the *Ekta Space PS 5* colourspace:
 
 -   :attr:`EKTA_SPACE_PS_5_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.josephholmes.com/Ekta_Space.zip

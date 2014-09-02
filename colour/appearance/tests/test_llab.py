@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.llab` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.llab import XYZ_to_LLAB
+
+from colour.appearance import LLAB_InductionFactors, XYZ_to_LLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -59,8 +60,9 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         specification = XYZ_to_LLAB(XYZ,
                                     XYZ_0,
                                     data['Y_b'],
-                                    data['F_S'],
-                                    data['F_L'],
-                                    data['F_C'],
-                                    data['L'])
+                                    data['L'],
+                                    LLAB_InductionFactors(1,
+                                                          data['F_S'],
+                                                          data['F_L'],
+                                                          data['F_C']))
         return specification

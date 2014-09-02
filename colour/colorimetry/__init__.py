@@ -15,7 +15,7 @@ from .blackbody import (
     blackbody_spd,
     blackbody_spectral_radiance,
     planck_law)
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .cmfs import (
     LMS_ConeFundamentals,
@@ -28,13 +28,13 @@ from .illuminants import D_illuminant_relative_spd
 from .lefs import (
     mesopic_luminous_efficiency_function,
     mesopic_weighting_function)
-from .lightness import LIGHTNESS_FUNCTIONS
+from .lightness import LIGHTNESS_METHODS
 from .lightness import lightness
 from .lightness import (
     lightness_glasser1958,
     lightness_wyszecki1964,
     lightness_1976)
-from .luminance import LUMINANCE_FUNCTIONS
+from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
 from .luminance import (
     luminance_newhall1943,
@@ -67,12 +67,12 @@ __all__ += ['bandpass_correction_stearns1988']
 __all__ += ['D_illuminant_relative_spd']
 __all__ += ['mesopic_luminous_efficiency_function',
             'mesopic_weighting_function']
-__all__ += ['LIGHTNESS_FUNCTIONS']
+__all__ += ['LIGHTNESS_METHODS']
 __all__ += ['lightness']
 __all__ += ['lightness_glasser1958',
             'lightness_wyszecki1964',
             'lightness_1976']
-__all__ += ['LUMINANCE_FUNCTIONS']
+__all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += ['luminance_newhall1943',
             'luminance_1976',

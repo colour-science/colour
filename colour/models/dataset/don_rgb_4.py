@@ -9,6 +9,11 @@ Defines the *Don RGB 4* colourspace:
 
 -   :attr:`DON_RGB_4_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.hutchcolor.com/profiles/DonRGB4.zip

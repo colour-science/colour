@@ -7,25 +7,40 @@ Showcases *Lightness* computations.
 
 from __future__ import division, unicode_literals
 
-from numpy import ravel
+import numpy as np
 
 import colour
-from colour.characterisation.dataset.colour_checkers.chromaticity_coordinates import (  # noqa
-    COLORCHECKER_2005_DATA)
+from colour.utilities.verbose import message_box
 
-# Retrieving *Lightness* of given *xyY* components.
-xyY = COLORCHECKER_2005_DATA[0][2:5]
-Y = ravel(xyY)[2] * 100
-# Scaled *luminance* :math:`Y` reference:
-print(Y)
-# Retrieving *Lightness* *CIE Lab* reference:
-print(ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0])
-# Retrieving *Lightness* with *Glasser et al.* 1958 method:
+message_box('"Lightness" Computations')
+
+xyY = [0.4316, 0.3777, 0.1008]
+message_box(('Computing "Lightness" "CIE Lab" reference value for given '
+             '"CIE xyY" colourspace values:\n'
+             '\n\t{0}'.format(xyY)))
+print(np.ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0])
+
+print('\n')
+
+Y = 10.08
+message_box(('Computing "Lightness" using "Glasser et al. (1958)" method for '
+             'given "luminance" value:\n'
+             '\n\t{0}'.format(Y)))
 print(colour.lightness_glasser1958(Y))
-# Retrieving *Lightness* with *Wyszecki* 1964 method:
+print(colour.lightness(Y, method='Glasser 1958'))
+
+print('\n')
+
+message_box(('Computing "Lightness" using "Wyszecki (1964)" method for '
+             'given "luminance" value:\n'
+             '\n\t{0}'.format(Y)))
 print(colour.lightness_wyszecki1964(Y))
-# Retrieving *Lightness* with *1976* method:
+print(colour.lightness(Y, method='Wyszecki 1964'))
+
+print('\n')
+
+message_box(('Computing "Lightness" using "CIE 1976" method for '
+             'given "luminance" value:\n'
+             '\n\t{0}'.format(Y)))
 print(colour.lightness_1976(Y))
-# Retrieving *Lightness* using the wrapper:
-print(colour.lightness(Y))
-print(colour.lightness(Y, method='Lightness Wyszecki 1964'))
+print(colour.lightness(Y, method='CIE 1976'))

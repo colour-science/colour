@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.rlab import XYZ_to_RLAB
+
+from colour.appearance import XYZ_to_RLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'

@@ -9,6 +9,11 @@ Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral
 power distributions involved in the computation of
 *CIE Standard Illuminant D Series* relative spectral power distributions.
 
+See Also
+--------
+`Illuminants IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Wyszecki & Stiles**,

@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases colour *spectrum* computations.
+Showcases colour spectrum computations.
 """
 
 from __future__ import division, unicode_literals
 
 import colour
+from colour.utilities.verbose import message_box
 
-# Defining a sample spectral power distribution data.
+message_box('Spectrum Computations')
+
 sample_spd_data = {
     380: 0.048,
     385: 0.051,
@@ -93,35 +95,55 @@ sample_spd_data = {
     775: 0.432,
     780: 0.421}
 
-# Creating the sample spectral power distribution.
 spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
 
-# Displaying the sample spectral power distribution shape.
+message_box('Sample spectral power distribution shape.')
 print(spd.shape)
 
-# Checking the sample spectral power distribution uniformity.
+print('\n')
+
+message_box('Sample spectral power distribution uniformity.')
 print(spd.is_uniform())
 
-# Cloning the sample spectral power distribution.
-clone_spd = spd.clone()
+print('\n')
 
-# Interpolating the cloned sample spectral power distribution.
+message_box(('Sample spectral power distribution cloning:\n'
+             '\n\t("Original Id", "Clone Id")\n'
+             '\nCloning is a convenient way to get a copy of the spectral '
+             'power distribution, this an important feature because most '
+             'operations happen in place.'))
+clone_spd = spd.clone()
+print(id(spd), id(clone_spd))
+
+print('\n')
+
+message_box('Sample spectral power distribution interpolation.')
 clone_spd.interpolate(colour.SpectralShape(360, 780, 1))
 print(clone_spd[666])
 
-# Extrapolating the cloned sample spectral power distribution.
+print('\n')
+
+message_box('Sample spectral power distribution extrapolation.')
 clone_spd.extrapolate(colour.SpectralShape(340, 830))
 print(clone_spd[340], clone_spd[360])
 
-# Aligning the cloned sample spectral power distribution.
+print('\n')
+
+message_box('Sample spectral power distribution align.')
 clone_spd.align(colour.SpectralShape(400, 700, 5))
 print(clone_spd[400], clone_spd[700])
 
-# Creating a constant filled spectral power distribution.
+print('\n')
+
+message_box('Constant value filled spectral power distribution.')
 print(colour.constant_spd(3.1415)[400])
 
-# Creating a zeros filled spectral power distribution.
+print('\n')
+
+message_box('Zeros filled spectral power distribution.')
 print(colour.zeros_spd()[400])
 
-# Creating a ones filled spectral power distribution.
+print('\n')
+
+message_box('Ones filled spectral power distribution.')
 print(colour.ones_spd()[400])

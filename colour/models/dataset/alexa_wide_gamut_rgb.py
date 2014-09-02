@@ -9,6 +9,11 @@ Defines the *ALEXA Wide Gamut RGB* colourspace:
 
 -   :attr:`ALEXA_WIDE_GAMUT_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.arri.com/?eID=registration&file_uid=8026
