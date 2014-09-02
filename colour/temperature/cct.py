@@ -288,7 +288,7 @@ def uv_to_CCT_ohno2013(uv,
 
     References
     ----------
-    .. [3]  **Yoshi Ohno**, *Practical Use and Calculation of CCT and Duv*,
+    .. [3]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
             <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
             DOI: http://dx.doi.org/10.1080/15502724.2014.839020
 
@@ -381,7 +381,8 @@ def CCT_to_uv_ohno2013(CCT,
     References
     ----------
     .. [4]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_
+            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
+            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
 
     Examples
     --------
