@@ -16,7 +16,10 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.2020 <http://www.itu.int/rec/R-REC-BT.2020/en>`_
+.. [1]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+        definition television systems for production and international
+        programme exchange
+        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
         (Last accessed 2 September 2014)
 """
 
@@ -104,8 +107,10 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     References
     ----------
-    .. [2]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/rec/R-REC-BT.2020/en>`_
+    .. [2]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+            definition television systems for production and international
+            programme exchange
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 2 September 2014)
     """
 
@@ -134,8 +139,10 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     References
     ----------
-    .. [3]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/rec/R-REC-BT.2020/en>`_
+    .. [3]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+            definition television systems for production and international
+            programme exchange
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
             (Last accessed 2 September 2014)
     """
 
