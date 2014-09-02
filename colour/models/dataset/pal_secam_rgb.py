@@ -16,7 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
+.. [1]  `Recommendation ITU-R BT.470-6 - conventional television systems
+        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_  # noqa
         (Last accessed 13 April 2014)
 """
 

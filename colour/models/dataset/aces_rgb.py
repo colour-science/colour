@@ -21,7 +21,8 @@ References
 ----------
 .. [1]  http://www.oscars.org/science-technology/council/projects/aces.html
         (Last accessed 24 February 2014)
-.. [2]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf
+.. [2]  `Academy Color Encoding Specification (ACES)
+        <https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf>`_  # noqa
         (Last accessed 24 February 2014)
 """
 
@@ -74,7 +75,8 @@ ACES_RGB_PRIMARIES : ndarray, (3, 2)
 
 References
 ----------
-.. [3]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
+.. [3]  `Academy Color Encoding Specification (ACES)
+        <https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf>`_  # noqa
         4.1.2 Color space chromaticities (Last accessed 24 February 2014)
 """
 

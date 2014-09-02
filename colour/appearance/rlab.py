@@ -23,6 +23,7 @@ References
         *Refinement of the RLAB color space*,
         *Color Research & Application, Volume 21, Issue 5, pages 338–346,
         October 1996*,
+        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z,  # noqa
         https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf  # noqa
         (Last accessed 16 August 2014)
 .. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,

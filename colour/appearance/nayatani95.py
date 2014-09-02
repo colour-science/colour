@@ -25,7 +25,8 @@ References
         *Lightness dependency of chroma scales of a nonlinear color-appearance
         model and its latest formulation*,
         *Color Research & Application, Volume 20, Issue 3, pages 156–167,
-        June 1995*
+        June 1995*,
+        DOI: http://dx.doi.org/10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals

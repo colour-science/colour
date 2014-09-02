@@ -17,7 +17,8 @@ See Also
 References
 ----------
 .. [1]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations
-        <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+        <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
+        DOI: http://dx.doi.org/10.5594/S9781614821915
         (Last accessed 24 February 2014)
 """
 
@@ -56,7 +57,8 @@ def xy_to_z(xy):
     ----------
     .. [2]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.2
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
+            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------
@@ -88,7 +90,8 @@ def normalised_primary_matrix(primaries, whitepoint):
     ----------
     .. [3]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.2 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
+            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------
@@ -141,7 +144,8 @@ def RGB_luminance_equation(primaries, whitepoint):
     ----------
     .. [4]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.8
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
+            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------
@@ -179,7 +183,8 @@ def RGB_luminance(RGB, primaries, whitepoint):
     ----------
     .. [5]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.3 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
+            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------

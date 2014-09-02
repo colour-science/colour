@@ -288,8 +288,9 @@ def uv_to_CCT_ohno2013(uv,
 
     References
     ----------
-    .. [3]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_
+    .. [3]  **Yoshi Ohno**, *Practical Use and Calculation of CCT and Duv*,
+            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
+            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
 
     Examples
     --------
@@ -780,7 +781,8 @@ def xy_to_CCT_hernandez1999(xy):
     ----------
     .. [10]  `Calculating correlated color temperatures across the entire gamut
             of daylight and skylight chromaticities
-            <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_
+            <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_,
+            DOI: http://dx.doi.org/10.1364/AO.38.005703
 
     Examples
     --------

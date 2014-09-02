@@ -37,7 +37,9 @@ References
         <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_  # noqa
         (Last accessed 26 July 2014)
 .. [2]  **Paul Centore**,
-        http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf  # noqa
+        `An Open-Source Inversion Algorithm for the Munsell Renotation
+        <http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf>`_,  # noqa
+        DOI: http://dx.doi.org/10.1002/col.20715,
         (Last accessed 26 July 2014)
 """
 
@@ -435,7 +437,8 @@ def munsell_value_mccamy1987(Y):
     ----------
     .. [8] `Standard Test Method for Specifying Color by the Munsell System -
             ASTM-D1535-1989
-            <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_
+            <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_,  # noqa
+            DOI: http://dx.doi.org/10.1520/D1535-13
 
     Examples
     --------

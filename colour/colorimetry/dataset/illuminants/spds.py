@@ -45,7 +45,6 @@ References
 .. [1]  http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
 .. [2]  https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
         (Last accessed 24 February 2014)
-.. [3]  http://onlinelibrary.wiley.com/store/10.1002/9781119975595.app5/asset/app5.pdf?v=1&t=hwc899dh&s=01d1e0b27764970185be52b69b4480f3305ddb6c  # noqa
 """
 
 from __future__ import division, unicode_literals
