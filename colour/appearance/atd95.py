@@ -31,7 +31,8 @@ References
         *Further applications of the ATD model for color vision*,
         *IS&T/SPIE's Symposium on Electronic Imaging: Science & Technology*,
         *International Society for Optics and Photonics*,
-        pages 12-26.
+        pages 12-26,
+        DOI: http://dx.doi.org/10.1117/12.206546
 """
 
 from __future__ import division, unicode_literals

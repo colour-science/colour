@@ -16,7 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+.. [1]  `Adobe RGB (1998) Color Image Encoding
+        <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_
         (Last accessed 24 February 2014)
 """
 
@@ -71,7 +72,8 @@ ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
 
 References
 ----------
-.. [2]  http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf:
+.. [2]  `Adobe RGB (1998) Color Image Encoding
+        <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_
         4.3.5.3 Converting RGB to normalised XYZ values
 """
 

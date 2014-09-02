@@ -16,8 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+        definition television systems for production and international
+        programme exchange
+        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
+        (Last accessed 2 September 2014)
 """
 
 from __future__ import division, unicode_literals
@@ -104,16 +107,18 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     References
     ----------
-    .. [2]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 13 April 2014)
+    .. [2]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+            definition television systems for production and international
+            programme exchange
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
+            (Last accessed 2 September 2014)
     """
 
+    a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
+    b = REC_2020_CONSTANTS.beta(is_10_bits_system)
     return (value * 4.5
-            if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-            REC_2020_CONSTANTS.alpha(is_10_bits_system) *
-            (value ** 0.45) -
-            (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1))
+            if value < b else
+            a * (value ** 0.45) - (a - 1))
 
 
 def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
@@ -134,15 +139,18 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     References
     ----------
-    .. [3]  `Recommendation ITU-R BT.2020: Signal Format
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 13 April 2014)
+    .. [3]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
+            definition television systems for production and international
+            programme exchange
+            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
+            (Last accessed 2 September 2014)
     """
 
+    a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
+    b = REC_2020_CONSTANTS.beta(is_10_bits_system)
     return (value / 4.5
-            if value < REC_2020_CONSTANTS.beta(is_10_bits_system) else
-            ((value + (REC_2020_CONSTANTS.alpha(is_10_bits_system) - 1)) /
-             REC_2020_CONSTANTS.alpha(is_10_bits_system)) ** (1 / 0.45))
+            if value < b else
+            ((value + (a - 1)) / a) ** (1 / 0.45))
 
 
 REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function

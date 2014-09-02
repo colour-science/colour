@@ -27,8 +27,8 @@ See Also
 References
 ----------
 .. [1]  **N. Ohta**, *The Basis of Color Reproduction Engineering (Japanese)*,
-        Corona-sha Co of Japan, published 1997.
-        (Last accessed 24 February 2014)
+        Corona-sha Co of Japan, published 1997,
+        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z  # noqa
 .. [2]  http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
         (Last accessed 9 June 2014)
 .. [3]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls

@@ -33,7 +33,9 @@ References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/HSL_and_HSV
         (Last accessed 10 August 2014)
-.. [2]  http://alvyray.com/Papers/CG/color78.pdf
+.. [2]  `Color Gamut Transform Pairs
+        <http://alvyray.com/Papers/CG/color78.pdf>`_,
+        DOI: http://dx.doi.org/10.1145/800248.807361
         (Last accessed 10 August 2014)
 """
 
@@ -475,7 +477,8 @@ def CMYK_to_CMY(CMYK):
 
     References
     ----------
-    .. [10]  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    .. [10] http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+            (Last accessed 18 May 2014)
 
     Examples
     --------

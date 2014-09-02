@@ -16,7 +16,9 @@ See Also
 
 References
 ----------
-.. [1]  http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
+.. [1]  `Recommendation ITU-R BT.709-5 - Parameter values for the HDTV
+        standards for production and international programme exchange
+        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_  # noqa
         (Last accessed 24 February 2014)
 """
 

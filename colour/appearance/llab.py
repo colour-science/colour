@@ -32,7 +32,8 @@ References
 .. [3]  **Luo, M. R., Lo, M. C., & Kuo, W. G.**,
         *The LLAB (l:c) colour model*,
         *Color Research & Application, Volume 21, Issue 6, pages 412–429,
-        December 1996*
+        December 1996*,
+        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z  # noqa
 """
 
 from __future__ import division, unicode_literals
