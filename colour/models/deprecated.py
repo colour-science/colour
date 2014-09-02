@@ -475,7 +475,8 @@ def CMYK_to_CMY(CMYK):
 
     References
     ----------
-    .. [10]  http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    .. [10] http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+            (Last accessed 18 May 2014)
 
     Examples
     --------
