@@ -1,0 +1,49 @@
+/* -- Colour - Styles ------------------------------------------------------ */
+.navbar-form {
+    padding: 0;
+}
+
+tt.descclassname {
+    display: none;
+}
+
+tt.descname {
+    color: #333333;
+    font-size: 20px;
+}
+
+/* Preventing wrapping on long *data* objects. */
+dt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+dd {
+    margin-left: 1.5em;
+}
+
+th.field-name {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+}
+
+.label {
+    color: #4183c4;
+}
+
+.rubric {
+    color: #333333;
+}
+
+pre {
+    background-color: #FFF;
+}
+
+#hidden-toctree {
+    display: none;
+}
+
+ul {
+    padding-left: 20px;
+}

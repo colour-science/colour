@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from .munsell import *
+from .munsell import *  # noqa
 from . import munsell
 
 __all__ = []

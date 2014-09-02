@@ -9,6 +9,11 @@ Defines the *CIE UVW* colourspace transformations:
 
 -   :func:`XYZ_to_UVW`
 
+See Also
+--------
+`CIE UVW Colourspace IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_uvw.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/CIE_1964_color_space

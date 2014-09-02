@@ -9,17 +9,31 @@ from __future__ import division, unicode_literals
 
 import colour
 
-# Retrieving *luminance* of given *Munsell* value with
-# *Newhall, Nickerson, and Judd* 1943 method.
-print(colour.luminance_newhall1943(3.74629715382))
+from colour.utilities.verbose import message_box
 
-# Retrieving *luminance* of given *Lightness* with *1976* method.
-print(colour.luminance_1976(37.9856290977))
+message_box('"Luminance" Computations')
 
-# Retrieving *luminance* of given *Munsell* value with
-# *ASTM D1535-08e1* 2008 method.
-print(colour.luminance_ASTM_D1535_08(3.74629715382))
+V = 3.74629715382
+message_box(('Computing "luminance" using '
+             '"Newhall, Nickerson, and Judd (1943)" method for given '
+             '"Munsell" value:\n'
+             '\n\t{0}'.format(V)))
+print(colour.luminance_newhall1943(V))
+print(colour.luminance(V, method='Newhall 1943'))
 
-# Retrieving *luminance* using the wrapper:
-print(colour.luminance(37.9856290977))
-print(colour.luminance(3.74629715382, method='Luminance ASTM D1535-08'))
+print('\n')
+
+L = 37.9856290977
+message_box(('Computing "luminance" using "CIE Lab (1976)" method for given '
+             '"Lightness":\n'
+             '\n\t{0}'.format(L)))
+print(colour.luminance_1976(L))
+print(colour.luminance(L))
+
+print('\n')
+
+message_box(('Computing "luminance" using "ASTM D1535-08e1 (2008)" method for '
+             'given "Munsell" value:\n'
+             '\n\t{0}'.format(V)))
+print(colour.luminance_ASTM_D1535_08(V))
+print(colour.luminance(V, method='ASTM D1535-08'))

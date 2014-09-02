@@ -3,11 +3,15 @@
 
 from __future__ import absolute_import
 
-from .cie import *
-from . import cie
-from .codata import *
-from . import codata
+from .cie import CIE_E, CIE_K
+from .codata import (
+    AVOGADRO_CONSTANT,
+    BOLTZMANN_CONSTANT,
+    LIGHT_SPEED,
+    PLANCK_CONSTANT)
 
-__all__ = []
-__all__ += cie.__all__
-__all__ += codata.__all__
+__all__ = ['CIE_E', 'CIE_K']
+__all__ += ['AVOGADRO_CONSTANT',
+            'BOLTZMANN_CONSTANT',
+            'LIGHT_SPEED',
+            'PLANCK_CONSTANT']

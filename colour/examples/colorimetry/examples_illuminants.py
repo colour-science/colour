@@ -2,18 +2,30 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *illuminants* dataset.
+Showcases illuminants dataset.
 """
 
 from __future__ import division, unicode_literals
 
+from pprint import pprint
+
 import colour
+from colour.utilities.verbose import message_box
 
-# Retrieving *D60* illuminant chromaticity coordinates.
-print(colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60'])
+message_box('Illuminants Dataset')
 
-# Displaying all illuminants data per standard observers.
-for observer, illuminants in colour.ILLUMINANTS.items():
-    print('Observer: "{0}".'.format(observer))
-    for illuminant, xy in illuminants.items():
-        print('"{0}": {1}'.format(illuminant, xy))
+message_box('Illuminants relative spectral power distributions dataset.')
+pprint(sorted(colour.ILLUMINANTS_RELATIVE_SPDS.keys()))
+
+print('\n')
+
+message_box('Illuminants chromaticity coordinates dataset.')
+# Filtering aliases.
+observers = dict(((observer, dataset)
+                  for observer, dataset in sorted(colour.ILLUMINANTS.items())
+                  if ' ' in observer))
+for observer, illuminants in observers.items():
+    print('"{0}".'.format(observer))
+    for illuminant, xy in sorted(illuminants.items()):
+        print('\t"{0}": {1}'.format(illuminant, xy))
+    print('\n')

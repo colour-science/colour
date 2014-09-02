@@ -10,6 +10,11 @@ Defines the classes handling spectral data computation:
 -   :class:`SpectralShape`
 -   :class:`SpectralPowerDistribution`
 -   :class:`TriSpectralPowerDistribution`
+
+See Also
+--------
+`Spectrum IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/spectrum.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -1437,7 +1442,7 @@ class SpectralPowerDistribution(object):
 
         spd_shape = self.shape
         boundaries = zip((shape.start, shape.end, shape.steps),
-                         (spd_shape.start, spd_shape.end, spd_shape.end))
+                         (spd_shape.start, spd_shape.end, spd_shape.steps))
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 

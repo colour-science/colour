@@ -32,6 +32,11 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
     coordinates computation of *CIE Illuminant D Series* from given correlated
     colour temperature :math:`T_{cp}` of that *CIE Illuminant D Series*.
 
+See Also
+--------
+`Colour Temperature & Correlated Colour Temperature IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/temperature/cct.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Color_temperature

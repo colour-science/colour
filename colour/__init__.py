@@ -18,7 +18,7 @@ Subpackages
 -   constants: *CIE* and *CODATA* constants.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
--   io: Input / output objects.
+-   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
@@ -45,32 +45,33 @@ if sys.version_info[0] >= 3:
     builtins.reduce = functools.reduce
     itertools.izip = zip
 
-from .adaptation import *
+from .adaptation import *  # noqa
 from . import adaptation
-from .algebra import *
+from .algebra import *  # noqa
 from . import algebra
-from .appearance import *
+from .appearance import *  # noqa
 from . import appearance
-from .colorimetry import *
+from .colorimetry import *  # noqa
 from . import colorimetry
+from .constants import *
 from . import constants
-from .difference import *
+from .difference import *  # noqa
 from . import difference
-from .characterisation import *
+from .characterisation import *  # noqa
 from . import characterisation
-from .io import *
+from .io import *  # noqa
 from . import io
-from .models import *
+from .models import *  # noqa
 from . import models
-from .optimal import *
+from .optimal import *  # noqa
 from . import optimal
-from .phenomenons import *
+from .phenomenons import *  # noqa
 from . import phenomenons
-from .notation import *
+from .notation import *  # noqa
 from . import notation
-from .quality import *
+from .quality import *  # noqa
 from . import quality
-from .temperature import *
+from .temperature import *  # noqa
 from . import temperature
 from . import plotting
 from . import utilities
@@ -88,6 +89,7 @@ __all__ += algebra.__all__
 __all__ += appearance.__all__
 __all__ += characterisation.__all__
 __all__ += colorimetry.__all__
+__all__ += constants.__all__
 __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
@@ -100,8 +102,8 @@ __all__ += temperature.__all__
 __application_name__ = 'Colour'
 
 __major_version__ = '0'
-__minor_version__ = '2'
-__change_version__ = '1'
+__minor_version__ = '3'
+__change_version__ = '0'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

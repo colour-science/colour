@@ -31,7 +31,7 @@ from colour.colorimetry import (
     CMFS,
     DEFAULT_SPECTRAL_SHAPE,
     ILLUMINANTS_RELATIVE_SPDS,
-    LIGHTNESS_FUNCTIONS,
+    LIGHTNESS_METHODS,
     SpectralShape,
     spectral_to_XYZ,
     wavelength_to_XYZ,
@@ -167,9 +167,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         colours.append(XYZ_to_sRGB(XYZ))
         y1.append(value)
 
-    colours = np.array([np.ravel(x) for x in colours])
-    colours *= 1 / np.max(colours)
-    colours = np.clip(colours, 0, 1)
+    colours = normalise(colours)
 
     settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
                 'x_label': u'Wavelength λ (nm)',
@@ -242,9 +240,8 @@ def multi_spd_plot(spds,
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
-                XYZ /= np.max(XYZ)
-            RGB = XYZ_to_sRGB(XYZ)
-            RGB = np.clip(RGB, 0, 1)
+                XYZ = normalise(XYZ, clip=False)
+            RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.name,
                        linewidth=2)
@@ -400,7 +397,6 @@ def single_illuminant_relative_spd_plot(
     title = 'Illuminant "{0}" - {1}'.format(illuminant, cmfs)
 
     illuminant, name = get_illuminant(illuminant), illuminant
-    cmfs, name = get_cmfs(cmfs), cmfs
 
     settings = {'title': title,
                 'y_label': 'Relative Spectral Power Distribution'}
@@ -496,7 +492,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                                   **settings)
 
 
-def single_lightness_function_plot(function='Lightness 1976', **kwargs):
+def single_lightness_function_plot(function='CIE 1976', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -549,22 +545,22 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('Lightness 1976', 'Lightness Wyszecki 1964')
+    >>> fs = ('CIE 1976', 'Wyszecki 1964')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
     True
     """
 
     if functions is None:
-        functions = ('Lightness 1976', 'Lightness Wyszecki 1964')
+        functions = ('CIE 1976', 'Wyszecki 1964')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
-        function, name = LIGHTNESS_FUNCTIONS.get(function), function
+        function, name = LIGHTNESS_METHODS.get(function), function
         if function is None:
             raise KeyError(
                 ('"{0}" "Lightness" function not found in factory '
                  '"Lightness" functions: "{1}".').format(
-                    name, sorted(LIGHTNESS_FUNCTIONS.keys())))
+                    name, sorted(LIGHTNESS_METHODS.keys())))
 
         pylab.plot(samples,
                    [function(x) for x in samples],
@@ -637,8 +633,8 @@ def blackbody_spectral_radiance_plot(
 
     single_spd_plot(spd, name, **settings)
 
-    XYZ = spectral_to_XYZ(spd, cmfs) / 100
-    RGB = normalise(XYZ_to_sRGB(XYZ))
+    XYZ = spectral_to_XYZ(spd, cmfs)
+    RGB = normalise(XYZ_to_sRGB(XYZ / 100))
 
     matplotlib.pyplot.subplot(212)
 
@@ -692,8 +688,8 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     for temperature in shape:
         spd = blackbody_spd(temperature, cmfs.shape)
 
-        XYZ = spectral_to_XYZ(spd, cmfs) / 100
-        RGB = normalise(XYZ_to_sRGB(XYZ))
+        XYZ = spectral_to_XYZ(spd, cmfs)
+        RGB = normalise(XYZ_to_sRGB(XYZ / 100))
 
         colours.append(RGB)
         temperatures.append(temperature)

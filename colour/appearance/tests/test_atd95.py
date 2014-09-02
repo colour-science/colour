@@ -8,7 +8,6 @@ Defines unit tests for :mod:`colour.appearance.atd95` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from numpy.testing.utils import assert_almost_equal
 
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.atd95 import XYZ_to_LMS_ATD95, final_response
@@ -33,15 +32,15 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
     FIXTURE_BASENAME = 'atd95.csv'
 
     OUTPUT_ATTRIBUTES = {
+        'H': 'h',
+        'C': 'C',
+        'Br': 'Q',
         'A_1': 'A_1',
         'T_1': 'T_1',
         'D_1': 'D_1',
         'A_2': 'A_2',
         'T_2': 'T_2',
-        'D_2': 'D_2',
-        'Br': 'Br',
-        'C': 'C',
-        'H': 'H'}
+        'D_2': 'D_2'}
 
     def output_specification_from_data(self, data):
         """
@@ -75,16 +74,16 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         """
 
         L, M, S = XYZ_to_LMS_ATD95(np.array([1, 1, 1]))
-        assert_almost_equal(L, 0.7946522478109985)
-        assert_almost_equal(M, 0.9303058494144267)
-        assert_almost_equal(S, 0.7252006614718631)
+        np.testing.assert_almost_equal(L, 0.7946522478109985)
+        np.testing.assert_almost_equal(M, 0.9303058494144267)
+        np.testing.assert_almost_equal(S, 0.7252006614718631)
 
     def test_final_response(self):
         """
         Tests :func:`colour.appearance.atd95.final_response` definition.
         """
 
-        assert_almost_equal(final_response(0), 0)
-        assert_almost_equal(final_response(100), 1.0 / 3.0)
-        assert_almost_equal(final_response(200), 0.5)
-        assert_almost_equal(final_response(10000), 0.980392157)
+        np.testing.assert_almost_equal(final_response(0), 0)
+        np.testing.assert_almost_equal(final_response(100), 1.0 / 3.0)
+        np.testing.assert_almost_equal(final_response(200), 0.5)
+        np.testing.assert_almost_equal(final_response(10000), 0.980392157)

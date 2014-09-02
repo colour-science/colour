@@ -9,6 +9,11 @@ Defines objects related to *RGB* colourspace derivation, essentially
 calculating the normalised primary matrix for given *RGB* colourspace primaries
 and whitepoint.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations

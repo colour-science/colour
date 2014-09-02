@@ -7,8 +7,15 @@ Hunt Colour Appearance Model
 
 Defines *Hunt* colour appearance model objects:
 
--   :attr:`Hunt_Specification`:
+-   :class:`Hunt_InductionFactors`
+-   :attr:`HUNT_VIEWING_CONDITIONS`
+-   :class:`Hunt_Specification`
 -   :func:`XYZ_to_Hunt`
+
+See Also
+--------
+`Hunt Colour Appearance Model IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/hunt.ipynb>`_  # noqa
 
 References
 ----------
@@ -38,8 +45,9 @@ __status__ = 'Production'
 __all__ = ['Hunt_InductionFactors',
            'HUNT_VIEWING_CONDITIONS',
            'HUE_DATA_FOR_HUE_QUADRATURE',
-           'HPE_MATRIX',
-           'HPE_MATRIX_INVERSE',
+           'XYZ_TO_HPE_MATRIX',
+           'HPE_TO_XYZ_MATRIX',
+           'Hunt_ReferenceSpecification',
            'Hunt_Specification',
            'XYZ_to_Hunt',
            'luminance_level_adaptation_factor',
@@ -61,9 +69,39 @@ __all__ = ['Hunt_InductionFactors',
            'brightness_correlate',
            'lightness_correlate',
            'chroma_correlate',
-           'colourfulness_correlate', ]
+           'colourfulness_correlate']
 
-Hunt_InductionFactors = namedtuple('Hunt_InductionFactors', ('N_c', 'N_b'))
+
+class Hunt_InductionFactors(
+    namedtuple('Hunt_InductionFactors',
+               ('N_c', 'N_b', 'N_cb', 'N_bb'))):
+    """
+    *Hunt* colour appearance model induction factors.
+
+    Parameters
+    ----------
+    N_c : numeric
+        Chromatic surround induction factor :math:`N_c`.
+    N_b : numeric
+        *Brightness* surround induction factor :math:`N_b`.
+    N_cb : numeric, optional
+        Chromatic background induction factor :math:`N_{cb}`, approximated
+        using tristimulus values :math:`Y_w` and :math:`Y_b` of
+        respectively the reference white and the background if not specified.
+    N_bb : numeric, optional
+        *Brightness* background induction factor :math:`N_{bb}`, approximated
+        using tristimulus values :math:`Y_w` and :math:`Y_b` of
+        respectively the reference white and the background if not specified.
+    """
+
+    def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
+        """
+        Returns a new instance of the :class:`Hunt_InductionFactors` class.
+        """
+
+        return super(Hunt_InductionFactors, cls).__new__(
+            cls, N_c, N_b, N_cb, N_bb)
+
 
 HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
     {'Small Areas, Uniform Background & Surrounds': (
@@ -80,11 +118,11 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : dict
-('Small Areas, Uniform Background & Surrounds',
-'Normal Scenes',
-'Television & CRT, Dim Surrounds',
-'Large Transparencies On Light Boxes',
-'Projected Transparencies, Dark Surrounds')
+    ('Small Areas, Uniform Background & Surrounds',
+    'Normal Scenes',
+    'Television & CRT, Dim Surrounds',
+    'Large Transparencies On Light Boxes',
+    'Projected Transparencies, Dark Surrounds')
 
 Aliases:
 
@@ -110,45 +148,94 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_s': np.array([20.14, 90.00, 164.25, 237.53]),
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])}
 
-HPE_MATRIX = np.array(
+XYZ_TO_HPE_MATRIX = np.array(
     [[0.38971, 0.68898, -0.07868],
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
-
-HPE_MATRIX_INVERSE = np.linalg.inv(HPE_MATRIX)
-
-Hunt_Specification = namedtuple('Hunt_Specification',
-                                ('h_S', 'C_94', 's', 'Q', 'M_94', 'J'))
 """
-Defines the *Hunt* colour appearance model specification.
+*Hunt* colour appearance model *CIE XYZ* colourspace matrix to
+*Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
-Parameters
-----------
-h_S : numeric
-    *Hue* angle :math:`h_S` in degrees.
-C_94 : numeric
-    Correlate of *chroma* :math:`C_94`.
-s : numeric
-    Correlate of *saturation* :math:`s`.
-Q : numeric
-    Correlate of *brightness* :math:`Q`.
-M_94 : numeric
-    Correlate of *colourfulness* :math:`M_94`.
-J : numeric
-    Correlate of *Lightness* :math:`J`.
+XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 """
+
+HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
+"""
+*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+colourspace to *CIE XYZ* colourspace matrix matrix.
+
+HPE_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+
+class Hunt_ReferenceSpecification(
+    namedtuple('Hunt_ReferenceSpecification',
+               ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
+    """
+    Defines the *Hunt* colour appearance model reference specification.
+
+    This specification has field names consistent with **Mark D. Fairchild**
+    reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C_94 : numeric
+        Correlate of *chroma* :math:`C_94`.
+    h_S : numeric
+        *Hue* angle :math:`h_S` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M_94 : numeric
+        Correlate of *colourfulness* :math:`M_94`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    H_C : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    """
+
+
+class Hunt_Specification(
+    namedtuple('Hunt_Specification',
+               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+    """
+    Defines the *Hunt* colour appearance model specification.
+
+    This specification has field names consistent with the remaining colour
+    appearance models in :mod:`colour.appearance` but diverge from
+    **Mark D. Fairchild** reference.
+
+    Parameters
+    ----------
+    J : numeric
+        Correlate of *Lightness* :math:`J`.
+    C : numeric
+        Correlate of *chroma* :math:`C_94`.
+    h : numeric
+        *Hue* angle :math:`h_S` in degrees.
+    s : numeric
+        Correlate of *saturation* :math:`s`.
+    Q : numeric
+        Correlate of *brightness* :math:`Q`.
+    M : numeric
+        Correlate of *colourfulness* :math:`M_94`.
+    H : numeric
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC : numeric
+        *Hue* :math:`h` composition :math:`H_C`.
+    """
 
 
 def XYZ_to_Hunt(XYZ,
-                XYZ_b,
                 XYZ_w,
+                XYZ_b,
                 L_A,
-                N_c,
-                N_b,
+                surround=HUNT_VIEWING_CONDITIONS.get('Normal Scenes'),
                 L_AS=None,
                 CCT_w=None,
-                N_cb=None,
-                N_bb=None,
                 XYZ_p=None,
                 p=None,
                 S=None,
@@ -163,30 +250,20 @@ def XYZ_to_Hunt(XYZ,
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix of test sample / stimulus in domain
         [0, 100].
-    XYZ_b : array_like, (3,)
-        *CIE XYZ* colourspace matrix of background in domain [0, 100].
     XYZ_w : array_like, (3,)
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
+    XYZ_b : array_like, (3,)
+        *CIE XYZ* colourspace matrix of background in domain [0, 100].
     L_A : numeric
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    N_c : numeric
-         Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric
-         Brightness surround induction factor :math:`N_b`.
+    surround : Hunt_InductionFactors, optional
+         Surround viewing conditions induction factors.
     L_AS : numeric, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
     CCT_w : numeric, optional
         Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
-    N_cb : numeric, optional
-        Chromatic background induction factor :math:`N_{cb}`, approximated
-        using tristimulus values :math:`Y_w` and :math:`Y_b` of
-        respectively the reference white and the background if not specified.
-    N_bb : numeric, optional
-        Brightness background induction factor :math:`N_{bb}`, approximated
-        using tristimulus values :math:`Y_w` and :math:`Y_b` of
-        respectively the reference white and the background if not specified.
     XYZ_p : array_like, (3,), optional
         *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
@@ -231,14 +308,13 @@ def XYZ_to_Hunt(XYZ,
     Examples
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
+    >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> N_c = 1.0
-    >>> N_b = 75.0
+    >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(XYZ, XYZ_b, XYZ_w, L_A, N_c, N_b, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
-    Hunt_Specification(h_S=269.2737594..., C_94=0.1210508..., s=0.0199093..., Q=22.2097654..., M_94=0.1238964..., J=30.0462678...)
+    >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
+    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -255,11 +331,11 @@ def XYZ_to_Hunt(XYZ,
         warning('Unspecified proximal field "XYZ_p" argument, using '
                 'background "XYZ_b" as approximation!')
 
-    if N_cb is None:
+    if surround.N_cb is None:
         N_cb = 0.725 * (Y_w / Y_b) ** 0.2
         warning('Unspecified "N_cb" argument, using approximation: '
                 '"{0}"'.format(N_cb))
-    if N_bb is None:
+    if surround.N_bb is None:
         N_bb = 0.725 * (Y_w / Y_b) ** 0.2
         warning('Unspecified "N_bb" argument, using approximation: '
                 '"{0}"'.format(N_bb))
@@ -328,30 +404,30 @@ def XYZ_to_Hunt(XYZ,
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h_s`.
     # -------------------------------------------------------------------------
-    hue = hue_angle(C)
+    h = hue_angle(C)
     hue_w = hue_angle(C_w)
-    # TODO: Implement hue quadrature computation.
+    # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
     # -------------------------------------------------------------------------
     # Computing eccentricity factors.
-    e_s = eccentricity_factor(hue)
+    e_s = eccentricity_factor(h)
     e_s_w = eccentricity_factor(hue_w)
 
     # Computing low luminance tritanopia factor :math:`F_t`.
     F_t = low_luminance_tritanopia_factor(L_A)
 
-    M_yb = yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
-    M_rg = redness_greenness_response(C, e_s, N_c, N_cb)
-    M_yb_w = yellowness_blueness_response(C_w, e_s, N_c, N_cb, F_t)
-    M_rg_w = redness_greenness_response(C_w, e_s, N_c, N_cb)
+    M_yb = yellowness_blueness_response(C, e_s, surround.N_c, N_cb, F_t)
+    M_rg = redness_greenness_response(C, e_s, surround.N_c, N_cb)
+    M_yb_w = yellowness_blueness_response(C_w, e_s, surround.N_c, N_cb, F_t)
+    M_rg_w = redness_greenness_response(C_w, e_s, surround.N_c, N_cb)
 
     # Computing overall chromatic response.
     M = overall_chromatic_response(M_yb, M_rg)
     M_w = overall_chromatic_response(M_yb_w, M_rg_w)
 
-    saturation = saturation_correlate(M, rgb_a)
+    s = saturation_correlate(M, rgb_a)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
@@ -360,35 +436,30 @@ def XYZ_to_Hunt(XYZ,
     A = achromatic_signal(L_AS, S, S_W, N_bb, A_a)
     A_w = achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
 
-    brightness = brightness_correlate(A, A_w, M, N_b)
-    brightness_w = brightness_correlate(A_w, A_w, M_w, N_b)
+    Q = brightness_correlate(A, A_w, M, surround.N_b)
+    brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
     # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
     # -------------------------------------------------------------------------
-    lightness = lightness_correlate(Y_b, Y_w, brightness, brightness_w)
+    J = lightness_correlate(Y_b, Y_w, Q, brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C_{94}`.
     # -------------------------------------------------------------------------
-    chroma = chroma_correlate(saturation,
-                              Y_b,
-                              Y_w,
-                              brightness,
-                              brightness_w)
+    C_94 = chroma_correlate(s,
+                            Y_b,
+                            Y_w,
+                            Q,
+                            brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M_{94}`.
     # -------------------------------------------------------------------------
-    colorfulness = colourfulness_correlate(F_L, chroma)
+    M_94 = colourfulness_correlate(F_L, C_94)
 
-    return Hunt_Specification(hue,
-                              chroma,
-                              saturation,
-                              brightness,
-                              colorfulness,
-                              lightness)
+    return Hunt_Specification(J, C_94, h, s, Q, M_94, None, None)
 
 
 def luminance_level_adaptation_factor(L_A):
@@ -467,7 +538,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return HPE_MATRIX.dot(XYZ)
+    return XYZ_TO_HPE_MATRIX.dot(XYZ)
 
 
 def f_n(x):

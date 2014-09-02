@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.hunt` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.hunt import XYZ_to_Hunt
+
+from colour.appearance import Hunt_InductionFactors, XYZ_to_Hunt
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -29,12 +30,12 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'hunt.csv'
 
-    OUTPUT_ATTRIBUTES = {'h_S': 'h_S',
+    OUTPUT_ATTRIBUTES = {'J': 'J',
+                         'C_94': 'C',
+                         'h_S': 'h',
                          's': 's',
                          'Q': 'Q',
-                         'J': 'J',
-                         'C_94': 'C_94',
-                         'M94': 'M_94'}
+                         'M94': 'M'}
 
     def output_specification_from_data(self, data):
         """
@@ -53,15 +54,16 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_b = np.array([data['X_W'], 0.2 * data['Y_W'], data['Z_W']])
-        XYZ_w = np.array([data['X_W'], data['Y_W'], data['Z_W']])
+        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ_b = np.array([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_Hunt(XYZ,
-                                    XYZ_b,
                                     XYZ_w,
-                                    L_A=data['L_A'],
-                                    N_c=data['N_c'],
-                                    N_b=data['N_b'],
+                                    XYZ_b,
+                                    data['L_A'],
+                                    Hunt_InductionFactors(
+                                        data['N_c'],
+                                        data['N_b']),
                                     CCT_w=data['T'])
 
         return specification

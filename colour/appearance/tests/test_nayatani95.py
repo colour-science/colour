@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.nayatani95` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.nayatani95 import XYZ_to_Nayatani95
+
+from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -29,13 +30,13 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'nayatani95.csv'
 
-    OUTPUT_ATTRIBUTES = {'L_star_P': 'L_star_P',
-                         'L_star_N': 'L_star_N',
-                         'theta': 'theta',
+    OUTPUT_ATTRIBUTES = {'Lstar_P': 'Lstar_P',
                          'C': 'C',
-                         'S': 'S',
-                         'B_r': 'B_r',
-                         'M': 'M'}
+                         'theta': 'h',
+                         'S': 's',
+                         'B_r': 'Q',
+                         'M': 'M',
+                         'Lstar_N': 'Lstar_N'}
 
     def output_specification_from_data(self, data):
         """

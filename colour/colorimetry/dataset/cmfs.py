@@ -27,6 +27,11 @@ The following colour matching functions are available:
 -   CIE 2012 10 Degree Standard Observer [6]_
 -   CIE 2012 2 Degree Standard Observer [6]_
 
+See Also
+--------
+`Colour Matching Functions IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/cmfs.ipynb>`_  # noqa
+
 Notes
 -----
 -   *Stockman & Sharpe* *LMS* colour matching functions are provided at 1 nm

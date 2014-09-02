@@ -9,6 +9,11 @@ Defines *colour rendering index* computation objects:
 
 -   :func:`colour_rendering_index`
 
+See Also
+--------
+`Colour Rendering Index IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/quality/cri.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls

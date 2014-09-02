@@ -24,35 +24,30 @@ It is open source and freely available and under the `New BSD License <http://op
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.local/features.php>`_ page for more information.
+`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.org/features.php>`_ page for more information.
 
 Installation
 ------------
 
-The installation procedure is described in the `Installation Guide <http://colour-science.local/installation.php>`_.
+The installation procedure is described in the `Installation Guide <http://colour-science.org/installation.php>`_.
 
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx :doc:`API Reference <api>` and the `IPython Notebooks <http://colour-science.org/notebooks.php>`_ with detailed historical and theoritical context and images:
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour-science.org/api/latest/html/index.html>`_ and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
 
--   :doc:`API Reference <api>`
--   `IPython Notebooks <http://colour-science.org/notebooks.php>`_
+-   `API Reference <http://colour-science.org/api/latest/html/index.html>`_
+-   `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
 
-.. raw:: html
+Contributing
+------------
 
-    <div id="hidden-toctree">
-
-.. toctree::
-
-   colour
-
-.. raw:: html
-
-    </div>
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `contributing <http://colour-science.org/contributing.php>`_ guide.
 
 Changes
 -------
+
+The changes are viewable on the `releases <https://github.com/colour-science/colour/releases>`_ page.
 
 About
 -----

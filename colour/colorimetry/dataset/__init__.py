@@ -4,7 +4,7 @@
 from __future__ import absolute_import
 
 from .cmfs import CMFS, LMS_CMFS, RGB_CMFS, STANDARD_OBSERVERS_CMFS
-from .illuminants import *
+from .illuminants import *  # noqa
 from . import illuminants
 from .lefs import LEFS, PHOTOPIC_LEFS, SCOTOPIC_LEFS
 

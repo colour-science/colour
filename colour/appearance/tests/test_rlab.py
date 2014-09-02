@@ -8,7 +8,8 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.appearance.rlab import XYZ_to_RLAB
+
+from colour.appearance import XYZ_to_RLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest
 
 __author__ = 'Colour Developers'
@@ -29,12 +30,12 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'rlab.csv'
 
-    OUTPUT_ATTRIBUTES = {'L': 'L',
-                         'C': 'C',
-                         's': 's',
-                         'a': 'a',
-                         'b': 'b',
-                         'h': 'h'}
+    OUTPUT_ATTRIBUTES = {'LR': 'J',
+                         'CR': 'C',
+                         'hR': 'h',
+                         'sR': 's',
+                         'aR': 'a',
+                         'bR': 'b'}
 
     def output_specification_from_data(self, data):
         """

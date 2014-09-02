@@ -8,7 +8,7 @@ from .derivation import (
     normalised_primary_matrix,
     RGB_luminance_equation,
     RGB_luminance)
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .cie_xyy import (
     XYZ_to_xyY,

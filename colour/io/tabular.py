@@ -116,7 +116,7 @@ def read_spectral_data_from_csv_file(path,
      '9']
     """
 
-    with open(path) as csv_file:
+    with open(path, 'rU') as csv_file:
         reader = csv.DictReader(csv_file,
                                 delimiter=str(delimiter),
                                 fieldnames=fields)

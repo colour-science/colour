@@ -9,6 +9,11 @@ Defines the *Xtreme RGB* colourspace:
 
 -   :attr:`XTREME_RGB_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.hutchcolor.com/profiles/XtremeRGB.zip

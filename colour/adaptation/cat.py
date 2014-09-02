@@ -15,6 +15,11 @@ colourspace matrices:
 -   :attr:`FAIRCHILD_CAT`: *Fairchild* CAT [2]_
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
 
+See Also
+--------
+`Chromatic Adaptation Transforms IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/cat.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html
@@ -152,6 +157,7 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
            [ 0.0080207...,  0.0282636...,  3.0602319...]])
 
     Using *Bradford* method:
+
     >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
     >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
     >>> method = 'Bradford'
@@ -168,6 +174,8 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
             '"{0}" chromatic adaptation method is not defined! Supported '
             'methods: "{1}".'.format(method,
                                      CHROMATIC_ADAPTATION_METHODS.keys()))
+
+    XYZ1, XYZ2 = np.ravel(XYZ1), np.ravel(XYZ2)
 
     if (XYZ1 == XYZ2).all():
         # Skip the chromatic adaptation computation if the two input matrices

@@ -2,24 +2,37 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *colour rendering index* computations.
+Showcases colour rendering index computations.
 """
 
-import colour
+from pprint import pprint
 
-# Calculating *colour rendering index* of *F2* illuminant.
+import colour
+from colour.utilities.verbose import message_box
+
+message_box('Colour Rendering Index Computations')
+
+message_box('Computing "F2" illuminant colour rendering index.')
 print(colour.colour_rendering_index(
     colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')))
 
-# Calculating *colour rendering index* of *F2* illuminant with detailed data.
-print(colour.colour_rendering_index(
+print('\n')
+
+message_box(('Computing "F2" illuminant colour rendering index with detailed '
+             'output data.'))
+pprint(colour.colour_rendering_index(
     colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'),
     additional_data=True))
 
-# Calculating *colour rendering index* of *A* illuminant.
+print('\n')
+
+message_box('Computing "CIE Standard Illuminant A" colour rendering index.')
 print(colour.colour_rendering_index(
     colour.ILLUMINANTS_RELATIVE_SPDS.get('A')))
 
+print('\n')
+
+message_box('Computing sample light colour rendering index.')
 SAMPLE_SPD_DATA = {
     380: 0.005883458,
     385: 0.003153768,
@@ -103,6 +116,5 @@ SAMPLE_SPD_DATA = {
     775: 0.002588501,
     780: 0.002936635}
 
-# Calculating *colour rendering index* of a sample light.
 print(colour.colour_rendering_index(
     colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))

@@ -12,7 +12,7 @@ from .common import (
     is_numeric,
     is_integer,
     normalise)
-from .coordinates import *
+from .coordinates import *  # noqa
 from . import coordinates
 from .extrapolation import Extrapolator1d
 from .interpolation import (LinearInterpolator1d,

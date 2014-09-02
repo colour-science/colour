@@ -9,6 +9,11 @@ Defines the *ECI RGB v2* colourspace:
 
 -   :attr:`ECI_RGB_V2_COLOURSPACE`.
 
+See Also
+--------
+`RGB Colourspaces IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip

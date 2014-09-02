@@ -7,27 +7,37 @@ Showcases colour models plotting examples.
 
 from numpy import array
 
+from pprint import pprint
 import colour
-from colour.plotting import *
+from colour.plotting import *  # noqa
+from colour.utilities.verbose import message_box
 
-# Plotting colourspaces in *CIE 1931 Chromaticity Diagram*.
-print(sorted(colour.RGB_COLOURSPACES.keys()))
+message_box('Colour Models Plots')
+
+message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 colourspaces_CIE_1931_chromaticity_diagram_plot(
     ['sRGB', 'ACES RGB', 'Adobe RGB 1998'])
 
-# Plotting a single custom colourspace in *CIE 1931 Chromaticity Diagram*.
+print('\n')
+
+message_box(('Plotting a single custom "RGB" colourspace in '
+             '"CIE 1931 Chromaticity Diagram".'))
 colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
     'Awful RGB',
     primaries=array([[0.1, 0.2],
                      [0.3, 0.15],
                      [0.05, 0.6]]),
     whitepoint=(1 / 3, 1 / 3))
-
-print(sorted(colour.RGB_COLOURSPACES.keys()))
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 colourspaces_CIE_1931_chromaticity_diagram_plot(['sRGB', 'Awful RGB'])
 
-# Plotting a single colourspace transfer function.
+print('\n')
+
+message_box('Plotting a single "RGB" colourspace transfer function.')
 single_transfer_function_plot('sRGB')
 
-# Plotting multiple colourspaces transfer functions.
+print('\n')
+
+message_box('Plotting multiple "RGB" colourspaces transfer functions.')
 multi_transfer_function_plot(['sRGB', 'Rec. 709'])
