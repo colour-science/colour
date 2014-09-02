@@ -16,7 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf  # noqa
+.. [1]  `SMPTE C Color Monitor Colorimetry
+        <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_  # noqa
         (Last accessed 13 April 2014)
 """
 

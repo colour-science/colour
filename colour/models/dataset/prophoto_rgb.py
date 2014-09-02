@@ -16,7 +16,7 @@ See Also
 
 References
 ----------
-.. [1]  http://www.color.org/ROMMRGB.pdf
+.. [1]  `Specification of ROMM RGB <http://www.color.org/ROMMRGB.pdf>`_
         (Last accessed 24 February 2014)
 """
 

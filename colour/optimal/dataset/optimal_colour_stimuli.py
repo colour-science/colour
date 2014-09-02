@@ -490,6 +490,7 @@ References
 ----------
 .. [3]  **David MacAdam**,
         *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25,
+        DOI: http://dx.doi.org/10.1364/JOSA.25.000361,
         pages 361, 367.
 """
 

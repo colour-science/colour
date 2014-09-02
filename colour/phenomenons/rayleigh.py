@@ -19,7 +19,8 @@ See Also
 References
 ----------
 .. [1]  `On Rayleigh Optical Depth Calculations
-        <http://journals.ametsoc.org/doi/pdf/10.1175/1520-0426(1999)016%3C1854%3AORODC%3E2.0.CO%3B2>`_  # noqa
+        <http://journals.ametsoc.org/doi/pdf/10.1175/1520-0426(1999)016%3C1854%3AORODC%3E2.0.CO%3B2>`_,  # noqa
+        DOI: http://dx.doi.org/10.1175/1520-0426(1999)016%3C1854:ORODC%3E2.0.CO;2  # noqa
 .. [2]  http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 

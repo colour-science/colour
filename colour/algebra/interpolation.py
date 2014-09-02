@@ -280,7 +280,8 @@ class SpragueInterpolator(object):
     .. [1]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for
             Use in Colour Computations: 9.2.4 Method of interpolation for
             uniformly spaced independent variable
-            <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+            <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
+            ISBN-13: 978-3-901-90641-1
     .. [2]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
             *Computational Colour Science Using MATLAB, 2nd Edition*,
             The Wiley-IS&T Series in Imaging Science and Technology,
@@ -315,7 +316,8 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_  # noqa
+    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,  # noqa
+            ISBN-13: 978-3-901-90641-1
     """
 
     def __init__(self, x=None, y=None):
