@@ -1,0 +1,9 @@
+include COPYING
+include LICENSE
+include *.rst
+graft docs/_build
+graft utilities
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude ._*
+global-exclude .DS_Store

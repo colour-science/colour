@@ -41,12 +41,12 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 Contributing
 ------------
 
-If you would like to contribute to **Colour**, please refer to the following guide: http://colour-science.org/contributing.php
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `contributing <http://colour-science.org/contributing.php>`_ guide.
 
 Changes
 -------
 
-The releases changes are available on Github: https://github.com/colour-science/colour/releases
+The changes are viewable on the `releases <https://github.com/colour-science/colour/releases>`_ page.
 
 About
 -----

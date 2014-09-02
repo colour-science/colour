@@ -53,6 +53,7 @@ from .appearance import *  # noqa
 from . import appearance
 from .colorimetry import *  # noqa
 from . import colorimetry
+from .constants import *
 from . import constants
 from .difference import *  # noqa
 from . import difference
@@ -88,6 +89,7 @@ __all__ += algebra.__all__
 __all__ += appearance.__all__
 __all__ += characterisation.__all__
 __all__ += colorimetry.__all__
+__all__ += constants.__all__
 __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
