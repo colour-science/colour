@@ -29,9 +29,7 @@ __all__ = ['SHORT_DESCRIPTION',
 
 SHORT_DESCRIPTION = 'Colour Science for Python'
 
-LONG_DESCRIPTION = ('Colour is a Python colour science package implementing a '
-                    'comprehensive number of colour theory transformations '
-                    'and algorithms.')
+LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = [
     'numpy>=1.8.2',
