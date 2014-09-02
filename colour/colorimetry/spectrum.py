@@ -1292,12 +1292,12 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-
         .. [2]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
                 <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_
         .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
                 for Use in Colour Computations: 10. EXTRAPOLATION
                 <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+
         Examples
         --------
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
@@ -2846,6 +2846,7 @@ class TriSpectralPowerDistribution(object):
         .. [7]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
                 for Use in Colour Computations: 10. EXTRAPOLATION
                 <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
+
         Examples
         --------
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
@@ -2904,7 +2905,7 @@ class TriSpectralPowerDistribution(object):
 
         References
         ----------
-        .. [4]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
+        .. [8]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
                 for Use in Colour Computations: 9. INTERPOLATION
                 <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_
 
