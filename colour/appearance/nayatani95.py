@@ -294,7 +294,7 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
-    # TODO: Investigate components usage?
+    # TODO: Investigate components usage.
     M_RG, M_YB = colourfulness_components(C_RG, C_YB,
                                           brightness_ideal_white)
     M = colourfulness_correlate(C, brightness_ideal_white)

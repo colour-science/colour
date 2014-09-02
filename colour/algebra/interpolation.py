@@ -234,7 +234,7 @@ if is_scipy_installed():
 
         def __init__(self, *args, **kwargs):
             # TODO: Implements proper wrapper to ensure return values
-            # consistency and avoid having to cast to numeric like in
+            # consistency and avoid having to cast to numeric in
             # :meth:`SpectralPowerDistribution.interpolate` method.
             super(SplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
