@@ -396,7 +396,7 @@ ACES_RGB_PROXY_12_COLOURSPACE : RGB_Colourspace
 
 References
 ----------
-.. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
+.. [7]  `ACESproxy, an Integer Log Encoding of ACES Image Data
         <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_  # noqa
         (Last accessed 17 May 2014)
 """

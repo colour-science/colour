@@ -106,7 +106,7 @@ def lightness_wyszecki1964(Y, **kwargs):
 
     References
     ----------
-    .. [1]  http://en.wikipedia.org/wiki/Lightness
+    .. [2]  http://en.wikipedia.org/wiki/Lightness
             (Last accessed 13 April 2014)
 
     Examples
@@ -149,7 +149,7 @@ def lightness_1976(Y, Yn=100):
 
     References
     ----------
-    .. [2]  http://www.poynton.com/PDFs/GammaFAQ.pdf
+    .. [3]  http://www.poynton.com/PDFs/GammaFAQ.pdf
             (Last accessed 12 April 2014)
 
     Examples

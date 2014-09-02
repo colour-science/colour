@@ -180,6 +180,7 @@ def RGB_luminance(RGB, primaries, whitepoint):
     .. [5]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
             Television Color Equations: 3.3.3 - 3.3.6
             <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_  # noqa
+
     Examples
     --------
     >>> RGB = np.array([40.6, 4.2, 67.4])
