@@ -124,7 +124,7 @@ def lightness_wyszecki1964(Y, **kwargs):
     return W
 
 
-def lightness_1976(Y, Yn=100):
+def lightness_1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE Lab*
@@ -134,7 +134,7 @@ def lightness_1976(Y, Yn=100):
     ----------
     Y : numeric
         *luminance* :math:`Y`.
-    Yn : numeric, optional
+    Y_n : numeric, optional
         White reference *luminance* :math:`Y_n`.
 
     Returns
@@ -158,7 +158,7 @@ def lightness_1976(Y, Yn=100):
     37.9856290...
     """
 
-    ratio = Y / Yn
+    ratio = Y / Y_n
     L = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
 
     return L
