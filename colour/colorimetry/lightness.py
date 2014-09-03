@@ -89,7 +89,7 @@ def lightness_glasser1958(Y, **kwargs):
 def lightness_wyszecki1964(Y, **kwargs):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
-    *Wyszecki (1964)* method.
+    *G. Wyszecki (1964)* method.
 
 
     Parameters
