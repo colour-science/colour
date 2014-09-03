@@ -3,25 +3,22 @@
 
 """
 IPT Colourspace
-===================
+===============
 
 Defines the *IPT* colourspace transformations:
 
 -   :func:`XYZ_to_IPT`
 -   :func:`IPT_to_XYZ`
 
-and computation of correlates:
+And computation of correlates:
 
 -   :func:`IPT_hue_angle`
-
 
 References
 ----------
 .. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2, locations 5094-5556,
-        pages 271-272.
-
+        published June 2013, ASIN: B00DAYO8E2, locations 8492-8567
 """
 
 from __future__ import division, unicode_literals
@@ -35,7 +32,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_IPT',
+__all__ = ['IPT_XYZ_TO_LMS_MATRIX',
+           'IPT_LMS_TO_XYZ_MATRIX',
+           'IPT_LMS_TO_IPT_MATRIX',
+           'IPT_IPT_TO_LMS_MATRIX',
+           'XYZ_to_IPT',
            'IPT_to_XYZ',
            'IPT_hue_angle']
 
@@ -57,8 +58,8 @@ IPT_LMS_TO_XYZ_MATRIX = np.around(
 
 Notes
 -----
--   This matrix has been rounded on purpose to 4 decimals so in order to keep available
-    precision consistent between transformations.
+-   This matrix has been rounded on purpose to 4 decimals so in order to keep
+    available precision consistent between transformations.
 
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -81,8 +82,8 @@ IPT_IPT_TO_LMS_MATRIX = np.around(
 
 Notes
 -----
--   This matrix has been rounded on purpose to 4 decimals so in order to keep available
-    precision consistent between transformations.
+-   This matrix has been rounded on purpose to 4 decimals so in order to keep
+    available precision consistent between transformations.
 
 IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 """
@@ -90,7 +91,7 @@ IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 
 def XYZ_to_IPT(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *IPT* colourspace (see [1]_).
+    Converts from *CIE XYZ* colourspace to *IPT* colourspace. [1]_
 
     Parameters
     ----------
@@ -104,7 +105,8 @@ def XYZ_to_IPT(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* needs to be adapted for CIE illuminant D65.
+    -   Input *CIE XYZ* colourspace matrix needs to be adapted for
+        *CIE Standard Illuminant D Series* *D65*.
 
     Examples
     --------
@@ -121,7 +123,7 @@ def XYZ_to_IPT(XYZ):
 
 def IPT_to_XYZ(IPT):
     """
-    Converts from *IPT* colourspace to *CIE XYZ* colourspace (see [1]_).
+    Converts from *IPT* colourspace to *CIE XYZ* colourspace. [1]_
 
     Parameters
     ----------
@@ -131,7 +133,7 @@ def IPT_to_XYZ(IPT):
     Returns
     -------
     ndarray, (3,)
-        *XYZ* colourspace matrix.
+        *CIE XYZ* colourspace matrix.
 
      Examples
     --------
@@ -148,7 +150,7 @@ def IPT_to_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace (see [1]_).
+    Computes the hue angle from *IPT* colourspace. [1]_
 
     Parameters
     ----------
@@ -157,12 +159,13 @@ def IPT_hue_angle(IPT):
 
     Returns
     -------
-    numeric,
-        hue angle.
+    numeric
+        Hue angle.
 
     Examples
     --------
     >>> IPT_hue_angle(([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
     0.7853981...
     """
+
     return np.arctan2(IPT[2], IPT[1])

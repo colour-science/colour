@@ -26,7 +26,7 @@ __status__ = 'Production'
 
 __all__ = ['TestXYZ_to_IPT',
            'TestIPT_to_XYZ',
-           'TestIPT_hue_angle']
+           'TestIPTHueAngle']
 
 
 class TestXYZ_to_IPT(unittest.TestCase):
@@ -63,7 +63,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
             decimal=7)
 
 
-class TestIPT_hue_angle(unittest.TestCase):
+class TestIPTHueAngle(unittest.TestCase):
     """
     Defines :func:`colour.models.ipt.IPT_hue_angle` definition unit tests
     methods.
