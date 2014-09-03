@@ -161,7 +161,7 @@ def lightness_1976(Y, Y_n=100):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  167.
+            page 167.
     .. [5]  http://brucelindbloom.com/index.html?LContinuity.html
             (Last accessed 24 February 2014)
 
@@ -172,9 +172,9 @@ def lightness_1976(Y, Y_n=100):
     """
 
     ratio = Y / Y_n
-    L = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
+    Lstar = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
 
-    return L
+    return Lstar
 
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
