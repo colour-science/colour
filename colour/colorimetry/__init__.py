@@ -38,8 +38,8 @@ from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
 from .luminance import (
     luminance_newhall1943,
-    luminance_1976,
-    luminance_ASTM_D1535_08)
+    luminance_ASTM_D1535_08,
+    luminance_1976)
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -75,8 +75,8 @@ __all__ += ['lightness_glasser1958',
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += ['luminance_newhall1943',
-            'luminance_1976',
-            'luminance_ASTM_D1535_08']
+            'luminance_ASTM_D1535_08',
+            'luminance_1976']
 __all__ += ['RGB_10_degree_cmfs_to_LMS_10_degree_cmfs']
 __all__ += ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']

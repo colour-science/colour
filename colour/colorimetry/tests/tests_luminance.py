@@ -27,8 +27,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestLuminanceNewhall1943',
-           'TestLuminance1976',
-           'TestLuminanceASTM_D1535_08']
+           'TestLuminanceASTM_D1535_08',
+           'TestLuminance1976']
 
 
 class TestLuminanceNewhall1943(unittest.TestCase):
@@ -54,6 +54,32 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         self.assertAlmostEqual(
             luminance_newhall1943(1.52569021578),
             2.06998750444,
+            places=7)
+
+
+class TestLuminanceASTM_D1535_08(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
+    definition unit tests methods.
+    """
+
+    def test_luminance_1976(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            luminance_ASTM_D1535_08(3.74629715382),
+            10.1488096782,
+            places=7)
+        self.assertAlmostEqual(
+            luminance_ASTM_D1535_08(8.64728711385),
+            69.5324092373,
+            places=7)
+        self.assertAlmostEqual(
+            luminance_ASTM_D1535_08(1.52569021578),
+            2.01830631474,
             places=7)
 
 
@@ -91,32 +117,6 @@ class TestLuminance1976(unittest.TestCase):
         self.assertAlmostEqual(
             luminance_1976(37.9856290977, 95),
             9.576000000024989,
-            places=7)
-
-
-class TestLuminanceASTM_D1535_08(unittest.TestCase):
-    """
-    Defines :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
-    definition unit tests methods.
-    """
-
-    def test_luminance_1976(self):
-        """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
-        definition.
-        """
-
-        self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(3.74629715382),
-            10.1488096782,
-            places=7)
-        self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(8.64728711385),
-            69.5324092373,
-            places=7)
-        self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(1.52569021578),
-            2.01830631474,
             places=7)
 
 
