@@ -119,7 +119,7 @@ def XYZ_to_IPT(XYZ):
     return IPT
 
 
-def IPT_TO_XYZ(IPT):
+def IPT_to_XYZ(IPT):
     """
     Converts from *IPT* colourspace to *CIE XYZ* colourspace (see [1]_).
 
@@ -135,7 +135,7 @@ def IPT_TO_XYZ(IPT):
 
      Examples
     --------
-    >>> IPT_TO_XYZ(np.array([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
+    >>> IPT_to_XYZ(np.array([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
     array([ 0.4497109...,  0.2694691...,  0.0196303...])
     """
 
