@@ -53,7 +53,7 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'nose>=1.3.4']
 
 setup(name='colour-science',
-      version='0.3.1',
+      version='0.3.2',
       author=__author__,
       author_email=__email__,
       include_package_data=True,
