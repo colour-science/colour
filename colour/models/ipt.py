@@ -17,7 +17,7 @@ and computation of correlates:
 
 References
 ----------
-.. [1] **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
+.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
         published June 2013, ASIN: B00DAYO8E2, locations 5094-5556,
         pages 271-272.
@@ -90,7 +90,7 @@ IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 
 def XYZ_to_IPT(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *IPT* colourspace.
+    Converts from *CIE XYZ* colourspace to *IPT* colourspace (see [1]_).
 
     Parameters
     ----------
@@ -105,13 +105,6 @@ def XYZ_to_IPT(XYZ):
     Notes
     -----
     -   Input *CIE XYZ* needs to be adapted for CIE illuminant D65.
-
-    References
-    ----------
-    .. [1] **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-           The Wiley-IS&T Series in Imaging Science and Technology,
-           published June 2013, ASIN: B00DAYO8E2, locations 5094-5556,
-           pages 271-272.
 
     Examples
     --------
@@ -128,7 +121,7 @@ def XYZ_to_IPT(XYZ):
 
 def IPT_TO_XYZ(IPT):
     """
-    Converts from *IPT* colourspace to *CIE XYZ* colourspace.
+    Converts from *IPT* colourspace to *CIE XYZ* colourspace (see [1]_).
 
     Parameters
     ----------
@@ -140,14 +133,7 @@ def IPT_TO_XYZ(IPT):
     ndarray, (3,)
         *XYZ* colourspace matrix.
 
-    References
-    ----------
-    .. [1] **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-           The Wiley-IS&T Series in Imaging Science and Technology,
-           published June 2013, ASIN: B00DAYO8E2, locations 5094-5556,
-           pages 271-272.
-
-    Examples
+     Examples
     --------
     >>> IPT_TO_XYZ(np.array([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
     array([ 0.4497109...,  0.2694691...,  0.0196303...])
@@ -162,7 +148,7 @@ def IPT_TO_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace.
+    Computes the hue angle from *IPT* colourspace (see [1]_).
 
     Parameters
     ----------
@@ -171,15 +157,8 @@ def IPT_hue_angle(IPT):
 
     Returns
     -------
-    float,
+    numeric,
         hue angle.
-
-    References
-    ----------
-    .. [1] **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-           The Wiley-IS&T Series in Imaging Science and Technology,
-           published June 2013, ASIN: B00DAYO8E2, locations 5094-5556,
-           pages 271-272.
 
     Examples
     --------
