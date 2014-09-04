@@ -32,7 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = [
-    'numpy>=1.8.2',
+    'numpy>=1.8.1',
     'matplotlib>=1.3.1']
 
 if sys.version_info[:2] <= (2, 7):
