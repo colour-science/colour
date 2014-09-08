@@ -136,10 +136,6 @@ ILLUMINANTS['cie_2_1931'] = (
 ILLUMINANTS['cie_10_1964'] = (
     ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
 
-# cmfs=colour.STANDARD_OBSERVERS_CMFS.get(
-# 'CIE 1931 2 Degree Standard Observer')
-# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
-# print(illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs)))
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update(
     {'FL3.1': (0.44067505367083887, 0.40329824005212678),
      'FL3.2': (0.38077509554542083, 0.37335593850329946),
@@ -162,10 +158,6 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update(
      'HP4': (0.38117189471910373, 0.3797265745279147),
      'HP5': (0.37758320909195225, 0.37134797280226028)})
 
-# cmfs=colour.STANDARD_OBSERVERS_CMFS.get(
-# 'CIE 1964 10 Degree Standard Observer')
-# for illuminant, spd in sorted(colour.ILLUMINANTS_RELATIVE_SPDS.items()):
-# print illuminant, colour.XYZ_to_xy(colour.spectral_to_XYZ(spd, cmfs))
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update(
     {'FL3.1': (0.44983072060097606, 0.3902314548749185),
      'FL3.2': (0.38692417905929311, 0.36575613990679151),
