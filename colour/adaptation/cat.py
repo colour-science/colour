@@ -275,7 +275,7 @@ def chromatic_adaptation_matrix(XYZ_w, XYZp_w, method='CAT02'):
 def chromatic_adaptation(XYZ, XYZ_w, XYZp_w, method='CAT02'):
     """
     Adapts given *CIE XYZ* colourspace stimulus from given source to target
-    viewing conditions *CIE XYZ* colourspace whitepoint matrices. [6]_
+    viewing conditions *CIE XYZ* colourspace whitepoint matrices.
 
     Parameters
     ----------
