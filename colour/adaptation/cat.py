@@ -132,7 +132,7 @@ CMCCAT97_CAT : array_like, (3, 3)
 CMCCAT2000_CAT = np.array(
     [[0.7982, 0.3389, -0.1371],
      [-0.5918, 1.5512, 0.0406],
-     [0.0008, 0.239, 0.9753]])
+     [0.0008, 0.0239, 0.9753]])
 """
 *CMCCAT2000* chromatic adaptation transform. [5]_
 
