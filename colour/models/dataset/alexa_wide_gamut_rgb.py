@@ -77,7 +77,7 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping(
 """
 *ALEXA Log C* curve *Ei, Black, Clipping Level* data.
 
-ALEXA_LOG_C_CURVE_BCL_DATA : dict
+ALEXA_LOG_C_CURVE_BCL_DATA : CaseInsensitiveMapping
     ('SUP 3.x', 'SUP 2.x')
 """
 
@@ -137,7 +137,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping(
 *ALEXA Log C* curve conversion data between signal and linear scene exposure
 factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
 
-ALEXA_LOG_C_CURVE_CONVERSION_DATA : dict
+ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
     ('SUP 3.x', 'SUP 2.x')
 """
 # @formatter:on

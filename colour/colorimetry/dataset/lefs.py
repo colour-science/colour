@@ -2377,7 +2377,7 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping(
 """
 Photopic luminous efficiency functions.
 
-PHOTOPIC_LEFS : dict
+PHOTOPIC_LEFS : CaseInsensitiveMapping
     ('CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
@@ -2806,7 +2806,7 @@ SCOTOPIC_LEFS = CaseInsensitiveMapping(
 """
 Scotopic luminous efficiency functions.
 
-SCOTOPIC_LEFS : dict
+SCOTOPIC_LEFS : CaseInsensitiveMapping
     ('CIE 1951 Scotopic Standard Observer',)
 
 Aliases:
@@ -2820,7 +2820,7 @@ LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
 """
 Aggregated luminous efficiency functions.
 
-LEFS : dict
+LEFS : CaseInsensitiveMapping
     ('CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
@@ -2856,5 +2856,5 @@ MESOPIC_X_DATA = {
 """
 Weighting factors for the mesopic luminous efficiency function calculation.
 
-MESOPIC_X_DATA : dict
+MESOPIC_X_DATA : CaseInsensitiveMapping
 """

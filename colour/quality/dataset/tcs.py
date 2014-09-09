@@ -79,7 +79,7 @@ TCS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping(
 """
 Test colour samples *Munsell* colour approximations.
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS : dict
+TCS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
 """
 
 TCS_SPDS_DATA = {

@@ -117,7 +117,7 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 """
 Reference *Hunt* colour appearance model viewing conditions.
 
-HUNT_VIEWING_CONDITIONS : dict
+HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Small Areas, Uniform Background & Surrounds',
     'Normal Scenes',
     'Television & CRT, Dim Surrounds',

@@ -86,7 +86,7 @@ BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
 """
 Supported spectral bandpass dependence correction methods.
 
-BANDPASS_CORRECTION_METHODS : dict
+BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
     ('Stearns 1988',)
 """
 

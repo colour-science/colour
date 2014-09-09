@@ -73,7 +73,7 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 """
 Reference *RLAB* colour appearance model viewing conditions.
 
-RLAB_VIEWING_CONDITIONS : dict
+RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
 """
 
@@ -84,7 +84,7 @@ RLAB_D_FACTOR = CaseInsensitiveMapping(
 """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
-RLAB_D_FACTOR : dict
+RLAB_D_FACTOR : CaseInsensitiveMapping
     ('Hard Copy Images',
     'Soft Copy Images',
     'Projected Transparencies, Dark Room')

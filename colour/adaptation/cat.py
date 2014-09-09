@@ -188,7 +188,7 @@ CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping(
 """
 Supported chromatic adaptation transform methods.
 
-CHROMATIC_ADAPTATION_METHODS : dict
+CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
     ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'CMCCAT97', 'CMCCAT2000',
     'Fairchild, 'CAT02', 'Bianco', 'Bianco PC')
 """
