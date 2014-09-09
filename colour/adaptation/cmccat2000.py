@@ -105,11 +105,11 @@ def CMCCAT2000_forward(XYZ,
         Source viewing condition *CIE XYZ* colourspace matrix.
     XYZ_wr : array_like, (3,)
         Target viewing condition *CIE XYZ* colourspace matrix.
-    L_A1 : numeric
+    L_A1 : numeric, optional
         Luminance of test adapting field :math`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric
+    L_A2 : numeric, optional
         Luminance of reference adapting field :math`L_{A2}` in :math:`cd/m^2`.
-    surround : CMCCAT2000_InductionFactors
+    surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
 
     Returns
@@ -175,11 +175,11 @@ def CMCCAT2000_reverse(XYZ_c,
         Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
     XYZ_wr : array_like, (3,)
         Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    L_A1 : numeric
+    L_A1 : numeric, optional
         Luminance of test adapting field :math`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric
+    L_A2 : numeric, optional
         Luminance of reference adapting field :math`L_{A2}` in :math:`cd/m^2`.
-    surround : CMCCAT2000_InductionFactors
+    surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
 
     Returns
