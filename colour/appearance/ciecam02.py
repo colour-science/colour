@@ -29,7 +29,7 @@ References
 .. [3]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
         *Computational Colour Science Using MATLAB, 2nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
-        published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
+        published July 2012, ISBN-13: 978-0-470-66569-5, page 38.
 .. [4]  `The CIECAM02 Color Appearance Model
         <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
         (Last accessed 30 July 2014)
@@ -96,7 +96,7 @@ __all__ = ['CAT02_INVERSE_CAT',
 
 CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
 """
-Inverse *CAT02* chromatic adaptation transform. [3]_
+Inverse *CAT02* chromatic adaptation transform.
 
 CAT02_INVERSE_CAT : array_like, (3, 3)
 """
