@@ -6,8 +6,8 @@ Chromatic Adaptation Transforms
 ===============================
 
 Defines various chromatic adaptation transforms (CAT) and objects to
-calculate the chromatic adaptation matrix between two given *CIE XYZ*
-colourspace matrices:
+calculate the chromatic adaptation matrix between two given source to target
+viewing conditions *CIE XYZ* colourspace whitepoint matrices:
 
 -   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
 -   :attr:`VON_KRIES_CAT`: *Johannes Von Kries* CAT [1]_
@@ -19,6 +19,8 @@ colourspace matrices:
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
 -   :attr:`BS_CAT`: *S. Bianco* and R. Schettini* CAT [4]_
 -   :attr:`BS_PC_CAT`: *S. Bianco* and R. Schettini PC* CAT [4]_
+-   :func:`chromatic_adaptation_matrix`
+-   :func:`chromatic_adaptation`
 
 See Also
 --------
@@ -67,7 +69,8 @@ __all__ = ['XYZ_SCALING_CAT',
            'BS_CAT',
            'BS_PC_CAT',
            'CHROMATIC_ADAPTATION_METHODS',
-           'chromatic_adaptation_matrix']
+           'chromatic_adaptation_matrix',
+           'chromatic_adaptation']
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
@@ -190,17 +193,17 @@ CHROMATIC_ADAPTATION_METHODS : dict
 """
 
 
-def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
+def chromatic_adaptation_matrix(XYZ_w, XYZp_w, method='CAT02'):
     """
-    Returns the *chromatic adaptation* matrix from given source and target
-    *CIE XYZ* colourspace *array_like* variables.
+    Returns the *chromatic adaptation* matrix from given source to target
+    viewing conditions *CIE XYZ* colourspace whitepoint matrices.
 
     Parameters
     ----------
-    XYZ1 : array_like, (3,)
-        *CIE XYZ* source *array_like* variable.
-    XYZ2 : array_like, (3,)
-        *CIE XYZ* target *array_like* variable.
+    XYZ_w : array_like, (3,)
+        Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
+    XYZp_w : array_like, (3,)
+        Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
     method : unicode, optional
         ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'CAT02', 'Bianco', 'Bianco PC'),
@@ -218,24 +221,26 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
 
     References
     ----------
-    .. [4]  http://brucelindbloom.com/Eqn_ChromAdapt.html
-            (Last accessed 24 February 2014)
+    .. [6]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
+            The Wiley-IS&T Series in Imaging Science and Technology,
+            published June 2013, ASIN: B00DAYO8E2,
+            Locations 4193-4252.
 
     Examples
     --------
-    >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
-    >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
-    >>> chromatic_adaptation_matrix(XYZ1, XYZ2)  # doctest: +ELLIPSIS
+    >>> XYZ_w = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZp_w = np.array([0.96907232, 1.000, 1.121792157])
+    >>> chromatic_adaptation_matrix(XYZ_w, XYZp_w)  # doctest: +ELLIPSIS
     array([[ 0.8714561..., -0.1320467...,  0.4039483...],
            [-0.0963880...,  1.0490978...,  0.160403... ],
            [ 0.0080207...,  0.0282636...,  3.0602319...]])
 
     Using *Bradford* method:
 
-    >>> XYZ1 = np.array([1.09923822, 1.000, 0.35445412])
-    >>> XYZ2 = np.array([0.96907232, 1.000, 1.121792157])
+    >>> XYZ_w = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZp_w = np.array([0.96907232, 1.000, 1.121792157])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_matrix(XYZ1, XYZ2, method)  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix(XYZ_w, XYZp_w, method)  # noqa  # doctest: +ELLIPSIS
     array([[ 0.8518131..., -0.1134786...,  0.4124804...],
            [-0.1277659...,  1.0928930...,  0.1341559...],
            [ 0.0845323..., -0.1434969...,  3.3075309...]])
@@ -249,19 +254,66 @@ def chromatic_adaptation_matrix(XYZ1, XYZ2, method='CAT02'):
             'methods: "{1}".'.format(method,
                                      CHROMATIC_ADAPTATION_METHODS.keys()))
 
-    XYZ1, XYZ2 = np.ravel(XYZ1), np.ravel(XYZ2)
+    XYZ_w, XYZp_w = np.ravel(XYZ_w), np.ravel(XYZp_w)
 
-    if (XYZ1 == XYZ2).all():
+    if (XYZ_w == XYZp_w).all():
         # Skip the chromatic adaptation computation if the two input matrices
         # are the same, no adaptation is needed.
         return np.identity(3)
 
-    rgb_source = np.ravel(np.dot(method_matrix, XYZ1))
-    rgb_target = np.ravel(np.dot(method_matrix, XYZ2))
-    crd = np.diagflat(np.array(
+    rgb_source = np.ravel(np.dot(method_matrix, XYZ_w))
+    rgb_target = np.ravel(np.dot(method_matrix, XYZp_w))
+    D = np.diagflat(np.array(
         [[rgb_target[0] / rgb_source[0],
           rgb_target[1] / rgb_source[1],
           rgb_target[2] / rgb_source[2]]])).reshape((3, 3))
-    cat = np.dot(np.dot(np.linalg.inv(method_matrix), crd), method_matrix)
+    cat = np.dot(np.dot(np.linalg.inv(method_matrix), D), method_matrix)
 
     return cat
+
+
+def chromatic_adaptation(XYZ, XYZ_w, XYZp_w, method='CAT02'):
+    """
+    Adapts given *CIE XYZ* colourspace stimulus from given source to target
+    viewing conditions *CIE XYZ* colourspace whitepoint matrices. [6]_
+
+    Parameters
+    ----------
+    XYZ : array_like, (3,)
+        *CIE XYZ* colourspace stimulus to adapt.
+    XYZ_w : array_like, (3,)
+        Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
+    XYZp_w : array_like, (3,)
+        Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
+    method : unicode, optional
+        ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'CAT02', 'Bianco', 'Bianco PC'),
+        Chromatic adaptation method.
+
+    Returns
+    -------
+    ndarray, (3, 3)
+        Adapted *CIE XYZ* colourspace stimulus.
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.92193107, 1, 1.03744246])
+    >>> XYZ_w = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZp_w = np.array([0.96907232, 1.000, 1.121792157])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZp_w)  # doctest: +ELLIPSIS
+    array([ 1.0904489...,  1.1266438...,  3.2104727...])
+
+    Using *Bradford* method:
+
+    >>> XYZ = np.array([0.92193107, 1, 1.03744246])
+    >>> XYZ_w = np.array([1.09923822, 1.000, 0.35445412])
+    >>> XYZp_w = np.array([0.96907232, 1.000, 1.121792157])
+    >>> method = 'Bradford'
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZp_w, method)  # noqa  # doctest: +ELLIPSIS
+    array([ 1.0997590...,  1.1142807...,  3.3658090...])
+    """
+
+    cat = chromatic_adaptation_matrix(XYZ_w, XYZp_w, method)
+    XYZ_a = np.dot(cat, XYZ)
+
+    return XYZ_a
