@@ -30,11 +30,11 @@ Notes
 -----
 -   The original *CIE* value for :math:`\epsilon` is :math:`\epsilon=0.008856`,
     **Bruce Lindbloom** has shown that this value is causing a discontinuity
-    a the junction point of the two functions grafted together to create the
+    at the junction point of the two functions grafted together to create the
     *Lightness* :math:`L^*` function.
 
     That discontinuity can be avoided by using the rational representation as
-    follows: :math:`\epsilon=216/24389`.
+    follows: :math:`\epsilon=216\ /\ 24389`.
 
 References
 ----------
@@ -45,19 +45,19 @@ References
 
 CIE_K = 24389 / 27
 """
-*CIE* :math:`k` constant.
+*CIE* :math:`\kappa` constant.
 
 CIE_K : numeric
 
 Notes
 -----
--   The original *CIE* value for :math:`k` is :math:`k=903.3`,
+-   The original *CIE* value for :math:`\kappa` is :math:`\kappa=903.3`,
     **Bruce Lindbloom** has shown that this value is causing a discontinuity
-    a the junction point of the two functions grafted together to create the
+    at the junction point of the two functions grafted together to create the
     *Lightness* :math:`L^*` function.
 
     That discontinuity can be avoided by using the rational representation as
-    follows: :math:`k=24389/27`.
+    follows: :math:`k=24389\ /\ 27`.
 
 References
 ----------

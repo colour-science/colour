@@ -3,13 +3,8 @@
 *.pyo
 .DS_Store
 .idea
-.project
-.pydevproject
-.ramblings
-.settings
 __pycache__
 dist
 docs/_build
 docs/colour*.rst
 references
-releases
