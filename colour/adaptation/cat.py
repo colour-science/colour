@@ -10,7 +10,7 @@ calculate the chromatic adaptation matrix between two given *CIE XYZ*
 colourspace matrices:
 
 -   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
--   :attr:`VON_KRIES_CAT`: *Von Kries* CAT [1]_
+-   :attr:`VON_KRIES_CAT`: *Johannes Von Kries* CAT [1]_
 -   :attr:`BRADFORD_CAT`: *Bradford* CAT [1]_
 -   :attr:`SHARP_CAT`: *Sharp* CAT [4]_
 -   :attr:`FAIRCHILD_CAT`: *Mark D. Fairchild* CAT [2]_
@@ -18,7 +18,7 @@ colourspace matrices:
 -   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* CAT [5]_
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
 -   :attr:`BS_CAT`: *S. Bianco* and R. Schettini* CAT [4]_
--   :attr:`BS_PC_CAT`: *S. Bianco* and R. Schettini* CAT [4]_
+-   :attr:`BS_PC_CAT`: *S. Bianco* and R. Schettini PC* CAT [4]_
 
 See Also
 --------
@@ -81,7 +81,7 @@ VON_KRIES_CAT = np.array(
      [-0.2263000, 1.1653200, 0.0457000],
      [0.0000000, 0.0000000, 0.9182200]])
 """
-*Von Kries* chromatic adaptation transform. [1]_
+*Johannes Von Kries* chromatic adaptation transform. [1]_
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
