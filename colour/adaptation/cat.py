@@ -7,8 +7,8 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT) and objects to
 calculate the chromatic adaptation matrix from test viewing conditions
-*CIE XYZ* colourspace whitepoint matrix to reference viewing conditions
-*CIE XYZ* colourspace whitepoint matrix.
+*CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
+colourspace matrix.
 
 -   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
 -   :attr:`VON_KRIES_CAT`: *Johannes Von Kries* CAT [1]_
@@ -196,16 +196,16 @@ CHROMATIC_ADAPTATION_METHODS : dict
 
 def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
     """
-    Returns the *chromatic adaptation* matrix from test viewing
-    conditions *CIE XYZ* colourspace whitepoint matrix to reference
-    viewing conditions *CIE XYZ* colourspace whitepoint matrix.
+    Returns the *chromatic adaptation* matrix from test viewing conditions
+    *CIE XYZ* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
+    colourspace matrix.
 
     Parameters
     ----------
     XYZ_w : array_like, (3,)
-        Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Source viewing condition *CIE XYZ* colourspace matrix.
     XYZ_wr : array_like, (3,)
-        Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Target viewing condition *CIE XYZ* colourspace matrix.
     method : unicode, optional
         ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'CAT02', 'Bianco', 'Bianco PC'),
@@ -277,8 +277,8 @@ def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
 def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='CAT02'):
     """
     Adapts given *CIE XYZ* colourspace stimulus from test viewing conditions
-    *CIE XYZ* colourspace whitepoint matrix to reference viewing conditions
-    *CIE XYZ* colourspace whitepoint matrix. [6]_
+    *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
+    colourspace matrix. [6]_
 
     Parameters
     ----------
@@ -295,8 +295,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='CAT02'):
 
     Returns
     -------
-    ndarray, (3, 3)
-        Adapted *CIE XYZ* colourspace stimulus.
+    ndarray, (3,)
+        *CIE XYZ_c* colourspace matrix of the stimulus corresponding colour.
 
     Examples
     --------
