@@ -184,7 +184,7 @@ LUMINANCE_METHODS = CaseInsensitiveMapping(
 """
 Supported *luminance* computations methods.
 
-LUMINANCE_METHODS : dict
+LUMINANCE_METHODS : CaseInsensitiveMapping
     ('Newhall 1943', 'ASTM D1535-08', 'CIE 1976')
 
 Aliases:

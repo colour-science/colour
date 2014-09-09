@@ -273,7 +273,7 @@ ACES_RGB_PROXY_CONSTANTS = CaseInsensitiveMapping(
 """
 Aggregated *ACES RGB Proxy* colourspace constants.
 
-ACES_RGB_PROXY_CONSTANTS : dict
+ACES_RGB_PROXY_CONSTANTS : CaseInsensitiveMapping
     ('10 Bit', '12 Bit')
 """
 

@@ -500,7 +500,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
 """
 Supported *Munsell* value computations methods.
 
-MUNSELL_VALUE_METHODS : dict
+MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
     'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
 

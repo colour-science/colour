@@ -184,7 +184,7 @@ LIGHTNESS_METHODS = CaseInsensitiveMapping(
 """
 Supported *Lightness* computations methods.
 
-LIGHTNESS_METHODS : dict
+LIGHTNESS_METHODS : CaseInsensitiveMapping
     ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976')
 
 Aliases:

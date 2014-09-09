@@ -126,7 +126,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 """
 Reference *CIECAM02* colour appearance model viewing conditions.
 
-CIECAM02_VIEWING_CONDITIONS : dict
+CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
 """
 

@@ -81,7 +81,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 *CIE* illuminant chromaticity coordinates for
 *CIE 1931 2 Degree Standard Observer*.
 
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : dict
+ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
@@ -111,7 +111,7 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 *CIE* illuminant chromaticity coordinates for
 *CIE 1964 10 Degree Standard Observer*.
 
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : dict
+ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
 ILLUMINANTS = CaseInsensitiveMapping(
@@ -122,7 +122,7 @@ ILLUMINANTS = CaseInsensitiveMapping(
 """
 Aggregated *CIE* illuminants chromaticity coordinates.
 
-ILLUMINANTS : dict
+ILLUMINANTS : CaseInsensitiveMapping
    ('CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer')
 

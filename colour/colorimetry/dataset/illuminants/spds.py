@@ -3615,5 +3615,5 @@ ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping(
 """
 *CIE* illuminants relative spectral power distributions.
 
-ILLUMINANTS_RELATIVE_SPDS : dict
+ILLUMINANTS_RELATIVE_SPDS : CaseInsensitiveMapping
 """
