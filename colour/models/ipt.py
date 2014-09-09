@@ -110,8 +110,9 @@ def XYZ_to_IPT(XYZ):
 
     Examples
     --------
-    >>> XYZ_to_IPT(np.array([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
-    array([ 0.738192  ,  0.0536732...,  0.0359856...])
+    >>> XYZ = np.array([0.96907232, 1, 1.12179215])
+    >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
+    array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
 
     LMS = np.dot(IPT_XYZ_TO_LMS_MATRIX, XYZ)
@@ -137,8 +138,9 @@ def IPT_to_XYZ(IPT):
 
      Examples
     --------
-    >>> IPT_to_XYZ(np.array([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
-    array([ 0.4497109...,  0.2694691...,  0.0196303...])
+    >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
+    >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
+    array([ 0.9689994...,  0.9999576...,  1.1218432...])
     """
 
     LMS = np.dot(IPT_IPT_TO_LMS_MATRIX, IPT)
@@ -164,8 +166,8 @@ def IPT_hue_angle(IPT):
 
     Examples
     --------
-    >>> IPT_hue_angle(([0.5, 0.5, 0.5]))  # doctest: +ELLIPSIS
-    0.7853981...
+    >>> IPT_hue_angle(([0.96907232, 1, 1.12179215]))  # doctest: +ELLIPSIS
+    0.8427358...
     """
 
     return np.arctan2(IPT[2], IPT[1])

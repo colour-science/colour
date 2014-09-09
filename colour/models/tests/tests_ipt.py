@@ -41,8 +41,16 @@ class TestXYZ_to_IPT(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_IPT(np.array([0.5, 0.5, 0.5])),
-            np.array([0.738192, 0.0536732, 0.0359856]),
+            XYZ_to_IPT(np.array([0.96907232, 1, 1.12179215])),
+            np.array([1.00300825, 0.01906918, -0.01369292]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_IPT(np.array([1.92001986, 1, -0.1241347])),
+            np.array([0.73974548, 0.95333412, 1.71951212]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_IPT(np.array([1.0131677, 1, 2.11217686])),
+            np.array([1.06406598, -0.08075812, -0.39625384]),
             decimal=7)
 
 
@@ -58,8 +66,16 @@ class TestIPT_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            IPT_to_XYZ(np.array([0.5, 0.5, 0.5])),
-            np.array([0.4497109, 0.2694691, 0.0196303]),
+            IPT_to_XYZ(np.array([1.00300825, 0.01906918, -0.01369292])),
+            np.array([0.9689994, 0.99995764, 1.1218432]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            IPT_to_XYZ(np.array([0.73974548, 0.95333412, 1.71951212])),
+            np.array([1.91998253, 0.99988784, -0.12416715]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            IPT_to_XYZ(np.array([1.06406598, -0.08075812, -0.39625384])),
+            np.array([1.0130757, 0.9999554, 2.11229678]),
             decimal=7)
 
 
@@ -75,6 +91,14 @@ class TestIPTHueAngle(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            IPT_hue_angle(np.array([0.5, 0.5, 0.5])),
-            0.78539812,
+            IPT_hue_angle(np.array([0.96907232, 1, 1.12179215])),
+            0.84273584954373859,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            IPT_hue_angle(np.array([1.92001986, 1, -0.1241347])),
+            -0.12350291631562464,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            IPT_hue_angle(np.array([1.0131677, 1, 2.11217686])),
+            1.1286173302440385,
             decimal=7)
