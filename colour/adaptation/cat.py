@@ -6,8 +6,9 @@ Chromatic Adaptation Transforms
 ===============================
 
 Defines various chromatic adaptation transforms (CAT) and objects to
-calculate the chromatic adaptation matrix between two given source to target
-viewing conditions *CIE XYZ* colourspace whitepoint matrices:
+calculate the chromatic adaptation matrix from test viewing conditions
+*CIE XYZ* colourspace whitepoint matrix to reference viewing conditions
+*CIE XYZ* colourspace whitepoint matrix.
 
 -   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
 -   :attr:`VON_KRIES_CAT`: *Johannes Von Kries* CAT [1]_
@@ -195,8 +196,8 @@ CHROMATIC_ADAPTATION_METHODS : dict
 
 def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
     """
-    Returns the *chromatic adaptation* matrix from source viewing
-    conditions *CIE XYZ* colourspace whitepoint matrix to target
+    Returns the *chromatic adaptation* matrix from test viewing
+    conditions *CIE XYZ* colourspace whitepoint matrix to reference
     viewing conditions *CIE XYZ* colourspace whitepoint matrix.
 
     Parameters
@@ -275,8 +276,8 @@ def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
 
 def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='CAT02'):
     """
-    Adapts given *CIE XYZ* colourspace stimulus from source viewing conditions
-    *CIE XYZ* colourspace whitepoint matrix to target viewing conditions
+    Adapts given *CIE XYZ* colourspace stimulus from test viewing conditions
+    *CIE XYZ* colourspace whitepoint matrix to reference viewing conditions
     *CIE XYZ* colourspace whitepoint matrix. [6]_
 
     Parameters
