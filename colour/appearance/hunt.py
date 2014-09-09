@@ -118,11 +118,11 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    ('Small Areas, Uniform Background & Surrounds',
+    {'Small Areas, Uniform Background & Surrounds',
     'Normal Scenes',
     'Television & CRT, Dim Surrounds',
     'Large Transparencies On Light Boxes',
-    'Projected Transparencies, Dark Surrounds')
+    'Projected Transparencies, Dark Surrounds'}
 
 Aliases:
 

@@ -43,7 +43,8 @@ def XYZ_to_sRGB(XYZ,
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
     transfer_function : bool, optional
         Apply *sRGB* *transfer function*.

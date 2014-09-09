@@ -221,5 +221,5 @@ D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping(
 distributions
 
 D_ILLUMINANTS_S_SPDS : CaseInsensitiveMapping
-   ('S0', 'S1', 'S1')
+   {'S0', 'S1', 'S1'}
 """

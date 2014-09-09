@@ -127,7 +127,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference *CIECAM02* colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    ('Average', 'Dim', 'Dark')
+    {'Average', 'Dim', 'Dark'}
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE = {

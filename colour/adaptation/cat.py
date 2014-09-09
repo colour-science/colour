@@ -189,8 +189,8 @@ CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping(
 Supported chromatic adaptation transform methods.
 
 CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
-    ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'CMCCAT97', 'CMCCAT2000',
-    'Fairchild, 'CAT02', 'Bianco', 'Bianco PC')
+    {'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'CMCCAT97', 'CMCCAT2000',
+    'Fairchild, 'CAT02', 'Bianco', 'Bianco PC'}
 """
 
 
@@ -207,8 +207,8 @@ def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
     XYZ_wr : array_like, (3,)
         Target viewing condition *CIE XYZ* colourspace matrix.
     method : unicode, optional
-        ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02', 'Bianco', 'Bianco PC'),
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         Chromatic adaptation method.
 
     Returns
@@ -289,8 +289,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='CAT02'):
     XYZ_wr : array_like, (3,)
         Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
     method : unicode, optional
-        ('XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02', 'Bianco', 'Bianco PC'),
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         Chromatic adaptation method.
 
     Returns

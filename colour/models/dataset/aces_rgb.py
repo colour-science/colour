@@ -274,7 +274,7 @@ ACES_RGB_PROXY_CONSTANTS = CaseInsensitiveMapping(
 Aggregated *ACES RGB Proxy* colourspace constants.
 
 ACES_RGB_PROXY_CONSTANTS : CaseInsensitiveMapping
-    ('10 Bit', '12 Bit')
+    {'10 Bit', '12 Bit'}
 """
 
 
@@ -286,7 +286,8 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
     ----------
     value : numeric
         value.
-    bit_depth : unicode ('10 Bit', '12 Bit')
+    bit_depth : unicode, optional
+        {'10 Bit', '12 Bit'}
         *ACES RGB Proxy* bit depth.
 
     Returns
@@ -315,7 +316,8 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
     ----------
     value : numeric
         value.
-    bit_depth : str ('10 Bit', '12 Bit')
+    bit_depth : unicode, optional
+        {'10 Bit', '12 Bit'}
         *ACES RGB Proxy* bit depth.
 
     Returns

@@ -2746,8 +2746,8 @@ LMS_CMFS = CaseInsensitiveMapping(
 *LMS* colour matching functions.
 
 LMS_CMFS : CaseInsensitiveMapping
-    ('Stockman & Sharpe 2 Degree Cone Fundamentals',
-    'Stockman & Sharpe 10 Degree Cone Fundamentals')
+    {'Stockman & Sharpe 2 Degree Cone Fundamentals',
+    'Stockman & Sharpe 10 Degree Cone Fundamentals'}
 """
 
 RGB_CMFS_DATA = {
@@ -3497,9 +3497,9 @@ RGB_CMFS = CaseInsensitiveMapping(
 *CIE RGB* colour matching functions.
 
 RGB_CMFS : CaseInsensitiveMapping
-    ('Wright & Guild 1931 2 Degree RGB CMFs',
+    {'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
-    'Stiles & Burch 1959 10 Degree RGB CMFs')
+    'Stiles & Burch 1959 10 Degree RGB CMFs'}
 """
 
 STANDARD_OBSERVERS_CMFS_DATA = {
@@ -9021,10 +9021,10 @@ STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping(
 *CIE* Standard Observers *XYZ* colour matching functions.
 
 STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
-    ('CIE 1931 2 Degree Standard Observer',
+    {'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
-    'CIE 2012 10 Degree Standard Observer')
+    'CIE 2012 10 Degree Standard Observer'}
 
 Aliases:
 
@@ -9041,7 +9041,7 @@ CMFS = CaseInsensitiveMapping(LMS_CMFS)
 Aggregated colour matching functions.
 
 CMFS : CaseInsensitiveMapping
-    ('Stockman & Sharpe 10 Degree Cone Fundamentals',
+    {'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
@@ -9049,7 +9049,7 @@ CMFS : CaseInsensitiveMapping
     'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
-    'CIE 2012 10 Degree Standard Observer')
+    'CIE 2012 10 Degree Standard Observer'}
 """
 CMFS.update(RGB_CMFS)
 CMFS.update(STANDARD_OBSERVERS_CMFS)

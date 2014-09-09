@@ -58,7 +58,8 @@ def XYZ_to_RGB(XYZ,
     to_RGB : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
     transfer_function : object, optional
         *Transfer function*.
@@ -136,7 +137,8 @@ def RGB_to_XYZ(RGB,
     to_XYZ : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
     inverse_transfer_function : object, optional
         *Inverse transfer function*.
@@ -207,7 +209,8 @@ def RGB_to_RGB(RGB,
     output_colourspace : RGB_Colourspace
         *RGB* output colourspace.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
 
     ndarray, (3,)
