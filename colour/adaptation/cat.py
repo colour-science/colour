@@ -197,7 +197,7 @@ CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
 def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
     """
     Returns the *chromatic adaptation* matrix from test viewing conditions
-    *CIE XYZ* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
+    *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
     colourspace matrix.
 
     Parameters
