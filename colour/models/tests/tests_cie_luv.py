@@ -49,36 +49,36 @@ class TestXYZ_to_Luv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([0.96907232, 1, 1.12179215])),
-            np.array([100., -11.27488915, -29.36041662]),
+            XYZ_to_Luv(np.array([0.07049534, 0.1008, 0.09558313])),
+            np.array([37.9856291, -28.79229446, -1.3558195]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.92001986, 1, -0.1241347])),
-            np.array([100., 331.44911128, 72.55258319]),
+            XYZ_to_Luv(np.array([0.4709771, 0.3495, 0.11301649])),
+            np.array([65.7097188, 87.21709531, 27.01490816]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1, 2.11217686])),
-            np.array([100., -36.17788915, -111.00091702]),
+            XYZ_to_Luv(np.array([0.25506814, 0.1915, 0.08849752])),
+            np.array([50.86223896, 60.52359443, 13.14030896]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1, 2.11217686]),
+            XYZ_to_Luv(np.array([0.07049534, 0.1008, 0.09558313]),
                        (0.44757, 0.40745)),
-            np.array([100., -97.02442861, -158.08546907]),
+            np.array([37.9856291, -51.90523525, -19.24118281]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1, 2.11217686]),
-                       (1 / 3, 1 / 3)),
-            np.array([100., -37.95520989, -92.29247371]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_Luv(np.array([1.0131677, 1, 2.11217686]),
+            XYZ_to_Luv(np.array([0.07049534, 0.1008, 0.09558313]),
                        (0.31271, 0.32902)),
-            np.array([100., -21.44928374, -85.33481874]),
+            np.array([37.9856291, -23.19754103, 8.3936094]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_Luv(np.array([0.07049534, 0.1008, 0.09558313]),
+                       (0.37208, 0.37529)),
+            np.array([37.9856291, -34.23840374, -7.09461715]),
             decimal=7)
 
 
@@ -94,36 +94,36 @@ class TestLuv_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, -11.27488915, -29.36041662])),
-            np.array([0.96907232, 1., 1.12179215]),
+            Luv_to_XYZ(np.array([37.9856291, -28.79229446, -1.3558195])),
+            np.array([0.07049534, 0.1008, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, 331.44911128, 72.55258319])),
-            np.array([1.92001986, 1., -0.1241347]),
+            Luv_to_XYZ(np.array([65.7097188, 87.21709531, 27.01490816])),
+            np.array([0.4709771, 0.3495, 0.11301649]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, -36.17788915, -111.00091702])),
-            np.array([1.0131677, 1., 2.11217686]),
+            Luv_to_XYZ(np.array([50.86223896, 60.52359443, 13.14030896])),
+            np.array([0.25506814, 0.1915, 0.08849752]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, -97.02442861, -158.08546907]),
+            Luv_to_XYZ(np.array([37.9856291, -51.90523525, -19.24118281]),
                        (0.44757, 0.40745)),
-            np.array([1.0131677, 1., 2.11217686]),
+            np.array([0.07049534, 0.1008, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, -37.95520989, -92.29247371]),
-                       (1 / 3, 1 / 3)),
-            np.array([1.0131677, 1., 2.11217686]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([100, -21.44928374, -85.33481874]),
+            Luv_to_XYZ(np.array([37.9856291, -23.19754103, 8.3936094]),
                        (0.31271, 0.32902)),
-            np.array([1.0131677, 1., 2.11217686]),
+            np.array([0.07049534, 0.1008, 0.09558313]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(np.array([37.9856291, -34.23840374, -7.09461715]),
+                       (0.37208, 0.37529)),
+            np.array([0.07049534, 0.1008, 0.09558313]),
             decimal=7)
 
 
@@ -139,36 +139,36 @@ class TestLuv_to_uv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, -11.27488915, -29.36041662])),
-            (0.20048615433157738, 0.4654903849082484),
+            Luv_to_uv(np.array([37.9856291, -28.79229446, -1.3558195])),
+            (0.1508531, 0.48532971),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, 331.44911128, 72.55258319])),
-            (0.46412000081619281, 0.54388500014670993),
+            Luv_to_uv(np.array([65.7097188, 87.21709531, 27.01490816])),
+            (0.31125983, 0.51970032),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, -36.17788915, -111.00091702])),
-            (0.18133000048542355, 0.40268999998517152),
+            Luv_to_uv(np.array([50.86223896, 60.52359443, 13.14030896])),
+            (0.30069387, 0.50794847),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, -97.02442861, -158.08546907]),
+            Luv_to_uv(np.array([37.9856291, -51.90523525, -19.24118281]),
                       (0.44757, 0.40745)),
-            (0.18133000048503745, 0.40268999998707306),
+            (0.1508531, 0.48532971),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, -37.95520989, -92.29247371]),
-                      (1 / 3, 1 / 3)),
-            (0.18133000048947367, 0.40268999998016192),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([100, -21.44928374, -85.33481874]),
+            Luv_to_uv(np.array([37.9856291, -23.19754103, 8.3936094]),
                       (0.31271, 0.32902)),
-            (0.1813300004870092, 0.4026899999798475),
+            (0.1508531, 0.48532971),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            Luv_to_uv(np.array([37.9856291, -34.23840374, -7.09461715]),
+                      (0.37208, 0.37529)),
+            (0.1508531, 0.48532971),
             decimal=7)
 
 
@@ -184,18 +184,18 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([100, -11.27488915, -29.36041662])),
-            np.array([100., 31.45086945, 248.99237865]),
+            Luv_to_LCHuv(np.array([37.9856291, -28.79229446, -1.3558195])),
+            np.array([37.9856291, 28.82419933, 182.69604747]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([100, 331.44911128, 72.55258319])),
-            np.array([100., 339.2969064, 12.34702048]),
+            Luv_to_LCHuv(np.array([65.7097188, 87.21709531, 27.01490816])),
+            np.array([65.7097188, 91.30513117, 17.21001524]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([100, -36.17788915, -111.00091702])),
-            np.array([100., 116.74777618, 251.94795555]),
+            Luv_to_LCHuv(np.array([50.86223896, 60.52359443, 13.14030896])),
+            np.array([50.86223896, 61.93361932, 12.24941097]),
             decimal=7)
 
 
@@ -211,18 +211,18 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([100, 31.45086945, 248.99237865])),
-            np.array([100., -11.27488915, -29.36041662]),
+            LCHuv_to_Luv(np.array([37.9856291, 28.82419933, 182.69604747])),
+            np.array([37.9856291, -28.79229446, -1.3558195]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([100, 339.2969064, 12.34702048])),
-            np.array([100., 331.44911128, 72.55258319]),
+            LCHuv_to_Luv(np.array([65.7097188, 91.30513117, 17.21001524])),
+            np.array([65.7097188, 87.21709531, 27.01490816]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([100, 116.74777618, 251.94795555])),
-            np.array([100., -36.17788915, -111.00091702]),
+            LCHuv_to_Luv(np.array([50.86223896, 61.93361932, 12.24941097])),
+            np.array([50.86223896, 60.52359443, 13.14030896]),
             decimal=7)
 
 
@@ -238,18 +238,18 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_uv_to_xy((0.20048615433157738, 0.4654903849082484)),
-            (0.31352792378977895, 0.32353408235422665),
+            Luv_uv_to_xy((0.1508531, 0.48532971)),
+            (0.26414773, 0.37770001),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_uv_to_xy((0.46412000081619281, 0.54388500014670993)),
-            (0.6867305880410077, 0.3576684816384643),
+            Luv_uv_to_xy((0.31125983, 0.51970032)),
+            (0.50453169, 0.3744),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_uv_to_xy((0.18133000048542355, 0.40268999998517152)),
-            (0.2455958975694641, 0.2424039944946324),
+            Luv_uv_to_xy((0.30069387, 0.50794847)),
+            (0.47670437, 0.3579),
             decimal=7)
 
 
