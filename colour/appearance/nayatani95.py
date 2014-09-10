@@ -53,7 +53,7 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
            'XYZ_to_RGB_Nayatani95',
            'beta_1',
            'beta_2',
-           'chromatic_adaptation_exponential_factors',
+           'exponential_factors',
            'scaling_coefficient',
            'achromatic_response',
            'tritanopic_response',
@@ -220,16 +220,16 @@ def XYZ_to_Nayatani95(XYZ,
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xi, eta, zeta = x_e_z = intermediate_values(XYZ_n)
+    xi, eta, zeta = xez = intermediate_values(XYZ_n)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * x_e_z
+    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
 
     # Computing stimulus cone responses.
     R, G, B = RGB = XYZ_to_RGB_Nayatani95(np.array([X, Y, Z]))
 
     # Computing exponential factors of the chromatic adaptation.
-    bRGB_o = chromatic_adaptation_exponential_factors(RGB_o)
+    bRGB_o = exponential_factors(RGB_o)
     bL_or = beta_1(L_or)
 
     # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`
@@ -238,14 +238,14 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing opponent colour dimensions.
     # Computing achromatic response :math:`Q`:
-    Q_response = achromatic_response(RGB, bRGB_o, x_e_z,
+    Q_response = achromatic_response(RGB, bRGB_o, xez,
                                      bL_or, eR, eG, n)
 
     # Computing tritanopic response :math:`t`:
-    t_response = tritanopic_response(RGB, bRGB_o, x_e_z, n)
+    t_response = tritanopic_response(RGB, bRGB_o, xez, n)
 
     # Computing protanopic response :math:`p`:
-    p_response = protanopic_response(RGB, bRGB_o, x_e_z, n)
+    p_response = protanopic_response(RGB, bRGB_o, xez, n)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`B_r`.
@@ -254,7 +254,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
     brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o,
-                                                              x_e_z,
+                                                              xez,
                                                               bL_or,
                                                               n)
 
@@ -344,7 +344,7 @@ def intermediate_values(XYZ_n):
     Parameters
     ----------
     XYZ_n : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
+        *CIE XYZ* colourspace matrix of whitepoint in domain [0, 100].
 
     Returns
     -------
@@ -441,7 +441,7 @@ def beta_2(x):
     return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
 
 
-def chromatic_adaptation_exponential_factors(RGB_o):
+def exponential_factors(RGB_o):
     """
     Returns the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
     `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
@@ -460,7 +460,7 @@ def chromatic_adaptation_exponential_factors(RGB_o):
     Examples
     --------
     >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
-    >>> chromatic_adaptation_exponential_factors(RGB_o)  # doctest: +ELLIPSIS
+    >>> exponential_factors(RGB_o)  # doctest: +ELLIPSIS
     array([ 4.6106222...,  4.6105892...,  4.6520698...])
     """
 
@@ -500,7 +500,7 @@ def scaling_coefficient(x, y):
     return 1.758 if x >= (20 * y) else 1
 
 
-def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
+def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     """
     Returns the achromatic response :math:`Q` from given stimulus cone
     responses.
@@ -512,7 +512,7 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    x_e_z: ndarray, (3,)
+    xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
@@ -533,18 +533,18 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     --------
     >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
+    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n)  # noqa  # doctest: +ELLIPSIS
+    >>> achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)  # noqa  # doctest: +ELLIPSIS
     -0.0001169...
     """
 
     R, G, B = RGB
     bR_o, bG_o, bB_o = bRGB_o
-    xi, eta, zeta = x_e_z
+    xi, eta, zeta = xez
 
     Q = (2 / 3) * bR_o * eR * np.log10((R + n) / (20 * xi + n))
     Q += (1 / 3) * bG_o * eG * np.log10((G + n) / (20 * eta + n))
@@ -553,7 +553,7 @@ def achromatic_response(RGB, bRGB_o, x_e_z, bL_or, eR, eG, n=1):
     return Q
 
 
-def tritanopic_response(RGB, bRGB_o, x_e_z, n):
+def tritanopic_response(RGB, bRGB_o, xez, n):
     """
     Returns the tritanopic response :math:`t` from given stimulus cone
     responses.
@@ -565,7 +565,7 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    x_e_z: ndarray, (3,)
+    xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
@@ -579,15 +579,15 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     --------
     >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
+    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> tritanopic_response(RGB, bRGB_o, x_e_z, n)  # doctest: +ELLIPSIS
+    >>> tritanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
     -1.7703650...e-05
     """
 
     R, G, B = RGB
     bR_o, bG_o, bB_o = bRGB_o
-    xi, eta, zeta = x_e_z
+    xi, eta, zeta = xez
 
     t = (1 / 1) * bR_o * np.log10((R + n) / (20 * xi + n))
     t += - (12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
@@ -596,7 +596,7 @@ def tritanopic_response(RGB, bRGB_o, x_e_z, n):
     return t
 
 
-def protanopic_response(RGB, bRGB_o, x_e_z, n):
+def protanopic_response(RGB, bRGB_o, xez, n):
     """
     Returns the protanopic response :math:`p` from given stimulus cone
     responses.
@@ -608,7 +608,7 @@ def protanopic_response(RGB, bRGB_o, x_e_z, n):
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    x_e_z: ndarray, (3,)
+    xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
         Noise term used in the non linear chromatic adaptation model.
@@ -622,15 +622,15 @@ def protanopic_response(RGB, bRGB_o, x_e_z, n):
     --------
     >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
+    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
-    >>> protanopic_response(RGB, bRGB_o, x_e_z, n)  # doctest: +ELLIPSIS
+    >>> protanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
     -8.0021426...e-05
     """
 
     R, G, B = RGB
     bR_o, bG_o, bB_o = bRGB_o
-    xi, eta, zeta = x_e_z
+    xi, eta, zeta = xez
 
     p = (1 / 9) * bR_o * np.log10((R + n) / (20 * xi + n))
     p += (1 / 9) * bG_o * np.log10((G + n) / (20 * eta + n))
@@ -674,7 +674,7 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     return B_r
 
 
-def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
+def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
     """
     Returns the ideal white *brightness* correlate :math:`B_{rw}`.
 
@@ -683,7 +683,7 @@ def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    x_e_z: ndarray, (3,)
+    xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
@@ -699,15 +699,15 @@ def ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n):
     Examples
     --------
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> x_e_z = np.array([1.00004219, 0.99998001, 0.99975794])
+    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> n = 1.0
-    >>> ideal_white_brightness_correlate(bRGB_o, x_e_z, bL_or, n)  # noqa  # doctest: +ELLIPSIS
+    >>> ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)  # noqa  # doctest: +ELLIPSIS
     125.2435392...
     """
 
     bR_o, bG_o, bB_o = bRGB_o
-    xi, eta, zeta = x_e_z
+    xi, eta, zeta = xez
 
     B_rw = (2 / 3) * bR_o * 1.758 * np.log10((100 * xi + n) / (20 * xi + n))
     B_rw += (1 / 3) * bG_o * 1.758 * np.log10((100 * eta + n) / (20 * eta + n))
