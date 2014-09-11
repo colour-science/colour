@@ -35,7 +35,13 @@ import math
 import numpy as np
 from collections import namedtuple
 
+from colour.adaptation.cie1994 import (
+    CIE1994_XYZ_TO_RGB_MATRIX,
+    beta_1,
+    exponential_factors,
+    intermediate_values)
 from colour.models import XYZ_to_xy
+from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -49,11 +55,7 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
            'Nayatani95_Specification',
            'XYZ_to_Nayatani95',
            'illuminance_to_luminance',
-           'intermediate_values',
            'XYZ_to_RGB_Nayatani95',
-           'beta_1',
-           'beta_2',
-           'exponential_factors',
            'scaling_coefficient',
            'achromatic_response',
            'tritanopic_response',
@@ -69,12 +71,9 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
            'chroma_correlate',
            'colourfulness_components',
            'colourfulness_correlate',
-           'chromatic_strength_function', ]
+           'chromatic_strength_function']
 
-NAYATANI95_XYZ_TO_RGB_MATRIX = np.array(
-    [[0.40024, 0.70760, -0.08081],
-     [-0.22630, 1.16532, 0.04570],
-     [0.00000, 0.00000, 0.91822]])
+NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
 """
 *Nayatani (1995)* colour appearance model *CIE XYZ* colourspace to cone
 responses matrix.
@@ -168,7 +167,7 @@ def XYZ_to_Nayatani95(XYZ,
         *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
     Y_o : numeric
         Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [0.18,]
+        domain [0.18, 1.0]
     E_o : numeric
         Illuminance :math:`E_o` of the viewing field in lux.
     E_or : numeric
@@ -191,11 +190,6 @@ def XYZ_to_Nayatani95(XYZ,
     -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
     -   Input *CIE XYZ_n* colourspace matrix is in domain [0, 100].
 
-    Raises
-    ------
-    ValueError
-        If Luminance factor :math:`Y_o` is not greater or equal than 18%.
-
     Examples
     --------
     >>> XYZ = np.array([19.01, 20, 21.78])
@@ -207,10 +201,9 @@ def XYZ_to_Nayatani95(XYZ,
     Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, HC=None, Lstar_N=50.0039154...)
     """
 
-    if np.any(Y_o < 0.18):
-        raise ValueError(
-            'Luminance factor "Y_o" of achromatic background must '
-            'be greater or equal than 18%!')
+    if not 18 < Y_o < 100:
+        warning(('"Y_o" luminance factor must be in [18, 100] domain, '
+                 'unpredictable results may occur!'))
 
     X, Y, Z = np.ravel(XYZ)
 
@@ -220,7 +213,7 @@ def XYZ_to_Nayatani95(XYZ,
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xi, eta, zeta = xez = intermediate_values(XYZ_n)
+    xi, eta, zeta = xez = intermediate_values(XYZ_to_xy(XYZ_n))
 
     # Computing adapting field cone responses.
     RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
@@ -337,38 +330,6 @@ def illuminance_to_luminance(E, Y_f):
     return Y_f * E / (100 * np.pi)
 
 
-def intermediate_values(XYZ_n):
-    """
-    Returns the intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-
-    Parameters
-    ----------
-    XYZ_n : array_like, (3,)
-        *CIE XYZ* colourspace matrix of whitepoint in domain [0, 100].
-
-    Returns
-    -------
-    ndarray, (3,)
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
-
-    Examples
-    --------
-    >>> XYZ_n = np.array([95.05, 100, 108.88])
-    >>> intermediate_values(XYZ_n)  # doctest: +ELLIPSIS
-    array([ 1.0000421...,  0.9999800...,  0.9997579...])
-    """
-
-    # Illuminant chromaticity coordinates.
-    x_o, y_o = XYZ_to_xy(XYZ_n)
-
-    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
-    eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
-    zeta = (0.91822 * (1 - x_o - y_o)) / y_o
-
-    return np.array([xi, eta, zeta])
-
-
 def XYZ_to_RGB_Nayatani95(XYZ):
     """
     Converts from *CIE XYZ* colourspace to cone responses.
@@ -391,86 +352,6 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     """
 
     return NAYATANI95_XYZ_TO_RGB_MATRIX.dot(XYZ)
-
-
-def beta_1(x):
-    """
-    Computes the exponent :math:`\\beta_1` for the middle and long-wavelength
-    sensitive cones.
-
-    Parameters
-    ----------
-    x: numeric
-        Middle and long-wavelength sensitive cone response.
-
-    Returns
-    -------
-    numeric
-        Exponent :math:`\\beta_1`.
-
-    Examples
-    --------
-    >>> beta_1(318.323316315)  # doctest: +ELLIPSIS
-    4.6106222...
-    """
-
-    return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
-
-
-def beta_2(x):
-    """
-    Computes the exponent :math:`\\beta_2` for the short-wavelength sensitive
-    cones.
-
-    Parameters
-    ----------
-    x: numeric
-        Short-wavelength sensitive cone response.
-
-    Returns
-    -------
-    numeric
-        Exponent :math:`\\beta_2`.
-
-    Examples
-    --------
-    >>> beta_2(318.323316315)  # doctest: +ELLIPSIS
-    4.6522416...
-    """
-
-    return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
-
-
-def exponential_factors(RGB_o):
-    """
-    Returns the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-    `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
-
-    Parameters
-    ----------
-    RGB_o: ndarray, (3,)
-         Cone responses.
-
-    Returns
-    -------
-    ndarray, (3,)
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-
-    Examples
-    --------
-    >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
-    >>> exponential_factors(RGB_o)  # doctest: +ELLIPSIS
-    array([ 4.6106222...,  4.6105892...,  4.6520698...])
-    """
-
-    R_o, G_o, B_o = np.ravel(RGB_o)
-
-    bR_o = beta_1(R_o)
-    bG_o = beta_1(G_o)
-    bB_o = beta_2(B_o)
-
-    return np.array([bR_o, bG_o, bB_o])
 
 
 def scaling_coefficient(x, y):
