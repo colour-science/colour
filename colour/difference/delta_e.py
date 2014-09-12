@@ -30,6 +30,8 @@ from __future__ import division, unicode_literals
 import math
 import numpy as np
 
+from colour.utilities import CaseInsensitiveMapping
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -330,17 +332,16 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     return math.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
 
 
-DELTA_E_METHODS = {
-    'CIE 1976': delta_E_CIE_1976,
-    'CIE 1994': delta_E_CIE_1994,
-    'CIE 2000': delta_E_CIE_2000,
-    'CMC': delta_E_CMC,
-}
+DELTA_E_METHODS = CaseInsensitiveMapping(
+    {'CIE 1976': delta_E_CIE_1976,
+     'CIE 1994': delta_E_CIE_1994,
+     'CIE 2000': delta_E_CIE_2000,
+     'CMC': delta_E_CMC})
 """
 Supported *Delta E* computations methods.
 
-DELTA_E_METHODS : dict
-    ('CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC')
+DELTA_E_METHODS : CaseInsensitiveMapping
+    {'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}
 
 Aliases:
 
@@ -364,7 +365,7 @@ def delta_E(lab1, lab2, method='CMC', **kwargs):
     lab2 : array_like, (3,)
         *CIE Lab* *array_like* colour 2.
     method : unicode, optional
-        ('CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC')
+        {'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

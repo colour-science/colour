@@ -58,7 +58,8 @@ def XYZ_to_RGB(XYZ,
     to_RGB : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
     transfer_function : object, optional
         *Transfer function*.
@@ -79,10 +80,10 @@ def XYZ_to_RGB(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.1151847498, 0.1008, 0.0508937252])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> illuminant_XYZ = (0.34567, 0.35850)
     >>> illuminant_RGB = (0.31271, 0.32902)
-    >>> chromatic_adaptation_method =  'Bradford'
+    >>> chromatic_adaptation_method = 'Bradford'
     >>> to_RGB = np.array([
     ...     [3.24100326, -1.53739899, -0.49861587],
     ...     [-0.96922426, 1.87592999, 0.04155422],
@@ -93,7 +94,7 @@ def XYZ_to_RGB(XYZ,
     ...     illuminant_RGB,
     ...     to_RGB,
     ...     chromatic_adaptation_method)  # doctest: +ELLIPSIS
-    array([ 0.1730350...,  0.0821103...,  0.0567249...])
+    array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
 
     np.array([
@@ -136,7 +137,8 @@ def RGB_to_XYZ(RGB,
     to_XYZ : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
     inverse_transfer_function : object, optional
         *Inverse transfer function*.
@@ -157,7 +159,7 @@ def RGB_to_XYZ(RGB,
 
     Examples
     --------
-    >>> RGB = np.array([0.17303501, 0.08211033, 0.05672498])
+    >>> RGB = np.array([0.01103604, 0.12734466, 0.11631037])
     >>> illuminant_RGB = (0.31271, 0.32902)
     >>> illuminant_XYZ = (0.34567, 0.35850)
     >>> chromatic_adaptation_method = 'Bradford'
@@ -171,7 +173,7 @@ def RGB_to_XYZ(RGB,
     ...     illuminant_XYZ,
     ...     to_XYZ,
     ...     chromatic_adaptation_method)  # doctest: +ELLIPSIS
-    array([ 0.1151847...,  0.1008    ,  0.0508937...])
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     if inverse_transfer_function is not None:
@@ -207,7 +209,8 @@ def RGB_to_RGB(RGB,
     output_colourspace : RGB_Colourspace
         *RGB* output colourspace.
     chromatic_adaptation_method : unicode, optional
-        ('XYZ Scaling', 'Bradford', 'Von Kries', 'Fairchild', 'CAT02')
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
 
     ndarray, (3,)
@@ -220,12 +223,12 @@ def RGB_to_RGB(RGB,
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
-    >>> RGB = np.array([0.35521588, 0.41, 0.24177934])
+    >>> RGB = np.array([0.01103604, 0.12734466, 0.11631037])
     >>> RGB_to_RGB(
     ...     RGB,
     ...     sRGB_COLOURSPACE,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
-    array([ 0.3579334...,  0.4007138...,  0.2615704...])
+    array([ 0.0643338...,  0.1157362...,  0.1157614...])
     """
 
     cat = chromatic_adaptation_matrix(

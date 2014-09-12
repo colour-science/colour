@@ -49,7 +49,7 @@ class Extrapolator1d(object):
     interpolator : object
         Interpolator object.
     method : unicode, optional
-        ('Linear', 'Constant'),
+        {'Linear', 'Constant'},
         Extrapolation method.
     left : numeric, optional
         Value to return for x < xi[0].

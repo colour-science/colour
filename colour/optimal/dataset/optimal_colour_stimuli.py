@@ -755,3 +755,9 @@ ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping(
     {'A': A_OPTIMAL_COLOUR_STIMULI,
      'C': C_OPTIMAL_COLOUR_STIMULI,
      'D65': D65_OPTIMAL_COLOUR_STIMULI})
+"""
+Illuminants optimal colour stimuli.
+
+ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
+    {'A', 'C', 'D65'}
+"""

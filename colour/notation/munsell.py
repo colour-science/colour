@@ -500,9 +500,9 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
 """
 Supported *Munsell* value computations methods.
 
-MUNSELL_VALUE_METHODS : dict
-    ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
+MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
+    {'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08'}
 
 Aliases:
 
@@ -522,8 +522,8 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-        'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
+        {'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
+        'Saunderson 1944', 'Ladd 1955', 'McCamy 1987'}
         Computation method.
 
     Returns
