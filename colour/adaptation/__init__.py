@@ -5,6 +5,15 @@ from __future__ import absolute_import
 
 from .cat import CHROMATIC_ADAPTATION_METHODS
 from .cat import chromatic_adaptation_matrix, chromatic_adaptation
+from .cmccat2000 import (
+    CMCCAT2000_InductionFactors,
+    CMCCAT2000_VIEWING_CONDITIONS,
+    CMCCAT2000_forward,
+    CMCCAT2000_reverse)
 
 __all__ = ['CHROMATIC_ADAPTATION_METHODS']
 __all__ += ['chromatic_adaptation_matrix', 'chromatic_adaptation']
+__all__ += ['CMCCAT2000_InductionFactors',
+            'CMCCAT2000_VIEWING_CONDITIONS',
+            'CMCCAT2000_forward',
+            'CMCCAT2000_reverse']

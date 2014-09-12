@@ -203,8 +203,8 @@ COLOURCHECKERS = CaseInsensitiveMapping(
 """
 Aggregated *ColourCheckers* chromaticity coordinates.
 
-COLOURCHECKERS : dict
-    ('BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976')
+COLOURCHECKERS : CaseInsensitiveMapping
+    {'BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976'}
 
 Aliases:
 

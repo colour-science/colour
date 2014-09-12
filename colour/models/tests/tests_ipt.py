@@ -41,16 +41,18 @@ class TestXYZ_to_IPT(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_IPT(np.array([0.96907232, 1, 1.12179215])),
-            np.array([1.00300825, 0.01906918, -0.01369292]),
+            XYZ_to_IPT(np.array([0.07049534, 0.1008, 0.09558313])),
+            np.array([0.36571124, -0.11114798, 0.01594746]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            XYZ_to_IPT(np.array([1.92001986, 1, -0.1241347])),
-            np.array([0.73974548, 0.95333412, 1.71951212]),
+            XYZ_to_IPT(np.array([0.4709771, 0.3495, 0.11301649])),
+            np.array([0.5916803, 0.34150712, 0.33282621]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            XYZ_to_IPT(np.array([1.0131677, 1, 2.11217686])),
-            np.array([1.06406598, -0.08075812, -0.39625384]),
+            XYZ_to_IPT(np.array([0.25506814, 0.1915, 0.08849752])),
+            np.array([0.46626813, 0.25471184, 0.19904068]),
             decimal=7)
 
 
@@ -66,16 +68,18 @@ class TestIPT_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            IPT_to_XYZ(np.array([1.00300825, 0.01906918, -0.01369292])),
-            np.array([0.9689994, 0.99995764, 1.1218432]),
+            IPT_to_XYZ(np.array([0.36571124, -0.11114798, 0.01594746])),
+            np.array([0.07048271, 0.1007966, 0.09558844]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            IPT_to_XYZ(np.array([0.73974548, 0.95333412, 1.71951212])),
-            np.array([1.91998253, 0.99988784, -0.12416715]),
+            IPT_to_XYZ(np.array([0.5916803, 0.34150712, 0.33282621])),
+            np.array([0.47097737, 0.3494794, 0.1130151]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            IPT_to_XYZ(np.array([1.06406598, -0.08075812, -0.39625384])),
-            np.array([1.0130757, 0.9999554, 2.11229678]),
+            IPT_to_XYZ(np.array([0.46626813, 0.25471184, 0.19904068])),
+            np.array([0.25506876, 0.19148927, 0.08849769]),
             decimal=7)
 
 
@@ -91,14 +95,16 @@ class TestIPTHueAngle(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            IPT_hue_angle(np.array([0.96907232, 1, 1.12179215])),
-            0.84273584954373859,
+            IPT_hue_angle(np.array([0.07049534, 0.1008, 0.09558313])),
+            0.7588396531961388,
             decimal=7)
+
         np.testing.assert_almost_equal(
-            IPT_hue_angle(np.array([1.92001986, 1, -0.1241347])),
-            -0.12350291631562464,
+            IPT_hue_angle(np.array([0.4709771, 0.3495, 0.11301649])),
+            0.3127534819420748,
             decimal=7)
+
         np.testing.assert_almost_equal(
-            IPT_hue_angle(np.array([1.0131677, 1, 2.11217686])),
-            1.1286173302440385,
+            IPT_hue_angle(np.array([0.25506814, 0.1915, 0.08849752])),
+            0.4328937107187537,
             decimal=7)

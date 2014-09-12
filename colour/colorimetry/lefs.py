@@ -60,15 +60,15 @@ def mesopic_weighting_function(wavelength,
         factor.
     Lp : numeric
         Photopic luminance :math:`L_p`.
-    source : unicode
-        ('Blue Heavy', 'Red Heavy'),
+    source : unicode, optional
+        {'Blue Heavy', 'Red Heavy'},
         Light source colour temperature.
-    method : unicode
-        ('MOVE', 'LRC'),
+    method : unicode, optional
+        {'MOVE', 'LRC'},
         Method to calculate the weighting factor.
-    photopic_lef : SpectralPowerDistribution
+    photopic_lef : SpectralPowerDistribution, optional
         :math:`V(\lambda)` photopic luminous efficiency function.
-    scotopic_lef : SpectralPowerDistribution
+    scotopic_lef : SpectralPowerDistribution, optional
         :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
 
     Returns
@@ -123,15 +123,15 @@ def mesopic_luminous_efficiency_function(
     ----------
     Lp : numeric
         Photopic luminance :math:`L_p`.
-    source : unicode
-        ('Blue Heavy', 'Red Heavy'),
+    source : unicode, optional
+        {'Blue Heavy', 'Red Heavy'},
         Light source colour temperature.
-    method : unicode
-        ('MOVE', 'LRC'),
+    method : unicode, optional
+        {'MOVE', 'LRC'},
         Method to calculate the weighting factor.
-    photopic_lef : SpectralPowerDistribution
+    photopic_lef : SpectralPowerDistribution, optional
         :math:`V(\lambda)` photopic luminous efficiency function.
-    scotopic_lef : SpectralPowerDistribution
+    scotopic_lef : SpectralPowerDistribution, optional
         :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
 
     Returns
