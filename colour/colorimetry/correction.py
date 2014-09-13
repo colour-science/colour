@@ -86,8 +86,8 @@ BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
 """
 Supported spectral bandpass dependence correction methods.
 
-BANDPASS_CORRECTION_METHODS : dict
-    ('Stearns 1988',)
+BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
+    {'Stearns 1988',}
 """
 
 
@@ -100,7 +100,7 @@ def bandpass_correction(spd, method='Stearns 1988'):
     ----------
     spd : SpectralPowerDistribution
         Spectral power distribution.
-    method : unicode
+    method : unicode, optional
         ('Stearns 1988',)
         Correction method.
 

@@ -27,7 +27,11 @@ Acknowledgements
 
     *Ohno (2013)* correlated colour temperature calculation technical support.
 
--   **Charles Poynton**, Mathematician & Colour Scientist
+-   **Mark D. Fairchild**, *Director @ Munsell Color Science Lab, Director @ Program of Color Science*
+
+    Technical support.
+
+-   **Charles Poynton**, *Mathematician & Colour Scientist*
 
     Technical support.
 

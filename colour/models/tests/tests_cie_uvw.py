@@ -39,36 +39,36 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.96907232, 1, 1.12179215])),
-            np.array([-0.90199113, -1.56588889, 8.]),
+            XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100),
+            np.array([-28.0483277, -0.88052424, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.92001986, 1, - 0.1241347])),
-            np.array([26.5159289, 3.8694711, 8.]),
+            XYZ_to_UVW(np.array([0.4709771, 0.3495, 0.11301649]) * 100),
+            np.array([85.92692334, 17.74352405, 64.73769793]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1, 2.11217686])),
-            np.array([-2.89423113, -5.92004891, 8.]),
+            XYZ_to_UVW(np.array([0.25506814, 0.1915, 0.08849752]) * 100),
+            np.array([59.36088697, 8.5919153, 49.88513399]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1, 2.11217686]),
+            XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
                        (0.44757, 0.40745)),
-            np.array([-7.76195429, -8.43122502, 8.]),
+            np.array([-50.56405108, -12.4960054, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1, 2.11217686]),
-                       (1 / 3, 1 / 3)),
-            np.array([-3.03641679, -4.92226526, 8.]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([1.0131677, 1, 2.11217686]),
+            XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
                        (0.31271, 0.32902)),
-            np.array([-1.7159427, -4.55119033, 8.]),
+            np.array([-22.59813763, 5.45115077, 37.00411491]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
+                       (0.37208, 0.37529)),
+            np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 
 

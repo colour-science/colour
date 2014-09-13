@@ -66,9 +66,9 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([11.80583421, 10.34, 5.15089229])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
-    array([ 24.2543371...,   7.2205484...,  37.4645000...])
+    array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))

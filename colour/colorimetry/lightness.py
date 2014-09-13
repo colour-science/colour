@@ -184,8 +184,8 @@ LIGHTNESS_METHODS = CaseInsensitiveMapping(
 """
 Supported *Lightness* computations methods.
 
-LIGHTNESS_METHODS : dict
-    ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976')
+LIGHTNESS_METHODS : CaseInsensitiveMapping
+    {'Glasser 1958', 'Wyszecki 1964', 'CIE 1976'}
 
 Aliases:
 
@@ -203,7 +203,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976'),
+        {'CIE 1976', 'Glasser 1958', 'Wyszecki 1964'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
