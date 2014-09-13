@@ -31,7 +31,7 @@ __all__ = ['XYZ_to_sRGB']
 
 def XYZ_to_sRGB(XYZ,
                 illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
-                chromatic_adaptation_method='CAT02',
+                chromatic_adaptation_transform='CAT02',
                 transfer_function=True):
     """
     Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
@@ -42,10 +42,10 @@ def XYZ_to_sRGB(XYZ,
         *CIE XYZ* colourspace matrix.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_method : unicode, optional
+    chromatic_adaptation_transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
-        *Chromatic adaptation* method.
+        *Chromatic adaptation* transform.
     transfer_function : bool, optional
         Apply *sRGB* *transfer function*.
 
@@ -70,5 +70,5 @@ def XYZ_to_sRGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,
                       sRGB.XYZ_to_RGB_matrix,
-                      chromatic_adaptation_method,
+                      chromatic_adaptation_transform,
                       sRGB.transfer_function if transfer_function else None)

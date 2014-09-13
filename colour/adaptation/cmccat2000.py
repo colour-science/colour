@@ -38,7 +38,7 @@ import math
 import numpy as np
 from collections import namedtuple
 
-from colour.adaptation.cat import CMCCAT2000_CAT
+from colour.adaptation import CMCCAT2000_CAT
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'

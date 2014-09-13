@@ -62,7 +62,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.07049534, 0.1008, 0.09558313]),
-                        chromatic_adaptation_method='Bradford'),
+                        chromatic_adaptation_transform='Bradford'),
             np.array([0.17501358, 0.38818795, 0.32161955]),
             decimal=7)
 

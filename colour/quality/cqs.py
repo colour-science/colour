@@ -44,8 +44,7 @@ from colour.models import (
     Lab_to_LCHab,
     xy_to_XYZ)
 from colour.temperature import CCT_to_xy_illuminant_D, uv_to_CCT_ohno2013
-from colour.adaptation import (
-    chromatic_adaptation as chromatic_adaptation_vonkries)
+from colour.adaptation import chromatic_adaptation_vonkries
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -310,7 +309,7 @@ def _vs_colorimetry_data(spd_test,
             XYZ_vs = chromatic_adaptation_vonkries(XYZ_vs,
                                                    XYZ_t,
                                                    XYZ_r,
-                                                   method='CMCCAT2000')
+                                                   transform='CMCCAT2000')
 
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
         _, chroma_vs, _ = Lab_to_LCHab(Lab_vs)
@@ -350,7 +349,7 @@ def _CCT_factor(reference_data, XYZ_r):
         XYZ_a = chromatic_adaptation_vonkries(XYZ,
                                               XYZ_r,
                                               XYZ_w,
-                                              method='CMCCAT2000')
+                                              transform='CMCCAT2000')
 
         Lab = XYZ_to_Lab(XYZ_a, illuminant=xy_w)
         Labs.append(Lab)

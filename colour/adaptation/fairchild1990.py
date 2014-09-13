@@ -32,7 +32,7 @@ from __future__ import division, unicode_literals
 import math
 import numpy as np
 
-from colour.adaptation.cat import VON_KRIES_CAT
+from colour.adaptation import VON_KRIES_CAT
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'

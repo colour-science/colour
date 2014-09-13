@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.adaptation import CMCCAT2000_forward, CMCCAT2000_reverse
+from colour.adaptation.cmccat2000 import CMCCAT2000_forward, CMCCAT2000_reverse
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'

@@ -10,7 +10,7 @@ number of colour theory transformations and algorithms.
 
 Subpackages
 -----------
--   adaptation: Chromatic adaptation transformations.
+-   adaptation: Chromatic adaptation models and transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   characterisation: Colour fitting and camera characterisation.

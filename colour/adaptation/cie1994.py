@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 import math
 import numpy as np
 
-from colour.adaptation.cat import VON_KRIES_CAT
+from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
@@ -82,7 +82,7 @@ def chromatic_adaptation_cie1994(XYZ_1,
     Parameters
     ----------
     XYZ : array_like, (3,)
-        *CIE XYZ_1* colourspace matrix of test sample / stimulus in domain
+        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
         [0, 100].
     xy_o1 : array_like, (2,)
         Chromaticity coordinates :math:`x_{o1}` and :math:`y_{o1}` of test
