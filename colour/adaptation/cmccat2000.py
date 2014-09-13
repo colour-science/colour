@@ -12,6 +12,7 @@ Defines *CMCCAT2000* chromatic adaptation model objects:
 -   :class:`CMCCAT2000_VIEWING_CONDITIONS`
 -   :func:`CMCCAT2000_forward`
 -   :func:`CMCCAT2000_reverse`
+-   :func:`chromatic_adaptation_CMCCAT2000`
 
 See Also
 --------
@@ -51,7 +52,8 @@ __all__ = ['CMCCAT2000_INVERSE_CAT',
            'CMCCAT2000_InductionFactors',
            'CMCCAT2000_VIEWING_CONDITIONS',
            'CMCCAT2000_forward',
-           'CMCCAT2000_reverse']
+           'CMCCAT2000_reverse',
+           'chromatic_adaptation_CMCCAT2000']
 
 CMCCAT2000_INVERSE_CAT = np.linalg.inv(CMCCAT2000_CAT)
 """
@@ -102,9 +104,9 @@ def CMCCAT2000_forward(XYZ,
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace stimulus to adapt.
     XYZ_w : array_like, (3,)
-        Source viewing condition *CIE XYZ* colourspace matrix.
+        Test viewing condition *CIE XYZ* colourspace matrix.
     XYZ_wr : array_like, (3,)
-        Target viewing condition *CIE XYZ* colourspace matrix.
+        Reference viewing condition *CIE XYZ* colourspace matrix.
     L_A1 : numeric, optional
         Luminance of test adapting field :math`L_{A1}` in :math:`cd/m^2`.
     L_A2 : numeric, optional
@@ -119,7 +121,7 @@ def CMCCAT2000_forward(XYZ,
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The input and output domains of that definition are non standard!
 
     Notes
     -----
@@ -172,9 +174,9 @@ def CMCCAT2000_reverse(XYZ_c,
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace stimulus to adapt.
     XYZ_w : array_like, (3,)
-        Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Test viewing condition *CIE XYZ* colourspace whitepoint matrix.
     XYZ_wr : array_like, (3,)
-        Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Reference viewing condition *CIE XYZ* colourspace whitepoint matrix.
     L_A1 : numeric, optional
         Luminance of test adapting field :math`L_{A1}` in :math:`cd/m^2`.
     L_A2 : numeric, optional
@@ -189,7 +191,7 @@ def CMCCAT2000_reverse(XYZ_c,
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The input and output domains of that definition are non standard!
 
     Notes
     -----
@@ -223,3 +225,73 @@ def CMCCAT2000_reverse(XYZ_c,
     XYZ = np.dot(CMCCAT2000_INVERSE_CAT, RGB)
 
     return np.ravel(XYZ)
+
+
+def chromatic_adaptation_CMCCAT2000(
+        XYZ,
+        XYZ_w,
+        XYZ_wr,
+        L_A1=100,
+        L_A2=100,
+        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average'),
+        method='Forward'):
+    """
+    Adapts given *CIE XYZ* colourspace matrix using given viewing conditions.
+
+    This definition is a convenient wrapper around :func:`CMCCAT2000_forward`
+    and :func:`CMCCAT2000_reverse`.
+
+    Parameters
+    ----------
+    XYZ : array_like, (3,)
+        *CIE XYZ* colourspace matrix to adapt.
+    XYZ_w : array_like, (3,)
+        Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
+    XYZ_wr : array_like, (3,)
+        Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
+    L_A1 : numeric, optional
+        Luminance of test adapting field :math`L_{A1}` in :math:`cd/m^2`.
+    L_A2 : numeric, optional
+        Luminance of reference adapting field :math`L_{A2}` in :math:`cd/m^2`.
+    surround : CMCCAT2000_InductionFactors, optional
+        Surround viewing conditions induction factors.
+    method : unicode, optional
+        {'Forward', 'Reverse'}
+        Chromatic adaptation method.
+
+    Returns
+    -------
+    ndarray, (3,)
+        Adapted *CIE XYZ* colourspace matrix.
+
+    Warning
+    -------
+    The input and output domains of that definition are non standard!
+
+    Notes
+    -----
+    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* colourspace matrices
+        are in domain [0, 100].
+    -   Output *CIE XYZ* colourspace matrix is in domain [0, 100].
+
+    Examples
+    --------
+    >>> XYZ = np.array([22.48, 22.74, 8.54])
+    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, 200, 200, method='Forward')  # noqa  # doctest: +ELLIPSIS
+    array([ 19.5269832...,  23.0683396...,  24.9717522...])
+
+    Using the *CMCCAT2000* reverse model:
+
+    >>> XYZ = np.array([19.52698326, 23.0683396, 24.97175229])
+    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, 200, 200, method='Reverse')  # noqa  # doctest: +ELLIPSIS
+    array([ 22.48,  22.74,   8.54])
+    """
+
+    if method.lower() == 'forward':
+        return CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
+    else:
+        return CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
