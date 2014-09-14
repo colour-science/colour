@@ -14,6 +14,9 @@ from .cat import (XYZ_SCALING_CAT,
                   CAT02_CAT,
                   BS_CAT,
                   BS_PC_CAT)
+from .corresponding_chromaticities import (
+    BRENEMAN_EXPERIMENTS,
+    BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
 
 __all__ = ['CHROMATIC_ADAPTATION_TRANSFORMS']
 __all__ += ['XYZ_SCALING_CAT',
@@ -26,6 +29,8 @@ __all__ += ['XYZ_SCALING_CAT',
             'CAT02_CAT',
             'BS_CAT',
             'BS_PC_CAT']
+__all__ += ['BRENEMAN_EXPERIMENTS',
+            'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES']
 
 
 
