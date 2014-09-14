@@ -48,9 +48,11 @@ class RGB_Colourspace(object):
     to_RGB : array_like
         Transformation matrix from *CIE XYZ* colourspace to colourspace.
     transfer_function : object
-        *RGB* Colourspace transfer function from linear to colourspace.
+        *RGB* Colourspace opto-electronic transfer function from linear to
+        colourspace.
     inverse_transfer_function : object
-        *RGB* Colourspace inverse transfer function from colourspace to linear.
+        *RGB* Colourspace inverse opto-electronic transfer function from
+        colourspace to linear.
     """
 
     def __init__(self,
