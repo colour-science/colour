@@ -56,9 +56,9 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry.cmfs import LMS_ConeFundamentals
-from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions
-from colour.colorimetry.cmfs import XYZ_ColourMatchingFunctions
+from colour.colorimetry import LMS_ConeFundamentals
+from colour.colorimetry import RGB_ColourMatchingFunctions
+from colour.colorimetry import XYZ_ColourMatchingFunctions
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'

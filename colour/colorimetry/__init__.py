@@ -15,12 +15,12 @@ from .blackbody import (
     blackbody_spd,
     blackbody_spectral_radiance,
     planck_law)
-from .dataset import *  # noqa
-from . import dataset
 from .cmfs import (
     LMS_ConeFundamentals,
     RGB_ColourMatchingFunctions,
     XYZ_ColourMatchingFunctions)
+from .dataset import *  # noqa
+from . import dataset
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_stearns1988
@@ -57,10 +57,10 @@ __all__ = ['SpectralShape',
 __all__ += ['blackbody_spd',
             'blackbody_spectral_radiance',
             'planck_law']
-__all__ += dataset.__all__
 __all__ += ['LMS_ConeFundamentals',
             'RGB_ColourMatchingFunctions',
             'XYZ_ColourMatchingFunctions']
+__all__ += dataset.__all__
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_stearns1988']
