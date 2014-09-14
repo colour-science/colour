@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 import colour
 from colour.utilities.verbose import message_box
 
-message_box('Von Kries Chromatic Adaptation Model Computations')
+message_box('"Von Kries" Chromatic Adaptation Model Computations')
 
 XYZ_w = (1.09846607, 1., 0.3558228)
 XYZ_wr = (1.09846607, 1., 0.3558228)
