@@ -38,6 +38,7 @@ from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
     xy_to_XYZ)
+from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -50,7 +51,8 @@ __all__ = ['CorrespondingChromaticitiesPrediction',
            'corresponding_chromaticities_prediction_vonkries',
            'corresponding_chromaticities_prediction_cie1994',
            'corresponding_chromaticities_prediction_CMCCAT2000',
-           'corresponding_chromaticities_prediction_fairchild1990']
+           'corresponding_chromaticities_prediction_fairchild1990',
+           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS']
 
 
 class CorrespondingChromaticitiesPrediction(
@@ -134,7 +136,7 @@ def corresponding_chromaticities_prediction_vonkries(experiment=1,
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_cie1994(experiment=1):
+def corresponding_chromaticities_prediction_cie1994(experiment=1, **kwargs):
     """
     Returns the corresponding chromaticities prediction for *CIE 1994*
     chromatic adaptation model.
@@ -144,6 +146,8 @@ def corresponding_chromaticities_prediction_cie1994(experiment=1):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Edwin J. Breneman* experiment number.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -195,7 +199,7 @@ def corresponding_chromaticities_prediction_cie1994(experiment=1):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
+def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     """
     Returns the corresponding chromaticities prediction for *CMCCAT2000*
     chromatic adaptation model.
@@ -205,6 +209,8 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Edwin J. Breneman* experiment number.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -254,7 +260,8 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_fairchild1990(experiment=1):
+def corresponding_chromaticities_prediction_fairchild1990(experiment=1,
+                                                          **kwargs):
     """
     Returns the corresponding chromaticities prediction for *Fairchild (1990)*
     chromatic adaptation model.
@@ -264,6 +271,8 @@ def corresponding_chromaticities_prediction_fairchild1990(experiment=1):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         *Edwin J. Breneman* experiment number.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -310,3 +319,23 @@ def corresponding_chromaticities_prediction_fairchild1990(experiment=1):
             uvp))
 
     return tuple(prediction)
+
+
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
+    {'Von Kries': corresponding_chromaticities_prediction_vonkries,
+     'CIE 1994': corresponding_chromaticities_prediction_cie1994,
+     'CMCCAT2000': corresponding_chromaticities_prediction_CMCCAT2000,
+     'Fairchild 1990': corresponding_chromaticities_prediction_fairchild1990})
+
+"""
+Aggregated corresponding chromaticities prediction models.
+
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : dict
+    {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
+
+Aliases:
+
+-   'vonkries': 'Von Kries'
+"""
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['vonkries'] = (
+    CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['Von Kries'])

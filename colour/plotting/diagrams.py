@@ -563,8 +563,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     settings = {
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(name),
-        'x_label': 'CIE u"',
-        'y_label': 'CIE v"',
+        'x_label': 'CIE u\'',
+        'y_label': 'CIE v\'',
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,

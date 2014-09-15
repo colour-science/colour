@@ -74,7 +74,7 @@ def get_cmfs(cmfs):
 
     Parameters
     ----------
-    cmfs : Unicode
+    cmfs : unicode
         Colour matching functions name.
 
     Returns
@@ -93,7 +93,7 @@ def get_cmfs(cmfs):
     if cmfs is None:
         raise KeyError(
             ('"{0}" not found in factory colour matching functions: '
-             '"{1}".').format(name, sorted(cmfs.CMFS.keys())))
+             '"{1}".').format(name, ', '.join(sorted(cmfs.CMFS.keys()))))
     return cmfs
 
 
@@ -103,7 +103,7 @@ def get_illuminant(illuminant):
 
     Parameters
     ----------
-    illuminant : Unicode
+    illuminant : unicode
         Illuminant name.
 
     Returns
@@ -121,7 +121,7 @@ def get_illuminant(illuminant):
     if illuminant is None:
         raise KeyError(
             '"{0}" not found in factory illuminants: "{1}".'.format(
-                name, sorted(ILLUMINANTS_RELATIVE_SPDS.keys())))
+                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
 
     return illuminant
 
