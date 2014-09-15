@@ -157,7 +157,7 @@ def Luv_to_uv(Luv,
               illuminant=ILLUMINANTS.get(
                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Returns the *u"v"* chromaticity coordinates from given *CIE Luv*
+    Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
     colourspace matrix.
 
     Parameters
@@ -170,12 +170,12 @@ def Luv_to_uv(Luv,
     Returns
     -------
     tuple
-        *u"v"* chromaticity coordinates.
+        :math:`uv^p` chromaticity coordinates.
 
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
-    -   Output *u"v"* chromaticity coordinates are in domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
 
     References
     ----------
@@ -197,7 +197,7 @@ def Luv_to_uv(Luv,
 def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
-    *u"v"* chromaticity coordinates.
+    :math:`uv^p` chromaticity coordinates.
 
     Parameters
     ----------
@@ -211,7 +211,7 @@ def Luv_uv_to_xy(uv):
 
     Notes
     -----
-    -   Input *u"v"* chromaticity coordinates are in domain [0, 1].
+    -   Input :math:`uv^p` chromaticity coordinates are in domain [0, 1].
     -   Output *xy* is in domain [0, 1].
 
     References
