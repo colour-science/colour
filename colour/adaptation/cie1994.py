@@ -94,9 +94,9 @@ def chromatic_adaptation_cie1994(XYZ_1,
         Luminance factor :math:`Y_o` of achromatic background as percentage in
         domain [18, 100].
     E_o1 : numeric
-        Test illuminance :math:`E_{o1}` in lux.
+        Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
     E_o2 : numeric
-        Reference illuminance :math:`E_{o2}` in lux.
+        Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
     n : numeric, optional
         Noise component in fundamental primary system.
 
@@ -126,7 +126,7 @@ def chromatic_adaptation_cie1994(XYZ_1,
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
-    if not 18 < Y_o < 100:
+    if not 18 <= Y_o <= 100:
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
 

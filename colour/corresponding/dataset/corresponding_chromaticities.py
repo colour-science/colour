@@ -11,7 +11,7 @@ experiments.
 See Also
 --------
 `Corresponding Chromaticities IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/corresponding_chromaticities.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/corresponding/corresponding_chromaticities.ipynb>`_  # noqa
 
 References
 ----------
@@ -63,7 +63,7 @@ class BrenemanExperimentResult(
     uvp_t : numeric
         Chromaticity coordinates :math:`uv_t^p` of test colour.
     uvp_m : array_like, (2,)
-        Chromaticity coordinates :math:`uv_t^m` of matching colour.
+        Chromaticity coordinates :math:`uv_m^p` of matching colour.
     s_uvp : array_like, (2,), optional
         Interobserver variation (:math:`x10^3`) :math:`\sigma_uv^p`.
     d_uvp_i : array_like, (2,), optional

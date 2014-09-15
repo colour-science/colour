@@ -201,7 +201,7 @@ def XYZ_to_Nayatani95(XYZ,
     Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, HC=None, Lstar_N=50.0039154...)
     """
 
-    if not 18 < Y_o < 100:
+    if not 18 <= Y_o <= 100:
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
 
