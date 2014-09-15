@@ -92,8 +92,8 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
     if method_matrix is None:
         raise KeyError(
             '"{0}" chromatic adaptation method is not defined! Supported '
-            'methods: "{1}".'.format(transform,
-                                     CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
+            'methods: "{1}".'.format(
+                transform, ', '.join(CHROMATIC_ADAPTATION_TRANSFORMS.keys())))
 
     XYZ_w, XYZ_wr = np.ravel(XYZ_w), np.ravel(XYZ_wr)
 
