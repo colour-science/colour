@@ -46,7 +46,7 @@ def get_RGB_colourspace(colourspace):
 
     Parameters
     ----------
-    colourspace : Unicode
+    colourspace : unicode
         *RGB* Colourspace name.
 
     Returns
@@ -64,7 +64,8 @@ def get_RGB_colourspace(colourspace):
     if colourspace is None:
         raise KeyError(
             ('"{0}" colourspace not found in factory colourspaces: '
-             '"{1}".').format(name, sorted(RGB_COLOURSPACES.keys())))
+             '"{1}".').format(name, ', '.join(
+                sorted(RGB_COLOURSPACES.keys()))))
 
     return colourspace
 
@@ -175,6 +176,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                                 min(y_limit_min), max(y_limit_max)],
                      'margins': [-0.05, 0.05, -0.05, 0.05],
                      'standalone': True})
+    settings.update(kwargs)
 
     bounding_box(**settings)
     aspect(**settings)

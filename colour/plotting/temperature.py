@@ -128,6 +128,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
                                        connectionstyle='arc3, rad=-0.2'))
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     return display(**settings)
 
@@ -219,5 +220,6 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
                                        connectionstyle='arc3, rad=-0.2'))
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     return display(**settings)
