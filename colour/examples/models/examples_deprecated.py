@@ -69,18 +69,3 @@ message_box(('Converting to "CMY" colourspace from given "CMYK" colourspace '
              'values:\n'
              '\n\t{0}'.format(CMYK)))
 print(colour.models.deprecated.CMYK_to_CMY(CMYK))
-
-print('\n')
-
-message_box(('Converting to "hex triplet" representation from given "RGB" '
-             'colourspace values:\n'
-             '\n\t{0}'.format(RGB)))
-print(colour.models.deprecated.RGB_to_HEX(RGB))
-
-print('\n')
-
-hex_triplet = '#7dfa40'
-message_box(('Converting to "RGB" colourspace from given "hex triplet" '
-             'representation:\n'
-             '\n\t{0}'.format(hex_triplet)))
-print(colour.models.deprecated.HEX_to_RGB(hex_triplet))
