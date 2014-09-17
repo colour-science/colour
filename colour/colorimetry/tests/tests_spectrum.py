@@ -2042,6 +2042,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             '__sub__',
                             '__mul__',
                             '__div__',
+                            '__pow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2241,6 +2242,41 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             (spd1 / spd2).values,
             spd.values / spd.values)
+
+    def test__pow__(self):
+        """
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__pow__`
+        method.
+        """
+        spd = self.__spd.clone()
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** 2).values, values ** 2)
+
+        # Avoiding zero division for testing purpose.
+        spd = self.__spd.clone() + 0.001
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** -2).values, values ** -2)
+
+        spd = self.__spd.clone()
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** 0).values, values ** 0)
+
+        spd = self.__spd.clone()
+        values = spd.values
+        random = np.random.random(len(values))
+        np.testing.assert_almost_equal(
+            (spd ** random).values,
+            values ** random)
+
+        # Avoiding zero division for testing purpose.
+        spd = self.__spd.clone() + 0.001
+
+        spd1 = spd.clone()
+        spd2 = spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 ** spd2).values,
+            spd.values ** spd.values)
 
     def test_get(self):
         """

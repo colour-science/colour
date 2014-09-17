@@ -472,6 +472,7 @@ class SpectralPowerDistribution(object):
     __mul__
     __div__
     __truediv__
+    __pow__
     get
     is_uniform
     extrapolate
@@ -1203,6 +1204,65 @@ class SpectralPowerDistribution(object):
 
     # Python 3 compatibility.
     __truediv__ = __div__
+
+    def __pow__(self, x):
+        """
+        Implements support for spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution raised by power of x.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
+        SpectralPowerDistribution.__mul__, SpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> spd = SpectralPowerDistribution('Spd', data)
+        >>> spd ** 2  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values
+        array([ 2467.1089,  4842.7681,  6679.7929,  7777.4761])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> spd / [1, 2, 3, 4]  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values
+        array([ 4.967     ,  3.4795    ,  2.72433333,  2.20475   ])
+
+        Dividing a :class:`SpectralPowerDistribution` class variable:
+
+        >>> spd_alternate = SpectralPowerDistribution('Spd', data)
+        >>> spd / spd_alternate  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([ 0.1       ,  0.05      ,  0.0333333...,  0.025     ])
+        """
+
+        self.__data = dict(zip(self.wavelengths,
+                               self.values ** self.__format_operand(x)))
+
+        return self
 
     def get(self, wavelength, default=None):
         """
