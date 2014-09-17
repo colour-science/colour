@@ -1226,27 +1226,29 @@ class SpectralPowerDistribution(object):
         --------
         Exponentiation by a single *numeric* variable:
 
-        >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> data = {510: 1.67, 520: 2.59, 530: 3.73, 540: 4.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd ** 2  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd.values
-        array([ 2467.1089,  4842.7681,  6679.7929,  7777.4761])
+        array([  2.7889,   6.7081,  13.9129,  17.5561])
 
         Exponentiation by an *array_like* variable:
 
-        >>> spd / [1, 2, 3, 4]  # doctest: +ELLIPSIS
+        >>> spd ** [1, 2, 3, 4]  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd.values
-        array([ 4.967     ,  3.4795    ,  2.72433333,  2.20475   ])
+        array([  2.78890000e+00,   4.49986056e+01,   2.69310317e+03,
+         9.49975016e+04])
 
-        Dividing a :class:`SpectralPowerDistribution` class variable:
+        Exponentitation by a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd / spd_alternate  # doctest: +ELLIPSIS
+        >>> spd ** spd_alternate  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd.values  # doctest: +ELLIPSIS
-        array([ 0.1       ,  0.05      ,  0.0333333...,  0.025     ])
+        array([  5.54463566e+00,   1.91331095e+04,   6.23510334e+12,
+         7.18809900e+20])
         """
 
         self.__data = dict(zip(self.wavelengths,
@@ -2794,6 +2796,81 @@ class TriSpectralPowerDistribution(object):
 
     # Python 3 compatibility.
     __truediv__ = __div__
+
+    def __pow__(self, x):
+        """
+        Implements support for tri-spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            TriSpectral power distribution raised by power of x.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__, TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__, TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values
+        array([[  73.4012703 ,  142.11177216,   15.99256931],
+               [ 106.36567981,  136.56345834,   31.69611945],
+               [ 126.9461835 ,   67.07097465,  103.66192664],
+               [ 138.02611904,   32.14823481,  141.62851628]])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[  7.34012703e+01,   2.01957558e+04,   4.09029588e+03],
+               [  1.06365680e+02,   1.86495782e+04,   3.18433159e+04],
+               [  1.26946183e+02,   4.49851564e+03,   1.11392982e+06],
+               [  1.38026119e+02,   1.03350900e+03,   2.84087494e+06]])
+
+        Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd / tri_spd1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[  5.90517058e+00,   4.06598667e+02,   4.51666948e+01],
+               [  4.59462980e+00,   2.67992214e+02,   3.64590289e+02],
+               [  1.86740488e+00,   5.50411800e+01,   2.43428719e+04],
+               [  1.52886707e+00,   1.17191178e+01,   1.21146053e+05]])
+        """
+
+        values = self.values ** self.__format_operand(x)
+
+        for i, axis in enumerate(('x', 'y', 'z')):
+            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+
+        return self
 
     def get(self, wavelength, default=None):
         """

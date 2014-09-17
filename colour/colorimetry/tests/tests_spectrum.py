@@ -2458,6 +2458,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             '__sub__',
                             '__mul__',
                             '__div__',
+                            '__pow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2680,6 +2681,40 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             (tri_spd1 / tri_spd2).values,
             tri_spd.values / tri_spd.values)
+
+    def test__pow__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`  # noqa
+        method.
+        """
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** 2).values, values ** 2)
+
+        # Avoiding zero division for testing purpose.
+        tri_spd = self.__tri_spd.clone() + 0.001
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** -2).values, values ** -2)
+
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** 0).values, values ** 0)
+
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        random = np.random.random(values.shape)
+        np.testing.assert_almost_equal(
+            (tri_spd ** random).values,
+            values ** random)
+
+        # Avoiding zero division for testing purpose.
+        tri_spd = self.__tri_spd.clone() + 0.001
+
+        tri_spd1 = tri_spd.clone()
+        tri_spd2 = tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 ** tri_spd2).values,
+            tri_spd.values ** tri_spd.values)
 
     def test_get(self):
         """
