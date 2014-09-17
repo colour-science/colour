@@ -39,7 +39,7 @@ __all__ = ['XYZ_to_RGB',
 def XYZ_to_RGB(XYZ,
                illuminant_XYZ,
                illuminant_RGB,
-               to_RGB,
+               XYZ_to_RGB_matrix,
                chromatic_adaptation_method='CAT02',
                transfer_function=None):
     """
@@ -55,7 +55,7 @@ def XYZ_to_RGB(XYZ,
         *CIE XYZ* colourspace *illuminant* *xy* chromaticity coordinates.
     illuminant_RGB : array_like
         *RGB* colourspace *illuminant* *xy* chromaticity coordinates.
-    to_RGB : array_like, (3, 3)
+    XYZ_to_RGB_matrix : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -84,7 +84,7 @@ def XYZ_to_RGB(XYZ,
     >>> illuminant_XYZ = (0.34567, 0.35850)
     >>> illuminant_RGB = (0.31271, 0.32902)
     >>> chromatic_adaptation_method = 'Bradford'
-    >>> to_RGB = np.array([
+    >>> XYZ_to_RGB_matrix = np.array([
     ...     [3.24100326, -1.53739899, -0.49861587],
     ...     [-0.96922426, 1.87592999, 0.04155422],
     ...     [0.05563942, -0.2040112, 1.05714897]])
@@ -92,7 +92,7 @@ def XYZ_to_RGB(XYZ,
     ...     XYZ,
     ...     illuminant_XYZ,
     ...     illuminant_RGB,
-    ...     to_RGB,
+    ...     XYZ_to_RGB_matrix,
     ...     chromatic_adaptation_method)  # doctest: +ELLIPSIS
     array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
@@ -107,7 +107,8 @@ def XYZ_to_RGB(XYZ,
 
     adapted_XYZ = np.dot(cat, XYZ)
 
-    RGB = np.dot(to_RGB.reshape((3, 3)), adapted_XYZ.reshape((3, 1)))
+    RGB = np.dot(XYZ_to_RGB_matrix.reshape((3, 3)),
+                 adapted_XYZ.reshape((3, 1)))
 
     if transfer_function is not None:
         RGB = np.array([transfer_function(x) for x in np.ravel(RGB)])
@@ -118,7 +119,7 @@ def XYZ_to_RGB(XYZ,
 def RGB_to_XYZ(RGB,
                illuminant_RGB,
                illuminant_XYZ,
-               to_XYZ,
+               RGB_to_XYZ_matrix,
                chromatic_adaptation_method='CAT02',
                inverse_transfer_function=None):
     """
@@ -134,7 +135,7 @@ def RGB_to_XYZ(RGB,
         *RGB* colourspace *illuminant* chromaticity coordinates.
     illuminant_XYZ : array_like
         *CIE XYZ* colourspace *illuminant* chromaticity coordinates.
-    to_XYZ : array_like, (3, 3)
+    RGB_to_XYZ_matrix : array_like, (3, 3)
         *Normalised primary matrix*.
     chromatic_adaptation_method : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -163,7 +164,7 @@ def RGB_to_XYZ(RGB,
     >>> illuminant_RGB = (0.31271, 0.32902)
     >>> illuminant_XYZ = (0.34567, 0.35850)
     >>> chromatic_adaptation_method = 'Bradford'
-    >>> to_XYZ = np.array([
+    >>> RGB_to_XYZ_matrix = np.array([
     ...     [0.41238656, 0.35759149, 0.18045049],
     ...     [0.21263682, 0.71518298, 0.0721802],
     ...     [0.01933062, 0.11919716, 0.95037259]])
@@ -171,7 +172,7 @@ def RGB_to_XYZ(RGB,
     ...     RGB,
     ...     illuminant_RGB,
     ...     illuminant_XYZ,
-    ...     to_XYZ,
+    ...     RGB_to_XYZ_matrix,
     ...     chromatic_adaptation_method)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -180,7 +181,7 @@ def RGB_to_XYZ(RGB,
         RGB = np.array([inverse_transfer_function(x)
                         for x in np.ravel(RGB)])
 
-    XYZ = np.dot(to_XYZ.reshape((3, 3)), RGB.reshape((3, 1)))
+    XYZ = np.dot(RGB_to_XYZ_matrix.reshape((3, 3)), RGB.reshape((3, 1)))
 
     cat = chromatic_adaptation_matrix(
         xy_to_XYZ(illuminant_RGB),
@@ -236,7 +237,7 @@ def RGB_to_RGB(RGB,
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_method)
 
-    trs_matrix = np.dot(output_colourspace.to_RGB,
-                        np.dot(cat, input_colourspace.to_XYZ))
+    trs_matrix = np.dot(output_colourspace.XYZ_to_RGB_matrix,
+                        np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
 
     return np.dot(trs_matrix, RGB)

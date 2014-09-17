@@ -43,7 +43,7 @@ for index, name, x, y, Y in data:
         illuminant,
         colour.ILLUMINANTS[
             'CIE 1931 2 Degree Standard Observer']['D65'],
-        colour.sRGB_COLOURSPACE.to_RGB,
+        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
         'Bradford',
         colour.sRGB_COLOURSPACE.transfer_function)
 

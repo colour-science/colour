@@ -61,7 +61,7 @@ print(colour.XYZ_to_RGB(
     XYZ,
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     colour.sRGB_COLOURSPACE.whitepoint,
-    colour.sRGB_COLOURSPACE.to_RGB,
+    colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
     'Bradford',
     colour.sRGB_COLOURSPACE.transfer_function))
 
@@ -75,7 +75,7 @@ print(colour.RGB_to_XYZ(
     RGB,
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
-    colour.sRGB_COLOURSPACE.to_XYZ,
+    colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix,
     'Bradford',
     colour.sRGB_COLOURSPACE.inverse_transfer_function))
 

@@ -43,9 +43,9 @@ class RGB_Colourspace(object):
         *RGB* Colourspace primaries.
     whitepoint : array_like
         *RGB* Colourspace whitepoint.
-    to_XYZ : array_like
+    RGB_to_XYZ_matrix : array_like
         Transformation matrix from colourspace to *CIE XYZ* colourspace.
-    to_RGB : array_like
+    XYZ_to_RGB_matrix : array_like
         Transformation matrix from *CIE XYZ* colourspace to colourspace.
     transfer_function : object
         *RGB* Colourspace opto-electronic transfer function from linear to
@@ -59,8 +59,8 @@ class RGB_Colourspace(object):
                  name,
                  primaries,
                  whitepoint,
-                 to_XYZ=None,
-                 to_RGB=None,
+                 RGB_to_XYZ_matrix=None,
+                 XYZ_to_RGB_matrix=None,
                  transfer_function=None,
                  inverse_transfer_function=None):
         self.__name = None
@@ -69,10 +69,10 @@ class RGB_Colourspace(object):
         self.primaries = primaries
         self.__whitepoint = None
         self.whitepoint = whitepoint
-        self.__to_XYZ = None
-        self.to_XYZ = to_XYZ
-        self.__to_RGB = None
-        self.to_RGB = to_RGB
+        self.__RGB_to_XYZ_matrix = None
+        self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
+        self.__XYZ_to_RGB_matrix = None
+        self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
         self.__transfer_function = None
         self.transfer_function = transfer_function
         self.__inverse_transfer_function = None
@@ -167,7 +167,7 @@ class RGB_Colourspace(object):
         self.__whitepoint = value
 
     @property
-    def to_XYZ(self):
+    def RGB_to_XYZ_matrix(self):
         """
         Property for **self.__to_XYZ** private attribute.
 
@@ -177,10 +177,10 @@ class RGB_Colourspace(object):
             self.__to_XYZ.
         """
 
-        return self.__to_XYZ
+        return self.__RGB_to_XYZ_matrix
 
-    @to_XYZ.setter
-    def to_XYZ(self, value):
+    @RGB_to_XYZ_matrix.setter
+    def RGB_to_XYZ_matrix(self, value):
         """
         Setter for **self.__to_XYZ** private attribute.
 
@@ -192,10 +192,10 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = to_ndarray(value)
-        self.__to_XYZ = value
+        self.__RGB_to_XYZ_matrix = value
 
     @property
-    def to_RGB(self):
+    def XYZ_to_RGB_matrix(self):
         """
         Property for **self.__to_RGB** private attribute.
 
@@ -205,10 +205,10 @@ class RGB_Colourspace(object):
             self.__to_RGB.
         """
 
-        return self.__to_RGB
+        return self.__XYZ_to_RGB_matrix
 
-    @to_RGB.setter
-    def to_RGB(self, value):
+    @XYZ_to_RGB_matrix.setter
+    def XYZ_to_RGB_matrix(self, value):
         """
         Setter for **self.__to_RGB** private attribute.
 
@@ -220,7 +220,7 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = to_ndarray(value)
-        self.__to_RGB = value
+        self.__XYZ_to_RGB_matrix = value
 
     @property
     def transfer_function(self):

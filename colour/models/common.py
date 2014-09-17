@@ -69,6 +69,6 @@ def XYZ_to_sRGB(XYZ,
     return XYZ_to_RGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,
-                      sRGB.to_RGB,
+                      sRGB.XYZ_to_RGB_matrix,
                       chromatic_adaptation_method,
                       sRGB.transfer_function if transfer_function else None)
