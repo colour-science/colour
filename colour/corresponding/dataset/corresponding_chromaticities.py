@@ -10,8 +10,8 @@ experiments.
 
 See Also
 --------
-`Corresponding Chromaticities IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/corresponding/corresponding_chromaticities.ipynb>`_  # noqa
+`Corresponding Chromaticities Prediction IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/corresponding/prediction.ipynb>`_  # noqa
 
 References
 ----------

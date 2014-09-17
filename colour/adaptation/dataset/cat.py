@@ -20,8 +20,8 @@ Defines various chromatic adaptation transforms (CAT):
 
 See Also
 --------
-`Chromatic Adaptation Transforms IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/cat.ipynb>`_  # noqa
+`Chromatic Adaptation IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/vonkries.ipynb>`_  # noqa
 
 References
 ----------
