@@ -1251,7 +1251,7 @@ class SpectralPowerDistribution(object):
         array([  2.78890000e+00,   4.49986056e+01,   2.69310317e+03,
          9.49975016e+04])
 
-        Exponentitation by a :class:`SpectralPowerDistribution` class variable:
+        Exponentiation by a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
         >>> spd ** spd_alternate  # doctest: +ELLIPSIS
@@ -2838,41 +2838,41 @@ class TriSpectralPowerDistribution(object):
         --------
         Exponentiation by a single *numeric* variable:
 
-        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
-        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> x_bar = {510: 1.67, 520: 1.59, 530: 1.73, 540: 1.19}
+        >>> y_bar = {510: 1.56, 520: 1.34, 530: 1.76, 540: 1.45}
+        >>> z_bar = {510: 1.43, 520: 1.15, 530: 1.98, 540: 1.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
-        array([[  73.4012703 ,  142.11177216,   15.99256931],
-               [ 106.36567981,  136.56345834,   31.69611945],
-               [ 126.9461835 ,   67.07097465,  103.66192664],
-               [ 138.02611904,   32.14823481,  141.62851628]])
+        array([[ 1.75787552,  1.63093652,  1.48207316],
+               [ 1.66547009,  1.37979726,  1.16618547],
+               [ 1.82747192,  1.86236128,  2.11997973],
+               [ 1.21088154,  1.50489016,  1.31199133]])
 
         Exponentiation by an *array_like* variable:
 
         >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
-        array([[  7.34012703e+01,   2.01957558e+04,   4.09029588e+03],
-               [  1.06365680e+02,   1.86495782e+04,   3.18433159e+04],
-               [  1.26946183e+02,   4.49851564e+03,   1.11392982e+06],
-               [  1.38026119e+02,   1.03350900e+03,   2.84087494e+06]])
+        array([[ 1.75787552,  2.65995394,  3.25543421],
+               [ 1.66547009,  1.90384048,  1.58599887],
+               [ 1.82747192,  3.46838955,  9.52785475],
+               [ 1.21088154,  2.26469439,  2.25835858]])
 
         Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd / tri_spd1  # doctest: +ELLIPSIS
+        >>> tri_spd ** tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
-        array([[  5.90517058e+00,   4.06598667e+02,   4.51666948e+01],
-               [  4.59462980e+00,   2.67992214e+02,   3.64590289e+02],
-               [  1.86740488e+00,   5.50411800e+01,   2.43428719e+04],
-               [  1.52886707e+00,   1.17191178e+01,   1.21146053e+05]])
+        array([[  2.24043841,   5.12318188,   6.30477977],
+               [  1.79790758,   2.7836369 ,   1.85526457],
+               [  3.29962369,   8.59847066,  52.84834908],
+               [  1.2775271 ,   2.64521776,   3.25836479]])
         """
 
         values = self.values ** self.__format_operand(x)
