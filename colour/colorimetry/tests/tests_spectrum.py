@@ -1990,23 +1990,6 @@ class TestSpectralShape(unittest.TestCase):
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
             np.arange(0, 10 + 0.1, 0.1))
 
-        # Dedicated test for potential extra number with non uniformly spaced
-        # variables.
-        self.assertEqual(
-            len(SpectralPowerDistribution(
-                'White',
-                {380.0000: 1.0000,
-                 417.7778: 1.0000,
-                 455.5556: 0.9999,
-                 493.3333: 0.9993,
-                 531.1111: 0.9992,
-                 568.8889: 0.9998,
-                 606.6667: 1.0000,
-                 644.4444: 1.0000,
-                 682.2222: 1.0000,
-                 720.0000: 1.0000})),
-            10)
-
 
 class TestSpectralPowerDistribution(unittest.TestCase):
     """

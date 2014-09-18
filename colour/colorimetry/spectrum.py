@@ -35,7 +35,7 @@ from colour.algebra import (
     LinearInterpolator1d,
     SplineInterpolator,
     SpragueInterpolator)
-from colour.utilities import is_string
+from colour.utilities import is_string, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -416,18 +416,20 @@ class SpectralShape(object):
                                 '"steps" attributes is not defined!'))
 
         if self.__range is None:
-            # We want to include the *end* of interval value, in order to
-            # do that we add *steps* to *end*, however because of floating
-            # precision issues, we may in some instances get an extra number as
-            # mentioned in Numpy documentation:
-            # http://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html  # noqa
-            # So that the interval is not exceeded we actually add 99.9% of
-            # *steps*.
-            # TODO: Check if the above approach is bullet proof.
+            samples = round(
+                (self.__steps + self.__end - self.__start) / self.__steps)
+            self.__range, current_steps = np.linspace(self.__start,
+                                                      self.__end,
+                                                      samples,
+                                                      retstep=True)
 
-            self.__range = np.arange(self.__start,
-                                     self.__end + self.__steps * 0.999,
-                                     self.__steps)
+            if current_steps != self.__steps:
+                self.__steps = current_steps
+                warning(('"{0}" shape could not be honored, using '
+                         '"{1}"!').format((self.__start,
+                                           self.__end,
+                                           self.__steps),
+                                          self))
         return self.__range
 
 
