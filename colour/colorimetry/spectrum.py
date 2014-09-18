@@ -256,17 +256,17 @@ class SpectralShape(object):
         --------
         >>> shape = SpectralShape(0, 10, 1)
         >>> for wavelength in shape: print(wavelength)
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-        8
-        9
-        10
+        0.0
+        1.0
+        2.0
+        3.0
+        4.0
+        5.0
+        6.0
+        7.0
+        8.0
+        9.0
+        10.0
         """
 
         return iter(self.range())
@@ -416,10 +416,18 @@ class SpectralShape(object):
                                 '"steps" attributes is not defined!'))
 
         if self.__range is None:
-            self.__range = np.arange(self.__start,
-                                     self.__end + self.__steps,
-                                     self.__steps)
+            # We want to include the *end* of interval value, in order to
+            # do that we add *steps* to *end*, however because of floating
+            # precision issues, we may in some instances get an extra number as
+            # mentioned in Numpy documentation:
+            # http://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html  # noqa
+            # So that the interval is not exceeded we actually add 99.9% of
+            # *steps*.
+            # TODO: Check if the above approach is bullet proof.
 
+            self.__range = np.arange(self.__start,
+                                     self.__end + self.__steps * 0.999,
+                                     self.__steps)
         return self.__range
 
 
@@ -3413,7 +3421,7 @@ def constant_spd(k,
     --------
     >>> spd = constant_spd(100)
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     100.0
     """
@@ -3453,7 +3461,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = zeros_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     0.0
     """
@@ -3489,7 +3497,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = ones_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     1.0
     """
