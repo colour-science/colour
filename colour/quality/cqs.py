@@ -37,7 +37,7 @@ from colour.models import (
     XYZ_to_UCS,
     XYZ_to_xy,
     XYZ_to_Lab,
-    LAB_to_LCHab)
+    Lab_to_LCHab)
 from colour.temperature import CCT_to_xy_illuminant_D, uv_to_CCT_robertson1968
 from colour.adaptation import chromatic_adaptation as xyz_chromatic_adaptation
 
@@ -135,7 +135,7 @@ def _colour_quality_scales(test_data, reference_data):
     return colour_quality_scales
 
 
-def colour_quality_index(test_spd, additional_data=False):
+def colour_quality_scale(test_spd, additional_data=False):
     """
     Returns the *colour quality scale* of given spectral power distribution.
 
