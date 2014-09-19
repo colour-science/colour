@@ -48,7 +48,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = []
+__all__ = ['VS_COLORIMETRY_DATA_NXYZLABC',
+           'colour_quality_scale']
 
 VS_COLORIMETRY_DATA_NXYZLABC = namedtuple('VsColorimetryData_nXYZLabC',
                                           ('name', 'XYZ', 'Lab', 'C'))
@@ -105,7 +106,7 @@ def _vs_colorimetry_data(test_spd,
     return vs_data
 
 
-def _colour_quality_spaces(test_data, reference_data):
+def _colour_quality_scales(test_data, reference_data):
     """
     Returns the *test colour samples* rendering indexes.
 
@@ -122,7 +123,7 @@ def _colour_quality_spaces(test_data, reference_data):
         *Test colour samples* colour rendering indexes.
     """
 
-    colour_quality_spaces = {}
+    colour_quality_scales = {}
     for i, _ in enumerate(test_data):
         color_difference = math.sqrt(sum((reference_data[i].Lab - test_data[i].Lab)**2))
         chroma_difference = test_data[i].C - reference_data[i].C
@@ -130,8 +131,8 @@ def _colour_quality_spaces(test_data, reference_data):
         if chroma_difference > 0:
             color_difference = math.sqrt(color_difference**2 - chroma_difference**2)
 
-        colour_quality_spaces[index] = color_difference
-    return colour_quality_spaces
+        colour_quality_scales[index] = color_difference
+    return colour_quality_scales
 
 
 def colour_quality_index(test_spd, additional_data=False):
@@ -190,11 +191,11 @@ def colour_quality_index(test_spd, additional_data=False):
         tcs_spds,
         cmfs)
 
-    color_quality_spaces = _colour_quality_spaces(
+    color_quality_scales = _colour_quality_scales(
         test_vs_colorimetry_data, reference_vs_colorimetry_data)
 
-    color_difference_RMS = math.sqrt(len(color_quality_spaces) *
-                                     sum(color_quality_spaces.values()))
+    color_difference_RMS = math.sqrt(len(color_quality_scales) *
+                                     sum(color_quality_scales.values()))
 
     CQS_RMS = 100 - 3.1 * color_difference_RMS
     CQS_scaled = 10 * np.log(np.exp(CQS_RMS / 10) + 1)
@@ -205,11 +206,11 @@ def colour_quality_index(test_spd, additional_data=False):
     else:
         M_CCT = 1
 
-    color_quality_space = M_CCT * CQS_scaled
+    color_quality_scale = M_CCT * CQS_scaled
 
     if additional_data:
-        return (colour_quality_space,
-                color_quality_spaces,
+        return (colour_quality_scale,
+                color_quality_scales,
                 [test_vs_colorimetry_data, reference_vs_colorimetry_data])
     else:
-        return color_quality_space
+        return color_quality_scale
