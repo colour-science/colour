@@ -97,10 +97,7 @@ def XYZ_to_RGB(XYZ,
     array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
 
-    np.array([
-        [3.24100326, -1.53739899, -0.49861587],
-        [-0.96922426, 1.87592999, 0.04155422],
-        [0.05563942, -0.2040112, 1.05714897]])
+    XYZ = np.ravel(XYZ)
     cat = chromatic_adaptation_matrix(xy_to_XYZ(illuminant_XYZ),
                                       xy_to_XYZ(illuminant_RGB),
                                       method=chromatic_adaptation_method)
@@ -177,6 +174,8 @@ def RGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
+    RGB = np.ravel(RGB)
+
     if inverse_transfer_function is not None:
         RGB = np.array([inverse_transfer_function(x)
                         for x in np.ravel(RGB)])
@@ -231,6 +230,8 @@ def RGB_to_RGB(RGB,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
     array([ 0.0643338...,  0.1157362...,  0.1157614...])
     """
+
+    RGB = np.ravel(RGB)
 
     cat = chromatic_adaptation_matrix(
         xy_to_XYZ(input_colourspace.whitepoint),
