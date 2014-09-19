@@ -18,13 +18,21 @@ import random
 import numpy as np
 import pylab
 
-from colour.models import POINTER_GAMUT_BOUNDARIES, RGB_COLOURSPACES
+from colour.models import (
+    POINTER_GAMUT_DATA,
+    POINTER_GAMUT_ILLUMINANT,
+    POINTER_GAMUT_BOUNDARIES,
+    RGB_COLOURSPACES,
+    LCHab_to_Lab,
+    Lab_to_XYZ,
+    XYZ_to_xy)
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
     aspect,
     bounding_box,
     display,
     figure_size,
+    colour_cycle,
     get_cmfs)
 
 __author__ = 'Colour Developers'
@@ -113,26 +121,38 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
+
+    cycle = colour_cycle('rainbow')
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             x, y = tuple(zip(*POINTER_GAMUT_BOUNDARIES))
+            alpha_p, colour_p = 0.85, '0.95'
             pylab.plot(x,
                        y,
                        label='Pointer\'s Gamut',
-                       color='0.95',
+                       color=colour_p,
+                       alpha=alpha_p,
                        linewidth=2)
             pylab.plot([x[-1],
                         x[0]],
                        [y[-1],
                         y[0]],
-                       color='0.95',
+                       color=colour_p,
+                       alpha=alpha_p,
                        linewidth=2)
+
+            xyp = []
+            for LCHab in POINTER_GAMUT_DATA:
+                XYZ = Lab_to_XYZ(LCHab_to_Lab(LCHab), POINTER_GAMUT_ILLUMINANT)
+                xyp.append(XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT))
+            x, y = tuple(zip(*xyp))
+            pylab.scatter(x, y, alpha=alpha_p / 2, color=colour_p, marker='+')
+
         else:
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            random_colour = lambda: float(random.randint(64, 224)) / 255
-            r, g, b = random_colour(), random_colour(), random_colour()
+            r, g, b, a = next(cycle)
 
             primaries = colourspace.primaries
             whitepoint = colourspace.whitepoint

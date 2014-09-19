@@ -33,10 +33,9 @@ __all__ = ['POINTER_GAMUT_ILLUMINANT',
            'POINTER_GAMUT_DATA',
            'POINTER_GAMUT_BOUNDARIES']
 
-POINTER_GAMUT_ILLUMINANT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+POINTER_GAMUT_ILLUMINANT = (0.310063177197979, 0.316157863743972)
 """
-*Pointer's Gamut* illuminant.
+*Pointer's Gamut* illuminant *SC*.
 
 POINTER_GAMUT_ILLUMINANT : tuple
 """
