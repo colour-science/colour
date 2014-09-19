@@ -24,6 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import namedtuple
+import math
 
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.colorimetry import (
@@ -50,7 +51,7 @@ __status__ = 'Production'
 __all__ = []
 
 VS_COLORIMETRY_DATA_NXYZLABC = namedtuple('VsColorimetryData_nXYZLabC',
-                                            ('name', 'XYZ', 'Lab', 'C'))
+                                          ('name', 'XYZ', 'Lab', 'C'))
 
 
 def _vs_colorimetry_data(test_spd,
@@ -102,3 +103,32 @@ def _vs_colorimetry_data(test_spd,
                                          vs_chromaticity))
 
     return vs_data
+
+
+def _colour_quality_spaces(test_data, reference_data):
+    """
+    Returns the *test colour samples* rendering indexes.
+
+    Parameters
+    ----------
+    test_data : list
+        Test data.
+    reference_data : list
+        Reference data.
+
+    Returns
+    -------
+    dict
+        *Test colour samples* colour rendering indexes.
+    """
+
+    colour_quality_spaces = {}
+    for i, _ in enumerate(test_data):
+        color_diff = math.sqrt(sum((reference_data[i].Lab - test_data[i].Lab)**2))
+        chroma_diff = test_data[i].C - reference_data[i].C
+
+        if chroma_diff > 0:
+            color_diff = math.sqrt(color_diff**2 - chroma_diff**2)
+
+        colour_quality_spaces[index] = color_diff
+    return colour_quality_spaces
