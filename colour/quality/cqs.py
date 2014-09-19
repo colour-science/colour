@@ -124,11 +124,92 @@ def _colour_quality_spaces(test_data, reference_data):
 
     colour_quality_spaces = {}
     for i, _ in enumerate(test_data):
-        color_diff = math.sqrt(sum((reference_data[i].Lab - test_data[i].Lab)**2))
-        chroma_diff = test_data[i].C - reference_data[i].C
+        color_difference = math.sqrt(sum((reference_data[i].Lab - test_data[i].Lab)**2))
+        chroma_difference = test_data[i].C - reference_data[i].C
 
-        if chroma_diff > 0:
-            color_diff = math.sqrt(color_diff**2 - chroma_diff**2)
+        if chroma_difference > 0:
+            color_difference = math.sqrt(color_difference**2 - chroma_difference**2)
 
-        colour_quality_spaces[index] = color_diff
+        colour_quality_spaces[index] = color_difference
     return colour_quality_spaces
+
+
+def colour_quality_index(test_spd, additional_data=False):
+    """
+    Returns the *colour quality scale* of given spectral power distribution.
+
+    Parameters
+    ----------
+    test_spd : SpectralPowerDistribution
+        Test spectral power distribution.
+    additional_data : bool, optional
+        Output additional data.
+
+    Returns
+    -------
+    numeric or (numeric, dict)
+        Color quality scale, VS data.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> color_quality_scale(spd)  # doctest: +ELLIPSIS
+    72.1507331...
+    """
+
+    cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
+
+    shape = cmfs.shape
+    test_spd = test_spd.clone().align(shape)
+
+    vs_spds = {}
+    for index, vs_spd in sorted(VS_SPDS.items()):
+        vs_spds[index] = vs_spd.clone().align(shape)
+
+    XYZ = spectral_to_XYZ(test_spd, cmfs)
+    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
+    CCT, _ = uv_to_CCT_robertson1968(uv)
+
+    if CCT < 5000:
+        reference_spd = blackbody_spd(CCT, shape)
+    else:
+        xy = CCT_to_xy_illuminant_D(CCT)
+        reference_spd = D_illuminant_relative_spd(xy)
+        reference_spd.align(shape)
+
+    test_vs_colorimetry_data = _vs_colorimetry_data(
+        test_spd,
+        reference_spd,
+        vs_spds,
+        cmfs,
+        chromatic_adaptation=True)
+    reference_vs_colorimetry_data = _vs_colorimetry_data(
+        reference_spd,
+        reference_spd,
+        tcs_spds,
+        cmfs)
+
+    color_quality_spaces = _colour_quality_spaces(
+        test_vs_colorimetry_data, reference_vs_colorimetry_data)
+
+    color_difference_RMS = math.sqrt(len(color_quality_spaces) *
+                                     sum(color_quality_spaces.values()))
+
+    CQS_RMS = 100 - 3.1 * color_difference_RMS
+    CQS_scaled = 10 * np.log(np.exp(CQS_RMS / 10) + 1)
+
+    if CCT < 3500:
+        M_CCT = CCT**3*(9.2672e-11) - CCT**2*(8.3959e-7) + \
+                CCT*(0.00255) - 1.612
+    else:
+        M_CCT = 1
+
+    color_quality_space = M_CCT * CQS_scaled
+
+    if additional_data:
+        return (colour_quality_space,
+                color_quality_spaces,
+                [test_vs_colorimetry_data, reference_vs_colorimetry_data])
+    else:
+        return color_quality_space
