@@ -18,7 +18,7 @@ import random
 import numpy as np
 import pylab
 
-from colour.models import POINTER_GAMUT_DATA, RGB_COLOURSPACES
+from colour.models import POINTER_GAMUT_BOUNDARIES, RGB_COLOURSPACES
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
     aspect,
@@ -115,10 +115,10 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     y_limit_min, y_limit_max = [-0.1], [0.9]
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
-            x, y = tuple(zip(*POINTER_GAMUT_DATA))
+            x, y = tuple(zip(*POINTER_GAMUT_BOUNDARIES))
             pylab.plot(x,
                        y,
-                       label='Pointer Gamut',
+                       label='Pointer\'s Gamut',
                        color='0.95',
                        linewidth=2)
             pylab.plot([x[-1],
