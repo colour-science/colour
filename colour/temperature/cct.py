@@ -426,7 +426,7 @@ def uv_to_CCT_robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Robertson (1968)* method.
+    coordinates using *Alan R. Roberston (1968)* method.
 
     Parameters
     ----------
@@ -517,7 +517,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
-    *Robertson (1968)* method.
+    *Alan R. Roberston (1968)* method.
 
     Parameters
     ----------
@@ -730,8 +730,8 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
 def xy_to_CCT_mccamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* colourspace *xy* chromaticity coordinates using *McCamy (1992)*
-    method.
+    *CIE XYZ* colourspace *xy* chromaticity coordinates using
+    *C. S. McCamy (1992)* method.
 
     Parameters
     ----------
@@ -766,7 +766,8 @@ def xy_to_CCT_hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *Hernandez-Andres, Lee & Romero (1999)* method.
+    *Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero (1999)*
+    method.
 
     Parameters
     ----------
@@ -812,7 +813,8 @@ def CCT_to_xy_kang2002(CCT):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using
-    *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+    *Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and
+    Youngsun Kim (2002)* method.
 
     Parameters
     ----------
@@ -878,7 +880,8 @@ def CCT_to_xy_illuminant_D(CCT):
     """
     Converts from the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* to the chromaticity of that
-    *CIE Illuminant D Series*.
+    *CIE Illuminant D Series* using *D. B. Judd, D. L. Macadam, G. Wyszecki,
+    H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds* method.
 
     Parameters
     ----------
