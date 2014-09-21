@@ -74,9 +74,6 @@ LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 Light sources chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
 for *CIE 1931 2 Degree Standard Observer*.
 
-{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
-
 Warning
 -------
 The chromaticity coordinates have been calculated from *PointerData.xls*
@@ -89,6 +86,8 @@ References
         (Last accessed 19 September 2014)
 
 LIGHT_SOURCES_RIT_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+    {'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
+    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
 """
 
 LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
@@ -105,10 +104,9 @@ LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 Light sources chromaticity coordinates from *RIT* *PointerData.xls* spreadsheet
 for *CIE 1964 10 Degree Standard Observer*. [1]_
 
-{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
-
 LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+    {'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
+    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
 """
 
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
@@ -127,9 +125,6 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 Traditional light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
 
-{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
-
 References
 ----------
 .. [2]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
@@ -137,6 +132,8 @@ References
 
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
+    {'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
+    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
 """
 
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
@@ -155,11 +152,10 @@ LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 Traditional light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
-
 LIGHT_SOURCES_NIST_TRADITIONAL_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
+    {'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
+    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
 """
 
 LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
@@ -198,11 +194,12 @@ LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 LED light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
-
 LIGHT_SOURCES_NIST_LED_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
-    CaseInsensitiveMapping
+    {'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
+    '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
+    '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
+    'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
+    'Phosphor LED YAG'}
 """
 
 LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
@@ -241,11 +238,13 @@ LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 LED light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
-
 LIGHT_SOURCES_NIST_LED_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
+    {'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
+    '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
+    '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
+    'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
+    'Phosphor LED YAG'}
 """
 
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
@@ -297,18 +296,17 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 Philips light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
-'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
-'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
-'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
-'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
-'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)', 'F40/CWX (Broadband FL)',
-'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)', 'F40/N (Natural FL)',
-'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)', 'MHC100/U/MP /3K',
-'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
-
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
+    {'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
+    'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
+    'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
+    'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
+    'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
+    'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
+    'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
+    'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
+    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
 """
 
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
@@ -361,18 +359,17 @@ LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 Philips light sources chromaticity coordinates from *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
-'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
-'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
-'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
-'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
-'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)', 'F40/CWX (Broadband FL)',
-'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)', 'F40/N (Natural FL)',
-'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)', 'MHC100/U/MP /3K',
-'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
-
 LIGHT_SOURCES_NIST_PHILIPS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
+    {'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
+    'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
+    'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
+    'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
+    'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
+    'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
+    'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
+    'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
+    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
 """
 
 LIGHT_SOURCES = CaseInsensitiveMapping(

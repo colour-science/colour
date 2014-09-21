@@ -760,9 +760,6 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS = CaseInsensitiveMapping(
 """
 Light sources from *RIT* *PointerData.xls* spreadsheet.
 
-{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
-
 Warning
 -------
 The relative spectral power distributions have been extracted from
@@ -775,6 +772,8 @@ References
         (Last accessed 19 September 2014)
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
+    {'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
+    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
 """
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
@@ -1644,15 +1643,14 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS = CaseInsensitiveMapping(
 Traditional light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet.
 
-{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
-
 References
 ----------
 .. [2]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
         (Last accessed 10 June 2014)
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS : CaseInsensitiveMapping
+    {'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
+    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
 """
 
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
@@ -2951,12 +2949,12 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping(
 """
 LED Light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
-{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
-'3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
-'4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
-'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4', 'Phosphor LED YAG'}
-
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS : CaseInsensitiveMapping
+    {'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
+    '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
+    '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
+    'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
+    'Phosphor LED YAG'}
 """
 
 LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
@@ -4858,17 +4856,16 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS = CaseInsensitiveMapping(
 Philips light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet. [2]_
 
-{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
-'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
-'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
-'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
-'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
-'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)', 'F40/CWX (Broadband FL)',
-'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)', 'F40/N (Natural FL)',
-'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)', 'MHC100/U/MP /3K',
-'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
-
 LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS : CaseInsensitiveMapping
+    {'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
+    'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
+    'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
+    'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
+    'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
+    'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
+    'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
+    'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
+    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
 """
 
 LIGHT_SOURCES_RELATIVE_SPDS = CaseInsensitiveMapping(
