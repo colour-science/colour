@@ -20,7 +20,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -33,7 +33,8 @@ __all__ = ['POINTER_GAMUT_ILLUMINANT',
            'POINTER_GAMUT_DATA',
            'POINTER_GAMUT_BOUNDARIES']
 
-POINTER_GAMUT_ILLUMINANT = (0.310063177197979, 0.316157863743972)
+POINTER_GAMUT_ILLUMINANT = LIGHT_SOURCES.get(
+    'CIE 1931 2 Degree Standard Observer').get('SC')
 """
 *Pointer's Gamut* illuminant *SC*.
 
