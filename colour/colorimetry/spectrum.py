@@ -1237,9 +1237,9 @@ class SpectralPowerDistribution(object):
 
         >>> spd ** [1, 2, 3, 4]  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
-        >>> spd.values
-        array([  2.78890000e+00,   4.49986056e+01,   2.69310317e+03,
-         9.49975016e+04])
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([  2.7889000...e+00,   4.4998605...e+01,   2.6931031...e+03,
+                 9.4997501...e+04])
 
         Exponentiation by a :class:`SpectralPowerDistribution` class variable:
 
@@ -1247,8 +1247,8 @@ class SpectralPowerDistribution(object):
         >>> spd ** spd_alternate  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd.values  # doctest: +ELLIPSIS
-        array([  5.54463566e+00,   1.91331095e+04,   6.23510334e+12,
-         7.18809900e+20])
+        array([  5.5446356...e+00,   1.9133109...e+04,   6.2351033...e+12,
+                 7.1880990...e+20])
         """
 
         self.__data = dict(zip(self.wavelengths,
@@ -2836,21 +2836,21 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
         >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd.values
-        array([[ 1.75787552,  1.63093652,  1.48207316],
-               [ 1.66547009,  1.37979726,  1.16618547],
-               [ 1.82747192,  1.86236128,  2.11997973],
-               [ 1.21088154,  1.50489016,  1.31199133]])
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[ 1.7578755...,  1.6309365...,  1.4820731...],
+               [ 1.6654700...,  1.3797972...,  1.1661854...],
+               [ 1.8274719...,  1.8623612...,  2.1199797...],
+               [ 1.2108815...,  1.5048901...,  1.3119913...]])
 
         Exponentiation by an *array_like* variable:
 
         >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
-        array([[ 1.75787552,  2.65995394,  3.25543421],
-               [ 1.66547009,  1.90384048,  1.58599887],
-               [ 1.82747192,  3.46838955,  9.52785475],
-               [ 1.21088154,  2.26469439,  2.25835858]])
+        array([[ 1.7578755...,  2.6599539...,  3.2554342...],
+               [ 1.6654700...,  1.9038404...,  1.5859988...],
+               [ 1.8274719...,  3.4683895...,  9.5278547...],
+               [ 1.2108815...,  2.2646943...,  2.2583585...]])
 
         Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
 
@@ -2859,10 +2859,10 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd ** tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
-        array([[  2.24043841,   5.12318188,   6.30477977],
-               [  1.79790758,   2.7836369 ,   1.85526457],
-               [  3.29962369,   8.59847066,  52.84834908],
-               [  1.2775271 ,   2.64521776,   3.25836479]])
+        array([[  2.2404384...,   5.1231818...,   6.3047797...],
+               [  1.7979075...,   2.7836369...,   1.8552645...],
+               [  3.2996236...,   8.5984706...,  52.8483490...],
+               [  1.2775271...,   2.6452177...,   3.2583647...]])
         """
 
         values = self.values ** self.__format_operand(x)
