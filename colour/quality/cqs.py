@@ -83,26 +83,28 @@ def _vs_colorimetry_data(test_spd,
     """
 
     test_XYZ = spectral_to_XYZ(test_spd, cmfs)
+    test_XYZ = test_XYZ / np.max(test_XYZ)
     test_xy = XYZ_to_xy(test_XYZ)
 
     vs_data = []
     for key, value in sorted(VS_INDEXES_TO_NAMES.items()):
         vs_spd = vs_spds.get(value)
         vs_XYZ = spectral_to_XYZ(vs_spd, cmfs, test_spd)
+        vs_XYZ = vs_XYZ / np.max(vs_XYZ)
 
         if chromatic_adaptation is True:
             reference_XYZ = spectral_to_XYZ(reference_spd, cmfs)
-            vs_XYZ = xyz_chromatic_adaptation(vs_XYZ, test_XYZ, reference_XYZ, method='CMCCAT2000_CAT')
+            reference_XYZ = reference_XYZ / np.max(reference_XYZ)
+            vs_XYZ = xyz_chromatic_adaptation(vs_XYZ, test_XYZ, reference_XYZ, method='CMCCAT2000')
 
         vs_CIE_Lab = XYZ_to_Lab(vs_XYZ, illuminant=test_xy)
-        _, vs_chromaticity = LAB_to_LCHab(vs_CIE_Lab)
+        _, vs_chromaticity, _ = Lab_to_LCHab(vs_CIE_Lab)
 
         vs_data.append(
             VS_COLORIMETRY_DATA_NXYZLABC(vs_spd.name,
                                          vs_XYZ,
                                          vs_CIE_Lab,
                                          vs_chromaticity))
-
     return vs_data
 
 
@@ -125,13 +127,13 @@ def _colour_quality_scales(test_data, reference_data):
 
     colour_quality_scales = {}
     for i, _ in enumerate(test_data):
-        color_difference = math.sqrt(sum((reference_data[i].Lab - test_data[i].Lab)**2))
+        color_difference = math.sqrt(sum((test_data[i].Lab - reference_data[i].Lab)**2))
         chroma_difference = test_data[i].C - reference_data[i].C
 
-        if chroma_difference > 0:
+        if chroma_difference < 0:
             color_difference = math.sqrt(color_difference**2 - chroma_difference**2)
 
-        colour_quality_scales[index] = color_difference
+        colour_quality_scales[i + 1] = color_difference
     return colour_quality_scales
 
 
@@ -188,14 +190,14 @@ def colour_quality_scale(test_spd, additional_data=False):
     reference_vs_colorimetry_data = _vs_colorimetry_data(
         reference_spd,
         reference_spd,
-        tcs_spds,
+        vs_spds,
         cmfs)
 
     color_quality_scales = _colour_quality_scales(
         test_vs_colorimetry_data, reference_vs_colorimetry_data)
 
-    color_difference_RMS = math.sqrt(len(color_quality_scales) *
-                                     sum(color_quality_scales.values()))
+    color_difference_RMS = math.sqrt(1 / len(color_quality_scales) *
+                                     sum([v**2 for k,v in color_quality_scales.items()]))
 
     CQS_RMS = 100 - 3.1 * color_difference_RMS
     CQS_scaled = 10 * np.log(np.exp(CQS_RMS / 10) + 1)
