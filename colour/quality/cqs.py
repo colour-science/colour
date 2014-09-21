@@ -18,6 +18,9 @@ References
 ----------
 .. [1]  http://opticalengineering.spiedigitallibrary.org/article.aspx?articleid=1096282
         (Last accessed 18 September 2014)
+
+.. [2] cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
+        (Last accessed 18 September 2014)
 """
 
 from __future__ import division, unicode_literals
