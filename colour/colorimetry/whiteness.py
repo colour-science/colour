@@ -250,7 +250,6 @@ def whiteness_ganz1979(xy, Y):
 
     Examples
     --------
-    >>> w = (0.3139, 0.3311)
     >>> whiteness_ganz1979((0.3167, 0.3334), 100.)  # doctest: +ELLIPSIS
     (85.6003766..., 0.6789002...)
     """
@@ -320,8 +319,8 @@ def whiteness_cie2004(xy,
 
     Examples
     --------
-    >>> w = (0.3139, 0.3311)
-    >>> whiteness_cie2004((0.3167, 0.3334), 100., w)  # doctest: +ELLIPSIS
+    >>> xy_n = (0.3139, 0.3311)
+    >>> whiteness_cie2004((0.3167, 0.3334), 100., xy_n)  # doctest: +ELLIPSIS
     (93.8500000..., -1.3049999...)
     """
 
