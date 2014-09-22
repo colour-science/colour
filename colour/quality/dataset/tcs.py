@@ -1428,10 +1428,11 @@ TCS_SPDS_DATA = {
         825: 0.451,
         830: 0.454}}
 
-TCS_SPDS = dict((key, SpectralPowerDistribution(key, value)) for key, value in
-                TCS_SPDS_DATA.items())
+TCS_SPDS = CaseInsensitiveMapping(
+    dict((key, SpectralPowerDistribution(key, value)) for key, value in
+         TCS_SPDS_DATA.items()))
 """
 Test colour samples spectral power distributions.
 
-TCS_SPDS : dict
+TCS_SPDS : CaseInsensitiveMapping
 """
