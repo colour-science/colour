@@ -41,12 +41,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TSC_COLORIMETRY_DATA_NXYZUVUVW',
+__all__ = ['TcsColorimetryData',
            'colour_rendering_index']
 
-TSC_COLORIMETRY_DATA_NXYZUVUVW = namedtuple('TscColorimetryData_nXYZuvUVW',
-                                            ('name', 'XYZ', 'uv', 'UVW'))
 
+class TcsColorimetryData(namedtuple('TcsColorimetryData',
+                                    ('name', 'XYZ', 'uv', 'UVW'))):
+    """
+    Defines the the class holding *test colour samples* colorimetry data.
+    """
 
 def _tcs_colorimetry_data(test_spd,
                           reference_spd,
@@ -111,10 +114,10 @@ def _tcs_colorimetry_data(test_spd,
         tcs_V = 13 * tcs_W * (tcs_v - reference_v)
 
         tcs_data.append(
-            TSC_COLORIMETRY_DATA_NXYZUVUVW(tcs_spd.name,
-                                           tcs_XYZ,
-                                           tcs_uv,
-                                           np.array([tcs_U, tcs_V, tcs_W])))
+            TcsColorimetryData(tcs_spd.name,
+                               tcs_XYZ,
+                               tcs_uv,
+                               np.array([tcs_U, tcs_V, tcs_W])))
 
     return tcs_data
 
