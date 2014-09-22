@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.quality.cri` module.
+Defines unit tests for :mod:`colour.quality.cqs` module.
 """
 
 from __future__ import division, unicode_literals
@@ -114,13 +114,13 @@ SAMPLE_SPD_DATA = {
 
 class TestColourQualityScale(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cqs.colour_quality_scale`
-    definition unit tests methods.
+    Defines :func:`colour.quality.cqs.colour_quality_scale` definition unit
+    tests methods.
     """
 
     def test_colour_quality_scale(self):
         """
-        Tests :func:`colour.quality.cri.colour_rendering_index` definition.
+        Tests :func:`colour.quality.cqs.colour_quality_scale` definition.
         """
 
         self.assertAlmostEqual(

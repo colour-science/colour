@@ -10,4 +10,5 @@ from .cqs import colour_quality_scale
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ['colour_rendering_index', 'colour_quality_scale']
+__all__ += ['colour_rendering_index']
+__all__ += ['colour_quality_scale']

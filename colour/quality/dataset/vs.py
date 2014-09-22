@@ -3,9 +3,10 @@
 
 """
 CQS Test Colour Samples Spectral Power Distributions
-================================================
+====================================================
 
-Defines the *CQS (Color Quality Scale)* test colour samples spectral power distributions.
+Defines the *CQS (Color Quality Scale)* test colour samples spectral power
+distributions.
 
 The *2005 NIST-CQS* test colour samples data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
@@ -23,7 +24,6 @@ References
 .. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
         (Last accessed 18 September 2014)
 """
-
 
 from __future__ import division, unicode_literals
 
@@ -58,7 +58,7 @@ VS_INDEXES_TO_NAMES = {
     14: 'VS14',
     15: 'VS15'}
 """
-CQS Test colour samples indexes to names mapping.
+CQS test colour samples indexes to names mapping.
 
 VS_INDEXES_TO_NAMES : dict
 """
@@ -80,9 +80,9 @@ VS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping(
      'VS14': '5R 4/14',
      'VS15': '7.5RP 4/12'})
 """
-CQS Test colour samples *Munsell* colour approximations.
+CQS test colour samples *Munsell* colour approximations.
 
-VS_APPROXIMATE_MUNSELL_NOTATIONS : dict
+VS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
 """
 
 VS_SPDS_DATA = {
@@ -1467,10 +1467,11 @@ VS_SPDS_DATA = {
         825: 0.7075,
         830: 0.7075}}
 
-VS_SPDS = dict((key, SpectralPowerDistribution(key, value)) for key, value in
-                VS_SPDS_DATA.items())
+VS_SPDS = CaseInsensitiveMapping(
+    dict((key, SpectralPowerDistribution(key, value)) for key, value in
+         VS_SPDS_DATA.items()))
 """
-CQS Test colour samples spectral power distributions.
+CQS test colour samples spectral power distributions.
 
 VS_SPDS : dict
 """
