@@ -56,7 +56,7 @@ __all__ = ['VsColorimetryData',
            'colour_quality_scale']
 
 
-class VsColorimetryData(namedtuple('VsColorimetryData_nXYZLabC',
+class VsColorimetryData(namedtuple('VsColorimetryData',
                                    ('name', 'XYZ', 'Lab', 'C'))):
     """
     Defines the the class holding *VS test colour samples* colorimetry data.
