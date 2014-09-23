@@ -42,7 +42,7 @@ __all__ = ['SMITS1999_PRIMARIES',
            'SMITS1999_WHITEPOINT',
            'SMITS1999_XYZ_TO_RGB_MATRIX',
            'XYZ_to_RGB_smits1999',
-           'RGB_to_spd_smits1999']
+           'RGB_to_spectral_smits1999']
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
 """
@@ -108,7 +108,7 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
                       transfer_function=None)
 
 
-def RGB_to_spd_smits1999(RGB):
+def RGB_to_spectral_smits1999(RGB):
     """
     Recovers the spectral power distribution of given *RGB* colourspace matrix
     using *Brian Smits (1999)* method.
@@ -126,7 +126,7 @@ def RGB_to_spd_smits1999(RGB):
     Examples
     --------
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
-    >>> RGB_to_spd_smits1999(RGB)  # doctest: +ELLIPSIS
+    >>> RGB_to_spectral_smits1999(RGB)  # doctest: +ELLIPSIS
     <...SpectralPowerDistribution object at 0x...>
     """
 

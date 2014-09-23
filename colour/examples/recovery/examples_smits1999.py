@@ -14,7 +14,7 @@ RGB = [0.35505307, 0.47995567, 0.61088035]
 message_box(('Recovering reflectance using "Brian Smits (1999)" method from '
              'given "RGB" colourspace matrix:\n'
              '\n\tRGB: {0}'.format(RGB)))
-print(colour.RGB_to_spd_smits1999(RGB))
+print(colour.RGB_to_spectral_smits1999(RGB))
 
 print('\n')
 

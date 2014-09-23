@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.recovery import RGB_to_spd_smits1999
+from colour.recovery import RGB_to_spectral_smits1999
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -29,18 +29,19 @@ __all__ = ['TestIsWithinMacadamLimits']
 
 class TestRGB_to_spd_smits1999(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.smits1999.RGB_to_spd_smits1999`
+    Defines :func:`colour.recovery.smits1999.RGB_to_spectral_smits1999`
     definition unit tests methods.
     """
 
     def test_RGB_to_spd_smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_spd_smits1999`
+        Tests :func:`colour.recovery.smits1999.RGB_to_spectral_smits1999`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            RGB_to_spd_smits1999([0.45293517, 0.31732158, 0.26414773]).values,
+            RGB_to_spectral_smits1999(
+                [0.45293517, 0.31732158, 0.26414773]).values,
             np.array([0.27787714,
                       0.27113183,
                       0.26990663,
@@ -53,7 +54,7 @@ class TestRGB_to_spd_smits1999(unittest.TestCase):
                       0.45410503]),
             decimal=7)
         np.testing.assert_almost_equal(
-            RGB_to_spd_smits1999(
+            RGB_to_spectral_smits1999(
                 np.array([0.77875824, 0.5772645, 0.50453169])).values,
             np.array([0.52493013,
                       0.51490862,
@@ -67,7 +68,7 @@ class TestRGB_to_spd_smits1999(unittest.TestCase):
                       0.78059677]),
             decimal=7)
         np.testing.assert_almost_equal(
-            RGB_to_spd_smits1999(
+            RGB_to_spectral_smits1999(
                 np.array([0.35505307, 0.47995567, 0.61088035])).values,
             np.array([0.60725817,
                       0.60371094,
