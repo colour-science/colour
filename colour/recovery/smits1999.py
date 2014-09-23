@@ -7,6 +7,11 @@ Smits (1999) - Reflectance Recovery
 
 Defines objects for reflectance recovery using *Brian Smits (1999)* method.
 
+See Also
+--------
+`Smits (1999) - Reflectance Recovery IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/recovery/smits1999.ipynb>`_  # noqa
+
 References
 ----------
 .. [1]  **Smits, B. (1999)**,
