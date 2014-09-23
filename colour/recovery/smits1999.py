@@ -6,13 +6,24 @@ Smits (1999) - Reflectance Recovery
 ===================================
 
 Defines objects for reflectance recovery using *Brian Smits (1999)* method.
+
+References
+----------
+.. [1]  **Smits, B. (1999)**,
+        *An RGB-to-spectrum conversion for reflectances*,
+        Journal of Graphics Tools, 4(4), 11-22.
+        DOI: http://dx.doi.org/10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import zeros_spd
+from colour.colorimetry import ILLUMINANTS, zeros_spd
+from colour.models import (
+    XYZ_to_RGB,
+    sRGB_COLOURSPACE,
+    normalised_primary_matrix)
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
@@ -22,10 +33,98 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_spd_smits1999']
+__all__ = ['SMITS1999_PRIMARIES',
+           'SMITS1999_WHITEPOINT',
+           'SMITS1999_XYZ_TO_RGB_MATRIX',
+           'XYZ_to_RGB_smits1999',
+           'RGB_to_spd_smits1999']
+
+SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
+"""
+Current *Brian Smits (1999)* method implementation colourspace primaries.
+
+SMITS1999_PRIMARIES : ndarray, (3, 2)
+"""
+
+SMITS1999_WHITEPOINT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('E')
+"""
+Current *Brian Smits (1999)* method implementation colourspace whitepoint.
+
+SMITS1999_WHITEPOINT : tuple
+"""
+
+SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
+    normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
+"""
+Current *Brian Smits (1999)* method implementation *RGB* colourspace to
+*CIE XYZ* colourspace matrix.
+
+SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
+"""
+
+
+def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
+    """
+    Convenient object to convert from *CIE XYZ* colourspace to *RGB*
+    colourspace in conditions required by the current *Brian Smits (1999)*
+    method implementation.
+
+    Parameters
+    ----------
+    XYZ : array_like, (3,)
+        *CIE XYZ* colourspace matrix.
+    chromatic_adaptation_method : unicode, optional
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        *Chromatic adaptation* method.
+
+    Returns
+    -------
+    ndarray, (3,)
+        *RGB* colour matrix.
+
+    Notes
+    -----
+    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ_to_RGB_smits1999(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.0214496...,  0.1315460...,  0.0928760...])
+    """
+
+    return XYZ_to_RGB(XYZ,
+                      SMITS1999_WHITEPOINT,
+                      SMITS1999_WHITEPOINT,
+                      SMITS1999_XYZ_TO_RGB_MATRIX,
+                      chromatic_adaptation_transform,
+                      transfer_function=None)
 
 
 def RGB_to_spd_smits1999(RGB):
+    """
+    Recovers the spectral power distribution of given *RGB* colourspace matrix
+    using *Brian Smits (1999)* method.
+
+    Parameters
+    ----------
+    RGB : array_like, (3,)
+        *RGB* colourspace matrix.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Recovered spectral power distribution.
+
+    Examples
+    --------
+    >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
+    >>> RGB_to_spd_smits1999(RGB)  # doctest: +ELLIPSIS
+    <...SpectralPowerDistribution object at 0x...>
+    """
+
     white_spd = SMITS_1999_SPDS.get('white').clone()
     cyan_spd = SMITS_1999_SPDS.get('cyan').clone()
     magenta_spd = SMITS_1999_SPDS.get('magenta').clone()
@@ -61,4 +160,5 @@ def RGB_to_spd_smits1999(RGB):
         else:
             spd += yellow_spd * (G - B)
             spd += red_spd * (R - G)
+
     return spd
