@@ -7,7 +7,7 @@ Defines unit tests for :mod:`colour.adaptation.cat` module.
 
 from __future__ import division, unicode_literals
 
-import numpy
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.adaptation import chromatic_adaptation_matrix
+from colour.adaptation import chromatic_adaptation_matrix, chromatic_adaptation
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -24,7 +24,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestChromaticAdaptationMatrix']
+__all__ = ['TestChromaticAdaptationMatrix',
+           'TestChromaticAdaptation']
 
 
 class TestChromaticAdaptationMatrix(unittest.TestCase):
@@ -39,64 +40,123 @@ class TestChromaticAdaptationMatrix(unittest.TestCase):
         definition.
         """
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.09923822, 1.000, 0.35445412]),
-                numpy.array([0.96907232, 1.000, 1.121792157])),
-            numpy.array(
-                [0.87145615, -0.13204674, 0.40394832,
-                 -0.09638805, 1.04909781, 0.1604033,
-                 0.0080207, 0.02826367, 3.06023194]).reshape((3, 3)),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037])),
+            np.array([[0.86876537, -0.14165393, 0.38719611],
+                      [-0.10300724, 1.05840142, 0.15386462],
+                      [0.00781674, 0.0267875, 2.96081771]]),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.92001986, 1, -0.1241347]),
-                numpy.array([1.0131677, 1.000, 2.11217686])),
-            numpy.array(
-                [0.91344833, -1.20588903, -3.74768526,
-                 -0.81680514, 2.3858187, -1.46988227,
-                 -0.05367575, -0.31122239, -20.35255049]).reshape((3, 3)),
+                np.array([0.99092745, 1., 0.85313273]),
+                np.array([1.01679082, 1., 0.67610122])),
+            np.array([[1.03379528e+00, 3.06532172e-02, -4.48681876e-02],
+                      [2.19582633e-02, 9.93543483e-01, -1.79368671e-02],
+                      [-1.02726253e-03, -2.81711777e-03, 7.96987686e-01]]),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.92001986, 1, -0.1241347]),
-                numpy.array([1.0131677, 1.000, 2.11217686])),
-            numpy.linalg.inv(chromatic_adaptation_matrix(
-                numpy.array([1.0131677, 1.000, 2.11217686]),
-                numpy.array([1.92001986, 1., -0.1241347]))))
+                np.array([0.98070597, 1., 1.18224949]),
+                np.array([0.92833635, 1., 1.0366472])),
+            np.linalg.inv(chromatic_adaptation_matrix(
+                np.array([0.92833635, 1., 1.0366472]),
+                np.array([0.98070597, 1., 1.18224949]))))
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.09850, 1.00000, 0.35585]),
-                numpy.array([0.99072, 1.00000, 0.85223]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
                 method='XYZ Scaling'),
-            numpy.array([0.90188439, 0., 0.,
-                         0., 1., 0.,
-                         0., 0., 2.39491359]).reshape((3, 3)),
+            np.array([[0.86523251, 0., 0.],
+                      [0., 1., 0.],
+                      [0., 0., 3.06023214]]),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.09850, 1.00000, 0.35585]),
-                numpy.array([0.99072, 1.00000, 0.85223]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
                 method='Bradford'),
-            numpy.array(
-                [0.89051629, -0.08291357, 0.26809449,
-                 -0.09715236, 1.07542618, 0.08794629,
-                 0.05389701, -0.09085576, 2.48385527]).reshape((3, 3)),
+            np.array([[0.84467949, -0.11793553, 0.39489408],
+                      [-0.13664085, 1.10412369, 0.12919812],
+                      [0.07986716, -0.13493155, 3.19288296]]),
             decimal=7)
 
-        numpy.testing.assert_almost_equal(
+        np.testing.assert_almost_equal(
             chromatic_adaptation_matrix(
-                numpy.array([1.09850, 1.00000, 0.35585]),
-                numpy.array([0.99072, 1.00000, 0.85223]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
                 method='Von Kries'),
-            numpy.array(
-                [0.9574884, -0.16436134, 0.29023559,
-                 -0.01805393, 1.01853791, 0.00363729,
-                 0., 0., 2.39491359]).reshape((3, 3)),
+            np.array([[0.93949221, -0.23393727, 0.42820614],
+                      [-0.02569635, 1.02638463, 0.00517656],
+                      [0., 0., 3.06023214]]),
+            decimal=7)
+
+
+class TestChromaticAdaptation(unittest.TestCase):
+    """
+    Defines :func:`colour.adaptation.cat.chromatic_adaptation` definition unit
+    tests methods.
+    """
+
+    def test_chromatic_adaptation(self):
+        """
+        Tests :func:`colour.adaptation.cat.chromatic_adaptation` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.07049534, 0.1008, 0.09558313]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037])),
+            np.array([0.08397461, 0.11413219, 0.28625545]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.4709771, 0.3495, 0.11301649]),
+                np.array([0.99092745, 1., 0.85313273]),
+                np.array([1.01679082, 1., 0.67610122])),
+            np.array([0.49253636, 0.35555812, 0.08860435]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.25506814, 0.1915, 0.08849752]),
+                np.array([0.98070597, 1., 1.18224949]),
+                np.array([0.92833635, 1., 1.0366472])),
+            np.array([0.24731314, 0.19137674, 0.07734837]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.07049534, 0.1008, 0.09558313]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
+                method='XYZ Scaling'),
+            np.array([0.06099486, 0.1008, 0.29250657]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.07049534, 0.1008, 0.09558313]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
+                method='Bradford'),
+            np.array([0.08540328, 0.11401229, 0.29721491]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation(
+                np.array([0.07049534, 0.1008, 0.09558313]),
+                np.array([1.09846607, 1., 0.3558228]),
+                np.array([0.95042855, 1., 1.08890037]),
+                method='Von Kries'),
+            np.array([0.08357823, 0.10214289, 0.29250657]),
             decimal=7)
 
 

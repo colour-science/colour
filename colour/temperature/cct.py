@@ -426,7 +426,7 @@ def uv_to_CCT_robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Robertson (1968)* method.
+    coordinates using *Alan R. Roberston (1968)* method.
 
     Parameters
     ----------
@@ -517,7 +517,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
-    *Robertson (1968)* method.
+    *Alan R. Roberston (1968)* method.
 
     Parameters
     ----------
@@ -596,8 +596,8 @@ UV_TO_CCT_METHODS = CaseInsensitiveMapping(
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
-UV_TO_CCT_METHODS : dict
-    ('Ohno 2013', 'Robertson 1968')
+UV_TO_CCT_METHODS : CaseInsensitiveMapping
+    {'Ohno 2013', 'Robertson 1968'}
 
 Aliases:
 
@@ -618,8 +618,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     ----------
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-    method : unicode
-        ('Ohno 2013', 'Robertson 1968')
+    method : unicode, optional
+        {'Ohno 2013', 'Robertson 1968'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -663,8 +663,8 @@ CCT_TO_UV_METHODS = CaseInsensitiveMapping(
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
 
-CCT_TO_UV_METHODS : dict
-    ('Ohno 2013', 'Robertson 1968')
+CCT_TO_UV_METHODS : CaseInsensitiveMapping
+    {'Ohno 2013', 'Robertson 1968'}
 
 Aliases:
 
@@ -687,8 +687,8 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
         Correlated colour temperature :math:`T_{cp}`.
     Duv : numeric
         :math:`\Delta_{uv}`.
-    method : unicode
-        ('Ohno 2013', 'Robertson 1968')
+    method : unicode, optional
+    {'Ohno 2013', 'Robertson 1968'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -730,8 +730,8 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
 def xy_to_CCT_mccamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* colourspace *xy* chromaticity coordinates using *McCamy (1992)*
-    method.
+    *CIE XYZ* colourspace *xy* chromaticity coordinates using
+    *C. S. McCamy (1992)* method.
 
     Parameters
     ----------
@@ -766,7 +766,8 @@ def xy_to_CCT_hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *Hernandez-Andres, Lee & Romero (1999)* method.
+    *Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero (1999)*
+    method.
 
     Parameters
     ----------
@@ -812,7 +813,8 @@ def CCT_to_xy_kang2002(CCT):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using
-    *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+    *Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and
+    Youngsun Kim (2002)* method.
 
     Parameters
     ----------
@@ -878,7 +880,8 @@ def CCT_to_xy_illuminant_D(CCT):
     """
     Converts from the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* to the chromaticity of that
-    *CIE Illuminant D Series*.
+    *CIE Illuminant D Series* using *D. B. Judd, D. L. Macadam, G. Wyszecki,
+    H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds* method.
 
     Parameters
     ----------
@@ -936,8 +939,8 @@ XY_TO_CCT_METHODS = CaseInsensitiveMapping(
 Supported *CIE XYZ* colourspace *xy* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
-XY_TO_CCT_METHODS : dict
-    ('McCamy 1992', 'Hernandez 1999')
+XY_TO_CCT_METHODS : CaseInsensitiveMapping
+    {'McCamy 1992', 'Hernandez 1999'}
 
 Aliases:
 
@@ -957,7 +960,8 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     ----------
     xy : array_like
         *xy* chromaticity coordinates.
-    method : unicode ('McCamy 1992', 'Hernandez 1999')
+    method : unicode, optional
+        {'McCamy 1992', 'Hernandez 1999'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -978,8 +982,8 @@ CCT_TO_XY_METHODS = CaseInsensitiveMapping(
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* colourspace
 *xy* chromaticity coordinates computation methods.
 
-CCT_TO_XY_METHODS : dict
-    ('Kang 2002', 'CIE Illuminant D Series')
+CCT_TO_XY_METHODS : CaseInsensitiveMapping
+    {'Kang 2002', 'CIE Illuminant D Series'}
 
 Aliases:
 
@@ -999,7 +1003,8 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    method : unicode ('Kang 2002', 'CIE Illuminant D Series')
+    method : unicode, optional
+        {'Kang 2002', 'CIE Illuminant D Series'}
         Computation method.
 
     Returns

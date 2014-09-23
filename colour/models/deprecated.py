@@ -15,8 +15,6 @@ Defines various deprecated colour models transformations:
 -   :func:`CMY_to_RGB`
 -   :func:`CMY_to_CMYK`
 -   :func:`CMYK_to_CMY`
--   :func:`RGB_to_HEX`
--   :func:`HEX_to_RGB`
 
 These colour models are stated as deprecated because they trade off perceptual
 relevance for computation speed. They should not be used in the colour science
@@ -58,9 +56,7 @@ __all__ = ['RGB_to_HSV',
            'RGB_to_CMY',
            'CMY_to_RGB',
            'CMY_to_CMYK',
-           'CMYK_to_CMY',
-           'RGB_to_HEX',
-           'HEX_to_RGB']
+           'CMYK_to_CMY']
 
 
 def RGB_to_HSV(RGB):
@@ -491,65 +487,3 @@ def CMYK_to_CMY(CMYK):
 
     return np.array(
         [C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
-
-
-def RGB_to_HEX(RGB):
-    """
-    Converts from *RGB* colourspace to hex triplet representation.
-
-    Parameters
-    ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
-
-    Returns
-    -------
-    unicode
-        Hex triplet representation.
-
-    Notes
-    -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
-
-    Examples
-    --------
-    >>> RGB = np.array([0.66666667, 0.86666667, 1])
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> RGB_to_HEX(RGB)  # doctest: +SKIP
-    '#aaddff'
-    """
-
-    RGB = np.ravel(RGB)
-    R, G, B = map(int, RGB * 255)
-    return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
-
-
-def HEX_to_RGB(HEX):
-    """
-    Converts from hex triplet representation to *RGB* colourspace.
-
-    Parameters
-    ----------
-    HEX : unicode
-        Hex triplet representation.
-
-    Returns
-    -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
-
-    Notes
-    -----
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
-
-    Examples
-    --------
-    >>> HEX = '#aaddff'
-    >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
-    array([ 0.6666666...,  0.8666666...,  1.        ])
-    """
-
-    HEX = HEX.lstrip('#')
-    length = len(HEX)
-    return np.array([int(HEX[i:i + length // 3], 16) for i in
-                     range(0, length, length // 3)]) / 255

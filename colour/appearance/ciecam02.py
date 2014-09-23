@@ -29,7 +29,7 @@ References
 .. [3]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
         *Computational Colour Science Using MATLAB, 2nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
-        published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
+        published July 2012, ISBN-13: 978-0-470-66569-5, page 38.
 .. [4]  `The CIECAM02 Color Appearance Model
         <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
         (Last accessed 30 July 2014)
@@ -47,7 +47,7 @@ import math
 import numpy as np
 from collections import namedtuple
 
-from colour.adaptation.cat import CAT02_CAT, CAT02_INVERSE_CAT
+from colour.adaptation.cat import CAT02_CAT
 from colour.appearance.hunt import (XYZ_TO_HPE_MATRIX,
                                     HPE_TO_XYZ_MATRIX,
                                     luminance_level_adaptation_factor)
@@ -60,7 +60,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CIECAM02_InductionFactors',
+__all__ = ['CAT02_INVERSE_CAT',
+           'CIECAM02_InductionFactors',
            'CIECAM02_VIEWING_CONDITIONS',
            'HUE_DATA_FOR_HUE_QUADRATURE',
            'CIECAM02_Specification',
@@ -93,6 +94,13 @@ __all__ = ['CIECAM02_InductionFactors',
            'P',
            'post_adaptation_non_linear_response_compression_matrix']
 
+CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
+"""
+Inverse *CAT02* chromatic adaptation transform.
+
+CAT02_INVERSE_CAT : array_like, (3, 3)
+"""
+
 
 class CIECAM02_InductionFactors(
     namedtuple('CIECAM02_InductionFactors',
@@ -118,8 +126,8 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 """
 Reference *CIECAM02* colour appearance model viewing conditions.
 
-CIECAM02_VIEWING_CONDITIONS : dict
-    ('Average', 'Dim', 'Dark')
+CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
+    {'Average', 'Dim', 'Dark'}
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE = {

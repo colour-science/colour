@@ -220,6 +220,6 @@ D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping(
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
 distributions
 
-D_ILLUMINANTS_S_SPDS : dict
-   ('S0', 'S1', 'S1')
+D_ILLUMINANTS_S_SPDS : CaseInsensitiveMapping
+   {'S0', 'S1', 'S1'}
 """

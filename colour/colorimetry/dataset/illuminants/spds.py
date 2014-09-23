@@ -6,8 +6,7 @@ Illuminants Relative Spectral Power Distributions
 =================================================
 
 Defines *CIE* illuminants relative spectral power distributions for the
-*CIE 1931 2 Degree Standard Observer* and
-*CIE 1964 10 Degree Standard Observer*.
+*CIE 1931 2 Degree Standard Observer*.
 
 The *CIE* illuminants data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
@@ -3615,5 +3614,5 @@ ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping(
 """
 *CIE* illuminants relative spectral power distributions.
 
-ILLUMINANTS_RELATIVE_SPDS : dict
+ILLUMINANTS_RELATIVE_SPDS : CaseInsensitiveMapping
 """

@@ -56,9 +56,9 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry.cmfs import LMS_ConeFundamentals
-from colour.colorimetry.cmfs import RGB_ColourMatchingFunctions
-from colour.colorimetry.cmfs import XYZ_ColourMatchingFunctions
+from colour.colorimetry import LMS_ConeFundamentals
+from colour.colorimetry import RGB_ColourMatchingFunctions
+from colour.colorimetry import XYZ_ColourMatchingFunctions
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -2745,9 +2745,9 @@ LMS_CMFS = CaseInsensitiveMapping(
 """
 *LMS* colour matching functions.
 
-LMS_CMFS : dict
-    ('Stockman & Sharpe 2 Degree Cone Fundamentals',
-    'Stockman & Sharpe 10 Degree Cone Fundamentals')
+LMS_CMFS : CaseInsensitiveMapping
+    {'Stockman & Sharpe 2 Degree Cone Fundamentals',
+    'Stockman & Sharpe 10 Degree Cone Fundamentals'}
 """
 
 RGB_CMFS_DATA = {
@@ -3496,10 +3496,10 @@ RGB_CMFS = CaseInsensitiveMapping(
 """
 *CIE RGB* colour matching functions.
 
-RGB_CMFS : dict
-    ('Wright & Guild 1931 2 Degree RGB CMFs',
+RGB_CMFS : CaseInsensitiveMapping
+    {'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
-    'Stiles & Burch 1959 10 Degree RGB CMFs')
+    'Stiles & Burch 1959 10 Degree RGB CMFs'}
 """
 
 STANDARD_OBSERVERS_CMFS_DATA = {
@@ -9020,11 +9020,11 @@ STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping(
 """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
-STANDARD_OBSERVERS_CMFS : dict
-    ('CIE 1931 2 Degree Standard Observer',
+STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
+    {'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
-    'CIE 2012 10 Degree Standard Observer')
+    'CIE 2012 10 Degree Standard Observer'}
 
 Aliases:
 
@@ -9040,8 +9040,8 @@ CMFS = CaseInsensitiveMapping(LMS_CMFS)
 """
 Aggregated colour matching functions.
 
-CMFS : dict
-    ('Stockman & Sharpe 10 Degree Cone Fundamentals',
+CMFS : CaseInsensitiveMapping
+    {'Stockman & Sharpe 10 Degree Cone Fundamentals',
     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs',
@@ -9049,7 +9049,7 @@ CMFS : dict
     'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer',
     'CIE 2012 2 Degree Standard Observer',
-    'CIE 2012 10 Degree Standard Observer')
+    'CIE 2012 10 Degree Standard Observer'}
 """
 CMFS.update(RGB_CMFS)
 CMFS.update(STANDARD_OBSERVERS_CMFS)

@@ -32,7 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = [
-    'numpy>=1.8.2',
+    'numpy>=1.8.1',
     'matplotlib>=1.3.1']
 
 if sys.version_info[:2] <= (2, 7):
@@ -46,7 +46,9 @@ if sys.version_info[:2] <= (2, 6):
 
 OPTIONAL_REQUIREMENTS = ['scipy>=0.14.0']
 
-DOCS_REQUIREMENTS = ['sphinx>=1.2.2']
+DOCS_REQUIREMENTS = ['sphinx>=1.2.2',
+                     'sphinxcontrib-napoleon>0.2.8',
+                     'sphinx_bootstrap_theme>0.4.1']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',

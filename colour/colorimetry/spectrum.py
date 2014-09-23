@@ -35,7 +35,7 @@ from colour.algebra import (
     LinearInterpolator1d,
     SplineInterpolator,
     SpragueInterpolator)
-from colour.utilities import is_string
+from colour.utilities import is_string, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -256,17 +256,17 @@ class SpectralShape(object):
         --------
         >>> shape = SpectralShape(0, 10, 1)
         >>> for wavelength in shape: print(wavelength)
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-        8
-        9
-        10
+        0.0
+        1.0
+        2.0
+        3.0
+        4.0
+        5.0
+        6.0
+        7.0
+        8.0
+        9.0
+        10.0
         """
 
         return iter(self.range())
@@ -416,10 +416,20 @@ class SpectralShape(object):
                                 '"steps" attributes is not defined!'))
 
         if self.__range is None:
-            self.__range = np.arange(self.__start,
-                                     self.__end + self.__steps,
-                                     self.__steps)
+            samples = round(
+                (self.__steps + self.__end - self.__start) / self.__steps)
+            self.__range, current_steps = np.linspace(self.__start,
+                                                      self.__end,
+                                                      samples,
+                                                      retstep=True)
 
+            if current_steps != self.__steps:
+                self.__steps = current_steps
+                warning(('"{0}" shape could not be honored, using '
+                         '"{1}"!').format((self.__start,
+                                           self.__end,
+                                           self.__steps),
+                                          self))
         return self.__range
 
 
@@ -462,6 +472,7 @@ class SpectralPowerDistribution(object):
     __mul__
     __div__
     __truediv__
+    __pow__
     get
     is_uniform
     extrapolate
@@ -1194,6 +1205,67 @@ class SpectralPowerDistribution(object):
     # Python 3 compatibility.
     __truediv__ = __div__
 
+    def __pow__(self, x):
+        """
+        Implements support for spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution raised by power of x.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
+        SpectralPowerDistribution.__mul__, SpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> data = {510: 1.67, 520: 2.59, 530: 3.73, 540: 4.19}
+        >>> spd = SpectralPowerDistribution('Spd', data)
+        >>> spd ** 2  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values
+        array([  2.7889,   6.7081,  13.9129,  17.5561])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> spd ** [1, 2, 3, 4]  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([  2.7889000...e+00,   4.4998605...e+01,   2.6931031...e+03,
+                 9.4997501...e+04])
+
+        Exponentiation by a :class:`SpectralPowerDistribution` class variable:
+
+        >>> spd_alternate = SpectralPowerDistribution('Spd', data)
+        >>> spd ** spd_alternate  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([  5.5446356...e+00,   1.9133109...e+04,   6.2351033...e+12,
+                 7.1880990...e+20])
+        """
+
+        self.__data = dict(zip(self.wavelengths,
+                               self.values ** self.__format_operand(x)))
+
+        return self
+
     def get(self, wavelength, default=None):
         """
         Returns the value for given wavelength :math:`\lambda`.
@@ -1274,7 +1346,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -1347,7 +1419,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            ('Sprague', 'Cubic Spline', 'Linear'),
+            {None, 'Sprague', 'Cubic Spline', 'Linear'},
             Enforce given interpolation method.
 
         Returns
@@ -1500,7 +1572,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -2735,6 +2807,81 @@ class TriSpectralPowerDistribution(object):
     # Python 3 compatibility.
     __truediv__ = __div__
 
+    def __pow__(self, x):
+        """
+        Implements support for tri-spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            TriSpectral power distribution raised by power of x.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__, TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__, TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> x_bar = {510: 1.67, 520: 1.59, 530: 1.73, 540: 1.19}
+        >>> y_bar = {510: 1.56, 520: 1.34, 530: 1.76, 540: 1.45}
+        >>> z_bar = {510: 1.43, 520: 1.15, 530: 1.98, 540: 1.28}
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[ 1.7578755...,  1.6309365...,  1.4820731...],
+               [ 1.6654700...,  1.3797972...,  1.1661854...],
+               [ 1.8274719...,  1.8623612...,  2.1199797...],
+               [ 1.2108815...,  1.5048901...,  1.3119913...]])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[ 1.7578755...,  2.6599539...,  3.2554342...],
+               [ 1.6654700...,  1.9038404...,  1.5859988...],
+               [ 1.8274719...,  3.4683895...,  9.5278547...],
+               [ 1.2108815...,  2.2646943...,  2.2583585...]])
+
+        Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd ** tri_spd1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[  2.2404384...,   5.1231818...,   6.3047797...],
+               [  1.7979075...,   2.7836369...,   1.8552645...],
+               [  3.2996236...,   8.5984706...,  52.8483490...],
+               [  1.2775271...,   2.6452177...,   3.2583647...]])
+        """
+
+        values = self.values ** self.__format_operand(x)
+
+        for i, axis in enumerate(('x', 'y', 'z')):
+            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+
+        return self
+
     def get(self, wavelength, default=None):
         """
         Returns the values for given wavelength :math:`\lambda`.
@@ -2826,7 +2973,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -2887,7 +3034,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            ('Sprague', 'Cubic Spline', 'Linear'),
+            {None, 'Sprague', 'Cubic Spline', 'Linear'},
             Enforce given interpolation method.
 
         Returns
@@ -3032,7 +3179,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3413,7 +3560,7 @@ def constant_spd(k,
     --------
     >>> spd = constant_spd(100)
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     100.0
     """
@@ -3453,7 +3600,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = zeros_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     0.0
     """
@@ -3489,7 +3636,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = ones_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     1.0
     """

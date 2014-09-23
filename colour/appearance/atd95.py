@@ -213,7 +213,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     return ATD95_Specification(H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
 
 
-def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
+def luminance_to_retinal_illuminance(XYZ, Y_c):
     """
     Converts from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
@@ -223,7 +223,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
 
-    absolute_adapting_field_luminance : numeric
+    Y_c : numeric
         Absolute adapting field luminance in :math:`cd/m^2`.
 
     Returns
@@ -239,7 +239,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
-    return 18. * (absolute_adapting_field_luminance * XYZ / 100.) ** 0.8
+    return 18. * (Y_c * XYZ / 100.) ** 0.8
 
 
 def XYZ_to_LMS_ATD95(XYZ):
@@ -259,9 +259,8 @@ def XYZ_to_LMS_ATD95(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20., 21.78])
-    >>> Y_0 = 318.31
-    >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
-    array([ 479.4445924...,  499.3174313...,  534.5631673...])
+    >>> XYZ_to_LMS_ATD95(XYZ)  # doctest: +ELLIPSIS
+    array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
     X, Y, Z = np.ravel(XYZ)

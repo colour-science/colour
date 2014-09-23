@@ -15,12 +15,12 @@ from .blackbody import (
     blackbody_spd,
     blackbody_spectral_radiance,
     planck_law)
-from .dataset import *  # noqa
-from . import dataset
 from .cmfs import (
     LMS_ConeFundamentals,
     RGB_ColourMatchingFunctions,
     XYZ_ColourMatchingFunctions)
+from .dataset import *  # noqa
+from . import dataset
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_stearns1988
@@ -38,8 +38,8 @@ from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
 from .luminance import (
     luminance_newhall1943,
-    luminance_1976,
-    luminance_ASTM_D1535_08)
+    luminance_ASTM_D1535_08,
+    luminance_1976)
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -57,10 +57,10 @@ __all__ = ['SpectralShape',
 __all__ += ['blackbody_spd',
             'blackbody_spectral_radiance',
             'planck_law']
-__all__ += dataset.__all__
 __all__ += ['LMS_ConeFundamentals',
             'RGB_ColourMatchingFunctions',
             'XYZ_ColourMatchingFunctions']
+__all__ += dataset.__all__
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_stearns1988']
@@ -75,8 +75,8 @@ __all__ += ['lightness_glasser1958',
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += ['luminance_newhall1943',
-            'luminance_1976',
-            'luminance_ASTM_D1535_08']
+            'luminance_ASTM_D1535_08',
+            'luminance_1976']
 __all__ += ['RGB_10_degree_cmfs_to_LMS_10_degree_cmfs']
 __all__ += ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']

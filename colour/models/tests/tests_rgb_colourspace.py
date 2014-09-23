@@ -40,8 +40,8 @@ class TestRGB_Colourspace(unittest.TestCase):
         required_attributes = ('name',
                                'primaries',
                                'whitepoint',
-                               'to_XYZ',
-                               'to_RGB',
+                               'RGB_to_XYZ_matrix',
+                               'XYZ_to_RGB_matrix',
                                'transfer_function',
                                'inverse_transfer_function',)
 

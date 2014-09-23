@@ -2965,8 +2965,8 @@ COLOURCHECKERS_SPDS = CaseInsensitiveMapping(
 """
 Aggregated *ColourCheckers* spectral power distributions.
 
-COLOURCHECKERS : dict
-    ('BabelColor Average', 'ColorChecker N Ohta')
+COLOURCHECKERS : CaseInsensitiveMapping
+    {'BabelColor Average', 'ColorChecker N Ohta'}
 
 Aliases:
 
