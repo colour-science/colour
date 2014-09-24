@@ -43,6 +43,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TCS_ColorimetryData',
+           'TCS_ColourQualityScaleData',
            'colour_rendering_index']
 
 
@@ -50,6 +51,15 @@ class TCS_ColorimetryData(namedtuple('TCS_ColorimetryData',
                                      ('name', 'XYZ', 'uv', 'UVW'))):
     """
     Defines the the class holding *test colour samples* colorimetry data.
+    """
+
+
+class TCS_ColourQualityScaleData(
+    namedtuple('TCS_ColourQualityScaleData',
+               ('name', 'Q_a'))):
+    """
+    Defines the the class holding *test colour samples* colour rendering
+    index data.
     """
 
 
@@ -132,9 +142,8 @@ def colour_rendering_index(spd_test, additional_data=False):
     Q_as = _colour_rendering_indexes(
         test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
-    Q_a = np.average(
-        [v for k, v in Q_as.items()
-         if k in (1, 2, 3, 4, 5, 6, 7, 8)])
+    Q_a = np.average([v.Q_a for k, v in Q_as.items()
+                      if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:
         return CRI_Specification(Q_a,
@@ -235,6 +244,8 @@ def _colour_rendering_indexes(test_data, reference_data):
 
     Q_as = {}
     for i, _ in enumerate(test_data):
-        Q_as[i + 1] = 100 - 4.6 * np.linalg.norm(
-            reference_data[i].UVW - test_data[i].UVW)
+        Q_as[i + 1] = TCS_ColourQualityScaleData(
+            test_data[i].name,
+            100 - 4.6 * np.linalg.norm(
+                reference_data[i].UVW - test_data[i].UVW))
     return Q_as
