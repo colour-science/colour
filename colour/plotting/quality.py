@@ -62,8 +62,8 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     figure, axis = matplotlib.pyplot.subplots()
 
-    cri, colour_rendering_indexes, additional_data = \
-        colour_rendering_index(illuminant, additional_data=True)
+    cri, colour_rendering_indexes, additional_data = (
+        colour_rendering_index(illuminant, additional_data=True))
 
     colours = ([[1] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100))
                             for x in additional_data[0]])
