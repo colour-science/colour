@@ -13,21 +13,21 @@ from colour.utilities.verbose import message_box
 message_box('Colour Quality Scale Computations')
 
 message_box('Computing "F2" illuminant colour rendering index.')
-print(colour.colour_rendering_index(
+print(colour.colour_quality_scale(
     colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')))
 
 print('\n')
 
 message_box(('Computing H38HT-100 mercury lamp colour quality scale with '
              'detailed output data.'))
-pprint(colour.colour_rendering_index(
+pprint(colour.colour_quality_scale(
     colour.LIGHT_SOURCES_RELATIVE_SPDS.get('H38HT-100 (Mercury)'),
     additional_data=True))
 
 print('\n')
 
 message_box('Computing SDW-T 100W/LV Super HPS lamp colour quality scale.')
-print(colour.colour_rendering_index(
+print(colour.colour_quality_scale(
     colour.LIGHT_SOURCES_RELATIVE_SPDS.get('SDW-T 100W/LV (Super HPS)')))
 
 print('\n')
