@@ -88,7 +88,9 @@ sRGB_TRANSFER_FUNCTION : object
 """
 
 sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4)
+    x / 12.92
+    if x <= sRGB_TRANSFER_FUNCTION(0.0031308) else
+    ((x + 0.055) / 1.055) ** 2.4)
 """
 Inverse transfer function from *sRGB* colourspace to linear.
 

@@ -88,7 +88,9 @@ REC_709_TRANSFER_FUNCTION : object
 """
 
 REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45))
+    x / 4.5
+    if x < REC_709_TRANSFER_FUNCTION(0.018) else
+    ((x + 0.099) / 1.099) ** (1 / 0.45))
 """
 Inverse transfer function from *Rec. 709* colourspace to linear.
 
