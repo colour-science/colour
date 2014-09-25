@@ -86,7 +86,8 @@ C_LOG_TRANSFER_FUNCTION : object
 """
 
 C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    -0.0716226 * (1.37427 - math.exp(1) ** (4.35159 * x)))
+    -0.071622555735168 * (
+    1.3742747797867 - math.exp(1) ** (4.3515940948906 * x)))
 """
 Inverse transfer function from *C-Log* colourspace to linear.
 

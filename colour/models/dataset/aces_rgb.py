@@ -298,12 +298,11 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
+    float_2_cv = lambda x: max(constants.CV_min,
+                               min(constants.CV_max, round(x)))
     if value > 0:
-        return max(constants.CV_min,
-                   min(constants.CV_max,
-                       ((math.log10(value) / (math.log10(2)) -
-                         constants.mid_log_offset) * constants.steps_per_stop +
-                        constants.mid_CV_offset)) + 0.5)
+        return float_2_cv((math.log(value, 2) - constants.mid_log_offset) *
+                          constants.steps_per_stop + constants.mid_CV_offset)
     else:
         return constants.CV_min
 
@@ -328,9 +327,8 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
     constants = ACES_RGB_PROXY_CONSTANTS.get(bit_depth)
 
-    return math.pow(2,
-                    ((((value - constants.mid_CV_offset) /
-                       constants.steps_per_stop) + constants.mid_log_offset)))
+    return (2 ** (((value - constants.mid_CV_offset) /
+                   constants.steps_per_stop + constants.mid_log_offset)))
 
 
 ACES_RGB_PROXY_10_TRANSFER_FUNCTION = lambda x: (
