@@ -48,10 +48,10 @@ class RGB_Colourspace(object):
     XYZ_to_RGB_matrix : array_like
         Transformation matrix from *CIE XYZ* colourspace to colourspace.
     transfer_function : object
-        *RGB* Colourspace opto-electronic transfer function from linear to
+        *RGB* Colourspace opto-electronic conversion function from linear to
         colourspace.
     inverse_transfer_function : object
-        *RGB* Colourspace inverse opto-electronic transfer function from
+        *RGB* Colourspace inverse opto-electronic conversion function from
         colourspace to linear.
     """
 
