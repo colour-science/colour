@@ -149,7 +149,7 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
     return (value / 4.5
-            if value < b else
+            if value < _rec_2020_transfer_function(b) else
             ((value + (a - 1)) / a) ** (1 / 0.45))
 
 

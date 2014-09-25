@@ -86,7 +86,7 @@ PROPHOTO_RGB_TRANSFER_FUNCTION : object
 """
 
 PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 16 if x < 0.001953 else x ** 1.8)
+    x / 16 if x < PROPHOTO_RGB_TRANSFER_FUNCTION(0.001953) else x ** 1.8)
 """
 Inverse transfer function from *ProPhoto RGB* colourspace to linear.
 
