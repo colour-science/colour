@@ -185,7 +185,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
         method='Linear Scene Exposure Factor',
         EI=800):
     """
-    Defines the *ALEXA Wide Gamut value* colourspace transfer function.
+    Defines the *ALEXA Wide Gamut* value colourspace transfer function.
 
     Parameters
     ----------
@@ -206,10 +206,10 @@ def _alexa_wide_gamut_rgb_transfer_function(
         Companded value.
     """
 
-    cut, a, b, c, d, e, f, ecutf = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
+    cut, a, b, c, d, e, f, _ = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
-    return c * math.log10(a * value + b) + d if value > cut else ecutf
+    return c * math.log10(a * value + b) + d if value > cut else e * value + f
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function(
@@ -218,7 +218,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
         method='Linear Scene Exposure Factor',
         EI=800):
     """
-    Defines the *ALEXA Wide Gamut value* colourspace inverse transfer function.
+    Defines the *ALEXA Wide Gamut* value colourspace inverse transfer function.
 
     Parameters
     ----------
@@ -239,11 +239,11 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
         Companded value.
     """
 
-    cut, a, b, c, d, e, f, ecutf = (
+    cut, a, b, c, d, e, f, _ = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
     return ((math.pow(10, (value - d) / c) - b) / a
-            if value > ecutf else
+            if value > e * cut + f else
             (value - f) / e)
 
 
