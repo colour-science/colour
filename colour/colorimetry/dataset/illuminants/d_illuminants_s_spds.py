@@ -20,7 +20,7 @@ References
         *Color Science - Concepts and Methods Data and Formulae -
         Second Edition*,
         Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        page  146.
+        page 146.
 .. [2]  http://www.brucelindbloom.com/index.html?Eqn_DIlluminant.html
         (Last accessed 5 April 2014)
 """

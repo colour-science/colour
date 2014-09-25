@@ -151,7 +151,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  141.
+            page 141.
 
     Examples
     --------

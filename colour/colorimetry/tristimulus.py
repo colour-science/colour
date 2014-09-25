@@ -76,7 +76,7 @@ def spectral_to_XYZ(spd,
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  158.
+            page 158.
 
     Examples
     --------

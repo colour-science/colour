@@ -149,7 +149,7 @@ References
         *Color Science - Concepts and Methods Data and Formulae -
         Second Edition*,
         Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        page  228.
+        page 228.
 """
 
 ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple(
@@ -445,7 +445,7 @@ def uv_to_CCT_robertson1968(uv):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  227.
+            page 227.
     .. [6]  *Adobe DNG SDK 1.3.0.0*:
             *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
             *dng_temperature::Set_xy_coord*.
@@ -538,7 +538,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  227.
+            page 227.
     .. [8]  *Adobe DNG SDK 1.3.0.0*:
             *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
             *dng_temperature::xy_coord*.
@@ -905,7 +905,7 @@ def CCT_to_xy_illuminant_D(CCT):
             Second Edition*,
             Wiley Classics Library Edition, published 2000,
             ISBN-10: 0-471-39918-3,
-            page  145.
+            page 145.
 
     Examples
     --------
