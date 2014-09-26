@@ -23,7 +23,8 @@ print(np.ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0])
 print('\n')
 
 Y = 10.08
-message_box(('Computing "Lightness" using "Glasser et al. (1958)" method for '
+message_box(('Computing "Lightness" using '
+             '"Glasser, Mckinney, Reilly and Schnelle (1958)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.lightness_glasser1958(Y))

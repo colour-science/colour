@@ -9,7 +9,7 @@ Defines objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
--   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)*
+-   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)⁠⁠*
     spectral bandpass dependence correction method.
 
 See Also
@@ -39,7 +39,7 @@ ALPHA_STEARNS = 0.083
 def bandpass_correction_stearns1988(spd):
     """
     Implements spectral bandpass dependence correction on given spectral power
-    distribution using *Stearns and Stearns (1988)* method.
+    distribution using *Stearns and Stearns (1988)⁠⁠* method.
 
     References
     ----------

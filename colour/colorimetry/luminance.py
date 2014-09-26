@@ -109,8 +109,8 @@ def luminance_ASTM_D1535_08(V, **kwargs):
 
     References
     ----------
-    .. [4]  ASTM International. (n.d.). ASTM D1535 - 13 Standard Practice for
-            Specifying Color by the Munsell System. doi:10.1520/D1535-13
+    .. [4]  ASTM International. (n.d.). ASTM D1535-08e1 Standard Practice for
+            Specifying Color by the Munsell System. doi:10.1520/D1535-08E01
 
     Examples
     --------

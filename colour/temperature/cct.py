@@ -9,10 +9,10 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
 -   :func:`uv_to_CCT_ohno2013`: Correlated colour temperature :math:`T_{cp}`
     and :math:`\Delta_{uv}` computation of given *CIE UCS* colourspace *uv*
-    chromaticity coordinates using *Yoshi Ohno (2013)* method.
+    chromaticity coordinates using *Ohno (2013)* method.
 -   :func:`CCT_to_uv_ohno2013`: *CIE UCS* colourspace *uv* chromaticity
     coordinates computation of given correlated colour temperature
-    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Yoshi Ohno (2013)* method.
+    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Ohno (2013)* method.
 -   :func:`uv_to_CCT_robertson1968`: Correlated colour temperature
     :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given *CIE UCS*
     colourspace *uv* chromaticity coordinates using *Robertson (1968)* method.
@@ -24,10 +24,10 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
     using *McCamy (1992)* method.
 -   :func:`xy_to_CCT_hernandez1999`: Correlated colour temperature
     :math:`T_{cp}` computation of given *CIE XYZ* colourspace *xy* chromaticity
-    coordinates using *Hernandez-Andres, Lee & Romero (1999)* method.
+    coordinates using *Hernandez-Andres, Lee and Romero (1999)* method.
 -   :func:`CCT_to_xy_kang2002`: *CIE XYZ* colourspace *xy* chromaticity
     coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+    :math:`T_{cp}` using *Kang et al. (2002)* method.
 -   :func:`CCT_to_xy_illuminant_D`: *CIE XYZ* colourspace *xy* chromaticity
     coordinates computation of *CIE Illuminant D Series* from given correlated
     colour temperature :math:`T_{cp}` of that *CIE Illuminant D Series*.
@@ -163,7 +163,7 @@ def planckian_table(uv, cmfs, start, end, count):
     """
     Returns a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
-    using *Yoshi Ohno (2013)* method.
+    using *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -222,7 +222,7 @@ def planckian_table(uv, cmfs, start, end, count):
 def planckian_table_minimal_distance_index(planckian_table):
     """
     Returns the shortest distance index in given planckian table using
-    *Yoshi Ohno (2013)* method.
+    *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -259,7 +259,7 @@ def uv_to_CCT_ohno2013(uv,
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
-    *Yoshi Ohno (2013)* method.
+    *Ohno (2013)* method.
 
     The iterations parameter defines the calculations precision: The higher its
     value, the more planckian tables will be generated through cascade
@@ -360,7 +360,7 @@ def CCT_to_uv_ohno2013(CCT,
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
-    colour matching functions using *Yoshi Ohno (2013)* method.
+    colour matching functions using *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -423,7 +423,7 @@ def uv_to_CCT_robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Alan R. Roberston (1968)* method.
+    coordinates using *Roberston (1968)* method.
 
     Parameters
     ----------
@@ -513,7 +513,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
-    *Alan R. Roberston (1968)* method.
+    *Roberston (1968)* method.
 
     Parameters
     ----------
@@ -726,7 +726,7 @@ def xy_to_CCT_mccamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *C. S. McCamy (1992)* method.
+    *McCamy (1992)* method.
 
     Parameters
     ----------
@@ -761,8 +761,7 @@ def xy_to_CCT_hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *Javier Hernandez-Andres, Raymond L. Lee, Jr., and Javier Romero (1999)*
-    method.
+    *Hernandez-Andres, Lee and Romero (1999)* method.
 
     Parameters
     ----------
@@ -807,9 +806,8 @@ def xy_to_CCT_hernandez1999(xy):
 def CCT_to_xy_kang2002(CCT):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` using
-    *Bongsoon Kang Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and
-    Youngsun Kim (2002)* method.
+    correlated colour temperature :math:`T_{cp}` using *Kang et al. (2002)*
+    method.
 
     Parameters
     ----------
@@ -828,10 +826,10 @@ def CCT_to_xy_kang2002(CCT):
 
     References
     ----------
-    .. [11] Kang, B., Moon, O., Hong, C., & Lee, H. (2002). Design of advanced
-            color: Temperature control system for HDTV applications. Journal
-            of the Korean …, 41(6), 865–871. Retrieved from
-            http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+    .. [11] Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002).
+            Design of advanced color: Temperature control system for HDTV
+            applications. Journal of the Korean …, 41(6), 865–871. Retrieved
+            from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
 
     Examples
     --------

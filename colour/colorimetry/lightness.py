@@ -10,9 +10,10 @@ Defines *Lightness* :math:`L*` computation objects.
 The following methods are available:
 
 -   :func:`lightness_glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` using *Glasser et al. (1958)* method.
--   :func:`lightness_wyszecki1964`: *Lightness* :math:`W` computation of
-    given *luminance* :math:`Y` using *Wyszecki (1964)* method.
+    *luminance* :math:`Y` using
+    *Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠* method.
+-   :func:`lightness_wyszecki1963`: *Lightness* :math:`W` computation of
+    given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
 -   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 
@@ -49,7 +50,7 @@ __all__ = ['lightness_glasser1958',
 def lightness_glasser1958(Y, **kwargs):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Glasser et al. (1958)* method.
+    *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
 
     Parameters
     ----------
@@ -117,7 +118,7 @@ def lightness_wyszecki1964(Y, **kwargs):
 
     Examples
     --------
-    >>> lightness_wyszecki1964(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_wyszecki1963(10.08)  # doctest: +ELLIPSIS
     37.0041149...
     """
 
@@ -200,7 +201,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        {'CIE 1976', 'Glasser 1958', 'Wyszecki 1964'},
+        {'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -226,7 +227,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     38.9165987...
     >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
     36.2505626...
-    >>> lightness(10.08, method='Wyszecki 1964')  # doctest: +ELLIPSIS
+    >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
     37.0041149...
     """
 

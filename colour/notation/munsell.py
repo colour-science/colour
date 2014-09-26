@@ -8,9 +8,10 @@ Munsell Renotation System
 Defines various objects for *Munsell Renotation System* computations:
 
 -   :func:`munsell_value_priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Priest et al. (1920)* method.
+    given *luminance* :math:`Y` using *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)⁠*
+    method.
 -   :func:`munsell_value_munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Munsell, Sloan, and Godlove (1933)*
+    given *luminance* :math:`Y` using *⁠Munsell, Sloan and Godlove (1933)⁠*
     method.
 -   :func:`munsell_value_moon1943`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
@@ -232,7 +233,7 @@ def _munsell_maximum_chromas_from_renotation():
 def munsell_value_priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Priest et al. (1920)* method.
+    *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)* method.
 
     Parameters
     ----------
@@ -269,7 +270,7 @@ def munsell_value_priest1920(Y):
 def munsell_value_munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Munsell, Sloan, and Godlove (1933)* method. [3]_
+    *⁠Munsell, Sloan and Godlove (1933)* method. [3]_
 
     Parameters
     ----------
