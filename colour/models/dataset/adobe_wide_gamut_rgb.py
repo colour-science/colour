@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
-        (Last accessed 13 April 2014)
+.. [1]  Wikipedia. (n.d.). Wide-gamut RGB color space. Retrieved April 13,
+        2014, from http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
 
 from __future__ import division, unicode_literals

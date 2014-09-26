@@ -28,9 +28,11 @@ See Also
 
 References
 ----------
-.. [1]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-        (Last accessed 24 February 2014)
-.. [2]  http://www.babelcolor.com/main_level/ColorChecker.htm
+.. [1]  BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from
+        http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+.. [2]  BabelColor. (2012). The ColorChecker (since 1976!). Retrieved
+        September 26, 2014, from
+        http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
 from __future__ import division, unicode_literals

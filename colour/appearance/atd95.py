@@ -23,16 +23,11 @@ Notes
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        Locations 5841-5991.
-.. [2]  **S. Lee Guth**,
-        *Further applications of the ATD model for color vision*,
-        *IS&T/SPIE's Symposium on Electronic Imaging: Science & Technology*,
-        *International Society for Optics and Photonics*,
-        pages 12-26,
-        DOI: http://dx.doi.org/10.1117/12.206546
+.. [1]  Fairchild, M. D. (2013). ATD Model. In Color Appearance Models
+        (3rd ed., pp. 5852–5991). Wiley. ASIN:B00DAYO8E2
+.. [2]  Guth, S. L. (1995). Further applications of the ATD model for color
+        vision. In E. Walowit (Ed.), IS&T/SPIE’s Symposium on Electronic …
+        (Vol. 2414, pp. 12–26). doi:10.1117/12.206546
 """
 
 from __future__ import division, unicode_literals

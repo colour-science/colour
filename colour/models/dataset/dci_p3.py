@@ -16,9 +16,9 @@ See Also
 
 References
 ----------
-.. [1]  `Understanding the HP DreamColor LP2480zx DCI-P3 Emulation Color Space
-        <http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  Hewlett-Packard Development Company. (2009). Understanding the HP
+        DreamColor LP2480zx DCI-P3 Emulation Color Space. Retrieved from
+        http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

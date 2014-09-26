@@ -768,8 +768,8 @@ light source names cannot be accurately verified.
 
 References
 ----------
-.. [1]  http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
-        (Last accessed 19 September 2014)
+.. [1]  Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from
+        http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
     {'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
@@ -1645,8 +1645,8 @@ spreadsheet.
 
 References
 ----------
-.. [2]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 10 June 2014)
+.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS : CaseInsensitiveMapping
     {'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',

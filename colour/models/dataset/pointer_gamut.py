@@ -14,8 +14,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
-        (Last accessed 19 September 2014)
+.. [1]  Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from
+        http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals

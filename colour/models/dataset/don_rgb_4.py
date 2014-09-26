@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.hutchcolor.com/profiles/DonRGB4.zip
-        (Last accessed 12 April 2014)
+.. [1]  HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from
+        http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
 
 from __future__ import division, unicode_literals

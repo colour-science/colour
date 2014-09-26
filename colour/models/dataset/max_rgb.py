@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.hutchcolor.com/profiles/MaxRGB.zip
-        (Last accessed 12 April 2014)
+.. [1]  HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
+        http://www.hutchcolor.com/profiles/MaxRGB.zip
 """
 
 from __future__ import division, unicode_literals

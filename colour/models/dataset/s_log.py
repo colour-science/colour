@@ -16,10 +16,10 @@ See Also
 
 References
 ----------
-.. [1]  `S-Log: A new LUT for digital production mastering and interchange
-        applications
-        <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
+        Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
+        and interchange applications. Retrieved from
+        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

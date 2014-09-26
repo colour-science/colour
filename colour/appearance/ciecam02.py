@@ -20,19 +20,17 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIECAM02
-        (Last accessed 14 August 2014)
-.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published 19 November 2004, ISBN-13: 978-0470012161,
-        pages 265-277.
-.. [3]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-        *Computational Colour Science Using MATLAB, 2nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published July 2012, ISBN-13: 978-0-470-66569-5, page 38.
-.. [4]  `The CIECAM02 Color Appearance Model
-        <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
-        (Last accessed 30 July 2014)
+.. [1]  Wikipedia. (n.d.). CIECAM02. Retrieved August 14, 2014, from
+        http://en.wikipedia.org/wiki/CIECAM02
+.. [2]  Fairchild, M. D. (2004). CIECAM02. In Color Appearance Models
+        (2nd ed., pp. 289–301). Wiley. ISBN:978-0470012161
+.. [3]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Extrapolation
+        Methods. Computational Colour Science Using MATLAB (2nd ed., p. 38).
+        ISBN:978-0-470-66569-5
+.. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
+        Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
+        Imaging Conference, 2002(1), 23–27. Retrieved from
+        http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006  # noqa
 """
 
 from __future__ import division, unicode_literals

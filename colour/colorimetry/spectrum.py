@@ -732,8 +732,8 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [1]  http://stackoverflow.com/a/16162138/931625
-                (Last accessed 8 August 2014)
+        .. [1]  Hettinger, R. (n.d.). Python hashable dicts. Retrieved August
+                08, 2014, from http://stackoverflow.com/a/16162138/931625
         """
 
         return hash(frozenset(self.__data))
@@ -1364,14 +1364,11 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [2]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
-                <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,  # noqa
-                ISBN-13: 978-3-901-90633-6
-
-        .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 10. EXTRAPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
+        .. [2]  CIE TC 1-48. (2004). 7.2.2.1 Extrapolation. In CIE 015:2004
+                Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+        .. [3]  CIE TC 1-38. (2005). 10. EXTRAPOLATION. In CIE 167:2005
+                Recommended Practice for Tabulating Spectral Data for Use in
+                Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
 
         Examples
         --------
@@ -1461,10 +1458,9 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [4]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 9. INTERPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
+        .. [4]  CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005
+                Recommended Practice for Tabulating Spectral Data for Use in
+                Colour Computations (pp. 14–19). ISBN:978-3-901-90641-1
 
         Examples
         --------
@@ -2211,7 +2207,7 @@ class TriSpectralPowerDistribution(object):
 
     def __hash__(self):
         """
-        Returns the spectral power distribution hash value.
+        Returns the spectral power distribution hash value. [1]_
 
         Returns
         -------
@@ -2225,11 +2221,6 @@ class TriSpectralPowerDistribution(object):
         Warning
         -------
         See :meth:`SpectralPowerDistribution.__hash__` method warning section.
-
-        References
-        ----------
-        .. [5]  http://stackoverflow.com/a/16162138/931625
-                (Last accessed 8 August 2014)
         """
 
         return hash((frozenset(self.__data.get('x')),
@@ -2966,7 +2957,7 @@ class TriSpectralPowerDistribution(object):
                     right=None):
         """
         Extrapolates the tri-spectral power distribution following
-        *CIE 15:2004* recommendation.
+        *CIE 15:2004* recommendation. [2]_ [3]_
 
         Parameters
         ----------
@@ -2988,17 +2979,6 @@ class TriSpectralPowerDistribution(object):
         See Also
         --------
         TriSpectralPowerDistribution.align
-
-        References
-        ----------
-
-        .. [6]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
-                <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,  # noqa
-                ISBN-13: 978-3-901-90633-6
-        .. [7]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 10. EXTRAPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
 
         Examples
         --------
@@ -3027,7 +3007,7 @@ class TriSpectralPowerDistribution(object):
         *CIE 167:2005* recommendations: the method developed by
         *Sprague (1880)* should be used for interpolating functions having a
         uniformly spaced independent variable and a *Cubic Spline* method for
-        non-uniformly spaced independent variable.
+        non-uniformly spaced independent variable. [4]_
 
         Parameters
         ----------
@@ -3055,13 +3035,6 @@ class TriSpectralPowerDistribution(object):
         -------
         See :meth:`SpectralPowerDistribution.interpolate` method warning
         section.
-
-        References
-        ----------
-        .. [8]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 9. INTERPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
 
         Examples
         --------

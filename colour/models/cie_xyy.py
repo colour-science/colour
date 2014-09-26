@@ -19,8 +19,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1931 color space. Retrieved February 24, 2014,
+        from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -68,8 +68,8 @@ def XYZ_to_xyY(XYZ,
 
     References
     ----------
-    .. [2]  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to xyY. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 
     Examples
     --------
@@ -107,8 +107,8 @@ def xyY_to_XYZ(xyY):
 
     References
     ----------
-    .. [3]  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2009). xyY to XYZ. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 
     Examples
     --------

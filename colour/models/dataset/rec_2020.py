@@ -16,11 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-        definition television systems for production and international
-        programme exchange
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-        (Last accessed 2 September 2014)
+.. [1]  International Telecommunication Union. (2014). Parameter values for
+        ultra-high definition television systems for production and
+        international programme exchange. In Recommendation ITU-R BT.2020
+        (Vol. 1, pp. 1–8). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -102,16 +102,8 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     Returns
     -------
-    :rtype: numeric
-    :return: Companded value.
-
-    References
-    ----------
-    .. [2]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-            definition television systems for production and international
-            programme exchange
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 2 September 2014)
+    numeric
+        Companded value.
     """
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
@@ -134,16 +126,8 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     Returns
     -------
-    :rtype: numeric
-    :return: Companded value.
-
-    References
-    ----------
-    .. [3]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-            definition television systems for production and international
-            programme exchange
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 2 September 2014)
+    numeric
+        Companded value.
     """
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)

@@ -38,14 +38,13 @@ def D_illuminant_relative_spd(xy):
 
     References
     ----------
-    .. [1]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 146.
-    .. [2]  http://www.brucelindbloom.com/Eqn_DIlluminant.html
-            (Last accessed 5 April 2014)
+    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
+            D-Illuminants. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (pp. 145–146). Wiley.
+            ISBN:978-0471399186
+    .. [2]  Lindbloom, B. (2007). Spectral Power Distribution of a
+            CIE D-Illuminant. Retrieved April 05, 2014, from
+            http://www.brucelindbloom.com/Eqn_DIlluminant.html
 
     Parameters
     ----------

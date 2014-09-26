@@ -16,10 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE - Television Color Equations
-        <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
-        DOI: http://dx.doi.org/10.5594/S9781614821915
-        (Last accessed 24 February 2014)
+.. [1]  SMPTE. (1993). Derivation of Basic Television Color Equations. In
+        RP 177:1993 (Vol. RP 177:199). doi:10.5594/S9781614821915
 """
 
 from __future__ import division, unicode_literals
@@ -53,13 +51,6 @@ def xy_to_z(xy):
     numeric
         *z* coordinate.
 
-    References
-    ----------
-    .. [2]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
-            Television Color Equations: 3.3.2
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
-            DOI: http://dx.doi.org/10.5594/S9781614821915
-
     Examples
     --------
     >>> xy_to_z((0.25, 0.25))
@@ -85,13 +76,6 @@ def normalised_primary_matrix(primaries, whitepoint):
     -------
     ndarray, (3, 3)
         Normalised primary matrix.
-
-    References
-    ----------
-    .. [3]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
-            Television Color Equations: 3.3.2 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
-            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------
@@ -140,13 +124,6 @@ def RGB_luminance_equation(primaries, whitepoint):
     unicode
         *Luminance* equation.
 
-    References
-    ----------
-    .. [4]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
-            Television Color Equations: 3.3.8
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
-            DOI: http://dx.doi.org/10.5594/S9781614821915
-
     Examples
     --------
     >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
@@ -178,13 +155,6 @@ def RGB_luminance(RGB, primaries, whitepoint):
     -------
     numeric
         *Luminance* :math:`y`.
-
-    References
-    ----------
-    .. [5]  `RP 177-1993 SMPTE RECOMMENDED PRACTICE -
-            Television Color Equations: 3.3.3 - 3.3.6
-            <http://car.france3.mars.free.fr/HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/rp177.pdf>`_,  # noqa
-            DOI: http://dx.doi.org/10.5594/S9781614821915
 
     Examples
     --------

@@ -41,9 +41,10 @@ Notes
 
 References
 ----------
-.. [1]  http://files.cie.co.at/204.xls (Last accessed 24 February 2014)
-.. [2]  https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
-        (Last accessed 24 February 2014)
+.. [1]  CIE. (n.d.). CIE Spectral Data. Retrieved from
+        http://files.cie.co.at/204.xls
+.. [2]  CIE. (n.d.). CIE 15:2004 Tables Data. Retrieved from
+        https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
 """
 
 from __future__ import division, unicode_literals

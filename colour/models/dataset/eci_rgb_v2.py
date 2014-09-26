@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
-        (Last accessed 13 April 2014)
+.. [1]  European Color Initiative. (2002). ECI RGB v2. Retrieved from
+        http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
 from __future__ import division, unicode_literals

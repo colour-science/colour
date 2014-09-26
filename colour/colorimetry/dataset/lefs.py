@@ -39,15 +39,16 @@ Notes
     definition and the data from
     :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
-    luminance :math:`L_p`. [4]_
+    luminance :math:`L_p`. [3]_
 
 References
 ----------
-.. [1]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
-.. [2]  http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
-.. [3]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
-.. [4]  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_  # noqa
-        (Last accessed 20 June 2014)
+.. [1]  CVRL. (n.d.). Luminous efficiency. Retrieved April 19, 2014, from
+        http://www.cvrl.org/lumindex.htm
+.. [2]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
+        http://cvrl.ioo.ucl.ac.uk/cie.htm
+.. [3]  Mesopic weighting function. (n.d.). Retrieved June 20, 2014, from
+        http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals

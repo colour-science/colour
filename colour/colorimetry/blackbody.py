@@ -59,10 +59,9 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     References
     ----------
-    .. [1]  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E.
-            Information on the Use of Planck"s Equation for Standard Air.
-            <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,
-            ISBN-13: 978-3-901-90633-6
+    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
+            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 
     Parameters
     ----------

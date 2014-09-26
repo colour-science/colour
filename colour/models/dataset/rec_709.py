@@ -16,10 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.709-5 - Parameter values for the HDTV
-        standards for production and international programme exchange
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  International Telecommunication Union. (2002). Parameter values for
+        the HDTV standards for production and international programme exchange
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
+        (Vol. 5, pp. 1–32). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

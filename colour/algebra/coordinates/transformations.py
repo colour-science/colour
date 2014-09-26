@@ -16,7 +16,9 @@ The following transformations are available:
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+.. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
+        Retrieved from
+        http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import division, unicode_literals

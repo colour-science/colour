@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.russellcottrell.com/photo/RussellRGB.htm
-        (Last accessed 11 April 2014)
+.. [1]  Cottrell, R. (n.d.). The Russell RGB working color space. Retrieved
+        from http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
 from __future__ import division, unicode_literals

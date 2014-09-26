@@ -21,8 +21,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Color_difference
-        (Last accessed 29 August 2014)
+.. [1]  Wikipedia. (n.d.). Color difference. Retrieved August 29, 2014, from
+        http://en.wikipedia.org/wiki/Color_difference
 """
 
 from __future__ import division, unicode_literals
@@ -69,8 +69,8 @@ def delta_E_CIE_1976(lab1, lab2, **kwargs):
 
     References
     ----------
-    .. [2]  http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). Delta E (CIE 1976). Retrieved February 24,
+            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
 
     Examples
     --------
@@ -106,8 +106,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
 
     References
     ----------
-    .. [3]  http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2011). Delta E (CIE 1994). Retrieved February 24,
+            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 
     Examples
     --------
@@ -175,8 +175,8 @@ def delta_E_CIE_2000(lab1, lab2, **kwargs):
     References
     ----------
 
-    .. [4]  http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
-            (Last accessed 24 February 2014)
+    .. [4]  Lindbloom, B. (2009). Delta E (CIE 2000). Retrieved February 24,
+            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
 
     Examples
     --------
@@ -286,8 +286,8 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
 
     References
     ----------
-    .. [5]  http://brucelindbloom.com/Eqn_DeltaE_CMC.html
-            (Last accessed 24 February 2014)
+    .. [5]  Lindbloom, B. (2009). Delta E (CMC). Retrieved February 24, 2014,
+            from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
 
     Examples
     --------

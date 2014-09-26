@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1964_color_space
-        (Last accessed 10 June 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1964 color space. Retrieved June 10, 2014, from
+        http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
 from __future__ import division, unicode_literals

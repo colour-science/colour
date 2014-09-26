@@ -16,9 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `SMPTE C Color Monitor Colorimetry
-        <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  SMPTE. (2004). SMPTE C Color Monitor Colorimetry. In RP 145:2004
+        (Vol. RP 145:200). doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals

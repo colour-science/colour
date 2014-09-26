@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `Specification of ROMM RGB <http://www.color.org/ROMMRGB.pdf>`_
-        (Last accessed 24 February 2014)
+.. [1]  Specification of ROMM RGB. (2003). Retrieved from
+        http://www.color.org/ROMMRGB.pdf
 """
 
 from __future__ import division, unicode_literals

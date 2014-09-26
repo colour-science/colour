@@ -19,8 +19,11 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1960_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1960 color space. Retrieved February 24, 2014,
+        from http://en.wikipedia.org/wiki/CIE_1960_color_space
+.. [2]  Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved February 24, 2014,
+        from
+        http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 """
 
 from __future__ import division, unicode_literals
@@ -59,11 +62,6 @@ def XYZ_to_UCS(XYZ):
     -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     -   Output *CIE UCS* colourspace matrix is in domain [0, 1].
 
-    References
-    ----------
-    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
@@ -96,11 +94,6 @@ def UCS_to_XYZ(UVW):
     -----
     -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
     -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
-
-    References
-    ----------
-    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
 
     Examples
     --------
@@ -135,11 +128,6 @@ def UCS_to_uv(UVW):
     -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
     -   Output *uv* chromaticity coordinates are in domain [0, 1].
 
-    References
-    ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
     >>> UCS = np.array([0.04699689, 0.1008, 0.1637439])
@@ -171,11 +159,6 @@ def UCS_uv_to_xy(uv):
     -----
     -   Input *uv* chromaticity coordinates are in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in domain [0, 1].
-
-    References
-    ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
 
     Examples
     --------

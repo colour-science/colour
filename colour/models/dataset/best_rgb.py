@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.hutchcolor.com/profiles/BestRGB.zip
-        (Last accessed 11 April 2014)
+.. [1]  HutchColor. (n.d.). BestRGB (4 K). Retrieved from
+        http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 
 from __future__ import division, unicode_literals

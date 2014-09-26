@@ -68,11 +68,9 @@ def luminance_newhall1943(V, **kwargs):
 
     References
     ----------
-    .. [1]  **Sidney M. Newhall, Dorothy Nickerson, and Deane B. Judd**,
-            *Final Report of the O.S.A. Subcommittee on the Spacing of the
-            Munsell Colors*,
-            *JOSA, Vol. 33, Issue 7, pp. 385-411 (1943)*,
-            DOI: http://dx.doi.org/10.1364/JOSA.33.000385
+    .. [1]  Newhall, S. M., Nickerson, D., & Judd, D. B. (1943). Final report
+            of the OSA subcommittee on the spacing of the munsell colors. JOSA,
+            33(7), 385. doi:10.1364/JOSA.33.000385
 
     Examples
     --------
@@ -111,10 +109,8 @@ def luminance_ASTM_D1535_08(V, **kwargs):
 
     References
     ----------
-    .. [4]  `ASTM D1535-08e1 - Standard Practice for Specifying Color by the
-            Munsell System
-            <http://www.scribd.com/doc/89648322/ASTM-D1535-08e1-Standard-Practice-for-Specifying-Color-by-the-Munsell-System>`_,  # noqa
-            DOI: http://dx.doi.org/10.1520/D1535-13
+    .. [4]  ASTM International. (n.d.). ASTM D1535 - 13 Standard Practice for
+            Specifying Color by the Munsell System. doi:10.1520/D1535-13
 
     Examples
     --------
@@ -153,14 +149,11 @@ def luminance_1976(Lstar, Y_n=100):
 
     References
     ----------
-    .. [2]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 167.
-    .. [3]  http://brucelindbloom.com/index.html?LContinuity.html
-            (Last accessed 24 February 2014)
+    .. [2]  Wyszecki, G., & Stiles, W. S. (2000). CIE 1976 (L*u*v*)-Space and
+            Color-Difference Formula. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (p. 167). Wiley. ISBN:978-0471399186
+    .. [3]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
+            Retrieved February 24, 2014, from
 
     Examples
     --------

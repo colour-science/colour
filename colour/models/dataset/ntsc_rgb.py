@@ -16,9 +16,9 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.470-6 - Conventional Television Systems
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  International Telecommunication Union. (1998). CONVENTIONAL TELEVISION
+        SYSTEMS. In Recommendation ITU-R BT.470-6 (pp. 1–36). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.josephholmes.com/Ekta_Space.zip
-        (Last accessed 13 April 2014)
+.. [1]  Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from
+        http://www.josephholmes.com/Ekta_Space.zip
 """
 
 from __future__ import division, unicode_literals

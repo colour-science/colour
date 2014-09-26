@@ -39,7 +39,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Color_temperature
+.. [1]  Wikipedia. (n.d.). Color temperature. Retrieved June 28, 2014, from
+        http://en.wikipedia.org/wiki/Color_temperature
 """
 
 from __future__ import division, unicode_literals
@@ -145,11 +146,9 @@ Notes
 
 References
 ----------
-.. [2]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae -
-        Second Edition*,
-        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        page 228.
+.. [2]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11) Isotemperature
+        Lines. In Color Science: Concepts and Methods, Quantitative Data and
+        Formulae (p. 228). Wiley. ISBN:978-0471399186
 """
 
 ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple(
@@ -288,9 +287,8 @@ def uv_to_CCT_ohno2013(uv,
 
     References
     ----------
-    .. [3]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
-            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
+    .. [3]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
+            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
 
     Examples
     --------
@@ -380,9 +378,8 @@ def CCT_to_uv_ohno2013(CCT,
 
     References
     ----------
-    .. [4]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
-            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
+    .. [4]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
+            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
 
     Examples
     --------
@@ -440,15 +437,14 @@ def uv_to_CCT_robertson1968(uv):
 
     References
     ----------
-    .. [5]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 227.
-    .. [6]  *Adobe DNG SDK 1.3.0.0*:
-            *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
-            *dng_temperature::Set_xy_coord*.
+    .. [5]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
+            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 224–229). Wiley. ISBN:978-0471399186
+    .. [6]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
+            dng_temperature::Set_xy_coord. Retrieved from
+            https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples
     --------
@@ -533,15 +529,14 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
 
     References
     ----------
-    .. [7]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 227.
-    .. [8]  *Adobe DNG SDK 1.3.0.0*:
-            *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
-            *dng_temperature::xy_coord*.
+    .. [7]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
+            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 224–229). Wiley. ISBN:978-0471399186
+    .. [8]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
+            dng_temperature::xy_coord. Retrieved from
+            https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples
     --------
@@ -745,8 +740,8 @@ def xy_to_CCT_mccamy1992(xy):
 
     References
     ----------
-    .. [9]  http://en.wikipedia.org/wiki/Color_temperature#Approximation
-            (Last accessed 28 June 2014)
+    .. [9]  Wikipedia. (n.d.). Approximation. Retrieved June 28, 2014, from
+            http://en.wikipedia.org/wiki/Color_temperature#Approximation
 
     Examples
     --------
@@ -781,10 +776,10 @@ def xy_to_CCT_hernandez1999(xy):
 
     References
     ----------
-    .. [10]  `Calculating correlated color temperatures across the entire gamut
-            of daylight and skylight chromaticities
-            <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_,
-            DOI: http://dx.doi.org/10.1364/AO.38.005703
+    .. [10] Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999).
+            Calculating correlated color temperatures across the entire gamut
+            of daylight and skylight chromaticities. Applied Optics, 38(27),
+            5703–5709. doi:10.1364/AO.38.005703
 
     Examples
     --------
@@ -833,9 +828,10 @@ def CCT_to_xy_kang2002(CCT):
 
     References
     ----------
-    .. [11] `Design of Advanced Color -
-            Temperature Control System for HDTV Applications
-            <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_  # noqa
+    .. [11] Kang, B., Moon, O., Hong, C., & Lee, H. (2002). Design of advanced
+            color: Temperature control system for HDTV applications. Journal
+            of the Korean …, 41(6), 865–871. Retrieved from
+            http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
 
     Examples
     --------
@@ -900,12 +896,10 @@ def CCT_to_xy_illuminant_D(CCT):
 
     References
     ----------
-    .. [12] **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 145.
+    .. [12] Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
+            D-Illuminants. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (pp. 145–146). Wiley.
+            ISBN:978-0471399186
 
     Examples
     --------

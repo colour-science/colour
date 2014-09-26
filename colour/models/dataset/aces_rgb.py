@@ -19,11 +19,26 @@ See Also
 
 References
 ----------
-.. [1]  http://www.oscars.org/science-technology/council/projects/aces.html
-        (Last accessed 24 February 2014)
-.. [2]  `Academy Color Encoding Specification (ACES)
-        <https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
+        February 24, 2014, from
+        http://www.oscars.org/science-technology/council/projects/aces.html
+.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (2011). Specification S-2008-001 - Academy Color
+        Encoding Specification ( ACES ), 1–33. Retrieved from
+        https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf  # noqa
+.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (2011). Logarithmic Encoding of ACES Data for use with
+        in Color Grading Systems, 1–11. Retrieved from
+        http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf  # noqa
+.. [4]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (2011). (2013). Specification S-2013-001 - ACESproxy, an
+        Integer Log Encoding of ACES Image Data, 1–13. Retrieved from
+        http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -72,12 +87,6 @@ ACES_RGB_PRIMARIES = np.array(
 *ACES RGB* colourspace primaries.
 
 ACES_RGB_PRIMARIES : ndarray, (3, 2)
-
-References
-----------
-.. [3]  `Academy Color Encoding Specification (ACES)
-        <https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf>`_  # noqa
-        4.1.2 Color space chromaticities (Last accessed 24 February 2014)
 """
 
 ACES_RGB_WHITEPOINT = ILLUMINANTS.get(
@@ -96,12 +105,6 @@ ACES_RGB_TO_XYZ_MATRIX = np.array(
 *ACES RGB* colourspace to *CIE XYZ* colourspace matrix.
 
 ACES_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
-
-References
-----------
-.. [4]  http://www.dropbox.com/sh/iwd09buudm3lfod/gyjDF-k7oC/ACES_v1.0.1.pdf:
-        4.1.4 Converting ACES RGB values to CIE XYZ values
-        (Last accessed 24 February 2014)
 """
 
 XYZ_TO_ACES_RGB_MATRIX = np.linalg.inv(ACES_RGB_TO_XYZ_MATRIX)
@@ -235,12 +238,6 @@ ACES_RGB_LOG_COLOURSPACE = RGB_Colourspace(
 *ACES RGB Log* colourspace.
 
 ACES_RGB_LOG_COLOURSPACE : RGB_Colourspace
-
-References
-----------
-.. [5]  `Logarithmic Encoding of ACES Data for use within Color Grading Systems
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf>`_  # noqa
-        (Last accessed 17 May 2014)
 """
 
 ACES_RGB_PROXY_10_CONSTANTS = Structure(
@@ -375,12 +372,6 @@ ACES_RGB_PROXY_10_COLOURSPACE = RGB_Colourspace(
 *ACES RGB Proxy 10* colourspace.
 
 ACES_RGB_PROXY_10_COLOURSPACE : RGB_Colourspace
-
-References
-----------
-.. [6]  `ACESproxy, an Integer Log Encoding of ACES Image Data
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_  # noqa
-        (Last accessed 17 May 2014)
 """
 
 ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace(
@@ -395,10 +386,4 @@ ACES_RGB_PROXY_12_COLOURSPACE = RGB_Colourspace(
 *ACES RGB Proxy 12* colourspace.
 
 ACES_RGB_PROXY_12_COLOURSPACE : RGB_Colourspace
-
-References
-----------
-.. [7]  `ACESproxy, an Integer Log Encoding of ACES Image Data
-        <http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf>`_  # noqa
-        (Last accessed 17 May 2014)
 """

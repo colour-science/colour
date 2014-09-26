@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.brucelindbloom.com/WorkingSpaceInfo.html
-        (Last accessed 11 April 2014)
+.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
+        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
 """
 
 from __future__ import division, unicode_literals

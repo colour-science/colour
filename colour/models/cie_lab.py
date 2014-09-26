@@ -19,8 +19,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Lab_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). Lab color space. Retrieved February 24, 2014, from
+        http://en.wikipedia.org/wiki/Lab_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -71,8 +71,8 @@ def XYZ_to_Lab(XYZ,
 
     References
     ----------
-    .. [2]  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to Lab. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
     Examples
     --------
@@ -125,8 +125,8 @@ def Lab_to_XYZ(Lab,
 
     References
     ----------
-    .. [3]  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2008). Lab to XYZ. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
 
     Examples
     --------
@@ -173,8 +173,8 @@ def Lab_to_LCHab(Lab):
 
     References
     ----------
-    .. [4]  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
-            (Last accessed 24 February 2014)
+    .. [4]  Lindbloom, B. (2007). Lab to LCH(ab). Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
 
     Examples
     --------
@@ -212,8 +212,8 @@ def LCHab_to_Lab(LCHab):
 
     References
     ----------
-    .. [5]  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
-            (Last accessed 24 February 2014)
+    .. [5]  Lindbloom, B. (2006). LCH(ab) to Lab. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
 
     Examples
     --------

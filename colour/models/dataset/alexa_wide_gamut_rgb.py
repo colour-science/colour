@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.arri.com/?eID=registration&file_uid=8026
-        (Last accessed 13 April 2014)
+.. [1]  ARRI. (2012). ALEXA - Log C Curve - Usage in VFX. Retrieved from
+        http://www.arri.com/?eID=registration&file_uid=8026
 """
 
 from __future__ import division, unicode_literals

@@ -71,12 +71,9 @@ def spectral_to_XYZ(spd,
 
     References
     ----------
-    .. [1]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 158.
+    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). Integration Replace by
+            Summation. In Color Science: Concepts and Methods, Quantitative
+            Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
 
     Examples
     --------

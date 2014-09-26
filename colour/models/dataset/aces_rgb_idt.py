@@ -14,11 +14,16 @@ See Also
 
 References
 ----------
-.. [1]  http://www.oscars.org/science-technology/council/projects/aces.html
-        (Last accessed 24 February 2014)
-.. [2]  `Academy Color Encoding Specification (ACES)
-        <https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
+        February 24, 2014, from
+        http://www.oscars.org/science-technology/council/projects/aces.html
+.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (2011). Specification S-2008-001 - Academy Color
+        Encoding Specification ( ACES ), 1–33. Retrieved from
+        https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

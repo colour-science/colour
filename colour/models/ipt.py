@@ -16,9 +16,8 @@ And computation of correlates:
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2, locations 8492-8567
+.. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
+        (3rd ed., pp. 8492–8567). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

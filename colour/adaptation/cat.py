@@ -30,20 +30,18 @@ See Also
 
 References
 ----------
-.. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html
-.. [2]  http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
-.. [3]  http://en.wikipedia.org/wiki/CIECAM02#CAT02
-.. [4]  **S. Bianco* and R. Schettini**,
-        *Color Research & Application, Volume 35, Issue 3, pages 184–192,
-        June 2010*,
-        DOI: http://dx.doi.org/10.1002/col.20573
-        `Two new von Kries based chromatic adaptation transforms found by
-        numerical optimization
-        <http://web.stanford.edu/~sujason/ColorBalancing/Papers/Two%20New%20von%20Kries%20Based%20Chromatic%20Adaptation.pdf>`_  # noqa
-.. [5]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-        *Computational Colour Science Using MATLAB, 2nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published July 2012, ISBN-13: 978-0-470-66569-5, page 80.
+.. [1]  Lindbloom, B. (2009). Chromatic Adaptation. Retrieved February 24,
+        2014, from http://brucelindbloom.com/Eqn_ChromAdapt.html
+.. [2]  Fairchild YSh. (n.d.). Retrieved from
+        http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+.. [3]  Wikipedia. (n.d.). CAT02. Retrieved February 24, 2014, from
+        http://en.wikipedia.org/wiki/CIECAM02#CAT02
+.. [4]  Bianco, S., & Schettini, R. (2010). Two New von Kries Based Chromatic
+        Adaptation Transforms Found by Numerical Optimization. Color Research
+        & Application, 35(3), 184–192. doi:10.1002/col.20573
+.. [5]  Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT97. In
+        Computational Colour Science Using MATLAB (2nd ed., p. 80).
+        ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -223,10 +221,8 @@ def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
 
     References
     ----------
-    .. [6]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-            The Wiley-IS&T Series in Imaging Science and Technology,
-            published June 2013, ASIN: B00DAYO8E2,
-            Locations 4193-4252.
+    .. [6]  Fairchild, M. D. (2013). Chromatic Adaptation Models. In Color
+            Appearance Models (3rd ed., pp. 4179–4252). Wiley. ASIN:B00DAYO8E2
 
     Examples
     --------

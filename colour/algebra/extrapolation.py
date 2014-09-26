@@ -66,8 +66,9 @@ class Extrapolator1d(object):
 
     References
     ----------
-    .. [1]  http://stackoverflow.com/a/2745496/931625
-            (Last accessed 8 August 2014)
+    .. [1]  sastanin. (n.d.). How to make scipy.interpolate give an
+            extrapolated result beyond the input range? Retrieved August 08,
+            2014, from http://stackoverflow.com/a/2745496/931625
 
     Examples
     --------

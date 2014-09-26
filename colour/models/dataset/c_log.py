@@ -16,9 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `Canon-Log_Transfer_Characteristic
-        <http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf>`_  # noqa
-        (Last accessed 18 April 2014)
+.. [1]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved from
+        http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals

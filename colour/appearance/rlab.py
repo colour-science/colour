@@ -19,17 +19,11 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**,
-        *Refinement of the RLAB color space*,
-        *Color Research & Application, Volume 21, Issue 5, pages 338–346,
-        October 1996*,
-        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z  # noqa
-        https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf  # noqa
-        (Last accessed 16 August 2014)
-.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        locations 6019-6178.
+.. [1]  Fairchild, M. D. (1996). Refinement of the RLAB color space. Color
+        Research & Application, 21(5), 338–346.
+        doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
+.. [2]  Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models
+        (3rd ed., pp. 5563–5824). Wiley. ASIN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

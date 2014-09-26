@@ -43,10 +43,9 @@ def bandpass_correction_stearns1988(spd):
 
     References
     ----------
-    .. [1]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-            *Computational Colour Science Using MATLAB, 2nd Edition*,
-            The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, page 38.
+    .. [1]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for
+            Spectral Bandpass. In Computational Colour Science Using MATLAB
+            (2nd ed., p. 38). ISBN:978-0-470-66569-5
 
     Parameters
     ----------

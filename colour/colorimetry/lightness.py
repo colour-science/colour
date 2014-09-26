@@ -23,8 +23,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Lightness
-        (Last accessed 13 April 2014)
+.. [1]  Wikipedia. (n.d.). Lightness. Retrieved April 13, 2014, from
+        http://en.wikipedia.org/wiki/Lightness
 """
 
 from __future__ import division, unicode_literals
@@ -71,9 +71,9 @@ def lightness_glasser1958(Y, **kwargs):
 
     References
     ----------
-    .. [2]  **Glasser et al.**, *Cube-Root Color Coordinate System*,
-            *JOSA, Vol. 48, Issue 10, pp. 736-740 (1958)*,
-            DOI: http://dx.doi.org/10.1364/JOSA.48.000736
+    .. [2]  Glasser, L. G., McKinney, A. H., Reilly, C. D., & Schnelle, P. D.
+            (1958). Cube-Root Color Coordinate System. J. Opt. Soc. Am.,
+            48(10), 736–740. doi:10.1364/JOSA.48.000736
 
     Examples
     --------
@@ -112,9 +112,8 @@ def lightness_wyszecki1964(Y, **kwargs):
 
     References
     ----------
-    .. [3]  **G. Wyszecki**, *Proposal for a New Color-Difference Formula*,
-            *JOSA, Vol. 53, Issue 11, pp. 1318-1319 (1963)*,
-            DOI: http://dx.doi.org/10.1364/JOSA.53.001318
+    .. [3]  Wyszecki, G. (1963). Proposal for a New Color-Difference Formula.
+            J. Opt. Soc. Am., 53(11), 1318–1319. doi:10.1364/JOSA.53.001318
 
     Examples
     --------
@@ -156,14 +155,12 @@ def lightness_1976(Y, Y_n=100):
 
     References
     ----------
-    .. [4]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page 167.
-    .. [5]  http://brucelindbloom.com/index.html?LContinuity.html
-            (Last accessed 24 February 2014)
+    .. [4]  Wyszecki, G., & Stiles, W. S. (2000). CIE 1976 (L*u*v*)-Space and
+            Color-Difference Formula. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (p. 167). Wiley. ISBN:978-0471399186
+    .. [5]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
+            Retrieved February 24, 2014, from
+            http://brucelindbloom.com/LContinuity.html
 
     Examples
     --------
