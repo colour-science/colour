@@ -21,17 +21,15 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Whiteness
-        (Last accessed 17 September 2014)
-.. [2]  `Color iQC and Color iMatch - Color Calculations Guide
-        <http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf>`_  # noqa
-        (Last accessed 21 September 2014)
-.. [1]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae -
-        Second Edition*,
-        Wiley Classics Library Edition, published 2000,
-        ISBN-10: 0-471-39918-3,
-        pages 837-839.
+.. [1]  Wikipedia. (n.d.). Whiteness. Retrieved September 17, 2014, from
+        http://en.wikipedia.org/wiki/Whiteness
+.. [2]  X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color
+        Calculations Guide. Retrieved from
+        http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf  # noqa
+.. [3]  Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness
+        Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts
+        and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley.
+        ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -144,7 +142,7 @@ def whiteness_taube1960(XYZ, XYZ_0):
 def whiteness_stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace matrix using *P. Stensby (1968)* method. [2]_
+    colourspace matrix using *Stensby (1968)* method. [2]_
 
     Parameters
     ----------
@@ -216,8 +214,8 @@ def whiteness_ASTM_313(XYZ):
 def whiteness_ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *xy* chromaticity coordinates using *Ganz & Griesser (1979)* method.
-    [2]_
+    sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
+    method. [2]_
 
     Parameters
     ----------
@@ -312,10 +310,8 @@ def whiteness_cie2004(xy,
 
     References
     ----------
-    .. [4]  `CIE 015:2004 Colorimetry, 3rd edition: 9.4 The evaluation of
-            whiteness
-            <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,
-            ISBN-13: 978-3-901-90633-6
+    .. [4]  CIE TC 1-48. (2004). The evaluation of whiteness. In CIE 015:2004
+            Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
 
     Examples
     --------
