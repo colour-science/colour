@@ -22,6 +22,8 @@ References
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.algebra import closest
 from colour.colorimetry import (
     SpectralShape,
@@ -167,3 +169,36 @@ def mesopic_luminous_efficiency_function(
         spd_data)
 
     return spd.normalise()
+
+
+def luminous_flux(spd,
+                  lef=PHOTOPIC_LEFS.get(
+                      'CIE 1924 Photopic Standard Observer')):
+    """
+    Returns the *luminous flux* for given spectral power distribution using
+    the given luminosity function.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        test spectral power distribution
+    lef : SpectralPowerDistribution, optional
+        :math:`V(\lambda)` luminous efficiency function.
+
+    Returns
+    -------
+    numeric
+        Luminous flux
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> luminous_flux(spd)  # doctest: +ELLIPSIS
+    28588.7902621...
+    """
+    shape = lef.shape
+    spd = spd.clone().align(shape)
+    flux = 683.002 * np.sum(spd.values[:-1] * lef.values[:-1] * np.diff(spd.wavelengths))
+    return flux
+
