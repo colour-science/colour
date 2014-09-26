@@ -16,15 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**,
-        *Formulation and testing of an incomplete-chromatic-adaptation model*,
-        *Color Research & Application Volume 16, Issue 4, pages 243–250,
-        August 1991*,
-        DOI: http://dx.doi.org/10.1002/col.5080160406
-.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        Locations 4419-4495.
+.. [1]  Fairchild, M. D. (1991). Formulation and testing of an
+        incomplete-chromatic-adaptation model. Color Research & Application,
+        16(4), 243–250. doi:10.1002/col.5080160406
+.. [2]  Fairchild, M. D. (2013). FAIRCHILD’S 1990 MODEL. In Color Appearance
+        Models (3rd ed., pp. 4418–4495). Wiley. ASIN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

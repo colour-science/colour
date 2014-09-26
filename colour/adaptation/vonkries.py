@@ -17,10 +17,8 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        Locations 4193-4252.
+.. [1]  Fairchild, M. D. (2013). Chromatic Adaptation Models. In Color
+        Appearance Models (3rd ed., pp. 4179–4252). Wiley. ASIN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
