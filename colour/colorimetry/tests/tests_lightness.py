@@ -16,7 +16,7 @@ else:
 
 from colour.colorimetry import (
     lightness_glasser1958,
-    lightness_wyszecki1964,
+    lightness_wyszecki1963,
     lightness_1976)
 
 __author__ = 'Colour Developers'
@@ -27,7 +27,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestLightnessGlasser1958',
-           'TestLightnessWyszecki1964',
+           'TestLightnessWyszecki1963',
            'TestLightness1976']
 
 
@@ -57,28 +57,28 @@ class TestLightnessGlasser1958(unittest.TestCase):
             places=7)
 
 
-class TestLightnessWyszecki1964(unittest.TestCase):
+class TestLightnessWyszecki1963(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lightness.lightness_wyszecki1964`
+    Defines :func:`colour.colorimetry.lightness.lightness_wyszecki1963`
     definition unit tests methods.
     """
 
-    def test_lightness_wyszecki1964(self):
+    def test_lightness_wyszecki1963(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_wyszecki1964`
+        Tests :func:`colour.colorimetry.lightness.lightness_wyszecki1963`
         definition.
         """
 
         self.assertAlmostEqual(
-            lightness_wyszecki1964(10.08),
+            lightness_wyszecki1963(10.08),
             37.0041149128,
             places=7)
         self.assertAlmostEqual(
-            lightness_wyszecki1964(56.76),
+            lightness_wyszecki1963(56.76),
             79.0773031869,
             places=7)
         self.assertAlmostEqual(
-            lightness_wyszecki1964(98.32),
+            lightness_wyszecki1963(98.32),
             98.3862250488,
             places=7)
 

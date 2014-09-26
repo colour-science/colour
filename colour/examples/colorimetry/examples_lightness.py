@@ -35,8 +35,8 @@ print('\n')
 message_box(('Computing "Lightness" using "Wyszecki (1964)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_wyszecki1964(Y))
-print(colour.lightness(Y, method='Wyszecki 1964'))
+print(colour.lightness_wyszecki1963(Y))
+print(colour.lightness(Y, method='Wyszecki 1963'))
 
 print('\n')
 

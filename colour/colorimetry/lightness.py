@@ -41,7 +41,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['lightness_glasser1958',
-           'lightness_wyszecki1964',
+           'lightness_wyszecki1963',
            'lightness_1976',
            'LIGHTNESS_METHODS',
            'lightness']
@@ -87,10 +87,10 @@ def lightness_glasser1958(Y, **kwargs):
     return L
 
 
-def lightness_wyszecki1964(Y, **kwargs):
+def lightness_wyszecki1963(Y, **kwargs):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
-    *G. Wyszecki (1964)* method.
+    *Wyszecki (1963)* method.
 
 
     Parameters
@@ -177,13 +177,13 @@ def lightness_1976(Y, Y_n=100):
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_glasser1958,
-     'Wyszecki 1964': lightness_wyszecki1964,
+     'Wyszecki 1963': lightness_wyszecki1963,
      'CIE 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping
-    {'Glasser 1958', 'Wyszecki 1964', 'CIE 1976'}
+    {'Glasser 1958', 'Wyszecki 1963', 'CIE 1976'}
 
 Aliases:
 
