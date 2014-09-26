@@ -512,7 +512,7 @@ class TestLuminousFlux(unittest.TestCase):
             luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(
                 'Neodimium Incandescent')),
             23807.38048982,
-            decimal=0)
+            decimal=1)
 
         np.testing.assert_almost_equal(
             luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(

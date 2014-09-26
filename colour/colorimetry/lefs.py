@@ -198,13 +198,14 @@ def luminous_flux(spd,
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
-    28588.7902621...
+    23807.8236129...
     """
     shape = lef.shape
     spd = spd.clone().align(shape)
-    flux = 683.002 * np.sum(spd.values[:-1] * lef.values[:-1] * np.diff(spd.wavelengths))
+    flux = 683.002 * np.sum(spd.values[:-1] * lef.values[:-1] *
+                            np.diff(spd.wavelengths))
     return flux
 
