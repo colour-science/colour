@@ -195,7 +195,7 @@ def luminous_flux(spd,
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
-    28588.72209317...
+    28588.7902621...
     """
     shape = lef.shape
     spd = spd.clone().align(shape)
