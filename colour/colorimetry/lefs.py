@@ -18,6 +18,12 @@ References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
         (Last accessed 20 June 2014)
+
+.. [2]  https://en.wikipedia.org/wiki/Luminosity_function#Details
+        (Last accessed 25 September 2014)
+
+.. [3]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
+        (Last accessed 18 September 2014)
 """
 
 from __future__ import division, unicode_literals
