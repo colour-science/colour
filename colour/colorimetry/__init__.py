@@ -27,7 +27,8 @@ from .correction import bandpass_correction_stearns1988
 from .illuminants import D_illuminant_relative_spd
 from .lefs import (
     mesopic_luminous_efficiency_function,
-    mesopic_weighting_function)
+    mesopic_weighting_function,
+    luminous_flux)
 from .lightness import LIGHTNESS_METHODS
 from .lightness import lightness
 from .lightness import (
@@ -66,7 +67,8 @@ __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_stearns1988']
 __all__ += ['D_illuminant_relative_spd']
 __all__ += ['mesopic_luminous_efficiency_function',
-            'mesopic_weighting_function']
+            'mesopic_weighting_function',
+            'luminous_flux']
 __all__ += ['LIGHTNESS_METHODS']
 __all__ += ['lightness']
 __all__ += ['lightness_glasser1958',
