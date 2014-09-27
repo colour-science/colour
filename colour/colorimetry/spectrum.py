@@ -1364,9 +1364,9 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [2]  CIE TC 1-48. (2004). 7.2.2.1 Extrapolation. In CIE 015:2004
+        .. [2]  CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004
                 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
-        .. [3]  CIE TC 1-38. (2005). 10. EXTRAPOLATION. In CIE 167:2005
+        .. [3]  CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005
                 Recommended Practice for Tabulating Spectral Data for Use in
                 Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
 
