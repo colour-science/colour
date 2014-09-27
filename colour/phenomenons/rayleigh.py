@@ -18,8 +18,9 @@ See Also
 
 References
 ----------
-.. [1]  Bodhaine, B., & Wood, N. (1999). On Rayleigh optical depth
-        calculations. Journal of Atmospheric …, 16(11 PART 2), 1854–1861.
+.. [1]  Bodhaine, B. A., Wood, N. B., Dutton, E. G., & Slusser, J. R. (1999).
+        On Rayleigh optical depth calculations. Journal of Atmospheric …,
+        16(11 PART 2), 1854–1861.
         doi:10.1175/1520-0426(1999)016%3C1854:ORODC%3E2.0.CO;2
 .. [2]  Wikipedia. (n.d.). Rayleigh scattering. Retrieved September 23, 2014,
         from http://en.wikipedia.org/wiki/Rayleigh_scattering

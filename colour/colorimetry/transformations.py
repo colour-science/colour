@@ -70,10 +70,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [1]  Wyszecki, G., & Stiles, W. S. Development of the Two CIE Standard
-            Colorimetric Observers, Color Science: Concepts and Methods,
-            Quantitative Data and Formulae 138–139 (2000). Wiley.
-            ISBN:978-0471399186
+    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.3.3). In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 138–139). Wiley. ISBN:978-0471399186
 
     Examples
     --------

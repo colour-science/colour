@@ -51,7 +51,7 @@ References
         from http://www.cis.rit.edu/mcsl/research/1931.php
 .. [3]  CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data.
         Retrieved February 24, 2014, from
-        http://www.cvrl.org/stilesburch2_ind.htm
+        http://www.cvrl.org/stilesburch10_ind.htm
 .. [4]  CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data.
         Retrieved February 24, 2014, from
         http://www.cvrl.org/stilesburch2_ind.htm
