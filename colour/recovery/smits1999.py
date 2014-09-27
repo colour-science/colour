@@ -5,7 +5,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines objects for reflectance recovery using *Brian Smits (1999)* method.
+Defines objects for reflectance recovery using *Smits (1999)* method.
 
 See Also
 --------
@@ -14,10 +14,9 @@ See Also
 
 References
 ----------
-.. [1]  **Smits, B. (1999)**,
-        *An RGB-to-spectrum conversion for reflectances*,
-        Journal of Graphics Tools, 4(4), 11-22.
-        DOI: http://dx.doi.org/10.1080/10867651.1999.10487511
+.. [1]  Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances.
+        Journal of Graphics Tools, 4(4), 11–22.
+        doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
@@ -72,8 +71,8 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     """
     Convenient object to convert from *CIE XYZ* colourspace to *RGB*
-    colourspace in conditions required by the current *Brian Smits (1999)*
-    method implementation.
+    colourspace in conditions required by the current *Smits (1999)* method
+    implementation.
 
     Parameters
     ----------
@@ -111,7 +110,7 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 def RGB_to_spectral_smits1999(RGB):
     """
     Recovers the spectral power distribution of given *RGB* colourspace matrix
-    using *Brian Smits (1999)* method.
+    using *Smits (1999)* method.
 
     Parameters
     ----------

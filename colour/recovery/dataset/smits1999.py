@@ -5,7 +5,13 @@
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
 
-Defines the dataset for reflectance recovery using *Brian Smits (1999)* method.
+Defines the dataset for reflectance recovery using *Smits (1999)* method.
+
+References
+----------
+.. [1]  Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances.
+        Journal of Graphics Tools, 4(4), 11–22.
+        doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
