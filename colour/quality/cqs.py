@@ -17,12 +17,11 @@ See Also
 
 References
 ----------
-.. [1]  **Davis, W., & Ohno, Y. (2010)**, *Color Quality Scale*,
-        *Optical Engineering, 49(3), 033602-033602*,
-        DOI: 10.1117/1.3360335
+.. [1]  Davis, W., & Ohno, Y. (2010). Color quality scale. Optical
+        Engineering, 49(3), 33602–33616. doi:10.1117/1.3360335
 
-.. [2]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 18 September 2014)
+.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 """
 
 from __future__ import division, unicode_literals
