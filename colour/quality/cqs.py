@@ -26,7 +26,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -257,11 +256,11 @@ def gamut_area(Labs):
         L, a, b = Labs[i]
         L_s, a_s, b_s = Labs_s[i]
 
-        A = math.sqrt(a ** 2 + b ** 2)
-        B = math.sqrt(a_s ** 2 + b_s ** 2)
-        C = math.sqrt((a_s - a) ** 2 + (b_s - b) ** 2)
+        A = np.sqrt(a ** 2 + b ** 2)
+        B = np.sqrt(a_s ** 2 + b_s ** 2)
+        C = np.sqrt((a_s - a) ** 2 + (b_s - b) ** 2)
         t = (A + B + C) / 2
-        S = math.sqrt(t * (t - A) * (t - B) * (t - C))
+        S = np.sqrt(t * (t - A) * (t - B) * (t - C))
         G += S
 
     return G
@@ -406,10 +405,10 @@ def _delta_E_RMS(cqs_data, attribute):
         Root-mean-square average.
     """
 
-    return math.sqrt(1 / len(cqs_data) *
-                     np.sum([getattr(sample_data, attribute) ** 2
-                             for sample_data in
-                             cqs_data.values()]))
+    return np.sqrt(1 / len(cqs_data) *
+                   np.sum([getattr(sample_data, attribute) ** 2
+                           for sample_data in
+                           cqs_data.values()]))
 
 
 def _colour_quality_scales(test_data, reference_data, CCT_factor):
@@ -435,11 +434,11 @@ def _colour_quality_scales(test_data, reference_data, CCT_factor):
     colour_quality_scales = {}
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
-        D_E_ab = math.sqrt(
+        D_E_ab = np.sqrt(
             np.sum((test_data[i].Lab - reference_data[i].Lab) ** 2))
 
         if D_C_ab > 0:
-            D_Ep_ab = math.sqrt(D_E_ab ** 2 - D_C_ab ** 2)
+            D_Ep_ab = np.sqrt(D_E_ab ** 2 - D_C_ab ** 2)
         else:
             D_Ep_ab = D_E_ab
 
