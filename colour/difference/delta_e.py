@@ -27,7 +27,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping
@@ -128,8 +127,8 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     L1, a1, b1 = np.ravel(lab1)
     L2, a2, b2 = np.ravel(lab2)
 
-    C1 = math.sqrt(a1 ** 2 + b1 ** 2)
-    C2 = math.sqrt(a2 ** 2 + b2 ** 2)
+    C1 = np.sqrt(a1 ** 2 + b1 ** 2)
+    C2 = np.sqrt(a2 ** 2 + b2 ** 2)
 
     sL = 1
     sC = 1 + k1 * C1
@@ -141,7 +140,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     delta_B = b1 - b2
 
     try:
-        delta_H = math.sqrt(delta_A ** 2 + delta_B ** 2 - delta_C ** 2)
+        delta_H = np.sqrt(delta_A ** 2 + delta_B ** 2 - delta_C ** 2)
     except ValueError:
         delta_H = 0.0
 
@@ -149,7 +148,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     C = (delta_C / (kC * sC)) ** 2
     H = (delta_H / (kH * sH)) ** 2
 
-    return math.sqrt(L + C + H)
+    return np.sqrt(L + C + H)
 
 
 def delta_E_CIE_2000(lab1, lab2, **kwargs):
@@ -195,38 +194,38 @@ def delta_E_CIE_2000(lab1, lab2, **kwargs):
 
     l_bar_prime = 0.5 * (L1 + L2)
 
-    c1 = math.sqrt(a1 * a1 + b1 * b1)
-    c2 = math.sqrt(a2 * a2 + b2 * b2)
+    c1 = np.sqrt(a1 * a1 + b1 * b1)
+    c2 = np.sqrt(a2 * a2 + b2 * b2)
 
     c_bar = 0.5 * (c1 + c2)
-    c_bar7 = math.pow(c_bar, 7)
+    c_bar7 = np.power(c_bar, 7)
 
-    g = 0.5 * (1 - math.sqrt(c_bar7 / (c_bar7 + 25 ** 7)))
+    g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25 ** 7)))
 
     a1_prime = a1 * (1 + g)
     a2_prime = a2 * (1 + g)
-    c1_prime = math.sqrt(a1_prime * a1_prime + b1 * b1)
-    c2_prime = math.sqrt(a2_prime * a2_prime + b2 * b2)
+    c1_prime = np.sqrt(a1_prime * a1_prime + b1 * b1)
+    c2_prime = np.sqrt(a2_prime * a2_prime + b2 * b2)
     c_bar_prime = 0.5 * (c1_prime + c2_prime)
 
-    h1_prime = (math.atan2(b1, a1_prime) * 180) / math.pi
+    h1_prime = (np.arctan2(b1, a1_prime) * 180) / np.pi
     if h1_prime < 0:
         h1_prime += 360
 
-    h2_prime = (math.atan2(b2, a2_prime) * 180) / math.pi
+    h2_prime = (np.arctan2(b2, a2_prime) * 180) / np.pi
     if h2_prime < 0.0:
         h2_prime += 360
 
     h_bar_prime = (0.5 * (h1_prime + h2_prime + 360)
-                   if math.fabs(h1_prime - h2_prime) > 180 else
+                   if np.fabs(h1_prime - h2_prime) > 180 else
                    0.5 * (h1_prime + h2_prime))
 
-    t = (1 - 0.17 * math.cos(math.pi * (h_bar_prime - 30) / 180) +
-         0.24 * math.cos(math.pi * (2 * h_bar_prime) / 180) +
-         0.32 * math.cos(math.pi * (3 * h_bar_prime + 6) / 180) -
-         0.20 * math.cos(math.pi * (4 * h_bar_prime - 63) / 180))
+    t = (1 - 0.17 * np.cos(np.pi * (h_bar_prime - 30) / 180) +
+         0.24 * np.cos(np.pi * (2 * h_bar_prime) / 180) +
+         0.32 * np.cos(np.pi * (3 * h_bar_prime + 6) / 180) -
+         0.20 * np.cos(np.pi * (4 * h_bar_prime - 63) / 180))
 
-    if math.fabs(h2_prime - h1_prime) <= 180:
+    if np.fabs(h2_prime - h1_prime) <= 180:
         delta_h_prime = h2_prime - h1_prime
     else:
         delta_h_prime = (h2_prime - h1_prime + 360
@@ -235,23 +234,23 @@ def delta_E_CIE_2000(lab1, lab2, **kwargs):
 
     delta_L_prime = L2 - L1
     delta_C_prime = c2_prime - c1_prime
-    delta_H_prime = (2 * math.sqrt(c1_prime * c2_prime) *
-                     math.sin(math.pi * (0.5 * delta_h_prime) / 180))
+    delta_H_prime = (2 * np.sqrt(c1_prime * c2_prime) *
+                     np.sin(np.pi * (0.5 * delta_h_prime) / 180))
 
     sL = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
-              math.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
+              np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
     sC = 1 + 0.045 * c_bar_prime
     sH = 1 + 0.015 * c_bar_prime * t
 
-    delta_theta = (30 * math.exp(-((h_bar_prime - 275) / 25) *
+    delta_theta = (30 * np.exp(-((h_bar_prime - 275) / 25) *
                                  ((h_bar_prime - 275) / 25)))
 
     c_bar_prime7 = c_bar_prime ** 7
 
-    rC = math.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
-    rT = -2 * rC * math.sin(math.pi * (2 * delta_theta) / 180)
+    rC = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
+    rT = -2 * rC * np.sin(np.pi * (2 * delta_theta) / 180)
 
-    return math.sqrt(
+    return np.sqrt(
         (delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
         (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
         (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
@@ -300,11 +299,11 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     L1, a1, b1 = np.ravel(lab1)
     L2, a2, b2 = np.ravel(lab2)
 
-    c1 = math.sqrt(a1 * a1 + b1 * b1)
-    c2 = math.sqrt(a2 * a2 + b2 * b2)
+    c1 = np.sqrt(a1 * a1 + b1 * b1)
+    c2 = np.sqrt(a2 * a2 + b2 * b2)
     sl = 0.511 if L1 < 16 else (0.040975 * L1) / (1 + 0.01765 * L1)
     sc = 0.0638 * c1 / (1 + 0.0131 * c1) + 0.638
-    h1 = 0 if c1 < 0.000001 else (math.atan2(b1, a1) * 180) / math.pi
+    h1 = 0 if c1 < 0.000001 else (np.arctan2(b1, a1) * 180) / np.pi
 
     while h1 < 0:
         h1 += 360
@@ -312,11 +311,11 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     while h1 >= 360:
         h1 -= 360
 
-    t = (0.56 + math.fabs(0.2 * math.cos((math.pi * (h1 + 168)) / 180))
+    t = (0.56 + np.fabs(0.2 * np.cos((np.pi * (h1 + 168)) / 180))
          if 164 <= h1 <= 345 else
-         0.36 + math.fabs(0.4 * math.cos((math.pi * (h1 + 35)) / 180)))
+         0.36 + np.fabs(0.4 * np.cos((np.pi * (h1 + 35)) / 180)))
     c4 = c1 * c1 * c1 * c1
-    f = math.sqrt(c4 / (c4 + 1900))
+    f = np.sqrt(c4 / (c4 + 1900))
     sh = sc * (f * t + 1 - f)
 
     delta_L = L1 - L2
@@ -329,7 +328,7 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
     v2 = delta_C / (c * sc)
     v3 = sh
 
-    return math.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
+    return np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
 
 
 DELTA_E_METHODS = CaseInsensitiveMapping(

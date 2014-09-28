@@ -27,7 +27,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -263,11 +262,11 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = np.ravel(Luv)
 
-    H = 180 * math.atan2(v, u) / math.pi
+    H = 180 * np.arctan2(v, u) / np.pi
     if H < 0:
         H += 360
 
-    return np.array([L, math.sqrt(u ** 2 + v ** 2), H])
+    return np.array([L, np.sqrt(u ** 2 + v ** 2), H])
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -303,5 +302,5 @@ def LCHuv_to_Luv(LCHuv):
     L, C, H = np.ravel(LCHuv)
 
     return np.array([L,
-                     C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))])
+                     C * np.cos(np.radians(H)),
+                     C * np.sin(np.radians(H))])

@@ -22,7 +22,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -209,7 +208,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
     cut, a, b, c, d, e, f, _ = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
-    return c * math.log10(a * value + b) + d if value > cut else e * value + f
+    return c * np.log10(a * value + b) + d if value > cut else e * value + f
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function(
@@ -242,7 +241,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
     cut, a, b, c, d, e, f, _ = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return ((math.pow(10, (value - d) / c) - b) / a
+    return ((np.power(10., (value - d) / c) - b) / a
             if value > e * cut + f else
             (value - f) / e)
 

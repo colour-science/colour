@@ -22,7 +22,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -77,7 +76,7 @@ XYZ_TO_C_LOG_MATRIX : array_like, (3, 3)
 """
 
 C_LOG_TRANSFER_FUNCTION = lambda x: (
-    0.529136 * math.log10(10.1596 * x + 1) + 0.0730597)
+    0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
 """
 Transfer function from linear to *C-Log* colourspace.
 
@@ -86,7 +85,7 @@ C_LOG_TRANSFER_FUNCTION : object
 
 C_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
     -0.071622555735168 * (
-    1.3742747797867 - math.exp(1) ** (4.3515940948906 * x)))
+    1.3742747797867 - np.exp(1) ** (4.3515940948906 * x)))
 """
 Inverse transfer function from *C-Log* colourspace to linear.
 

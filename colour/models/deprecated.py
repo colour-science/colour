@@ -39,7 +39,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 __author__ = 'Colour Developers'
@@ -166,7 +165,7 @@ def HSV_to_RGB(HSV):
         if h == 6:
             h = 0
 
-        i = math.floor(h)
+        i = np.floor(h)
         j = V * (1 - S)
         k = V * (1 - S * (h - i))
         l = V * (1 - S * (1 - (h - i)))

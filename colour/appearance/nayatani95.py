@@ -27,7 +27,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -789,7 +788,7 @@ def hue_angle(p, t):
     257.5250300...
     """
 
-    h_L = math.degrees(np.arctan2(p, t)) % 360
+    h_L = np.degrees(np.arctan2(p, t)) % 360
     return h_L
 
 
@@ -858,7 +857,7 @@ def saturation_components(h, bL_or, t, p):
     (-0.0028852..., -0.0130396...)
     """
 
-    E_s = chromatic_strength_function(math.radians(h))
+    E_s = chromatic_strength_function(np.radians(h))
     S_RG = (488.93 / bL_or) * E_s * t
     S_YB = (488.93 / bL_or) * E_s * p
 

@@ -28,7 +28,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -248,7 +247,7 @@ def XYZ_to_RLAB(XYZ,
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h^R`.
     # -------------------------------------------------------------------------
-    hR = math.degrees(np.arctan2(bR, aR)) % 360
+    hR = np.degrees(np.arctan2(bR, aR)) % 360
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------

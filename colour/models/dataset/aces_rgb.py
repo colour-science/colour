@@ -43,7 +43,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -145,8 +144,8 @@ ACES_RGB_COLOURSPACE : RGB_Colourspace
 ACES_RGB_LOG_CONSTANTS = Structure(
     log_unity=32768,
     log_xperstop=2048,
-    denorm_trans=math.pow(2, -15),
-    denorm_fake0=math.pow(2, -16))
+    denorm_trans=np.power(2., -15),
+    denorm_fake0=np.power(2., -16))
 """
 *ACES RGB Log* colourspace constants.
 
@@ -177,12 +176,12 @@ def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
         value = ACES_RGB_LOG_CONSTANTS.denorm_fake0 + (value / 2)
 
-    value = ((math.log10(value) / math.log10(2)) *
+    value = (np.log2(value) *
              ACES_RGB_LOG_CONSTANTS.log_xperstop +
              ACES_RGB_LOG_CONSTANTS.log_unity)
 
     if is_16_bit_integer:
-        value = min(math.floor(value) + 0.5, 65535)
+        value = min(np.floor(value) + 0.5, 65535)
 
     return value
 
@@ -202,7 +201,7 @@ def _aces_rgb_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    value = (math.pow(2,
+    value = (np.power(2.,
                       (value - ACES_RGB_LOG_CONSTANTS.log_unity) /
                       ACES_RGB_LOG_CONSTANTS.log_xperstop))
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
@@ -298,7 +297,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
     float_2_cv = lambda x: max(constants.CV_min,
                                min(constants.CV_max, round(x)))
     if value > 0:
-        return float_2_cv((math.log(value, 2) - constants.mid_log_offset) *
+        return float_2_cv((np.log2(value) - constants.mid_log_offset) *
                           constants.steps_per_stop + constants.mid_CV_offset)
     else:
         return constants.CV_min

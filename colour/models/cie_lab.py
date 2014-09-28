@@ -25,7 +25,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -185,11 +184,11 @@ def Lab_to_LCHab(Lab):
 
     L, a, b = np.ravel(Lab)
 
-    H = 180 * math.atan2(b, a) / math.pi
+    H = 180 * np.arctan2(b, a) / np.pi
     if H < 0:
         H += 360
 
-    return np.array([L, math.sqrt(a ** 2 + b ** 2), H])
+    return np.array([L, np.sqrt(a ** 2 + b ** 2), H])
 
 
 def LCHab_to_Lab(LCHab):
@@ -225,5 +224,5 @@ def LCHab_to_Lab(LCHab):
     L, C, H = np.ravel(LCHab)
 
     return np.array([L,
-                     C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))])
+                     C * np.cos(np.radians(H)),
+                     C * np.sin(np.radians(H))])

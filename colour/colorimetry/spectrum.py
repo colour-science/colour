@@ -21,7 +21,6 @@ from __future__ import division, unicode_literals
 
 import copy
 import itertools
-import math
 import numpy as np
 
 from colour.algebra import (
@@ -1520,8 +1519,8 @@ class SpectralPowerDistribution(object):
 
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional steps like 0.1, etc...
-        shape.start = max(shape.start, math.ceil(spd_shape.start))
-        shape.end = min(shape.end, math.floor(spd_shape.end))
+        shape.start = max(shape.start, np.ceil(spd_shape.start))
+        shape.end = min(shape.end, np.floor(spd_shape.end))
 
         wavelengths, values = self.wavelengths, self.values
         is_uniform = self.is_uniform()

@@ -45,7 +45,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -213,7 +212,7 @@ def planckian_table(uv, cmfs, start, end, count):
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
-        di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
+        di = np.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
         table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
     return table
@@ -329,7 +328,7 @@ def uv_to_CCT_ohno2013(uv,
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
 
     # Triangular solution.
-    l = math.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
+    l = np.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
     x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
     T = Tip + (Tin - Tip) * (x / l)
 
@@ -413,8 +412,8 @@ def CCT_to_uv_ohno2013(CCT,
         du = u0 - u1
         dv = v0 - v1
 
-        u = u0 - Duv * (dv / math.sqrt(du ** 2 + dv ** 2))
-        v = v0 + Duv * (du / math.sqrt(du ** 2 + dv ** 2))
+        u = u0 - Duv * (dv / np.sqrt(du ** 2 + dv ** 2))
+        v = v0 + Duv * (du / np.sqrt(du ** 2 + dv ** 2))
 
         return u, v
 
@@ -464,7 +463,7 @@ def uv_to_CCT_robertson1968(uv):
         du = 1.0
         dv = wr_ruvt.t
 
-        length = math.sqrt(1 + dv * dv)
+        length = np.sqrt(1 + dv * dv)
 
         du /= length
         dv /= length
@@ -493,7 +492,7 @@ def uv_to_CCT_robertson1968(uv):
             du = du * (1 - f) + last_du * f
             dv = dv * (1 - f) + last_dv * f
 
-            length = math.sqrt(du * du + dv * dv)
+            length = np.sqrt(du * du + dv * dv)
 
             du /= length
             dv /= length
@@ -561,8 +560,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu1 = uu2 = 1.0
             vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
-            length1 = math.sqrt(1 + vv1 * vv1)
-            length2 = math.sqrt(1 + vv2 * vv2)
+            length1 = np.sqrt(1 + vv1 * vv1)
+            length2 = np.sqrt(1 + vv2 * vv2)
 
             uu1 /= length1
             vv1 /= length1
@@ -573,7 +572,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu3 = uu1 * f + uu2 * (1 - f)
             vv3 = vv1 * f + vv2 * (1 - f)
 
-            len3 = math.sqrt(uu3 * uu3 + vv3 * vv3)
+            len3 = np.sqrt(uu3 * uu3 + vv3 * vv3)
 
             uu3 /= len3
             vv3 /= len3
@@ -752,7 +751,7 @@ def xy_to_CCT_mccamy1992(xy):
     x, y = xy
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * math.pow(n, 3) + 3525 * math.pow(n, 2) - 6823.3 * n + 5520.33
+    CCT = -449 * np.power(n, 3) + 3525 * np.power(n, 2) - 6823.3 * n + 5520.33
 
     return CCT
 
@@ -790,15 +789,15 @@ def xy_to_CCT_hernandez1999(xy):
 
     n = (x - 0.3366) / (y - 0.1735)
     CCT = (-949.86315 +
-           6253.80338 * math.exp(-n / 0.92159) +
-           28.70599 * math.exp(-n / 0.20039) +
-           0.00004 * math.exp(-n / 0.07125))
+           6253.80338 * np.exp(-n / 0.92159) +
+           28.70599 * np.exp(-n / 0.20039) +
+           0.00004 * np.exp(-n / 0.07125))
 
     if CCT > 50000:
         n = (x - 0.3356) / (y - 0.1691)
         CCT = (36284.48953 +
-               0.00228 * math.exp(-n / 0.07861) +
-               5.4535e-36 * math.exp(-n / 0.01543))
+               0.00228 * np.exp(-n / 0.07861) +
+               5.4535e-36 * np.exp(-n / 0.01543))
 
     return CCT
 

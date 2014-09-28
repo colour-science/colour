@@ -43,7 +43,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 import re
 
@@ -262,7 +261,7 @@ def munsell_value_priest1920(Y):
     """
 
     Y /= 100
-    V = 10 * math.sqrt(Y)
+    V = 10 * np.sqrt(Y)
 
     return V
 
@@ -293,7 +292,7 @@ def munsell_value_munsell1933(Y):
     3.7918355...
     """
 
-    V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
+    V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
     return V
 
@@ -430,9 +429,9 @@ def munsell_value_mccamy1987(Y):
         V = (2.49268 * (Y ** (1 / 3)) - 1.5614 -
              (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
              (0.0133 / (Y ** 2.3)) +
-             0.0084 * math.sin(4.1 * (Y ** (1 / 3)) + 1) +
-             (0.0221 / Y) * math.sin(0.39 * (Y - 2)) -
-             (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53)))
+             0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
+             (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
+             (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)))
     return V
 
 
@@ -589,7 +588,7 @@ def munsell_specification_to_xyY(specification):
     if is_integer(value):
         value_minus = value_plus = round(value)
     else:
-        value_minus = math.floor(value)
+        value_minus = np.floor(value)
         value_plus = value_minus + 1
 
     specification_minus = (value_minus
@@ -702,7 +701,7 @@ def xyY_to_munsell_specification(xyY):
     z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
                                                                 y - y_center,
                                                                 Y_center))
-    theta_input = math.degrees(theta_input)
+    theta_input = np.degrees(theta_input)
 
     grey_threshold = 0.001
     if rho_input < grey_threshold:
@@ -748,7 +747,7 @@ def xyY_to_munsell_specification(xyY):
             (x_current - x_center,
              y_current - y_center,
              Y_center))
-        theta_current = math.degrees(theta_current)
+        theta_current = np.degrees(theta_current)
         theta_current_difference = (360 - theta_input + theta_current) % 360
         if theta_current_difference > 180:
             theta_current_difference -= 360
@@ -791,7 +790,7 @@ def xyY_to_munsell_specification(xyY):
                     (x_inner - x_center,
                      y_inner - y_center,
                      Y_center))
-                theta_inner = math.degrees(theta_inner)
+                theta_inner = np.degrees(theta_inner)
                 theta_inner_difference = (
                     (360 - theta_input + theta_inner) % 360)
                 if theta_inner_difference > 180:
@@ -1245,7 +1244,7 @@ def bounding_hues_from_renotation(hue, code):
         hue_ccw = hue_cw
         code_ccw = code_cw
     else:
-        hue_cw = 2.5 * math.floor(hue / 2.5)
+        hue_cw = 2.5 * np.floor(hue / 2.5)
         hue_ccw = (hue_cw + 2.5) % 10
         if hue_ccw == 0:
             hue_ccw = 10
@@ -1786,13 +1785,13 @@ def xy_from_renotation_ovoid(specification):
             specification_minus)
         z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
-        theta_minus = math.degrees(theta_minus)
+        theta_minus = np.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
         z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
-        theta_plus = math.degrees(theta_plus)
+        theta_plus = np.degrees(theta_plus)
 
         lower_hue_angle = hue_to_hue_angle(hue_minus, code_minus)
         hue_angle = hue_to_hue_angle(hue, code)
@@ -1825,8 +1824,8 @@ def xy_from_renotation_ovoid(specification):
             rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                        [rho_minus, rho_plus])(hue_angle)
 
-            x = rho * math.cos(math.radians(theta)) + x_grey
-            y = rho * math.sin(math.radians(theta)) + y_grey
+            x = rho * np.cos(np.radians(theta)) + x_grey
+            y = rho * np.sin(np.radians(theta)) + y_grey
         else:
             raise ValueError(
                 'Invalid interpolation method: "{0}"'.format(
@@ -1946,7 +1945,7 @@ def maximum_chroma_from_renotation(hue, value, code):
         value_minus = value
         value_plus = value
     else:
-        value_minus = math.floor(value)
+        value_minus = np.floor(value)
         value_plus = value_minus + 1
 
     hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -2035,7 +2034,7 @@ def munsell_specification_to_xy(specification):
         if chroma % 2 == 0:
             chroma_minus = chroma_plus = chroma
         else:
-            chroma_minus = 2 * math.floor(chroma / 2)
+            chroma_minus = 2 * np.floor(chroma / 2)
             chroma_plus = chroma_minus + 2
 
         if chroma_minus == 0:

@@ -28,7 +28,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
+import numpy as np
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
@@ -541,7 +541,7 @@ def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     980.9524178...
     """
 
-    cos2phi = math.cos(2 * math.radians(latitude))
+    cos2phi = np.cos(2 * np.radians(latitude))
 
     # Sea level acceleration of gravity.
     g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi ** 2)
@@ -603,7 +603,7 @@ def scattering_cross_section(wavelength,
     N_s = molecular_density(temperature, avogadro_constant)
     F_air = F_air(wl_micrometers, CO2_concentration)
 
-    sigma = (24 * math.pi ** 3 * (n_s ** 2 - 1) ** 2 /
+    sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
     sigma *= F_air
 

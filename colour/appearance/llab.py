@@ -33,7 +33,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -307,7 +306,7 @@ def XYZ_to_LLAB(
     # Computing the *hue* angle :math:`h_L`.
     # -------------------------------------------------------------------------
     h_L = hue_angle(a, b)
-    h_Lr = math.radians(h_L)
+    h_Lr = np.radians(h_L)
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------
@@ -494,7 +493,7 @@ def hue_angle(a, b):
     229.4635727...
     """
 
-    h_L = math.degrees(np.arctan2(b, a)) % 360
+    h_L = np.degrees(np.arctan2(b, a)) % 360
     return h_L
 
 
