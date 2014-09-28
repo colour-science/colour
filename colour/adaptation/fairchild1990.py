@@ -25,7 +25,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
@@ -129,7 +128,7 @@ def chromatic_adaptation_fairchild1990(XYZ_1,
 
     LMSp_1 = np.dot(A_1, LMS_1)
 
-    c = 0.219 - 0.0784 * math.log10(Y_n)
+    c = 0.219 - 0.0784 * np.log10(Y_n)
     C = np.array([[c, 0, 0], [0, c, 0], [0, 0, c]])
 
     LMS_a = np.dot(C, LMSp_1)

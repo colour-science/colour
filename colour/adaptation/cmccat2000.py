@@ -31,7 +31,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -144,7 +143,7 @@ def CMCCAT2000_forward(XYZ,
     RGB_wr = np.dot(CMCCAT2000_CAT, XYZ_wr.reshape(3, 1))
 
     D = (surround.F *
-         (0.08 * math.log10(0.5 * (L_A1 + L_A2)) +
+         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = 0 if D < 0 else 1 if D > 1 else D
@@ -216,7 +215,7 @@ def CMCCAT2000_reverse(XYZ_c,
     RGB_wr = np.dot(CMCCAT2000_CAT, XYZ_wr.reshape(3, 1))
 
     D = (surround.F *
-         (0.08 * math.log10(0.5 * (L_A1 + L_A2)) +
+         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = 0 if D < 0 else 1 if D > 1 else D

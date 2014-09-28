@@ -23,7 +23,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
@@ -259,7 +258,7 @@ def effective_adapting_responses(Y_o, E_o, xez):
     array([ 71.2105020...,  59.3937790...,  20.8052937...])
     """
 
-    RGB_o = ((Y_o * E_o) / (100 * math.pi)) * xez
+    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
 
     return RGB_o
 
