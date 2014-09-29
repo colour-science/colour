@@ -38,7 +38,8 @@ cat = colour.chromatic_adaptation_matrix(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES RGB'].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
 print(np.dot(colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
-             np.dot(cat, colour.RGB_COLOURSPACES['ACES RGB'].RGB_to_XYZ_matrix)))
+             np.dot(cat,
+                    colour.RGB_COLOURSPACES['ACES RGB'].RGB_to_XYZ_matrix)))
 
 print('\n')
 
