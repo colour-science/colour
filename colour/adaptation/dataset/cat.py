@@ -8,15 +8,15 @@ Chromatic Adaptation Transforms
 Defines various chromatic adaptation transforms (CAT):
 
 -   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* CAT [1]_
--   :attr:`VON_KRIES_CAT`: *Johannes Von Kries* CAT [1]_
+-   :attr:`VON_KRIES_CAT`: *Von Kries* CAT [1]_
 -   :attr:`BRADFORD_CAT`: *Bradford* CAT [1]_
 -   :attr:`SHARP_CAT`: *Sharp* CAT [4]_
--   :attr:`FAIRCHILD_CAT`: *Mark D. Fairchild* CAT [2]_
+-   :attr:`FAIRCHILD_CAT`: *Fairchild* CAT [2]_
 -   :attr:`CMCCAT97_CAT`: *CMCCAT97* CAT [5]_
 -   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* CAT [5]_
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
--   :attr:`BS_CAT`: *S. Bianco* and R. Schettini* CAT [4]_
--   :attr:`BS_PC_CAT`: *S. Bianco* and R. Schettini PC* CAT [4]_
+-   :attr:`BS_CAT`: *Bianco and Schettini (2010)* CAT [4]_
+-   :attr:`BS_PC_CAT`: *Bianco and Schettini PC (2010)* CAT [4]_
 
 See Also
 --------
@@ -28,7 +28,7 @@ References
 .. [1]  http://brucelindbloom.com/Eqn_ChromAdapt.html
 .. [2]  http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 .. [3]  http://en.wikipedia.org/wiki/CIECAM02#CAT02
-.. [4]  **S. Bianco* and R. Schettini**,
+.. [4]  **Bianco and Schettini (2010)**,
         *Color Research & Application, Volume 35, Issue 3, pages 184–192,
         June 2010*,
         DOI: http://dx.doi.org/10.1002/col.20573
@@ -78,7 +78,7 @@ VON_KRIES_CAT = np.array(
      [-0.2263000, 1.1653200, 0.0457000],
      [0.0000000, 0.0000000, 0.9182200]])
 """
-*Johannes Von Kries* chromatic adaptation transform. [1]_
+*Von Kries* chromatic adaptation transform. [1]_
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
@@ -108,7 +108,7 @@ FAIRCHILD_CAT = np.array(
      [-0.8360, 1.8327, 0.0033],
      [0.0357, -0.0469, 1.0112]])
 """
-*Mark D. Fairchild* chromatic adaptation transform. [2]_
+*Fairchild* chromatic adaptation transform. [2]_
 
 FAIRCHILD_CAT : array_like, (3, 3)
 """
@@ -148,7 +148,7 @@ BS_CAT = np.array(
      [-0.8904, 1.8709, 0.0195],
      [-0.0061, 0.0162, 0.9899]])
 """
-*S. Bianco* and R. Schettini* chromatic adaptation transform. [4]_
+*Bianco and Schettini (2010)* chromatic adaptation transform. [4]_
 
 BS_CAT : array_like, (3, 3)
 """
@@ -158,7 +158,7 @@ BS_PC_CAT = np.array(
      [-0.3775, 1.3055, 0.0720],
      [-0.0271, 0.0888, 0.9383]])
 """
-*S. Bianco* and R. Schettini* chromatic adaptation transform. [4]_
+*Bianco and Schettini PC (2010)* chromatic adaptation transform. [4]_
 
 BS_PC_CAT : array_like, (3, 3)
 
