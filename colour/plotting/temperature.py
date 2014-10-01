@@ -95,10 +95,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         return
 
     start, end = 1667, 100000
-    x, y = tuple(zip(*[UCS_uv_to_xy(CCT_to_uv(x, 0, cmfs=cmfs))
-                       for x in np.arange(start, end + 250, 250)]))
+    xy = np.array([UCS_uv_to_xy(CCT_to_uv(x, 0, cmfs=cmfs))
+                   for x in np.arange(start, end + 250, 250)])
 
-    pylab.plot(x, y, color='black', linewidth=2)
+    pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, cmfs=cmfs))
@@ -187,10 +187,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     xy_to_uv = lambda x: UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
 
     start, end = 1667, 100000
-    u, v = tuple(zip(*[CCT_to_uv(x, 0, cmfs=cmfs)
-                       for x in np.arange(start, end + 250, 250)]))
+    uv = np.array([CCT_to_uv(x, 0, cmfs=cmfs)
+                   for x in np.arange(start, end + 250, 250)])
 
-    pylab.plot(u, v, color='black', linewidth=2)
+    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
 
     for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
         u0, v0 = CCT_to_uv(i, -0.05)

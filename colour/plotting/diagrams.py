@@ -96,9 +96,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     XYZs = [value for key, value in cmfs]
 
-    x, y = tuple(zip(*([XYZ_to_xy(x) for x in XYZs])))
-
-    path = matplotlib.path.Path(tuple(zip(x, y)))
+    path = matplotlib.path.Path([XYZ_to_xy(x) for x in XYZs])
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
@@ -164,15 +162,15 @@ def CIE_1931_chromaticity_diagram_plot(
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    XYZs = [value for key, value in cmfs]
+    xy = np.array([XYZ_to_xy(XYZ) for XYZ in cmfs.values])
 
-    x, y = tuple(zip(*([XYZ_to_xy(x) for x in XYZs])))
+    wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
-    wavelengths_chromaticity_coordinates = dict(
-        tuple(zip(wavelengths, tuple(zip(x, y)))))
-
-    pylab.plot(x, y, color='black', linewidth=2)
-    pylab.plot((x[-1], x[0]), (y[-1], y[0]), color='black', linewidth=2)
+    pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
+    pylab.plot((xy[-1][0], xy[0][0]),
+               (xy[-1][1], xy[0][1]),
+               color='black',
+               linewidth=2)
 
     for label in labels:
         x, y = wavelengths_chromaticity_coordinates.get(label)
@@ -267,11 +265,9 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('E')
 
-    UVWs = [XYZ_to_UCS(value) for key, value in cmfs]
+    uv = np.array([UCS_to_uv(XYZ_to_UCS(XYZ)) for XYZ in cmfs.values])
 
-    u, v = tuple(zip(*([UCS_to_uv(x) for x in UVWs])))
-
-    path = matplotlib.path.Path(tuple(zip(u, v)))
+    path = matplotlib.path.Path(uv)
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
@@ -336,15 +332,15 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    UVWs = [XYZ_to_UCS(value) for key, value in cmfs]
+    uv = np.array([UCS_to_uv(XYZ_to_UCS(XYZ)) for XYZ in cmfs.values])
 
-    u, v = tuple(zip(*([UCS_to_uv(x) for x in UVWs])))
+    wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, uv)))
 
-    wavelengths_chromaticity_coordinates = dict(
-        tuple(zip(wavelengths, tuple(zip(u, v)))))
-
-    pylab.plot(u, v, color='black', linewidth=2)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2)
+    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot((uv[-1][0], uv[0][0]),
+               (uv[-1][1], uv[0][1]),
+               color='black',
+               linewidth=2)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)
@@ -439,11 +435,10 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('D50')
 
-    Luvs = [XYZ_to_Luv(value, illuminant) for key, value in cmfs]
+    uv = np.array([Luv_to_uv(XYZ_to_Luv(XYZ, illuminant))
+                   for XYZ in cmfs.values])
 
-    u, v = tuple(zip(*([Luv_to_uv(x) for x in Luvs])))
-
-    path = matplotlib.path.Path(tuple(zip(u, v)))
+    path = matplotlib.path.Path(uv)
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
@@ -511,15 +506,16 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('D50')
 
-    Luvs = [XYZ_to_Luv(value, illuminant) for key, value in cmfs]
+    uv = np.array([Luv_to_uv(XYZ_to_Luv(XYZ, illuminant))
+                   for XYZ in cmfs.values])
 
-    u, v = tuple(zip(*([Luv_to_uv(x) for x in Luvs])))
+    wavelengths_chromaticity_coordinates = dict(zip(wavelengths, uv))
 
-    wavelengths_chromaticity_coordinates = dict(zip(wavelengths,
-                                                    tuple(zip(u, v))))
-
-    pylab.plot(u, v, color='black', linewidth=2)
-    pylab.plot((u[-1], u[0]), (v[-1], v[0]), color='black', linewidth=2)
+    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot((uv[-1][0], uv[0][0]),
+               (uv[-1][1], uv[0][1]),
+               color='black',
+               linewidth=2)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates.get(label)

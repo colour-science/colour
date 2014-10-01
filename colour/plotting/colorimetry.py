@@ -227,7 +227,7 @@ def multi_spd_plot(spds,
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
-        wavelengths, values = tuple(zip(*[(key, value) for key, value in spd]))
+        wavelengths, values = tuple(zip(*spd.items))
 
         shape = spd.shape
         x_limit_min.append(shape.start)

@@ -67,10 +67,8 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     colours = ([[1] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100))
                             for x in additional_data[0]])
-    x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
-                             key=lambda x: x[0])))
-    x, y = np.array([0] + list(x)), np.array(
-        [cri] + list(y))
+    xy = np.array(sorted(colour_rendering_indexes.items(), key=lambda x: x[0]))
+    x, y = np.array([0] + list(xy[:, 0])), np.array([cri] + list(xy[:, 1]))
 
     positive = True if np.sign(min(y)) in (0, 1) else False
 
