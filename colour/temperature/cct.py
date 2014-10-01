@@ -334,10 +334,10 @@ def uv_to_CCT_ohno2013(uv,
 
     vtx = vip + (vin - vip) * (x / l)
     sign = 1 if vx - vtx >= 0 else -1
-    Duv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
+    D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
 
     # Parabolic solution.
-    if Duv < 0.002:
+    if D_uv < 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
@@ -347,13 +347,13 @@ def uv_to_CCT_ohno2013(uv,
 
         T = -b / (2 * a)
 
-        Duv = sign * (a * T ** 2 + b * T + c)
+        D_uv = sign * (a * T ** 2 + b * T + c)
 
-    return T, Duv
+    return T, D_uv
 
 
 def CCT_to_uv_ohno2013(CCT,
-                       Duv=0,
+                       D_uv=0,
                        cmfs=STANDARD_OBSERVERS_CMFS.get(
                            'CIE 1931 2 Degree Standard Observer')):
     """
@@ -365,7 +365,7 @@ def CCT_to_uv_ohno2013(CCT,
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric, optional
+    D_uv : numeric, optional
         :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
@@ -386,8 +386,8 @@ def CCT_to_uv_ohno2013(CCT,
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> Duv = 0.003223690901512735
-    >>> CCT_to_uv_ohno2013(CCT, Duv, cmfs)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.003223690901512735
+    >>> CCT_to_uv_ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
     (0.1978003..., 0.3122005...)
     """
 
@@ -400,7 +400,7 @@ def CCT_to_uv_ohno2013(CCT,
     UVW = XYZ_to_UCS(XYZ)
     u0, v0 = UCS_to_uv(UVW)
 
-    if Duv == 0:
+    if D_uv == 0:
         return u0, v0
     else:
         spd = blackbody_spd(CCT + delta, shape)
@@ -412,8 +412,8 @@ def CCT_to_uv_ohno2013(CCT,
         du = u0 - u1
         dv = v0 - v1
 
-        u = u0 - Duv * (dv / np.sqrt(du ** 2 + dv ** 2))
-        v = v0 + Duv * (du / np.sqrt(du ** 2 + dv ** 2))
+        u = u0 - D_uv * (dv / np.sqrt(du ** 2 + dv ** 2))
+        v = v0 + D_uv * (du / np.sqrt(du ** 2 + dv ** 2))
 
         return u, v
 
@@ -497,7 +497,7 @@ def uv_to_CCT_robertson1968(uv):
             du /= length
             dv /= length
 
-            Duv = uu * du + vv * dv
+            D_uv = uu * du + vv * dv
 
             break
 
@@ -505,10 +505,10 @@ def uv_to_CCT_robertson1968(uv):
         last_du = du
         last_dv = dv
 
-    return T, -Duv
+    return T, -D_uv
 
 
-def CCT_to_uv_robertson1968(CCT, Duv=0):
+def CCT_to_uv_robertson1968(CCT, D_uv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
@@ -518,7 +518,7 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric
+    D_uv : numeric
         :math:`\Delta_{uv}`.
 
     Returns
@@ -540,8 +540,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
     Examples
     --------
     >>> CCT = 6500.0081378199056
-    >>> Duv = 0.0083333312442250979
-    >>> CCT_to_uv_robertson1968(CCT, Duv)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.0083333312442250979
+    >>> CCT_to_uv_robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
     (0.1937413..., 0.3152210...)
     """
 
@@ -577,8 +577,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu3 /= len3
             vv3 /= len3
 
-            u += uu3 * -Duv
-            v += vv3 * -Duv
+            u += uu3 * -D_uv
+            v += vv3 * -D_uv
 
             return u, v
 
@@ -669,7 +669,7 @@ CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
-def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
@@ -679,7 +679,7 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric
+    D_uv : numeric
         :math:`\Delta_{uv}`.
     method : unicode, optional
     {'Ohno 2013', 'Robertson 1968'}
@@ -703,13 +703,13 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> Duv = 0.003223690901512735
-    >>> CCT_to_uv(CCT, Duv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.003223690901512735
+    >>> CCT_to_uv(CCT, D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     (0.1978003..., 0.3122005...)
     """
 
     if method == 'Ohno 2013':
-        return CCT_TO_UV_METHODS.get(method)(CCT, Duv, **kwargs)
+        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv, **kwargs)
     else:
         if 'cmfs' in kwargs:
             if kwargs.get('cmfs').name != (
@@ -718,7 +718,7 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
                     ('"Robertson (1968)" method is only valid for '
                      '"CIE 1931 2 Degree Standard Observer"!'))
 
-        return CCT_TO_UV_METHODS.get(method)(CCT, Duv)
+        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv)
 
 
 def xy_to_CCT_mccamy1992(xy):

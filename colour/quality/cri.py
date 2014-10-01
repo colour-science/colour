@@ -181,7 +181,7 @@ def colour_rendering_index(test_spd, additional_data=False):
 
     XYZ = spectral_to_XYZ(test_spd, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, Duv = uv_to_CCT_robertson1968(uv)
+    CCT, D_uv = uv_to_CCT_robertson1968(uv)
 
     if CCT < 5000:
         reference_spd = blackbody_spd(CCT, shape)
