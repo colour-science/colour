@@ -16,6 +16,10 @@ Development & Technical Support
 
     Continuous technical support.
 
+-   **Luke Canavan**
+
+    Colour Quality Scale, Luminous Flux.
+
 Acknowledgements
 ----------------
 
