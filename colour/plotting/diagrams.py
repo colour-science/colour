@@ -159,8 +159,7 @@ def CIE_1931_chromaticity_diagram_plot(
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
     labels = (
-        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620,
-         700])
+        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700])
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
