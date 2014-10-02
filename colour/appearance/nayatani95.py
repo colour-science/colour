@@ -385,7 +385,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     array([ 20.000520...,  19.999783...,  19.998831...])
     """
 
-    return NAYATANI95_XYZ_TO_RGB_MATRIX.dot(XYZ)
+    return np.dot(NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def beta_1(x):

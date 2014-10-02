@@ -387,7 +387,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     RGB_r = np.array([R_r, G_r, B_r])
 
-    X_r, Y_r, Z_r = LLAB_RGB_TO_XYZ_MATRIX.dot(RGB_r * Y)
+    X_r, Y_r, Z_r = np.dot(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
 
     return np.array([X_r, Y_r, Z_r])
 

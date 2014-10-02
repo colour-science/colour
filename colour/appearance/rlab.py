@@ -218,7 +218,7 @@ def XYZ_to_RLAB(XYZ,
         # *numeric* case.
         # Implementation as per reference.
         aR = np.diag(LMS_a_L)
-        XYZ_ref = R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ)
+        XYZ_ref = np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX), XYZ)
     else:
         # *array_like* case.
         # Constructing huge multidimensional arrays might not be the best idea,
@@ -231,7 +231,8 @@ def XYZ_to_RLAB(XYZ,
         for layer in range(dimension):
             aR = np.diag(LMS_a_L[..., layer])
             XYZ_ref[..., layer] = (
-                R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ[..., layer]))
+                np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX),
+                       XYZ[..., layer]))
 
     X_ref, Y_ref, Z_ref = XYZ_ref
 

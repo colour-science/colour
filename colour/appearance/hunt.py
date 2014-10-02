@@ -535,7 +535,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return XYZ_TO_HPE_MATRIX.dot(XYZ)
+    return np.dot(XYZ_TO_HPE_MATRIX, XYZ)
 
 
 def f_n(x):
