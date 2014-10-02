@@ -171,7 +171,7 @@ def XYZ_to_RGB_cie1994(XYZ):
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return CIE1994_XYZ_TO_RGB_MATRIX.dot(XYZ)
+    return np.dot(CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_cie1994(RGB):
@@ -195,7 +195,7 @@ def RGB_to_XYZ_cie1994(RGB):
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return CIE1994_RGB_TO_XYZ_MATRIX.dot(RGB)
+    return np.dot(CIE1994_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def intermediate_values(xy_o):

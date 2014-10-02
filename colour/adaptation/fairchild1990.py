@@ -161,7 +161,7 @@ def XYZ_to_RGB_fairchild1990(XYZ):
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
-    return FAIRCHILD1990_XYZ_TO_RGB_MATRIX.dot(XYZ)
+    return np.dot(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_fairchild1990(RGB):
@@ -185,7 +185,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
     array([ 19.53,  23.07,  24.97])
     """
 
-    return FAIRCHILD1990_RGB_TO_XYZ_MATRIX.dot(RGB)
+    return np.dot(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
