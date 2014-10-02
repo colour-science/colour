@@ -87,7 +87,7 @@ def corresponding_chromaticities_prediction_vonkries(experiment=1,
         *Edwin J. Breneman* experiment number.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
         Chromatic adaptation transform.
 
     Returns

@@ -52,7 +52,7 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* colourspace matrix.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
         Chromatic adaptation transform.
 
     Returns
@@ -127,7 +127,7 @@ def chromatic_adaptation_vonkries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* colourspace whitepoint matrix.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
         Chromatic adaptation transform.
 
     Returns

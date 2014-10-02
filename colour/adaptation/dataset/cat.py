@@ -15,6 +15,8 @@ Defines various chromatic adaptation transforms (CAT):
 -   :attr:`CMCCAT97_CAT`: *CMCCAT97* CAT [5]_
 -   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* CAT [5]_
 -   :attr:`CAT02_CAT`: *CAT02* CAT [3]_
+-   :attr:`CAT02_BRILL_CAT`: Brill and Süsstrunk (2008) corrected *CAT02*
+    CAT [6]_ [7]_
 -   :attr:`BS_CAT`: *Bianco and Schettini (2010)* CAT [4]_
 -   :attr:`BS_PC_CAT`: *Bianco and Schettini PC (2010)* CAT [4]_
 
@@ -39,6 +41,11 @@ References
         *Computational Colour Science Using MATLAB, 2nd Edition*,
         The Wiley-IS&T Series in Imaging Science and Technology,
         published July 2012, ISBN-13: 978-0-470-66569-5, page  80.
+.. [6]  Brill, M. H., & Süsstrunk, S. (2008). Repairing gamut problems in
+        CIECAM02: A progress report. Color Research & Application, 33(5),
+        424–426. doi:10.1002/col.20432
+.. [7]  Li, C., Perales, E., Luo, M. R., & Martínez-verdú, F. (2007). The
+        Problem with CAT02 and Its Correction, (July), 1–10.
 """
 
 from __future__ import division, unicode_literals
@@ -62,6 +69,7 @@ __all__ = ['XYZ_SCALING_CAT',
            'CMCCAT97_CAT',
            'CMCCAT2000_CAT',
            'CAT02_CAT',
+           'CAT02_BRILL_CAT',
            'BS_CAT',
            'BS_PC_CAT',
            'CHROMATIC_ADAPTATION_TRANSFORMS']
@@ -143,6 +151,17 @@ CAT02_CAT = np.array(
 CAT02_CAT : array_like, (3, 3)
 """
 
+CAT02_BRILL_CAT = np.array(
+    [[0.7328, 0.4296, -0.1624],
+     [-0.7036, 1.6975, 0.0061],
+     [0.0000, 0.0000, 1.0000]])
+"""
+Brill and Süsstrunk (2008) corrected *CAT02* chromatic adaptation
+transform. [6]_ [7]
+
+CAT02_BRILL_CAT : array_like, (3, 3)
+"""
+
 BS_CAT = np.array(
     [[0.8752, 0.2787, -0.1539],
      [-0.8904, 1.8709, 0.0195],
@@ -176,6 +195,7 @@ CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping(
      'CMCCAT97': CMCCAT97_CAT,
      'CMCCAT2000': CMCCAT2000_CAT,
      'CAT02': CAT02_CAT,
+     'CAT02_BRILL_CAT': CAT02_BRILL_CAT,
      'Bianco': BS_CAT,
      'Bianco PC': BS_PC_CAT})
 """
@@ -183,5 +203,5 @@ Supported chromatic adaptation transforms.
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     {'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'CMCCAT97', 'CMCCAT2000',
-    'Fairchild, 'CAT02', 'Bianco', 'Bianco PC'}
+    'Fairchild, 'CAT02', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'}
 """
