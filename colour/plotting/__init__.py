@@ -8,6 +8,7 @@ from . import dataset
 from .common import (
     PLOTTING_RESOURCES_DIRECTORY,
     DEFAULT_FIGURE_SIZE,
+    DEFAULT_FONT_SIZE,
     DEFAULT_COLOUR_CYCLE,
     ColourParameter,
     colour_cycle,
@@ -57,6 +58,7 @@ __all__ += dataset.__all__
 __all__ += [
     'PLOTTING_RESOURCES_DIRECTORY',
     'DEFAULT_FIGURE_SIZE',
+    'DEFAULT_FONT_SIZE',
     'DEFAULT_COLOUR_CYCLE',
     'ColourParameter',
     'colour_cycle',

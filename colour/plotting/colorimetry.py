@@ -170,7 +170,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     colours = normalise(colours)
 
     settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
-                'x_label': u'Wavelength λ (nm)',
+                'x_label': r'Wavelength $\lambda$ (nm)',
                 'y_label': 'Spectral Power Distribution',
                 'x_tighten': True,
                 'x_ticker': True,
@@ -248,7 +248,7 @@ def multi_spd_plot(spds,
         else:
             pylab.plot(wavelengths, values, label=spd.name, linewidth=2)
 
-    settings = {'x_label': u'Wavelength λ (nm)',
+    settings = {'x_label': r'Wavelength $\lambda$ (nm)',
                 'y_label': 'Spectral Power Distribution',
                 'x_tighten': True,
                 'legend': True,
@@ -348,7 +348,7 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
 
     settings = {
         'title': '{0} - Colour Matching Functions'.format(', '.join(cmfss)),
-        'x_label': u'Wavelength λ (nm)',
+        'x_label': r'Wavelength $\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
         'legend': True,
@@ -483,7 +483,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = np.clip(colours, 0, 1)
 
     settings = {'title': 'The Visible Spectrum - {0}'.format(name),
-                'x_label': u'Wavelength λ (nm)',
+                'x_label': r'Wavelength $\lambda$ (nm)',
                 'x_tighten': True}
     settings.update(kwargs)
 
