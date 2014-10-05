@@ -23,7 +23,30 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestIsString']
+__all__ = ['TestBatch',
+           'TestIsString']
+
+
+class TestBatch(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.batch` definition unit tests
+    methods.
+    """
+
+    def test_batch(self):
+        """
+        Tests :func:`colour.utilities.common.batch` definition.
+        """
+
+        self.assertListEqual(
+            list(colour.utilities.common.batch(tuple(range(10)))),
+            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])
+        self.assertListEqual(
+            list(colour.utilities.common.batch(tuple(range(10)), 5)),
+            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)])
+        self.assertListEqual(
+            list(colour.utilities.common.batch(tuple(range(10)), 1)),
+            [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,)])
 
 
 class TestIsString(unittest.TestCase):

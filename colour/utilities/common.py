@@ -17,8 +17,35 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['is_scipy_installed',
+__all__ = ['batch',
+           'is_scipy_installed',
            'is_string']
+
+
+def batch(iterable, k=3):
+    """
+    Returns a batch generator from given iterable.
+
+    Parameters
+    ----------
+    iterable : iterable
+        Iterable to create batches from.
+    k : integer
+        Batches size.
+
+    Returns
+    -------
+    bool
+        Is *string_like* variable.
+
+    Examples
+    --------
+    >>> batch(tuple(range(10)))  # doctest: +ELLIPSIS
+    <generator object batch at 0x...>
+    """
+
+    for i in range(0, len(iterable), k):
+        yield iterable[i:i + k]
 
 
 def is_scipy_installed(raise_exception=False):
@@ -57,7 +84,7 @@ def is_scipy_installed(raise_exception=False):
 
 def is_string(data):
     """
-    Returns if given data is a *string_like* variable
+    Returns if given data is a *string_like* variable.
 
     Parameters
     ----------
@@ -78,3 +105,4 @@ def is_string(data):
     """
 
     return True if isinstance(data, basestring) else False
+
