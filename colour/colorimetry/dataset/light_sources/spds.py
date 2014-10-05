@@ -2947,7 +2947,7 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping(
          LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA.get(
              'Phosphor LED YAG'))})
 """
-LED Light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
+LED light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS : CaseInsensitiveMapping
     {'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
