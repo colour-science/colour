@@ -22,6 +22,7 @@ from __future__ import division, unicode_literals
 
 import os
 import re
+import sys
 from collections import namedtuple
 from xml.etree import ElementTree
 
@@ -943,13 +944,15 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Examples
         --------
-        >>> spd = IES_TM2714_Spd('tests/resources/Fluorescent.spdx')
+        >>> from os.path import dirname, join
+        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
         >>> spd.read()
         True
         >>> spd.header.description
         'Rare earth fluorescent lamp'
-        >>> spd[403.1]
-        0.037
+        >>> spd[400]  # doctest: +ELLIPSIS
+        0.034...
         """
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
@@ -971,7 +974,13 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                             specification.attribute,
                             specification.conversion_method(element.text))
 
-        for spectral_data in root.iter('{{{0}}}{1}'.format(
+        # *Element.iter* does not exist in *Python 2.6*.
+        if sys.version_info[:2] <= (2, 6):
+            iterator = root.getiterator
+        else:
+            iterator = root.iter
+
+        for spectral_data in iterator('{{{0}}}{1}'.format(
                 namespace, mapping.data.element)):
             wavelength = float(spectral_data.attrib[mapping.data.attribute])
             value = float(spectral_data.text)
