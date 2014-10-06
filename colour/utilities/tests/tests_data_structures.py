@@ -95,7 +95,7 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(firstName='Doe', lastName='John', gender='male')
-        self.assertEqual('firstName', lookup.first_key_from_value('Doe'))
+        self.assertEqual('first_name', lookup.first_key_from_value('Doe'))
 
     def test_keys_from_value(self):
         """
