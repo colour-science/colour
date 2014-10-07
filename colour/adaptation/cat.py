@@ -259,12 +259,10 @@ def chromatic_adaptation_matrix(XYZ_w, XYZ_wr, method='CAT02'):
         # are the same, no adaptation is needed.
         return np.identity(3)
 
-    rgb_source = np.ravel(np.dot(method_matrix, XYZ_w))
-    rgb_target = np.ravel(np.dot(method_matrix, XYZ_wr))
-    D = np.diagflat(np.array(
-        [[rgb_target[0] / rgb_source[0],
-          rgb_target[1] / rgb_source[1],
-          rgb_target[2] / rgb_source[2]]])).reshape((3, 3))
+    rgb_w = np.ravel(np.dot(method_matrix, XYZ_w))
+    rgb_wr = np.ravel(np.dot(method_matrix, XYZ_wr))
+
+    D = np.diagflat(np.divide(rgb_wr, rgb_w)).reshape((3, 3))
     cat = np.dot(np.dot(np.linalg.inv(method_matrix), D), method_matrix)
 
     return cat
