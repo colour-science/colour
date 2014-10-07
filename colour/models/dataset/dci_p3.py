@@ -25,6 +25,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
 
 __author__ = 'Colour Developers'
@@ -52,7 +53,8 @@ DCI_P3_PRIMARIES = np.array(
 DCI_P3_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_WHITEPOINT = (0.314, 0.351)
+DCI_P3_WHITEPOINT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 """
 *DCI-P3* colourspace whitepoint.
 
