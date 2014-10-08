@@ -102,10 +102,10 @@ def XYZ_to_RGB(XYZ,
                                       xy_to_XYZ(illuminant_RGB),
                                       method=chromatic_adaptation_method)
 
-    adapted_XYZ = np.dot(cat, XYZ)
+    XYZ_a = np.dot(cat, XYZ)
 
     RGB = np.dot(XYZ_to_RGB_matrix.reshape((3, 3)),
-                 adapted_XYZ.reshape((3, 1)))
+                 XYZ_a.reshape((3, 1)))
 
     if transfer_function is not None:
         RGB = np.array([transfer_function(x) for x in np.ravel(RGB)])
@@ -187,9 +187,9 @@ def RGB_to_XYZ(RGB,
         xy_to_XYZ(illuminant_XYZ),
         method=chromatic_adaptation_method)
 
-    adapted_XYZ = np.dot(cat, XYZ.reshape((3, 1)))
+    XYZ_a = np.dot(cat, XYZ.reshape((3, 1)))
 
-    return np.ravel(adapted_XYZ)
+    return np.ravel(XYZ_a)
 
 
 def RGB_to_RGB(RGB,
@@ -238,7 +238,7 @@ def RGB_to_RGB(RGB,
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_method)
 
-    trs_matrix = np.dot(output_colourspace.XYZ_to_RGB_matrix,
-                        np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
+    M = np.dot(output_colourspace.XYZ_to_RGB_matrix,
+               np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
 
-    return np.dot(trs_matrix, RGB)
+    return np.dot(M, RGB)
