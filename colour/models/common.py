@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
+from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -26,7 +26,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_sRGB']
+__all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 
 
 def XYZ_to_sRGB(XYZ,
@@ -72,3 +72,49 @@ def XYZ_to_sRGB(XYZ,
                       sRGB.XYZ_to_RGB_matrix,
                       chromatic_adaptation_method,
                       sRGB.transfer_function if transfer_function else None)
+
+
+def sRGB_to_XYZ(RGB,
+                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                chromatic_adaptation_method='CAT02',
+                inverse_transfer_function=True):
+    """
+    Converts from *sRGB* colourspace to *CIE XYZ* colourspace.
+
+    Parameters
+    ----------
+    RGB : array_like, (3,)
+        *sRGB* colourspace matrix.
+    illuminant : array_like, optional
+        Source illuminant chromaticity coordinates.
+    chromatic_adaptation_method : unicode, optional
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        *Chromatic adaptation* method.
+    inverse_transfer_function : bool, optional
+        Apply *sRGB* *inverse transfer function*.
+
+    Returns
+    -------
+    ndarray, (3,)
+        *CIE XYZ* colour matrix.
+
+    Notes
+    -----
+    -   Input *RGB* colourspace matrix is in domain [0, 1].
+
+    Examples
+    --------
+    >>> RGB = np.array([0.17501358, 0.38818795, 0.32161955])
+    >>> sRGB_to_XYZ(RGB)  # doctest: +ELLIPSIS
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    """
+
+    sRGB = RGB_COLOURSPACES.get('sRGB')
+    return RGB_to_XYZ(RGB,
+                      sRGB.whitepoint,
+                      illuminant,
+                      sRGB.RGB_to_XYZ_matrix,
+                      chromatic_adaptation_method,
+                      (sRGB.inverse_transfer_function
+                       if inverse_transfer_function else None))

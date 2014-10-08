@@ -27,7 +27,7 @@ from .cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from .cie_uvw import XYZ_to_UVW
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
-from .common import XYZ_to_sRGB
+from .common import XYZ_to_sRGB, sRGB_to_XYZ
 from .aces_rgb_idt import spectral_to_aces_relative_exposure_values
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 
@@ -51,6 +51,6 @@ __all__ += ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
 __all__ += ['XYZ_to_UVW']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB']
-__all__ += ['XYZ_to_sRGB']
+__all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 __all__ += ['spectral_to_aces_relative_exposure_values']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
