@@ -168,6 +168,8 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
                 Callable object.
             """
 
+            current_size = pylab.rcParams['figure.figsize']
+
             pylab.rcParams['figure.figsize'] = (
                 kwargs.get('figure_size')
                 if kwargs.get('figure_size') is not None else
@@ -176,7 +178,7 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
             try:
                 return callable(*args, **kwargs)
             finally:
-                pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
+                pylab.rcParams['figure.figsize'] = current_size
 
         return figure_size_wrapper
 
