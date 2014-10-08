@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -61,10 +61,9 @@ DCI_P3_WHITEPOINT = ILLUMINANTS.get(
 DCI_P3_WHITEPOINT : tuple
 """
 
-DCI_P3_TO_XYZ_MATRIX = np.array(
-    [[0.44516982, 0.27713441, 0.17228267],
-     [0.20949168, 0.72159525, 0.06891307],
-     [0, 0.04706056, 0.90735539]])
+DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
+    DCI_P3_PRIMARIES,
+    DCI_P3_WHITEPOINT)
 """
 *DCI-P3* colourspace to *CIE XYZ* colourspace matrix.
 
