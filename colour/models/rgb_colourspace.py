@@ -38,20 +38,22 @@ class RGB_Colourspace(object):
     Parameters
     ----------
     name : str or unicode
-        *RGB* Colourspace name.
+        *RGB* colourspace name.
     primaries : array_like
-        *RGB* Colourspace primaries.
+        *RGB* colourspace primaries.
     whitepoint : array_like
-        *RGB* Colourspace whitepoint.
-    RGB_to_XYZ_matrix : array_like
+        *RGB* colourspace whitepoint.
+    illuminant : str or unicode, optional
+        *RGB* colourspace whitepoint name as illuminant.
+    RGB_to_XYZ_matrix : array_like, optional
         Transformation matrix from colourspace to *CIE XYZ* colourspace.
-    XYZ_to_RGB_matrix : array_like
+    XYZ_to_RGB_matrix : array_like, optional
         Transformation matrix from *CIE XYZ* colourspace to colourspace.
-    transfer_function : object
-        *RGB* Colourspace opto-electronic conversion function from linear to
+    transfer_function : object, optional
+        *RGB* colourspace opto-electronic conversion function from linear to
         colourspace.
-    inverse_transfer_function : object
-        *RGB* Colourspace inverse opto-electronic conversion function from
+    inverse_transfer_function : object, optional
+        *RGB* colourspace inverse opto-electronic conversion function from
         colourspace to linear.
     """
 
@@ -59,6 +61,7 @@ class RGB_Colourspace(object):
                  name,
                  primaries,
                  whitepoint,
+                 illuminant=None,
                  RGB_to_XYZ_matrix=None,
                  XYZ_to_RGB_matrix=None,
                  transfer_function=None,
@@ -69,6 +72,8 @@ class RGB_Colourspace(object):
         self.primaries = primaries
         self.__whitepoint = None
         self.whitepoint = whitepoint
+        self.__illuminant = None
+        self.illuminant = illuminant
         self.__RGB_to_XYZ_matrix = None
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
         self.__XYZ_to_RGB_matrix = None
@@ -165,6 +170,36 @@ class RGB_Colourspace(object):
                 ('"{0}" attribute: "{1}" type is not "tuple", "list", '
                  '"ndarray" or "matrix"!').format('whitepoint', value))
         self.__whitepoint = value
+
+    @property
+    def illuminant(self):
+        """
+        Property for **self.__illuminant** private attribute.
+
+        Returns
+        -------
+        str or unicode
+            self.__illuminant.
+        """
+
+        return self.__illuminant
+
+    @illuminant.setter
+    def illuminant(self, value):
+        """
+        Setter for **self.__illuminant** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (str, unicode), (
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('illuminant', value))
+        self.__illuminant = value
 
     @property
     def RGB_to_XYZ_matrix(self):

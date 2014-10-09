@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['SMPTE_C_RGB_PRIMARIES',
+           'SMPTE_C_RGB_ILLUMINANT',
            'SMPTE_C_RGB_WHITEPOINT',
            'SMPTE_C_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_SMPTE_C_RGB_MATRIX',
@@ -52,8 +53,15 @@ SMPTE_C_RGB_PRIMARIES = np.array(
 SMPTE_C_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+SMPTE_C_RGB_ILLUMINANT = 'D65'
+"""
+*SMPTE-C RGB* colourspace whitepoint name as illuminant.
+
+SMPTE_C_RGB_ILLUMINANT : unicode
+"""
+
 SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(SMPTE_C_RGB_ILLUMINANT)
 """
 *SMPTE-C RGB* colourspace whitepoint.
 
@@ -93,6 +101,7 @@ SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     'SMPTE-C RGB',
     SMPTE_C_RGB_PRIMARIES,
     SMPTE_C_RGB_WHITEPOINT,
+    SMPTE_C_RGB_ILLUMINANT,
     SMPTE_C_RGB_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_C_RGB_MATRIX,
     SMPTE_C_RGB_TRANSFER_FUNCTION,

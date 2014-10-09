@@ -36,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['NTSC_RGB_PRIMARIES',
+           'NTSC_RGB_ILLUMINANT',
            'NTSC_RGB_WHITEPOINT',
            'NTSC_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_NTSC_RGB_MATRIX',
@@ -53,8 +54,15 @@ NTSC_RGB_PRIMARIES = np.array(
 NTSC_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+NTSC_RGB_ILLUMINANT = 'C'
+"""
+*NTSC RGB* colourspace whitepoint name as illuminant.
+
+NTSC_RGB_ILLUMINANT : unicode
+"""
+
 NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('C')
+    'CIE 1931 2 Degree Standard Observer').get(NTSC_RGB_ILLUMINANT)
 """
 *NTSC RGB* colourspace whitepoint.
 
@@ -94,6 +102,7 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     'NTSC RGB',
     NTSC_RGB_PRIMARIES,
     NTSC_RGB_WHITEPOINT,
+    NTSC_RGB_ILLUMINANT,
     NTSC_RGB_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_RGB_MATRIX,
     NTSC_RGB_TRANSFER_FUNCTION,

@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['APPLE_RGB_PRIMARIES',
+           'APPLE_RGB_ILLUMINANT',
            'APPLE_RGB_WHITEPOINT',
            'APPLE_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_APPLE_RGB_MATRIX',
@@ -52,8 +53,15 @@ APPLE_RGB_PRIMARIES = np.array(
 APPLE_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+APPLE_RGB_ILLUMINANT = 'D65'
+"""
+*Apple RGB* colourspace whitepoint name as illuminant.
+
+APPLE_RGB_ILLUMINANT : unicode
+"""
+
 APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(APPLE_RGB_ILLUMINANT)
 """
 *Apple RGB* colourspace whitepoint.
 
@@ -93,6 +101,7 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     'Apple RGB',
     APPLE_RGB_PRIMARIES,
     APPLE_RGB_WHITEPOINT,
+    APPLE_RGB_ILLUMINANT,
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
     APPLE_RGB_TRANSFER_FUNCTION,

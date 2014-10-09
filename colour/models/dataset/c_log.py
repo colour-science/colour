@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['C_LOG_PRIMARIES',
+           'C_LOG_ILLUMINANT',
            'C_LOG_WHITEPOINT',
            'C_LOG_TO_XYZ_MATRIX',
            'XYZ_TO_C_LOG_MATRIX',
@@ -52,8 +53,15 @@ C_LOG_PRIMARIES = np.array(
 C_LOG_PRIMARIES : ndarray, (3, 2)
 """
 
+C_LOG_ILLUMINANT = 'D65'
+"""
+*C-Log* colourspace whitepoint name as illuminant.
+
+C_LOG_ILLUMINANT : unicode
+"""
+
 C_LOG_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(C_LOG_ILLUMINANT)
 """
 *C-Log* colourspace whitepoint.
 
@@ -96,6 +104,7 @@ C_LOG_COLOURSPACE = RGB_Colourspace(
     'C-Log',
     C_LOG_PRIMARIES,
     C_LOG_WHITEPOINT,
+    C_LOG_ILLUMINANT,
     C_LOG_TO_XYZ_MATRIX,
     XYZ_TO_C_LOG_MATRIX,
     C_LOG_TRANSFER_FUNCTION,

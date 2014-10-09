@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
+           'ADOBE_WIDE_GAMUT_RGB_ILLUMINANT',
            'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT',
            'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX',
@@ -52,8 +53,16 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+ADOBE_WIDE_GAMUT_RGB_ILLUMINANT = 'D50'
+"""
+*Adobe Wide Gamut RGB* colourspace whitepoint name as illuminant.
+
+ADOBE_WIDE_GAMUT_RGB_ILLUMINANT : unicode
+"""
+
 ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(
+    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT)
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
@@ -95,6 +104,7 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     'Adobe Wide Gamut RGB',
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
+    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
     ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,

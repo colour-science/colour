@@ -36,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['DCI_P3_PRIMARIES',
+           'DCI_P3_ILLUMINANT',
            'DCI_P3_WHITEPOINT',
            'DCI_P3_TO_XYZ_MATRIX',
            'XYZ_TO_DCI_P3_MATRIX',
@@ -53,8 +54,15 @@ DCI_P3_PRIMARIES = np.array(
 DCI_P3_PRIMARIES : ndarray, (3, 2)
 """
 
+DCI_P3_ILLUMINANT = 'D65'
+"""
+*DCI-P3* colourspace whitepoint name as illuminant.
+
+DCI_P3_ILLUMINANT : unicode
+"""
+
 DCI_P3_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(DCI_P3_ILLUMINANT)
 """
 *DCI-P3* colourspace whitepoint.
 
@@ -95,6 +103,7 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     'DCI-P3',
     DCI_P3_PRIMARIES,
     DCI_P3_WHITEPOINT,
+    DCI_P3_ILLUMINANT,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
     DCI_P3_TRANSFER_FUNCTION,

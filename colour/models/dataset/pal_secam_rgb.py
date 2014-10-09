@@ -36,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['PAL_SECAM_RGB_PRIMARIES',
+           'PAL_SECAM_RGB_ILLUMINANT',
            'PAL_SECAM_RGB_WHITEPOINT',
            'PAL_SECAM_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PAL_SECAM_RGB_MATRIX',
@@ -53,8 +54,15 @@ PAL_SECAM_RGB_PRIMARIES = np.array(
 PAL_SECAM_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+PAL_SECAM_RGB_ILLUMINANT = 'D65'
+"""
+*Pal/Secam RGB* colourspace whitepoint name as illuminant.
+
+PAL_SECAM_RGB_ILLUMINANT : unicode
+"""
+
 PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(PAL_SECAM_RGB_ILLUMINANT)
 """
 *Pal/Secam RGB* colourspace whitepoint.
 
@@ -94,6 +102,7 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     'Pal/Secam RGB',
     PAL_SECAM_RGB_PRIMARIES,
     PAL_SECAM_RGB_WHITEPOINT,
+    PAL_SECAM_RGB_ILLUMINANT,
     PAL_SECAM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
     PAL_SECAM_RGB_TRANSFER_FUNCTION,

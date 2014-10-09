@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['PROPHOTO_RGB_PRIMARIES',
+           'PROPHOTO_RGB_ILLUMINANT',
            'PROPHOTO_RGB_WHITEPOINT',
            'PROPHOTO_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PROPHOTO_RGB_MATRIX',
@@ -52,8 +53,15 @@ PROPHOTO_RGB_PRIMARIES = np.array(
 PROPHOTO_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+PROPHOTO_RGB_ILLUMINANT = 'D50'
+"""
+*ProPhoto RGB* colourspace whitepoint name as illuminant.
+
+PROPHOTO_RGB_ILLUMINANT : unicode
+"""
+
 PROPHOTO_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(PROPHOTO_RGB_ILLUMINANT)
 """
 *ProPhoto RGB* colourspace whitepoint.
 
@@ -97,6 +105,7 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     'ProPhoto RGB',
     PROPHOTO_RGB_PRIMARIES,
     PROPHOTO_RGB_WHITEPOINT,
+    PROPHOTO_RGB_ILLUMINANT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     PROPHOTO_RGB_TRANSFER_FUNCTION,

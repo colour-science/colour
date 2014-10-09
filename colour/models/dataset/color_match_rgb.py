@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['COLOR_MATCH_RGB_PRIMARIES',
+           'COLOR_MATCH_RGB_ILLUMINANT',
            'COLOR_MATCH_RGB_WHITEPOINT',
            'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_COLOR_MATCH_RGB_MATRIX',
@@ -52,8 +53,15 @@ COLOR_MATCH_RGB_PRIMARIES = np.array(
 COLOR_MATCH_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+COLOR_MATCH_RGB_ILLUMINANT = 'D50'
+"""
+*ColorMatch RGB* colourspace whitepoint name as illuminant.
+
+COLOR_MATCH_RGB_ILLUMINANT : unicode
+"""
+
 COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(COLOR_MATCH_RGB_ILLUMINANT)
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -94,6 +102,7 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     'ColorMatch RGB',
     COLOR_MATCH_RGB_PRIMARIES,
     COLOR_MATCH_RGB_WHITEPOINT,
+    COLOR_MATCH_RGB_ILLUMINANT,
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
     COLOR_MATCH_RGB_TRANSFER_FUNCTION,

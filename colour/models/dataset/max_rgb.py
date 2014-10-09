@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['MAX_RGB_PRIMARIES',
+           'MAX_RGB_ILLUMINANT',
            'MAX_RGB_WHITEPOINT',
            'MAX_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_MAX_RGB_MATRIX',
@@ -52,8 +53,15 @@ MAX_RGB_PRIMARIES = np.array(
 MAX_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+MAX_RGB_ILLUMINANT = 'D50'
+"""
+*Max RGB* colourspace whitepoint name as illuminant.
+
+MAX_RGB_ILLUMINANT : unicode
+"""
+
 MAX_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(MAX_RGB_ILLUMINANT)
 """
 *Max RGB* colourspace whitepoint.
 
@@ -93,6 +101,7 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     'Max RGB',
     MAX_RGB_PRIMARIES,
     MAX_RGB_WHITEPOINT,
+    MAX_RGB_ILLUMINANT,
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
     MAX_RGB_TRANSFER_FUNCTION,

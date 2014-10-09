@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['XTREME_RGB_PRIMARIES',
+           'XTREME_RGB_ILLUMINANT',
            'XTREME_RGB_WHITEPOINT',
            'XTREME_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_XTREME_RGB_MATRIX',
@@ -52,8 +53,15 @@ XTREME_RGB_PRIMARIES = np.array(
 XTREME_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+XTREME_RGB_ILLUMINANT = 'D50'
+"""
+*Xtreme RGB* colourspace whitepoint name as illuminant.
+
+XTREME_RGB_WHITEPOINT : unicode
+"""
+
 XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(XTREME_RGB_ILLUMINANT)
 """
 *Xtreme RGB* colourspace whitepoint.
 
@@ -93,6 +101,7 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     'Xtreme RGB',
     XTREME_RGB_PRIMARIES,
     XTREME_RGB_WHITEPOINT,
+    XTREME_RGB_ILLUMINANT,
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
     XTREME_RGB_TRANSFER_FUNCTION,

@@ -39,6 +39,7 @@ __status__ = 'Production'
 
 __all__ = ['REC_709_PRIMARIES',
            'REC_709_WHITEPOINT',
+           'REC_709_ILLUMINANT',
            'REC_709_TO_XYZ_MATRIX',
            'XYZ_TO_REC_709_MATRIX',
            'REC_709_TRANSFER_FUNCTION',
@@ -55,8 +56,15 @@ REC_709_PRIMARIES = np.array(
 REC_709_PRIMARIES : ndarray, (3, 2)
 """
 
+REC_709_ILLUMINANT = 'D65'
+"""
+*Rec. 709* colourspace whitepoint name as illuminant.
+
+REC_709_ILLUMINANT : unicode
+"""
+
 REC_709_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(REC_709_ILLUMINANT)
 """
 *Rec. 709* colourspace whitepoint.
 
@@ -102,6 +110,7 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     'Rec. 709',
     REC_709_PRIMARIES,
     REC_709_WHITEPOINT,
+    REC_709_ILLUMINANT,
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
     REC_709_TRANSFER_FUNCTION,

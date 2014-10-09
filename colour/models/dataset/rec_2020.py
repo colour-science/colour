@@ -39,6 +39,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['REC_2020_PRIMARIES',
+           'REC_2020_ILLUMINANT',
            'REC_2020_WHITEPOINT',
            'REC_2020_TO_XYZ_MATRIX',
            'XYZ_TO_REC_2020_MATRIX',
@@ -57,8 +58,15 @@ REC_2020_PRIMARIES = np.array(
 REC_2020_PRIMARIES : ndarray, (3, 2)
 """
 
+REC_2020_ILLUMINANT = 'D65'
+"""
+*Rec. 2020* colourspace whitepoint name as illuminant.
+
+REC_2020_ILLUMINANT : unicode
+"""
+
 REC_2020_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(REC_2020_ILLUMINANT)
 """
 *Rec. 2020* colourspace whitepoint.
 
@@ -155,6 +163,7 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     'Rec. 2020',
     REC_2020_PRIMARIES,
     REC_2020_WHITEPOINT,
+    REC_2020_ILLUMINANT,
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
     REC_2020_TRANSFER_FUNCTION,

@@ -15,7 +15,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.models import RGB_COLOURSPACES, RGB_Colourspace
+from colour.models import (
+    RGB_COLOURSPACES,
+    RGB_Colourspace,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -42,6 +45,14 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
         for colourspace in RGB_COLOURSPACES.values():
+            M = normalised_primary_matrix(colourspace.primaries,
+                                          colourspace.whitepoint)
+            np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
+                                       M,
+                                       rtol=0.001,
+                                       atol=0.001,
+                                       verbose=False)
+
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
             XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
             np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
@@ -97,6 +108,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         required_attributes = ('name',
                                'primaries',
                                'whitepoint',
+                               'illuminant',
                                'RGB_to_XYZ_matrix',
                                'XYZ_to_RGB_matrix',
                                'transfer_function',

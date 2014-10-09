@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['BEST_RGB_PRIMARIES',
+           'BEST_RGB_ILLUMINANT',
            'BEST_RGB_WHITEPOINT',
            'BEST_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BEST_RGB_MATRIX',
@@ -52,8 +53,15 @@ BEST_RGB_PRIMARIES = np.array(
 BEST_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+BEST_RGB_ILLUMINANT = 'D50'
+"""
+*Best RGB* colourspace whitepoint name as illuminant.
+
+BEST_RGB_ILLUMINANT : unicode
+"""
+
 BEST_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(BEST_RGB_ILLUMINANT)
 """
 *Best RGB* colourspace whitepoint.
 
@@ -93,6 +101,7 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     'Best RGB',
     BEST_RGB_PRIMARIES,
     BEST_RGB_WHITEPOINT,
+    BEST_RGB_ILLUMINANT,
     BEST_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BEST_RGB_MATRIX,
     BEST_RGB_TRANSFER_FUNCTION,
