@@ -5,11 +5,8 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines various input / output objects for *IES TM-27-14* spectral data *XML*
-files:
-
--   :class:`IES_TM2714_Header`
--   :class:`IES_TM2714_Spd`
+Defines the :class:`IES_TM2714_Spd` class handling *IES TM-27-14* spectral
+data *XML* files.
 
 References
 ----------
@@ -38,7 +35,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['IES_TM2714_Header',
+__all__ = ['IES_TM2714_VERSION',
+           'IES_TM2714_NAMESPACE',
+           'IES_TM2714_ElementSpecification',
+           'IES_TM2714_Header',
            'IES_TM2714_Spd']
 
 IES_TM2714_VERSION = '1.0'
@@ -142,6 +142,13 @@ class IES_TM2714_Header(object):
     report_date
     document_creation_date
     comments
+
+    Examples
+    --------
+    >>> IES_TM2714_Header('colour-science')  # doctest: +ELLIPSIS
+    <...IES_TM2714_Header object at 0x...>
+    >>> IES_TM2714_Header('colour-science').manufacturer  # doctest: +SKIP
+    'colour-science'
     """
 
     def __init__(self,
@@ -588,30 +595,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     """
     Defines a *IES TM-27-14* spectral power distribution.
 
-    *Reflection Geometry*
-
-    -   di:8: Diffuse / eight-degree, specular component included.
-    -   de:8: Diffuse / eight-degree, specular component excluded.
-    -   8:di: Eight-degree / diffuse, specular component included.
-    -   8:de: Eight-degree / diffuse, specular component excluded.
-    -   d:d: Diffuse / diffuse.
-    -   d:0: Alternative diffuse.
-    -   45a:0: Forty-five degree annular / normal.
-    -   45c:0: Forty-five degree circumferential / normal.
-    -   0:45a: Normal / forty-five degree annular.
-    -   45x:0: Forty-five degree directional / normal.
-    -   0:45x: Normal / forty-five degree directional.
-    -   other: User-specified in comments.
-
-    *Transmission Geometry*
-
-    -	0:0: Normal / normal.
-    -	di:0: Diffuse / normal, regular component included.
-    -	de:0: Diffuse / normal, regular component excluded.
-    -	0:di: Normal / diffuse, regular component included.
-    -	0:de: Normal / diffuse, regular component excluded.
-    -	d:d: Diffuse / diffuse.
-    -	other: User-specified in comments.
+    This class can read and write *IES TM-27-14* spectral data *XML* files.
 
     Parameters
     ----------
@@ -651,6 +635,46 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     Methods
     -------
     read
+    write
+
+    Notes
+    -----
+    *Reflection Geometry*
+
+    -   di:8: Diffuse / eight-degree, specular component included.
+    -   de:8: Diffuse / eight-degree, specular component excluded.
+    -   8:di: Eight-degree / diffuse, specular component included.
+    -   8:de: Eight-degree / diffuse, specular component excluded.
+    -   d:d: Diffuse / diffuse.
+    -   d:0: Alternative diffuse.
+    -   45a:0: Forty-five degree annular / normal.
+    -   45c:0: Forty-five degree circumferential / normal.
+    -   0:45a: Normal / forty-five degree annular.
+    -   45x:0: Forty-five degree directional / normal.
+    -   0:45x: Normal / forty-five degree directional.
+    -   other: User-specified in comments.
+
+    *Transmission Geometry*
+
+    -	0:0: Normal / normal.
+    -	di:0: Diffuse / normal, regular component included.
+    -	de:0: Diffuse / normal, regular component excluded.
+    -	0:di: Normal / diffuse, regular component included.
+    -	0:de: Normal / diffuse, regular component excluded.
+    -	d:d: Diffuse / diffuse.
+    -	other: User-specified in comments.
+
+    Examples
+    --------
+    >>> from os.path import dirname, join
+    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
+    >>> spd.read()
+    True
+    >>> spd.header.manufacturer
+    'Unknown'
+    >>> spd[501.7]  # doctest: +ELLIPSIS
+    0.095...
     """
 
     def __init__(self,
