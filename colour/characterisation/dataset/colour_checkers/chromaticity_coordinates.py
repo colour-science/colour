@@ -49,8 +49,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['COLOURCHECKER_INXYY',
-           'COLOURCHECKER',
+__all__ = ['ColourChecker_Specification',
+           'ColourChecker',
            'BABELCOLOR_AVERAGE_DATA',
            'BABELCOLOR_AVERAGE_ILLUMINANT',
            'BABELCOLOR_AVERAGE',
@@ -62,10 +62,10 @@ __all__ = ['COLOURCHECKER_INXYY',
            'COLORCHECKER_1976',
            'COLOURCHECKERS']
 
-COLOURCHECKER_INXYY = namedtuple('ColourChecker_InxxY',
-                                 ('index', 'name', 'x', 'y', 'Y'))
+ColourChecker_Specification = namedtuple('ColourChecker_InxxY',
+                                         ('index', 'name', 'x', 'y', 'Y'))
 
-COLOURCHECKER = namedtuple('ColourChecker',
+ColourChecker = namedtuple('ColourChecker',
                            ('name', 'data', 'illuminant'))
 
 BABELCOLOR_AVERAGE_DATA = (
@@ -102,7 +102,8 @@ BABELCOLOR_AVERAGE_ILLUMINANT = ILLUMINANTS.get(
 BABELCOLOR_AVERAGE_ILLUMINANT : tuple
 """
 
-BABELCOLOR_AVERAGE = [COLOURCHECKER_INXYY(*x) for x in BABELCOLOR_AVERAGE_DATA]
+BABELCOLOR_AVERAGE = [ColourChecker_Specification(*x) for x in
+                      BABELCOLOR_AVERAGE_DATA]
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 
@@ -143,7 +144,8 @@ COLORCHECKER_2005_ILLUMINANT = ILLUMINANTS.get(
 COLORCHECKER_2005_ILLUMINANT : tuple
 """
 
-COLORCHECKER_2005 = [COLOURCHECKER_INXYY(*x) for x in COLORCHECKER_2005_DATA]
+COLORCHECKER_2005 = [ColourChecker_Specification(*x) for x in
+                     COLORCHECKER_2005_DATA]
 """
 Reference data from *GretagMacbeth* published in 2005.
 
@@ -184,7 +186,8 @@ COLORCHECKER_1976_ILLUMINANT = ILLUMINANTS.get(
 COLORCHECKER_1976_ILLUMINANT : tuple
 """
 
-COLORCHECKER_1976 = [COLOURCHECKER_INXYY(*x) for x in COLORCHECKER_1976_DATA]
+COLORCHECKER_1976 = [ColourChecker_Specification(*x) for x in
+                     COLORCHECKER_1976_DATA]
 """
 *ColourChecker* developed by *McCamy and Al.* at Macbeth, a Division of
 Kollmorgen.
@@ -193,13 +196,13 @@ COLORCHECKER_1976 : list
 """
 
 COLOURCHECKERS = CaseInsensitiveMapping(
-    {'BabelColor Average': COLOURCHECKER('BabelColor Average',
+    {'BabelColor Average': ColourChecker('BabelColor Average',
                                          BABELCOLOR_AVERAGE,
                                          BABELCOLOR_AVERAGE_ILLUMINANT),
-     'ColorChecker 2005': COLOURCHECKER('ColorChecker 2005',
+     'ColorChecker 2005': ColourChecker('ColorChecker 2005',
                                         COLORCHECKER_2005,
                                         COLORCHECKER_2005_ILLUMINANT),
-     'ColorChecker 1976': COLOURCHECKER('ColorChecker 1976',
+     'ColorChecker 1976': ColourChecker('ColorChecker 1976',
                                         COLORCHECKER_1976,
                                         COLORCHECKER_1976_ILLUMINANT)})
 """
