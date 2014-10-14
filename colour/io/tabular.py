@@ -16,6 +16,11 @@ from __future__ import division, unicode_literals
 
 import csv
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = 'Colour Developers'
@@ -63,7 +68,7 @@ def read_spectral_data_from_csv_file(path,
 
     Returns
     -------
-    dict
+    OrderedDict
         *CSV* file content.
 
     Raises
@@ -89,8 +94,16 @@ def read_spectral_data_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
-    >>> pprint(sorted(spds_data.keys()))
+    >>> pprint(list(spds_data.keys()))
     ['1',
+     '2',
+     '3',
+     '4',
+     '5',
+     '6',
+     '7',
+     '8',
+     '9',
      '10',
      '11',
      '12',
@@ -101,19 +114,11 @@ def read_spectral_data_from_csv_file(path,
      '17',
      '18',
      '19',
-     '2',
      '20',
      '21',
      '22',
      '23',
-     '24',
-     '3',
-     '4',
-     '5',
-     '6',
-     '7',
-     '8',
-     '9']
+     '24']
     """
 
     with open(path, 'rU') as csv_file:
@@ -128,7 +133,7 @@ def read_spectral_data_from_csv_file(path,
         wavelength = reader.fieldnames[0]
         fields = reader.fieldnames[1:]
 
-        data = dict(zip(fields, ({} for x in range(len(fields)))))
+        data = OrderedDict(zip(fields, ({} for x in range(len(fields)))))
         for line in reader:
             for field in fields:
                 try:
@@ -163,7 +168,7 @@ def read_spds_from_csv_file(path,
 
     Returns
     -------
-    dict
+    OrderedDict
         :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
         classes of given *CSV* file.
 
@@ -177,8 +182,24 @@ def read_spds_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
-    >>> pprint(sorted(spds.items()))  # doctest: +ELLIPSIS
+    >>> pprint(list(spds.items()))  # doctest: +ELLIPSIS
     [('1',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('2',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('3',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('4',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('5',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('6',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('7',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('8',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('9',
       <...SpectralPowerDistribution object at 0x...>),
      ('10',
       <...SpectralPowerDistribution object at 0x...>),
@@ -200,8 +221,6 @@ def read_spds_from_csv_file(path,
       <...SpectralPowerDistribution object at 0x...>),
      ('19',
       <...SpectralPowerDistribution object at 0x...>),
-     ('2',
-      <...SpectralPowerDistribution object at 0x...>),
      ('20',
       <...SpectralPowerDistribution object at 0x...>),
      ('21',
@@ -211,20 +230,6 @@ def read_spds_from_csv_file(path,
      ('23',
       <...SpectralPowerDistribution object at 0x...>),
      ('24',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('3',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('4',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('5',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('6',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('7',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('8',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('9',
       <...SpectralPowerDistribution object at 0x...>)]
     """
 
@@ -233,8 +238,8 @@ def read_spds_from_csv_file(path,
                                             fields,
                                             default)
 
-    spds = dict(((key, SpectralPowerDistribution(key, value))
-                 for key, value in data.items()))
+    spds = OrderedDict(((key, SpectralPowerDistribution(key, value))
+                        for key, value in data.items()))
     return spds
 
 
