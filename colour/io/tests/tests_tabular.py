@@ -18,7 +18,7 @@ else:
 import tempfile
 
 from colour.colorimetry import SpectralPowerDistribution
-from colour.io.tabular import (
+from colour.io import (
     read_spectral_data_from_csv_file,
     read_spds_from_csv_file,
     write_spds_to_csv_file)
