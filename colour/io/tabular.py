@@ -47,11 +47,12 @@ def read_spectral_data_from_csv_file(path,
     ...
     830,  9.74306E-07,  9.53411E-08,  0.00000
 
-    and returns it as ad *dict* of *dict* as follows:
+    and returns it as an *OrderedDict* of *dict* as follows:
 
-    {'field': {'wavelength': 'value', ..., 'wavelength': 'value'},
+    OrderedDict([
+    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'}),
     ...,
-    'field': {'wavelength': 'value', ..., 'wavelength': 'value'}
+    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'})])
 
     Parameters
     ----------
@@ -77,7 +78,7 @@ def read_spectral_data_from_csv_file(path,
 
     Notes
     -----
-    -   A "CSV" spectral data file should define at least define two fields:
+    -   A *CSV* spectral data file should define at least define two fields:
         one for the wavelengths and one for the associated values of one
         spectral power distribution.
     -   If no value is provided for the fields names, the first line of the
@@ -93,6 +94,7 @@ def read_spectral_data_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
+    >>> print(spds_data)
     >>> pprint(list(spds_data.keys()))
     ['1',
      '2',
@@ -149,9 +151,9 @@ def read_spds_from_csv_file(path,
                             fields=None,
                             default=0):
     """
-    Reads the spectral data from given *CSV* file and return its content as a
-    *dict* of :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
-    classes.
+    Reads the spectral data from given *CSV* file and return its content as an
+    *OrderedDict* of
+    :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
@@ -168,7 +170,7 @@ def read_spds_from_csv_file(path,
     Returns
     -------
     OrderedDict
-        :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
+        :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
         classes of given *CSV* file.
 
     Examples
