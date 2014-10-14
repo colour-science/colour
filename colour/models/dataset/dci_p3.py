@@ -59,6 +59,13 @@ DCI_P3_ILLUMINANT = 'D65'
 *DCI-P3* colourspace whitepoint name as illuminant.
 
 DCI_P3_ILLUMINANT : unicode
+
+Notes
+-----
+-   We don't know which whitepoint DCI-P3 is officially using and are assuming
+    *CIE Illuminant D Series* *D65*. Hewlett-Packard Development Company
+    (2009) mentions *(0.314, 0.351)* in their emulation for the
+    *HP DreamColor LP2480zx Professional Display*.
 """
 
 DCI_P3_WHITEPOINT = ILLUMINANTS.get(
