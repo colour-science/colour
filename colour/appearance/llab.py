@@ -146,9 +146,7 @@ cone responses matrix.
 LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-LLAB_RGB_TO_XYZ_MATRIX = np.around(
-    np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX),
-    decimals=4)
+LLAB_RGB_TO_XYZ_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
 """
 *LLAB(l:c)* colour appearance model normalised cone responses to *CIE XYZ*
 colourspace matrix.
@@ -269,7 +267,7 @@ def XYZ_to_LLAB(
     >>> L = 318.31
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    LLAB_Specification(J=37.3680474..., C=0.0086506..., h=229.4635727..., s=0.0002314..., M=0.0183832..., HC=None, a=-0.0119478..., b=-0.0139711...)
+    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -378,7 +376,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> Y = 20.0
     >>> chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)  # doctest: +ELLIPSIS
-    array([ 19.0099957...,  20.0009186...,  21.7799386...])
+    array([ 19.01,  20.  ,  21.78])
     """
 
     R, G, B = np.ravel(RGB)
