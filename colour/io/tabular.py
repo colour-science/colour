@@ -14,12 +14,11 @@ Defines various input / output objects for *CSV* tabular data files:
 
 from __future__ import division, unicode_literals
 
-import csv
-
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
+import csv
 
 from colour.colorimetry import SpectralPowerDistribution
 
