@@ -94,7 +94,6 @@ def read_spectral_data_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
-    >>> print(spds_data)
     >>> pprint(list(spds_data.keys()))
     ['1',
      '2',
