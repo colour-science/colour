@@ -31,14 +31,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['RESOURCES_DIRECTORY',
-           'COLORCHECKER_N_OHTA_1',
+           'COLOURCHECKER_N_OHTA_1',
            'TestReadSpectralDataFromCsvFile',
            'TestReadSpdsFromCsvFile',
            'TestWriteSpdsToCsvFile']
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
-COLORCHECKER_N_OHTA_1 = {
+COLOURCHECKER_N_OHTA_1 = {
     380.0: 0.048,
     385.0: 0.051,
     390.0: 0.055,
@@ -136,11 +136,11 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         """
 
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                           'colorchecker_n_ohta.csv')
+                                             'colorchecker_n_ohta.csv')
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(sorted(data),
                              sorted([unicode(x) for x in range(1, 25)]))
-        self.assertDictEqual(data['1'], COLORCHECKER_N_OHTA_1)
+        self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
 
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY,
                                     'linss2_10e_5.csv')
@@ -172,14 +172,14 @@ class TestReadSpdsFromCsvFile(unittest.TestCase):
         """
 
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                           'colorchecker_n_ohta.csv')
+                                             'colorchecker_n_ohta.csv')
         spds = read_spds_from_csv_file(colour_checker_n_ohta)
         for spd in spds.values():
             self.assertIsInstance(spd, SpectralPowerDistribution)
 
         self.assertEqual(spds['1'],
                          SpectralPowerDistribution('1',
-                                                   COLORCHECKER_N_OHTA_1))
+                                                   COLOURCHECKER_N_OHTA_1))
 
 
 class TestWriteSpdsToCsvFile(unittest.TestCase):
@@ -208,10 +208,10 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
         """
 
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                           'colorchecker_n_ohta.csv')
+                                             'colorchecker_n_ohta.csv')
         spds = read_spds_from_csv_file(colour_checker_n_ohta)
         colour_checker_n_ohta_test = os.path.join(self.__temporary_directory,
-                                                'colorchecker_n_ohta.csv')
+                                                  'colorchecker_n_ohta.csv')
         write_spds_to_csv_file(spds, colour_checker_n_ohta_test)
         spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in spds.items():
