@@ -135,9 +135,9 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         definition.
         """
 
-        colorchecker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
+        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                            'colorchecker_n_ohta.csv')
-        data = read_spectral_data_from_csv_file(colorchecker_n_ohta)
+        data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(sorted(data),
                              sorted([unicode(x) for x in range(1, 25)]))
         self.assertDictEqual(data['1'], COLORCHECKER_N_OHTA_1)
@@ -171,9 +171,9 @@ class TestReadSpdsFromCsvFile(unittest.TestCase):
         Tests :func:`colour.io.tabular.read_spds_from_csv_file` definition.
         """
 
-        colorchecker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
+        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                            'colorchecker_n_ohta.csv')
-        spds = read_spds_from_csv_file(colorchecker_n_ohta)
+        spds = read_spds_from_csv_file(colour_checker_n_ohta)
         for spd in spds.values():
             self.assertIsInstance(spd, SpectralPowerDistribution)
 
@@ -207,17 +207,17 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
         Tests :func:`colour.io.tabular.write_spds_to_csv_file` definition.
         """
 
-        colorchecker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
+        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                            'colorchecker_n_ohta.csv')
-        spds = read_spds_from_csv_file(colorchecker_n_ohta)
-        colorchecker_n_ohta_test = os.path.join(self.__temporary_directory,
+        spds = read_spds_from_csv_file(colour_checker_n_ohta)
+        colour_checker_n_ohta_test = os.path.join(self.__temporary_directory,
                                                 'colorchecker_n_ohta.csv')
-        write_spds_to_csv_file(spds, colorchecker_n_ohta_test)
-        spds_test = read_spds_from_csv_file(colorchecker_n_ohta_test)
+        write_spds_to_csv_file(spds, colour_checker_n_ohta_test)
+        spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in spds.items():
             self.assertEqual(value, spds_test[key])
-        write_spds_to_csv_file(spds, colorchecker_n_ohta_test, fields=['1'])
-        spds_test = read_spds_from_csv_file(colorchecker_n_ohta_test)
+        write_spds_to_csv_file(spds, colour_checker_n_ohta_test, fields=['1'])
+        spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
         self.assertEqual(len(spds_test), 1)
 
 
