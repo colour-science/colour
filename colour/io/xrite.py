@@ -65,8 +65,8 @@ def read_spds_from_xrite_file(path):
     ...     'resources',
     ...     'xrite_digital_colour_checker.txt')
     >>> spds_data = read_spds_from_xrite_file(xrite_file)
-    >>> pprint(list(spds_data.keys()))
-    [u'X1', u'X2', u'X3', u'X4', u'X5', u'X6', u'X7', u'X8', u'X9', u'X10']
+    >>> pprint(list(spds_data.keys()))  # doctest: +SKIP
+    ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10']
     """
 
     with open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
