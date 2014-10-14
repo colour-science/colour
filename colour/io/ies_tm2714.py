@@ -25,10 +25,11 @@ import re
 import sys
 from collections import namedtuple
 from xml.etree import ElementTree
+from xml.dom import minidom
 
 from colour.algebra import is_numeric
 from colour.colorimetry import SpectralPowerDistribution
-from colour.utilities import Structure, is_string
+from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -40,11 +41,19 @@ __status__ = 'Production'
 __all__ = ['IES_TM2714_Header',
            'IES_TM2714_Spd']
 
+IES_TM2714_VERSION = '1.0'
+IES_TM2714_NAMESPACE = 'http://www.ies.org/iestm2714'
+
 
 class IES_TM2714_ElementSpecification(
     namedtuple(
         'IES_TM2714_ElementSpecification',
-        ('element', 'attribute', 'type', 'required', 'conversion_method'))):
+        ('element',
+         'attribute',
+         'type',
+         'required',
+         'read_conversion',
+         'write_conversion'))):
     """
     *IES TM-27-14* spectral data *XML* file element specification.
 
@@ -58,8 +67,10 @@ class IES_TM2714_ElementSpecification(
         Element type.
     required : bool
         Is element required.
-    conversion_method : object
-        Method to convert to type from *XML*.
+    read_conversion : object
+        Method to convert from *XML* to type on reading.
+    write_conversion : object
+        Method to convert from type to *XML* on writing.
     """
 
     def __new__(cls,
@@ -67,13 +78,21 @@ class IES_TM2714_ElementSpecification(
                 attribute,
                 type=str,
                 required=False,
-                conversion_method=str):
+                read_conversion=format,
+                write_conversion=(
+                        lambda x: format(x) if x is not None else 'N/A')):
         """
         Returns a new instance of the :class:`IES_TM2714_Element` class.
         """
 
         return super(IES_TM2714_ElementSpecification, cls).__new__(
-            cls, element, attribute, type, required, conversion_method)
+            cls,
+            element,
+            attribute,
+            type,
+            required,
+            read_conversion,
+            write_conversion)
 
 
 class IES_TM2714_Header(object):
@@ -141,9 +160,6 @@ class IES_TM2714_Header(object):
         self.__mapping = Structure(**{
             'element': 'Header',
             'elements': (
-                IES_TM2714_ElementSpecification(
-                    'Header',
-                    None),
                 IES_TM2714_ElementSpecification(
                     'Manufacturer',
                     'manufacturer'),
@@ -664,13 +680,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 IES_TM2714_ElementSpecification(
                     'BandwidthFWHM',
                     'bandwidth_FWHM',
-                    conversion_method=float),
+                    read_conversion=float),
                 IES_TM2714_ElementSpecification(
                     'BandwidthCorrected',
                     'bandwidth_corrected',
-                    conversion_method=(
+                    read_conversion=(
                         lambda x: True
-                        if x == 'true' else False))),
+                        if x == 'true' else False),
+                    write_conversion=(
+                        lambda x: 'true'
+                        if x is True else 'False'))),
             'data': IES_TM2714_ElementSpecification(
                 'SpectralData',
                 'wavelength',
@@ -972,7 +991,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 if element is not None:
                     setattr(object,
                             specification.attribute,
-                            specification.conversion_method(element.text))
+                            specification.read_conversion(element.text))
 
         # *Element.iter* does not exist in *Python 2.6*.
         if sys.version_info[:2] <= (2, 6):
@@ -980,10 +999,69 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         else:
             iterator = root.iter
 
+        # Reading spectral data.
         for spectral_data in iterator('{{{0}}}{1}'.format(
-                namespace, mapping.data.element)):
-            wavelength = float(spectral_data.attrib[mapping.data.attribute])
+                namespace, self.mapping.data.element)):
+            wavelength = float(spectral_data.attrib[
+                self.mapping.data.attribute])
             value = float(spectral_data.text)
             self[wavelength] = value
+
+        return True
+
+    def write(self):
+        """
+        Write the spd spectral data to *XML* file path.
+
+        Returns
+        -------
+        bool
+            Definition success.
+
+        Examples
+        --------
+        >>> from os.path import dirname, join
+        >>> from shutil import rmtree
+        >>> from tempfile import mkdtemp
+        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> spd = IES_TM2714_Spd(join(directory, 'Fluorescent.spdx'))
+        >>> spd.read()
+        True
+        >>> temporary_directory = mkdtemp()
+        >>> spd.path = join(temporary_directory, 'Fluorescent.spdx')
+        >>> spd.write()
+        True
+        >>> rmtree(temporary_directory)
+        """
+
+        root = ElementTree.Element('IESTM2714')
+        root.attrib = {'xmlns': IES_TM2714_NAMESPACE,
+                       'version': IES_TM2714_VERSION}
+
+        spectral_distribution = None
+        for object in (self.header, self):
+            mapping = object.mapping
+            element = ElementTree.SubElement(root, mapping.element)
+            for specification in mapping.elements:
+                element_child = ElementTree.SubElement(element,
+                                                       specification.element)
+                value = getattr(object, specification.attribute)
+                element_child.text = specification.write_conversion(value)
+
+            if object is self:
+                spectral_distribution = element
+
+        # Writing spectral data.
+        for wavelength, value in self:
+            element_child = ElementTree.SubElement(spectral_distribution,
+                                                   mapping.data.element)
+            element_child.text = format(value)
+            element_child.attrib = {
+                mapping.data.attribute: format(wavelength)}
+
+        xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
+
+        with open(self.__path, 'w') as file:
+            file.write(xml)
 
         return True

@@ -169,6 +169,20 @@ class TestIES_TM2714_Spd(unittest.TestCase):
     methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        self.__temporary_directory = tempfile.mkdtemp()
+
+    def tearDown(self):
+        """
+        After tests actions.
+        """
+
+        shutil.rmtree(self.__temporary_directory)
+
     def test_required_attributes(self):
         """
         Tests presence of required attributes.
@@ -196,14 +210,20 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(IES_TM2714_Spd))
 
-    def test_read(self):
+    def test_read(self, spd=None):
         """
         Tests
         :attr:`colour.io.iestm2714.IES_TM2714_Spd.read` method.
+
+        Parameters
+        ----------
+        spd : IES_TM2714_Spd, optional
+            Optional *IES TM-27-14* spectral power distribution for read tests.
         """
 
-        spd = IES_TM2714_Spd(
-            os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
+        if spd is None:
+            spd = IES_TM2714_Spd(os.path.join(RESOURCES_DIRECTORY,
+                                              'Fluorescent.spdx'))
 
         self.assertTrue(spd.read())
         self.assertDictEqual(spd.data, FLUORESCENT_FILE_SPECTRAL_DATA)
@@ -216,6 +236,25 @@ class TestIES_TM2714_Spd(unittest.TestCase):
                         self.assertEquals(
                             getattr(read, specification.attribute),
                             value)
+
+    def test_write(self):
+        """
+        Tests
+        :attr:`colour.io.iestm2714.IES_TM2714_Spd.write` method.
+        """
+
+        spd_r = IES_TM2714_Spd(
+            os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
+
+        spd_r.read()
+
+        spd_r.path = os.path.join(self.__temporary_directory,
+                                  'Fluorescent.spdx')
+        self.assertTrue(spd_r.write())
+        spd_t = IES_TM2714_Spd(spd_r.path)
+
+        self.test_read(spd_t)
+        self.assertEquals(spd_r, spd_t)
 
 
 if __name__ == '__main__':
