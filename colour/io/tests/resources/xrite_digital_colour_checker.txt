@@ -1,7 +1,7 @@
 LGOROWLENGTH	10
 CREATED	"11/14/2014"  # Time: 16:45
 INSTRUMENTATION	"Spectrolino"
-MEASUREMENT_SOURCE	"Illumination=D65	ObserverAngle=10�	WhiteBase=Abs	Filter=No"
+MEASUREMENT_SOURCE	"Illumination=D65	ObserverAngle=10°	WhiteBase=Abs	Filter=No"
 ILLUMINATION_NAME	"D65"
 OBSERVER_ANGLE	"10"
 KEYWORD	"SampleID"

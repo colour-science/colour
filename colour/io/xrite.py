@@ -17,6 +17,7 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 import re
+from codecs import open
 
 from colour.colorimetry import SpectralPowerDistribution
 
@@ -27,7 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['read_spds_from_xrite_file']
+__all__ = ['XRITE_FILE_ENCODING',
+           'read_spds_from_xrite_file']
+
+XRITE_FILE_ENCODING = 'utf-8'
 
 
 def read_spds_from_xrite_file(path):
@@ -62,10 +66,10 @@ def read_spds_from_xrite_file(path):
     ...     'xrite_digital_colour_checker.txt')
     >>> spds_data = read_spds_from_xrite_file(xrite_file)
     >>> pprint(list(spds_data.keys()))
-    ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10']
+    [u'X1', u'X2', u'X3', u'X4', u'X5', u'X6', u'X7', u'X8', u'X9', u'X10']
     """
 
-    with open(path) as xrite_file:
+    with open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split('\n')
 
         xrite_spds = OrderedDict()
