@@ -983,6 +983,15 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
+        # *Element.iter* does not exist in *Python 2.6* and text must be
+        # stripped.
+        if sys.version_info[:2] <= (2, 6):
+            iterator = root.getiterator
+            text_conversion = lambda x: x.strip()
+        else:
+            iterator = root.iter
+            text_conversion = lambda x: x
+
         for object in (self.header, self):
             mapping = object.mapping
             for specification in mapping.elements:
@@ -991,20 +1000,15 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 if element is not None:
                     setattr(object,
                             specification.attribute,
-                            specification.read_conversion(element.text))
-
-        # *Element.iter* does not exist in *Python 2.6*.
-        if sys.version_info[:2] <= (2, 6):
-            iterator = root.getiterator
-        else:
-            iterator = root.iter
+                            specification.read_conversion(
+                                text_conversion(element.text)))
 
         # Reading spectral data.
         for spectral_data in iterator('{{{0}}}{1}'.format(
                 namespace, self.mapping.data.element)):
             wavelength = float(spectral_data.attrib[
                 self.mapping.data.attribute])
-            value = float(spectral_data.text)
+            value = float(text_conversion(spectral_data.text))
             self[wavelength] = value
 
         return True
@@ -1055,9 +1059,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         for wavelength, value in self:
             element_child = ElementTree.SubElement(spectral_distribution,
                                                    mapping.data.element)
-            element_child.text = format(value)
+            element_child.text = mapping.data.write_conversion(value)
             element_child.attrib = {
-                mapping.data.attribute: format(wavelength)}
+                mapping.data.attribute: mapping.data.write_conversion(
+                    wavelength)}
 
         xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
 
