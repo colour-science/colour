@@ -24,6 +24,7 @@ __all__ = ['SHORT_DESCRIPTION',
            'LONG_DESCRIPTION',
            'INSTALLATION_REQUIREMENTS',
            'OPTIONAL_REQUIREMENTS',
+           'PLOTTING_REQUIREMENTS',
            'DOCS_REQUIREMENTS',
            'TESTS_REQUIREMENTS']
 
@@ -31,9 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 
 LONG_DESCRIPTION = open('README.rst').read()
 
-INSTALLATION_REQUIREMENTS = [
-    'numpy>=1.8.1',
-    'matplotlib>=1.3.1']
+INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
 
 if sys.version_info[:2] <= (2, 7):
     INSTALLATION_REQUIREMENTS += [
@@ -46,12 +45,15 @@ if sys.version_info[:2] <= (2, 6):
 
 OPTIONAL_REQUIREMENTS = ['scipy>=0.14.0']
 
+PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
+
 DOCS_REQUIREMENTS = ['sphinx>=1.2.2',
                      'sphinxcontrib-napoleon>0.2.8',
                      'sphinx_bootstrap_theme>0.4.1']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',
+                      'mock>=1.0.1',
                       'nose>=1.3.4']
 
 setup(name='colour-science',
@@ -69,6 +71,7 @@ setup(name='colour-science',
       extras_require={
           'docs': DOCS_REQUIREMENTS,
           'optional': OPTIONAL_REQUIREMENTS,
+          'plotting': PLOTTING_REQUIREMENTS,
           'tests': TESTS_REQUIREMENTS},
       classifiers=['Development Status :: 3 - Alpha',
                    'Environment :: Console',
