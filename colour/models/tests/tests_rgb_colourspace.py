@@ -8,6 +8,7 @@ Defines unit tests for :mod:`colour.models.rgb_colourspace` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import pickle
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -92,6 +93,14 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                        samples_invert_oecf,
                                        rtol=0.01,
                                        atol=0.01)
+
+    def test_pickle(self):
+        """
+        Tests the ability of colourspace models to be pickled.
+        """
+
+        for colourspace in RGB_COLOURSPACES:
+            pickle.dumps(colourspace)
 
 
 class TestRGB_Colourspace(unittest.TestCase):

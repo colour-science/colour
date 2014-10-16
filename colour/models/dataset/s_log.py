@@ -85,16 +85,52 @@ XYZ_TO_S_LOG_MATRIX = np.linalg.inv(S_LOG_TO_XYZ_MATRIX)
 XYZ_TO_S_LOG_MATRIX : array_like, (3, 3)
 """
 
-S_LOG_TRANSFER_FUNCTION = lambda x: (
-    (0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03)
+
+def _s_log_transfer_function(value):
+    """
+    Defines the *S-Log* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
+
+
+def _s_log_inverse_transfer_function(value):
+    """
+    Defines the *S-Log* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (np.power(10., ((value - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+
+
+S_LOG_TRANSFER_FUNCTION = _s_log_transfer_function
 """
 Transfer function from linear to *S-Log* colourspace.
 
 S_LOG_TRANSFER_FUNCTION : object
 """
 
-S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    (np.power(10., ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584))
+S_LOG_INVERSE_TRANSFER_FUNCTION = _s_log_inverse_transfer_function
 """
 Inverse transfer function from *S-Log* colourspace to linear.
 

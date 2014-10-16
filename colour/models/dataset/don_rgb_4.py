@@ -83,14 +83,52 @@ XYZ_TO_DON_RGB_4_MATRIX = np.linalg.inv(DON_RGB_4_TO_XYZ_MATRIX)
 XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
 """
 
-DON_RGB_4_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _don_rgb_4_transfer_function(value):
+    """
+    Defines the *Don RGB 4* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _don_rgb_4_inverse_transfer_function(value):
+    """
+    Defines the *Don RGB 4* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+DON_RGB_4_TRANSFER_FUNCTION = _don_rgb_4_transfer_function
 """
 Transfer function from linear to *Don RGB 4* colourspace.
 
 DON_RGB_4_TRANSFER_FUNCTION : object
 """
 
-DON_RGB_4_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+DON_RGB_4_INVERSE_TRANSFER_FUNCTION = _don_rgb_4_inverse_transfer_function
 """
 Inverse transfer function from *Don RGB 4* colourspace to linear.
 

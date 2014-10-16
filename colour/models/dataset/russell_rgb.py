@@ -83,14 +83,52 @@ XYZ_TO_RUSSELL_RGB_MATRIX = np.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
 XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
 """
 
-RUSSELL_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _russell_rgb_transfer_function(value):
+    """
+    Defines the *Russell RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _russell_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Russell RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+RUSSELL_RGB_TRANSFER_FUNCTION = _russell_rgb_transfer_function
 """
 Transfer function from linear to *Russell RGB* colourspace.
 
 RUSSELL_RGB_TRANSFER_FUNCTION : object
 """
 
-RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = _russell_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Russell RGB* colourspace to linear.
 

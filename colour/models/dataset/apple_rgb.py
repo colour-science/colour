@@ -83,14 +83,52 @@ XYZ_TO_APPLE_RGB_MATRIX = np.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
 XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
 """
 
-APPLE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
+
+def _apple_rgb_transfer_function(value):
+    """
+    Defines the *Apple RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 1.8)
+
+
+def _apple_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Apple RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 1.8
+
+
+APPLE_RGB_TRANSFER_FUNCTION = _apple_rgb_transfer_function
 """
 Transfer function from linear to *Apple RGB* colourspace.
 
 APPLE_RGB_TRANSFER_FUNCTION : object
 """
 
-APPLE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
+APPLE_RGB_INVERSE_TRANSFER_FUNCTION = _apple_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Apple RGB* colourspace to linear.
 

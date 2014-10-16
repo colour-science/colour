@@ -84,14 +84,52 @@ XYZ_TO_NTSC_RGB_MATRIX = np.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
 XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 """
 
-NTSC_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _ntsc_rgb_transfer_function(value):
+    """
+    Defines the *NTSC RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _ntsc_rgb_inverse_transfer_function(value):
+    """
+    Defines the *NTSC RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+NTSC_RGB_TRANSFER_FUNCTION = _ntsc_rgb_transfer_function
 """
 Transfer function from linear to *NTSC RGB* colourspace.
 
 NTSC_RGB_TRANSFER_FUNCTION : object
 """
 
-NTSC_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+NTSC_RGB_INVERSE_TRANSFER_FUNCTION = _ntsc_rgb_inverse_transfer_function
 """
 Inverse transfer function from *NTSC RGB* colourspace to linear.
 

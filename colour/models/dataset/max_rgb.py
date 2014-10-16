@@ -83,14 +83,52 @@ XYZ_TO_MAX_RGB_MATRIX = np.linalg.inv(MAX_RGB_TO_XYZ_MATRIX)
 XYZ_TO_MAX_RGB_MATRIX : array_like, (3, 3)
 """
 
-MAX_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _max_rgb_transfer_function(value):
+    """
+    Defines the *Max RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _max_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Max RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+MAX_RGB_TRANSFER_FUNCTION = _max_rgb_transfer_function
 """
 Transfer function from linear to *Max RGB* colourspace.
 
 MAX_RGB_TRANSFER_FUNCTION : object
 """
 
-MAX_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+MAX_RGB_INVERSE_TRANSFER_FUNCTION = _max_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Max RGB* colourspace to linear.
 

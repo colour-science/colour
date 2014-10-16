@@ -85,14 +85,52 @@ XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
 XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
 """
 
-CIE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _cie_rgb_transfer_function(value):
+    """
+    Defines the *CIE RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _cie_rgb_inverse_transfer_function(value):
+    """
+    Defines the *CIE RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+CIE_RGB_TRANSFER_FUNCTION = _cie_rgb_transfer_function
 """
 Transfer function from linear to *CIE RGB* colourspace.
 
 CIE_RGB_TRANSFER_FUNCTION : object
 """
 
-CIE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+CIE_RGB_INVERSE_TRANSFER_FUNCTION = _cie_rgb_inverse_transfer_function
 """
 Inverse transfer function from *CIE RGB* colourspace to linear.
 

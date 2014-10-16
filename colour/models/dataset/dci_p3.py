@@ -92,14 +92,51 @@ XYZ_TO_DCI_P3_MATRIX = np.linalg.inv(DCI_P3_TO_XYZ_MATRIX)
 XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
 
-DCI_P3_TRANSFER_FUNCTION = lambda x: x
+
+def _dci_p3_transfer_function(value):
+    """
+    Defines the *DCI-P3* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value
+
+
+def _dci_p3_inverse_transfer_function(value):
+    """
+    Defines the *DCI-P3* value colourspace inverse transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value
+
+
+DCI_P3_TRANSFER_FUNCTION = _dci_p3_transfer_function
 """
 Transfer function from linear to *DCI-P3* colourspace.
 
 DCI_P3_TRANSFER_FUNCTION : object
 """
 
-DCI_P3_INVERSE_TRANSFER_FUNCTION = lambda x: x
+DCI_P3_INVERSE_TRANSFER_FUNCTION = _dci_p3_inverse_transfer_function
 """
 Inverse transfer function from *DCI-P3* colourspace to linear.
 

@@ -83,14 +83,53 @@ XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 """
 
-EKTA_SPACE_PS_5_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _ekta_space_ps_5_transfer_function(value):
+    """
+    Defines the *Ekta Space PS 5* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _ekta_space_ps_5_inverse_transfer_function(value):
+    """
+    Defines the *Ekta Space PS 5* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+EKTA_SPACE_PS_5_TRANSFER_FUNCTION = _ekta_space_ps_5_transfer_function
 """
 Transfer function from linear to *Ekta Space PS 5* colourspace.
 
 EKTA_SPACE_PS_5_TRANSFER_FUNCTION : object
 """
 
-EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = (
+    _ekta_space_ps_5_inverse_transfer_function)
 """
 Inverse transfer function from *Ekta Space PS 5* colourspace to linear.
 

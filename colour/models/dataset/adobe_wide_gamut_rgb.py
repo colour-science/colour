@@ -86,14 +86,54 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
+
+def _adobe_wide_gamut_rgb_transfer_function(value):
+    """
+    Defines the *Adobe Wide Gamut RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / (563 / 256))
+
+
+def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Adobe Wide Gamut RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (563 / 256)
+
+
+ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = (
+    _adobe_wide_gamut_rgb_transfer_function)
 """
 Transfer function from linear to *Adobe Wide Gamut RGB* colourspace.
 
 ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION : object
 """
 
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
+ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _adobe_wide_gamut_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *Adobe Wide Gamut RGB* colourspace to linear.
 

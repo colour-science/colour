@@ -84,14 +84,53 @@ XYZ_TO_PAL_SECAM_RGB_MATRIX = np.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 """
 
-PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
+
+def _pal_secam_rgb_transfer_function(value):
+    """
+    Defines the *Pal/Secam RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.8)
+
+
+def _pal_secam_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Pal/Secam RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.8
+
+
+PAL_SECAM_RGB_TRANSFER_FUNCTION = _pal_secam_rgb_transfer_function
 """
 Transfer function from linear to *Pal/Secam RGB* colourspace.
 
 PAL_SECAM_RGB_TRANSFER_FUNCTION : object
 """
 
-PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
+PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _pal_secam_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *Pal/Secam RGB* colourspace to linear.
 

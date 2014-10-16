@@ -83,14 +83,52 @@ XYZ_TO_BEST_RGB_MATRIX = np.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
 XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
 """
 
-BEST_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _best_rgb_transfer_function(value):
+    """
+    Defines the *Best RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _best_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Best RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+BEST_RGB_TRANSFER_FUNCTION = _best_rgb_transfer_function
 """
 Transfer function from linear to *Best RGB* colourspace.
 
 BEST_RGB_TRANSFER_FUNCTION : object
 """
 
-BEST_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+BEST_RGB_INVERSE_TRANSFER_FUNCTION = _best_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Best RGB* colourspace to linear.
 

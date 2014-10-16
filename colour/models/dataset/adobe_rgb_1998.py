@@ -86,14 +86,52 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_RGB_1998_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
+
+def _adobe_rgb_1998_transfer_function(value):
+    """
+    Defines the *Adobe RGB 1998* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / (563 / 256))
+
+
+def _adobe_rgb_1998_inverse_transfer_function(value):
+    """
+    Defines the *Adobe RGB 1998* value colourspace inverse transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (563 / 256)
+
+
+ADOBE_RGB_1998_TRANSFER_FUNCTION = _adobe_rgb_1998_transfer_function
 """
 Transfer function from linear to *Adobe RGB 1998* colourspace.
 
 ADOBE_RGB_1998_TRANSFER_FUNCTION : object
 """
 
-ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
+ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = (
+    _adobe_rgb_1998_inverse_transfer_function)
 """
 Inverse transfer function from *Adobe RGB 1998* colourspace to linear.
 

@@ -83,14 +83,52 @@ XYZ_TO_BETA_RGB_MATRIX = np.linalg.inv(BETA_RGB_TO_XYZ_MATRIX)
 XYZ_TO_BETA_RGB_MATRIX : array_like, (3, 3)
 """
 
-BETA_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _beta_rgb_transfer_function(value):
+    """
+    Defines the *Beta RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _beta_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Beta RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+BETA_RGB_TRANSFER_FUNCTION = _beta_rgb_transfer_function
 """
 Transfer function from linear to *Beta RGB* colourspace.
 
 BETA_RGB_TRANSFER_FUNCTION : object
 """
 
-BETA_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+BETA_RGB_INVERSE_TRANSFER_FUNCTION = _beta_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Beta RGB* colourspace to linear.
 

@@ -83,14 +83,52 @@ XYZ_TO_SMPTE_C_RGB_MATRIX = np.linalg.inv(SMPTE_C_RGB_TO_XYZ_MATRIX)
 XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
 """
 
-SMPTE_C_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _smpte_c_rgb_transfer_function(value):
+    """
+    Defines the *SMPTE-C RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _smpte_c_rgb_inverse_transfer_function(value):
+    """
+    Defines the *SMPTE-C RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+SMPTE_C_RGB_TRANSFER_FUNCTION = _smpte_c_rgb_transfer_function
 """
 Transfer function from linear to *SMPTE-C RGB* colourspace.
 
 SMPTE_C_RGB_TRANSFER_FUNCTION : object
 """
 
-SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = _smpte_c_rgb_inverse_transfer_function
 """
 Inverse transfer function from *SMPTE-C RGB* colourspace to linear.
 

@@ -88,18 +88,55 @@ XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
-sRGB_TRANSFER_FUNCTION = lambda x: (
-    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055)
+
+def _srgb_transfer_function(value):
+    """
+    Defines the *sRGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value * 12.92
+            if value <= 0.0031308 else 1.055 * (value ** (1 / 2.4)) - 0.055)
+
+
+def _srgb_inverse_transfer_function(value):
+    """
+    Defines the *sRGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value / 12.92
+            if value <= _srgb_transfer_function(0.0031308) else
+            ((value + 0.055) / 1.055) ** 2.4)
+
+
+sRGB_TRANSFER_FUNCTION = _srgb_transfer_function
 """
 Transfer function from linear to *sRGB* colourspace.
 
 sRGB_TRANSFER_FUNCTION : object
 """
 
-sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 12.92
-    if x <= sRGB_TRANSFER_FUNCTION(0.0031308) else
-    ((x + 0.055) / 1.055) ** 2.4)
+sRGB_INVERSE_TRANSFER_FUNCTION = _srgb_inverse_transfer_function
 """
 Inverse transfer function from *sRGB* colourspace to linear.
 

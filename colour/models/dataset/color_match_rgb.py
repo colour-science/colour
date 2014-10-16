@@ -84,14 +84,53 @@ XYZ_TO_COLOR_MATCH_RGB_MATRIX = np.linalg.inv(COLOR_MATCH_RGB_TO_XYZ_MATRIX)
 XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
 """
 
-COLOR_MATCH_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
+
+def _color_match_rgb_transfer_function(value):
+    """
+    Defines the *ColorMatch RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 1.8)
+
+
+def _color_match_rgb_inverse_transfer_function(value):
+    """
+    Defines the *ColorMatch RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 1.8
+
+
+COLOR_MATCH_RGB_TRANSFER_FUNCTION = _color_match_rgb_transfer_function
 """
 Transfer function from linear to *ColorMatch RGB* colourspace.
 
 COLOR_MATCH_RGB_TRANSFER_FUNCTION : object
 """
 
-COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
+COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _color_match_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *ColorMatch RGB* colourspace to linear.
 

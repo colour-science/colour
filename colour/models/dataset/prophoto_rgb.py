@@ -85,16 +85,55 @@ XYZ_TO_PROPHOTO_RGB_MATRIX = np.linalg.inv(PROPHOTO_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
 
-PROPHOTO_RGB_TRANSFER_FUNCTION = lambda x: (
-    x * 16 if x < 0.001953 else x ** (1 / 1.8))
+
+def _prophoto_rgb_transfer_function(value):
+    """
+    Defines the *ProPhoto RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value * 16 if value < 0.001953 else value ** (1 / 1.8)
+
+
+def _prophoto_rgb_inverse_transfer_function(value):
+    """
+    Defines the *ProPhoto RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value / 16
+            if value < _prophoto_rgb_transfer_function(0.001953) else
+            value ** 1.8)
+
+
+PROPHOTO_RGB_TRANSFER_FUNCTION = _prophoto_rgb_transfer_function
 """
 Transfer function from linear to *ProPhoto RGB* colourspace.
 
 PROPHOTO_RGB_TRANSFER_FUNCTION : object
 """
 
-PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 16 if x < PROPHOTO_RGB_TRANSFER_FUNCTION(0.001953) else x ** 1.8)
+PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _prophoto_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *ProPhoto RGB* colourspace to linear.
 
