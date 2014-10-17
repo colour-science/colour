@@ -14,6 +14,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import warning
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -64,9 +66,14 @@ def random_triplet_generator(size,
      array([ 0.1679721...,  0.7333801...,  0.4084438...])]
     """
 
+    integer_size = int(size)
+    if integer_size != size:
+        warning(('"size" has been cast to integer: {0}'.format(
+            integer_size)))
+
     x_limits, y_limits, z_limits = limits
 
-    for _ in range(size):
+    for _ in range(integer_size):
         yield np.array((random_state.uniform(*x_limits),
                         random_state.uniform(*y_limits),
                         random_state.uniform(*z_limits)))

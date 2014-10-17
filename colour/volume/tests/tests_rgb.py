@@ -40,25 +40,12 @@ class TestRGBColourspaceVolumeMonteCarlo(unittest.TestCase):
         definition.
         """
 
-        # TODO: Investigate a proper way of doing this, fixed seed, better
-        # reference colourspace volume, etc...
-
-        sRGB_volume = 857028.68992  # 10e6
-
-        attempts, threshold = 10, 10000
-        while attempts:
-            volume = []
-            for _ in range(10):
-                volume.append(RGB_colourspace_volume_MonteCarlo(
-                    sRGB_COLOURSPACE, 10e3))
-            volume = np.average(volume)
-
-            if np.abs(sRGB_volume - volume) <= threshold:
-                break
-
-            attempts -= 1
-
-        self.assertNotEqual(attempts, 0)
+        self.assertEquals(
+            RGB_colourspace_volume_MonteCarlo(
+                sRGB_COLOURSPACE,
+                10e3,
+                random_state=np.random.RandomState(2)),
+            828800.0)
 
 
 if __name__ == '__main__':

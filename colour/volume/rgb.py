@@ -20,6 +20,7 @@ from __future__ import division, unicode_literals
 import multiprocessing
 import numpy as np
 
+from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
 from colour.models import Lab_to_XYZ, XYZ_to_RGB
 
@@ -57,12 +58,12 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
-        L_limits=(0, 100),
-        a_limits=(-128, 128),
-        b_limits=(-128, 128),
+        limits=np.array([[0, 100], [-100, 100], [-100, 100]]),
         illuminant_Lab=ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50'),
-        chromatic_adaptation_method='CAT02'):
+        chromatic_adaptation_method='CAT02',
+        random_generator=random_triplet_generator,
+        random_state=None):
     """
     Randomly samples the *Lab* colourspace volume and returns the ratio of
     samples within the given *RGB* colourspace volume.
@@ -73,18 +74,20 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         *RGB* colourspace to compute the volume of.
     samples : numeric, optional
         Samples count.
-    L_limits : array_like, optional
-        *Lab* colourspace volume :math:`L` limits.
-    a_limits : array_like, optional
-        *Lab* colourspace volume :math:`a` limits.
-    b_limits : array_like, optional
-        *Lab* colourspace volume :math:`b` limits.
+    limits : array_like, optional
+        *Lab* colourspace volume.
     illuminant_Lab : array_like, optional
         *Lab* colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
+    random_generator : generator
+        Random triplet generator providing the random samples within the *Lab*
+        colourspace volume.
+    random_state : RandomState
+        Mersenne Twister pseudo-random number generator to use in the random
+        number generator.
 
     Returns
     -------
@@ -94,19 +97,17 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
-    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3)   # noqa  # doctest: +ELLIPSIS
-    1...
+    >>> prng = np.random.RandomState(2)
+    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    2150
     """
 
-    # Ensuring unique random numbers across processes.
-    np.random.seed(None)
+    random_state = (random_state
+                    if random_state is not None else
+                    np.random.RandomState())
 
     within = 0
-    for _ in np.arange(samples):
-        Lab = np.array((np.random.uniform(*L_limits),
-                        np.random.uniform(*a_limits),
-                        np.random.uniform(*b_limits)))
-
+    for Lab in random_generator(samples, limits, random_state):
         RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
                          illuminant_Lab,
                          colourspace.whitepoint,
@@ -123,12 +124,12 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
-        L_limits=(0, 100),
-        a_limits=(-128, 128),
-        b_limits=(-128, 128),
+        limits=np.array([[0, 100], [-100, 100], [-100, 100]]),
         illuminant_Lab=ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50'),
-        chromatic_adaptation_method='CAT02'):
+        chromatic_adaptation_method='CAT02',
+        random_generator=random_triplet_generator,
+        random_state=None):
     """
     Performs given *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
@@ -139,18 +140,20 @@ def RGB_colourspace_volume_MonteCarlo(
         *RGB* colourspace to compute the volume of.
     samples : numeric, optional
         Samples count.
-    L_limits : array_like, optional
-        *Lab* colourspace volume :math:`L` limits.
-    a_limits : array_like, optional
-        *Lab* colourspace volume :math:`a` limits.
-    b_limits : array_like, optional
-        *Lab* colourspace volume :math:`b` limits.
+    limits : array_like, optional
+        *Lab* colourspace volume.
     illuminant_Lab : array_like, optional
         *Lab* colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
+    random_generator : generator
+        Random triplet generator providing the random samples within the *Lab*
+        colourspace volume.
+    random_state : RandomState
+        Mersenne Twister pseudo-random number generator to use in the random
+        number generator.
 
     Returns
     -------
@@ -160,25 +163,27 @@ def RGB_colourspace_volume_MonteCarlo(
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3)   # doctest: +ELLIPSIS
-    8...
+    >>> prng = np.random.RandomState(2)
+    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)   # doctest: +ELLIPSIS
+    828800...
     """
 
     cpu_count = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes=cpu_count)
 
+    process_samples = np.int(np.round(samples / cpu_count))
+
     arguments = [colourspace,
-                 samples / cpu_count,
-                 L_limits,
-                 a_limits,
-                 b_limits,
+                 process_samples,
+                 limits,
                  illuminant_Lab,
-                 chromatic_adaptation_method]
+                 chromatic_adaptation_method,
+                 random_generator,
+                 random_state]
 
     results = pool.map(_wrapper_RGB_colourspace_volume_MonteCarlo,
                        [arguments for _ in range(cpu_count)])
 
-    Lab_limits = (L_limits, a_limits, b_limits)
-    Lab_volume = np.product([np.sum(np.abs(x)) for x in Lab_limits])
+    Lab_volume = np.product([np.sum(np.abs(x)) for x in limits])
 
-    return Lab_volume * np.sum(results) / samples
+    return Lab_volume * np.sum(results) / (process_samples * cpu_count)
