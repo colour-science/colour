@@ -58,7 +58,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
-        limits=np.array([[0, 100], [-100, 100], [-100, 100]]),
+        limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
         illuminant_Lab=ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50'),
         chromatic_adaptation_method='CAT02',
@@ -99,7 +99,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
-    2150
+    955
     """
 
     random_state = (random_state
@@ -124,7 +124,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
-        limits=np.array([[0, 100], [-100, 100], [-100, 100]]),
+        limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
         illuminant_Lab=ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50'),
         chromatic_adaptation_method='CAT02',
@@ -165,7 +165,7 @@ def RGB_colourspace_volume_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)   # doctest: +ELLIPSIS
-    828800...
+    777600...
     """
 
     cpu_count = multiprocessing.cpu_count()
