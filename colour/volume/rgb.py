@@ -17,12 +17,13 @@ See Also
 
 from __future__ import division, unicode_literals
 
+import itertools
 import multiprocessing
 import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
-from colour.models import Lab_to_XYZ, XYZ_to_RGB
+from colour.models import Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,6 +33,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['sample_RGB_colourspace_volume_MonteCarlo',
+           'RGB_colourspace_limits',
            'RGB_colourspace_volume_MonteCarlo']
 
 
@@ -119,6 +121,49 @@ def sample_RGB_colourspace_volume_MonteCarlo(
             within += 1
 
     return within
+
+
+def RGB_colourspace_limits(colourspace,
+                           illuminant=ILLUMINANTS.get(
+                               'CIE 1931 2 Degree Standard Observer').get(
+                               'D50')):
+    """
+    Computes given *RGB* colourspace volume limits in *Lab* colourspace.
+
+    Parameters
+    ----------
+    colourspace : RGB_Colourspace
+        *RGB* colourspace to compute the volume of.
+     illuminant_Lab : array_like, optional
+        *Lab* colourspace *illuminant* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        *RGB* colourspace volume limits.
+
+    Examples
+    --------
+    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> RGB_colourspace_limits(sRGB)  # noqa  # doctest: +ELLIPSIS
+    array([[   0...        ,  100...        ],
+           [ -79.2263741...,   94.6657491...],
+           [-114.7846271...,   96.7135199...]])
+    """
+
+    Lab = []
+    for combination in list(itertools.product([0, 1], repeat=3)):
+        Lab.append(XYZ_to_Lab(RGB_to_XYZ(combination,
+                                         colourspace.whitepoint,
+                                         illuminant,
+                                         colourspace.RGB_to_XYZ_matrix)))
+    Lab = np.array(Lab)
+
+    limits = []
+    for i in np.arange(3):
+        limits.append((np.min(Lab[:, i]), np.max(Lab[:, i])))
+
+    return np.array(limits)
 
 
 def RGB_colourspace_volume_MonteCarlo(
