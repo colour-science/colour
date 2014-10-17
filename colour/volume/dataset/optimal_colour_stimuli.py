@@ -21,7 +21,7 @@ follows::
 See Also
 --------
 `Optimal Colour Stimuli - MacAdam Limits IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/optimal/macadam_limits.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/volume/macadam_limits.ipynb>`_  # noqa
 
 References
 ----------
