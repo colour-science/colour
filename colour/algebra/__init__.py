@@ -19,6 +19,7 @@ from .interpolation import (LinearInterpolator1d,
                             SplineInterpolator,
                             SpragueInterpolator)
 from .matrix import is_identity
+from .random import random_triplet_generator
 from .regression import linear_regression
 
 __all__ = ['steps',
@@ -30,9 +31,10 @@ __all__ = ['steps',
            'is_integer',
            'normalise']
 __all__ += coordinates.__all__
-__all__ += ['Extrapolator1d',
-            'LinearInterpolator1d',
+__all__ += ['Extrapolator1d']
+__all__ += ['LinearInterpolator1d',
             'SplineInterpolator',
-            'SpragueInterpolator',
-            'is_identity',
-            'linear_regression']
+            'SpragueInterpolator']
+__all__ += ['is_identity']
+__all__ += ['random_triplet_generator']
+__all__ += ['linear_regression']
