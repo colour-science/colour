@@ -4521,11 +4521,11 @@ class TestPlanckLaw(unittest.TestCase):
 
         for temperature, wavelengths in sorted(PLANCK_LAW_DATA.items()):
             for wavelength, radiance in sorted(wavelengths.items()):
-                np.testing.assert_almost_equal(
+                np.testing.assert_allclose(
                     planck_law(wavelength * 1e-9, temperature),
                     radiance,
-                    # Lower precision for Linux *Travis-ci* tests.
-                    decimal=0)
+                    rtol=0.00000001,
+                    verbose=False)
 
 
 class TestBlackbodySpd(unittest.TestCase):
