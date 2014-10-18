@@ -73,7 +73,6 @@ from .quality import *  # noqa
 from . import quality
 from .temperature import *  # noqa
 from . import temperature
-from . import plotting
 from . import utilities
 
 __author__ = 'Colour Developers'
