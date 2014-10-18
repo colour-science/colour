@@ -46,6 +46,15 @@ from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .transformations import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .tristimulus import spectral_to_XYZ, wavelength_to_XYZ
+from .whiteness import WHITENESS_METHODS
+from .whiteness import whiteness
+from .whiteness import (
+    whiteness_berger1959,
+    whiteness_taube1960,
+    whiteness_stensby1968,
+    whiteness_ASTM_313,
+    whiteness_ganz1979,
+    whiteness_cie2004)
 
 __all__ = ['SpectralShape',
            'DEFAULT_SPECTRAL_SHAPE',
@@ -83,3 +92,11 @@ __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['spectral_to_XYZ', 'wavelength_to_XYZ']
+__all__ += ['WHITENESS_METHODS']
+__all__ += ['whiteness']
+__all__ += ['whiteness_berger1959',
+            'whiteness_taube1960',
+            'whiteness_stensby1968',
+            'whiteness_ASTM_313',
+            'whiteness_ganz1979',
+            'whiteness_cie2004']
