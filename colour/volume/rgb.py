@@ -84,10 +84,10 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
-    random_generator : generator
+    random_generator : generator, optional
         Random triplet generator providing the random samples within the *Lab*
         colourspace volume.
-    random_state : RandomState
+    random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
 
@@ -100,8 +100,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +SKIP
-    955
+    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    9...
     """
 
     random_state = (random_state
@@ -119,9 +119,6 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 
         if np.min(RGB) >= 0 and np.max(RGB) <= 1:
             within += 1
-
-    import sys
-    sys.stdout.write('W:' + format(within) + '\n')
 
     return within
 
@@ -177,7 +174,8 @@ def RGB_colourspace_volume_MonteCarlo(
             'CIE 1931 2 Degree Standard Observer').get('D50'),
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
-        random_state=None):
+        random_state=None,
+        processes=None):
     """
     Performs given *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
@@ -196,12 +194,15 @@ def RGB_colourspace_volume_MonteCarlo(
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* method.
-    random_generator : generator
+    random_generator : generator, optional
         Random triplet generator providing the random samples within the *Lab*
         colourspace volume.
-    random_state : RandomState
+    random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
+    processes : integer, optional
+        Processes count, default to :func:`multiprocessing.cpu_count`
+        definition.
 
     Returns
     -------
@@ -212,11 +213,12 @@ def RGB_colourspace_volume_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +SKIP
-    777600.0
+    >>> processes = 1
+    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng, processes=processes)  # noqa  # doctest: +ELLIPSIS
+    859...
     """
 
-    cpu_count = multiprocessing.cpu_count()
+    cpu_count = processes if processes else multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes=cpu_count)
 
     process_samples = int(np.round(samples / cpu_count))
