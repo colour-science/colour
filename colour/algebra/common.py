@@ -5,7 +5,7 @@
 Algebra Common Utilities
 ========================
 
-Defines algebra common utilities objects that don"t belong to any algebra
+Defines algebra common utilities objects that don't belong to any algebra
 specific category.
 """
 
