@@ -50,9 +50,7 @@ IPT_XYZ_TO_LMS_MATRIX = np.array([
 IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
-IPT_LMS_TO_XYZ_MATRIX = np.around(
-    np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX),
-    decimals=4)
+IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
 """
 *IPT* colourspace normalised cone responses to *CIE XYZ* colourspace matrix.
 
@@ -74,9 +72,7 @@ IPT_LMS_TO_IPT_MATRIX = np.array([
 IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
 """
 
-IPT_IPT_TO_LMS_MATRIX = np.around(
-    np.linalg.inv(IPT_LMS_TO_IPT_MATRIX),
-    decimals=4)
+IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
 """
 *IPT* colourspace to *IPT* colourspace normalised cone responses matrix.
 
@@ -110,9 +106,9 @@ def XYZ_to_IPT(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.96907232, 1, 1.12179215])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.3657112..., -0.1111479...,  0.0159474...])
+    array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
 
     LMS = np.dot(IPT_XYZ_TO_LMS_MATRIX, XYZ)
@@ -138,9 +134,9 @@ def IPT_to_XYZ(IPT):
 
      Examples
     --------
-    >>> IPT = np.array([0.36571124, -0.11114798, 0.01594746])
+    >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
-    array([ 0.0704827...,  0.1007966...,  0.0955884...])
+    array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
     LMS = np.dot(IPT_IPT_TO_LMS_MATRIX, IPT)
@@ -166,9 +162,8 @@ def IPT_hue_angle(IPT):
 
     Examples
     --------
-    >>> IPT = np.array([0.07049534, 0.1008, 0.09558313])
-    >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
-    0.7588396...
+    >>> IPT_hue_angle(([0.96907232, 1, 1.12179215]))  # doctest: +ELLIPSIS
+    0.8427358...
     """
 
     return np.arctan2(IPT[2], IPT[1])

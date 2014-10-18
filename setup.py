@@ -54,6 +54,10 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',
                       'nose>=1.3.4']
 
+if sys.version_info[:2] <= (3, 2):
+    TESTS_REQUIREMENTS += [
+        'mock>=1.0.1']
+
 setup(name='colour-science',
       version='0.3.2',
       author=__author__,

@@ -45,7 +45,7 @@ before_install:
 install:
   - conda create --yes --quiet -n colour-test ${PACKAGES} pip setuptools nose
   - source activate colour-test
-  - pip install coverage coveralls flake8
+  - pip install coverage coveralls flake8 mock
   - pip install backports.functools_lru_cache
 
 script:
