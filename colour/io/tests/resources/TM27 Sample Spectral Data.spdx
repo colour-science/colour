@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<IESTM2714 xmlns="iestm2714" version="1.0">
+	<Header>
+		<Manufacturer>Academy Lighting</Manufacturer>
+		<CatalogNumber>XET 55529</CatalogNumber>
+		<Description>LED 2' x 4' Troffer</Description>
+		<DocumentCreator>Apex Analytics</DocumentCreator>
+		<Laboratory>Apex Analytics</Laboratory>
+		<UniqueIdentifier>TS3005k3d96</UniqueIdentifier>
+		<ReportNumber>APEX-091101-004</ReportNumber>
+		<ReportDate>2009-11-01</ReportDate>
+		<DocumentCreationDate>2011-11-21</DocumentCreationDate>
+		<Comments>Ambient temperature 25 degrees C.</Comments>
+	</Header>
+	<SpectralDistribution>
+		<SpectralQuantity>relative</SpectralQuantity>
+		<BandwidthFWHM>2.0</BandwidthFWHM>
+		<BandwidthCorrected>true</BandwidthCorrected>
+		<SpectralData wavelength="400.0">0.47</SpectralData>
+		<SpectralData wavelength="410.0">0.51</SpectralData>
+		<SpectralData wavelength="420.0">0.56</SpectralData>
+		<SpectralData wavelength="430.0">0.61</SpectralData>
+		<SpectralData wavelength="440.0">0.66</SpectralData>
+		<SpectralData wavelength="450.0">0.72</SpectralData>
+		<SpectralData wavelength="460.0">0.76</SpectralData>
+		<SpectralData wavelength="470.0">0.77</SpectralData>
+		<SpectralData wavelength="480.0">0.79</SpectralData>
+		<SpectralData wavelength="490.0">0.81</SpectralData>
+		<SpectralData wavelength="500.0">0.83</SpectralData>
+		<SpectralData wavelength="510.0">0.85</SpectralData>
+		<SpectralData wavelength="520.0">0.88</SpectralData>
+		<SpectralData wavelength="530.0">0.92</SpectralData>
+		<SpectralData wavelength="540.0">0.95</SpectralData>
+		<SpectralData wavelength="550.0">0.99</SpectralData>
+		<SpectralData wavelength="560.0">0.99</SpectralData>
+		<SpectralData wavelength="570.0">1.00</SpectralData>
+		<SpectralData wavelength="580.0">0.95</SpectralData>
+		<SpectralData wavelength="590.0">0.91</SpectralData>
+		<SpectralData wavelength="600.0">0.76</SpectralData>
+		<SpectralData wavelength="610.0">0.62</SpectralData>
+		<SpectralData wavelength="620.0">0.51</SpectralData>
+		<SpectralData wavelength="630.0">0.40</SpectralData>
+		<SpectralData wavelength="640.0">0.29</SpectralData>
+		<SpectralData wavelength="650.0">0.21</SpectralData>
+	</SpectralDistribution>
+</IESTM2714>
