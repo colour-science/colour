@@ -67,6 +67,31 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
             decimal=7)
 
 
+def _linear_triplet_generator(size,
+                              limits=np.array([[0, 1], [0, 1], [0, 1]]),
+                              *args):
+    """
+    Returns a generator yielding random triplets.
+
+    Parameters
+    ----------
+    size : integer
+        Generator size.
+    limits : array_like, (3, 2)
+        Values limits on each triplet axis.
+    \*args : \*
+        Arguments.
+
+    Returns
+    -------
+    generator
+        Linear triplets generator.
+    """
+
+    for i in np.linspace(limits[0][0], limits[1][1], size):
+        yield np.array([i, i, i])
+
+
 class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
     """
     Defines :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
@@ -83,8 +108,8 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
             RGB_colourspace_volume_MonteCarlo(
                 REC_709_COLOURSPACE,
                 10e3,
-                random_state=np.random.RandomState(2)),
-            777600.0)
+                random_generator=_linear_triplet_generator),
+            3700800.0)
 
 
 if __name__ == '__main__':
