@@ -84,7 +84,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
                 REC_709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            828800.0)
+            777600.0)
 
 
 if __name__ == '__main__':

@@ -100,7 +100,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +SKIP
     955
     """
 
@@ -209,8 +209,8 @@ def RGB_colourspace_volume_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)   # doctest: +ELLIPSIS
-    777600...
+    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +SKIP
+    777600.0
     """
 
     cpu_count = multiprocessing.cpu_count()
