@@ -71,9 +71,7 @@ def random_triplet_generator(size,
         warning(('"size" has been cast to integer: {0}'.format(
             integer_size)))
 
-    x_limits, y_limits, z_limits = limits
-
     for _ in range(integer_size):
-        yield np.array((random_state.uniform(*x_limits),
-                        random_state.uniform(*y_limits),
-                        random_state.uniform(*z_limits)))
+        yield np.array((random_state.uniform(*limits[0]),
+                        random_state.uniform(*limits[1]),
+                        random_state.uniform(*limits[2])))
