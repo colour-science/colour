@@ -88,6 +88,7 @@ def _linear_triplet_generator(size,
         Linear triplets generator.
     """
 
+    sys.stdout.write(format(size) + '\n')
     for i in np.linspace(limits[0][0], limits[1][1], size):
         yield np.array([i, i, i])
 

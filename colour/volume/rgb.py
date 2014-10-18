@@ -120,6 +120,9 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         if np.min(RGB) >= 0 and np.max(RGB) <= 1:
             within += 1
 
+    import sys
+    sys.stdout.write('W:' + format(within) + '\n')
+
     return within
 
 
@@ -216,7 +219,7 @@ def RGB_colourspace_volume_MonteCarlo(
     cpu_count = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes=cpu_count)
 
-    process_samples = np.int(np.round(samples / cpu_count))
+    process_samples = int(np.round(samples / cpu_count))
 
     arguments = [colourspace,
                  process_samples,
