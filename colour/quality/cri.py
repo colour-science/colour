@@ -7,6 +7,7 @@ Colour Rendering Index
 
 Defines *colour rendering index* computation objects:
 
+-   :func:`CRI_Specification`
 -   :func:`colour_rendering_index`
 
 See Also
@@ -41,19 +42,121 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TcsColorimetryData',
+__all__ = ['TCS_ColorimetryData',
+           'TCS_ColourQualityScaleData',
            'colour_rendering_index']
 
 
-class TcsColorimetryData(namedtuple('TcsColorimetryData',
-                                    ('name', 'XYZ', 'uv', 'UVW'))):
+class TCS_ColorimetryData(namedtuple('TCS_ColorimetryData',
+                                     ('name', 'XYZ', 'uv', 'UVW'))):
     """
     Defines the the class holding *test colour samples* colorimetry data.
     """
 
-def _tcs_colorimetry_data(test_spd,
-                          reference_spd,
-                          tsc_spds,
+
+class TCS_ColourQualityScaleData(
+    namedtuple('TCS_ColourQualityScaleData',
+               ('name', 'Q_a'))):
+    """
+    Defines the the class holding *test colour samples* colour rendering
+    index data.
+    """
+
+
+class CRI_Specification(
+    namedtuple(
+        'CRI_Specification',
+        ('Q_a', 'Q_as', 'colorimetry_data'))):
+    """
+    Defines the *colour rendering index* colour quality specification.
+
+    Parameters
+    ----------
+    Q_a : numeric
+        *Colour rendering index* :math:`Q_a`.
+    Q_as : dict
+        Individual *colour rendering indexes* data for each sample.
+    colorimetry_data : tuple
+        Colorimetry data for the test and reference computations.
+    """
+
+
+def colour_rendering_index(spd_test, additional_data=False):
+    """
+    Returns the *colour rendering index* :math:`Q_a` of given spectral power
+    distribution.
+
+    Parameters
+    ----------
+    spd_test : SpectralPowerDistribution
+        Test spectral power distribution.
+    additional_data : bool, optional
+        Output additional data.
+
+    Returns
+    -------
+    numeric or CRI_Specification
+        Colour rendering index.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
+    64.1507331...
+    """
+
+    cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
+
+    shape = cmfs.shape
+    spd_test = spd_test.clone().align(shape)
+
+    tcs_spds = {}
+    for index, tcs_spd in TCS_SPDS.items():
+        tcs_spds[index] = tcs_spd.clone().align(shape)
+
+    XYZ = spectral_to_XYZ(spd_test, cmfs)
+    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
+    CCT, Duv = uv_to_CCT_robertson1968(uv)
+
+    if CCT < 5000:
+        spd_reference = blackbody_spd(CCT, shape)
+    else:
+        xy = CCT_to_xy_illuminant_D(CCT)
+        spd_reference = D_illuminant_relative_spd(xy)
+        spd_reference.align(shape)
+
+    test_tcs_colorimetry_data = _tcs_colorimetry_data(
+        spd_test,
+        spd_reference,
+        tcs_spds,
+        cmfs,
+        chromatic_adaptation=True)
+
+    reference_tcs_colorimetry_data = _tcs_colorimetry_data(
+        spd_reference,
+        spd_reference,
+        tcs_spds,
+        cmfs)
+
+    Q_as = _colour_rendering_indexes(
+        test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
+
+    Q_a = np.average([v.Q_a for k, v in Q_as.items()
+                      if k in (1, 2, 3, 4, 5, 6, 7, 8)])
+
+    if additional_data:
+        return CRI_Specification(Q_a,
+                                 Q_as,
+                                 (test_tcs_colorimetry_data,
+                                  reference_tcs_colorimetry_data))
+    else:
+        return Q_a
+
+
+def _tcs_colorimetry_data(spd_t,
+                          spd_r,
+                          spds_tcs,
                           cmfs,
                           chromatic_adaptation=False):
     """
@@ -61,12 +164,12 @@ def _tcs_colorimetry_data(test_spd,
 
     Parameters
     ----------
-    test_spd : SpectralPowerDistribution
+    spd_t : SpectralPowerDistribution
         Test spectral power distribution.
-    reference_spd : SpectralPowerDistribution
+    spd_r : SpectralPowerDistribution
         Reference spectral power distribution.
-    tsc_spds : dict
-        Test colour samples.
+    spds_tcs : dict
+        *Test colour samples* spectral power distributions.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     chromatic_adaptation : bool, optional
@@ -78,53 +181,53 @@ def _tcs_colorimetry_data(test_spd,
         *Test colour samples* colorimetry data.
     """
 
-    test_XYZ = spectral_to_XYZ(test_spd, cmfs)
-    test_uv = np.ravel(UCS_to_uv(XYZ_to_UCS(test_XYZ)))
-    test_u, test_v = test_uv[0], test_uv[1]
+    XYZ_t = spectral_to_XYZ(spd_t, cmfs)
+    uv_t = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_t)))
+    u_t, v_t = uv_t[0], uv_t[1]
 
-    reference_XYZ = spectral_to_XYZ(reference_spd, cmfs)
-    reference_uv = np.ravel(UCS_to_uv(XYZ_to_UCS(reference_XYZ)))
-    reference_u, reference_v = reference_uv[0], reference_uv[1]
+    XYZ_r = spectral_to_XYZ(spd_r, cmfs)
+    uv_r = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_r)))
+    u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
     for key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
-        tcs_spd = tsc_spds.get(value)
-        tcs_XYZ = spectral_to_XYZ(tcs_spd, cmfs, test_spd)
-        tcs_xyY = np.ravel(XYZ_to_xyY(tcs_XYZ))
-        tcs_uv = np.ravel(UCS_to_uv(XYZ_to_UCS(tcs_XYZ)))
-        tcs_u, tcs_v = tcs_uv[0], tcs_uv[1]
+        spd_tcs = spds_tcs.get(value)
+        XYZ_tcs = spectral_to_XYZ(spd_tcs, cmfs, spd_t)
+        xyY_tcs = np.ravel(XYZ_to_xyY(XYZ_tcs))
+        uv_tcs = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_tcs)))
+        u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
 
         if chromatic_adaptation:
             c = lambda x, y: (4 - x - 10 * y) / y
             d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
 
-            test_c, test_d = c(test_u, test_v), d(test_u, test_v)
-            reference_c, reference_d = (c(reference_u, reference_v),
-                                        d(reference_u, reference_v))
-            tcs_c, tcs_d = c(tcs_u, tcs_v), d(tcs_u, tcs_v)
-            tcs_u = ((10.872 + 0.404 * reference_c / test_c * tcs_c - 4 *
-                      reference_d / test_d * tcs_d) /
-                     (16.518 + 1.481 * reference_c / test_c * tcs_c -
-                      reference_d / test_d * tcs_d))
-            tcs_v = (5.52 / (16.518 + 1.481 * reference_c / test_c * tcs_c -
-                             reference_d / test_d * tcs_d))
+            c_t, d_t = c(u_t, v_t), d(u_t, v_t)
+            c_r, d_r = (c(u_r, v_r),
+                        d(u_r, v_r))
+            tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
+            u_tcs = ((10.872 + 0.404 * c_r / c_t * tcs_c - 4 *
+                      d_r / d_t * tcs_d) /
+                     (16.518 + 1.481 * c_r / c_t * tcs_c -
+                      d_r / d_t * tcs_d))
+            v_tcs = (5.52 / (16.518 + 1.481 * c_r / c_t * tcs_c -
+                             d_r / d_t * tcs_d))
 
-        tcs_W = 25 * tcs_xyY[-1] ** (1 / 3) - 17
-        tcs_U = 13 * tcs_W * (tcs_u - reference_u)
-        tcs_V = 13 * tcs_W * (tcs_v - reference_v)
+        W_tcs = 25 * xyY_tcs[-1] ** (1 / 3) - 17
+        U_tcs = 13 * W_tcs * (u_tcs - u_r)
+        V_tcs = 13 * W_tcs * (v_tcs - v_r)
 
         tcs_data.append(
-            TcsColorimetryData(tcs_spd.name,
-                               tcs_XYZ,
-                               tcs_uv,
-                               np.array([tcs_U, tcs_V, tcs_W])))
+            TCS_ColorimetryData(spd_tcs.name,
+                                XYZ_tcs,
+                                uv_tcs,
+                                np.array([U_tcs, V_tcs, W_tcs])))
 
     return tcs_data
 
 
 def _colour_rendering_indexes(test_data, reference_data):
     """
-    Returns the *test colour samples* rendering indexes.
+    Returns the *test colour samples* rendering indexes :math:`Q_a`.
 
     Parameters
     ----------
@@ -139,78 +242,10 @@ def _colour_rendering_indexes(test_data, reference_data):
         *Test colour samples* colour rendering indexes.
     """
 
-    colour_rendering_indexes = {}
-    for i in range(len(test_data)):
-        colour_rendering_indexes[i + 1] = 100 - 4.6 * np.linalg.norm(
-            reference_data[i].UVW - test_data[i].UVW)
-    return colour_rendering_indexes
-
-
-def colour_rendering_index(test_spd, additional_data=False):
-    """
-    Returns the *colour rendering index* of given spectral power distribution.
-
-    Parameters
-    ----------
-    test_spd : SpectralPowerDistribution
-        Test spectral power distribution.
-    additional_data : bool, optional
-        Output additional data.
-
-    Returns
-    -------
-    numeric or (numeric, dict)
-        Colour rendering index, Tsc data.
-
-    Examples
-    --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
-    64.1507331...
-    """
-
-    cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
-
-    shape = cmfs.shape
-    test_spd = test_spd.clone().align(shape)
-
-    tcs_spds = {}
-    for index, tcs_spd in sorted(TCS_SPDS.items()):
-        tcs_spds[index] = tcs_spd.clone().align(shape)
-
-    XYZ = spectral_to_XYZ(test_spd, cmfs)
-    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, Duv = uv_to_CCT_robertson1968(uv)
-
-    if CCT < 5000:
-        reference_spd = blackbody_spd(CCT, shape)
-    else:
-        xy = CCT_to_xy_illuminant_D(CCT)
-        reference_spd = D_illuminant_relative_spd(xy)
-        reference_spd.align(shape)
-
-    test_tcs_colorimetry_data = _tcs_colorimetry_data(
-        test_spd,
-        reference_spd,
-        tcs_spds,
-        cmfs,
-        chromatic_adaptation=True)
-    reference_tcs_colorimetry_data = _tcs_colorimetry_data(
-        reference_spd,
-        reference_spd,
-        tcs_spds, cmfs)
-
-    colour_rendering_indexes = _colour_rendering_indexes(
-        test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
-
-    colour_rendering_index = np.average(
-        [v for k, v in colour_rendering_indexes.items()
-         if k in (1, 2, 3, 4, 5, 6, 7, 8)])
-
-    if additional_data:
-        return (colour_rendering_index,
-                colour_rendering_indexes,
-                [test_tcs_colorimetry_data, reference_tcs_colorimetry_data])
-    else:
-        return colour_rendering_index
+    Q_as = {}
+    for i, _ in enumerate(test_data):
+        Q_as[i + 1] = TCS_ColourQualityScaleData(
+            test_data[i].name,
+            100 - 4.6 * np.linalg.norm(
+                reference_data[i].UVW - test_data[i].UVW))
+    return Q_as
