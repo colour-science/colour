@@ -11,7 +11,6 @@ try:
     from unittest import mock
 except ImportError:
     import mock
-
 import numpy as np
 
 from colour.appearance import LLAB_InductionFactors, XYZ_to_LLAB, llab
@@ -73,31 +72,34 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         return specification
 
     @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX), decimals=4))
+                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                          decimals=4))
     def test_examples(self):
         """
         Tests the colour appearance model implementation.
 
-        Notes
-        -----
-        The reference data was computed using a rounded LLAB_XYZ_TO_RGB_MATRIX, therefore a patched version is
-        used for these tests.
-
         Returns
         -------
         tuple
+
+        Notes
+        -----
+        Reference data was computed using a rounded
+        :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+        patched version is used for unit tests.
         """
         super(TestLLABColourAppearanceModel, self).test_examples()
 
+    def test_roundtrip_precision(self):
+        """
+        Tests for loss of precision in conversion between
+        *LLAB(l:c)* colour appearance model *CIE XYZ* colourspace matrix and
+        normalised cone responses matrix.
+        """
 
-    def test_roundtrip_precissiong(self):
-        """
-        Tests for loss of precision in conversion between XYZ and RGB using the LLAB conversion matrices.
-        """
         start = np.array([1., 1., 1.])
         result = np.array(start)
         for _ in range(100000):
             result = llab.LLAB_RGB_TO_XYZ_MATRIX.dot(result)
             result = llab.LLAB_XYZ_TO_RGB_MATRIX.dot(result)
         np.testing.assert_almost_equal(start, result, decimal=7)
-
