@@ -18,17 +18,9 @@ References
 ----------
 .. [1]  http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function
         (Last accessed 20 June 2014)
-
-.. [2]  https://en.wikipedia.org/wiki/Luminosity_function#Details
-        (Last accessed 25 September 2014)
-
-.. [3]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 18 September 2014)
 """
 
 from __future__ import division, unicode_literals
-
-import numpy as np
 
 from colour.algebra import closest
 from colour.colorimetry import (
@@ -175,37 +167,3 @@ def mesopic_luminous_efficiency_function(
         spd_data)
 
     return spd.normalise()
-
-
-def luminous_flux(spd,
-                  lef=PHOTOPIC_LEFS.get(
-                      'CIE 1924 Photopic Standard Observer')):
-    """
-    Returns the *luminous flux* for given spectral power distribution using
-    the given luminosity function.
-
-    Parameters
-    ----------
-    spd : SpectralPowerDistribution
-        test spectral power distribution
-    lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` luminous efficiency function.
-
-    Returns
-    -------
-    numeric
-        Luminous flux
-
-    Examples
-    --------
-    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
-    >>> luminous_flux(spd)  # doctest: +ELLIPSIS
-    23807.8236129...
-    """
-    shape = lef.shape
-    spd = spd.clone().align(shape)
-    flux = 683.002 * np.sum(spd.values[:-1] * lef.values[:-1] *
-                            np.diff(spd.wavelengths))
-    return flux
-

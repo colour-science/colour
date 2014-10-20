@@ -27,8 +27,7 @@ from .correction import bandpass_correction_stearns1988
 from .illuminants import D_illuminant_relative_spd
 from .lefs import (
     mesopic_luminous_efficiency_function,
-    mesopic_weighting_function,
-    luminous_flux)
+    mesopic_weighting_function)
 from .lightness import LIGHTNESS_METHODS
 from .lightness import lightness
 from .lightness import (
@@ -41,6 +40,7 @@ from .luminance import (
     luminance_newhall1943,
     luminance_ASTM_D1535_08,
     luminance_1976)
+from .photometry import luminous_flux
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -67,8 +67,7 @@ __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_stearns1988']
 __all__ += ['D_illuminant_relative_spd']
 __all__ += ['mesopic_luminous_efficiency_function',
-            'mesopic_weighting_function',
-            'luminous_flux']
+            'mesopic_weighting_function']
 __all__ += ['LIGHTNESS_METHODS']
 __all__ += ['lightness']
 __all__ += ['lightness_glasser1958',
@@ -79,6 +78,7 @@ __all__ += ['luminance']
 __all__ += ['luminance_newhall1943',
             'luminance_ASTM_D1535_08',
             'luminance_1976']
+__all__ += ['luminous_flux']
 __all__ += ['RGB_10_degree_cmfs_to_LMS_10_degree_cmfs']
 __all__ += ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']
