@@ -17,7 +17,11 @@ else:
 
 from colour.colorimetry import (
     mesopic_weighting_function,
-    mesopic_luminous_efficiency_function)
+    mesopic_luminous_efficiency_function,
+    luminous_flux)
+from colour.colorimetry import (
+    ILLUMINANTS_RELATIVE_SPDS,
+    LIGHT_SOURCES_RELATIVE_SPDS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -485,6 +489,36 @@ class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
             MESOPIC_LEF_SPD_DATA,
             decimal=7)
 
+
+class TestLuminousFlux(unittest.TestCase):
+    """
+    Defines
+    :func:`colour.colorimetry.lefs.luminous_flux` definition unit tests
+    methods.
+    """
+
+    def test_luminous_flux(self):
+        """
+        Tests
+        :func:`colour.colorimetry.lefs.luminous_flux` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            luminous_flux(ILLUMINANTS_RELATIVE_SPDS.get('F2').normalise()),
+            28588.72209317,
+            decimal=0)
+
+        np.testing.assert_almost_equal(
+            luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(
+                'Neodimium Incandescent')),
+            23807.38048982,
+            decimal=1)
+
+        np.testing.assert_almost_equal(
+            luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(
+                'F32T8/TL841 (Triphosphor)')),
+            13090.09032514,
+            decimal=0)
 
 if __name__ == '__main__':
     unittest.main()
