@@ -912,7 +912,7 @@ print('\n')
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 # Arbitrary ASTM_G_173_ETR scaling factor calculated with
-# :def:`colour.spectral_to_XYZ` definition.
+# :func:`colour.spectral_to_XYZ` definition.
 ASTM_G_173_spd = ASTM_G_173_ETR.clone() * 1.37905559e+13
 
 ASTM_G_173_spd.interpolate(colour.SpectralShape(steps=5), method='Linear')
