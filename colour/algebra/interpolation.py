@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import steps, is_numeric, is_uniform, to_ndarray
+from colour.algebra import steps, is_numeric, is_uniform, as_array
 from colour.utilities import is_scipy_installed, warning
 
 __author__ = 'Colour Developers'
@@ -107,7 +107,7 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -142,7 +142,7 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -168,7 +168,7 @@ class LinearInterpolator1d(object):
             Interpolated value(s).
         """
 
-        xi = self.__evaluate(to_ndarray(x))
+        xi = self.__evaluate(as_array(x))
         if is_numeric(x):
             return float(xi)
         else:
@@ -356,7 +356,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -403,7 +403,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')

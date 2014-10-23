@@ -24,7 +24,7 @@ __all__ = ['FLOATING_POINT_NUMBER_PATTERN',
            'INTEGER_THRESHOLD',
            'steps',
            'closest',
-           'to_ndarray',
+           'as_array',
            'is_uniform',
            'is_iterable',
            'is_numeric',
@@ -100,7 +100,7 @@ def closest(y, x):
     return y[(np.abs(np.array(y) - x)).argmin()]
 
 
-def to_ndarray(x, data_type=np.float_):
+def as_array(x, shape=None, data_type=np.float_):
     """
     Converts given :math:`x` variable to *ndarray*.
 
@@ -108,8 +108,11 @@ def to_ndarray(x, data_type=np.float_):
     ----------
     x : object
         Variable to convert.
-    data_type : dtype
+    shape : tuple, optional
+        *ndarray* shape.
+    data_type : dtype, optional
         *ndarray* data type.
+
     Returns
     -------
     ndarray
@@ -117,13 +120,18 @@ def to_ndarray(x, data_type=np.float_):
 
     Examples
     --------
-    >>> to_ndarray(1)
+    >>> as_array(1)
     array([ 1.])
     """
 
-    return (np.array(x, dtype=data_type)
-            if is_iterable(x) else
-            np.array((x,), dtype=data_type))
+    array = (np.asarray(x, dtype=data_type)
+             if is_iterable(x) else
+             np.asarray((x,), dtype=data_type))
+
+    if shape is not None:
+        array = array.reshape(shape)
+
+    return array
 
 
 def is_uniform(distribution):
@@ -278,7 +286,7 @@ def normalise(x, factor=1, clip=True):
     array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 
-    x = to_ndarray(x)
+    x = as_array(x)
     maximum = np.max(x)
     x *= (1 / maximum) * factor
     return np.clip(x, 0, factor) if clip else x

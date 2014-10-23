@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import to_ndarray
+from colour.algebra import as_array
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix
 
@@ -148,7 +148,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
         self.__primaries = value
 
     @property
@@ -236,7 +236,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
         self.__RGB_to_XYZ_matrix = value
 
     @property
@@ -264,7 +264,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
         self.__XYZ_to_RGB_matrix = value
 
     @property

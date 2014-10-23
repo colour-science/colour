@@ -28,7 +28,7 @@ from colour.algebra import (
     is_numeric,
     is_uniform,
     steps,
-    to_ndarray)
+    as_array)
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
@@ -964,7 +964,7 @@ class SpectralPowerDistribution(object):
         if issubclass(type(x), SpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = to_ndarray(x)
+            x = as_array(x)
 
         return x
 
@@ -2496,7 +2496,7 @@ class TriSpectralPowerDistribution(object):
         if issubclass(type(x), TriSpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = to_ndarray(x)
+            x = as_array(x)
 
         return x
 
