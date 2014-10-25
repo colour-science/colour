@@ -25,6 +25,7 @@ Subpackages
 -   phenomenons: Computation of various optical phenomenons.
 -   plotting: Diagrams, plots, etc...
 -   quality: Colour quality computation.
+-   recovery: Reflectance recovery.
 -   temperature: Colour temperature and correlated colour temperature
     computation.
 -   utilities: Various utilities and data structures.
@@ -71,6 +72,8 @@ from .notation import *  # noqa
 from . import notation
 from .quality import *  # noqa
 from . import quality
+from .recovery import *  # noqa
+from . import recovery
 from .temperature import *  # noqa
 from . import temperature
 from . import plotting
@@ -97,6 +100,7 @@ __all__ += optimal.__all__
 __all__ += phenomenons.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
+__all__ += recovery.__all__
 __all__ += temperature.__all__
 
 __application_name__ = 'Colour'
