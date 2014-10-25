@@ -38,6 +38,7 @@ from .diagrams import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot)
+from .corresponding import corresponding_chromaticities_prediction_plot
 from .models import (
     get_RGB_colourspace,
     colourspaces_CIE_1931_chromaticity_diagram_plot,
@@ -89,6 +90,8 @@ __all__ += [
     'CIE_1931_chromaticity_diagram_plot',
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot']
+__all__ += [
+    'corresponding_chromaticities_prediction_plot']
 __all__ += [
     'get_RGB_colourspace',
     'colourspaces_CIE_1931_chromaticity_diagram_plot',

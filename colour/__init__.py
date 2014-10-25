@@ -10,12 +10,13 @@ number of colour theory transformations and algorithms.
 
 Subpackages
 -----------
--   adaptation: Chromatic adaptation transformations.
+-   adaptation: Chromatic adaptation models and transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
+-   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
 -   io: Input / output objects for reading and writing data.
@@ -64,6 +65,8 @@ from .io import *  # noqa
 from . import io
 from .models import *  # noqa
 from . import models
+from .corresponding import *  # noqa
+from . import corresponding
 from .optimal import *  # noqa
 from . import optimal
 from .phenomenons import *  # noqa
@@ -96,6 +99,7 @@ __all__ += constants.__all__
 __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
+__all__ += corresponding.__all__
 __all__ += optimal.__all__
 __all__ += phenomenons.__all__
 __all__ += notation.__all__

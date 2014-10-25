@@ -47,7 +47,7 @@ import math
 import numpy as np
 from collections import namedtuple
 
-from colour.adaptation.cat import CAT02_CAT
+from colour.adaptation import CAT02_CAT
 from colour.appearance.hunt import (XYZ_TO_HPE_MATRIX,
                                     HPE_TO_XYZ_MATRIX,
                                     luminance_level_adaptation_factor)

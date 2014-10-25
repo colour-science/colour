@@ -34,7 +34,7 @@ print('\nInverse transfer function from colourspace to linear:\n{0}'.format(
 print('\n')
 
 message_box('Computing "ACES RGB" colourspace to "sRGB" colourspace matrix.')
-cat = colour.chromatic_adaptation_matrix(
+cat = colour.chromatic_adaptation_matrix_vonkries(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES RGB'].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
 print(np.dot(colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
