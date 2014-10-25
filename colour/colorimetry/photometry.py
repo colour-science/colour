@@ -69,8 +69,7 @@ def luminous_flux(spd,
     lef = lef.clone().align(spd.shape, left=0, right=0)
     spd = spd.clone() * lef
 
-    wavelengths, values = zip(*spd.items)
-    flux = K_m * np.trapz(values, wavelengths)
+    flux = K_m * np.trapz(spd.values, spd.wavelengths)
 
     return flux
 
