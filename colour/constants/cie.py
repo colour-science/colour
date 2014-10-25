@@ -18,7 +18,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['CIE_E',
-           'CIE_K']
+           'CIE_K',
+           'K_M',
+           'KP_M']
 
 CIE_E = 216 / 24389
 """
@@ -64,4 +66,37 @@ References
 .. [2]  http://brucelindbloom.com/index.html?LContinuity.html
         (Last accessed 24 February 2014)
 
+"""
+
+K_M = 683
+"""
+Rounded maximum photopic luminous efficiency :math:`K_m` value in
+:math:`lm\cdot W^{-1}`.
+
+K_M : numeric
+
+Notes
+-----
+-   To be adequate for all practical applications the :math:`K_m` value has
+    been rounded from the original 683.002 value. [3]_
+
+References
+----------
+.. [3]  Wyszecki, G., & Stiles, W. S. (2000). Standard Photometric Observers.
+        In Color Science: Concepts and Methods, Quantitative Data and Formulae
+        (pp. 256–259,395). Wiley. ISBN:978-0471399186
+
+"""
+
+KP_M = 1700
+"""
+Rounded maximum scotopic luminous efficiency :math:`K^{\prime}_m` value in
+:math:`lm\cdot W^{-1}`.
+
+KP_M : numeric
+
+Notes
+-----
+-   To be adequate for all practical applications the :math:`K^{\prime}_m`
+    value has been rounded from the original 1700.06 value. [3]_
 """
