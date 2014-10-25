@@ -63,22 +63,14 @@ def luminous_flux(spd,
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
     >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
-    23807.7542062...
+    23807.6555273...
     """
 
-    # *np.diff* computes the *n-th* order discrete difference and its output
-    # is smaller by *n* thus we extrapolate the spectral power distribution
-    # using constant extrapolation so that we can use all the available
-    # values.
-    shape = lef.shape
-    shape.end += shape.steps
-    spd = spd.clone().align(shape)
+    lef = lef.clone().align(spd.shape)
+    spd = spd.clone() * lef
 
     wavelengths, values = zip(*spd.items)
-    values = values[:-1]
-
-    flux = K_m
-    flux *= np.sum(values * lef.values * np.diff(wavelengths))
+    flux = K_m * np.trapz(values, wavelengths)
 
     return flux
 

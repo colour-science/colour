@@ -45,19 +45,19 @@ class TestLuminousFlux(unittest.TestCase):
         self.assertAlmostEqual(
             luminous_flux(
                 ILLUMINANTS_RELATIVE_SPDS.get('F2').clone().normalise()),
-            28588.706549420542,
+            28588.736129772711,
             places=7)
 
         self.assertAlmostEqual(
             luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(
                 'Neodimium Incandescent')),
-            23807.754206258174,
+            23807.655527367198,
             places=7)
 
         self.assertAlmostEqual(
             luminous_flux(LIGHT_SOURCES_RELATIVE_SPDS.get(
                 'F32T8/TL841 (Triphosphor)')),
-            13090.128430783014,
+            13090.067590531509,
             places=7)
 
 
