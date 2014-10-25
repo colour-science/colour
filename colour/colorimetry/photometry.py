@@ -66,7 +66,7 @@ def luminous_flux(spd,
     23807.6555273...
     """
 
-    lef = lef.clone().align(spd.shape)
+    lef = lef.clone().align(spd.shape, left=0, right=0)
     spd = spd.clone() * lef
 
     wavelengths, values = zip(*spd.items)
