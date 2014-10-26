@@ -50,7 +50,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         *LMS* colour matching functions name.
     data : dict
         *LMS* colour matching functions.
-    title : str or unicode, optional
+    title : unicode, optional
         *LMS* colour matching functions title for figures.
 
     Attributes
@@ -175,7 +175,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE RGB* colour matching functions name.
     data : dict
         *CIE RGB* colour matching functions.
-    title : str or unicode, optional
+    title : unicode, optional
         *CIE RGB* colour matching functions title for figures.
 
     Attributes
@@ -301,7 +301,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE* Standard Observer *XYZ* colour matching functions name.
     data : dict
         *CIE* Standard Observer *XYZ* colour matching functions.
-    title : str or unicode, optional
+    title : unicode, optional
         *CIE* Standard Observer *XYZ* colour matching functions title for
         figures.
 

@@ -117,7 +117,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -156,7 +156,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -195,7 +195,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -438,7 +438,7 @@ class SpectralPowerDistribution(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         Spectral power distribution name.
     data : dict
         Spectral power distribution data in a *dict* as follows:
@@ -446,7 +446,7 @@ class SpectralPowerDistribution(object):
         wavelength :math:`\lambda_{i+1}`,
         ...,
         wavelength :math:`\lambda_{i+n}`}
-    title : str or unicode, optional
+    title : unicode, optional
         Spectral power distribution title for figures.
 
     Attributes
@@ -511,7 +511,7 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -524,7 +524,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -571,7 +571,7 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__title.
         """
 
@@ -587,7 +587,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -1777,13 +1777,13 @@ class TriSpectralPowerDistribution(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         Tri-spectral power distribution name.
     data : dict
         Tri-spectral power distribution data.
     mapping : dict
         Tri-spectral power distribution attributes mapping.
-    title : str or unicode, optional
+    title : unicode, optional
         Tri-spectral power distribution title for figures.
     labels : dict, optional
         Tri-spectral power distribution axis labels mapping for figures.
@@ -1870,7 +1870,7 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -1883,7 +1883,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -1992,7 +1992,7 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__title.
         """
 
@@ -2008,7 +2008,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 

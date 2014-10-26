@@ -59,9 +59,9 @@ class IES_TM2714_ElementSpecification(
 
     Parameters
     ----------
-    attribute : str or unicode
+    attribute : unicode
         Associated attribute name.
-    element : str or unicode
+    element : unicode
         Element name.
     attribute : object
         Element type.
@@ -101,31 +101,31 @@ class IES_TM2714_Header(object):
 
     Parameters
     ----------
-    manufacturer : str or unicode, optional
+    manufacturer : unicode, optional
         Manufacturer of the device under test.
-    catalog_number : str or unicode, optional
+    catalog_number : unicode, optional
         Manufacturer’s product catalog number.
-    description : str or unicode, optional
+    description : unicode, optional
         Description of the spectral data in the spectral data *XML* file.
-    document_creator : str or unicode, optional
+    document_creator : unicode, optional
         Creator of the spectral data *XML* file, which may be a
         test lab, a research group, a standard body, a company or an
         individual.
-    unique_identifier : str or unicode, optional
+    unique_identifier : unicode, optional
         Description of the equipment used to measure the spectral data.
-    measurement_equipment : str or unicode, optional
+    measurement_equipment : unicode, optional
         Description of the equipment used to measure the spectral data.
-    laboratory : str or unicode, optional
+    laboratory : unicode, optional
         Testing laboratory name that performed the spectral data measurements.
-    report_number : str or unicode, optional
+    report_number : unicode, optional
         Testing laboratory report number.
-    report_date : str or unicode, optional
+    report_date : unicode, optional
         Testing laboratory report date using the *XML DateTime Data Type*,
         *YYYY-MM-DDThh:mm:ss*.
-    document_creation_date : str or unicode, optional
+    document_creation_date : unicode, optional
         Spectral data *XML* file creation date using the
         *XML DateTime Data Type*, *YYYY-MM-DDThh:mm:ss*.
-    comments : str or unicode, optional
+    comments : unicode, optional
         Additional information relating to the tested and reported data.
 
     Attributes
@@ -265,7 +265,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__manufacturer.
         """
 
@@ -278,7 +278,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -295,7 +295,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__catalog_number.
         """
 
@@ -308,7 +308,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -325,7 +325,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__description.
         """
 
@@ -338,7 +338,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -355,7 +355,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__document_creator.
         """
 
@@ -368,7 +368,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -385,7 +385,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__unique_identifier.
         """
 
@@ -398,7 +398,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -415,7 +415,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__measurement_equipment.
         """
 
@@ -428,7 +428,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -445,7 +445,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__laboratory.
         """
 
@@ -458,7 +458,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -475,7 +475,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__report_number.
         """
 
@@ -488,7 +488,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -505,7 +505,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__report_date.
         """
 
@@ -518,7 +518,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -535,7 +535,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__document_creation_date.
         """
 
@@ -548,7 +548,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -566,7 +566,7 @@ class IES_TM2714_Header(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__comments.
         """
 
@@ -579,7 +579,7 @@ class IES_TM2714_Header(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -599,20 +599,20 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     Parameters
     ----------
-    path : str or unicode, optional
+    path : unicode, optional
         Spectral data *XML* file path.
     header : IES_TM2714_Header, optional
         *IES TM-27-14* spectral power distribution header.
-    spectral_quantity : str or unicode, optional
+    spectral_quantity : unicode, optional
         {'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',
         'relative', 'other'}
         Quantity of measurement for each element of the spectral data.
-    reflection_geometry : str or unicode, optional
+    reflection_geometry : unicode, optional
         {'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
         '0:45a', '45x:0', '0:45x', 'other'}
         Spectral reflectance factors geometric conditions.
-    transmission_geometry : str or unicode, optional
+    transmission_geometry : unicode, optional
         {'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}
         Spectral transmittance factors geometric conditions.
     bandwidth_FWHM : numeric, optional
@@ -771,7 +771,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__path.
         """
 
@@ -784,7 +784,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -831,7 +831,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__spectral_quantity.
         """
 
@@ -844,7 +844,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -861,7 +861,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__reflection_geometry.
         """
 
@@ -874,7 +874,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -891,7 +891,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__transmission_geometry.
         """
 
@@ -904,7 +904,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 

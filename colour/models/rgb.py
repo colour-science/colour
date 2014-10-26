@@ -47,13 +47,13 @@ class RGB_Colourspace(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         *RGB* colourspace name.
     primaries : array_like
         *RGB* colourspace primaries.
     whitepoint : array_like
         *RGB* colourspace whitepoint.
-    illuminant : str or unicode, optional
+    illuminant : unicode, optional
         *RGB* colourspace whitepoint name as illuminant.
     RGB_to_XYZ_matrix : array_like, optional
         Transformation matrix from colourspace to *CIE XYZ* colourspace.
@@ -100,7 +100,7 @@ class RGB_Colourspace(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -113,7 +113,7 @@ class RGB_Colourspace(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -188,7 +188,7 @@ class RGB_Colourspace(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__illuminant.
         """
 
@@ -201,7 +201,7 @@ class RGB_Colourspace(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
