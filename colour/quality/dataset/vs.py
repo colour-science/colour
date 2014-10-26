@@ -1473,5 +1473,5 @@ VS_SPDS = CaseInsensitiveMapping(
 """
 CQS test colour samples spectral power distributions.
 
-VS_SPDS : dict
+VS_SPDS : CaseInsensitiveMapping
 """

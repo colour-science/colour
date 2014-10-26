@@ -72,7 +72,7 @@ RGB_COLOURSPACES = CaseInsensitiveMapping(
 """
 Aggregated *RGB* colourspaces.
 
-RGB_COLOURSPACES : dict
+RGB_COLOURSPACES : CaseInsensitiveMapping
 
 Aliases:
 

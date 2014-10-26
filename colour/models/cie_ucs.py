@@ -97,8 +97,8 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
-    >>> UCS = np.array([0.04699689, 0.1008, 0.1637439])
-    >>> UCS_to_XYZ(UCS)  # doctest: +ELLIPSIS
+    >>> UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 

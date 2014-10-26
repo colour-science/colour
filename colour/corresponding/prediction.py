@@ -330,7 +330,7 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
 """
 Aggregated corresponding chromaticities prediction models.
 
-CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : dict
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
     {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
 
 Aliases:
