@@ -79,7 +79,6 @@ from .recovery import *  # noqa
 from . import recovery
 from .temperature import *  # noqa
 from . import temperature
-from . import plotting
 from . import utilities
 
 __author__ = 'Colour Developers'

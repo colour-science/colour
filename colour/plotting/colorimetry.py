@@ -170,7 +170,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     colours = normalise(colours)
 
     settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
-                'x_label': u'Wavelength λ (nm)',
+                'x_label': r'Wavelength $\lambda$ (nm)',
                 'y_label': 'Spectral Power Distribution',
                 'x_tighten': True,
                 'x_ticker': True,
@@ -227,7 +227,7 @@ def multi_spd_plot(spds,
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
-        wavelengths, values = tuple(zip(*[(key, value) for key, value in spd]))
+        wavelengths, values = tuple(zip(*spd.items))
 
         shape = spd.shape
         x_limit_min.append(shape.start)
@@ -248,7 +248,7 @@ def multi_spd_plot(spds,
         else:
             pylab.plot(wavelengths, values, label=spd.name, linewidth=2)
 
-    settings = {'x_label': u'Wavelength λ (nm)',
+    settings = {'x_label': r'Wavelength $\lambda$ (nm)',
                 'y_label': 'Spectral Power Distribution',
                 'x_tighten': True,
                 'legend': True,
@@ -348,7 +348,7 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
 
     settings = {
         'title': '{0} - Colour Matching Functions'.format(', '.join(cmfss)),
-        'x_label': u'Wavelength λ (nm)',
+        'x_label': r'Wavelength $\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
         'legend': True,
@@ -483,7 +483,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = np.clip(colours, 0, 1)
 
     settings = {'title': 'The Visible Spectrum - {0}'.format(name),
-                'x_label': u'Wavelength λ (nm)',
+                'x_label': r'Wavelength $\lambda$ (nm)',
                 'x_tighten': True}
     settings.update(kwargs)
 
@@ -545,13 +545,13 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('CIE 1976', 'Wyszecki 1964')
+    >>> fs = ('CIE 1976', 'Wyszecki 1963')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
     True
     """
 
     if functions is None:
-        functions = ('CIE 1976', 'Wyszecki 1964')
+        functions = ('CIE 1976', 'Wyszecki 1963')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):

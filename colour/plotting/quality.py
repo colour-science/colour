@@ -75,8 +75,7 @@ def colour_quality_bars_plot(specification, **kwargs):
                             for x in colorimetry_data[0]])
     x, y = tuple(zip(*[(x[0], x[1].Q_a) for x in sorted(Q_as.items(),
                                                         key=lambda x: x[0])]))
-    x, y = np.array([0] + list(x)), np.array(
-        [Q_a] + list(y))
+    x, y = np.array([0] + list(x)), np.array([Q_a] + list(y))
 
     positive = True if np.sign(min(y)) in (0, 1) else False
 

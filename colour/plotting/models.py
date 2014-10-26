@@ -14,7 +14,6 @@ Defines the colour models plotting objects:
 
 from __future__ import division
 
-import random
 import numpy as np
 import pylab
 
@@ -125,28 +124,32 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     cycle = colour_cycle('rainbow')
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
-            x, y = tuple(zip(*POINTER_GAMUT_BOUNDARIES))
+            xy = np.array(POINTER_GAMUT_BOUNDARIES)
             alpha_p, colour_p = 0.85, '0.95'
-            pylab.plot(x,
-                       y,
+            pylab.plot(xy[:, 0],
+                       xy[:, 1],
                        label='Pointer\'s Gamut',
                        color=colour_p,
                        alpha=alpha_p,
                        linewidth=2)
-            pylab.plot([x[-1],
-                        x[0]],
-                       [y[-1],
-                        y[0]],
+            pylab.plot([xy[-1][0],
+                        xy[0][0]],
+                       [xy[-1][1],
+                        xy[0][1]],
                        color=colour_p,
                        alpha=alpha_p,
                        linewidth=2)
 
-            xyp = []
+            xy = []
             for LCHab in POINTER_GAMUT_DATA:
                 XYZ = Lab_to_XYZ(LCHab_to_Lab(LCHab), POINTER_GAMUT_ILLUMINANT)
-                xyp.append(XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT))
-            x, y = tuple(zip(*xyp))
-            pylab.scatter(x, y, alpha=alpha_p / 2, color=colour_p, marker='+')
+                xy.append(XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT))
+            xy = np.array(xy)
+            pylab.scatter(xy[:, 0],
+                          xy[:, 1],
+                          alpha=alpha_p / 2,
+                          color=colour_p,
+                          marker='+')
 
         else:
             colourspace, name = get_RGB_colourspace(

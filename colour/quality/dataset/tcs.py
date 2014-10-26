@@ -20,8 +20,8 @@ See Also
 
 References
 ----------
-.. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 10 June 2014)
+.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 """
 
 from __future__ import division, unicode_literals

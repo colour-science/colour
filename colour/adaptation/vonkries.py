@@ -85,13 +85,14 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
     """
 
-    method_matrix = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
+    transform_matrix = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
-    if method_matrix is None:
+    if transform_matrix is None:
         raise KeyError(
-            '"{0}" chromatic adaptation method is not defined! Supported '
-            'methods: "{1}".'.format(
-                transform, ', '.join(CHROMATIC_ADAPTATION_TRANSFORMS.keys())))
+            '"{0}" chromatic adaptation transform is not defined! Supported '
+            'transforms: "{1}".'.format(
+                transform,
+                CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
 
     XYZ_w, XYZ_wr = np.ravel(XYZ_w), np.ravel(XYZ_wr)
 
@@ -100,13 +101,11 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
         # are the same, no adaptation is needed.
         return np.identity(3)
 
-    rgb_source = np.ravel(np.dot(method_matrix, XYZ_w))
-    rgb_target = np.ravel(np.dot(method_matrix, XYZ_wr))
-    D = np.diagflat(np.array(
-        [[rgb_target[0] / rgb_source[0],
-          rgb_target[1] / rgb_source[1],
-          rgb_target[2] / rgb_source[2]]])).reshape((3, 3))
-    cat = np.dot(np.dot(np.linalg.inv(method_matrix), D), method_matrix)
+    rgb_w = np.ravel(np.dot(transform_matrix, XYZ_w))
+    rgb_wr = np.ravel(np.dot(transform_matrix, XYZ_wr))
+
+    D = np.diagflat(np.divide(rgb_wr, rgb_w)).reshape((3, 3))
+    cat = np.dot(np.dot(np.linalg.inv(transform_matrix), D), transform_matrix)
 
     return cat
 

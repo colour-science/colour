@@ -20,19 +20,17 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIECAM02
-        (Last accessed 14 August 2014)
-.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 2nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published 19 November 2004, ISBN-13: 978-0470012161,
-        pages 265-277.
-.. [3]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-        *Computational Colour Science Using MATLAB, 2nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published July 2012, ISBN-13: 978-0-470-66569-5, page 38.
-.. [4]  `The CIECAM02 Color Appearance Model
-        <http://rit-mcsl.org/fairchild/PDFs/PRO19.pdf>`_
-        (Last accessed 30 July 2014)
+.. [1]  Wikipedia. (n.d.). CIECAM02. Retrieved August 14, 2014, from
+        http://en.wikipedia.org/wiki/CIECAM02
+.. [2]  Fairchild, M. D. (2004). CIECAM02. In Color Appearance Models
+        (2nd ed., pp. 289–301). Wiley. ISBN:978-0470012161
+.. [3]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Extrapolation
+        Methods. Computational Colour Science Using MATLAB (2nd ed., p. 38).
+        ISBN:978-0-470-66569-5
+.. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
+        Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
+        Imaging Conference, 2002(1), 23–27. Retrieved from
+        http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -43,7 +41,7 @@ try:
     from functools import lru_cache
 except ImportError:
     from backports.functools_lru_cache import lru_cache
-import math
+
 import numpy as np
 from collections import namedtuple
 
@@ -454,7 +452,7 @@ def base_exponential_non_linearity(n):
     1.9272135...
     """
 
-    z = 1.48 + math.sqrt(n)
+    z = 1.48 + np.sqrt(n)
     return z
 
 
@@ -774,9 +772,9 @@ def opponent_colour_dimensions_reverse(P, h):
     """
 
     P_1, P_2, P_3 = P
-    hr = math.radians(h)
+    hr = np.radians(h)
 
-    sin_hr, cos_hr = math.sin(hr), math.cos(hr)
+    sin_hr, cos_hr = np.sin(hr), np.cos(hr)
     P_4 = P_1 / sin_hr
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
@@ -817,7 +815,7 @@ def hue_angle(a, b):
     219.0484326...
     """
 
-    h = math.degrees(np.arctan2(b, a)) % 360
+    h = np.degrees(np.arctan2(b, a)) % 360
     return h
 
 
@@ -888,7 +886,7 @@ def eccentricity_factor(h):
     1.1740054...
     """
 
-    e_t = 1 / 4 * (math.cos(2 + h * math.pi / 180) + 3.8)
+    e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
     return e_t
 
 
@@ -1025,7 +1023,7 @@ def brightness_correlate(c, J, A_w, F_L):
     195.3713259...
     """
 
-    Q = (4 / c) * math.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
+    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
     return Q
 
 
@@ -1100,7 +1098,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     202.3873619...
    """
 
-    t = (C / (math.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
+    t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
     return t
 
 

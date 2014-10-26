@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-RGB Colourspace Transformations
-===============================
+RGB Colourspace & Transformations
+=================================
 
-Defines the *RGB* colourspace transformations:
+Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
+from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*
+colourspace transformations:
 
 -   :func:`XYZ_to_RGB`
 -   :func:`RGB_to_XYZ`
@@ -21,6 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import as_array
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_vonkries
 
@@ -31,9 +34,298 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_RGB',
+__all__ = ['RGB_Colourspace',
+           'XYZ_to_RGB',
            'RGB_to_XYZ',
            'RGB_to_RGB']
+
+
+class RGB_Colourspace(object):
+    """
+    Implements support for the *RGB* colourspaces dataset from
+    :mod:`colour.models.dataset.aces_rgb`, etc....
+
+    Parameters
+    ----------
+    name : str or unicode
+        *RGB* colourspace name.
+    primaries : array_like
+        *RGB* colourspace primaries.
+    whitepoint : array_like
+        *RGB* colourspace whitepoint.
+    illuminant : str or unicode, optional
+        *RGB* colourspace whitepoint name as illuminant.
+    RGB_to_XYZ_matrix : array_like, optional
+        Transformation matrix from colourspace to *CIE XYZ* colourspace.
+    XYZ_to_RGB_matrix : array_like, optional
+        Transformation matrix from *CIE XYZ* colourspace to colourspace.
+    transfer_function : object, optional
+        *RGB* colourspace opto-electronic conversion function from linear to
+        colourspace.
+    inverse_transfer_function : object, optional
+        *RGB* colourspace inverse opto-electronic conversion function from
+        colourspace to linear.
+    """
+
+    def __init__(self,
+                 name,
+                 primaries,
+                 whitepoint,
+                 illuminant=None,
+                 RGB_to_XYZ_matrix=None,
+                 XYZ_to_RGB_matrix=None,
+                 transfer_function=None,
+                 inverse_transfer_function=None):
+        self.__name = None
+        self.name = name
+        self.__primaries = None
+        self.primaries = primaries
+        self.__whitepoint = None
+        self.whitepoint = whitepoint
+        self.__illuminant = None
+        self.illuminant = illuminant
+        self.__RGB_to_XYZ_matrix = None
+        self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
+        self.__XYZ_to_RGB_matrix = None
+        self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
+        self.__transfer_function = None
+        self.transfer_function = transfer_function
+        self.__inverse_transfer_function = None
+        self.inverse_transfer_function = inverse_transfer_function
+
+    @property
+    def name(self):
+        """
+        Property for **self.__name** private attribute.
+
+        Returns
+        -------
+        str or unicode
+            self.__name.
+        """
+
+        return self.__name
+
+    @name.setter
+    def name(self, value):
+        """
+        Setter for **self.__name** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (str, unicode), (
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('name', value))
+        self.__name = value
+
+    @property
+    def primaries(self):
+        """
+        Property for **self.__primaries** private attribute.
+
+        Returns
+        -------
+        array_like, (3, 2)
+            self.__primaries.
+        """
+
+        return self.__primaries
+
+    @primaries.setter
+    def primaries(self, value):
+        """
+        Setter for **self.__primaries** private attribute.
+
+        Parameters
+        ----------
+        value : array_like, (3, 2)
+            Attribute value.
+        """
+
+        if value is not None:
+            value = as_array(value)
+        self.__primaries = value
+
+    @property
+    def whitepoint(self):
+        """
+        Property for **self.__whitepoint** private attribute.
+
+        Returns
+        -------
+        array_like
+            self.__whitepoint.
+        """
+
+        return self.__whitepoint
+
+    @whitepoint.setter
+    def whitepoint(self, value):
+        """
+        Setter for **self.__whitepoint** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (tuple, list, np.ndarray, np.matrix), (
+                ('"{0}" attribute: "{1}" type is not "tuple", "list", '
+                 '"ndarray" or "matrix"!').format('whitepoint', value))
+        self.__whitepoint = value
+
+    @property
+    def illuminant(self):
+        """
+        Property for **self.__illuminant** private attribute.
+
+        Returns
+        -------
+        str or unicode
+            self.__illuminant.
+        """
+
+        return self.__illuminant
+
+    @illuminant.setter
+    def illuminant(self, value):
+        """
+        Setter for **self.__illuminant** private attribute.
+
+        Parameters
+        ----------
+        value : str or unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (str, unicode), (
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('illuminant', value))
+        self.__illuminant = value
+
+    @property
+    def RGB_to_XYZ_matrix(self):
+        """
+        Property for **self.__to_XYZ** private attribute.
+
+        Returns
+        -------
+        array_like, (3, 3)
+            self.__to_XYZ.
+        """
+
+        return self.__RGB_to_XYZ_matrix
+
+    @RGB_to_XYZ_matrix.setter
+    def RGB_to_XYZ_matrix(self, value):
+        """
+        Setter for **self.__to_XYZ** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            value = as_array(value)
+        self.__RGB_to_XYZ_matrix = value
+
+    @property
+    def XYZ_to_RGB_matrix(self):
+        """
+        Property for **self.__to_RGB** private attribute.
+
+        Returns
+        -------
+        array_like, (3, 3)
+            self.__to_RGB.
+        """
+
+        return self.__XYZ_to_RGB_matrix
+
+    @XYZ_to_RGB_matrix.setter
+    def XYZ_to_RGB_matrix(self, value):
+        """
+        Setter for **self.__to_RGB** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            value = as_array(value)
+        self.__XYZ_to_RGB_matrix = value
+
+    @property
+    def transfer_function(self):
+        """
+        Property for **self.__transfer_function** private attribute.
+
+        Returns
+        -------
+        object
+            self.__transfer_function.
+        """
+
+        return self.__transfer_function
+
+    @transfer_function.setter
+    def transfer_function(self, value):
+        """
+        Setter for **self.__transfer_function** private attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        if value is not None:
+            assert hasattr(value, '__call__'), (
+                '"{0}" attribute: "{1}" is not callable!'.format(
+                    'transfer_function', value))
+        self.__transfer_function = value
+
+    @property
+    def inverse_transfer_function(self):
+        """
+        Property for **self.__inverse_transfer_function** private attribute.
+
+        Returns
+        -------
+        object
+            self.__inverse_transfer_function.
+        """
+
+        return self.__inverse_transfer_function
+
+    @inverse_transfer_function.setter
+    def inverse_transfer_function(self, value):
+        """
+        Setter for **self.__inverse_transfer_function** private attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        if value is not None:
+            assert hasattr(value, '__call__'), (
+                '"{0}" attribute: "{1}" is not callable!'.format(
+                    'inverse_transfer_function', value))
+        self.__inverse_transfer_function = value
 
 
 def XYZ_to_RGB(XYZ,
@@ -103,15 +395,17 @@ def XYZ_to_RGB(XYZ,
                                     xy_to_XYZ(illuminant_RGB),
                                     transform=chromatic_adaptation_transform)
 
-    adapted_XYZ = np.dot(cat, XYZ)
+    XYZ_a = np.dot(cat, XYZ)
 
     RGB = np.dot(XYZ_to_RGB_matrix.reshape((3, 3)),
-                 adapted_XYZ.reshape((3, 1)))
+                 XYZ_a.reshape((3, 1)))
+
+    RGB = np.ravel(RGB)
 
     if transfer_function is not None:
-        RGB = np.array([transfer_function(x) for x in np.ravel(RGB)])
+        RGB = np.array([transfer_function(x) for x in RGB])
 
-    return np.ravel(RGB)
+    return RGB
 
 
 def RGB_to_XYZ(RGB,
@@ -178,8 +472,7 @@ def RGB_to_XYZ(RGB,
     RGB = np.ravel(RGB)
 
     if inverse_transfer_function is not None:
-        RGB = np.array([inverse_transfer_function(x)
-                        for x in np.ravel(RGB)])
+        RGB = np.array([inverse_transfer_function(x) for x in RGB])
 
     XYZ = np.dot(RGB_to_XYZ_matrix.reshape((3, 3)), RGB.reshape((3, 1)))
 
@@ -188,9 +481,9 @@ def RGB_to_XYZ(RGB,
         xy_to_XYZ(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
 
-    adapted_XYZ = np.dot(cat, XYZ.reshape((3, 1)))
+    XYZ_a = np.dot(cat, XYZ.reshape((3, 1)))
 
-    return np.ravel(adapted_XYZ)
+    return np.ravel(XYZ_a)
 
 
 def RGB_to_RGB(RGB,
@@ -239,7 +532,9 @@ def RGB_to_RGB(RGB,
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_transform)
 
-    trs_matrix = np.dot(output_colourspace.XYZ_to_RGB_matrix,
-                        np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
+    M = np.dot(output_colourspace.XYZ_to_RGB_matrix,
+               np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
 
-    return np.dot(trs_matrix, RGB)
+    return np.dot(M, RGB)
+
+

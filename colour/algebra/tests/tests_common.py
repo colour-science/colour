@@ -18,7 +18,7 @@ else:
 from colour.algebra import (
     steps,
     closest,
-    to_ndarray,
+    as_array,
     is_uniform,
     is_iterable,
     is_numeric,
@@ -34,7 +34,7 @@ __status__ = 'Production'
 
 __all__ = ['TestSteps',
            'TestClosest',
-           'TestToNdarray',
+           'TestAsArray',
            'TestIsUniform',
            'TestIsIterable',
            'TestIsNumeric',
@@ -83,21 +83,24 @@ class TestClosest(unittest.TestCase):
         self.assertEqual(closest(y, 51.15), 46.84480573)
 
 
-class TestToNdarray(unittest.TestCase):
+class TestAsArray(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.common.to_ndarray` definition unit tests
+    Defines :func:`colour.algebra.common.as_array` definition unit tests
     methods.
     """
 
-    def test_to_ndarray(self):
+    def test_as_array(self):
         """
-        Tests :func:`colour.algebra.common.to_ndarray` definition.
+        Tests :func:`colour.algebra.common.as_array` definition.
         """
 
-        self.assertEqual(to_ndarray(1), np.array([1]))
-        self.assertEqual(to_ndarray([1]), np.array([1]))
-        self.assertEqual(to_ndarray((1,)), np.array((1,)))
-        self.assertEqual(to_ndarray(np.array([1])), np.array([1]))
+        self.assertEqual(as_array(1), np.array([1]))
+        self.assertEqual(as_array([1]), np.array([1]))
+        self.assertEqual(as_array((1,)), np.array((1,)))
+        self.assertEqual(as_array(np.array([1])), np.array([1]))
+        self.assertTupleEqual(
+            as_array(np.array([1, 2, 3]), shape=(3, 1)).shape,
+            np.array([[1], [2], [3]]).shape)
 
 
 class TestIsUniform(unittest.TestCase):

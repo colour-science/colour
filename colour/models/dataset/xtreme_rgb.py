@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.hutchcolor.com/profiles/XtremeRGB.zip
-        (Last accessed 12 April 2014)
+.. [1]  HutchColor. (n.d.). XtremeRGB (4 K). Retrieved from
+        http://www.hutchcolor.com/profiles/XtremeRGB.zip
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['XTREME_RGB_PRIMARIES',
+           'XTREME_RGB_ILLUMINANT',
            'XTREME_RGB_WHITEPOINT',
            'XTREME_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_XTREME_RGB_MATRIX',
@@ -52,8 +53,15 @@ XTREME_RGB_PRIMARIES = np.array(
 XTREME_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+XTREME_RGB_ILLUMINANT = 'D50'
+"""
+*Xtreme RGB* colourspace whitepoint name as illuminant.
+
+XTREME_RGB_WHITEPOINT : unicode
+"""
+
 XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(XTREME_RGB_ILLUMINANT)
 """
 *Xtreme RGB* colourspace whitepoint.
 
@@ -75,14 +83,52 @@ XYZ_TO_XTREME_RGB_MATRIX = np.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
 XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
 """
 
-XTREME_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _xtreme_rgb_transfer_function(value):
+    """
+    Defines the *Xtreme RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _xtreme_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Xtreme RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+XTREME_RGB_TRANSFER_FUNCTION = _xtreme_rgb_transfer_function
 """
 Transfer function from linear to *Xtreme RGB* colourspace.
 
 XTREME_RGB_TRANSFER_FUNCTION : object
 """
 
-XTREME_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+XTREME_RGB_INVERSE_TRANSFER_FUNCTION = _xtreme_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Xtreme RGB* colourspace to linear.
 
@@ -93,6 +139,7 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     'Xtreme RGB',
     XTREME_RGB_PRIMARIES,
     XTREME_RGB_WHITEPOINT,
+    XTREME_RGB_ILLUMINANT,
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
     XTREME_RGB_TRANSFER_FUNCTION,

@@ -43,15 +43,23 @@ Notes
 
 References
 ----------
-.. [1]  http://www.cvrl.org/cones.htm (Last accessed 23 June 2014)
-.. [2]  http://www.cis.rit.edu/mcsl/research/1931.php
-        (Last accessed 12 June 2014)
-.. [3]  http://www.cvrl.org/stilesburch2_ind.htm
-        (Last accessed 24 February 2014)
-.. [4]  http://www.cvrl.org/stilesburch10_ind.htm
-        (Last accessed 24 February 2014)
-.. [5]  http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
-.. [6]  http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm (Last accessed 24 February 2014)
+.. [1]  CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
+        from http://www.cvrl.org/cones.htm
+.. [2]  Broadbent, A. D. (2009). Calculation from the original experimental
+        data of the CIE 1931 RGB standard observer spectral chromaticity
+        co-ordinates and color matching functions. Retrieved June 12, 2014,
+        from http://www.cis.rit.edu/mcsl/research/1931.php
+.. [3]  CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data.
+        Retrieved February 24, 2014, from
+        http://www.cvrl.org/stilesburch10_ind.htm
+.. [4]  CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data.
+        Retrieved February 24, 2014, from
+        http://www.cvrl.org/stilesburch2_ind.htm
+.. [5]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
+        http://cvrl.ioo.ucl.ac.uk/cie.htm
+.. [6]  CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006)
+        LMS functions. Retrieved February 24, 2014, from
+        http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
 """
 
 from __future__ import division, unicode_literals

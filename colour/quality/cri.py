@@ -17,8 +17,8 @@ See Also
 
 References
 ----------
-.. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 10 June 2014)
+.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 """
 
 from __future__ import division, unicode_literals
@@ -117,7 +117,7 @@ def colour_rendering_index(spd_test, additional_data=False):
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, Duv = uv_to_CCT_robertson1968(uv)
+    CCT, D_uv = uv_to_CCT_robertson1968(uv)
 
     if CCT < 5000:
         spd_reference = blackbody_spd(CCT, shape)

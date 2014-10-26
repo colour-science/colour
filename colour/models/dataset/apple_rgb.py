@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.brucelindbloom.com/WorkingSpaceInfo.html
-        (Last accessed 11 April 2014)
+.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
+        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['APPLE_RGB_PRIMARIES',
+           'APPLE_RGB_ILLUMINANT',
            'APPLE_RGB_WHITEPOINT',
            'APPLE_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_APPLE_RGB_MATRIX',
@@ -52,8 +53,15 @@ APPLE_RGB_PRIMARIES = np.array(
 APPLE_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+APPLE_RGB_ILLUMINANT = 'D65'
+"""
+*Apple RGB* colourspace whitepoint name as illuminant.
+
+APPLE_RGB_ILLUMINANT : unicode
+"""
+
 APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(APPLE_RGB_ILLUMINANT)
 """
 *Apple RGB* colourspace whitepoint.
 
@@ -75,14 +83,52 @@ XYZ_TO_APPLE_RGB_MATRIX = np.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
 XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
 """
 
-APPLE_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
+
+def _apple_rgb_transfer_function(value):
+    """
+    Defines the *Apple RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 1.8)
+
+
+def _apple_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Apple RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 1.8
+
+
+APPLE_RGB_TRANSFER_FUNCTION = _apple_rgb_transfer_function
 """
 Transfer function from linear to *Apple RGB* colourspace.
 
 APPLE_RGB_TRANSFER_FUNCTION : object
 """
 
-APPLE_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
+APPLE_RGB_INVERSE_TRANSFER_FUNCTION = _apple_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Apple RGB* colourspace to linear.
 
@@ -93,6 +139,7 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     'Apple RGB',
     APPLE_RGB_PRIMARIES,
     APPLE_RGB_WHITEPOINT,
+    APPLE_RGB_ILLUMINANT,
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
     APPLE_RGB_TRANSFER_FUNCTION,

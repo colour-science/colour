@@ -9,7 +9,7 @@ Defines objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
--   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)*
+-   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)⁠⁠*
     spectral bandpass dependence correction method.
 
 See Also
@@ -39,14 +39,13 @@ ALPHA_STEARNS = 0.083
 def bandpass_correction_stearns1988(spd):
     """
     Implements spectral bandpass dependence correction on given spectral power
-    distribution using *Stearns and Stearns (1988)* method.
+    distribution using *Stearns and Stearns (1988)⁠⁠* method.
 
     References
     ----------
-    .. [1]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-            *Computational Colour Science Using MATLAB, 2nd Edition*,
-            The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
+    .. [1]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for
+            Spectral Bandpass. In Computational Colour Science Using MATLAB
+            (2nd ed., p. 38). ISBN:978-0-470-66569-5
 
     Parameters
     ----------

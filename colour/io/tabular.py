@@ -14,6 +14,10 @@ Defines various input / output objects for *CSV* tabular data files:
 
 from __future__ import division, unicode_literals
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
 import csv
 
 from colour.colorimetry import SpectralPowerDistribution
@@ -43,11 +47,12 @@ def read_spectral_data_from_csv_file(path,
     ...
     830,  9.74306E-07,  9.53411E-08,  0.00000
 
-    and returns it as ad *dict* of *dict* as follows:
+    and returns it as an *OrderedDict* of *dict* as follows:
 
-    {'field': {'wavelength': 'value', ..., 'wavelength': 'value'},
+    OrderedDict([
+    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'}),
     ...,
-    'field': {'wavelength': 'value', ..., 'wavelength': 'value'}
+    ('field', {'wavelength': 'value', ..., 'wavelength': 'value'})])
 
     Parameters
     ----------
@@ -63,7 +68,7 @@ def read_spectral_data_from_csv_file(path,
 
     Returns
     -------
-    dict
+    OrderedDict
         *CSV* file content.
 
     Raises
@@ -73,7 +78,7 @@ def read_spectral_data_from_csv_file(path,
 
     Notes
     -----
-    -   A "CSV" spectral data file should define at least define two fields:
+    -   A *CSV* spectral data file should define at least define two fields:
         one for the wavelengths and one for the associated values of one
         spectral power distribution.
     -   If no value is provided for the fields names, the first line of the
@@ -89,8 +94,16 @@ def read_spectral_data_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
-    >>> pprint(sorted(spds_data.keys()))
+    >>> pprint(list(spds_data.keys()))
     ['1',
+     '2',
+     '3',
+     '4',
+     '5',
+     '6',
+     '7',
+     '8',
+     '9',
      '10',
      '11',
      '12',
@@ -101,19 +114,11 @@ def read_spectral_data_from_csv_file(path,
      '17',
      '18',
      '19',
-     '2',
      '20',
      '21',
      '22',
      '23',
-     '24',
-     '3',
-     '4',
-     '5',
-     '6',
-     '7',
-     '8',
-     '9']
+     '24']
     """
 
     with open(path, 'rU') as csv_file:
@@ -128,7 +133,7 @@ def read_spectral_data_from_csv_file(path,
         wavelength = reader.fieldnames[0]
         fields = reader.fieldnames[1:]
 
-        data = dict(zip(fields, ({} for x in range(len(fields)))))
+        data = OrderedDict(zip(fields, ({} for x in range(len(fields)))))
         for line in reader:
             for field in fields:
                 try:
@@ -145,9 +150,9 @@ def read_spds_from_csv_file(path,
                             fields=None,
                             default=0):
     """
-    Reads the spectral data from given *CSV* file and return its content as a
-    *dict* of :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
-    classes.
+    Reads the spectral data from given *CSV* file and return its content as an
+    *OrderedDict* of
+    :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
@@ -163,8 +168,8 @@ def read_spds_from_csv_file(path,
 
     Returns
     -------
-    dict
-        :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
+    OrderedDict
+        :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
         classes of given *CSV* file.
 
     Examples
@@ -177,8 +182,24 @@ def read_spds_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
-    >>> pprint(sorted(spds.items()))  # doctest: +ELLIPSIS
+    >>> pprint(list(spds.items()))  # doctest: +ELLIPSIS
     [('1',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('2',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('3',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('4',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('5',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('6',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('7',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('8',
+      <...SpectralPowerDistribution object at 0x...>),
+     ('9',
       <...SpectralPowerDistribution object at 0x...>),
      ('10',
       <...SpectralPowerDistribution object at 0x...>),
@@ -200,8 +221,6 @@ def read_spds_from_csv_file(path,
       <...SpectralPowerDistribution object at 0x...>),
      ('19',
       <...SpectralPowerDistribution object at 0x...>),
-     ('2',
-      <...SpectralPowerDistribution object at 0x...>),
      ('20',
       <...SpectralPowerDistribution object at 0x...>),
      ('21',
@@ -211,20 +230,6 @@ def read_spds_from_csv_file(path,
      ('23',
       <...SpectralPowerDistribution object at 0x...>),
      ('24',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('3',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('4',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('5',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('6',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('7',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('8',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('9',
       <...SpectralPowerDistribution object at 0x...>)]
     """
 
@@ -233,8 +238,8 @@ def read_spds_from_csv_file(path,
                                             fields,
                                             default)
 
-    spds = dict(((key, SpectralPowerDistribution(key, value))
-                 for key, value in data.items()))
+    spds = OrderedDict(((key, SpectralPowerDistribution(key, value))
+                        for key, value in data.items()))
     return spds
 
 

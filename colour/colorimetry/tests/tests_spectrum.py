@@ -7,7 +7,6 @@ Defines unit tests for :mod:`colour.colorimetry.spectrum` module.
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 import sys
 
@@ -2009,7 +2008,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             'Non Uniform Sample',
             NON_UNIFORM_SAMPLE_SPD_DATA)
 
-        self.__phi = (1 + math.sqrt(5)) / 2
+        self.__phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """
@@ -2420,7 +2419,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             mapping=self.__mapping,
             labels=self.__labels)
 
-        self.__phi = (1 + math.sqrt(5)) / 2
+        self.__phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """

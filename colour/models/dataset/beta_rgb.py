@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.brucelindbloom.com/WorkingSpaceInfo.html
-        (Last accessed 11 April 2014)
+.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
+        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['BETA_RGB_PRIMARIES',
+           'BETA_RGB_ILLUMINANT',
            'BETA_RGB_WHITEPOINT',
            'BETA_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BETA_RGB_MATRIX',
@@ -52,8 +53,15 @@ BETA_RGB_PRIMARIES = np.array(
 BETA_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+BETA_RGB_ILLUMINANT = 'D50'
+"""
+*Beta RGB* colourspace whitepoint name as illuminant.
+
+BETA_RGB_ILLUMINANT : unicode
+"""
+
 BETA_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(BETA_RGB_ILLUMINANT)
 """
 *Beta RGB* colourspace whitepoint.
 
@@ -75,14 +83,52 @@ XYZ_TO_BETA_RGB_MATRIX = np.linalg.inv(BETA_RGB_TO_XYZ_MATRIX)
 XYZ_TO_BETA_RGB_MATRIX : array_like, (3, 3)
 """
 
-BETA_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _beta_rgb_transfer_function(value):
+    """
+    Defines the *Beta RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _beta_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Beta RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+BETA_RGB_TRANSFER_FUNCTION = _beta_rgb_transfer_function
 """
 Transfer function from linear to *Beta RGB* colourspace.
 
 BETA_RGB_TRANSFER_FUNCTION : object
 """
 
-BETA_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+BETA_RGB_INVERSE_TRANSFER_FUNCTION = _beta_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Beta RGB* colourspace to linear.
 
@@ -93,6 +139,7 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     'Beta RGB',
     BETA_RGB_PRIMARIES,
     BETA_RGB_WHITEPOINT,
+    BETA_RGB_ILLUMINANT,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
     BETA_RGB_TRANSFER_FUNCTION,

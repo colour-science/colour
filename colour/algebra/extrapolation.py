@@ -14,7 +14,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import is_numeric, to_ndarray
+from colour.algebra import is_numeric, as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -66,8 +66,9 @@ class Extrapolator1d(object):
 
     References
     ----------
-    .. [1]  http://stackoverflow.com/a/2745496/931625
-            (Last accessed 8 August 2014)
+    .. [1]  sastanin. (n.d.). How to make scipy.interpolate give an
+            extrapolated result beyond the input range? Retrieved August 08,
+            2014, from http://stackoverflow.com/a/2745496/931625
 
     Examples
     --------
@@ -260,7 +261,7 @@ class Extrapolator1d(object):
             Extrapolated points value(s).
         """
 
-        xe = self.__evaluate(to_ndarray(x))
+        xe = self.__evaluate(as_array(x))
 
         if is_numeric(x):
             return float(xe)

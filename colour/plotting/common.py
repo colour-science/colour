@@ -45,6 +45,7 @@ __status__ = 'Production'
 __all__ = [
     'PLOTTING_RESOURCES_DIRECTORY',
     'DEFAULT_FIGURE_SIZE',
+    'DEFAULT_FONT_SIZE',
     'DEFAULT_COLOUR_CYCLE',
     'ColourParameter',
     'colour_cycle',
@@ -73,6 +74,13 @@ Default plots figure size.
 DEFAULT_FIGURE_SIZE : tuple
 """
 
+DEFAULT_FONT_SIZE = 12.
+"""
+Default plots font size.
+
+DEFAULT_FONT_SIZE : numeric
+"""
+
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 
 ColourParameter = namedtuple('ColourParameter',
@@ -81,8 +89,9 @@ ColourParameter = namedtuple('ColourParameter',
 # Defining default figure size.
 pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
 
-# Defining an alternative font that can display scientific notations.
-matplotlib.rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
+# Enabling *Latex* support and setting default font size.
+matplotlib.rc('text', usetex=True)
+matplotlib.rc('font', size=DEFAULT_FONT_SIZE)
 
 
 def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
@@ -159,6 +168,8 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
                 Callable object.
             """
 
+            current_size = pylab.rcParams['figure.figsize']
+
             pylab.rcParams['figure.figsize'] = (
                 kwargs.get('figure_size')
                 if kwargs.get('figure_size') is not None else
@@ -167,7 +178,7 @@ def figure_size(size=DEFAULT_FIGURE_SIZE):
             try:
                 return callable(*args, **kwargs)
             finally:
-                pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
+                pylab.rcParams['figure.figsize'] = current_size
 
         return figure_size_wrapper
 

@@ -21,13 +21,12 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIELUV
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIELUV. Retrieved February 24, 2014, from
+        http://en.wikipedia.org/wiki/CIELUV
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -75,8 +74,8 @@ def XYZ_to_Luv(XYZ,
 
     References
     ----------
-    .. [2]  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to Luv. Retrieved February 24, 2014,
+            from http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
 
     Examples
     --------
@@ -125,8 +124,8 @@ def Luv_to_XYZ(Luv,
 
     References
     ----------
-    .. [3]  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2003). Luv to XYZ. Retrieved February 24, 2014,
+            from http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
     Examples
     --------
@@ -179,8 +178,9 @@ def Luv_to_uv(Luv,
 
     References
     ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
-            (Last accessed 24 February 2014)
+    .. [4]  Wikipedia. (n.d.). The forward transformation. Retrieved February
+            24, 2014, from
+            http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 
     Examples
     --------
@@ -216,8 +216,8 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
-            (Last accessed 24 February 2014)
+    .. [5]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
+            http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 
     Examples
     --------
@@ -250,8 +250,8 @@ def Luv_to_LCHuv(Luv):
 
     References
     ----------
-    .. [6]  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
-            (Last accessed 24 February 2014)
+    .. [6]  Lindbloom, B. (2003). Luv to LCH(uv). Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
 
     Examples
     --------
@@ -262,11 +262,11 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = np.ravel(Luv)
 
-    H = 180 * math.atan2(v, u) / math.pi
+    H = 180 * np.arctan2(v, u) / np.pi
     if H < 0:
         H += 360
 
-    return np.array([L, math.sqrt(u ** 2 + v ** 2), H])
+    return np.array([L, np.sqrt(u ** 2 + v ** 2), H])
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -289,8 +289,8 @@ def LCHuv_to_Luv(LCHuv):
 
     References
     ----------
-    .. [7]  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
-            (Last accessed 24 February 2014)
+    .. [7]  Lindbloom, B. (2006). LCH(uv) to Luv. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
 
     Examples
     --------
@@ -302,5 +302,5 @@ def LCHuv_to_Luv(LCHuv):
     L, C, H = np.ravel(LCHuv)
 
     return np.array([L,
-                     C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))])
+                     C * np.cos(np.radians(H)),
+                     C * np.sin(np.radians(H))])

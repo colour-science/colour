@@ -19,26 +19,20 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        locations 6019-6178.
-.. [2]  **Luo, M. R., & Morovic, J.**,
-        *Two Unsolved Issues in Colour Management – Colour Appearance and
-        Gamut Mapping*,
-        *5th International Conference on High Technology: Imaging Science and
-        Technology – Evolution & Promise*
-        published 1996, pp. 136–147.
-.. [3]  **Luo, M. R., Lo, M. C., & Kuo, W. G.**,
-        *The LLAB (l:c) colour model*,
-        *Color Research & Application, Volume 21, Issue 6, pages 412–429,
-        December 1996*,
-        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z  # noqa
+.. [1]  Fairchild, M. D. (2013). LLAB Model. In Color Appearance Models
+        (3rd ed., pp. 6025–6178). Wiley. ASIN:B00DAYO8E2
+.. [2]  Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour
+        Management – Colour Appearance and Gamut Mapping. In Conference: 5th
+        International Conference on High Technology: Imaging Science and
+        Technology – Evolution & Promise (pp. 136–147). Retrieved from
+        http://www.researchgate.net/publication/236348295_Two_Unsolved_Issues_in_Colour_Management__Colour_Appearance_and_Gamut_Mapping  # noqa
+.. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
+        model. Color Research & Application, 21(6), 412–429.
+        doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -310,7 +304,7 @@ def XYZ_to_LLAB(
     # Computing the *hue* angle :math:`h_L`.
     # -------------------------------------------------------------------------
     h_L = hue_angle(a, b)
-    h_Lr = math.radians(h_L)
+    h_Lr = np.radians(h_L)
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------
@@ -391,7 +385,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     RGB_r = np.array([R_r, G_r, B_r])
 
-    X_r, Y_r, Z_r = LLAB_RGB_TO_XYZ_MATRIX.dot(RGB_r * Y)
+    X_r, Y_r, Z_r = np.dot(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
 
     return np.array([X_r, Y_r, Z_r])
 
@@ -497,7 +491,7 @@ def hue_angle(a, b):
     229.4635727...
     """
 
-    h_L = math.degrees(np.arctan2(b, a)) % 360
+    h_L = np.degrees(np.arctan2(b, a)) % 360
     return h_L
 
 

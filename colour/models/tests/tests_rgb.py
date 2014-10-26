@@ -7,6 +7,7 @@ Defines unit tests for :mod:`colour.models.rgb` module.
 
 from __future__ import division, unicode_literals
 
+import pickle
 import numpy as np
 import sys
 
@@ -17,9 +18,11 @@ else:
 
 from colour.models import (
     RGB_COLOURSPACES,
+    RGB_Colourspace,
     XYZ_to_RGB,
     RGB_to_XYZ,
-    RGB_to_RGB)
+    RGB_to_RGB,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,6 +35,8 @@ __all__ = ['sRGB_LINEAR_COLORCHECKER_2005',
            'ACES_COLORCHECKER_2005',
            'sRGB_TRANSFER_FUNCTION',
            'sRGB_INVERSE_TRANSFER_FUNCTION',
+           'TestRGB_COLOURSPACES',
+           'TestRGB_Colourspace',
            'TestXYZ_to_RGB',
            'TestRGB_to_XYZ',
            'TestRGB_to_RGB']
@@ -189,6 +194,101 @@ sRGB_TRANSFER_FUNCTION = lambda x: (
 
 sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
     x / 12.92 if x <= 0.0031308 else ((x + 0.055) / 1.055) ** 2.4)
+
+
+class TestRGB_COLOURSPACES(unittest.TestCase):
+    """
+    Defines :attr:`colour.models.RGB_COLOURSPACES` attribute unit tests
+    methods.
+    """
+
+    def test_transformation_matrices(self):
+        """
+        Tests the transformations matrices from the
+        :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models.
+        """
+
+        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
+        for colourspace in RGB_COLOURSPACES.values():
+            M = normalised_primary_matrix(colourspace.primaries,
+                                          colourspace.whitepoint)
+            np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
+                                       M,
+                                       rtol=0.001,
+                                       atol=0.001,
+                                       verbose=False)
+
+            RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
+            XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
+            np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
+
+    def test_opto_electronic_conversion_functions(self):
+        """
+        Tests the opto-electronic conversion functions from the
+        :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models.
+        """
+
+        aces_proxy_colourspaces = ('ACES RGB Proxy 10', 'ACES RGB Proxy 12')
+
+        samples = np.linspace(0, 1, 1000)
+        for colourspace in RGB_COLOURSPACES.values():
+            if colourspace.name in aces_proxy_colourspaces:
+                continue
+
+            samples_oecf = [colourspace.transfer_function(sample)
+                            for sample in samples]
+            samples_invert_oecf = [
+                colourspace.inverse_transfer_function(sample)
+                for sample in samples_oecf]
+
+            np.testing.assert_almost_equal(samples,
+                                           samples_invert_oecf,
+                                           decimal=7)
+
+        for colourspace in aces_proxy_colourspaces:
+            colourspace = RGB_COLOURSPACES.get(colourspace)
+            samples_oecf = [colourspace.transfer_function(sample)
+                            for sample in samples]
+            samples_invert_oecf = [
+                colourspace.inverse_transfer_function(sample)
+                for sample in samples_oecf]
+
+            np.testing.assert_allclose(samples,
+                                       samples_invert_oecf,
+                                       rtol=0.01,
+                                       atol=0.01)
+
+    def test_pickle(self):
+        """
+        Tests the ability of colourspace models to be pickled.
+        """
+
+        for colourspace in RGB_COLOURSPACES:
+            pickle.dumps(colourspace)
+
+
+class TestRGB_Colourspace(unittest.TestCase):
+    """
+    Defines :class:`colour.colour.models.RGB_Colourspace` class units
+    tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('name',
+                               'primaries',
+                               'whitepoint',
+                               'illuminant',
+                               'RGB_to_XYZ_matrix',
+                               'XYZ_to_RGB_matrix',
+                               'transfer_function',
+                               'inverse_transfer_function',)
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(RGB_Colourspace))
 
 
 class TestXYZ_to_RGB(unittest.TestCase):

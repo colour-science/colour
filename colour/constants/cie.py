@@ -40,8 +40,8 @@ Notes
 
 References
 ----------
-.. [1]  http://brucelindbloom.com/index.html?LContinuity.html
-        (Last accessed 24 February 2014)
+.. [1]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
+        Retrieved February 24, 2014, from
 
 """
 
@@ -56,16 +56,10 @@ Notes
 -   The original *CIE* value for :math:`\kappa` is :math:`\kappa=903.3`,
     **Bruce Lindbloom** has shown that this value is causing a discontinuity
     at the junction point of the two functions grafted together to create the
-    *Lightness* :math:`L^*` function.
+    *Lightness* :math:`L^*` function. [2]_
 
     That discontinuity can be avoided by using the rational representation as
     follows: :math:`k=24389\ /\ 27`.
-
-References
-----------
-.. [2]  http://brucelindbloom.com/index.html?LContinuity.html
-        (Last accessed 24 February 2014)
-
 """
 
 K_M = 683

@@ -32,7 +32,7 @@ from .lightness import LIGHTNESS_METHODS
 from .lightness import lightness
 from .lightness import (
     lightness_glasser1958,
-    lightness_wyszecki1964,
+    lightness_wyszecki1963,
     lightness_1976)
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
@@ -80,7 +80,7 @@ __all__ += ['mesopic_luminous_efficiency_function',
 __all__ += ['LIGHTNESS_METHODS']
 __all__ += ['lightness']
 __all__ += ['lightness_glasser1958',
-            'lightness_wyszecki1964',
+            'lightness_wyszecki1963',
             'lightness_1976']
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']

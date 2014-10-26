@@ -18,15 +18,17 @@ See Also
 
 References
 ----------
-.. [1]  `On Rayleigh Optical Depth Calculations
-        <http://journals.ametsoc.org/doi/pdf/10.1175/1520-0426(1999)016%3C1854%3AORODC%3E2.0.CO%3B2>`_,  # noqa
-        DOI: http://dx.doi.org/10.1175/1520-0426(1999)016%3C1854:ORODC%3E2.0.CO;2  # noqa
-.. [2]  http://en.wikipedia.org/wiki/Rayleigh_scattering
+.. [1]  Bodhaine, B. A., Wood, N. B., Dutton, E. G., & Slusser, J. R. (1999).
+        On Rayleigh optical depth calculations. Journal of Atmospheric …,
+        16(11 PART 2), 1854–1861.
+        doi:10.1175/1520-0426(1999)016%3C1854:ORODC%3E2.0.CO;2
+.. [2]  Wikipedia. (n.d.). Rayleigh scattering. Retrieved September 23, 2014,
+        from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
 from __future__ import division, unicode_literals
 
-import math
+import numpy as np
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
@@ -539,7 +541,7 @@ def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     980.9524178...
     """
 
-    cos2phi = math.cos(2 * math.radians(latitude))
+    cos2phi = np.cos(2 * np.radians(latitude))
 
     # Sea level acceleration of gravity.
     g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi ** 2)
@@ -601,7 +603,7 @@ def scattering_cross_section(wavelength,
     N_s = molecular_density(temperature, avogadro_constant)
     F_air = F_air(wl_micrometers, CO2_concentration)
 
-    sigma = (24 * math.pi ** 3 * (n_s ** 2 - 1) ** 2 /
+    sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
     sigma *= F_air
 

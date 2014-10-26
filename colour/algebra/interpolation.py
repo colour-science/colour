@@ -17,7 +17,7 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import steps, is_numeric, is_uniform, to_ndarray
+from colour.algebra import steps, is_numeric, is_uniform, as_array
 from colour.utilities import is_scipy_installed, warning
 
 __author__ = 'Colour Developers'
@@ -107,7 +107,7 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -142,7 +142,7 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -168,7 +168,7 @@ class LinearInterpolator1d(object):
             Interpolated value(s).
         """
 
-        xi = self.__evaluate(to_ndarray(x))
+        xi = self.__evaluate(as_array(x))
         if is_numeric(x):
             return float(xi)
         else:
@@ -250,7 +250,7 @@ class SpragueInterpolator(object):
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
-    The *Sprague (1880)* method is recommended by the *CIE* for interpolating
+    *Sprague (1880)* method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
     Parameters
@@ -277,15 +277,13 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [1]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for
-            Use in Colour Computations: 9.2.4 Method of interpolation for
-            uniformly spaced independent variable
-            <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-            ISBN-13: 978-3-901-90641-1
-    .. [2]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-            *Computational Colour Science Using MATLAB, 2nd Edition*,
-            The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, page  33.
+    .. [1]  CIE TC 1-38. (2005). 9.2.4 Method of interpolation for uniformly
+            spaced independent variable. In CIE 167:2005 Recommended Practice
+            for Tabulating Spectral Data for Use in Colour Computations
+            (pp. 1–27). ISBN:978-3-901-90641-1
+    .. [2]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Interpolation
+            Methods. In Computational Colour Science Using MATLAB
+            (2nd ed., pp. 29–37). ISBN:978-0-470-66569-5
 
     Examples
     --------
@@ -316,8 +314,10 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations: Table V <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,  # noqa
-            ISBN-13: 978-3-901-90641-1
+    .. [3]  CIE TC 1-38. (2005). Table V. Values of the c-coefficients of
+            Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for Tabulating
+            Spectral Data for Use in Colour Computations (p. 19).
+            ISBN:978-3-901-90641-1
     """
 
     def __init__(self, x=None, y=None):
@@ -356,7 +356,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -403,7 +403,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = to_ndarray(value)
+            value = as_array(value)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')

@@ -16,10 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.709-5 - Parameter values for the HDTV
-        standards for production and international programme exchange
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  International Telecommunication Union. (2002). Parameter values for
+        the HDTV standards for production and international programme exchange
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
+        (Vol. 5, pp. 1–32). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -37,6 +38,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['sRGB_PRIMARIES',
+           'sRGB_ILLUMINANT',
            'sRGB_WHITEPOINT',
            'sRGB_TO_XYZ_MATRIX',
            'XYZ_TO_sRGB_MATRIX',
@@ -54,8 +56,15 @@ sRGB_PRIMARIES = np.array(
 sRGB_PRIMARIES : ndarray, (3, 2)
 """
 
+sRGB_ILLUMINANT = 'D65'
+"""
+*sRGB* colourspace whitepoint name as illuminant.
+
+sRGB_WHITEPOINT : unicode
+"""
+
 sRGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(sRGB_ILLUMINANT)
 """
 *sRGB* colourspace whitepoint.
 
@@ -79,18 +88,55 @@ XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
-sRGB_TRANSFER_FUNCTION = lambda x: (
-    x * 12.92 if x <= 0.0031308 else 1.055 * (x ** (1 / 2.4)) - 0.055)
+
+def _srgb_transfer_function(value):
+    """
+    Defines the *sRGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value * 12.92
+            if value <= 0.0031308 else 1.055 * (value ** (1 / 2.4)) - 0.055)
+
+
+def _srgb_inverse_transfer_function(value):
+    """
+    Defines the *sRGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value / 12.92
+            if value <= _srgb_transfer_function(0.0031308) else
+            ((value + 0.055) / 1.055) ** 2.4)
+
+
+sRGB_TRANSFER_FUNCTION = _srgb_transfer_function
 """
 Transfer function from linear to *sRGB* colourspace.
 
 sRGB_TRANSFER_FUNCTION : object
 """
 
-sRGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 12.92
-    if x <= sRGB_TRANSFER_FUNCTION(0.0031308) else
-    ((x + 0.055) / 1.055) ** 2.4)
+sRGB_INVERSE_TRANSFER_FUNCTION = _srgb_inverse_transfer_function
 """
 Inverse transfer function from *sRGB* colourspace to linear.
 
@@ -101,6 +147,7 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     'sRGB',
     sRGB_PRIMARIES,
     sRGB_WHITEPOINT,
+    sRGB_ILLUMINANT,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
     sRGB_TRANSFER_FUNCTION,

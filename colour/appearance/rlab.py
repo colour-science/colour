@@ -19,22 +19,15 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**,
-        *Refinement of the RLAB color space*,
-        *Color Research & Application, Volume 21, Issue 5, pages 338–346,
-        October 1996*,
-        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z  # noqa
-        https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf  # noqa
-        (Last accessed 16 August 2014)
-.. [2]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        locations 6019-6178.
+.. [1]  Fairchild, M. D. (1996). Refinement of the RLAB color space. Color
+        Research & Application, 21(5), 338–346.
+        doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
+.. [2]  Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models
+        (3rd ed., pp. 5563–5824). Wiley. ASIN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -225,7 +218,7 @@ def XYZ_to_RLAB(XYZ,
         # *numeric* case.
         # Implementation as per reference.
         aR = np.diag(LMS_a_L)
-        XYZ_ref = R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ)
+        XYZ_ref = np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX), XYZ)
     else:
         # *array_like* case.
         # Constructing huge multidimensional arrays might not be the best idea,
@@ -238,7 +231,8 @@ def XYZ_to_RLAB(XYZ,
         for layer in range(dimension):
             aR = np.diag(LMS_a_L[..., layer])
             XYZ_ref[..., layer] = (
-                R_MATRIX.dot(aR).dot(XYZ_TO_HPE_MATRIX).dot(XYZ[..., layer]))
+                np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX),
+                       XYZ[..., layer]))
 
     X_ref, Y_ref, Z_ref = XYZ_ref
 
@@ -254,7 +248,7 @@ def XYZ_to_RLAB(XYZ,
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h^R`.
     # -------------------------------------------------------------------------
-    hR = math.degrees(np.arctan2(bR, aR)) % 360
+    hR = np.degrees(np.arctan2(bR, aR)) % 360
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------

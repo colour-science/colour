@@ -24,12 +24,16 @@ __status__ = 'Production'
 
 __all__ = ['REFERENCE_PATTERN',
            'PREFIX_REFERENCE_PATTERN',
+           'API_TO_APA_SUBSTITUTIONS',
            'references_from_token',
            'references_from_file',
            'references_from_directory']
 
 REFERENCE_PATTERN = '^\s*\.\.\s+\[\d+\]\s+'
 PREFIX_REFERENCE_PATTERN = '^\s*\.\.\s+'
+API_TO_APA_SUBSTITUTIONS = (('\*+', ''),
+                            # ('\[\d+\]\s+', ''),
+                            ('# noqa', ''))
 
 
 def references_from_token(token_info):
@@ -121,13 +125,34 @@ def references_from_directory(directory):
     return references
 
 
+def API_to_APA(reference):
+    """
+    Performs patterns substitution on given reference.
+
+    Parameters
+    ----------
+    reference : unicode
+        Reference to perform patterns substitution on.
+
+    Returns
+    -------
+    reference
+    """
+
+    for pattern, substitution in API_TO_APA_SUBSTITUTIONS:
+        reference = re.sub(pattern, substitution, reference)
+    return reference
+
+
 if __name__ == '__main__':
     from pprint import pprint
 
     directory = os.path.join('..', 'colour')
     references = references_from_directory(directory)
-    pprint(sorted(references.items()), width=2048)
+    # pprint(sorted(references.items()), width=2048)
 
-    for file_references in references.values():
+    for file, file_references in references.items():
+        print('*' * 79)
+        print('{0}\n'.format(file))
         for reference in file_references:
-            print(reference)
+            print('\t{0}'.format(API_to_APA(reference)))

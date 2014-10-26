@@ -107,7 +107,7 @@ x_limit_max.append(shape.end)
 y_limit_min.append(min(base_spd.values))
 y_limit_max.append(max(base_spd.values))
 
-settings = {'x_label': u'Wavelength λ (nm)',
+settings = {'x_label': r'Wavelength $\lambda$ (nm)',
             'y_label': 'Spectral Power Distribution',
             'x_tighten': True,
             'legend': True,

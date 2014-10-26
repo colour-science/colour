@@ -19,13 +19,10 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        locations 5094-5556.
-.. [2]  **Dr. R.W.G. Hunt**, *The reproduction of colour, 6th Edition*,
-        John Wiley & Sons,
-        published 10 August 2005, ISBN-13: 978-0470024256
+.. [1]  Fairchild, M. D. (2013). The Hunt Model. In Color Appearance Models
+        (3rd ed., pp. 5094–5556). Wiley. ASIN:B00DAYO8E2
+.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.). Wiley.
+        ISBN:978-0-470-02425-6
 """
 
 from __future__ import division, unicode_literals
@@ -538,7 +535,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return XYZ_TO_HPE_MATRIX.dot(XYZ)
+    return np.dot(XYZ_TO_HPE_MATRIX, XYZ)
 
 
 def f_n(x):

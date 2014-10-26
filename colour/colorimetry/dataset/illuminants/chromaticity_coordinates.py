@@ -35,8 +35,9 @@ Notes
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants  # noqa
-
+.. [1]  Wikipedia. (n.d.). White points of standard illuminants. Retrieved
+        February 24, 2014, from
+        http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants  # noqa
 """
 
 from __future__ import division, unicode_literals

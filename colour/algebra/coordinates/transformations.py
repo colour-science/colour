@@ -16,12 +16,13 @@ The following transformations are available:
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+.. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
+        Retrieved from
+        http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 __author__ = 'Colour Developers'
@@ -65,8 +66,8 @@ def cartesian_to_spherical(vector):
     r = np.linalg.norm(vector)
     x, y, z = np.ravel(vector)
 
-    theta = math.atan2(z, np.linalg.norm((x, y)))
-    phi = math.atan2(y, x)
+    theta = np.arctan2(z, np.linalg.norm((x, y)))
+    phi = np.arctan2(y, x)
 
     return np.array((r, theta, phi))
 
@@ -98,9 +99,9 @@ def spherical_to_cartesian(vector):
 
     r, theta, phi = np.ravel(vector)
 
-    x = r * math.cos(theta) * math.cos(phi)
-    y = r * math.cos(theta) * math.sin(phi)
-    z = r * math.sin(theta)
+    x = r * np.cos(theta) * np.cos(phi)
+    y = r * np.cos(theta) * np.sin(phi)
+    z = r * np.sin(theta)
 
     return np.array((x, y, z))
 
@@ -132,7 +133,7 @@ def cartesian_to_cylindrical(vector):
 
     x, y, z = np.ravel(vector)
 
-    theta = math.atan2(y, x)
+    theta = np.arctan2(y, x)
     rho = np.linalg.norm((x, y))
 
     return np.array((z, theta, rho))
@@ -165,7 +166,7 @@ def cylindrical_to_cartesian(vector):
 
     z, theta, rho = np.ravel(vector)
 
-    x = rho * math.cos(theta)
-    y = rho * math.sin(theta)
+    x = rho * np.cos(theta)
+    y = rho * np.sin(theta)
 
     return np.array((x, y, z))

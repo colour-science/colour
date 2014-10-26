@@ -11,14 +11,15 @@ Defines various objects to perform statistical regression analysis:
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Regression_analysis
+.. [1]  Wikipedia. (n.d.). Regression analysis. Retrieved May 24, 2014, from
+        http://en.wikipedia.org/wiki/Regression_analysis
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import to_ndarray
+from colour.algebra import as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -63,8 +64,8 @@ def linear_regression(y, x=None, additional_statistics=False):
 
     References
     ----------
-    .. [2]  http://en.wikipedia.org/wiki/Simple_linear_regression
-            (Last accessed 24 May 2014)
+    .. [2]  Wikipedia. (n.d.). Simple linear regression. Retrieved May 24,
+            2014, from http://en.wikipedia.org/wiki/Simple_linear_regression
 
     Examples
     --------
@@ -94,12 +95,12 @@ def linear_regression(y, x=None, additional_statistics=False):
     (array([ 0.0998002...,  0.0876257..., -4.8303807...]), array([ 2.1376249...]))
     """
 
-    y = to_ndarray(y)
+    y = as_array(y)
 
     if x is None:
         x = np.arange(1, len(y) + 1)
     else:
-        x = to_ndarray(x)
+        x = as_array(x)
         if len(x) != len(y):
             raise ValueError(
                 '"y" and "x" variables have incompatible dimensions!')

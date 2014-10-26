@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.brucelindbloom.com/WorkingSpaceInfo.html
-        (Last accessed 11 April 2014)
+.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
+        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['COLOR_MATCH_RGB_PRIMARIES',
+           'COLOR_MATCH_RGB_ILLUMINANT',
            'COLOR_MATCH_RGB_WHITEPOINT',
            'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_COLOR_MATCH_RGB_MATRIX',
@@ -52,8 +53,15 @@ COLOR_MATCH_RGB_PRIMARIES = np.array(
 COLOR_MATCH_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+COLOR_MATCH_RGB_ILLUMINANT = 'D50'
+"""
+*ColorMatch RGB* colourspace whitepoint name as illuminant.
+
+COLOR_MATCH_RGB_ILLUMINANT : unicode
+"""
+
 COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(COLOR_MATCH_RGB_ILLUMINANT)
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -76,14 +84,53 @@ XYZ_TO_COLOR_MATCH_RGB_MATRIX = np.linalg.inv(COLOR_MATCH_RGB_TO_XYZ_MATRIX)
 XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
 """
 
-COLOR_MATCH_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 1.8)
+
+def _color_match_rgb_transfer_function(value):
+    """
+    Defines the *ColorMatch RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 1.8)
+
+
+def _color_match_rgb_inverse_transfer_function(value):
+    """
+    Defines the *ColorMatch RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 1.8
+
+
+COLOR_MATCH_RGB_TRANSFER_FUNCTION = _color_match_rgb_transfer_function
 """
 Transfer function from linear to *ColorMatch RGB* colourspace.
 
 COLOR_MATCH_RGB_TRANSFER_FUNCTION : object
 """
 
-COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 1.8
+COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _color_match_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *ColorMatch RGB* colourspace to linear.
 
@@ -94,6 +141,7 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     'ColorMatch RGB',
     COLOR_MATCH_RGB_PRIMARIES,
     COLOR_MATCH_RGB_WHITEPOINT,
+    COLOR_MATCH_RGB_ILLUMINANT,
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
     COLOR_MATCH_RGB_TRANSFER_FUNCTION,

@@ -20,7 +20,8 @@ try:
     from functools import lru_cache
 except ImportError:
     from backports.functools_lru_cache import lru_cache
-import math
+
+import numpy as np
 import warnings
 
 from colour.colorimetry import (
@@ -59,10 +60,9 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     References
     ----------
-    .. [1]  `CIE 015:2004 Colorimetry, 3rd edition: Appendix E.
-            Information on the Use of Planck"s Equation for Standard Air.
-            <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,
-            ISBN-13: 978-3-901-90633-6
+    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
+            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 
     Parameters
     ----------
@@ -104,8 +104,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     try:
         with warnings.catch_warnings():
             warnings.simplefilter('error')
-            return (((c1 * n ** -2 * l ** -5) / math.pi) *
-                    (math.exp(c2 / (n * l * t)) - 1) ** -1)
+            return (((c1 * n ** -2 * l ** -5) / np.pi) *
+                    (np.exp(c2 / (n * l * t)) - 1) ** -1)
     except (OverflowError, RuntimeWarning):
         return 0.0
 

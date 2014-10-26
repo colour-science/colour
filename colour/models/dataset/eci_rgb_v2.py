@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
-        (Last accessed 13 April 2014)
+.. [1]  European Color Initiative. (2002). ECI RGB v2. Retrieved from
+        http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ECI_RGB_V2_PRIMARIES',
+           'ECI_RGB_V_ILLUMINANT',
            'ECI_RGB_V2_WHITEPOINT',
            'ECI_RGB_V2_TO_XYZ_MATRIX',
            'XYZ_TO_ECI_RGB_V2_MATRIX',
@@ -52,8 +53,15 @@ ECI_RGB_V2_PRIMARIES = np.array(
 ECI_RGB_V2_PRIMARIES : ndarray, (3, 2)
 """
 
+ECI_RGB_V_ILLUMINANT = 'D50'
+"""
+*ECI RGB v2* colourspace whitepoint name as illuminant.
+
+ECI_RGB_V_ILLUMINANT : unicode
+"""
+
 ECI_RGB_V2_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(ECI_RGB_V_ILLUMINANT)
 """
 *ECI RGB v2* colourspace whitepoint.
 
@@ -75,15 +83,52 @@ XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
-ECI_RGB_V2_TRANSFER_FUNCTION = lambda x: lightness_1976(x * 100) / 100
+
+def _eci_rgb_v2_transfer_function(value):
+    """
+    Defines the *ECI RGB v2* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return lightness_1976(value * 100) / 100
+
+
+def _eci_rgb_v2_inverse_transfer_function(value):
+    """
+    Defines the *ECI RGB v2* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return luminance_1976(value * 100) / 100
+
+
+ECI_RGB_V2_TRANSFER_FUNCTION = _eci_rgb_v2_transfer_function
 """
 Transfer function from linear to *ECI RGB v2* colourspace.
 
 ECI_RGB_V2_TRANSFER_FUNCTION : object
 """
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    luminance_1976(x * 100) / 100)
+ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = _eci_rgb_v2_inverse_transfer_function
 """
 Inverse transfer function from *ECI RGB v2* colourspace to linear.
 
@@ -94,6 +139,7 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     'ECI RGB v2',
     ECI_RGB_V2_PRIMARIES,
     ECI_RGB_V2_WHITEPOINT,
+    ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
     ECI_RGB_V2_TRANSFER_FUNCTION,

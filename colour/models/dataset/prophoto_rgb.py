@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `Specification of ROMM RGB <http://www.color.org/ROMMRGB.pdf>`_
-        (Last accessed 24 February 2014)
+.. [1]  Specification of ROMM RGB. (2003). Retrieved from
+        http://www.color.org/ROMMRGB.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['PROPHOTO_RGB_PRIMARIES',
+           'PROPHOTO_RGB_ILLUMINANT',
            'PROPHOTO_RGB_WHITEPOINT',
            'PROPHOTO_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PROPHOTO_RGB_MATRIX',
@@ -52,8 +53,15 @@ PROPHOTO_RGB_PRIMARIES = np.array(
 PROPHOTO_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+PROPHOTO_RGB_ILLUMINANT = 'D50'
+"""
+*ProPhoto RGB* colourspace whitepoint name as illuminant.
+
+PROPHOTO_RGB_ILLUMINANT : unicode
+"""
+
 PROPHOTO_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(PROPHOTO_RGB_ILLUMINANT)
 """
 *ProPhoto RGB* colourspace whitepoint.
 
@@ -77,16 +85,55 @@ XYZ_TO_PROPHOTO_RGB_MATRIX = np.linalg.inv(PROPHOTO_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
 
-PROPHOTO_RGB_TRANSFER_FUNCTION = lambda x: (
-    x * 16 if x < 0.001953 else x ** (1 / 1.8))
+
+def _prophoto_rgb_transfer_function(value):
+    """
+    Defines the *ProPhoto RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value * 16 if value < 0.001953 else value ** (1 / 1.8)
+
+
+def _prophoto_rgb_inverse_transfer_function(value):
+    """
+    Defines the *ProPhoto RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value / 16
+            if value < _prophoto_rgb_transfer_function(0.001953) else
+            value ** 1.8)
+
+
+PROPHOTO_RGB_TRANSFER_FUNCTION = _prophoto_rgb_transfer_function
 """
 Transfer function from linear to *ProPhoto RGB* colourspace.
 
 PROPHOTO_RGB_TRANSFER_FUNCTION : object
 """
 
-PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 16 if x < PROPHOTO_RGB_TRANSFER_FUNCTION(0.001953) else x ** 1.8)
+PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _prophoto_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *ProPhoto RGB* colourspace to linear.
 
@@ -97,6 +144,7 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     'ProPhoto RGB',
     PROPHOTO_RGB_PRIMARIES,
     PROPHOTO_RGB_WHITEPOINT,
+    PROPHOTO_RGB_ILLUMINANT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     PROPHOTO_RGB_TRANSFER_FUNCTION,

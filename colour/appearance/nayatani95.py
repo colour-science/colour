@@ -17,21 +17,16 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        Locations 4810-5085.
-.. [2]  **Y. Nayatani, H. Sobagaki & K. H. T. Yano**,
-        *Lightness dependency of chroma scales of a nonlinear color-appearance
-        model and its latest formulation*,
-        *Color Research & Application, Volume 20, Issue 3, pages 156–167,
-        June 1995*,
-        DOI: http://dx.doi.org/10.1002/col.5080200305
+.. [1]  Fairchild, M. D. (2013). The Nayatani et al. Model. In Color
+        Appearance Models (3rd ed., pp. 4810–5085). Wiley. ASIN:B00DAYO8E2
+.. [2]  Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995). Lightness
+        dependency of chroma scales of a nonlinear color-appearance model and
+        its latest formulation. Color Research & Application, 20(3), 156–167.
+        doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -351,7 +346,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     array([ 20.000520...,  19.999783...,  19.998831...])
     """
 
-    return NAYATANI95_XYZ_TO_RGB_MATRIX.dot(XYZ)
+    return np.dot(NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def scaling_coefficient(x, y):
@@ -674,7 +669,7 @@ def hue_angle(p, t):
     257.5250300...
     """
 
-    h_L = math.degrees(np.arctan2(p, t)) % 360
+    h_L = np.degrees(np.arctan2(p, t)) % 360
     return h_L
 
 
@@ -743,7 +738,7 @@ def saturation_components(h, bL_or, t, p):
     (-0.0028852..., -0.0130396...)
     """
 
-    E_s = chromatic_strength_function(math.radians(h))
+    E_s = chromatic_strength_function(np.radians(h))
     S_RG = (488.93 / bL_or) * E_s * t
     S_YB = (488.93 / bL_or) * E_s * p
 

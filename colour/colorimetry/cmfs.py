@@ -66,9 +66,9 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
                                               mapping={'x': 'l_bar',
                                                        'y': 'm_bar',
                                                        'z': 's_bar'},
-                                              labels={'x': 'l\u0304',
-                                                      'y': 'm\u0304',
-                                                      'z': 's\u0304'})
+                                              labels={'x': r'$\bar{l}$',
+                                                      'y': r'$\bar{m}$',
+                                                      'z': r'$\bar{s}$'})
 
     @property
     def l_bar(self):
@@ -187,9 +187,9 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
                                               mapping={'x': 'r_bar',
                                                        'y': 'g_bar',
                                                        'z': 'b_bar'},
-                                              labels={'x': 'r\u0304',
-                                                      'y': 'g\u0304',
-                                                      'z': 'b\u0304'})
+                                              labels={'x': r'$\bar{r}$',
+                                                      'y': r'$\bar{g}$',
+                                                      'z': r'$\bar{b}$'})
 
     @property
     def r_bar(self):
@@ -310,9 +310,9 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
                                               mapping={'x': 'x_bar',
                                                        'y': 'y_bar',
                                                        'z': 'z_bar'},
-                                              labels={'x': 'x\u0304',
-                                                      'y': 'y\u0304',
-                                                      'z': 'z\u0304'})
+                                              labels={'x': r'$\bar{x}$',
+                                                      'y': r'$\bar{y}$',
+                                                      'z': r'$\bar{z}$'})
 
     @property
     def x_bar(self):
