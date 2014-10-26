@@ -21,4 +21,4 @@ message_box(('Computing chromatic adaptation using "Fairchild (1990)" '
              '\n\t"XYZ_1":\n\t\t{0}\n\t"XYZ_n":\n\t\t{1}\n\t"XYZ_r":\n\t\t{2}'
              '\n\t"Y_n":\n\t\t{3}'.format(
     XYZ_1, XYZ_n, XYZ_r, Y_n)))
-print(colour.chromatic_adaptation_fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n))
+print(colour.chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n))

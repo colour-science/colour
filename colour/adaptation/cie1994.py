@@ -7,7 +7,7 @@ CIE 1994 Chromatic Adaptation Model
 
 Defines *CIE 1994* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_cie1994`
+-   :func:`chromatic_adaptation_CIE1994`
 
 See Also
 --------
@@ -37,7 +37,7 @@ __status__ = 'Production'
 
 __all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
            'CIE1994_RGB_TO_XYZ_MATRIX',
-           'chromatic_adaptation_cie1994',
+           'chromatic_adaptation_CIE1994',
            'XYZ_to_RGB_cie1994',
            'RGB_to_XYZ_cie1994',
            'intermediate_values',
@@ -65,7 +65,7 @@ CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 
-def chromatic_adaptation_cie1994(XYZ_1,
+def chromatic_adaptation_CIE1994(XYZ_1,
                                  xy_o1,
                                  xy_o2,
                                  Y_o,
@@ -120,7 +120,7 @@ def chromatic_adaptation_cie1994(XYZ_1,
     >>> Y_o = 20
     >>> E_o1 = 1000
     >>> E_o2 = 1000
-    >>> chromatic_adaptation_cie1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)  # noqa  # doctest: +ELLIPSIS
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 

@@ -7,7 +7,7 @@ Fairchild (1990) Chromatic Adaptation Model
 
 Defines *Fairchild (1990)* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_fairchild1990`
+-   :func:`chromatic_adaptation_Fairchild1990`
 
 See Also
 --------
@@ -38,7 +38,7 @@ __status__ = 'Production'
 
 __all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
            'FAIRCHILD1990_RGB_TO_XYZ_MATRIX',
-           'chromatic_adaptation_fairchild1990',
+           'chromatic_adaptation_Fairchild1990',
            'XYZ_to_RGB_fairchild1990',
            'RGB_to_XYZ_fairchild1990',
            'degrees_of_adaptation']
@@ -60,7 +60,7 @@ FAIRCHILD1990_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 
-def chromatic_adaptation_fairchild1990(XYZ_1,
+def chromatic_adaptation_Fairchild1990(XYZ_1,
                                        XYZ_n,
                                        XYZ_r,
                                        Y_n,
@@ -105,7 +105,7 @@ def chromatic_adaptation_fairchild1990(XYZ_1,
     >>> XYZ_n = np.array([111.15, 100.00, 35.20])
     >>> XYZ_r = np.array([94.81, 100.00, 107.30])
     >>> Y_n = 200
-    >>> chromatic_adaptation_fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)  # noqa  # doctest: +ELLIPSIS
     array([ 23.3252634...,  23.3245581...,  76.1159375...])
     """
 

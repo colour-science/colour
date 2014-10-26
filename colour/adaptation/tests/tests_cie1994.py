@@ -15,7 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.adaptation import chromatic_adaptation_cie1994
+from colour.adaptation import chromatic_adaptation_CIE1994
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -24,24 +24,24 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestChromaticAdaptationCie1994']
+__all__ = ['TestChromaticAdaptationCIE1994']
 
 
-class TestChromaticAdaptationCie1994(unittest.TestCase):
+class TestChromaticAdaptationCIE1994(unittest.TestCase):
     """
     Defines
-    :func:`colour.adaptation.cie1994.chromatic_adaptation_cie1994` definition
+    :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994` definition
     unit tests methods.
     """
 
-    def test_chromatic_adaptation_cie1994(self):
+    def test_chromatic_adaptation_CIE1994(self):
         """
-        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_cie1994`
+        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_cie1994(
+            chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([28.0, 21.26, 5.27]),
                 xy_o1=(0.4476, 0.4074),
                 xy_o2=(0.3127, 0.3290),
@@ -52,7 +52,7 @@ class TestChromaticAdaptationCie1994(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_cie1994(
+            chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([21.77, 19.18, 16.73]),
                 xy_o1=(0.3127, 0.3290),
                 xy_o2=(0.3127, 0.3290),
@@ -63,7 +63,7 @@ class TestChromaticAdaptationCie1994(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_cie1994(
+            chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([0.4709771, 0.3495, 0.11301649]) * 100,
                 xy_o1=(0.3127, 0.3290),
                 xy_o2=(0.4476, 0.4074),

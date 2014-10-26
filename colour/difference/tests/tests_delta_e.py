@@ -24,80 +24,80 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestDelta_E_CIE_1976',
-           'TestDelta_E_CIE_1994',
-           'TestDelta_E_CIE_2000',
+__all__ = ['TestDelta_E_CIE1976',
+           'TestDelta_E_CIE1994',
+           'TestDelta_E_CIE2000',
            'TestDelta_E_CMC']
 
 
-class TestDelta_E_CIE_1976(unittest.TestCase):
+class TestDelta_E_CIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE_1976`
+    Defines :func:`colour.difference.delta_e.delta_E_CIE1976`
     definition unit tests methods.
     """
 
-    def test_delta_E_CIE_1976(self):
+    def test_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE_1976`
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976`
         definition.
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE1976(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 426.67945353, 72.39590835])),
             451.713301974,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE1976(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 74.05216981, 276.45318193])),
             52.6498611564,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1976(
+            colour.difference.delta_e.delta_E_CIE1976(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 8.32281957, -73.58297716])),
             346.064891718,
             places=7)
 
 
-class TestDelta_E_CIE_1994(unittest.TestCase):
+class TestDelta_E_CIE1994(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE_1994` definition
+    Defines :func:`colour.difference.delta_e.delta_E_CIE1994` definition
     unit tests methods.
     """
 
-    def test_delta_E_CIE_1994(self):
+    def test_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE_1994` definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition.
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 426.67945353, 72.39590835])),
             88.3355530575,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 74.05216981, 276.45318193])),
             10.61265789,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 8.32281957, -73.58297716])),
             60.3686872611,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 426.67945353, 72.39590835]),
                 textiles=False),
@@ -105,7 +105,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 74.05216981, 276.45318193]),
                 textiles=False),
@@ -113,7 +113,7 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_1994(
+            colour.difference.delta_e.delta_E_CIE1994(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 8.32281957, -73.58297716]),
                 textiles=False),
@@ -121,33 +121,33 @@ class TestDelta_E_CIE_1994(unittest.TestCase):
             places=7)
 
 
-class TestDelta_E_CIE_2000(unittest.TestCase):
+class TestDelta_E_CIE2000(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE_2000` definition
+    Defines :func:`colour.difference.delta_e.delta_E_CIE2000` definition
     unit tests methods.
     """
 
-    def test_delta_E_CIE_2000(self):
+    def test_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE_2000` definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition.
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE2000(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 426.67945353, 72.39590835])),
             94.0356490267,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE2000(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 74.05216981, 276.45318193])),
             14.8790641937,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE_2000(
+            colour.difference.delta_e.delta_E_CIE2000(
                 np.array([100, 21.57210357, 272.2281935]),
                 np.array([100, 8.32281957, -73.58297716])),
             68.2309487895,

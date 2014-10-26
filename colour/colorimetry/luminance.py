@@ -9,10 +9,10 @@ Defines *luminance* :math:`Y` computation objects.
 
 The following methods are available:
 
--   :func:`luminance_newhall1943`: *luminance* :math:`Y` computation of given
+-   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
     method.
--   :func:`luminance_ASTM_D1535_08`: *luminance* :math:`Y` computation of given
+-   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
 -   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
@@ -35,14 +35,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminance_newhall1943',
-           'luminance_ASTM_D1535_08',
+__all__ = ['luminance_Newhall1943',
+           'luminance_ASTMD153508',
            'luminance_1976',
            'LUMINANCE_METHODS',
            'luminance']
 
 
-def luminance_newhall1943(V, **kwargs):
+def luminance_Newhall1943(V, **kwargs):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
     using *Sidney M. Newhall, Dorothy Nickerson, and Deane B. Judd (1943)*
@@ -74,7 +74,7 @@ def luminance_newhall1943(V, **kwargs):
 
     Examples
     --------
-    >>> luminance_newhall1943(3.74629715382)  # doctest: +ELLIPSIS
+    >>> luminance_Newhall1943(3.74629715382)  # doctest: +ELLIPSIS
     10.4089874...
     """
 
@@ -84,7 +84,7 @@ def luminance_newhall1943(V, **kwargs):
     return R_Y
 
 
-def luminance_ASTM_D1535_08(V, **kwargs):
+def luminance_ASTMD153508(V, **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1 (2008)* method.
@@ -114,7 +114,7 @@ def luminance_ASTM_D1535_08(V, **kwargs):
 
     Examples
     --------
-    >>> luminance_ASTM_D1535_08(3.74629715382)  # doctest: +ELLIPSIS
+    >>> luminance_ASTMD153508(3.74629715382)  # doctest: +ELLIPSIS
     10.1488096...
     """
 
@@ -171,8 +171,8 @@ def luminance_1976(Lstar, Y_n=100):
 
 
 LUMINANCE_METHODS = CaseInsensitiveMapping(
-    {'Newhall 1943': luminance_newhall1943,
-     'ASTM D1535-08': luminance_ASTM_D1535_08,
+    {'Newhall 1943': luminance_Newhall1943,
+     'ASTM D1535-08': luminance_ASTMD153508,
      'CIE 1976': luminance_1976})
 """
 Supported *luminance* computations methods.

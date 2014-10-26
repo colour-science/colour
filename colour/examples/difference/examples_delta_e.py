@@ -15,7 +15,7 @@ Lab2 = [100, 426.67945353, 72.39590835]
 message_box(('Computing "Delta E" with "CIE 1976" method from given *CIE Lab* '
              'colourspace matrices:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
-print(colour.delta_E_CIE_1976(Lab1, Lab2))
+print(colour.delta_E_CIE1976(Lab1, Lab2))
 print(colour.delta_E(Lab1, Lab2, method='CIE 1976'))
 
 print('\n')
@@ -23,7 +23,7 @@ print('\n')
 message_box(('Computing "Delta E" with "CIE 1994" method from given *CIE Lab* '
              'colourspace matrices:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
-print(colour.delta_E_CIE_1994(Lab1, Lab2))
+print(colour.delta_E_CIE1994(Lab1, Lab2))
 print(colour.delta_E(Lab1, Lab2, method='CIE 1994'))
 
 print('\n')
@@ -31,7 +31,7 @@ print('\n')
 message_box(('Computing "Delta E" with "CIE 1994" method from given *CIE Lab* '
              'colourspace matrices for "graphics arts" applications:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
-print(colour.delta_E_CIE_1994(Lab1, Lab2, textiles=False))
+print(colour.delta_E_CIE1994(Lab1, Lab2, textiles=False))
 print(colour.delta_E(Lab1, Lab2, method='CIE 1994', textiles=False))
 
 print('\n')
@@ -39,7 +39,7 @@ print('\n')
 message_box(('Computing "Delta E" with "CIE 2000" method from given *CIE Lab* '
              'colourspace matrices:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
-print(colour.delta_E_CIE_2000(Lab1, Lab2))
+print(colour.delta_E_CIE2000(Lab1, Lab2))
 print(colour.delta_E(Lab1, Lab2, method='CIE 2000'))
 
 print('\n')

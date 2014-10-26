@@ -7,12 +7,12 @@ Whiteness Index :math:`W`
 
 Defines *whiteness* index :math:`W` computation objects:
 
--   :func:`whiteness_berger1959`
--   :func:`whiteness_taube1960`
--   :func:`whiteness_stensby1968`
--   :func:`whiteness_ASTM_313`
--   :func:`whiteness_ganz1979`
--   :func:`whiteness_cie2004`
+-   :func:`whiteness_Berger1959`
+-   :func:`whiteness_Taube1960`
+-   :func:`whiteness_Stensby1968`
+-   :func:`whiteness_ASTM313`
+-   :func:`whiteness_Ganz1979`
+-   :func:`whiteness_CIE2004`
 
 See Also
 --------
@@ -45,17 +45,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['whiteness_berger1959',
-           'whiteness_taube1960',
-           'whiteness_stensby1968',
-           'whiteness_ASTM_313',
-           'whiteness_ganz1979',
-           'whiteness_cie2004',
+__all__ = ['whiteness_Berger1959',
+           'whiteness_Taube1960',
+           'whiteness_Stensby1968',
+           'whiteness_ASTM313',
+           'whiteness_Ganz1979',
+           'whiteness_CIE2004',
            'WHITENESS_METHODS',
            'whiteness']
 
 
-def whiteness_berger1959(XYZ, XYZ_0):
+def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     colourspace matrix using *Berger (1959)* method. [2]_
@@ -87,7 +87,7 @@ def whiteness_berger1959(XYZ, XYZ_0):
     --------
     >>> XYZ = np.array([95., 100., 105.])
     >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
-    >>> whiteness_berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
+    >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     30.3638017...
     """
 
@@ -99,7 +99,7 @@ def whiteness_berger1959(XYZ, XYZ_0):
     return WI
 
 
-def whiteness_taube1960(XYZ, XYZ_0):
+def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     colourspace matrix using *Taube (1960)* method. [2]_
@@ -127,7 +127,7 @@ def whiteness_taube1960(XYZ, XYZ_0):
     --------
     >>> XYZ = np.array([95., 100., 105.])
     >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
-    >>> whiteness_taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
+    >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     91.4071738...
     """
 
@@ -139,7 +139,7 @@ def whiteness_taube1960(XYZ, XYZ_0):
     return WI
 
 
-def whiteness_stensby1968(Lab):
+def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
     colourspace matrix using *Stensby (1968)* method. [2]_
@@ -163,7 +163,7 @@ def whiteness_stensby1968(Lab):
     Examples
     --------
     >>> Lab = np.array([100., -2.46875131, -16.72486654])
-    >>> whiteness_stensby1968(Lab)  # doctest: +ELLIPSIS
+    >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
     """
 
@@ -174,7 +174,7 @@ def whiteness_stensby1968(Lab):
     return WI
 
 
-def whiteness_ASTM_313(XYZ):
+def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     colourspace matrix using *ASTM 313* method. [2]_
@@ -200,7 +200,7 @@ def whiteness_ASTM_313(XYZ):
     Examples
     --------
     >>> XYZ = np.array([95., 100., 105.])
-    >>> whiteness_ASTM_313(XYZ)  # doctest: +ELLIPSIS
+    >>> whiteness_ASTM313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
 
@@ -211,7 +211,7 @@ def whiteness_ASTM_313(XYZ):
     return WI
 
 
-def whiteness_ganz1979(xy, Y):
+def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
     sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
@@ -248,7 +248,7 @@ def whiteness_ganz1979(xy, Y):
 
     Examples
     --------
-    >>> whiteness_ganz1979((0.3167, 0.3334), 100.)  # doctest: +ELLIPSIS
+    >>> whiteness_Ganz1979((0.3167, 0.3334), 100.)  # doctest: +ELLIPSIS
     (85.6003766..., 0.6789002...)
     """
 
@@ -260,7 +260,7 @@ def whiteness_ganz1979(xy, Y):
     return W, T
 
 
-def whiteness_cie2004(xy,
+def whiteness_CIE2004(xy,
                       Y,
                       xy_n,
                       observer='CIE 1931 2 Degree Standard Observer'):
@@ -316,7 +316,7 @@ def whiteness_cie2004(xy,
     Examples
     --------
     >>> xy_n = (0.3139, 0.3311)
-    >>> whiteness_cie2004((0.3167, 0.3334), 100., xy_n)  # doctest: +ELLIPSIS
+    >>> whiteness_CIE2004((0.3167, 0.3334), 100., xy_n)  # doctest: +ELLIPSIS
     (93.8500000..., -1.3049999...)
     """
 
@@ -330,12 +330,12 @@ def whiteness_cie2004(xy,
 
 
 WHITENESS_METHODS = CaseInsensitiveMapping(
-    {'Berger 1959': whiteness_berger1959,
-     'Taube 1960': whiteness_taube1960,
-     'Stensby 1968': whiteness_stensby1968,
-     'ASTM 313': whiteness_ASTM_313,
-     'Ganz 1979': whiteness_ganz1979,
-     'CIE 2004': whiteness_cie2004})
+    {'Berger 1959': whiteness_Berger1959,
+     'Taube 1960': whiteness_Taube1960,
+     'Stensby 1968': whiteness_Stensby1968,
+     'ASTM 313': whiteness_ASTM313,
+     'Ganz 1979': whiteness_Ganz1979,
+     'CIE 2004': whiteness_CIE2004})
 """
 Supported *whiteness* computations methods.
 

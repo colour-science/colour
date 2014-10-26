@@ -16,8 +16,8 @@ else:
     import unittest
 
 from colour.adaptation import (
-    chromatic_adaptation_matrix_vonkries,
-    chromatic_adaptation_vonkries)
+    chromatic_adaptation_matrix_VonKries,
+    chromatic_adaptation_VonKries)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -26,26 +26,26 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestChromaticAdaptationMatrixVonkries',
+__all__ = ['TestChromaticAdaptationMatrixVonKries',
            'TestChromaticAdaptationVonKries']
 
 
-class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
+class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
     """
     Defines
-    :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_vonkries`
+    :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_matrix_vonkries(self):
+    def test_chromatic_adaptation_matrix_VonKries(self):
         """
         Tests
-        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_vonkries`
+        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037])),
             np.array([[0.86876537, -0.14165393, 0.38719611],
@@ -54,7 +54,7 @@ class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([0.99092745, 1., 0.85313273]),
                 np.array([1.01679082, 1., 0.67610122])),
             np.array([[1.03379528e+00, 3.06532172e-02, -4.48681876e-02],
@@ -63,15 +63,15 @@ class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([0.98070597, 1., 1.18224949]),
                 np.array([0.92833635, 1., 1.0366472])),
-            np.linalg.inv(chromatic_adaptation_matrix_vonkries(
+            np.linalg.inv(chromatic_adaptation_matrix_VonKries(
                 np.array([0.92833635, 1., 1.0366472]),
                 np.array([0.98070597, 1., 1.18224949]))))
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),
                 transform='XYZ Scaling'),
@@ -81,7 +81,7 @@ class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),
                 transform='Bradford'),
@@ -91,7 +91,7 @@ class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_vonkries(
+            chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),
                 transform='Von Kries'),
@@ -101,20 +101,20 @@ class TestChromaticAdaptationMatrixVonkries(unittest.TestCase):
             decimal=7)
 
 
-class TestChromaticAdaptationVonkries(unittest.TestCase):
+class TestChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.vonrkies.chromatic_adaptation_vonkries`
+    Defines :func:`colour.adaptation.vonrkies.chromatic_adaptation_VonKries`
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_vonkries(self):
+    def test_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonrkies.chromatic_adaptation_vonkries`
+        Tests :func:`colour.adaptation.vonrkies.chromatic_adaptation_VonKries`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.07049534, 0.1008, 0.09558313]),
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037])),
@@ -122,7 +122,7 @@ class TestChromaticAdaptationVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.4709771, 0.3495, 0.11301649]),
                 np.array([0.99092745, 1., 0.85313273]),
                 np.array([1.01679082, 1., 0.67610122])),
@@ -130,7 +130,7 @@ class TestChromaticAdaptationVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.25506814, 0.1915, 0.08849752]),
                 np.array([0.98070597, 1., 1.18224949]),
                 np.array([0.92833635, 1., 1.0366472])),
@@ -138,7 +138,7 @@ class TestChromaticAdaptationVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.07049534, 0.1008, 0.09558313]),
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),
@@ -147,7 +147,7 @@ class TestChromaticAdaptationVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.07049534, 0.1008, 0.09558313]),
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),
@@ -156,7 +156,7 @@ class TestChromaticAdaptationVonkries(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            chromatic_adaptation_vonkries(
+            chromatic_adaptation_VonKries(
                 np.array([0.07049534, 0.1008, 0.09558313]),
                 np.array([1.09846607, 1., 0.3558228]),
                 np.array([0.95042855, 1., 1.08890037]),

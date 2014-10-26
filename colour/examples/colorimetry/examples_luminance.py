@@ -18,7 +18,7 @@ message_box(('Computing "luminance" using '
              '"Newhall, Nickerson, and Judd (1943)" method for given '
              '"Munsell" value:\n'
              '\n\t{0}'.format(V)))
-print(colour.luminance_newhall1943(V))
+print(colour.luminance_Newhall1943(V))
 print(colour.luminance(V, method='Newhall 1943'))
 
 print('\n')
@@ -35,5 +35,5 @@ print('\n')
 message_box(('Computing "luminance" using "ASTM D1535-08e1 (2008)" method for '
              'given "Munsell" value:\n'
              '\n\t{0}'.format(V)))
-print(colour.luminance_ASTM_D1535_08(V))
+print(colour.luminance_ASTMD153508(V))
 print(colour.luminance(V, method='ASTM D1535-08'))

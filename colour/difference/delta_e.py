@@ -9,9 +9,9 @@ Defines :math:`\Delta E_{ab}` colour difference computation objects:
 
 The following methods are available:
 
--   :func:`delta_E_CIE_1976`
--   :func:`delta_E_CIE_1994`
--   :func:`delta_E_CIE_2000`
+-   :func:`delta_E_CIE1976`
+-   :func:`delta_E_CIE1994`
+-   :func:`delta_E_CIE2000`
 -   :func:`delta_E_CMC`
 
 See Also
@@ -38,15 +38,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['delta_E_CIE_1976',
-           'delta_E_CIE_1994',
-           'delta_E_CIE_2000',
+__all__ = ['delta_E_CIE1976',
+           'delta_E_CIE1994',
+           'delta_E_CIE2000',
            'delta_E_CMC',
            'DELTA_E_METHODS',
            'delta_E']
 
 
-def delta_E_CIE_1976(lab1, lab2, **kwargs):
+def delta_E_CIE1976(lab1, lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given
     *CIE Lab* *array_like* colours using *CIE 1976* recommendation.
@@ -75,13 +75,13 @@ def delta_E_CIE_1976(lab1, lab2, **kwargs):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_1976(lab1, lab2)  # doctest: +ELLIPSIS
+    >>> delta_E_CIE1976(lab1, lab2)  # doctest: +ELLIPSIS
     451.7133019...
     """
     return np.linalg.norm(np.array(lab1) - np.array(lab2))
 
 
-def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
+def delta_E_CIE1994(lab1, lab2, textiles=True, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     *array_like* colours using *CIE 1994* recommendation.
@@ -112,9 +112,9 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_1994(lab1, lab2)  # doctest: +ELLIPSIS
+    >>> delta_E_CIE1994(lab1, lab2)  # doctest: +ELLIPSIS
     88.3355530...
-    >>> delta_E_CIE_1994(lab1, lab2, textiles=False)  # doctest: +ELLIPSIS
+    >>> delta_E_CIE1994(lab1, lab2, textiles=False)  # doctest: +ELLIPSIS
     83.7792255...
     """
 
@@ -151,7 +151,7 @@ def delta_E_CIE_1994(lab1, lab2, textiles=True, **kwargs):
     return np.sqrt(L + C + H)
 
 
-def delta_E_CIE_2000(lab1, lab2, **kwargs):
+def delta_E_CIE2000(lab1, lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     *array_like* colours using *CIE 2000* recommendation.
@@ -181,7 +181,7 @@ def delta_E_CIE_2000(lab1, lab2, **kwargs):
     --------
     >>> lab1 = np.array([100, 21.57210357, 272.2281935])
     >>> lab2 = np.array([100, 426.67945353, 72.39590835])
-    >>> delta_E_CIE_2000(lab1, lab2)  # doctest: +ELLIPSIS
+    >>> delta_E_CIE2000(lab1, lab2)  # doctest: +ELLIPSIS
     94.0356490...
     """
 
@@ -332,9 +332,9 @@ def delta_E_CMC(lab1, lab2, l=2, c=1):
 
 
 DELTA_E_METHODS = CaseInsensitiveMapping(
-    {'CIE 1976': delta_E_CIE_1976,
-     'CIE 1994': delta_E_CIE_1994,
-     'CIE 2000': delta_E_CIE_2000,
+    {'CIE 1976': delta_E_CIE1976,
+     'CIE 1994': delta_E_CIE1994,
+     'CIE 2000': delta_E_CIE2000,
      'CMC': delta_E_CMC})
 """
 Supported *Delta E* computations methods.

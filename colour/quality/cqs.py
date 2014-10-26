@@ -43,8 +43,8 @@ from colour.models import (
     XYZ_to_Lab,
     Lab_to_LCHab,
     xy_to_XYZ)
-from colour.temperature import CCT_to_xy_illuminant_D, uv_to_CCT_ohno2013
-from colour.adaptation import chromatic_adaptation_vonkries
+from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
+from colour.adaptation import chromatic_adaptation_VonKries
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -149,12 +149,12 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, _ = uv_to_CCT_ohno2013(uv)
+    CCT, _ = uv_to_CCT_Ohno2013(uv)
 
     if CCT < 5000:
         spd_reference = blackbody_spd(CCT, shape)
     else:
-        xy = CCT_to_xy_illuminant_D(CCT)
+        xy = CCT_to_xy_CIE_D(CCT)
         spd_reference = D_illuminant_relative_spd(xy)
         spd_reference.align(shape)
 
@@ -306,7 +306,7 @@ def _vs_colorimetry_data(spd_test,
         XYZ_vs /= 100
 
         if chromatic_adaptation:
-            XYZ_vs = chromatic_adaptation_vonkries(XYZ_vs,
+            XYZ_vs = chromatic_adaptation_VonKries(XYZ_vs,
                                                    XYZ_t,
                                                    XYZ_r,
                                                    transform='CMCCAT2000')
@@ -346,7 +346,7 @@ def _CCT_factor(reference_data, XYZ_r):
     Labs = []
     for vs_colorimetry_data in reference_data:
         _, XYZ, _, _ = vs_colorimetry_data
-        XYZ_a = chromatic_adaptation_vonkries(XYZ,
+        XYZ_a = chromatic_adaptation_VonKries(XYZ,
                                               XYZ_r,
                                               XYZ_w,
                                               transform='CMCCAT2000')

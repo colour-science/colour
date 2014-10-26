@@ -15,8 +15,8 @@ else:
     import unittest
 
 from colour.colorimetry import (
-    lightness_glasser1958,
-    lightness_wyszecki1963,
+    lightness_Glasser1958,
+    lightness_Wyszecki1963,
     lightness_1976)
 
 __author__ = 'Colour Developers'
@@ -33,52 +33,52 @@ __all__ = ['TestLightnessGlasser1958',
 
 class TestLightnessGlasser1958(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lightness.lightness_glasser1958`
+    Defines :func:`colour.colorimetry.lightness.lightness_Glasser1958`
     definition unit tests methods.
     """
 
-    def test_lightness_glasser1958(self):
+    def test_lightness_Glasser1958(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_glasser1958`
+        Tests :func:`colour.colorimetry.lightness.lightness_Glasser1958`
         definition.
         """
 
         self.assertAlmostEqual(
-            lightness_glasser1958(10.08),
+            lightness_Glasser1958(10.08),
             36.2505626458,
             places=7)
         self.assertAlmostEqual(
-            lightness_glasser1958(56.76),
+            lightness_Glasser1958(56.76),
             78.8117999039,
             places=7)
         self.assertAlmostEqual(
-            lightness_glasser1958(98.32),
+            lightness_Glasser1958(98.32),
             98.3447052593,
             places=7)
 
 
 class TestLightnessWyszecki1963(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lightness.lightness_wyszecki1963`
+    Defines :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
     definition unit tests methods.
     """
 
-    def test_lightness_wyszecki1963(self):
+    def test_lightness_Wyszecki1963(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_wyszecki1963`
+        Tests :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
         definition.
         """
 
         self.assertAlmostEqual(
-            lightness_wyszecki1963(10.08),
+            lightness_Wyszecki1963(10.08),
             37.0041149128,
             places=7)
         self.assertAlmostEqual(
-            lightness_wyszecki1963(56.76),
+            lightness_Wyszecki1963(56.76),
             79.0773031869,
             places=7)
         self.assertAlmostEqual(
-            lightness_wyszecki1963(98.32),
+            lightness_Wyszecki1963(98.32),
             98.3862250488,
             places=7)
 

@@ -27,7 +27,7 @@ message_box(('Computing "Lightness" using '
              '"Glasser, Mckinney, Reilly and Schnelle (1958)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_glasser1958(Y))
+print(colour.lightness_Glasser1958(Y))
 print(colour.lightness(Y, method='Glasser 1958'))
 
 print('\n')
@@ -35,7 +35,7 @@ print('\n')
 message_box(('Computing "Lightness" using "Wyszecki (1964)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_wyszecki1963(Y))
+print(colour.lightness_Wyszecki1963(Y))
 print(colour.lightness(Y, method='Wyszecki 1963'))
 
 print('\n')

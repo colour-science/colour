@@ -17,14 +17,14 @@ message_box('Corresponding Chromaticities Prediction Computations')
 message_box(('Computing corresponding chromaticities prediction with '
              '"Von Kries" chromatic adaptation model for "Edwin J. Breneman" '
              'experiment number "3" and "Bianco" CAT.'))
-pprint(colour.corresponding_chromaticities_prediction_vonkries(3, 'Bianco'))
+pprint(colour.corresponding_chromaticities_prediction_VonKries(3, 'Bianco'))
 
 print('\n')
 
 message_box(('Computing corresponding chromaticities prediction with '
              '"CIE 1994" chromatic adaptation model for "Edwin J. Breneman" '
              'experiment number "1".'))
-pprint(colour.corresponding_chromaticities_prediction_cie1994(1))
+pprint(colour.corresponding_chromaticities_prediction_CIE1994(1))
 
 print('\n')
 
@@ -38,4 +38,4 @@ print('\n')
 message_box(('Computing corresponding chromaticities prediction with '
              '"Fairchild (1990)" chromatic adaptation model for '
              '"Edwin J. Breneman" experiment number "1".'))
-pprint(colour.corresponding_chromaticities_prediction_fairchild1990(1))
+pprint(colour.corresponding_chromaticities_prediction_Fairchild1990(1))
