@@ -218,7 +218,7 @@ def aspect(**kwargs):
            'no_ticks': False,
            'no_x_ticks': False,
            'no_y_ticks': False,
-           'grid': True,
+           'grid': False,
            'grid_which': 'both',
            'grid_axis': 'both',
            'x_axis_line': False,
