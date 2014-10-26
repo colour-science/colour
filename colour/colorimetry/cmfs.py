@@ -50,6 +50,8 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         *LMS* colour matching functions name.
     data : dict
         *LMS* colour matching functions.
+    title : str or unicode, optional
+        *LMS* colour matching functions title for figures.
 
     Attributes
     ----------
@@ -59,16 +61,17 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'l_bar',
                                                        'y': 'm_bar',
                                                        'z': 's_bar'},
-                                              labels={'x': r'$\bar{l}$',
-                                                      'y': r'$\bar{m}$',
-                                                      'z': r'$\bar{s}$'})
+                                              labels={'x': '$\\bar{l}$',
+                                                      'y': '$\\bar{m}$',
+                                                      'z': '$\\bar{s}$'},
+                                              title=title)
 
     @property
     def l_bar(self):
@@ -172,6 +175,8 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE RGB* colour matching functions name.
     data : dict
         *CIE RGB* colour matching functions.
+    title : str or unicode, optional
+        *CIE RGB* colour matching functions title for figures.
 
     Attributes
     ----------
@@ -180,16 +185,17 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     b_bar
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'r_bar',
                                                        'y': 'g_bar',
                                                        'z': 'b_bar'},
-                                              labels={'x': r'$\bar{r}$',
-                                                      'y': r'$\bar{g}$',
-                                                      'z': r'$\bar{b}$'})
+                                              labels={'x': '$\\bar{r}$',
+                                                      'y': '$\\bar{g}$',
+                                                      'z': '$\\bar{b}$'},
+                                              title=title)
 
     @property
     def r_bar(self):
@@ -295,6 +301,9 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE* Standard Observer *XYZ* colour matching functions name.
     data : dict
         *CIE* Standard Observer *XYZ* colour matching functions.
+    title : str or unicode, optional
+        *CIE* Standard Observer *XYZ* colour matching functions title for
+        figures.
 
     Attributes
     ----------
@@ -303,16 +312,17 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     z_bar
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'x_bar',
                                                        'y': 'y_bar',
                                                        'z': 'z_bar'},
-                                              labels={'x': r'$\bar{x}$',
-                                                      'y': r'$\bar{y}$',
-                                                      'z': r'$\bar{z}$'})
+                                              labels={'x': '$\\bar{x}$',
+                                                      'y': '$\\bar{y}$',
+                                                      'z': '$\\bar{z}$'},
+                                              title=title)
 
     @property
     def x_bar(self):

@@ -923,7 +923,7 @@ blackbody_spd = colour.blackbody_spd(
 blackbody_spd.name = 'The Sun - 5778K'
 
 multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
-               y_label=u'W / (sr m²) / m',
+               y_label='W / (sr m^2) / m',
                legend_location='upper right')
 
 print('\n')
@@ -934,7 +934,7 @@ blackbody_spds = [
     for i in range(1000, 15000, 1000)]
 
 multi_spd_plot(blackbody_spds,
-               y_label=u'W / (sr m²) / m',
+               y_label='W / (sr m^2) / m',
                use_spds_colours=True,
                normalise_spds_colours=True,
                legend_location='upper right',

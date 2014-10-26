@@ -150,7 +150,7 @@ def colour_rendering_index_bars_plot(spd, **kwargs):
                     additional_data=True),
             standalone=False):
         settings = {
-            'title': 'Colour Rendering Index - {0}'.format(spd.name)}
+            'title': 'Colour Rendering Index - {0}'.format(spd.title)}
 
         aspect(**settings)
         return display(**settings)
@@ -187,7 +187,7 @@ def colour_quality_scale_bars_plot(spd, **kwargs):
                     additional_data=True),
             standalone=False):
         settings = {
-            'title': 'Colour Quality Scale - {0}'.format(spd.name)}
+            'title': 'Colour Quality Scale - {0}'.format(spd.title)}
 
         aspect(**settings)
         return display(**settings)

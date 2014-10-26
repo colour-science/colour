@@ -8,7 +8,7 @@ Munsell Renotation System
 Defines various objects for *Munsell Renotation System* computations:
 
 -   :func:`munsell_value_Priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)⁠*
+    given *luminance* :math:`Y` using *Priest, Gibson and MacNicholas (1920)*
     method.
 -   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using *⁠Munsell, Sloan and Godlove (1933)⁠*

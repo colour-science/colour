@@ -12,7 +12,7 @@ message_box('"Munsell Renotation System" Computations')
 
 Y = 10.08
 message_box(('Computing "Munsell" value using '
-             '"⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)" method for given '
+             '"Priest, Gibson and MacNicholas (1920)" method for given '
              '"luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Priest1920(Y))

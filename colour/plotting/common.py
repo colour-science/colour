@@ -25,6 +25,11 @@ import itertools
 import os
 from collections import namedtuple
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 import matplotlib
 import matplotlib.image
 import matplotlib.path
@@ -33,7 +38,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.utilities import Structure
+from colour.utilities import Structure, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -67,7 +72,7 @@ Resources directory.
 RESOURCES_DIRECTORY : unicode
 """
 
-DEFAULT_FIGURE_SIZE = 14, 7
+DEFAULT_FIGURE_SIZE = 28, 14
 """
 Default plots figure size.
 

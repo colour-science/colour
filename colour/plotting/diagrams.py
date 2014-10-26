@@ -89,7 +89,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('E')
@@ -148,7 +148,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -212,7 +212,7 @@ def CIE_1931_chromaticity_diagram_plot(
                    fontdict={'size': 'small'})
 
     settings = {
-        'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(name),
+        'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
         'y_label': 'CIE y',
         'x_ticker': True,
@@ -260,7 +260,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('E')
@@ -318,7 +318,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -382,7 +382,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                    fontdict={'size': 'small'})
 
     settings = {
-        'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(name),
+        'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u',
         'y_label': 'CIE v',
         'x_ticker': True,
@@ -430,7 +430,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
         'CIE 1931 2 Degree Standard Observer').get('D50')
@@ -489,7 +489,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -557,7 +557,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                    fontdict={'size': 'small'})
 
     settings = {
-        'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(name),
+        'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
         'x_ticker': True,
