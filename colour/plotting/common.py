@@ -38,7 +38,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.utilities import Structure, is_string
+from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -218,8 +218,9 @@ def aspect(**kwargs):
            'no_ticks': False,
            'no_x_ticks': False,
            'no_y_ticks': False,
-           'grid': False,
-           'axis_grid': 'both',
+           'grid': True,
+           'grid_which': 'both',
+           'grid_axis': 'both',
            'x_axis_line': False,
            'y_axis_line': False,
            'aspect': None})
@@ -247,7 +248,7 @@ def aspect(**kwargs):
     if settings.no_y_ticks:
         matplotlib.pyplot.gca().set_yticks([])
     if settings.grid:
-        pylab.grid(which=settings.axis_grid)
+        pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
         pylab.axvline(color='black', linestyle='--')
     if settings.y_axis_line:

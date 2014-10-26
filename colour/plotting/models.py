@@ -77,7 +77,7 @@ def get_RGB_colourspace(colourspace):
     return colourspace
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def colourspaces_CIE_1931_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -207,6 +207,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
+@figure_size((28, 28))
 def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     """
     Plots given colourspace transfer function.
@@ -235,7 +236,7 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     return multi_transfer_function_plot([colourspace], **settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def multi_transfer_function_plot(colourspaces=None,
                                  inverse=False, **kwargs):
     """
@@ -286,7 +287,8 @@ def multi_transfer_function_plot(colourspaces=None,
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 1, 0, 1]}
+        'limits': [0, 1, 0, 1],
+        'aspect': 'equal'}
 
     settings.update(kwargs)
 

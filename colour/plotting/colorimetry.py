@@ -524,7 +524,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     return multi_lightness_function_plot([function], **settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def multi_lightness_function_plot(functions=None, **kwargs):
     """
     Plots given *Lightness* functions.
@@ -581,7 +581,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100]}
+        'limits': [0, 100, 0, 100],
+        'aspect': 'equal'}
 
     settings.update(kwargs)
 

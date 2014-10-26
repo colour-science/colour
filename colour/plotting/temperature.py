@@ -43,7 +43,7 @@ __all__ = ['planckian_locus_CIE_1931_chromaticity_diagram_plot',
            'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         illuminants=None,
         **kwargs):
@@ -133,7 +133,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         illuminants=None,
         **kwargs):

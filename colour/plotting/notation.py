@@ -64,7 +64,7 @@ def single_munsell_value_function_plot(function='ASTM D1535-08',
     return multi_munsell_value_function_plot([function], **settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def multi_munsell_value_function_plot(
         functions=None,
         **kwargs):
@@ -124,7 +124,8 @@ def multi_munsell_value_function_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100]}
+        'bounding_box': [0, 100, 0, 10],
+        'aspect': 10}
 
     settings.update(kwargs)
 

@@ -62,7 +62,7 @@ def get_corresponding_chromaticities_prediction_model(model):
     return model
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def corresponding_chromaticities_prediction_plot(
         experiment=1,
         model='Von Kries',

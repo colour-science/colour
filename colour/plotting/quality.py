@@ -39,7 +39,7 @@ __all__ = ['colour_quality_bars_plot',
            'colour_quality_scale_bars_plot']
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def colour_quality_bars_plot(specification, **kwargs):
     """
     Plots the colour quality data of given illuminant or light source colour
@@ -106,12 +106,15 @@ def colour_quality_bars_plot(specification, **kwargs):
     settings = {
         'title': 'Colour Quality',
         'grid': True,
+        'grid_axis': 'x',
         'x_tighten': True,
         'y_tighten': True,
         'limits': [-width,
                    len(Q_as) + width * 2,
-                   -10 if positive else -110,
-                   110]}
+                   0 if positive else -110,
+                   110],
+        'aspect': 1 / ((110 if positive else 220) /
+                       (width + len(Q_as) + width * 2))}
     settings.update(kwargs)
 
     bounding_box(**settings)
@@ -119,7 +122,6 @@ def colour_quality_bars_plot(specification, **kwargs):
     return display(**settings)
 
 
-@figure_size((8, 8))
 def colour_rendering_index_bars_plot(spd, **kwargs):
     """
     Plots the *colour rendering index* of given illuminant or light source.
@@ -156,7 +158,6 @@ def colour_rendering_index_bars_plot(spd, **kwargs):
         return display(**settings)
 
 
-@figure_size((8, 8))
 def colour_quality_scale_bars_plot(spd, **kwargs):
     """
     Plots the *colour quality scale* of given illuminant or light source.

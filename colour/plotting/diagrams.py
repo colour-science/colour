@@ -123,7 +123,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     return display(**settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def CIE_1931_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -152,7 +152,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1931_Chromaticity_Diagram_{0}_Small.png'.format(
+                     'CIE_1931_Chromaticity_Diagram_{0}_Large.png'.format(
                          cmfs.name.replace(' ', '_'))))
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
@@ -294,7 +294,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     return display(**settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def CIE_1960_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -322,7 +322,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1960_UCS_Chromaticity_Diagram_{0}_Small.png'.format(
+                     'CIE_1960_UCS_Chromaticity_Diagram_{0}_Large.png'.format(
                          cmfs.name.replace(' ', '_'))))
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
@@ -465,7 +465,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     return display(**settings)
 
 
-@figure_size((8, 8))
+@figure_size((28, 28))
 def CIE_1976_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -493,7 +493,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1976_UCS_Chromaticity_Diagram_{0}_Small.png'.format(
+                     'CIE_1976_UCS_Chromaticity_Diagram_{0}_Large.png'.format(
                          cmfs.name.replace(' ', '_'))))
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
