@@ -17,7 +17,7 @@ See Also
 
 Notes
 -----
--   According to *CIE TC1-34* definition of a colour appearance model, the
+-   According to CIE TC1-34 definition of a colour appearance model, the
     *ATD95* model cannot be considered as a colour appearance model. It was
     developed with different aims and is described as a model of colour vision.
 
@@ -65,7 +65,7 @@ class ATD95_ReferenceSpecification(
     H : numeric
         *Hue* angle :math:`H` in degrees.
     C : numeric
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
@@ -106,7 +106,7 @@ class ATD95_Specification(
     h : numeric
         *Hue* angle :math:`H` in degrees.
     C : numeric
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that

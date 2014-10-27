@@ -130,7 +130,7 @@ ROBERTSON_ISOTEMPERATURE_LINES_DATA = (
     (575, 0.32931, 0.36038, -40.770),
     (600, 0.33724, 0.36051, -116.45))
 """
-*Robertson* iso-temperature lines.
+Robertson (1968) iso-temperature lines.
 
 ROBERTSON_ISOTEMPERATURE_LINES_DATA : tuple
     (Reciprocal Megakelvin,
@@ -873,8 +873,7 @@ def CCT_to_xy_CIE_D(CCT):
     """
     Converts from the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* to the chromaticity of that
-    *CIE Illuminant D Series* using *D. B. Judd, D. L. Macadam, G. Wyszecki,
-    H. W. Budde, H. R. Condit, S. T. Henderson and J. L. Simonds* method.
+    *CIE Illuminant D Series* illuminant.
 
     Parameters
     ----------

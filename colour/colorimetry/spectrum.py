@@ -1464,7 +1464,7 @@ class SpectralPowerDistribution(object):
         Raises
         ------
         RuntimeError
-            If the *Sprague* interpolation method is forced with a
+            If Sprague (1880) interpolation method is forced with a
             non-uniformly spaced independent variable.
         ValueError
             If the interpolation method is not defined.
@@ -1479,7 +1479,7 @@ class SpectralPowerDistribution(object):
             to extend the range of the spectral power distribution use the
             :meth:`SpectralPowerDistribution.extrapolate` or
             :meth:`SpectralPowerDistribution.align` methods.
-        -   *Sprague* interpolator cannot be used for interpolating
+        -   Sprague (1880) interpolator cannot be used for interpolating
             functions having a non-uniformly spaced independent variable.
 
         Warning
@@ -1490,7 +1490,7 @@ class SpectralPowerDistribution(object):
             :math:`\lambda_n` for interpolation.
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
             :math:`\lambda_n` for interpolation.
-        -   *Sprague* interpolator requires at least 6 wavelengths
+        -   Sprague (1880) interpolator requires at least 6 wavelengths
             :math:`\lambda_n` for interpolation.
 
         References
@@ -1501,7 +1501,7 @@ class SpectralPowerDistribution(object):
 
         Examples
         --------
-        Uniform data is using *Sprague* interpolation by default:
+        Uniform data is using Sprague (1880) interpolation by default:
 
         >>> data = {
         ...     510: 49.67,
@@ -3117,7 +3117,7 @@ class TriSpectralPowerDistribution(object):
 
         Examples
         --------
-        Uniform data is using *Sprague* interpolation by default:
+        Uniform data is using Sprague (1880) interpolation by default:
 
         >>> x_bar = {
         ...     510: 49.67,

@@ -9,7 +9,7 @@ Defines colour matching functions classes for the dataset from
 :mod:`colour.colorimetry.dataset.cmfs`:
 
 -   :class:`LMS_ConeFundamentals`: Implements support for the
-    *Stockman & Sharpe* *LMS* cone fundamentals colour matching functions.
+    Stockman and Sharpe *LMS* cone fundamentals colour matching functions.
 -   :class:`RGB_ColourMatchingFunctions`: Implements support for the *CIE RGB*
     colour matching functions.
 -   :class:`XYZ_ColourMatchingFunctions`: Implements support for the *CIE*
@@ -41,7 +41,7 @@ __all__ = ['LMS_ConeFundamentals',
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
-    Implements support for the *Stockman & Sharpe* *LMS* cone fundamentals
+    Implements support for the Stockman and Sharpe *LMS* cone fundamentals
     colour matching functions.
 
     Parameters

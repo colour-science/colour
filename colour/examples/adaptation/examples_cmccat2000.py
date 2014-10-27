@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *CMCCAT200* chromatic adaptation model computations.
+Showcases CMCCAT2000 chromatic adaptation model computations.
 """
 
 from __future__ import division, unicode_literals

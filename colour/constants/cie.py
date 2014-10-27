@@ -31,7 +31,7 @@ CIE_E : numeric
 Notes
 -----
 -   The original *CIE* value for :math:`\epsilon` is :math:`\epsilon=0.008856`,
-    **Bruce Lindbloom** has shown that this value is causing a discontinuity
+    Lindbloom (2003) has shown that this value is causing a discontinuity
     at the junction point of the two functions grafted together to create the
     *Lightness* :math:`L^*` function.
 
@@ -54,7 +54,7 @@ CIE_K : numeric
 Notes
 -----
 -   The original *CIE* value for :math:`\kappa` is :math:`\kappa=903.3`,
-    **Bruce Lindbloom** has shown that this value is causing a discontinuity
+    Lindbloom (2003) has shown that this value is causing a discontinuity
     at the junction point of the two functions grafted together to create the
     *Lightness* :math:`L^*` function. [2]_
 

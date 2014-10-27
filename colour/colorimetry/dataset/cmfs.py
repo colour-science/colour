@@ -34,7 +34,7 @@ See Also
 
 Notes
 -----
--   *Stockman & Sharpe* *LMS* colour matching functions are provided at 1 nm
+-   Stockman and Sharpe *LMS* colour matching functions are provided at 1 nm
     steps.
 -   *Wright & Guild* and *Stiles & Burch* *CIE RGB* colour matching functions
     are provided at 5 nm steps.

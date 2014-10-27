@@ -181,13 +181,13 @@ def _munsell_specifications():
 
 def _munsell_value_ASTMD153508_interpolator():
     """
-    Returns the *Munsell* value interpolator for *ASTM D1535-08* method and
-    caches it if not existing.
+    Returns the *Munsell* value interpolator for ASTM D1535-08e1 (2008) method
+    and caches it if not existing.
 
     Returns
     -------
     Extrapolator1d
-        *Munsell* value interpolator for *ASTM D1535-08* method.
+        *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
