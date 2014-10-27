@@ -58,7 +58,7 @@ __all__ = ['whiteness_Berger1959',
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using *Berger (1959)* method. [2]_
+    colourspace matrix using Berger (1959) method. [2]_
 
     Parameters
     ----------
@@ -102,7 +102,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using *Taube (1960)* method. [2]_
+    colourspace matrix using Taube (1960) method. [2]_
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace matrix using *Stensby (1968)* method. [2]_
+    colourspace matrix using Stensby (1968) method. [2]_
 
     Parameters
     ----------
@@ -177,7 +177,7 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using *ASTM 313* method. [2]_
+    colourspace matrix using ASTM 313 method. [2]_
 
     Parameters
     ----------
@@ -214,7 +214,7 @@ def whiteness_ASTM313(XYZ):
 def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
+    sample *xy* chromaticity coordinates using Ganz and Griesser (1979)
     method. [2]_
 
     Parameters
@@ -267,7 +267,7 @@ def whiteness_CIE2004(xy,
     """
     Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *xy* chromaticity coordinates using
-    *CIE 2004* method.
+    CIE 2004 method.
 
     Parameters
     ----------
@@ -293,11 +293,11 @@ def whiteness_CIE2004(xy,
     -----
     -   Input tristimulus :math:`Y` value is in domain [0, 100].
     -   This method may be used only for samples whose values of :math:`W` or
-        :math:`W_{10}`lie within the following limits: greater than 40 and less
-        than 5Y - 280, or 5Y10 - 280.
+        :math:`W_{10}` lie within the following limits: greater than 40 and
+        less than 5Y - 280, or 5Y10 - 280.
     -   This method may be used only for samples whose values of :math:`T` or
-        :math:`T_{10}`lie within the following limits: greater than -4 and less
-        than +2.
+        :math:`T_{10}` lie within the following limits: greater than -4 and
+        less than +2.
     -   Output *whiteness* :math:`W` or :math:`W_{10}` values larger than 100
         indicate a bluish white while values smaller than 100 indicate a
         yellowish white. [2]_

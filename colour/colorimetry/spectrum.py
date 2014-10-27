@@ -1444,7 +1444,7 @@ class SpectralPowerDistribution(object):
         """
         Interpolates the spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
-        *Sprague (1880)* should be used for interpolating functions having a
+        Sprague (1880) should be used for interpolating functions having a
         uniformly spaced independent variable and a *Cubic Spline* method for
         non-uniformly spaced independent variable.
 
@@ -3084,7 +3084,7 @@ class TriSpectralPowerDistribution(object):
         """
         Interpolates the tri-spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
-        *Sprague (1880)* should be used for interpolating functions having a
+        Sprague (1880) should be used for interpolating functions having a
         uniformly spaced independent variable and a *Cubic Spline* method for
         non-uniformly spaced independent variable. [4]_
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *Von Kries* chromatic adaptation model computations.
+Showcases Von Kries chromatic adaptation model computations.
 """
 
 from __future__ import division, unicode_literals
@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 import colour
 from colour.utilities.verbose import message_box
 
-message_box('"Von Kries" Chromatic Adaptation Model Computations')
+message_box('Von Kries Chromatic Adaptation Model Computations')
 
 XYZ_w = (1.09846607, 1., 0.3558228)
 XYZ_wr = (1.09846607, 1., 0.3558228)
@@ -30,7 +30,7 @@ print('\n')
 
 message_box(('Computing the chromatic adaptation matrix from '
              '"CIE Standard Illuminant A" to '
-             '"CIE Standard Illuminant D Series D65" using "Von Kries" CAT.'))
+             '"CIE Standard Illuminant D Series D65" using Von Kries CAT.'))
 A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
 D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
 print(colour.chromatic_adaptation_matrix_VonKries(

@@ -29,7 +29,7 @@ __all__ = ['TestLLABColourAppearanceModel']
 class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
-    *LLAB(l:c)* colour appearance model.
+    LLAB(l:c) colour appearance model.
     """
 
     FIXTURE_BASENAME = 'llab.csv'
@@ -44,7 +44,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *LLAB(l:c)* colour appearance model output specification
+        Returns the LLAB(l:c) colour appearance model output specification
         from given data.
 
         Parameters
@@ -55,7 +55,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         LLAB_Specification
-            *LLAB(L:c)* colour appearance model specification.
+            LLAB(l:c) colour appearance model specification.
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])
@@ -93,7 +93,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     def test_roundtrip_precision(self):
         """
         Tests for loss of precision in conversion between
-        *LLAB(l:c)* colour appearance model *CIE XYZ* colourspace matrix and
+        LLAB(l:c) colour appearance model *CIE XYZ* colourspace matrix and
         normalised cone responses matrix.
         """
 

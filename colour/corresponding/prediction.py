@@ -14,10 +14,9 @@ See Also
 
 References
 ----------
-.. [1]  **Edwin J. Breneman**, *Corresponding chromaticities for different
-        states of adaptation to complex visual fields*,
-        *JOSA A, Vol. 4, Issue 6, pp. 1115-1129 (1987)*,
-        DOI: http://dx.doi.org/10.1364/JOSAA.4.001115
+.. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
+        states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved
+        from http://www.opticsinfobase.org/josaa/fulltext.cfm?uri=josaa-4-6-1115&id=2783  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -77,14 +76,14 @@ class CorrespondingChromaticitiesPrediction(
 def corresponding_chromaticities_prediction_VonKries(experiment=1,
                                                      transform='CAT02'):
     """
-    Returns the corresponding chromaticities prediction for *Von Kries*
+    Returns the corresponding chromaticities prediction for Von Kries
     chromatic adaptation model using given transform.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        *Edwin J. Breneman* experiment number.
+        Breneman (1987) experiment number.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
@@ -138,14 +137,14 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
 
 def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     """
-    Returns the corresponding chromaticities prediction for *CIE 1994*
+    Returns the corresponding chromaticities prediction for CIE 1994
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        *Edwin J. Breneman* experiment number.
+        Breneman (1987) experiment number.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -201,14 +200,14 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
 
 def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     """
-    Returns the corresponding chromaticities prediction for *CMCCAT2000*
+    Returns the corresponding chromaticities prediction for CMCCAT2000
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        *Edwin J. Breneman* experiment number.
+        Breneman (1987) experiment number.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -263,14 +262,14 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
 def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
                                                           **kwargs):
     """
-    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
+    Returns the corresponding chromaticities prediction for Fairchild (1990)
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        *Edwin J. Breneman* experiment number.
+        Breneman (1987) experiment number.
     \*\*kwargs : \*\*
         Keywords arguments.
 

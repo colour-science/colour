@@ -7,7 +7,7 @@ Optical Phenomenon Plotting
 
 Defines the optical phenomenons plotting objects:
 
--   :func:`rayleigh_scattering_spd_plot`
+-   :func:`single_rayleigh_scattering_spd_plot`
 -   :func:`the_blue_sky_plot`
 """
 

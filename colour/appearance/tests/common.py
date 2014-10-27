@@ -36,7 +36,7 @@ class ColourAppearanceModelTest(object):
 
     Each colour appearance model is tested against a respective '.csv' file
     from which content has been generated from data of the following file by
-    **Mark D. Fairchild**: http://rit-mcsl.org/fairchild//files/AppModEx.xls
+    Fairchild (2013): http://rit-mcsl.org/fairchild//files/AppModEx.xls
 
     Methods
     -------

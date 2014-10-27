@@ -5,7 +5,7 @@
 Colour
 ======
 
-**Colour** is a **Python** colour science package implementing a comprehensive
+*Colour* is a *Python* colour science package implementing a comprehensive
 number of colour theory transformations and algorithms.
 
 Subpackages

@@ -5,7 +5,7 @@
 Optimal Colour Stimuli
 ======================
 
-Defines *MacAdam* optimal colour stimuli for various illuminants in *CIE xyY*
+Defines MacAdam optimal colour stimuli for various illuminants in *CIE xyY*
 colourspace.
 
 The optimal colour stimuli data is in the form of a *dict* of

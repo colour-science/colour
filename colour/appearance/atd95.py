@@ -5,7 +5,7 @@
 ATD (1995) Colour Vision Model
 ==============================
 
-Defines *ATD (1995)* colour vision model objects:
+Defines ATD (1995) colour vision model objects:
 
 -   :class:`ATD95_Specification`
 -   :func:`XYZ_to_ATD95`
@@ -55,9 +55,9 @@ class ATD95_ReferenceSpecification(
     namedtuple('ATD95_ReferenceSpecification',
                ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the *ATD (1995)* colour vision model reference specification.
+    Defines the ATD (1995) colour vision model reference specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -91,11 +91,11 @@ class ATD95_Specification(
     namedtuple('ATD95_Specification',
                ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the *ATD (1995)* colour vision model specification.
+    Defines the ATD (1995) colour vision model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Notes
     -----
@@ -130,7 +130,7 @@ class ATD95_Specification(
 
 def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     """
-    Computes the *ATD (1995)* colour vision model correlates.
+    Computes the ATD (1995) colour vision model correlates.
 
     Parameters
     ----------
@@ -151,7 +151,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     Returns
     -------
     ATD95_Specification
-        *ATD (1995)* colour vision model specification.
+        ATD (1995) colour vision model specification.
 
     Warning
     -------

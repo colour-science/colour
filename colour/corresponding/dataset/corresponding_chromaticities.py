@@ -5,8 +5,7 @@
 Breneman's Corresponding Chromaticities Dataset
 ===============================================
 
-Defines *Edwin J. Breneman* results for corresponding chromaticities
-experiments.
+Defines Breneman (1987) results for corresponding chromaticities experiments.
 
 See Also
 --------
@@ -15,10 +14,9 @@ See Also
 
 References
 ----------
-.. [1]  **Edwin J. Breneman**, *Corresponding chromaticities for different
-        states of adaptation to complex visual fields*,
-        *JOSA A, Vol. 4, Issue 6, pp. 1115-1129 (1987)*,
-        DOI: http://dx.doi.org/10.1364/JOSAA.4.001115
+.. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
+        states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved
+        from http://www.opticsinfobase.org/josaa/fulltext.cfm?uri=josaa-4-6-1115&id=2783  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -157,7 +155,7 @@ BRENEMAN_EXPERIMENT_1_RESULTS = (
         'Purple',
         (0.278, 0.456), (0.231, 0.365), (4, 25), (0, 2), (-5, 7)))
 """
-*Edwin J. Breneman* experiment 1 results.
+Breneman (1987) experiment 1 results.
 
 BRENEMAN_EXPERIMENT_1_RESULTS : tuple
 
@@ -209,7 +207,7 @@ BRENEMAN_EXPERIMENT_2_RESULTS = (
         'Purple',
         (0.258, 0.431), (0.244, 0.349), (4, 19), (-3, 13), (-4, 19)))
 """
-*Edwin J. Breneman* experiment 2 results.
+Breneman (1987) experiment 2 results.
 
 BRENEMAN_EXPERIMENT_2_RESULTS : tuple
 
@@ -261,7 +259,7 @@ BRENEMAN_EXPERIMENT_3_RESULTS = (
         'Purple',
         (0.258, 0.432), (0.238, 0.396), (4, 8), (5, 3), (4, -11)))
 """
-*Edwin J. Breneman* experiment 3 results.
+Breneman (1987) experiment 3 results.
 
 BRENEMAN_EXPERIMENT_3_RESULTS : tuple
 
@@ -313,7 +311,7 @@ BRENEMAN_EXPERIMENT_4_RESULTS = (
         'Purple',
         (0.278, 0.455), (0.229, 0.388), (6, 14), (1, 12), (3, 0)))
 """
-*Edwin J. Breneman* experiment 4 results.
+Breneman (1987) experiment 4 results.
 
 BRENEMAN_EXPERIMENT_4_RESULTS : tuple
 
@@ -362,7 +360,7 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
         'Purple',
         (0.245, 0.364), (0.239, 0.401), (4, 16)))
 """
-*Edwin J. Breneman* experiment 5 results.
+Breneman (1987) experiment 5 results.
 
 BRENEMAN_EXPERIMENT_5_RESULTS : tuple
 
@@ -413,7 +411,7 @@ BRENEMAN_EXPERIMENT_6_RESULTS = (
         'Purple',
         (0.276, 0.456), (0.227, 0.369), (6, 27), (-2, 4), (-3, 9)))
 """
-*Edwin J. Breneman* experiment 6 results.
+Breneman (1987) experiment 6 results.
 
 BRENEMAN_EXPERIMENT_6_RESULTS : tuple
 
@@ -462,7 +460,7 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
         'Purple',
         (0.245, 0.365), (0.240, 0.398), (4, 10)))
 """
-*Edwin J. Breneman* experiment 7 results.
+Breneman (1987) experiment 7 results.
 
 BRENEMAN_EXPERIMENT_7_RESULTS : tuple
 
@@ -513,7 +511,7 @@ BRENEMAN_EXPERIMENT_8_RESULTS = (
         'Purple',
         (0.277, 0.454), (0.226, 0.389), (4, 10), (1, 4), (1, -8)))
 """
-*Edwin J. Breneman* experiment 8 results.
+Breneman (1987) experiment 8 results.
 
 BRENEMAN_EXPERIMENT_8_RESULTS : tuple
 
@@ -586,7 +584,7 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
         '(Purple)h',
         (0.277, 0.456), (0.236, 0.422), (6, 11), None, (-2, -29)))
 """
-*Edwin J. Breneman* experiment 9 results.
+Breneman (1987) experiment 9 results.
 
 BRENEMAN_EXPERIMENT_9_RESULTS : tuple
 
@@ -637,7 +635,7 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
         'Purple',
         (0.245, 0.366), (0.240, 0.402), (3, 12)))
 """
-*Edwin J. Breneman* experiment 10 results.
+Breneman (1987) experiment 10 results.
 
 BRENEMAN_EXPERIMENT_10_RESULTS : tuple
 
@@ -688,7 +686,7 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
         'Purple',
         (0.245, 0.366), (0.216, 0.419), (4, 13), (-3, 8), (4, -2)))
 """
-*Edwin J. Breneman* experiment 1 results.
+Breneman (1987) experiment 1 results.
 
 BRENEMAN_EXPERIMENT_11_RESULTS : tuple
 
@@ -740,7 +738,7 @@ BRENEMAN_EXPERIMENT_12_RESULTS = (
         'Purple',
         (0.246, 0.366), (0.222, 0.404), (5, 15), (-4, 2), (4, 2)))
 """
-*Edwin J. Breneman* experiment 12 results.
+Breneman (1987) experiment 12 results.
 
 BRENEMAN_EXPERIMENT_12_RESULTS : tuple
 
@@ -780,7 +778,7 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
         12, ('D55', 'green'), 75,
         (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))}
 """
-*Edwin J. Breneman* experiments primaries chromaticities.
+Breneman (1987) experiments primaries chromaticities.
 
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
@@ -799,7 +797,7 @@ BRENEMAN_EXPERIMENTS = {
     11: BRENEMAN_EXPERIMENT_11_RESULTS,
     12: BRENEMAN_EXPERIMENT_12_RESULTS}
 """
-*Edwin J. Breneman* experiments.
+Breneman (1987) experiments.
 
 BRENEMAN_EXPERIMENTS : dict
 """

@@ -5,7 +5,7 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Defines *Nayatani (1995)* colour appearance model objects:
+Defines Nayatani (1995) colour appearance model objects:
 
 -   :class:`Nayatani95_Specification`
 -   :func:`XYZ_to_Nayatani95`
@@ -70,7 +70,7 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
 
 NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
 """
-*Nayatani (1995)* colour appearance model *CIE XYZ* colourspace to cone
+Nayatani (1995) colour appearance model *CIE XYZ* colourspace to cone
 responses matrix.
 
 NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -82,10 +82,10 @@ class Nayatani95_ReferenceSpecification(
         'Nayatani95_ReferenceSpecification',
         ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
     """
-    Defines the *Nayatani (1995)* colour appearance model reference
+    Defines the Nayatani (1995) colour appearance model reference
     specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -115,11 +115,11 @@ class Nayatani95_Specification(
     namedtuple('Nayatani95_Specification',
                ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
     """
-    Defines the *Nayatani (1995)* colour appearance model specification.
+    Defines the Nayatani (1995) colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Parameters
     ----------
@@ -151,7 +151,7 @@ def XYZ_to_Nayatani95(XYZ,
                       E_or,
                       n=1):
     """
-    Computes the *Nayatani (1995)* colour appearance model correlates.
+    Computes the Nayatani (1995) colour appearance model correlates.
 
     Parameters
     ----------
@@ -174,7 +174,7 @@ def XYZ_to_Nayatani95(XYZ,
     Returns
     -------
     Nayatani95_Specification
-        *Nayatani (1995)* colour appearance model specification.
+        Nayatani (1995) colour appearance model specification.
 
     Warning
     -------
@@ -387,7 +387,7 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric
@@ -440,7 +440,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
@@ -483,7 +483,7 @@ def protanopic_response(RGB, bRGB_o, xez, n):
          Stimulus cone responses.
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     n : numeric, optional
@@ -523,7 +523,7 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     ----------
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     bL_or: numeric
          Normalising chromatic adaptation exponential factor
          :math:`\\beta_1(B_or)`.
@@ -558,7 +558,7 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
     ----------
     bRGB_o: ndarray, (3,)
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-         `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+         :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray, (3,)
         Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
     bL_or: numeric

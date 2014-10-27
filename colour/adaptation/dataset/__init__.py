@@ -12,6 +12,7 @@ from .cat import (XYZ_SCALING_CAT,
                   CMCCAT97_CAT,
                   CMCCAT2000_CAT,
                   CAT02_CAT,
+                  CAT02_BRILL_CAT,
                   BS_CAT,
                   BS_PC_CAT)
 
@@ -24,6 +25,7 @@ __all__ += ['XYZ_SCALING_CAT',
             'CMCCAT97_CAT',
             'CMCCAT2000_CAT',
             'CAT02_CAT',
+            'CAT02_BRILL_CAT',
             'BS_CAT',
             'BS_PC_CAT']
 

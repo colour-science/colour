@@ -5,7 +5,7 @@
 LLAB(l:c) Colour Appearance Model
 =================================
 
-Defines *LLAB(l:c)* colour appearance model objects:
+Defines LLAB(l:c) colour appearance model objects:
 
 -   :class:`LLAB_InductionFactors`
 -   :attr:`LLAB_VIEWING_CONDITIONS`
@@ -67,7 +67,7 @@ class LLAB_InductionFactors(
     namedtuple('LLAB_InductionFactors',
                ('D', 'F_S', 'F_L', 'F_C'))):
     """
-    *LLAB(l:c)* colour appearance model induction factors.
+    LLAB(l:c) colour appearance model induction factors.
 
     Parameters
     ----------
@@ -94,7 +94,7 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      '35mm Projection Transparency, Dark Surround': (
          LLAB_InductionFactors(0.7, 4, 1, 1))})
 """
-Reference *LLAB(l:c)* colour appearance model viewing conditions.
+Reference LLAB(l:c) colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     {'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -134,7 +134,7 @@ LLAB_XYZ_TO_RGB_MATRIX = np.array(
      [-0.7502, 1.7135, 0.0367],
      [0.0389, -0.0685, 1.0296]])
 """
-*LLAB(l:c)* colour appearance model *CIE XYZ* colourspace matrix to normalised
+LLAB(l:c) colour appearance model *CIE XYZ* colourspace matrix to normalised
 cone responses matrix.
 
 LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -142,13 +142,8 @@ LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 LLAB_RGB_TO_XYZ_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
 """
-*LLAB(l:c)* colour appearance model normalised cone responses to *CIE XYZ*
+LLAB(l:c) colour appearance model normalised cone responses to *CIE XYZ*
 colourspace matrix.
-
-Notes
------
--   This matrix has been rounded on purpose to 4 decimals so that we keep
-    consistency with **Mark D. Fairchild** implementation results.
 
 LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -158,9 +153,9 @@ class LLAB_ReferenceSpecification(
     namedtuple('LLAB_ReferenceSpecification',
                ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
     """
-    Defines the *LLAB(l:c)* colour appearance model reference specification.
+    Defines the LLAB(l:c) colour appearance model reference specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -188,11 +183,11 @@ class LLAB_Specification(
     namedtuple('LLAB_Specification',
                ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
     """
-    Defines the *LLAB(l:c)* colour appearance model specification.
+    Defines the LLAB(l:c) colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Parameters
     ----------
@@ -223,7 +218,7 @@ def XYZ_to_LLAB(
         surround=LLAB_VIEWING_CONDITIONS.get(
             'Reference Samples & Images, Average Surround, Subtending < 4')):
     """
-    Computes the *LLAB(L:c)* colour appearance model correlates.
+    Computes the LLAB(l:c) colour appearance model correlates.
 
     Parameters
     ----------
@@ -242,7 +237,7 @@ def XYZ_to_LLAB(
     Returns
     -------
     LLAB_Specification
-        *LLAB(L:c)* colour appearance model specification.
+        LLAB(l:c) colour appearance model specification.
 
     Warning
     -------
@@ -392,7 +387,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
 def f(x, F_S):
     """
-    Defines the nonlinear response function of the *LLAB(L:c)* colour
+    Defines the nonlinear response function of the LLAB(l:c) colour
     appearance model used to model the nonlinear behavior of various visual
     responses.
 

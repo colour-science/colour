@@ -53,11 +53,6 @@ IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
 """
 *IPT* colourspace normalised cone responses to *CIE XYZ* colourspace matrix.
 
-Notes
------
--   This matrix has been rounded on purpose to 4 decimals so in order to keep
-    available precision consistent between transformations.
-
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
@@ -74,11 +69,6 @@ IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
 IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
 """
 *IPT* colourspace to *IPT* colourspace normalised cone responses matrix.
-
-Notes
------
--   This matrix has been rounded on purpose to 4 decimals so in order to keep
-    available precision consistent between transformations.
 
 IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 """
@@ -131,7 +121,7 @@ def IPT_to_XYZ(IPT):
     ndarray, (3,)
         *CIE XYZ* colourspace matrix.
 
-     Examples
+    Examples
     --------
     >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS

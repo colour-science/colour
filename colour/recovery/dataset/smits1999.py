@@ -5,7 +5,7 @@
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
 
-Defines the dataset for reflectance recovery using *Smits (1999)* method.
+Defines the dataset for reflectance recovery using Smits (1999) method.
 
 References
 ----------
@@ -124,7 +124,7 @@ SMITS_1999_SPDS = CaseInsensitiveMapping({
     'blue': SpectralPowerDistribution(
         'blue', SMITS_1999_SPDS_DATA.get('blue'))})
 """
-*Smits (1999)* spectral power distributions.
+Smits (1999) spectral power distributions.
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """

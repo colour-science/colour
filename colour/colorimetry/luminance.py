@@ -10,10 +10,10 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
+    *Munsell* value :math:`V` using Newhall, Nickerson, and Judd (1943)
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *ASTM D1535-08e1 (2008)* method.
+    *Munsell* value :math:`V` using ASTM D1535-08e1 (2008) method.
 -   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 
@@ -87,7 +87,7 @@ def luminance_Newhall1943(V, **kwargs):
 def luminance_ASTMD153508(V, **kwargs):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
-    *ASTM D1535-08e1 (2008)* method.
+    ASTM D1535-08e1 (2008) method.
 
     Parameters
     ----------
@@ -154,6 +154,7 @@ def luminance_1976(Lstar, Y_n=100):
             Quantitative Data and Formulae (p. 167). Wiley. ISBN:978-0471399186
     .. [3]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
             Retrieved February 24, 2014, from
+            http://brucelindbloom.com/LContinuity.html
 
     Examples
     --------

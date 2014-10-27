@@ -5,7 +5,7 @@
 CIE 1994 Chromatic Adaptation Model
 ===================================
 
-Defines *CIE 1994* chromatic adaptation model objects:
+Defines CIE 1994 chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_CIE1994`
 
@@ -50,7 +50,7 @@ __all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
 
 CIE1994_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-*CIE 1994* colour appearance model *CIE XYZ* colourspace to cone
+CIE 1994 colour appearance model *CIE XYZ* colourspace to cone
 responses matrix.
 
 CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -58,7 +58,7 @@ CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 CIE1994_RGB_TO_XYZ_MATRIX = np.linalg.inv(CIE1994_XYZ_TO_RGB_MATRIX)
 """
-*CIE 1994* colour appearance model cone responses to *CIE XYZ* colourspace
+CIE 1994 colour appearance model cone responses to *CIE XYZ* colourspace
 matrix.
 
 CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -74,7 +74,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
                                  n=1):
     """
     Adapts given *CIE XYZ_1* colourspace stimulus from test viewing conditions
-    to reference viewing conditions using *CIE 1994* chromatic adaptation
+    to reference viewing conditions using CIE 1994 chromatic adaptation
     model.
 
     Parameters
@@ -314,7 +314,7 @@ def beta_2(x):
 def exponential_factors(RGB_o):
     """
     Returns the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-    `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
+    :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
 
     Parameters
     ----------
@@ -325,7 +325,7 @@ def exponential_factors(RGB_o):
     -------
     ndarray, (3,)
         Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        `math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
+        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
 
     Examples
     --------
@@ -361,10 +361,10 @@ def K_coefficient(Y_o, xez_1, xez_2, bRGB_o1, bRGB_o2, n=1):
         the reference illuminant and background.
     bRGB_o1: ndarray, (3,)
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o1})`,
-        `math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
+        :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
     bRGB_o2: ndarray, (3,)
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o2})`,
-        `math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
+        :math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
         sample.
     n : numeric, optional
         Noise component in fundamental primary system.
@@ -419,10 +419,10 @@ def corresponding_colour(RGB_1, Y_o, xez_1, xez_2, bRGB_o1, bRGB_o2, K, n=1):
         the reference illuminant and background.
     bRGB_o1: ndarray, (3,)
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o1})`,
-        `math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
+        :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
     bRGB_o2: ndarray, (3,)
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o2})`,
-        `math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
+        :math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
         sample.
     K : numeric
         Coefficient :math:`K`.

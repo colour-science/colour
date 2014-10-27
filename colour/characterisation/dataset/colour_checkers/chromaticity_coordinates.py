@@ -62,7 +62,7 @@ __all__ = ['ColourChecker_Specification',
            'COLORCHECKER_1976',
            'COLOURCHECKERS']
 
-ColourChecker_Specification = namedtuple('ColourChecker_InxxY',
+ColourChecker_Specification = namedtuple('ColourChecker_Specification',
                                          ('index', 'name', 'x', 'y', 'Y'))
 
 ColourChecker = namedtuple('ColourChecker',

@@ -5,7 +5,7 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines *Von Kries* chromatic adaptation model objects:
+Defines Von Kries chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_matrix_VonKries`
 -   :func:`chromatic_adaptation_VonKries`
@@ -74,7 +74,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
            [-0.1030072...,  1.0584014...,  0.1538646...],
            [ 0.0078167...,  0.0267875...,  2.9608177...]])
 
-    Using *Bradford* method:
+    Using Bradford method:
 
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
     >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
@@ -142,7 +142,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
     array([ 0.0839746...,  0.1141321...,  0.2862554...])
 
-    Using *Bradford* method:
+    Using Bradford method:
 
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])

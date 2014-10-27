@@ -15,7 +15,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Interpolation Computations')
 
-message_box(('Comparing "CIE" "Sprague" and "Cubic Spline" recommended '
+message_box(('Comparing Sprague (1880) and "Cubic Spline" recommended '
              'interpolation methods.'))
 
 uniform_spd_data = {

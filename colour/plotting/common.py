@@ -8,9 +8,9 @@ Common Plotting
 Defines the common plotting objects:
 
 -   :func:`colour_cycle`
--   :func:`figure_size`
--   :func:`aspect`
--   :func:`bounding_box`
+-   :func:`canvas`
+-   :func:`decorate`
+-   :func:`boundaries`
 -   :func:`display`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
