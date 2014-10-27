@@ -388,12 +388,12 @@ def XYZ_to_RGB(XYZ,
     ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
-    
+
     XYZ = np.ravel(XYZ)
 
     cat = chromatic_adaptation_matrix_VonKries(xy_to_XYZ(illuminant_XYZ),
-                                    xy_to_XYZ(illuminant_RGB),
-                                    transform=chromatic_adaptation_transform)
+                                               xy_to_XYZ(illuminant_RGB),
+                                               transform=chromatic_adaptation_transform)
 
     XYZ_a = np.dot(cat, XYZ)
 
@@ -526,7 +526,7 @@ def RGB_to_RGB(RGB,
     """
 
     RGB = np.ravel(RGB)
-    
+
     cat = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(input_colourspace.whitepoint),
         xy_to_XYZ(output_colourspace.whitepoint),

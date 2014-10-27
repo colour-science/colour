@@ -13,14 +13,14 @@ from colour.utilities.verbose import message_box
 message_box('Blackbody / Planckian Radiator Computations')
 
 message_box(('Computing the spectral radiance of a blackbody at wavelength '
-            '500 nm and temperature 5500 kelvin degrees.'))
+             '500 nm and temperature 5500 kelvin degrees.'))
 print(colour.planck_law(500 * 1e-9, 5500))
 
 print('\n')
 
 message_box(('Computing the spectral power distribution of a blackbody at '
-            'temperature 5500 kelvin degrees and converting to "CIE XYZ" '
-            'tristimulus values.'))
+             'temperature 5500 kelvin degrees and converting to "CIE XYZ" '
+             'tristimulus values.'))
 cmfs = colour.STANDARD_OBSERVERS_CMFS.get(
     'CIE 1931 2 Degree Standard Observer')
 blackbody_spd = colour.blackbody_spd(5500, cmfs.shape)

@@ -243,7 +243,7 @@ def delta_E_CIE2000(lab1, lab2, **kwargs):
     sH = 1 + 0.015 * c_bar_prime * t
 
     delta_theta = (30 * np.exp(-((h_bar_prime - 275) / 25) *
-                                 ((h_bar_prime - 275) / 25)))
+                               ((h_bar_prime - 275) / 25)))
 
     c_bar_prime7 = c_bar_prime ** 7
 

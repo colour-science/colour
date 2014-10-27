@@ -3497,7 +3497,7 @@ RGB_CMFS = CaseInsensitiveMapping(
     {'Wright & Guild 1931 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
         'Wright & Guild 1931 2 Degree RGB CMFs',
         RGB_CMFS_DATA.get('Wright & Guild 1931 2 Degree RGB CMFs'),
-        'Wright & Guild 1931 2$^\\circ$ RGB CMFs',),
+        'Wright & Guild 1931 2$^\\circ$ RGB CMFs', ),
      'Stiles & Burch 1955 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
          'Stiles & Burch 1955 2 Degree RGB CMFs',
          RGB_CMFS_DATA.get('Stiles & Burch 1955 2 Degree RGB CMFs'),

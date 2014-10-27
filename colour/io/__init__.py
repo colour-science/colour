@@ -12,6 +12,6 @@ from .xrite import read_spds_from_xrite_file
 
 __all__ = ['IES_TM2714_Spd']
 __all__ += ['read_spectral_data_from_csv_file',
-           'read_spds_from_csv_file',
-           'write_spds_to_csv_file']
+            'read_spds_from_csv_file',
+            'write_spds_to_csv_file']
 __all__ += ['read_spds_from_xrite_file']
