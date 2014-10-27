@@ -27,10 +27,11 @@ from colour.models import (
     XYZ_to_xy)
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
-    aspect,
-    bounding_box,
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
     display,
-    figure_size,
     colour_cycle,
     get_cmfs)
 
@@ -77,7 +78,6 @@ def get_RGB_colourspace(colourspace):
     return colourspace
 
 
-@figure_size((28, 28))
 def colourspaces_CIE_1931_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -106,13 +106,19 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if colourspaces is None:
         colourspaces = ('sRGB', 'ACES RGB', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    settings = {'title': '{0} - {1}'.format(', '.join(colourspaces), name),
-                'standalone': False}
+    settings = {
+        'title': '{0} - {1}'.format(', '.join(colourspaces), name),
+        'standalone': False}
     settings.update(kwargs)
 
     if not CIE_1931_chromaticity_diagram_plot(**settings):
@@ -191,23 +197,23 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
             x_limit_max.append(np.amax(primaries[:, 0]))
             y_limit_max.append(np.amax(primaries[:, 1]))
 
-    settings.update({'legend': True,
-                     'legend_location': 'upper right',
-                     'x_tighten': True,
-                     'y_tighten': True,
-                     'limits': [min(x_limit_min), max(x_limit_max),
-                                min(y_limit_min), max(y_limit_max)],
-                     'margins': [-0.05, 0.05, -0.05, 0.05],
-                     'standalone': True})
+    settings.update({
+        'legend': True,
+        'legend_location': 'upper right',
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': [min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max)],
+        'margins': [-0.05, 0.05, -0.05, 0.05],
+        'standalone': True})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((28, 28))
 def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     """
     Plots given colourspace transfer function.
@@ -236,7 +242,6 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     return multi_transfer_function_plot([colourspace], **settings)
 
 
-@figure_size((28, 28))
 def multi_transfer_function_plot(colourspaces=None,
                                  inverse=False, **kwargs):
     """
@@ -262,6 +267,11 @@ def multi_transfer_function_plot(colourspaces=None,
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if colourspaces is None:
         colourspaces = ['sRGB', 'Rec. 709']
 
@@ -278,7 +288,7 @@ def multi_transfer_function_plot(colourspaces=None,
                    label=u'{0}'.format(colourspace.name),
                    linewidth=2)
 
-    settings = {
+    settings.update({
         'title': '{0} - Transfer Functions'.format(
             ', '.join(colourspaces)),
         'x_tighten': True,
@@ -288,11 +298,10 @@ def multi_transfer_function_plot(colourspaces=None,
         'y_ticker': True,
         'grid': True,
         'limits': [0, 1, 0, 1],
-        'aspect': 'equal'}
-
+        'aspect': 'equal'})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

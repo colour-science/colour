@@ -2365,19 +2365,19 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping(
              'CIE 1964 Photopic 10 Degree Standard Observer',
              PHOTOPIC_LEFS_DATA.get(
                  'CIE 1964 Photopic 10 Degree Standard Observer'),
-             'CIE 1964 Photopic $10^\\circ$ Standard Observer'),
+             'CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
      'CIE 2008 2 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 2 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
                  'CIE 2008 2 Degree Physiologically Relevant LEF'),
-             'CIE 2008 $2^\\circ$ Physiologically Relevant LEF'),
+             'CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
      'CIE 2008 10 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 10 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
                  'CIE 2008 10 Degree Physiologically Relevant LEF'),
-             'CIE 2008 $10^\\circ$ Physiologically Relevant LEF')})
+             'CIE 2008 10$^\\circ$ Physiologically Relevant LEF')})
 """
 Photopic luminous efficiency functions.
 

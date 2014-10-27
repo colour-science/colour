@@ -29,8 +29,7 @@ from colour.temperature import CCT_to_uv
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
-    display,
-    figure_size)
+    display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -43,7 +42,6 @@ __all__ = ['planckian_locus_CIE_1931_chromaticity_diagram_plot',
            'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
 
 
-@figure_size((28, 28))
 def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         illuminants=None,
         **kwargs):
@@ -133,7 +131,6 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-@figure_size((28, 28))
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         illuminants=None,
         **kwargs):

@@ -27,8 +27,9 @@ from colour.phenomenons.rayleigh import (
     DEFAULT_ALTITUDE)
 from colour.plotting import (
     ASTM_G_173_ETR,
-    aspect,
-    bounding_box,
+    canvas,
+    decorate,
+    boundaries,
     display,
     colour_parameter,
     get_cmfs,
@@ -88,8 +89,9 @@ def single_rayleigh_scattering_spd_plot(
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    settings = {'title': title,
-                'y_label': 'Optical Depth'}
+    settings = {
+        'title': title,
+        'y_label': 'Optical Depth'}
     settings.update(kwargs)
 
     spd = rayleigh_scattering_spd(cmfs.shape,
@@ -124,6 +126,8 @@ def the_blue_sky_plot(
     >>> the_blue_sky_plot()  # doctest: +SKIP
     True
     """
+
+    canvas(**kwargs)
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -166,6 +170,6 @@ def the_blue_sky_plot(
     settings = {'standalone': True}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
     return display(**settings)

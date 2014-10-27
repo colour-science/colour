@@ -36,11 +36,12 @@ from colour.models import (
     Luv_uv_to_xy,
     XYZ_to_sRGB)
 from colour.plotting import (
+    DEFAULT_FIGURE_WIDTH,
     PLOTTING_RESOURCES_DIRECTORY,
-    aspect,
-    bounding_box,
+    canvas,
+    decorate,
+    boundaries,
     display,
-    figure_size,
     get_cmfs)
 
 __author__ = 'Colour Developers'
@@ -58,7 +59,6 @@ __all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
            'CIE_1976_UCS_chromaticity_diagram_plot']
 
 
-@figure_size((32, 32))
 def CIE_1931_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
@@ -89,6 +89,11 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     True
     """
 
+    settings = {'figure_size': (32, 32)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
@@ -111,19 +116,19 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {'no_ticks': True,
-                'bounding_box': [0, 1, 0, 1],
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
+    settings.update({
+        'no_ticks': True,
+        'bounding_box': [0, 1, 0, 1],
+        'bbox_inches': 'tight',
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((28, 28))
 def CIE_1931_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -147,6 +152,11 @@ def CIE_1931_chromaticity_diagram_plot(
     True
 
     """
+
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
 
     cmfs = get_cmfs(cmfs)
 
@@ -211,7 +221,7 @@ def CIE_1931_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
-    settings = {
+    settings.update({
         'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
         'y_label': 'CIE y',
@@ -220,16 +230,15 @@ def CIE_1931_chromaticity_diagram_plot(
         'grid': True,
         'bounding_box': [-0.1, 0.9, -0.1, 0.9],
         'bbox_inches': 'tight',
-        'pad_inches': 0}
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((32, 32))
 def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
@@ -260,6 +269,11 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
+    settings = {'figure_size': (32, 32)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
@@ -282,19 +296,19 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {'no_ticks': True,
-                'bounding_box': [0, 1, 0, 1],
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
+    settings.update({
+        'no_ticks': True,
+        'bounding_box': [0, 1, 0, 1],
+        'bbox_inches': 'tight',
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((28, 28))
 def CIE_1960_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -317,6 +331,11 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     >>> CIE_1960_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
     True
     """
+
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
 
     cmfs = get_cmfs(cmfs)
 
@@ -381,7 +400,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
-    settings = {
+    settings.update({
         'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u',
         'y_label': 'CIE v',
@@ -390,16 +409,15 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'grid': True,
         'bounding_box': [-0.075, 0.675, -0.15, 0.6],
         'bbox_inches': 'tight',
-        'pad_inches': 0}
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((32, 32))
 def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         surface=1.25,
         spacing=0.00075,
@@ -430,6 +448,11 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
+    settings = {'figure_size': (32, 32)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS.get(
@@ -453,19 +476,19 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     pylab.scatter(x_dot, y_dot, color=colours, s=surface)
 
-    settings = {'no_ticks': True,
-                'bounding_box': [0, 1, 0, 1],
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
+    settings.update({
+        'no_ticks': True,
+        'bounding_box': [0, 1, 0, 1],
+        'bbox_inches': 'tight',
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
 
-@figure_size((28, 28))
 def CIE_1976_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
@@ -488,6 +511,11 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     >>> CIE_1976_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
     True
     """
+
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
 
     cmfs = get_cmfs(cmfs)
 
@@ -556,7 +584,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
-    settings = {
+    settings.update({
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
@@ -565,10 +593,10 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'grid': True,
         'bounding_box': [-0.1, .7, -.1, .7],
         'bbox_inches': 'tight',
-        'pad_inches': 0}
+        'pad_inches': 0})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

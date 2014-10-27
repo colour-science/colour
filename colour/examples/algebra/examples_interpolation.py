@@ -117,6 +117,6 @@ settings = {'x_label': 'Wavelength $\\lambda$ (nm)',
             'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
                        max(y_limit_max)]}
 
-bounding_box(**settings)
-aspect(**settings)
+boundaries(**settings)
+decorate(**settings)
 display(**settings)

@@ -22,10 +22,11 @@ from colour.quality import (
     colour_quality_scale,
     colour_rendering_index)
 from colour.plotting import (
-    aspect,
-    bounding_box,
-    display,
-    figure_size)
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
+    display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -39,7 +40,6 @@ __all__ = ['colour_quality_bars_plot',
            'colour_quality_scale_bars_plot']
 
 
-@figure_size((28, 28))
 def colour_quality_bars_plot(specification, **kwargs):
     """
     Plots the colour quality data of given illuminant or light source colour
@@ -65,7 +65,12 @@ def colour_quality_bars_plot(specification, **kwargs):
     True
     """
 
-    figure, axis = matplotlib.pyplot.subplots()
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
+    axis = matplotlib.pyplot.gca()
 
     Q_a, Q_as, colorimetry_data = (specification.Q_a,
                                    specification.Q_as,
@@ -103,7 +108,7 @@ def colour_quality_bars_plot(specification, **kwargs):
 
     label_bars(bars)
 
-    settings = {
+    settings.update({
         'title': 'Colour Quality',
         'grid': True,
         'grid_axis': 'x',
@@ -114,11 +119,11 @@ def colour_quality_bars_plot(specification, **kwargs):
                    0 if positive else -110,
                    110],
         'aspect': 1 / ((110 if positive else 220) /
-                       (width + len(Q_as) + width * 2))}
+                       (width + len(Q_as) + width * 2))})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
     return display(**settings)
 
 
@@ -154,7 +159,7 @@ def colour_rendering_index_bars_plot(spd, **kwargs):
         settings = {
             'title': 'Colour Rendering Index - {0}'.format(spd.title)}
 
-        aspect(**settings)
+        decorate(**settings)
         return display(**settings)
 
 
@@ -190,5 +195,5 @@ def colour_quality_scale_bars_plot(spd, **kwargs):
         settings = {
             'title': 'Colour Quality Scale - {0}'.format(spd.title)}
 
-        aspect(**settings)
+        decorate(**settings)
         return display(**settings)
