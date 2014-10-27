@@ -111,7 +111,7 @@ def colour_quality_bars_plot(specification, **kwargs):
     settings.update({
         'title': 'Colour Quality',
         'grid': True,
-        'grid_axis': 'x',
+        'grid_axis': 'y',
         'x_tighten': True,
         'y_tighten': True,
         'limits': [-width,
