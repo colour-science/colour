@@ -117,7 +117,6 @@ DEFAULT_PARAMETERS = {
     'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
     'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
-    'text.fontsize': DEFAULT_FONT_SIZE,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
     'ytick.labelsize': DEFAULT_FONT_SIZE
 }
