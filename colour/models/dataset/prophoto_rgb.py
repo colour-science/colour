@@ -16,7 +16,7 @@ See Also
 
 References
 ----------
-.. [1]  Specification of ROMM RGB. (2003). Retrieved from
+.. [1]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
         http://www.color.org/ROMMRGB.pdf
 """
 

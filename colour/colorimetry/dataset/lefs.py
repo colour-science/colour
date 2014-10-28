@@ -47,7 +47,8 @@ References
         http://www.cvrl.org/lumindex.htm
 .. [2]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
         http://cvrl.ioo.ucl.ac.uk/cie.htm
-.. [3]  Mesopic weighting function. (n.d.). Retrieved June 20, 2014, from
+.. [3]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
+        2014, from
         http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 

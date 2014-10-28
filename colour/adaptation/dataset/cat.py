@@ -29,7 +29,7 @@ References
 ----------
 .. [1]  Lindbloom, B. (2009). Chromatic Adaptation. Retrieved February 24,
         2014, from http://brucelindbloom.com/Eqn_ChromAdapt.html
-.. [2]  Fairchild YSh. (n.d.). Retrieved from
+.. [2]  Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved from
         http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
 .. [3]  Wikipedia. (n.d.). CAT02. Retrieved February 24, 2014,
         from http://en.wikipedia.org/wiki/CIECAM02#CAT02

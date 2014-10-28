@@ -49,7 +49,12 @@ If you would like to contribute to `Colour <https://github.com/colour-science/co
 Changes
 -------
 
-The changes are viewable on the `releases <https://github.com/colour-science/colour/releases>`_ page.
+The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
+
+References
+----------
+
+The references are available on the `Citations <http://colour-science.org/citations.php>`_ page. They are also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/REFERENCES.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/REFERENCES.rst>`_.
 
 About
 -----

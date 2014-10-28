@@ -419,8 +419,8 @@ def CMY_to_CMYK(CMY):
 
     References
     ----------
-    .. [9]  EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    .. [9]  EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 
     Examples
     --------
