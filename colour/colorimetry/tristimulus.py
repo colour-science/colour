@@ -177,7 +177,7 @@ def wavelength_to_XYZ(wavelength,
         interpolators = [interpolator(wavelengths, values[:, i])
                          for i in range(values.shape[-1])]
 
-        return np.array([interpolator(wavelength)
-                         for interpolator in interpolators])
+        return np.array([interpolator_i(wavelength)
+                         for interpolator_i in interpolators])
     else:
         return np.array(cmfs.get(wavelength))

@@ -15,8 +15,6 @@ See Also
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.models import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = 'Colour Developers'
@@ -60,6 +58,7 @@ def XYZ_to_sRGB(XYZ,
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_to_sRGB(XYZ)  # doctest: +ELLIPSIS
     array([ 0.1750135...,  0.3881879...,  0.3216195...])
@@ -105,6 +104,7 @@ def sRGB_to_XYZ(RGB,
 
     Examples
     --------
+    >>> import numpy as np
     >>> RGB = np.array([0.17501358, 0.38818795, 0.32161955])
     >>> sRGB_to_XYZ(RGB)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])

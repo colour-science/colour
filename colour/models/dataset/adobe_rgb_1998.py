@@ -16,9 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding,
-        2704(May). Retrieved from
-        http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+.. [1]  Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding.
+        Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals

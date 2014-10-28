@@ -204,7 +204,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing adapting luminance :math:`L_o` and normalising luminance
     # :math:`L_{or}` in in :math:`cd/m^2`.
-    L_o = illuminance_to_luminance(E_o, Y_o)
+    # L_o = illuminance_to_luminance(E_o, Y_o)
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
@@ -284,8 +284,8 @@ def XYZ_to_Nayatani95(XYZ,
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
     # TODO: Investigate components usage.
-    M_RG, M_YB = colourfulness_components(C_RG, C_YB,
-                                          brightness_ideal_white)
+    # M_RG, M_YB = colourfulness_components(C_RG, C_YB,
+    #                                       brightness_ideal_white)
     M = colourfulness_correlate(C, brightness_ideal_white)
 
     return Nayatani95_Specification(Lstar_P,

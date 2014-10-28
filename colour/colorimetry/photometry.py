@@ -72,4 +72,3 @@ def luminous_flux(spd,
     flux = K_m * np.trapz(spd.values, spd.wavelengths)
 
     return flux
-

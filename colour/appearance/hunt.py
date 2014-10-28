@@ -410,7 +410,6 @@ def XYZ_to_Hunt(XYZ,
     # -------------------------------------------------------------------------
     # Computing eccentricity factors.
     e_s = eccentricity_factor(h)
-    e_s_w = eccentricity_factor(hue_w)
 
     # Computing low luminance tritanopia factor :math:`F_t`.
     F_t = low_luminance_tritanopia_factor(L_A)

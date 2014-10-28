@@ -87,7 +87,7 @@ def single_rayleigh_scattering_spd_plot(
 
     title = 'Rayleigh Scattering'
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     settings = {
         'title': title,

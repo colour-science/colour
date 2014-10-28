@@ -277,7 +277,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     samples = np.linspace(0, 1, 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = get_RGB_colourspace(colourspace), colourspace
+        colourspace = get_RGB_colourspace(colourspace)
 
         RGBs = np.array([colourspace.inverse_transfer_function(x)
                          if inverse else

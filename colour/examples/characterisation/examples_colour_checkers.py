@@ -49,4 +49,3 @@ for index, name, x, y, Y in data:
 
     RGB = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]
     print('"{0}": {1}'.format(name, RGB))
-

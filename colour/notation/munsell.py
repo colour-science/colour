@@ -114,8 +114,7 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
-    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
-        # noqa
+    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(  # noqa
         FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'

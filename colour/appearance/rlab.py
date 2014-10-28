@@ -204,7 +204,6 @@ def XYZ_to_RLAB(XYZ,
     X, Y, Z = np.ravel(XYZ)
 
     # Converting to cone responses.
-    LMS = XYZ_to_rgb(XYZ)
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.

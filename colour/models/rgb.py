@@ -391,9 +391,10 @@ def XYZ_to_RGB(XYZ,
 
     XYZ = np.ravel(XYZ)
 
-    cat = chromatic_adaptation_matrix_VonKries(xy_to_XYZ(illuminant_XYZ),
-                                               xy_to_XYZ(illuminant_RGB),
-                                               transform=chromatic_adaptation_transform)
+    cat = chromatic_adaptation_matrix_VonKries(
+        xy_to_XYZ(illuminant_XYZ),
+        xy_to_XYZ(illuminant_RGB),
+        transform=chromatic_adaptation_transform)
 
     XYZ_a = np.dot(cat, XYZ)
 
@@ -536,5 +537,3 @@ def RGB_to_RGB(RGB,
                np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
 
     return np.dot(M, RGB)
-
-
