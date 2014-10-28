@@ -44,7 +44,7 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `contributing <http://colour-science.org/contributing.php>`_ guide.
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing.php>`_ guide.
 
 Changes
 -------
@@ -54,7 +54,9 @@ The changes are viewable on the `Releases <https://github.com/colour-science/col
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page. It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page.
+
+It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
 About
 -----
