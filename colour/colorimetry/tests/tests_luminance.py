@@ -15,9 +15,9 @@ else:
     import unittest
 
 from colour.colorimetry.luminance import (
-    luminance_newhall1943,
+    luminance_Newhall1943,
     luminance_1976,
-    luminance_ASTM_D1535_08)
+    luminance_ASTMD153508)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -27,58 +27,58 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestLuminanceNewhall1943',
-           'TestLuminanceASTM_D1535_08',
+           'TestLuminanceASTMD153508',
            'TestLuminance1976']
 
 
 class TestLuminanceNewhall1943(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_newhall1943`
+    Defines :func:`colour.colorimetry.luminance.luminance_Newhall1943`
     definition unit tests methods.
     """
 
-    def test_luminance_newhall1943(self):
+    def test_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_newhall1943`
+        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition.
         """
 
         self.assertAlmostEqual(
-            luminance_newhall1943(3.74629715382),
+            luminance_Newhall1943(3.74629715382),
             10.4089874577,
             places=7)
         self.assertAlmostEqual(
-            luminance_newhall1943(8.64728711385),
+            luminance_Newhall1943(8.64728711385),
             71.3174801757,
             places=7)
         self.assertAlmostEqual(
-            luminance_newhall1943(1.52569021578),
+            luminance_Newhall1943(1.52569021578),
             2.06998750444,
             places=7)
 
 
-class TestLuminanceASTM_D1535_08(unittest.TestCase):
+class TestLuminanceASTMD153508(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
+    Defines :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
     definition unit tests methods.
     """
 
-    def test_luminance_1976(self):
+    def test_luminance_ASTMD153508(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTM_D1535_08`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
         definition.
         """
 
         self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(3.74629715382),
+            luminance_ASTMD153508(3.74629715382),
             10.1488096782,
             places=7)
         self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(8.64728711385),
+            luminance_ASTMD153508(8.64728711385),
             69.5324092373,
             places=7)
         self.assertAlmostEqual(
-            luminance_ASTM_D1535_08(1.52569021578),
+            luminance_ASTMD153508(1.52569021578),
             2.01830631474,
             places=7)
 

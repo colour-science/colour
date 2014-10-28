@@ -5,8 +5,8 @@ from __future__ import absolute_import
 
 from .dataset import *  # noqa
 from . import dataset
-from .smits1999 import RGB_to_spectral_smits1999
+from .smits1999 import RGB_to_spectral_Smits1999
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ['RGB_to_spectral_smits1999']
+__all__ += ['RGB_to_spectral_Smits1999']

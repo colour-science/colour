@@ -6,9 +6,8 @@ Munsell Renotation System Dataset - Real Munsell Colours
 ========================================================
 
 Defines the *Munsell Renotation System* *Real* dataset. Those are *real*,
-within *MacAdam* limits *Munsell* colours only. They are the colours listed in
-the original 1943 renotation article, *Newhall, Judd and Nickerson*, *JOSA*,
-(1943).
+within MacAdam limits *Munsell* colours only. They are the colours listed in
+the original 1943 renotation article (Newhall, Nickerson, & Judd, 1943).
 
 See Also
 --------
@@ -2768,7 +2767,7 @@ MUNSELL_COLOURS_REAL = (
     (('7.5RP', 9, 4), (0.3350, 0.3099, 78.660)),
     (('7.5RP', 9, 6), (0.3512, 0.3052, 78.660)))
 """
-*Real*, within *MacAdam* limits, published *Munsell* colours.
+*Real*, within MacAdam limits, published *Munsell* colours.
 
 MUNSELL_COLOURS_REAL : tuple
 (('hue', 'value', 'chroma'), ('x', 'y', 'Y')))

@@ -16,7 +16,8 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 References
 ----------
-.. [1]  Mesopic weighting function. (n.d.). Retrieved June 20, 2014, from
+.. [1]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
+        2014, from
         http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 

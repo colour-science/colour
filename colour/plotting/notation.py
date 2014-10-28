@@ -18,10 +18,11 @@ import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
-    aspect,
-    bounding_box,
-    display,
-    figure_size)
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
+    display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -64,7 +65,6 @@ def single_munsell_value_function_plot(function='ASTM D1535-08',
     return multi_munsell_value_function_plot([function], **settings)
 
 
-@figure_size((8, 8))
 def multi_munsell_value_function_plot(
         functions=None,
         **kwargs):
@@ -96,6 +96,11 @@ def multi_munsell_value_function_plot(
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if functions is None:
         functions = ('ASTM D1535-08',
                      'McCamy 1987')
@@ -114,7 +119,7 @@ def multi_munsell_value_function_plot(
                    label=u'{0}'.format(name),
                    linewidth=2)
 
-    settings = {
+    settings.update({
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
         'x_label': 'Luminance Y',
         'y_label': 'Munsell Value V',
@@ -124,11 +129,11 @@ def multi_munsell_value_function_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100]}
-
+        'bounding_box': [0, 100, 0, 10],
+        'aspect': 10})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

@@ -126,7 +126,7 @@ def wavelength_to_XYZ(wavelength,
 
     If the wavelength :math:`\lambda` is not available in the colour matching
     function, its value will be calculated using *CIE* recommendations:
-    The method developed by *Sprague (1880)* should be used for interpolating
+    The method developed by Sprague (1880) should be used for interpolating
     functions having a uniformly spaced independent variable and a
     *Cubic Spline* method for non-uniformly spaced independent variable.
 

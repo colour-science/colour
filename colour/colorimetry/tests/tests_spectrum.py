@@ -2017,6 +2017,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         required_attributes = ('name',
                                'data',
+                               'title',
                                'wavelengths',
                                'values',
                                'shape')
@@ -2427,9 +2428,10 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         required_attributes = ('name',
-                               'mapping',
-                               'labels',
                                'data',
+                               'mapping',
+                               'title',
+                               'labels',
                                'x',
                                'y',
                                'z',

@@ -47,7 +47,8 @@ References
         http://www.cvrl.org/lumindex.htm
 .. [2]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
         http://cvrl.ioo.ucl.ac.uk/cie.htm
-.. [3]  Mesopic weighting function. (n.d.). Retrieved June 20, 2014, from
+.. [3]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
+        2014, from
         http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
@@ -2364,17 +2365,20 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping(
          SpectralPowerDistribution(
              'CIE 1964 Photopic 10 Degree Standard Observer',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 1964 Photopic 10 Degree Standard Observer')),
+                 'CIE 1964 Photopic 10 Degree Standard Observer'),
+             'CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
      'CIE 2008 2 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 2 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 2008 2 Degree Physiologically Relevant LEF')),
+                 'CIE 2008 2 Degree Physiologically Relevant LEF'),
+             'CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
      'CIE 2008 10 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 10 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 2008 10 Degree Physiologically Relevant LEF'))})
+                 'CIE 2008 10 Degree Physiologically Relevant LEF'),
+             'CIE 2008 10$^\\circ$ Physiologically Relevant LEF')})
 """
 Photopic luminous efficiency functions.
 

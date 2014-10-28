@@ -47,19 +47,19 @@ __all__ = ['STANDARD_AIR_TEMPERATURE',
            'AVERAGE_PRESSURE_MEAN_SEA_LEVEL',
            'DEFAULT_LATITUDE',
            'DEFAULT_ALTITUDE',
-           'air_refraction_index_penndorf1957',
-           'air_refraction_index_edlen1966',
-           'air_refraction_index_peck1972',
-           'air_refraction_index_bodhaine1999',
+           'air_refraction_index_Penndorf1957',
+           'air_refraction_index_Edlen1966',
+           'air_refraction_index_Peck1972',
+           'air_refraction_index_Bodhaine1999',
            'N2_depolarisation',
            'O2_depolarisation',
-           'F_air_penndorf1957',
-           'F_air_young1981',
-           'F_air_bates1984',
-           'F_air_bodhaine1999',
+           'F_air_Penndorf1957',
+           'F_air_Young1981',
+           'F_air_Bates1984',
+           'F_air_Bodhaine1999',
            'molecular_density',
            'mean_molecular_weights',
-           'gravity_list1968',
+           'gravity_List1968',
            'scattering_cross_section',
            'rayleigh_optical_depth',
            'rayleigh_scattering']
@@ -100,10 +100,10 @@ DEFAULT_ALTITUDE : numeric
 """
 
 
-def air_refraction_index_penndorf1957(wavelength, *args):
+def air_refraction_index_Penndorf1957(wavelength, *args):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in  micrometers (:math:`\mu m`) using *Penndorf (1957)*
+    :math:`\lambda` in  micrometers (:math:`\mu m`) using Penndorf (1957)
     method.
 
     Parameters
@@ -120,12 +120,12 @@ def air_refraction_index_penndorf1957(wavelength, *args):
 
     See Also
     --------
-    air_refraction_index_edlen1966, air_refraction_index_peck1972,
-    air_refraction_index_bodhaine1999
+    air_refraction_index_Edlen1966, air_refraction_index_Peck1972,
+    air_refraction_index_Bodhaine1999
 
     Examples
     --------
-    >>> air_refraction_index_penndorf1957(0.555)  # doctest: +ELLIPSIS
+    >>> air_refraction_index_Penndorf1957(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -135,10 +135,10 @@ def air_refraction_index_penndorf1957(wavelength, *args):
     return n
 
 
-def air_refraction_index_edlen1966(wavelength, *args):
+def air_refraction_index_Edlen1966(wavelength, *args):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in micrometers (:math:`\mu m`) using *Edlen (1966)* method.
+    :math:`\lambda` in micrometers (:math:`\mu m`) using Edlen (1966) method.
 
     Parameters
     ----------
@@ -154,12 +154,12 @@ def air_refraction_index_edlen1966(wavelength, *args):
 
     See Also
     --------
-    air_refraction_index_penndorf1957, air_refraction_index_peck1972,
-    air_refraction_index_bodhaine1999
+    air_refraction_index_Penndorf1957, air_refraction_index_Peck1972,
+    air_refraction_index_Bodhaine1999
 
     Examples
     --------
-    >>> air_refraction_index_edlen1966(0.555)  # doctest: +ELLIPSIS
+    >>> air_refraction_index_Edlen1966(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -169,11 +169,11 @@ def air_refraction_index_edlen1966(wavelength, *args):
     return n
 
 
-def air_refraction_index_peck1972(wavelength, *args):
+def air_refraction_index_Peck1972(wavelength, *args):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
-    *Peck and Reeder (1972)* method.
+    Peck and Reeder (1972) method.
 
     Parameters
     ----------
@@ -189,12 +189,12 @@ def air_refraction_index_peck1972(wavelength, *args):
 
     See Also
     --------
-    air_refraction_index_penndorf1957, air_refraction_index_edlen1966,
-    air_refraction_index_bodhaine1999
+    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
+    air_refraction_index_Bodhaine1999
 
     Examples
     --------
-    >>> air_refraction_index_peck1972(0.555)  # doctest: +ELLIPSIS
+    >>> air_refraction_index_Peck1972(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
@@ -205,13 +205,13 @@ def air_refraction_index_peck1972(wavelength, *args):
     return n
 
 
-def air_refraction_index_bodhaine1999(
+def air_refraction_index_Bodhaine1999(
         wavelength,
         CO2_concentration=STANDARD_CO2_CONCENTRATION):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
-    *Bodhaine, Wood, Dutton and Slusser (1999)* method.
+    Bodhaine, Wood, Dutton and Slusser (1999) method.
 
     Parameters
     ----------
@@ -227,19 +227,19 @@ def air_refraction_index_bodhaine1999(
 
     See Also
     --------
-    air_refraction_index_penndorf1957, air_refraction_index_edlen1966,
-    air_refraction_index_peck1972
+    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
+    air_refraction_index_Peck1972
 
     Examples
     --------
-    >>> air_refraction_index_bodhaine1999(0.555)  # doctest: +ELLIPSIS
+    >>> air_refraction_index_Bodhaine1999(0.555)  # doctest: +ELLIPSIS
     1.0002777...
     """
 
     wl = wavelength
     CCO2 = CO2_concentration
     n = ((1 + 0.54 * ((CCO2 * 1e-6) - 300e-6)) *
-         (air_refraction_index_peck1972(wl) - 1) + 1)
+         (air_refraction_index_Peck1972(wl) - 1) + 1)
     return n
 
 
@@ -298,10 +298,10 @@ def O2_depolarisation(wavelength):
     return O2
 
 
-def F_air_penndorf1957(*args):
+def F_air_Penndorf1957(*args):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using *Penndorf (1957)* method.
+    *King Factor* using Penndorf (1957) method.
 
     Parameters
     ----------
@@ -315,7 +315,7 @@ def F_air_penndorf1957(*args):
 
     See Also
     --------
-    F_air_young1981, F_air_bates1984, F_air_bodhaine1999
+    F_air_Young1981, F_air_Bates1984, F_air_Bodhaine1999
 
     Notes
     -----
@@ -325,17 +325,17 @@ def F_air_penndorf1957(*args):
 
     Examples
     --------
-    >>> F_air_penndorf1957(0.555)
+    >>> F_air_Penndorf1957(0.555)
     1.0608
     """
 
     return 1.0608
 
 
-def F_air_young1981(*args):
+def F_air_Young1981(*args):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using *Young (1981)* method.
+    *King Factor* using Young (1981) method.
 
     Parameters
     ----------
@@ -349,7 +349,7 @@ def F_air_young1981(*args):
 
     See Also
     --------
-    F_air_penndorf1957, F_air_bates1984, F_air_bodhaine1999
+    F_air_Penndorf1957, F_air_Bates1984, F_air_Bodhaine1999
 
     Notes
     -----
@@ -359,18 +359,18 @@ def F_air_young1981(*args):
 
     Examples
     --------
-    >>> F_air_young1981(0.555)
+    >>> F_air_Young1981(0.555)
     1.048
     """
 
     return 1.0480
 
 
-def F_air_bates1984(wavelength):
+def F_air_Bates1984(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\lambda` in micrometers
-    (:math:`\mu m`) using *Bates (1984)* method.
+    (:math:`\mu m`) using Bates (1984) method.
 
     Parameters
     ----------
@@ -384,11 +384,11 @@ def F_air_bates1984(wavelength):
 
     See Also
     --------
-    F_air_penndorf1957, F_air_young1981, F_air_bodhaine1999
+    F_air_Penndorf1957, F_air_Young1981, F_air_Bodhaine1999
 
     Examples
     --------
-    >>> F_air_bates1984(0.555)  # doctest: +ELLIPSIS
+    >>> F_air_Bates1984(0.555)  # doctest: +ELLIPSIS
     1.0481535...
     """
 
@@ -404,13 +404,13 @@ def F_air_bates1984(wavelength):
     return F_air
 
 
-def F_air_bodhaine1999(wavelength,
+def F_air_Bodhaine1999(wavelength,
                        CO2_concentration=STANDARD_CO2_CONCENTRATION):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\lambda` in micrometers
     (:math:`\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
-    using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
+    using Bodhaine, Wood, Dutton and Slusser (1999) method.
 
     Parameters
     ----------
@@ -426,11 +426,11 @@ def F_air_bodhaine1999(wavelength,
 
     See Also
     --------
-    F_air_penndorf1957, F_air_young1981, F_air_bates1984
+    F_air_Penndorf1957, F_air_Young1981, F_air_Bates1984
 
     Examples
     --------
-    >>> F_air_bodhaine1999(0.555)  # doctest: +ELLIPSIS
+    >>> F_air_Bodhaine1999(0.555)  # doctest: +ELLIPSIS
     1.1246916...
     """
 
@@ -510,11 +510,11 @@ def mean_molecular_weights(CO2_concentration=STANDARD_CO2_CONCENTRATION):
     return m_a
 
 
-def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
+def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     """
     Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
-    altitude using *List (1968)* method.
+    altitude using List (1968) method.
 
     Parameters
     ----------
@@ -530,14 +530,14 @@ def gravity_list1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
 
     Examples
     --------
-    >>> gravity_list1968()  # doctest: +ELLIPSIS
+    >>> gravity_List1968()  # doctest: +ELLIPSIS
     978.0356070...
-    >>> gravity_list1968(0, 1500)  # doctest: +ELLIPSIS
+    >>> gravity_List1968(0, 1500)  # doctest: +ELLIPSIS
     977.5726106...
 
     Gravity :math:`g` for Paris:
 
-    >>> gravity_list1968(48.8567, 35)  # doctest: +ELLIPSIS
+    >>> gravity_List1968(48.8567, 35)  # doctest: +ELLIPSIS
     980.9524178...
     """
 
@@ -556,13 +556,13 @@ def scattering_cross_section(wavelength,
                              CO2_concentration=STANDARD_CO2_CONCENTRATION,
                              temperature=STANDARD_AIR_TEMPERATURE,
                              avogadro_constant=AVOGADRO_CONSTANT,
-                             n_s=air_refraction_index_bodhaine1999,
-                             F_air=F_air_bodhaine1999):
+                             n_s=air_refraction_index_Bodhaine1999,
+                             F_air=F_air_Bodhaine1999):
     """
     Returns the scattering cross section per molecule :math:`\sigma` of dry air
     as function of wavelength :math:`\lambda` in centimeters (cm) using given
     :math:`CO_2` concentration in parts per million (ppm) and temperature
-    :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
+    :math:`T[K]` in kelvin degrees following Van de Hulst (1957) method.
 
     Parameters
     ----------
@@ -617,8 +617,8 @@ def rayleigh_optical_depth(wavelength,
                            latitude=DEFAULT_LATITUDE,
                            altitude=DEFAULT_ALTITUDE,
                            avogadro_constant=AVOGADRO_CONSTANT,
-                           n_s=air_refraction_index_bodhaine1999,
-                           F_air=F_air_bodhaine1999):
+                           n_s=air_refraction_index_Bodhaine1999,
+                           F_air=F_air_Bodhaine1999):
     """
     Returns the rayleigh optical depth :math:`T_r(\lambda)` as function of
     wavelength :math:`\lambda` in centimeters (cm).
@@ -673,7 +673,7 @@ def rayleigh_optical_depth(wavelength,
     # Conversion from pascal to dyne/cm2.
     P = pressure * 10
     m_a = mean_molecular_weights(CO2_c)
-    g = gravity_list1968(latitude, altitude)
+    g = gravity_List1968(latitude, altitude)
 
     T_R = sigma * (P * avogadro_constant) / (m_a * g)
 
@@ -690,8 +690,8 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
                             latitude=DEFAULT_LATITUDE,
                             altitude=DEFAULT_ALTITUDE,
                             avogadro_constant=AVOGADRO_CONSTANT,
-                            n_s=air_refraction_index_bodhaine1999,
-                            F_air=F_air_bodhaine1999):
+                            n_s=air_refraction_index_Bodhaine1999,
+                            F_air=F_air_Bodhaine1999):
     """
     Returns the rayleigh spectral power distribution for given spectral shape.
 

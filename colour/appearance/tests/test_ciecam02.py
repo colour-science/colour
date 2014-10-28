@@ -29,7 +29,7 @@ __all__ = ['TestCIECAM02ColourAppearanceModelForward',
 class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module units tests methods for
-    *CIECAM02* colour appearance model forward implementation.
+    CIECAM02 colour appearance model forward implementation.
     """
 
     FIXTURE_BASENAME = 'ciecam02.csv'
@@ -44,7 +44,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *CIECAM02* colour appearance model output specification
+        Returns the CIECAM02 colour appearance model output specification
         from given data.
 
         Parameters
@@ -55,7 +55,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         Returns
         -------
         CIECAM02_Specification
-            *CIECAM02* colour appearance model specification.
+            CIECAM02 colour appearance model specification.
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])
@@ -74,7 +74,7 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.ciecam02` module units tests methods for
-    *CIECAM02* colour appearance model reverse implementation.
+    CIECAM02 colour appearance model reverse implementation.
     """
 
     FIXTURE_BASENAME = 'ciecam02.csv'
@@ -85,7 +85,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
     def get_output_specification_from_data(self, data):
         """
-        Returns the *CIECAM02* colour appearance model output specification
+        Returns the CIECAM02 colour appearance model output specification
         from given data.
 
         Parameters
@@ -96,7 +96,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
         Returns
         -------
         CIECAM02_Specification
-            *CIECAM02* colour appearance model specification.
+            CIECAM02 colour appearance model specification.
         """
 
         XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])

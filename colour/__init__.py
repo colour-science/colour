@@ -5,7 +5,7 @@
 Colour
 ======
 
-**Colour** is a **Python** colour science package implementing a comprehensive
+*Colour* is a *Python* colour science package implementing a comprehensive
 number of colour theory transformations and algorithms.
 
 Subpackages
@@ -24,7 +24,7 @@ Subpackages
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
 -   phenomenons: Computation of various optical phenomenons.
--   plotting: Diagrams, plots, etc...
+-   plotting: Diagrams, figures, etc...
 -   quality: Colour quality computation.
 -   recovery: Reflectance recovery.
 -   temperature: Colour temperature and correlated colour temperature

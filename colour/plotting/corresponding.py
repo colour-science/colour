@@ -16,8 +16,9 @@ import pylab
 from colour.corresponding import CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS
 from colour.plotting import (
     CIE_1976_UCS_chromaticity_diagram_plot,
-    display,
-    figure_size)
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -62,7 +63,6 @@ def get_corresponding_chromaticities_prediction_model(model):
     return model
 
 
-@figure_size((8, 8))
 def corresponding_chromaticities_prediction_plot(
         experiment=1,
         model='Von Kries',
@@ -79,7 +79,7 @@ def corresponding_chromaticities_prediction_plot(
     model : unicode, optional
         Corresponding chromaticities prediction models name.
     transform : unicode, optional
-        Transformation to use with *Von Kries* chromatic adaptation model.
+        Transformation to use with Von Kries chromatic adaptation model.
 
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -95,10 +95,15 @@ def corresponding_chromaticities_prediction_plot(
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     model, name = (
         get_corresponding_chromaticities_prediction_model(model), model)
 
-    settings = {
+    settings.update({
         'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
                    'Experiment {2}\nCIE 1960 UCS Chromaticity Diagram').format(
             name, transform, experiment)
@@ -106,7 +111,7 @@ def corresponding_chromaticities_prediction_plot(
                   ('Corresponding Chromaticities Prediction\n{0} - '
                    'Experiment {1}\nCIE 1960 UCS Chromaticity Diagram').format(
                       name, experiment)),
-        'standalone': False}
+        'standalone': False})
     settings.update(kwargs)
 
     if not CIE_1976_UCS_chromaticity_diagram_plot(**settings):
@@ -127,7 +132,6 @@ def corresponding_chromaticities_prediction_plot(
         pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')
         pylab.plot(uvp_m[0], uvp_m[1], '^', color='white')
         pylab.plot(uvp_p[0], uvp_p[1], '^', color='black')
-
     settings.update({'standalone': True})
 
     return display(**settings)

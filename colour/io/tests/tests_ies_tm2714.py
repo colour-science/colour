@@ -218,7 +218,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         Parameters
         ----------
         spd : IES_TM2714_Spd, optional
-            Optional *IES TM-27-14* spectral power distribution for read tests.
+            Optional IES TM-27-14 spectral power distribution for read tests.
         """
 
         if spd is None:

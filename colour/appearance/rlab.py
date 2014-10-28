@@ -5,7 +5,7 @@
 RLAB Colour Appearance Model
 ============================
 
-Defines *RLAB* colour appearance model objects:
+Defines RLAB colour appearance model objects:
 
 -   :attr:`RLAB_VIEWING_CONDITIONS`
 -   :attr:`RLAB_D_FACTOR`
@@ -54,7 +54,7 @@ R_MATRIX = np.array(
      [0.3612, 0.6388, 0.0000],
      [0.0000, 0.0000, 1.0000]])
 """
-*RLAB* colour appearance model precomputed helper matrix.
+RLAB colour appearance model precomputed helper matrix.
 
 R_MATRIX : array_like, (3, 3)
 """
@@ -64,7 +64,7 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Dim': 1 / 2.9,
      'Dark': 1 / 3.5})
 """
-Reference *RLAB* colour appearance model viewing conditions.
+Reference RLAB colour appearance model viewing conditions.
 
 RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     {'Average', 'Dim', 'Dark'}
@@ -75,7 +75,7 @@ RLAB_D_FACTOR = CaseInsensitiveMapping(
      'Soft Copy Images': 0,
      'Projected Transparencies, Dark Room': 0.5})
 """
-*RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+RLAB colour appearance model *Discounting-the-Illuminant* factor values.
 
 RLAB_D_FACTOR : CaseInsensitiveMapping
     {'Hard Copy Images',
@@ -100,9 +100,9 @@ class RLAB_ReferenceSpecification(
     namedtuple('RLAB_ReferenceSpecification',
                ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
     """
-    Defines the *RLAB* colour appearance model reference specification.
+    Defines the RLAB colour appearance model reference specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -128,11 +128,11 @@ class RLAB_Specification(
     namedtuple('RLAB_Specification',
                ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
     """
-    Defines the *RLAB* colour appearance model specification.
+    Defines the RLAB colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def XYZ_to_RLAB(XYZ,
     Returns
     -------
     RLAB_Specification
-        *RLAB* colour appearance model specification.
+        RLAB colour appearance model specification.
 
     Warning
     -------

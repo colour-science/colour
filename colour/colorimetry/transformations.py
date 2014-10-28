@@ -12,6 +12,7 @@ transformations:
 -   :func:`RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 -   :func:`RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
 -   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 
 See Also
 --------
@@ -35,7 +36,8 @@ __status__ = 'Production'
 __all__ = ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
            'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
            'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
+           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+           'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):

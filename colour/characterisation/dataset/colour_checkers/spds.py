@@ -15,7 +15,7 @@ follows::
 
 The following *ColourCheckers* data is available:
 
--   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by *N. Ohta* in 1997.
+-   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
 -   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 
@@ -2055,7 +2055,7 @@ COLORCHECKER_N_OHTA_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
     COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
-Measured by *N. Ohta* in 1997.
+Measured by Ohta (1997).
 
 COLORCHECKER_N_OHTA_SPDS : dict
 """

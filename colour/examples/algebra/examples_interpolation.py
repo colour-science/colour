@@ -15,7 +15,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Interpolation Computations')
 
-message_box(('Comparing "CIE" "Sprague" and "Cubic Spline" recommended '
+message_box(('Comparing Sprague (1880) and "Cubic Spline" recommended '
              'interpolation methods.'))
 
 uniform_spd_data = {
@@ -107,7 +107,7 @@ x_limit_max.append(shape.end)
 y_limit_min.append(min(base_spd.values))
 y_limit_max.append(max(base_spd.values))
 
-settings = {'x_label': r'Wavelength $\lambda$ (nm)',
+settings = {'x_label': 'Wavelength $\\lambda$ (nm)',
             'y_label': 'Spectral Power Distribution',
             'x_tighten': True,
             'legend': True,
@@ -117,6 +117,6 @@ settings = {'x_label': r'Wavelength $\lambda$ (nm)',
             'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
                        max(y_limit_max)]}
 
-bounding_box(**settings)
-aspect(**settings)
+boundaries(**settings)
+decorate(**settings)
 display(**settings)

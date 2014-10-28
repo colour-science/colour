@@ -25,7 +25,7 @@ import numpy as np
 
 from colour.algebra import as_array
 from colour.models import xy_to_XYZ
-from colour.adaptation import chromatic_adaptation_matrix_vonkries
+from colour.adaptation import chromatic_adaptation_matrix_VonKries
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -47,13 +47,13 @@ class RGB_Colourspace(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         *RGB* colourspace name.
     primaries : array_like
         *RGB* colourspace primaries.
     whitepoint : array_like
         *RGB* colourspace whitepoint.
-    illuminant : str or unicode, optional
+    illuminant : unicode, optional
         *RGB* colourspace whitepoint name as illuminant.
     RGB_to_XYZ_matrix : array_like, optional
         Transformation matrix from colourspace to *CIE XYZ* colourspace.
@@ -100,7 +100,7 @@ class RGB_Colourspace(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -113,7 +113,7 @@ class RGB_Colourspace(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -188,7 +188,7 @@ class RGB_Colourspace(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__illuminant.
         """
 
@@ -201,7 +201,7 @@ class RGB_Colourspace(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -388,12 +388,12 @@ def XYZ_to_RGB(XYZ,
     ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
-    
+
     XYZ = np.ravel(XYZ)
 
-    cat = chromatic_adaptation_matrix_vonkries(xy_to_XYZ(illuminant_XYZ),
-                                    xy_to_XYZ(illuminant_RGB),
-                                    transform=chromatic_adaptation_transform)
+    cat = chromatic_adaptation_matrix_VonKries(xy_to_XYZ(illuminant_XYZ),
+                                               xy_to_XYZ(illuminant_RGB),
+                                               transform=chromatic_adaptation_transform)
 
     XYZ_a = np.dot(cat, XYZ)
 
@@ -476,7 +476,7 @@ def RGB_to_XYZ(RGB,
 
     XYZ = np.dot(RGB_to_XYZ_matrix.reshape((3, 3)), RGB.reshape((3, 1)))
 
-    cat = chromatic_adaptation_matrix_vonkries(
+    cat = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(illuminant_RGB),
         xy_to_XYZ(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
@@ -526,8 +526,8 @@ def RGB_to_RGB(RGB,
     """
 
     RGB = np.ravel(RGB)
-    
-    cat = chromatic_adaptation_matrix_vonkries(
+
+    cat = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(input_colourspace.whitepoint),
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_transform)

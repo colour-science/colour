@@ -4,65 +4,67 @@ Colour - TODO
 TODO
 ----
 
--   algebra (1 item in 1 file)
+- colour (16 items in 10 files)
 
-    -   interpolation.py
+	- algebra (1 item in 1 file)
 
-       -   (236, 15) # TODO: Implements proper wrapper to ensure return values consistency and avoid having to cast to numeric in meth:`SpectralPowerDistribution.interpolate` method.
+		- interpolation.py
 
--   appearance (8 items in 5 files)
+			- (236, 15) # TODO: Implements proper wrapper to ensure return values consistency and avoid having to cast to numeric in :meth:`SpectralPowerDistribution.interpolate` method.
 
-    -   ciecam02.py
+	- appearance (8 items in 5 files)
 
-       -   (251, 7) # TODO: Compute hue composition.
-       -   (678, 7) # TODO: Check for negative values and their handling.
+		- ciecam02.py
 
-    -   hunt.py
+			- (257, 7) # TODO: Compute hue composition.
+			- (684, 7) # TODO: Check for negative values and their handling.
 
-       -   (409, 7) # TODO: Implement hue quadrature & composition computation.
-       -   (441, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+		- hunt.py
 
-    -   llab.py
+			- (406, 7) # TODO: Implement hue quadrature & composition computation.
+			- (438, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
-       -   (315, 7) # TODO: Implement hue composition computation.
+		- llab.py
 
-    -   nayatani95.py
+			- (303, 7) # TODO: Implement hue composition computation.
 
-       -   (278, 7) # TODO: Implement hue quadrature & composition computation.
-       -   (297, 7) # TODO: Investigate components usage.
+		- nayatani95.py
 
-    -   rlab.py
+			- (267, 7) # TODO: Implement hue quadrature & composition computation.
+			- (286, 7) # TODO: Investigate components usage.
 
-       -   (257, 7) # TODO: Implement hue composition computation.
+		- rlab.py
 
--   colorimetry (1 item in 1 file)
+			- (252, 7) # TODO: Implement hue composition computation.
 
-    -   spectrum.py
+	- colorimetry (1 item in 1 file)
 
-       -   (1450, 11) # TODO: Provide support for fractional steps like 0.1, etc...
+		- spectrum.py
 
--   models (1 item in 1 file)
+			- (1559, 11) # TODO: Provide support for fractional steps like 0.1, etc...
 
-	-   tests (1 item in 1 file)
+	- models (1 item in 1 file)
 
-	    -   tests_derivation.py
+		- tests (1 item in 1 file)
 
-	       -   (123, 15) # TODO: Simplify that monster.
+			- tests_derivation.py
 
--   notation (5 items in 2 files)
+				- (123, 15) # TODO: Simplify that monster.
 
-	-   tests (3 items in 1 file)
+	- notation (5 items in 2 files)
 
-	    -   tests_munsell.py
+		- tests (3 items in 1 file)
 
-	       -   (98, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
-	       -   (4162, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
-	       -   (4208, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+			- tests_munsell.py
 
-    -   munsell.py
+				- (98, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
+				- (4162, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+				- (4208, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
 
-       -   (848, 11) # TODO: Consider refactoring implementation.
-       -   (1192, 11) # TODO: Should raise KeyError, need to check the tests.
+		- munsell.py
+
+			- (828, 11) # TODO: Consider refactoring implementation.
+			- (1172, 11) # TODO: Should raise KeyError, need to check the tests.
 
 About
 -----

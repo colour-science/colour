@@ -250,7 +250,7 @@ class SpragueInterpolator(object):
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
-    *Sprague (1880)* method is recommended by the *CIE* for interpolating
+    Sprague (1880) method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
     Parameters

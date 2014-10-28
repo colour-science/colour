@@ -9,11 +9,11 @@ Defines *Lightness* :math:`L*` computation objects.
 
 The following methods are available:
 
--   :func:`lightness_glasser1958`: *Lightness* :math:`L^*` computation of given
+-   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` using
-    *Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠* method.
--   :func:`lightness_wyszecki1963`: *Lightness* :math:`W` computation of
-    given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
+    Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
+-   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
+    given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
 -   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 
@@ -40,14 +40,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['lightness_glasser1958',
-           'lightness_wyszecki1963',
+__all__ = ['lightness_Glasser1958',
+           'lightness_Wyszecki1963',
            'lightness_1976',
            'LIGHTNESS_METHODS',
            'lightness']
 
 
-def lightness_glasser1958(Y, **kwargs):
+def lightness_Glasser1958(Y, **kwargs):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
@@ -78,7 +78,7 @@ def lightness_glasser1958(Y, **kwargs):
 
     Examples
     --------
-    >>> lightness_glasser1958(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_Glasser1958(10.08)  # doctest: +ELLIPSIS
     36.2505626...
     """
 
@@ -87,7 +87,7 @@ def lightness_glasser1958(Y, **kwargs):
     return L
 
 
-def lightness_wyszecki1963(Y, **kwargs):
+def lightness_Wyszecki1963(Y, **kwargs):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
@@ -118,7 +118,7 @@ def lightness_wyszecki1963(Y, **kwargs):
 
     Examples
     --------
-    >>> lightness_wyszecki1963(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_Wyszecki1963(10.08)  # doctest: +ELLIPSIS
     37.0041149...
     """
 
@@ -176,8 +176,8 @@ def lightness_1976(Y, Y_n=100):
 
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
-    {'Glasser 1958': lightness_glasser1958,
-     'Wyszecki 1963': lightness_wyszecki1963,
+    {'Glasser 1958': lightness_Glasser1958,
+     'Wyszecki 1963': lightness_Wyszecki1963,
      'CIE 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.

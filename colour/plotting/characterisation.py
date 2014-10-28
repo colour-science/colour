@@ -21,8 +21,9 @@ from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
 from colour.models import xyY_to_XYZ, XYZ_to_sRGB
 from colour.plotting import (
-    aspect,
-    bounding_box,
+    canvas,
+    decorate,
+    boundaries,
     display,
     colour_parameter,
     multi_colour_plot)
@@ -65,6 +66,8 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     True
     """
 
+    canvas(**kwargs)
+
     colour_checker, name = COLOURCHECKERS.get(colour_checker), colour_checker
     if colour_checker is None:
         raise KeyError(
@@ -79,7 +82,8 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
-            colour_parameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
+            colour_parameter(label.title(),
+                             np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'
     matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
@@ -88,13 +92,14 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     spacing = 0.25
     across = 6
 
-    settings = {'standalone': False,
-                'width': width,
-                'height': height,
-                'spacing': spacing,
-                'across': across,
-                'text_size': 8,
-                'margins': [-0.125, 0.125, -0.5, 0.125]}
+    settings = {
+        'standalone': False,
+        'width': width,
+        'height': height,
+        'spacing': spacing,
+        'across': across,
+        'text_size': 8,
+        'margins': [-0.125, 0.125, -0.5, 0.125]}
     settings.update(kwargs)
 
     multi_colour_plot(colour_parameters, **settings)
@@ -110,12 +115,13 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
                clip_on=True,
                ha='center')
 
-    settings.update({'title': name,
-                     'facecolor': background_colour,
-                     'edgecolor': None,
-                     'standalone': True})
+    settings.update({
+        'title': name,
+        'facecolor': background_colour,
+        'edgecolor': None,
+        'standalone': True})
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

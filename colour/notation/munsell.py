@@ -7,22 +7,22 @@ Munsell Renotation System
 
 Defines various objects for *Munsell Renotation System* computations:
 
--   :func:`munsell_value_priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)⁠*
+-   :func:`munsell_value_Priest1920`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Priest, Gibson and MacNicholas (1920)
     method.
--   :func:`munsell_value_munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *⁠Munsell, Sloan and Godlove (1933)⁠*
+-   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using ⁠Munsell, Sloan and Godlove (1933)⁠
     method.
--   :func:`munsell_value_moon1943`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
--   :func:`munsell_value_saunderson1944`: *Munsell* value :math:`V` computation
-    of given *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
--   :func:`munsell_value_ladd1955`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Ladd and Pinney (1955)*  method.
--   :func:`munsell_value_mccamy1987`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *McCamy (1987)*  method.
--   :func:`munsell_value_ASTM_D1535_08` [1]_ [2]_: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1 (2008)*
+-   :func:`munsell_value_Moon1943`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Moon and Spencer (1943) method.
+-   :func:`munsell_value_Saunderson1944`: *Munsell* value :math:`V` computation
+    of given *luminance* :math:`Y` using Saunderson and Milner (1944) method.
+-   :func:`munsell_value_Ladd1955`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Ladd and Pinney (1955)  method.
+-   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using McCamy (1987)  method.
+-   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using ASTM D1535-08e1 (2008)
     method.
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
@@ -60,7 +60,7 @@ from colour.algebra import (
 from colour.algebra.common import (
     INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
@@ -82,13 +82,13 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
            'MUNSELL_HUE_LETTER_CODES',
            'MUNSELL_DEFAULT_ILLUMINANT',
            'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
-           'munsell_value_priest1920',
-           'munsell_value_munsell1933',
-           'munsell_value_moon1943',
-           'munsell_value_saunderson1944',
-           'munsell_value_ladd1955',
-           'munsell_value_mccamy1987',
-           'munsell_value_ASTM_D1535_08',
+           'munsell_value_Priest1920',
+           'munsell_value_Munsell1933',
+           'munsell_value_Moon1943',
+           'munsell_value_Saunderson1944',
+           'munsell_value_Ladd1955',
+           'munsell_value_McCamy1987',
+           'munsell_value_ASTMD153508',
            'MUNSELL_VALUE_METHODS',
            'munsell_value',
            'munsell_specification_to_xyY',
@@ -179,22 +179,22 @@ def _munsell_specifications():
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
-def _munsell_value_ASTM_D1535_08_interpolator():
+def _munsell_value_ASTMD153508_interpolator():
     """
-    Returns the *Munsell* value interpolator for *ASTM D1535-08* method and
-    caches it if not existing.
+    Returns the *Munsell* value interpolator for ASTM D1535-08e1 (2008) method
+    and caches it if not existing.
 
     Returns
     -------
     Extrapolator1d
-        *Munsell* value interpolator for *ASTM D1535-08* method.
+        *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator1d([luminance_ASTM_D1535_08(x)
+            LinearInterpolator1d([luminance_ASTMD153508(x)
                                   for x in munsell_values],
                                  munsell_values))
 
@@ -229,7 +229,7 @@ def _munsell_maximum_chromas_from_renotation():
     return _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
 
 
-def munsell_value_priest1920(Y):
+def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)* method.
@@ -256,7 +256,7 @@ def munsell_value_priest1920(Y):
 
     Examples
     --------
-    >>> munsell_value_priest1920(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Priest1920(10.08)  # doctest: +ELLIPSIS
     3.1749015...
     """
 
@@ -266,7 +266,7 @@ def munsell_value_priest1920(Y):
     return V
 
 
-def munsell_value_munsell1933(Y):
+def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
     *⁠Munsell, Sloan and Godlove (1933)* method. [3]_
@@ -288,7 +288,7 @@ def munsell_value_munsell1933(Y):
 
     Examples
     --------
-    >>> munsell_value_munsell1933(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Munsell1933(10.08)  # doctest: +ELLIPSIS
     3.7918355...
     """
 
@@ -297,10 +297,10 @@ def munsell_value_munsell1933(Y):
     return V
 
 
-def munsell_value_moon1943(Y):
+def munsell_value_Moon1943(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Moon and Spencer (1943)* method. [3]_
+    Moon and Spencer (1943) method. [3]_
 
 
     Parameters
@@ -320,7 +320,7 @@ def munsell_value_moon1943(Y):
 
     Examples
     --------
-    >>> munsell_value_moon1943(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Moon1943(10.08)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
@@ -329,10 +329,10 @@ def munsell_value_moon1943(Y):
     return V
 
 
-def munsell_value_saunderson1944(Y):
+def munsell_value_Saunderson1944(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Saunderson and Milner (1944)* method. [3]_
+    Saunderson and Milner (1944) method. [3]_
 
     Parameters
     ----------
@@ -351,7 +351,7 @@ def munsell_value_saunderson1944(Y):
 
     Examples
     --------
-    >>> munsell_value_saunderson1944(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Saunderson1944(10.08)  # doctest: +ELLIPSIS
     3.6865080...
     """
 
@@ -360,10 +360,10 @@ def munsell_value_saunderson1944(Y):
     return V
 
 
-def munsell_value_ladd1955(Y):
+def munsell_value_Ladd1955(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Ladd and Pinney (1955)*  method. [3]_
+    Ladd and Pinney (1955)  method. [3]_
 
     Parameters
     ----------
@@ -382,7 +382,7 @@ def munsell_value_ladd1955(Y):
 
     Examples
     --------
-    >>> munsell_value_ladd1955(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Ladd1955(10.08)  # doctest: +ELLIPSIS
     3.6952862...
     """
 
@@ -391,10 +391,10 @@ def munsell_value_ladd1955(Y):
     return V
 
 
-def munsell_value_mccamy1987(Y):
+def munsell_value_McCamy1987(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *McCamy (1987)*  method.
+    McCamy (1987)  method.
 
     Parameters
     ----------
@@ -419,7 +419,7 @@ def munsell_value_mccamy1987(Y):
 
     Examples
     --------
-    >>> munsell_value_mccamy1987(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_McCamy1987(10.08)  # doctest: +ELLIPSIS
     3.7347235...
     """
 
@@ -435,10 +435,10 @@ def munsell_value_mccamy1987(Y):
     return V
 
 
-def munsell_value_ASTM_D1535_08(Y):
+def munsell_value_ASTMD153508(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from *ASTM D1535-08e1 (2008)* method.
+    a reverse lookup table from ASTM D1535-08e1 (2008) method.
 
     Parameters
     ----------
@@ -457,23 +457,23 @@ def munsell_value_ASTM_D1535_08(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTM_D1535_08(10.1488096782)  # doctest: +ELLIPSIS
+    >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
-    V = _munsell_value_ASTM_D1535_08_interpolator()(Y)
+    V = _munsell_value_ASTMD153508_interpolator()(Y)
 
     return V
 
 
 MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
-    {'Priest 1920': munsell_value_priest1920,
-     'Munsell 1933': munsell_value_munsell1933,
-     'Moon 1943': munsell_value_moon1943,
-     'Saunderson 1944': munsell_value_saunderson1944,
-     'Ladd 1955': munsell_value_ladd1955,
-     'McCamy 1987': munsell_value_mccamy1987,
-     'ASTM D1535-08': munsell_value_ASTM_D1535_08})
+    {'Priest 1920': munsell_value_Priest1920,
+     'Munsell 1933': munsell_value_Munsell1933,
+     'Moon 1943': munsell_value_Moon1943,
+     'Saunderson 1944': munsell_value_Saunderson1944,
+     'Ladd 1955': munsell_value_Ladd1955,
+     'McCamy 1987': munsell_value_McCamy1987,
+     'ASTM D1535-08': munsell_value_ASTMD153508})
 """
 Supported *Munsell* value computations methods.
 
@@ -583,7 +583,7 @@ def munsell_specification_to_xyY(specification):
             '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification))
 
-    Y = luminance_ASTM_D1535_08(value)
+    Y = luminance_ASTMD153508(value)
 
     if is_integer(value):
         value_minus = value_plus = round(value)
@@ -606,8 +606,8 @@ def munsell_specification_to_xyY(specification):
         x = x_minus
         y = y_minus
     else:
-        Y_minus = luminance_ASTM_D1535_08(value_minus)
-        Y_plus = luminance_ASTM_D1535_08(value_plus)
+        Y_minus = luminance_ASTMD153508(value_minus)
+        Y_plus = luminance_ASTMD153508(value_plus)
         x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
         y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
@@ -661,7 +661,7 @@ def xyY_to_munsell_specification(xyY):
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace matrix is not within *MacAdam*
+        If the given *CIE xyY* colourspace matrix is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -692,7 +692,7 @@ def xyY_to_munsell_specification(xyY):
     x, y, Y = np.ravel(xyY)
 
     # Scaling *Y* for algorithm needs.
-    value = munsell_value_ASTM_D1535_08(Y * 100)
+    value = munsell_value_ASTMD153508(Y * 100)
     if is_integer(value):
         value = round(value)
 
@@ -1970,9 +1970,9 @@ def maximum_chroma_from_renotation(hue, value, code):
                          ma_limit_pcw,
                          ma_limit_pccw)
     else:
-        L = luminance_ASTM_D1535_08(value)
-        L9 = luminance_ASTM_D1535_08(9)
-        L10 = luminance_ASTM_D1535_08(10)
+        L = luminance_ASTMD153508(value)
+        L9 = luminance_ASTMD153508(9)
+        L10 = luminance_ASTMD153508(10)
 
         max_chroma = min(LinearInterpolator1d([L9, L10], [ma_limit_mcw, 0])(L),
                          LinearInterpolator1d([L9, L10], [ma_limit_mccw, 0])(

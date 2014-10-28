@@ -25,7 +25,7 @@ __all__ = ['TestHuntColourAppearanceModel']
 class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
-    *Hunt* colour appearance model.
+    Hunt colour appearance model.
     """
 
     FIXTURE_BASENAME = 'hunt.csv'
@@ -39,7 +39,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *Hunt* colour appearance model output specification
+        Returns the Hunt colour appearance model output specification
         from given data.
 
         Parameters
@@ -50,7 +50,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         Hunt_Specification
-            *Hunt* colour appearance model specification.
+            Hunt colour appearance model specification.
         """
 
         XYZ = np.array([data['X'], data['Y'], data['Z']])

@@ -16,10 +16,10 @@ else:
     import unittest
 
 from colour.corresponding.prediction import (
-    corresponding_chromaticities_prediction_vonkries,
-    corresponding_chromaticities_prediction_cie1994,
+    corresponding_chromaticities_prediction_VonKries,
+    corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
-    corresponding_chromaticities_prediction_fairchild1990)
+    corresponding_chromaticities_prediction_Fairchild1990)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,8 +32,8 @@ __all__ = ['VONKRIES_PREDICTION_DATA',
            'CIE1994_PREDICTION_DATA',
            'CMCCAT2000_PREDICTION_DATA',
            'FAIRCHILD1990_PREDICTION_DATA',
-           'TestCorrespondingChromaticitiesPredictionVonkries',
-           'TestCorrespondingChromaticitiesPredictionCie1994',
+           'TestCorrespondingChromaticitiesPredictionVonKries',
+           'TestCorrespondingChromaticitiesPredictionCIE1994',
            'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
            'TestCorrespondingChromaticitiesPredictionFairchild1990']
 
@@ -94,46 +94,46 @@ FAIRCHILD1990_PREDICTION_DATA = np.array(
      ((0.231, 0.365), (0.22925269280444158, 0.33803399579545795))])
 
 
-class TestCorrespondingChromaticitiesPredictionVonkries(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
     """
     Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_vonkries`  # noqa
+    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_VonKries`  # noqa
     definition unit tests methods.
     """
 
-    def test_corresponding_chromaticities_prediction_vonkries(self):
+    def test_corresponding_chromaticities_prediction_VonKries(self):
         """
         Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_vonkries`  # noqa
+        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_VonKries`  # noqa
         definition.
         """
 
         np.testing.assert_almost_equal(
             np.array([(p.uvp_m, p.uvp_p)
                       for p in
-                      corresponding_chromaticities_prediction_vonkries()]),
+                      corresponding_chromaticities_prediction_VonKries()]),
             VONKRIES_PREDICTION_DATA,
             decimal=7)
 
 
-class TestCorrespondingChromaticitiesPredictionCie1994(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
     """
     Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_cie1994`  # noqa
+    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CIE1994`  # noqa
     definition unit tests methods.
     """
 
-    def test_corresponding_chromaticities_prediction_cie1994(self):
+    def test_corresponding_chromaticities_prediction_CIE1994(self):
         """
         Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_cie1994`  # noqa
+        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CIE1994`  # noqa
         definition.
         """
 
         np.testing.assert_almost_equal(
             np.array([(p.uvp_m, p.uvp_p)
                       for p in
-                      corresponding_chromaticities_prediction_cie1994()]),
+                      corresponding_chromaticities_prediction_CIE1994()]),
             CIE1994_PREDICTION_DATA,
             decimal=7)
 
@@ -164,20 +164,20 @@ class TestCorrespondingChromaticitiesPredictionFairchild1990(
     unittest.TestCase):
     """
     Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_fairchild1990`  # noqa
+    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_Fairchild1990`  # noqa
     definition unit tests methods.
     """
 
-    def test_corresponding_chromaticities_prediction_fairchild1990(self):
+    def test_corresponding_chromaticities_prediction_Fairchild1990(self):
         """
         Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_fairchild1990`  # noqa
+        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_Fairchild1990`  # noqa
         definition.
         """
 
         np.testing.assert_almost_equal(
             np.array([(p.uvp_m, p.uvp_p)
                       for p in
-                      corresponding_chromaticities_prediction_fairchild1990()]),
+                      corresponding_chromaticities_prediction_Fairchild1990()]),
             FAIRCHILD1990_PREDICTION_DATA,
             decimal=7)

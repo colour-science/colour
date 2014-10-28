@@ -5,7 +5,7 @@
 CIE UVW Colourspace
 ===================
 
-Defines the *CIE UVW* colourspace transformations:
+Defines the *CIE U\*V\*W\** colourspace transformations:
 
 -   :func:`XYZ_to_UVW`
 
@@ -41,7 +41,7 @@ def XYZ_to_UVW(XYZ,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
+    Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V\*W\** colourspace.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ def XYZ_to_UVW(XYZ,
     Returns
     -------
     ndarray, (3,)
-        *CIE 1964 U\*V*\W\** colourspace matrix.
+        *CIE 1964 U\*V\*W\** colourspace matrix.
 
     Notes
     -----

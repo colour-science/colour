@@ -830,10 +830,8 @@ pprint(sorted(colour.CMFS.keys()))
 single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
 single_cmfs_plot('CIE 1964 10 Degree Standard Observer')
 single_cmfs_plot('Stiles & Burch 1955 2 Degree RGB CMFs',
-                 legend_location='upper left',
                  bounding_box=[390, 830, -0.5, 3.5])
 single_cmfs_plot('Stiles & Burch 1959 10 Degree RGB CMFs',
-                 legend_location='upper left',
                  bounding_box=[390, 830, -0.5, 3.5])
 
 print('\n')
@@ -923,7 +921,7 @@ blackbody_spd = colour.blackbody_spd(
 blackbody_spd.name = 'The Sun - 5778K'
 
 multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
-               y_label=u'W / (sr m²) / m',
+               y_label='W / (sr m$^2$) / m',
                legend_location='upper right')
 
 print('\n')
@@ -934,7 +932,7 @@ blackbody_spds = [
     for i in range(1000, 15000, 1000)]
 
 multi_spd_plot(blackbody_spds,
-               y_label=u'W / (sr m²) / m',
+               y_label='W / (sr m$^2$) / m',
                use_spds_colours=True,
                normalise_spds_colours=True,
                legend_location='upper right',

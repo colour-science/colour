@@ -17,19 +17,19 @@ else:
     import unittest
 
 from colour.phenomenons.rayleigh import (
-    air_refraction_index_penndorf1957,
-    air_refraction_index_edlen1966,
-    air_refraction_index_peck1972,
-    air_refraction_index_bodhaine1999,
+    air_refraction_index_Penndorf1957,
+    air_refraction_index_Edlen1966,
+    air_refraction_index_Peck1972,
+    air_refraction_index_Bodhaine1999,
     N2_depolarisation,
     O2_depolarisation,
-    F_air_penndorf1957,
-    F_air_young1981,
-    F_air_bates1984,
-    F_air_bodhaine1999,
+    F_air_Penndorf1957,
+    F_air_Young1981,
+    F_air_Bates1984,
+    F_air_Bodhaine1999,
     molecular_density,
     mean_molecular_weights,
-    gravity_list1968)
+    gravity_List1968)
 from colour.phenomenons import (
     scattering_cross_section,
     rayleigh_optical_depth,
@@ -537,29 +537,29 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_penndorf1957`
+    :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_penndorf1957(self):
+    def test_air_refraction_index_Penndorf1957(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_penndorf1957`
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
         definition.
         """
 
         self.assertAlmostEqual(
-            air_refraction_index_penndorf1957(0.360),
+            air_refraction_index_Penndorf1957(0.360),
             1.0002853167951464,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_penndorf1957(0.555),
+            air_refraction_index_Penndorf1957(0.555),
             1.000277729533864,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_penndorf1957(0.830),
+            air_refraction_index_Penndorf1957(0.830),
             1.000274856640486,
             places=10)
 
@@ -567,29 +567,29 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
 class TestAirRefractionIndexEdlen1966(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_edlen1966`
+    :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_edlen1966(self):
+    def test_air_refraction_index_Edlen1966(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_edlen1966`
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
         definition.
         """
 
         self.assertAlmostEqual(
-            air_refraction_index_edlen1966(0.360),
+            air_refraction_index_Edlen1966(0.360),
             1.000285308809879,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_edlen1966(0.555),
+            air_refraction_index_Edlen1966(0.555),
             1.000277727690364,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_edlen1966(0.830),
+            air_refraction_index_Edlen1966(0.830),
             1.0002748622188347,
             places=10)
 
@@ -597,29 +597,29 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
 class TestAirRefractionIndexPeck1972(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_peck1972`
+    :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_peck1972(self):
+    def test_air_refraction_index_Peck1972(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_peck1972`
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
         definition.
         """
 
         self.assertAlmostEqual(
-            air_refraction_index_peck1972(0.360),
+            air_refraction_index_Peck1972(0.360),
             1.0002853102850557,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_peck1972(0.555),
+            air_refraction_index_Peck1972(0.555),
             1.0002777265414837,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_peck1972(0.830),
+            air_refraction_index_Peck1972(0.830),
             1.0002748591448039,
             places=10)
 
@@ -627,44 +627,44 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
 class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_bodhaine1999`
+    :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_bodhaine1999(self):
+    def test_air_refraction_index_Bodhaine1999(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_bodhaine1999`
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
         definition.
         """
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.360),
+            air_refraction_index_Bodhaine1999(0.360),
             1.0002853102850557,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.555),
+            air_refraction_index_Bodhaine1999(0.555),
             1.0002777265414837,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.830),
+            air_refraction_index_Bodhaine1999(0.830),
             1.0002748591448039,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.360, 0),
+            air_refraction_index_Bodhaine1999(0.360, 0),
             1.0002852640647895,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.555, 360),
+            air_refraction_index_Bodhaine1999(0.555, 360),
             1.0002777355398236,
             places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_bodhaine1999(0.830, 620),
+            air_refraction_index_Bodhaine1999(0.830, 620),
             1.0002749066404641,
             places=10)
 
@@ -732,63 +732,63 @@ class TestO2Depolarisation(unittest.TestCase):
 class TestF_airPenndorf1957(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.F_air_penndorf1957`
+    :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
     definition unit tests methods.
     """
 
-    def test_F_air_penndorf1957(self):
+    def test_F_air_Penndorf1957(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.F_air_penndorf1957`
+        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
         definition.
         """
 
-        self.assertEqual(F_air_penndorf1957(), 1.0608)
+        self.assertEqual(F_air_Penndorf1957(), 1.0608)
 
 
 class TestF_airYoung1981(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.F_air_young1981`
+    :func:`colour.phenomenons.rayleigh.F_air_Young1981`
     definition unit tests methods.
     """
 
-    def test_F_air_young1981(self):
+    def test_F_air_Young1981(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.F_air_young1981`
+        :func:`colour.phenomenons.rayleigh.F_air_Young1981`
         definition.
         """
 
-        self.assertEqual(F_air_young1981(), 1.0480)
+        self.assertEqual(F_air_Young1981(), 1.0480)
 
 
 class TestF_airBates1984(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.F_air_bates1984`
+    :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
     definition unit tests methods.
     """
 
-    def test_F_air_bates1984(self):
+    def test_F_air_Bates1984(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.F_air_bates1984`
+        :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
         definition.
         """
 
         self.assertAlmostEqual(
-            F_air_bates1984(0.360),
+            F_air_Bates1984(0.360),
             1.051997277711708,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bates1984(0.555),
+            F_air_Bates1984(0.555),
             1.048153579718658,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bates1984(0.830),
+            F_air_Bates1984(0.830),
             1.0469470686005893,
             places=7)
 
@@ -796,44 +796,44 @@ class TestF_airBates1984(unittest.TestCase):
 class TestF_airBodhaine1999(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.F_air_bodhaine1999`
+    :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
     definition unit tests methods.
     """
 
-    def test_F_air_bodhaine1999(self):
+    def test_F_air_Bodhaine1999(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.F_air_bodhaine1999`
+        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
         definition.
         """
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.360),
+            F_air_Bodhaine1999(0.360),
             1.125664021159081,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.555),
+            F_air_Bodhaine1999(0.555),
             1.1246916702401561,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.830),
+            F_air_Bodhaine1999(0.830),
             1.1243864557835395,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.360, 0),
+            F_air_Bodhaine1999(0.360, 0),
             1.0526297923139392,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.555, 360),
+            F_air_Bodhaine1999(0.555, 360),
             1.1279930150966895,
             places=7)
 
         self.assertAlmostEqual(
-            F_air_bodhaine1999(0.830, 620),
+            F_air_Bodhaine1999(0.830, 620),
             1.13577082243141,
             places=7)
 
@@ -901,29 +901,29 @@ class TestMeanMolecularWeights(unittest.TestCase):
 class TestGravityList1968(unittest.TestCase):
     """
     Defines
-    :func:`colour.phenomenons.rayleigh.gravity_list1968`
+    :func:`colour.phenomenons.rayleigh.gravity_List1968`
     definition unit tests methods.
     """
 
-    def test_gravity_list1968(self):
+    def test_gravity_List1968(self):
         """
         Tests
-        :func:`colour.phenomenons.rayleigh.gravity_list1968`
+        :func:`colour.phenomenons.rayleigh.gravity_List1968`
         definition.
         """
 
         self.assertAlmostEqual(
-            gravity_list1968(0, 0),
+            gravity_List1968(0, 0),
             978.0356070576,
             places=7)
 
         self.assertAlmostEqual(
-            gravity_list1968(45, 1500),
+            gravity_List1968(45, 1500),
             980.1533438638013,
             places=7)
 
         self.assertAlmostEqual(
-            gravity_list1968(48.8567, 35),
+            gravity_List1968(48.8567, 35),
             980.9524178426182,
             places=7)
 

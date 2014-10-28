@@ -5,10 +5,10 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines *Von Kries* chromatic adaptation model objects:
+Defines Von Kries chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_matrix_vonkries`
--   :func:`chromatic_adaptation_vonkries`
+-   :func:`chromatic_adaptation_matrix_VonKries`
+-   :func:`chromatic_adaptation_VonKries`
 
 See Also
 --------
@@ -34,11 +34,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['chromatic_adaptation_matrix_vonkries',
-           'chromatic_adaptation_vonkries']
+__all__ = ['chromatic_adaptation_matrix_VonKries',
+           'chromatic_adaptation_VonKries']
 
 
-def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
+def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     """
     Returns the *chromatic adaptation* matrix from test viewing conditions
     *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
@@ -69,17 +69,17 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
     --------
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
     >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
-    >>> chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)  # noqa  # doctest: +ELLIPSIS
     array([[ 0.8687653..., -0.1416539...,  0.3871961...],
            [-0.1030072...,  1.0584014...,  0.1538646...],
            [ 0.0078167...,  0.0267875...,  2.9608177...]])
 
-    Using *Bradford* method:
+    Using Bradford method:
 
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
     >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
     array([[ 0.8446794..., -0.1179355...,  0.3948940...],
            [-0.1366408...,  1.1041236...,  0.1291981...],
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
@@ -110,7 +110,7 @@ def chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform='CAT02'):
     return cat
 
 
-def chromatic_adaptation_vonkries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
+def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     """
     Adapts given *CIE XYZ* colourspace stimulus from test viewing conditions
     *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
@@ -139,20 +139,20 @@ def chromatic_adaptation_vonkries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
     >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
-    >>> chromatic_adaptation_vonkries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
     array([ 0.0839746...,  0.1141321...,  0.2862554...])
 
-    Using *Bradford* method:
+    Using Bradford method:
 
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
     >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_vonkries(XYZ, XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 
-    cat = chromatic_adaptation_matrix_vonkries(XYZ_w, XYZ_wr, transform)
+    cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
     XYZ_a = np.dot(cat, XYZ)
 
     return XYZ_a
