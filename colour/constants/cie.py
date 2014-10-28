@@ -42,6 +42,7 @@ References
 ----------
 .. [1]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
         Retrieved February 24, 2014, from
+        http://brucelindbloom.com/LContinuity.html
 
 """
 
