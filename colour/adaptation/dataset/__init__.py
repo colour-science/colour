@@ -36,5 +36,3 @@ __all__ += ['XYZ_SCALING_CAT',
 
 
 
-
-

@@ -105,4 +105,3 @@ def is_string(data):
     """
 
     return True if isinstance(data, basestring) else False
-

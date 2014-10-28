@@ -429,10 +429,10 @@ def colour_parameters_plot(colour_parameters,
 
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])
-    y_limit_max0 = max(
-        [1 if x.y0 is None else x.y0 for x in colour_parameters])
-    y_limit_min1 = min(
-        [0 if x.y1 is None else x.y1 for x in colour_parameters])
+    # y_limit_max0 = max(
+    #     [1 if x.y0 is None else x.y0 for x in colour_parameters])
+    # y_limit_min1 = min(
+    #     [0 if x.y1 is None else x.y1 for x in colour_parameters])
     y_limit_max1 = max(
         [1 if x.y1 is None else x.y1 for x in colour_parameters])
 

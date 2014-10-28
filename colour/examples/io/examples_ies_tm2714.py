@@ -25,7 +25,6 @@ print(spd)
 print('\n')
 
 message_box('IES TM-27-14 spectral data "XML" file header:')
-
 print('Manufacturer: {0}'.format(spd.header.manufacturer))
 print('Catalog Number: {0}'.format(spd.header.catalog_number))
 print('Description: {0}'.format(spd.header.description))
@@ -41,7 +40,6 @@ print('Comments: {0}'.format(spd.header.comments))
 print('\n')
 
 message_box('IES TM-27-14 spectral data "XML" file spectral distribution:')
-
 print('Spectral Quantity: {0}'.format(spd.spectral_quantity))
 print('Reflection Geometry: {0}'.format(spd.reflection_geometry))
 print('Transmission Geometry: {0}'.format(spd.transmission_geometry))
@@ -51,5 +49,4 @@ print('Bandwidth Corrected: {0}'.format(spd.bandwidth_corrected))
 print('\n')
 
 message_box('IES TM-27-14 spectral data "XML" file spectral data:')
-
 pprint(list(spd.items))
