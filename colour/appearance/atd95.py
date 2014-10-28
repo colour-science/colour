@@ -5,7 +5,7 @@
 ATD (1995) Colour Vision Model
 ==============================
 
-Defines *ATD (1995)* colour vision model objects:
+Defines ATD (1995) colour vision model objects:
 
 -   :class:`ATD95_Specification`
 -   :func:`XYZ_to_ATD95`
@@ -17,22 +17,17 @@ See Also
 
 Notes
 -----
--   According to *CIE TC1-34* definition of a colour appearance model, the
+-   According to CIE TC1-34 definition of a colour appearance model, the
     *ATD95* model cannot be considered as a colour appearance model. It was
     developed with different aims and is described as a model of colour vision.
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        Locations 5841-5991.
-.. [2]  **S. Lee Guth**,
-        *Further applications of the ATD model for color vision*,
-        *IS&T/SPIE's Symposium on Electronic Imaging: Science & Technology*,
-        *International Society for Optics and Photonics*,
-        pages 12-26,
-        DOI: http://dx.doi.org/10.1117/12.206546
+.. [1]  Fairchild, M. D. (2013). ATD Model. In Color Appearance Models
+        (3rd ed., pp. 5852–5991). Wiley. ASIN:B00DAYO8E2
+.. [2]  Guth, S. L. (1995). Further applications of the ATD model for color
+        vision. In E. Walowit (Ed.), IS&T/SPIE’s Symposium on Electronic …
+        (Vol. 2414, pp. 12–26). doi:10.1117/12.206546
 """
 
 from __future__ import division, unicode_literals
@@ -60,9 +55,9 @@ class ATD95_ReferenceSpecification(
     namedtuple('ATD95_ReferenceSpecification',
                ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the *ATD (1995)* colour vision model reference specification.
+    Defines the ATD (1995) colour vision model reference specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -70,7 +65,7 @@ class ATD95_ReferenceSpecification(
     H : numeric
         *Hue* angle :math:`H` in degrees.
     C : numeric
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
@@ -96,11 +91,11 @@ class ATD95_Specification(
     namedtuple('ATD95_Specification',
                ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the *ATD (1995)* colour vision model specification.
+    Defines the ATD (1995) colour vision model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Notes
     -----
@@ -111,7 +106,7 @@ class ATD95_Specification(
     h : numeric
         *Hue* angle :math:`H` in degrees.
     C : numeric
-        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
+        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
@@ -135,7 +130,7 @@ class ATD95_Specification(
 
 def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     """
-    Computes the *ATD (1995)* colour vision model correlates.
+    Computes the ATD (1995) colour vision model correlates.
 
     Parameters
     ----------
@@ -156,7 +151,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     Returns
     -------
     ATD95_Specification
-        *ATD (1995)* colour vision model specification.
+        ATD (1995) colour vision model specification.
 
     Warning
     -------
@@ -169,7 +164,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     -   For unrelated colors, there is only self-adaptation, and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and
-        :math:`k_2` is set to a value between 15 and 50 *Guth (1995)*.
+        :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.
 
     Examples
     --------
@@ -213,7 +208,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     return ATD95_Specification(H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
 
 
-def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
+def luminance_to_retinal_illuminance(XYZ, Y_c):
     """
     Converts from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
@@ -223,7 +218,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     XYZ : array_like, (3,)
         *CIE XYZ* colourspace matrix.
 
-    absolute_adapting_field_luminance : numeric
+    Y_c : numeric
         Absolute adapting field luminance in :math:`cd/m^2`.
 
     Returns
@@ -239,7 +234,7 @@ def luminance_to_retinal_illuminance(XYZ, absolute_adapting_field_luminance):
     array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
-    return 18. * (absolute_adapting_field_luminance * XYZ / 100.) ** 0.8
+    return 18. * (Y_c * XYZ / 100.) ** 0.8
 
 
 def XYZ_to_LMS_ATD95(XYZ):
@@ -259,9 +254,8 @@ def XYZ_to_LMS_ATD95(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.01, 20., 21.78])
-    >>> Y_0 = 318.31
-    >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
-    array([ 479.4445924...,  499.3174313...,  534.5631673...])
+    >>> XYZ_to_LMS_ATD95(XYZ)  # doctest: +ELLIPSIS
+    array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
     X, Y, Z = np.ravel(XYZ)

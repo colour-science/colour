@@ -33,7 +33,10 @@ from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from .srgb import sRGB_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
 
-from .pointer_gamut import POINTER_GAMUT_DATA
+from .pointer_gamut import (
+    POINTER_GAMUT_ILLUMINANT,
+    POINTER_GAMUT_DATA,
+    POINTER_GAMUT_BOUNDARIES)
 
 from colour.utilities import CaseInsensitiveMapping
 
@@ -69,7 +72,7 @@ RGB_COLOURSPACES = CaseInsensitiveMapping(
 """
 Aggregated *RGB* colourspaces.
 
-RGB_COLOURSPACES : dict
+RGB_COLOURSPACES : CaseInsensitiveMapping
 
 Aliases:
 
@@ -114,4 +117,6 @@ __all__ += ['ACES_RGB_COLOURSPACE',
             'SMPTE_C_RGB_COLOURSPACE',
             'sRGB_COLOURSPACE',
             'XTREME_RGB_COLOURSPACE']
-__all__ += ['POINTER_GAMUT_DATA']
+__all__ += ['POINTER_GAMUT_ILLUMINANT',
+            'POINTER_GAMUT_DATA',
+            'POINTER_GAMUT_BOUNDARIES']

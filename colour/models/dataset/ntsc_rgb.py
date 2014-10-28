@@ -16,9 +16,9 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.470-6 - Conventional Television Systems
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  International Telecommunication Union. (1998). CONVENTIONAL TELEVISION
+        SYSTEMS. In Recommendation ITU-R BT.470-6 (pp. 1–36). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -26,7 +26,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import RGB_Colourspace, normalised_primary_matrix
+from colour.models import normalised_primary_matrix
+from colour.models import RGB_Colourspace
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -36,6 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['NTSC_RGB_PRIMARIES',
+           'NTSC_RGB_ILLUMINANT',
            'NTSC_RGB_WHITEPOINT',
            'NTSC_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_NTSC_RGB_MATRIX',
@@ -53,8 +55,15 @@ NTSC_RGB_PRIMARIES = np.array(
 NTSC_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+NTSC_RGB_ILLUMINANT = 'C'
+"""
+*NTSC RGB* colourspace whitepoint name as illuminant.
+
+NTSC_RGB_ILLUMINANT : unicode
+"""
+
 NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('C')
+    'CIE 1931 2 Degree Standard Observer').get(NTSC_RGB_ILLUMINANT)
 """
 *NTSC RGB* colourspace whitepoint.
 
@@ -76,14 +85,52 @@ XYZ_TO_NTSC_RGB_MATRIX = np.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
 XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 """
 
-NTSC_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _ntsc_rgb_transfer_function(value):
+    """
+    Defines the *NTSC RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _ntsc_rgb_inverse_transfer_function(value):
+    """
+    Defines the *NTSC RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+NTSC_RGB_TRANSFER_FUNCTION = _ntsc_rgb_transfer_function
 """
 Transfer function from linear to *NTSC RGB* colourspace.
 
 NTSC_RGB_TRANSFER_FUNCTION : object
 """
 
-NTSC_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+NTSC_RGB_INVERSE_TRANSFER_FUNCTION = _ntsc_rgb_inverse_transfer_function
 """
 Inverse transfer function from *NTSC RGB* colourspace to linear.
 
@@ -94,6 +141,7 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     'NTSC RGB',
     NTSC_RGB_PRIMARIES,
     NTSC_RGB_WHITEPOINT,
+    NTSC_RGB_ILLUMINANT,
     NTSC_RGB_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_RGB_MATRIX,
     NTSC_RGB_TRANSFER_FUNCTION,

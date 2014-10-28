@@ -18,12 +18,15 @@ import pylab
 
 from colour.algebra import normalise
 from colour.models import XYZ_to_sRGB
-from colour.quality import colour_rendering_index
+from colour.quality import (
+    colour_quality_scale,
+    colour_rendering_index)
 from colour.plotting import (
-    aspect,
-    bounding_box,
-    display,
-    figure_size)
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
+    display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -32,18 +35,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['colour_rendering_index_bars_plot']
+__all__ = ['colour_quality_bars_plot',
+           'colour_rendering_index_bars_plot',
+           'colour_quality_scale_bars_plot']
 
 
-@figure_size((8, 8))
-def colour_rendering_index_bars_plot(illuminant, **kwargs):
+def colour_quality_bars_plot(specification, **kwargs):
     """
-    Plots the *colour rendering index* of given illuminant.
+    Plots the colour quality data of given illuminant or light source colour
+    quality specification.
 
     Parameters
     ----------
-    illuminant : SpectralPowerDistribution
-        Illuminant to plot the *colour rendering index*.
+    specification : CRI_Specification or VS_ColourQualityScaleData
+        Illuminant or light source specification colour quality specification.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -56,21 +61,26 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> colour_rendering_index_bars_plot(illuminant)  # doctest: +SKIP
+    >>> colour_quality_bars_plot(illuminant)  # doctest: +SKIP
     True
     """
 
-    figure, axis = matplotlib.pyplot.subplots()
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
 
-    cri, colour_rendering_indexes, additional_data = \
-        colour_rendering_index(illuminant, additional_data=True)
+    canvas(**settings)
+
+    axis = matplotlib.pyplot.gca()
+
+    Q_a, Q_as, colorimetry_data = (specification.Q_a,
+                                   specification.Q_as,
+                                   specification.colorimetry_data)
 
     colours = ([[1] * 3] + [normalise(XYZ_to_sRGB(x.XYZ / 100))
-                            for x in additional_data[0]])
-    x, y = tuple(zip(*sorted(colour_rendering_indexes.items(),
-                             key=lambda x: x[0])))
-    x, y = np.array([0] + list(x)), np.array(
-        [cri] + list(y))
+                            for x in colorimetry_data[0]])
+    x, y = tuple(zip(*[(x[0], x[1].Q_a) for x in sorted(Q_as.items(),
+                                                        key=lambda x: x[0])]))
+    x, y = np.array([0] + list(x)), np.array([Q_a] + list(y))
 
     positive = True if np.sign(min(y)) in (0, 1) else False
 
@@ -81,7 +91,7 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
                        100 + y_ticks_steps,
                        y_ticks_steps))
     pylab.xticks(x + width / 2,
-                 ['Ra'] + ['R{0}'.format(index) for index in x[1:]])
+                 ['Qa'] + ['Q{0}'.format(index) for index in x[1:]])
 
     def label_bars(bars):
         """
@@ -98,15 +108,92 @@ def colour_rendering_index_bars_plot(illuminant, **kwargs):
 
     label_bars(bars)
 
-    settings = {
-        'title': 'Colour Rendering Index - {0}'.format(illuminant.name),
+    settings.update({
+        'title': 'Colour Quality',
         'grid': True,
+        'grid_axis': 'y',
         'x_tighten': True,
         'y_tighten': True,
-        'limits': [-width, 14 + width * 2, -10 if positive else -110,
-                   110]}
+        'limits': [-width,
+                   len(Q_as) + width * 2,
+                   0 if positive else -110,
+                   110],
+        'aspect': 1 / ((110 if positive else 220) /
+                       (width + len(Q_as) + width * 2))})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
     return display(**settings)
+
+
+def colour_rendering_index_bars_plot(spd, **kwargs):
+    """
+    Plots the *colour rendering index* of given illuminant or light source.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Illuminant or light source to plot the *colour rendering index*.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> colour_rendering_index_bars_plot(illuminant)  # doctest: +SKIP
+    True
+    """
+
+    if colour_quality_bars_plot(
+            colour_rendering_index(
+                    spd,
+                    additional_data=True),
+            standalone=False):
+        settings = {
+            'title': 'Colour Rendering Index - {0}'.format(spd.title)}
+
+        decorate(**settings)
+        return display(**settings)
+
+
+def colour_quality_scale_bars_plot(spd, **kwargs):
+    """
+    Plots the *colour quality scale* of given illuminant or light source.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Illuminant or light source to plot the *colour quality scale*.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> colour_quality_scale_bars_plot(illuminant)  # doctest: +SKIP
+    True
+    """
+
+    if colour_quality_bars_plot(
+            colour_quality_scale(
+                    spd,
+                    additional_data=True),
+            standalone=False):
+        settings = {
+            'title': 'Colour Quality Scale - {0}'.format(spd.title)}
+
+        decorate(**settings)
+        return display(**settings)

@@ -9,10 +9,11 @@ Defines *Lightness* :math:`L*` computation objects.
 
 The following methods are available:
 
--   :func:`lightness_glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` using *Glasser et al. (1958)* method.
--   :func:`lightness_wyszecki1964`: *Lightness* :math:`W^*` computation of
-    given *luminance* :math:`Y` using *Wyszecki (1964)* method.
+-   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
+    *luminance* :math:`Y` using
+    Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
+-   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
+    given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
 -   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 
@@ -20,6 +21,11 @@ See Also
 --------
 `Lightness IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lightness.ipynb>`_  # noqa
+
+References
+----------
+.. [1]  Wikipedia. (n.d.). Lightness. Retrieved April 13, 2014, from
+        http://en.wikipedia.org/wiki/Lightness
 """
 
 from __future__ import division, unicode_literals
@@ -34,17 +40,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['lightness_glasser1958',
-           'lightness_wyszecki1964',
+__all__ = ['lightness_Glasser1958',
+           'lightness_Wyszecki1963',
            'lightness_1976',
            'LIGHTNESS_METHODS',
            'lightness']
 
 
-def lightness_glasser1958(Y, **kwargs):
+def lightness_Glasser1958(Y, **kwargs):
     """
-    Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
-    *Glasser et al. (1958)* method.
+    Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
 
     Parameters
     ----------
@@ -57,33 +63,34 @@ def lightness_glasser1958(Y, **kwargs):
     Returns
     -------
     numeric
-        *Lightness* :math:`L^*`.
+        *Lightness* :math:`L`.
 
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L` is in domain [0, 100].
 
     References
     ----------
-    .. [1]  http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
+    .. [2]  Glasser, L. G., McKinney, A. H., Reilly, C. D., & Schnelle, P. D.
+            (1958). Cube-Root Color Coordinate System. J. Opt. Soc. Am.,
+            48(10), 736–740. doi:10.1364/JOSA.48.000736
 
     Examples
     --------
-    >>> lightness_glasser1958(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_Glasser1958(10.08)  # doctest: +ELLIPSIS
     36.2505626...
     """
 
-    L_star = 25.29 * (Y ** (1 / 3)) - 18.38
+    L = 25.29 * (Y ** (1 / 3)) - 18.38
 
-    return L_star
+    return L
 
 
-def lightness_wyszecki1964(Y, **kwargs):
+def lightness_Wyszecki1963(Y, **kwargs):
     """
-    Returns the *Lightness* :math:`W^*` of given *luminance* :math:`Y` using
-    *Wyszecki (1964)* method.
+    Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
+    *Wyszecki (1963)* method.
 
 
     Parameters
@@ -97,21 +104,21 @@ def lightness_wyszecki1964(Y, **kwargs):
     Returns
     -------
     numeric
-        *Lightness* :math:`W^*`.
+        *Lightness* :math:`W`.
 
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`W^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`W` is in domain [0, 100].
 
     References
     ----------
-    .. [2]  http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
+    .. [3]  Wyszecki, G. (1963). Proposal for a New Color-Difference Formula.
+            J. Opt. Soc. Am., 53(11), 1318–1319. doi:10.1364/JOSA.53.001318
 
     Examples
     --------
-    >>> lightness_wyszecki1964(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_Wyszecki1963(10.08)  # doctest: +ELLIPSIS
     37.0041149...
     """
 
@@ -124,7 +131,7 @@ def lightness_wyszecki1964(Y, **kwargs):
     return W
 
 
-def lightness_1976(Y, Yn=100):
+def lightness_1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE Lab*
@@ -134,7 +141,7 @@ def lightness_1976(Y, Yn=100):
     ----------
     Y : numeric
         *luminance* :math:`Y`.
-    Yn : numeric, optional
+    Y_n : numeric, optional
         White reference *luminance* :math:`Y_n`.
 
     Returns
@@ -149,8 +156,12 @@ def lightness_1976(Y, Yn=100):
 
     References
     ----------
-    .. [3]  http://www.poynton.com/PDFs/GammaFAQ.pdf
-            (Last accessed 12 April 2014)
+    .. [4]  Wyszecki, G., & Stiles, W. S. (2000). CIE 1976 (L*u*v*)-Space and
+            Color-Difference Formula. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (p. 167). Wiley. ISBN:978-0471399186
+    .. [5]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
+            Retrieved February 24, 2014, from
+            http://brucelindbloom.com/LContinuity.html
 
     Examples
     --------
@@ -158,21 +169,21 @@ def lightness_1976(Y, Yn=100):
     37.9856290...
     """
 
-    ratio = Y / Yn
-    L = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
+    ratio = Y / Y_n
+    Lstar = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
 
-    return L
+    return Lstar
 
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
-    {'Glasser 1958': lightness_glasser1958,
-     'Wyszecki 1964': lightness_wyszecki1964,
+    {'Glasser 1958': lightness_Glasser1958,
+     'Wyszecki 1963': lightness_Wyszecki1963,
      'CIE 1976': lightness_1976})
 """
 Supported *Lightness* computations methods.
 
-LIGHTNESS_METHODS : dict
-    ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976')
+LIGHTNESS_METHODS : CaseInsensitiveMapping
+    {'Glasser 1958', 'Wyszecki 1963', 'CIE 1976'}
 
 Aliases:
 
@@ -190,7 +201,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Glasser 1958', 'Wyszecki 1964', 'CIE 1976'),
+        {'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -210,13 +221,13 @@ def lightness(Y, method='CIE 1976', **kwargs):
     --------
     >>> lightness(10.08)  # doctest: +ELLIPSIS
     37.9856290...
-    >>> lightness(10.08, Yn=100)  # doctest: +ELLIPSIS
+    >>> lightness(10.08, Y_n=100)  # doctest: +ELLIPSIS
     37.9856290...
-    >>> lightness(10.08, Yn=95)  # doctest: +ELLIPSIS
+    >>> lightness(10.08, Y_n=95)  # doctest: +ELLIPSIS
     38.9165987...
     >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
     36.2505626...
-    >>> lightness(10.08, method='Wyszecki 1964')  # doctest: +ELLIPSIS
+    >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
     37.0041149...
     """
 

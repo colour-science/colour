@@ -19,8 +19,11 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1960_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1960 color space. Retrieved February 24, 2014,
+        from http://en.wikipedia.org/wiki/CIE_1960_color_space
+.. [2]  Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved February 24, 2014,
+        from
+        http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 """
 
 from __future__ import division, unicode_literals
@@ -59,16 +62,11 @@ def XYZ_to_UCS(XYZ):
     -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
     -   Output *CIE UCS* colourspace matrix is in domain [0, 1].
 
-    References
-    ----------
-    .. [2]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
-    >>> XYZ = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0787055...,  0.1034    ,  0.1218252...])
+    array([ 0.0469968...,  0.1008    ,  0.1637439...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -97,16 +95,11 @@ def UCS_to_XYZ(UVW):
     -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
     -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
 
-    References
-    ----------
-    .. [3]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
-    >>> UCS = np.array([0.07870556, 0.1034, 0.12182529])
-    >>> UCS_to_XYZ(UCS)  # doctest: +ELLIPSIS
-    array([ 0.1180583...,  0.1034    ,  0.0515089...])
+    >>> UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     U, V, W = np.ravel(UVW)
@@ -135,16 +128,11 @@ def UCS_to_uv(UVW):
     -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
     -   Output *uv* chromaticity coordinates are in domain [0, 1].
 
-    References
-    ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
-    >>> UCS = np.array([0.1180583421, 0.1034, 0.0515089229])
+    >>> UCS = np.array([0.04699689, 0.1008, 0.1637439])
     >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
-    (0.4324999..., 0.3788000...)
+    (0.1508530..., 0.3235531...)
     """
 
     U, V, W = np.ravel(UVW)
@@ -172,16 +160,11 @@ def UCS_uv_to_xy(uv):
     -   Input *uv* chromaticity coordinates are in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in domain [0, 1].
 
-    References
-    ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIEXYZ  # noqa
-            (Last accessed 24 February 2014)
-
     Examples
     --------
-    >>> uv = (0.43249999995420696, 0.378800000065942)
+    >>> uv = (0.15085308732766581, 0.3235531372954405)
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    (0.7072386..., 0.4129510...)
+    (0.2641477..., 0.3777000...)
     """
 
     return (3 * uv[0] / (2 * uv[0] - 8 * uv[1] + 4),

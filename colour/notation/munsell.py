@@ -7,21 +7,22 @@ Munsell Renotation System
 
 Defines various objects for *Munsell Renotation System* computations:
 
--   :func:`munsell_value_priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Priest et al. (1920)* method.
--   :func:`munsell_value_munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Munsell, Sloan, and Godlove (1933)*
+-   :func:`munsell_value_Priest1920`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Priest, Gibson and MacNicholas (1920)
     method.
--   :func:`munsell_value_moon1943`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
--   :func:`munsell_value_saunderson1944`: *Munsell* value :math:`V` computation
-    of given *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
--   :func:`munsell_value_ladd1955`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Ladd and Pinney (1955)*  method.
--   :func:`munsell_value_mccamy1987`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *McCamy (1987)*  method.
--   :func:`munsell_value_ASTM_D1535_08` [1]_ [2]_: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1 (2008)*
+-   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using ⁠Munsell, Sloan and Godlove (1933)⁠
+    method.
+-   :func:`munsell_value_Moon1943`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Moon and Spencer (1943) method.
+-   :func:`munsell_value_Saunderson1944`: *Munsell* value :math:`V` computation
+    of given *luminance* :math:`Y` using Saunderson and Milner (1944) method.
+-   :func:`munsell_value_Ladd1955`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using Ladd and Pinney (1955)  method.
+-   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
+    given *luminance* :math:`Y` using McCamy (1987)  method.
+-   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using ASTM D1535-08e1 (2008)
     method.
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
@@ -33,19 +34,15 @@ See Also
 
 References
 ----------
-.. [1]  **Paul Centore**, `Munsell and Kubelka-Munk Toolbox
-        <http://www.99main.com/~centore/MunsellResources/MunsellResources.html>`_  # noqa
-        (Last accessed 26 July 2014)
-.. [2]  **Paul Centore**,
-        `An Open-Source Inversion Algorithm for the Munsell Renotation
-        <http://www.99main.com/~centore/ColourSciencePapers/OpenSourceInverseRenotationArticle.pdf>`_,  # noqa
-        DOI: http://dx.doi.org/10.1002/col.20715,
-        (Last accessed 26 July 2014)
+.. [1]  Centore, P. (n.d.). Munsell Resources. Retrieved July 26, 2014, from
+        http://www.99main.com/~centore/MunsellResources/MunsellResources.html
+.. [2]  Centore, P. (2012). An open-source inversion algorithm for the Munsell
+        renotation. Color Research & Application, 37(6), 455–464.
+        doi:10.1002/col.20715
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 import re
 
@@ -63,7 +60,7 @@ from colour.algebra import (
 from colour.algebra.common import (
     INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTM_D1535_08
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.optimal import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
@@ -85,13 +82,13 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
            'MUNSELL_HUE_LETTER_CODES',
            'MUNSELL_DEFAULT_ILLUMINANT',
            'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
-           'munsell_value_priest1920',
-           'munsell_value_munsell1933',
-           'munsell_value_moon1943',
-           'munsell_value_saunderson1944',
-           'munsell_value_ladd1955',
-           'munsell_value_mccamy1987',
-           'munsell_value_ASTM_D1535_08',
+           'munsell_value_Priest1920',
+           'munsell_value_Munsell1933',
+           'munsell_value_Moon1943',
+           'munsell_value_Saunderson1944',
+           'munsell_value_Ladd1955',
+           'munsell_value_McCamy1987',
+           'munsell_value_ASTMD153508',
            'MUNSELL_VALUE_METHODS',
            'munsell_value',
            'munsell_specification_to_xyY',
@@ -162,7 +159,7 @@ def _munsell_specifications():
     ...,)
 
     The first column is converted from *Munsell* colour to specification using
-    :def:`munsell_colour_to_munsell_specification` definition:
+    :func:`munsell_colour_to_munsell_specification` definition:
 
     ('2.5GY', 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
 
@@ -181,22 +178,22 @@ def _munsell_specifications():
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
-def _munsell_value_ASTM_D1535_08_interpolator():
+def _munsell_value_ASTMD153508_interpolator():
     """
-    Returns the *Munsell* value interpolator for *ASTM D1535-08* method and
-    caches it if not existing.
+    Returns the *Munsell* value interpolator for ASTM D1535-08e1 (2008) method
+    and caches it if not existing.
 
     Returns
     -------
     Extrapolator1d
-        *Munsell* value interpolator for *ASTM D1535-08* method.
+        *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator1d([luminance_ASTM_D1535_08(x)
+            LinearInterpolator1d([luminance_ASTMD153508(x)
                                   for x in munsell_values],
                                  munsell_values))
 
@@ -231,10 +228,10 @@ def _munsell_maximum_chromas_from_renotation():
     return _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
 
 
-def munsell_value_priest1920(Y):
+def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Priest et al. (1920)* method.
+    *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)* method.
 
     Parameters
     ----------
@@ -253,25 +250,25 @@ def munsell_value_priest1920(Y):
 
     References
     ----------
-    .. [3] http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
+    .. [3]  Wikipedia. (n.d.). Lightness. Retrieved April 13, 2014, from
+            http://en.wikipedia.org/wiki/Lightness
 
     Examples
     --------
-    >>> munsell_value_priest1920(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Priest1920(10.08)  # doctest: +ELLIPSIS
     3.1749015...
     """
 
     Y /= 100
-    V = 10 * math.sqrt(Y)
+    V = 10 * np.sqrt(Y)
 
     return V
 
 
-def munsell_value_munsell1933(Y):
+def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Munsell, Sloan, and Godlove (1933)* method.
+    *⁠Munsell, Sloan and Godlove (1933)* method. [3]_
 
     Parameters
     ----------
@@ -288,26 +285,21 @@ def munsell_value_munsell1933(Y):
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in domain [0, 10].
 
-    References
-    ----------
-    .. [4] http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
-
     Examples
     --------
-    >>> munsell_value_munsell1933(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Munsell1933(10.08)  # doctest: +ELLIPSIS
     3.7918355...
     """
 
-    V = math.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
+    V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
     return V
 
 
-def munsell_value_moon1943(Y):
+def munsell_value_Moon1943(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Moon and Spencer (1943)* method.
+    Moon and Spencer (1943) method. [3]_
 
 
     Parameters
@@ -325,14 +317,9 @@ def munsell_value_moon1943(Y):
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in domain [0, 10].
 
-    References
-    ----------
-    .. [5] http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
-
     Examples
     --------
-    >>> munsell_value_moon1943(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Moon1943(10.08)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
@@ -341,10 +328,10 @@ def munsell_value_moon1943(Y):
     return V
 
 
-def munsell_value_saunderson1944(Y):
+def munsell_value_Saunderson1944(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Saunderson and Milner (1944)* method.
+    Saunderson and Milner (1944) method. [3]_
 
     Parameters
     ----------
@@ -361,14 +348,9 @@ def munsell_value_saunderson1944(Y):
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in domain [0, 10].
 
-    References
-    ----------
-    .. [6] http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
-
     Examples
     --------
-    >>> munsell_value_saunderson1944(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Saunderson1944(10.08)  # doctest: +ELLIPSIS
     3.6865080...
     """
 
@@ -377,10 +359,10 @@ def munsell_value_saunderson1944(Y):
     return V
 
 
-def munsell_value_ladd1955(Y):
+def munsell_value_Ladd1955(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Ladd and Pinney (1955)*  method.
+    Ladd and Pinney (1955)  method. [3]_
 
     Parameters
     ----------
@@ -397,14 +379,9 @@ def munsell_value_ladd1955(Y):
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in domain [0, 10].
 
-    References
-    ----------
-    .. [7] http://en.wikipedia.org/wiki/Lightness
-            (Last accessed 13 April 2014)
-
     Examples
     --------
-    >>> munsell_value_ladd1955(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_Ladd1955(10.08)  # doctest: +ELLIPSIS
     3.6952862...
     """
 
@@ -413,10 +390,10 @@ def munsell_value_ladd1955(Y):
     return V
 
 
-def munsell_value_mccamy1987(Y):
+def munsell_value_McCamy1987(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *McCamy (1987)*  method.
+    McCamy (1987)  method.
 
     Parameters
     ----------
@@ -435,14 +412,13 @@ def munsell_value_mccamy1987(Y):
 
     References
     ----------
-    .. [8] `Standard Test Method for Specifying Color by the Munsell System -
-            ASTM-D1535-1989
-            <https://law.resource.org/pub/us/cfr/ibr/003/astm.d1535.1989.pdf>`_,  # noqa
-            DOI: http://dx.doi.org/10.1520/D1535-13
+    .. [4]  ASTM International. (1989). ASTM D1535-89 Standard Test Method for
+            Specifying Color by the Munsell System. Retrieved from
+            http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 
     Examples
     --------
-    >>> munsell_value_mccamy1987(10.08)  # doctest: +ELLIPSIS
+    >>> munsell_value_McCamy1987(10.08)  # doctest: +ELLIPSIS
     3.7347235...
     """
 
@@ -452,16 +428,16 @@ def munsell_value_mccamy1987(Y):
         V = (2.49268 * (Y ** (1 / 3)) - 1.5614 -
              (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
              (0.0133 / (Y ** 2.3)) +
-             0.0084 * math.sin(4.1 * (Y ** (1 / 3)) + 1) +
-             (0.0221 / Y) * math.sin(0.39 * (Y - 2)) -
-             (0.0037 / (0.44 * Y)) * math.sin(1.28 * (Y - 0.53)))
+             0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
+             (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
+             (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)))
     return V
 
 
-def munsell_value_ASTM_D1535_08(Y):
+def munsell_value_ASTMD153508(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from *ASTM D1535-08e1 (2008)* method.
+    a reverse lookup table from ASTM D1535-08e1 (2008) method.
 
     Parameters
     ----------
@@ -480,29 +456,29 @@ def munsell_value_ASTM_D1535_08(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTM_D1535_08(10.1488096782)  # doctest: +ELLIPSIS
+    >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
     3.7462971...
     """
 
-    V = _munsell_value_ASTM_D1535_08_interpolator()(Y)
+    V = _munsell_value_ASTMD153508_interpolator()(Y)
 
     return V
 
 
 MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
-    {'Priest 1920': munsell_value_priest1920,
-     'Munsell 1933': munsell_value_munsell1933,
-     'Moon 1943': munsell_value_moon1943,
-     'Saunderson 1944': munsell_value_saunderson1944,
-     'Ladd 1955': munsell_value_ladd1955,
-     'McCamy 1987': munsell_value_mccamy1987,
-     'ASTM D1535-08': munsell_value_ASTM_D1535_08})
+    {'Priest 1920': munsell_value_Priest1920,
+     'Munsell 1933': munsell_value_Munsell1933,
+     'Moon 1943': munsell_value_Moon1943,
+     'Saunderson 1944': munsell_value_Saunderson1944,
+     'Ladd 1955': munsell_value_Ladd1955,
+     'McCamy 1987': munsell_value_McCamy1987,
+     'ASTM D1535-08': munsell_value_ASTMD153508})
 """
 Supported *Munsell* value computations methods.
 
-MUNSELL_VALUE_METHODS : dict
-    ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
+MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
+    {'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
+    'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08'}
 
 Aliases:
 
@@ -522,8 +498,8 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Y : numeric
         *luminance* :math:`Y`.
     method : unicode, optional
-        ('Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
-        'Ladd 1955', 'McCamy 1987', 'ASTM D1535-08')
+        {'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
+        'Saunderson 1944', 'Ladd 1955', 'McCamy 1987'}
         Computation method.
 
     Returns
@@ -581,9 +557,9 @@ def munsell_specification_to_xyY(specification):
 
     References
     ----------
-    .. [9] **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/MunsellToxyY.m*
+    .. [5]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/MunsellToxyY.m. Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -606,12 +582,12 @@ def munsell_specification_to_xyY(specification):
             '"{0}" specification value must be in domain [0, 10]!'.format(
                 specification))
 
-    Y = luminance_ASTM_D1535_08(value)
+    Y = luminance_ASTMD153508(value)
 
     if is_integer(value):
         value_minus = value_plus = round(value)
     else:
-        value_minus = math.floor(value)
+        value_minus = np.floor(value)
         value_plus = value_minus + 1
 
     specification_minus = (value_minus
@@ -629,8 +605,8 @@ def munsell_specification_to_xyY(specification):
         x = x_minus
         y = y_minus
     else:
-        Y_minus = luminance_ASTM_D1535_08(value_minus)
-        Y_plus = luminance_ASTM_D1535_08(value_plus)
+        Y_minus = luminance_ASTMD153508(value_minus)
+        Y_plus = luminance_ASTMD153508(value_plus)
         x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
         y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
 
@@ -684,7 +660,7 @@ def xyY_to_munsell_specification(xyY):
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace matrix is not within *MacAdam*
+        If the given *CIE xyY* colourspace matrix is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -696,9 +672,9 @@ def xyY_to_munsell_specification(xyY):
 
     References
     ----------
-    .. [10] **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/xyYtoMunsell.m*
+    .. [6]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/xyYtoMunsell.m. Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -715,7 +691,7 @@ def xyY_to_munsell_specification(xyY):
     x, y, Y = np.ravel(xyY)
 
     # Scaling *Y* for algorithm needs.
-    value = munsell_value_ASTM_D1535_08(Y * 100)
+    value = munsell_value_ASTMD153508(Y * 100)
     if is_integer(value):
         value = round(value)
 
@@ -724,7 +700,7 @@ def xyY_to_munsell_specification(xyY):
     z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
                                                                 y - y_center,
                                                                 Y_center))
-    theta_input = math.degrees(theta_input)
+    theta_input = np.degrees(theta_input)
 
     grey_threshold = 0.001
     if rho_input < grey_threshold:
@@ -770,7 +746,7 @@ def xyY_to_munsell_specification(xyY):
             (x_current - x_center,
              y_current - y_center,
              Y_center))
-        theta_current = math.degrees(theta_current)
+        theta_current = np.degrees(theta_current)
         theta_current_difference = (360 - theta_input + theta_current) % 360
         if theta_current_difference > 180:
             theta_current_difference -= 360
@@ -813,7 +789,7 @@ def xyY_to_munsell_specification(xyY):
                     (x_inner - x_center,
                      y_inner - y_center,
                      Y_center))
-                theta_inner = math.degrees(theta_inner)
+                theta_inner = np.degrees(theta_inner)
                 theta_inner_difference = (
                     (360 - theta_input + theta_inner) % 360)
                 if theta_inner_difference > 180:
@@ -1247,9 +1223,9 @@ def bounding_hues_from_renotation(hue, code):
 
     References
     ----------
-    .. [11]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellSystemRoutines/BoundingRenotationHues.m*
+    .. [7]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1267,7 +1243,7 @@ def bounding_hues_from_renotation(hue, code):
         hue_ccw = hue_cw
         code_ccw = code_cw
     else:
-        hue_cw = 2.5 * math.floor(hue / 2.5)
+        hue_cw = 2.5 * np.floor(hue / 2.5)
         hue_ccw = (hue_cw + 2.5) % 10
         if hue_ccw == 0:
             hue_ccw = 10
@@ -1304,9 +1280,10 @@ def hue_to_hue_angle(hue, code):
 
     References
     ----------
-    .. [12]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m*
+    .. [8]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m.
+            Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1338,9 +1315,10 @@ def hue_angle_to_hue(hue_angle):
 
     References
     ----------
-    .. [13]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m*
+    .. [9]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m.
+            Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1400,9 +1378,9 @@ def hue_to_ASTM_hue(hue, code):
 
     References
     ----------
-    .. [14]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/MunsellHueToASTMHue.m*
+    .. [10] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1439,9 +1417,10 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     References
     ----------
-    .. [15]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m*
+    .. [11] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
+            Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1746,9 +1725,9 @@ def xy_from_renotation_ovoid(specification):
 
     References
     ----------
-    .. [16]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/FindHueOnRenotationOvoid.m*
+    .. [12] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/FindHueOnRenotationOvoid.m. Retrieved
+            from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1805,13 +1784,13 @@ def xy_from_renotation_ovoid(specification):
             specification_minus)
         z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
-        theta_minus = math.degrees(theta_minus)
+        theta_minus = np.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
         z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
-        theta_plus = math.degrees(theta_plus)
+        theta_plus = np.degrees(theta_plus)
 
         lower_hue_angle = hue_to_hue_angle(hue_minus, code_minus)
         hue_angle = hue_to_hue_angle(hue, code)
@@ -1844,8 +1823,8 @@ def xy_from_renotation_ovoid(specification):
             rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
                                        [rho_minus, rho_plus])(hue_angle)
 
-            x = rho * math.cos(math.radians(theta)) + x_grey
-            y = rho * math.sin(math.radians(theta)) + y_grey
+            x = rho * np.cos(np.radians(theta)) + x_grey
+            y = rho * np.sin(np.radians(theta)) + y_grey
         else:
             raise ValueError(
                 'Invalid interpolation method: "{0}"'.format(
@@ -1875,9 +1854,9 @@ def LCHab_to_munsell_specification(LCHab):
 
     References
     ----------
-    .. [17]  **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *GeneralRoutines/CIELABtoApproxMunsellSpec.m*
+    .. [13] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1943,9 +1922,10 @@ def maximum_chroma_from_renotation(hue, value, code):
 
     References
     ----------
-    .. [18] **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m*
+    .. [14] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m.
+            Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -1964,7 +1944,7 @@ def maximum_chroma_from_renotation(hue, value, code):
         value_minus = value
         value_plus = value
     else:
-        value_minus = math.floor(value)
+        value_minus = np.floor(value)
         value_plus = value_minus + 1
 
     hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -1989,9 +1969,9 @@ def maximum_chroma_from_renotation(hue, value, code):
                          ma_limit_pcw,
                          ma_limit_pccw)
     else:
-        L = luminance_ASTM_D1535_08(value)
-        L9 = luminance_ASTM_D1535_08(9)
-        L10 = luminance_ASTM_D1535_08(10)
+        L = luminance_ASTMD153508(value)
+        L9 = luminance_ASTMD153508(9)
+        L10 = luminance_ASTMD153508(10)
 
         max_chroma = min(LinearInterpolator1d([L9, L10], [ma_limit_mcw, 0])(L),
                          LinearInterpolator1d([L9, L10], [ma_limit_mccw, 0])(
@@ -2022,9 +2002,10 @@ def munsell_specification_to_xy(specification):
 
     References
     ----------
-    .. [19] **The Munsell and Kubelka-Munk Toolbox**:
-            *MunsellAndKubelkaMunkToolboxApr2014*:
-            *MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m*
+    .. [15] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
+            MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m.
+            Retrieved from
+            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 
     Examples
     --------
@@ -2052,7 +2033,7 @@ def munsell_specification_to_xy(specification):
         if chroma % 2 == 0:
             chroma_minus = chroma_plus = chroma
         else:
-            chroma_minus = 2 * math.floor(chroma / 2)
+            chroma_minus = 2 * np.floor(chroma / 2)
             chroma_plus = chroma_minus + 2
 
         if chroma_minus == 0:

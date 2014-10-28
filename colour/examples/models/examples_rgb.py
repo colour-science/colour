@@ -23,9 +23,9 @@ colourspace = colour.RGB_COLOURSPACES['ACES RGB']
 print('Name:\n"{0}"'.format(colourspace.name))
 print('\nPrimaries:\n{0}'.format(colourspace.primaries))
 print('\nNormalised primary matrix to "CIE XYZ":\n{0}'.format(
-    colourspace.to_XYZ))
+    colourspace.RGB_to_XYZ_matrix))
 print('\nNormalised primary matrix to "ACES RGB":\n{0}'.format(
-    colourspace.to_RGB))
+    colourspace.XYZ_to_RGB_matrix))
 print('\nTransfer function from linear to colourspace:\n{0}'.format(
     colourspace.transfer_function))
 print('\nInverse transfer function from colourspace to linear:\n{0}'.format(
@@ -34,11 +34,12 @@ print('\nInverse transfer function from colourspace to linear:\n{0}'.format(
 print('\n')
 
 message_box('Computing "ACES RGB" colourspace to "sRGB" colourspace matrix.')
-cat = colour.chromatic_adaptation_matrix(
+cat = colour.chromatic_adaptation_matrix_VonKries(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES RGB'].whitepoint),
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
-print(np.dot(colour.RGB_COLOURSPACES['sRGB'].to_RGB,
-             np.dot(cat, colour.RGB_COLOURSPACES['ACES RGB'].to_XYZ)))
+print(np.dot(colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
+             np.dot(cat,
+                    colour.RGB_COLOURSPACES['ACES RGB'].RGB_to_XYZ_matrix)))
 
 print('\n')
 

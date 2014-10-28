@@ -16,9 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `SMPTE C Color Monitor Colorimetry
-        <http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.body.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  SMPTE. (2004). SMPTE C Color Monitor Colorimetry. In RP 145:2004
+        (Vol. RP 145:200). doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals
@@ -36,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['SMPTE_C_RGB_PRIMARIES',
+           'SMPTE_C_RGB_ILLUMINANT',
            'SMPTE_C_RGB_WHITEPOINT',
            'SMPTE_C_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_SMPTE_C_RGB_MATRIX',
@@ -53,8 +53,15 @@ SMPTE_C_RGB_PRIMARIES = np.array(
 SMPTE_C_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+SMPTE_C_RGB_ILLUMINANT = 'D65'
+"""
+*SMPTE-C RGB* colourspace whitepoint name as illuminant.
+
+SMPTE_C_RGB_ILLUMINANT : unicode
+"""
+
 SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(SMPTE_C_RGB_ILLUMINANT)
 """
 *SMPTE-C RGB* colourspace whitepoint.
 
@@ -76,14 +83,52 @@ XYZ_TO_SMPTE_C_RGB_MATRIX = np.linalg.inv(SMPTE_C_RGB_TO_XYZ_MATRIX)
 XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
 """
 
-SMPTE_C_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _smpte_c_rgb_transfer_function(value):
+    """
+    Defines the *SMPTE-C RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _smpte_c_rgb_inverse_transfer_function(value):
+    """
+    Defines the *SMPTE-C RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+SMPTE_C_RGB_TRANSFER_FUNCTION = _smpte_c_rgb_transfer_function
 """
 Transfer function from linear to *SMPTE-C RGB* colourspace.
 
 SMPTE_C_RGB_TRANSFER_FUNCTION : object
 """
 
-SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = _smpte_c_rgb_inverse_transfer_function
 """
 Inverse transfer function from *SMPTE-C RGB* colourspace to linear.
 
@@ -94,6 +139,7 @@ SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     'SMPTE-C RGB',
     SMPTE_C_RGB_PRIMARIES,
     SMPTE_C_RGB_WHITEPOINT,
+    SMPTE_C_RGB_ILLUMINANT,
     SMPTE_C_RGB_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_C_RGB_MATRIX,
     SMPTE_C_RGB_TRANSFER_FUNCTION,

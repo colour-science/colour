@@ -11,6 +11,8 @@
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://waffle.io/colour-science/colour
     :alt: 'Stories in Ready'
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.11565.png
+    :target: http://dx.doi.org/10.5281/zenodo.11565
 
 Colour Science for Python
 =========================
@@ -42,12 +44,19 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `contributing <http://colour-science.org/contributing.php>`_ guide.
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing.php>`_ guide.
 
 Changes
 -------
 
-The changes are viewable on the `releases <https://github.com/colour-science/colour/releases>`_ page.
+The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
+
+Bibliography
+------------
+
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page.
+
+It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
 About
 -----

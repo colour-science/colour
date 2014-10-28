@@ -12,6 +12,7 @@ transformations:
 -   :func:`RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 -   :func:`RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
 -   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 
 See Also
 --------
@@ -35,7 +36,8 @@ __status__ = 'Production'
 __all__ = ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
            'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
            'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
+           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+           'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -70,12 +72,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [1]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            pages 138, 139.
+    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.3.3). In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 138–139). Wiley. ISBN:978-0471399186
 
     Examples
     --------
@@ -146,12 +145,9 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [2]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page  141.
+    .. [2]  Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964 Standard
+            Observer. In Color Science: Concepts and Methods, Quantitative
+            Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
 
     Examples
     --------
@@ -204,9 +200,9 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [3]  `CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological
-            Axes - Part 1 <http://div1.cie.co.at/?i_ca_id=551&pubid=48>`_,
-            ISBN-13: 978-3-901-90646-6
+    .. [3]  CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental Chromaticity
+            Diagram with Physiological Axes - Part 1 (pp. 1–56).
+            ISBN:978-3-901-90646-6
 
     Examples
     --------
@@ -259,8 +255,9 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [4]  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
-            (Last accessed 25 June 2014)
+    .. [4]  CVRL. (n.d.). CIE (2012) 2-deg XYZ “physiologically-relevant”
+            colour matching functions. Retrieved June 25, 2014, from
+            http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
 
     Examples
     --------
@@ -312,8 +309,9 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [5]  http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
-            (Last accessed 25 June 2014)
+    .. [5]  CVRL. (n.d.). CIE (2012) 10-deg XYZ “physiologically-relevant”
+            colour matching functions. Retrieved June 25, 2014, from
+            http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
 
     Examples
     --------

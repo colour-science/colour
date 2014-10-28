@@ -10,8 +10,9 @@ various plotting objects.
 
 References
 ----------
-.. [1]  http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
-        (Last accessed 23 August 2014)
+.. [1]  Renewable Resource Data Center. (2003). Reference Solar Spectral
+        Irradiance: ASTM G-173. Retrieved August 23, 2014, from
+        http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 """
 
 from __future__ import division, unicode_literals

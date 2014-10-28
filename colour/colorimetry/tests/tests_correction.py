@@ -17,7 +17,7 @@ else:
 
 from colour.colorimetry import (
     SpectralPowerDistribution,
-    bandpass_correction_stearns1988)
+    bandpass_correction_Stearns1988)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -70,14 +70,14 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+    :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
     definition unit tests methods.
     """
 
-    def test_bandpass_correction_stearns1988(self):
+    def test_bandpass_correction_Stearns1988(self):
         """
         Tests
-        :func:`colour.colorimetry.correction.bandpass_correction_stearns1988`
+        :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
         definition.
         """
 
@@ -85,7 +85,7 @@ class TestBandpassCorrectionStearns1988(unittest.TestCase):
             'Spd', dict(zip(range(len(SPD_DATA)), SPD_DATA)))
 
         np.testing.assert_almost_equal(
-            bandpass_correction_stearns1988(spd).values,
+            bandpass_correction_Stearns1988(spd).values,
             BANDPASS_CORRECTED_STEARNS_SPD_DATA)
 
 

@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.josephholmes.com/Ekta_Space.zip
-        (Last accessed 13 April 2014)
+.. [1]  Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from
+        http://www.josephholmes.com/Ekta_Space.zip
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['EKTA_SPACE_PS_5_PRIMARIES',
+           'EKTA_SPACE_PS_5_V_ILLUMINANT',
            'EKTA_SPACE_PS_5_WHITEPOINT',
            'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
            'XYZ_TO_EKTA_SPACE_PS_5_MATRIX',
@@ -52,8 +53,15 @@ EKTA_SPACE_PS_5_PRIMARIES = np.array(
 EKTA_SPACE_PS_5_PRIMARIES : ndarray, (3, 2)
 """
 
+EKTA_SPACE_PS_5_V_ILLUMINANT = 'D50'
+"""
+*Ekta Space PS 5* colourspace whitepoint name as illuminant.
+
+EKTA_SPACE_PS_5_V_ILLUMINANT : unicode
+"""
+
 EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(EKTA_SPACE_PS_5_V_ILLUMINANT)
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
@@ -75,14 +83,53 @@ XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 """
 
-EKTA_SPACE_PS_5_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _ekta_space_ps_5_transfer_function(value):
+    """
+    Defines the *Ekta Space PS 5* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _ekta_space_ps_5_inverse_transfer_function(value):
+    """
+    Defines the *Ekta Space PS 5* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+EKTA_SPACE_PS_5_TRANSFER_FUNCTION = _ekta_space_ps_5_transfer_function
 """
 Transfer function from linear to *Ekta Space PS 5* colourspace.
 
 EKTA_SPACE_PS_5_TRANSFER_FUNCTION : object
 """
 
-EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = (
+    _ekta_space_ps_5_inverse_transfer_function)
 """
 Inverse transfer function from *Ekta Space PS 5* colourspace to linear.
 
@@ -93,6 +140,7 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     'Ekta Space PS 5',
     EKTA_SPACE_PS_5_PRIMARIES,
     EKTA_SPACE_PS_5_WHITEPOINT,
+    EKTA_SPACE_PS_5_V_ILLUMINANT,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
     EKTA_SPACE_PS_5_TRANSFER_FUNCTION,

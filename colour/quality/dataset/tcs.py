@@ -5,9 +5,9 @@
 Test Colour Samples Spectral Power Distributions
 ================================================
 
-Defines the *CIE 1995* test colour samples spectral power distributions.
+Defines the CIE 1995 test colour samples spectral power distributions.
 
-The *CIE 1995* test colour samples data is in the form of a *dict* of
+The CIE 1995 test colour samples data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
 follows::
 
@@ -20,8 +20,8 @@ See Also
 
 References
 ----------
-.. [1]  http://cie2.nist.gov/TC1-69/NIST%20CQS%20simulation%207.4.xls
-        (Last accessed 10 June 2014)
+.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 """
 
 from __future__ import division, unicode_literals
@@ -79,7 +79,7 @@ TCS_APPROXIMATE_MUNSELL_NOTATIONS = CaseInsensitiveMapping(
 """
 Test colour samples *Munsell* colour approximations.
 
-TCS_APPROXIMATE_MUNSELL_NOTATIONS : dict
+TCS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
 """
 
 TCS_SPDS_DATA = {
@@ -1428,10 +1428,11 @@ TCS_SPDS_DATA = {
         825: 0.451,
         830: 0.454}}
 
-TCS_SPDS = dict((key, SpectralPowerDistribution(key, value)) for key, value in
-                TCS_SPDS_DATA.items())
+TCS_SPDS = CaseInsensitiveMapping(
+    dict((key, SpectralPowerDistribution(key, value)) for key, value in
+         TCS_SPDS_DATA.items()))
 """
 Test colour samples spectral power distributions.
 
-TCS_SPDS : dict
+TCS_SPDS : CaseInsensitiveMapping
 """

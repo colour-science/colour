@@ -71,12 +71,9 @@ def spectral_to_XYZ(spd,
 
     References
     ----------
-    .. [1]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page  158.
+    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). Integration Replace by
+            Summation. In Color Science: Concepts and Methods, Quantitative
+            Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
 
     Examples
     --------
@@ -129,7 +126,7 @@ def wavelength_to_XYZ(wavelength,
 
     If the wavelength :math:`\lambda` is not available in the colour matching
     function, its value will be calculated using *CIE* recommendations:
-    The method developed by *Sprague (1880)* should be used for interpolating
+    The method developed by Sprague (1880) should be used for interpolating
     functions having a uniformly spaced independent variable and a
     *Cubic Spline* method for non-uniformly spaced independent variable.
 
@@ -180,7 +177,7 @@ def wavelength_to_XYZ(wavelength,
         interpolators = [interpolator(wavelengths, values[:, i])
                          for i in range(values.shape[-1])]
 
-        return np.array([interpolator(wavelength)
-                         for interpolator in interpolators])
+        return np.array([interpolator_i(wavelength)
+                         for interpolator_i in interpolators])
     else:
         return np.array(cmfs.get(wavelength))

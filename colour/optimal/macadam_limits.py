@@ -67,7 +67,7 @@ def _XYZ_optimal_colour_stimuli(illuminant):
 
 def is_within_macadam_limits(xyY, illuminant):
     """
-    Returns if given *CIE xyY* colourspace matrix is within *MacAdam* limits of
+    Returns if given *CIE xyY* colourspace matrix is within MacAdam limits of
     given illuminant.
 
     Parameters
@@ -80,7 +80,7 @@ def is_within_macadam_limits(xyY, illuminant):
     Returns
     -------
     bool
-        Is within *MacAdam* limits.
+        Is within MacAdam limits.
 
     Notes
     -----

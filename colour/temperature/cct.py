@@ -7,28 +7,28 @@ Correlated Colour Temperature :math:`T_{cp}`
 
 Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
--   :func:`uv_to_CCT_ohno2013`: Correlated colour temperature :math:`T_{cp}`
+-   :func:`uv_to_CCT_Ohno2013`: Correlated colour temperature :math:`T_{cp}`
     and :math:`\Delta_{uv}` computation of given *CIE UCS* colourspace *uv*
-    chromaticity coordinates using *Yoshi Ohno (2013)* method.
--   :func:`CCT_to_uv_ohno2013`: *CIE UCS* colourspace *uv* chromaticity
+    chromaticity coordinates using Ohno (2013) method.
+-   :func:`CCT_to_uv_Ohno2013`: *CIE UCS* colourspace *uv* chromaticity
     coordinates computation of given correlated colour temperature
-    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Yoshi Ohno (2013)* method.
--   :func:`uv_to_CCT_robertson1968`: Correlated colour temperature
+    :math:`T_{cp}`, :math:`\Delta_{uv}` using Ohno (2013) method.
+-   :func:`uv_to_CCT_Robertson1968`: Correlated colour temperature
     :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given *CIE UCS*
-    colourspace *uv* chromaticity coordinates using *Robertson (1968)* method.
--   :func:`CCT_to_uv_robertson1968`: *CIE UCS* colourspace *uv* chromaticity
+    colourspace *uv* chromaticity coordinates using Robertson (1968) method.
+-   :func:`CCT_to_uv_Robertson1968`: *CIE UCS* colourspace *uv* chromaticity
     coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` and :math:`\Delta_{uv}` using *Robertson (1968)* method.
--   :func:`xy_to_CCT_mccamy1992`: Correlated colour temperature :math:`T_{cp}`
+    :math:`T_{cp}` and :math:`\Delta_{uv}` using Robertson (1968) method.
+-   :func:`xy_to_CCT_McCamy1992`: Correlated colour temperature :math:`T_{cp}`
     computation of given *CIE XYZ* colourspace *xy* chromaticity coordinates
-    using *McCamy (1992)* method.
--   :func:`xy_to_CCT_hernandez1999`: Correlated colour temperature
+    using McCamy (1992) method.
+-   :func:`xy_to_CCT_Hernandez1999`: Correlated colour temperature
     :math:`T_{cp}` computation of given *CIE XYZ* colourspace *xy* chromaticity
-    coordinates using *Hernandez-Andres, Lee & Romero (1999)* method.
--   :func:`CCT_to_xy_kang2002`: *CIE XYZ* colourspace *xy* chromaticity
+    coordinates using Hernandez-Andres, Lee and Romero (1999) method.
+-   :func:`CCT_to_xy_Kang2002`: *CIE XYZ* colourspace *xy* chromaticity
     coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
--   :func:`CCT_to_xy_illuminant_D`: *CIE XYZ* colourspace *xy* chromaticity
+    :math:`T_{cp}` using Kang et al. (2002) method.
+-   :func:`CCT_to_xy_CIE_D`: *CIE XYZ* colourspace *xy* chromaticity
     coordinates computation of *CIE Illuminant D Series* from given correlated
     colour temperature :math:`T_{cp}` of that *CIE Illuminant D Series*.
 
@@ -39,12 +39,12 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Color_temperature
+.. [1]  Wikipedia. (n.d.). Color temperature. Retrieved June 28, 2014, from
+        http://en.wikipedia.org/wiki/Color_temperature
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 from collections import namedtuple
 
@@ -72,18 +72,18 @@ __all__ = ['PLANCKIAN_TABLE_TUVD',
            'ROBERTSON_ISOTEMPERATURE_LINES',
            'planckian_table',
            'planckian_table_minimal_distance_index',
-           'uv_to_CCT_ohno2013',
-           'CCT_to_uv_ohno2013',
-           'uv_to_CCT_robertson1968',
-           'CCT_to_uv_robertson1968',
+           'uv_to_CCT_Ohno2013',
+           'CCT_to_uv_Ohno2013',
+           'uv_to_CCT_Robertson1968',
+           'CCT_to_uv_Robertson1968',
            'UV_TO_CCT_METHODS',
            'uv_to_CCT',
            'CCT_TO_UV_METHODS',
            'CCT_to_uv',
-           'xy_to_CCT_mccamy1992',
-           'xy_to_CCT_hernandez1999',
-           'CCT_to_xy_kang2002',
-           'CCT_to_xy_illuminant_D',
+           'xy_to_CCT_McCamy1992',
+           'xy_to_CCT_Hernandez1999',
+           'CCT_to_xy_Kang2002',
+           'CCT_to_xy_CIE_D',
            'XY_TO_CCT_METHODS',
            'xy_to_CCT',
            'CCT_TO_XY_METHODS',
@@ -130,7 +130,7 @@ ROBERTSON_ISOTEMPERATURE_LINES_DATA = (
     (575, 0.32931, 0.36038, -40.770),
     (600, 0.33724, 0.36051, -116.45))
 """
-*Robertson* iso-temperature lines.
+Robertson (1968) iso-temperature lines.
 
 ROBERTSON_ISOTEMPERATURE_LINES_DATA : tuple
     (Reciprocal Megakelvin,
@@ -140,16 +140,14 @@ ROBERTSON_ISOTEMPERATURE_LINES_DATA : tuple
 
 Notes
 -----
--   A correction has been done by *Bruce Lindbloom* for *325* Megakelvin
+-   A correction has been done by Lindbloom for *325* Megakelvin
     temperature: 0.24702 ---> 0.24792
 
 References
 ----------
-.. [2]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae -
-        Second Edition*,
-        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        page  228.
+.. [2]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11) Isotemperature
+        Lines. In Color Science: Concepts and Methods, Quantitative Data and
+        Formulae (p. 228). Wiley. ISBN:978-0471399186
 """
 
 ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple(
@@ -164,7 +162,7 @@ def planckian_table(uv, cmfs, start, end, count):
     """
     Returns a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
-    using *Yoshi Ohno (2013)* method.
+    using Ohno (2013) method.
 
     Parameters
     ----------
@@ -214,7 +212,7 @@ def planckian_table(uv, cmfs, start, end, count):
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
-        di = math.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
+        di = np.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
         table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
     return table
@@ -223,7 +221,7 @@ def planckian_table(uv, cmfs, start, end, count):
 def planckian_table_minimal_distance_index(planckian_table):
     """
     Returns the shortest distance index in given planckian table using
-    *Yoshi Ohno (2013)* method.
+    Ohno (2013) method.
 
     Parameters
     ----------
@@ -249,7 +247,7 @@ def planckian_table_minimal_distance_index(planckian_table):
     return distances.index(min(distances))
 
 
-def uv_to_CCT_ohno2013(uv,
+def uv_to_CCT_Ohno2013(uv,
                        cmfs=STANDARD_OBSERVERS_CMFS.get(
                            'CIE 1931 2 Degree Standard Observer'),
                        start=CCT_MINIMAL,
@@ -260,7 +258,7 @@ def uv_to_CCT_ohno2013(uv,
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
-    *Yoshi Ohno (2013)* method.
+    Ohno (2013) method.
 
     The iterations parameter defines the calculations precision: The higher its
     value, the more planckian tables will be generated through cascade
@@ -288,16 +286,15 @@ def uv_to_CCT_ohno2013(uv,
 
     References
     ----------
-    .. [3]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
-            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
+    .. [3]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
+            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
 
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
-    >>> uv_to_CCT_ohno2013((0.1978, 0.3122), cmfs)  # doctest: +ELLIPSIS
+    >>> uv_to_CCT_Ohno2013((0.1978, 0.3122), cmfs)  # doctest: +ELLIPSIS
     (6507.5470349..., 0.0032236...)
     """
 
@@ -327,20 +324,20 @@ def uv_to_CCT_ohno2013(uv,
 
     Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
     Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
-    Ti, ui, vi, di = Tuvdi.Ti, Tuvdi.ui, Tuvdi.vi, Tuvdi.di
+    Ti, di = Tuvdi.Ti, Tuvdi.di
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
 
     # Triangular solution.
-    l = math.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
+    l = np.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
     x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
     T = Tip + (Tin - Tip) * (x / l)
 
     vtx = vip + (vin - vip) * (x / l)
     sign = 1 if vx - vtx >= 0 else -1
-    Duv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
+    D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
 
     # Parabolic solution.
-    if Duv < 0.002:
+    if D_uv < 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
@@ -350,25 +347,25 @@ def uv_to_CCT_ohno2013(uv,
 
         T = -b / (2 * a)
 
-        Duv = sign * (a * T ** 2 + b * T + c)
+        D_uv = sign * (a * T ** 2 + b * T + c)
 
-    return T, Duv
+    return T, D_uv
 
 
-def CCT_to_uv_ohno2013(CCT,
-                       Duv=0,
+def CCT_to_uv_Ohno2013(CCT,
+                       D_uv=0,
                        cmfs=STANDARD_OBSERVERS_CMFS.get(
                            'CIE 1931 2 Degree Standard Observer')):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
-    colour matching functions using *Yoshi Ohno (2013)* method.
+    colour matching functions using Ohno (2013) method.
 
     Parameters
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric, optional
+    D_uv : numeric, optional
         :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
@@ -380,9 +377,8 @@ def CCT_to_uv_ohno2013(CCT,
 
     References
     ----------
-    .. [4]  **Yoshi Ohno**, `Practical Use and Calculation of CCT and Duv
-            <http://dx.doi.org/10.1080/15502724.2014.839020>`_,
-            DOI: http://dx.doi.org/10.1080/15502724.2014.839020
+    .. [4]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
+            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
 
     Examples
     --------
@@ -390,8 +386,8 @@ def CCT_to_uv_ohno2013(CCT,
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> Duv = 0.003223690901512735
-    >>> CCT_to_uv_ohno2013(CCT, Duv, cmfs)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.003223690901512735
+    >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
     (0.1978003..., 0.3122005...)
     """
 
@@ -404,7 +400,7 @@ def CCT_to_uv_ohno2013(CCT,
     UVW = XYZ_to_UCS(XYZ)
     u0, v0 = UCS_to_uv(UVW)
 
-    if Duv == 0:
+    if D_uv == 0:
         return u0, v0
     else:
         spd = blackbody_spd(CCT + delta, shape)
@@ -416,17 +412,17 @@ def CCT_to_uv_ohno2013(CCT,
         du = u0 - u1
         dv = v0 - v1
 
-        u = u0 - Duv * (dv / math.sqrt(du ** 2 + dv ** 2))
-        v = v0 + Duv * (du / math.sqrt(du ** 2 + dv ** 2))
+        u = u0 - D_uv * (dv / np.sqrt(du ** 2 + dv ** 2))
+        v = v0 + D_uv * (du / np.sqrt(du ** 2 + dv ** 2))
 
         return u, v
 
 
-def uv_to_CCT_robertson1968(uv):
+def uv_to_CCT_Robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using *Robertson (1968)* method.
+    coordinates using *Roberston (1968)* method.
 
     Parameters
     ----------
@@ -440,20 +436,19 @@ def uv_to_CCT_robertson1968(uv):
 
     References
     ----------
-    .. [5]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page  227.
-    .. [6]  *Adobe DNG SDK 1.3.0.0*:
-            *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
-            *dng_temperature::Set_xy_coord*.
+    .. [5]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
+            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 224–229). Wiley. ISBN:978-0471399186
+    .. [6]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
+            dng_temperature::Set_xy_coord. Retrieved from
+            https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples
     --------
     >>> uv = (0.19374137599822966, 0.31522104394059397)
-    >>> uv_to_CCT_robertson1968(uv)  # doctest: +ELLIPSIS
+    >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
     (6500.0162879..., 0.0083333...)
     """
 
@@ -468,7 +463,7 @@ def uv_to_CCT_robertson1968(uv):
         du = 1.0
         dv = wr_ruvt.t
 
-        length = math.sqrt(1 + dv * dv)
+        length = np.sqrt(1 + dv * dv)
 
         du /= length
         dv /= length
@@ -497,12 +492,12 @@ def uv_to_CCT_robertson1968(uv):
             du = du * (1 - f) + last_du * f
             dv = dv * (1 - f) + last_dv * f
 
-            length = math.sqrt(du * du + dv * dv)
+            length = np.sqrt(du * du + dv * dv)
 
             du /= length
             dv /= length
 
-            Duv = uu * du + vv * dv
+            D_uv = uu * du + vv * dv
 
             break
 
@@ -510,20 +505,20 @@ def uv_to_CCT_robertson1968(uv):
         last_du = du
         last_dv = dv
 
-    return T, -Duv
+    return T, -D_uv
 
 
-def CCT_to_uv_robertson1968(CCT, Duv=0):
+def CCT_to_uv_Robertson1968(CCT, D_uv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
-    *Robertson (1968)* method.
+    *Roberston (1968)* method.
 
     Parameters
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric
+    D_uv : numeric
         :math:`\Delta_{uv}`.
 
     Returns
@@ -533,21 +528,20 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
 
     References
     ----------
-    .. [7]  **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page  227.
-    .. [8]  *Adobe DNG SDK 1.3.0.0*:
-            *dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp*:
-            *dng_temperature::xy_coord*.
+    .. [7]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
+            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
+            Science: Concepts and Methods, Quantitative Data and Formulae
+            (pp. 224–229). Wiley. ISBN:978-0471399186
+    .. [8]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
+            dng_temperature::xy_coord. Retrieved from
+            https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples
     --------
     >>> CCT = 6500.0081378199056
-    >>> Duv = 0.0083333312442250979
-    >>> CCT_to_uv_robertson1968(CCT, Duv)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.0083333312442250979
+    >>> CCT_to_uv_Robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
     (0.1937413..., 0.3152210...)
     """
 
@@ -566,8 +560,8 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu1 = uu2 = 1.0
             vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
-            length1 = math.sqrt(1 + vv1 * vv1)
-            length2 = math.sqrt(1 + vv2 * vv2)
+            length1 = np.sqrt(1 + vv1 * vv1)
+            length2 = np.sqrt(1 + vv2 * vv2)
 
             uu1 /= length1
             vv1 /= length1
@@ -578,26 +572,26 @@ def CCT_to_uv_robertson1968(CCT, Duv=0):
             uu3 = uu1 * f + uu2 * (1 - f)
             vv3 = vv1 * f + vv2 * (1 - f)
 
-            len3 = math.sqrt(uu3 * uu3 + vv3 * vv3)
+            len3 = np.sqrt(uu3 * uu3 + vv3 * vv3)
 
             uu3 /= len3
             vv3 /= len3
 
-            u += uu3 * -Duv
-            v += vv3 * -Duv
+            u += uu3 * -D_uv
+            v += vv3 * -D_uv
 
             return u, v
 
 
 UV_TO_CCT_METHODS = CaseInsensitiveMapping(
-    {'Ohno 2013': uv_to_CCT_ohno2013,
-     'Robertson 1968': uv_to_CCT_robertson1968})
+    {'Ohno 2013': uv_to_CCT_Ohno2013,
+     'Robertson 1968': uv_to_CCT_Robertson1968})
 """
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
-UV_TO_CCT_METHODS : dict
-    ('Ohno 2013', 'Robertson 1968')
+UV_TO_CCT_METHODS : CaseInsensitiveMapping
+    {'Ohno 2013', 'Robertson 1968'}
 
 Aliases:
 
@@ -618,8 +612,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     ----------
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-    method : unicode
-        ('Ohno 2013', 'Robertson 1968')
+    method : unicode, optional
+        {'Ohno 2013', 'Robertson 1968'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -650,21 +644,21 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
             if kwargs.get('cmfs').name != (
                     'CIE 1931 2 Degree Standard Observer'):
                 raise ValueError(
-                    ('"Robertson (1968)" method is only valid for '
+                    ('Robertson (1968) method is only valid for '
                      '"CIE 1931 2 Degree Standard Observer"!'))
 
         return UV_TO_CCT_METHODS.get(method)(uv)
 
 
 CCT_TO_UV_METHODS = CaseInsensitiveMapping(
-    {'Ohno 2013': CCT_to_uv_ohno2013,
-     'Robertson 1968': CCT_to_uv_robertson1968})
+    {'Ohno 2013': CCT_to_uv_Ohno2013,
+     'Robertson 1968': CCT_to_uv_Robertson1968})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
 
-CCT_TO_UV_METHODS : dict
-    ('Ohno 2013', 'Robertson 1968')
+CCT_TO_UV_METHODS : CaseInsensitiveMapping
+    {'Ohno 2013', 'Robertson 1968'}
 
 Aliases:
 
@@ -675,7 +669,7 @@ CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
-def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
@@ -685,10 +679,10 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    Duv : numeric
+    D_uv : numeric
         :math:`\Delta_{uv}`.
-    method : unicode
-        ('Ohno 2013', 'Robertson 1968')
+    method : unicode, optional
+    {'Ohno 2013', 'Robertson 1968'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -709,29 +703,29 @@ def CCT_to_uv(CCT, Duv=0, method='Ohno 2013', **kwargs):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> Duv = 0.003223690901512735
-    >>> CCT_to_uv(CCT, Duv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> D_uv = 0.003223690901512735
+    >>> CCT_to_uv(CCT, D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     (0.1978003..., 0.3122005...)
     """
 
     if method == 'Ohno 2013':
-        return CCT_TO_UV_METHODS.get(method)(CCT, Duv, **kwargs)
+        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv, **kwargs)
     else:
         if 'cmfs' in kwargs:
             if kwargs.get('cmfs').name != (
                     'CIE 1931 2 Degree Standard Observer'):
                 raise ValueError(
-                    ('"Robertson (1968)" method is only valid for '
+                    ('Robertson (1968) method is only valid for '
                      '"CIE 1931 2 Degree Standard Observer"!'))
 
-        return CCT_TO_UV_METHODS.get(method)(CCT, Duv)
+        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv)
 
 
-def xy_to_CCT_mccamy1992(xy):
+def xy_to_CCT_McCamy1992(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
-    *CIE XYZ* colourspace *xy* chromaticity coordinates using *McCamy (1992)*
-    method.
+    *CIE XYZ* colourspace *xy* chromaticity coordinates using
+    McCamy (1992) method.
 
     Parameters
     ----------
@@ -745,28 +739,28 @@ def xy_to_CCT_mccamy1992(xy):
 
     References
     ----------
-    .. [9]  http://en.wikipedia.org/wiki/Color_temperature#Approximation
-            (Last accessed 28 June 2014)
+    .. [9]  Wikipedia. (n.d.). Approximation. Retrieved June 28, 2014, from
+            http://en.wikipedia.org/wiki/Color_temperature#Approximation
 
     Examples
     --------
-    >>> xy_to_CCT_mccamy1992((0.31271, 0.32902))  # doctest: +ELLIPSIS
+    >>> xy_to_CCT_McCamy1992((0.31271, 0.32902))  # doctest: +ELLIPSIS
     6504.3893830...
     """
 
     x, y = xy
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * math.pow(n, 3) + 3525 * math.pow(n, 2) - 6823.3 * n + 5520.33
+    CCT = -449 * np.power(n, 3) + 3525 * np.power(n, 2) - 6823.3 * n + 5520.33
 
     return CCT
 
 
-def xy_to_CCT_hernandez1999(xy):
+def xy_to_CCT_Hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* colourspace *xy* chromaticity coordinates using
-    *Hernandez-Andres, Lee & Romero (1999)* method.
+    Hernandez-Andres, Lee and Romero (1999) method.
 
     Parameters
     ----------
@@ -780,14 +774,14 @@ def xy_to_CCT_hernandez1999(xy):
 
     References
     ----------
-    .. [10]  `Calculating correlated color temperatures across the entire gamut
-            of daylight and skylight chromaticities
-            <http://www.ugr.es/~colorimg/pdfs/ao_1999_5703.pdf>`_,
-            DOI: http://dx.doi.org/10.1364/AO.38.005703
+    .. [10] Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999).
+            Calculating correlated color temperatures across the entire gamut
+            of daylight and skylight chromaticities. Applied Optics, 38(27),
+            5703–5709. doi:10.1364/AO.38.005703
 
     Examples
     --------
-    >>> xy_to_CCT_hernandez1999((0.31271, 0.32902))  # doctest: +ELLIPSIS
+    >>> xy_to_CCT_Hernandez1999((0.31271, 0.32902))  # doctest: +ELLIPSIS
     6500.0421533...
     """
 
@@ -795,24 +789,24 @@ def xy_to_CCT_hernandez1999(xy):
 
     n = (x - 0.3366) / (y - 0.1735)
     CCT = (-949.86315 +
-           6253.80338 * math.exp(-n / 0.92159) +
-           28.70599 * math.exp(-n / 0.20039) +
-           0.00004 * math.exp(-n / 0.07125))
+           6253.80338 * np.exp(-n / 0.92159) +
+           28.70599 * np.exp(-n / 0.20039) +
+           0.00004 * np.exp(-n / 0.07125))
 
     if CCT > 50000:
         n = (x - 0.3356) / (y - 0.1691)
         CCT = (36284.48953 +
-               0.00228 * math.exp(-n / 0.07861) +
-               5.4535e-36 * math.exp(-n / 0.01543))
+               0.00228 * np.exp(-n / 0.07861) +
+               5.4535e-36 * np.exp(-n / 0.01543))
 
     return CCT
 
 
-def CCT_to_xy_kang2002(CCT):
+def CCT_to_xy_Kang2002(CCT):
     """
     Returns the *CIE XYZ* colourspace *xy* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` using
-    *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+    correlated colour temperature :math:`T_{cp}` using Kang et al. (2002)
+    method.
 
     Parameters
     ----------
@@ -831,13 +825,14 @@ def CCT_to_xy_kang2002(CCT):
 
     References
     ----------
-    .. [11] `Design of Advanced Color -
-            Temperature Control System for HDTV Applications
-            <http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf>`_  # noqa
+    .. [11] Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002).
+            Design of advanced color: Temperature control system for HDTV
+            applications. Journal of the Korean …, 41(6), 865–871. Retrieved
+            from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
 
     Examples
     --------
-    >>> CCT_to_xy_kang2002(6504.38938305)  # doctest: +ELLIPSIS
+    >>> CCT_to_xy_Kang2002(6504.38938305)  # doctest: +ELLIPSIS
     (0.3134259..., 0.3235959...)
     """
 
@@ -874,11 +869,11 @@ def CCT_to_xy_kang2002(CCT):
     return x, y
 
 
-def CCT_to_xy_illuminant_D(CCT):
+def CCT_to_xy_CIE_D(CCT):
     """
     Converts from the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* to the chromaticity of that
-    *CIE Illuminant D Series*.
+    *CIE Illuminant D Series* illuminant.
 
     Parameters
     ----------
@@ -897,16 +892,14 @@ def CCT_to_xy_illuminant_D(CCT):
 
     References
     ----------
-    .. [12] **Wyszecki & Stiles**,
-            *Color Science - Concepts and Methods Data and Formulae -
-            Second Edition*,
-            Wiley Classics Library Edition, published 2000,
-            ISBN-10: 0-471-39918-3,
-            page  145.
+    .. [12] Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
+            D-Illuminants. In Color Science: Concepts and Methods,
+            Quantitative Data and Formulae (pp. 145–146). Wiley.
+            ISBN:978-0471399186
 
     Examples
     --------
-    >>> CCT_to_xy_illuminant_D(6504.38938305)  # doctest: +ELLIPSIS
+    >>> CCT_to_xy_CIE_D(6504.38938305)  # doctest: +ELLIPSIS
     (0.3127077..., 0.3291128...)
     """
 
@@ -930,14 +923,14 @@ def CCT_to_xy_illuminant_D(CCT):
 
 
 XY_TO_CCT_METHODS = CaseInsensitiveMapping(
-    {'McCamy 1992': xy_to_CCT_mccamy1992,
-     'Hernandez 1999': xy_to_CCT_hernandez1999})
+    {'McCamy 1992': xy_to_CCT_McCamy1992,
+     'Hernandez 1999': xy_to_CCT_Hernandez1999})
 """
 Supported *CIE XYZ* colourspace *xy* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
-XY_TO_CCT_METHODS : dict
-    ('McCamy 1992', 'Hernandez 1999')
+XY_TO_CCT_METHODS : CaseInsensitiveMapping
+    {'McCamy 1992', 'Hernandez 1999'}
 
 Aliases:
 
@@ -957,7 +950,8 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     ----------
     xy : array_like
         *xy* chromaticity coordinates.
-    method : unicode ('McCamy 1992', 'Hernandez 1999')
+    method : unicode, optional
+        {'McCamy 1992', 'Hernandez 1999'}
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -972,14 +966,14 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
 
 
 CCT_TO_XY_METHODS = CaseInsensitiveMapping(
-    {'Kang 2002': CCT_to_xy_kang2002,
-     'CIE Illuminant D Series': CCT_to_xy_illuminant_D})
+    {'Kang 2002': CCT_to_xy_Kang2002,
+     'CIE Illuminant D Series': CCT_to_xy_CIE_D})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* colourspace
 *xy* chromaticity coordinates computation methods.
 
-CCT_TO_XY_METHODS : dict
-    ('Kang 2002', 'CIE Illuminant D Series')
+CCT_TO_XY_METHODS : CaseInsensitiveMapping
+    {'Kang 2002', 'CIE Illuminant D Series'}
 
 Aliases:
 
@@ -999,7 +993,8 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    method : unicode ('Kang 2002', 'CIE Illuminant D Series')
+    method : unicode, optional
+        {'Kang 2002', 'CIE Illuminant D Series'}
         Computation method.
 
     Returns

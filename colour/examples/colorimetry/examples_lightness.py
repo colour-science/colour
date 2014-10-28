@@ -23,23 +23,24 @@ print(np.ravel(colour.XYZ_to_Lab(colour.xyY_to_XYZ(xyY)))[0])
 print('\n')
 
 Y = 10.08
-message_box(('Computing "Lightness" using "Glasser et al. (1958)" method for '
+message_box(('Computing "Lightness" using '
+             'Glasser, Mckinney, Reilly and Schnelle (1958) method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_glasser1958(Y))
+print(colour.lightness_Glasser1958(Y))
 print(colour.lightness(Y, method='Glasser 1958'))
 
 print('\n')
 
-message_box(('Computing "Lightness" using "Wyszecki (1964)" method for '
+message_box(('Computing "Lightness" using Wyszecki (1963) method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_wyszecki1964(Y))
-print(colour.lightness(Y, method='Wyszecki 1964'))
+print(colour.lightness_Wyszecki1963(Y))
+print(colour.lightness(Y, method='Wyszecki 1963'))
 
 print('\n')
 
-message_box(('Computing "Lightness" using "CIE 1976" method for '
+message_box(('Computing "Lightness" using CIE 1976 method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.lightness_1976(Y))

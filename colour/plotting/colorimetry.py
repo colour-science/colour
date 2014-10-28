@@ -38,10 +38,11 @@ from colour.colorimetry import (
     blackbody_spd)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
-    aspect,
-    bounding_box,
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
     display,
-    figure_size,
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot)
@@ -74,7 +75,7 @@ def get_cmfs(cmfs):
 
     Parameters
     ----------
-    cmfs : Unicode
+    cmfs : unicode
         Colour matching functions name.
 
     Returns
@@ -93,7 +94,7 @@ def get_cmfs(cmfs):
     if cmfs is None:
         raise KeyError(
             ('"{0}" not found in factory colour matching functions: '
-             '"{1}".').format(name, sorted(cmfs.CMFS.keys())))
+             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
     return cmfs
 
 
@@ -103,7 +104,7 @@ def get_illuminant(illuminant):
 
     Parameters
     ----------
-    illuminant : Unicode
+    illuminant : unicode
         Illuminant name.
 
     Returns
@@ -121,7 +122,7 @@ def get_illuminant(illuminant):
     if illuminant is None:
         raise KeyError(
             '"{0}" not found in factory illuminants: "{1}".'.format(
-                name, sorted(ILLUMINANTS_RELATIVE_SPDS.keys())))
+                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
 
     return illuminant
 
@@ -153,7 +154,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     shape = cmfs.shape
     spd = spd.clone().interpolate(shape)
@@ -169,12 +170,13 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     colours = normalise(colours)
 
-    settings = {'title': '"{0}" - {1}'.format(spd.name, cmfs.name),
-                'x_label': u'Wavelength λ (nm)',
-                'y_label': 'Spectral Power Distribution',
-                'x_tighten': True,
-                'x_ticker': True,
-                'y_ticker': True}
+    settings = {
+        'title': '{0} - {1}'.format(spd.title, cmfs.title),
+        'x_label': 'Wavelength $\\lambda$ (nm)',
+        'y_label': 'Spectral Power Distribution',
+        'x_tighten': True,
+        'x_ticker': True,
+        'y_ticker': True}
 
     settings.update(kwargs)
     return colour_parameters_plot(
@@ -220,14 +222,16 @@ def multi_spd_plot(spds,
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    canvas(**kwargs)
+
+    cmfs = get_cmfs(cmfs)
 
     if use_spds_colours:
         illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D65')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
-        wavelengths, values = tuple(zip(*[(key, value) for key, value in spd]))
+        wavelengths, values = tuple(zip(*spd.items))
 
         shape = spd.shape
         x_limit_min.append(shape.start)
@@ -243,24 +247,25 @@ def multi_spd_plot(spds,
                 XYZ = normalise(XYZ, clip=False)
             RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
-            pylab.plot(wavelengths, values, color=RGB, label=spd.name,
+            pylab.plot(wavelengths, values, color=RGB, label=spd.title,
                        linewidth=2)
         else:
-            pylab.plot(wavelengths, values, label=spd.name, linewidth=2)
+            pylab.plot(wavelengths, values, label=spd.title, linewidth=2)
 
-    settings = {'x_label': u'Wavelength λ (nm)',
-                'y_label': 'Spectral Power Distribution',
-                'x_tighten': True,
-                'legend': True,
-                'legend_location': 'upper left',
-                'x_ticker': True,
-                'y_ticker': True,
-                'limits': [min(x_limit_min), max(x_limit_max),
-                           min(y_limit_min), max(y_limit_max)]}
+    settings = {
+        'x_label': 'Wavelength $\\lambda$ (nm)',
+        'y_label': 'Spectral Power Distribution',
+        'x_tighten': True,
+        'legend': True,
+        'legend_location': 'upper left',
+        'x_ticker': True,
+        'y_ticker': True,
+        'limits': [min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max)]}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -287,19 +292,21 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     True
     """
 
-    settings = {'title': '"{0}" - Colour Matching Functions'.format(cmfs)}
+    cmfs = get_cmfs(cmfs)
+    settings = {
+        'title': '{0} - Colour Matching Functions'.format(cmfs.title)}
     settings.update(kwargs)
 
-    return multi_cmfs_plot([cmfs], **settings)
+    return multi_cmfs_plot([cmfs.name], **settings)
 
 
-def multi_cmfs_plot(cmfss=None, **kwargs):
+def multi_cmfs_plot(cmfs=None, **kwargs):
     """
     Plots given colour matching functions.
 
     Parameters
     ----------
-    cmfss : array_like, optional
+    cmfs : array_like, optional
         Colour matching functions to plot.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -311,29 +318,31 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
 
     Examples
     --------
-    >>> cmfss = [
+    >>> cmfs = [
     ... 'CIE 1931 2 Degree Standard Observer',
     ... 'CIE 1964 10 Degree Standard Observer']
-    >>> multi_cmfs_plot(cmfss)  # doctest: +SKIP
+    >>> multi_cmfs_plot(cmfs)  # doctest: +SKIP
     True
     """
 
-    if cmfss is None:
-        cmfss = ('CIE 1931 2 Degree Standard Observer',
-                 'CIE 1964 10 Degree Standard Observer')
+    canvas(**kwargs)
+
+    if cmfs is None:
+        cmfs = ('CIE 1931 2 Degree Standard Observer',
+                'CIE 1964 10 Degree Standard Observer')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for axis, rgb in (('x', [1, 0, 0]),
                       ('y', [0, 1, 0]),
                       ('z', [0, 0, 1])):
-        for i, cmfs in enumerate(cmfss):
-            cmfs, name = get_cmfs(cmfs), cmfs
+        for i, cmfs_i in enumerate(cmfs):
+            cmfs_i = get_cmfs(cmfs_i)
 
             rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]
             wavelengths, values = tuple(
-                zip(*[(key, value) for key, value in getattr(cmfs, axis)]))
+                zip(*[(key, value) for key, value in getattr(cmfs_i, axis)]))
 
-            shape = cmfs.shape
+            shape = cmfs_i.shape
             x_limit_min.append(shape.start)
             x_limit_max.append(shape.end)
             y_limit_min.append(min(values))
@@ -343,12 +352,13 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
                        values,
                        color=rgb,
                        label=u'{0} - {1}'.format(
-                           cmfs.labels.get(axis), cmfs.name),
+                           cmfs_i.labels.get(axis), cmfs_i.title),
                        linewidth=2)
 
     settings = {
-        'title': '{0} - Colour Matching Functions'.format(', '.join(cmfss)),
-        'x_label': u'Wavelength λ (nm)',
+        'title': '{0} - Colour Matching Functions'.format(', '.join(
+            [get_cmfs(cmfs_i).title for cmfs_i in cmfs])),
+        'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
         'legend': True,
@@ -361,8 +371,8 @@ def multi_cmfs_plot(cmfss=None, **kwargs):
                    max(y_limit_max)]}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -394,12 +404,14 @@ def single_illuminant_relative_spd_plot(
     True
     """
 
-    title = 'Illuminant "{0}" - {1}'.format(illuminant, cmfs)
+    cmfs = get_cmfs(cmfs)
+    title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.title)
 
-    illuminant, name = get_illuminant(illuminant), illuminant
+    illuminant = get_illuminant(illuminant)
 
-    settings = {'title': title,
-                'y_label': 'Relative Spectral Power Distribution'}
+    settings = {
+        'title': title,
+        'y_label': 'Relative Spectral Power Distribution'}
     settings.update(kwargs)
 
     return single_spd_plot(illuminant, **settings)
@@ -437,7 +449,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     settings = {
         'title': (
             '{0} - Illuminants Relative Spectral Power Distribution').format(
-            ', '.join(illuminants)),
+            ', '.join([spd.title for spd in spds])),
         'y_label': 'Relative Spectral Power Distribution'}
     settings.update(kwargs)
 
@@ -468,7 +480,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
     cmfs = cmfs.clone().align(DEFAULT_SPECTRAL_SHAPE)
 
     wavelengths = cmfs.shape.range()
@@ -482,9 +494,10 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours *= 1 / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
-    settings = {'title': 'The Visible Spectrum - {0}'.format(name),
-                'x_label': u'Wavelength λ (nm)',
-                'x_tighten': True}
+    settings = {
+        'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
+        'x_label': 'Wavelength $\\lambda$ (nm)',
+        'x_tighten': True}
     settings.update(kwargs)
 
     return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
@@ -514,13 +527,13 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     True
     """
 
-    settings = {'title': '{0} - Lightness Function'.format(function)}
+    settings = {
+        'title': '{0} - Lightness Function'.format(function)}
     settings.update(kwargs)
 
     return multi_lightness_function_plot([function], **settings)
 
 
-@figure_size((8, 8))
 def multi_lightness_function_plot(functions=None, **kwargs):
     """
     Plots given *Lightness* functions.
@@ -545,13 +558,19 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('CIE 1976', 'Wyszecki 1964')
+    >>> fs = ('CIE 1976', 'Wyszecki 1963')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
     True
     """
 
+    settings = {
+        'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if functions is None:
-        functions = ('CIE 1976', 'Wyszecki 1964')
+        functions = ('CIE 1976', 'Wyszecki 1963')
 
     samples = np.linspace(0, 100, 1000)
     for i, function in enumerate(functions):
@@ -564,10 +583,10 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
         pylab.plot(samples,
                    [function(x) for x in samples],
-                   label=u'{0}'.format(name),
+                   label='{0}'.format(name),
                    linewidth=2)
 
-    settings = {
+    settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
         'x_label': 'Luminance Y',
         'y_label': 'Lightness L*',
@@ -577,12 +596,12 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100]}
-
+        'limits': [0, 100, 0, 100],
+        'aspect': 'equal'})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -617,7 +636,9 @@ def blackbody_spectral_radiance_plot(
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    canvas(**kwargs)
+
+    cmfs = get_cmfs(cmfs)
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
@@ -626,12 +647,13 @@ def blackbody_spectral_radiance_plot(
     matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
 
-    settings = {'title': '{0} - Spectral Radiance'.format(blackbody),
-                'y_label': u'W / (sr m²) / m',
-                'standalone': False}
+    settings = {
+        'title': '{0} - Spectral Radiance'.format(blackbody),
+        'y_label': 'W / (sr m$^2$) / m',
+        'standalone': False}
     settings.update(kwargs)
 
-    single_spd_plot(spd, name, **settings)
+    single_spd_plot(spd, cmfs.name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs)
     RGB = normalise(XYZ_to_sRGB(XYZ / 100))
@@ -646,11 +668,12 @@ def blackbody_spectral_radiance_plot(
 
     single_colour_plot(colour_parameter(name='', RGB=RGB), **settings)
 
-    settings = {'standalone': True}
+    settings = {
+        'standalone': True}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
     return display(**settings)
 
 
@@ -680,7 +703,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     True
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
 
     colours = []
     temperatures = []
@@ -694,14 +717,15 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         colours.append(RGB)
         temperatures.append(temperature)
 
-    settings = {'title': 'Blackbody Colours',
-                'x_label': 'Temperature K',
-                'y_label': '',
-                'x_tighten': True,
-                'x_ticker': True,
-                'y_ticker': False}
-
+    settings = {
+        'title': 'Blackbody Colours',
+        'x_label': 'Temperature K',
+        'y_label': '',
+        'x_tighten': True,
+        'x_ticker': True,
+        'y_ticker': False}
     settings.update(kwargs)
+
     return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
                                    for x in tuple(zip(temperatures, colours))],
                                   **settings)

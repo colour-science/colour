@@ -19,13 +19,12 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Lab_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). Lab color space. Retrieved February 24, 2014, from
+        http://en.wikipedia.org/wiki/Lab_color_space
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -71,29 +70,30 @@ def XYZ_to_Lab(XYZ,
 
     References
     ----------
-    .. [2]  http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to Lab. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
     Examples
     --------
-    >>> XYZ_to_Lab(np.array([0.92193107, 1, 1.03744246]))  # doctest: +ELLIPSIS
-    array([ 100.        ,   -7.4178784...,  -15.8574210...])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
+    array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """
 
     X, Y, Z = np.ravel(XYZ)
-    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
+    X_r, Y_r, Z_r = np.ravel(xy_to_XYZ(illuminant))
 
-    xr = X / Xr
-    yr = Y / Yr
-    zr = Z / Zr
+    x_r = X / X_r
+    y_r = Y / Y_r
+    z_r = Z / Z_r
 
-    fx = xr ** (1 / 3) if xr > CIE_E else (CIE_K * xr + 16) / 116
-    fy = yr ** (1 / 3) if yr > CIE_E else (CIE_K * yr + 16) / 116
-    fz = zr ** (1 / 3) if zr > CIE_E else (CIE_K * zr + 16) / 116
+    f_x = x_r ** (1 / 3) if x_r > CIE_E else (CIE_K * x_r + 16) / 116
+    f_y = y_r ** (1 / 3) if y_r > CIE_E else (CIE_K * y_r + 16) / 116
+    f_z = z_r ** (1 / 3) if z_r > CIE_E else (CIE_K * z_r + 16) / 116
 
-    L = 116 * fy - 16
-    a = 500 * (fx - fy)
-    b = 200 * (fy - fz)
+    L = 116 * f_y - 16
+    a = 500 * (f_x - f_y)
+    b = 200 * (f_y - f_z)
 
     return np.array([L, a, b])
 
@@ -124,30 +124,30 @@ def Lab_to_XYZ(Lab,
 
     References
     ----------
-    .. [3]  http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2008). Lab to XYZ. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
 
     Examples
     --------
-    >>> Lab = np.array([100, -7.41787844, -15.85742105])
+    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
-    array([ 0.9219310...,  1.        ,  1.0374424...])
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     L, a, b = np.ravel(Lab)
-    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
+    X_r, Y_r, Z_r = np.ravel(xy_to_XYZ(illuminant))
 
-    fy = (L + 16) / 116
-    fx = a / 500 + fy
-    fz = fy - b / 200
+    f_y = (L + 16) / 116
+    f_x = a / 500 + f_y
+    f_z = f_y - b / 200
 
-    xr = fx ** 3 if fx ** 3 > CIE_E else (116 * fx - 16) / CIE_K
-    yr = ((L + 16) / 116) ** 3 if L > CIE_K * CIE_E else L / CIE_K
-    zr = fz ** 3 if fz ** 3 > CIE_E else (116 * fz - 16) / CIE_K
+    x_r = f_x ** 3 if f_x ** 3 > CIE_E else (116 * f_x - 16) / CIE_K
+    y_r = ((L + 16) / 116) ** 3 if L > CIE_K * CIE_E else L / CIE_K
+    z_r = f_z ** 3 if f_z ** 3 > CIE_E else (116 * f_z - 16) / CIE_K
 
-    X = xr * Xr
-    Y = yr * Yr
-    Z = zr * Zr
+    X = x_r * X_r
+    Y = y_r * Y_r
+    Z = z_r * Z_r
 
     return np.array([X, Y, Z])
 
@@ -172,23 +172,23 @@ def Lab_to_LCHab(Lab):
 
     References
     ----------
-    .. [4]  http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
-            (Last accessed 24 February 2014)
+    .. [4]  Lindbloom, B. (2007). Lab to LCH(ab). Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
 
     Examples
     --------
-    >>> Lab = np.array([100, -7.41787844, -15.85742105])
+    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
-    array([ 100.        ,   17.5066479...,  244.9304684...])
+    array([  37.9856291...,   24.0319036...,  190.5841597...])
     """
 
     L, a, b = np.ravel(Lab)
 
-    H = 180 * math.atan2(b, a) / math.pi
+    H = 180 * np.arctan2(b, a) / np.pi
     if H < 0:
         H += 360
 
-    return np.array([L, math.sqrt(a ** 2 + b ** 2), H])
+    return np.array([L, np.sqrt(a ** 2 + b ** 2), H])
 
 
 def LCHab_to_Lab(LCHab):
@@ -211,18 +211,18 @@ def LCHab_to_Lab(LCHab):
 
     References
     ----------
-    .. [5]  http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
-            (Last accessed 24 February 2014)
+    .. [5]  Lindbloom, B. (2006). LCH(ab) to Lab. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
 
     Examples
     --------
-    >>> LCHab = np.array([100, 17.50664796, 244.93046842])
+    >>> LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
-    array([ 100.        ,   -7.4178784...,  -15.8574210...])
+    array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """
 
     L, C, H = np.ravel(LCHab)
 
     return np.array([L,
-                     C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))])
+                     C * np.cos(np.radians(H)),
+                     C * np.sin(np.radians(H))])

@@ -5,7 +5,7 @@
 Hunt Colour Appearance Model
 ============================
 
-Defines *Hunt* colour appearance model objects:
+Defines Hunt colour appearance model objects:
 
 -   :class:`Hunt_InductionFactors`
 -   :attr:`HUNT_VIEWING_CONDITIONS`
@@ -19,13 +19,10 @@ See Also
 
 References
 ----------
-.. [1]  **Mark D. Fairchild**, *Color Appearance Models, 3nd Edition*,
-        The Wiley-IS&T Series in Imaging Science and Technology,
-        published June 2013, ASIN: B00DAYO8E2,
-        locations 5094-5556.
-.. [2]  **Dr. R.W.G. Hunt**, *The reproduction of colour, 6th Edition*,
-        John Wiley & Sons,
-        published 10 August 2005, ISBN-13: 978-0470024256
+.. [1]  Fairchild, M. D. (2013). The Hunt Model. In Color Appearance Models
+        (3rd ed., pp. 5094–5556). Wiley. ASIN:B00DAYO8E2
+.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.). Wiley.
+        ISBN:978-0-470-02425-6
 """
 
 from __future__ import division, unicode_literals
@@ -76,7 +73,7 @@ class Hunt_InductionFactors(
     namedtuple('Hunt_InductionFactors',
                ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
-    *Hunt* colour appearance model induction factors.
+    Hunt colour appearance model induction factors.
 
     Parameters
     ----------
@@ -115,14 +112,14 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Projected Transparencies, Dark Surrounds': (
          Hunt_InductionFactors(0.7, 10))})
 """
-Reference *Hunt* colour appearance model viewing conditions.
+Reference Hunt colour appearance model viewing conditions.
 
-HUNT_VIEWING_CONDITIONS : dict
-    ('Small Areas, Uniform Background & Surrounds',
+HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
+    {'Small Areas, Uniform Background & Surrounds',
     'Normal Scenes',
     'Television & CRT, Dim Surrounds',
     'Large Transparencies On Light Boxes',
-    'Projected Transparencies, Dark Surrounds')
+    'Projected Transparencies, Dark Surrounds'}
 
 Aliases:
 
@@ -153,7 +150,7 @@ XYZ_TO_HPE_MATRIX = np.array(
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
 """
-*Hunt* colour appearance model *CIE XYZ* colourspace matrix to
+Hunt colour appearance model *CIE XYZ* colourspace matrix to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
 XYZ_TO_HPE_MATRIX : array_like, (3, 3)
@@ -161,7 +158,7 @@ XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 
 HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
 """
-*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+Hunt colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
 colourspace to *CIE XYZ* colourspace matrix matrix.
 
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -172,9 +169,9 @@ class Hunt_ReferenceSpecification(
     namedtuple('Hunt_ReferenceSpecification',
                ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
     """
-    Defines the *Hunt* colour appearance model reference specification.
+    Defines the Hunt colour appearance model reference specification.
 
-    This specification has field names consistent with **Mark D. Fairchild**
+    This specification has field names consistent with Fairchild (2013)
     reference.
 
     Parameters
@@ -202,11 +199,11 @@ class Hunt_Specification(
     namedtuple('Hunt_Specification',
                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
-    Defines the *Hunt* colour appearance model specification.
+    Defines the Hunt colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    **Mark D. Fairchild** reference.
+    appearance models in :mod:`colour.appearance` but diverge from Fairchild
+    (2013) reference.
 
     Parameters
     ----------
@@ -243,7 +240,7 @@ def XYZ_to_Hunt(XYZ,
                 helson_judd_effect=False,
                 discount_illuminant=True):
     """
-    Computes the *Hunt* colour appearance model correlates.
+    Computes the Hunt colour appearance model correlates.
 
     Parameters
     ----------
@@ -298,7 +295,7 @@ def XYZ_to_Hunt(XYZ,
     Returns
     -------
     Hunt_Specification
-        *Hunt* colour appearance model specification.
+        Hunt colour appearance model specification.
 
     Raises
     ------
@@ -413,7 +410,6 @@ def XYZ_to_Hunt(XYZ,
     # -------------------------------------------------------------------------
     # Computing eccentricity factors.
     e_s = eccentricity_factor(h)
-    e_s_w = eccentricity_factor(hue_w)
 
     # Computing low luminance tritanopia factor :math:`F_t`.
     F_t = low_luminance_tritanopia_factor(L_A)
@@ -538,12 +534,12 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return XYZ_TO_HPE_MATRIX.dot(XYZ)
+    return np.dot(XYZ_TO_HPE_MATRIX, XYZ)
 
 
 def f_n(x):
     """
-    Defines the nonlinear response function of the *Hunt* colour appearance
+    Defines the nonlinear response function of the Hunt colour appearance
     model used to model the nonlinear behavior of various visual responses.
 
     Parameters

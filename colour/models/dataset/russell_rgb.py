@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.russellcottrell.com/photo/RussellRGB.htm
-        (Last accessed 11 April 2014)
+.. [1]  Cottrell, R. (n.d.). The Russell RGB working color space. Retrieved
+        from http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
 from __future__ import division, unicode_literals
@@ -25,7 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry.dataset import ILLUMINANTS
-from colour.models import RGB_Colourspace, normalised_primary_matrix
+from colour.models import normalised_primary_matrix
+from colour.models import RGB_Colourspace
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -35,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['RUSSELL_RGB_PRIMARIES',
+           'RUSSELL_RGB_ILLUMINANT',
            'RUSSELL_RGB_WHITEPOINT',
            'RUSSELL_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_RUSSELL_RGB_MATRIX',
@@ -52,8 +54,15 @@ RUSSELL_RGB_PRIMARIES = np.array(
 RUSSELL_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+RUSSELL_RGB_ILLUMINANT = 'D55'
+"""
+*Russell RGB* colourspace whitepoint name as illuminant.
+
+RUSSELL_RGB_ILLUMINANT : unicode
+"""
+
 RUSSELL_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D55')
+    'CIE 1931 2 Degree Standard Observer').get(RUSSELL_RGB_ILLUMINANT)
 """
 *Russell RGB* colourspace whitepoint.
 
@@ -75,14 +84,52 @@ XYZ_TO_RUSSELL_RGB_MATRIX = np.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
 XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
 """
 
-RUSSELL_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _russell_rgb_transfer_function(value):
+    """
+    Defines the *Russell RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _russell_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Russell RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+RUSSELL_RGB_TRANSFER_FUNCTION = _russell_rgb_transfer_function
 """
 Transfer function from linear to *Russell RGB* colourspace.
 
 RUSSELL_RGB_TRANSFER_FUNCTION : object
 """
 
-RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = _russell_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Russell RGB* colourspace to linear.
 
@@ -93,6 +140,7 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     'Russell RGB',
     RUSSELL_RGB_PRIMARIES,
     RUSSELL_RGB_WHITEPOINT,
+    RUSSELL_RGB_ILLUMINANT,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
     RUSSELL_RGB_TRANSFER_FUNCTION,

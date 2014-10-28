@@ -16,10 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.709-5 - Parameter values for the HDTV
-        standards for production and international programme exchange
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf>`_  # noqa
-        (Last accessed 24 February 2014)
+.. [1]  International Telecommunication Union. (2002). Parameter values for
+        the HDTV standards for production and international programme exchange
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
+        (Vol. 5, pp. 1–32). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -38,6 +39,7 @@ __status__ = 'Production'
 
 __all__ = ['REC_709_PRIMARIES',
            'REC_709_WHITEPOINT',
+           'REC_709_ILLUMINANT',
            'REC_709_TO_XYZ_MATRIX',
            'XYZ_TO_REC_709_MATRIX',
            'REC_709_TRANSFER_FUNCTION',
@@ -54,8 +56,15 @@ REC_709_PRIMARIES = np.array(
 REC_709_PRIMARIES : ndarray, (3, 2)
 """
 
+REC_709_ILLUMINANT = 'D65'
+"""
+*Rec. 709* colourspace whitepoint name as illuminant.
+
+REC_709_ILLUMINANT : unicode
+"""
+
 REC_709_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(REC_709_ILLUMINANT)
 """
 *Rec. 709* colourspace whitepoint.
 
@@ -79,16 +88,54 @@ XYZ_TO_REC_709_MATRIX = np.linalg.inv(REC_709_TO_XYZ_MATRIX)
 XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 """
 
-REC_709_TRANSFER_FUNCTION = lambda x: (
-    x * 4.5 if x < 0.018 else 1.099 * (x ** 0.45) - 0.099)
+
+def _rec_709_transfer_function(value):
+    """
+    Defines the *Rec. 709* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value * 4.5 if value < 0.018 else 1.099 * (value ** 0.45) - 0.099
+
+
+def _rec_709_inverse_transfer_function(value):
+    """
+    Defines the *Rec. 709* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (value / 4.5
+            if value < _rec_709_transfer_function(0.018) else
+            ((value + 0.099) / 1.099) ** (1 / 0.45))
+
+
+REC_709_TRANSFER_FUNCTION = _rec_709_transfer_function
 """
 Transfer function from linear to *Rec. 709* colourspace.
 
 REC_709_TRANSFER_FUNCTION : object
 """
 
-REC_709_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    x / 4.5 if x < 0.018 else ((x + 0.099) / 1.099) ** (1 / 0.45))
+REC_709_INVERSE_TRANSFER_FUNCTION = _rec_709_inverse_transfer_function
 """
 Inverse transfer function from *Rec. 709* colourspace to linear.
 
@@ -99,6 +146,7 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     'Rec. 709',
     REC_709_PRIMARIES,
     REC_709_WHITEPOINT,
+    REC_709_ILLUMINANT,
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
     REC_709_TRANSFER_FUNCTION,

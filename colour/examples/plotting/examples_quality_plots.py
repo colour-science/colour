@@ -11,7 +11,18 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Quality Plots')
 
-message_box('Plotting various illuminants "colour rendering index".')
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'))
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('F10'))
-colour_rendering_index_bars_plot(colour.ILLUMINANTS_RELATIVE_SPDS.get('D50'))
+message_box(('Plotting various illuminants and light sources '
+             '"colour rendering index".'))
+colour_rendering_index_bars_plot(
+    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'))
+colour_rendering_index_bars_plot(
+    colour.LIGHT_SOURCES_RELATIVE_SPDS.get('F32T8/TL841 (Triphosphor)'))
+
+print('\n')
+
+message_box(('Plotting various illuminants and light sources '
+             '"colour quality scale".'))
+colour_quality_scale_bars_plot(
+    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'))
+colour_quality_scale_bars_plot(
+    colour.LIGHT_SOURCES_RELATIVE_SPDS.get('F32T8/TL841 (Triphosphor)'))

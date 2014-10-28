@@ -5,7 +5,7 @@
 CIE UVW Colourspace
 ===================
 
-Defines the *CIE UVW* colourspace transformations:
+Defines the *CIE U\*V\*W\** colourspace transformations:
 
 -   :func:`XYZ_to_UVW`
 
@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1964_color_space
-        (Last accessed 10 June 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1964 color space. Retrieved June 10, 2014, from
+        http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -41,7 +41,7 @@ def XYZ_to_UVW(XYZ,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V*\W\** colourspace.
+    Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V\*W\** colourspace.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ def XYZ_to_UVW(XYZ,
     Returns
     -------
     ndarray, (3,)
-        *CIE 1964 U\*V*\W\** colourspace matrix.
+        *CIE 1964 U\*V\*W\** colourspace matrix.
 
     Notes
     -----
@@ -66,9 +66,9 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([11.80583421, 10.34, 5.15089229])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
-    array([ 24.2543371...,   7.2205484...,  37.4645000...])
+    array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
     x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))

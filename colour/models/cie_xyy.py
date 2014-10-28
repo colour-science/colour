@@ -19,8 +19,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIE_1931_color_space
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIE 1931 color space. Retrieved February 24, 2014,
+        from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -68,13 +68,14 @@ def XYZ_to_xyY(XYZ,
 
     References
     ----------
-    .. [2]  http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to xyY. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 
     Examples
     --------
-    >>> XYZ_to_xyY(np.array([0.1180583421, 0.1034, 0.0515089229]))
-    array([ 0.4325,  0.3788,  0.1034])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...,  0.1008    ])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -106,13 +107,14 @@ def xyY_to_XYZ(xyY):
 
     References
     ----------
-    .. [3]  http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2009). xyY to XYZ. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
 
     Examples
     --------
-    >>> xyY_to_XYZ(np.array([0.4325, 0.3788, 0.1034]))  # doctest: +ELLIPSIS
-    array([ 0.1180583...,  0.1034    ,  0.0515089...])
+    >>> xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     x, y, Y = np.ravel(xyY)
@@ -145,8 +147,9 @@ def xy_to_XYZ(xy):
 
     Examples
     --------
-    >>> xy_to_XYZ((0.25, 0.25))
-    array([ 1.,  1.,  2.])
+    >>> xy = (0.26414772236966133, 0.37770000704815188)
+    >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
+    array([ 0.6993585...,  1.        ,  0.9482453...])
     """
 
     return xyY_to_XYZ(np.array([xy[0], xy[1], 1]))
@@ -178,10 +181,9 @@ def XYZ_to_xy(XYZ,
 
     Examples
     --------
-    >>> XYZ_to_xy(np.array([0.97137399, 1, 1.04462134]))  # doctest: +ELLIPSIS
-    (0.3220741..., 0.3315655...)
-    >>> XYZ_to_xy((0.97137399, 1, 1.04462134))  # doctest: +ELLIPSIS
-    (0.3220741..., 0.3315655...)
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
+    (0.2641477..., 0.3777000...)
     """
 
     xyY = np.ravel(XYZ_to_xyY(XYZ, illuminant))

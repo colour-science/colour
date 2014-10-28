@@ -39,15 +39,17 @@ Notes
     definition and the data from
     :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
-    luminance :math:`L_p`. [4]_
+    luminance :math:`L_p`. [3]_
 
 References
 ----------
-.. [1]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
-.. [2]  http://cvrl.ioo.ucl.ac.uk/cie.htm (Last accessed 24 February 2014)
-.. [3]  http://www.cvrl.org/lumindex.htm (Last accessed 19 April 2014)
-.. [4]  `Mesopic Weighting Function <http://en.wikipedia.org/wiki/Mesopic#Mesopic_weighting_function>`_  # noqa
-        (Last accessed 20 June 2014)
+.. [1]  CVRL. (n.d.). Luminous efficiency. Retrieved April 19, 2014, from
+        http://www.cvrl.org/lumindex.htm
+.. [2]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
+        http://cvrl.ioo.ucl.ac.uk/cie.htm
+.. [3]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
+        2014, from
+        http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
@@ -2363,27 +2365,30 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping(
          SpectralPowerDistribution(
              'CIE 1964 Photopic 10 Degree Standard Observer',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 1964 Photopic 10 Degree Standard Observer')),
+                 'CIE 1964 Photopic 10 Degree Standard Observer'),
+             'CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
      'CIE 2008 2 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 2 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 2008 2 Degree Physiologically Relevant LEF')),
+                 'CIE 2008 2 Degree Physiologically Relevant LEF'),
+             'CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
      'CIE 2008 10 Degree Physiologically Relevant LEF':
          SpectralPowerDistribution(
              'CIE 2008 10 Degree Physiologically Relevant LEF',
              PHOTOPIC_LEFS_DATA.get(
-                 'CIE 2008 10 Degree Physiologically Relevant LEF'))})
+                 'CIE 2008 10 Degree Physiologically Relevant LEF'),
+             'CIE 2008 10$^\\circ$ Physiologically Relevant LEF')})
 """
 Photopic luminous efficiency functions.
 
-PHOTOPIC_LEFS : dict
-    ('CIE 1924 Photopic Standard Observer',
+PHOTOPIC_LEFS : CaseInsensitiveMapping
+    {'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
     'CIE 1964 Photopic 10 Degree Standard Observer',
     'CIE 2008 2 Degree Physiologically Relevant LEF',
-    'CIE 2008 10 Degree Physiologically Relevant LEF')
+    'CIE 2008 10 Degree Physiologically Relevant LEF'}
 
 Aliases:
 
@@ -2806,8 +2811,8 @@ SCOTOPIC_LEFS = CaseInsensitiveMapping(
 """
 Scotopic luminous efficiency functions.
 
-SCOTOPIC_LEFS : dict
-    ('CIE 1951 Scotopic Standard Observer',)
+SCOTOPIC_LEFS : CaseInsensitiveMapping
+    {'CIE 1951 Scotopic Standard Observer',}
 
 Aliases:
 
@@ -2820,14 +2825,14 @@ LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
 """
 Aggregated luminous efficiency functions.
 
-LEFS : dict
-    ('CIE 1924 Photopic Standard Observer',
+LEFS : CaseInsensitiveMapping
+    {'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
     'CIE 1964 Photopic 10 Degree Standard Observer',
     'CIE 2008 2 Degree Physiologically Relevant LEF',
     'CIE 2008 10 Degree Physiologically Relevant LEF',
-    'CIE 1951 Scotopic Standard Observer')
+    'CIE 1951 Scotopic Standard Observer'}
 """
 LEFS.update(SCOTOPIC_LEFS)
 
@@ -2856,5 +2861,5 @@ MESOPIC_X_DATA = {
 """
 Weighting factors for the mesopic luminous efficiency function calculation.
 
-MESOPIC_X_DATA : dict
+MESOPIC_X_DATA : CaseInsensitiveMapping
 """

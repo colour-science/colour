@@ -5,17 +5,18 @@
 Colour
 ======
 
-**Colour** is a **Python** colour science package implementing a comprehensive
+*Colour* is a *Python* colour science package implementing a comprehensive
 number of colour theory transformations and algorithms.
 
 Subpackages
 -----------
--   adaptation: Chromatic adaptation transformations.
+-   adaptation: Chromatic adaptation models and transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
+-   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
 -   io: Input / output objects for reading and writing data.
@@ -23,8 +24,9 @@ Subpackages
 -   notation: Colour notation systems.
 -   optimal: Optimal colour stimuli computation.
 -   phenomenons: Computation of various optical phenomenons.
--   plotting: Diagrams, plots, etc...
+-   plotting: Diagrams, figures, etc...
 -   quality: Colour quality computation.
+-   recovery: Reflectance recovery.
 -   temperature: Colour temperature and correlated colour temperature
     computation.
 -   utilities: Various utilities and data structures.
@@ -63,6 +65,8 @@ from .io import *  # noqa
 from . import io
 from .models import *  # noqa
 from . import models
+from .corresponding import *  # noqa
+from . import corresponding
 from .optimal import *  # noqa
 from . import optimal
 from .phenomenons import *  # noqa
@@ -71,9 +75,10 @@ from .notation import *  # noqa
 from . import notation
 from .quality import *  # noqa
 from . import quality
+from .recovery import *  # noqa
+from . import recovery
 from .temperature import *  # noqa
 from . import temperature
-from . import plotting
 from . import utilities
 
 __author__ = 'Colour Developers'
@@ -93,17 +98,19 @@ __all__ += constants.__all__
 __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
+__all__ += corresponding.__all__
 __all__ += optimal.__all__
 __all__ += phenomenons.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
+__all__ += recovery.__all__
 __all__ += temperature.__all__
 
 __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '2'
+__change_version__ = '3'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

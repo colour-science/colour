@@ -16,11 +16,11 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-        definition television systems for production and international
-        programme exchange
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-        (Last accessed 2 September 2014)
+.. [1]  International Telecommunication Union. (2014). Parameter values for
+        ultra-high definition television systems for production and
+        international programme exchange. In Recommendation ITU-R BT.2020
+        (Vol. 1, pp. 1–8). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -39,6 +39,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['REC_2020_PRIMARIES',
+           'REC_2020_ILLUMINANT',
            'REC_2020_WHITEPOINT',
            'REC_2020_TO_XYZ_MATRIX',
            'XYZ_TO_REC_2020_MATRIX',
@@ -57,8 +58,15 @@ REC_2020_PRIMARIES = np.array(
 REC_2020_PRIMARIES : ndarray, (3, 2)
 """
 
+REC_2020_ILLUMINANT = 'D65'
+"""
+*Rec. 2020* colourspace whitepoint name as illuminant.
+
+REC_2020_ILLUMINANT : unicode
+"""
+
 REC_2020_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(REC_2020_ILLUMINANT)
 """
 *Rec. 2020* colourspace whitepoint.
 
@@ -102,16 +110,8 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     Returns
     -------
-    :rtype: numeric
-    :return: Companded value.
-
-    References
-    ----------
-    .. [2]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-            definition television systems for production and international
-            programme exchange
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 2 September 2014)
+    numeric
+        Companded value.
     """
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
@@ -134,22 +134,14 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     Returns
     -------
-    :rtype: numeric
-    :return: Companded value.
-
-    References
-    ----------
-    .. [3]  `Recommendation ITU-R BT.2020 - Parameter values for ultra-high
-            definition television systems for production and international
-            programme exchange
-            <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf>`_  # noqa
-            (Last accessed 2 September 2014)
+    numeric
+        Companded value.
     """
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
     return (value / 4.5
-            if value < b else
+            if value < _rec_2020_transfer_function(b) else
             ((value + (a - 1)) / a) ** (1 / 0.45))
 
 
@@ -171,6 +163,7 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     'Rec. 2020',
     REC_2020_PRIMARIES,
     REC_2020_WHITEPOINT,
+    REC_2020_ILLUMINANT,
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
     REC_2020_TRANSFER_FUNCTION,

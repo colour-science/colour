@@ -9,7 +9,7 @@ Defines colour matching functions classes for the dataset from
 :mod:`colour.colorimetry.dataset.cmfs`:
 
 -   :class:`LMS_ConeFundamentals`: Implements support for the
-    *Stockman & Sharpe* *LMS* cone fundamentals colour matching functions.
+    Stockman and Sharpe *LMS* cone fundamentals colour matching functions.
 -   :class:`RGB_ColourMatchingFunctions`: Implements support for the *CIE RGB*
     colour matching functions.
 -   :class:`XYZ_ColourMatchingFunctions`: Implements support for the *CIE*
@@ -41,7 +41,7 @@ __all__ = ['LMS_ConeFundamentals',
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
-    Implements support for the *Stockman & Sharpe* *LMS* cone fundamentals
+    Implements support for the Stockman and Sharpe *LMS* cone fundamentals
     colour matching functions.
 
     Parameters
@@ -50,6 +50,8 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
         *LMS* colour matching functions name.
     data : dict
         *LMS* colour matching functions.
+    title : unicode, optional
+        *LMS* colour matching functions title for figures.
 
     Attributes
     ----------
@@ -59,16 +61,17 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'l_bar',
                                                        'y': 'm_bar',
                                                        'z': 's_bar'},
-                                              labels={'x': 'l\u0304',
-                                                      'y': 'm\u0304',
-                                                      'z': 's\u0304'})
+                                              labels={'x': '$\\bar{l}$',
+                                                      'y': '$\\bar{m}$',
+                                                      'z': '$\\bar{s}$'},
+                                              title=title)
 
     @property
     def l_bar(self):
@@ -172,6 +175,8 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE RGB* colour matching functions name.
     data : dict
         *CIE RGB* colour matching functions.
+    title : unicode, optional
+        *CIE RGB* colour matching functions title for figures.
 
     Attributes
     ----------
@@ -180,16 +185,17 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     b_bar
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'r_bar',
                                                        'y': 'g_bar',
                                                        'z': 'b_bar'},
-                                              labels={'x': 'r\u0304',
-                                                      'y': 'g\u0304',
-                                                      'z': 'b\u0304'})
+                                              labels={'x': '$\\bar{r}$',
+                                                      'y': '$\\bar{g}$',
+                                                      'z': '$\\bar{b}$'},
+                                              title=title)
 
     @property
     def r_bar(self):
@@ -295,6 +301,9 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         *CIE* Standard Observer *XYZ* colour matching functions name.
     data : dict
         *CIE* Standard Observer *XYZ* colour matching functions.
+    title : unicode, optional
+        *CIE* Standard Observer *XYZ* colour matching functions title for
+        figures.
 
     Attributes
     ----------
@@ -303,16 +312,17 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     z_bar
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         TriSpectralPowerDistribution.__init__(self,
                                               name,
                                               data,
                                               mapping={'x': 'x_bar',
                                                        'y': 'y_bar',
                                                        'z': 'z_bar'},
-                                              labels={'x': 'x\u0304',
-                                                      'y': 'y\u0304',
-                                                      'z': 'z\u0304'})
+                                              labels={'x': '$\\bar{x}$',
+                                                      'y': '$\\bar{y}$',
+                                                      'z': '$\\bar{z}$'},
+                                              title=title)
 
     @property
     def x_bar(self):

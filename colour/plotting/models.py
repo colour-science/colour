@@ -14,17 +14,25 @@ Defines the colour models plotting objects:
 
 from __future__ import division
 
-import random
 import numpy as np
 import pylab
 
-from colour.models import POINTER_GAMUT_DATA, RGB_COLOURSPACES
+from colour.models import (
+    POINTER_GAMUT_DATA,
+    POINTER_GAMUT_ILLUMINANT,
+    POINTER_GAMUT_BOUNDARIES,
+    RGB_COLOURSPACES,
+    LCHab_to_Lab,
+    Lab_to_XYZ,
+    XYZ_to_xy)
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
-    aspect,
-    bounding_box,
+    DEFAULT_FIGURE_WIDTH,
+    canvas,
+    decorate,
+    boundaries,
     display,
-    figure_size,
+    colour_cycle,
     get_cmfs)
 
 __author__ = 'Colour Developers'
@@ -46,7 +54,7 @@ def get_RGB_colourspace(colourspace):
 
     Parameters
     ----------
-    colourspace : Unicode
+    colourspace : unicode
         *RGB* Colourspace name.
 
     Returns
@@ -64,12 +72,12 @@ def get_RGB_colourspace(colourspace):
     if colourspace is None:
         raise KeyError(
             ('"{0}" colourspace not found in factory colourspaces: '
-             '"{1}".').format(name, sorted(RGB_COLOURSPACES.keys())))
+             '"{1}".').format(name, ', '.join(
+                sorted(RGB_COLOURSPACES.keys()))))
 
     return colourspace
 
 
-@figure_size((8, 8))
 def colourspaces_CIE_1931_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -98,13 +106,19 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if colourspaces is None:
         colourspaces = ('sRGB', 'ACES RGB', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    settings = {'title': '{0} - {1}'.format(', '.join(colourspaces), name),
-                'standalone': False}
+    settings = {
+        'title': '{0} - {1}'.format(', '.join(colourspaces), name),
+        'standalone': False}
     settings.update(kwargs)
 
     if not CIE_1931_chromaticity_diagram_plot(**settings):
@@ -112,26 +126,42 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
+
+    cycle = colour_cycle('rainbow')
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
-            x, y = tuple(zip(*POINTER_GAMUT_DATA))
-            pylab.plot(x,
-                       y,
-                       label='Pointer Gamut',
-                       color='0.95',
+            xy = np.array(POINTER_GAMUT_BOUNDARIES)
+            alpha_p, colour_p = 0.85, '0.95'
+            pylab.plot(xy[:, 0],
+                       xy[:, 1],
+                       label='Pointer\'s Gamut',
+                       color=colour_p,
+                       alpha=alpha_p,
                        linewidth=2)
-            pylab.plot([x[-1],
-                        x[0]],
-                       [y[-1],
-                        y[0]],
-                       color='0.95',
+            pylab.plot([xy[-1][0],
+                        xy[0][0]],
+                       [xy[-1][1],
+                        xy[0][1]],
+                       color=colour_p,
+                       alpha=alpha_p,
                        linewidth=2)
+
+            xy = []
+            for LCHab in POINTER_GAMUT_DATA:
+                XYZ = Lab_to_XYZ(LCHab_to_Lab(LCHab), POINTER_GAMUT_ILLUMINANT)
+                xy.append(XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT))
+            xy = np.array(xy)
+            pylab.scatter(xy[:, 0],
+                          xy[:, 1],
+                          alpha=alpha_p / 2,
+                          color=colour_p,
+                          marker='+')
+
         else:
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            random_colour = lambda: float(random.randint(64, 224)) / 255
-            r, g, b = random_colour(), random_colour(), random_colour()
+            r, g, b, a = next(cycle)
 
             primaries = colourspace.primaries
             whitepoint = colourspace.whitepoint
@@ -167,17 +197,19 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
             x_limit_max.append(np.amax(primaries[:, 0]))
             y_limit_max.append(np.amax(primaries[:, 1]))
 
-    settings.update({'legend': True,
-                     'legend_location': 'upper right',
-                     'x_tighten': True,
-                     'y_tighten': True,
-                     'limits': [min(x_limit_min), max(x_limit_max),
-                                min(y_limit_min), max(y_limit_max)],
-                     'margins': [-0.05, 0.05, -0.05, 0.05],
-                     'standalone': True})
+    settings.update({
+        'legend': True,
+        'legend_location': 'upper right',
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': [min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max)],
+        'margins': [-0.05, 0.05, -0.05, 0.05],
+        'standalone': True})
+    settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -210,7 +242,6 @@ def single_transfer_function_plot(colourspace='sRGB', **kwargs):
     return multi_transfer_function_plot([colourspace], **settings)
 
 
-@figure_size((8, 8))
 def multi_transfer_function_plot(colourspaces=None,
                                  inverse=False, **kwargs):
     """
@@ -236,12 +267,17 @@ def multi_transfer_function_plot(colourspaces=None,
     True
     """
 
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    canvas(**settings)
+
     if colourspaces is None:
         colourspaces = ['sRGB', 'Rec. 709']
 
     samples = np.linspace(0, 1, 1000)
     for i, colourspace in enumerate(colourspaces):
-        colourspace, name = get_RGB_colourspace(colourspace), colourspace
+        colourspace = get_RGB_colourspace(colourspace)
 
         RGBs = np.array([colourspace.inverse_transfer_function(x)
                          if inverse else
@@ -252,7 +288,7 @@ def multi_transfer_function_plot(colourspaces=None,
                    label=u'{0}'.format(colourspace.name),
                    linewidth=2)
 
-    settings = {
+    settings.update({
         'title': '{0} - Transfer Functions'.format(
             ', '.join(colourspaces)),
         'x_tighten': True,
@@ -261,11 +297,11 @@ def multi_transfer_function_plot(colourspaces=None,
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 1, 0, 1]}
-
+        'limits': [0, 1, 0, 1],
+        'aspect': 'equal'})
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

@@ -21,7 +21,6 @@ from __future__ import division, unicode_literals
 
 import copy
 import itertools
-import math
 import numpy as np
 
 from colour.algebra import (
@@ -29,13 +28,13 @@ from colour.algebra import (
     is_numeric,
     is_uniform,
     steps,
-    to_ndarray)
+    as_array)
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
     SplineInterpolator,
     SpragueInterpolator)
-from colour.utilities import is_string
+from colour.utilities import is_string, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -118,7 +117,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -157,7 +156,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -196,7 +195,7 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -256,17 +255,17 @@ class SpectralShape(object):
         --------
         >>> shape = SpectralShape(0, 10, 1)
         >>> for wavelength in shape: print(wavelength)
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-        8
-        9
-        10
+        0.0
+        1.0
+        2.0
+        3.0
+        4.0
+        5.0
+        6.0
+        7.0
+        8.0
+        9.0
+        10.0
         """
 
         return iter(self.range())
@@ -416,10 +415,20 @@ class SpectralShape(object):
                                 '"steps" attributes is not defined!'))
 
         if self.__range is None:
-            self.__range = np.arange(self.__start,
-                                     self.__end + self.__steps,
-                                     self.__steps)
+            samples = round(
+                (self.__steps + self.__end - self.__start) / self.__steps)
+            self.__range, current_steps = np.linspace(self.__start,
+                                                      self.__end,
+                                                      samples,
+                                                      retstep=True)
 
+            if current_steps != self.__steps:
+                self.__steps = current_steps
+                warning(('"{0}" shape could not be honored, using '
+                         '"{1}"!').format((self.__start,
+                                           self.__end,
+                                           self.__steps),
+                                          self))
         return self.__range
 
 
@@ -429,7 +438,7 @@ class SpectralPowerDistribution(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         Spectral power distribution name.
     data : dict
         Spectral power distribution data in a *dict* as follows:
@@ -437,11 +446,14 @@ class SpectralPowerDistribution(object):
         wavelength :math:`\lambda_{i+1}`,
         ...,
         wavelength :math:`\lambda_{i+n}`}
+    title : unicode, optional
+        Spectral power distribution title for figures.
 
     Attributes
     ----------
     name
     data
+    title
     wavelengths
     values
     items
@@ -462,6 +474,7 @@ class SpectralPowerDistribution(object):
     __mul__
     __div__
     __truediv__
+    __pow__
     get
     is_uniform
     extrapolate
@@ -483,11 +496,13 @@ class SpectralPowerDistribution(object):
     SpectralShape(510, 540, 10)
     """
 
-    def __init__(self, name, data):
+    def __init__(self, name, data, title=None):
         self.__name = None
         self.name = name
         self.__data = None
         self.data = data
+        self.__title = None
+        self.title = title
 
     @property
     def name(self):
@@ -496,7 +511,7 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -509,7 +524,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -548,6 +563,39 @@ class SpectralPowerDistribution(object):
                 '"{0}" attribute: "{1}" type is not "dict"!'.format(
                     'data', value))
         self.__data = value
+
+    @property
+    def title(self):
+        """
+        Property for **self.__title** private attribute.
+
+        Returns
+        -------
+        unicode
+            self.__title.
+        """
+
+        if self.__title is not None:
+            return self.__title
+        else:
+            return self.__name
+
+    @title.setter
+    def title(self, value):
+        """
+        Setter for **self.__title** private attribute.
+
+        Parameters
+        ----------
+        value : unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (str, unicode), (
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('title', value))
+        self.__title = value
 
     @property
     def wavelengths(self):
@@ -721,8 +769,8 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [1]  http://stackoverflow.com/a/16162138/931625
-                (Last accessed 8 August 2014)
+        .. [1]  Hettinger, R. (n.d.). Python hashable dicts. Retrieved August
+                08, 2014, from http://stackoverflow.com/a/16162138/931625
         """
 
         return hash(frozenset(self.__data))
@@ -954,7 +1002,7 @@ class SpectralPowerDistribution(object):
         if issubclass(type(x), SpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = to_ndarray(x)
+            x = as_array(x)
 
         return x
 
@@ -1194,6 +1242,67 @@ class SpectralPowerDistribution(object):
     # Python 3 compatibility.
     __truediv__ = __div__
 
+    def __pow__(self, x):
+        """
+        Implements support for spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution raised by power of x.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
+        SpectralPowerDistribution.__mul__, SpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> data = {510: 1.67, 520: 2.59, 530: 3.73, 540: 4.19}
+        >>> spd = SpectralPowerDistribution('Spd', data)
+        >>> spd ** 2  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values
+        array([  2.7889,   6.7081,  13.9129,  17.5561])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> spd ** [1, 2, 3, 4]  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([  2.7889000...e+00,   4.4998605...e+01,   2.6931031...e+03,
+                 9.4997501...e+04])
+
+        Exponentiation by a :class:`SpectralPowerDistribution` class variable:
+
+        >>> spd_alternate = SpectralPowerDistribution('Spd', data)
+        >>> spd ** spd_alternate  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd.values  # doctest: +ELLIPSIS
+        array([  5.5446356...e+00,   1.9133109...e+04,   6.2351033...e+12,
+                 7.1880990...e+20])
+        """
+
+        self.__data = dict(zip(self.wavelengths,
+                               self.values ** self.__format_operand(x)))
+
+        return self
+
     def get(self, wavelength, default=None):
         """
         Returns the value for given wavelength :math:`\lambda`.
@@ -1274,7 +1383,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -1292,14 +1401,11 @@ class SpectralPowerDistribution(object):
 
         References
         ----------
-        .. [2]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
-                <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,  # noqa
-                ISBN-13: 978-3-901-90633-6
-
-        .. [3]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 10. EXTRAPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
+        .. [2]  CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004
+                Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+        .. [3]  CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005
+                Recommended Practice for Tabulating Spectral Data for Use in
+                Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
 
         Examples
         --------
@@ -1338,7 +1444,7 @@ class SpectralPowerDistribution(object):
         """
         Interpolates the spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
-        *Sprague (1880)* should be used for interpolating functions having a
+        Sprague (1880) should be used for interpolating functions having a
         uniformly spaced independent variable and a *Cubic Spline* method for
         non-uniformly spaced independent variable.
 
@@ -1347,7 +1453,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            ('Sprague', 'Cubic Spline', 'Linear'),
+            {None, 'Sprague', 'Cubic Spline', 'Linear'},
             Enforce given interpolation method.
 
         Returns
@@ -1358,7 +1464,7 @@ class SpectralPowerDistribution(object):
         Raises
         ------
         RuntimeError
-            If the *Sprague* interpolation method is forced with a
+            If Sprague (1880) interpolation method is forced with a
             non-uniformly spaced independent variable.
         ValueError
             If the interpolation method is not defined.
@@ -1373,7 +1479,7 @@ class SpectralPowerDistribution(object):
             to extend the range of the spectral power distribution use the
             :meth:`SpectralPowerDistribution.extrapolate` or
             :meth:`SpectralPowerDistribution.align` methods.
-        -   *Sprague* interpolator cannot be used for interpolating
+        -   Sprague (1880) interpolator cannot be used for interpolating
             functions having a non-uniformly spaced independent variable.
 
         Warning
@@ -1384,19 +1490,18 @@ class SpectralPowerDistribution(object):
             :math:`\lambda_n` for interpolation.
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
             :math:`\lambda_n` for interpolation.
-        -   *Sprague* interpolator requires at least 6 wavelengths
+        -   Sprague (1880) interpolator requires at least 6 wavelengths
             :math:`\lambda_n` for interpolation.
 
         References
         ----------
-        .. [4]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 9. INTERPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
+        .. [4]  CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005
+                Recommended Practice for Tabulating Spectral Data for Use in
+                Colour Computations (pp. 14–19). ISBN:978-3-901-90641-1
 
         Examples
         --------
-        Uniform data is using *Sprague* interpolation by default:
+        Uniform data is using Sprague (1880) interpolation by default:
 
         >>> data = {
         ...     510: 49.67,
@@ -1452,8 +1557,8 @@ class SpectralPowerDistribution(object):
 
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional steps like 0.1, etc...
-        shape.start = max(shape.start, math.ceil(spd_shape.start))
-        shape.end = min(shape.end, math.floor(spd_shape.end))
+        shape.start = max(shape.start, np.ceil(spd_shape.start))
+        shape.end = min(shape.end, np.floor(spd_shape.end))
 
         wavelengths, values = self.wavelengths, self.values
         is_uniform = self.is_uniform()
@@ -1500,7 +1605,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -1672,20 +1777,23 @@ class TriSpectralPowerDistribution(object):
 
     Parameters
     ----------
-    name : str or unicode
+    name : unicode
         Tri-spectral power distribution name.
     data : dict
         Tri-spectral power distribution data.
     mapping : dict
         Tri-spectral power distribution attributes mapping.
-    labels : dict
-        Tri-spectral power distribution axis labels mapping.
+    title : unicode, optional
+        Tri-spectral power distribution title for figures.
+    labels : dict, optional
+        Tri-spectral power distribution axis labels mapping for figures.
 
     Attributes
     ----------
     name
     mapping
     data
+    title
     labels
     x
     y
@@ -1731,8 +1839,8 @@ class TriSpectralPowerDistribution(object):
     >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
     >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
     >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-    >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-    >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+    >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+    >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
     >>> tri_spd.wavelengths
     array([510, 520, 530, 540])
     >>> tri_spd.values
@@ -1744,13 +1852,16 @@ class TriSpectralPowerDistribution(object):
     SpectralShape(510, 540, 10)
     """
 
-    def __init__(self, name, data, mapping, labels):
+    def __init__(self, name, data, mapping, title=None, labels=None):
         self.__name = None
         self.name = name
         self.__mapping = mapping
         self.__data = None
         self.data = data
-        self.__labels = labels
+        self.__title = None
+        self.title = title
+        self.__labels = None
+        self.labels = labels
 
     @property
     def name(self):
@@ -1759,7 +1870,7 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        str or unicode
+        unicode
             self.__name.
         """
 
@@ -1772,7 +1883,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        value : str or unicode
+        value : unicode
             Attribute value.
         """
 
@@ -1875,6 +1986,39 @@ class TriSpectralPowerDistribution(object):
             self.__data = None
 
     @property
+    def title(self):
+        """
+        Property for **self.__title** private attribute.
+
+        Returns
+        -------
+        unicode
+            self.__title.
+        """
+
+        if self.__title is not None:
+            return self.__title
+        else:
+            return self.__name
+
+    @title.setter
+    def title(self, value):
+        """
+        Setter for **self.__title** private attribute.
+
+        Parameters
+        ----------
+        value : unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) in (str, unicode), (
+                ('"{0}" attribute: "{1}" type is not '
+                 '"str" or "unicode"!').format('title', value))
+        self.__title = value
+
+    @property
     def labels(self):
         """
         Property for **self.__labels** private attribute.
@@ -1885,7 +2029,10 @@ class TriSpectralPowerDistribution(object):
             self.__labels.
         """
 
-        return self.__labels
+        if self.__labels is not None:
+            return self.__labels
+        else:
+            return self.__mapping
 
     @labels.setter
     def labels(self, value):
@@ -2116,8 +2263,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.shape
         SpectralShape(510, 540, 10)
         """
@@ -2139,7 +2286,7 @@ class TriSpectralPowerDistribution(object):
 
     def __hash__(self):
         """
-        Returns the spectral power distribution hash value.
+        Returns the spectral power distribution hash value. [1]_
 
         Returns
         -------
@@ -2153,11 +2300,6 @@ class TriSpectralPowerDistribution(object):
         Warning
         -------
         See :meth:`SpectralPowerDistribution.__hash__` method warning section.
-
-        References
-        ----------
-        .. [5]  http://stackoverflow.com/a/16162138/931625
-                (Last accessed 8 August 2014)
         """
 
         return hash((frozenset(self.__data.get('x')),
@@ -2192,8 +2334,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping  = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
         """
@@ -2223,8 +2365,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {}
         >>> z_bar = {}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[510] = (49.6700, 49.6700, 49.6700)
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
@@ -2255,8 +2397,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> for wavelength, value in tri_spd: print((wavelength, value))
         (510, array([ 49.67,  90.56,  12.43]))
         (520, array([ 69.59,  87.34,  23.15]))
@@ -2292,8 +2434,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> 510 in tri_spd
         True
 
@@ -2322,8 +2464,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> len(tri_spd)
         4
         """
@@ -2356,10 +2498,10 @@ class TriSpectralPowerDistribution(object):
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data1 = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> data2 = {'x_bar': y_bar, 'y_bar': x_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd2 = TriSpectralPowerDistribution('Tri Spd', data2, mpg, lbl)
-        >>> tri_spd3 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
+        >>> tri_spd2 = TriSpectralPowerDistribution('Tri Spd', data2, mapping)
+        >>> tri_spd3 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd1 == tri_spd2
         False
         >>> tri_spd1 == tri_spd3
@@ -2401,10 +2543,10 @@ class TriSpectralPowerDistribution(object):
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data1 = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> data2 = {'x_bar': y_bar, 'y_bar': x_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
-        >>> tri_spd2 = TriSpectralPowerDistribution('Tri Spd', data2, mpg, lbl)
-        >>> tri_spd3 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
+        >>> tri_spd2 = TriSpectralPowerDistribution('Tri Spd', data2, mapping)
+        >>> tri_spd3 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd1 != tri_spd2
         True
         >>> tri_spd1 != tri_spd3
@@ -2434,7 +2576,7 @@ class TriSpectralPowerDistribution(object):
         if issubclass(type(x), TriSpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = to_ndarray(x)
+            x = as_array(x)
 
         return x
 
@@ -2474,8 +2616,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd + 10  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2497,7 +2639,7 @@ class TriSpectralPowerDistribution(object):
         Adding a :class:`TriSpectralPowerDistribution` class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd + tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2550,8 +2692,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd - 10  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2573,7 +2715,7 @@ class TriSpectralPowerDistribution(object):
         Subtracting a :class:`TriSpectralPowerDistribution` class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd - tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2621,8 +2763,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd * 10  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2644,7 +2786,7 @@ class TriSpectralPowerDistribution(object):
         Multiplying a :class:`TriSpectralPowerDistribution` class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd * tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2697,8 +2839,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd / 10  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -2720,7 +2862,7 @@ class TriSpectralPowerDistribution(object):
         Dividing a :class:`TriSpectralPowerDistribution` class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
-        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mpg, lbl)
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
         >>> tri_spd / tri_spd1  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
@@ -2734,6 +2876,81 @@ class TriSpectralPowerDistribution(object):
 
     # Python 3 compatibility.
     __truediv__ = __div__
+
+    def __pow__(self, x):
+        """
+        Implements support for tri-spectral power distribution exponentiation.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to exponentiate by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            TriSpectral power distribution raised by power of x.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__, TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__, TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__pow__` method.
+
+        Warning
+        -------
+        The power operation happens in place.
+
+        Examples
+        --------
+        Exponentiation by a single *numeric* variable:
+
+        >>> x_bar = {510: 1.67, 520: 1.59, 530: 1.73, 540: 1.19}
+        >>> y_bar = {510: 1.56, 520: 1.34, 530: 1.76, 540: 1.45}
+        >>> z_bar = {510: 1.43, 520: 1.15, 530: 1.98, 540: 1.28}
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[ 1.7578755...,  1.6309365...,  1.4820731...],
+               [ 1.6654700...,  1.3797972...,  1.1661854...],
+               [ 1.8274719...,  1.8623612...,  2.1199797...],
+               [ 1.2108815...,  1.5048901...,  1.3119913...]])
+
+        Exponentiation by an *array_like* variable:
+
+        >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[ 1.7578755...,  2.6599539...,  3.2554342...],
+               [ 1.6654700...,  1.9038404...,  1.5859988...],
+               [ 1.8274719...,  3.4683895...,  9.5278547...],
+               [ 1.2108815...,  2.2646943...,  2.2583585...]])
+
+        Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
+
+        >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
+        >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
+        >>> tri_spd ** tri_spd1  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd.values  # doctest: +ELLIPSIS
+        array([[  2.2404384...,   5.1231818...,   6.3047797...],
+               [  1.7979075...,   2.7836369...,   1.8552645...],
+               [  3.2996236...,   8.5984706...,  52.8483490...],
+               [  1.2775271...,   2.6452177...,   3.2583647...]])
+        """
+
+        values = self.values ** self.__format_operand(x)
+
+        for i, axis in enumerate(('x', 'y', 'z')):
+            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+
+        return self
 
     def get(self, wavelength, default=None):
         """
@@ -2761,8 +2978,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
         >>> tri_spd.get(511)  # doctest: +SKIP
@@ -2794,8 +3011,8 @@ class TriSpectralPowerDistribution(object):
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.is_uniform()
         True
 
@@ -2819,14 +3036,14 @@ class TriSpectralPowerDistribution(object):
                     right=None):
         """
         Extrapolates the tri-spectral power distribution following
-        *CIE 15:2004* recommendation.
+        *CIE 15:2004* recommendation. [2]_ [3]_
 
         Parameters
         ----------
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -2842,25 +3059,14 @@ class TriSpectralPowerDistribution(object):
         --------
         TriSpectralPowerDistribution.align
 
-        References
-        ----------
-
-        .. [6]  `CIE 015:2004 Colorimetry, 3rd edition: 7.2.2.1 Extrapolation
-                <https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.pdf>`_,  # noqa
-                ISBN-13: 978-3-901-90633-6
-        .. [7]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 10. EXTRAPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
-
         Examples
         --------
         >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
         >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.extrapolate(SpectralShape(400, 700)).shape
         SpectralShape(400, 700, 10)
         >>> tri_spd[400]
@@ -2878,16 +3084,16 @@ class TriSpectralPowerDistribution(object):
         """
         Interpolates the tri-spectral power distribution following
         *CIE 167:2005* recommendations: the method developed by
-        *Sprague (1880)* should be used for interpolating functions having a
+        Sprague (1880) should be used for interpolating functions having a
         uniformly spaced independent variable and a *Cubic Spline* method for
-        non-uniformly spaced independent variable.
+        non-uniformly spaced independent variable. [4]_
 
         Parameters
         ----------
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            ('Sprague', 'Cubic Spline', 'Linear'),
+            {None, 'Sprague', 'Cubic Spline', 'Linear'},
             Enforce given interpolation method.
 
         Returns
@@ -2909,16 +3115,9 @@ class TriSpectralPowerDistribution(object):
         See :meth:`SpectralPowerDistribution.interpolate` method warning
         section.
 
-        References
-        ----------
-        .. [8]  `CIE 167:2005 Recommended Practice for Tabulating Spectral Data
-                for Use in Colour Computations: 9. INTERPOLATION
-                <http://div1.cie.co.at/?i_ca_id=551&pubid=47>`_,
-                ISBN-13: 978-3-901-90641-1
-
         Examples
         --------
-        Uniform data is using *Sprague* interpolation by default:
+        Uniform data is using Sprague (1880) interpolation by default:
 
         >>> x_bar = {
         ...     510: 49.67,
@@ -2942,8 +3141,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
@@ -2973,8 +3172,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[511] = (31.41, 95.27, 15.06)
         >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
@@ -3005,8 +3204,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
@@ -3032,7 +3231,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            ('Linear', 'Constant'),
+            {'Constant', 'Linear'},
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3073,8 +3272,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.align(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> # Doctests skip for Python 2.x compatibility.
@@ -3192,8 +3391,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.zeros(SpectralShape(505, 565, 1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values
@@ -3308,8 +3507,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.normalise()  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd.values  # doctest: +ELLIPSIS
@@ -3365,8 +3564,8 @@ class TriSpectralPowerDistribution(object):
         ...     550: 91.61,
         ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        >>> mpg = lbl = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg, lbl)
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> print(tri_spd)  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd_clone = tri_spd.clone()
@@ -3413,7 +3612,7 @@ def constant_spd(k,
     --------
     >>> spd = constant_spd(100)
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     100.0
     """
@@ -3453,7 +3652,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = zeros_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     0.0
     """
@@ -3489,7 +3688,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = ones_spd()
     >>> spd.shape
-    SpectralShape(360, 830, 1)
+    SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
     1.0
     """

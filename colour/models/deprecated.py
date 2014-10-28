@@ -15,8 +15,6 @@ Defines various deprecated colour models transformations:
 -   :func:`CMY_to_RGB`
 -   :func:`CMY_to_CMYK`
 -   :func:`CMYK_to_CMY`
--   :func:`RGB_to_HEX`
--   :func:`HEX_to_RGB`
 
 These colour models are stated as deprecated because they trade off perceptual
 relevance for computation speed. They should not be used in the colour science
@@ -31,17 +29,16 @@ Don't use that! Seriously...
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/HSL_and_HSV
-        (Last accessed 10 August 2014)
-.. [2]  `Color Gamut Transform Pairs
-        <http://alvyray.com/Papers/CG/color78.pdf>`_,
-        DOI: http://dx.doi.org/10.1145/800248.807361
-        (Last accessed 10 August 2014)
+.. [1]  Wikipedia. (n.d.). HSL and HSV. Retrieved September 10, 2014, from
+        http://en.wikipedia.org/wiki/HSL_and_HSV
+.. [2]  Smith, A. R. (1978). Color Gamut Transform Pairs. In Proceedings of
+        the 5th Annual Conference on Computer Graphics and Interactive
+        Techniques (pp. 12–19). New York, NY, USA: ACM.
+        doi:10.1145/800248.807361
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 __author__ = 'Colour Developers'
@@ -58,9 +55,7 @@ __all__ = ['RGB_to_HSV',
            'RGB_to_CMY',
            'CMY_to_RGB',
            'CMY_to_CMYK',
-           'CMYK_to_CMY',
-           'RGB_to_HEX',
-           'HEX_to_RGB']
+           'CMYK_to_CMY']
 
 
 def RGB_to_HSV(RGB):
@@ -84,8 +79,8 @@ def RGB_to_HSV(RGB):
 
     References
     ----------
-    .. [3]  http://www.easyrgb.com/index.php?X=MATH&H=20#text20
-            (Last accessed 18 May 2014)
+    .. [3]  EasyRGB. (n.d.). RGB —> HSV. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=20#text20
 
     Examples
     --------
@@ -149,8 +144,8 @@ def HSV_to_RGB(HSV):
 
     References
     ----------
-    .. [4]  http://www.easyrgb.com/index.php?X=MATH&H=21#text21
-            (Last accessed 18 May 2014)
+    .. [4]  EasyRGB. (n.d.). HSV —> RGB. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 
     Examples
     --------
@@ -170,7 +165,7 @@ def HSV_to_RGB(HSV):
         if h == 6:
             h = 0
 
-        i = math.floor(h)
+        i = np.floor(h)
         j = V * (1 - S)
         k = V * (1 - S * (h - i))
         l = V * (1 - S * (1 - (h - i)))
@@ -223,8 +218,8 @@ def RGB_to_HSL(RGB):
 
     References
     ----------
-    .. [5]  http://www.easyrgb.com/index.php?X=MATH&H=18#text18
-            (Last accessed 18 May 2014)
+    .. [5]  EasyRGB. (n.d.). RGB —> HSL. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=18#text18
 
     Examples
     --------
@@ -289,8 +284,8 @@ def HSL_to_RGB(HSL):
 
     References
     ----------
-    .. [6]  http://www.easyrgb.com/index.php?X=MATH&H=19#text19
-            (Last accessed 18 May 2014)
+    .. [6]  EasyRGB. (n.d.). HSL —> RGB. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 
     Examples
     --------
@@ -354,8 +349,8 @@ def RGB_to_CMY(RGB):
 
     References
     ----------
-    .. [7]  http://www.easyrgb.com/index.php?X=MATH&H=11#text11
-            (Last accessed 18 May 2014)
+    .. [7]  EasyRGB. (n.d.). RGB —> CMY. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=11#text11
 
     Examples
     --------
@@ -389,8 +384,8 @@ def CMY_to_RGB(CMY):
 
     References
     ----------
-    .. [8]  http://www.easyrgb.com/index.php?X=MATH&H=12#text12
-            (Last accessed 18 May 2014)
+    .. [8]  EasyRGB. (n.d.). CMY —> RGB. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=12#text12
 
     Examples
     --------
@@ -424,8 +419,8 @@ def CMY_to_CMYK(CMY):
 
     References
     ----------
-    .. [9]  http://www.easyrgb.com/index.php?X=MATH&H=13#text13
-            (Last accessed 18 May 2014)
+    .. [9]  EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 
     Examples
     --------
@@ -477,8 +472,8 @@ def CMYK_to_CMY(CMYK):
 
     References
     ----------
-    .. [10] http://www.easyrgb.com/index.php?X=MATH&H=14#text14
-            (Last accessed 18 May 2014)
+    .. [10] EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014, from
+            http://www.easyrgb.com/index.php?X=MATH&H=14#text14
 
     Examples
     --------
@@ -491,65 +486,3 @@ def CMYK_to_CMY(CMYK):
 
     return np.array(
         [C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
-
-
-def RGB_to_HEX(RGB):
-    """
-    Converts from *RGB* colourspace to hex triplet representation.
-
-    Parameters
-    ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
-
-    Returns
-    -------
-    unicode
-        Hex triplet representation.
-
-    Notes
-    -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
-
-    Examples
-    --------
-    >>> RGB = np.array([0.66666667, 0.86666667, 1])
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> RGB_to_HEX(RGB)  # doctest: +SKIP
-    '#aaddff'
-    """
-
-    RGB = np.ravel(RGB)
-    R, G, B = map(int, RGB * 255)
-    return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
-
-
-def HEX_to_RGB(HEX):
-    """
-    Converts from hex triplet representation to *RGB* colourspace.
-
-    Parameters
-    ----------
-    HEX : unicode
-        Hex triplet representation.
-
-    Returns
-    -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
-
-    Notes
-    -----
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
-
-    Examples
-    --------
-    >>> HEX = '#aaddff'
-    >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
-    array([ 0.6666666...,  0.8666666...,  1.        ])
-    """
-
-    HEX = HEX.lstrip('#')
-    length = len(HEX)
-    return np.array([int(HEX[i:i + length // 3], 16) for i in
-                     range(0, length, length // 3)]) / 255

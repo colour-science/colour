@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
-        (Last accessed 13 April 2014)
+.. [1]  Wikipedia. (n.d.). Wide-gamut RGB color space. Retrieved April 13,
+        2014, from http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
+           'ADOBE_WIDE_GAMUT_RGB_ILLUMINANT',
            'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT',
            'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX',
@@ -52,8 +53,16 @@ ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+ADOBE_WIDE_GAMUT_RGB_ILLUMINANT = 'D50'
+"""
+*Adobe Wide Gamut RGB* colourspace whitepoint name as illuminant.
+
+ADOBE_WIDE_GAMUT_RGB_ILLUMINANT : unicode
+"""
+
 ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(
+    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT)
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
@@ -77,14 +86,54 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
+
+def _adobe_wide_gamut_rgb_transfer_function(value):
+    """
+    Defines the *Adobe Wide Gamut RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / (563 / 256))
+
+
+def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Adobe Wide Gamut RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (563 / 256)
+
+
+ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = (
+    _adobe_wide_gamut_rgb_transfer_function)
 """
 Transfer function from linear to *Adobe Wide Gamut RGB* colourspace.
 
 ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION : object
 """
 
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
+ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _adobe_wide_gamut_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *Adobe Wide Gamut RGB* colourspace to linear.
 
@@ -95,6 +144,7 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     'Adobe Wide Gamut RGB',
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT,
+    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
     ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,

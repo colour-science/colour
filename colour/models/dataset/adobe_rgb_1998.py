@@ -16,9 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  `Adobe RGB (1998) Color Image Encoding
-        <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_
-        (Last accessed 24 February 2014)
+.. [1]  Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding.
+        Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -36,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ADOBE_RGB_1998_PRIMARIES',
+           'ADOBE_RGB_1998_ILLUMINANT',
            'ADOBE_RGB_1998_WHITEPOINT',
            'ADOBE_RGB_1998_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_RGB_1998_MATRIX',
@@ -53,8 +53,15 @@ ADOBE_RGB_1998_PRIMARIES = np.array(
 ADOBE_RGB_1998_PRIMARIES : ndarray, (3, 2)
 """
 
+ADOBE_RGB_1998_ILLUMINANT = 'D65'
+"""
+*Adobe RGB 1998* colourspace whitepoint name as illuminant.
+
+ADOBE_RGB_1998_ILLUMINANT : unicode
+"""
+
 ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(ADOBE_RGB_1998_ILLUMINANT)
 """
 *Adobe RGB 1998* colourspace whitepoint.
 
@@ -69,12 +76,6 @@ ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(
 *Adobe RGB 1998* colourspace to *CIE XYZ* colourspace matrix.
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
-
-References
-----------
-.. [2]  `Adobe RGB (1998) Color Image Encoding
-        <http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf>`_
-        4.3.5.3 Converting RGB to normalised XYZ values
 """
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
@@ -84,14 +85,52 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
-ADOBE_RGB_1998_TRANSFER_FUNCTION = lambda x: x ** (1 / (563 / 256))
+
+def _adobe_rgb_1998_transfer_function(value):
+    """
+    Defines the *Adobe RGB 1998* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / (563 / 256))
+
+
+def _adobe_rgb_1998_inverse_transfer_function(value):
+    """
+    Defines the *Adobe RGB 1998* value colourspace inverse transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (563 / 256)
+
+
+ADOBE_RGB_1998_TRANSFER_FUNCTION = _adobe_rgb_1998_transfer_function
 """
 Transfer function from linear to *Adobe RGB 1998* colourspace.
 
 ADOBE_RGB_1998_TRANSFER_FUNCTION : object
 """
 
-ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = lambda x: x ** (563 / 256)
+ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = (
+    _adobe_rgb_1998_inverse_transfer_function)
 """
 Inverse transfer function from *Adobe RGB 1998* colourspace to linear.
 
@@ -102,6 +141,7 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     'Adobe RGB 1998',
     ADOBE_RGB_1998_PRIMARIES,
     ADOBE_RGB_1998_WHITEPOINT,
+    ADOBE_RGB_1998_ILLUMINANT,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
     ADOBE_RGB_1998_TRANSFER_FUNCTION,

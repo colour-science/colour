@@ -124,4 +124,3 @@ def warning(*args, **kwargs):
 
     warn(*args, **kwargs)
     return True
-

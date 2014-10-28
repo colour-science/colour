@@ -16,9 +16,9 @@ See Also
 
 References
 ----------
-.. [1]  `Recommendation ITU-R BT.470-6 - Conventional Television Systems
-        <http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  International Telecommunication Union. (1998). CONVENTIONAL TELEVISION
+        SYSTEMS. In Recommendation ITU-R BT.470-6 (pp. 1–36). Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -36,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['PAL_SECAM_RGB_PRIMARIES',
+           'PAL_SECAM_RGB_ILLUMINANT',
            'PAL_SECAM_RGB_WHITEPOINT',
            'PAL_SECAM_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PAL_SECAM_RGB_MATRIX',
@@ -53,8 +54,15 @@ PAL_SECAM_RGB_PRIMARIES = np.array(
 PAL_SECAM_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+PAL_SECAM_RGB_ILLUMINANT = 'D65'
+"""
+*Pal/Secam RGB* colourspace whitepoint name as illuminant.
+
+PAL_SECAM_RGB_ILLUMINANT : unicode
+"""
+
 PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(PAL_SECAM_RGB_ILLUMINANT)
 """
 *Pal/Secam RGB* colourspace whitepoint.
 
@@ -76,14 +84,53 @@ XYZ_TO_PAL_SECAM_RGB_MATRIX = np.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 """
 
-PAL_SECAM_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.8)
+
+def _pal_secam_rgb_transfer_function(value):
+    """
+    Defines the *Pal/Secam RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.8)
+
+
+def _pal_secam_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Pal/Secam RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.8
+
+
+PAL_SECAM_RGB_TRANSFER_FUNCTION = _pal_secam_rgb_transfer_function
 """
 Transfer function from linear to *Pal/Secam RGB* colourspace.
 
 PAL_SECAM_RGB_TRANSFER_FUNCTION : object
 """
 
-PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.8
+PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = (
+    _pal_secam_rgb_inverse_transfer_function)
 """
 Inverse transfer function from *Pal/Secam RGB* colourspace to linear.
 
@@ -94,6 +141,7 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     'Pal/Secam RGB',
     PAL_SECAM_RGB_PRIMARIES,
     PAL_SECAM_RGB_WHITEPOINT,
+    PAL_SECAM_RGB_ILLUMINANT,
     PAL_SECAM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
     PAL_SECAM_RGB_TRANSFER_FUNCTION,

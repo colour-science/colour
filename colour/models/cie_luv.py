@@ -21,13 +21,12 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/CIELUV
-        (Last accessed 24 February 2014)
+.. [1]  Wikipedia. (n.d.). CIELUV. Retrieved February 24, 2014, from
+        http://en.wikipedia.org/wiki/CIELUV
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -75,13 +74,14 @@ def XYZ_to_Luv(XYZ,
 
     References
     ----------
-    .. [2]  http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
-            (Last accessed 24 February 2014)
+    .. [2]  Lindbloom, B. (2003). XYZ to Luv. Retrieved February 24, 2014,
+            from http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
 
     Examples
     --------
-    >>> XYZ_to_Luv(np.array([0.92193107, 1, 1.03744246]))  # doctest: +ELLIPSIS
-    array([ 100.        ,  -20.0430424...,  -19.8167603...])
+    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
+    array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """
 
     X, Y, Z = np.ravel(XYZ)
@@ -124,14 +124,14 @@ def Luv_to_XYZ(Luv,
 
     References
     ----------
-    .. [3]  http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
-            (Last accessed 24 February 2014)
+    .. [3]  Lindbloom, B. (2003). Luv to XYZ. Retrieved February 24, 2014,
+            from http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
     Examples
     --------
-    >>> Luv = np.array([100, -20.04304247, -19.81676035])
+    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
-    array([ 0.9219310...,  1.        ,  1.0374424...])
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     L, u, v = np.ravel(Luv)
@@ -156,7 +156,7 @@ def Luv_to_uv(Luv,
               illuminant=ILLUMINANTS.get(
                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Returns the *u"v"* chromaticity coordinates from given *CIE Luv*
+    Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
     colourspace matrix.
 
     Parameters
@@ -169,23 +169,24 @@ def Luv_to_uv(Luv,
     Returns
     -------
     tuple
-        *u"v"* chromaticity coordinates.
+        :math:`uv^p` chromaticity coordinates.
 
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
-    -   Output *u"v"* chromaticity coordinates are in domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
 
     References
     ----------
-    .. [4]  http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
-            (Last accessed 24 February 2014)
+    .. [4]  Wikipedia. (n.d.). The forward transformation. Retrieved February
+            24, 2014, from
+            http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 
     Examples
     --------
-    >>> Luv = np.array([100, -20.04304247, -19.81676035])
+    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
-    (0.1937414..., 0.4728316...)
+    (0.1508530..., 0.4853297...)
     """
 
     X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
@@ -196,7 +197,7 @@ def Luv_to_uv(Luv,
 def Luv_uv_to_xy(uv):
     """
     Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
-    *u"v"* chromaticity coordinates.
+    :math:`uv^p` chromaticity coordinates.
 
     Parameters
     ----------
@@ -210,19 +211,19 @@ def Luv_uv_to_xy(uv):
 
     Notes
     -----
-    -   Input *u"v"* chromaticity coordinates are in domain [0, 1].
+    -   Input :math:`uv^p` chromaticity coordinates are in domain [0, 1].
     -   Output *xy* is in domain [0, 1].
 
     References
     ----------
-    .. [5]  http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
-            (Last accessed 24 February 2014)
+    .. [5]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
+            http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 
     Examples
     --------
-    >>> uv = (0.2033733344733139, 0.3140500001549052)
+    >>> uv = (0.15085309882985695, 0.48532970854318019)
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    (0.2233388..., 0.1532803...)
+    (0.2641477..., 0.3777000...)
     """
 
     return (9 * uv[0] / (6 * uv[0] - 16 * uv[1] + 12), 4 * uv[1] /
@@ -249,23 +250,23 @@ def Luv_to_LCHuv(Luv):
 
     References
     ----------
-    .. [6]  http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
-            (Last accessed 24 February 2014)
+    .. [6]  Lindbloom, B. (2003). Luv to LCH(uv). Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
 
     Examples
     --------
-    >>> Luv = np.array([100, -20.04304247, -19.81676035])
+    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
-    array([ 100.        ,   28.1855910...,  224.6747382...])
+    array([  37.9856291...,   28.8241993...,  182.6960474...])
     """
 
     L, u, v = np.ravel(Luv)
 
-    H = 180 * math.atan2(v, u) / math.pi
+    H = 180 * np.arctan2(v, u) / np.pi
     if H < 0:
         H += 360
 
-    return np.array([L, math.sqrt(u ** 2 + v ** 2), H])
+    return np.array([L, np.sqrt(u ** 2 + v ** 2), H])
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -288,18 +289,18 @@ def LCHuv_to_Luv(LCHuv):
 
     References
     ----------
-    .. [7]  http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
-            (Last accessed 24 February 2014)
+    .. [7]  Lindbloom, B. (2006). LCH(uv) to Luv. Retrieved February 24, 2014,
+            from http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
 
     Examples
     --------
-    >>> LCHuv = np.array([100, 28.18559104, 224.6747382])
+    >>> LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
-    array([ 100.        ,  -20.0430424...,  -19.8167603...])
+    array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """
 
     L, C, H = np.ravel(LCHuv)
 
     return np.array([L,
-                     C * math.cos(math.radians(H)),
-                     C * math.sin(math.radians(H))])
+                     C * np.cos(np.radians(H)),
+                     C * np.sin(np.radians(H))])

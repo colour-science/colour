@@ -7,7 +7,6 @@ Defines unit tests for :mod:`colour.colorimetry.spectrum` module.
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 import sys
 
@@ -2009,7 +2008,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             'Non Uniform Sample',
             NON_UNIFORM_SAMPLE_SPD_DATA)
 
-        self.__phi = (1 + math.sqrt(5)) / 2
+        self.__phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """
@@ -2018,6 +2017,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         required_attributes = ('name',
                                'data',
+                               'title',
                                'wavelengths',
                                'values',
                                'shape')
@@ -2042,6 +2042,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             '__sub__',
                             '__mul__',
                             '__div__',
+                            '__pow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2242,6 +2243,41 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             (spd1 / spd2).values,
             spd.values / spd.values)
 
+    def test__pow__(self):
+        """
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__pow__`
+        method.
+        """
+        spd = self.__spd.clone()
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** 2).values, values ** 2)
+
+        # Avoiding zero division for testing purpose.
+        spd = self.__spd.clone() + 0.001
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** -2).values, values ** -2)
+
+        spd = self.__spd.clone()
+        values = spd.values
+        np.testing.assert_almost_equal((spd ** 0).values, values ** 0)
+
+        spd = self.__spd.clone()
+        values = spd.values
+        random = np.random.random(len(values))
+        np.testing.assert_almost_equal(
+            (spd ** random).values,
+            values ** random)
+
+        # Avoiding zero division for testing purpose.
+        spd = self.__spd.clone() + 0.001
+
+        spd1 = spd.clone()
+        spd2 = spd.clone()
+        np.testing.assert_almost_equal(
+            (spd1 ** spd2).values,
+            spd.values ** spd.values)
+
     def test_get(self):
         """
         Tests
@@ -2384,7 +2420,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             mapping=self.__mapping,
             labels=self.__labels)
 
-        self.__phi = (1 + math.sqrt(5)) / 2
+        self.__phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
         """
@@ -2392,9 +2428,10 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         required_attributes = ('name',
-                               'mapping',
-                               'labels',
                                'data',
+                               'mapping',
+                               'title',
+                               'labels',
                                'x',
                                'y',
                                'z',
@@ -2422,6 +2459,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             '__sub__',
                             '__mul__',
                             '__div__',
+                            '__pow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2644,6 +2682,40 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             (tri_spd1 / tri_spd2).values,
             tri_spd.values / tri_spd.values)
+
+    def test__pow__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`  # noqa
+        method.
+        """
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** 2).values, values ** 2)
+
+        # Avoiding zero division for testing purpose.
+        tri_spd = self.__tri_spd.clone() + 0.001
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** -2).values, values ** -2)
+
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        np.testing.assert_almost_equal((tri_spd ** 0).values, values ** 0)
+
+        tri_spd = self.__tri_spd.clone()
+        values = tri_spd.values
+        random = np.random.random(values.shape)
+        np.testing.assert_almost_equal(
+            (tri_spd ** random).values,
+            values ** random)
+
+        # Avoiding zero division for testing purpose.
+        tri_spd = self.__tri_spd.clone() + 0.001
+
+        tri_spd1 = tri_spd.clone()
+        tri_spd2 = tri_spd.clone()
+        np.testing.assert_almost_equal(
+            (tri_spd1 ** tri_spd2).values,
+            tri_spd.values ** tri_spd.values)
 
     def test_get(self):
         """

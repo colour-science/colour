@@ -16,15 +16,14 @@ See Also
 
 References
 ----------
-.. [1]  `S-Log: A new LUT for digital production mastering and interchange
-        applications
-        <http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf>`_  # noqa
-        (Last accessed 13 April 2014)
+.. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
+        Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
+        and interchange applications. Retrieved from
+        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
 
-import math
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
@@ -38,6 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['S_LOG_PRIMARIES',
+           'S_LOG_ILLUMINANT',
            'S_LOG_WHITEPOINT',
            'S_LOG_TO_XYZ_MATRIX',
            'XYZ_TO_S_LOG_MATRIX',
@@ -55,8 +55,15 @@ S_LOG_PRIMARIES = np.array(
 S_LOG_PRIMARIES : ndarray, (3, 2)
 """
 
+S_LOG_ILLUMINANT = 'D65'
+"""
+*S-Log* colourspace whitepoint name as illuminant.
+
+S_LOG_ILLUMINANT : unicode
+"""
+
 S_LOG_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
+    'CIE 1931 2 Degree Standard Observer').get(S_LOG_ILLUMINANT)
 """
 *S-Log* colourspace whitepoint.
 
@@ -78,16 +85,52 @@ XYZ_TO_S_LOG_MATRIX = np.linalg.inv(S_LOG_TO_XYZ_MATRIX)
 XYZ_TO_S_LOG_MATRIX : array_like, (3, 3)
 """
 
-S_LOG_TRANSFER_FUNCTION = lambda x: (
-    (0.432699 * math.log10(x + 0.037584) + 0.616596) + 0.03)
+
+def _s_log_transfer_function(value):
+    """
+    Defines the *S-Log* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
+
+
+def _s_log_inverse_transfer_function(value):
+    """
+    Defines the *S-Log* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return (np.power(10., ((value - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+
+
+S_LOG_TRANSFER_FUNCTION = _s_log_transfer_function
 """
 Transfer function from linear to *S-Log* colourspace.
 
 S_LOG_TRANSFER_FUNCTION : object
 """
 
-S_LOG_INVERSE_TRANSFER_FUNCTION = lambda x: (
-    (math.pow(10, ((x - 0.616596 - 0.03) / 0.432699)) - 0.037584))
+S_LOG_INVERSE_TRANSFER_FUNCTION = _s_log_inverse_transfer_function
 """
 Inverse transfer function from *S-Log* colourspace to linear.
 
@@ -98,6 +141,7 @@ S_LOG_COLOURSPACE = RGB_Colourspace(
     'S-Log',
     S_LOG_PRIMARIES,
     S_LOG_WHITEPOINT,
+    S_LOG_ILLUMINANT,
     S_LOG_TO_XYZ_MATRIX,
     XYZ_TO_S_LOG_MATRIX,
     S_LOG_TRANSFER_FUNCTION,

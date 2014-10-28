@@ -15,7 +15,7 @@ follows::
 
 The following *ColourCheckers* data is available:
 
--   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by *N. Ohta* in 1997.
+-   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
 -   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 
@@ -26,14 +26,14 @@ See Also
 
 References
 ----------
-.. [1]  **N. Ohta**, *The Basis of Color Reproduction Engineering (Japanese)*,
-        Corona-sha Co of Japan, published 1997,
-        DOI: http://dx.doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z  # noqa
-.. [2]  http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
-        (Last accessed 9 June 2014)
-.. [3]  http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-        (Last accessed 24 February 2014)
-.. [4]  http://www.babelcolor.com/main_level/ColorChecker.htm
+.. [1]  Ohta, N. (1997). The basis of color reproduction engineering.
+.. [2]  Munsell Color Science. (n.d.). Macbeth Colorchecker. Retrieved from
+        http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
+.. [3]  BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from
+        http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
+.. [4]  BabelColor. (2012). The ColorChecker (since 1976!). Retrieved
+        September 26, 2014, from
+        http://www.babelcolor.com/main_level/ColorChecker.htm
 """
 
 from __future__ import division, unicode_literals
@@ -2055,7 +2055,7 @@ COLORCHECKER_N_OHTA_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
     COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
-Measured by *N. Ohta* in 1997.
+Measured by Ohta (1997).
 
 COLORCHECKER_N_OHTA_SPDS : dict
 """
@@ -2965,8 +2965,8 @@ COLOURCHECKERS_SPDS = CaseInsensitiveMapping(
 """
 Aggregated *ColourCheckers* spectral power distributions.
 
-COLOURCHECKERS : dict
-    ('BabelColor Average', 'ColorChecker N Ohta')
+COLOURCHECKERS : CaseInsensitiveMapping
+    {'BabelColor Average', 'ColorChecker N Ohta'}
 
 Aliases:
 

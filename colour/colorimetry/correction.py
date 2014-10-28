@@ -9,7 +9,7 @@ Defines objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
--   :func:`bandpass_correction_stearns1988`: *Stearns and Stearns (1988)*
+-   :func:`bandpass_correction_Stearns1988`: Stearns and Stearns (1988)⁠⁠
     spectral bandpass dependence correction method.
 
 See Also
@@ -29,24 +29,26 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['bandpass_correction_stearns1988',
+__all__ = ['bandpass_correction_Stearns1988',
            'BANDPASS_CORRECTION_METHODS',
            'bandpass_correction']
 
 ALPHA_STEARNS = 0.083
 
 
-def bandpass_correction_stearns1988(spd):
+def bandpass_correction_Stearns1988(spd):
     """
     Implements spectral bandpass dependence correction on given spectral power
-    distribution using *Stearns and Stearns (1988)* method.
+    distribution using Stearns and Stearns (1988)⁠⁠ method.
 
     References
     ----------
-    .. [1]  **Stephen Westland, Caterina Ripamonti, Vien Cheung**,
-            *Computational Colour Science Using MATLAB, 2nd Edition*,
-            The Wiley-IS&T Series in Imaging Science and Technology,
-            published July 2012, ISBN-13: 978-0-470-66569-5, page  38.
+    .. [1]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for
+            Spectral Bandpass. In Computational Colour Science Using MATLAB
+            (2nd ed., p. 38). ISBN:978-0-470-66569-5
+    .. [2]  Stearns, E. I., & Stearns, R. E. (1988). An example of a method
+            for correcting radiance data for Bandpass error. Color Research &
+            Application, 13(4), 257–259. doi:10.1002/col.5080130410
 
     Parameters
     ----------
@@ -63,7 +65,7 @@ def bandpass_correction_stearns1988(spd):
     >>> from colour import SpectralPowerDistribution
     >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
     >>> spd = SpectralPowerDistribution('Spd', data)
-    >>> corrected_spd = bandpass_correction_stearns1988(spd)
+    >>> corrected_spd = bandpass_correction_Stearns1988(spd)
     >>> corrected_spd.values  # doctest: +ELLIPSIS
     array([ 48.01664   ,  70.3729688...,  82.0919506...,  88.72618   ])
     """
@@ -82,12 +84,12 @@ def bandpass_correction_stearns1988(spd):
 
 
 BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
-    {'Stearns 1988': bandpass_correction_stearns1988})
+    {'Stearns 1988': bandpass_correction_Stearns1988})
 """
 Supported spectral bandpass dependence correction methods.
 
-BANDPASS_CORRECTION_METHODS : dict
-    ('Stearns 1988',)
+BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
+    {'Stearns 1988',}
 """
 
 
@@ -100,7 +102,7 @@ def bandpass_correction(spd, method='Stearns 1988'):
     ----------
     spd : SpectralPowerDistribution
         Spectral power distribution.
-    method : unicode
+    method : unicode, optional
         ('Stearns 1988',)
         Correction method.
 

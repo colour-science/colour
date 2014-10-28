@@ -5,7 +5,7 @@
 Optimal Colour Stimuli
 ======================
 
-Defines *MacAdam* optimal colour stimuli for various illuminants in *CIE xyY*
+Defines MacAdam optimal colour stimuli for various illuminants in *CIE xyY*
 colourspace.
 
 The optimal colour stimuli data is in the form of a *dict* of
@@ -25,7 +25,8 @@ See Also
 
 References
 ----------
-.. [1]  http://en.wikipedia.org/wiki/Gamut#Surfaces
+.. [1]  Wikipedia. (n.d.). Surfaces. Retrieved September 10, 2014,
+        from http://en.wikipedia.org/wiki/Gamut#Surfaces
 """
 
 from __future__ import division, unicode_literals
@@ -274,11 +275,9 @@ A_OPTIMAL_COLOUR_STIMULI : tuple
 
 References
 ----------
-.. [2]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae -
-        Second Edition*,
-        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        pages 776, 777.
+.. [2]  Wyszecki, G., & Stiles, W. S. (2000). Table I(3.7). In Color Science:
+        Concepts and Methods, Quantitative Data and Formulae (pp. 776–777).
+        Wiley. ISBN:978-0471399186
 """
 
 C_OPTIMAL_COLOUR_STIMULI = (
@@ -488,10 +487,8 @@ C_OPTIMAL_COLOUR_STIMULI : tuple
 
 References
 ----------
-.. [3]  **David MacAdam**,
-        *Maximum Visual Efficiency of Colored Materials* JOSA, Vol. 25,
-        DOI: http://dx.doi.org/10.1364/JOSA.25.000361,
-        pages 361, 367.
+.. [3]  MacAdam, D. L. (1935). Maximum Visual Efficiency of Colored Materials.
+        J. Opt. Soc. Am., 25(11), 361–367. doi:10.1364/JOSA.25.000361
 """
 
 D65_OPTIMAL_COLOUR_STIMULI = (
@@ -744,14 +741,18 @@ D65_OPTIMAL_COLOUR_STIMULI : tuple
 
 References
 ----------
-.. [4]  **Wyszecki & Stiles**,
-        *Color Science - Concepts and Methods Data and Formulae -
-        Second Edition*,
-        Wiley Classics Library Edition, published 2000, ISBN-10: 0-471-39918-3,
-        pages 778, 779.
+.. [4]  Wyszecki, G., & Stiles, W. S. (2000). Table II(3.7). In Color Science:
+        Concepts and Methods, Quantitative Data and Formulae (pp. 778–779).
+        Wiley. ISBN:978-0471399186
 """
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping(
     {'A': A_OPTIMAL_COLOUR_STIMULI,
      'C': C_OPTIMAL_COLOUR_STIMULI,
      'D65': D65_OPTIMAL_COLOUR_STIMULI})
+"""
+Illuminants optimal colour stimuli.
+
+ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
+    {'A', 'C', 'D65'}
+"""

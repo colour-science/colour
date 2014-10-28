@@ -16,8 +16,8 @@ See Also
 
 References
 ----------
-.. [1]  http://www.hutchcolor.com/profiles/BestRGB.zip
-        (Last accessed 11 April 2014)
+.. [1]  HutchColor. (n.d.). BestRGB (4 K). Retrieved from
+        http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 
 from __future__ import division, unicode_literals
@@ -35,6 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['BEST_RGB_PRIMARIES',
+           'BEST_RGB_ILLUMINANT',
            'BEST_RGB_WHITEPOINT',
            'BEST_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BEST_RGB_MATRIX',
@@ -52,8 +53,15 @@ BEST_RGB_PRIMARIES = np.array(
 BEST_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
+BEST_RGB_ILLUMINANT = 'D50'
+"""
+*Best RGB* colourspace whitepoint name as illuminant.
+
+BEST_RGB_ILLUMINANT : unicode
+"""
+
 BEST_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+    'CIE 1931 2 Degree Standard Observer').get(BEST_RGB_ILLUMINANT)
 """
 *Best RGB* colourspace whitepoint.
 
@@ -75,14 +83,52 @@ XYZ_TO_BEST_RGB_MATRIX = np.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
 XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
 """
 
-BEST_RGB_TRANSFER_FUNCTION = lambda x: x ** (1 / 2.2)
+
+def _best_rgb_transfer_function(value):
+    """
+    Defines the *Best RGB* value colourspace transfer function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** (1 / 2.2)
+
+
+def _best_rgb_inverse_transfer_function(value):
+    """
+    Defines the *Best RGB* value colourspace inverse transfer
+    function.
+
+    Parameters
+    ----------
+    value : numeric
+        value.
+
+    Returns
+    -------
+    numeric
+        Companded value.
+    """
+
+    return value ** 2.2
+
+
+BEST_RGB_TRANSFER_FUNCTION = _best_rgb_transfer_function
 """
 Transfer function from linear to *Best RGB* colourspace.
 
 BEST_RGB_TRANSFER_FUNCTION : object
 """
 
-BEST_RGB_INVERSE_TRANSFER_FUNCTION = lambda x: x ** 2.2
+BEST_RGB_INVERSE_TRANSFER_FUNCTION = _best_rgb_inverse_transfer_function
 """
 Inverse transfer function from *Best RGB* colourspace to linear.
 
@@ -93,6 +139,7 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     'Best RGB',
     BEST_RGB_PRIMARIES,
     BEST_RGB_WHITEPOINT,
+    BEST_RGB_ILLUMINANT,
     BEST_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BEST_RGB_MATRIX,
     BEST_RGB_TRANSFER_FUNCTION,

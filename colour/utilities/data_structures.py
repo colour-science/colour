@@ -41,16 +41,17 @@ class Structure(dict):
 
     References
     ----------
-    .. [1]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+    .. [1]  Mansencal, T. (n.d.). Structure. Retrieved from
+            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
 
     Examples
     --------
-    >>> person = Structure(firstName='Doe', lastName='John', gender='male')
+    >>> person = Structure(first_name='Doe', last_name='John', gender='male')
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> person.firstName  # doctest: +SKIP
+    >>> person.first_name  # doctest: +SKIP
     'Doe'
     >>> sorted(person.keys())
-    ['firstName', 'gender', 'lastName']
+    ['first_name', 'gender', 'last_name']
     >>> # Doctests skip for Python 2.x compatibility.
     >>> person['gender']  # doctest: +SKIP
     'male'
@@ -156,13 +157,14 @@ class Lookup(dict):
 
     References
     ----------
-    .. [2]  https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+    .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
+            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
 
     Examples
     --------
-    >>> person = Lookup(firstName='Doe', lastName='John', gender='male')
+    >>> person = Lookup(first_name='Doe', last_name='John', gender='male')
     >>> person.first_key_from_value('Doe')
-    'firstName'
+    'first_name'
     >>> persons = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
     >>> sorted(persons.keys_from_value('Doe'))
     ['Jane', 'John']
@@ -225,7 +227,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
     References
     ----------
-    .. [3]  https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37  # noqa
+    .. [3]  Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
+            https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37  # noqa
 
     Examples
     --------

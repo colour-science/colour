@@ -8,9 +8,9 @@ Common Plotting
 Defines the common plotting objects:
 
 -   :func:`colour_cycle`
--   :func:`figure_size`
--   :func:`aspect`
--   :func:`bounding_box`
+-   :func:`canvas`
+-   :func:`decorate`
+-   :func:`boundaries`
 -   :func:`display`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
@@ -20,7 +20,6 @@ Defines the common plotting objects:
 
 from __future__ import division
 
-import functools
 import itertools
 import os
 from collections import namedtuple
@@ -42,20 +41,25 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = [
-    'PLOTTING_RESOURCES_DIRECTORY',
-    'DEFAULT_FIGURE_SIZE',
-    'DEFAULT_COLOUR_CYCLE',
-    'ColourParameter',
-    'colour_cycle',
-    'figure_size',
-    'aspect',
-    'bounding_box',
-    'display',
-    'colour_parameter',
-    'colour_parameters_plot',
-    'single_colour_plot',
-    'multi_colour_plot']
+__all__ = ['PLOTTING_RESOURCES_DIRECTORY',
+           'DEFAULT_FIGURE_ASPECT_RATIO',
+           'DEFAULT_FIGURE_WIDTH',
+           'DEFAULT_FIGURE_HEIGHT',
+           'DEFAULT_FIGURE_SIZE',
+           'DEFAULT_FONT_SIZE',
+           'DEFAULT_PARAMETERS',
+           'DEFAULT_COLOUR_CYCLE',
+           'ColourParameter',
+           'ColourParameter',
+           'colour_cycle',
+           'canvas',
+           'decorate',
+           'boundaries',
+           'display',
+           'colour_parameter',
+           'colour_parameters_plot',
+           'single_colour_plot',
+           'multi_colour_plot']
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -66,23 +70,68 @@ Resources directory.
 RESOURCES_DIRECTORY : unicode
 """
 
-DEFAULT_FIGURE_SIZE = 14, 7
+DEFAULT_FIGURE_ASPECT_RATIO = (np.sqrt(5) - 1) / 2
 """
-Default plots figure size.
+Default figure aspect ratio (Golden Number).
+
+DEFAULT_FIGURE_ASPECT_RATIO : float
+"""
+
+DEFAULT_FIGURE_WIDTH = 18
+"""
+Default figure width.
+
+DEFAULT_FIGURE_WIDTH : integer
+"""
+
+if 'Qt4Agg' in matplotlib.get_backend():
+    DEFAULT_FIGURE_WIDTH = 12
+
+DEFAULT_FIGURE_HEIGHT = DEFAULT_FIGURE_WIDTH * DEFAULT_FIGURE_ASPECT_RATIO
+"""
+Default figure height.
+
+DEFAULT_FIGURE_HEIGHT : integer
+"""
+
+DEFAULT_FIGURE_SIZE = DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT
+"""
+Default figure size.
 
 DEFAULT_FIGURE_SIZE : tuple
 """
+
+DEFAULT_FONT_SIZE = 12
+"""
+Default figure font size.
+
+DEFAULT_FONT_SIZE : numeric
+"""
+
+if 'Qt4Agg' in matplotlib.get_backend():
+    DEFAULT_FONT_SIZE = 10
+
+DEFAULT_PARAMETERS = {
+    'figure.figsize': DEFAULT_FIGURE_SIZE,
+    'font.size': DEFAULT_FONT_SIZE,
+    'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
+    'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
+    'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
+    'xtick.labelsize': DEFAULT_FONT_SIZE,
+    'ytick.labelsize': DEFAULT_FONT_SIZE
+}
+"""
+Default plotting parameters.
+
+DEFAULT_PARAMETERS : dict
+"""
+
+pylab.rcParams.update(DEFAULT_PARAMETERS)
 
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
-
-# Defining default figure size.
-pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
-
-# Defining an alternative font that can display scientific notations.
-matplotlib.rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
 
 
 def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
@@ -111,72 +160,37 @@ def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
     return itertools.cycle(cycle)
 
 
-def figure_size(size=DEFAULT_FIGURE_SIZE):
+def canvas(**kwargs):
     """
-    Sets figures sizes.
+    Sets the figure size and aspect.
 
     Parameters
     ----------
-    size : tuple, optional
-        Figure size.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
-    object
-        Callable object.
+    Figure
+        Current figure.
     """
 
-    def figure_size_decorator(callable):
-        """
-        Sets figures sizes.
+    settings = Structure(
+        **{'figure_size': DEFAULT_FIGURE_SIZE})
+    settings.update(kwargs)
 
-        Parameters
-        ----------
-        callable : object
-            Callable object to decorate.
+    figure = matplotlib.pyplot.gcf()
+    if figure is None:
+        figure = matplotlib.pyplot.figure(figsize=settings.figure_size)
+    else:
+        figure.set_size_inches(settings.figure_size)
 
-        Returns
-        -------
-        object
-            Callable object.
-        """
-
-        @functools.wraps(callable)
-        def figure_size_wrapper(*args, **kwargs):
-            """
-            Sets figures sizes.
-
-            Parameters
-            ----------
-            \*args : \*
-                Arguments.
-            \*\*kwargs : \*\*
-                Keywords arguments.
-
-            Returns
-            -------
-            object
-                Callable object.
-            """
-
-            pylab.rcParams['figure.figsize'] = (
-                kwargs.get('figure_size')
-                if kwargs.get('figure_size') is not None else
-                size)
-
-            try:
-                return callable(*args, **kwargs)
-            finally:
-                pylab.rcParams['figure.figsize'] = DEFAULT_FIGURE_SIZE
-
-        return figure_size_wrapper
-
-    return figure_size_decorator
+    return figure
 
 
-def aspect(**kwargs):
+def decorate(**kwargs):
     """
-    Sets the figure aspect.
+    Sets the figure decorations.
 
     Parameters
     ----------
@@ -203,7 +217,8 @@ def aspect(**kwargs):
            'no_x_ticks': False,
            'no_y_ticks': False,
            'grid': False,
-           'axis_grid': 'both',
+           'grid_which': 'both',
+           'grid_axis': 'both',
            'x_axis_line': False,
            'y_axis_line': False,
            'aspect': None})
@@ -231,7 +246,7 @@ def aspect(**kwargs):
     if settings.no_y_ticks:
         matplotlib.pyplot.gca().set_yticks([])
     if settings.grid:
-        pylab.grid(which=settings.axis_grid)
+        pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
         pylab.axvline(color='black', linestyle='--')
     if settings.y_axis_line:
@@ -242,9 +257,9 @@ def aspect(**kwargs):
     return True
 
 
-def bounding_box(**kwargs):
+def boundaries(**kwargs):
     """
-    Sets the plot bounding box.
+    Sets the plot boundaries.
 
     Parameters
     ----------
@@ -372,6 +387,8 @@ def colour_parameters_plot(colour_parameters,
     True
     """
 
+    canvas(**kwargs)
+
     for i in range(len(colour_parameters) - 1):
         x0 = colour_parameters[i].x
         x01 = colour_parameters[i + 1].x
@@ -411,25 +428,24 @@ def colour_parameters_plot(colour_parameters,
 
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])
-    y_limit_max0 = max(
-        [1 if x.y0 is None else x.y0 for x in colour_parameters])
-    y_limit_min1 = min(
-        [0 if x.y1 is None else x.y1 for x in colour_parameters])
+    # y_limit_max0 = max(
+    #     [1 if x.y0 is None else x.y0 for x in colour_parameters])
+    # y_limit_min1 = min(
+    #     [0 if x.y1 is None else x.y1 for x in colour_parameters])
     y_limit_max1 = max(
         [1 if x.y1 is None else x.y1 for x in colour_parameters])
 
-    settings = {'x_label': 'Parameter',
-                'y_label': 'Colour',
-                'limits': [min([0 if x.x is None else x.x
-                                for x in colour_parameters]),
-                           max([1 if x.x is None else x.x
-                                for x in colour_parameters]),
-                           y_limit_min0,
-                           y_limit_max1]}
+    settings = {
+        'x_label': 'Parameter',
+        'y_label': 'Colour',
+        'limits': [min([0 if x.x is None else x.x for x in colour_parameters]),
+                   max([1 if x.x is None else x.x for x in colour_parameters]),
+                   y_limit_min0,
+                   y_limit_max1]}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -506,6 +522,8 @@ def multi_colour_plot(colour_parameters,
     True
     """
 
+    canvas(**kwargs)
+
     offsetX = offsetY = 0
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = 0, width, 0, height
     for i, colour_parameter in enumerate(colour_parameters):
@@ -531,14 +549,15 @@ def multi_colour_plot(colour_parameters,
     x_limit_max = x_limit_max * width + x_limit_max * spacing - spacing
     y_limit_min = offsetY
 
-    settings = {'x_tighten': True,
-                'y_tighten': True,
-                'no_ticks': True,
-                'limits': [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
-                'aspect': 'equal'}
+    settings = {
+        'x_tighten': True,
+        'y_tighten': True,
+        'no_ticks': True,
+        'limits': [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
+        'aspect': 'equal'}
     settings.update(kwargs)
 
-    bounding_box(**settings)
-    aspect(**settings)
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

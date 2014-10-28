@@ -20,7 +20,7 @@ The installation procedure is described in the `Installation Guide <http://colou
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx :doc:`API Reference <api>` and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour-science.org/api/latest/html/index.html>`_ and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
 
 -   :doc:`API Reference <api>`
 -   `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
@@ -37,16 +37,22 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 
     </div>
 
-
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `contributing <http://colour-science.org/contributing.php>`_ guide.
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing.php>`_ guide.
 
 Changes
 -------
 
-The changes are viewable on the `releases <https://github.com/colour-science/colour/releases>`_ page.
+The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
+
+Bibliography
+------------
+
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page.
+
+It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
 About
 -----

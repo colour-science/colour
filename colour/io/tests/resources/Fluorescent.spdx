@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<IESTM2714 xmlns="iestm2714" version="1.0">
+	<Header>
+		<Manufacturer>Unknown</Manufacturer>
+		<CatalogNumber>N/A</CatalogNumber>
+		<Description>Rare earth fluorescent lamp</Description>
+		<DocumentCreator>byHeart Consultants</DocumentCreator>
+		<Laboratory>N/A</Laboratory>
+		<UniqueIdentifier>C3567553-C75B-4354-961E-35CEB9FEB42C</UniqueIdentifier>
+		<ReportNumber>N/A</ReportNumber>
+		<ReportDate>N/A</ReportDate>
+		<DocumentCreationDate>2014-06-23</DocumentCreationDate>
+		<Comments>Ambient temperature 25 degrees C.</Comments>
+	</Header>
+	<SpectralDistribution>
+		<SpectralQuantity>relative</SpectralQuantity>
+		<BandwidthFWHM>2.0</BandwidthFWHM>
+		<BandwidthCorrected>true</BandwidthCorrected>
+		<SpectralData wavelength="400.0">0.034</SpectralData>
+		<SpectralData wavelength="403.1">0.037</SpectralData>
+		<SpectralData wavelength="405.5">0.069</SpectralData>
+		<SpectralData wavelength="407.5">0.037</SpectralData>
+		<SpectralData wavelength="420.6">0.042</SpectralData>
+		<SpectralData wavelength="431.0">0.049</SpectralData>
+		<SpectralData wavelength="433.7">0.060</SpectralData>
+		<SpectralData wavelength="437.0">0.357</SpectralData>
+		<SpectralData wavelength="438.9">0.060</SpectralData>
+		<SpectralData wavelength="460.0">0.068</SpectralData>
+		<SpectralData wavelength="477.0">0.075</SpectralData>
+		<SpectralData wavelength="481.0">0.085</SpectralData>
+		<SpectralData wavelength="488.2">0.204</SpectralData>
+		<SpectralData wavelength="492.6">0.166</SpectralData>
+		<SpectralData wavelength="501.7">0.095</SpectralData>
+		<SpectralData wavelength="507.6">0.078</SpectralData>
+		<SpectralData wavelength="517.6">0.071</SpectralData>
+		<SpectralData wavelength="529.9">0.076</SpectralData>
+		<SpectralData wavelength="535.4">0.099</SpectralData>
+		<SpectralData wavelength="539.9">0.423</SpectralData>
+		<SpectralData wavelength="543.2">0.802</SpectralData>
+		<SpectralData wavelength="544.4">0.713</SpectralData>
+		<SpectralData wavelength="547.2">0.999</SpectralData>
+		<SpectralData wavelength="548.7">0.573</SpectralData>
+		<SpectralData wavelength="550.2">0.340</SpectralData>
+		<SpectralData wavelength="553.8">0.208</SpectralData>
+		<SpectralData wavelength="557.3">0.139</SpectralData>
+		<SpectralData wavelength="563.7">0.129</SpectralData>
+		<SpectralData wavelength="574.8">0.131</SpectralData>
+		<SpectralData wavelength="578.0">0.198</SpectralData>
+		<SpectralData wavelength="579.2">0.190</SpectralData>
+		<SpectralData wavelength="580.4">0.205</SpectralData>
+		<SpectralData wavelength="584.8">0.244</SpectralData>
+		<SpectralData wavelength="585.9">0.236</SpectralData>
+		<SpectralData wavelength="587.5">0.256</SpectralData>
+		<SpectralData wavelength="590.3">0.180</SpectralData>
+		<SpectralData wavelength="593.5">0.218</SpectralData>
+		<SpectralData wavelength="595.5">0.159</SpectralData>
+		<SpectralData wavelength="597.0">0.147</SpectralData>
+		<SpectralData wavelength="599.4">0.170</SpectralData>
+		<SpectralData wavelength="602.2">0.134</SpectralData>
+		<SpectralData wavelength="604.6">0.121</SpectralData>
+		<SpectralData wavelength="607.4">0.140</SpectralData>
+		<SpectralData wavelength="609.4">0.229</SpectralData>
+		<SpectralData wavelength="610.2">0.465</SpectralData>
+		<SpectralData wavelength="612.0">0.952</SpectralData>
+		<SpectralData wavelength="614.6">0.477</SpectralData>
+		<SpectralData wavelength="616.9">0.208</SpectralData>
+		<SpectralData wavelength="618.5">0.135</SpectralData>
+		<SpectralData wavelength="622.1">0.150</SpectralData>
+		<SpectralData wavelength="625.6">0.155</SpectralData>
+		<SpectralData wavelength="628.4">0.134</SpectralData>
+		<SpectralData wavelength="631.2">0.168</SpectralData>
+		<SpectralData wavelength="633.2">0.087</SpectralData>
+		<SpectralData wavelength="635.6">0.068</SpectralData>
+		<SpectralData wavelength="642.7">0.058</SpectralData>
+		<SpectralData wavelength="648.7">0.058</SpectralData>
+		<SpectralData wavelength="650.7">0.074</SpectralData>
+		<SpectralData wavelength="652.6">0.063</SpectralData>
+		<SpectralData wavelength="656.2">0.053</SpectralData>
+		<SpectralData wavelength="657.0">0.056</SpectralData>
+		<SpectralData wavelength="660.6">0.049</SpectralData>
+		<SpectralData wavelength="662.6">0.059</SpectralData>
+		<SpectralData wavelength="664.2">0.048</SpectralData>
+		<SpectralData wavelength="686.0">0.041</SpectralData>
+		<SpectralData wavelength="687.6">0.048</SpectralData>
+		<SpectralData wavelength="689.2">0.039</SpectralData>
+		<SpectralData wavelength="692.4">0.038</SpectralData>
+		<SpectralData wavelength="693.5">0.044</SpectralData>
+		<SpectralData wavelength="695.5">0.034</SpectralData>
+		<SpectralData wavelength="702.3">0.036</SpectralData>
+		<SpectralData wavelength="706.7">0.042</SpectralData>
+		<SpectralData wavelength="707.1">0.061</SpectralData>
+		<SpectralData wavelength="710.2">0.061</SpectralData>
+		<SpectralData wavelength="711.0">0.041</SpectralData>
+		<SpectralData wavelength="712.2">0.052</SpectralData>
+		<SpectralData wavelength="714.2">0.033</SpectralData>
+		<SpectralData wavelength="748.4">0.034</SpectralData>
+		<SpectralData wavelength="757.9">0.031</SpectralData>
+		<SpectralData wavelength="760.7">0.039</SpectralData>
+		<SpectralData wavelength="763.9">0.029</SpectralData>
+		<SpectralData wavelength="808.8">0.029</SpectralData>
+		<SpectralData wavelength="810.7">0.039</SpectralData>
+		<SpectralData wavelength="812.7">0.030</SpectralData>
+		<SpectralData wavelength="850.1">0.030</SpectralData>
+	</SpectralDistribution>
+</IESTM2714>

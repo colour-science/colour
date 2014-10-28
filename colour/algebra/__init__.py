@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from .common import (
     steps,
     closest,
-    to_ndarray,
+    as_array,
     is_uniform,
     is_iterable,
     is_numeric,
@@ -23,7 +23,7 @@ from .regression import linear_regression
 
 __all__ = ['steps',
            'closest',
-           'to_ndarray',
+           'as_array',
            'is_uniform',
            'is_iterable',
            'is_numeric',
