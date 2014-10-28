@@ -51,10 +51,10 @@ Changes
 
 The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`_ page.
 
-References
-----------
+Bibliography
+------------
 
-The references are available on the `Citations <http://colour-science.org/citations.php>`_ page. They are also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/REFERENCES.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/REFERENCES.rst>`_.
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page. It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
 About
 -----

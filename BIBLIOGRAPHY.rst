@@ -1,8 +1,8 @@
-Colour - References
-===================
+Colour - Bibliography
+=====================
 
-References
-----------
+Bibliography
+------------
 
 - Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding, 2704(May). Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 - Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::Set_xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
