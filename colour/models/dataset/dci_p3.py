@@ -19,6 +19,9 @@ References
 .. [1]  Hewlett-Packard Development Company. (2009). Understanding the HP
         DreamColor LP2480zx DCI-P3 Emulation Color Space. Retrieved from
         http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf  # noqa
+.. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
+        Specification - Version 1.1. Retrieved from
+        http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -54,7 +57,7 @@ DCI_P3_PRIMARIES = np.array(
 DCI_P3_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_ILLUMINANT = 'D65'
+DCI_P3_ILLUMINANT = 'D63'
 """
 *DCI-P3* colourspace whitepoint name as illuminant.
 
@@ -62,10 +65,8 @@ DCI_P3_ILLUMINANT : unicode
 
 Notes
 -----
--   We don't know which whitepoint DCI-P3 is officially using and are assuming
-    *CIE Illuminant D Series* *D65*. Hewlett-Packard Development Company
-    (2009) mentions *(0.314, 0.351)* in their emulation for the
-    *HP DreamColor LP2480zx Professional Display*.
+*CIE Illuminant D Series* *D63* illuminant is used for *DCI-P3* whitepoint at
+48 :math:`cd/m^2`.
 """
 
 DCI_P3_WHITEPOINT = ILLUMINANTS.get(
