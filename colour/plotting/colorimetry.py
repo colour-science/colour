@@ -157,8 +157,8 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     cmfs = get_cmfs(cmfs)
 
     shape = cmfs.shape
-    spd = spd.clone().interpolate(shape)
-    wavelengths = shape.range()
+    spd = spd.clone().interpolate(shape, 'Linear')
+    wavelengths = spd.wavelengths
 
     colours = []
     y1 = []
