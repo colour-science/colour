@@ -214,8 +214,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                           colourspace.whitepoint)
             np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
                                        M,
-                                       rtol=0.001,
-                                       atol=0.001,
+                                       rtol=0.0001,
+                                       atol=0.0001,
                                        verbose=False)
 
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
