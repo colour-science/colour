@@ -124,7 +124,7 @@ XYZ_TO_ACES_RGB_MATRIX : array_like, (3, 3)
 
 def _aces_rgb_transfer_function(value):
     """
-    Defines the *ACES RGB* value colourspace transfer function.
+    Defines the *ACES RGB* colourspace transfer function.
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def _aces_rgb_transfer_function(value):
 
 def _aces_rgb_inverse_transfer_function(value):
     """
-    Defines the *ACES RGB* value colourspace inverse transfer function.
+    Defines the *ACES RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

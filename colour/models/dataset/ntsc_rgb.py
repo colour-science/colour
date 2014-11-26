@@ -88,7 +88,7 @@ XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 
 def _ntsc_rgb_transfer_function(value):
     """
-    Defines the *NTSC RGB* value colourspace transfer function.
+    Defines the *NTSC RGB* colourspace transfer function.
 
     Parameters
     ----------
@@ -106,7 +106,7 @@ def _ntsc_rgb_transfer_function(value):
 
 def _ntsc_rgb_inverse_transfer_function(value):
     """
-    Defines the *NTSC RGB* value colourspace inverse transfer
+    Defines the *NTSC RGB* colourspace inverse transfer
     function.
 
     Parameters

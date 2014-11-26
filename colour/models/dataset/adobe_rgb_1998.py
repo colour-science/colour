@@ -88,7 +88,7 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 
 def _adobe_rgb_1998_transfer_function(value):
     """
-    Defines the *Adobe RGB 1998* value colourspace transfer function.
+    Defines the *Adobe RGB 1998* colourspace transfer function.
 
     Parameters
     ----------
@@ -106,7 +106,7 @@ def _adobe_rgb_1998_transfer_function(value):
 
 def _adobe_rgb_1998_inverse_transfer_function(value):
     """
-    Defines the *Adobe RGB 1998* value colourspace inverse transfer function.
+    Defines the *Adobe RGB 1998* colourspace inverse transfer function.
 
     Parameters
     ----------

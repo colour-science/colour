@@ -96,7 +96,7 @@ XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 
 def _dci_p3_transfer_function(value):
     """
-    Defines the *DCI-P3* value colourspace transfer function.
+    Defines the *DCI-P3* colourspace transfer function.
 
     Parameters
     ----------
@@ -114,7 +114,7 @@ def _dci_p3_transfer_function(value):
 
 def _dci_p3_inverse_transfer_function(value):
     """
-    Defines the *DCI-P3* value colourspace inverse transfer function.
+    Defines the *DCI-P3* colourspace inverse transfer function.
 
     Parameters
     ----------

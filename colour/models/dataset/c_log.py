@@ -86,7 +86,7 @@ XYZ_TO_C_LOG_MATRIX : array_like, (3, 3)
 
 def _c_log_transfer_function(value):
     """
-    Defines the *C-Log* value colourspace transfer function.
+    Defines the *C-Log* colourspace transfer function.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def _c_log_transfer_function(value):
 
 def _c_log_inverse_transfer_function(value):
     """
-    Defines the *C-Log* value colourspace inverse transfer
+    Defines the *C-Log* colourspace inverse transfer
     function.
 
     Parameters

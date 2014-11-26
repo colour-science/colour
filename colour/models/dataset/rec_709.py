@@ -91,7 +91,7 @@ XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 
 def _rec_709_transfer_function(value):
     """
-    Defines the *Rec. 709* value colourspace transfer function.
+    Defines the *Rec. 709* colourspace transfer function.
 
     Parameters
     ----------
@@ -109,7 +109,7 @@ def _rec_709_transfer_function(value):
 
 def _rec_709_inverse_transfer_function(value):
     """
-    Defines the *Rec. 709* value colourspace inverse transfer
+    Defines the *Rec. 709* colourspace inverse transfer
     function.
 
     Parameters

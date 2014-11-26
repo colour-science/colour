@@ -88,7 +88,7 @@ XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
 
 def _cie_rgb_transfer_function(value):
     """
-    Defines the *CIE RGB* value colourspace transfer function.
+    Defines the *CIE RGB* colourspace transfer function.
 
     Parameters
     ----------
@@ -106,7 +106,7 @@ def _cie_rgb_transfer_function(value):
 
 def _cie_rgb_inverse_transfer_function(value):
     """
-    Defines the *CIE RGB* value colourspace inverse transfer
+    Defines the *CIE RGB* colourspace inverse transfer
     function.
 
     Parameters

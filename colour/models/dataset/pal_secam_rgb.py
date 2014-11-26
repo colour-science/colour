@@ -87,7 +87,7 @@ XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 
 def _pal_secam_rgb_transfer_function(value):
     """
-    Defines the *Pal/Secam RGB* value colourspace transfer function.
+    Defines the *Pal/Secam RGB* colourspace transfer function.
 
     Parameters
     ----------
@@ -105,7 +105,7 @@ def _pal_secam_rgb_transfer_function(value):
 
 def _pal_secam_rgb_inverse_transfer_function(value):
     """
-    Defines the *Pal/Secam RGB* value colourspace inverse transfer
+    Defines the *Pal/Secam RGB* colourspace inverse transfer
     function.
 
     Parameters

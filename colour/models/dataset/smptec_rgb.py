@@ -86,7 +86,7 @@ XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
 
 def _smpte_c_rgb_transfer_function(value):
     """
-    Defines the *SMPTE-C RGB* value colourspace transfer function.
+    Defines the *SMPTE-C RGB* colourspace transfer function.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def _smpte_c_rgb_transfer_function(value):
 
 def _smpte_c_rgb_inverse_transfer_function(value):
     """
-    Defines the *SMPTE-C RGB* value colourspace inverse transfer
+    Defines the *SMPTE-C RGB* colourspace inverse transfer
     function.
 
     Parameters
