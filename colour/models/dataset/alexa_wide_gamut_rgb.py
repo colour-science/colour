@@ -197,7 +197,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
         Alexa firmware version.
@@ -230,7 +230,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
         Alexa firmware version.

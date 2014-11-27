@@ -91,7 +91,7 @@ def _don_rgb_4_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def _don_rgb_4_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

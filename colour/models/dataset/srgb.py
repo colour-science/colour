@@ -96,7 +96,7 @@ def _srgb_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -116,7 +116,7 @@ def _srgb_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

@@ -129,7 +129,7 @@ def _aces_rgb_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -147,7 +147,7 @@ def _aces_rgb_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -206,7 +206,7 @@ def _aces_rgb_log_transfer_function(value, is_16_bit_integer=False):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     is_16_bit_integer : bool
         Is value 16 bit integer.
 
@@ -239,7 +239,7 @@ def _aces_rgb_log_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -328,7 +328,7 @@ def _aces_rgb_proxy_transfer_function(value, bit_depth='10 Bit'):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     bit_depth : unicode, optional
         {'10 Bit', '12 Bit'}
         *ACES RGB Proxy* bit depth.
@@ -357,7 +357,7 @@ def _aces_rgb_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     bit_depth : unicode, optional
         {'10 Bit', '12 Bit'}
         *ACES RGB Proxy* bit depth.
@@ -397,7 +397,7 @@ def _aces_rgb_proxy_12_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -415,7 +415,7 @@ def _aces_rgb_proxy_12_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

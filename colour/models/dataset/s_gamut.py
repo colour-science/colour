@@ -111,7 +111,7 @@ def _s_log_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -129,7 +129,7 @@ def _s_log_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -163,7 +163,7 @@ def _s_log2_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -182,7 +182,7 @@ def _s_log2_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -231,7 +231,7 @@ def _s_log3_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -252,7 +252,7 @@ def _s_log3_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

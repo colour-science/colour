@@ -91,7 +91,7 @@ def _xtreme_rgb_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def _xtreme_rgb_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

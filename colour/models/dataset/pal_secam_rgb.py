@@ -92,7 +92,7 @@ def _pal_secam_rgb_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -111,7 +111,7 @@ def _pal_secam_rgb_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

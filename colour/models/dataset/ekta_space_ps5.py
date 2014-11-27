@@ -91,7 +91,7 @@ def _ekta_space_ps_5_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def _ekta_space_ps_5_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

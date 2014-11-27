@@ -91,7 +91,7 @@ def _eci_rgb_v2_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -110,7 +110,7 @@ def _eci_rgb_v2_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

@@ -93,7 +93,7 @@ def _ntsc_rgb_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -112,7 +112,7 @@ def _ntsc_rgb_inverse_transfer_function(value):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
