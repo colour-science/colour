@@ -137,7 +137,7 @@ def _s_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    return (np.power(10., ((value - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+    return 10 ** (((value - 0.616596 - 0.03) / 0.432699)) - 0.037584
 
 
 S_LOG_TRANSFER_FUNCTION = _s_log_transfer_function
@@ -190,9 +190,8 @@ def _s_log2_inverse_transfer_function(value):
         Companded value.
     """
 
-    return ((np.power(10.0,
-                      ((((value / 4.0 - 16.0) / 219.0) - 0.616596 - 0.03)
-                       / 0.432699)) - 0.037584) * 0.9)
+    return ((10 ** (((((value / 4 - 16) / 219) - 0.616596 - 0.03)
+                     / 0.432699)) - 0.037584) * 0.9)
 
 
 S_LOG2_TRANSFER_FUNCTION = _s_log2_transfer_function
@@ -241,11 +240,9 @@ def _s_log3_transfer_function(value):
     """
 
     if value >= 0.01125000:
-        return ((420.0 + np.log10((value + 0.01) / (0.18 + 0.01)) *
-                 261.5) / 1023.0)
+        return (420 + np.log10((value + 0.01) / (0.18 + 0.01)) * 261.5) / 1023
     else:
-        return ((value * (171.2102946929 - 95.0) / 0.01125000 + 95.0) /
-                1023.0)
+        return (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023
 
 
 def _s_log3_inverse_transfer_function(value):
@@ -264,10 +261,9 @@ def _s_log3_inverse_transfer_function(value):
     """
 
     if value >= 171.2102946929 / 1023:
-        return ((np.power(10, (value * 1023 - 420) / 261.5)) *
-                (0.18 + 0.01) - 0.01)
+        return ((10 ** ((value * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01)
     else:
-        return (value * 1023 - 95.0) * 0.01125000 / (171.2102946929 - 95.0)
+        return (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)
 
 
 S_LOG3_TRANSFER_FUNCTION = _s_log3_transfer_function

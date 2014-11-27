@@ -190,8 +190,8 @@ ACES_RGB_COLOURSPACE : RGB_Colourspace
 ACES_RGB_LOG_CONSTANTS = Structure(
     log_unity=32768,
     log_xperstop=2048,
-    denorm_trans=np.power(2., -15),
-    denorm_fake0=np.power(2., -16))
+    denorm_trans=2 ** -15,
+    denorm_fake0=2 ** -16)
 """
 *ACES RGB Log* colourspace constants.
 
@@ -247,9 +247,9 @@ def _aces_rgb_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    value = (np.power(2.,
-                      (value - ACES_RGB_LOG_CONSTANTS.log_unity) /
-                      ACES_RGB_LOG_CONSTANTS.log_xperstop))
+    value = (2 **
+             ((value - ACES_RGB_LOG_CONSTANTS.log_unity) /
+              ACES_RGB_LOG_CONSTANTS.log_xperstop))
     if value < ACES_RGB_LOG_CONSTANTS.denorm_trans:
         value = (value - ACES_RGB_LOG_CONSTANTS.denorm_fake0) * 2
 
