@@ -171,8 +171,8 @@ def _s_log2_transfer_function(value):
         Companded value.
     """
 
-    return (164.61685830995 *
-            np.log(51.160557350542 * (0.033825600000000 + value)))
+    return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
+                              (np.log10(0.037584 + value / 0.9))))) / 1023)
 
 
 def _s_log2_inverse_transfer_function(value):
@@ -190,7 +190,7 @@ def _s_log2_inverse_transfer_function(value):
         Companded value.
     """
 
-    return ((10 ** (((((value / 4 - 16) / 219) - 0.616596 - 0.03)
+    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03)
                      / 0.432699)) - 0.037584) * 0.9)
 
 
