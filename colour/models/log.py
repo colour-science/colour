@@ -19,8 +19,8 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 -   :attr:`pivoted_log_to_linear`
 -   :attr:`linear_to_c_log`
 -   :attr:`c_log_to_linear`
--   :attr:`linear_to_aces_rgb_log`
--   :attr:`aces_rgb_log_to_linear`
+-   :attr:`linear_to_aces_cc`
+-   :attr:`aces_cc_to_linear`
 -   :attr:`linear_to_alexa_log_c`
 -   :attr:`alexa_log_c_to_linear`
 -   :attr:`linear_to_s_log`
@@ -45,9 +45,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models.dataset.aces_rgb import (
-    ACES_RGB_LOG_TRANSFER_FUNCTION,
-    ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION)
+from colour.models.dataset.aces import (
+    ACES_CC_TRANSFER_FUNCTION,
+    ACES_CC_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.alexa_wide_gamut_rgb import (
     ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
     ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
@@ -79,8 +79,8 @@ __all__ = ['linear_to_cineon',
            'pivoted_log_to_linear',
            'linear_to_c_log',
            'c_log_to_linear',
-           'linear_to_aces_rgb_log',
-           'aces_rgb_log_to_linear',
+           'linear_to_aces_cc',
+           'aces_cc_to_linear',
            'linear_to_alexa_log_c',
            'alexa_log_c_to_linear',
            'linear_to_s_log',
@@ -452,10 +452,10 @@ def c_log_to_linear(value, **kwargs):
         1.3742747797867 - np.exp(1) ** (4.3515940948906 * value))
 
 
-linear_to_aces_rgb_log = (
-    lambda x, **kwargs: ACES_RGB_LOG_TRANSFER_FUNCTION(x))
-aces_rgb_log_to_linear = (
-    lambda x, **kwargs: ACES_RGB_LOG_INVERSE_TRANSFER_FUNCTION(x))
+linear_to_aces_cc = (
+    lambda x, **kwargs: ACES_CC_TRANSFER_FUNCTION(x))
+aces_cc_to_linear = (
+    lambda x, **kwargs: ACES_CC_INVERSE_TRANSFER_FUNCTION(x))
 
 linear_to_alexa_log_c = (
     lambda x, **kwargs: ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION(x))
@@ -476,7 +476,7 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
      'ViperLog': linear_to_viper_log,
      'PLog': linear_to_pivoted_log,
      'C-Log': linear_to_c_log,
-     'ACES RGB Log': linear_to_aces_rgb_log,
+     'ACEScc': linear_to_aces_cc,
      'ALEXA Log C': linear_to_alexa_log_c,
      'S-Log': linear_to_s_log,
      'S-Log2': linear_to_s_log2,
@@ -486,7 +486,7 @@ Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
     {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACES RGB Log', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
+    'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
 """
 
 
@@ -500,7 +500,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACES RGB Log', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
+        'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -514,8 +514,8 @@ def linear_to_log(value, method='Cineon', **kwargs):
     --------
     >>> linear_to_log(0.18)  # doctest: +ELLIPSIS
     0.4573196...
-    >>> linear_to_log(0.18, method='ACES RGB Log')  # doctest: +ELLIPSIS
-    27701.3889262...
+    >>> linear_to_log(0.18, method='ACEScc')  # doctest: +ELLIPSIS
+    0.4135884...
     >>> linear_to_log(0.18, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
     0.3910068...
     >>> linear_to_log(0.18, method='S-Log')  # doctest: +ELLIPSIS
@@ -532,7 +532,7 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
      'ViperLog': viper_log_to_linear,
      'PLog': pivoted_log_to_linear,
      'C-Log': c_log_to_linear,
-     'ACES RGB Log': aces_rgb_log_to_linear,
+     'ACEScc': aces_cc_to_linear,
      'ALEXA Log C': alexa_log_c_to_linear,
      'S-Log': s_log_to_linear,
      'S-Log2': s_log2_to_linear,
@@ -542,7 +542,7 @@ Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
     {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACES RGB Log', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
+    'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
 """
 
 
@@ -556,7 +556,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACES RGB Log', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
+        'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -570,7 +570,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
     --------
     >>> log_to_linear(0.45731961308541841)  # doctest: +ELLIPSIS
     0.18...
-    >>> log_to_linear(27701.388926295222, method='ACES RGB Log')  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
     0.18...
     >>> log_to_linear(0.39100684261974583, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
     0.1...

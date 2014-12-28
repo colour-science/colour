@@ -126,21 +126,21 @@ print(colour.log_to_linear(log, method='C-Log'))
 print('\n')
 
 message_box(('Converting "linear" to "log" using '
-             '"ACES RGB Log" method for '
+             '"ACEScc" method for '
              'given "linear" value:\n'
              '\n\t{0}'.format(linear)))
-print(colour.linear_to_aces_rgb_log(linear))
-print(colour.linear_to_log(linear, method='ACES RGB Log'))
+print(colour.linear_to_aces_cc(linear))
+print(colour.linear_to_log(linear, method='ACEScc'))
 
 print('\n')
 
 log = 27701.3889263
 message_box(('Converting "log" to "linear" using '
-             '"ACES RGB Log" method for '
+             '"ACEScc" method for '
              'given "log" value:\n'
              '\n\t{0}'.format(log)))
-print(colour.aces_rgb_log_to_linear(log))
-print(colour.log_to_linear(log, method='ACES RGB Log'))
+print(colour.aces_cc_to_linear(log))
+print(colour.log_to_linear(log, method='ACEScc'))
 
 print('\n')
 

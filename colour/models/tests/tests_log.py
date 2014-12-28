@@ -27,8 +27,8 @@ from colour.models import (
     pivoted_log_to_linear,
     linear_to_c_log,
     c_log_to_linear,
-    linear_to_aces_rgb_log,
-    aces_rgb_log_to_linear,
+    linear_to_aces_cc,
+    aces_cc_to_linear,
     linear_to_alexa_log_c,
     alexa_log_c_to_linear,
     linear_to_s_log,
@@ -57,8 +57,8 @@ __all__ = ['TestLinearToCineon',
            'TestPivotedLogToLinear',
            'TestLinearToCLog',
            'TestCLogToLinear',
-           'TestLinearToAcesRgbLog',
-           'TestAcesRgbLogToLinear',
+           'TestLinearToAcescc',
+           'TestAcesccToLinear',
            'TestLinearToAlexaLogC',
            'TestAlexaLogCToLinear',
            'TestLinearToSLog',
@@ -393,56 +393,56 @@ class TestCLogToLinear(unittest.TestCase):
             places=7)
 
 
-class TestLinearToAcesRgbLog(unittest.TestCase):
+class TestLinearToAcescc(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.linear_to_aces_rgb_log` definition unit tests
+    Defines :func:`colour.models.log.linear_to_aces_cc` definition unit tests
     methods.
     """
 
-    def test_linear_to_aces_rgb_log(self):
+    def test_linear_to_aces_cc(self):
         """
-        Tests :func:`colour.models.log.linear_to_aces_rgb_log` definition.
+        Tests :func:`colour.models.log.linear_to_aces_cc` definition.
         """
 
         self.assertAlmostEqual(
-            linear_to_aces_rgb_log(0),
-            0,
+            linear_to_aces_cc(0),
+            -0.35844748858447484,
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_aces_rgb_log(0.18),
-            27701.388926295222,
+            linear_to_aces_cc(0.18),
+            0.41358840249244228,
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_aces_rgb_log(1),
-            32768.0,
+            linear_to_aces_cc(1),
+            0.5547945205479452,
             places=7)
 
 
-class TestAcesRgbLogToLinear(unittest.TestCase):
+class TestAcesccToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.aces_rgb_log_to_linear` definition unit tests
+    Defines :func:`colour.models.log.aces_cc_to_linear` definition unit tests
     methods.
     """
 
-    def test_aces_rgb_log_to_linear(self):
+    def test_aces_cc_to_linear(self):
         """
-        Tests :func:`colour.models.log.aces_rgb_log_to_linear` definition.
+        Tests :func:`colour.models.log.aces_cc_to_linear` definition.
         """
 
         self.assertAlmostEqual(
-            aces_rgb_log_to_linear(0),
-            0,
+            aces_cc_to_linear(0),
+            0.0011857371917920374,
             places=7)
 
         self.assertAlmostEqual(
-            aces_rgb_log_to_linear(27701.388926295222),
+            aces_cc_to_linear(0.41358840249244228),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            aces_rgb_log_to_linear(32768.0),
+            aces_cc_to_linear(0.5547945205479452),
             1,
             places=7)
 

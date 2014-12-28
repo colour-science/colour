@@ -41,8 +41,8 @@ from .log import (
     pivoted_log_to_linear,
     linear_to_c_log,
     c_log_to_linear,
-    linear_to_aces_rgb_log,
-    aces_rgb_log_to_linear,
+    linear_to_aces_cc,
+    aces_cc_to_linear,
     linear_to_alexa_log_c,
     alexa_log_c_to_linear,
     linear_to_s_log,
@@ -54,7 +54,7 @@ from .log import (
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
-from .aces_rgb_idt import spectral_to_aces_relative_exposure_values
+from .aces_it import spectral_to_aces_relative_exposure_values
 
 __all__ = ['XYZ_to_xyY',
            'xyY_to_XYZ',
@@ -89,8 +89,8 @@ __all__ += ['linear_to_cineon',
             'pivoted_log_to_linear',
             'linear_to_c_log',
             'c_log_to_linear',
-            'linear_to_aces_rgb_log',
-            'aces_rgb_log_to_linear',
+            'linear_to_aces_cc',
+            'aces_cc_to_linear',
             'linear_to_alexa_log_c',
             'alexa_log_c_to_linear',
             'linear_to_s_log',
