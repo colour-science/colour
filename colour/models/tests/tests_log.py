@@ -31,6 +31,8 @@ from colour.models import (
     aces_cc_to_linear,
     linear_to_alexa_log_c,
     alexa_log_c_to_linear,
+    linear_to_dci_p3_log,
+    dci_p3_log_to_linear,
     linear_to_s_log,
     s_log_to_linear,
     linear_to_s_log2,
@@ -57,10 +59,12 @@ __all__ = ['TestLinearToCineon',
            'TestPivotedLogToLinear',
            'TestLinearToCLog',
            'TestCLogToLinear',
-           'TestLinearToAcescc',
-           'TestAcesccToLinear',
+           'TestLinearToAcesCc',
+           'TestAcesCcToLinear',
            'TestLinearToAlexaLogC',
            'TestAlexaLogCToLinear',
+           'TestLinearToDciP3Log',
+           'TestDciP3LogToLinear',
            'TestLinearToSLog',
            'TestSLogToLinear',
            'TestLinearToSLog2',
@@ -393,7 +397,7 @@ class TestCLogToLinear(unittest.TestCase):
             places=7)
 
 
-class TestLinearToAcescc(unittest.TestCase):
+class TestLinearToAcesCc(unittest.TestCase):
     """
     Defines :func:`colour.models.log.linear_to_aces_cc` definition unit tests
     methods.
@@ -420,7 +424,7 @@ class TestLinearToAcescc(unittest.TestCase):
             places=7)
 
 
-class TestAcesccToLinear(unittest.TestCase):
+class TestAcesCcToLinear(unittest.TestCase):
     """
     Defines :func:`colour.models.log.aces_cc_to_linear` definition unit tests
     methods.
@@ -497,6 +501,60 @@ class TestAlexaLogCToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             alexa_log_c_to_linear(0.57063155812041733),
+            1,
+            places=7)
+
+
+class TestLinearToDciP3Log(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.linear_to_dci_p3_log` definition unit
+    tests methods.
+    """
+
+    def test_linear_to_dci_p3_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_dci_p3_log` definition.
+        """
+
+        self.assertAlmostEqual(
+            linear_to_dci_p3_log(0),
+            0.0,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_dci_p3_log(0.18),
+            461.99220597484737,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_dci_p3_log(1),
+            893.4459834052784,
+            places=7)
+
+
+class TestDciP3LogToLinear(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.dci_p3_log_to_linear` definition unit
+    tests methods.
+    """
+
+    def test_dci_p3_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.dci_p3_log_to_linear` definition.
+        """
+
+        self.assertAlmostEqual(
+            dci_p3_log_to_linear(0.0),
+            0,
+            places=7)
+
+        self.assertAlmostEqual(
+            dci_p3_log_to_linear(461.99220597484737),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            dci_p3_log_to_linear(893.4459834052784),
             1,
             places=7)
 

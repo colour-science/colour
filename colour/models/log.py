@@ -23,6 +23,8 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 -   :attr:`aces_cc_to_linear`
 -   :attr:`linear_to_alexa_log_c`
 -   :attr:`alexa_log_c_to_linear`
+-   :attr:`linear_to_dci_p3_log`
+-   :attr:`dci_p3_log_to_linear`
 -   :attr:`linear_to_s_log`
 -   :attr:`s_log_to_linear`
 -   :attr:`linear_to_s_log2`
@@ -51,6 +53,9 @@ from colour.models.dataset.aces import (
 from colour.models.dataset.alexa_wide_gamut_rgb import (
     ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
     ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+from colour.models.dataset.dci_p3 import (
+    DCI_P3_TRANSFER_FUNCTION,
+    DCI_P3_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.s_gamut import (
     S_LOG_TRANSFER_FUNCTION,
     S_LOG2_TRANSFER_FUNCTION,
@@ -83,6 +88,8 @@ __all__ = ['linear_to_cineon',
            'aces_cc_to_linear',
            'linear_to_alexa_log_c',
            'alexa_log_c_to_linear',
+           'linear_to_dci_p3_log',
+           'dci_p3_log_to_linear',
            'linear_to_s_log',
            's_log_to_linear',
            'linear_to_s_log2',
@@ -462,6 +469,11 @@ linear_to_alexa_log_c = (
 alexa_log_c_to_linear = (
     lambda x, **kwargs: ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION(x))
 
+linear_to_dci_p3_log = (
+    lambda x, **kwargs: DCI_P3_TRANSFER_FUNCTION(x))
+dci_p3_log_to_linear = (
+    lambda x, **kwargs: DCI_P3_INVERSE_TRANSFER_FUNCTION(x))
+
 linear_to_s_log = lambda x, **kwargs: S_LOG_TRANSFER_FUNCTION(x)
 s_log_to_linear = lambda x, **kwargs: S_LOG_INVERSE_TRANSFER_FUNCTION(x)
 linear_to_s_log2 = lambda x, **kwargs: S_LOG2_TRANSFER_FUNCTION(x)
@@ -478,6 +490,7 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
      'C-Log': linear_to_c_log,
      'ACEScc': linear_to_aces_cc,
      'ALEXA Log C': linear_to_alexa_log_c,
+     'DCI-P3': linear_to_dci_p3_log,
      'S-Log': linear_to_s_log,
      'S-Log2': linear_to_s_log2,
      'S-Log3': linear_to_s_log3})
@@ -486,7 +499,7 @@ Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
     {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
+    'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'}
 """
 
 
@@ -500,7 +513,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
+        'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -534,6 +547,7 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
      'C-Log': c_log_to_linear,
      'ACEScc': aces_cc_to_linear,
      'ALEXA Log C': alexa_log_c_to_linear,
+     'DCI-P3': dci_p3_log_to_linear,
      'S-Log': s_log_to_linear,
      'S-Log2': s_log2_to_linear,
      'S-Log3': s_log3_to_linear})
@@ -542,7 +556,7 @@ Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
     {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'}
+    'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'}
 """
 
 
@@ -556,7 +570,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACEScc', 'ALEXA Log C', 'S-Log', 'S-Log2', 'S-Log3'},
+        'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
