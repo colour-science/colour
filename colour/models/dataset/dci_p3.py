@@ -109,7 +109,7 @@ def _dci_p3_transfer_function(value):
         Companded value.
     """
 
-    return value
+    return 4095 * (value / 52.37) ** (1 / 2.6)
 
 
 def _dci_p3_inverse_transfer_function(value):
@@ -127,7 +127,7 @@ def _dci_p3_inverse_transfer_function(value):
         Companded value.
     """
 
-    return value
+    return 52.37 * (value / 4095) ** 2.6
 
 
 DCI_P3_TRANSFER_FUNCTION = _dci_p3_transfer_function
