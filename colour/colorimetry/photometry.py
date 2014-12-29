@@ -104,7 +104,7 @@ def luminous_efficacy(spd,
     """
 
     lef = lef.clone().align(spd.shape, left=0, right=0)
-    spd = spd.clone() * lef
+    spd = spd.clone()
 
     efficacy = K_m * np.trapz(lef.values * spd.values, spd.wavelengths) / \
                np.trapz(spd.values, spd.wavelengths)
