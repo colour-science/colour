@@ -35,7 +35,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminous_flux']
+__all__ = ['luminous_flux',
+           'luminous_efficacy']
 
 
 def luminous_flux(spd,
@@ -72,3 +73,40 @@ def luminous_flux(spd,
     flux = K_m * np.trapz(spd.values, spd.wavelengths)
 
     return flux
+
+
+def luminous_efficacy(spd,
+                      lef=PHOTOPIC_LEFS.get(
+                          'CIE 1924 Photopic Standard Observer'),
+                      K_m=K_M):
+    """
+    Returns the *luminous efficacy* for given spectral power distribution using
+    the given luminous efficiency function.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        test spectral power distribution
+    lef : SpectralPowerDistribution, optional
+        :math:`V(\lambda)` luminous efficiency function.
+
+    Returns
+    -------
+    numeric
+        Luminous efficacy
+
+    Examples
+    --------
+    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    23807.6555273...
+    """
+
+    lef = lef.clone().align(spd.shape, left=0, right=0)
+    spd = spd.clone() * lef
+
+    efficacy = K_m * np.trapz(lef.values * spd.values, spd.wavelengths) / \
+               np.trapz(spd.values, spd.wavelengths)
+
+    return efficacy
