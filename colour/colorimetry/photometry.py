@@ -53,6 +53,8 @@ def luminous_flux(spd,
         test spectral power distribution
     lef : SpectralPowerDistribution, optional
         :math:`V(\lambda)` luminous efficiency function.
+    K_m : numeric, optional
+        :math:`lm\cdot W^{-1}` maximum photopic luminous efficiency
 
     Returns
     -------
@@ -105,7 +107,7 @@ def luminous_efficacy(spd,
     lef = lef.clone().align(spd.shape, left=0, right=0)
     spd = spd.clone()
 
-    efficacy = np.trapz(lef.values * spd.values, spd.wavelengths) / \
-               np.trapz(spd.values, spd.wavelengths)
+    efficacy = (np.trapz(lef.values * spd.values, spd.wavelengths) /
+                np.trapz(spd.values, spd.wavelengths))
 
     return efficacy

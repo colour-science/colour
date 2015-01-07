@@ -27,7 +27,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestLuminousFlux']
+__all__ = ['TestLuminousFlux',
+           'TestLuminousEfficacy']
 
 
 class TestLuminousFlux(unittest.TestCase):
@@ -92,6 +93,7 @@ class TestLuminousEfficacy(unittest.TestCase):
                 'F32T8/TL841 (Triphosphor)')),
             0.510809188121,
             places=7)
+
 
 if __name__ == '__main__':
     unittest.main()
