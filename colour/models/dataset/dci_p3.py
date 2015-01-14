@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-DCI-P3 Colourspace
-==================
+DCI-P3 & DCI-P3+ Colourspaces
+=============================
 
-Defines the *DCI-P3* colourspace:
+Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 
 -   :attr:`DCI_P3_COLOURSPACE`.
+-   :attr:`DCI_P3_p_COLOURSPACE`.
 
 See Also
 --------
@@ -22,6 +23,8 @@ References
 .. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
         Specification - Version 1.1. Retrieved from
         http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
+.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
+        from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -39,13 +42,17 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['DCI_P3_PRIMARIES',
+           'DCI_P3_P_PRIMARIES',
            'DCI_P3_ILLUMINANT',
            'DCI_P3_WHITEPOINT',
            'DCI_P3_TO_XYZ_MATRIX',
            'XYZ_TO_DCI_P3_MATRIX',
+           'DCI_P3_P_TO_XYZ_MATRIX',
+           'XYZ_TO_DCI_P3_P_MATRIX',
            'DCI_P3_TRANSFER_FUNCTION',
            'DCI_P3_INVERSE_TRANSFER_FUNCTION',
-           'DCI_P3_COLOURSPACE']
+           'DCI_P3_COLOURSPACE',
+           'DCI_P3_P_COLOURSPACE']
 
 DCI_P3_PRIMARIES = np.array(
     [[0.680, 0.320],
@@ -55,6 +62,16 @@ DCI_P3_PRIMARIES = np.array(
 *DCI-P3* colourspace primaries.
 
 DCI_P3_PRIMARIES : ndarray, (3, 2)
+"""
+
+DCI_P3_P_PRIMARIES = np.array(
+    [[0.7400, 0.2700],
+     [0.2200, 0.7800],
+     [0.0900, -0.0900]])
+"""
+*DCI-P3+* colourspace primaries.
+
+DCI_P3_P_PRIMARIES : ndarray, (3, 2)
 """
 
 DCI_P3_ILLUMINANT = 'D63'
@@ -91,6 +108,22 @@ XYZ_TO_DCI_P3_MATRIX = np.linalg.inv(DCI_P3_TO_XYZ_MATRIX)
 *CIE XYZ* colourspace to *DCI-P3* colourspace matrix.
 
 XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
+"""
+
+DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
+    DCI_P3_P_PRIMARIES,
+    DCI_P3_WHITEPOINT)
+"""
+*DCI-P3+* colourspace to *CIE XYZ* colourspace matrix.
+
+DCI_P3_P_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_DCI_P3_P_MATRIX = np.linalg.inv(DCI_P3_P_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* colourspace to *DCI-P3+* colourspace matrix.
+
+XYZ_TO_DCI_P3_P_MATRIX : array_like, (3, 3)
 """
 
 
@@ -158,3 +191,19 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
 
 DCI_P3_COLOURSPACE : RGB_Colourspace
 """
+
+DCI_P3_P_COLOURSPACE = RGB_Colourspace(
+    'DCI-P3+',
+    DCI_P3_P_PRIMARIES,
+    DCI_P3_WHITEPOINT,
+    DCI_P3_ILLUMINANT,
+    DCI_P3_P_TO_XYZ_MATRIX,
+    XYZ_TO_DCI_P3_P_MATRIX,
+    DCI_P3_TRANSFER_FUNCTION,
+    DCI_P3_INVERSE_TRANSFER_FUNCTION)
+"""
+*DCI-P3+* colourspace.
+
+DCI_P3_P_COLOURSPACE : RGB_Colourspace
+"""
+
