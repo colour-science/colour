@@ -751,7 +751,7 @@ def xy_to_CCT_McCamy1992(xy):
     x, y = xy
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * np.power(n, 3) + 3525 * np.power(n, 2) - 6823.3 * n + 5520.33
+    CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
 
     return CCT
 

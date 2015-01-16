@@ -101,7 +101,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES RGB']
+    >>> csps = ['sRGB', 'ACES2065-1']
     >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # doctest: +SKIP
     True
     """
@@ -112,7 +112,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES RGB', 'Pointer Gamut')
+        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 

@@ -88,12 +88,12 @@ XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 
 def _prophoto_rgb_transfer_function(value):
     """
-    Defines the *ProPhoto RGB* value colourspace transfer function.
+    Defines the *ProPhoto RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -106,13 +106,13 @@ def _prophoto_rgb_transfer_function(value):
 
 def _prophoto_rgb_inverse_transfer_function(value):
     """
-    Defines the *ProPhoto RGB* value colourspace inverse transfer
+    Defines the *ProPhoto RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

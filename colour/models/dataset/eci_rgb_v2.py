@@ -86,12 +86,12 @@ XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 
 def _eci_rgb_v2_transfer_function(value):
     """
-    Defines the *ECI RGB v2* value colourspace transfer function.
+    Defines the *ECI RGB v2* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _eci_rgb_v2_transfer_function(value):
 
 def _eci_rgb_v2_inverse_transfer_function(value):
     """
-    Defines the *ECI RGB v2* value colourspace inverse transfer
+    Defines the *ECI RGB v2* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

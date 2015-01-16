@@ -86,12 +86,12 @@ XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 
 def _ekta_space_ps_5_transfer_function(value):
     """
-    Defines the *Ekta Space PS 5* value colourspace transfer function.
+    Defines the *Ekta Space PS 5* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _ekta_space_ps_5_transfer_function(value):
 
 def _ekta_space_ps_5_inverse_transfer_function(value):
     """
-    Defines the *Ekta Space PS 5* value colourspace inverse transfer
+    Defines the *Ekta Space PS 5* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

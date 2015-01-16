@@ -86,12 +86,12 @@ XYZ_TO_MAX_RGB_MATRIX : array_like, (3, 3)
 
 def _max_rgb_transfer_function(value):
     """
-    Defines the *Max RGB* value colourspace transfer function.
+    Defines the *Max RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _max_rgb_transfer_function(value):
 
 def _max_rgb_inverse_transfer_function(value):
     """
-    Defines the *Max RGB* value colourspace inverse transfer
+    Defines the *Max RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

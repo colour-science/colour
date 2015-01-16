@@ -86,12 +86,12 @@ XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
 
 def _best_rgb_transfer_function(value):
     """
-    Defines the *Best RGB* value colourspace transfer function.
+    Defines the *Best RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _best_rgb_transfer_function(value):
 
 def _best_rgb_inverse_transfer_function(value):
     """
-    Defines the *Best RGB* value colourspace inverse transfer
+    Defines the *Best RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

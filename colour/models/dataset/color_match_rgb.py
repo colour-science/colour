@@ -87,12 +87,12 @@ XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
 
 def _color_match_rgb_transfer_function(value):
     """
-    Defines the *ColorMatch RGB* value colourspace transfer function.
+    Defines the *ColorMatch RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -105,13 +105,13 @@ def _color_match_rgb_transfer_function(value):
 
 def _color_match_rgb_inverse_transfer_function(value):
     """
-    Defines the *ColorMatch RGB* value colourspace inverse transfer
+    Defines the *ColorMatch RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

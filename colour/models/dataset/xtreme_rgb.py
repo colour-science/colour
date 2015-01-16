@@ -86,12 +86,12 @@ XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
 
 def _xtreme_rgb_transfer_function(value):
     """
-    Defines the *Xtreme RGB* value colourspace transfer function.
+    Defines the *Xtreme RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _xtreme_rgb_transfer_function(value):
 
 def _xtreme_rgb_inverse_transfer_function(value):
     """
-    Defines the *Xtreme RGB* value colourspace inverse transfer
+    Defines the *Xtreme RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

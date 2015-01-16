@@ -24,6 +24,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.models import xy_to_XYZ
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -94,10 +96,7 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     primaries = np.transpose(primaries)
 
-    whitepoint = np.array([
-        whitepoint[0] / whitepoint[1],
-        1,
-        xy_to_z(whitepoint) / whitepoint[1]]).reshape((3, 1))
+    whitepoint = xy_to_XYZ(whitepoint).reshape((3, 1))
 
     coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
     coefficients = np.diagflat(coefficients)

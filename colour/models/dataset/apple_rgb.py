@@ -86,12 +86,12 @@ XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
 
 def _apple_rgb_transfer_function(value):
     """
-    Defines the *Apple RGB* value colourspace transfer function.
+    Defines the *Apple RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _apple_rgb_transfer_function(value):
 
 def _apple_rgb_inverse_transfer_function(value):
     """
-    Defines the *Apple RGB* value colourspace inverse transfer
+    Defines the *Apple RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

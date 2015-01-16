@@ -91,12 +91,12 @@ XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 
 def _srgb_transfer_function(value):
     """
-    Defines the *sRGB* value colourspace transfer function.
+    Defines the *sRGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -110,13 +110,13 @@ def _srgb_transfer_function(value):
 
 def _srgb_inverse_transfer_function(value):
     """
-    Defines the *sRGB* value colourspace inverse transfer
+    Defines the *sRGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

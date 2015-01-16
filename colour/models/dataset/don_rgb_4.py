@@ -86,12 +86,12 @@ XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
 
 def _don_rgb_4_transfer_function(value):
     """
-    Defines the *Don RGB 4* value colourspace transfer function.
+    Defines the *Don RGB 4* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -104,13 +104,13 @@ def _don_rgb_4_transfer_function(value):
 
 def _don_rgb_4_inverse_transfer_function(value):
     """
-    Defines the *Don RGB 4* value colourspace inverse transfer
+    Defines the *Don RGB 4* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
