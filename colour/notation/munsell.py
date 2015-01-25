@@ -62,7 +62,7 @@ from colour.algebra.common import (
     FLOATING_POINT_NUMBER_PATTERN)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
-from colour.optimal import is_within_macadam_limits
+from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import CaseInsensitiveMapping, Lookup
 

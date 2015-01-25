@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.optimal.macadam_limits` module.
+Defines unit tests for :mod:`colour.volume.macadam_limits` module.
 """
 
 from __future__ import division, unicode_literals
@@ -14,7 +14,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.optimal import is_within_macadam_limits
+from colour.volume import is_within_macadam_limits
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -28,13 +28,13 @@ __all__ = ['TestIsWithinMacadamLimits']
 
 class TestIsWithinMacadamLimits(unittest.TestCase):
     """
-    Defines :func:`colour.optimal.macadam_limits.is_within_macadam_limits`
+    Defines :func:`colour.volume.macadam_limits.is_within_macadam_limits`
     definition unit tests methods.
     """
 
     def test_is_within_macadam_limits(self):
         """
-        Tests :func:`colour.optimal.macadam_limits.is_within_macadam_limits`
+        Tests :func:`colour.volume.macadam_limits.is_within_macadam_limits`
         definition.
         """
 
