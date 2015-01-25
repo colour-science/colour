@@ -133,7 +133,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution, optional
+    spd : SpectralPowerDistribution
         Spectral power distribution to plot.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
@@ -195,7 +195,7 @@ def multi_spd_plot(spds,
 
     Parameters
     ----------
-    spds : list, optional
+    spds : list
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.

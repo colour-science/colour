@@ -42,7 +42,10 @@ from .characterisation import colour_checker_plot
 from .diagrams import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
-    CIE_1976_UCS_chromaticity_diagram_plot)
+    CIE_1976_UCS_chromaticity_diagram_plot,
+    spds_CIE_1931_chromaticity_diagram_plot,
+    spds_CIE_1960_UCS_chromaticity_diagram_plot,
+    spds_CIE_1976_UCS_chromaticity_diagram_plot)
 from .corresponding import corresponding_chromaticities_prediction_plot
 from .models import (
     get_RGB_colourspace,
@@ -99,7 +102,10 @@ __all__ += [
 __all__ += [
     'CIE_1931_chromaticity_diagram_plot',
     'CIE_1960_UCS_chromaticity_diagram_plot',
-    'CIE_1976_UCS_chromaticity_diagram_plot']
+    'CIE_1976_UCS_chromaticity_diagram_plot',
+    'spds_CIE_1931_chromaticity_diagram_plot',
+    'spds_CIE_1960_UCS_chromaticity_diagram_plot',
+    'spds_CIE_1976_UCS_chromaticity_diagram_plot']
 __all__ += [
     'corresponding_chromaticities_prediction_plot']
 __all__ += [
