@@ -8,6 +8,7 @@ RGB Colourspace Volume Computation
 Defines various RGB colourspace volume computation objects:
 
 -   :func:`RGB_colourspace_volume_MonteCarlo`
+-   :func:`RGB_colourspace_limits`
 
 See Also
 --------
@@ -40,7 +41,7 @@ __all__ = ['sample_RGB_colourspace_volume_MonteCarlo',
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
     """
     Convenient wrapper to be able to call
-    :def:`sample_RGB_colourspace_volume_MonteCarlo`: definition with multiple
+    :func:`sample_RGB_colourspace_volume_MonteCarlo`: definition with multiple
     arguments.
 
     Parameters
@@ -98,7 +99,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
 
     Notes
     -----
-    The doctest is assuming that :def:`np.random.RandomState` definition will
+    The doctest is assuming that :func:`np.random.RandomState` definition will
     return the same sequence no matter which *OS* or *Python* version is used.
     There is however no formal promise about the *prng* sequence
     reproducibility of either *Python or *Numpy* implementations: Laurent.
@@ -144,7 +145,7 @@ def RGB_colourspace_limits(colourspace,
     ----------
     colourspace : RGB_Colourspace
         *RGB* colourspace to compute the volume of.
-     illuminant_Lab : array_like, optional
+    illuminant_Lab : array_like, optional
         *Lab* colourspace *illuminant* chromaticity coordinates.
 
     Returns
@@ -221,7 +222,7 @@ def RGB_colourspace_volume_MonteCarlo(
 
     Notes
     -----
-    The doctest is assuming that :def:`np.random.RandomState` definition will
+    The doctest is assuming that :func:`np.random.RandomState` definition will
     return the same sequence no matter which *OS* or *Python* version is used.
     There is however no formal promise about the *prng* sequence
     reproducibility of either *Python or *Numpy* implementations: Laurent.
