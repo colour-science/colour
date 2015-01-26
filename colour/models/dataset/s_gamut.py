@@ -37,7 +37,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -50,9 +50,9 @@ __all__ = ['S_GAMUT_PRIMARIES',
            'XYZ_TO_S_GAMUT_MATRIX',
            'S_LOG_TRANSFER_FUNCTION',
            'S_LOG_INVERSE_TRANSFER_FUNCTION',
-           'S_LOG_2_TRANSFER_FUNCTION',
-           'S_LOG_2_INVERSE_TRANSFER_FUNCTION',
-           'S_GAMUT_COLOURSPACE'
+           'S_LOG2_TRANSFER_FUNCTION',
+           'S_LOG2_INVERSE_TRANSFER_FUNCTION',
+           'S_GAMUT_COLOURSPACE',
            'S_LOG3_TRANSFER_FUNCTION',
            'S_LOG3_INVERSE_TRANSFER_FUNCTION',
            'S_GAMUT3_COLOURSPACE',

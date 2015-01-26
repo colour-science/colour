@@ -10,6 +10,9 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 -   :func:`CIE_1931_chromaticity_diagram_plot`
 -   :func:`CIE_1960_UCS_chromaticity_diagram_plot`
 -   :func:`CIE_1976_UCS_chromaticity_diagram_plot`
+-   :func:`spds_CIE_1931_chromaticity_diagram_plot`
+-   :func:`spds_CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`spds_CIE_1976_UCS_chromaticity_diagram_plot`
 """
 
 from __future__ import division
@@ -24,7 +27,7 @@ import numpy as np
 import pylab
 
 from colour.algebra import normalise
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import ILLUMINANTS, spectral_to_XYZ
 from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_UCS,
@@ -45,7 +48,7 @@ from colour.plotting import (
     get_cmfs)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -56,7 +59,10 @@ __all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
            'CIE_1960_UCS_chromaticity_diagram_colours_plot',
            'CIE_1960_UCS_chromaticity_diagram_plot',
            'CIE_1976_UCS_chromaticity_diagram_colours_plot',
-           'CIE_1976_UCS_chromaticity_diagram_plot']
+           'CIE_1976_UCS_chromaticity_diagram_plot',
+           'spds_CIE_1931_chromaticity_diagram_plot',
+           'spds_CIE_1960_UCS_chromaticity_diagram_plot',
+           'spds_CIE_1976_UCS_chromaticity_diagram_plot']
 
 
 def CIE_1931_chromaticity_diagram_colours_plot(
@@ -600,3 +606,180 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     decorate(**settings)
 
     return display(**settings)
+
+
+def spds_CIE_1931_chromaticity_diagram_plot(
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        **kwargs):
+    """
+    Plots given spectral power distribution chromaticity coordinates into the
+    *CIE 1931 Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    spds : list, optional
+        Spectral power distributions to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    annotate : bool
+        Should resulting chromaticity coordinates annotated with their
+        respective spectral power distribution names.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
+    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> spds_CIE_1931_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    True
+    """
+
+    CIE_1931_chromaticity_diagram_plot(standalone=False,
+                                       **kwargs)
+
+    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs_shape = cmfs.shape
+
+    for spd in spds:
+        spd = spd.clone().align(cmfs_shape)
+        XYZ = spectral_to_XYZ(spd) / 100
+        xy = XYZ_to_xy(XYZ)
+
+        pylab.plot(xy[0], xy[1], 'o', color='white')
+
+        if spd.name is not None and annotate:
+            pylab.annotate(spd.name,
+                           xy=xy,
+                           xytext=(50, 30),
+                           textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->',
+                                           connectionstyle='arc3, rad=0.2'))
+
+    display(standalone=True)
+
+
+def spds_CIE_1960_UCS_chromaticity_diagram_plot(
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        **kwargs):
+    """
+    Plots given spectral power distribution chromaticity coordinates into the
+    *CIE 1960 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    spds : list, optional
+        Spectral power distributions to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    annotate : bool
+        Should resulting chromaticity coordinates annotated with their
+        respective spectral power distribution names.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
+    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> spds_CIE_1960_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    True
+    """
+
+    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False,
+                                           **kwargs)
+
+    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs_shape = cmfs.shape
+
+    for spd in spds:
+        spd = spd.clone().align(cmfs_shape)
+        XYZ = spectral_to_XYZ(spd) / 100
+        uv = UCS_to_uv(XYZ_to_UCS(XYZ))
+
+        pylab.plot(uv[0], uv[1], 'o', color='white')
+
+        if spd.name is not None and annotate:
+            pylab.annotate(spd.name,
+                           xy=uv,
+                           xytext=(50, 30),
+                           textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->',
+                                           connectionstyle='arc3, rad=0.2'))
+
+    display(standalone=True)
+
+
+def spds_CIE_1976_UCS_chromaticity_diagram_plot(
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        **kwargs):
+    """
+    Plots given spectral power distribution chromaticity coordinates into the
+    *CIE 1976 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    spds : list, optional
+        Spectral power distributions to plot.
+    cmfs : unicode, optional
+        Standard observer colour matching functions used for diagram bounds.
+    annotate : bool
+        Should resulting chromaticity coordinates annotated with their
+        respective spectral power distribution names.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
+    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> spds_CIE_1976_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    True
+    """
+
+    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False,
+                                           **kwargs)
+
+    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs_shape = cmfs.shape
+
+    for spd in spds:
+        spd = spd.clone().align(cmfs_shape)
+        XYZ = spectral_to_XYZ(spd) / 100
+        uv = Luv_to_uv(XYZ_to_Luv(XYZ))
+
+        pylab.plot(uv[0], uv[1], 'o', color='white')
+
+        if spd.name is not None and annotate:
+            pylab.annotate(spd.name,
+                           xy=uv,
+                           xytext=(50, 30),
+                           textcoords='offset points',
+                           arrowprops=dict(arrowstyle='->',
+                                           connectionstyle='arc3, rad=0.2'))
+
+    display(standalone=True)

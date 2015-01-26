@@ -36,7 +36,7 @@ from colour.appearance.hunt import XYZ_TO_HPE_MATRIX
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

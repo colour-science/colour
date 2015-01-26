@@ -9,11 +9,3 @@ from .corresponding_chromaticities import (
 
 __all__ = ['BRENEMAN_EXPERIMENTS',
            'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES']
-
-
-
-
-
-
-
-

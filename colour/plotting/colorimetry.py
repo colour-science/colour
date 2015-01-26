@@ -48,7 +48,7 @@ from colour.plotting import (
     single_colour_plot)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -133,7 +133,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution, optional
+    spd : SpectralPowerDistribution
         Spectral power distribution to plot.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
@@ -157,8 +157,8 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     cmfs = get_cmfs(cmfs)
 
     shape = cmfs.shape
-    spd = spd.clone().interpolate(shape)
-    wavelengths = shape.range()
+    spd = spd.clone().interpolate(shape, 'Linear')
+    wavelengths = spd.wavelengths
 
     colours = []
     y1 = []
@@ -195,7 +195,7 @@ def multi_spd_plot(spds,
 
     Parameters
     ----------
-    spds : list, optional
+    spds : list
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.

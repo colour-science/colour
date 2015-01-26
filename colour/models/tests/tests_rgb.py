@@ -25,7 +25,7 @@ from colour.models import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -214,8 +214,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                           colourspace.whitepoint)
             np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
                                        M,
-                                       rtol=0.001,
-                                       atol=0.001,
+                                       rtol=0.0001,
+                                       atol=0.0001,
                                        verbose=False)
 
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
