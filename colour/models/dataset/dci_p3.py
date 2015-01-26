@@ -206,4 +206,3 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
 
 DCI_P3_P_COLOURSPACE : RGB_Colourspace
 """
-

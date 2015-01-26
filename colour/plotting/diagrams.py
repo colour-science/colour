@@ -646,7 +646,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     CIE_1931_chromaticity_diagram_plot(standalone=False,
                                        **kwargs)
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
 
     for spd in spds:
@@ -705,7 +705,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     CIE_1960_UCS_chromaticity_diagram_plot(standalone=False,
                                            **kwargs)
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
 
     for spd in spds:
@@ -764,7 +764,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     CIE_1976_UCS_chromaticity_diagram_plot(standalone=False,
                                            **kwargs)
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
 
     for spd in spds:
