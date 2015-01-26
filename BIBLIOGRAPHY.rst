@@ -4,7 +4,7 @@ Colour - Bibliography
 Bibliography
 ------------
 
-- Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding, 2704(May). Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+- Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding. Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 - Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::Set_xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
 - Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
 - ANSI. (2003). Specification of ROMM RGB. Retrieved from http://www.color.org/ROMMRGB.pdf
@@ -18,6 +18,7 @@ Bibliography
 - Breneman, E. J. (1987). Corresponding chromaticities for different states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved from http://www.opticsinfobase.org/josaa/fulltext.cfm?uri=josaa-4-6-1115&id=2783
 - Brill, M. H., & Süsstrunk, S. (2008). Repairing gamut problems in CIECAM02: A progress report. Color Research & Application, 33(5), 424–426. doi:10.1002/col.20432
 - Broadbent, A. D. (2009). Calculation from the original experimental data of the CIE 1931 RGB standard observer spectral chromaticity co-ordinates and color matching functions. Retrieved June 12, 2014, from http://www.cis.rit.edu/mcsl/research/1931.php
+- Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015, from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500
 - Centore, P. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research & Application, 37(6), 455–464. doi:10.1002/col.20715
 - Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 - Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
@@ -52,6 +53,7 @@ Bibliography
 - CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch10_ind.htm
 - CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch2_ind.htm
 - Davis, W., & Ohno, Y. (2010). Color quality scale. Optical Engineering, 49(3), 33602–33616. doi:10.1117/1.3360335
+- Digital Cinema Initiatives. (2007). Digital Cinema System Specification - Version 1.1. Retrieved from http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf
 - EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 - EasyRGB. (n.d.). CMY —> RGB. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=12#text12
 - EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=14#text14
@@ -131,10 +133,14 @@ Bibliography
 - Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances. Journal of Graphics Tools, 4(4), 11–22. doi:10.1080/10867651.1999.10487511
 - SMPTE. (1993). Derivation of Basic Television Color Equations. In RP 177:1993 (Vol. RP 177:199). doi:10.5594/S9781614821915
 - SMPTE. (2004). SMPTE C Color Monitor Colorimetry. In RP 145:2004 (Vol. RP 145:200). doi:10.5594/S9781614821649
+- Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
+- Sony Corporation. (n.d.). Technical Summary for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from http://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
+- Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py
 - Stearns, E. I., & Stearns, R. E. (1988). An example of a method for correcting radiance data for Bandpass error. Color Research & Application, 13(4), 257–259. doi:10.1002/col.5080130410
-- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2011). (2013). Specification S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data, 1–13. Retrieved from http://www.dropbox.com/sh/iwd09buudm3lfod/AAAsl8WskbNNAJXh1r0dPlp2a/ACESproxy_v1.1.pdf
-- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2011). Logarithmic Encoding of ACES Data for use with in Color Grading Systems, 1–11. Retrieved from http://www.dropbox.com/sh/iwd09buudm3lfod/AAA-X1nVs_XLjWlzNhfhqiIna/ACESlog_v1.0.pdf
-- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2011). Specification S-2008-001 - Academy Color Encoding Specification ( ACES ), 1–33. Retrieved from https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf
+- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an Integer Log Encoding of ACES Image Data. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Specification S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within Color Grading Systems. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification (ACES). Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+- The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component Names. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
 - The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding System. Retrieved February 24, 2014, from http://www.oscars.org/science-technology/council/projects/aces.html
 - Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved from http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 - Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp. 83–86). ISBN:978-0-470-66569-5
@@ -180,7 +186,7 @@ Bibliography
 - Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley. ISBN:978-0471399186
 - Wyszecki, G., & Stiles, W. S. (2000). Table II(3.7). In Color Science: Concepts and Methods, Quantitative Data and Formulae (pp. 778–779). Wiley. ISBN:978-0471399186
 - Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964 Standard Observer. In Color Science: Concepts and Methods, Quantitative Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
-- X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color Calculations Guide. Retrieved from http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf
+- X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color Calculations Guide. Retrieved from http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf  
 
 About
 -----
