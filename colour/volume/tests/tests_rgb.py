@@ -80,13 +80,13 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
         Notes
         -----
-        The test is assuming that :def:`np.random.RandomState` definition will
+        The test is assuming that :func:`np.random.RandomState` definition will
         return the same sequence no matter which *OS* or *Python* version is
         used. There is however no formal promise about the *prng* sequence
         reproducibility of either *Python or *Numpy* implementations: Laurent.
         (2012). Reproducibility of python pseudo-random numbers across systems
         and versions? Retrieved January 20, 2015, from
-        http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  #noqa
+        http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
         """
 
         self.assertEquals(

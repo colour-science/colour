@@ -83,7 +83,7 @@ def message_box(message, width=79, padding=3):
         text,
         (' ' * (width - len(text) - padding * 2 - 2)))
 
-    print('=' * (width))
+    print('=' * width)
     print(inner(''))
 
     wrapper = TextWrapper(width=ideal_width,
@@ -96,7 +96,7 @@ def message_box(message, width=79, padding=3):
         print(inner(line.expandtabs()))
 
     print(inner(''))
-    print('=' * (width))
+    print('=' * width)
     return True
 
 

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *Academy Color Encoding System* *Input Device Transform* related computations.
+Showcases *Academy Color Encoding System* *Input Device Transform* related
+computations.
 """
 
 import colour
