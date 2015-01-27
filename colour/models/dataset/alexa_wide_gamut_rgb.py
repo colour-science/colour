@@ -29,7 +29,7 @@ from colour.models import RGB_Colourspace
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -197,7 +197,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
         Alexa firmware version.
@@ -230,7 +230,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
         Alexa firmware version.
@@ -249,7 +249,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
     cut, a, b, c, d, e, f, _ = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return ((np.power(10., (value - d) / c) - b) / a
+    return ((10 ** ((value - d) / c) - b) / a
             if value > e * cut + f else
             (value - f) / e)
 

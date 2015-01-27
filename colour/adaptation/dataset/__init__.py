@@ -28,11 +28,3 @@ __all__ += ['XYZ_SCALING_CAT',
             'CAT02_BRILL_CAT',
             'BS_CAT',
             'BS_PC_CAT']
-
-
-
-
-
-
-
-

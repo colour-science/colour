@@ -56,7 +56,7 @@ from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import CaseInsensitiveMapping, warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -751,7 +751,7 @@ def xy_to_CCT_McCamy1992(xy):
     x, y = xy
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * np.power(n, 3) + 3525 * np.power(n, 2) - 6823.3 * n + 5520.33
+    CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
 
     return CCT
 

@@ -17,7 +17,7 @@ message_box('Colour Models Plots')
 message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ['sRGB', 'ACES RGB', 'Adobe RGB 1998'])
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
 
 print('\n')
 

@@ -30,7 +30,7 @@ import numpy as np
 from colour.adaptation import VON_KRIES_CAT
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -211,7 +211,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Examples
     --------
-    >>> LMS = np.array([ 20.0005206,  19.999783 ,  19.9988316])
+    >>> LMS = np.array([20.0005206, 19.999783, 19.9988316])
     >>> Y_n = 31.83
     >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
     array([ 0.9799324...,  0.9960035...,  1.0233041...])

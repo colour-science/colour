@@ -2,16 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *ACES RGB* colourspace *Input Device Transform* related computations.
+Showcases *Academy Color Encoding System* *Input Device Transform* related
+computations.
 """
 
 import colour
 from colour.utilities.verbose import message_box
 
-message_box('"ACES RGB" Colourspace "Input Device Transform" Computations')
+message_box('"ACES" "Input Device Transform" Computations')
 
-message_box(('Computing "ACES RGB" colourspace relative exposure values for '
-             'some colour rendition chart spectral power distributions:\n'
+message_box(('Computing "ACES" relative exposure '
+             'values for some colour rendition chart spectral power '
+             'distributions:\n'
              '\n\t("dark skin", \n\t"blue sky")'))
 print(colour.spectral_to_aces_relative_exposure_values(
     colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']))
@@ -20,8 +22,8 @@ print(colour.spectral_to_aces_relative_exposure_values(
 
 print('\n')
 
-message_box(('Computing "ACES RGB" colourspace relative exposure values for '
-             'various ideal reflectors:\n'
+message_box(('Computing "ACES" relative exposure values for various ideal '
+             'reflectors:\n'
              '\n\t("18%", \n\t"100%")'))
 wavelengths = colour.ACES_RICD.wavelengths
 gray_reflector = colour.SpectralPowerDistribution(

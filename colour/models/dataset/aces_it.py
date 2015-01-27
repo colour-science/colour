@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-ACES RGB Colourspace - Input Device Transform Dataset
-=====================================================
+Academy Color Encoding System - Input Transform Dataset
+=======================================================
 
-Defines the *ACES RGB* colourspace *Input Device Transform* dataset.
+Defines the *Academy Color Encoding System* (ACES) *Input Transform* dataset.
 
 See Also
 --------
@@ -21,9 +21,15 @@ References
         http://www.oscars.org/science-technology/council/projects/aces.html
 .. [2]  The Academy of Motion Picture Arts and Sciences, Science and
         Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2011). Specification S-2008-001 - Academy Color
-        Encoding Specification ( ACES ), 1–33. Retrieved from
-        https://www.dropbox.com/sh/nt9z9m6utzvkc5m/AACBum5OdkLPCZ3d6trfVeU8a/ACES_v1.0.1.pdf  # noqa
+        Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative
+        Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
+        (ACES). Retrieved from
+        https://github.com/ampas/aces-dev/tree/master/documents
+.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
+        Technology Council, & Academy Color Encoding System (ACES) Project
+        Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
+        Encoding System Version 1.0 Component Names. Retrieved from
+        https://github.com/ampas/aces-dev/tree/master/documents
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +37,7 @@ from __future__ import division, unicode_literals
 from colour.colorimetry import RGB_ColourMatchingFunctions
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

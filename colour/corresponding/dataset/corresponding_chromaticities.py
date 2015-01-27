@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Breneman's Corresponding Chromaticities Dataset
-===============================================
+Breneman Corresponding Chromaticities Dataset
+=============================================
 
 Defines Breneman (1987) results for corresponding chromaticities experiments.
 
@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 from collections import namedtuple
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

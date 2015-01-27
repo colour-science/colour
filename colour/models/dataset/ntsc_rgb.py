@@ -30,7 +30,7 @@ from colour.models import normalised_primary_matrix
 from colour.models import RGB_Colourspace
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -88,12 +88,12 @@ XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 
 def _ntsc_rgb_transfer_function(value):
     """
-    Defines the *NTSC RGB* value colourspace transfer function.
+    Defines the *NTSC RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -106,13 +106,13 @@ def _ntsc_rgb_transfer_function(value):
 
 def _ntsc_rgb_inverse_transfer_function(value):
     """
-    Defines the *NTSC RGB* value colourspace inverse transfer
+    Defines the *NTSC RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

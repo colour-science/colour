@@ -15,7 +15,7 @@ from textwrap import TextWrapper
 from warnings import warn
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -83,7 +83,7 @@ def message_box(message, width=79, padding=3):
         text,
         (' ' * (width - len(text) - padding * 2 - 2)))
 
-    print('=' * (width))
+    print('=' * width)
     print(inner(''))
 
     wrapper = TextWrapper(width=ideal_width,
@@ -96,7 +96,7 @@ def message_box(message, width=79, padding=3):
         print(inner(line.expandtabs()))
 
     print(inner(''))
-    print('=' * (width))
+    print('=' * width)
     return True
 
 

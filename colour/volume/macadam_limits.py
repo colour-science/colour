@@ -10,7 +10,7 @@ Defines objects related to optimal colour stimuli computations.
 See Also
 --------
 `Optimal Colour Stimuli - MacAdam Limits IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/optimal/macadam_limits.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/volume/macadam_limits.ipynb>`_  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -18,11 +18,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models import xyY_to_XYZ
-from colour.optimal import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 from colour.utilities import is_scipy_installed
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

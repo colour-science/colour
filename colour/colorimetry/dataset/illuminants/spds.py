@@ -19,7 +19,7 @@ The following *CIE* illuminants are available:
 -   CIE Standard Illuminant A
 -   CIE Illuminant B
 -   CIE Illuminant C
--   CIE Illuminant D Series (D50, D55, D60, D65, D75)
+-   CIE Illuminant D Series (D50, D55, D60, D63, D65, D75)
 -   CIE Illuminant E
 -   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
     FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
@@ -34,10 +34,13 @@ See Also
 Notes
 -----
 -   The relative spectral power distributions are provided at 5 nm steps.
--   *CIE Illuminant D Series* *D60* relative spectral power distribution has
-    been calculated using
+-   *CIE Illuminant D Series* *D60* and *D63* relative spectral power
+    distribution have been calculated using
     :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
     definition.
+-   *CIE Illuminant D Series* *D63* illuminant is used as a relative spectral
+    power distribution for *DCI-P3* whitepoint at 48 :math:`cd/m^2` with
+    chromaticity coordinates *xy* = (0.3140, 0.3510).
 
 References
 ----------
@@ -45,6 +48,9 @@ References
         http://files.cie.co.at/204.xls
 .. [2]  CIE. (n.d.). CIE 15:2004 Tables Data. Retrieved from
         https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+.. [3]  Digital Cinema Initiatives. (2007). Digital Cinema System
+        Specification - Version 1.1. Retrieved from
+        http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -53,7 +59,7 @@ from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -62,12 +68,11 @@ __status__ = 'Production'
 __all__ = ['ILLUMINANTS_RELATIVE_SPDS_DATA',
            'ILLUMINANTS_RELATIVE_SPDS']
 
-# *CIE Illuminant D Series* *D60* relative spectral power distribution has been
-# calculated as follows:
-# xy = colour.ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('D60')
-# d60_illuminant_relative_spd = D_illuminant_relative_spd((0.32168, 0.33767))
-# d60_illuminant_relative_spd.name = 'D60'
-
+# *CIE Illuminant D Series* *D60* and *D63* relative spectral power
+# distributions have been calculated as follows:
+# xy = colour.ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('D6x')
+# D6x_illuminant_relative_spd = D_illuminant_relative_spd(xy)
+# D6x_illuminant_relative_spd.name = 'D6x'
 ILLUMINANTS_RELATIVE_SPDS_DATA = {
     'A': {
         300: 0.930483,
@@ -610,6 +615,61 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         810: 54.990892361077115,
         820: 60.82560067091317,
         830: 63.89349586226156},
+    'D63': {
+        300: 0.018118510497817774,
+        310: -8.226396808302878,
+        320: -13.513391583067847,
+        330: -30.18914005340816,
+        340: -23.401364203646246,
+        350: -14.878754760083826,
+        360: -4.727943480472707,
+        370: -7.05717031418666,
+        380: 7.323540202831396,
+        390: 21.925556368993977,
+        400: 52.433851698936095,
+        410: 56.47011722002611,
+        420: 61.126202127319175,
+        430: 61.79167397563909,
+        440: 85.84144693490106,
+        450: 99.81216576553513,
+        460: 102.85745844987959,
+        470: 102.86930231586123,
+        480: 106.80797042625403,
+        490: 99.88185855358755,
+        500: 102.3532897559663,
+        510: 102.40520701426244,
+        520: 102.67279651624877,
+        530: 106.77767653699036,
+        540: 103.0306526221197,
+        550: 103.71671774783947,
+        560: 100.0,
+        570: 96.82021299314339,
+        580: 96.60349524530392,
+        590: 83.16104590905442,
+        600: 81.96073328313383,
+        610: 79.10605979664626,
+        620: 75.94684556070546,
+        630: 70.67090025424127,
+        640: 65.86015518314451,
+        650: 59.650421787029146,
+        660: 55.72572851896826,
+        670: 54.632040466999364,
+        680: 48.733798342893344,
+        690: 46.42118776951505,
+        700: 44.196494501454175,
+        710: 50.97554863008207,
+        720: 42.33647359006501,
+        730: 49.03962956408056,
+        740: 53.13546191508365,
+        750: 45.19430305056815,
+        760: 32.045820563040195,
+        770: 46.4323059410681,
+        780: 44.74796486207438,
+        790: 45.036473590065015,
+        800: 41.842725063560366,
+        810: 36.79739855004796,
+        820: 40.70055452406352,
+        830: 42.38697942755569},
     'D65': {
         300: 0.034100,
         305: 1.664300,
@@ -3542,6 +3602,8 @@ ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping(
          'D55', ILLUMINANTS_RELATIVE_SPDS_DATA.get('D55')),
      'D60': SpectralPowerDistribution(
          'D60', ILLUMINANTS_RELATIVE_SPDS_DATA.get('D60')),
+     'D63': SpectralPowerDistribution(
+         'D63', ILLUMINANTS_RELATIVE_SPDS_DATA.get('D63')),
      'D65': SpectralPowerDistribution(
          'D65', ILLUMINANTS_RELATIVE_SPDS_DATA.get('D65')),
      'D75': SpectralPowerDistribution(

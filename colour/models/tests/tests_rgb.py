@@ -25,7 +25,7 @@ from colour.models import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -214,8 +214,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                           colourspace.whitepoint)
             np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
                                        M,
-                                       rtol=0.001,
-                                       atol=0.001,
+                                       rtol=0.0001,
+                                       atol=0.0001,
                                        verbose=False)
 
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
@@ -228,7 +228,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models.
         """
 
-        aces_proxy_colourspaces = ('ACES RGB Proxy 10', 'ACES RGB Proxy 12')
+        aces_proxy_colourspaces = ('ACESproxy', 'ACEScg')
 
         samples = np.linspace(0, 1, 1000)
         for colourspace in RGB_COLOURSPACES.values():
@@ -383,12 +383,12 @@ class TestRGB_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.RGB_to_RGB` definition.
         """
 
-        aces_rgb_colourspace = RGB_COLOURSPACES.get('ACES RGB')
+        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
         sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
 
         np.testing.assert_almost_equal(
             RGB_to_RGB((0.35521588, 0.41, 0.24177934),
-                       aces_rgb_colourspace,
+                       aces_2065_1_colourspace,
                        sRGB_colourspace),
             np.array([0.33658567, 0.44096335, 0.21509975]),
             decimal=7)
@@ -396,13 +396,13 @@ class TestRGB_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_RGB((0.33658567, 0.44096335, 0.21509975),
                        sRGB_colourspace,
-                       aces_rgb_colourspace),
+                       aces_2065_1_colourspace),
             np.array([0.35521588, 0.41, 0.24177934]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_to_RGB((0.35521588, 0.41, 0.24177934),
-                       aces_rgb_colourspace,
+                       aces_2065_1_colourspace,
                        sRGB_colourspace,
                        'Bradford'),
             np.array([0.33704409, 0.44133521, 0.21429761]),

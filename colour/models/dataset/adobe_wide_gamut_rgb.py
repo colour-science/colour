@@ -28,7 +28,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -89,12 +89,12 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 
 def _adobe_wide_gamut_rgb_transfer_function(value):
     """
-    Defines the *Adobe Wide Gamut RGB* value colourspace transfer function.
+    Defines the *Adobe Wide Gamut RGB* colourspace transfer function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------
@@ -107,13 +107,13 @@ def _adobe_wide_gamut_rgb_transfer_function(value):
 
 def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
     """
-    Defines the *Adobe Wide Gamut RGB* value colourspace inverse transfer
+    Defines the *Adobe Wide Gamut RGB* colourspace inverse transfer
     function.
 
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
 
     Returns
     -------

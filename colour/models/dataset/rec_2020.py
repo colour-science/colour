@@ -32,7 +32,7 @@ from colour.models import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -104,7 +104,7 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 
@@ -128,7 +128,7 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
     Parameters
     ----------
     value : numeric
-        value.
+        Value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 

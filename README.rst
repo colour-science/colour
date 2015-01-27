@@ -11,8 +11,8 @@
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://waffle.io/colour-science/colour
     :alt: 'Stories in Ready'
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.12449.png
-    :target: http://dx.doi.org/10.5281/zenodo.12449
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.14602.png
+    :target: http://dx.doi.org/10.5281/zenodo.14602
 
 Colour Science for Python
 =========================
@@ -61,7 +61,7 @@ It is also viewable directly from the repository in either `BibTeX <https://gith
 About
 -----
 
-| **Colour** by Colour Developers - 2013 - 2014
-| Copyright © 2013 - 2014 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013 - 2015
+| Copyright © 2013 - 2015 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

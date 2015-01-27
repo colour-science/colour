@@ -36,7 +36,7 @@ from colour.plotting import (
     get_cmfs)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -101,7 +101,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES RGB']
+    >>> csps = ['sRGB', 'ACES2065-1']
     >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # doctest: +SKIP
     True
     """
@@ -112,7 +112,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES RGB', 'Pointer Gamut')
+        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 

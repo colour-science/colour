@@ -23,7 +23,7 @@ from colour.colorimetry import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from colour.colorimetry import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

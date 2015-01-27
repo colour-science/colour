@@ -29,13 +29,14 @@ from colour.colorimetry import PHOTOPIC_LEFS
 from colour.constants import K_M
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminous_flux']
+__all__ = ['luminous_flux',
+           'luminous_efficacy']
 
 
 def luminous_flux(spd,
@@ -52,6 +53,8 @@ def luminous_flux(spd,
         test spectral power distribution
     lef : SpectralPowerDistribution, optional
         :math:`V(\lambda)` luminous efficiency function.
+    K_m : numeric, optional
+        :math:`lm\cdot W^{-1}` maximum photopic luminous efficiency
 
     Returns
     -------
@@ -72,3 +75,39 @@ def luminous_flux(spd,
     flux = K_m * np.trapz(spd.values, spd.wavelengths)
 
     return flux
+
+
+def luminous_efficacy(spd,
+                      lef=PHOTOPIC_LEFS.get(
+                          'CIE 1924 Photopic Standard Observer')):
+    """
+    Returns the *luminous efficacy* for given spectral power distribution using
+    the given luminous efficiency function.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        test spectral power distribution
+    lef : SpectralPowerDistribution, optional
+        :math:`V(\lambda)` luminous efficiency function.
+
+    Returns
+    -------
+    numeric
+        Luminous efficacy
+
+    Examples
+    --------
+    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    0.1994393...
+    """
+
+    lef = lef.clone().align(spd.shape, left=0, right=0)
+    spd = spd.clone()
+
+    efficacy = (np.trapz(lef.values * spd.values, spd.wavelengths) /
+                np.trapz(spd.values, spd.wavelengths))
+
+    return efficacy

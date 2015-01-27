@@ -22,7 +22,6 @@ Subpackages
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
--   optimal: Optimal colour stimuli computation.
 -   phenomenons: Computation of various optical phenomenons.
 -   plotting: Diagrams, figures, etc...
 -   quality: Colour quality computation.
@@ -30,6 +29,7 @@ Subpackages
 -   temperature: Colour temperature and correlated colour temperature
     computation.
 -   utilities: Various utilities and data structures.
+-   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
 from __future__ import absolute_import
@@ -67,8 +67,6 @@ from .models import *  # noqa
 from . import models
 from .corresponding import *  # noqa
 from . import corresponding
-from .optimal import *  # noqa
-from . import optimal
 from .phenomenons import *  # noqa
 from . import phenomenons
 from .notation import *  # noqa
@@ -79,10 +77,12 @@ from .recovery import *  # noqa
 from . import recovery
 from .temperature import *  # noqa
 from . import temperature
+from .volume import *  # noqa
+from . import volume
 from . import utilities
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -99,18 +99,18 @@ __all__ += difference.__all__
 __all__ += io.__all__
 __all__ += models.__all__
 __all__ += corresponding.__all__
-__all__ += optimal.__all__
 __all__ += phenomenons.__all__
 __all__ += notation.__all__
 __all__ += quality.__all__
 __all__ += recovery.__all__
 __all__ += temperature.__all__
+__all__ += volume.__all__
 
 __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '3'
+__change_version__ = '4'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

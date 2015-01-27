@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.aces_rgb_idt` module.
+Defines unit tests for :mod:`colour.models.aces_it` module.
 """
 
 from __future__ import division, unicode_literals
@@ -22,7 +22,7 @@ from colour.colorimetry import (
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -34,14 +34,14 @@ __all__ = ['TestSpectralToAcesRelativeExposureValues']
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
     Defines
-    :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`  # noqa
+    :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
     definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
         Tests
-        :func:`colour.models.aces_rgb_idt.spectral_to_aces_relative_exposure_values`  # noqa
+        :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
         definition.
         """
 

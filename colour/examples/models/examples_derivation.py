@@ -17,8 +17,8 @@ primaries = np.array(
      [0.00000, 1.00000],
      [0.00010, -0.07700]])
 whitepoint = (0.32168, 0.33767)
-message_box(('Computing the normalised primary matrix for "ACES RGB" '
-             'colourspace transforming from "ACES RGB" colourspace to '
+message_box(('Computing the normalised primary matrix for "ACES2065-1" '
+             'colourspace transforming from "ACES2065-1" colourspace to '
              '"CIE XYZ" colourspace using user defined primaries matrix and '
              'whitepoint:\n'
              '\n\t{0}\n\t{1}\n\t{2}\n\n\t{3}'.format(primaries[0],
@@ -29,8 +29,8 @@ print(colour.normalised_primary_matrix(primaries, whitepoint))
 
 print('\n')
 
-message_box(('Computing the normalised primary matrix for "ACES RGB" '
-             'colourspace transforming from "ACES RGB" colourspace to '
+message_box(('Computing the normalised primary matrix for "ACES2065-1" '
+             'colourspace transforming from "ACES2065-1" colourspace to '
              '"CIE XYZ" colourspace using colour models dataset.'))
 print(colour.normalised_primary_matrix(
     colour.ACES_RGB_COLOURSPACE.primaries,
@@ -38,9 +38,9 @@ print(colour.normalised_primary_matrix(
 
 print('\n')
 
-message_box(('Computing the normalised primary matrix for "ACES RGB" '
+message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              'colourspace transforming from "CIE XYZ" colourspace to '
-             '"ACES RGB" colourspace using colour models dataset.'))
+             '"ACES2065-1" colourspace using colour models dataset.'))
 print(np.linalg.inv(colour.normalised_primary_matrix(
     colour.ACES_RGB_COLOURSPACE.primaries,
     colour.ACES_RGB_COLOURSPACE.whitepoint)))
