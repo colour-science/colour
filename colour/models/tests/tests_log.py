@@ -291,8 +291,8 @@ class TestViperLogToLinear(unittest.TestCase):
 
 class TestLinearToPivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.linear_to_pivoted_log` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.linear_to_pivoted_log` definition unit
+    tests methods.
     """
 
     def test_linear_to_pivoted_log(self):
@@ -318,8 +318,8 @@ class TestLinearToPivotedLog(unittest.TestCase):
 
 class TestPivotedLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.pivoted_log_to_linear` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.pivoted_log_to_linear` definition unit
+    tests methods.
     """
 
     def test_pivoted_log_to_linear(self):
@@ -453,8 +453,8 @@ class TestAcesCcToLinear(unittest.TestCase):
 
 class TestLinearToAlexaLogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.linear_to_alexa_log_c` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.linear_to_alexa_log_c` definition unit
+    tests methods.
     """
 
     def test_linear_to_alexa_log_c(self):
@@ -480,8 +480,8 @@ class TestLinearToAlexaLogC(unittest.TestCase):
 
 class TestAlexaLogCToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.alexa_log_c_to_linear` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.alexa_log_c_to_linear` definition unit
+    tests methods.
     """
 
     def test_alexa_log_c_to_linear(self):

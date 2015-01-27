@@ -211,7 +211,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Examples
     --------
-    >>> LMS = np.array([ 20.0005206,  19.999783 ,  19.9988316])
+    >>> LMS = np.array([20.0005206, 19.999783, 19.9988316])
     >>> Y_n = 31.83
     >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
     array([ 0.9799324...,  0.9960035...,  1.0233041...])

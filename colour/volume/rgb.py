@@ -105,7 +105,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     reproducibility of either *Python or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
     versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  #noqa
+    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
 
     Examples
     --------
@@ -228,7 +228,7 @@ def RGB_colourspace_volume_MonteCarlo(
     reproducibility of either *Python or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
     versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  #noqa
+    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
 
 
     Examples

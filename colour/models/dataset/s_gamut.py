@@ -137,7 +137,7 @@ def _s_log_inverse_transfer_function(value):
         Companded value.
     """
 
-    return 10 ** (((value - 0.616596 - 0.03) / 0.432699)) - 0.037584
+    return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
 
 
 S_LOG_TRANSFER_FUNCTION = _s_log_transfer_function
@@ -261,7 +261,7 @@ def _s_log3_inverse_transfer_function(value):
     """
 
     if value >= 171.2102946929 / 1023:
-        return ((10 ** ((value * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01)
+        return (10 ** ((value * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01
     else:
         return (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)
 
