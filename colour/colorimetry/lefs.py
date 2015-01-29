@@ -23,13 +23,13 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.algebra import closest
 from colour.colorimetry import (
     SpectralShape,
     SpectralPowerDistribution,
     PHOTOPIC_LEFS,
     SCOTOPIC_LEFS)
 from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
+from colour.utilities import closest
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

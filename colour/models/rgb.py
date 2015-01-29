@@ -23,9 +23,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import as_array
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.utilities import as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

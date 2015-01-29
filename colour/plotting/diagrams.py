@@ -26,7 +26,6 @@ import matplotlib.path
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.colorimetry import ILLUMINANTS, spectral_to_XYZ
 from colour.models import (
     UCS_uv_to_xy,
@@ -46,6 +45,7 @@ from colour.plotting import (
     boundaries,
     display,
     get_cmfs)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

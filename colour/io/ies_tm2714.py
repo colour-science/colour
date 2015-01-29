@@ -24,9 +24,8 @@ from collections import namedtuple
 from xml.etree import ElementTree
 from xml.dom import minidom
 
-from colour.algebra import is_numeric
 from colour.colorimetry import SpectralPowerDistribution
-from colour.utilities import Structure
+from colour.utilities import Structure, is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

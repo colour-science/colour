@@ -79,6 +79,7 @@ from .temperature import *  # noqa
 from . import temperature
 from .volume import *  # noqa
 from . import volume
+from .utilities import *  # noqa
 from . import utilities
 
 __author__ = 'Colour Developers'

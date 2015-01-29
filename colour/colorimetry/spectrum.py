@@ -24,17 +24,18 @@ import itertools
 import numpy as np
 
 from colour.algebra import (
-    is_iterable,
-    is_numeric,
-    is_uniform,
-    steps,
-    as_array)
-from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
     SplineInterpolator,
     SpragueInterpolator)
-from colour.utilities import is_string, warning
+from colour.utilities import (
+    as_array,
+    steps,
+    is_iterable,
+    is_numeric,
+    is_uniform,
+    is_string,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

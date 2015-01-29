@@ -26,7 +26,6 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.colorimetry import (
     CMFS,
     DEFAULT_SPECTRAL_SHAPE,
@@ -46,6 +45,7 @@ from colour.plotting import (
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

@@ -54,17 +54,19 @@ except ImportError:
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
-    cartesian_to_cylindrical,
-    is_numeric,
-    is_integer)
-from colour.algebra.common import (
+    cartesian_to_cylindrical)
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
+from colour.constants import (
     INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import CaseInsensitiveMapping, Lookup
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    Lookup,
+    is_numeric,
+    is_integer)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -114,7 +116,8 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
-    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(  # noqa
+    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
+        # noqa
         FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'

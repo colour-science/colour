@@ -17,8 +17,13 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import steps, is_numeric, is_uniform, as_array
-from colour.utilities import is_scipy_installed, warning
+from colour.utilities import (
+    as_array,
+    steps,
+    is_numeric,
+    is_uniform,
+    is_scipy_installed,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

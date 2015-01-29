@@ -15,7 +15,6 @@ from __future__ import division
 
 import matplotlib.pyplot
 
-from colour.algebra import normalise
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import XYZ_to_sRGB
 from colour.phenomenons import rayleigh_scattering_spd
@@ -35,6 +34,7 @@ from colour.plotting import (
     get_cmfs,
     single_colour_plot,
     single_spd_plot)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

@@ -16,7 +16,6 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.models import XYZ_to_sRGB
 from colour.quality import (
     colour_quality_scale,
@@ -27,6 +26,7 @@ from colour.plotting import (
     decorate,
     boundaries,
     display)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
