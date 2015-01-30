@@ -10,6 +10,7 @@ Defines common utilities objects that don"t fall in any specific category.
 
 from __future__ import division, unicode_literals
 
+import functools
 import numpy as np
 
 from colour.constants import INTEGER_THRESHOLD
@@ -21,12 +22,63 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['batch',
+__all__ = ['handle_numpy_errors',
+           'ignore_numpy_errors',
+           'raise_numpy_errors',
+           'print_numpy_errors',
+           'warn_numpy_errors',
+           'batch',
            'is_scipy_installed',
            'is_iterable',
            'is_string',
            'is_numeric',
            'is_integer']
+
+
+def handle_numpy_errors(**kwargs):
+    """
+    Decorator for handling *Numpy* errors.
+
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    object
+
+    References
+    ----------
+    .. [1]  Kienzle, P., Patel, N., & Krycka, J. (2011). refl1d.numpyerrors -
+            Refl1D v0.6.19 documentation. Retrieved January 30, 2015, from
+            http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/numpyerrors.html  # noqa
+
+    Examples
+    --------
+    >>> import numpy
+    >>> @handle_numpy_errors(all='ignore')
+    ... def f(): 1 / numpy.zeros(3)
+    >>> f()
+    """
+
+    context = np.errstate(**kwargs)
+
+    def wrapper(object):
+        @functools.wraps(object)
+        def wrapped(*args, **kwargs):
+            with context:
+                return object(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
+
+
+ignore_numpy_errors = handle_numpy_errors(all='ignore')
+raise_numpy_errors = handle_numpy_errors(all='raise')
+print_numpy_errors = handle_numpy_errors(all='print')
+warn_numpy_errors = handle_numpy_errors(all='warn')
 
 
 def batch(iterable, k=3):

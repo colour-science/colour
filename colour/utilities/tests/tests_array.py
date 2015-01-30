@@ -9,6 +9,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import sys
+from colour.utilities.array import row_as_diagonal
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -17,10 +18,14 @@ else:
 
 from colour.utilities import (
     as_array,
+    as_numeric,
+    as_stack,
+    as_shape,
     closest,
     normalise,
     steps,
-    is_uniform)
+    is_uniform,
+    row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -30,10 +35,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestAsArray',
+           'TestAsNumeric',
+           'TestAsStack',
+           'TestAsShape',
            'TestClosest',
            'TestNormalise',
            'TestSteps',
-           'TestIsUniform']
+           'TestIsUniform',
+           'TestRowAsDiagonal']
 
 
 class TestAsArray(unittest.TestCase):
@@ -54,6 +63,85 @@ class TestAsArray(unittest.TestCase):
         self.assertTupleEqual(
             as_array(np.array([1, 2, 3]), shape=(3, 1)).shape,
             np.array([[1], [2], [3]]).shape)
+
+
+class TestAsNumeric(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_numeric` definition unit tests
+    methods.
+    """
+
+    def test_as_numeric(self):
+        """
+        Tests :func:`colour.utilities.array.as_numeric` definition.
+        """
+
+        self.assertEqual(as_numeric(1), 1)
+        self.assertEqual(as_numeric(np.array([1])), 1)
+        np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
+                                       np.array([1, 2, 3]))
+
+
+class TestAsStack(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_stack` definition unit tests
+    methods.
+    """
+
+    def test_as_stack(self):
+        """
+        Tests :func:`colour.utilities.array.as_stack` definition.
+        """
+
+        x = np.array([[1, 2, 3], [4, 5, 6]])
+        np.testing.assert_almost_equal(as_stack(x),
+                                       np.array([[1, 4],
+                                                 [2, 5],
+                                                 [3, 6]]))
+        np.testing.assert_almost_equal(as_stack(x), as_stack(x, 'D'))
+        np.testing.assert_almost_equal(as_stack(x, 'Horizontal'),
+                                       np.array([1, 2, 3, 4, 5, 6]))
+        np.testing.assert_almost_equal(as_stack(x, 'Horizontal'),
+                                       as_stack(x, 'H'))
+        np.testing.assert_almost_equal(as_stack(x, 'Vertical'),
+                                       np.array([[1, 2, 3],
+                                                 [4, 5, 6]]))
+
+        x = np.array([[[1, 2, 3], [4, 5, 6]]])
+        np.testing.assert_almost_equal(as_stack(x),
+                                       np.array([[1, 2, 3],
+                                                 [4, 5, 6]]))
+        np.testing.assert_almost_equal(as_stack(x, squeeze=False),
+                                       np.array([[[1],
+                                                  [2],
+                                                  [3]],
+                                                 [[4],
+                                                  [5],
+                                                  [6]]]))
+
+        x = np.array([[1, 2, 3], [4, 5, 6]])
+        np.testing.assert_almost_equal(as_stack(x),
+                                       np.array([[1, 4],
+                                                 [2, 5],
+                                                 [3, 6]]))
+        np.testing.assert_almost_equal(as_stack(x, shape=(2, 3)),
+                                       np.array([[1, 4, 2],
+                                                 [5, 3, 6]]))
+
+
+class TestAsShape(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_shape` definition unit tests
+    methods.
+    """
+
+    def test_as_shape(self):
+        """
+        Tests :func:`colour.utilities.array.as_shape` definition.
+        """
+
+        self.assertTupleEqual(as_shape(np.array([1, 2, 3])), (3,))
+        self.assertIsNone(as_shape(1))
 
 
 class TestClosest(unittest.TestCase):
@@ -141,6 +229,40 @@ class TestIsUniform(unittest.TestCase):
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
         self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
+
+
+class TestRowAsDiagonal(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.row_as_diagonal` definition unit
+    tests methods.
+    """
+
+    def test_row_as_diagonal(self):
+        """
+        Tests :func:`colour.utilities.array.row_as_diagonal` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            row_as_diagonal(np.array([[0.25891593, 0.07299478, 0.36586996],
+                                      [0.30851087, 0.37131459, 0.16274825],
+                                      [0.71061831, 0.67718718, 0.09562581],
+                                      [0.71588836, 0.76772047, 0.15476079],
+                                      [0.92985142, 0.22263399, 0.88027331]])),
+                            np.array([[[0.25891593, 0., 0.],
+                                       [0., 0.07299478, 0.],
+                                       [0., 0., 0.36586996]],
+                                      [[0.30851087, 0., 0.],
+                                       [0., 0.37131459, 0.],
+                                       [0., 0., 0.16274825]],
+                                      [[0.71061831, 0., 0.],
+                                       [0., 0.67718718, 0.],
+                                       [0., 0., 0.09562581]],
+                                      [[0.71588836, 0., 0.],
+                                       [0., 0.76772047, 0.],
+                                       [0., 0., 0.15476079]],
+                                      [[0.92985142, 0., 0.],
+                                       [0., 0.22263399, 0.],
+                                       [0., 0., 0.88027331]]]))
 
 
 if __name__ == '__main__':
