@@ -24,19 +24,19 @@ DATA1, DATA2, DATA3 = DATA_HD1, DATA_HD2, DATA_HD3
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_array,
+    as_numeric,
     as_shape,
     as_stack,
-    as_numeric,
-    is_numeric,
-    is_iterable,
-    row_as_diagonal,
-    warning,
     handle_numpy_errors,
     ignore_numpy_errors,
-    raise_numpy_errors,
+    is_iterable,
+    is_numeric,
+    message_box,
     print_numpy_errors,
+    raise_numpy_errors,
+    row_as_diagonal,
     warn_numpy_errors,
-    message_box)
+    warning)
 
 
 # #############################################################################
@@ -48,9 +48,10 @@ from colour.utilities import (
 # #############################################################################
 # ### colour.chromatic_adaptation_matrix_VonKries
 # #############################################################################
-
 from colour.adaptation import *
 from colour.adaptation.vonkries import *
+
+message_box('chromatic_adaptation_matrix_VonKries')
 
 
 def chromatic_adaptation_matrix_VonKries_2d(data1, data2):
@@ -110,10 +111,12 @@ print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
 
 # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_vectorise(DATA1, DATA2)')
 
+print('\n')
 
 # #############################################################################
 # ### colour.chromatic_adaptation_VonKries
 # #############################################################################
+message_box('chromatic_adaptation_VonKries')
 
 
 def chromatic_adaptation_VonKries_2d(data1, data2, data3):
@@ -159,6 +162,7 @@ print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
 
 # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_vectorise(DATA1, DATA2, DATA3)')
 
+print('\n')
 
 # #############################################################################
 # #############################################################################
@@ -169,8 +173,9 @@ print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
 # #############################################################################
 # ### colour.cartesian_to_spherical
 # #############################################################################
-
 from colour.algebra.coordinates.transformations import *
+
+message_box('cartesian_to_spherical')
 
 
 def cartesian_to_spherical_2d(vectors):
@@ -212,9 +217,12 @@ print(cartesian_to_spherical_vectorise(vector))
 
 # get_ipython().magic(u'timeit cartesian_to_spherical_vectorise(DATA1)')
 
+print('\n')
+
 # #############################################################################
 # ### colour.spherical_to_cartesian
 # #############################################################################
+message_box('spherical_to_cartesian')
 
 
 def spherical_to_cartesian_2d(vectors):
@@ -255,9 +263,12 @@ print(spherical_to_cartesian_vectorise(vector))
 
 # get_ipython().magic(u'timeit spherical_to_cartesian_vectorise(DATA1)')
 
+print('\n')
+
 # #############################################################################
 # ### colour.cartesian_to_cylindrical
 # #############################################################################
+message_box('cartesian_to_cylindrical')
 
 
 def cartesian_to_cylindrical_2d(vectors):
@@ -298,10 +309,13 @@ print(cartesian_to_cylindrical_vectorise(vector))
 
 # get_ipython().magic(u'timeit cartesian_to_cylindrical_vectorise(DATA1)')
 
+print('\n')
+
 
 # #############################################################################
 # ### colour.cylindrical_to_cartesian
 # #############################################################################
+message_box('cylindrical_to_cartesian')
 
 
 def cylindrical_to_cartesian_2d(vectors):
@@ -341,6 +355,7 @@ print(cylindrical_to_cartesian_vectorise(vector))
 
 # get_ipython().magic(u'timeit cylindrical_to_cartesian_vectorise(DATA1)')
 
+print('\n')
 
 # #############################################################################
 # #############################################################################
@@ -351,8 +366,9 @@ print(cylindrical_to_cartesian_vectorise(vector))
 # #############################################################################
 # ### colour.planck_law
 # #############################################################################
-
 from colour.colorimetry.blackbody import *
+
+message_box('planck_law')
 
 
 def planck_law_2d(wavelengths):
@@ -390,9 +406,9 @@ print('\n')
 print('2d array:')
 print(planck_law_vectorise([500 * 1e-9] * 5, 5500))
 
-
 # get_ipython().magic(u'timeit planck_law_vectorise(WAVELENGTHS, 5500)')
 
+print('\n')
 
 from colour.colorimetry.spectrum import *
 
@@ -419,12 +435,12 @@ print(blackbody_spd_vectorise(5000).values)
 # #############################################################################
 # #############################################################################
 
-# ##############################################################################
+# #############################################################################
 # ### colour.lightness_Glasser1958
-# ##############################################################################
-
-
+# #############################################################################
 from colour.colorimetry.lightness import *
+
+message_box('lightness_Glasser1958')
 
 
 def lightness_Glasser1958_2d(Y):
@@ -460,9 +476,12 @@ print(lightness_Glasser1958_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit lightness_Glasser1958_vectorise(Y)')
 
-###############################################################################
-#### colour.lightness_Wyszecki1963
-###############################################################################
+print('\n')
+
+# #############################################################################
+# ### colour.lightness_Wyszecki1963
+# ##############################################################################
+message_box('lightness_Wyszecki1963')
 
 
 def lightness_Wyszecki1963_2d(Y):
@@ -500,9 +519,12 @@ print(lightness_Wyszecki1963_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit lightness_Wyszecki1963_vectorise(Y)')
 
+print('\n')
+
+# ##############################################################################
+# ### colour.lightness_1976
 ###############################################################################
-#### colour.lightness_1976
-###############################################################################
+message_box('lightness_1976')
 
 
 def lightness_1976_2d(Y):
@@ -510,7 +532,6 @@ def lightness_1976_2d(Y):
         lightness_1976(Y_)
 
 # get_ipython().magic(u'timeit lightness_1976_2d(Y)')
-
 
 from colour.constants import CIE_E, CIE_K
 
@@ -543,6 +564,8 @@ print(lightness_1976_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit lightness_1976_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.colorimetry.luminance
@@ -552,8 +575,9 @@ print(lightness_1976_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 ###############################################################################
 #### colour.luminance_Newhall1943
 ###############################################################################
-
 from colour.colorimetry.luminance import *
+
+message_box('luminance_Newhall1943')
 
 
 def luminance_Newhall1943_2d(L):
@@ -592,11 +616,12 @@ print(luminance_Newhall1943_vectorise(
 
 # get_ipython().magic(u'timeit luminance_Newhall1943_vectorise(L)')
 
+print('\n')
 
 ###############################################################################
 #### colour.luminance_ASTMD153508
 ###############################################################################
-
+message_box('luminance_ASTMD153508')
 
 
 def luminance_ASTMD153508_2d(L):
@@ -633,9 +658,12 @@ print(luminance_ASTMD153508_vectorise(
 
 # get_ipython().magic(u'timeit luminance_ASTMD153508_vectorise(L)')
 
+print('\n')
+
 ###############################################################################
 #### colour.luminance_1976
 ###############################################################################
+message_box('luminance_1976')
 
 
 def luminance_1976_2d(L):
@@ -674,6 +702,8 @@ print(luminance_1976_vectorise(
 
 # get_ipython().magic(u'timeit luminance_1976_vectorise(L)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.colorimetry.spectrum
@@ -683,8 +713,9 @@ print(luminance_1976_vectorise(
 ###############################################################################
 #### colour.SpectralShape
 ###############################################################################
-
 from colour.colorimetry.spectrum import *
+
+message_box('SpectralShape')
 
 
 def SpectralShape__contains__(self, wavelength):
@@ -704,6 +735,7 @@ print((380, 480.5) in SpectralShape(360, 830, 1))
 ###############################################################################
 #### colour.SpectralPowerDistribution
 ###############################################################################
+message_box('SpectralPowerDistribution')
 
 
 def SpectralPowerDistribution__getitem__(self, wavelength):
@@ -828,6 +860,7 @@ print((510, 520, 521) in spd)
 ###############################################################################
 #### colour.TriSpectralPowerDistribution
 ###############################################################################
+message_box('TriSpectralPowerDistribution')
 
 
 def TriSpectralPowerDistribution__getitem__(self, wavelength):
@@ -931,7 +964,6 @@ print('\n')
 
 print(tri_spd.get((510, 520, 521)))
 
-
 ###############################################################################
 ###############################################################################
 ### colour.colorimetry.transformations
@@ -941,8 +973,6 @@ print(tri_spd.get((510, 520, 521)))
 ###############################################################################
 #### colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 ###############################################################################
-
-
 from colour import PHOTOPIC_LEFS, RGB_CMFS
 from colour.colorimetry.transformations import *
 
@@ -1002,6 +1032,7 @@ print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
 ###############################################################################
 #### colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 ###############################################################################
+message_box('RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs')
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
@@ -1043,6 +1074,7 @@ print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
 ###############################################################################
 #### colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 ###############################################################################
+message_box('RGB_10_degree_cmfs_to_LMS_10_degree_cmfs')
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
@@ -1088,8 +1120,9 @@ print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(
 ###############################################################################
 #### colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 ###############################################################################
-
 from colour import LMS_CMFS
+
+message_box('LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs')
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
@@ -1130,6 +1163,7 @@ print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
 ###############################################################################
 #### colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 ###############################################################################
+message_box('LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs')
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
@@ -1167,7 +1201,6 @@ print('2d array:')
 print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
     [700, 700, 700, 700, 700]))
 
-
 ###############################################################################
 ###############################################################################
 ### colour.colorimetry.tristimulus
@@ -1177,8 +1210,9 @@ print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
 ###############################################################################
 #### colour.wavelength_to_XYZ
 ###############################################################################
-
 from colour.colorimetry.tristimulus import *
+
+message_box('wavelength_to_XYZ')
 
 
 def wavelength_to_XYZ_2d(wavelengths):
@@ -1243,6 +1277,8 @@ print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480.5]))
 
 # get_ipython().magic(u'timeit wavelength_to_XYZ_vectorise(WAVELENGTHS)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.colorimetry.whiteness
@@ -1252,8 +1288,9 @@ print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480.5]))
 ###############################################################################
 #### colour.whiteness_Berger1959
 ###############################################################################
-
 from colour.colorimetry.whiteness import *
+
+message_box('whiteness_Berger1959')
 
 
 def whiteness_Berger1959_2d(XYZ, XYZ_0):
@@ -1295,9 +1332,12 @@ print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
 # get_ipython().magic(u'timeit whiteness_Berger1959_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 #### colour.whiteness_Taube1960
 ###############################################################################
+message_box('whiteness_Taube1960')
 
 
 def whiteness_Taube1960_2d(XYZ, XYZ_0):
@@ -1338,9 +1378,12 @@ print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
 # get_ipython().magic(u'timeit whiteness_Taube1960_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 #### colour.whiteness_Stensby1968
 ###############################################################################
+message_box('whiteness_Stensby1968')
 
 
 def whiteness_Stensby1968_2d(Lab):
@@ -1377,9 +1420,12 @@ print(whiteness_Stensby1968_vectorise(Lab))
 
 # get_ipython().magic(u'timeit whiteness_Stensby1968_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.whiteness_ASTM313
 ###############################################################################
+message_box('whiteness_ASTM313')
 
 
 def whiteness_ASTM313_2d(XYZ):
@@ -1416,9 +1462,12 @@ print(whiteness_ASTM313_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit whiteness_ASTM313_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.whiteness_Ganz1979
 ###############################################################################
+message_box('whiteness_Ganz1979')
 
 
 def whiteness_Ganz1979_2d(xy, Y):
@@ -1462,9 +1511,12 @@ print(whiteness_Ganz1979_vectorise(xy, Y))
 
 # get_ipython().magic(u'timeit whiteness_Ganz1979_vectorise(DATA1[:,0:2], DATA2[:,0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.whiteness_CIE2004
 ###############################################################################
+message_box('whiteness_CIE2004')
 
 
 def whiteness_CIE2004_2d(xy, Y, xy_n):
@@ -1517,6 +1569,8 @@ print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
 # get_ipython().magic(u'timeit whiteness_CIE2004_vectorise(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.difference.delta_e
@@ -1526,8 +1580,9 @@ print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 ################################################################################
 ### colour.delta_E_CIE1976
 ###############################################################################
-
 from colour.difference.delta_e import *
+
+message_box('delta_E_CIE1976')
 
 
 def delta_E_CIE1976_2d(Lab1, Lab2):
@@ -1564,9 +1619,12 @@ print(delta_E_CIE1976_vectorise(Lab1, Lab2))
 
 # get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 #### colour.delta_E_CIE1994
 ###############################################################################
+message_box('delta_E_CIE1994')
 
 
 def delta_E_CIE1994_2d(Lab1, Lab2):
@@ -1630,9 +1688,12 @@ print(delta_E_CIE1994_vectorise(Lab1, Lab2))
 
 # get_ipython().magic(u'timeit delta_E_CIE1994_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 #### colour.delta_E_CIE2000
 ###############################################################################
+message_box('delta_E_CIE2000')
 
 
 def delta_E_CIE2000_2d(Lab1, Lab2):
@@ -1733,9 +1794,12 @@ print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
 # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 #### colour.delta_E_CMC
 ###############################################################################
+message_box('delta_E_CMC')
 
 
 def delta_E_CMC_2d(Lab1, Lab2):
@@ -1805,6 +1869,8 @@ print(delta_E_CMC_vectorise(Lab1, Lab2))
 
 # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.cie_xyy
@@ -1814,8 +1880,9 @@ print(delta_E_CMC_vectorise(Lab1, Lab2))
 ###############################################################################
 #### colour.XYZ_to_xyY
 ###############################################################################
-
 from colour.models.cie_xyy import *
+
+message_box('XYZ_to_xyY')
 
 
 def XYZ_to_xyY_2d(XYZ):
@@ -1868,9 +1935,12 @@ print(XYZ_to_xyY_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_xyY_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.xyY_to_XYZ
 ###############################################################################
+message_box('xyY_to_XYZ')
 
 
 def xyY_to_XYZ_2d(xyY):
@@ -1879,6 +1949,7 @@ def xyY_to_XYZ_2d(xyY):
 
 
 # get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
+
 
 @handle_numpy_errors(divide='ignore')
 def xyY_to_XYZ_vectorise(xyY):
@@ -1913,9 +1984,12 @@ print(xyY_to_XYZ_vectorise(xyY))
 
 # get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.xy_to_XYZ
 ###############################################################################
+message_box('xy_to_XYZ')
 
 
 def xy_to_XYZ_2d(xy):
@@ -1950,9 +2024,12 @@ print(xy_to_XYZ_vectorise(xy))
 
 # get_ipython().magic(u'timeit xy_to_XYZ_vectorise(DATA1[:, 0:2])')
 
+print('\n')
+
 ###############################################################################
 #### colour.XYZ_to_xy
 ###############################################################################
+message_box('XYZ_to_xy')
 
 
 def XYZ_to_xy_2d(XYZ):
@@ -1989,6 +2066,8 @@ print(XYZ_to_xy_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_xy_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.cie_lab
@@ -1998,8 +2077,9 @@ print(XYZ_to_xy_vectorise(XYZ))
 ###############################################################################
 #### colour.XYZ_to_Lab
 ###############################################################################
-
 from colour.models.cie_lab import *
+
+message_box('XYZ_to_Lab')
 
 
 def XYZ_to_Lab_2d(XYZ):
@@ -2052,9 +2132,12 @@ print(XYZ_to_Lab_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_Lab_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.Lab_to_XYZ
 ###############################################################################
+message_box('Lab_to_XYZ')
 
 
 def Lab_to_XYZ_2d(Lab):
@@ -2106,9 +2189,12 @@ print(Lab_to_XYZ_vectorise(Lab))
 
 # get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.Lab_to_LCHab
 ###############################################################################
+message_box('Lab_to_LCHab')
 
 
 def Lab_to_LCHab_2d(Lab):
@@ -2149,9 +2235,12 @@ print(Lab_to_LCHab_vectorise(Lab))
 
 # get_ipython().magic(u'timeit Lab_to_LCHab_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.LCHab_to_Lab
 ###############################################################################
+message_box('LCHab_to_Lab')
 
 
 def LCHab_to_Lab_2d(LCHab):
@@ -2188,9 +2277,9 @@ print('2d array:')
 LCHab = np.tile(LCHab, (5, 1))
 print(LCHab_to_Lab_vectorise(LCHab))
 
-
 # get_ipython().magic(u'timeit LCHab_to_Lab_vectorise(DATA1)')
 
+print('\n')
 
 ###############################################################################
 ###############################################################################
@@ -2201,8 +2290,9 @@ print(LCHab_to_Lab_vectorise(LCHab))
 ###############################################################################
 #### colour.XYZ_to_Luv
 ###############################################################################
-
 from colour.models.cie_luv import *
+
+message_box('XYZ_to_Luv')
 
 
 def XYZ_to_Luv_2d(XYZ):
@@ -2255,9 +2345,12 @@ print(XYZ_to_Luv_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_Luv_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.Luv_to_XYZ
 ###############################################################################
+message_box('Luv_to_XYZ')
 
 
 def Luv_to_XYZ_2d(Luv):
@@ -2313,9 +2406,12 @@ print(Luv_to_XYZ_vectorise(Luv))
 
 # get_ipython().magic(u'timeit Luv_to_XYZ_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.Luv_to_uv
 ###############################################################################
+message_box('Luv_to_uv')
 
 
 def Luv_to_uv_2d(Luv):
@@ -2355,9 +2451,12 @@ print(Luv_to_uv_vectorise(Luv))
 
 # get_ipython().magic(u'timeit Luv_to_uv_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.Luv_uv_to_xy
 ###############################################################################
+message_box('Luv_uv_to_xy')
 
 
 def Luv_uv_to_xy_2d(uv):
@@ -2394,9 +2493,12 @@ print(Luv_uv_to_xy_vectorise(uv))
 
 # get_ipython().magic(u'timeit Luv_uv_to_xy_vectorise(DATA1[:, 0:2])')
 
+print('\n')
+
 ###############################################################################
 #### colour.Luv_to_LCHuv
 ###############################################################################
+message_box('Luv_to_LCHuv')
 
 
 def Luv_to_LCHuv_2d(Luv):
@@ -2439,9 +2541,12 @@ print(Luv_to_LCHuv_vectorise(Luv))
 
 # get_ipython().magic(u'timeit Luv_to_LCHuv_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.LCHuv_to_Luv
 ###############################################################################
+message_box('LCHuv_to_Luv')
 
 
 def LCHuv_to_Luv_2d(LCHuv):
@@ -2481,6 +2586,8 @@ print(LCHuv_to_Luv_vectorise(LCHuv))
 
 # get_ipython().magic(u'timeit LCHuv_to_Luv_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.cie_ucs
@@ -2490,8 +2597,9 @@ print(LCHuv_to_Luv_vectorise(LCHuv))
 ###############################################################################
 #### colour.XYZ_to_UCS
 ###############################################################################
-
 from colour.models.cie_ucs import *
+
+message_box('XYZ_to_UCS')
 
 
 def XYZ_to_UCS_2d(XYZ):
@@ -2532,9 +2640,12 @@ print(XYZ_to_UCS_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_UCS_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.UCS_to_XYZ
 ###############################################################################
+message_box('UCS_to_XYZ')
 
 
 def UCS_to_XYZ_2d(UVW):
@@ -2575,9 +2686,12 @@ print(UCS_to_XYZ_vectorise(UVW))
 
 # get_ipython().magic(u'timeit UCS_to_XYZ_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.UCS_to_uv
 ###############################################################################
+message_box('UCS_to_uv')
 
 
 def UCS_to_uv_2d(UVW):
@@ -2614,9 +2728,12 @@ print(UCS_to_uv_vectorise(UVW))
 
 # get_ipython().magic(u'timeit UCS_to_uv_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.UCS_uv_to_xy
 ###############################################################################
+message_box('UCS_uv_to_xy')
 
 
 def UCS_uv_to_xy_2d(uv):
@@ -2654,6 +2771,8 @@ print(UCS_uv_to_xy_vectorise(uv))
 
 # get_ipython().magic(u'timeit UCS_uv_to_xy_vectorise(DATA1[:, 0:2])')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.cie_uvw
@@ -2663,9 +2782,10 @@ print(UCS_uv_to_xy_vectorise(uv))
 ###############################################################################
 #### colour.XYZ_to_UVW
 ###############################################################################
-
-
 from colour.models.cie_uvw import *
+
+
+message_box('XYZ_to_UVW')
 
 
 def XYZ_to_UVW_2d(XYZ):
@@ -2724,6 +2844,8 @@ print(XYZ_to_UVW_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_UVW_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.deprecated
@@ -2733,8 +2855,9 @@ print(XYZ_to_UVW_vectorise(XYZ))
 ###############################################################################
 #### colour.models.deprecated.RGB_to_HSV
 ###############################################################################
-
 from colour.models.deprecated import *
+
+message_box('RGB_to_HSV')
 
 
 def RGB_to_HSV_2d(RGB):
@@ -2794,9 +2917,12 @@ print(RGB_to_HSV_vectorise(RGB))
 
 # get_ipython().magic(u'timeit RGB_to_HSV_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.HSV_to_RGB
 ###############################################################################
+message_box('HSV_to_RGB')
 
 
 def HSV_to_RGB_2d(HSV):
@@ -2851,9 +2977,12 @@ print(HSV_to_RGB_vectorise(HSV))
 
 # get_ipython().magic(u'timeit HSV_to_RGB_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.RGB_to_HSL
 ###############################################################################
+message_box('RGB_to_HSL')
 
 
 def RGB_to_HSL_2d(RGB):
@@ -2915,9 +3044,12 @@ print(RGB_to_HSL_vectorise(RGB))
 
 # get_ipython().magic(u'timeit RGB_to_HSL_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.HSL_to_RGB
 ###############################################################################
+message_box('HSL_to_RGB')
 
 
 def HSL_to_RGB_2d(HSL):
@@ -2990,9 +3122,12 @@ print(HSL_to_RGB_vectorise(HSL))
 
 # get_ipython().magic(u'timeit HSL_to_RGB_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.RGB_to_CMY
 ###############################################################################
+message_box('RGB_to_CMY')
 
 
 def RGB_to_CMY_2d(RGB):
@@ -3029,9 +3164,12 @@ print(RGB_to_CMY_vectorise(RGB))
 
 # get_ipython().magic(u'timeit RGB_to_CMY_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.CMY_to_RGB
 ###############################################################################
+message_box('CMY_to_RGB')
 
 
 def CMY_to_RGB_2d(CMY):
@@ -3068,9 +3206,12 @@ print(CMY_to_RGB_vectorise(CMY))
 
 # get_ipython().magic(u'timeit CMY_to_RGB_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.CMY_to_CMYK
 ###############################################################################
+message_box('CMY_to_CMYK')
 
 
 def CMY_to_CMYK_2d(CMY):
@@ -3079,7 +3220,6 @@ def CMY_to_CMYK_2d(CMY):
 
 
 # get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
-
 
 
 def CMY_to_CMYK_vectorise(CMY):
@@ -3121,9 +3261,12 @@ print(CMY_to_CMYK_vectorise(CMY))
 
 # get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.models.deprecated.CMYK_to_CMY
 ###############################################################################
+message_box('CMYK_to_CMY')
 
 
 def CMYK_to_CMY_2d(CMYK):
@@ -3160,6 +3303,8 @@ print(CMYK_to_CMY_vectorise(CMYK))
 
 # get_ipython().magic(u'timeit CMYK_to_CMY_vectorise(np.resize(DATA1, (-1, 4)))')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.derivation
@@ -3169,8 +3314,9 @@ print(CMYK_to_CMY_vectorise(CMYK))
 ###############################################################################
 #### colour.RGB_luminance
 ###############################################################################
-
 from colour.models.derivation import *
+
+message_box('RGB_luminance')
 
 
 def RGB_luminance_2d(RGB):
@@ -3213,6 +3359,8 @@ print(RGB_luminance_vectorise(RGB, P, W))
 
 # get_ipython().magic(u'timeit RGB_luminance_vectorise(DATA1, P, W)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.ipt
@@ -3222,8 +3370,9 @@ print(RGB_luminance_vectorise(RGB, P, W))
 ###############################################################################
 #### colour.XYZ_to_IPT
 ###############################################################################
-
 from colour.models.ipt import *
+
+message_box('XYZ_to_IPT')
 
 
 def XYZ_to_IPT_2d(XYZ):
@@ -3264,11 +3413,14 @@ print(XYZ_to_IPT_vectorise(XYZ))
 
 # get_ipython().magic(u'timeit XYZ_to_IPT_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 #### colour.IPT_to_XYZ
 ###############################################################################
 ###############################################################################
+message_box('IPT_to_XYZ')
 
 
 def IPT_to_XYZ_2d(IPT):
@@ -3309,9 +3461,12 @@ print(IPT_to_XYZ_vectorise(IPT))
 
 # get_ipython().magic(u'timeit IPT_to_XYZ_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.IPT_hue_angle
 ###############################################################################
+message_box('IPT_hue_angle')
 
 
 def IPT_hue_angle_2d(IPT):
@@ -3347,6 +3502,8 @@ print(IPT_hue_angle_vectorise(IPT))
 
 # get_ipython().magic(u'timeit IPT_hue_angle_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.log
@@ -3356,8 +3513,9 @@ print(IPT_hue_angle_vectorise(IPT))
 ###############################################################################
 #### colour.linear_to_cineon
 ###############################################################################
-
 from colour.models.log import *
+
+message_box('linear_to_cineon')
 
 
 def linear_to_cineon_2d(value):
@@ -3395,9 +3553,12 @@ print(linear_to_cineon_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_cineon_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.cineon_to_linear
 ###############################################################################
+message_box('cineon_to_linear')
 
 
 def cineon_to_linear_2d(value):
@@ -3433,6 +3594,7 @@ print(cineon_to_linear_vectorise(
 ###############################################################################
 #### colour.linear_to_panalog
 ###############################################################################
+message_box('linear_to_panalog')
 
 
 def linear_to_panalog_2d(value):
@@ -3468,9 +3630,12 @@ print(linear_to_panalog_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_panalog_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.panalog_to_linear
 ###############################################################################
+message_box('panalog_to_linear')
 
 
 def panalog_to_linear_2d(value):
@@ -3505,9 +3670,12 @@ print(panalog_to_linear_vectorise(
 
 # get_ipython().magic(u'timeit panalog_to_linear_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.linear_to_red_log
 ###############################################################################
+message_box('linear_to_red_log')
 
 
 def linear_to_red_log_2d(value):
@@ -3543,9 +3711,12 @@ print(linear_to_red_log_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_red_log_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.red_log_to_linear
 ###############################################################################
+message_box('red_log_to_linear')
 
 
 def red_log_to_linear_2d(value):
@@ -3580,9 +3751,12 @@ print(red_log_to_linear_vectorise(
 
 # get_ipython().magic(u'timeit red_log_to_linear_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.linear_to_viper_log
 ###############################################################################
+message_box('linear_to_viper_log')
 
 
 def linear_to_viper_log_2d(value):
@@ -3615,9 +3789,12 @@ print(linear_to_viper_log_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_viper_log_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.viper_log_to_linear
 ###############################################################################
+message_box('viper_log_to_linear')
 
 
 def viper_log_to_linear_2d(value):
@@ -3650,9 +3827,12 @@ print(viper_log_to_linear_vectorise(
 
 # get_ipython().magic(u'timeit viper_log_to_linear_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.linear_to_pivoted_log
 ###############################################################################
+message_box('linear_to_pivoted_log')
 
 
 def linear_to_pivoted_log_2d(value):
@@ -3690,9 +3870,12 @@ print(linear_to_pivoted_log_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_pivoted_log_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.pivoted_log_to_linear
 ###############################################################################
+message_box('pivoted_log_to_linear')
 
 
 def pivoted_log_to_linear_2d(value):
@@ -3731,10 +3914,12 @@ print(pivoted_log_to_linear_vectorise(
 
 # get_ipython().magic(u'timeit pivoted_log_to_linear_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.linear_to_c_log
 ###############################################################################
-
+message_box('linear_to_c_log')
 
 
 def linear_to_c_log_2d(value):
@@ -3767,9 +3952,12 @@ print(linear_to_c_log_vectorise(
 
 # get_ipython().magic(u'timeit linear_to_c_log_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 #### colour.c_log_to_linear
 ###############################################################################
+message_box('c_log_to_linear')
 
 
 def c_log_to_linear_2d(value):
@@ -3803,6 +3991,8 @@ print(c_log_to_linear_vectorise(
 
 # get_ipython().magic(u'timeit c_log_to_linear_vectorise(DATA)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.models.rgb
@@ -3812,11 +4002,11 @@ print(c_log_to_linear_vectorise(
 ###############################################################################
 #### OECF / OECF_i
 ###############################################################################
-
-
 from colour.models.dataset.aces import _aces_cc_transfer_function, \
     _aces_cc_inverse_transfer_function
 from colour.models.dataset.aces import *
+
+message_box('OECF / OECF_i')
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 RGB_t = np.tile(RGB, (5, 1))
@@ -4367,7 +4557,6 @@ print(_srgb_inverse_transfer_function(RGB_t))
 ###############################################################################
 #### colour.XYZ_to_RGB
 ###############################################################################
-
 from colour.models.rgb import *
 
 XYZ = np.array([0.07049534, 0.1008, 0.09558313])
@@ -4378,6 +4567,8 @@ M = np.array([
     [3.24100326, -1.53739899, -0.49861587],
     [-0.96922426, 1.87592999, 0.04155422],
     [0.05563942, -0.2040112, 1.05714897]])
+
+message_box('XYZ_to_RGB')
 
 
 def XYZ_to_RGB_2d(XYZ):
@@ -4431,10 +4622,11 @@ print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
 
 # get_ipython().magic(u'timeit XYZ_to_RGB_vectorise(DATA1, W_R, W_T, M, CAT)')
 
+print('\n')
+
 ###############################################################################
 # #### colour.RGB_to_XYZ
 ###############################################################################
-
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 W_R = (0.31271, 0.32902)
 W_T = (0.34567, 0.35850)
@@ -4443,6 +4635,8 @@ M = np.array([
     [0.41238656, 0.35759149, 0.18045049],
     [0.21263682, 0.71518298, 0.0721802],
     [0.01933062, 0.11919716, 0.95037259]])
+
+message_box('RGB_to_XYZ')
 
 
 def RGB_to_XYZ_2d(RGB):
@@ -4496,15 +4690,18 @@ print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
 
 # get_ipython().magic(u'timeit RGB_to_XYZ_vectorise(DATA1, W_R, W_T, M, CAT)')
 
+print('\n')
+
 ###############################################################################
 #### colour.RGB_to_RGB
 ###############################################################################
-
 from colour import sRGB_COLOURSPACE
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 C = sRGB_COLOURSPACE
 CAT = 'Bradford'
+
+message_box('RGB_to_RGB')
 
 
 def RGB_to_RGB_2d(RGB):
@@ -4558,6 +4755,8 @@ print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
 
 # get_ipython().magic(u'timeit RGB_to_RGB_vectorise(DATA1, C, C, CAT)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.notation.munsell
@@ -4567,8 +4766,10 @@ print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
 ###############################################################################
 #### colour.munsell_value_Priest1920
 ###############################################################################
-
 from colour.notation.munsell import *
+
+
+message_box('munsell_value_Priest1920')
 
 
 def munsell_value_Priest1920_2d(Y):
@@ -4605,9 +4806,12 @@ print(munsell_value_Priest1920_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_Priest1920_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_Munsell1933
 ###############################################################################
+message_box('munsell_value_Munsell1933')
 
 
 def munsell_value_Munsell1933_2d(Y):
@@ -4641,9 +4845,13 @@ print(munsell_value_Munsell1933_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_Munsell1933_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_Moon1943
 ###############################################################################
+message_box('munsell_value_Moon1943')
+
 
 def munsell_value_Moon1943_2d(Y):
     for i in range(len(Y)):
@@ -4676,9 +4884,12 @@ print(munsell_value_Moon1943_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_Moon1943_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_Saunderson1944
 ###############################################################################
+message_box('munsell_value_Saunderson1944')
 
 
 def munsell_value_Saunderson1944_2d(Y):
@@ -4713,9 +4924,12 @@ print(munsell_value_Saunderson1944_vectorise(
 
 # get_ipython().magic(u'timeit munsell_value_Saunderson1944_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_Ladd1955
 ###############################################################################
+message_box('munsell_value_Ladd1955')
 
 
 def munsell_value_Ladd1955_2d(Y):
@@ -4749,9 +4963,12 @@ print(munsell_value_Ladd1955_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_Ladd1955_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_McCamy1987
 ###############################################################################
+message_box('munsell_value_McCamy1987')
 
 
 def munsell_value_McCamy1987_2d(Y):
@@ -4793,9 +5010,13 @@ print(munsell_value_McCamy1987_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_McCamy1987_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 #### colour.munsell_value_ASTMD153508
 ###############################################################################
+message_box('munsell_value_ASTMD153508')
+
 
 def munsell_value_ASTMD153508_2d(Y):
     for i in range(len(Y)):
@@ -4803,7 +5024,6 @@ def munsell_value_ASTMD153508_2d(Y):
 
 
 # get_ipython().magic(u'timeit munsell_value_ASTMD153508_2d(Y)')
-
 
 from colour.algebra import *
 
@@ -4845,6 +5065,8 @@ print(munsell_value_ASTMD153508_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
 # get_ipython().magic(u'timeit munsell_value_ASTMD153508_vectorise(Y)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.notation.triplet
@@ -4854,10 +5076,11 @@ print(munsell_value_ASTMD153508_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 ###############################################################################
 #### colour.notation.triplet.RGB_to_HEX
 ###############################################################################
-
 from colour.notation.triplet import *
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
+
+message_box('RGB_to_HEX')
 
 
 def RGB_to_HEX_2d(RGB):
@@ -4896,13 +5119,16 @@ print(RGB_to_HEX_vectorise(RGB))
 
 # get_ipython().magic(u'timeit RGB_to_HEX_vectorise(DATA1)')
 
+print('\n')
+
 ###############################################################################
 #### colour.notation.triplet.HEX_to_RGB
 ###############################################################################
-
 from colour.notation.triplet import *
 
 HEX1 = ['#aaddff'] * (1920 * 1080)
+
+message_box('HEX_to_RGB')
 
 
 def HEX_to_RGB_2d(HEX):
@@ -4945,6 +5171,8 @@ print(HEX_to_RGB_vectorise(RGB))
 
 # get_ipython().magic(u'timeit HEX_to_RGB_vectorise(HEX1)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### colour.phenomenons.rayleigh
@@ -4954,8 +5182,9 @@ print(HEX_to_RGB_vectorise(RGB))
 ###############################################################################
 ### colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957
 ###############################################################################
-
 from colour.phenomenons.rayleigh import *
+
+message_box('air_refraction_index_Penndorf1957')
 
 
 def air_refraction_index_Penndorf1957_2d(wl):
@@ -4990,9 +5219,12 @@ print(air_refraction_index_Penndorf1957_vectorise(
 
 # get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.air_refraction_index_Edlen1966
 ###############################################################################
+message_box('air_refraction_index_Edlen1966')
 
 
 def air_refraction_index_Edlen1966_2d(wl):
@@ -5027,9 +5259,12 @@ print(air_refraction_index_Edlen1966_vectorise(
 
 # get_ipython().magic(u'timeit air_refraction_index_Edlen1966_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.air_refraction_index_Peck1972
 ###############################################################################
+message_box('air_refraction_index_Peck1972')
 
 
 def air_refraction_index_Peck1972_2d(wl):
@@ -5065,9 +5300,12 @@ print(air_refraction_index_Peck1972_vectorise(
 
 # get_ipython().magic(u'timeit air_refraction_index_Peck1972_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999
 ###############################################################################
+message_box('air_refraction_index_Bodhaine1999')
 
 
 def air_refraction_index_Bodhaine1999_2d(wl):
@@ -5106,9 +5344,12 @@ print(air_refraction_index_Bodhaine1999_vectorise(
 
 # get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.N2_depolarisation
 ###############################################################################
+message_box('N2_depolarisation')
 
 
 def N2_depolarisation_2d(wl):
@@ -5141,9 +5382,12 @@ print(N2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
 # get_ipython().magic(u'timeit N2_depolarisation_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.O2_depolarisation
 ###############################################################################
+message_box('O2_depolarisation')
 
 
 def O2_depolarisation_2d(wl):
@@ -5176,6 +5420,8 @@ print('2d array:')
 print(O2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
 # get_ipython().magic(u'timeit O2_depolarisation_vectorise(DATA1[:, 0])')
+
+print('\n')
 
 ###############################################################################
 #### colour.phenomenons.rayleigh.F_air_Penndorf1957
@@ -5229,6 +5475,7 @@ print(F_air_Young1981_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 ###############################################################################
 #### colour.phenomenons.rayleigh.F_air_Bates1984
 ###############################################################################
+message_box('F_air_Bates1984')
 
 
 def F_air_Bates1984_2d(wl):
@@ -5267,9 +5514,12 @@ print(F_air_Bates1984_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
 # get_ipython().magic(u'timeit F_air_Bates1984_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.F_air_Bodhaine1999
 ###############################################################################
+message_box('F_air_Bodhaine1999')
 
 
 def F_air_Bodhaine1999_2d(wl):
@@ -5308,9 +5558,12 @@ print(F_air_Bodhaine1999_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
 # get_ipython().magic(u'timeit F_air_Bodhaine1999_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.molecular_density
 ###############################################################################
+message_box('molecular_density')
 
 
 def molecular_density_2d(temperature):
@@ -5347,9 +5600,13 @@ print(molecular_density_vectorise([15, 15, 15, 15, 15]))
 
 # get_ipython().magic(u'timeit molecular_density_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.mean_molecular_weights
 ###############################################################################
+message_box('mean_molecular_weights')
+
 
 def mean_molecular_weights_2d(C):
     for i in range(len(C)):
@@ -5383,9 +5640,12 @@ print(mean_molecular_weights_vectorise([300, 300, 300, 300, 300]))
 
 # get_ipython().magic(u'timeit mean_molecular_weights_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.gravity_List1968
 ###############################################################################
+message_box('gravity_List1968')
 
 
 def gravity_List1968_2d(C):
@@ -5428,9 +5688,12 @@ print(gravity_List1968_vectorise([0, 0, 0, 0, 0], [0]))
 
 # get_ipython().magic(u'timeit gravity_List1968_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.scattering_cross_section
 ###############################################################################
+message_box('scattering_cross_section')
 
 
 def scattering_cross_section_2d(wl):
@@ -5480,9 +5743,12 @@ print(scattering_cross_section_vectorise(
 
 # get_ipython().magic(u'timeit scattering_cross_section_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.rayleigh_optical_depth
 ###############################################################################
+message_box('rayleigh_optical_depth')
 
 
 def rayleigh_optical_depth_2d(wl):
@@ -5540,9 +5806,12 @@ print(rayleigh_optical_depth_vectorise(
 
 # get_ipython().magic(u'timeit rayleigh_optical_depth_vectorise(DATA1[:, 0])')
 
+print('\n')
+
 ###############################################################################
 #### colour.phenomenons.rayleigh.rayleigh_scattering_spd
 ###############################################################################
+message_box('rayleigh_scattering_spd')
 
 
 def rayleigh_scattering_spd_vectorise(shape=DEFAULT_SPECTRAL_SHAPE,
@@ -5585,8 +5854,9 @@ print(rayleigh_scattering_spd_vectorise().values)
 ###############################################################################
 ### colour.quality.cqs.gamut_area
 ###############################################################################
-
 from colour.quality.cqs import *
+
+message_box('gamut_area_vectorise')
 
 
 def gamut_area_vectorise(Lab):
@@ -5634,8 +5904,9 @@ print(gamut_area_vectorise(Lab))
 ###############################################################################
 #### colour.xy_to_CCT_McCamy1992
 ###############################################################################
-
 from colour.temperature.cct import *
+
+message_box('xy_to_CCT_McCamy1992')
 
 
 def xy_to_CCT_McCamy1992_2d(xy):
@@ -5673,9 +5944,12 @@ print(xy_to_CCT_McCamy1992_vectorise(xy))
 
 # get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_vectorise(DATA1[:, 0:2])')
 
+print('\n')
+
 ###############################################################################
 #### colour.xy_to_CCT_Hernandez1999
 ###############################################################################
+message_box('xy_to_CCT_Hernandez1999')
 
 
 def xy_to_CCT_Hernandez1999_2d(xy):
@@ -5727,9 +6001,12 @@ print(xy_to_CCT_Hernandez1999_vectorise(xy))
 
 # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])')
 
+print('\n')
+
 ###############################################################################
 #### colour.CCT_to_xy_Kang2002
 ###############################################################################
+message_box('CCT_to_xy_Kang2002')
 
 
 def CCT_to_xy_Kang2002_2d(CCT):
@@ -5797,9 +6074,12 @@ print(CCT_to_xy_Kang2002_vectorise(
 
 # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
 
+print('\n')
+
 ###############################################################################
 #### colour.CCT_to_xy_CIE_D
 ###############################################################################
+message_box('CCT_to_xy_CIE_D')
 
 
 def CCT_to_xy_CIE_D_2d(CCT):
@@ -5851,6 +6131,8 @@ print(CCT_to_xy_CIE_D_vectorise(
 
 # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
 
+print('\n')
+
 ###############################################################################
 ###############################################################################
 ### Ramblings
@@ -5863,41 +6145,41 @@ print(CCT_to_xy_CIE_D_vectorise(
 
 # get_ipython().magic(u'matplotlib inline')
 
-import pylab
-from OpenImageIO import FLOAT, ImageInput
-
-import colour
-from colour.plotting import *
-
-
-def read_image_as_array(path, bit_depth=FLOAT):
-    image = ImageInput.open(path)
-    specification = image.spec()
-
-    return np.array(image.read_image(bit_depth)).reshape((specification.height,
-                                                          specification.width,
-                                                          specification.nchannels))
-
-
-colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
-
-
-def image_plot(image,
-               transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
-    image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
-    pylab.imshow(image)
-
-    settings = {'no_ticks': True,
-                'bounding_box': [0, 1, 0, 1],
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
-
-    canvas(**{'figure_size': (16, 16)})
-    decorate(**settings)
-    display(**settings)
-
-
-marcie = read_image_as_array(
-    '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
-
-image_plot(marcie)
+# import pylab
+# from OpenImageIO import FLOAT, ImageInput
+#
+# import colour
+# from colour.plotting import *
+#
+#
+# def read_image_as_array(path, bit_depth=FLOAT):
+#     image = ImageInput.open(path)
+#     specification = image.spec()
+#
+#     return np.array(image.read_image(bit_depth)).reshape((specification.height,
+#                                                           specification.width,
+#                                                           specification.nchannels))
+#
+#
+# colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
+#
+#
+# def image_plot(image,
+#                transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
+#     image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
+#     pylab.imshow(image)
+#
+#     settings = {'no_ticks': True,
+#                 'bounding_box': [0, 1, 0, 1],
+#                 'bbox_inches': 'tight',
+#                 'pad_inches': 0}
+#
+#     canvas(**{'figure_size': (16, 16)})
+#     decorate(**settings)
+#     display(**settings)
+#
+#
+# marcie = read_image_as_array(
+#     '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
+#
+# image_plot(marcie)
