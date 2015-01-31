@@ -1,28 +1,9 @@
-# # Colour - Vectorise
-
-# ## Data
-
-
 from __future__ import division, with_statement
 
 import numpy as np
-
 from pprint import pprint
 
-DATA_HD1 = np.random.rand(1920 * 1080, 3)
-DATA_HD2 = np.random.rand(1920 * 1080, 3)
-DATA_HD3 = np.random.rand(1920 * 1080, 3)
-
-DATA_PAL1 = np.random.rand(640 * 480, 3)
-DATA_PAL2 = np.random.rand(640 * 480, 3)
-DATA_PAL3 = np.random.rand(640 * 480, 3)
-
-DATA1, DATA2, DATA3 = DATA_HD1, DATA_HD2, DATA_HD3
-
-
-# ## Utilities
 from colour.utilities import (
-    CaseInsensitiveMapping,
     as_array,
     as_numeric,
     as_shape,
@@ -32,12 +13,19 @@ from colour.utilities import (
     is_iterable,
     is_numeric,
     message_box,
-    print_numpy_errors,
-    raise_numpy_errors,
     row_as_diagonal,
-    warn_numpy_errors,
     warning)
 
+
+DATA_HD1 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
+DATA_HD2 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
+DATA_HD3 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
+
+DATA_PAL1 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
+DATA_PAL2 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
+DATA_PAL3 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
+
+DATA1, DATA2, DATA3 = DATA_HD1, DATA_HD2, DATA_HD3
 
 # #############################################################################
 # #############################################################################
@@ -46,20 +34,15 @@ from colour.utilities import (
 # #############################################################################
 
 # #############################################################################
-# ### colour.chromatic_adaptation_matrix_VonKries
+# # ### colour.chromatic_adaptation_matrix_VonKries
 # #############################################################################
 from colour.adaptation import *
 from colour.adaptation.vonkries import *
-
-message_box('chromatic_adaptation_matrix_VonKries')
 
 
 def chromatic_adaptation_matrix_VonKries_2d(data1, data2):
     for i in range(len(data1)):
         chromatic_adaptation_matrix_VonKries(data1[i], data2[i])
-
-
-# get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_2d(DATA1, DATA2)')
 
 
 def chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
@@ -92,31 +75,43 @@ def chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
     return cat
 
 
-print('Reference:')
-XYZ_w = np.array([1.09846607, 1., 0.3558228])
-XYZ_wr = np.array([0.95042855, 1., 1.08890037])
-print(chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
+def chromatic_adaptation_matrix_VonKries_analysis():
+    message_box('chromatic_adaptation_matrix_VonKries')
 
-print('\n')
+    print('Reference:')
+    XYZ_w = np.array([1.09846607, 1., 0.3558228])
+    XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    print(chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
 
-print('1d array:')
-print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
 
-print('2d array:')
-XYZ_w = np.tile(XYZ_w, (5, 1))
-XYZ_wr = np.tile(XYZ_wr, (5, 1))
-print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
+    print('\n')
 
-# get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    XYZ_w = np.tile(XYZ_w, (5, 1))
+    XYZ_wr = np.tile(XYZ_wr, (5, 1))
+    print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
 
-print('\n')
+    print('\n')
+
+    print('3d array:')
+    print(chromatic_adaptation_matrix_VonKries_vectorise(DATA_PAL1, DATA_PAL2))
+
+    # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_2d(DATA1, DATA2)')
+
+    # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# chromatic_adaptation_matrix_VonKries_analysis()
 
 # #############################################################################
-# ### colour.chromatic_adaptation_VonKries
+# # ### colour.chromatic_adaptation_VonKries
 # #############################################################################
-message_box('chromatic_adaptation_VonKries')
 
 
 def chromatic_adaptation_VonKries_2d(data1, data2, data3):
@@ -124,10 +119,8 @@ def chromatic_adaptation_VonKries_2d(data1, data2, data3):
         chromatic_adaptation_VonKries(data1[i], data2[i], data3[i])
 
 
-# get_ipython().magic(u'timeit chromatic_adaptation_VonKries_2d(DATA1, DATA2, DATA3)')
-
-
-def chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w,
+def chromatic_adaptation_VonKries_vectorise(XYZ,
+                                            XYZ_w,
                                             XYZ_wr,
                                             transform='CAT02'):
     shape = as_shape(XYZ)
@@ -135,34 +128,50 @@ def chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w,
 
     cat = chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr,
                                                          transform)
-    XYZ_a = as_stack(np.einsum('...i,...ji', XYZ, cat), direction='I',
+    XYZ_a = as_stack(np.einsum('...i,...ji', XYZ, cat),
+                     direction='I',
                      shape=shape)
 
     return XYZ_a
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-XYZ_w = np.array([1.09846607, 1., 0.3558228])
-XYZ_wr = np.array([0.95042855, 1., 1.08890037])
-print(chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr))
+def chromatic_adaptation_VonKries_analysis():
+    message_box('chromatic_adaptation_VonKries')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ_w = np.array([1.09846607, 1., 0.3558228])
+    XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    print(chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr))
 
-print('1d array:')
-print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-XYZ_w = np.tile(XYZ_w, (5, 1))
-XYZ_wr = np.tile(XYZ_wr, (5, 1))
-print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
+    print('\n')
 
-# get_ipython().magic(u'timeit chromatic_adaptation_VonKries_vectorise(DATA1, DATA2, DATA3)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    XYZ_w = np.tile(XYZ_w, (5, 1))
+    XYZ_wr = np.tile(XYZ_wr, (5, 1))
+    print(chromatic_adaptation_VonKries_vectorise(XYZ, XYZ_w, XYZ_wr))
 
-print('\n')
+    print('\n')
+
+    print('3d array:')
+    print(chromatic_adaptation_VonKries_vectorise(DATA_PAL1,
+                                                  DATA_PAL2,
+                                                  DATA_PAL3))
+
+    # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_2d(DATA1, DATA2, DATA3)')
+
+    # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_vectorise(DATA1, DATA2, DATA3)')
+
+    print('\n')
+
+
+# chromatic_adaptation_VonKries_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -171,19 +180,14 @@ print('\n')
 # #############################################################################
 
 # #############################################################################
-# ### colour.cartesian_to_spherical
+# # ### colour.cartesian_to_spherical
 # #############################################################################
 from colour.algebra.coordinates.transformations import *
-
-message_box('cartesian_to_spherical')
 
 
 def cartesian_to_spherical_2d(vectors):
     for vector in vectors:
         cartesian_to_spherical(vector)
-
-
-# get_ipython().magic(u'timeit cartesian_to_spherical_2d(DATA1)')
 
 
 def cartesian_to_spherical_vectorise(vector):
@@ -200,37 +204,44 @@ def cartesian_to_spherical_vectorise(vector):
     return as_stack((r, theta, phi), shape=shape)
 
 
-print('Reference:')
-vector = np.array([3, 1, 6])
-print(cartesian_to_spherical(vector))
+def cartesian_to_spherical_analysis():
+    message_box('cartesian_to_spherical')
 
-print('\n')
+    print('Reference:')
+    vector = np.array([3, 1, 6])
+    print(cartesian_to_spherical(vector))
 
-print('1d array:')
-print(cartesian_to_spherical_vectorise(vector))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(cartesian_to_spherical_vectorise(vector))
 
-print('2d array:')
-vector = np.tile(vector, (5, 1))
-print(cartesian_to_spherical_vectorise(vector))
+    print('\n')
 
-# get_ipython().magic(u'timeit cartesian_to_spherical_vectorise(DATA1)')
+    print('2d array:')
+    vector = np.tile(vector, (5, 1))
+    print(cartesian_to_spherical_vectorise(vector))
 
-print('\n')
+    print('\n')
+
+    print('3d array:')
+    print(cartesian_to_spherical_vectorise(DATA_PAL1))
+
+    # get_ipython().magic(u'timeit cartesian_to_spherical_2d(DATA1)')
+
+    # get_ipython().magic(u'timeit cartesian_to_spherical_vectorise(DATA1)')
+
+    print('\n')
+
+
+# cartesian_to_spherical_analysis()
 
 # #############################################################################
-# ### colour.spherical_to_cartesian
+# # ### colour.spherical_to_cartesian
 # #############################################################################
-message_box('spherical_to_cartesian')
-
-
 def spherical_to_cartesian_2d(vectors):
     for vector in vectors:
         spherical_to_cartesian(vector)
-
-
-# get_ipython().magic(u'timeit spherical_to_cartesian_2d(DATA1)')
 
 
 def spherical_to_cartesian_vectorise(vector):
@@ -246,37 +257,44 @@ def spherical_to_cartesian_vectorise(vector):
     return as_stack((x, y, z), shape=shape)
 
 
-print('Reference:')
-vector = np.array([6.78232998, 1.08574654, 0.32175055])
-print(spherical_to_cartesian(vector))
+def spherical_to_cartesian_analysis():
+    message_box('spherical_to_cartesian')
 
-print('\n')
+    print('Reference:')
+    vector = np.array([6.78232998, 1.08574654, 0.32175055])
+    print(spherical_to_cartesian(vector))
 
-print('1d array:')
-print(spherical_to_cartesian_vectorise(vector))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(spherical_to_cartesian_vectorise(vector))
 
-print('2d array:')
-vector = np.tile(vector, (5, 1))
-print(spherical_to_cartesian_vectorise(vector))
+    print('\n')
 
-# get_ipython().magic(u'timeit spherical_to_cartesian_vectorise(DATA1)')
+    print('2d array:')
+    vector = np.tile(vector, (5, 1))
+    print(spherical_to_cartesian_vectorise(vector))
 
-print('\n')
+    print('\n')
+
+    print('3d array:')
+    print(spherical_to_cartesian_vectorise(DATA_PAL1))
+
+    # get_ipython().magic(u'timeit spherical_to_cartesian_2d(DATA1)')
+
+    # get_ipython().magic(u'timeit spherical_to_cartesian_vectorise(DATA1)')
+
+    print('\n')
+
+
+# spherical_to_cartesian_analysis()
 
 # #############################################################################
-# ### colour.cartesian_to_cylindrical
+# # ### colour.cartesian_to_cylindrical
 # #############################################################################
-message_box('cartesian_to_cylindrical')
-
-
 def cartesian_to_cylindrical_2d(vectors):
     for vector in vectors:
         cartesian_to_cylindrical(vector)
-
-
-# get_ipython().magic(u'timeit cartesian_to_cylindrical_2d(DATA1)')
 
 
 def cartesian_to_cylindrical_vectorise(vector):
@@ -292,38 +310,44 @@ def cartesian_to_cylindrical_vectorise(vector):
     return as_stack((z, theta, rho), shape=shape)
 
 
-print('Reference:')
-vector = np.array([3, 1, 6])
-print(cartesian_to_cylindrical(vector))
+def cartesian_to_cylindrical_analysis():
+    message_box('cartesian_to_cylindrical')
 
-print('\n')
+    print('Reference:')
+    vector = np.array([3, 1, 6])
+    print(cartesian_to_cylindrical(vector))
 
-print('1d array:')
-print(cartesian_to_cylindrical_vectorise(vector))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(cartesian_to_cylindrical_vectorise(vector))
 
-print('2d array:')
-vector = np.tile(vector, (5, 1))
-print(cartesian_to_cylindrical_vectorise(vector))
+    print('\n')
 
-# get_ipython().magic(u'timeit cartesian_to_cylindrical_vectorise(DATA1)')
+    print('2d array:')
+    vector = np.tile(vector, (5, 1))
+    print(cartesian_to_cylindrical_vectorise(vector))
 
-print('\n')
+    print('\n')
 
+    print('3d array:')
+    print(cartesian_to_cylindrical_vectorise(DATA_PAL1))
+
+    # get_ipython().magic(u'timeit cartesian_to_cylindrical_2d(DATA1)')
+
+    # get_ipython().magic(u'timeit cartesian_to_cylindrical_vectorise(DATA1)')
+
+    print('\n')
+
+
+# cartesian_to_cylindrical_analysis()
 
 # #############################################################################
-# ### colour.cylindrical_to_cartesian
+# # ### colour.cylindrical_to_cartesian
 # #############################################################################
-message_box('cylindrical_to_cartesian')
-
-
 def cylindrical_to_cartesian_2d(vectors):
     for vector in vectors:
         cylindrical_to_cartesian(vector)
-
-
-# get_ipython().magic(u'timeit cylindrical_to_cartesian_2d(DATA1)')
 
 
 def cylindrical_to_cartesian_vectorise(vector):
@@ -338,24 +362,37 @@ def cylindrical_to_cartesian_vectorise(vector):
     return as_stack((x, y, z), shape=shape)
 
 
-print('Reference:')
-vector = np.array([6, 0.32175055, 3.16227766])
-print(cylindrical_to_cartesian(vector))
+def cylindrical_to_cartesian_analysis():
+    message_box('cylindrical_to_cartesian')
 
-print('\n')
+    print('Reference:')
+    vector = np.array([6, 0.32175055, 3.16227766])
+    print(cylindrical_to_cartesian(vector))
 
-print('1d array:')
-print(cylindrical_to_cartesian_vectorise(vector))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(cylindrical_to_cartesian_vectorise(vector))
 
-print('2d array:')
-vector = np.tile(vector, (5, 1))
-print(cylindrical_to_cartesian_vectorise(vector))
+    print('\n')
 
-# get_ipython().magic(u'timeit cylindrical_to_cartesian_vectorise(DATA1)')
+    print('2d array:')
+    vector = np.tile(vector, (5, 1))
+    print(cylindrical_to_cartesian_vectorise(vector))
 
-print('\n')
+    print('\n')
+
+    print('3d array:')
+    print(cylindrical_to_cartesian_vectorise(DATA_PAL1))
+
+    # get_ipython().magic(u'timeit cylindrical_to_cartesian_2d(DATA1)')
+
+    # get_ipython().magic(u'timeit cylindrical_to_cartesian_vectorise(DATA1)')
+
+    print('\n')
+
+
+# cylindrical_to_cartesian_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -364,22 +401,17 @@ print('\n')
 # #############################################################################
 
 # #############################################################################
-# ### colour.planck_law
+# # ### colour.planck_law
 # #############################################################################
 from colour.colorimetry.blackbody import *
+from colour.colorimetry.spectrum import *
 
-message_box('planck_law')
+WAVELENGTHS = np.linspace(1, 15000, 100000) * 1e-9
 
 
 def planck_law_2d(wavelengths):
     for wavelength in wavelengths:
         planck_law(wavelength, 5500)
-
-
-WAVELENGTHS = np.linspace(1, 15000, 100000) * 1e-9
-
-
-# get_ipython().magic(u'timeit planck_law_2d(WAVELENGTHS)')
 
 
 @handle_numpy_errors(over='ignore')
@@ -393,24 +425,30 @@ def planck_law_vectorise(wavelength, temperature, c1=C1, c2=C2, n=N):
     return as_numeric(p)
 
 
-print('Reference:')
-print(planck_law(500 * 1e-9, 5500))
+def planck_law_analysis():
+    message_box('planck_law')
 
-print('\n')
+    print('Reference:')
+    print(planck_law(500 * 1e-9, 5500))
 
-print('1d array:')
-print(planck_law_vectorise(500 * 1e-9, 5500))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(planck_law_vectorise(500 * 1e-9, 5500))
 
-print('2d array:')
-print(planck_law_vectorise([500 * 1e-9] * 5, 5500))
+    print('\n')
 
-# get_ipython().magic(u'timeit planck_law_vectorise(WAVELENGTHS, 5500)')
+    print('2d array:')
+    print(planck_law_vectorise([500 * 1e-9] * 5, 5500))
 
-print('\n')
+    # get_ipython().magic(u'timeit planck_law_2d(WAVELENGTHS)')
 
-from colour.colorimetry.spectrum import *
+    # get_ipython().magic(u'timeit planck_law_vectorise(WAVELENGTHS, 5500)')
+
+    print('\n')
+
+
+# planck_law_analysis()
 
 
 def blackbody_spd_vectorise(temperature,
@@ -426,8 +464,12 @@ def blackbody_spd_vectorise(temperature,
                 wavelengths * 1e-9, temperature, c1, c2, n))))
 
 
-print(blackbody_spd_vectorise(5000).values)
+def blackbody_spd_analysis():
+    message_box('planck_law')
 
+    print(blackbody_spd_vectorise(5000).values)
+
+# blackbody_spd_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -436,21 +478,16 @@ print(blackbody_spd_vectorise(5000).values)
 # #############################################################################
 
 # #############################################################################
-# ### colour.lightness_Glasser1958
+# # ### colour.lightness_Glasser1958
 # #############################################################################
 from colour.colorimetry.lightness import *
 
-message_box('lightness_Glasser1958')
+Y = np.linspace(0, 100, 1000000)
 
 
 def lightness_Glasser1958_2d(Y):
     for Y_ in Y:
         lightness_Glasser1958(Y_)
-
-
-Y = np.linspace(0, 100, 1000000)
-
-# get_ipython().magic(u'timeit lightness_Glasser1958_2d(Y)')
 
 
 def lightness_Glasser1958_vectorise(Y, **kwargs):
@@ -461,35 +498,37 @@ def lightness_Glasser1958_vectorise(Y, **kwargs):
     return as_numeric(L)
 
 
-print('Reference:')
-print(lightness_Glasser1958(10.08))
+def lightness_Glasser1958_analysis():
+    message_box('lightness_Glasser1958')
 
-print('\n')
+    print('Reference:')
+    print(lightness_Glasser1958(10.08))
 
-print('1d array:')
-print(lightness_Glasser1958_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(lightness_Glasser1958_vectorise(10.08))
 
-print('2d array:')
-print(lightness_Glasser1958_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit lightness_Glasser1958_vectorise(Y)')
+    print('2d array:')
+    print(lightness_Glasser1958_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit lightness_Glasser1958_2d(Y)')
+
+    # get_ipython().magic(u'timeit lightness_Glasser1958_vectorise(Y)')
+
+    print('\n')
+
+
+# lightness_Glasser1958_analysis()
 
 # #############################################################################
-# ### colour.lightness_Wyszecki1963
-# ##############################################################################
-message_box('lightness_Wyszecki1963')
-
-
+# # ### colour.lightness_Wyszecki1963
+# #############################################################################
 def lightness_Wyszecki1963_2d(Y):
     for Y_ in Y:
         lightness_Wyszecki1963(Y_)
-
-
-# get_ipython().magic(u'timeit lightness_Wyszecki1963_2d(Y)')
 
 
 def lightness_Wyszecki1963_vectorise(Y, **kwargs):
@@ -504,34 +543,39 @@ def lightness_Wyszecki1963_vectorise(Y, **kwargs):
     return as_numeric(W)
 
 
-print('Reference:')
-print(lightness_Wyszecki1963(10.08))
+def lightness_Wyszecki1963_analysis():
+    message_box('lightness_Wyszecki1963')
 
-print('\n')
+    print('Reference:')
+    print(lightness_Wyszecki1963(10.08))
 
-print('1d array:')
-print(lightness_Wyszecki1963_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(lightness_Wyszecki1963_vectorise(10.08))
 
-print('2d array:')
-print(lightness_Wyszecki1963_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit lightness_Wyszecki1963_vectorise(Y)')
+    print('2d array:')
+    print(
+        lightness_Wyszecki1963_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit lightness_Wyszecki1963_2d(Y)')
 
-# ##############################################################################
-# ### colour.lightness_1976
-###############################################################################
-message_box('lightness_1976')
+    # get_ipython().magic(u'timeit lightness_Wyszecki1963_vectorise(Y)')
+
+    print('\n')
 
 
+# lightness_Wyszecki1963_analysis()
+
+# #############################################################################
+# # ### colour.lightness_1976
+# #############################################################################
 def lightness_1976_2d(Y):
     for Y_ in Y:
         lightness_1976(Y_)
 
-# get_ipython().magic(u'timeit lightness_1976_2d(Y)')
 
 from colour.constants import CIE_E, CIE_K
 
@@ -549,45 +593,48 @@ def lightness_1976_vectorise(Y, Y_n=100):
     return as_numeric(Lstar)
 
 
-print('Reference:')
-print(lightness_1976(10.08, 100))
+def lightness_1976_analysis():
+    message_box('lightness_1976')
 
-print('\n')
+    print('Reference:')
+    print(lightness_1976(10.08, 100))
 
-print('1d array:')
-print(lightness_1976_vectorise(10.08, 100))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(lightness_1976_vectorise(10.08, 100))
 
-print('2d array:')
-print(lightness_1976_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit lightness_1976_vectorise(Y)')
+    print('2d array:')
+    print(lightness_1976_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit lightness_1976_2d(Y)')
 
-###############################################################################
-###############################################################################
-### colour.colorimetry.luminance
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit lightness_1976_vectorise(Y)')
 
-###############################################################################
-#### colour.luminance_Newhall1943
-###############################################################################
+    print('\n')
+
+
+# lightness_1976_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.luminance
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.luminance_Newhall1943
+# #############################################################################
 from colour.colorimetry.luminance import *
 
-message_box('luminance_Newhall1943')
+L = np.linspace(0, 100, 1000000)
 
 
 def luminance_Newhall1943_2d(L):
     for L_ in L:
         luminance_Newhall1943(L_)
-
-
-L = np.linspace(0, 100, 1000000)
-
-# get_ipython().magic(u'timeit luminance_Newhall1943_2d(L)')
 
 
 def luminance_Newhall1943_vectorise(V, **kwargs):
@@ -599,37 +646,41 @@ def luminance_Newhall1943_vectorise(V, **kwargs):
     return as_numeric(R_Y)
 
 
-print('Reference:')
-print(luminance_Newhall1943(3.74629715382))
+def luminance_Newhall1943_analysis():
+    message_box('luminance_Newhall1943')
 
-print('\n')
+    print('Reference:')
+    print(luminance_Newhall1943(3.74629715382))
 
-print('1d array:')
-print(luminance_Newhall1943_vectorise(3.74629715382))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(luminance_Newhall1943_vectorise(3.74629715382))
 
-print('2d array:')
-print(luminance_Newhall1943_vectorise(
-    [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
-     3.74629715382]))
+    print('\n')
 
-# get_ipython().magic(u'timeit luminance_Newhall1943_vectorise(L)')
+    print('2d array:')
+    print(luminance_Newhall1943_vectorise(
+        [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
+         3.74629715382]))
 
-print('\n')
+    # get_ipython().magic(u'timeit luminance_Newhall1943_2d(L)')
 
-###############################################################################
-#### colour.luminance_ASTMD153508
-###############################################################################
-message_box('luminance_ASTMD153508')
+    # get_ipython().magic(u'timeit luminance_Newhall1943_vectorise(L)')
+
+    print('\n')
+
+
+# luminance_Newhall1943_analysis()
+
+# #############################################################################
+# # ### colour.luminance_ASTMD153508
+# #############################################################################
 
 
 def luminance_ASTMD153508_2d(L):
     for L_ in L:
         luminance_ASTMD153508(L_)
-
-
-# get_ipython().magic(u'timeit luminance_ASTMD153508_2d(L)')
 
 
 def luminance_ASTMD153508_vectorise(V, **kwargs):
@@ -641,37 +692,40 @@ def luminance_ASTMD153508_vectorise(V, **kwargs):
     return as_numeric(Y)
 
 
-print('Reference:')
-print(luminance_ASTMD153508(3.74629715382))
+def luminance_ASTMD153508_analysis():
+    message_box('luminance_ASTMD153508')
 
-print('\n')
+    print('Reference:')
+    print(luminance_ASTMD153508(3.74629715382))
 
-print('1d array:')
-print(luminance_ASTMD153508_vectorise(3.74629715382))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(luminance_ASTMD153508_vectorise(3.74629715382))
 
-print('2d array:')
-print(luminance_ASTMD153508_vectorise(
-    [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
-     3.74629715382]))
+    print('\n')
 
-# get_ipython().magic(u'timeit luminance_ASTMD153508_vectorise(L)')
+    print('2d array:')
+    print(luminance_ASTMD153508_vectorise(
+        [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
+         3.74629715382]))
 
-print('\n')
+    # get_ipython().magic(u'timeit luminance_ASTMD153508_2d(L)')
 
-###############################################################################
-#### colour.luminance_1976
-###############################################################################
-message_box('luminance_1976')
+    # get_ipython().magic(u'timeit luminance_ASTMD153508_vectorise(L)')
 
+    print('\n')
+
+
+# luminance_ASTMD153508_analysis()
+
+# #############################################################################
+# # ### colour.luminance_1976
+# #############################################################################
 
 def luminance_1976_2d(L):
     for L_ in L:
         luminance_1976(L_)
-
-
-# get_ipython().magic(u'timeit luminance_1976_2d(L)')
 
 
 def luminance_1976_vectorise(Lstar, Y_n=100):
@@ -685,37 +739,46 @@ def luminance_1976_vectorise(Lstar, Y_n=100):
     return as_numeric(Y)
 
 
-print('Reference:')
-print(luminance_1976(37.9856290977))
+def luminance_1976_analysis():
+    message_box('luminance_1976')
 
-print('\n')
+    print('Reference:')
+    print(luminance_1976(37.9856290977))
 
-print('1d array:')
-print(luminance_1976_vectorise(37.9856290977))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(luminance_1976_vectorise(37.9856290977))
 
-print('2d array:')
-print(luminance_1976_vectorise(
-    [37.9856290977, 37.9856290977, 37.9856290977, 37.9856290977,
-     37.9856290977]))
+    print('\n')
 
-# get_ipython().magic(u'timeit luminance_1976_vectorise(L)')
+    print('2d array:')
+    print(luminance_1976_vectorise(
+        [37.9856290977,
+         37.9856290977,
+         37.9856290977,
+         37.9856290977,
+         37.9856290977]))
 
-print('\n')
+    # get_ipython().magic(u'timeit luminance_1976_2d(L)')
 
-###############################################################################
-###############################################################################
-### colour.colorimetry.spectrum
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit luminance_1976_vectorise(L)')
 
-###############################################################################
-#### colour.SpectralShape
-###############################################################################
+    print('\n')
+
+
+# luminance_1976_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.spectrum
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.SpectralShape
+# #############################################################################
 from colour.colorimetry.spectrum import *
-
-message_box('SpectralShape')
 
 
 def SpectralShape__contains__(self, wavelength):
@@ -726,16 +789,24 @@ def SpectralShape__contains__(self, wavelength):
 
 SpectralShape.__contains__ = SpectralShape__contains__
 
-print(380 in SpectralShape(360, 830, 1))
 
-print((380, 480) in SpectralShape(360, 830, 1))
+def SpectralShape__contains__analysis():
+    message_box('SpectralShape.__contains__')
 
-print((380, 480.5) in SpectralShape(360, 830, 1))
+    print(380 in SpectralShape(360, 830, 1))
 
-###############################################################################
-#### colour.SpectralPowerDistribution
-###############################################################################
-message_box('SpectralPowerDistribution')
+    print((380, 480) in SpectralShape(360, 830, 1))
+
+    print((380, 480.5) in SpectralShape(360, 830, 1))
+
+    print('\n')
+
+
+# SpectralShape__contains__analysis()
+
+# #############################################################################
+# # ### colour.SpectralPowerDistribution
+# #############################################################################
 
 
 def SpectralPowerDistribution__getitem__(self, wavelength):
@@ -755,18 +826,27 @@ def SpectralPowerDistribution__getitem__(self, wavelength):
 
 SpectralPowerDistribution.__getitem__ = SpectralPowerDistribution__getitem__
 
-data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-spd = SpectralPowerDistribution('Spd', data)
 
-print(spd[510])
+def SpectralPowerDistribution__getitem__analysis():
+    message_box('SpectralPowerDistribution.__getitem___')
 
-print('\n')
+    data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    spd = SpectralPowerDistribution('Spd', data)
 
-print(spd[(510, 520)])
+    print(spd[510])
 
-print('\n')
+    print('\n')
 
-print(spd[0:-1])
+    print(spd[(510, 520)])
+
+    print('\n')
+
+    print(spd[0:-1])
+
+    print('\n')
+
+
+# SpectralPowerDistribution__getitem__analysis()
 
 
 def SpectralPowerDistribution__setitem__(self, wavelength, value):
@@ -787,30 +867,39 @@ def SpectralPowerDistribution__setitem__(self, wavelength, value):
 
 SpectralPowerDistribution.__setitem__ = SpectralPowerDistribution__setitem__
 
-spd = SpectralPowerDistribution('Spd', {})
 
-spd[510] = 49.67
-pprint(list(spd.items))
+def SpectralPowerDistribution__setitem__analysis():
+    message_box('SpectralPowerDistribution.__setitem__')
 
-print('\n')
+    spd = SpectralPowerDistribution('Spd', {})
 
-spd[(520, 530)] = (69.59, 81.73)
-pprint(list(spd.items))
+    spd[510] = 49.67
+    pprint(list(spd.items))
 
-print('\n')
+    print('\n')
 
-spd[(540, 550)] = 88.19
-pprint(list(spd.items))
+    spd[(520, 530)] = (69.59, 81.73)
+    pprint(list(spd.items))
 
-print('\n')
+    print('\n')
 
-spd[:] = 49.67
-pprint(list(spd.items))
+    spd[(540, 550)] = 88.19
+    pprint(list(spd.items))
 
-print('\n')
+    print('\n')
 
-spd[0:3] = 69.59
-pprint(list(spd.items))
+    spd[:] = 49.67
+    pprint(list(spd.items))
+
+    print('\n')
+
+    spd[0:3] = 69.59
+    pprint(list(spd.items))
+
+    print('\n')
+
+
+# SpectralPowerDistribution__setitem__analysis()
 
 
 def SpectralPowerDistribution_get(self, wavelength, default=None):
@@ -822,18 +911,27 @@ def SpectralPowerDistribution_get(self, wavelength, default=None):
 
 SpectralPowerDistribution.get = SpectralPowerDistribution_get
 
-data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-spd = SpectralPowerDistribution('Spd', data)
 
-print(spd.get(510))
+def SpectralPowerDistribution_get_analysis():
+    message_box('SpectralPowerDistribution.get')
 
-print('\n')
+    data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    spd = SpectralPowerDistribution('Spd', data)
 
-print(spd.get((510, 520)))
+    print(spd.get(510))
 
-print('\n')
+    print('\n')
 
-print(spd.get((510, 520, 521)))
+    print(spd.get((510, 520)))
+
+    print('\n')
+
+    print(spd.get((510, 520, 521)))
+
+    print('\n')
+
+
+# SpectralPowerDistribution_get_analysis()
 
 
 def SpectralPowerDistribution__contains__(self, wavelength):
@@ -844,23 +942,31 @@ def SpectralPowerDistribution__contains__(self, wavelength):
 
 SpectralPowerDistribution.__contains__ = SpectralPowerDistribution__contains__
 
-data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-spd = SpectralPowerDistribution('Spd', data)
 
-print(510 in spd)
+def SpectralPowerDistribution__contains__analysis():
+    message_box('SpectralPowerDistribution.__contains__')
 
-print('\n')
+    data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    spd = SpectralPowerDistribution('Spd', data)
 
-print((510, 520) in spd)
+    print(510 in spd)
 
-print('\n')
+    print('\n')
 
-print((510, 520, 521) in spd)
+    print((510, 520) in spd)
 
-###############################################################################
-#### colour.TriSpectralPowerDistribution
-###############################################################################
-message_box('TriSpectralPowerDistribution')
+    print('\n')
+
+    print((510, 520, 521) in spd)
+
+    print('\n')
+
+
+# SpectralPowerDistribution__contains__analysis()
+
+# #############################################################################
+# # ### colour.TriSpectralPowerDistribution
+# #############################################################################
 
 
 def TriSpectralPowerDistribution__getitem__(self, wavelength):
@@ -871,22 +977,31 @@ def TriSpectralPowerDistribution__getitem__(self, wavelength):
 
 TriSpectralPowerDistribution.__getitem__ = TriSpectralPowerDistribution__getitem__
 
-x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
-z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-print(tri_spd[510])
+def TriSpectralPowerDistribution__getitem__analysis():
+    message_box('TriSpectralPowerDistribution.__getitem__')
 
-print('\n')
+    x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+    z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+    data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+    mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+    tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-print(tri_spd[(510, 520)])
+    print(tri_spd[510])
 
-print('\n')
+    print('\n')
 
-print(tri_spd[0:-1])
+    print(tri_spd[(510, 520)])
+
+    print('\n')
+
+    print(tri_spd[0:-1])
+
+    print('\n')
+
+
+# TriSpectralPowerDistribution__getitem__analysis()
 
 
 def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
@@ -909,32 +1024,41 @@ def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
 
 TriSpectralPowerDistribution.__setitem__ = TriSpectralPowerDistribution__setitem__
 
-data = {'x_bar': {}, 'y_bar': {}, 'z_bar': {}}
-mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-tri_spd[510] = 49.67
-pprint(list(tri_spd.items))
+def TriSpectralPowerDistribution__setitem__analysis():
+    message_box('TriSpectralPowerDistribution.__setitem__')
 
-print('\n')
+    data = {'x_bar': {}, 'y_bar': {}, 'z_bar': {}}
+    mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+    tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-tri_spd[(520, 530)] = (69.59, 81.73)
-pprint(list(tri_spd.items))
+    tri_spd[510] = 49.67
+    pprint(list(tri_spd.items))
 
-print('\n')
+    print('\n')
 
-tri_spd[(540, 550)] = ((49.67, 69.59, 81.73), (81.73, 69.59, 49.67))
-pprint(list(tri_spd.items))
+    tri_spd[(520, 530)] = (69.59, 81.73)
+    pprint(list(tri_spd.items))
 
-print('\n')
+    print('\n')
 
-tri_spd[:] = 49.67
-pprint(list(tri_spd.items))
+    tri_spd[(540, 550)] = ((49.67, 69.59, 81.73), (81.73, 69.59, 49.67))
+    pprint(list(tri_spd.items))
 
-print('\n')
+    print('\n')
 
-tri_spd[0:3] = ((81.73, 69.59, 49.67), (49.67, 69.59, 81.73))
-pprint(list(tri_spd.items))
+    tri_spd[:] = 49.67
+    pprint(list(tri_spd.items))
+
+    print('\n')
+
+    tri_spd[0:3] = ((81.73, 69.59, 49.67), (49.67, 69.59, 81.73))
+    pprint(list(tri_spd.items))
+
+    print('\n')
+
+
+# TriSpectralPowerDistribution__setitem__analysis()
 
 
 def TriSpectralPowerDistribution_get(self, wavelength, default=None):
@@ -947,32 +1071,39 @@ def TriSpectralPowerDistribution_get(self, wavelength, default=None):
 
 TriSpectralPowerDistribution.get = TriSpectralPowerDistribution_get
 
-x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
-y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
-z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
-data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-print(tri_spd.get(510))
+def TriSpectralPowerDistribution_get_analysis():
+    message_box('TriSpectralPowerDistribution.get')
 
-print('\n')
+    x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+    y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+    z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+    data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+    mpg = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+    tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mpg)
 
-print(tri_spd.get((510, 520)))
+    print(tri_spd.get(510))
 
-print('\n')
+    print('\n')
 
-print(tri_spd.get((510, 520, 521)))
+    print(tri_spd.get((510, 520)))
 
-###############################################################################
-###############################################################################
-### colour.colorimetry.transformations
-###############################################################################
-###############################################################################
+    print('\n')
 
-###############################################################################
-#### colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
-###############################################################################
+    print(tri_spd.get((510, 520, 521)))
+
+
+# TriSpectralPowerDistribution_get_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.transformations
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
+# #############################################################################
 from colour import PHOTOPIC_LEFS, RGB_CMFS
 from colour.colorimetry.transformations import *
 
@@ -1015,24 +1146,31 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
     return as_stack((x_bar, y_bar, z_bar))
 
 
-print('Reference:')
-print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700))
+def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
+    message_box('RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs')
 
-print('\n')
+    print('Reference:')
+    print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700))
 
-print('1d array:')
-print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
 
-print('2d array:')
-print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
-    [700, 700, 700, 700, 700]))
+    print('\n')
 
-###############################################################################
-#### colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
-###############################################################################
-message_box('RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs')
+    print('2d array:')
+    print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
+        [700, 700, 700, 700, 700]))
+
+    print('\n')
+
+
+# RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
+
+# #############################################################################
+# # ### colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
+# #############################################################################
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
@@ -1056,25 +1194,31 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
     return xyz_bar
 
 
-print('Reference:')
-print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700))
+def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
+    message_box('RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs')
 
-print('\n')
+    print('Reference:')
+    print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700))
 
-print('1d array:')
-print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
 
-print('2d array:')
-print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
-    [700, 700, 700, 700, 700]))
+    print('\n')
+
+    print('2d array:')
+    print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
+        [700, 700, 700, 700, 700]))
+
+    print('\n')
 
 
-###############################################################################
-#### colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
-###############################################################################
-message_box('RGB_10_degree_cmfs_to_LMS_10_degree_cmfs')
+# RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
+
+# #############################################################################
+# # ### colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
+# #############################################################################
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
@@ -1102,27 +1246,32 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
     return lms_bar
 
 
-print('Reference:')
-print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700))
+def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis():
+    message_box('RGB_10_degree_cmfs_to_LMS_10_degree_cmfs')
 
-print('\n')
+    print('Reference:')
+    print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700))
 
-print('1d array:')
-print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(700))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(700))
 
-print('2d array:')
-print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(
-    [700, 700, 700, 700, 700]))
+    print('\n')
+
+    print('2d array:')
+    print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(
+        [700, 700, 700, 700, 700]))
+
+    print('\n')
 
 
-###############################################################################
-#### colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
-###############################################################################
+# RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis()
+
+# #############################################################################
+# # ### colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
+# #############################################################################
 from colour import LMS_CMFS
-
-message_box('LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs')
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
@@ -1146,24 +1295,31 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
     return xyz_bar
 
 
-print('Reference:')
-print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700))
+def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
+    message_box('LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs')
 
-print('\n')
+    print('Reference:')
+    print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700))
 
-print('1d array:')
-print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
 
-print('2d array:')
-print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
-    [700, 700, 700, 700, 700]))
+    print('\n')
 
-###############################################################################
-#### colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
-###############################################################################
-message_box('LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs')
+    print('2d array:')
+    print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(
+        [700, 700, 700, 700, 700]))
+
+    print('\n')
+
+
+# LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
+
+# #############################################################################
+# # ### colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
+# #############################################################################
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
@@ -1187,47 +1343,49 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
     return xyz_bar
 
 
-print('Reference:')
-print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700))
+def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
+    message_box('LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs')
 
-print('\n')
+    print('Reference:')
+    print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700))
 
-print('1d array:')
-print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
 
-print('2d array:')
-print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
-    [700, 700, 700, 700, 700]))
+    print('\n')
 
-###############################################################################
-###############################################################################
-### colour.colorimetry.tristimulus
-###############################################################################
-###############################################################################
+    print('2d array:')
+    print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(
+        [700, 700, 700, 700, 700]))
 
-###############################################################################
-#### colour.wavelength_to_XYZ
-###############################################################################
+    print('\n')
+
+
+# LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.tristimulus
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.wavelength_to_XYZ
+# #############################################################################
+from colour import (
+    STANDARD_OBSERVERS_CMFS,
+    SpragueInterpolator,
+    SplineInterpolator)
 from colour.colorimetry.tristimulus import *
 
-message_box('wavelength_to_XYZ')
+WAVELENGTHS = np.linspace(400, 700, 1000)
 
 
 def wavelength_to_XYZ_2d(wavelengths):
     for wavelength in wavelengths:
         wavelength_to_XYZ(wavelength)
-
-
-WAVELENGTHS = np.linspace(400, 700, 1000)
-
-# get_ipython().magic(u'timeit wavelength_to_XYZ_2d(WAVELENGTHS)')
-
-from colour import (
-    STANDARD_OBSERVERS_CMFS,
-    SpragueInterpolator,
-    SplineInterpolator)
 
 
 def wavelength_to_XYZ_vectorise(wavelength,
@@ -1257,48 +1415,51 @@ def wavelength_to_XYZ_vectorise(wavelength,
         return np.array(cmfs.get(wavelength))
 
 
-print('Reference:')
-print(wavelength_to_XYZ(480))
+def wavelength_to_XYZ_analysis():
+    message_box('wavelength_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    print(wavelength_to_XYZ(480))
 
-print('1d array:')
-print(wavelength_to_XYZ_vectorise(480))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(wavelength_to_XYZ_vectorise(480))
 
-print('2d array:')
-print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480]))
+    print('\n')
 
-print('\n')
+    print('2d array:')
+    print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480]))
 
-print('2d array:')
-print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit wavelength_to_XYZ_vectorise(WAVELENGTHS)')
+    print('2d array:')
+    print(wavelength_to_XYZ_vectorise([480, 480, 480, 480, 480.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit wavelength_to_XYZ_2d(WAVELENGTHS)')
 
-###############################################################################
-###############################################################################
-### colour.colorimetry.whiteness
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit wavelength_to_XYZ_vectorise(WAVELENGTHS)')
 
-###############################################################################
-#### colour.whiteness_Berger1959
-###############################################################################
+    print('\n')
+
+
+# wavelength_to_XYZ_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.whiteness
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.whiteness_Berger1959
+# #############################################################################
 from colour.colorimetry.whiteness import *
-
-message_box('whiteness_Berger1959')
 
 
 def whiteness_Berger1959_2d(XYZ, XYZ_0):
     for i in range(len(XYZ)):
         whiteness_Berger1959(XYZ[i], XYZ_0[i])
-
-
-# get_ipython().magic(u'timeit whiteness_Berger1959_2d(DATA1, DATA2)')
 
 
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
@@ -1313,39 +1474,43 @@ def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
     return WI
 
 
-print('Reference:')
-XYZ = np.array([95., 100., 105.])
-XYZ_0 = np.array([94.80966767, 100., 107.30513595])
-print(whiteness_Berger1959(XYZ, XYZ_0))
+def whiteness_Berger1959_analysis():
+    message_box('whiteness_Berger1959')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([95., 100., 105.])
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    print(whiteness_Berger1959(XYZ, XYZ_0))
 
-print('1d array:')
-print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-XYZ_0 = np.tile(XYZ_0, (5, 1))
-print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_Berger1959_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    XYZ_0 = np.tile(XYZ_0, (5, 1))
+    print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_Berger1959_2d(DATA1, DATA2)')
 
-###############################################################################
-#### colour.whiteness_Taube1960
-###############################################################################
-message_box('whiteness_Taube1960')
+    # get_ipython().magic(u'timeit whiteness_Berger1959_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# whiteness_Berger1959_analysis()
+
+# #############################################################################
+# # ### colour.whiteness_Taube1960
+# #############################################################################
 
 
 def whiteness_Taube1960_2d(XYZ, XYZ_0):
     for i in range(len(XYZ)):
         whiteness_Taube1960(XYZ[i], XYZ_0[i])
-
-
-# get_ipython().magic(u'timeit whiteness_Taube1960_2d(DATA1, DATA2)')
 
 
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
@@ -1359,39 +1524,43 @@ def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
     return WI
 
 
-print('Reference:')
-XYZ = np.array([95., 100., 105.])
-XYZ_0 = np.array([94.80966767, 100., 107.30513595])
-print(whiteness_Taube1960(XYZ, XYZ_0))
+def whiteness_Taube1960_analysis():
+    message_box('whiteness_Taube1960')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([95., 100., 105.])
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    print(whiteness_Taube1960(XYZ, XYZ_0))
 
-print('1d array:')
-print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-XYZ_0 = np.tile(XYZ_0, (5, 1))
-print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_Taube1960_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    XYZ_0 = np.tile(XYZ_0, (5, 1))
+    print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_Taube1960_2d(DATA1, DATA2)')
 
-###############################################################################
-#### colour.whiteness_Stensby1968
-###############################################################################
-message_box('whiteness_Stensby1968')
+    # get_ipython().magic(u'timeit whiteness_Taube1960_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# whiteness_Taube1960_analysis()
+
+# #############################################################################
+# # ### colour.whiteness_Stensby1968
+# #############################################################################
 
 
 def whiteness_Stensby1968_2d(Lab):
     for i in range(len(Lab)):
         whiteness_Stensby1968(Lab[i])
-
-
-# get_ipython().magic(u'timeit whiteness_Stensby1968_2d(DATA1)')
 
 
 def whiteness_Stensby1968_vectorise(Lab):
@@ -1403,37 +1572,41 @@ def whiteness_Stensby1968_vectorise(Lab):
     return WI
 
 
-print('Reference:')
-Lab = np.array([100., -2.46875131, -16.72486654])
-print(whiteness_Stensby1968(Lab))
+def whiteness_Stensby1968_analysis():
+    message_box('whiteness_Stensby1968')
 
-print('\n')
+    print('Reference:')
+    Lab = np.array([100., -2.46875131, -16.72486654])
+    print(whiteness_Stensby1968(Lab))
 
-print('1d array:')
-print(whiteness_Stensby1968_vectorise(Lab))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_Stensby1968_vectorise(Lab))
 
-print('2d array:')
-Lab = np.tile(Lab, (5, 1))
-print(whiteness_Stensby1968_vectorise(Lab))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_Stensby1968_vectorise(DATA1)')
+    print('2d array:')
+    Lab = np.tile(Lab, (5, 1))
+    print(whiteness_Stensby1968_vectorise(Lab))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_Stensby1968_2d(DATA1)')
 
-###############################################################################
-#### colour.whiteness_ASTM313
-###############################################################################
-message_box('whiteness_ASTM313')
+    # get_ipython().magic(u'timeit whiteness_Stensby1968_vectorise(DATA1)')
+
+    print('\n')
+
+
+# whiteness_Stensby1968_analysis()
+
+# #############################################################################
+# # ### colour.whiteness_ASTM313
+# #############################################################################
 
 
 def whiteness_ASTM313_2d(XYZ):
     for i in range(len(XYZ)):
         whiteness_ASTM313(XYZ[i])
-
-
-# get_ipython().magic(u'timeit whiteness_ASTM313_2d(DATA1)')
 
 
 def whiteness_ASTM313_vectorise(XYZ):
@@ -1445,37 +1618,41 @@ def whiteness_ASTM313_vectorise(XYZ):
     return WI
 
 
-print('Reference:')
-XYZ = np.array([95., 100., 105.])
-print(whiteness_ASTM313(XYZ))
+def whiteness_ASTM313_analysis():
+    message_box('whiteness_ASTM313')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([95., 100., 105.])
+    print(whiteness_ASTM313(XYZ))
 
-print('1d array:')
-print(whiteness_ASTM313_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_ASTM313_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(whiteness_ASTM313_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_ASTM313_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(whiteness_ASTM313_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_ASTM313_2d(DATA1)')
 
-###############################################################################
-#### colour.whiteness_Ganz1979
-###############################################################################
-message_box('whiteness_Ganz1979')
+    # get_ipython().magic(u'timeit whiteness_ASTM313_vectorise(DATA1)')
+
+    print('\n')
+
+
+# whiteness_ASTM313_analysis()
+
+# #############################################################################
+# # ### colour.whiteness_Ganz1979
+# #############################################################################
 
 
 def whiteness_Ganz1979_2d(xy, Y):
     for i in range(len(xy)):
         whiteness_Ganz1979(xy[i], Y[i])
-
-
-# get_ipython().magic(u'timeit whiteness_Ganz1979_2d(DATA1[:,0:2], DATA2[:,0])')
 
 
 def whiteness_Ganz1979_vectorise(xy, Y):
@@ -1492,39 +1669,43 @@ def whiteness_Ganz1979_vectorise(xy, Y):
     return WT
 
 
-print('Reference:')
-xy = (0.3167, 0.3334)
-Y = 100.
-print(whiteness_Ganz1979(xy, Y))
+def whiteness_Ganz1979_analysis():
+    message_box('whiteness_Ganz1979')
 
-print('\n')
+    print('Reference:')
+    xy = (0.3167, 0.3334)
+    Y = 100.
+    print(whiteness_Ganz1979(xy, Y))
 
-print('1d array:')
-print(whiteness_Ganz1979_vectorise(xy, Y))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_Ganz1979_vectorise(xy, Y))
 
-print('2d array:')
-xy = np.tile(xy, (5, 1))
-Y = np.tile(Y, (5, 1))
-print(whiteness_Ganz1979_vectorise(xy, Y))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_Ganz1979_vectorise(DATA1[:,0:2], DATA2[:,0])')
+    print('2d array:')
+    xy = np.tile(xy, (5, 1))
+    Y = np.tile(Y, (5, 1))
+    print(whiteness_Ganz1979_vectorise(xy, Y))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_Ganz1979_2d(DATA1[:,0:2], DATA2[:,0])')
 
-###############################################################################
-#### colour.whiteness_CIE2004
-###############################################################################
-message_box('whiteness_CIE2004')
+    # get_ipython().magic(u'timeit whiteness_Ganz1979_vectorise(DATA1[:,0:2], DATA2[:,0])')
+
+    print('\n')
+
+
+# whiteness_Ganz1979_analysis()
+
+# #############################################################################
+# # ### colour.whiteness_CIE2004
+# #############################################################################
 
 
 def whiteness_CIE2004_2d(xy, Y, xy_n):
     for i in range(len(xy)):
         whiteness_CIE2004(xy[i], Y[i], xy_n[i])
-
-
-# get_ipython().magic(u'timeit whiteness_CIE2004_2d(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
 
 
 def whiteness_CIE2004_vectorise(xy,
@@ -1548,49 +1729,52 @@ def whiteness_CIE2004_vectorise(xy,
     return WT
 
 
-print('Reference:')
-xy = (0.3167, 0.3334)
-Y = 100.
-xy_n = (0.3139, 0.3311)
-print(whiteness_CIE2004(xy, Y, xy_n))
+def whiteness_CIE2004_analysis():
+    message_box('whiteness_CIE2004')
 
-print('\n')
+    print('Reference:')
+    xy = (0.3167, 0.3334)
+    Y = 100.
+    xy_n = (0.3139, 0.3311)
+    print(whiteness_CIE2004(xy, Y, xy_n))
 
-print('1d array:')
-print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
-print('2d array:')
-xy = np.tile(xy, (5, 1))
-Y = np.tile(Y, (5, 1))
-xy_n = np.tile(xy_n, (5, 1))
-print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
+    print('\n')
 
-# get_ipython().magic(u'timeit whiteness_CIE2004_vectorise(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
+    print('2d array:')
+    xy = np.tile(xy, (5, 1))
+    Y = np.tile(Y, (5, 1))
+    xy_n = np.tile(xy_n, (5, 1))
+    print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
-print('\n')
+    # get_ipython().magic(u'timeit whiteness_CIE2004_2d(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
 
-###############################################################################
-###############################################################################
-### colour.difference.delta_e
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit whiteness_CIE2004_vectorise(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
 
-################################################################################
-### colour.delta_E_CIE1976
-###############################################################################
+    print('\n')
+
+
+# whiteness_CIE2004_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.difference.delta_e
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ## colour.delta_E_CIE1976
+# #############################################################################
 from colour.difference.delta_e import *
-
-message_box('delta_E_CIE1976')
 
 
 def delta_E_CIE1976_2d(Lab1, Lab2):
     for i in range(len(Lab1)):
         delta_E_CIE1976(Lab1[i], Lab2[i])
-
-
-# get_ipython().magic(u'timeit delta_E_CIE1976_2d(DATA1, DATA2)')
 
 
 def delta_E_CIE1976_vectorise(Lab1, Lab2, **kwargs):
@@ -1600,39 +1784,43 @@ def delta_E_CIE1976_vectorise(Lab1, Lab2, **kwargs):
     return as_numeric(np.linalg.norm(np.array(Lab1) - np.array(Lab2), axis=1))
 
 
-print('Reference:')
-Lab1 = np.array([100, 21.57210357, 272.2281935])
-Lab2 = np.array([100, 426.67945353, 72.39590835])
-print(delta_E_CIE1976(Lab1, Lab2))
+def delta_E_CIE1976_analysis():
+    message_box('delta_E_CIE1976')
 
-print('\n')
+    print('Reference:')
+    Lab1 = np.array([100, 21.57210357, 272.2281935])
+    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    print(delta_E_CIE1976(Lab1, Lab2))
 
-print('1d array:')
-print(delta_E_CIE1976_vectorise(Lab1, Lab2))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(delta_E_CIE1976_vectorise(Lab1, Lab2))
 
-print('2d array:')
-Lab1 = np.tile(Lab1, (5, 1))
-Lab2 = np.tile(Lab2, (5, 1))
-print(delta_E_CIE1976_vectorise(Lab1, Lab2))
+    print('\n')
 
-# get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    Lab1 = np.tile(Lab1, (5, 1))
+    Lab2 = np.tile(Lab2, (5, 1))
+    print(delta_E_CIE1976_vectorise(Lab1, Lab2))
 
-print('\n')
+    # get_ipython().magic(u'timeit delta_E_CIE1976_2d(DATA1, DATA2)')
 
-###############################################################################
-#### colour.delta_E_CIE1994
-###############################################################################
-message_box('delta_E_CIE1994')
+    # get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# delta_E_CIE1976_analysis()
+
+# #############################################################################
+# # ### colour.delta_E_CIE1994
+# #############################################################################
 
 
 def delta_E_CIE1994_2d(Lab1, Lab2):
     for i in range(len(Lab1)):
         delta_E_CIE1994(Lab1[i], Lab2[i])
-
-
-# get_ipython().magic(u'timeit delta_E_CIE1994_2d(DATA1, DATA2)')
 
 
 def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
@@ -1669,39 +1857,43 @@ def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
     return as_numeric(np.sqrt(L + C + H))
 
 
-print('Reference:')
-Lab1 = np.array([100, 21.57210357, 272.2281935])
-Lab2 = np.array([100, 426.67945353, 72.39590835])
-print(delta_E_CIE1994(Lab1, Lab2))
+def delta_E_CIE1994_analysis():
+    message_box('delta_E_CIE1994')
 
-print('\n')
+    print('Reference:')
+    Lab1 = np.array([100, 21.57210357, 272.2281935])
+    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    print(delta_E_CIE1994(Lab1, Lab2))
 
-print('1d array:')
-print(delta_E_CIE1994_vectorise(Lab1, Lab2))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(delta_E_CIE1994_vectorise(Lab1, Lab2))
 
-print('2d array:')
-Lab1 = np.tile(Lab1, (5, 1))
-Lab2 = np.tile(Lab2, (5, 1))
-print(delta_E_CIE1994_vectorise(Lab1, Lab2))
+    print('\n')
 
-# get_ipython().magic(u'timeit delta_E_CIE1994_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    Lab1 = np.tile(Lab1, (5, 1))
+    Lab2 = np.tile(Lab2, (5, 1))
+    print(delta_E_CIE1994_vectorise(Lab1, Lab2))
 
-print('\n')
+    # get_ipython().magic(u'timeit delta_E_CIE1994_2d(DATA1, DATA2)')
 
-###############################################################################
-#### colour.delta_E_CIE2000
-###############################################################################
-message_box('delta_E_CIE2000')
+    # get_ipython().magic(u'timeit delta_E_CIE1994_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# delta_E_CIE1994_analysis()
+
+# #############################################################################
+# # ### colour.delta_E_CIE2000
+# #############################################################################
 
 
 def delta_E_CIE2000_2d(Lab1, Lab2):
     for i in range(len(Lab1)):
         delta_E_CIE2000(Lab1[i], Lab2[i])
-
-
-# get_ipython().magic(u'timeit delta_E_CIE2000_2d(DATA1, DATA2)')
 
 
 def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
@@ -1775,39 +1967,43 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
         (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT))
 
 
-print('Reference:')
-Lab1 = np.array([100, 21.57210357, 272.2281935])
-Lab2 = np.array([100, 426.67945353, 72.39590835])
-print(delta_E_CIE2000(Lab1, Lab2))
+def delta_E_CIE2000_analysis():
+    message_box('delta_E_CIE2000')
 
-print('\n')
+    print('Reference:')
+    Lab1 = np.array([100, 21.57210357, 272.2281935])
+    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    print(delta_E_CIE2000(Lab1, Lab2))
 
-print('1d array:')
-print(delta_E_CIE2000_vectorise(Lab1, Lab2))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
-print('2d array:')
-Lab1 = np.tile(Lab1, (5, 1))
-Lab2 = np.tile(Lab2, (5, 1))
-print(delta_E_CIE2000_vectorise(Lab1, Lab2))
+    print('\n')
 
-# get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    Lab1 = np.tile(Lab1, (5, 1))
+    Lab2 = np.tile(Lab2, (5, 1))
+    print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
-print('\n')
+    # get_ipython().magic(u'timeit delta_E_CIE2000_2d(DATA1, DATA2)')
 
-###############################################################################
-#### colour.delta_E_CMC
-###############################################################################
-message_box('delta_E_CMC')
+    # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
+
+    print('\n')
+
+
+# delta_E_CIE2000_analysis()
+
+# #############################################################################
+# # ### colour.delta_E_CMC
+# #############################################################################
 
 
 def delta_E_CMC_2d(Lab1, Lab2):
     for i in range(len(Lab1)):
         delta_E_CMC(Lab1[i], Lab2[i])
-
-
-# get_ipython().magic(u'timeit delta_E_CMC_2d(DATA1, DATA2)')
 
 
 def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
@@ -1850,49 +2046,48 @@ def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
     return as_numeric(np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3))))
 
 
-print('Reference:')
-Lab1 = np.array([100, 21.57210357, 272.2281935])
-Lab2 = np.array([100, 426.67945353, 72.39590835])
-print(delta_E_CMC(Lab1, Lab2))
+def delta_E_CMC_analysis():
+    message_box('delta_E_CMC')
 
-print('\n')
+    print('Reference:')
+    Lab1 = np.array([100, 21.57210357, 272.2281935])
+    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    print(delta_E_CMC(Lab1, Lab2))
 
-print('1d array:')
-print(delta_E_CMC_vectorise(Lab1, Lab2))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(delta_E_CMC_vectorise(Lab1, Lab2))
 
-print('2d array:')
-Lab1 = np.tile(Lab1, (5, 1))
-Lab2 = np.tile(Lab2, (5, 1))
-print(delta_E_CMC_vectorise(Lab1, Lab2))
+    print('\n')
 
-# get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
+    print('2d array:')
+    Lab1 = np.tile(Lab1, (5, 1))
+    Lab2 = np.tile(Lab2, (5, 1))
+    print(delta_E_CMC_vectorise(Lab1, Lab2))
 
-print('\n')
+    # get_ipython().magic(u'timeit delta_E_CMC_2d(DATA1, DATA2)')
 
-###############################################################################
-###############################################################################
-### colour.models.cie_xyy
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
 
-###############################################################################
-#### colour.XYZ_to_xyY
-###############################################################################
+    print('\n')
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.cie_xyy
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.XYZ_to_xyY
+# #############################################################################
+from colour import ILLUMINANTS
 from colour.models.cie_xyy import *
-
-message_box('XYZ_to_xyY')
 
 
 def XYZ_to_xyY_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_xyY(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_xyY_2d(DATA1)')
-
-from colour import ILLUMINANTS
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -1915,40 +2110,44 @@ def XYZ_to_xyY_vectorise(XYZ,
     return xyY
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_xyY(XYZ))
+def XYZ_to_xyY_analysis():
+    message_box('XYZ_to_xyY')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_xyY(XYZ))
 
-print('1d array:')
-print(XYZ_to_xyY_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_xyY_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_xyY_vectorise(XYZ))
+    print('\n')
 
-XYZ = np.tile((0, 0, 0), (5, 1))
-print(XYZ_to_xyY_vectorise(XYZ))
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_xyY_vectorise(XYZ))
 
-# get_ipython().magic(u'timeit XYZ_to_xyY_vectorise(DATA1)')
+    XYZ = np.tile((0, 0, 0), (5, 1))
+    print(XYZ_to_xyY_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_xyY_2d(DATA1)')
 
-###############################################################################
-#### colour.xyY_to_XYZ
-###############################################################################
-message_box('xyY_to_XYZ')
+    # get_ipython().magic(u'timeit XYZ_to_xyY_vectorise(DATA1)')
+
+    print('\n')
+
+
+# XYZ_to_xyY_analysis()
+
+# #############################################################################
+# # ### colour.xyY_to_XYZ
+# #############################################################################
 
 
 def xyY_to_XYZ_2d(xyY):
     for i in range(len(xyY)):
         xyY_to_XYZ(xyY[i])
-
-
-# get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
 
 
 @handle_numpy_errors(divide='ignore')
@@ -1967,37 +2166,41 @@ def xyY_to_XYZ_vectorise(xyY):
     return XYZ
 
 
-print('Reference:')
-xyY = np.array([0.26414772, 0.37770001, 0.1008])
-print(xyY_to_XYZ(xyY))
+def xyY_to_XYZ_analysis():
+    message_box('xyY_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    print(xyY_to_XYZ(xyY))
 
-print('1d array:')
-print(xyY_to_XYZ_vectorise(xyY))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(xyY_to_XYZ_vectorise(xyY))
 
-print('2d array:')
-xyY = np.tile(xyY, (5, 1))
-print(xyY_to_XYZ_vectorise(xyY))
+    print('\n')
 
-# get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
+    print('2d array:')
+    xyY = np.tile(xyY, (5, 1))
+    print(xyY_to_XYZ_vectorise(xyY))
 
-print('\n')
+    # get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.xy_to_XYZ
-###############################################################################
-message_box('xy_to_XYZ')
+    # get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
+
+    print('\n')
+
+
+# xyY_to_XYZ_analysis()
+
+# #############################################################################
+# # ### colour.xy_to_XYZ
+# #############################################################################
 
 
 def xy_to_XYZ_2d(xy):
     for i in range(len(xy)):
         xy_to_XYZ(xy[i])
-
-
-# get_ipython().magic(u'timeit xy_to_XYZ_2d(DATA1[:, 0:2])')
 
 
 def xy_to_XYZ_vectorise(xy):
@@ -2007,37 +2210,41 @@ def xy_to_XYZ_vectorise(xy):
                                            np.ones(xy.shape[0]))))
 
 
-print('Reference:')
-xy = (0.26414772236966133, 0.37770000704815188)
-print(xy_to_XYZ(xy))
+def xy_to_XYZ_analysis():
+    message_box('xy_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    xy = (0.26414772236966133, 0.37770000704815188)
+    print(xy_to_XYZ(xy))
 
-print('1d array:')
-print(xy_to_XYZ_vectorise(xy))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(xy_to_XYZ_vectorise(xy))
 
-print('2d array:')
-xy = np.tile(xy, (5, 1))
-print(xy_to_XYZ_vectorise(xy))
+    print('\n')
 
-# get_ipython().magic(u'timeit xy_to_XYZ_vectorise(DATA1[:, 0:2])')
+    print('2d array:')
+    xy = np.tile(xy, (5, 1))
+    print(xy_to_XYZ_vectorise(xy))
 
-print('\n')
+    # get_ipython().magic(u'timeit xy_to_XYZ_2d(DATA1[:, 0:2])')
 
-###############################################################################
-#### colour.XYZ_to_xy
-###############################################################################
-message_box('XYZ_to_xy')
+    # get_ipython().magic(u'timeit xy_to_XYZ_vectorise(DATA1[:, 0:2])')
+
+    print('\n')
+
+
+# xy_to_XYZ_analysis()
+
+# #############################################################################
+# # ### colour.XYZ_to_xy
+# #############################################################################
 
 
 def XYZ_to_xy_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_xy(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_xy_2d(DATA1)')
 
 
 def XYZ_to_xy_vectorise(XYZ,
@@ -2049,45 +2256,48 @@ def XYZ_to_xy_vectorise(XYZ,
     return xy
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_xy(XYZ))
+def XYZ_to_xy_analysis():
+    message_box('XYZ_to_xy')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_xy(XYZ))
 
-print('1d array:')
-print(XYZ_to_xy_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_xy_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_xy_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_xy_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_xy_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_xy_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.cie_lab
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit XYZ_to_xy_vectorise(DATA1)')
 
-###############################################################################
-#### colour.XYZ_to_Lab
-###############################################################################
+    print('\n')
+
+
+# XYZ_to_xy_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.cie_lab
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.XYZ_to_Lab
+# #############################################################################
 from colour.models.cie_lab import *
-
-message_box('XYZ_to_Lab')
 
 
 def XYZ_to_Lab_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_Lab(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_Lab_2d(DATA1)')
 
 
 def XYZ_to_Lab_vectorise(XYZ,
@@ -2115,37 +2325,41 @@ def XYZ_to_Lab_vectorise(XYZ,
     return Lab
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_Lab(XYZ))
+def XYZ_to_Lab_analysis():
+    message_box('XYZ_to_Lab')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_Lab(XYZ))
 
-print('1d array:')
-print(XYZ_to_Lab_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_Lab_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_Lab_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_Lab_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_Lab_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_Lab_2d(DATA1)')
 
-###############################################################################
-#### colour.Lab_to_XYZ
-###############################################################################
-message_box('Lab_to_XYZ')
+    # get_ipython().magic(u'timeit XYZ_to_Lab_vectorise(DATA1)')
+
+    print('\n')
+
+
+# XYZ_to_Lab_analysis()
+
+# #############################################################################
+# # ### colour.Lab_to_XYZ
+# #############################################################################
 
 
 def Lab_to_XYZ_2d(Lab):
     for i in range(len(Lab)):
         Lab_to_XYZ(Lab[i])
-
-
-# get_ipython().magic(u'timeit Lab_to_XYZ_2d(DATA1)')
 
 
 def Lab_to_XYZ_vectorise(Lab,
@@ -2172,29 +2386,36 @@ def Lab_to_XYZ_vectorise(Lab,
     return XYZ
 
 
-print('Reference:')
-Lab = np.array([37.9856291, -23.62302887, -4.41417036])
-print(Lab_to_XYZ(Lab))
+def Lab_to_XYZ_analysis():
+    message_box('Lab_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    print(Lab_to_XYZ(Lab))
 
-print('1d array:')
-print(Lab_to_XYZ_vectorise(Lab))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Lab_to_XYZ_vectorise(Lab))
 
-print('2d array:')
-Lab = np.tile(Lab, (5, 1))
-print(Lab_to_XYZ_vectorise(Lab))
+    print('\n')
 
-# get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
+    print('2d array:')
+    Lab = np.tile(Lab, (5, 1))
+    print(Lab_to_XYZ_vectorise(Lab))
 
-print('\n')
+    # get_ipython().magic(u'timeit Lab_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.Lab_to_LCHab
-###############################################################################
-message_box('Lab_to_LCHab')
+    # get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
+
+    print('\n')
+
+
+# Lab_to_XYZ_analysis()
+
+# #############################################################################
+# # ### colour.Lab_to_LCHab
+# #############################################################################
 
 
 def Lab_to_LCHab_2d(Lab):
@@ -2218,37 +2439,39 @@ def Lab_to_LCHab_vectorise(Lab):
     return LCHab
 
 
-print('Reference:')
-Lab = np.array([37.9856291, -23.62302887, -4.41417036])
-print(Lab_to_LCHab(Lab))
+def Lab_to_LCHab_analysis():
+    message_box('Lab_to_LCHab')
 
-print('\n')
+    print('Reference:')
+    Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    print(Lab_to_LCHab(Lab))
 
-print('1d array:')
-print(Lab_to_LCHab_vectorise(Lab))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Lab_to_LCHab_vectorise(Lab))
 
-print('2d array:')
-Lab = np.tile(Lab, (5, 1))
-print(Lab_to_LCHab_vectorise(Lab))
+    print('\n')
 
-# get_ipython().magic(u'timeit Lab_to_LCHab_vectorise(DATA1)')
+    print('2d array:')
+    Lab = np.tile(Lab, (5, 1))
+    print(Lab_to_LCHab_vectorise(Lab))
 
-print('\n')
+    # get_ipython().magic(u'timeit Lab_to_LCHab_vectorise(DATA1)')
 
-###############################################################################
-#### colour.LCHab_to_Lab
-###############################################################################
-message_box('LCHab_to_Lab')
+    print('\n')
+
+
+# Lab_to_LCHab_analysis()
+
+# #############################################################################
+# # ### colour.LCHab_to_Lab
+# #############################################################################
 
 
 def LCHab_to_Lab_2d(LCHab):
     for i in range(len(LCHab)):
         LCHab_to_Lab(LCHab[i])
-
-
-# get_ipython().magic(u'timeit LCHab_to_Lab_2d(DATA1)')
 
 
 def LCHab_to_Lab_vectorise(LCHab):
@@ -2262,37 +2485,43 @@ def LCHab_to_Lab_vectorise(LCHab):
                     shape=shape)
 
 
-print('Reference:')
-LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
-print(LCHab_to_Lab(LCHab))
+def LCHab_to_Lab_analysis():
+    message_box('LCHab_to_Lab')
 
-print('\n')
+    print('Reference:')
+    LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+    print(LCHab_to_Lab(LCHab))
 
-print('1d array:')
-print(LCHab_to_Lab_vectorise(LCHab))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(LCHab_to_Lab_vectorise(LCHab))
 
-print('2d array:')
-LCHab = np.tile(LCHab, (5, 1))
-print(LCHab_to_Lab_vectorise(LCHab))
+    print('\n')
 
-# get_ipython().magic(u'timeit LCHab_to_Lab_vectorise(DATA1)')
+    print('2d array:')
+    LCHab = np.tile(LCHab, (5, 1))
+    print(LCHab_to_Lab_vectorise(LCHab))
 
-print('\n')
+    # get_ipython().magic(u'timeit LCHab_to_Lab_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.cie_luv
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit LCHab_to_Lab_vectorise(DATA1)')
 
-###############################################################################
-#### colour.XYZ_to_Luv
-###############################################################################
+    print('\n')
+
+
+# LCHab_to_Lab_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.cie_luv
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.XYZ_to_Luv
+# #############################################################################
 from colour.models.cie_luv import *
-
-message_box('XYZ_to_Luv')
 
 
 def XYZ_to_Luv_2d(XYZ):
@@ -2328,37 +2557,39 @@ def XYZ_to_Luv_vectorise(XYZ,
     return Luv
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_Luv(XYZ))
+def XYZ_to_Luv_analysis():
+    message_box('XYZ_to_Luv')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_Luv(XYZ))
 
-print('1d array:')
-print(XYZ_to_Luv_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_Luv_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_Luv_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_Luv_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_Luv_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_Luv_vectorise(DATA1)')
 
-###############################################################################
-#### colour.Luv_to_XYZ
-###############################################################################
-message_box('Luv_to_XYZ')
+    print('\n')
+
+
+# XYZ_to_Luv_analysis()
+
+# #############################################################################
+# # ### colour.Luv_to_XYZ
+# #############################################################################
 
 
 def Luv_to_XYZ_2d(Luv):
     for i in range(len(Luv)):
         Luv_to_XYZ(Luv[i])
-
-
-# get_ipython().magic(u'timeit Luv_to_XYZ_2d(DATA1)')
 
 
 def Luv_to_XYZ_vectorise(Luv,
@@ -2389,37 +2620,41 @@ def Luv_to_XYZ_vectorise(Luv,
     return XYZ
 
 
-print('Reference:')
-Luv = np.array([37.9856291, -28.79229446, -1.3558195])
-print(Luv_to_XYZ(Luv))
+def Luv_to_XYZ_analysis():
+    message_box('Luv_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    print(Luv_to_XYZ(Luv))
 
-print('1d array:')
-print(Luv_to_XYZ_vectorise(Luv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Luv_to_XYZ_vectorise(Luv))
 
-print('2d array:')
-Luv = np.tile(Luv, (5, 1))
-print(Luv_to_XYZ_vectorise(Luv))
+    print('\n')
 
-# get_ipython().magic(u'timeit Luv_to_XYZ_vectorise(DATA1)')
+    print('2d array:')
+    Luv = np.tile(Luv, (5, 1))
+    print(Luv_to_XYZ_vectorise(Luv))
 
-print('\n')
+    # get_ipython().magic(u'timeit Luv_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.Luv_to_uv
-###############################################################################
-message_box('Luv_to_uv')
+    # get_ipython().magic(u'timeit Luv_to_XYZ_vectorise(DATA1)')
+
+    print('\n')
+
+
+# Luv_to_XYZ_analysis()
+
+# #############################################################################
+# # ### colour.Luv_to_uv
+# #############################################################################
 
 
 def Luv_to_uv_2d(Luv):
     for i in range(len(Luv)):
         Luv_to_uv(Luv[i])
-
-
-# get_ipython().magic(u'timeit Luv_to_uv_2d(DATA1)')
 
 
 def Luv_to_uv_vectorise(Luv,
@@ -2434,37 +2669,41 @@ def Luv_to_uv_vectorise(Luv,
     return uv
 
 
-print('Reference:')
-Luv = np.array([37.9856291, -28.79229446, -1.3558195])
-print(Luv_to_uv(Luv))
+def Luv_to_uv_analysis():
+    message_box('Luv_to_uv')
 
-print('\n')
+    print('Reference:')
+    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    print(Luv_to_uv(Luv))
 
-print('1d array:')
-print(Luv_to_uv_vectorise(Luv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Luv_to_uv_vectorise(Luv))
 
-print('2d array:')
-Luv = np.tile(Luv, (5, 1))
-print(Luv_to_uv_vectorise(Luv))
+    print('\n')
 
-# get_ipython().magic(u'timeit Luv_to_uv_vectorise(DATA1)')
+    print('2d array:')
+    Luv = np.tile(Luv, (5, 1))
+    print(Luv_to_uv_vectorise(Luv))
 
-print('\n')
+    # get_ipython().magic(u'timeit Luv_to_uv_2d(DATA1)')
 
-###############################################################################
-#### colour.Luv_uv_to_xy
-###############################################################################
-message_box('Luv_uv_to_xy')
+    # get_ipython().magic(u'timeit Luv_to_uv_vectorise(DATA1)')
+
+    print('\n')
+
+
+# Luv_to_uv_analysis()
+
+# #############################################################################
+# # ### colour.Luv_uv_to_xy
+# #############################################################################
 
 
 def Luv_uv_to_xy_2d(uv):
     for i in range(len(uv)):
         Luv_uv_to_xy(uv[i])
-
-
-# get_ipython().magic(u'timeit Luv_uv_to_xy_2d(DATA1[:, 0:2])')
 
 
 def Luv_uv_to_xy_vectorise(uv):
@@ -2476,37 +2715,41 @@ def Luv_uv_to_xy_vectorise(uv):
     return xy
 
 
-print('Reference:')
-uv = np.array([0.15085309882985695, 0.48532970854318019])
-print(Luv_uv_to_xy(uv))
+def Luv_uv_to_xy_analysis():
+    message_box('Luv_uv_to_xy')
 
-print('\n')
+    print('Reference:')
+    uv = np.array([0.15085309882985695, 0.48532970854318019])
+    print(Luv_uv_to_xy(uv))
 
-print('1d array:')
-print(Luv_uv_to_xy_vectorise(uv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Luv_uv_to_xy_vectorise(uv))
 
-print('2d array:')
-uv = np.tile(uv, (5, 1))
-print(Luv_uv_to_xy_vectorise(uv))
+    print('\n')
 
-# get_ipython().magic(u'timeit Luv_uv_to_xy_vectorise(DATA1[:, 0:2])')
+    print('2d array:')
+    uv = np.tile(uv, (5, 1))
+    print(Luv_uv_to_xy_vectorise(uv))
 
-print('\n')
+    # get_ipython().magic(u'timeit Luv_uv_to_xy_2d(DATA1[:, 0:2])')
 
-###############################################################################
-#### colour.Luv_to_LCHuv
-###############################################################################
-message_box('Luv_to_LCHuv')
+    # get_ipython().magic(u'timeit Luv_uv_to_xy_vectorise(DATA1[:, 0:2])')
+
+    print('\n')
+
+
+# Luv_uv_to_xy_analysis()
+
+# #############################################################################
+# # ### colour.Luv_to_LCHuv
+# #############################################################################
 
 
 def Luv_to_LCHuv_2d(Luv):
     for i in range(len(Luv)):
         Luv_to_LCHuv(Luv[i])
-
-
-# get_ipython().magic(u'timeit Luv_to_LCHuv_2d(DATA1)')
 
 
 def Luv_to_LCHuv_vectorise(Luv):
@@ -2524,37 +2767,41 @@ def Luv_to_LCHuv_vectorise(Luv):
     return LCHuv
 
 
-print('Reference:')
-Luv = np.array([37.9856291, -28.79229446, -1.3558195])
-print(Luv_to_LCHuv(Luv))
+def Luv_to_LCHuv_analysis():
+    message_box('Luv_to_LCHuv')
 
-print('\n')
+    print('Reference:')
+    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    print(Luv_to_LCHuv(Luv))
 
-print('1d array:')
-print(Luv_to_LCHuv_vectorise(Luv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(Luv_to_LCHuv_vectorise(Luv))
 
-print('2d array:')
-Luv = np.tile(Luv, (5, 1))
-print(Luv_to_LCHuv_vectorise(Luv))
+    print('\n')
 
-# get_ipython().magic(u'timeit Luv_to_LCHuv_vectorise(DATA1)')
+    print('2d array:')
+    Luv = np.tile(Luv, (5, 1))
+    print(Luv_to_LCHuv_vectorise(Luv))
 
-print('\n')
+    # get_ipython().magic(u'timeit Luv_to_LCHuv_2d(DATA1)')
 
-###############################################################################
-#### colour.LCHuv_to_Luv
-###############################################################################
-message_box('LCHuv_to_Luv')
+    # get_ipython().magic(u'timeit Luv_to_LCHuv_vectorise(DATA1)')
+
+    print('\n')
+
+
+# Luv_to_LCHuv_analysis()
+
+# #############################################################################
+# # ### colour.LCHuv_to_Luv
+# #############################################################################
 
 
 def LCHuv_to_Luv_2d(LCHuv):
     for i in range(len(LCHuv)):
         LCHuv_to_Luv(LCHuv[i])
-
-
-# get_ipython().magic(u'timeit LCHuv_to_Luv_2d(DATA1)')
 
 
 def LCHuv_to_Luv_vectorise(LCHuv):
@@ -2569,45 +2816,48 @@ def LCHuv_to_Luv_vectorise(LCHuv):
     return Luv
 
 
-print('Reference:')
-LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
-print(LCHuv_to_Luv(LCHuv))
+def LCHuv_to_Luv_analysis():
+    message_box('LCHuv_to_Luv')
 
-print('\n')
+    print('Reference:')
+    LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
+    print(LCHuv_to_Luv(LCHuv))
 
-print('1d array:')
-print(LCHuv_to_Luv_vectorise(LCHuv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(LCHuv_to_Luv_vectorise(LCHuv))
 
-print('2d array:')
-LCHuv = np.tile(LCHuv, (5, 1))
-print(LCHuv_to_Luv_vectorise(LCHuv))
+    print('\n')
 
-# get_ipython().magic(u'timeit LCHuv_to_Luv_vectorise(DATA1)')
+    print('2d array:')
+    LCHuv = np.tile(LCHuv, (5, 1))
+    print(LCHuv_to_Luv_vectorise(LCHuv))
 
-print('\n')
+    # get_ipython().magic(u'timeit LCHuv_to_Luv_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.cie_ucs
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit LCHuv_to_Luv_vectorise(DATA1)')
 
-###############################################################################
-#### colour.XYZ_to_UCS
-###############################################################################
+    print('\n')
+
+
+# LCHuv_to_Luv_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.cie_ucs
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.XYZ_to_UCS
+# #############################################################################
 from colour.models.cie_ucs import *
-
-message_box('XYZ_to_UCS')
 
 
 def XYZ_to_UCS_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_UCS(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_UCS_2d(DATA1)')
 
 
 def XYZ_to_UCS_vectorise(XYZ):
@@ -2623,37 +2873,41 @@ def XYZ_to_UCS_vectorise(XYZ):
     return UVW
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_UCS(XYZ))
+def XYZ_to_UCS_analysis():
+    message_box('XYZ_to_UCS')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_UCS(XYZ))
 
-print('1d array:')
-print(XYZ_to_UCS_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_UCS_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_UCS_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_UCS_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_UCS_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_UCS_2d(DATA1)')
 
-###############################################################################
-#### colour.UCS_to_XYZ
-###############################################################################
-message_box('UCS_to_XYZ')
+    # get_ipython().magic(u'timeit XYZ_to_UCS_vectorise(DATA1)')
+
+    print('\n')
+
+
+# XYZ_to_UCS_analysis()
+
+# #############################################################################
+# # ### colour.UCS_to_XYZ
+# #############################################################################
 
 
 def UCS_to_XYZ_2d(UVW):
     for i in range(len(UVW)):
         UCS_to_XYZ(UVW[i])
-
-
-# get_ipython().magic(u'timeit UCS_to_XYZ_2d(DATA1)')
 
 
 def UCS_to_XYZ_vectorise(UVW):
@@ -2669,37 +2923,41 @@ def UCS_to_XYZ_vectorise(UVW):
     return XYZ
 
 
-print('Reference:')
-UVW = np.array([0.04699689, 0.1008, 0.1637439])
-print(UCS_to_XYZ(UVW))
+def UCS_to_XYZ_analysis():
+    message_box('UCS_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    print(UCS_to_XYZ(UVW))
 
-print('1d array:')
-print(UCS_to_XYZ_vectorise(UVW))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(UCS_to_XYZ_vectorise(UVW))
 
-print('2d array:')
-UVW = np.tile(UVW, (5, 1))
-print(UCS_to_XYZ_vectorise(UVW))
+    print('\n')
 
-# get_ipython().magic(u'timeit UCS_to_XYZ_vectorise(DATA1)')
+    print('2d array:')
+    UVW = np.tile(UVW, (5, 1))
+    print(UCS_to_XYZ_vectorise(UVW))
 
-print('\n')
+    # get_ipython().magic(u'timeit UCS_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.UCS_to_uv
-###############################################################################
-message_box('UCS_to_uv')
+    # get_ipython().magic(u'timeit UCS_to_XYZ_vectorise(DATA1)')
+
+    print('\n')
+
+
+# UCS_to_XYZ_analysis()
+
+# #############################################################################
+# # ### colour.UCS_to_uv
+# #############################################################################
 
 
 def UCS_to_uv_2d(UVW):
     for i in range(len(UVW)):
         UCS_to_uv(UVW[i])
-
-
-# get_ipython().magic(u'timeit UCS_to_uv_2d(DATA1)')
 
 
 def UCS_to_uv_vectorise(UVW):
@@ -2711,37 +2969,41 @@ def UCS_to_uv_vectorise(UVW):
     return uv
 
 
-print('Reference:')
-UVW = np.array([0.04699689, 0.1008, 0.1637439])
-print(UCS_to_uv(UVW))
+def UCS_to_uv_analysis():
+    message_box('UCS_to_uv')
 
-print('\n')
+    print('Reference:')
+    UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    print(UCS_to_uv(UVW))
 
-print('1d array:')
-print(UCS_to_uv_vectorise(UVW))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(UCS_to_uv_vectorise(UVW))
 
-print('2d array:')
-UVW = np.tile(UVW, (5, 1))
-print(UCS_to_uv_vectorise(UVW))
+    print('\n')
 
-# get_ipython().magic(u'timeit UCS_to_uv_vectorise(DATA1)')
+    print('2d array:')
+    UVW = np.tile(UVW, (5, 1))
+    print(UCS_to_uv_vectorise(UVW))
 
-print('\n')
+    # get_ipython().magic(u'timeit UCS_to_uv_2d(DATA1)')
 
-###############################################################################
-#### colour.UCS_uv_to_xy
-###############################################################################
-message_box('UCS_uv_to_xy')
+    # get_ipython().magic(u'timeit UCS_to_uv_vectorise(DATA1)')
+
+    print('\n')
+
+
+# UCS_to_uv_analysis()
+
+# #############################################################################
+# # ### colour.UCS_uv_to_xy
+# #############################################################################
 
 
 def UCS_uv_to_xy_2d(uv):
     for i in range(len(uv)):
         UCS_uv_to_xy(uv[i])
-
-
-# get_ipython().magic(u'timeit UCS_uv_to_xy_2d(DATA1[:, 0:2])')
 
 
 def UCS_uv_to_xy_vectorise(uv):
@@ -2754,46 +3016,48 @@ def UCS_uv_to_xy_vectorise(uv):
     return xy
 
 
-print('Reference:')
-uv = np.array([0.15085308732766581, 0.3235531372954405])
-print(UCS_uv_to_xy(uv))
+def UCS_uv_to_xy_analysis():
+    message_box('UCS_uv_to_xy')
 
-print('\n')
+    print('Reference:')
+    uv = np.array([0.15085308732766581, 0.3235531372954405])
+    print(UCS_uv_to_xy(uv))
 
-print('1d array:')
-print(UCS_uv_to_xy_vectorise(uv))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(UCS_uv_to_xy_vectorise(uv))
 
-print('2d array:')
-uv = np.tile(uv, (5, 1))
-print(UCS_uv_to_xy_vectorise(uv))
+    print('\n')
 
-# get_ipython().magic(u'timeit UCS_uv_to_xy_vectorise(DATA1[:, 0:2])')
+    print('2d array:')
+    uv = np.tile(uv, (5, 1))
+    print(UCS_uv_to_xy_vectorise(uv))
 
-print('\n')
+    # get_ipython().magic(u'timeit UCS_uv_to_xy_2d(DATA1[:, 0:2])')
 
-###############################################################################
-###############################################################################
-### colour.models.cie_uvw
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit UCS_uv_to_xy_vectorise(DATA1[:, 0:2])')
 
-###############################################################################
-#### colour.XYZ_to_UVW
-###############################################################################
+    print('\n')
+
+
+# UCS_uv_to_xy_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.cie_uvw
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.XYZ_to_UVW
+# #############################################################################
 from colour.models.cie_uvw import *
-
-
-message_box('XYZ_to_UVW')
 
 
 def XYZ_to_UVW_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_UVW(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_UVW_2d(DATA1)')
 
 
 def XYZ_to_UVW_vectorise(XYZ,
@@ -2827,45 +3091,48 @@ def XYZ_to_UVW_vectorise(XYZ,
     return UVW
 
 
-print('Reference:')
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-print(XYZ_to_UVW(XYZ))
+def XYZ_to_UVW_analysis():
+    message_box('XYZ_to_UVW')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    print(XYZ_to_UVW(XYZ))
 
-print('1d array:')
-print(XYZ_to_UVW_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_UVW_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_UVW_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_UVW_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_UVW_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_UVW_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.deprecated
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit XYZ_to_UVW_vectorise(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.RGB_to_HSV
-###############################################################################
+    print('\n')
+
+
+# XYZ_to_UVW_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.deprecated
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.models.deprecated.RGB_to_HSV
+# #############################################################################
 from colour.models.deprecated import *
-
-message_box('RGB_to_HSV')
 
 
 def RGB_to_HSV_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_HSV(RGB[i])
-
-
-# get_ipython().magic(u'timeit RGB_to_HSV_2d(DATA1)')
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -2900,37 +3167,39 @@ def RGB_to_HSV_vectorise(RGB):
     return HSV
 
 
-print('Reference:')
-RGB = np.array([0.49019608, 0.98039216, 0.25098039])
-print(RGB_to_HSV(RGB))
+def RGB_to_HSV_analysis():
+    message_box('RGB_to_HSV')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    print(RGB_to_HSV(RGB))
 
-print('1d array:')
-print(RGB_to_HSV_vectorise(RGB))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_HSV_vectorise(RGB))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_HSV_vectorise(RGB))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_HSV_vectorise(DATA1)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_HSV_vectorise(RGB))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_HSV_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.HSV_to_RGB
-###############################################################################
-message_box('HSV_to_RGB')
+    # get_ipython().magic(u'timeit RGB_to_HSV_vectorise(DATA1)')
+
+    print('\n')
 
 
+# RGB_to_HSV_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.HSV_to_RGB
+# #############################################################################
 def HSV_to_RGB_2d(HSV):
     for i in range(len(HSV)):
         HSV_to_RGB(HSV[i])
-
-
-# get_ipython().magic(u'timeit HSV_to_RGB_2d(DATA1)')
 
 
 def HSV_to_RGB_vectorise(HSV):
@@ -2960,37 +3229,41 @@ def HSV_to_RGB_vectorise(HSV):
     return RGB
 
 
-print('Reference:')
-HSV = np.array([0.27867383, 0.744, 0.98039216])
-print(HSV_to_RGB(HSV))
+def RGB_to_HSV_analysis():
+    message_box('RGB_to_HSV')
 
-print('\n')
+    print('Reference:')
+    HSV = np.array([0.27867383, 0.744, 0.98039216])
+    print(HSV_to_RGB(HSV))
 
-print('1d array:')
-print(HSV_to_RGB_vectorise(HSV))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(HSV_to_RGB_vectorise(HSV))
 
-print('2d array:')
-HSV = np.tile(HSV, (5, 1))
-print(HSV_to_RGB_vectorise(HSV))
+    print('\n')
 
-# get_ipython().magic(u'timeit HSV_to_RGB_vectorise(DATA1)')
+    print('2d array:')
+    HSV = np.tile(HSV, (5, 1))
+    print(HSV_to_RGB_vectorise(HSV))
 
-print('\n')
+    # get_ipython().magic(u'timeit HSV_to_RGB_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.RGB_to_HSL
-###############################################################################
-message_box('RGB_to_HSL')
+    # get_ipython().magic(u'timeit HSV_to_RGB_vectorise(DATA1)')
+
+    print('\n')
+
+
+# RGB_to_HSV_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.RGB_to_HSL
+# #############################################################################
 
 
 def RGB_to_HSL_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_HSL(RGB[i])
-
-
-# get_ipython().magic(u'timeit RGB_to_HSL_2d(DATA1)')
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -3027,37 +3300,41 @@ def RGB_to_HSL_vectorise(RGB):
     return HSL
 
 
-print('Reference:')
-RGB = np.array([0.49019608, 0.98039216, 0.25098039])
-print(RGB_to_HSL(RGB))
+def RGB_to_HSL_analysis():
+    message_box('RGB_to_HSL')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    print(RGB_to_HSL(RGB))
 
-print('1d array:')
-print(RGB_to_HSL_vectorise(RGB))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_HSL_vectorise(RGB))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_HSL_vectorise(RGB))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_HSL_vectorise(DATA1)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_HSL_vectorise(RGB))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_HSL_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.HSL_to_RGB
-###############################################################################
-message_box('HSL_to_RGB')
+    # get_ipython().magic(u'timeit RGB_to_HSL_vectorise(DATA1)')
+
+    print('\n')
+
+
+# RGB_to_HSL_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.HSL_to_RGB
+# #############################################################################
 
 
 def HSL_to_RGB_2d(HSL):
     for i in range(len(HSL)):
         HSL_to_RGB(HSL[i])
-
-
-# get_ipython().magic(u'timeit HSL_to_RGB_2d(DATA1)')
 
 
 def HSL_to_RGB_vectorise(HSL):
@@ -3105,37 +3382,41 @@ def HSL_to_RGB_vectorise(HSL):
     return RGB
 
 
-print('Reference:')
-HSL = np.array([0.27867383, 0.9489796, 0.61568627])
-print(HSL_to_RGB(HSL))
+def HSL_to_RGB_analysis():
+    message_box('HSL_to_RGB')
 
-print('\n')
+    print('Reference:')
+    HSL = np.array([0.27867383, 0.9489796, 0.61568627])
+    print(HSL_to_RGB(HSL))
 
-print('1d array:')
-print(HSL_to_RGB_vectorise(HSL))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(HSL_to_RGB_vectorise(HSL))
 
-print('2d array:')
-HSL = np.tile(HSL, (5, 1))
-print(HSL_to_RGB_vectorise(HSL))
+    print('\n')
 
-# get_ipython().magic(u'timeit HSL_to_RGB_vectorise(DATA1)')
+    print('2d array:')
+    HSL = np.tile(HSL, (5, 1))
+    print(HSL_to_RGB_vectorise(HSL))
 
-print('\n')
+    # get_ipython().magic(u'timeit HSL_to_RGB_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.RGB_to_CMY
-###############################################################################
-message_box('RGB_to_CMY')
+    # get_ipython().magic(u'timeit HSL_to_RGB_vectorise(DATA1)')
+
+    print('\n')
+
+
+# HSL_to_RGB_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.RGB_to_CMY
+# #############################################################################
 
 
 def RGB_to_CMY_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_CMY(RGB[i])
-
-
-# get_ipython().magic(u'timeit RGB_to_CMY_2d(DATA1)')
 
 
 def RGB_to_CMY_vectorise(RGB):
@@ -3147,37 +3428,42 @@ def RGB_to_CMY_vectorise(RGB):
     return CMY
 
 
-print('Reference:')
-RGB = np.array([0.49019608, 0.98039216, 0.25098039])
-print(RGB_to_CMY(RGB))
+def RGB_to_CMY_analysis():
+    message_box('RGB_to_CMY')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    print(RGB_to_CMY(RGB))
 
-print('1d array:')
-print(RGB_to_CMY_vectorise(RGB))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_CMY_vectorise(RGB))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_CMY_vectorise(RGB))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_CMY_vectorise(DATA1)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_CMY_vectorise(RGB))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_CMY_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.CMY_to_RGB
-###############################################################################
-message_box('CMY_to_RGB')
+
+    # get_ipython().magic(u'timeit RGB_to_CMY_vectorise(DATA1)')
+
+    print('\n')
+
+
+# RGB_to_CMY_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.CMY_to_RGB
+# #############################################################################
 
 
 def CMY_to_RGB_2d(CMY):
     for i in range(len(CMY)):
         CMY_to_RGB(CMY[i])
-
-
-# get_ipython().magic(u'timeit CMY_to_RGB_2d(DATA1)')
 
 
 def CMY_to_RGB_vectorise(CMY):
@@ -3189,37 +3475,41 @@ def CMY_to_RGB_vectorise(CMY):
     return RGB
 
 
-print('Reference:')
-CMY = np.array([0.50980392, 0.01960784, 0.74901961])
-print(CMY_to_RGB(CMY))
+def CMY_to_RGB_analysis():
+    message_box('CMY_to_RGB')
 
-print('\n')
+    print('Reference:')
+    CMY = np.array([0.50980392, 0.01960784, 0.74901961])
+    print(CMY_to_RGB(CMY))
 
-print('1d array:')
-print(CMY_to_RGB_vectorise(CMY))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(CMY_to_RGB_vectorise(CMY))
 
-print('2d array:')
-CMY = np.tile(CMY, (5, 1))
-print(CMY_to_RGB_vectorise(CMY))
+    print('\n')
 
-# get_ipython().magic(u'timeit CMY_to_RGB_vectorise(DATA1)')
+    print('2d array:')
+    CMY = np.tile(CMY, (5, 1))
+    print(CMY_to_RGB_vectorise(CMY))
 
-print('\n')
+    # get_ipython().magic(u'timeit CMY_to_RGB_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.CMY_to_CMYK
-###############################################################################
-message_box('CMY_to_CMYK')
+    # get_ipython().magic(u'timeit CMY_to_RGB_vectorise(DATA1)')
+
+    print('\n')
+
+
+# CMY_to_RGB_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.CMY_to_CMYK
+# #############################################################################
 
 
 def CMY_to_CMYK_2d(CMY):
     for i in range(len(CMY)):
         CMY_to_CMYK(CMY[i])
-
-
-# get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
 
 
 def CMY_to_CMYK_vectorise(CMY):
@@ -3244,37 +3534,41 @@ def CMY_to_CMYK_vectorise(CMY):
     return CMYK
 
 
-print('Reference:')
-CMY = np.array([0.49019608, 0.98039216, 0.25098039])
-print(CMY_to_CMYK(CMY))
+def CMY_to_CMYK_analysis():
+    message_box('CMY_to_CMYK')
 
-print('\n')
+    print('Reference:')
+    CMY = np.array([0.49019608, 0.98039216, 0.25098039])
+    print(CMY_to_CMYK(CMY))
 
-print('1d array:')
-print(CMY_to_CMYK_vectorise(CMY))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(CMY_to_CMYK_vectorise(CMY))
 
-print('2d array:')
-CMY = np.tile(CMY, (5, 1))
-print(CMY_to_CMYK_vectorise(CMY))
+    print('\n')
 
-# get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
+    print('2d array:')
+    CMY = np.tile(CMY, (5, 1))
+    print(CMY_to_CMYK_vectorise(CMY))
 
-print('\n')
+    # get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
 
-###############################################################################
-#### colour.models.deprecated.CMYK_to_CMY
-###############################################################################
-message_box('CMYK_to_CMY')
+    # get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
+
+    print('\n')
+
+
+# CMY_to_CMYK_analysis()
+
+# #############################################################################
+# # ### colour.models.deprecated.CMYK_to_CMY
+# #############################################################################
 
 
 def CMYK_to_CMY_2d(CMYK):
     for i in range(len(CMYK)):
         CMYK_to_CMY(CMYK[i])
-
-
-# get_ipython().magic(u'timeit CMYK_to_CMY_2d(np.resize(DATA1, (-1, 4)))')
 
 
 def CMYK_to_CMY_vectorise(CMYK):
@@ -3286,37 +3580,43 @@ def CMYK_to_CMY_vectorise(CMYK):
     return CMY
 
 
-print('Reference:')
-CMYK = np.array([0.31937173, 0.97382199, 0., 0.25098039])
-print(CMYK_to_CMY(CMYK))
+def CMYK_to_CMY_analysis():
+    message_box('CMYK_to_CMY')
 
-print('\n')
+    print('Reference:')
+    CMYK = np.array([0.31937173, 0.97382199, 0., 0.25098039])
+    print(CMYK_to_CMY(CMYK))
 
-print('1d array:')
-print(CMYK_to_CMY_vectorise(CMYK))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(CMYK_to_CMY_vectorise(CMYK))
 
-print('2d array:')
-CMYK = np.tile(CMYK, (5, 1))
-print(CMYK_to_CMY_vectorise(CMYK))
+    print('\n')
 
-# get_ipython().magic(u'timeit CMYK_to_CMY_vectorise(np.resize(DATA1, (-1, 4)))')
+    print('2d array:')
+    CMYK = np.tile(CMYK, (5, 1))
+    print(CMYK_to_CMY_vectorise(CMYK))
 
-print('\n')
+    # get_ipython().magic(u'timeit CMYK_to_CMY_2d(np.resize(DATA1, (-1, 4)))')
 
-###############################################################################
-###############################################################################
-### colour.models.derivation
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit CMYK_to_CMY_vectorise(np.resize(DATA1, (-1, 4)))')
 
-###############################################################################
-#### colour.RGB_luminance
-###############################################################################
+    print('\n')
+
+
+# CMYK_to_CMY_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.models.derivation
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.RGB_luminance
+# #############################################################################
 from colour.models.derivation import *
-
-message_box('RGB_luminance')
 
 
 def RGB_luminance_2d(RGB):
@@ -3325,9 +3625,6 @@ def RGB_luminance_2d(RGB):
                       np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010,
                                 -0.07700]),
                       (0.32168, 0.33767))
-
-
-# get_ipython().magic(u'timeit RGB_luminance_2d(DATA1)')
 
 
 def RGB_luminance_vectorise(RGB, primaries, whitepoint):
@@ -3340,47 +3637,50 @@ def RGB_luminance_vectorise(RGB, primaries, whitepoint):
     return np.squeeze(X * R + Y * G + Z * B)
 
 
-print('Reference:')
-RGB = np.array([40.6, 4.2, 67.4])
-P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
-W = (0.32168, 0.33767)
-print(RGB_luminance(RGB, P, W))
+def RGB_luminance_analysis():
+    message_box('RGB_luminance')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([40.6, 4.2, 67.4])
+    P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    W = (0.32168, 0.33767)
+    print(RGB_luminance(RGB, P, W))
 
-print('1d array:')
-print(RGB_luminance_vectorise(RGB, P, W))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_luminance_vectorise(RGB, P, W))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_luminance_vectorise(RGB, P, W))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_luminance_vectorise(DATA1, P, W)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_luminance_vectorise(RGB, P, W))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_luminance_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.ipt
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit RGB_luminance_vectorise(DATA1, P, W)')
 
-###############################################################################
-#### colour.XYZ_to_IPT
-###############################################################################
+    print('\n')
+
+
+# RGB_luminance_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.models.ipt
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.XYZ_to_IPT
+# #############################################################################
 from colour.models.ipt import *
-
-message_box('XYZ_to_IPT')
 
 
 def XYZ_to_IPT_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_IPT(XYZ[i])
-
-
-# get_ipython().magic(u'timeit XYZ_to_IPT_2d(DATA1)')
 
 
 def XYZ_to_IPT_vectorise(XYZ):
@@ -3396,39 +3696,43 @@ def XYZ_to_IPT_vectorise(XYZ):
     return IPT
 
 
-print('Reference:')
-XYZ = np.array([0.96907232, 1, 1.12179215])
-print(XYZ_to_IPT(XYZ))
+def XYZ_to_IPT_analysis():
+    message_box('XYZ_to_IPT')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.96907232, 1, 1.12179215])
+    print(XYZ_to_IPT(XYZ))
 
-print('1d array:')
-print(XYZ_to_IPT_vectorise(XYZ))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_IPT_vectorise(XYZ))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_IPT_vectorise(XYZ))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_IPT_vectorise(DATA1)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_IPT_vectorise(XYZ))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_IPT_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-#### colour.IPT_to_XYZ
-###############################################################################
-###############################################################################
-message_box('IPT_to_XYZ')
+    # get_ipython().magic(u'timeit XYZ_to_IPT_vectorise(DATA1)')
+
+    print('\n')
+
+
+# XYZ_to_IPT_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.IPT_to_XYZ
+# #############################################################################
+# #############################################################################
 
 
 def IPT_to_XYZ_2d(IPT):
     for i in range(len(IPT)):
         IPT_to_XYZ(IPT[i])
-
-
-# get_ipython().magic(u'timeit IPT_to_XYZ_2d(DATA1)')
 
 
 def IPT_to_XYZ_vectorise(IPT):
@@ -3444,37 +3748,39 @@ def IPT_to_XYZ_vectorise(IPT):
     return XYZ
 
 
-print('Reference:')
-IPT = np.array([1.00300825, 0.01906918, -0.01369292])
-print(IPT_to_XYZ(IPT))
+def IPT_to_XYZ_analysis():
+    message_box('IPT_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    IPT = np.array([1.00300825, 0.01906918, -0.01369292])
+    print(IPT_to_XYZ(IPT))
 
-print('1d array:')
-print(IPT_to_XYZ_vectorise(IPT))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(IPT_to_XYZ_vectorise(IPT))
 
-print('2d array:')
-IPT = np.tile(IPT, (5, 1))
-print(IPT_to_XYZ_vectorise(IPT))
+    print('\n')
 
-# get_ipython().magic(u'timeit IPT_to_XYZ_vectorise(DATA1)')
+    print('2d array:')
+    IPT = np.tile(IPT, (5, 1))
+    print(IPT_to_XYZ_vectorise(IPT))
 
-print('\n')
+    # get_ipython().magic(u'timeit IPT_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.IPT_hue_angle
-###############################################################################
-message_box('IPT_hue_angle')
+    # get_ipython().magic(u'timeit IPT_to_XYZ_vectorise(DATA1)')
+
+    print('\n')
+
+
+# #############################################################################
+# ### colour.IPT_hue_angle
+# #############################################################################
 
 
 def IPT_hue_angle_2d(IPT):
     for i in range(len(IPT)):
         IPT_hue_angle(IPT[i])
-
-
-# get_ipython().magic(u'timeit IPT_hue_angle_2d(DATA1)')
 
 
 def IPT_hue_angle_vectorise(IPT):
@@ -3485,37 +3791,46 @@ def IPT_hue_angle_vectorise(IPT):
     return hue
 
 
-print('Reference:')
-IPT = np.array([0.96907232, 1., 1.12179215])
-print(IPT_hue_angle(IPT))
+def IPT_hue_angle_analysis():
+    message_box('IPT_hue_angle')
 
-print('\n')
+    print('Reference:')
+    IPT = np.array([0.96907232, 1., 1.12179215])
+    print(IPT_hue_angle(IPT))
 
-print('1d array:')
-print(IPT_hue_angle_vectorise(IPT))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(IPT_hue_angle_vectorise(IPT))
 
-print('2d array:')
-IPT = np.tile(IPT, (5, 1))
-print(IPT_hue_angle_vectorise(IPT))
+    print('\n')
 
-# get_ipython().magic(u'timeit IPT_hue_angle_vectorise(DATA1)')
+    print('2d array:')
+    IPT = np.tile(IPT, (5, 1))
+    print(IPT_hue_angle_vectorise(IPT))
 
-print('\n')
+    # get_ipython().magic(u'timeit IPT_hue_angle_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.models.log
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit IPT_hue_angle_vectorise(DATA1)')
 
-###############################################################################
-#### colour.linear_to_cineon
-###############################################################################
+    print('\n')
+
+
+# IPT_hue_angle_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.models.log
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.linear_to_cineon
+# #############################################################################
 from colour.models.log import *
 
-message_box('linear_to_cineon')
+
+DATA = np.linspace(0, 1, 1000000)
 
 
 def linear_to_cineon_2d(value):
@@ -3523,12 +3838,8 @@ def linear_to_cineon_2d(value):
         linear_to_cineon(value[i])
 
 
-DATA = np.linspace(0, 1, 1000000)
-
-# get_ipython().magic(u'timeit linear_to_cineon_2d(DATA)')
-
-
-def linear_to_cineon_vectorise(value, black_offset=10 ** ((95 - 685) / 300),
+def linear_to_cineon_vectorise(value,
+                               black_offset=10 ** ((95 - 685) / 300),
                                **kwargs):
     value = as_array(value)
 
@@ -3537,28 +3848,35 @@ def linear_to_cineon_vectorise(value, black_offset=10 ** ((95 - 685) / 300),
                             1 - black_offset) + black_offset)) / 1023))
 
 
-print('Reference:')
-print(linear_to_cineon(0.18))
+def linear_to_cineon_analysis():
+    message_box('linear_to_cineon')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_cineon(0.18))
 
-print('1d array:')
-print(linear_to_cineon_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_cineon_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_cineon_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_cineon_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_cineon_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_cineon_2d(DATA)')
 
-###############################################################################
-#### colour.cineon_to_linear
-###############################################################################
-message_box('cineon_to_linear')
+    # get_ipython().magic(u'timeit linear_to_cineon_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_cineon_analysis()
+
+# #############################################################################
+# ### colour.cineon_to_linear
+# #############################################################################
 
 
 def cineon_to_linear_2d(value):
@@ -3566,10 +3884,8 @@ def cineon_to_linear_2d(value):
         cineon_to_linear(value[i])
 
 
-# get_ipython().magic(u'timeit cineon_to_linear_2d(DATA)')
-
-
-def cineon_to_linear_vectorise(value, black_offset=10 ** ((95 - 685) / 300),
+def cineon_to_linear_vectorise(value,
+                               black_offset=10 ** ((95 - 685) / 300),
                                **kwargs):
     value = as_array(value)
 
@@ -3577,24 +3893,35 @@ def cineon_to_linear_vectorise(value, black_offset=10 ** ((95 - 685) / 300),
                        (1 - black_offset)))
 
 
-print('Reference:')
-print(cineon_to_linear(0.5))
+def cineon_to_linear_analysis():
+    message_box('cineon_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(cineon_to_linear(0.5))
 
-print('1d array:')
-print(cineon_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(cineon_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(cineon_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-###############################################################################
-#### colour.linear_to_panalog
-###############################################################################
-message_box('linear_to_panalog')
+    print('2d array:')
+    print(cineon_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
+
+    # get_ipython().magic(u'timeit cineon_to_linear_2d(DATA)')
+
+    # get_ipython().magic(u'timeit cineon_to_linear_vectorise(DATA)')
+
+    print('\n')
+
+
+# cineon_to_linear_analysis()
+
+# #############################################################################
+# ### colour.linear_to_panalog
+# #############################################################################
 
 
 def linear_to_panalog_2d(value):
@@ -3602,10 +3929,8 @@ def linear_to_panalog_2d(value):
         linear_to_panalog(value[i])
 
 
-# get_ipython().magic(u'timeit linear_to_panalog_2d(DATA)')
-
-
-def linear_to_panalog_vectorise(value, black_offset=10 ** ((64 - 681) / 444),
+def linear_to_panalog_vectorise(value,
+                                black_offset=10 ** ((64 - 681) / 444),
                                 **kwargs):
     value = as_array(value)
 
@@ -3614,28 +3939,35 @@ def linear_to_panalog_vectorise(value, black_offset=10 ** ((64 - 681) / 444),
                             1 - black_offset) + black_offset)) / 1023))
 
 
-print('Reference:')
-print(linear_to_panalog(0.18))
+def linear_to_panalog_analysis():
+    message_box('linear_to_panalog')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_panalog(0.18))
 
-print('1d array:')
-print(linear_to_panalog_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_panalog_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_panalog_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_panalog_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_panalog_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_panalog_2d(DATA)')
 
-###############################################################################
-#### colour.panalog_to_linear
-###############################################################################
-message_box('panalog_to_linear')
+    # get_ipython().magic(u'timeit linear_to_panalog_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_panalog_analysis()
+
+# #############################################################################
+# ### colour.panalog_to_linear
+# #############################################################################
 
 
 def panalog_to_linear_2d(value):
@@ -3643,10 +3975,8 @@ def panalog_to_linear_2d(value):
         panalog_to_linear(value[i])
 
 
-# get_ipython().magic(u'timeit panalog_to_linear_2d(DATA)')
-
-
-def panalog_to_linear_vectorise(value, black_offset=10 ** ((64 - 681) / 444),
+def panalog_to_linear_vectorise(value,
+                                black_offset=10 ** ((64 - 681) / 444),
                                 **kwargs):
     value = as_array(value)
 
@@ -3654,28 +3984,35 @@ def panalog_to_linear_vectorise(value, black_offset=10 ** ((64 - 681) / 444),
                        (1 - black_offset)))
 
 
-print('Reference:')
-print(panalog_to_linear(0.5))
+def panalog_to_linear_analysis():
+    message_box('panalog_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(panalog_to_linear(0.5))
 
-print('1d array:')
-print(panalog_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(panalog_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(panalog_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit panalog_to_linear_vectorise(DATA)')
+    print('2d array:')
+    print(panalog_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit panalog_to_linear_2d(DATA)')
 
-###############################################################################
-#### colour.linear_to_red_log
-###############################################################################
-message_box('linear_to_red_log')
+    # get_ipython().magic(u'timeit panalog_to_linear_vectorise(DATA)')
+
+    print('\n')
+
+
+# panalog_to_linear_analysis()
+
+# #############################################################################
+# ### colour.linear_to_red_log
+# #############################################################################
 
 
 def linear_to_red_log_2d(value):
@@ -3683,10 +4020,8 @@ def linear_to_red_log_2d(value):
         linear_to_red_log(value[i])
 
 
-# get_ipython().magic(u'timeit linear_to_red_log(DATA)')
-
-
-def linear_to_red_log_vectorise(value, black_offset=10 ** ((0 - 1023) / 511),
+def linear_to_red_log_vectorise(value,
+                                black_offset=10 ** ((0 - 1023) / 511),
                                 **kwargs):
     value = as_array(value)
 
@@ -3695,28 +4030,35 @@ def linear_to_red_log_vectorise(value, black_offset=10 ** ((0 - 1023) / 511),
                             1 - black_offset) + black_offset)) / 1023))
 
 
-print('Reference:')
-print(linear_to_red_log(0.18))
+def linear_to_red_log_analysis():
+    message_box('linear_to_red_log')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_red_log(0.18))
 
-print('1d array:')
-print(linear_to_red_log_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_red_log_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_red_log_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_red_log_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_red_log_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_red_log(DATA)')
 
-###############################################################################
-#### colour.red_log_to_linear
-###############################################################################
-message_box('red_log_to_linear')
+    # get_ipython().magic(u'timeit linear_to_red_log_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_red_log_analysis()
+
+# #############################################################################
+# ### colour.red_log_to_linear
+# #############################################################################
 
 
 def red_log_to_linear_2d(value):
@@ -3724,10 +4066,8 @@ def red_log_to_linear_2d(value):
         red_log_to_linear(value[i])
 
 
-# get_ipython().magic(u'timeit red_log_to_linear_2d(DATA)')
-
-
-def red_log_to_linear_vectorise(value, black_offset=10 ** ((0 - 1023) / 511),
+def red_log_to_linear_vectorise(value,
+                                black_offset=10 ** ((0 - 1023) / 511),
                                 **kwargs):
     value = as_array(value)
 
@@ -3735,36 +4075,40 @@ def red_log_to_linear_vectorise(value, black_offset=10 ** ((0 - 1023) / 511),
                        (1 - black_offset)))
 
 
-print('Reference:')
-print(red_log_to_linear(0.5))
+def red_log_to_linear_analysis():
+    message_box('red_log_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(red_log_to_linear(0.5))
 
-print('1d array:')
-print(red_log_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(red_log_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(red_log_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit red_log_to_linear_vectorise(DATA)')
+    print('2d array:')
+    print(red_log_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit red_log_to_linear_2d(DATA)')
 
-###############################################################################
-#### colour.linear_to_viper_log
-###############################################################################
-message_box('linear_to_viper_log')
+    # get_ipython().magic(u'timeit red_log_to_linear_vectorise(DATA)')
+
+    print('\n')
+
+
+# red_log_to_linear_analysis()
+
+# #############################################################################
+# ### colour.linear_to_viper_log
+# #############################################################################
 
 
 def linear_to_viper_log_2d(value):
     for i in range(len(value)):
         linear_to_viper_log(value[i])
-
-
-# get_ipython().magic(u'timeit linear_to_viper_log_2d(DATA)')
 
 
 def linear_to_viper_log_vectorise(value, **kwargs):
@@ -3773,36 +4117,40 @@ def linear_to_viper_log_vectorise(value, **kwargs):
     return as_numeric((1023 + 500 * np.log10(value)) / 1023)
 
 
-print('Reference:')
-print(linear_to_viper_log(0.18))
+def linear_to_viper_log_analysis():
+    message_box('linear_to_viper_log')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_viper_log(0.18))
 
-print('1d array:')
-print(linear_to_viper_log_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_viper_log_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_viper_log_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_viper_log_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_viper_log_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_viper_log_2d(DATA)')
 
-###############################################################################
-#### colour.viper_log_to_linear
-###############################################################################
-message_box('viper_log_to_linear')
+    # get_ipython().magic(u'timeit linear_to_viper_log_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_viper_log_analysis()
+
+# #############################################################################
+# ### colour.viper_log_to_linear
+# #############################################################################
 
 
 def viper_log_to_linear_2d(value):
     for i in range(len(value)):
         viper_log_to_linear(value[i])
-
-
-# get_ipython().magic(u'timeit viper_log_to_linear_2d(DATA)')
 
 
 def viper_log_to_linear_vectorise(value, **kwargs):
@@ -3811,36 +4159,40 @@ def viper_log_to_linear_vectorise(value, **kwargs):
     return as_numeric(10 ** ((1023 * value - 1023) / 500))
 
 
-print('Reference:')
-print(viper_log_to_linear(0.5))
+def viper_log_to_linear_analysis():
+    message_box('viper_log_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(viper_log_to_linear(0.5))
 
-print('1d array:')
-print(viper_log_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(viper_log_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(viper_log_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit viper_log_to_linear_vectorise(DATA)')
+    print('2d array:')
+    print(viper_log_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit viper_log_to_linear_2d(DATA)')
 
-###############################################################################
-#### colour.linear_to_pivoted_log
-###############################################################################
-message_box('linear_to_pivoted_log')
+    # get_ipython().magic(u'timeit viper_log_to_linear_vectorise(DATA)')
+
+    print('\n')
+
+
+# viper_log_to_linear_analysis()
+
+# #############################################################################
+# ### colour.linear_to_pivoted_log
+# #############################################################################
 
 
 def linear_to_pivoted_log_2d(value):
     for i in range(len(value)):
         linear_to_pivoted_log(value[i])
-
-
-# get_ipython().magic(u'timeit linear_to_pivoted_log_2d(DATA)')
 
 
 def linear_to_pivoted_log_vectorise(value,
@@ -3854,36 +4206,40 @@ def linear_to_pivoted_log_vectorise(value,
                         (density_per_code_value / negative_gamma)) / 1023))
 
 
-print('Reference:')
-print(linear_to_pivoted_log(0.18))
+def linear_to_pivoted_log_analysis():
+    message_box('linear_to_pivoted_log')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_pivoted_log(0.18))
 
-print('1d array:')
-print(linear_to_pivoted_log_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_pivoted_log_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_pivoted_log_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_pivoted_log_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_pivoted_log_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_pivoted_log_2d(DATA)')
 
-###############################################################################
-#### colour.pivoted_log_to_linear
-###############################################################################
-message_box('pivoted_log_to_linear')
+    # get_ipython().magic(u'timeit linear_to_pivoted_log_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_pivoted_log_analysis()
+
+# #############################################################################
+# ### colour.pivoted_log_to_linear
+# #############################################################################
 
 
 def pivoted_log_to_linear_2d(value):
     for i in range(len(value)):
         pivoted_log_to_linear(value[i])
-
-
-# get_ipython().magic(u'timeit pivoted_log_to_linear_2d(DATA)')
 
 
 def pivoted_log_to_linear_vectorise(value,
@@ -3898,36 +4254,40 @@ def pivoted_log_to_linear_vectorise(value,
                        linear_reference))
 
 
-print('Reference:')
-print(pivoted_log_to_linear(0.5))
+def pivoted_log_to_linear_analysis():
+    message_box('pivoted_log_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(pivoted_log_to_linear(0.5))
 
-print('1d array:')
-print(pivoted_log_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(pivoted_log_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(pivoted_log_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit pivoted_log_to_linear_vectorise(DATA)')
+    print('2d array:')
+    print(pivoted_log_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit pivoted_log_to_linear_2d(DATA)')
 
-###############################################################################
-#### colour.linear_to_c_log
-###############################################################################
-message_box('linear_to_c_log')
+    # get_ipython().magic(u'timeit pivoted_log_to_linear_vectorise(DATA)')
+
+    print('\n')
+
+
+# pivoted_log_to_linear_analysis()
+
+# #############################################################################
+# ### colour.linear_to_c_log
+# #############################################################################
 
 
 def linear_to_c_log_2d(value):
     for i in range(len(value)):
         linear_to_c_log(value[i])
-
-
-# get_ipython().magic(u'timeit linear_to_c_log_2d(DATA)')
 
 
 def linear_to_c_log_vectorise(value, **kwargs):
@@ -3936,36 +4296,40 @@ def linear_to_c_log_vectorise(value, **kwargs):
     return as_numeric(0.529136 * np.log10(10.1596 * value + 1) + 0.0730597)
 
 
-print('Reference:')
-print(linear_to_c_log(0.18))
+def linear_to_c_log_analysis():
+    message_box('linear_to_c_log')
 
-print('\n')
+    print('Reference:')
+    print(linear_to_c_log(0.18))
 
-print('1d array:')
-print(linear_to_c_log_vectorise(0.18))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(linear_to_c_log_vectorise(0.18))
 
-print('2d array:')
-print(linear_to_c_log_vectorise(
-    [0.18, 0.18, 0.18, 0.18, 0.18]))
+    print('\n')
 
-# get_ipython().magic(u'timeit linear_to_c_log_vectorise(DATA)')
+    print('2d array:')
+    print(linear_to_c_log_vectorise(
+        [0.18, 0.18, 0.18, 0.18, 0.18]))
 
-print('\n')
+    # get_ipython().magic(u'timeit linear_to_c_log_2d(DATA)')
 
-###############################################################################
-#### colour.c_log_to_linear
-###############################################################################
-message_box('c_log_to_linear')
+    # get_ipython().magic(u'timeit linear_to_c_log_vectorise(DATA)')
+
+    print('\n')
+
+
+# linear_to_c_log_analysis()
+
+# #############################################################################
+# ### colour.c_log_to_linear
+# #############################################################################
 
 
 def c_log_to_linear_2d(value):
     for i in range(len(value)):
         c_log_to_linear(value[i])
-
-
-# get_ipython().magic(u'timeit c_log_to_linear_2d(DATA)')
 
 
 def c_log_to_linear_vectorise(value, **kwargs):
@@ -3975,38 +4339,46 @@ def c_log_to_linear_vectorise(value, **kwargs):
         1.3742747797867 - np.exp(1) ** (4.3515940948906 * value)))
 
 
-print('Reference:')
-print(c_log_to_linear(0.5))
+def c_log_to_linear_analysis():
+    message_box('c_log_to_linear')
 
-print('\n')
+    print('Reference:')
+    print(c_log_to_linear(0.5))
 
-print('1d array:')
-print(c_log_to_linear_vectorise(0.5))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(c_log_to_linear_vectorise(0.5))
 
-print('2d array:')
-print(c_log_to_linear_vectorise(
-    [0.5, 0.5, 0.5, 0.5, 0.5]))
+    print('\n')
 
-# get_ipython().magic(u'timeit c_log_to_linear_vectorise(DATA)')
+    print('2d array:')
+    print(c_log_to_linear_vectorise(
+        [0.5, 0.5, 0.5, 0.5, 0.5]))
 
-print('\n')
+    # get_ipython().magic(u'timeit c_log_to_linear_2d(DATA)')
 
-###############################################################################
-###############################################################################
-### colour.models.rgb
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit c_log_to_linear_vectorise(DATA)')
 
-###############################################################################
-#### OECF / OECF_i
-###############################################################################
-from colour.models.dataset.aces import _aces_cc_transfer_function, \
-    _aces_cc_inverse_transfer_function
+    print('\n')
+
+
+# c_log_to_linear_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.models.rgb
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### OECF / OECF_i
+# #############################################################################
+from colour.models.dataset.aces import (
+    _aces_cc_transfer_function,
+    _aces_cc_inverse_transfer_function)
 from colour.models.dataset.aces import *
 
-message_box('OECF / OECF_i')
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 RGB_t = np.tile(RGB, (5, 1))
@@ -4025,13 +4397,21 @@ def _aces_cc_transfer_function_vectorise(value):
     return as_numeric(output)
 
 
-print(_aces_cc_transfer_function(RGB[0]))
+def _aces_cc_transfer_function_analysis():
+    message_box('_aces_cc_transfer_function')
 
-print(_aces_cc_transfer_function_vectorise(RGB[0]))
+    print(_aces_cc_transfer_function(RGB[0]))
 
-print(_aces_cc_transfer_function_vectorise(RGB))
+    print(_aces_cc_transfer_function_vectorise(RGB[0]))
 
-print(_aces_cc_transfer_function_vectorise(RGB_t))
+    print(_aces_cc_transfer_function_vectorise(RGB))
+
+    print(_aces_cc_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _aces_cc_transfer_function_analysis()
 
 
 def _aces_cc_inverse_transfer_function_vectorise(value):
@@ -4047,16 +4427,25 @@ def _aces_cc_inverse_transfer_function_vectorise(value):
     return as_numeric(output)
 
 
-print(_aces_cc_inverse_transfer_function(RGB[0]))
+def _aces_cc_inverse_transfer_function_analysis():
+    message_box('_aces_cc_inverse_transfer_function')
 
-print(_aces_cc_inverse_transfer_function_vectorise(RGB[0]))
+    print(_aces_cc_inverse_transfer_function(RGB[0]))
 
-print(_aces_cc_inverse_transfer_function_vectorise(RGB))
+    print(_aces_cc_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_aces_cc_inverse_transfer_function_vectorise(RGB_t))
+    print(_aces_cc_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.aces import _aces_proxy_transfer_function, \
-    _aces_proxy_inverse_transfer_function
+    print(_aces_cc_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _aces_cc_inverse_transfer_function_analysis()
+
+from colour.models.dataset.aces import (
+    _aces_proxy_transfer_function,
+    _aces_proxy_inverse_transfer_function)
 
 
 def _aces_proxy_transfer_function_vectorise(value, bit_depth='10 Bit'):
@@ -4076,13 +4465,21 @@ def _aces_proxy_transfer_function_vectorise(value, bit_depth='10 Bit'):
     return as_numeric(output)
 
 
-print(_aces_proxy_transfer_function(RGB[0]))
+def _aces_proxy_transfer_function_analysis():
+    message_box('_aces_proxy_transfer_function')
 
-print(_aces_proxy_transfer_function_vectorise(RGB[0]))
+    print(_aces_proxy_transfer_function(RGB[0]))
 
-print(_aces_proxy_transfer_function_vectorise(RGB))
+    print(_aces_proxy_transfer_function_vectorise(RGB[0]))
 
-print(_aces_proxy_transfer_function_vectorise(RGB_t))
+    print(_aces_proxy_transfer_function_vectorise(RGB))
+
+    print(_aces_proxy_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _aces_proxy_transfer_function_analysis()
 
 
 def _aces_proxy_inverse_transfer_function_vectorise(value, bit_depth='10 Bit'):
@@ -4094,17 +4491,25 @@ def _aces_proxy_inverse_transfer_function_vectorise(value, bit_depth='10 Bit'):
                               constants.steps_per_stop - constants.mid_log_offset))))
 
 
-print(_aces_proxy_inverse_transfer_function(RGB[0]))
+def _aces_proxy_inverse_transfer_function_analysis():
+    message_box('_aces_proxy_inverse_transfer_function')
 
-print(_aces_proxy_inverse_transfer_function_vectorise(RGB[0]))
+    print(_aces_proxy_inverse_transfer_function(RGB[0]))
 
-print(_aces_proxy_inverse_transfer_function_vectorise(RGB))
+    print(_aces_proxy_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_aces_proxy_inverse_transfer_function_vectorise(RGB_t))
+    print(_aces_proxy_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.adobe_rgb_1998 import \
-    _adobe_rgb_1998_transfer_function, \
-    _adobe_rgb_1998_inverse_transfer_function
+    print(_aces_proxy_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\t')
+
+
+# _aces_proxy_inverse_transfer_function_analysis()
+
+from colour.models.dataset.adobe_rgb_1998 import (
+    _adobe_rgb_1998_transfer_function,
+    _adobe_rgb_1998_inverse_transfer_function)
 from colour.models.dataset.adobe_rgb_1998 import *
 
 
@@ -4114,13 +4519,21 @@ def _adobe_rgb_1998_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** (1 / (563 / 256)))
 
 
-print(_adobe_rgb_1998_transfer_function(RGB[0]))
+def _adobe_rgb_1998_transfer_function_analysis():
+    message_box('_adobe_rgb_1998_transfer_function')
 
-print(_adobe_rgb_1998_transfer_function_vectorise(RGB[0]))
+    print(_adobe_rgb_1998_transfer_function(RGB[0]))
 
-print(_adobe_rgb_1998_transfer_function_vectorise(RGB))
+    print(_adobe_rgb_1998_transfer_function_vectorise(RGB[0]))
 
-print(_adobe_rgb_1998_transfer_function_vectorise(RGB_t))
+    print(_adobe_rgb_1998_transfer_function_vectorise(RGB))
+
+    print(_adobe_rgb_1998_transfer_function_vectorise(RGB_t))
+
+    print('\t')
+
+
+# _adobe_rgb_1998_transfer_function_analysis()
 
 
 def _adobe_rgb_1998_inverse_transfer_function_vectorise(value):
@@ -4129,17 +4542,25 @@ def _adobe_rgb_1998_inverse_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** (563 / 256))
 
 
-print(_adobe_rgb_1998_inverse_transfer_function(RGB[0]))
+def _adobe_rgb_1998_inverse_transfer_function_analysis():
+    message_box('_adobe_rgb_1998_inverse_transfer_function')
 
-print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB[0]))
+    print(_adobe_rgb_1998_inverse_transfer_function(RGB[0]))
 
-print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB))
+    print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB_t))
+    print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.alexa_wide_gamut_rgb import \
-    _alexa_wide_gamut_rgb_transfer_function, \
-    _alexa_wide_gamut_rgb_inverse_transfer_function
+    print(_adobe_rgb_1998_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _adobe_rgb_1998_inverse_transfer_function_analysis()
+
+from colour.models.dataset.alexa_wide_gamut_rgb import (
+    _alexa_wide_gamut_rgb_transfer_function,
+    _alexa_wide_gamut_rgb_inverse_transfer_function)
 from colour.models.dataset.alexa_wide_gamut_rgb import *
 
 
@@ -4157,13 +4578,21 @@ def _alexa_wide_gamut_rgb_transfer_function_vectorise(
         np.where(value > cut, c * np.log10(a * value + b) + d, e * value + f))
 
 
-print(_alexa_wide_gamut_rgb_transfer_function(RGB[0]))
+def _alexa_wide_gamut_rgb_transfer_function_analysis():
+    message_box('_alexa_wide_gamut_rgb_transfer_function')
 
-print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB[0]))
+    print(_alexa_wide_gamut_rgb_transfer_function(RGB[0]))
 
-print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB))
+    print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB[0]))
 
-print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB_t))
+    print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB))
+
+    print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _alexa_wide_gamut_rgb_transfer_function_analysis()
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(
@@ -4181,16 +4610,25 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(
                                (value - f) / e))
 
 
-print(_alexa_wide_gamut_rgb_inverse_transfer_function(RGB[0]))
+def _alexa_wide_gamut_rgb_inverse_transfer_function_analysis():
+    message_box('_alexa_wide_gamut_rgb_inverse_transfer_function')
 
-print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB[0]))
+    print(_alexa_wide_gamut_rgb_inverse_transfer_function(RGB[0]))
 
-print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB))
+    print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB_t))
+    print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.apple_rgb import _apple_rgb_transfer_function, \
-    _apple_rgb_inverse_transfer_function
+    print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _alexa_wide_gamut_rgb_inverse_transfer_function_analysis()
+
+from colour.models.dataset.apple_rgb import (
+    _apple_rgb_transfer_function,
+    _apple_rgb_inverse_transfer_function)
 from colour.models.dataset.apple_rgb import *
 
 
@@ -4200,13 +4638,21 @@ def _apple_rgb_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** (1 / 1.8))
 
 
-print(_apple_rgb_transfer_function(RGB[0]))
+def _apple_rgb_transfer_function_function_analysis():
+    message_box('_apple_rgb_transfer_function')
 
-print(_apple_rgb_transfer_function_vectorise(RGB[0]))
+    print(_apple_rgb_transfer_function(RGB[0]))
 
-print(_apple_rgb_transfer_function_vectorise(RGB))
+    print(_apple_rgb_transfer_function_vectorise(RGB[0]))
 
-print(_apple_rgb_transfer_function_vectorise(RGB_t))
+    print(_apple_rgb_transfer_function_vectorise(RGB))
+
+    print(_apple_rgb_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _apple_rgb_transfer_function_function_analysis()
 
 
 def _apple_rgb_inverse_transfer_function_vectorise(value):
@@ -4215,16 +4661,25 @@ def _apple_rgb_inverse_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** 1.8)
 
 
-print(_apple_rgb_inverse_transfer_function(RGB[0]))
+def _apple_rgb_inverse_transfer_function_analysis():
+    message_box('_apple_rgb_inverse_transfer_function')
 
-print(_apple_rgb_inverse_transfer_function_vectorise(RGB[0]))
+    print(_apple_rgb_inverse_transfer_function(RGB[0]))
 
-print(_apple_rgb_inverse_transfer_function_vectorise(RGB))
+    print(_apple_rgb_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_apple_rgb_inverse_transfer_function_vectorise(RGB_t))
+    print(_apple_rgb_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.best_rgb import _best_rgb_transfer_function, \
-    _best_rgb_inverse_transfer_function
+    print(_apple_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _apple_rgb_inverse_transfer_function_analysis()
+
+from colour.models.dataset.best_rgb import (
+    _best_rgb_transfer_function,
+    _best_rgb_inverse_transfer_function)
 from colour.models.dataset.best_rgb import *
 
 
@@ -4242,13 +4697,21 @@ def _best_rgb_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** (1 / 2.2))
 
 
-print(_best_rgb_transfer_function(RGB[0]))
+def _best_rgb_transfer_function_analysis():
+    message_box('_best_rgb_transfer_function')
 
-print(_best_rgb_transfer_function_vectorise(RGB[0]))
+    print(_best_rgb_transfer_function(RGB[0]))
 
-print(_best_rgb_transfer_function_vectorise(RGB))
+    print(_best_rgb_transfer_function_vectorise(RGB[0]))
 
-print(_best_rgb_transfer_function_vectorise(RGB_t))
+    print(_best_rgb_transfer_function_vectorise(RGB))
+
+    print(_best_rgb_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _best_rgb_transfer_function_analysis()
 
 
 def _best_rgb_inverse_transfer_function_vectorise(value):
@@ -4265,16 +4728,25 @@ def _best_rgb_inverse_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** 2.2)
 
 
-print(_best_rgb_inverse_transfer_function(RGB[0]))
+def _best_rgb_inverse_transfer_function_analysis():
+    message_box('_best_rgb_inverse_transfer_function')
 
-print(_best_rgb_inverse_transfer_function_vectorise(RGB[0]))
+    print(_best_rgb_inverse_transfer_function(RGB[0]))
 
-print(_best_rgb_inverse_transfer_function_vectorise(RGB))
+    print(_best_rgb_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_best_rgb_inverse_transfer_function_vectorise(RGB_t))
+    print(_best_rgb_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.dci_p3 import _dci_p3_transfer_function, \
-    _dci_p3_inverse_transfer_function
+    print(_best_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _best_rgb_inverse_transfer_function_analysis()
+
+from colour.models.dataset.dci_p3 import (
+    _dci_p3_transfer_function,
+    _dci_p3_inverse_transfer_function)
 from colour.models.dataset.dci_p3 import *
 
 
@@ -4282,29 +4754,46 @@ def _dci_p3_transfer_function_vectorise(value):
     return as_numeric(4095 * (as_array(value) / 52.37) ** (1 / 2.6))
 
 
-print(_dci_p3_transfer_function(RGB[0]))
+def _dci_p3_transfer_function_analysis():
+    message_box('_dci_p3_transfer_function')
 
-print(_dci_p3_transfer_function_vectorise(RGB[0]))
+    print(_dci_p3_transfer_function(RGB[0]))
 
-print(_dci_p3_transfer_function_vectorise(RGB))
+    print(_dci_p3_transfer_function_vectorise(RGB[0]))
 
-print(_dci_p3_transfer_function_vectorise(RGB_t))
+    print(_dci_p3_transfer_function_vectorise(RGB))
+
+    print(_dci_p3_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _dci_p3_transfer_function_analysis()
 
 
 def _dci_p3_inverse_transfer_function_vectorise(value):
     return as_numeric(52.37 * (as_array(value) / 4095) ** 2.6)
 
 
-print(_dci_p3_inverse_transfer_function(RGB[0]))
+def _dci_p3_inverse_transfer_function_analysis():
+    message_box('_dci_p3_inverse_transfer_function')
 
-print(_dci_p3_inverse_transfer_function_vectorise(RGB[0]))
+    print(_dci_p3_inverse_transfer_function(RGB[0]))
 
-print(_dci_p3_inverse_transfer_function_vectorise(RGB))
+    print(_dci_p3_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_dci_p3_inverse_transfer_function_vectorise(RGB_t))
+    print(_dci_p3_inverse_transfer_function_vectorise(RGB))
 
-from colour.models.dataset.pal_secam_rgb import \
-    _pal_secam_rgb_transfer_function, _pal_secam_rgb_inverse_transfer_function
+    print(_dci_p3_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _dci_p3_inverse_transfer_function_analysis()
+
+from colour.models.dataset.pal_secam_rgb import (
+    _pal_secam_rgb_transfer_function,
+    _pal_secam_rgb_inverse_transfer_function)
 from colour.models.dataset.pal_secam_rgb import *
 
 
@@ -4312,26 +4801,42 @@ def _pal_secam_rgb_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** (1 / 2.8))
 
 
-print(_pal_secam_rgb_transfer_function(RGB[0]))
+def _pal_secam_rgb_transfer_function_analysis():
+    message_box('_pal_secam_rgb_transfer_function')
 
-print(_pal_secam_rgb_transfer_function_vectorise(RGB[0]))
+    print(_pal_secam_rgb_transfer_function(RGB[0]))
 
-print(_pal_secam_rgb_transfer_function_vectorise(RGB))
+    print(_pal_secam_rgb_transfer_function_vectorise(RGB[0]))
 
-print(_pal_secam_rgb_transfer_function_vectorise(RGB_t))
+    print(_pal_secam_rgb_transfer_function_vectorise(RGB))
+
+    print(_pal_secam_rgb_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _pal_secam_rgb_transfer_function_analysis()
 
 
 def _pal_secam_rgb_inverse_transfer_function_vectorise(value):
     return as_numeric(as_array(value) ** 2.8)
 
 
-print(_pal_secam_rgb_inverse_transfer_function(RGB[0]))
+def _pal_secam_rgb_inverse_transfer_function_analysis():
+    message_box('_pal_secam_rgb_inverse_transfer_function')
 
-print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB[0]))
+    print(_pal_secam_rgb_inverse_transfer_function(RGB[0]))
 
-print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB))
+    print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB_t))
+    print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB))
+
+    print(_pal_secam_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _pal_secam_rgb_inverse_transfer_function_analysis()
 
 
 def _prophoto_rgb_transfer_function_vectorise(value):
@@ -4342,9 +4847,17 @@ def _prophoto_rgb_transfer_function_vectorise(value):
                                value ** (1 / 1.8)))
 
 
-print(_prophoto_rgb_transfer_function_vectorise(RGB))
+def _prophoto_rgb_transfer_function_analysis():
+    message_box('_prophoto_rgb_transfer_function')
 
-print(_prophoto_rgb_transfer_function_vectorise(RGB_t))
+    print(_prophoto_rgb_transfer_function_vectorise(RGB))
+
+    print(_prophoto_rgb_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _prophoto_rgb_transfer_function_analysis()
 
 
 def _prophoto_rgb_inverse_transfer_function_vectorise(value):
@@ -4356,9 +4869,17 @@ def _prophoto_rgb_inverse_transfer_function_vectorise(value):
                  value ** 1.8))
 
 
-print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB))
+def _prophoto_rgb_inverse_transfer_function_analysis():
+    message_box('_prophoto_rgb_inverse_transfer_function')
 
-print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB_t))
+    print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB))
+
+    print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _prophoto_rgb_inverse_transfer_function_analysis()
 
 
 def _rec_709_transfer_function_vectorise(value):
@@ -4369,9 +4890,17 @@ def _rec_709_transfer_function_vectorise(value):
                                1.099 * (value ** 0.45) - 0.099))
 
 
-print(_rec_709_transfer_function_vectorise(RGB))
+def _rec_709_transfer_function_analysis():
+    message_box('_rec_709_transfer_function')
 
-print(_rec_709_transfer_function_vectorise(RGB_t))
+    print(_rec_709_transfer_function_vectorise(RGB))
+
+    print(_rec_709_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _rec_709_transfer_function_analysis()
 
 
 def _rec_709_inverse_transfer_function_vectorise(value):
@@ -4383,9 +4912,17 @@ def _rec_709_inverse_transfer_function_vectorise(value):
                  ((value + 0.099) / 1.099) ** (1 / 0.45)))
 
 
-print(_rec_709_inverse_transfer_function_vectorise(RGB))
+def _rec_709_inverse_transfer_function_analysis():
+    message_box('_rec_709_inverse_transfer_function')
 
-print(_rec_709_inverse_transfer_function_vectorise(RGB_t))
+    print(_rec_709_inverse_transfer_function_vectorise(RGB))
+
+    print(_rec_709_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _rec_709_inverse_transfer_function_analysis()
 
 from colour.models.dataset.rec_2020 import *
 
@@ -4400,9 +4937,17 @@ def _rec_2020_transfer_function_vectorise(value, is_10_bits_system=True):
                                a * (value ** 0.45) - (a - 1)))
 
 
-print(_rec_2020_transfer_function_vectorise(RGB))
+def _rec_2020_transfer_function_analysis():
+    message_box('_rec_2020_transfer_function')
 
-print(_rec_2020_transfer_function_vectorise(RGB_t))
+    print(_rec_2020_transfer_function_vectorise(RGB))
+
+    print(_rec_2020_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _rec_2020_transfer_function_analysis()
 
 
 def _rec_2020_inverse_transfer_function_vectorise(value,
@@ -4417,9 +4962,17 @@ def _rec_2020_inverse_transfer_function_vectorise(value,
                  ((value + (a - 1)) / a) ** (1 / 0.45)))
 
 
-print(_rec_2020_inverse_transfer_function_vectorise(RGB))
+def _rec_2020_inverse_transfer_function_analysis():
+    message_box('_rec_2020_inverse_transfer_function')
 
-print(_rec_2020_inverse_transfer_function_vectorise(RGB_t))
+    print(_rec_2020_inverse_transfer_function_vectorise(RGB))
+
+    print(_rec_2020_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _rec_2020_inverse_transfer_function_analysis()
 
 from colour.models.dataset.s_gamut import (
     _s_log_transfer_function,
@@ -4436,13 +4989,21 @@ def _s_log_transfer_function_vectorise(value):
         (0.432699 * np.log10(as_array(value) + 0.037584) + 0.616596) + 0.03)
 
 
-print(_s_log_transfer_function(RGB[0]))
+def _s_log_transfer_function_analysis():
+    message_box('_s_log_transfer_function')
 
-print(_s_log_transfer_function_vectorise(RGB[0]))
+    print(_s_log_transfer_function(RGB[0]))
 
-print(_s_log_transfer_function_vectorise(RGB))
+    print(_s_log_transfer_function_vectorise(RGB[0]))
 
-print(_s_log_transfer_function_vectorise(RGB_t))
+    print(_s_log_transfer_function_vectorise(RGB))
+
+    print(_s_log_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log_transfer_function_analysis()
 
 
 def _s_log_inverse_transfer_function_vectorise(value):
@@ -4450,13 +5011,21 @@ def _s_log_inverse_transfer_function_vectorise(value):
         10 ** (((as_array(value) - 0.616596 - 0.03) / 0.432699)) - 0.037584)
 
 
-print(_s_log_inverse_transfer_function(RGB[0]))
+def _s_log_inverse_transfer_function_analysis():
+    message_box('_s_log_inverse_transfer_function')
 
-print(_s_log_inverse_transfer_function_vectorise(RGB[0]))
+    print(_s_log_inverse_transfer_function(RGB[0]))
 
-print(_s_log_inverse_transfer_function_vectorise(RGB))
+    print(_s_log_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_s_log_inverse_transfer_function_vectorise(RGB_t))
+    print(_s_log_inverse_transfer_function_vectorise(RGB))
+
+    print(_s_log_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log_inverse_transfer_function_analysis()
 
 
 def _s_log2_transfer_function_vectorise(value):
@@ -4465,13 +5034,21 @@ def _s_log2_transfer_function_vectorise(value):
                                              value) / 0.9))))) / 1023))
 
 
-print(_s_log2_transfer_function(RGB[0]))
+def _s_log2_transfer_function_analysis():
+    message_box('_s_log2_transfer_function')
 
-print(_s_log2_transfer_function_vectorise(RGB[0]))
+    print(_s_log2_transfer_function(RGB[0]))
 
-print(_s_log2_transfer_function_vectorise(RGB))
+    print(_s_log2_transfer_function_vectorise(RGB[0]))
 
-print(_s_log2_transfer_function_vectorise(RGB_t))
+    print(_s_log2_transfer_function_vectorise(RGB))
+
+    print(_s_log2_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log2_transfer_function_analysis()
 
 
 def _s_log2_inverse_transfer_function_vectorise(value):
@@ -4480,32 +5057,49 @@ def _s_log2_inverse_transfer_function_vectorise(value):
                   / 0.432699)) - 0.037584) * 0.9))
 
 
-print(_s_log2_inverse_transfer_function(RGB[0]))
+def _s_log2_inverse_transfer_function_analysis():
+    message_box('_s_log2_inverse_transfer_function')
 
-print(_s_log2_inverse_transfer_function_vectorise(RGB[0]))
+    print(_s_log2_inverse_transfer_function(RGB[0]))
 
-print(_s_log2_inverse_transfer_function_vectorise(RGB))
+    print(_s_log2_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_s_log2_inverse_transfer_function_vectorise(RGB_t))
+    print(_s_log2_inverse_transfer_function_vectorise(RGB))
+
+    print(_s_log2_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log2_inverse_transfer_function_analysis()
 
 
 def _s_log3_transfer_function_vectorise(value):
     value = as_array(value)
 
-    return as_numeric(np.where(value >= 0.01125000,
-                               (420 + np.log10((value + 0.01) / (
-                                   0.18 + 0.01)) * 261.5) / 1023,
-                               (value * (
-                                   171.2102946929 - 95) / 0.01125000 + 95) / 1023))
+    return as_numeric(
+        np.where(value >= 0.01125000,
+                 (420 + np.log10((value + 0.01) / (
+                     0.18 + 0.01)) * 261.5) / 1023,
+                 (value * (
+                     171.2102946929 - 95) / 0.01125000 + 95) / 1023))
 
 
-print(_s_log3_transfer_function(RGB[0]))
+def _s_log3_transfer_function_analysis():
+    message_box('_s_log3_transfer_function')
 
-print(_s_log3_transfer_function_vectorise(RGB[0]))
+    print(_s_log3_transfer_function(RGB[0]))
 
-print(_s_log3_transfer_function_vectorise(RGB))
+    print(_s_log3_transfer_function_vectorise(RGB[0]))
 
-print(_s_log3_transfer_function_vectorise(RGB_t))
+    print(_s_log3_transfer_function_vectorise(RGB))
+
+    print(_s_log3_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log3_transfer_function_analysis()
 
 
 def _s_log3_inverse_transfer_function_vectorise(value):
@@ -4518,13 +5112,21 @@ def _s_log3_inverse_transfer_function_vectorise(value):
                                    171.2102946929 - 95)))
 
 
-print(_s_log3_inverse_transfer_function(RGB[0]))
+def _s_log3_inverse_transfer_function_analysis():
+    message_box('_s_log3_inverse_transfer_function')
 
-print(_s_log3_inverse_transfer_function_vectorise(RGB[0]))
+    print(_s_log3_inverse_transfer_function(RGB[0]))
 
-print(_s_log3_inverse_transfer_function_vectorise(RGB))
+    print(_s_log3_inverse_transfer_function_vectorise(RGB[0]))
 
-print(_s_log3_inverse_transfer_function_vectorise(RGB_t))
+    print(_s_log3_inverse_transfer_function_vectorise(RGB))
+
+    print(_s_log3_inverse_transfer_function_vectorise(RGB_t))
+
+    print('\n')
+
+
+# _s_log3_inverse_transfer_function_analysis()
 
 from colour.models.dataset.srgb import *
 
@@ -4537,9 +5139,17 @@ def _srgb_transfer_function(value):
                                1.055 * (value ** (1 / 2.4)) - 0.055))
 
 
-print(_srgb_transfer_function(RGB))
+def _srgb_transfer_function_analysis():
+    message_box('_srgb_transfer_function')
 
-print(_srgb_transfer_function(RGB_t))
+    print(_srgb_transfer_function(RGB))
+
+    print(_srgb_transfer_function(RGB_t))
+
+    print('\n')
+
+
+# _srgb_transfer_function_analysis()
 
 
 def _srgb_inverse_transfer_function(value):
@@ -4550,13 +5160,21 @@ def _srgb_inverse_transfer_function(value):
                                ((value + 0.055) / 1.055) ** 2.4))
 
 
-print(_srgb_inverse_transfer_function(RGB))
+def _srgb_inverse_transfer_function_analysis():
+    message_box('_srgb_inverse_transfer_function')
 
-print(_srgb_inverse_transfer_function(RGB_t))
+    print(_srgb_inverse_transfer_function(RGB))
 
-###############################################################################
-#### colour.XYZ_to_RGB
-###############################################################################
+    print(_srgb_inverse_transfer_function(RGB_t))
+
+    print('\n')
+
+
+# _srgb_inverse_transfer_function_analysis()
+
+# #############################################################################
+# ### colour.XYZ_to_RGB
+# #############################################################################
 from colour.models.rgb import *
 
 XYZ = np.array([0.07049534, 0.1008, 0.09558313])
@@ -4568,15 +5186,10 @@ M = np.array([
     [-0.96922426, 1.87592999, 0.04155422],
     [0.05563942, -0.2040112, 1.05714897]])
 
-message_box('XYZ_to_RGB')
-
 
 def XYZ_to_RGB_2d(XYZ):
     for i in range(len(XYZ)):
         XYZ_to_RGB(XYZ[i], W_R, W_T, M, CAT)
-
-
-# get_ipython().magic(u'timeit XYZ_to_RGB_2d(DATA1)')
 
 
 def XYZ_to_RGB_vectorise(XYZ,
@@ -4605,28 +5218,36 @@ def XYZ_to_RGB_vectorise(XYZ,
     return RGB
 
 
-print('Reference:')
-XYZ = np.array([0.96907232, 1, 1.12179215])
-print(XYZ_to_RGB(XYZ, W_R, W_T, M, CAT))
+def XYZ_to_RGB_analysis():
+    message_box('XYZ_to_RGB')
 
-print('\n')
+    print('Reference:')
+    XYZ = np.array([0.96907232, 1, 1.12179215])
+    print(XYZ_to_RGB(XYZ, W_R, W_T, M, CAT))
 
-print('1d array:')
-print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
 
-print('2d array:')
-XYZ = np.tile(XYZ, (5, 1))
-print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
+    print('\n')
 
-# get_ipython().magic(u'timeit XYZ_to_RGB_vectorise(DATA1, W_R, W_T, M, CAT)')
+    print('2d array:')
+    XYZ = np.tile(XYZ, (5, 1))
+    print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
 
-print('\n')
+    # get_ipython().magic(u'timeit XYZ_to_RGB_2d(DATA1)')
 
-###############################################################################
-# #### colour.RGB_to_XYZ
-###############################################################################
+    # get_ipython().magic(u'timeit XYZ_to_RGB_vectorise(DATA1, W_R, W_T, M, CAT)')
+
+    print('\n')
+
+
+# XYZ_to_RGB_analysis()
+
+# #############################################################################
+# # ### colour.RGB_to_XYZ
+# #############################################################################
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 W_R = (0.31271, 0.32902)
 W_T = (0.34567, 0.35850)
@@ -4636,15 +5257,10 @@ M = np.array([
     [0.21263682, 0.71518298, 0.0721802],
     [0.01933062, 0.11919716, 0.95037259]])
 
-message_box('RGB_to_XYZ')
-
 
 def RGB_to_XYZ_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_XYZ(RGB[i], W_R, W_T, M, CAT)
-
-
-# get_ipython().magic(u'timeit RGB_to_XYZ_2d(DATA1)')
 
 
 def RGB_to_XYZ_vectorise(RGB,
@@ -4673,43 +5289,46 @@ def RGB_to_XYZ_vectorise(RGB,
     return XYZ_a
 
 
-print('Reference:')
-RGB = np.array([0.86969452, 1.00516431, 1.41715848])
-print(RGB_to_XYZ(RGB, W_R, W_T, M, CAT))
+def RGB_to_XYZ_analysis():
+    message_box('RGB_to_XYZ')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.86969452, 1.00516431, 1.41715848])
+    print(RGB_to_XYZ(RGB, W_R, W_T, M, CAT))
 
-print('1d array:')
-print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_XYZ_vectorise(DATA1, W_R, W_T, M, CAT)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_XYZ_2d(DATA1)')
 
-###############################################################################
-#### colour.RGB_to_RGB
-###############################################################################
+    # get_ipython().magic(u'timeit RGB_to_XYZ_vectorise(DATA1, W_R, W_T, M, CAT)')
+
+    print('\n')
+
+
+# RGB_to_XYZ_analysis()
+
+# #############################################################################
+# ### colour.RGB_to_RGB
+# #############################################################################
 from colour import sRGB_COLOURSPACE
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 C = sRGB_COLOURSPACE
 CAT = 'Bradford'
 
-message_box('RGB_to_RGB')
-
 
 def RGB_to_RGB_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_RGB(RGB[i], C, C, CAT)
-
-
-# get_ipython().magic(u'timeit RGB_to_RGB_2d(DATA1)')
 
 
 def RGB_to_RGB_vectorise(RGB,
@@ -4738,48 +5357,50 @@ def RGB_to_RGB_vectorise(RGB,
     return RGB
 
 
-print('Reference:')
-RGB = np.array([0.86969452, 1.00516431, 1.41715848])
-print(RGB_to_RGB(RGB, C, C, CAT))
+def RGB_to_RGB_analysis():
+    message_box('RGB_to_RGB')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.86969452, 1.00516431, 1.41715848])
+    print(RGB_to_RGB(RGB, C, C, CAT))
 
-print('1d array:')
-print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_RGB_vectorise(DATA1, C, C, CAT)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_RGB_2d(DATA1)')
 
-###############################################################################
-###############################################################################
-### colour.notation.munsell
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit RGB_to_RGB_vectorise(DATA1, C, C, CAT)')
 
-###############################################################################
-#### colour.munsell_value_Priest1920
-###############################################################################
+    print('\n')
+
+
+# RGB_to_RGB_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.notation.munsell
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.munsell_value_Priest1920
+# #############################################################################
 from colour.notation.munsell import *
 
-
-message_box('munsell_value_Priest1920')
+Y = np.linspace(0, 100, 1000000)
 
 
 def munsell_value_Priest1920_2d(Y):
     for i in range(len(Y)):
         munsell_value_Priest1920(Y[i])
-
-
-Y = np.linspace(0, 100, 1000000)
-
-# get_ipython().magic(u'timeit munsell_value_Priest1920_2d(Y)')
 
 
 def munsell_value_Priest1920_vectorise(Y):
@@ -4791,35 +5412,40 @@ def munsell_value_Priest1920_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_Priest1920(10.08))
+def munsell_value_Priest1920_analysis():
+    message_box('munsell_value_Priest1920')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_Priest1920(10.08))
 
-print('1d array:')
-print(munsell_value_Priest1920_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_Priest1920_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_Priest1920_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_Priest1920_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_Priest1920_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_Priest1920_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_Munsell1933
-###############################################################################
-message_box('munsell_value_Munsell1933')
+    # get_ipython().magic(u'timeit munsell_value_Priest1920_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_Priest1920_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_Munsell1933
+# #############################################################################
 
 
 def munsell_value_Munsell1933_2d(Y):
     for i in range(len(Y)):
         munsell_value_Munsell1933(Y[i])
-
-
-# get_ipython().magic(u'timeit munsell_value_Munsell1933_2d(Y)')
 
 
 def munsell_value_Munsell1933_vectorise(Y):
@@ -4830,35 +5456,40 @@ def munsell_value_Munsell1933_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_Munsell1933(10.08))
+def munsell_value_Munsell1933_analysis():
+    message_box('munsell_value_Munsell1933')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_Munsell1933(10.08))
 
-print('1d array:')
-print(munsell_value_Munsell1933_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_Munsell1933_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_Munsell1933_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_Munsell1933_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_Munsell1933_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_Munsell1933_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_Moon1943
-###############################################################################
-message_box('munsell_value_Moon1943')
+    # get_ipython().magic(u'timeit munsell_value_Munsell1933_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_Munsell1933_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_Moon1943
+# #############################################################################
 
 
 def munsell_value_Moon1943_2d(Y):
     for i in range(len(Y)):
         munsell_value_Moon1943(Y[i])
-
-
-# get_ipython().magic(u'timeit munsell_value_Moon1943_2d(Y)')
 
 
 def munsell_value_Moon1943_vectorise(Y):
@@ -4869,35 +5500,40 @@ def munsell_value_Moon1943_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_Moon1943(10.08))
+def munsell_value_Moon1943_analysis():
+    message_box('munsell_value_Moon1943')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_Moon1943(10.08))
 
-print('1d array:')
-print(munsell_value_Moon1943_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_Moon1943_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_Moon1943_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_Moon1943_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_Moon1943_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_Moon1943_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_Saunderson1944
-###############################################################################
-message_box('munsell_value_Saunderson1944')
+    # get_ipython().magic(u'timeit munsell_value_Moon1943_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_Moon1943_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_Saunderson1944
+# #############################################################################
 
 
 def munsell_value_Saunderson1944_2d(Y):
     for i in range(len(Y)):
         munsell_value_Saunderson1944(Y[i])
-
-
-# get_ipython().magic(u'timeit munsell_value_Saunderson1944_2d(Y)')
 
 
 def munsell_value_Saunderson1944_vectorise(Y):
@@ -4908,36 +5544,40 @@ def munsell_value_Saunderson1944_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_Saunderson1944(10.08))
+def munsell_value_Saunderson1944_analysis():
+    message_box('munsell_value_Saunderson1944')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_Saunderson1944(10.08))
 
-print('1d array:')
-print(munsell_value_Saunderson1944_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_Saunderson1944_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_Saunderson1944_vectorise(
-    [10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_Saunderson1944_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_Saunderson1944_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_Saunderson1944_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_Ladd1955
-###############################################################################
-message_box('munsell_value_Ladd1955')
+    # get_ipython().magic(u'timeit munsell_value_Saunderson1944_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_Saunderson1944_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_Ladd1955
+# #############################################################################
 
 
 def munsell_value_Ladd1955_2d(Y):
     for i in range(len(Y)):
         munsell_value_Ladd1955(Y[i])
-
-
-# get_ipython().magic(u'timeit munsell_value_Ladd1955_2d(Y)')
 
 
 def munsell_value_Ladd1955_vectorise(Y):
@@ -4948,35 +5588,40 @@ def munsell_value_Ladd1955_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_Ladd1955(10.08))
+def munsell_value_Ladd1955_analysis():
+    message_box('munsell_value_Ladd1955')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_Ladd1955(10.08))
 
-print('1d array:')
-print(munsell_value_Ladd1955_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_Ladd1955_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_Ladd1955_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_Ladd1955_vectorise(Y)')
+    print('2d array:')
+    print(
+        munsell_value_Ladd1955_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_Ladd1955_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_McCamy1987
-###############################################################################
-message_box('munsell_value_McCamy1987')
+    # get_ipython().magic(u'timeit munsell_value_Ladd1955_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_Ladd1955_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_McCamy1987
+# #############################################################################
 
 
 def munsell_value_McCamy1987_2d(Y):
     for i in range(len(Y)):
         munsell_value_McCamy1987(Y[i])
-
-
-# get_ipython().magic(u'timeit munsell_value_McCamy1987_2d(Y)')
 
 
 @ignore_numpy_errors
@@ -4995,35 +5640,41 @@ def munsell_value_McCamy1987_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_McCamy1987(10.08))
+def munsell_value_McCamy1987_analysis():
+    message_box('munsell_value_McCamy1987')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_McCamy1987(10.08))
 
-print('1d array:')
-print(munsell_value_McCamy1987_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_McCamy1987_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_McCamy1987_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_McCamy1987_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_McCamy1987_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_McCamy1987_2d(Y)')
 
-###############################################################################
-#### colour.munsell_value_ASTMD153508
-###############################################################################
-message_box('munsell_value_ASTMD153508')
+    # get_ipython().magic(u'timeit munsell_value_McCamy1987_vectorise(Y)')
+
+    print('\n')
+
+
+# munsell_value_McCamy1987_analysis()
+
+# #############################################################################
+# ### colour.munsell_value_ASTMD153508
+# #############################################################################
 
 
 def munsell_value_ASTMD153508_2d(Y):
     for i in range(len(Y)):
         munsell_value_ASTMD153508(Y[i])
 
-
-# get_ipython().magic(u'timeit munsell_value_ASTMD153508_2d(Y)')
 
 from colour.algebra import *
 
@@ -5050,45 +5701,49 @@ def munsell_value_ASTMD153508_vectorise(Y):
     return as_numeric(V)
 
 
-print('Reference:')
-print(munsell_value_ASTMD153508(10.08))
+def munsell_value_ASTMD153508_analysis():
+    message_box('munsell_value_ASTMD153508')
 
-print('\n')
+    print('Reference:')
+    print(munsell_value_ASTMD153508(10.08))
 
-print('1d array:')
-print(munsell_value_ASTMD153508_vectorise(10.08))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(munsell_value_ASTMD153508_vectorise(10.08))
 
-print('2d array:')
-print(munsell_value_ASTMD153508_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    print('\n')
 
-# get_ipython().magic(u'timeit munsell_value_ASTMD153508_vectorise(Y)')
+    print('2d array:')
+    print(munsell_value_ASTMD153508_vectorise(
+        [10.08, 10.08, 10.08, 10.08, 10.08]))
 
-print('\n')
+    # get_ipython().magic(u'timeit munsell_value_ASTMD153508_2d(Y)')
 
-###############################################################################
-###############################################################################
-### colour.notation.triplet
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit munsell_value_ASTMD153508_vectorise(Y)')
 
-###############################################################################
-#### colour.notation.triplet.RGB_to_HEX
-###############################################################################
+    print('\n')
+
+
+# munsell_value_ASTMD153508_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.notation.triplet
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.notation.triplet.RGB_to_HEX
+# #############################################################################
 from colour.notation.triplet import *
 
 RGB = np.array([0.86969452, 1.00516431, 1.41715848])
-
-message_box('RGB_to_HEX')
 
 
 def RGB_to_HEX_2d(RGB):
     for i in range(len(RGB)):
         RGB_to_HEX(RGB[i])
-
-
-# get_ipython().magic(u'timeit RGB_to_HEX_2d(DATA1)')
 
 
 def RGB_to_HEX_vectorise(RGB):
@@ -5102,41 +5757,44 @@ def RGB_to_HEX_vectorise(RGB):
     return HEX
 
 
-print('Reference:')
-RGB = np.array([0.66666667, 0.86666667, 1])
-print(RGB_to_HEX(RGB))
+def RGB_to_HEX_analysis():
+    message_box('RGB_to_HEX')
 
-print('\n')
+    print('Reference:')
+    RGB = np.array([0.66666667, 0.86666667, 1])
+    print(RGB_to_HEX(RGB))
 
-print('1d array:')
-print(RGB_to_HEX_vectorise(RGB))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(RGB_to_HEX_vectorise(RGB))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(RGB_to_HEX_vectorise(RGB))
+    print('\n')
 
-# get_ipython().magic(u'timeit RGB_to_HEX_vectorise(DATA1)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(RGB_to_HEX_vectorise(RGB))
 
-print('\n')
+    # get_ipython().magic(u'timeit RGB_to_HEX_2d(DATA1)')
 
-###############################################################################
-#### colour.notation.triplet.HEX_to_RGB
-###############################################################################
+    # get_ipython().magic(u'timeit RGB_to_HEX_vectorise(DATA1)')
+
+    print('\n')
+
+
+# RGB_to_HEX_analysis()
+
+# #############################################################################
+# ### colour.notation.triplet.HEX_to_RGB
+# #############################################################################
 from colour.notation.triplet import *
 
 HEX1 = ['#aaddff'] * (1920 * 1080)
-
-message_box('HEX_to_RGB')
 
 
 def HEX_to_RGB_2d(HEX):
     for i in range(len(HEX)):
         HEX_to_RGB(HEX[i])
-
-
-# get_ipython().magic(u'timeit HEX_to_RGB_2d(HEX1)')
 
 
 def HEX_to_RGB_vectorise(HEX):
@@ -5154,45 +5812,48 @@ def HEX_to_RGB_vectorise(HEX):
     return RGB
 
 
-print('Reference:')
-RGB = '#aaddff'
-print(HEX_to_RGB(RGB))
+def HEX_to_RGB_analysis():
+    message_box('HEX_to_RGB')
 
-print('\n')
+    print('Reference:')
+    RGB = '#aaddff'
+    print(HEX_to_RGB(RGB))
 
-print('1d array:')
-print(HEX_to_RGB_vectorise(RGB))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(HEX_to_RGB_vectorise(RGB))
 
-print('2d array:')
-RGB = np.tile(RGB, (5, 1))
-print(HEX_to_RGB_vectorise(RGB))
+    print('\n')
 
-# get_ipython().magic(u'timeit HEX_to_RGB_vectorise(HEX1)')
+    print('2d array:')
+    RGB = np.tile(RGB, (5, 1))
+    print(HEX_to_RGB_vectorise(RGB))
 
-print('\n')
+    # get_ipython().magic(u'timeit HEX_to_RGB_2d(HEX1)')
 
-###############################################################################
-###############################################################################
-### colour.phenomenons.rayleigh
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit HEX_to_RGB_vectorise(HEX1)')
 
-###############################################################################
-### colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957
-###############################################################################
+    print('\n')
+
+
+# HEX_to_RGB_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.phenomenons.rayleigh
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957
+# #############################################################################
 from colour.phenomenons.rayleigh import *
-
-message_box('air_refraction_index_Penndorf1957')
 
 
 def air_refraction_index_Penndorf1957_2d(wl):
     for i in range(len(wl)):
         air_refraction_index_Penndorf1957(wl[i])
-
-
-# get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_2d(DATA1[:, 0])')
 
 
 def air_refraction_index_Penndorf1957_vectorise(wavelength, *args):
@@ -5203,36 +5864,40 @@ def air_refraction_index_Penndorf1957_vectorise(wavelength, *args):
     return n
 
 
-print('Reference:')
-print(air_refraction_index_Penndorf1957(0.555))
+def air_refraction_index_Penndorf1957_analysis():
+    message_box('air_refraction_index_Penndorf1957')
 
-print('\n')
+    print('Reference:')
+    print(air_refraction_index_Penndorf1957(0.555))
 
-print('1d array:')
-print(air_refraction_index_Penndorf1957_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(air_refraction_index_Penndorf1957_vectorise(0.555))
 
-print('2d array:')
-print(air_refraction_index_Penndorf1957_vectorise(
-    [0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(air_refraction_index_Penndorf1957_vectorise(
+        [0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.air_refraction_index_Edlen1966
-###############################################################################
-message_box('air_refraction_index_Edlen1966')
+    # get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# air_refraction_index_Penndorf1957_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.air_refraction_index_Edlen1966
+# #############################################################################
 
 
 def air_refraction_index_Edlen1966_2d(wl):
     for i in range(len(wl)):
         air_refraction_index_Edlen1966(wl[i])
-
-
-# get_ipython().magic(u'timeit air_refraction_index_Edlen1966_2d(DATA1[:, 0])')
 
 
 def air_refraction_index_Edlen1966_vectorise(wavelength, *args):
@@ -5243,36 +5908,40 @@ def air_refraction_index_Edlen1966_vectorise(wavelength, *args):
     return n
 
 
-print('Reference:')
-print(air_refraction_index_Edlen1966(0.555))
+def air_refraction_index_Edlen1966_analysis():
+    message_box('air_refraction_index_Edlen1966')
 
-print('\n')
+    print('Reference:')
+    print(air_refraction_index_Edlen1966(0.555))
 
-print('1d array:')
-print(air_refraction_index_Edlen1966_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(air_refraction_index_Edlen1966_vectorise(0.555))
 
-print('2d array:')
-print(air_refraction_index_Edlen1966_vectorise(
-    [0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit air_refraction_index_Edlen1966_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(air_refraction_index_Edlen1966_vectorise(
+        [0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit air_refraction_index_Edlen1966_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.air_refraction_index_Peck1972
-###############################################################################
-message_box('air_refraction_index_Peck1972')
+    # get_ipython().magic(u'timeit air_refraction_index_Edlen1966_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# air_refraction_index_Edlen1966_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.air_refraction_index_Peck1972
+# #############################################################################
 
 
 def air_refraction_index_Peck1972_2d(wl):
     for i in range(len(wl)):
         air_refraction_index_Peck1972(wl[i])
-
-
-# get_ipython().magic(u'timeit air_refraction_index_Peck1972_2d(DATA1[:, 0])')
 
 
 def air_refraction_index_Peck1972_vectorise(wavelength, *args):
@@ -5284,36 +5953,40 @@ def air_refraction_index_Peck1972_vectorise(wavelength, *args):
     return n
 
 
-print('Reference:')
-print(air_refraction_index_Peck1972(0.555))
+def air_refraction_index_Peck1972_analysis():
+    message_box('air_refraction_index_Peck1972')
 
-print('\n')
+    print('Reference:')
+    print(air_refraction_index_Peck1972(0.555))
 
-print('1d array:')
-print(air_refraction_index_Peck1972_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(air_refraction_index_Peck1972_vectorise(0.555))
 
-print('2d array:')
-print(air_refraction_index_Peck1972_vectorise(
-    [0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit air_refraction_index_Peck1972_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(air_refraction_index_Peck1972_vectorise(
+        [0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit air_refraction_index_Peck1972_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999
-###############################################################################
-message_box('air_refraction_index_Bodhaine1999')
+    # get_ipython().magic(u'timeit air_refraction_index_Peck1972_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# air_refraction_index_Peck1972_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999
+# #############################################################################
 
 
 def air_refraction_index_Bodhaine1999_2d(wl):
     for i in range(len(wl)):
         air_refraction_index_Bodhaine1999(wl[i])
-
-
-# get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_2d(DATA1[:, 0])')
 
 
 def air_refraction_index_Bodhaine1999_vectorise(
@@ -5328,36 +6001,40 @@ def air_refraction_index_Bodhaine1999_vectorise(
     return n
 
 
-print('Reference:')
-print(air_refraction_index_Bodhaine1999(0.555))
+def air_refraction_index_Bodhaine1999_analysis():
+    message_box('air_refraction_index_Bodhaine1999')
 
-print('\n')
+    print('Reference:')
+    print(air_refraction_index_Bodhaine1999(0.555))
 
-print('1d array:')
-print(air_refraction_index_Bodhaine1999_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(air_refraction_index_Bodhaine1999_vectorise(0.555))
 
-print('2d array:')
-print(air_refraction_index_Bodhaine1999_vectorise(
-    [0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(air_refraction_index_Bodhaine1999_vectorise(
+        [0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.N2_depolarisation
-###############################################################################
-message_box('N2_depolarisation')
+    # get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# air_refraction_index_Bodhaine1999_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.N2_depolarisation
+# #############################################################################
 
 
 def N2_depolarisation_2d(wl):
     for i in range(len(wl)):
         N2_depolarisation(wl[i])
-
-
-# get_ipython().magic(u'timeit N2_depolarisation_2d(DATA1[:, 0])')
 
 
 def N2_depolarisation_vectorise(wavelength):
@@ -5367,35 +6044,39 @@ def N2_depolarisation_vectorise(wavelength):
     return N2
 
 
-print('Reference:')
-print(N2_depolarisation(0.555))
+def N2_depolarisation_analysis():
+    message_box('N2_depolarisation')
 
-print('\n')
+    print('Reference:')
+    print(N2_depolarisation(0.555))
 
-print('1d array:')
-print(N2_depolarisation_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(N2_depolarisation_vectorise(0.555))
 
-print('2d array:')
-print(N2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit N2_depolarisation_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(N2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit N2_depolarisation_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.O2_depolarisation
-###############################################################################
-message_box('O2_depolarisation')
+    # get_ipython().magic(u'timeit N2_depolarisation_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# N2_depolarisation_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.O2_depolarisation
+# #############################################################################
 
 
 def O2_depolarisation_2d(wl):
     for i in range(len(wl)):
         O2_depolarisation(wl[i])
-
-
-# get_ipython().magic(u'timeit O2_depolarisation_2d(DATA1[:, 0])')
 
 
 def O2_depolarisation_vectorise(wavelength):
@@ -5406,26 +6087,34 @@ def O2_depolarisation_vectorise(wavelength):
     return O2
 
 
-print('Reference:')
-print(O2_depolarisation(0.555))
+def O2_depolarisation_analysis():
+    message_box('O2_depolarisation')
 
-print('\n')
+    print('Reference:')
+    print(O2_depolarisation(0.555))
 
-print('1d array:')
-print(O2_depolarisation_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(O2_depolarisation_vectorise(0.555))
 
-print('2d array:')
-print(O2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit O2_depolarisation_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(O2_depolarisation_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit O2_depolarisation_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.F_air_Penndorf1957
-###############################################################################
+    # get_ipython().magic(u'timeit O2_depolarisation_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# O2_depolarisation_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.F_air_Penndorf1957
+# #############################################################################
 
 
 def F_air_Penndorf1957_vectorise(wavelength, *args):
@@ -5434,22 +6123,28 @@ def F_air_Penndorf1957_vectorise(wavelength, *args):
     return as_numeric(np.resize(np.array([1.0608]), wl.shape))
 
 
-print('Reference:')
-print(F_air_Penndorf1957(0.555))
+def F_air_Penndorf1957_analysis():
+    message_box('F_air_Penndorf1957')
 
-print('\n')
+    print('Reference:')
+    print(F_air_Penndorf1957(0.555))
 
-print('1d array:')
-print(F_air_Penndorf1957_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(F_air_Penndorf1957_vectorise(0.555))
 
-print('2d array:')
-print(F_air_Penndorf1957_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.F_air_Young1981
-###############################################################################
+    print('2d array:')
+    print(F_air_Penndorf1957_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+
+
+# F_air_Penndorf1957_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.F_air_Young1981
+# #############################################################################
 
 
 def F_air_Young1981_vectorise(wavelength, *args):
@@ -5458,32 +6153,33 @@ def F_air_Young1981_vectorise(wavelength, *args):
     return as_numeric(np.resize(np.array([1.0480]), wl.shape))
 
 
-print('Reference:')
-print(F_air_Young1981(0.555))
+def F_air_Young1981_analysis():
+    message_box('F_air_Young1981')
 
-print('\n')
+    print('Reference:')
+    print(F_air_Young1981(0.555))
 
-print('1d array:')
-print(F_air_Young1981_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(F_air_Young1981_vectorise(0.555))
 
-print('2d array:')
-print(F_air_Young1981_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
+
+    print('2d array:')
+    print(F_air_Young1981_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
 
-###############################################################################
-#### colour.phenomenons.rayleigh.F_air_Bates1984
-###############################################################################
-message_box('F_air_Bates1984')
+# F_air_Young1981_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.F_air_Bates1984
+# #############################################################################
 
 
 def F_air_Bates1984_2d(wl):
     for i in range(len(wl)):
         F_air_Bates1984(wl[i])
-
-
-# get_ipython().magic(u'timeit F_air_Bates1984_2d(DATA1[:, 0])')
 
 
 def F_air_Bates1984_vectorise(wavelength, *args):
@@ -5499,35 +6195,39 @@ def F_air_Bates1984_vectorise(wavelength, *args):
     return F_air
 
 
-print('Reference:')
-print(F_air_Bates1984(0.555))
+def F_air_Bates1984_analysis():
+    message_box('F_air_Bates1984')
 
-print('\n')
+    print('Reference:')
+    print(F_air_Bates1984(0.555))
 
-print('1d array:')
-print(F_air_Bates1984_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(F_air_Bates1984_vectorise(0.555))
 
-print('2d array:')
-print(F_air_Bates1984_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit F_air_Bates1984_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(F_air_Bates1984_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit F_air_Bates1984_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.F_air_Bodhaine1999
-###############################################################################
-message_box('F_air_Bodhaine1999')
+    # get_ipython().magic(u'timeit F_air_Bates1984_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# F_air_Bates1984_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.F_air_Bodhaine1999
+# #############################################################################
 
 
 def F_air_Bodhaine1999_2d(wl):
     for i in range(len(wl)):
         F_air_Bodhaine1999(wl[i])
-
-
-# get_ipython().magic(u'timeit F_air_Bodhaine1999_2d(DATA1[:, 0])')
 
 
 def F_air_Bodhaine1999_vectorise(wavelength,
@@ -5543,37 +6243,40 @@ def F_air_Bodhaine1999_vectorise(wavelength,
     return F_air
 
 
-print('Reference:')
-print(F_air_Bodhaine1999(0.555))
+def F_air_Bodhaine1999_analysis():
+    message_box('F_air_Bodhaine1999')
 
-print('\n')
+    print('Reference:')
+    print(F_air_Bodhaine1999(0.555))
 
-print('1d array:')
-print(F_air_Bodhaine1999_vectorise(0.555))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(F_air_Bodhaine1999_vectorise(0.555))
 
-print('2d array:')
-print(F_air_Bodhaine1999_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
+    print('\n')
 
-# get_ipython().magic(u'timeit F_air_Bodhaine1999_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(F_air_Bodhaine1999_vectorise([0.555, 0.555, 0.555, 0.555, 0.555]))
 
-print('\n')
+    # get_ipython().magic(u'timeit F_air_Bodhaine1999_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.molecular_density
-###############################################################################
-message_box('molecular_density')
+    # get_ipython().magic(u'timeit F_air_Bodhaine1999_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# F_air_Bodhaine1999_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.molecular_density
+# #############################################################################
+from colour.constants import AVOGADRO_CONSTANT
 
 
 def molecular_density_2d(temperature):
     for i in range(len(temperature)):
         molecular_density(temperature[i])
-
-
-# get_ipython().magic(u'timeit molecular_density_2d(DATA1[:, 0])')
-
-from colour.constants import AVOGADRO_CONSTANT
 
 
 def molecular_density_vectorise(temperature=STANDARD_AIR_TEMPERATURE,
@@ -5585,35 +6288,39 @@ def molecular_density_vectorise(temperature=STANDARD_AIR_TEMPERATURE,
     return N_s
 
 
-print('Reference:')
-print(molecular_density(15))
+def molecular_density_analysis():
+    message_box('molecular_density')
 
-print('\n')
+    print('Reference:')
+    print(molecular_density(15))
 
-print('1d array:')
-print(molecular_density_vectorise(15))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(molecular_density_vectorise(15))
 
-print('2d array:')
-print(molecular_density_vectorise([15, 15, 15, 15, 15]))
+    print('\n')
 
-# get_ipython().magic(u'timeit molecular_density_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(molecular_density_vectorise([15, 15, 15, 15, 15]))
 
-print('\n')
+    # get_ipython().magic(u'timeit molecular_density_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.mean_molecular_weights
-###############################################################################
-message_box('mean_molecular_weights')
+    # get_ipython().magic(u'timeit molecular_density_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# molecular_density_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.mean_molecular_weights
+# #############################################################################
 
 
 def mean_molecular_weights_2d(C):
     for i in range(len(C)):
         mean_molecular_weights(C[i])
-
-
-# get_ipython().magic(u'timeit mean_molecular_weights_2d(DATA1[:, 0])')
 
 
 def mean_molecular_weights_vectorise(
@@ -5625,35 +6332,39 @@ def mean_molecular_weights_vectorise(
     return m_a
 
 
-print('Reference:')
-print(mean_molecular_weights(300))
+def mean_molecular_weights_analysis():
+    message_box('mean_molecular_weights')
 
-print('\n')
+    print('Reference:')
+    print(mean_molecular_weights(300))
 
-print('1d array:')
-print(mean_molecular_weights_vectorise(300))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(mean_molecular_weights_vectorise(300))
 
-print('2d array:')
-print(mean_molecular_weights_vectorise([300, 300, 300, 300, 300]))
+    print('\n')
 
-# get_ipython().magic(u'timeit mean_molecular_weights_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(mean_molecular_weights_vectorise([300, 300, 300, 300, 300]))
 
-print('\n')
+    # get_ipython().magic(u'timeit mean_molecular_weights_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.gravity_List1968
-###############################################################################
-message_box('gravity_List1968')
+    # get_ipython().magic(u'timeit mean_molecular_weights_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# mean_molecular_weights_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.gravity_List1968
+# #############################################################################
 
 
 def gravity_List1968_2d(C):
     for i in range(len(C)):
         gravity_List1968(C[i])
-
-
-# get_ipython().magic(u'timeit gravity_List1968_2d(DATA1[:, 0])')
 
 
 def gravity_List1968_vectorise(latitude=DEFAULT_LATITUDE,
@@ -5673,35 +6384,39 @@ def gravity_List1968_vectorise(latitude=DEFAULT_LATITUDE,
     return g
 
 
-print('Reference:')
-print(gravity_List1968(0, 0))
+def gravity_List1968_analysis():
+    message_box('gravity_List1968')
 
-print('\n')
+    print('Reference:')
+    print(gravity_List1968(0, 0))
 
-print('1d array:')
-print(gravity_List1968_vectorise(0, 0))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(gravity_List1968_vectorise(0, 0))
 
-print('2d array:')
-print(gravity_List1968_vectorise([0, 0, 0, 0, 0], [0]))
+    print('\n')
 
-# get_ipython().magic(u'timeit gravity_List1968_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(gravity_List1968_vectorise([0, 0, 0, 0, 0], [0]))
 
-print('\n')
+    # get_ipython().magic(u'timeit gravity_List1968_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.scattering_cross_section
-###############################################################################
-message_box('scattering_cross_section')
+    # get_ipython().magic(u'timeit gravity_List1968_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# gravity_List1968_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.scattering_cross_section
+# #############################################################################
 
 
 def scattering_cross_section_2d(wl):
     for i in range(len(wl)):
         scattering_cross_section(wl[i])
-
-
-# get_ipython().magic(u'timeit scattering_cross_section_2d(DATA1[:, 0])')
 
 
 def scattering_cross_section_vectorise(wavelength,
@@ -5727,36 +6442,40 @@ def scattering_cross_section_vectorise(wavelength,
     return sigma
 
 
-print('Reference:')
-print(scattering_cross_section(555 * 10e-8))
+def scattering_cross_section_analysis():
+    message_box('scattering_cross_section')
 
-print('\n')
+    print('Reference:')
+    print(scattering_cross_section(555 * 10e-8))
 
-print('1d array:')
-print(scattering_cross_section_vectorise(555 * 10e-8))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(scattering_cross_section_vectorise(555 * 10e-8))
 
-print('2d array:')
-print(scattering_cross_section_vectorise(
-    [555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8]))
+    print('\n')
 
-# get_ipython().magic(u'timeit scattering_cross_section_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(scattering_cross_section_vectorise(
+        [555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8]))
 
-print('\n')
+    # get_ipython().magic(u'timeit scattering_cross_section_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.rayleigh_optical_depth
-###############################################################################
-message_box('rayleigh_optical_depth')
+    # get_ipython().magic(u'timeit scattering_cross_section_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# scattering_cross_section_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.rayleigh_optical_depth
+# #############################################################################
 
 
 def rayleigh_optical_depth_2d(wl):
     for i in range(len(wl)):
         rayleigh_optical_depth(wl[i])
-
-
-# get_ipython().magic(u'timeit rayleigh_optical_depth_2d(DATA1[:, 0])')
 
 
 def rayleigh_optical_depth_vectorise(wavelength,
@@ -5790,28 +6509,35 @@ def rayleigh_optical_depth_vectorise(wavelength,
     return T_R
 
 
-print('Reference:')
-print(rayleigh_optical_depth(555 * 10e-8))
+def rayleigh_optical_depth_analysis():
+    message_box('rayleigh_optical_depth')
 
-print('\n')
+    print('Reference:')
+    print(rayleigh_optical_depth(555 * 10e-8))
 
-print('1d array:')
-print(rayleigh_optical_depth_vectorise(555 * 10e-8))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(rayleigh_optical_depth_vectorise(555 * 10e-8))
 
-print('2d array:')
-print(rayleigh_optical_depth_vectorise(
-    [555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8]))
+    print('\n')
 
-# get_ipython().magic(u'timeit rayleigh_optical_depth_vectorise(DATA1[:, 0])')
+    print('2d array:')
+    print(rayleigh_optical_depth_vectorise(
+        [555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8, 555 * 10e-8]))
 
-print('\n')
+    # get_ipython().magic(u'timeit rayleigh_optical_depth_2d(DATA1[:, 0])')
 
-###############################################################################
-#### colour.phenomenons.rayleigh.rayleigh_scattering_spd
-###############################################################################
-message_box('rayleigh_scattering_spd')
+    # get_ipython().magic(u'timeit rayleigh_optical_depth_vectorise(DATA1[:, 0])')
+
+    print('\n')
+
+
+# rayleigh_optical_depth_analysis()
+
+# #############################################################################
+# ### colour.phenomenons.rayleigh.rayleigh_scattering_spd
+# #############################################################################
 
 
 def rayleigh_scattering_spd_vectorise(shape=DEFAULT_SPECTRAL_SHAPE,
@@ -5843,20 +6569,26 @@ def rayleigh_scattering_spd_vectorise(shape=DEFAULT_SPECTRAL_SHAPE,
                                                        F_air))))
 
 
-print(rayleigh_scattering_spd_vectorise().values)
+def rayleigh_scattering_spd_analysis():
+    message_box('rayleigh_scattering_spd')
 
-###############################################################################
-###############################################################################
-### colour.quality.cqs
-###############################################################################
-###############################################################################
+    print(rayleigh_scattering_spd_vectorise().values)
 
-###############################################################################
-### colour.quality.cqs.gamut_area
-###############################################################################
+    print('\n')
+
+
+# rayleigh_scattering_spd_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### colour.quality.cqs
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.quality.cqs.gamut_area
+# #############################################################################
 from colour.quality.cqs import *
-
-message_box('gamut_area_vectorise')
 
 
 def gamut_area_vectorise(Lab):
@@ -5875,46 +6607,47 @@ def gamut_area_vectorise(Lab):
     return np.sum(S)
 
 
-Lab = [
-    np.array([39.94996006, 34.59018231, -19.86046321]),
-    np.array([38.88395498, 21.44348519, -34.87805301]),
-    np.array([36.60576301, 7.06742454, -43.21461177]),
-    np.array([46.60142558, -15.90481586, -34.64616865]),
-    np.array([56.50196523, -29.5465555, -20.50177194]),
-    np.array([55.73912101, -43.39520959, -5.08956953]),
-    np.array([56.2077687, -53.68997662, 20.2113441]),
-    np.array([66.16683122, -38.64600327, 42.77396631]),
-    np.array([76.7295211, -23.9214821, 61.04740432]),
-    np.array([82.85370708, -3.98679065, 75.43320144]),
-    np.array([69.26458861, 13.11066359, 68.83858372]),
-    np.array([69.63154351, 28.24532497, 59.45609803]),
-    np.array([61.26281449, 40.87950839, 44.97606172]),
-    np.array([41.62567821, 57.34129516, 27.4671817]),
-    np.array([40.52565174, 48.87449192, 3.4512168])]
+def gamut_area_vectorise_analysis():
+    message_box('gamut_area_vectorise')
 
-print(gamut_area_vectorise(Lab))
+    Lab = [np.array([39.94996006, 34.59018231, -19.86046321]),
+           np.array([38.88395498, 21.44348519, -34.87805301]),
+           np.array([36.60576301, 7.06742454, -43.21461177]),
+           np.array([46.60142558, -15.90481586, -34.64616865]),
+           np.array([56.50196523, -29.5465555, -20.50177194]),
+           np.array([55.73912101, -43.39520959, -5.08956953]),
+           np.array([56.2077687, -53.68997662, 20.2113441]),
+           np.array([66.16683122, -38.64600327, 42.77396631]),
+           np.array([76.7295211, -23.9214821, 61.04740432]),
+           np.array([82.85370708, -3.98679065, 75.43320144]),
+           np.array([69.26458861, 13.11066359, 68.83858372]),
+           np.array([69.63154351, 28.24532497, 59.45609803]),
+           np.array([61.26281449, 40.87950839, 44.97606172]),
+           np.array([41.62567821, 57.34129516, 27.4671817]),
+           np.array([40.52565174, 48.87449192, 3.4512168])]
+
+    print(gamut_area_vectorise(Lab))
+
+    print('\n')
 
 
-###############################################################################
-###############################################################################
-### colour.temperature.cct
-###############################################################################
-###############################################################################
+# gamut_area_vectorise_analysis()
 
-###############################################################################
-#### colour.xy_to_CCT_McCamy1992
-###############################################################################
+# #############################################################################
+# #############################################################################
+# ### colour.temperature.cct
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.xy_to_CCT_McCamy1992
+# #############################################################################
 from colour.temperature.cct import *
-
-message_box('xy_to_CCT_McCamy1992')
 
 
 def xy_to_CCT_McCamy1992_2d(xy):
     for i in range(len(xy)):
         xy_to_CCT_McCamy1992(xy[i])
-
-
-# get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_2d(DATA1[:, 0:2])')
 
 
 def xy_to_CCT_McCamy1992_vectorise(xy):
@@ -5927,37 +6660,41 @@ def xy_to_CCT_McCamy1992_vectorise(xy):
     return CCT
 
 
-print('Reference:')
-xy = np.array([0.31271, 0.32902])
-print(xy_to_CCT_McCamy1992(xy))
+def xy_to_CCT_McCamy1992_analysis():
+    message_box('xy_to_CCT_McCamy1992')
 
-print('\n')
+    print('Reference:')
+    xy = np.array([0.31271, 0.32902])
+    print(xy_to_CCT_McCamy1992(xy))
 
-print('1d array:')
-print(xy_to_CCT_McCamy1992_vectorise(xy))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(xy_to_CCT_McCamy1992_vectorise(xy))
 
-print('2d array:')
-xy = np.tile(xy, (5, 1))
-print(xy_to_CCT_McCamy1992_vectorise(xy))
+    print('\n')
 
-# get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_vectorise(DATA1[:, 0:2])')
+    print('2d array:')
+    xy = np.tile(xy, (5, 1))
+    print(xy_to_CCT_McCamy1992_vectorise(xy))
 
-print('\n')
+    # get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_2d(DATA1[:, 0:2])')
 
-###############################################################################
-#### colour.xy_to_CCT_Hernandez1999
-###############################################################################
-message_box('xy_to_CCT_Hernandez1999')
+    # get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_vectorise(DATA1[:, 0:2])')
+
+    print('\n')
+
+
+# xy_to_CCT_McCamy1992_analysis()
+
+# #############################################################################
+# ### colour.xy_to_CCT_Hernandez1999
+# #############################################################################
 
 
 def xy_to_CCT_Hernandez1999_2d(xy):
     for i in range(len(xy)):
         xy_to_CCT_Hernandez1999(xy[i])
-
-
-# get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])')
 
 
 def xy_to_CCT_Hernandez1999_vectorise(xy):
@@ -5984,39 +6721,42 @@ def xy_to_CCT_Hernandez1999_vectorise(xy):
     return CCT
 
 
-print('Reference:')
-xy = np.array([0.31271, 0.32902])
-print(xy_to_CCT_Hernandez1999(xy))
+def xy_to_CCT_Hernandez1999_analysis():
+    message_box('xy_to_CCT_Hernandez1999')
 
-print('\n')
+    print('Reference:')
+    xy = np.array([0.31271, 0.32902])
+    print(xy_to_CCT_Hernandez1999(xy))
 
-print('1d array:')
-print(xy_to_CCT_Hernandez1999_vectorise(xy))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(xy_to_CCT_Hernandez1999_vectorise(xy))
 
-print('2d array:')
-xy = np.tile(xy, (5, 1))
-print(xy_to_CCT_Hernandez1999_vectorise(xy))
+    print('\n')
 
-# get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])')
+    print('2d array:')
+    xy = np.tile(xy, (5, 1))
+    print(xy_to_CCT_Hernandez1999_vectorise(xy))
 
-print('\n')
+    # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])')
 
-###############################################################################
-#### colour.CCT_to_xy_Kang2002
-###############################################################################
-message_box('CCT_to_xy_Kang2002')
+    # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])')
+
+    print('\n')
+
+
+# xy_to_CCT_Hernandez1999_analysis()
+
+# #############################################################################
+# ### colour.CCT_to_xy_Kang2002
+# #############################################################################
+CCT = np.linspace(4000, 20000, 1000000)
 
 
 def CCT_to_xy_Kang2002_2d(CCT):
     for i in range(len(CCT)):
         CCT_to_xy_Kang2002(CCT[i])
-
-
-CCT = np.linspace(4000, 20000, 1000000)
-
-# get_ipython().magic(u'timeit CCT_to_xy_Kang2002_2d(CCT)')
 
 
 def CCT_to_xy_Kang2002_vectorise(CCT):
@@ -6057,37 +6797,42 @@ def CCT_to_xy_Kang2002_vectorise(CCT):
     return xy
 
 
-print('Reference:')
-print(CCT_to_xy_Kang2002(6504.38938305))
+def CCT_to_xy_Kang2002_analysis():
+    message_box('CCT_to_xy_Kang2002')
 
-print('\n')
+    print('Reference:')
+    print(CCT_to_xy_Kang2002(6504.38938305))
 
-print('1d array:')
-print(CCT_to_xy_Kang2002_vectorise(6504.38938305))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(CCT_to_xy_Kang2002_vectorise(6504.38938305))
 
-print('2d array:')
-print(CCT_to_xy_Kang2002_vectorise(
-    [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
-     6504.38938305]))
+    print('\n')
 
-# get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
+    print('2d array:')
+    print(CCT_to_xy_Kang2002_vectorise(
+        [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
+         6504.38938305]))
 
-print('\n')
 
-###############################################################################
-#### colour.CCT_to_xy_CIE_D
-###############################################################################
-message_box('CCT_to_xy_CIE_D')
+    # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_2d(CCT)')
+
+    # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
+
+    print('\n')
+
+
+# CCT_to_xy_Kang2002_analysis()
+
+# #############################################################################
+# ### colour.CCT_to_xy_CIE_D
+# #############################################################################
 
 
 def CCT_to_xy_CIE_D_2d(CCT):
     for i in range(len(CCT)):
         CCT_to_xy_CIE_D(CCT[i])
-
-
-# get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
 
 
 def CCT_to_xy_CIE_D_vectorise(CCT):
@@ -6114,34 +6859,42 @@ def CCT_to_xy_CIE_D_vectorise(CCT):
     return xy
 
 
-print('Reference:')
-print(CCT_to_xy_CIE_D(6504.38938305))
+def CCT_to_xy_CIE_D_analysis():
+    message_box('CCT_to_xy_CIE_D')
 
-print('\n')
+    print('Reference:')
+    print(CCT_to_xy_CIE_D(6504.38938305))
 
-print('1d array:')
-print(CCT_to_xy_CIE_D_vectorise(6504.38938305))
+    print('\n')
 
-print('\n')
+    print('1d array:')
+    print(CCT_to_xy_CIE_D_vectorise(6504.38938305))
 
-print('2d array:')
-print(CCT_to_xy_CIE_D_vectorise(
-    [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
-     6504.38938305]))
+    print('\n')
 
-# get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
+    print('2d array:')
+    print(CCT_to_xy_CIE_D_vectorise(
+        [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
+         6504.38938305]))
 
-print('\n')
+    # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
 
-###############################################################################
-###############################################################################
-### Ramblings
-###############################################################################
-###############################################################################
+    # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
 
-###############################################################################
-#### Image Operations
-###############################################################################
+    print('\n')
+
+
+# CCT_to_xy_CIE_D_analysis()
+
+# #############################################################################
+# #############################################################################
+# ### Ramblings
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### Image Operations
+# #############################################################################
 
 # get_ipython().magic(u'matplotlib inline')
 
@@ -6153,10 +6906,10 @@ print('\n')
 #
 #
 # def read_image_as_array(path, bit_depth=FLOAT):
-#     image = ImageInput.open(path)
-#     specification = image.spec()
+# image = ImageInput.open(path)
+# specification = image.spec()
 #
-#     return np.array(image.read_image(bit_depth)).reshape((specification.height,
+# return np.array(image.read_image(bit_depth)).reshape((specification.height,
 #                                                           specification.width,
 #                                                           specification.nchannels))
 #
