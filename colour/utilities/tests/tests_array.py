@@ -9,7 +9,6 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import sys
-from colour.utilities.array import row_as_diagonal
 
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
@@ -21,6 +20,7 @@ from colour.utilities import (
     as_numeric,
     as_stack,
     as_shape,
+    auto_axis,
     closest,
     normalise,
     steps,
@@ -38,6 +38,7 @@ __all__ = ['TestAsArray',
            'TestAsNumeric',
            'TestAsStack',
            'TestAsShape',
+           'TestAutoAxis',
            'TestClosest',
            'TestNormalise',
            'TestSteps',
@@ -144,6 +145,27 @@ class TestAsShape(unittest.TestCase):
         self.assertIsNone(as_shape(1))
 
 
+class TestAutoAxis(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.auto_axis` definition unit tests
+    methods.
+    """
+
+    def test_auto_axis(self):
+        """
+        Tests :func:`colour.utilities.array.auto_axis` definition.
+        """
+
+        self.assertTupleEqual(auto_axis((3, 3)), (3, -1))
+        self.assertTupleEqual(auto_axis((3,)), (-1,))
+        self.assertTupleEqual(auto_axis((3, 3), 'L'), (3, -1))
+        self.assertTupleEqual(auto_axis((3,), 'L'), (-1,))
+        self.assertTupleEqual(auto_axis((3, 3), 'First'), (-1, 3))
+        self.assertTupleEqual(auto_axis((3,), 'First'), (-1,))
+        self.assertTupleEqual(auto_axis((3, 3), 'F'), (-1, 3))
+        self.assertTupleEqual(auto_axis((3,), 'F'), (-1,))
+
+
 class TestClosest(unittest.TestCase):
     """
     Defines :func:`colour.utilities.array.closest` definition unit tests
@@ -248,21 +270,21 @@ class TestRowAsDiagonal(unittest.TestCase):
                                       [0.71061831, 0.67718718, 0.09562581],
                                       [0.71588836, 0.76772047, 0.15476079],
                                       [0.92985142, 0.22263399, 0.88027331]])),
-                            np.array([[[0.25891593, 0., 0.],
-                                       [0., 0.07299478, 0.],
-                                       [0., 0., 0.36586996]],
-                                      [[0.30851087, 0., 0.],
-                                       [0., 0.37131459, 0.],
-                                       [0., 0., 0.16274825]],
-                                      [[0.71061831, 0., 0.],
-                                       [0., 0.67718718, 0.],
-                                       [0., 0., 0.09562581]],
-                                      [[0.71588836, 0., 0.],
-                                       [0., 0.76772047, 0.],
-                                       [0., 0., 0.15476079]],
-                                      [[0.92985142, 0., 0.],
-                                       [0., 0.22263399, 0.],
-                                       [0., 0., 0.88027331]]]))
+            np.array([[[0.25891593, 0., 0.],
+                       [0., 0.07299478, 0.],
+                       [0., 0., 0.36586996]],
+                      [[0.30851087, 0., 0.],
+                       [0., 0.37131459, 0.],
+                       [0., 0., 0.16274825]],
+                      [[0.71061831, 0., 0.],
+                       [0., 0.67718718, 0.],
+                       [0., 0., 0.09562581]],
+                      [[0.71588836, 0., 0.],
+                       [0., 0.76772047, 0.],
+                       [0., 0., 0.15476079]],
+                      [[0.92985142, 0., 0.],
+                       [0., 0.22263399, 0.],
+                       [0., 0., 0.88027331]]]))
 
 
 if __name__ == '__main__':

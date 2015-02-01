@@ -25,6 +25,7 @@ __all__ = ['as_array',
            'as_numeric',
            'as_stack',
            'as_shape',
+           'auto_axis',
            'closest',
            'normalise',
            'steps',
@@ -225,6 +226,44 @@ def as_shape(x):
         return x.shape
     except AttributeError:
         return None
+
+
+def auto_axis(shape, dimension='Last'):
+    """
+    Alters given shape by setting an auto-axis value (-1) to either the first
+    or last dimension.
+
+    Parameters
+    ----------
+    shape : array_like
+        Shape to set the auto-axis value on.
+    dimension : unicode, optional
+        {'Last', 'First', 'F', 'L'},
+        Shape to set the auto-axis value on.
+
+    Returns
+    -------
+    tuple
+
+    Examples
+    --------
+    >>> auto_axis((3, 3))
+    (3, -1)
+    >>> auto_axis((3, ))
+    (-1,)
+    >>> auto_axis((3, 3), 'F')
+    (-1, 3)
+    """
+
+    methods = CaseInsensitiveMapping(
+        {'First': 0,
+         'F': 0,
+         'Last': -1,
+         'L': -1})
+
+    shape = list(shape)
+    shape[methods[dimension]] = -1
+    return tuple(shape)
 
 
 def closest(y, x):
