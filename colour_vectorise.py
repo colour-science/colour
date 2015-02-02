@@ -1,13 +1,17 @@
 from __future__ import division, with_statement
 
 import numpy as np
+import time
+from skimage import data
 from pprint import pprint
 
 from colour.utilities import (
+    CaseInsensitiveMapping,
     as_array,
     as_numeric,
     as_shape,
     as_stack,
+    auto_axis,
     handle_numpy_errors,
     ignore_numpy_errors,
     is_iterable,
@@ -17,6 +21,8 @@ from colour.utilities import (
     warning)
 
 
+np.random.seed(64)
+
 DATA_HD1 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
 DATA_HD2 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
 DATA_HD3 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
@@ -25,7 +31,28 @@ DATA_PAL1 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
 DATA_PAL2 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
 DATA_PAL3 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
 
-DATA1, DATA2, DATA3 = DATA_HD1, DATA_HD2, DATA_HD3
+DATA1, DATA2, DATA3 = DATA_PAL1, DATA_PAL2, DATA_PAL3
+
+
+def profile(method):
+    iterations = 10
+
+    def wrapper(*args, **kwargs):
+        times = []
+        for i in range(iterations):
+            ts = time.time()
+            method(*args, **kwargs)
+            te = time.time()
+
+            times.append(te - ts)
+
+        message_box(
+            '{0}: {1} seconds'.format(method.__name__, np.average(times)))
+
+        return method(*args, **kwargs)
+
+    return wrapper
+
 
 # #############################################################################
 # #############################################################################
@@ -98,7 +125,8 @@ def chromatic_adaptation_matrix_VonKries_analysis():
     print('\n')
 
     print('3d array:')
-    print(chromatic_adaptation_matrix_VonKries_vectorise(DATA_PAL1, DATA_PAL2))
+    print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w[np.newaxis],
+                                                         XYZ_wr[np.newaxis]))
 
     # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_2d(DATA1, DATA2)')
 
@@ -128,9 +156,7 @@ def chromatic_adaptation_VonKries_vectorise(XYZ,
 
     cat = chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr,
                                                          transform)
-    XYZ_a = as_stack(np.einsum('...i,...ji', XYZ, cat),
-                     direction='I',
-                     shape=shape)
+    XYZ_a = np.reshape(np.einsum('...i,...ji', XYZ, cat), shape)
 
     return XYZ_a
 
@@ -160,9 +186,9 @@ def chromatic_adaptation_VonKries_analysis():
     print('\n')
 
     print('3d array:')
-    print(chromatic_adaptation_VonKries_vectorise(DATA_PAL1,
-                                                  DATA_PAL2,
-                                                  DATA_PAL3))
+    print(chromatic_adaptation_VonKries_vectorise(XYZ[np.newaxis],
+                                                  XYZ_w[np.newaxis],
+                                                  XYZ_wr[np.newaxis]))
 
     # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_2d(DATA1, DATA2, DATA3)')
 
@@ -225,7 +251,7 @@ def cartesian_to_spherical_analysis():
     print('\n')
 
     print('3d array:')
-    print(cartesian_to_spherical_vectorise(DATA_PAL1))
+    print(cartesian_to_spherical_vectorise(DATA1))
 
     # get_ipython().magic(u'timeit cartesian_to_spherical_2d(DATA1)')
 
@@ -278,7 +304,7 @@ def spherical_to_cartesian_analysis():
     print('\n')
 
     print('3d array:')
-    print(spherical_to_cartesian_vectorise(DATA_PAL1))
+    print(spherical_to_cartesian_vectorise(vector[np.newaxis]))
 
     # get_ipython().magic(u'timeit spherical_to_cartesian_2d(DATA1)')
 
@@ -331,7 +357,7 @@ def cartesian_to_cylindrical_analysis():
     print('\n')
 
     print('3d array:')
-    print(cartesian_to_cylindrical_vectorise(DATA_PAL1))
+    print(cartesian_to_cylindrical_vectorise(vector[np.newaxis]))
 
     # get_ipython().magic(u'timeit cartesian_to_cylindrical_2d(DATA1)')
 
@@ -383,7 +409,7 @@ def cylindrical_to_cartesian_analysis():
     print('\n')
 
     print('3d array:')
-    print(cylindrical_to_cartesian_vectorise(DATA_PAL1))
+    print(cylindrical_to_cartesian_vectorise(vector[np.newaxis]))
 
     # get_ipython().magic(u'timeit cylindrical_to_cartesian_2d(DATA1)')
 
@@ -506,13 +532,20 @@ def lightness_Glasser1958_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(lightness_Glasser1958_vectorise(10.08))
 
     print('\n')
 
+    print('1d array:')
+    Y = [10.08, 10.08, 10.08, 10.08, 10.08]
+    print(lightness_Glasser1958_vectorise(Y))
+
+    print('\n')
+
     print('2d array:')
-    print(lightness_Glasser1958_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    Y = np.array(Y)[np.newaxis]
+    print(lightness_Glasser1958_vectorise(Y))
 
     # get_ipython().magic(u'timeit lightness_Glasser1958_2d(Y)')
 
@@ -551,14 +584,20 @@ def lightness_Wyszecki1963_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(lightness_Wyszecki1963_vectorise(10.08))
 
     print('\n')
 
+    print('1d array:')
+    Y = [10.08, 10.08, 10.08, 10.08, 10.08]
+    print(lightness_Wyszecki1963_vectorise(Y))
+
+    print('\n')
+
     print('2d array:')
-    print(
-        lightness_Wyszecki1963_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    Y = np.array(Y)[np.newaxis]
+    print(lightness_Wyszecki1963_vectorise(Y))
 
     # get_ipython().magic(u'timeit lightness_Wyszecki1963_2d(Y)')
 
@@ -601,13 +640,20 @@ def lightness_1976_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(lightness_1976_vectorise(10.08, 100))
 
     print('\n')
 
+    print('1d array:')
+    Y = [10.08, 10.08, 10.08, 10.08, 10.08]
+    print(lightness_1976_vectorise(Y))
+
+    print('\n')
+
     print('2d array:')
-    print(lightness_1976_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
+    Y = np.array(Y)[np.newaxis]
+    print(lightness_1976_vectorise(Y))
 
     # get_ipython().magic(u'timeit lightness_1976_2d(Y)')
 
@@ -654,15 +700,24 @@ def luminance_Newhall1943_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(luminance_Newhall1943_vectorise(3.74629715382))
 
     print('\n')
 
+    print('1d array:')
+    V = [3.74629715382,
+         3.74629715382,
+         3.74629715382,
+         3.74629715382,
+         3.74629715382]
+    print(luminance_Newhall1943_vectorise(V))
+
+    print('\n')
+
     print('2d array:')
-    print(luminance_Newhall1943_vectorise(
-        [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
-         3.74629715382]))
+    V = np.array(V)[np.newaxis]
+    print(luminance_Newhall1943_vectorise(V))
 
     # get_ipython().magic(u'timeit luminance_Newhall1943_2d(L)')
 
@@ -700,15 +755,24 @@ def luminance_ASTMD153508_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(luminance_ASTMD153508_vectorise(3.74629715382))
 
     print('\n')
 
+    print('1d array:')
+    V = [3.74629715382,
+         3.74629715382,
+         3.74629715382,
+         3.74629715382,
+         3.74629715382]
+    print(luminance_ASTMD153508_vectorise(V))
+
+    print('\n')
+
     print('2d array:')
-    print(luminance_ASTMD153508_vectorise(
-        [3.74629715382, 3.74629715382, 3.74629715382, 3.74629715382,
-         3.74629715382]))
+    V = np.array(V)[np.newaxis]
+    print(luminance_ASTMD153508_vectorise(V))
 
     # get_ipython().magic(u'timeit luminance_ASTMD153508_2d(L)')
 
@@ -747,18 +811,24 @@ def luminance_1976_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(luminance_1976_vectorise(37.9856290977))
 
     print('\n')
 
+    print('1d array:')
+    Lstar = [37.9856290977,
+             37.9856290977,
+             37.9856290977,
+             37.9856290977,
+             37.9856290977]
+    print(luminance_1976_vectorise(Lstar))
+
+    print('\n')
+
     print('2d array:')
-    print(luminance_1976_vectorise(
-        [37.9856290977,
-         37.9856290977,
-         37.9856290977,
-         37.9856290977,
-         37.9856290977]))
+    Lstar = np.array(Lstar)[np.newaxis]
+    print(luminance_1976_vectorise(Lstar))
 
     # get_ipython().magic(u'timeit luminance_1976_2d(L)')
 
@@ -1463,14 +1533,15 @@ def whiteness_Berger1959_2d(XYZ, XYZ_0):
 
 
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
+    shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
     XYZ_0 = np.resize(as_array(XYZ_0), XYZ.shape)
 
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
     X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
 
-    WI = np.squeeze(0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0))
-
+    WI = as_numeric(np.reshape(0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0),
+                               auto_axis(shape)))
     return WI
 
 
@@ -1494,6 +1565,11 @@ def whiteness_Berger1959_analysis():
     XYZ_0 = np.tile(XYZ_0, (5, 1))
     print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_Berger1959_vectorise(XYZ[np.newaxis], XYZ_0[np.newaxis]))
+
     # get_ipython().magic(u'timeit whiteness_Berger1959_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit whiteness_Berger1959_vectorise(DATA1, DATA2)')
@@ -1514,13 +1590,14 @@ def whiteness_Taube1960_2d(XYZ, XYZ_0):
 
 
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
+    shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
     XYZ_0 = np.resize(as_array(XYZ_0), XYZ.shape)
+
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
     X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
 
-    WI = np.squeeze(400 * (Z / Z_0) - 3 * Y)
-
+    WI = as_numeric(np.reshape(400 * (Z / Z_0) - 3 * Y, auto_axis(shape)))
     return WI
 
 
@@ -1544,6 +1621,11 @@ def whiteness_Taube1960_analysis():
     XYZ_0 = np.tile(XYZ_0, (5, 1))
     print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_Taube1960_vectorise(XYZ[np.newaxis], XYZ_0[np.newaxis]))
+
     # get_ipython().magic(u'timeit whiteness_Taube1960_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit whiteness_Taube1960_vectorise(DATA1, DATA2)')
@@ -1564,11 +1646,12 @@ def whiteness_Stensby1968_2d(Lab):
 
 
 def whiteness_Stensby1968_vectorise(Lab):
+    shape = as_shape(Lab)
     Lab = as_array(Lab, (-1, 3))
+
     L, a, b = Lab[:, 0], Lab[:, 1], Lab[:, 2]
 
-    WI = np.squeeze(L - 3 * b + 3 * a)
-
+    WI = as_numeric(np.reshape(L - 3 * b + 3 * a, auto_axis(shape)))
     return WI
 
 
@@ -1590,6 +1673,11 @@ def whiteness_Stensby1968_analysis():
     Lab = np.tile(Lab, (5, 1))
     print(whiteness_Stensby1968_vectorise(Lab))
 
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_Stensby1968_vectorise(Lab[np.newaxis]))
+
     # get_ipython().magic(u'timeit whiteness_Stensby1968_2d(DATA1)')
 
     # get_ipython().magic(u'timeit whiteness_Stensby1968_vectorise(DATA1)')
@@ -1610,11 +1698,11 @@ def whiteness_ASTM313_2d(XYZ):
 
 
 def whiteness_ASTM313_vectorise(XYZ):
+    shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
 
-    WI = np.squeeze(3.388 * Z - 3 * Y)
-
+    WI = as_numeric(np.reshape(3.388 * Z - 3 * Y, auto_axis(shape)))
     return WI
 
 
@@ -1636,6 +1724,11 @@ def whiteness_ASTM313_analysis():
     XYZ = np.tile(XYZ, (5, 1))
     print(whiteness_ASTM313_vectorise(XYZ))
 
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_ASTM313_vectorise(XYZ[np.newaxis]))
+
     # get_ipython().magic(u'timeit whiteness_ASTM313_2d(DATA1)')
 
     # get_ipython().magic(u'timeit whiteness_ASTM313_vectorise(DATA1)')
@@ -1656,6 +1749,7 @@ def whiteness_Ganz1979_2d(xy, Y):
 
 
 def whiteness_Ganz1979_vectorise(xy, Y):
+    shape = as_shape(xy)
     xy = as_array(xy, (-1, 2))
     x, y = xy[:, 0], xy[:, 1]
 
@@ -1664,8 +1758,8 @@ def whiteness_Ganz1979_vectorise(xy, Y):
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
-    WT = as_stack((W, T))
-
+    WT = as_stack((W, T),
+                  shape=auto_axis(shape))
     return WT
 
 
@@ -1688,6 +1782,11 @@ def whiteness_Ganz1979_analysis():
     xy = np.tile(xy, (5, 1))
     Y = np.tile(Y, (5, 1))
     print(whiteness_Ganz1979_vectorise(xy, Y))
+
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_Ganz1979_vectorise(xy[np.newaxis], Y[np.newaxis]))
 
     # get_ipython().magic(u'timeit whiteness_Ganz1979_2d(DATA1[:,0:2], DATA2[:,0])')
 
@@ -1712,6 +1811,7 @@ def whiteness_CIE2004_vectorise(xy,
                                 Y,
                                 xy_n,
                                 observer='CIE 1931 2 Degree Standard Observer'):
+    shape = as_shape(xy)
     xy = as_array(xy, (-1, 2))
     x, y = xy[:, 0], xy[:, 1]
 
@@ -1724,8 +1824,8 @@ def whiteness_CIE2004_vectorise(xy,
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
     T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
-    WT = as_stack((W, T))
-
+    WT = as_stack((W, T),
+                  shape=auto_axis(shape))
     return WT
 
 
@@ -1750,6 +1850,13 @@ def whiteness_CIE2004_analysis():
     Y = np.tile(Y, (5, 1))
     xy_n = np.tile(xy_n, (5, 1))
     print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
+
+    print('\n')
+
+    print('3d array:')
+    print(whiteness_CIE2004_vectorise(xy[np.newaxis],
+                                      Y[np.newaxis],
+                                      xy_n[np.newaxis]))
 
     # get_ipython().magic(u'timeit whiteness_CIE2004_2d(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
 
@@ -1778,10 +1885,22 @@ def delta_E_CIE1976_2d(Lab1, Lab2):
 
 
 def delta_E_CIE1976_vectorise(Lab1, Lab2, **kwargs):
+    shape = as_shape(Lab1)
     Lab1 = as_array(Lab1, (-1, 3))
     Lab2 = as_array(Lab2, (-1, 3))
 
-    return as_numeric(np.linalg.norm(np.array(Lab1) - np.array(Lab2), axis=1))
+    delta_E = np.linalg.norm(np.array(Lab1) - np.array(Lab2), axis=1)
+    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
+
+    return delta_E
+
+
+def delta_E_CIE1976_alternate(Lab1, Lab2):
+    Lab1 = np.asarray(Lab1)
+    Lab2 = np.asarray(Lab2)
+    L1, a1, b1 = np.rollaxis(Lab1, -1)[:3]
+    L2, a2, b2 = np.rollaxis(Lab2, -1)[:3]
+    return np.sqrt((L2 - L1) ** 2 + (a2 - a1) ** 2 + (b2 - b1) ** 2)
 
 
 def delta_E_CIE1976_analysis():
@@ -1804,6 +1923,16 @@ def delta_E_CIE1976_analysis():
     Lab2 = np.tile(Lab2, (5, 1))
     print(delta_E_CIE1976_vectorise(Lab1, Lab2))
 
+    print('\n')
+
+    print('3d array:')
+    print(delta_E_CIE1976_vectorise(Lab1[np.newaxis], Lab2[np.newaxis]))
+
+    print('\n')
+
+    print('3d array alternate:')
+    print(delta_E_CIE1976_alternate(Lab1[np.newaxis], Lab2[np.newaxis]).shape)
+
     # get_ipython().magic(u'timeit delta_E_CIE1976_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
@@ -1824,6 +1953,8 @@ def delta_E_CIE1994_2d(Lab1, Lab2):
 
 
 def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
+    shape = as_shape(Lab1)
+
     k1 = 0.048 if textiles else 0.045
     k2 = 0.014 if textiles else 0.015
     kL = 2 if textiles else 1
@@ -1854,7 +1985,10 @@ def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
     C = (delta_C / (kC * sC)) ** 2
     H = (delta_H / (kH * sH)) ** 2
 
-    return as_numeric(np.sqrt(L + C + H))
+    delta_E = np.sqrt(L + C + H)
+    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
+
+    return delta_E
 
 
 def delta_E_CIE1994_analysis():
@@ -1876,6 +2010,11 @@ def delta_E_CIE1994_analysis():
     Lab1 = np.tile(Lab1, (5, 1))
     Lab2 = np.tile(Lab2, (5, 1))
     print(delta_E_CIE1994_vectorise(Lab1, Lab2))
+
+    print('\n')
+
+    print('3d array:')
+    print(delta_E_CIE1994_vectorise(Lab1[np.newaxis], Lab2[np.newaxis]))
 
     # get_ipython().magic(u'timeit delta_E_CIE1994_2d(DATA1, DATA2)')
 
@@ -1901,6 +2040,7 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
     kC = 1
     kH = 1
 
+    shape = as_shape(Lab1)
     Lab1 = as_array(Lab1, (-1, 3))
     Lab2 = as_array(Lab2, (-1, 3))
 
@@ -1960,11 +2100,14 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
     rC = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
     rT = -2 * rC * np.sin(np.deg2rad(2 * delta_theta))
 
-    return as_numeric(np.sqrt(
+    delta_E = np.sqrt(
         (delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
         (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
         (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
-        (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT))
+        (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
+    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
+
+    return delta_E
 
 
 def delta_E_CIE2000_analysis():
@@ -1987,6 +2130,11 @@ def delta_E_CIE2000_analysis():
     Lab2 = np.tile(Lab2, (5, 1))
     print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
+    print('\n')
+
+    print('3d array:')
+    print(delta_E_CIE2000_vectorise(Lab1[np.newaxis], Lab2[np.newaxis]))
+
     # get_ipython().magic(u'timeit delta_E_CIE2000_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
@@ -2007,6 +2155,7 @@ def delta_E_CMC_2d(Lab1, Lab2):
 
 
 def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
+    shape = as_shape(Lab1)
     Lab1 = as_array(Lab1, (-1, 3))
     Lab2 = as_array(Lab2, (-1, 3))
 
@@ -2043,7 +2192,10 @@ def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
     v2 = delta_C / (c * sc)
     v3 = sh
 
-    return as_numeric(np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3))))
+    delta_E = np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
+    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
+
+    return delta_E
 
 
 def delta_E_CMC_analysis():
@@ -2066,11 +2218,19 @@ def delta_E_CMC_analysis():
     Lab2 = np.tile(Lab2, (5, 1))
     print(delta_E_CMC_vectorise(Lab1, Lab2))
 
+    print('\n')
+
+    print('3d array:')
+    print(delta_E_CMC_vectorise(Lab1[np.newaxis], Lab2[np.newaxis]))
+
     # get_ipython().magic(u'timeit delta_E_CMC_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
 
     print('\n')
+
+
+# delta_E_CMC_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2128,8 +2288,15 @@ def XYZ_to_xyY_analysis():
     XYZ = np.tile(XYZ, (5, 1))
     print(XYZ_to_xyY_vectorise(XYZ))
 
+    print('\n')
+
     XYZ = np.tile((0, 0, 0), (5, 1))
     print(XYZ_to_xyY_vectorise(XYZ))
+
+    print('\n')
+
+    print('3d array:')
+    print(XYZ_to_xyY_vectorise(XYZ[np.newaxis]))
 
     # get_ipython().magic(u'timeit XYZ_to_xyY_2d(DATA1)')
 
@@ -2161,7 +2328,7 @@ def xyY_to_XYZ_vectorise(xyY):
         np.where((y == 0)[:, np.newaxis],
                  np.dstack((y, y, y)),
                  np.dstack((x * Y / y, Y, (1 - x - y) * Y / y))),
-        shape=shape)
+        shape=auto_axis(shape))
 
     return XYZ
 
@@ -2184,6 +2351,11 @@ def xyY_to_XYZ_analysis():
     xyY = np.tile(xyY, (5, 1))
     print(xyY_to_XYZ_vectorise(xyY))
 
+    print('\n')
+
+    print('3d array:')
+    print(xyY_to_XYZ_vectorise(xyY[np.newaxis]))
+
     # get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
@@ -2204,10 +2376,16 @@ def xy_to_XYZ_2d(xy):
 
 
 def xy_to_XYZ_vectorise(xy):
+    shape = as_shape(xy)
     xy = as_array(xy, (-1, 2))
-    return xyY_to_XYZ_vectorise(np.dstack((xy[:, 0],
-                                           xy[:, 1],
-                                           np.ones(xy.shape[0]))))
+
+    xyY = as_stack((xy[:, 0],
+                    xy[:, 1],
+                    np.ones(xy.shape[0])),
+                   shape=auto_axis(shape))
+    XYZ = xyY_to_XYZ_vectorise(xyY)
+
+    return XYZ
 
 
 def xy_to_XYZ_analysis():
@@ -2227,6 +2405,11 @@ def xy_to_XYZ_analysis():
     print('2d array:')
     xy = np.tile(xy, (5, 1))
     print(xy_to_XYZ_vectorise(xy))
+
+    print('\n')
+
+    print('3d array:')
+    print(xy_to_XYZ_vectorise(xy[np.newaxis]))
 
     # get_ipython().magic(u'timeit xy_to_XYZ_2d(DATA1[:, 0:2])')
 
@@ -2250,8 +2433,10 @@ def XYZ_to_xy_2d(XYZ):
 def XYZ_to_xy_vectorise(XYZ,
                         illuminant=ILLUMINANTS.get(
                             'CIE 1931 2 Degree Standard Observer').get('D50')):
+    shape = as_shape(XYZ)
+
     xyY = as_array(XYZ_to_xyY_vectorise(XYZ, illuminant), (-1, 3))
-    xy = np.squeeze(xyY[:, 0:2])
+    xy = np.reshape(xyY[:, 0:2], auto_axis(shape))
 
     return xy
 
@@ -2273,6 +2458,11 @@ def XYZ_to_xy_analysis():
     print('2d array:')
     XYZ = np.tile(XYZ, (5, 1))
     print(XYZ_to_xy_vectorise(XYZ))
+
+    print('\n')
+
+    print('3d array:')
+    print(XYZ_to_xy_vectorise(XYZ[np.newaxis]))
 
     # get_ipython().magic(u'timeit XYZ_to_xy_2d(DATA1)')
 
@@ -2380,8 +2570,7 @@ def Lab_to_XYZ_vectorise(Lab,
     y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
     z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
 
-    XYZ = as_stack(as_stack((x_r, y_r, z_r)) * XYZ_r, direction='I',
-                   shape=shape)
+    XYZ = np.reshape(as_stack((x_r, y_r, z_r)) * XYZ_r, shape)
 
     return XYZ
 
@@ -2403,6 +2592,11 @@ def Lab_to_XYZ_analysis():
     print('2d array:')
     Lab = np.tile(Lab, (5, 1))
     print(Lab_to_XYZ_vectorise(Lab))
+
+    print('\n')
+
+    print('3d array:')
+    print(Lab_to_XYZ_vectorise(Lab[np.newaxis]))
 
     # get_ipython().magic(u'timeit Lab_to_XYZ_2d(DATA1)')
 
@@ -2660,11 +2854,13 @@ def Luv_to_uv_2d(Luv):
 def Luv_to_uv_vectorise(Luv,
                         illuminant=ILLUMINANTS.get(
                             'CIE 1931 2 Degree Standard Observer').get('D50')):
+    shape = as_shape(Luv)
     XYZ = as_array(Luv_to_XYZ_vectorise(Luv, illuminant), (-1, 3))
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
 
     uv = as_stack((4 * X / (X + 15 * Y + 3 * Z),
-                   9 * Y / (X + 15 * Y + 3 * Z)))
+                   9 * Y / (X + 15 * Y + 3 * Z)),
+                  shape=auto_axis(shape))
 
     return uv
 
@@ -2687,6 +2883,11 @@ def Luv_to_uv_analysis():
     Luv = np.tile(Luv, (5, 1))
     print(Luv_to_uv_vectorise(Luv))
 
+    print('\n')
+
+    print('3d array:')
+    print(Luv_to_uv_vectorise(Luv[np.newaxis]))
+
     # get_ipython().magic(u'timeit Luv_to_uv_2d(DATA1)')
 
     # get_ipython().magic(u'timeit Luv_to_uv_vectorise(DATA1)')
@@ -2707,11 +2908,13 @@ def Luv_uv_to_xy_2d(uv):
 
 
 def Luv_uv_to_xy_vectorise(uv):
+    shape = as_shape(uv)
     uv = as_array(uv, (-1, 2))
     u, v = uv[:, 0], uv[:, 1]
 
     xy = as_stack((9 * u / (6 * u - 16 * v + 12),
-                   4 * v / (6 * u - 16 * v + 12)))
+                   4 * v / (6 * u - 16 * v + 12)),
+                  shape=shape)
     return xy
 
 
@@ -2732,6 +2935,11 @@ def Luv_uv_to_xy_analysis():
     print('2d array:')
     uv = np.tile(uv, (5, 1))
     print(Luv_uv_to_xy_vectorise(uv))
+
+    print('\n')
+
+    print('3d array:')
+    print(Luv_uv_to_xy_vectorise(uv[np.newaxis]))
 
     # get_ipython().magic(u'timeit Luv_uv_to_xy_2d(DATA1[:, 0:2])')
 
@@ -2961,10 +3169,12 @@ def UCS_to_uv_2d(UVW):
 
 
 def UCS_to_uv_vectorise(UVW):
+    shape = as_shape(UVW)
     UVW = as_array(UVW, (-1, 3))
     U, V, W = UVW[:, 0], UVW[:, 1], UVW[:, 2]
 
-    uv = as_stack((U / (U + V + W), V / (U + V + W)))
+    uv = as_stack((U / (U + V + W), V / (U + V + W)),
+                  shape=auto_axis(shape))
 
     return uv
 
@@ -2987,6 +3197,11 @@ def UCS_to_uv_analysis():
     UVW = np.tile(UVW, (5, 1))
     print(UCS_to_uv_vectorise(UVW))
 
+    print('\n')
+
+    print('3d array:')
+    print(UCS_to_uv_vectorise(UVW[np.newaxis]))
+
     # get_ipython().magic(u'timeit UCS_to_uv_2d(DATA1)')
 
     # get_ipython().magic(u'timeit UCS_to_uv_vectorise(DATA1)')
@@ -3007,11 +3222,13 @@ def UCS_uv_to_xy_2d(uv):
 
 
 def UCS_uv_to_xy_vectorise(uv):
+    shape = as_shape(uv)
     uv = as_array(uv, (-1, 2))
     u, v = uv[:, 0], uv[:, 1]
 
     xy = as_stack((3 * u / (2 * u - 8 * v + 4),
-                   2 * v / (2 * u - 8 * v + 4)))
+                   2 * v / (2 * u - 8 * v + 4)),
+                  shape=shape)
 
     return xy
 
@@ -3033,6 +3250,11 @@ def UCS_uv_to_xy_analysis():
     print('2d array:')
     uv = np.tile(uv, (5, 1))
     print(UCS_uv_to_xy_vectorise(uv))
+
+    print('\n')
+
+    print('3d array:')
+    print(UCS_uv_to_xy_vectorise(uv[np.newaxis]))
 
     # get_ipython().magic(u'timeit UCS_uv_to_xy_2d(DATA1[:, 0:2])')
 
@@ -3513,6 +3735,7 @@ def CMY_to_CMYK_2d(CMY):
 
 
 def CMY_to_CMYK_vectorise(CMY):
+    shape = as_shape(CMY)
     CMY = as_array(CMY, (-1, 3))
     C, M, Y = CMY[:, 0], CMY[:, 1], CMY[:, 2]
 
@@ -3529,7 +3752,7 @@ def CMY_to_CMYK_vectorise(CMY):
     M[K == 1] = 0
     Y[K == 1] = 0
 
-    CMYK = as_stack((C, M, Y, K))
+    CMYK = as_stack((C, M, Y, K), shape=auto_axis(shape))
 
     return CMYK
 
@@ -3552,6 +3775,11 @@ def CMY_to_CMYK_analysis():
     CMY = np.tile(CMY, (5, 1))
     print(CMY_to_CMYK_vectorise(CMY))
 
+    print('\n')
+
+    print('3d array:')
+    print(CMY_to_CMYK_vectorise(CMY[np.newaxis]))
+
     # get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
 
     # get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
@@ -3572,10 +3800,14 @@ def CMYK_to_CMY_2d(CMYK):
 
 
 def CMYK_to_CMY_vectorise(CMYK):
+    shape = as_shape(CMYK)
     CMYK = as_array(CMYK, (-1, 4))
     C, M, Y, K = CMYK[:, 0], CMYK[:, 1], CMYK[:, 2], CMYK[:, 3]
 
-    CMY = as_stack((C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K))
+    CMY = as_stack((C * (1 - K) + K,
+                    M * (1 - K) + K,
+                    Y * (1 - K) + K),
+                   shape=auto_axis(shape))
 
     return CMY
 
@@ -3597,6 +3829,11 @@ def CMYK_to_CMY_analysis():
     print('2d array:')
     CMYK = np.tile(CMYK, (5, 1))
     print(CMYK_to_CMY_vectorise(CMYK))
+
+    print('\n')
+
+    print('3d array:')
+    print(CMYK_to_CMY_vectorise(CMYK[np.newaxis]))
 
     # get_ipython().magic(u'timeit CMYK_to_CMY_2d(np.resize(DATA1, (-1, 4)))')
 
@@ -3689,9 +3926,10 @@ def XYZ_to_IPT_vectorise(XYZ):
 
     LMS = np.einsum('...i,...ji', XYZ, IPT_XYZ_TO_LMS_MATRIX)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = as_stack(np.einsum('...i,...ji', LMS_prime, IPT_LMS_TO_IPT_MATRIX),
-                   direction='I',
-                   shape=shape)
+    IPT = np.reshape(np.einsum('...i,...ji',
+                               LMS_prime,
+                               IPT_LMS_TO_IPT_MATRIX),
+                     shape)
 
     return IPT
 
@@ -3713,6 +3951,11 @@ def XYZ_to_IPT_analysis():
     print('2d array:')
     XYZ = np.tile(XYZ, (5, 1))
     print(XYZ_to_IPT_vectorise(XYZ))
+
+    print('\n')
+
+    print('3d array:')
+    print(XYZ_to_IPT_vectorise(XYZ[np.newaxis]))
 
     # get_ipython().magic(u'timeit XYZ_to_IPT_2d(DATA1)')
 
@@ -3741,9 +3984,10 @@ def IPT_to_XYZ_vectorise(IPT):
 
     LMS = np.einsum('...i,...ji', IPT, IPT_IPT_TO_LMS_MATRIX)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = as_stack(np.einsum('...i,...ji', LMS_prime, IPT_LMS_TO_XYZ_MATRIX),
-                   direction='I',
-                   shape=shape)
+    XYZ = np.reshape(np.einsum('...i,...ji',
+                               LMS_prime,
+                               IPT_LMS_TO_XYZ_MATRIX),
+                     shape)
 
     return XYZ
 
@@ -3766,12 +4010,19 @@ def IPT_to_XYZ_analysis():
     IPT = np.tile(IPT, (5, 1))
     print(IPT_to_XYZ_vectorise(IPT))
 
+    print('\n')
+
+    print('3d array:')
+    print(IPT_to_XYZ_vectorise(IPT[np.newaxis]))
+
     # get_ipython().magic(u'timeit IPT_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit IPT_to_XYZ_vectorise(DATA1)')
 
     print('\n')
 
+
+# IPT_to_XYZ_analysis()
 
 # #############################################################################
 # ### colour.IPT_hue_angle
@@ -3856,12 +4107,12 @@ def linear_to_cineon_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_cineon_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_cineon_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -3901,12 +4152,12 @@ def cineon_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(cineon_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(cineon_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -3947,12 +4198,12 @@ def linear_to_panalog_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_panalog_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_panalog_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -3992,12 +4243,12 @@ def panalog_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(panalog_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(panalog_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -4038,12 +4289,12 @@ def linear_to_red_log_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_red_log_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_red_log_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -4083,12 +4334,12 @@ def red_log_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(red_log_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(red_log_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -4125,12 +4376,12 @@ def linear_to_viper_log_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_viper_log_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_viper_log_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -4167,12 +4418,12 @@ def viper_log_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(viper_log_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(viper_log_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -4214,12 +4465,12 @@ def linear_to_pivoted_log_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_pivoted_log_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_pivoted_log_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -4262,12 +4513,12 @@ def pivoted_log_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(pivoted_log_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(pivoted_log_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -4304,12 +4555,12 @@ def linear_to_c_log_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(linear_to_c_log_vectorise(0.18))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(linear_to_c_log_vectorise(
         [0.18, 0.18, 0.18, 0.18, 0.18]))
 
@@ -4347,12 +4598,12 @@ def c_log_to_linear_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(c_log_to_linear_vectorise(0.5))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(c_log_to_linear_vectorise(
         [0.5, 0.5, 0.5, 0.5, 0.5]))
 
@@ -5177,7 +5428,6 @@ def _srgb_inverse_transfer_function_analysis():
 # #############################################################################
 from colour.models.rgb import *
 
-XYZ = np.array([0.07049534, 0.1008, 0.09558313])
 W_R = (0.34567, 0.35850)
 W_T = (0.31271, 0.32902)
 CAT = 'Bradford'
@@ -5213,7 +5463,7 @@ def XYZ_to_RGB_vectorise(XYZ,
     if transfer_function is not None:
         RGB = transfer_function(RGB)
 
-    RGB = as_stack(RGB, direction='I', shape=shape)
+    RGB = np.reshape(RGB, shape)
 
     return RGB
 
@@ -5222,7 +5472,8 @@ def XYZ_to_RGB_analysis():
     message_box('XYZ_to_RGB')
 
     print('Reference:')
-    XYZ = np.array([0.96907232, 1, 1.12179215])
+    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+
     print(XYZ_to_RGB(XYZ, W_R, W_T, M, CAT))
 
     print('\n')
@@ -5236,6 +5487,11 @@ def XYZ_to_RGB_analysis():
     XYZ = np.tile(XYZ, (5, 1))
     print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
 
+    print('\n')
+
+    print('3d array:')
+    print(XYZ_to_RGB_vectorise(XYZ[np.newaxis], W_R, W_T, M, CAT))
+
     # get_ipython().magic(u'timeit XYZ_to_RGB_2d(DATA1)')
 
     # get_ipython().magic(u'timeit XYZ_to_RGB_vectorise(DATA1, W_R, W_T, M, CAT)')
@@ -5248,7 +5504,6 @@ def XYZ_to_RGB_analysis():
 # #############################################################################
 # # ### colour.RGB_to_XYZ
 # #############################################################################
-RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 W_R = (0.31271, 0.32902)
 W_T = (0.34567, 0.35850)
 CAT = 'Bradford'
@@ -5284,7 +5539,7 @@ def RGB_to_XYZ_vectorise(RGB,
 
     XYZ_a = np.einsum('...i,...ji', XYZ, M)
 
-    XYZ_a = as_stack(XYZ_a, direction='I', shape=shape)
+    XYZ_a = np.reshape(XYZ_a, shape)
 
     return XYZ_a
 
@@ -5307,6 +5562,12 @@ def RGB_to_XYZ_analysis():
     RGB = np.tile(RGB, (5, 1))
     print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
 
+    print('\n')
+
+    print('3d array:')
+    print(RGB_to_XYZ_vectorise(RGB[np.newaxis], W_R, W_T, M, CAT))
+
+
     # get_ipython().magic(u'timeit RGB_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit RGB_to_XYZ_vectorise(DATA1, W_R, W_T, M, CAT)')
@@ -5321,7 +5582,6 @@ def RGB_to_XYZ_analysis():
 # #############################################################################
 from colour import sRGB_COLOURSPACE
 
-RGB = np.array([0.86969452, 1.00516431, 1.41715848])
 C = sRGB_COLOURSPACE
 CAT = 'Bradford'
 
@@ -5350,9 +5610,7 @@ def RGB_to_RGB_vectorise(RGB,
                   M,
                   output_colourspace.XYZ_to_RGB_matrix)
 
-    RGB = as_stack(np.einsum('...i,...ji', RGB, M),
-                   direction='I',
-                   shape=shape)
+    RGB = np.reshape(np.einsum('...i,...ji', RGB, M), shape)
 
     return RGB
 
@@ -5374,6 +5632,10 @@ def RGB_to_RGB_analysis():
     print('2d array:')
     RGB = np.tile(RGB, (5, 1))
     print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print('\n')
+
+    print('3d array:')
+    print(RGB_to_RGB_vectorise(RGB[np.newaxis], C, C, CAT))
 
     # get_ipython().magic(u'timeit RGB_to_RGB_2d(DATA1)')
 
@@ -5420,12 +5682,12 @@ def munsell_value_Priest1920_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_Priest1920_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_Priest1920_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5464,12 +5726,12 @@ def munsell_value_Munsell1933_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_Munsell1933_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_Munsell1933_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5508,12 +5770,12 @@ def munsell_value_Moon1943_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_Moon1943_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_Moon1943_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5552,12 +5814,12 @@ def munsell_value_Saunderson1944_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_Saunderson1944_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_Saunderson1944_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5596,12 +5858,12 @@ def munsell_value_Ladd1955_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_Ladd1955_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(
         munsell_value_Ladd1955_vectorise([10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5648,12 +5910,12 @@ def munsell_value_McCamy1987_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_McCamy1987_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_McCamy1987_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5709,12 +5971,12 @@ def munsell_value_ASTMD153508_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(munsell_value_ASTMD153508_vectorise(10.08))
 
     print('\n')
 
-    print('2d array:')
+    print('1d array:')
     print(munsell_value_ASTMD153508_vectorise(
         [10.08, 10.08, 10.08, 10.08, 10.08]))
 
@@ -5738,8 +6000,6 @@ def munsell_value_ASTMD153508_analysis():
 # #############################################################################
 from colour.notation.triplet import *
 
-RGB = np.array([0.86969452, 1.00516431, 1.41715848])
-
 
 def RGB_to_HEX_2d(RGB):
     for i in range(len(RGB)):
@@ -5747,12 +6007,14 @@ def RGB_to_HEX_2d(RGB):
 
 
 def RGB_to_HEX_vectorise(RGB):
+    shape = as_shape(RGB)
     RGB = as_array(RGB, (-1, 3))
 
     to_HEX = np.vectorize('{0:02x}'.format)
 
     HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
-    HEX = as_stack(np.array('#') + HEX[:, 0] + HEX[:, 1] + HEX[:, 2])
+    HEX = as_stack(np.array('#') + HEX[:, 0] + HEX[:, 1] + HEX[:, 2],
+                   shape=auto_axis(shape))
 
     return HEX
 
@@ -5775,6 +6037,11 @@ def RGB_to_HEX_analysis():
     RGB = np.tile(RGB, (5, 1))
     print(RGB_to_HEX_vectorise(RGB))
 
+    print('\n')
+
+    print('3d array:')
+    print(RGB_to_HEX_vectorise(RGB[np.newaxis]))
+
     # get_ipython().magic(u'timeit RGB_to_HEX_2d(DATA1)')
 
     # get_ipython().magic(u'timeit RGB_to_HEX_vectorise(DATA1)')
@@ -5789,8 +6056,6 @@ def RGB_to_HEX_analysis():
 # #############################################################################
 from colour.notation.triplet import *
 
-HEX1 = ['#aaddff'] * (1920 * 1080)
-
 
 def HEX_to_RGB_2d(HEX):
     for i in range(len(HEX)):
@@ -5798,6 +6063,7 @@ def HEX_to_RGB_2d(HEX):
 
 
 def HEX_to_RGB_vectorise(HEX):
+    shape = as_shape(HEX)
     HEX = as_array(HEX, (-1, 1), str)
     HEX = np.core.defchararray.lstrip(HEX, '#')
 
@@ -5807,7 +6073,8 @@ def HEX_to_RGB_vectorise(HEX):
                 for i in
                 range(0, length, length // 3)]
 
-    RGB = np.squeeze(np.array([to_RGB(x[0]) for x in HEX]) / 255)
+    RGB = np.reshape(np.array([to_RGB(x[0]) for x in HEX]) / 255,
+                     auto_axis(shape))
 
     return RGB
 
@@ -5829,6 +6096,13 @@ def HEX_to_RGB_analysis():
     print('2d array:')
     RGB = np.tile(RGB, (5, 1))
     print(HEX_to_RGB_vectorise(RGB))
+
+    print('\n')
+
+    print('3d array:')
+    print(HEX_to_RGB_vectorise(RGB[np.newaxis]))
+
+    # HEX1 = ['#aaddff'] * (1920 * 1080)
 
     # get_ipython().magic(u'timeit HEX_to_RGB_2d(HEX1)')
 
@@ -6760,7 +7034,7 @@ def CCT_to_xy_Kang2002_2d(CCT):
 
 
 def CCT_to_xy_Kang2002_vectorise(CCT):
-    CCT = as_array(CCT)
+    CCT = as_array(CCT, (-1, 1))
 
     if np.any(CCT[np.logical_or(CCT < 1667, CCT > 25000)]):
         warning(('Correlated colour temperature must be in domain '
@@ -6805,16 +7079,20 @@ def CCT_to_xy_Kang2002_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(CCT_to_xy_Kang2002_vectorise(6504.38938305))
+
+    print('\n')
+
+    print('1d array:')
+    CCT = [6504.38938305] * 6
+    print(CCT_to_xy_Kang2002_vectorise(CCT))
 
     print('\n')
 
     print('2d array:')
     print(CCT_to_xy_Kang2002_vectorise(
-        [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
-         6504.38938305]))
-
+        np.array(CCT).reshape(2, 3)[np.newaxis]))
 
     # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_2d(CCT)')
 
@@ -6822,7 +7100,7 @@ def CCT_to_xy_Kang2002_analysis():
 
     print('\n')
 
-
+# TODO: Investigate dimension / rank issues.
 # CCT_to_xy_Kang2002_analysis()
 
 # #############################################################################
@@ -6836,7 +7114,7 @@ def CCT_to_xy_CIE_D_2d(CCT):
 
 
 def CCT_to_xy_CIE_D_vectorise(CCT):
-    CCT = as_array(CCT)
+    CCT = as_array(CCT, (-1, 1))
 
     if np.any(CCT[np.logical_or(CCT < 4000, CCT > 25000)]):
         warning(('Correlated colour temperature must be in domain '
@@ -6867,15 +7145,20 @@ def CCT_to_xy_CIE_D_analysis():
 
     print('\n')
 
-    print('1d array:')
+    print('Numeric:')
     print(CCT_to_xy_CIE_D_vectorise(6504.38938305))
+
+    print('\n')
+
+    print('1d array:')
+    CCT = [6504.38938305] * 6
+    print(CCT_to_xy_CIE_D_vectorise(CCT))
 
     print('\n')
 
     print('2d array:')
     print(CCT_to_xy_CIE_D_vectorise(
-        [6504.38938305, 6504.38938305, 6504.38938305, 6504.38938305,
-         6504.38938305]))
+        np.array(CCT).reshape(2, 3)[np.newaxis]))
 
     # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
 
@@ -6884,6 +7167,7 @@ def CCT_to_xy_CIE_D_analysis():
     print('\n')
 
 
+# TODO: Investigate dimension / rank issues.
 # CCT_to_xy_CIE_D_analysis()
 
 # #############################################################################
@@ -6910,29 +7194,29 @@ def CCT_to_xy_CIE_D_analysis():
 # specification = image.spec()
 #
 # return np.array(image.read_image(bit_depth)).reshape((specification.height,
-#                                                           specification.width,
-#                                                           specification.nchannels))
+# specification.width,
+# specification.nchannels))
 #
 #
 # colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
 #
 #
 # def image_plot(image,
-#                transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
-#     image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
-#     pylab.imshow(image)
+# transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
+# image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
+# pylab.imshow(image)
 #
-#     settings = {'no_ticks': True,
-#                 'bounding_box': [0, 1, 0, 1],
-#                 'bbox_inches': 'tight',
-#                 'pad_inches': 0}
+# settings = {'no_ticks': True,
+# 'bounding_box': [0, 1, 0, 1],
+# 'bbox_inches': 'tight',
+# 'pad_inches': 0}
 #
-#     canvas(**{'figure_size': (16, 16)})
-#     decorate(**settings)
-#     display(**settings)
+# canvas(**{'figure_size': (16, 16)})
+# decorate(**settings)
+# display(**settings)
 #
 #
 # marcie = read_image_as_array(
-#     '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
+# '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
 #
 # image_plot(marcie)

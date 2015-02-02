@@ -51,6 +51,10 @@ def as_array(x, shape=None, data_type=np.float_):
     ndarray
         :math:`x` variable converted to *ndarray*.
 
+    See Also
+    --------
+    as_numeric, as_stack, as_shape, auto_axis
+
     Examples
     --------
     >>> as_array(1)
@@ -84,7 +88,7 @@ def as_numeric(x):
 
     See Also
     --------
-    as_array, as_stack, as_shape
+    as_array, as_stack, as_shape, auto_axis
 
     Examples
     --------
@@ -100,22 +104,19 @@ def as_numeric(x):
         return x
 
 
-def as_stack(x, direction='Depth', squeeze=True, shape=None):
+def as_stack(x, direction='Depth', shape=None):
     """
-    Converts given :math:`x` variable to a stack with given direction. The
-    stack can be squeezed so that single-dimensional entries from the resulting
-    *ndarray* shape are removed. It is also possible to pass an arbitrary
-    compatible shape for the final resulting *ndarray* shape.
+    Converts given :math:`x` variable to a stack with given direction. It is
+    possible to pass an arbitrary compatible shape for the final resulting
+    *ndarray* shape.
 
     Parameters
     ----------
     x : object
         Variable to convert.
     direction : unicode, optional
-        {'Depth', 'D', 'Horizontal', 'H', 'Vertical', 'V', 'Ignore', 'I'}
+        {'Depth', 'D', 'Horizontal', 'H', 'Vertical', 'V'}
         Stack direction.
-    squeeze : bool, optional
-        Squeeze resulting *ndarray*.
     shape : array_like, optional
         Arbitrary compatible shape for the final resulting *ndarray*.
 
@@ -126,50 +127,35 @@ def as_stack(x, direction='Depth', squeeze=True, shape=None):
 
     See Also
     --------
-    as_array, as_numeric, as_shape
+    as_array, as_numeric, as_shape, auto_axis
 
     Examples
     --------
     Using various depth directions:
 
-    >>> x = np.array([[1, 2, 3], [4, 5, 6]])
-    >>> as_stack(x)
-    array([[1, 4],
-           [2, 5],
-           [3, 6]])
-    >>> as_stack(x, 'Depth')
-    array([[1, 4],
-           [2, 5],
-           [3, 6]])
-    >>> as_stack(x, 'Horizontal')
+    >>> x = np.array([1, 2, 3])
+    >>> y = np.array([4, 5, 6])
+    >>> as_stack((x, y))
+    array([[[1, 4],
+            [2, 5],
+            [3, 6]]])
+    >>> as_stack((x, y), 'Depth')
+    array([[[1, 4],
+            [2, 5],
+            [3, 6]]])
+    >>> as_stack((x, y), 'Horizontal')
     array([1, 2, 3, 4, 5, 6])
-    >>> as_stack(x, 'Vertical')
+    >>> as_stack((x, y), 'Vertical')
     array([[1, 2, 3],
            [4, 5, 6]])
-
-    Squeezing single-dimensional entries:
-
-    >>> x = np.array([[[1, 2, 3], [4, 5, 6]]])
-    >>> as_stack(x)
-    array([[1, 2, 3],
-           [4, 5, 6]])
-    >>> as_stack(x, squeeze=False)
-    array([[[1],
-            [2],
-            [3]],
-    <BLANKLINE>
-           [[4],
-            [5],
-            [6]]])
 
     Altering the shape of the resulting *ndarray*:
 
-    >>> x = np.array([[1, 2, 3], [4, 5, 6]])
-    >>> as_stack(x)
-    array([[1, 4],
-           [2, 5],
-           [3, 6]])
-    >>> as_stack(x, shape=(2, 3))
+    >>> as_stack((x, y))
+    array([[[1, 4],
+            [2, 5],
+            [3, 6]]])
+    >>> as_stack((x, y), shape=(2, 3))
     array([[1, 4, 2],
            [5, 3, 6]])
     """
@@ -180,14 +166,9 @@ def as_stack(x, direction='Depth', squeeze=True, shape=None):
          'Horizontal': np.hstack,
          'H': np.hstack,
          'Vertical': np.vstack,
-         'V': np.vstack,
-         'Ignore': lambda x: x,
-         'I': lambda x: x})
+         'V': np.vstack})
 
     x = methods.get(direction)(x)
-
-    if squeeze:
-        x = np.squeeze(x)
 
     if shape is not None:
         x = x.reshape(shape)
@@ -198,8 +179,7 @@ def as_stack(x, direction='Depth', squeeze=True, shape=None):
 def as_shape(x):
     """
     Returns the shape of given :math:`x`. In the event where :math:`x` shape
-    cannot be retrieved because the object is not a *ndarray* sub-class, *None*
-    is returned.
+    cannot be retrieved *None* is returned.
 
     Parameters
     ----------
@@ -213,20 +193,20 @@ def as_shape(x):
 
     See Also
     --------
-    as_array, as_numeric, as_stack
+    as_array, as_numeric, as_stack, auto_axis
 
     Examples
     --------
     >>> as_shape(np.array([1, 2, 3]))
     (3,)
     >>> as_shape(1)
+    (1,)
     """
 
     try:
-        return x.shape
-    except AttributeError:
+        return as_array(x).shape
+    except Exception:
         return None
-
 
 def auto_axis(shape, dimension='Last'):
     """
@@ -245,6 +225,10 @@ def auto_axis(shape, dimension='Last'):
     -------
     tuple
 
+    See Also
+    --------
+    as_array, as_numeric, as_stack, as_shape
+
     Examples
     --------
     >>> auto_axis((3, 3))
@@ -255,6 +239,9 @@ def auto_axis(shape, dimension='Last'):
     (-1, 3)
     """
 
+    if shape is None:
+        return None
+
     methods = CaseInsensitiveMapping(
         {'First': 0,
          'F': 0,
@@ -263,6 +250,7 @@ def auto_axis(shape, dimension='Last'):
 
     shape = list(shape)
     shape[methods[dimension]] = -1
+
     return tuple(shape)
 
 

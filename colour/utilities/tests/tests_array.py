@@ -94,38 +94,26 @@ class TestAsStack(unittest.TestCase):
         Tests :func:`colour.utilities.array.as_stack` definition.
         """
 
-        x = np.array([[1, 2, 3], [4, 5, 6]])
-        np.testing.assert_almost_equal(as_stack(x),
-                                       np.array([[1, 4],
-                                                 [2, 5],
-                                                 [3, 6]]))
-        np.testing.assert_almost_equal(as_stack(x), as_stack(x, 'D'))
-        np.testing.assert_almost_equal(as_stack(x, 'Horizontal'),
+        x = np.array([1, 2, 3])
+        y = np.array([4, 5, 6])
+        np.testing.assert_almost_equal(as_stack((x, y)),
+                                       np.array([[[1, 4],
+                                                  [2, 5],
+                                                  [3, 6]]]))
+        np.testing.assert_almost_equal(as_stack((x, y)), as_stack((x, y), 'D'))
+        np.testing.assert_almost_equal(as_stack((x, y), 'Horizontal'),
                                        np.array([1, 2, 3, 4, 5, 6]))
-        np.testing.assert_almost_equal(as_stack(x, 'Horizontal'),
-                                       as_stack(x, 'H'))
-        np.testing.assert_almost_equal(as_stack(x, 'Vertical'),
+        np.testing.assert_almost_equal(as_stack((x, y), 'Horizontal'),
+                                       as_stack((x, y), 'H'))
+        np.testing.assert_almost_equal(as_stack((x, y), 'Vertical'),
                                        np.array([[1, 2, 3],
                                                  [4, 5, 6]]))
 
-        x = np.array([[[1, 2, 3], [4, 5, 6]]])
-        np.testing.assert_almost_equal(as_stack(x),
-                                       np.array([[1, 2, 3],
-                                                 [4, 5, 6]]))
-        np.testing.assert_almost_equal(as_stack(x, squeeze=False),
-                                       np.array([[[1],
-                                                  [2],
-                                                  [3]],
-                                                 [[4],
-                                                  [5],
-                                                  [6]]]))
-
-        x = np.array([[1, 2, 3], [4, 5, 6]])
-        np.testing.assert_almost_equal(as_stack(x),
-                                       np.array([[1, 4],
-                                                 [2, 5],
-                                                 [3, 6]]))
-        np.testing.assert_almost_equal(as_stack(x, shape=(2, 3)),
+        np.testing.assert_almost_equal(as_stack((x, y)),
+                                       np.array([[[1, 4],
+                                                  [2, 5],
+                                                  [3, 6]]]))
+        np.testing.assert_almost_equal(as_stack((x, y), shape=(2, 3)),
                                        np.array([[1, 4, 2],
                                                  [5, 3, 6]]))
 
@@ -142,7 +130,9 @@ class TestAsShape(unittest.TestCase):
         """
 
         self.assertTupleEqual(as_shape(np.array([1, 2, 3])), (3,))
-        self.assertIsNone(as_shape(1))
+        self.assertTupleEqual(as_shape(1), (1,))
+        self.assertTupleEqual(as_shape(None), (1,))
+        self.assertTupleEqual(as_shape([[[1, 2, 3], [4, 5, 6]]]), (1, 2, 3))
 
 
 class TestAutoAxis(unittest.TestCase):
@@ -156,6 +146,7 @@ class TestAutoAxis(unittest.TestCase):
         Tests :func:`colour.utilities.array.auto_axis` definition.
         """
 
+        self.assertIsNone(auto_axis(None))
         self.assertTupleEqual(auto_axis((3, 3)), (3, -1))
         self.assertTupleEqual(auto_axis((3,)), (-1,))
         self.assertTupleEqual(auto_axis((3, 3), 'L'), (3, -1))
