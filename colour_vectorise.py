@@ -1,3 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+NOTE: This is a work in progress and will be injected into the API.
+
+Defines *Colour* vectorised prototype definitions. They are designed to be
+compatible with the existing API while accepting arrays with n-dimensions:
+
+- Passing a numeric to a definition previously returning a numeric will result
+in a numeric being returned.
+- Passing an array of numeric to that same definition will now return an array
+of numeric.
+- The shape of the main parameter or a compatible shape will be used for the
+output value.
+- Various definitions accept multiple arguments like
+`lightness_1976_vectorise(Y, Y_n=100)`, in that case `Y_n` is resized to match
+`y` length.
+"""
+
 from __future__ import division, with_statement
 
 import numpy as np
@@ -135,7 +155,7 @@ def chromatic_adaptation_matrix_VonKries_analysis():
     print('\n')
 
 
-# chromatic_adaptation_matrix_VonKries_analysis()
+chromatic_adaptation_matrix_VonKries_analysis()
 
 # #############################################################################
 # # ### colour.chromatic_adaptation_VonKries
@@ -198,7 +218,7 @@ def chromatic_adaptation_VonKries_analysis():
     print('\n')
 
 
-# chromatic_adaptation_VonKries_analysis()
+chromatic_adaptation_VonKries_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -262,7 +282,7 @@ def cartesian_to_spherical_analysis():
     print('\n')
 
 
-# cartesian_to_spherical_analysis()
+cartesian_to_spherical_analysis()
 
 # #############################################################################
 # # ### colour.spherical_to_cartesian
@@ -318,7 +338,7 @@ def spherical_to_cartesian_analysis():
     print('\n')
 
 
-# spherical_to_cartesian_analysis()
+spherical_to_cartesian_analysis()
 
 # #############################################################################
 # # ### colour.cartesian_to_cylindrical
@@ -374,7 +394,7 @@ def cartesian_to_cylindrical_analysis():
     print('\n')
 
 
-# cartesian_to_cylindrical_analysis()
+cartesian_to_cylindrical_analysis()
 
 # #############################################################################
 # # ### colour.cylindrical_to_cartesian
@@ -429,7 +449,7 @@ def cylindrical_to_cartesian_analysis():
     print('\n')
 
 
-# cylindrical_to_cartesian_analysis()
+cylindrical_to_cartesian_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -483,7 +503,14 @@ def planck_law_analysis():
     print('\n')
 
     print('2d array input:')
-    print(planck_law_vectorise(np.reshape(wl, (2, 3)), 5500))
+    wl = np.reshape(wl, (2, 3))
+    print(planck_law_vectorise(wl, 5500))
+
+    print('\n')
+
+    print('3d array input:')
+    wl = np.reshape(wl, (2, 3, 1))
+    print(planck_law_vectorise(wl, 5500))
 
     # get_ipython().magic(u'timeit planck_law_2d(WAVELENGTHS)')
 
@@ -492,7 +519,7 @@ def planck_law_analysis():
     print('\n')
 
 
-# planck_law_analysis()
+planck_law_analysis()
 
 
 def blackbody_spd_vectorise(temperature,
@@ -509,11 +536,12 @@ def blackbody_spd_vectorise(temperature,
 
 
 def blackbody_spd_analysis():
-    message_box('planck_law')
+    message_box('blackbody_spd')
 
     print(blackbody_spd_vectorise(5000).values)
 
-# blackbody_spd_analysis()
+
+blackbody_spd_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -578,7 +606,7 @@ def lightness_Glasser1958_analysis():
     print('\n')
 
 
-# lightness_Glasser1958_analysis()
+lightness_Glasser1958_analysis()
 
 # #############################################################################
 # # ### colour.lightness_Wyszecki1963
@@ -636,7 +664,7 @@ def lightness_Wyszecki1963_analysis():
     print('\n')
 
 
-# lightness_Wyszecki1963_analysis()
+lightness_Wyszecki1963_analysis()
 
 # #############################################################################
 # # ### colour.lightness_1976
@@ -698,7 +726,7 @@ def lightness_1976_analysis():
     print('\n')
 
 
-# lightness_1976_analysis()
+lightness_1976_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -764,7 +792,7 @@ def luminance_Newhall1943_analysis():
     print('\n')
 
 
-# luminance_Newhall1943_analysis()
+luminance_Newhall1943_analysis()
 
 # #############################################################################
 # # ### colour.luminance_ASTMD153508
@@ -821,7 +849,7 @@ def luminance_ASTMD153508_analysis():
     print('\n')
 
 
-# luminance_ASTMD153508_analysis()
+luminance_ASTMD153508_analysis()
 
 # #############################################################################
 # # ### colour.luminance_1976
@@ -879,7 +907,7 @@ def luminance_1976_analysis():
     print('\n')
 
 
-# luminance_1976_analysis()
+luminance_1976_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -907,14 +935,18 @@ def SpectralShape__contains__analysis():
 
     print(380 in SpectralShape(360, 830, 1))
 
+    print('\n')
+
     print((380, 480) in SpectralShape(360, 830, 1))
+
+    print('\n')
 
     print((380, 480.5) in SpectralShape(360, 830, 1))
 
     print('\n')
 
 
-# SpectralShape__contains__analysis()
+SpectralShape__contains__analysis()
 
 # #############################################################################
 # # ### colour.SpectralPowerDistribution
@@ -964,7 +996,7 @@ def SpectralPowerDistribution__getitem__analysis():
     print('\n')
 
 
-# SpectralPowerDistribution__getitem__analysis()
+SpectralPowerDistribution__getitem__analysis()
 
 
 def SpectralPowerDistribution__setitem__(self, wavelength, value):
@@ -1017,7 +1049,7 @@ def SpectralPowerDistribution__setitem__analysis():
     print('\n')
 
 
-# SpectralPowerDistribution__setitem__analysis()
+SpectralPowerDistribution__setitem__analysis()
 
 
 def SpectralPowerDistribution_get(self, wavelength, default=None):
@@ -1061,7 +1093,7 @@ def SpectralPowerDistribution_get_analysis():
     print('\n')
 
 
-# SpectralPowerDistribution_get_analysis()
+SpectralPowerDistribution_get_analysis()
 
 
 def SpectralPowerDistribution__contains__(self, wavelength):
@@ -1092,7 +1124,7 @@ def SpectralPowerDistribution__contains__analysis():
     print('\n')
 
 
-# SpectralPowerDistribution__contains__analysis()
+SpectralPowerDistribution__contains__analysis()
 
 # #############################################################################
 # # ### colour.TriSpectralPowerDistribution
@@ -1149,7 +1181,7 @@ def TriSpectralPowerDistribution__getitem__analysis():
     print('\n')
 
 
-# TriSpectralPowerDistribution__getitem__analysis()
+TriSpectralPowerDistribution__getitem__analysis()
 
 
 def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
@@ -1206,7 +1238,7 @@ def TriSpectralPowerDistribution__setitem__analysis():
     print('\n')
 
 
-# TriSpectralPowerDistribution__setitem__analysis()
+TriSpectralPowerDistribution__setitem__analysis()
 
 
 def TriSpectralPowerDistribution_get(self, wavelength, default=None):
@@ -1259,7 +1291,7 @@ def TriSpectralPowerDistribution_get_analysis():
     print('\n')
 
 
-# TriSpectralPowerDistribution_get_analysis()
+TriSpectralPowerDistribution_get_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -1276,12 +1308,11 @@ from colour.colorimetry.transformations import *
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
     shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
+    wavelength = as_array(wavelength, (-1,))
     cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
 
     try:
-        rgb_bar = cmfs[wavelength]
+        rgb_bar = np.reshape(cmfs[wavelength], (-1, 3))
     except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
@@ -1304,7 +1335,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
 
     V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
     V.align(cmfs.shape)
-    L = V.get(wavelength)
+    L = np.reshape(V[wavelength], (-1,))
 
     x_bar = x / y * L
     y_bar = L
@@ -1342,8 +1373,14 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
     print('\n')
 
+    print('3d array input:')
+    wl = np.reshape(np.array(wl), (2, 3, 1))
+    print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wl))
 
-# RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
+    print('\n')
+
+
+RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
 
 # #############################################################################
 # # ### colour.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -1400,8 +1437,14 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
 
     print('\n')
 
+    print('3d array input:')
+    wl = np.reshape(np.array(wl), (2, 3, 1))
+    print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wl))
 
-# RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
+    print('\n')
+
+
+RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
 
 # #############################################################################
 # # ### colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
@@ -1426,7 +1469,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
                   [0.0000000000, 0.0105107859, 0.991427669]])
 
     lms_bar = np.einsum('...i,...ji', rgb_bar, M)
-    lms_bar[np.ravel(wavelength) > 505, 2] = 0
+    lms_bar[wavelength > 505, 2] = 0
 
     lms_bar = (np.squeeze(lms_bar)
                if shape == (1, ) else
@@ -1460,8 +1503,14 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis():
 
     print('\n')
 
+    print('2d array input:')
+    wl = np.reshape(np.array(wl), (2, 3, 1))
+    print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wl))
 
-# RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis()
+    print('\n')
+
+
+RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis()
 
 # #############################################################################
 # # ### colour.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
@@ -1520,8 +1569,14 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
     print('\n')
 
+    print('3d array input:')
+    wl = np.reshape(np.array(wl), (2, 3, 1))
+    print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wl))
 
-# LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
+    print('\n')
+
+
+LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis()
 
 # #############################################################################
 # # ### colour.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -1579,8 +1634,14 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
 
     print('\n')
 
+    print('3d array input:')
+    wl = np.reshape(np.array(wl), (2, 3, 1))
+    print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wl))
 
-# LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
+    print('\n')
+
+
+LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -1674,7 +1735,7 @@ def wavelength_to_XYZ_analysis():
     print('\n')
 
 
-# wavelength_to_XYZ_analysis()
+wavelength_to_XYZ_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -1739,7 +1800,7 @@ def whiteness_Berger1959_analysis():
     print('\n')
 
 
-# whiteness_Berger1959_analysis()
+whiteness_Berger1959_analysis()
 
 # #############################################################################
 # # ### colour.whiteness_Taube1960
@@ -1787,7 +1848,7 @@ def whiteness_Taube1960_analysis():
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
-    print(whiteness_Taube1960_vectorise(XYZ))
+    print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
     # get_ipython().magic(u'timeit whiteness_Taube1960_2d(DATA1, DATA2)')
 
@@ -1796,7 +1857,7 @@ def whiteness_Taube1960_analysis():
     print('\n')
 
 
-# whiteness_Taube1960_analysis()
+whiteness_Taube1960_analysis()
 
 # #############################################################################
 # # ### colour.whiteness_Stensby1968
@@ -1849,7 +1910,7 @@ def whiteness_Stensby1968_analysis():
     print('\n')
 
 
-# whiteness_Stensby1968_analysis()
+whiteness_Stensby1968_analysis()
 
 # #############################################################################
 # # ### colour.whiteness_ASTM313
@@ -1901,7 +1962,7 @@ def whiteness_ASTM313_analysis():
     print('\n')
 
 
-# whiteness_ASTM313_analysis()
+whiteness_ASTM313_analysis()
 
 # #############################################################################
 # # ### colour.whiteness_Ganz1979
@@ -1961,7 +2022,7 @@ def whiteness_Ganz1979_analysis():
     print('\n')
 
 
-# whiteness_Ganz1979_analysis()
+whiteness_Ganz1979_analysis()
 
 # #############################################################################
 # # ### colour.whiteness_CIE2004
@@ -2030,7 +2091,7 @@ def whiteness_CIE2004_analysis():
     print('\n')
 
 
-# whiteness_CIE2004_analysis()
+whiteness_CIE2004_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2060,14 +2121,6 @@ def delta_E_CIE1976_vectorise(Lab1, Lab2, **kwargs):
     return delta_E
 
 
-def delta_E_CIE1976_alternate(Lab1, Lab2):
-    Lab1 = np.asarray(Lab1)
-    Lab2 = np.asarray(Lab2)
-    L1, a1, b1 = np.rollaxis(Lab1, -1)[:3]
-    L2, a2, b2 = np.rollaxis(Lab2, -1)[:3]
-    return np.sqrt((L2 - L1) ** 2 + (a2 - a1) ** 2 + (b2 - b1) ** 2)
-
-
 def delta_E_CIE1976_analysis():
     message_box('delta_E_CIE1976')
 
@@ -2095,11 +2148,6 @@ def delta_E_CIE1976_analysis():
     Lab2 = np.reshape(Lab2, (2, 3, 3))
     print(delta_E_CIE1976_vectorise(Lab1, Lab2))
 
-    print('\n')
-
-    print('3d array alternate:')
-    print(delta_E_CIE1976_alternate(Lab1, Lab2).shape)
-
     # get_ipython().magic(u'timeit delta_E_CIE1976_2d(DATA1, DATA2)')
 
     # get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
@@ -2107,7 +2155,7 @@ def delta_E_CIE1976_analysis():
     print('\n')
 
 
-# delta_E_CIE1976_analysis()
+delta_E_CIE1976_analysis()
 
 # #############################################################################
 # # ### colour.delta_E_CIE1994
@@ -2191,7 +2239,7 @@ def delta_E_CIE1994_analysis():
     print('\n')
 
 
-# delta_E_CIE1994_analysis()
+delta_E_CIE1994_analysis()
 
 # #############################################################################
 # # ### colour.delta_E_CIE2000
@@ -2311,7 +2359,7 @@ def delta_E_CIE2000_analysis():
     print('\n')
 
 
-# delta_E_CIE2000_analysis()
+delta_E_CIE2000_analysis()
 
 # #############################################################################
 # # ### colour.delta_E_CMC
@@ -2400,7 +2448,7 @@ def delta_E_CMC_analysis():
     print('\n')
 
 
-# delta_E_CMC_analysis()
+delta_E_CMC_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2476,7 +2524,7 @@ def XYZ_to_xyY_analysis():
     print('\n')
 
 
-# XYZ_to_xyY_analysis()
+XYZ_to_xyY_analysis()
 
 # #############################################################################
 # # ### colour.xyY_to_XYZ
@@ -2535,7 +2583,7 @@ def xyY_to_XYZ_analysis():
     print('\n')
 
 
-# xyY_to_XYZ_analysis()
+xyY_to_XYZ_analysis()
 
 # #############################################################################
 # # ### colour.xy_to_XYZ
@@ -2591,7 +2639,7 @@ def xy_to_XYZ_analysis():
     print('\n')
 
 
-# xy_to_XYZ_analysis()
+xy_to_XYZ_analysis()
 
 # #############################################################################
 # # ### colour.XYZ_to_xy
@@ -2645,7 +2693,7 @@ def XYZ_to_xy_analysis():
     print('\n')
 
 
-# XYZ_to_xy_analysis()
+XYZ_to_xy_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2720,7 +2768,7 @@ def XYZ_to_Lab_analysis():
     print('\n')
 
 
-# XYZ_to_Lab_analysis()
+XYZ_to_Lab_analysis()
 
 # #############################################################################
 # # ### colour.Lab_to_XYZ
@@ -2786,7 +2834,7 @@ def Lab_to_XYZ_analysis():
     print('\n')
 
 
-# Lab_to_XYZ_analysis()
+Lab_to_XYZ_analysis()
 
 # #############################################################################
 # # ### colour.Lab_to_LCHab
@@ -2843,7 +2891,7 @@ def Lab_to_LCHab_analysis():
     print('\n')
 
 
-# Lab_to_LCHab_analysis()
+Lab_to_LCHab_analysis()
 
 # #############################################################################
 # # ### colour.LCHab_to_Lab
@@ -2897,7 +2945,7 @@ def LCHab_to_Lab_analysis():
     print('\n')
 
 
-# LCHab_to_Lab_analysis()
+LCHab_to_Lab_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2973,7 +3021,7 @@ def XYZ_to_Luv_analysis():
     print('\n')
 
 
-# XYZ_to_Luv_analysis()
+XYZ_to_Luv_analysis()
 
 # #############################################################################
 # # ### colour.Luv_to_XYZ
@@ -3044,7 +3092,7 @@ def Luv_to_XYZ_analysis():
     print('\n')
 
 
-# Luv_to_XYZ_analysis()
+Luv_to_XYZ_analysis()
 
 # #############################################################################
 # # ### colour.Luv_to_uv
@@ -3101,7 +3149,7 @@ def Luv_to_uv_analysis():
     print('\n')
 
 
-# Luv_to_uv_analysis()
+Luv_to_uv_analysis()
 
 # #############################################################################
 # # ### colour.Luv_uv_to_xy
@@ -3155,7 +3203,7 @@ def Luv_uv_to_xy_analysis():
     print('\n')
 
 
-# Luv_uv_to_xy_analysis()
+Luv_uv_to_xy_analysis()
 
 # #############################################################################
 # # ### colour.Luv_to_LCHuv
@@ -3213,7 +3261,7 @@ def Luv_to_LCHuv_analysis():
     print('\n')
 
 
-# Luv_to_LCHuv_analysis()
+Luv_to_LCHuv_analysis()
 
 # #############################################################################
 # # ### colour.LCHuv_to_Luv
@@ -3268,7 +3316,7 @@ def LCHuv_to_Luv_analysis():
     print('\n')
 
 
-# LCHuv_to_Luv_analysis()
+LCHuv_to_Luv_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -3331,7 +3379,7 @@ def XYZ_to_UCS_analysis():
     print('\n')
 
 
-# XYZ_to_UCS_analysis()
+XYZ_to_UCS_analysis()
 
 # #############################################################################
 # # ### colour.UCS_to_XYZ
@@ -3387,7 +3435,7 @@ def UCS_to_XYZ_analysis():
     print('\n')
 
 
-# UCS_to_XYZ_analysis()
+UCS_to_XYZ_analysis()
 
 # #############################################################################
 # # ### colour.UCS_to_uv
@@ -3441,7 +3489,7 @@ def UCS_to_uv_analysis():
     print('\n')
 
 
-# UCS_to_uv_analysis()
+UCS_to_uv_analysis()
 
 # #############################################################################
 # # ### colour.UCS_uv_to_xy
@@ -3496,7 +3544,7 @@ def UCS_uv_to_xy_analysis():
     print('\n')
 
 
-# UCS_uv_to_xy_analysis()
+UCS_uv_to_xy_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -3577,7 +3625,7 @@ def XYZ_to_UVW_analysis():
     print('\n')
 
 
-# XYZ_to_UVW_analysis()
+XYZ_to_UVW_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -3659,7 +3707,7 @@ def RGB_to_HSV_analysis():
     print('\n')
 
 
-# RGB_to_HSV_analysis()
+RGB_to_HSV_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.HSV_to_RGB
@@ -3727,7 +3775,7 @@ def RGB_to_HSV_analysis():
     print('\n')
 
 
-# RGB_to_HSV_analysis()
+RGB_to_HSV_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.RGB_to_HSL
@@ -3804,7 +3852,7 @@ def RGB_to_HSL_analysis():
     print('\n')
 
 
-# RGB_to_HSL_analysis()
+RGB_to_HSL_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.HSL_to_RGB
@@ -3892,7 +3940,7 @@ def HSL_to_RGB_analysis():
     print('\n')
 
 
-# HSL_to_RGB_analysis()
+HSL_to_RGB_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.RGB_to_CMY
@@ -3945,7 +3993,7 @@ def RGB_to_CMY_analysis():
     print('\n')
 
 
-# RGB_to_CMY_analysis()
+RGB_to_CMY_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.CMY_to_RGB
@@ -3997,7 +4045,7 @@ def CMY_to_RGB_analysis():
     print('\n')
 
 
-# CMY_to_RGB_analysis()
+CMY_to_RGB_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.CMY_to_CMYK
@@ -4063,7 +4111,7 @@ def CMY_to_CMYK_analysis():
     print('\n')
 
 
-# CMY_to_CMYK_analysis()
+CMY_to_CMYK_analysis()
 
 # #############################################################################
 # # ### colour.models.deprecated.CMYK_to_CMY
@@ -4119,7 +4167,7 @@ def CMYK_to_CMY_analysis():
     print('\n')
 
 
-# CMYK_to_CMY_analysis()
+CMYK_to_CMY_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -4150,7 +4198,7 @@ def RGB_luminance_vectorise(RGB, primaries, whitepoint):
 
     R, G, B = RGB[:, 0], RGB[:, 1], RGB[:, 2]
 
-    return np.reshape([X * R + Y * G + Z * B], auto_axis(shape))
+    return as_numeric(np.reshape([X * R + Y * G + Z * B], auto_axis(shape)))
 
 
 def RGB_luminance_analysis():
@@ -4186,7 +4234,7 @@ def RGB_luminance_analysis():
     print('\n')
 
 
-# RGB_luminance_analysis()
+RGB_luminance_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -4250,7 +4298,7 @@ def XYZ_to_IPT_analysis():
     print('\n')
 
 
-# XYZ_to_IPT_analysis()
+XYZ_to_IPT_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -4309,7 +4357,7 @@ def IPT_to_XYZ_analysis():
     print('\n')
 
 
-# IPT_to_XYZ_analysis()
+IPT_to_XYZ_analysis()
 
 # #############################################################################
 # ### colour.IPT_hue_angle
@@ -4362,7 +4410,7 @@ def IPT_hue_angle_analysis():
     print('\n')
 
 
-# IPT_hue_angle_analysis()
+IPT_hue_angle_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -4414,6 +4462,12 @@ def linear_to_cineon_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_cineon_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_cineon_vectorise(linear))
 
@@ -4424,7 +4478,7 @@ def linear_to_cineon_analysis():
     print('\n')
 
 
-# linear_to_cineon_analysis()
+linear_to_cineon_analysis()
 
 # #############################################################################
 # ### colour.cineon_to_linear
@@ -4465,6 +4519,12 @@ def cineon_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(cineon_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(cineon_to_linear_vectorise(log))
 
@@ -4476,7 +4536,7 @@ def cineon_to_linear_analysis():
     print('\n')
 
 
-# cineon_to_linear_analysis()
+cineon_to_linear_analysis()
 
 # #############################################################################
 # ### colour.linear_to_panalog
@@ -4518,6 +4578,12 @@ def linear_to_panalog_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_panalog_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_panalog_vectorise(linear))
 
@@ -4528,7 +4594,7 @@ def linear_to_panalog_analysis():
     print('\n')
 
 
-# linear_to_panalog_analysis()
+linear_to_panalog_analysis()
 
 # #############################################################################
 # ### colour.panalog_to_linear
@@ -4569,6 +4635,12 @@ def panalog_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(panalog_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(panalog_to_linear_vectorise(log))
 
@@ -4579,7 +4651,7 @@ def panalog_to_linear_analysis():
     print('\n')
 
 
-# panalog_to_linear_analysis()
+panalog_to_linear_analysis()
 
 # #############################################################################
 # ### colour.linear_to_red_log
@@ -4621,6 +4693,12 @@ def linear_to_red_log_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_red_log_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_red_log_vectorise(linear))
 
@@ -4631,7 +4709,7 @@ def linear_to_red_log_analysis():
     print('\n')
 
 
-# linear_to_red_log_analysis()
+linear_to_red_log_analysis()
 
 # #############################################################################
 # ### colour.red_log_to_linear
@@ -4672,6 +4750,12 @@ def red_log_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(red_log_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(red_log_to_linear_vectorise(log))
 
@@ -4682,7 +4766,7 @@ def red_log_to_linear_analysis():
     print('\n')
 
 
-# red_log_to_linear_analysis()
+red_log_to_linear_analysis()
 
 # #############################################################################
 # ### colour.linear_to_viper_log
@@ -4720,6 +4804,12 @@ def linear_to_viper_log_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_viper_log_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_viper_log_vectorise(linear))
 
@@ -4730,7 +4820,7 @@ def linear_to_viper_log_analysis():
     print('\n')
 
 
-# linear_to_viper_log_analysis()
+linear_to_viper_log_analysis()
 
 # #############################################################################
 # ### colour.viper_log_to_linear
@@ -4768,6 +4858,12 @@ def viper_log_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(viper_log_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(viper_log_to_linear_vectorise(log))
 
@@ -4778,7 +4874,7 @@ def viper_log_to_linear_analysis():
     print('\n')
 
 
-# viper_log_to_linear_analysis()
+viper_log_to_linear_analysis()
 
 # #############################################################################
 # ### colour.linear_to_pivoted_log
@@ -4821,6 +4917,12 @@ def linear_to_pivoted_log_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_pivoted_log_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_pivoted_log_vectorise(linear))
 
@@ -4831,7 +4933,7 @@ def linear_to_pivoted_log_analysis():
     print('\n')
 
 
-# linear_to_pivoted_log_analysis()
+linear_to_pivoted_log_analysis()
 
 # #############################################################################
 # ### colour.pivoted_log_to_linear
@@ -4875,6 +4977,12 @@ def pivoted_log_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(pivoted_log_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(pivoted_log_to_linear_vectorise(log))
 
@@ -4885,7 +4993,7 @@ def pivoted_log_to_linear_analysis():
     print('\n')
 
 
-# pivoted_log_to_linear_analysis()
+pivoted_log_to_linear_analysis()
 
 # #############################################################################
 # ### colour.linear_to_c_log
@@ -4923,6 +5031,12 @@ def linear_to_c_log_analysis():
     print('\n')
 
     print('2d array input:')
+    linear = np.reshape(linear, (2, 3))
+    print(linear_to_c_log_vectorise(linear))
+
+    print('\n')
+
+    print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_c_log_vectorise(linear))
 
@@ -4933,7 +5047,7 @@ def linear_to_c_log_analysis():
     print('\n')
 
 
-# linear_to_c_log_analysis()
+linear_to_c_log_analysis()
 
 # #############################################################################
 # ### colour.c_log_to_linear
@@ -4972,6 +5086,12 @@ def c_log_to_linear_analysis():
     print('\n')
 
     print('2d array input:')
+    log = np.reshape(log, (2, 3))
+    print(c_log_to_linear_vectorise(log))
+
+    print('\n')
+
+    print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(c_log_to_linear_vectorise(log))
 
@@ -4982,7 +5102,7 @@ def c_log_to_linear_analysis():
     print('\n')
 
 
-# c_log_to_linear_analysis()
+c_log_to_linear_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -5030,7 +5150,7 @@ def _aces_cc_transfer_function_analysis():
     print('\n')
 
 
-# _aces_cc_transfer_function_analysis()
+_aces_cc_transfer_function_analysis()
 
 
 def _aces_cc_inverse_transfer_function_vectorise(value):
@@ -5060,7 +5180,7 @@ def _aces_cc_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _aces_cc_inverse_transfer_function_analysis()
+_aces_cc_inverse_transfer_function_analysis()
 
 from colour.models.dataset.aces import (
     _aces_proxy_transfer_function,
@@ -5098,7 +5218,7 @@ def _aces_proxy_transfer_function_analysis():
     print('\n')
 
 
-# _aces_proxy_transfer_function_analysis()
+_aces_proxy_transfer_function_analysis()
 
 
 def _aces_proxy_inverse_transfer_function_vectorise(value, bit_depth='10 Bit'):
@@ -5124,7 +5244,7 @@ def _aces_proxy_inverse_transfer_function_analysis():
     print('\t')
 
 
-# _aces_proxy_inverse_transfer_function_analysis()
+_aces_proxy_inverse_transfer_function_analysis()
 
 from colour.models.dataset.adobe_rgb_1998 import (
     _adobe_rgb_1998_transfer_function,
@@ -5152,7 +5272,7 @@ def _adobe_rgb_1998_transfer_function_analysis():
     print('\t')
 
 
-# _adobe_rgb_1998_transfer_function_analysis()
+_adobe_rgb_1998_transfer_function_analysis()
 
 
 def _adobe_rgb_1998_inverse_transfer_function_vectorise(value):
@@ -5175,7 +5295,7 @@ def _adobe_rgb_1998_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _adobe_rgb_1998_inverse_transfer_function_analysis()
+_adobe_rgb_1998_inverse_transfer_function_analysis()
 
 from colour.models.dataset.alexa_wide_gamut_rgb import (
     _alexa_wide_gamut_rgb_transfer_function,
@@ -5211,7 +5331,7 @@ def _alexa_wide_gamut_rgb_transfer_function_analysis():
     print('\n')
 
 
-# _alexa_wide_gamut_rgb_transfer_function_analysis()
+_alexa_wide_gamut_rgb_transfer_function_analysis()
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(
@@ -5243,7 +5363,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _alexa_wide_gamut_rgb_inverse_transfer_function_analysis()
+_alexa_wide_gamut_rgb_inverse_transfer_function_analysis()
 
 from colour.models.dataset.apple_rgb import (
     _apple_rgb_transfer_function,
@@ -5271,7 +5391,7 @@ def _apple_rgb_transfer_function_function_analysis():
     print('\n')
 
 
-# _apple_rgb_transfer_function_function_analysis()
+_apple_rgb_transfer_function_function_analysis()
 
 
 def _apple_rgb_inverse_transfer_function_vectorise(value):
@@ -5294,7 +5414,7 @@ def _apple_rgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _apple_rgb_inverse_transfer_function_analysis()
+_apple_rgb_inverse_transfer_function_analysis()
 
 from colour.models.dataset.best_rgb import (
     _best_rgb_transfer_function,
@@ -5330,7 +5450,7 @@ def _best_rgb_transfer_function_analysis():
     print('\n')
 
 
-# _best_rgb_transfer_function_analysis()
+_best_rgb_transfer_function_analysis()
 
 
 def _best_rgb_inverse_transfer_function_vectorise(value):
@@ -5361,7 +5481,7 @@ def _best_rgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _best_rgb_inverse_transfer_function_analysis()
+_best_rgb_inverse_transfer_function_analysis()
 
 from colour.models.dataset.dci_p3 import (
     _dci_p3_transfer_function,
@@ -5387,7 +5507,7 @@ def _dci_p3_transfer_function_analysis():
     print('\n')
 
 
-# _dci_p3_transfer_function_analysis()
+_dci_p3_transfer_function_analysis()
 
 
 def _dci_p3_inverse_transfer_function_vectorise(value):
@@ -5408,7 +5528,7 @@ def _dci_p3_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _dci_p3_inverse_transfer_function_analysis()
+_dci_p3_inverse_transfer_function_analysis()
 
 from colour.models.dataset.pal_secam_rgb import (
     _pal_secam_rgb_transfer_function,
@@ -5434,7 +5554,7 @@ def _pal_secam_rgb_transfer_function_analysis():
     print('\n')
 
 
-# _pal_secam_rgb_transfer_function_analysis()
+_pal_secam_rgb_transfer_function_analysis()
 
 
 def _pal_secam_rgb_inverse_transfer_function_vectorise(value):
@@ -5455,7 +5575,7 @@ def _pal_secam_rgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _pal_secam_rgb_inverse_transfer_function_analysis()
+_pal_secam_rgb_inverse_transfer_function_analysis()
 
 
 def _prophoto_rgb_transfer_function_vectorise(value):
@@ -5476,7 +5596,7 @@ def _prophoto_rgb_transfer_function_analysis():
     print('\n')
 
 
-# _prophoto_rgb_transfer_function_analysis()
+_prophoto_rgb_transfer_function_analysis()
 
 
 def _prophoto_rgb_inverse_transfer_function_vectorise(value):
@@ -5498,7 +5618,7 @@ def _prophoto_rgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _prophoto_rgb_inverse_transfer_function_analysis()
+_prophoto_rgb_inverse_transfer_function_analysis()
 
 
 def _rec_709_transfer_function_vectorise(value):
@@ -5519,7 +5639,7 @@ def _rec_709_transfer_function_analysis():
     print('\n')
 
 
-# _rec_709_transfer_function_analysis()
+_rec_709_transfer_function_analysis()
 
 
 def _rec_709_inverse_transfer_function_vectorise(value):
@@ -5541,7 +5661,7 @@ def _rec_709_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _rec_709_inverse_transfer_function_analysis()
+_rec_709_inverse_transfer_function_analysis()
 
 from colour.models.dataset.rec_2020 import *
 
@@ -5566,7 +5686,7 @@ def _rec_2020_transfer_function_analysis():
     print('\n')
 
 
-# _rec_2020_transfer_function_analysis()
+_rec_2020_transfer_function_analysis()
 
 
 def _rec_2020_inverse_transfer_function_vectorise(value,
@@ -5591,7 +5711,7 @@ def _rec_2020_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _rec_2020_inverse_transfer_function_analysis()
+_rec_2020_inverse_transfer_function_analysis()
 
 from colour.models.dataset.s_gamut import (
     _s_log_transfer_function,
@@ -5622,7 +5742,7 @@ def _s_log_transfer_function_analysis():
     print('\n')
 
 
-# _s_log_transfer_function_analysis()
+_s_log_transfer_function_analysis()
 
 
 def _s_log_inverse_transfer_function_vectorise(value):
@@ -5644,7 +5764,7 @@ def _s_log_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _s_log_inverse_transfer_function_analysis()
+_s_log_inverse_transfer_function_analysis()
 
 
 def _s_log2_transfer_function_vectorise(value):
@@ -5667,7 +5787,7 @@ def _s_log2_transfer_function_analysis():
     print('\n')
 
 
-# _s_log2_transfer_function_analysis()
+_s_log2_transfer_function_analysis()
 
 
 def _s_log2_inverse_transfer_function_vectorise(value):
@@ -5690,7 +5810,7 @@ def _s_log2_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _s_log2_inverse_transfer_function_analysis()
+_s_log2_inverse_transfer_function_analysis()
 
 
 def _s_log3_transfer_function_vectorise(value):
@@ -5718,7 +5838,7 @@ def _s_log3_transfer_function_analysis():
     print('\n')
 
 
-# _s_log3_transfer_function_analysis()
+_s_log3_transfer_function_analysis()
 
 
 def _s_log3_inverse_transfer_function_vectorise(value):
@@ -5745,7 +5865,7 @@ def _s_log3_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _s_log3_inverse_transfer_function_analysis()
+_s_log3_inverse_transfer_function_analysis()
 
 from colour.models.dataset.srgb import *
 
@@ -5768,7 +5888,7 @@ def _srgb_transfer_function_analysis():
     print('\n')
 
 
-# _srgb_transfer_function_analysis()
+_srgb_transfer_function_analysis()
 
 
 def _srgb_inverse_transfer_function(value):
@@ -5789,7 +5909,7 @@ def _srgb_inverse_transfer_function_analysis():
     print('\n')
 
 
-# _srgb_inverse_transfer_function_analysis()
+_srgb_inverse_transfer_function_analysis()
 
 # #############################################################################
 # ### colour.XYZ_to_RGB
@@ -5868,7 +5988,7 @@ def XYZ_to_RGB_analysis():
     print('\n')
 
 
-# XYZ_to_RGB_analysis()
+XYZ_to_RGB_analysis()
 
 # #############################################################################
 # # ### colour.RGB_to_XYZ
@@ -5945,7 +6065,7 @@ def RGB_to_XYZ_analysis():
     print('\n')
 
 
-# RGB_to_XYZ_analysis()
+RGB_to_XYZ_analysis()
 
 # #############################################################################
 # ### colour.RGB_to_RGB
@@ -6015,7 +6135,7 @@ def RGB_to_RGB_analysis():
     print('\n')
 
 
-# RGB_to_RGB_analysis()
+RGB_to_RGB_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -6081,7 +6201,7 @@ def munsell_value_Priest1920_analysis():
     print('\n')
 
 
-# munsell_value_Priest1920_analysis()
+munsell_value_Priest1920_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_Munsell1933
@@ -6137,7 +6257,7 @@ def munsell_value_Munsell1933_analysis():
     print('\n')
 
 
-# munsell_value_Munsell1933_analysis()
+munsell_value_Munsell1933_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_Moon1943
@@ -6193,7 +6313,7 @@ def munsell_value_Moon1943_analysis():
     print('\n')
 
 
-# munsell_value_Moon1943_analysis()
+munsell_value_Moon1943_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_Saunderson1944
@@ -6249,7 +6369,7 @@ def munsell_value_Saunderson1944_analysis():
     print('\n')
 
 
-# munsell_value_Saunderson1944_analysis()
+munsell_value_Saunderson1944_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_Ladd1955
@@ -6305,7 +6425,7 @@ def munsell_value_Ladd1955_analysis():
     print('\n')
 
 
-# munsell_value_Ladd1955_analysis()
+munsell_value_Ladd1955_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_McCamy1987
@@ -6369,7 +6489,7 @@ def munsell_value_McCamy1987_analysis():
     print('\n')
 
 
-# munsell_value_McCamy1987_analysis()
+munsell_value_McCamy1987_analysis()
 
 # #############################################################################
 # ### colour.munsell_value_ASTMD153508
@@ -6427,6 +6547,7 @@ def munsell_value_ASTMD153508_analysis():
 
     print('2d array input:')
     Y = np.reshape(Y, (2, 3))
+    print(munsell_value_ASTMD153508_vectorise(Y))
 
     print('\n')
 
@@ -6440,7 +6561,8 @@ def munsell_value_ASTMD153508_analysis():
 
     print('\n')
 
-# munsell_value_ASTMD153508_analysis()
+
+munsell_value_ASTMD153508_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -6505,7 +6627,7 @@ def RGB_to_HEX_analysis():
     print('\n')
 
 
-# RGB_to_HEX_analysis()
+RGB_to_HEX_analysis()
 
 # #############################################################################
 # ### colour.notation.triplet.HEX_to_RGB
@@ -6568,7 +6690,7 @@ def HEX_to_RGB_analysis():
     print('\n')
 
 
-# HEX_to_RGB_analysis()
+HEX_to_RGB_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -6631,7 +6753,7 @@ def air_refraction_index_Penndorf1957_analysis():
     print('\n')
 
 
-# air_refraction_index_Penndorf1957_analysis()
+air_refraction_index_Penndorf1957_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Edlen1966
@@ -6687,7 +6809,7 @@ def air_refraction_index_Edlen1966_analysis():
     print('\n')
 
 
-# air_refraction_index_Edlen1966_analysis()
+air_refraction_index_Edlen1966_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Peck1972
@@ -6744,7 +6866,7 @@ def air_refraction_index_Peck1972_analysis():
     print('\n')
 
 
-# air_refraction_index_Peck1972_analysis()
+air_refraction_index_Peck1972_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999
@@ -6759,10 +6881,11 @@ def air_refraction_index_Bodhaine1999_2d(wl):
 def air_refraction_index_Bodhaine1999_vectorise(
         wavelength,
         CO2_concentration=STANDARD_CO2_CONCENTRATION):
+    shape = as_shape(wavelength)
     wl = as_array(wavelength)
-    CCO2 = np.resize(as_array(CO2_concentration), wl.shape)
+    CO2_c = np.resize(as_array(CO2_concentration), shape)
 
-    n = as_numeric(((1 + 0.54 * ((CCO2 * 1e-6) - 300e-6)) *
+    n = as_numeric(((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
                     (air_refraction_index_Peck1972(wl) - 1) + 1))
 
     return n
@@ -6804,7 +6927,7 @@ def air_refraction_index_Bodhaine1999_analysis():
     print('\n')
 
 
-# air_refraction_index_Bodhaine1999_analysis()
+air_refraction_index_Bodhaine1999_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.N2_depolarisation
@@ -6859,7 +6982,7 @@ def N2_depolarisation_analysis():
     print('\n')
 
 
-# N2_depolarisation_analysis()
+N2_depolarisation_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.O2_depolarisation
@@ -6915,7 +7038,7 @@ def O2_depolarisation_analysis():
     print('\n')
 
 
-# O2_depolarisation_analysis()
+O2_depolarisation_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Penndorf1957
@@ -6958,7 +7081,7 @@ def F_air_Penndorf1957_analysis():
     print(F_air_Penndorf1957_vectorise(wl))
 
 
-# F_air_Penndorf1957_analysis()
+F_air_Penndorf1957_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Young1981
@@ -7001,7 +7124,7 @@ def F_air_Young1981_analysis():
     print(F_air_Young1981_vectorise(wl))
 
 
-# F_air_Young1981_analysis()
+F_air_Young1981_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Bates1984
@@ -7062,7 +7185,7 @@ def F_air_Bates1984_analysis():
     print('\n')
 
 
-# F_air_Bates1984_analysis()
+F_air_Bates1984_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Bodhaine1999
@@ -7076,10 +7199,11 @@ def F_air_Bodhaine1999_2d(wl):
 
 def F_air_Bodhaine1999_vectorise(wavelength,
                                  CO2_concentration=STANDARD_CO2_CONCENTRATION):
+    shape = as_shape(wavelength)
     wl = as_array(wavelength)
     O2 = O2_depolarisation_vectorise(wl)
     N2 = N2_depolarisation_vectorise(wl)
-    CO2_c = CO2_concentration
+    CO2_c = np.resize(as_array(CO2_concentration), shape)
 
     F_air = as_numeric((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
                        (78.084 + 20.946 + 0.934 + CO2_c))
@@ -7123,7 +7247,7 @@ def F_air_Bodhaine1999_analysis():
     print('\n')
 
 
-# F_air_Bodhaine1999_analysis()
+F_air_Bodhaine1999_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.molecular_density
@@ -7181,7 +7305,7 @@ def molecular_density_analysis():
     print('\n')
 
 
-# molecular_density_analysis()
+molecular_density_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.mean_molecular_weights
@@ -7238,7 +7362,7 @@ def mean_molecular_weights_analysis():
     print('\n')
 
 
-# mean_molecular_weights_analysis()
+mean_molecular_weights_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.gravity_List1968
@@ -7302,7 +7426,7 @@ def gravity_List1968_analysis():
     print('\n')
 
 
-# gravity_List1968_analysis()
+gravity_List1968_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.scattering_cross_section
@@ -7320,15 +7444,16 @@ def scattering_cross_section_vectorise(wavelength,
                                        avogadro_constant=AVOGADRO_CONSTANT,
                                        n_s=air_refraction_index_Bodhaine1999,
                                        F_air=F_air_Bodhaine1999):
+    shape = as_shape(wavelength)
     wl = as_array(wavelength)
-    temperature = np.resize(as_array(temperature), wl.shape)
-    CO2_concentration = np.resize(as_array(CO2_concentration), wl.shape)
+    temperature = np.resize(as_array(temperature), shape)
+    CO2_c = np.resize(as_array(CO2_concentration), shape)
 
     wl_micrometers = wl * 10e3
 
     n_s = as_array(n_s(wl_micrometers))
     N_s = as_array(molecular_density(temperature, avogadro_constant))
-    F_air = as_array(F_air(wl_micrometers, CO2_concentration))
+    F_air = as_array(F_air(wl_micrometers, CO2_c))
 
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
@@ -7374,7 +7499,7 @@ def scattering_cross_section_analysis():
     print('\n')
 
 
-# scattering_cross_section_analysis()
+scattering_cross_section_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.rayleigh_optical_depth
@@ -7395,12 +7520,13 @@ def rayleigh_optical_depth_vectorise(wavelength,
                                      avogadro_constant=AVOGADRO_CONSTANT,
                                      n_s=air_refraction_index_Bodhaine1999,
                                      F_air=F_air_Bodhaine1999):
+    shape = as_shape(wavelength)
     wavelength = as_array(wavelength)
-    CO2_c = np.resize(as_array(CO2_concentration), wavelength.shape)
-    latitude = np.resize(as_array(latitude), wavelength.shape)
-    altitude = np.resize(as_array(altitude), wavelength.shape)
+    CO2_c = np.resize(as_array(CO2_concentration), shape)
+    latitude = np.resize(as_array(latitude), shape)
+    altitude = np.resize(as_array(altitude), shape)
     # Conversion from pascal to dyne/cm2.
-    P = np.resize(as_array(pressure * 10), wavelength.shape)
+    P = np.resize(as_array(pressure * 10), shape)
 
     sigma = as_array(scattering_cross_section(wavelength,
                                               CO2_c,
@@ -7453,7 +7579,7 @@ def rayleigh_optical_depth_analysis():
     print('\n')
 
 
-# rayleigh_optical_depth_analysis()
+rayleigh_optical_depth_analysis()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.rayleigh_scattering_spd
@@ -7497,7 +7623,7 @@ def rayleigh_scattering_spd_analysis():
     print('\n')
 
 
-# rayleigh_scattering_spd_analysis()
+rayleigh_scattering_spd_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -7551,7 +7677,7 @@ def gamut_area_vectorise_analysis():
     print('\n')
 
 
-# gamut_area_vectorise_analysis()
+gamut_area_vectorise_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -7614,7 +7740,7 @@ def xy_to_CCT_McCamy1992_analysis():
     print('\n')
 
 
-# xy_to_CCT_McCamy1992_analysis()
+xy_to_CCT_McCamy1992_analysis()
 
 # #############################################################################
 # ### colour.xy_to_CCT_Hernandez1999
@@ -7683,7 +7809,7 @@ def xy_to_CCT_Hernandez1999_analysis():
     print('\n')
 
 
-# xy_to_CCT_Hernandez1999_analysis()
+xy_to_CCT_Hernandez1999_analysis()
 
 # #############################################################################
 # ### colour.CCT_to_xy_Kang2002
@@ -7766,12 +7892,6 @@ def CCT_to_xy_Kang2002_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_Kang2002_vectorise(CCT))
 
-    print('\n')
-
-    print('4d array input:')
-    CCT = np.reshape(CCT, (2, 3, 1, 1))
-    print(CCT_to_xy_Kang2002_vectorise(CCT))
-
     # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_2d(CCT)')
 
     # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
@@ -7779,7 +7899,7 @@ def CCT_to_xy_Kang2002_analysis():
     print('\n')
 
 
-# CCT_to_xy_Kang2002_analysis()
+CCT_to_xy_Kang2002_analysis()
 
 # #############################################################################
 # ### colour.CCT_to_xy_CIE_D
@@ -7847,13 +7967,6 @@ def CCT_to_xy_CIE_D_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_CIE_D_vectorise(CCT))
 
-    print('\n')
-
-    print('4d array input:')
-    CCT = np.reshape(CCT, (2, 3, 1, 1))
-    print(CCT_to_xy_CIE_D_vectorise(CCT))
-
-
     # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
 
     # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
@@ -7861,7 +7974,7 @@ def CCT_to_xy_CIE_D_analysis():
     print('\n')
 
 
-# CCT_to_xy_CIE_D_analysis()
+CCT_to_xy_CIE_D_analysis()
 
 # #############################################################################
 # #############################################################################
