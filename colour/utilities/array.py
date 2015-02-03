@@ -200,13 +200,16 @@ def as_shape(x):
     >>> as_shape(np.array([1, 2, 3]))
     (3,)
     >>> as_shape(1)
-    (1,)
+    ()
+    >>> as_shape('Nemo')
+    ()
     """
 
     try:
-        return as_array(x).shape
-    except Exception:
+        return np.asarray(x).shape
+    except ValueError:
         return None
+
 
 def auto_axis(shape, dimension='Last'):
     """
@@ -249,7 +252,10 @@ def auto_axis(shape, dimension='Last'):
          'L': -1})
 
     shape = list(shape)
-    shape[methods[dimension]] = -1
+    if len(shape) != 0:
+        shape[methods[dimension]] = -1
+    else:
+        shape.append(-1)
 
     return tuple(shape)
 
