@@ -130,10 +130,10 @@ class TestAsShape(unittest.TestCase):
         """
 
         self.assertTupleEqual(as_shape(np.array([1, 2, 3])), (3,))
-        self.assertTupleEqual(as_shape(1), (1,))
-        self.assertTupleEqual(as_shape(None), (1,))
-        self.assertTupleEqual(as_shape('Nemo'), (1,))
         self.assertTupleEqual(as_shape([[[1, 2, 3], [4, 5, 6]]]), (1, 2, 3))
+        self.assertTupleEqual(as_shape(1), ())
+        self.assertTupleEqual(as_shape('Nemo'), ())
+        self.assertTupleEqual(as_shape(None), ())
 
 
 class TestAutoAxis(unittest.TestCase):
