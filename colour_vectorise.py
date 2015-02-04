@@ -39,17 +39,17 @@ from colour.utilities import (
     warning)
 
 
-np.random.seed(64)
+# np.random.seed(64)
 
-DATA_HD1 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
-DATA_HD2 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
-DATA_HD3 = np.random.rand(1920 * 1080, 3).reshape(1920, 1080, 3)
+DATA_HD1 = np.random.rand(1920 * 1080, 3)
+DATA_HD2 = np.random.rand(1920 * 1080, 3)
+DATA_HD3 = np.random.rand(1920 * 1080, 3)
 
-DATA_PAL1 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
-DATA_PAL2 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
-DATA_PAL3 = np.random.rand(640 * 480, 3).reshape(640, 480, 3)
+DATA_VGA1 = np.random.rand(320 * 200, 3)
+DATA_VGA2 = np.random.rand(320 * 200, 3)
+DATA_VGA3 = np.random.rand(320 * 200, 3)
 
-DATA1, DATA2, DATA3 = DATA_PAL1, DATA_PAL2, DATA_PAL3
+DATA1, DATA2, DATA3 = DATA_VGA1, DATA_VGA2, DATA_VGA3
 
 
 def profile(method):
@@ -670,8 +670,10 @@ lightness_Wyszecki1963_analysis()
 # # ### colour.lightness_1976
 # #############################################################################
 def lightness_1976_2d(Y):
+    Lstar = []
     for Y_ in Y:
-        lightness_1976(Y_)
+        Lstar.append(lightness_1976(Y_))
+    return Lstar
 
 
 from colour.constants import CIE_E, CIE_K
@@ -719,9 +721,15 @@ def lightness_1976_analysis():
     Y = np.reshape(np.array(Y), (2, 3, 1))
     print(lightness_1976_vectorise(Y))
 
+    print('\n')
+
     # get_ipython().magic(u'timeit lightness_1976_2d(Y)')
 
     # get_ipython().magic(u'timeit lightness_1976_vectorise(Y)')
+
+    Y = np.linspace(0, 100, 10000)
+    np.testing.assert_almost_equal(lightness_1976_2d(Y),
+                                   lightness_1976_vectorise(Y))
 
     print('\n')
 
@@ -856,8 +864,10 @@ luminance_ASTMD153508_analysis()
 # #############################################################################
 
 def luminance_1976_2d(L):
+    Y = []
     for L_ in L:
-        luminance_1976(L_)
+        Y.append(luminance_1976(L_))
+    return Y
 
 
 def luminance_1976_vectorise(Lstar, Y_n=100):
@@ -903,6 +913,10 @@ def luminance_1976_analysis():
     # get_ipython().magic(u'timeit luminance_1976_2d(L)')
 
     # get_ipython().magic(u'timeit luminance_1976_vectorise(L)')
+
+    Lstar = np.linspace(0, 100, 10000)
+    np.testing.assert_almost_equal(luminance_1976_2d(Lstar),
+                                   luminance_1976_vectorise(Lstar))
 
     print('\n')
 
@@ -2247,8 +2261,10 @@ delta_E_CIE1994_analysis()
 
 
 def delta_E_CIE2000_2d(Lab1, Lab2):
+    delta_E = []
     for i in range(len(Lab1)):
-        delta_E_CIE2000(Lab1[i], Lab2[i])
+        delta_E.append(delta_E_CIE2000(Lab1[i], Lab2[i]))
+    return delta_E
 
 
 def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
@@ -2356,6 +2372,10 @@ def delta_E_CIE2000_analysis():
 
     # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(delta_E_CIE2000_2d(DATA1, DATA2)),
+        np.ravel(delta_E_CIE2000_vectorise(DATA1, DATA2)))
+
     print('\n')
 
 
@@ -2367,8 +2387,10 @@ delta_E_CIE2000_analysis()
 
 
 def delta_E_CMC_2d(Lab1, Lab2):
+    delta_E = []
     for i in range(len(Lab1)):
-        delta_E_CMC(Lab1[i], Lab2[i])
+        delta_E.append(delta_E_CMC(Lab1[i], Lab2[i]))
+    return delta_E
 
 
 def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
@@ -2445,6 +2467,10 @@ def delta_E_CMC_analysis():
 
     # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(delta_E_CMC_2d(DATA1, DATA2)),
+        np.ravel(delta_E_CMC_vectorise(DATA1, DATA2)))
+
     print('\n')
 
 
@@ -2464,8 +2490,10 @@ from colour.models.cie_xyy import *
 
 
 def XYZ_to_xyY_2d(XYZ):
+    xyY = []
     for i in range(len(XYZ)):
-        XYZ_to_xyY(XYZ[i])
+        xyY.append(XYZ_to_xyY(XYZ[i]))
+    return xyY
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -2521,6 +2549,10 @@ def XYZ_to_xyY_analysis():
 
     # get_ipython().magic(u'timeit XYZ_to_xyY_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(XYZ_to_xyY_2d(DATA1)),
+        np.ravel(XYZ_to_xyY_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -2532,8 +2564,10 @@ XYZ_to_xyY_analysis()
 
 
 def xyY_to_XYZ_2d(xyY):
+    XYZ = []
     for i in range(len(xyY)):
-        xyY_to_XYZ(xyY[i])
+        XYZ.append(xyY_to_XYZ(xyY[i]))
+    return XYZ
 
 
 @handle_numpy_errors(divide='ignore')
@@ -2579,6 +2613,10 @@ def xyY_to_XYZ_analysis():
     # get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
+
+    np.testing.assert_almost_equal(
+        np.ravel(xyY_to_XYZ_2d(DATA1)),
+        np.ravel(xyY_to_XYZ_vectorise(DATA1)))
 
     print('\n')
 
@@ -2708,8 +2746,10 @@ from colour.models.cie_lab import *
 
 
 def XYZ_to_Lab_2d(XYZ):
+    Lab = []
     for i in range(len(XYZ)):
-        XYZ_to_Lab(XYZ[i])
+        Lab.append(XYZ_to_Lab(XYZ[i]))
+    return Lab
 
 
 def XYZ_to_Lab_vectorise(XYZ,
@@ -2765,6 +2805,10 @@ def XYZ_to_Lab_analysis():
 
     # get_ipython().magic(u'timeit XYZ_to_Lab_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(XYZ_to_Lab_2d(DATA1)),
+        np.ravel(XYZ_to_Lab_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -2776,8 +2820,10 @@ XYZ_to_Lab_analysis()
 
 
 def Lab_to_XYZ_2d(Lab):
+    XYZ = []
     for i in range(len(Lab)):
-        Lab_to_XYZ(Lab[i])
+        XYZ.append(Lab_to_XYZ(Lab[i]))
+    return XYZ
 
 
 def Lab_to_XYZ_vectorise(Lab,
@@ -2830,6 +2876,10 @@ def Lab_to_XYZ_analysis():
     # get_ipython().magic(u'timeit Lab_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
+
+    np.testing.assert_almost_equal(
+        np.ravel(Lab_to_XYZ_2d(DATA1)),
+        np.ravel(Lab_to_XYZ_vectorise(DATA1)))
 
     print('\n')
 
@@ -2960,8 +3010,10 @@ from colour.models.cie_luv import *
 
 
 def XYZ_to_Luv_2d(XYZ):
+    Luv = []
     for i in range(len(XYZ)):
-        XYZ_to_Luv(XYZ[i])
+        Luv.append(XYZ_to_Luv(XYZ[i]))
+    return Luv
 
 
 # get_ipython().magic(u'timeit XYZ_to_Luv_2d(DATA1)')
@@ -3016,7 +3068,13 @@ def XYZ_to_Luv_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_Luv_vectorise(XYZ))
 
+    # get_ipython().magic(u'timeit XYZ_to_Luv_2d(DATA1)')
+
     # get_ipython().magic(u'timeit XYZ_to_Luv_vectorise(DATA1)')
+
+    np.testing.assert_almost_equal(
+        np.ravel(XYZ_to_Luv_2d(DATA1)),
+        np.ravel(XYZ_to_Luv_vectorise(DATA1)))
 
     print('\n')
 
@@ -3029,8 +3087,10 @@ XYZ_to_Luv_analysis()
 
 
 def Luv_to_XYZ_2d(Luv):
+    XYZ = []
     for i in range(len(Luv)):
-        Luv_to_XYZ(Luv[i])
+        XYZ.append(Luv_to_XYZ(Luv[i]))
+    return XYZ
 
 
 def Luv_to_XYZ_vectorise(Luv,
@@ -3088,6 +3148,10 @@ def Luv_to_XYZ_analysis():
     # get_ipython().magic(u'timeit Luv_to_XYZ_2d(DATA1)')
 
     # get_ipython().magic(u'timeit Luv_to_XYZ_vectorise(DATA1)')
+
+    np.testing.assert_almost_equal(
+        np.ravel(Luv_to_XYZ_2d(DATA1)),
+        np.ravel(Luv_to_XYZ_vectorise(DATA1)))
 
     print('\n')
 
@@ -3640,8 +3704,10 @@ from colour.models.deprecated import *
 
 
 def RGB_to_HSV_2d(RGB):
+    HSV = []
     for i in range(len(RGB)):
-        RGB_to_HSV(RGB[i])
+        HSV.append(RGB_to_HSV(RGB[i]))
+    return HSV
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -3704,6 +3770,10 @@ def RGB_to_HSV_analysis():
 
     # get_ipython().magic(u'timeit RGB_to_HSV_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(RGB_to_HSV_2d(DATA1)),
+        np.ravel(RGB_to_HSV_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -3713,8 +3783,10 @@ RGB_to_HSV_analysis()
 # # ### colour.models.deprecated.HSV_to_RGB
 # #############################################################################
 def HSV_to_RGB_2d(HSV):
+    RGB = []
     for i in range(len(HSV)):
-        HSV_to_RGB(HSV[i])
+        RGB.append(HSV_to_RGB(HSV[i]))
+    return RGB
 
 
 def HSV_to_RGB_vectorise(HSV):
@@ -3772,6 +3844,10 @@ def RGB_to_HSV_analysis():
 
     # get_ipython().magic(u'timeit HSV_to_RGB_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(HSV_to_RGB_2d(DATA1)),
+        np.ravel(HSV_to_RGB_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -3783,8 +3859,10 @@ RGB_to_HSV_analysis()
 
 
 def RGB_to_HSL_2d(RGB):
+    HSL = []
     for i in range(len(RGB)):
-        RGB_to_HSL(RGB[i])
+        HSL.append(RGB_to_HSL(RGB[i]))
+    return HSL
 
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
@@ -3849,6 +3927,10 @@ def RGB_to_HSL_analysis():
 
     # get_ipython().magic(u'timeit RGB_to_HSL_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(RGB_to_HSL_2d(DATA1)),
+        np.ravel(RGB_to_HSL_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -3860,8 +3942,10 @@ RGB_to_HSL_analysis()
 
 
 def HSL_to_RGB_2d(HSL):
+    RGB = []
     for i in range(len(HSL)):
-        HSL_to_RGB(HSL[i])
+        RGB.append(HSL_to_RGB(HSL[i]))
+    return RGB
 
 
 def HSL_to_RGB_vectorise(HSL):
@@ -3937,6 +4021,10 @@ def HSL_to_RGB_analysis():
 
     # get_ipython().magic(u'timeit HSL_to_RGB_vectorise(DATA1)')
 
+    np.testing.assert_almost_equal(
+        np.ravel(HSL_to_RGB_2d(DATA1)),
+        np.ravel(HSL_to_RGB_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -3986,7 +4074,6 @@ def RGB_to_CMY_analysis():
     print(RGB_to_CMY_vectorise(RGB))
 
     # get_ipython().magic(u'timeit RGB_to_CMY_2d(DATA1)')
-
 
     # get_ipython().magic(u'timeit RGB_to_CMY_vectorise(DATA1)')
 
@@ -4053,8 +4140,10 @@ CMY_to_RGB_analysis()
 
 
 def CMY_to_CMYK_2d(CMY):
+    CMYK = []
     for i in range(len(CMY)):
-        CMY_to_CMYK(CMY[i])
+        CMYK.append(CMY_to_CMYK(CMY[i]))
+    return CMYK
 
 
 def CMY_to_CMYK_vectorise(CMY):
@@ -4107,6 +4196,10 @@ def CMY_to_CMYK_analysis():
     # get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
 
     # get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
+
+    np.testing.assert_almost_equal(
+        np.ravel(CMY_to_CMYK_2d(DATA1)),
+        np.ravel(CMY_to_CMYK_vectorise(DATA1)))
 
     print('\n')
 
@@ -5147,6 +5240,10 @@ def _aces_cc_transfer_function_analysis():
 
     print(_aces_cc_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_aces_cc_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_aces_cc_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -5176,6 +5273,10 @@ def _aces_cc_inverse_transfer_function_analysis():
     print(_aces_cc_inverse_transfer_function_vectorise(RGB))
 
     print(_aces_cc_inverse_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_aces_cc_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_aces_cc_inverse_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5214,6 +5315,10 @@ def _aces_proxy_transfer_function_analysis():
     print(_aces_proxy_transfer_function_vectorise(RGB))
 
     print(_aces_proxy_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_aces_proxy_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_aces_proxy_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5328,6 +5433,10 @@ def _alexa_wide_gamut_rgb_transfer_function_analysis():
 
     print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_alexa_wide_gamut_rgb_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_alexa_wide_gamut_rgb_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -5359,6 +5468,12 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function_analysis():
     print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB))
 
     print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_alexa_wide_gamut_rgb_inverse_transfer_function(x) for x in
+         np.ravel(DATA1)],
+        np.ravel(
+            _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5577,6 +5692,11 @@ def _pal_secam_rgb_inverse_transfer_function_analysis():
 
 _pal_secam_rgb_inverse_transfer_function_analysis()
 
+from colour.models.dataset.prophoto_rgb import (
+    _prophoto_rgb_transfer_function,
+    _prophoto_rgb_inverse_transfer_function)
+from colour.models.dataset.prophoto_rgb import *
+
 
 def _prophoto_rgb_transfer_function_vectorise(value):
     value = as_array(value)
@@ -5592,6 +5712,10 @@ def _prophoto_rgb_transfer_function_analysis():
     print(_prophoto_rgb_transfer_function_vectorise(RGB))
 
     print(_prophoto_rgb_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_prophoto_rgb_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_prophoto_rgb_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5615,10 +5739,19 @@ def _prophoto_rgb_inverse_transfer_function_analysis():
 
     print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_prophoto_rgb_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_prophoto_rgb_inverse_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
 _prophoto_rgb_inverse_transfer_function_analysis()
+
+from colour.models.dataset.rec_709 import (
+    _rec_709_transfer_function,
+    _rec_709_inverse_transfer_function)
+from colour.models.dataset.rec_709 import *
 
 
 def _rec_709_transfer_function_vectorise(value):
@@ -5635,6 +5768,10 @@ def _rec_709_transfer_function_analysis():
     print(_rec_709_transfer_function_vectorise(RGB))
 
     print(_rec_709_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_rec_709_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_rec_709_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5658,11 +5795,18 @@ def _rec_709_inverse_transfer_function_analysis():
 
     print(_rec_709_inverse_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_rec_709_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_rec_709_inverse_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
 _rec_709_inverse_transfer_function_analysis()
 
+from colour.models.dataset.rec_2020 import (
+    _rec_2020_transfer_function,
+    _rec_2020_inverse_transfer_function)
 from colour.models.dataset.rec_2020 import *
 
 
@@ -5682,6 +5826,10 @@ def _rec_2020_transfer_function_analysis():
     print(_rec_2020_transfer_function_vectorise(RGB))
 
     print(_rec_2020_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_rec_2020_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_rec_2020_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5707,6 +5855,10 @@ def _rec_2020_inverse_transfer_function_analysis():
     print(_rec_2020_inverse_transfer_function_vectorise(RGB))
 
     print(_rec_2020_inverse_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_rec_2020_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_rec_2020_inverse_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5835,6 +5987,10 @@ def _s_log3_transfer_function_analysis():
 
     print(_s_log3_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_s_log3_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_s_log3_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
@@ -5862,15 +6018,22 @@ def _s_log3_inverse_transfer_function_analysis():
 
     print(_s_log3_inverse_transfer_function_vectorise(RGB_t))
 
+    np.testing.assert_almost_equal(
+        [_s_log3_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_s_log3_inverse_transfer_function_vectorise(DATA1)))
+
     print('\n')
 
 
 _s_log3_inverse_transfer_function_analysis()
 
+from colour.models.dataset.srgb import (
+    _srgb_transfer_function,
+    _srgb_inverse_transfer_function)
 from colour.models.dataset.srgb import *
 
 
-def _srgb_transfer_function(value):
+def _srgb_transfer_function_vectorise(value):
     value = as_array(value)
 
     return as_numeric(np.where(value <= 0.0031308,
@@ -5881,9 +6044,13 @@ def _srgb_transfer_function(value):
 def _srgb_transfer_function_analysis():
     message_box('_srgb_transfer_function')
 
-    print(_srgb_transfer_function(RGB))
+    print(_srgb_transfer_function_vectorise(RGB))
 
-    print(_srgb_transfer_function(RGB_t))
+    print(_srgb_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_srgb_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_srgb_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -5891,20 +6058,25 @@ def _srgb_transfer_function_analysis():
 _srgb_transfer_function_analysis()
 
 
-def _srgb_inverse_transfer_function(value):
+def _srgb_inverse_transfer_function_vectorise(value):
     value = as_array(value)
 
-    return as_numeric(np.where(value <= _srgb_transfer_function(0.0031308),
-                               value / 12.92,
-                               ((value + 0.055) / 1.055) ** 2.4))
+    return as_numeric(
+        np.where(value <= _srgb_transfer_function_vectorise(0.0031308),
+                 value / 12.92,
+                 ((value + 0.055) / 1.055) ** 2.4))
 
 
 def _srgb_inverse_transfer_function_analysis():
     message_box('_srgb_inverse_transfer_function')
 
-    print(_srgb_inverse_transfer_function(RGB))
+    print(_srgb_inverse_transfer_function_vectorise(RGB))
 
-    print(_srgb_inverse_transfer_function(RGB_t))
+    print(_srgb_inverse_transfer_function_vectorise(RGB_t))
+
+    np.testing.assert_almost_equal(
+        [_srgb_inverse_transfer_function(x) for x in np.ravel(DATA1)],
+        np.ravel(_srgb_inverse_transfer_function_vectorise(DATA1)))
 
     print('\n')
 
@@ -6433,8 +6605,10 @@ munsell_value_Ladd1955_analysis()
 
 
 def munsell_value_McCamy1987_2d(Y):
+    V = []
     for i in range(len(Y)):
-        munsell_value_McCamy1987(Y[i])
+        V.append(munsell_value_McCamy1987(Y[i]))
+    return V
 
 
 @ignore_numpy_errors
@@ -6485,6 +6659,11 @@ def munsell_value_McCamy1987_analysis():
     # get_ipython().magic(u'timeit munsell_value_McCamy1987_2d(Y)')
 
     # get_ipython().magic(u'timeit munsell_value_McCamy1987_vectorise(Y)')
+
+    Y = np.linspace(0, 100, 10000)
+    np.testing.assert_almost_equal(
+        munsell_value_McCamy1987_2d(Y),
+        munsell_value_McCamy1987_vectorise(Y))
 
     print('\n')
 
@@ -7748,8 +7927,10 @@ xy_to_CCT_McCamy1992_analysis()
 
 
 def xy_to_CCT_Hernandez1999_2d(xy):
+    CCT = []
     for i in range(len(xy)):
-        xy_to_CCT_Hernandez1999(xy[i])
+        CCT.append(xy_to_CCT_Hernandez1999(xy[i]))
+    return CCT
 
 
 def xy_to_CCT_Hernandez1999_vectorise(xy):
@@ -7806,6 +7987,10 @@ def xy_to_CCT_Hernandez1999_analysis():
 
     # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])')
 
+    np.testing.assert_almost_equal(
+        np.ravel(xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])),
+        np.ravel(xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])))
+
     print('\n')
 
 
@@ -7818,8 +8003,10 @@ CCT = np.linspace(4000, 20000, 1000000)
 
 
 def CCT_to_xy_Kang2002_2d(CCT):
+    xy = []
     for i in range(len(CCT)):
-        CCT_to_xy_Kang2002(CCT[i])
+        xy.append(CCT_to_xy_Kang2002(CCT[i]))
+    return xy
 
 
 def CCT_to_xy_Kang2002_vectorise(CCT):
@@ -7896,6 +8083,11 @@ def CCT_to_xy_Kang2002_analysis():
 
     # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
 
+    CCT = np.linspace(1667, 25000, 10000)
+    np.testing.assert_almost_equal(
+        np.ravel(CCT_to_xy_Kang2002_2d(CCT)),
+        np.ravel(CCT_to_xy_Kang2002_vectorise(CCT)))
+
     print('\n')
 
 
@@ -7907,8 +8099,10 @@ CCT_to_xy_Kang2002_analysis()
 
 
 def CCT_to_xy_CIE_D_2d(CCT):
+    xy = []
     for i in range(len(CCT)):
-        CCT_to_xy_CIE_D(CCT[i])
+        xy.append(CCT_to_xy_CIE_D(CCT[i]))
+    return xy
 
 
 def CCT_to_xy_CIE_D_vectorise(CCT):
@@ -7970,6 +8164,11 @@ def CCT_to_xy_CIE_D_analysis():
     # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
 
     # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
+
+    CCT = np.linspace(4000, 25000, 10000)
+    np.testing.assert_almost_equal(
+        np.ravel(CCT_to_xy_CIE_D_2d(CCT)),
+        np.ravel(CCT_to_xy_CIE_D_vectorise(CCT)))
 
     print('\n')
 
