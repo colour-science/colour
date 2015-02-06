@@ -2373,8 +2373,8 @@ def delta_E_CIE2000_analysis():
     # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
 
     np.testing.assert_almost_equal(
-        np.ravel(delta_E_CIE2000_2d(DATA1, DATA2)),
-        np.ravel(delta_E_CIE2000_vectorise(DATA1, DATA2)))
+        np.ravel(delta_E_CIE2000_2d(DATA1 * 360, DATA2 * 360)),
+        np.ravel(delta_E_CIE2000_vectorise(DATA1 * 360, DATA2 * 360)))
 
     print('\n')
 
@@ -2468,8 +2468,8 @@ def delta_E_CMC_analysis():
     # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
 
     np.testing.assert_almost_equal(
-        np.ravel(delta_E_CMC_2d(DATA1, DATA2)),
-        np.ravel(delta_E_CMC_vectorise(DATA1, DATA2)))
+        np.ravel(delta_E_CMC_2d(DATA1 * 360, DATA2 * 360)),
+        np.ravel(delta_E_CMC_vectorise(DATA1 * 360, DATA2 * 360)))
 
     print('\n')
 
@@ -2878,8 +2878,8 @@ def Lab_to_XYZ_analysis():
     # get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
 
     np.testing.assert_almost_equal(
-        np.ravel(Lab_to_XYZ_2d(DATA1)),
-        np.ravel(Lab_to_XYZ_vectorise(DATA1)))
+        np.ravel(Lab_to_XYZ_2d(DATA1 * 360)),
+        np.ravel(Lab_to_XYZ_vectorise(DATA1 * 360)))
 
     print('\n')
 
