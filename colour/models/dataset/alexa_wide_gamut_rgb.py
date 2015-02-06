@@ -192,7 +192,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
         method='Linear Scene Exposure Factor',
         EI=800):
     """
-    Defines the *ALEXA Wide Gamut* colourspace transfer function.
+    Defines the *ALEXA Log C* transfer function.
 
     Parameters
     ----------
@@ -225,7 +225,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
         method='Linear Scene Exposure Factor',
         EI=800):
     """
-    Defines the *ALEXA Wide Gamut* colourspace inverse transfer function.
+    Defines the *ALEXA Log C* inverse transfer function.
 
     Parameters
     ----------
