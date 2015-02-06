@@ -661,7 +661,7 @@ def s_log_to_linear(value, **kwargs):
     Examples
     --------
     >>> s_log_to_linear(0.35998784642215442)  # doctest: +ELLIPSIS
-    0.1799999...
+    0.1...
     """
 
     return S_LOG_INVERSE_TRANSFER_FUNCTION(value)
@@ -713,7 +713,7 @@ def s_log2_to_linear(value, **kwargs):
     Examples
     --------
     >>> s_log2_to_linear(0.38497081592867027)  # doctest: +ELLIPSIS
-    0.18...
+    0.1...
     """
 
     return S_LOG2_INVERSE_TRANSFER_FUNCTION(value)
@@ -765,7 +765,7 @@ def s_log3_to_linear(value, **kwargs):
     Examples
     --------
     >>> s_log3_to_linear(0.41055718475073316)  # doctest: +ELLIPSIS
-    0.18...
+    0.1...
     """
 
     return S_LOG3_INVERSE_TRANSFER_FUNCTION(value)
