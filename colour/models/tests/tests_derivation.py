@@ -18,6 +18,7 @@ else:
 
 from colour.models import (
     normalised_primary_matrix,
+    primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
 from colour.models.derivation import xy_to_z
@@ -31,6 +32,7 @@ __status__ = 'Production'
 
 __all__ = ['Testxy_to_z',
            'TestNormalisedPrimaryMatrix',
+           'TestPrimariesWhitepoint',
            'TestRGBLuminanceEquation',
            'TestRGBLuminance']
 
@@ -82,10 +84,9 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                           0.00010, -0.07700]),
                 (0.32168, 0.33767)),
             np.array(
-                [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-                 3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
-                 0.00000000e+00, 0.00000000e+00, 1.00882518e+00]
-            ).reshape((3, 3)),
+                [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+                 [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+                 [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -94,10 +95,48 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                           0.300, 0.600,
                           0.150, 0.060]),
                 (0.3127, 0.3290)),
-            np.array([0.4123908, 0.35758434, 0.18048079,
-                      0.21263901, 0.71516868, 0.07219232,
-                      0.01933082, 0.11919478, 0.95053215]).reshape((3, 3)),
+            np.array([[0.4123908, 0.35758434, 0.18048079],
+                      [0.21263901, 0.71516868, 0.07219232],
+                      [0.01933082, 0.11919478, 0.95053215]]),
             decimal=7)
+
+
+class TestPrimariesWhitepoint(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.derivation.primaries_whitepoint`
+    definition unit tests methods.
+    """
+
+    def test_primaries_whitepoint(self):
+        """
+        Tests
+        :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        definition.
+        """
+
+        p, w = primaries_whitepoint(
+            np.array(
+                [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+                 [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+                 [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]]))
+        np.testing.assert_almost_equal(p,
+                                       np.array([[0.73470, 0.26530],
+                                                 [0.00000, 1.00000],
+                                                 [0.00010, -0.07700]]),
+                                       decimal=7)
+        np.testing.assert_almost_equal(w, (0.32168, 0.33767), decimal=7)
+
+        p, w = primaries_whitepoint(
+            np.array(
+                [[0.4123908, 0.35758434, 0.18048079],
+                 [0.21263901, 0.71516868, 0.07219232],
+                 [0.01933082, 0.11919478, 0.95053215]]))
+        np.testing.assert_almost_equal(p,
+                                       np.array([[0.640, 0.330],
+                                                 [0.300, 0.600],
+                                                 [0.150, 0.060]]),
+                                       decimal=7)
+        np.testing.assert_almost_equal(w, (0.3127, 0.3290), decimal=7)
 
 
 class TestRGBLuminanceEquation(unittest.TestCase):
