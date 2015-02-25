@@ -459,27 +459,317 @@ def c_log_to_linear(value, **kwargs):
         1.3742747797867 - np.exp(1) ** (4.3515940948906 * value))
 
 
-linear_to_aces_cc = (
-    lambda x, **kwargs: ACES_CC_TRANSFER_FUNCTION(x))
-aces_cc_to_linear = (
-    lambda x, **kwargs: ACES_CC_INVERSE_TRANSFER_FUNCTION(x))
+def linear_to_aces_cc(value, **kwargs):
+    """
+    Defines the *linear* to *ACEScc* conversion function.
 
-linear_to_alexa_log_c = (
-    lambda x, **kwargs: ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION(x))
-alexa_log_c_to_linear = (
-    lambda x, **kwargs: ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION(x))
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
 
-linear_to_dci_p3_log = (
-    lambda x, **kwargs: DCI_P3_TRANSFER_FUNCTION(x))
-dci_p3_log_to_linear = (
-    lambda x, **kwargs: DCI_P3_INVERSE_TRANSFER_FUNCTION(x))
+    Returns
+    -------
+    numeric
+        *ACEScc* value.
 
-linear_to_s_log = lambda x, **kwargs: S_LOG_TRANSFER_FUNCTION(x)
-s_log_to_linear = lambda x, **kwargs: S_LOG_INVERSE_TRANSFER_FUNCTION(x)
-linear_to_s_log2 = lambda x, **kwargs: S_LOG2_TRANSFER_FUNCTION(x)
-s_log2_to_linear = lambda x, **kwargs: S_LOG2_INVERSE_TRANSFER_FUNCTION(x)
-linear_to_s_log3 = lambda x, **kwargs: S_LOG3_TRANSFER_FUNCTION(x)
-s_log3_to_linear = lambda x, **kwargs: S_LOG3_INVERSE_TRANSFER_FUNCTION(x)
+    Examples
+    --------
+    >>> linear_to_aces_cc(0.18)  # doctest: +ELLIPSIS
+    0.4135884...
+    """
+
+    return ACES_CC_TRANSFER_FUNCTION(value)
+
+
+def aces_cc_to_linear(value, **kwargs):
+    """
+    Defines the *ACEScc* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *ACEScc* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> aces_cc_to_linear(0.41358840249244228)  # doctest: +ELLIPSIS
+    0.1800000...
+    """
+
+    return ACES_CC_INVERSE_TRANSFER_FUNCTION(value)
+
+
+def linear_to_alexa_log_c(value, **kwargs):
+    """
+    Defines the *linear* to *ALEXA Log C* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *ALEXA Log C* value.
+
+    Examples
+    --------
+    >>> linear_to_alexa_log_c(0.18)  # doctest: +ELLIPSIS
+    0.3910068...
+    """
+
+    return ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION(value)
+
+
+def alexa_log_c_to_linear(value, **kwargs):
+    """
+    Defines the *ALEXA Log C* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *ALEXA Log C* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> alexa_log_c_to_linear(0.39100683203408376)  # doctest: +ELLIPSIS
+    0.1800000...
+    """
+
+    return ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION(value)
+
+
+def linear_to_dci_p3_log(value, **kwargs):
+    """
+    Defines the *linear* to *DCI-P3* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *DCI-P3* value.
+
+    Examples
+    --------
+    >>> linear_to_dci_p3_log(0.18)  # doctest: +ELLIPSIS
+    461.9922059...
+    """
+
+    return DCI_P3_TRANSFER_FUNCTION(value)
+
+
+def dci_p3_log_to_linear(value, **kwargs):
+    """
+    Defines the *DCI-P3* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *DCI-P3* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> dci_p3_log_to_linear(461.99220597484737)  # doctest: +ELLIPSIS
+    0.1800000...
+    """
+
+    return DCI_P3_INVERSE_TRANSFER_FUNCTION(value)
+
+
+def linear_to_s_log(value, **kwargs):
+    """
+    Defines the *linear* to *S-Log* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *S-Log* value.
+
+    Examples
+    --------
+    >>> linear_to_s_log(0.18)  # doctest: +ELLIPSIS
+    0.3599878...
+    """
+
+    return S_LOG_TRANSFER_FUNCTION(value)
+
+
+def s_log_to_linear(value, **kwargs):
+    """
+    Defines the *S-Log* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *S-Log* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> s_log_to_linear(0.35998784642215442)  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    return S_LOG_INVERSE_TRANSFER_FUNCTION(value)
+
+
+def linear_to_s_log2(value, **kwargs):
+    """
+    Defines the *linear* to *S-Log2* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *S-Log2* value.
+
+    Examples
+    --------
+    >>> linear_to_s_log2(0.18)  # doctest: +ELLIPSIS
+    0.3849708...
+    """
+
+    return S_LOG2_TRANSFER_FUNCTION(value)
+
+
+def s_log2_to_linear(value, **kwargs):
+    """
+    Defines the *S-Log2* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *S-Log2* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> s_log2_to_linear(0.38497081592867027)  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    return S_LOG2_INVERSE_TRANSFER_FUNCTION(value)
+
+
+def linear_to_s_log3(value, **kwargs):
+    """
+    Defines the *linear* to *S-Log3* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *S-Log3* value.
+
+    Examples
+    --------
+    >>> linear_to_s_log3(0.18)  # doctest: +ELLIPSIS
+    0.4105571...
+    """
+
+    return S_LOG3_TRANSFER_FUNCTION(value)
+
+
+def s_log3_to_linear(value, **kwargs):
+    """
+    Defines the *S-Log3* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric
+        *S-Log3* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric
+        *Linear* value.
+
+    Examples
+    --------
+    >>> s_log3_to_linear(0.41055718475073316)  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    return S_LOG3_INVERSE_TRANSFER_FUNCTION(value)
+
 
 LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
     {'Cineon': linear_to_cineon,

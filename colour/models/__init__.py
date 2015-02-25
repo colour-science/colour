@@ -11,6 +11,7 @@ from .cie_xyy import (
 from .rgb import RGB_Colourspace
 from .derivation import (
     normalised_primary_matrix,
+    primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
 from .dataset import *  # noqa
@@ -64,6 +65,7 @@ __all__ = ['XYZ_to_xyY',
            'XYZ_to_xy']
 __all__ += ['RGB_Colourspace']
 __all__ += ['normalised_primary_matrix',
+            'primaries_whitepoint',
             'RGB_luminance_equation',
             'RGB_luminance']
 __all__ += dataset.__all__

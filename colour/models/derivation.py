@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import xy_to_XYZ
+from colour.models import XYZ_to_xy, xy_to_XYZ
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -35,6 +35,7 @@ __status__ = 'Production'
 
 __all__ = ['xy_to_z',
            'normalised_primary_matrix',
+           'primaries_whitepoint',
            'RGB_luminance_equation',
            'RGB_luminance']
 
@@ -69,15 +70,15 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     Parameters
     ----------
-    primaries : array_like
-        Primaries chromaticity coordinate matrix, (3, 2).
+    primaries : array_like, (3, 2)
+        Primaries chromaticity coordinate matrix.
     whitepoint : array_like
         Illuminant / whitepoint chromaticity coordinates.
 
     Returns
     -------
     ndarray, (3, 3)
-        Normalised primary matrix.
+        *Normalised primary matrix*.
 
     Examples
     --------
@@ -104,6 +105,50 @@ def normalised_primary_matrix(primaries, whitepoint):
     npm = np.dot(primaries, coefficients)
 
     return npm
+
+
+def primaries_whitepoint(npm):
+    """
+    Returns the *primaries* and *whitepoint* matrices using given *normalised
+    primary matrix*.
+
+    Parameters
+    ----------
+    npm : array_like, (3, 3)
+        *Normalised primary matrix*.
+
+    Returns
+    -------
+    tuple
+        *Primaries* and *whitepoint* matrices.
+
+    References
+    ----------
+    .. [2]  Trieu, T. (2015). Private Discussion with Mansencal, T.
+
+    Examples
+    --------
+    >>> npm = np.array([[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+    ...                 [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+    ...                 [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
+    >>> p, w = primaries_whitepoint(npm)
+    >>> p  # doctest: +ELLIPSIS
+    array([[  7.3470000...e-01,   2.6530000...e-01],
+           [  0.0000000...e+00,   1.0000000...e+00],
+           [  1.0000000...e-04,  -7.7000000...e-02]])
+    >>> w
+    (0.3216800..., 0.3376700...)
+    """
+
+    npm = npm.reshape((3, 3))
+
+    I = np.hstack([np.identity(3), np.ones((3, 1))])
+    M = np.transpose(np.dot(npm, I))
+
+    primaries = np.vstack(XYZ_to_xy(M[i, 0:3]) for i in range(3))
+    whitepoint = XYZ_to_xy(M[3, 0:3])
+
+    return primaries, whitepoint
 
 
 def RGB_luminance_equation(primaries, whitepoint):
