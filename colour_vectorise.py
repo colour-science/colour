@@ -74,14 +74,216 @@ def profile(method):
 
 # #############################################################################
 # #############################################################################
-# ## colour.adaptation.cat
+# ## colour.adaptation.cie1994
+# #############################################################################
+# #############################################################################
+from colour.adaptation import *
+from colour.adaptation.cie1994 import *
+
+
+def chromatic_adaptation_CIE1994_2d(XYZ_1):
+    xy_o1 = (0.4476, 0.4074)
+    xy_o2 = (0.3127, 0.3290)
+    Y_o = 20
+    E_o1 = 1000
+    E_o2 = 1000
+
+    for i in range(len(XYZ_1)):
+        chromatic_adaptation_CIE1994(XYZ_1[i], xy_o1, xy_o2, Y_o, E_o1, E_o2)
+
+
+def chromatic_adaptation_CIE1994_vectorise(XYZ_1,
+                                           xy_o1,
+                                           xy_o2,
+                                           Y_o,
+                                           E_o1,
+                                           E_o2,
+                                           n=1):
+    if np.any(Y_o < 18) or np.any(Y_o > 100):
+        warning(('"Y_o" luminance factor must be in [18, 100] domain, '
+                 'unpredictable results may occur!'))
+
+    shape = as_shape(XYZ_1)
+    XYZ_1 = as_array(XYZ_1, (-1, 3))
+    xy_o1 = np.resize(xy_o1, XYZ_1[:, 0:2].shape)
+    xy_o2 = np.resize(xy_o2, XYZ_1[:, 0:2].shape)
+    Y_o = np.resize(Y_o, XYZ_1[:, 0].shape)
+    E_o1 = np.resize(E_o1, XYZ_1[:, 0].shape)
+    E_o2 = np.resize(E_o2, XYZ_1[:, 0].shape)
+
+    RGB_1 = XYZ_to_RGB_cie1994_vectorise(XYZ_1)
+
+    xez_1 = intermediate_values_vectorise(xy_o1)
+    xez_2 = intermediate_values_vectorise(xy_o2)
+
+    RGB_o1 = effective_adapting_responses_vectorise(xez_1, Y_o, E_o1)
+    RGB_o2 = effective_adapting_responses_vectorise(xez_2, Y_o, E_o2)
+
+    bRGB_o1 = exponential_factors_vectorise(RGB_o1)
+    bRGB_o2 = exponential_factors_vectorise(RGB_o2)
+
+    K = K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
+
+    RGB_2 = corresponding_colour_vectorise(
+        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+    XYZ_2 = np.reshape(RGB_to_XYZ_cie1994_vectorise(RGB_2), shape)
+
+    return XYZ_2
+
+
+def XYZ_to_RGB_cie1994_vectorise(XYZ):
+    return np.einsum('...i,...ji', XYZ, CIE1994_XYZ_TO_RGB_MATRIX)
+
+
+def RGB_to_XYZ_cie1994_vectorise(RGB):
+    return np.einsum('...i,...ji', RGB, CIE1994_RGB_TO_XYZ_MATRIX)
+
+
+def intermediate_values_vectorise(xy_o):
+    shape = as_shape(xy_o)
+    xy_o = as_array(xy_o, (-1, 2))
+    x_o, y_o = xy_o[:, 0], xy_o[:, 1]
+
+    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
+    xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
+    eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
+    zeta = (0.91822 * (1 - x_o - y_o)) / y_o
+
+    xez = as_stack((xi, eta, zeta), shape=auto_axis(shape))
+
+    return xez
+
+
+def effective_adapting_responses_vectorise(xez, Y_o, E_o):
+    # TODO: Mention *xez* place change.
+    shape = as_shape(xez)
+    xez = as_array(xez, (-1, 3))
+    Y_o = np.resize(Y_o, xez[0].shape)
+    E_o = np.resize(E_o, xez[0].shape)
+
+    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
+
+    return RGB_o
+
+
+def beta_1_vectorise(x):
+    return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
+
+
+def beta_2_vectorise(x):
+    return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
+
+
+def exponential_factors_vectorise(RGB_o):
+    shape = as_shape(RGB_o)
+    RGB_o = as_array(RGB_o, (-1, 3))
+
+    bR_o = beta_1_vectorise(RGB_o[:, 0])
+    bG_o = beta_1_vectorise(RGB_o[:, 1])
+    bB_o = beta_2_vectorise(RGB_o[:, 2])
+
+    return as_stack((bR_o, bG_o, bB_o), shape=shape)
+
+
+def K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
+    # TODO: Mention *Y_o* place change.
+    shape = as_shape(xez_1)
+    xez_1 = as_array(xez_1, (-1, 3))
+    xez_2 = np.resize(xez_2, xez_1.shape)
+    bRGB_o1 = np.resize(bRGB_o1, xez_1.shape)
+    bRGB_o2 = np.resize(bRGB_o2, xez_1.shape)
+    Y_o = np.resize(Y_o, xez_1[:, 0].shape)
+
+    xi_1, eta_1, zeta_1 = xez_1[:, 0], xez_1[:, 1], xez_1[:, 2]
+    xi_2, eta_2, zeta_2 = xez_2[:, 0], xez_2[:, 1], xez_2[:, 2]
+    bR_o1, bG_o1, bB_o1 = bRGB_o1[:, 0], bRGB_o1[:, 1], bRGB_o1[:, 2]
+    bR_o2, bG_o2, bB_o2 = bRGB_o2[:, 0], bRGB_o2[:, 1], bRGB_o2[:, 2]
+
+    K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /
+         ((Y_o * xi_2 + n) / (20 * xi_2 + n)) ** ((2 / 3) * bR_o2))
+
+    K *= (((Y_o * eta_1 + n) / (20 * eta_1 + n)) ** ((1 / 3) * bG_o1) /
+          ((Y_o * eta_2 + n) / (20 * eta_2 + n)) ** ((1 / 3) * bG_o2))
+
+    return as_numeric(np.reshape(K, auto_axis(shape)))
+
+
+def corresponding_colour_vectorise(
+        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
+    # TODO: Mention *Y_o* place change.
+
+    shape = as_shape(RGB_1)
+    RGB_1 = as_array(RGB_1, (-1, 3))
+    xez_1 = np.resize(xez_1, RGB_1.shape)
+    xez_2 = np.resize(xez_2, xez_1.shape)
+    bRGB_o1 = np.resize(bRGB_o1, xez_1.shape)
+    bRGB_o2 = np.resize(bRGB_o2, xez_1.shape)
+    Y_o = np.resize(Y_o, xez_1[:, 0].shape)
+    K = np.resize(K, xez_1[:, 0].shape)
+
+    R_1, G_1, B_1 = RGB_1[:, 0], RGB_1[:, 1], RGB_1[:, 2]
+    xi_1, eta_1, zeta_1 = xez_1[:, 0], xez_1[:, 1], xez_1[:, 2]
+    xi_2, eta_2, zeta_2 = xez_2[:, 0], xez_2[:, 1], xez_2[:, 2]
+    bR_o1, bG_o1, bB_o1 = bRGB_o1[:, 0], bRGB_o1[:, 1], bRGB_o1[:, 2]
+    bR_o2, bG_o2, bB_o2 = bRGB_o2[:, 0], bRGB_o2[:, 1], bRGB_o2[:, 2]
+
+    RGBc = lambda x1, x2, y1, y2, z: (
+        (Y_o * x2 + n) * K ** (1 / y2) *
+        ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
+
+    R_2 = RGBc(xi_1, xi_2, bR_o1, bR_o2, R_1)
+    G_2 = RGBc(eta_1, eta_2, bG_o1, bG_o2, G_1)
+    B_2 = RGBc(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
+
+    return as_stack((R_2, G_2, B_2), shape=shape)
+
+
+def chromatic_adaptation_CIE1994_analysis():
+    message_box('chromatic_adaptation_CIE1994')
+
+    print('Reference:')
+    XYZ_1 = np.array([28.0, 21.26, 5.27])
+    xy_o1 = (0.4476, 0.4074)
+    xy_o2 = (0.3127, 0.3290)
+    Y_o = 20
+    E_o1 = 1000
+    E_o2 = 1000
+    print(chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+
+    print('\n')
+
+    print('1d array input:')
+    print(chromatic_adaptation_CIE1994_vectorise(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ_1 = np.tile(XYZ_1, (6, 1))
+    print(chromatic_adaptation_CIE1994_vectorise(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+    print(chromatic_adaptation_CIE1994_vectorise(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+
+    print('\n')
+
+
+chromatic_adaptation_CIE1994_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.adaptation.vonkries
 # #############################################################################
 # #############################################################################
 
 # #############################################################################
 # # ### colour.chromatic_adaptation_matrix_VonKries
 # #############################################################################
-from colour.adaptation import *
 from colour.adaptation.vonkries import *
 
 
@@ -148,10 +350,6 @@ def chromatic_adaptation_matrix_VonKries_analysis():
     print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
                                                          XYZ_wr))
 
-    # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit chromatic_adaptation_matrix_VonKries_vectorise(DATA1, DATA2)')
-
     print('\n')
 
 
@@ -210,10 +408,6 @@ def chromatic_adaptation_VonKries_analysis():
     print(chromatic_adaptation_VonKries_vectorise(XYZ,
                                                   XYZ_w,
                                                   XYZ_wr))
-
-    # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_2d(DATA1, DATA2, DATA3)')
-
-    # get_ipython().magic(u'timeit chromatic_adaptation_VonKries_vectorise(DATA1, DATA2, DATA3)')
 
     print('\n')
 
@@ -275,10 +469,6 @@ def cartesian_to_spherical_analysis():
     vector = np.reshape(vector, (2, 3, 3))
     print(cartesian_to_spherical_vectorise(vector))
 
-    # get_ipython().magic(u'timeit cartesian_to_spherical_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit cartesian_to_spherical_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -330,10 +520,6 @@ def spherical_to_cartesian_analysis():
     print('3d array input:')
     vector = np.reshape(vector, (2, 3, 3))
     print(spherical_to_cartesian_vectorise(vector))
-
-    # get_ipython().magic(u'timeit spherical_to_cartesian_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit spherical_to_cartesian_vectorise(DATA1)')
 
     print('\n')
 
@@ -387,10 +573,6 @@ def cartesian_to_cylindrical_analysis():
     vector = np.reshape(vector, (2, 3, 3))
     print(cartesian_to_cylindrical_vectorise(vector))
 
-    # get_ipython().magic(u'timeit cartesian_to_cylindrical_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit cartesian_to_cylindrical_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -441,10 +623,6 @@ def cylindrical_to_cartesian_analysis():
     print('3d array input:')
     vector = np.reshape(vector, (2, 3, 3))
     print(cylindrical_to_cartesian_vectorise(vector))
-
-    # get_ipython().magic(u'timeit cylindrical_to_cartesian_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit cylindrical_to_cartesian_vectorise(DATA1)')
 
     print('\n')
 
@@ -511,10 +689,6 @@ def planck_law_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(planck_law_vectorise(wl, 5500))
-
-    # get_ipython().magic(u'timeit planck_law_2d(WAVELENGTHS)')
-
-    # get_ipython().magic(u'timeit planck_law_vectorise(WAVELENGTHS, 5500)')
 
     print('\n')
 
@@ -599,10 +773,6 @@ def lightness_Glasser1958_analysis():
     Y = np.reshape(np.array(Y), (2, 3, 1))
     print(lightness_Glasser1958_vectorise(Y))
 
-    # get_ipython().magic(u'timeit lightness_Glasser1958_2d(Y)')
-
-    # get_ipython().magic(u'timeit lightness_Glasser1958_vectorise(Y)')
-
     print('\n')
 
 
@@ -656,10 +826,6 @@ def lightness_Wyszecki1963_analysis():
     print('3d array input:')
     Y = np.reshape(np.array(Y), (2, 3, 1))
     print(lightness_Wyszecki1963_vectorise(Y))
-
-    # get_ipython().magic(u'timeit lightness_Wyszecki1963_2d(Y)')
-
-    # get_ipython().magic(u'timeit lightness_Wyszecki1963_vectorise(Y)')
 
     print('\n')
 
@@ -722,10 +888,6 @@ def lightness_1976_analysis():
     print(lightness_1976_vectorise(Y))
 
     print('\n')
-
-    # get_ipython().magic(u'timeit lightness_1976_2d(Y)')
-
-    # get_ipython().magic(u'timeit lightness_1976_vectorise(Y)')
 
     Y = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(lightness_1976_2d(Y),
@@ -793,10 +955,6 @@ def luminance_Newhall1943_analysis():
     V = np.reshape(np.array(V), (2, 3, 1))
     print(luminance_Newhall1943_vectorise(V))
 
-    # get_ipython().magic(u'timeit luminance_Newhall1943_2d(L)')
-
-    # get_ipython().magic(u'timeit luminance_Newhall1943_vectorise(L)')
-
     print('\n')
 
 
@@ -849,10 +1007,6 @@ def luminance_ASTMD153508_analysis():
     print('3d array input:')
     V = np.reshape(np.array(V), (2, 3, 1))
     print(luminance_ASTMD153508_vectorise(V))
-
-    # get_ipython().magic(u'timeit luminance_ASTMD153508_2d(L)')
-
-    # get_ipython().magic(u'timeit luminance_ASTMD153508_vectorise(L)')
 
     print('\n')
 
@@ -909,10 +1063,6 @@ def luminance_1976_analysis():
     print('3d array input:')
     Lstar = np.reshape(np.array(Lstar), (2, 3, 1))
     print(luminance_1976_vectorise(Lstar))
-
-    # get_ipython().magic(u'timeit luminance_1976_2d(L)')
-
-    # get_ipython().magic(u'timeit luminance_1976_vectorise(L)')
 
     Lstar = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(luminance_1976_2d(Lstar),
@@ -1742,10 +1892,6 @@ def wavelength_to_XYZ_analysis():
     print(wavelength_to_XYZ_vectorise(
         np.array([[480] * 3, [480] * 2 + [480.5]])))
 
-    # get_ipython().magic(u'timeit wavelength_to_XYZ_2d(WAVELENGTHS)')
-
-    # get_ipython().magic(u'timeit wavelength_to_XYZ_vectorise(WAVELENGTHS)')
-
     print('\n')
 
 
@@ -1807,10 +1953,6 @@ def whiteness_Berger1959_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
-    # get_ipython().magic(u'timeit whiteness_Berger1959_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit whiteness_Berger1959_vectorise(DATA1, DATA2)')
-
     print('\n')
 
 
@@ -1864,10 +2006,6 @@ def whiteness_Taube1960_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
-    # get_ipython().magic(u'timeit whiteness_Taube1960_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit whiteness_Taube1960_vectorise(DATA1, DATA2)')
-
     print('\n')
 
 
@@ -1917,10 +2055,6 @@ def whiteness_Stensby1968_analysis():
     Lab = np.reshape(Lab, (2, 3, 3))
     print(whiteness_Stensby1968_vectorise(Lab))
 
-    # get_ipython().magic(u'timeit whiteness_Stensby1968_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit whiteness_Stensby1968_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -1968,10 +2102,6 @@ def whiteness_ASTM313_analysis():
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(whiteness_ASTM313_vectorise(XYZ))
-
-    # get_ipython().magic(u'timeit whiteness_ASTM313_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit whiteness_ASTM313_vectorise(DATA1)')
 
     print('\n')
 
@@ -2028,10 +2158,6 @@ def whiteness_Ganz1979_analysis():
     print('3d array input:')
     xy = np.reshape(xy, (2, 3, 2))
     print(whiteness_Ganz1979_vectorise(xy, Y))
-
-    # get_ipython().magic(u'timeit whiteness_Ganz1979_2d(DATA1[:,0:2], DATA2[:,0])')
-
-    # get_ipython().magic(u'timeit whiteness_Ganz1979_vectorise(DATA1[:,0:2], DATA2[:,0])')
 
     print('\n')
 
@@ -2098,10 +2224,6 @@ def whiteness_CIE2004_analysis():
     xy = np.reshape(xy, (2, 3, 2))
     print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
-    # get_ipython().magic(u'timeit whiteness_CIE2004_2d(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
-
-    # get_ipython().magic(u'timeit whiteness_CIE2004_vectorise(DATA1[:,0:2], DATA2[:,0], DATA1[:,0:2])')
-
     print('\n')
 
 
@@ -2161,10 +2283,6 @@ def delta_E_CIE1976_analysis():
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     Lab2 = np.reshape(Lab2, (2, 3, 3))
     print(delta_E_CIE1976_vectorise(Lab1, Lab2))
-
-    # get_ipython().magic(u'timeit delta_E_CIE1976_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit delta_E_CIE1976_vectorise(DATA1, DATA2)')
 
     print('\n')
 
@@ -2245,10 +2363,6 @@ def delta_E_CIE1994_analysis():
     print('3d array input:')
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     print(delta_E_CIE1994_vectorise(Lab1, Lab2))
-
-    # get_ipython().magic(u'timeit delta_E_CIE1994_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit delta_E_CIE1994_vectorise(DATA1, DATA2)')
 
     print('\n')
 
@@ -2368,10 +2482,6 @@ def delta_E_CIE2000_analysis():
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
-    # get_ipython().magic(u'timeit delta_E_CIE2000_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit delta_E_CIE2000_vectorise(DATA1, DATA2)')
-
     np.testing.assert_almost_equal(
         np.ravel(delta_E_CIE2000_2d(DATA1 * 360, DATA2 * 360)),
         np.ravel(delta_E_CIE2000_vectorise(DATA1 * 360, DATA2 * 360)))
@@ -2463,10 +2573,6 @@ def delta_E_CMC_analysis():
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     print(delta_E_CMC_vectorise(Lab1, Lab2))
 
-    # get_ipython().magic(u'timeit delta_E_CMC_2d(DATA1, DATA2)')
-
-    # get_ipython().magic(u'timeit delta_E_CMC_vectorise(DATA1, DATA2)')
-
     np.testing.assert_almost_equal(
         np.ravel(delta_E_CMC_2d(DATA1 * 360, DATA2 * 360)),
         np.ravel(delta_E_CMC_vectorise(DATA1 * 360, DATA2 * 360)))
@@ -2545,10 +2651,6 @@ def XYZ_to_xyY_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_xyY_vectorise(XYZ))
 
-    # get_ipython().magic(u'timeit XYZ_to_xyY_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_xyY_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_xyY_2d(DATA1)),
         np.ravel(XYZ_to_xyY_vectorise(DATA1)))
@@ -2610,10 +2712,6 @@ def xyY_to_XYZ_analysis():
     xyY = np.reshape(xyY, (2, 3, 3))
     print(xyY_to_XYZ_vectorise(xyY))
 
-    # get_ipython().magic(u'timeit xyY_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit xyY_to_XYZ_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(xyY_to_XYZ_2d(DATA1)),
         np.ravel(xyY_to_XYZ_vectorise(DATA1)))
@@ -2670,10 +2768,6 @@ def xy_to_XYZ_analysis():
     xy = np.reshape(xy, (2, 3, 2))
     print(xy_to_XYZ_vectorise(xy))
 
-    # get_ipython().magic(u'timeit xy_to_XYZ_2d(DATA1[:, 0:2])')
-
-    # get_ipython().magic(u'timeit xy_to_XYZ_vectorise(DATA1[:, 0:2])')
-
     print('\n')
 
 
@@ -2723,10 +2817,6 @@ def XYZ_to_xy_analysis():
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_xy_vectorise(XYZ))
-
-    # get_ipython().magic(u'timeit XYZ_to_xy_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_xy_vectorise(DATA1)')
 
     print('\n')
 
@@ -2801,10 +2891,6 @@ def XYZ_to_Lab_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_Lab_vectorise(XYZ))
 
-    # get_ipython().magic(u'timeit XYZ_to_Lab_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_Lab_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_Lab_2d(DATA1)),
         np.ravel(XYZ_to_Lab_vectorise(DATA1)))
@@ -2873,10 +2959,6 @@ def Lab_to_XYZ_analysis():
     Lab = np.reshape(Lab, (2, 3, 3))
     print(Lab_to_XYZ_vectorise(Lab))
 
-    # get_ipython().magic(u'timeit Lab_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit Lab_to_XYZ_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(Lab_to_XYZ_2d(DATA1 * 360)),
         np.ravel(Lab_to_XYZ_vectorise(DATA1 * 360)))
@@ -2894,9 +2976,6 @@ def Lab_to_XYZ_analysis():
 def Lab_to_LCHab_2d(Lab):
     for i in range(len(Lab)):
         Lab_to_LCHab(Lab[i])
-
-
-# get_ipython().magic(u'timeit Lab_to_LCHab_2d(DATA1)')
 
 
 def Lab_to_LCHab_vectorise(Lab):
@@ -2935,8 +3014,6 @@ def Lab_to_LCHab_analysis():
     print('2d array input:')
     Lab = np.reshape(Lab, (2, 3, 3))
     print(Lab_to_LCHab_vectorise(Lab))
-
-    # get_ipython().magic(u'timeit Lab_to_LCHab_vectorise(DATA1)')
 
     print('\n')
 
@@ -2988,10 +3065,6 @@ def LCHab_to_Lab_analysis():
     LCHab = np.reshape(LCHab, (2, 3, 3))
     print(LCHab_to_Lab_vectorise(LCHab))
 
-    # get_ipython().magic(u'timeit LCHab_to_Lab_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit LCHab_to_Lab_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -3014,9 +3087,6 @@ def XYZ_to_Luv_2d(XYZ):
     for i in range(len(XYZ)):
         Luv.append(XYZ_to_Luv(XYZ[i]))
     return Luv
-
-
-# get_ipython().magic(u'timeit XYZ_to_Luv_2d(DATA1)')
 
 
 def XYZ_to_Luv_vectorise(XYZ,
@@ -3067,10 +3137,6 @@ def XYZ_to_Luv_analysis():
     print('2d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_Luv_vectorise(XYZ))
-
-    # get_ipython().magic(u'timeit XYZ_to_Luv_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_Luv_vectorise(DATA1)')
 
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_Luv_2d(DATA1)),
@@ -3145,10 +3211,6 @@ def Luv_to_XYZ_analysis():
     Luv = np.reshape(Luv, (2, 3, 3))
     print(Luv_to_XYZ_vectorise(Luv))
 
-    # get_ipython().magic(u'timeit Luv_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit Luv_to_XYZ_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(Luv_to_XYZ_2d(DATA1)),
         np.ravel(Luv_to_XYZ_vectorise(DATA1)))
@@ -3206,10 +3268,6 @@ def Luv_to_uv_analysis():
     Luv = np.reshape(Luv, (2, 3, 3))
     print(Luv_to_uv_vectorise(Luv))
 
-    # get_ipython().magic(u'timeit Luv_to_uv_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit Luv_to_uv_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -3259,10 +3317,6 @@ def Luv_uv_to_xy_analysis():
     print('3d array input:')
     uv = np.reshape(uv, (2, 3, 2))
     print(Luv_uv_to_xy_vectorise(uv))
-
-    # get_ipython().magic(u'timeit Luv_uv_to_xy_2d(DATA1[:, 0:2])')
-
-    # get_ipython().magic(u'timeit Luv_uv_to_xy_vectorise(DATA1[:, 0:2])')
 
     print('\n')
 
@@ -3318,10 +3372,6 @@ def Luv_to_LCHuv_analysis():
     Luv = np.reshape(Luv, (2, 3, 3))
     print(Luv_to_LCHuv_vectorise(Luv))
 
-    # get_ipython().magic(u'timeit Luv_to_LCHuv_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit Luv_to_LCHuv_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -3372,10 +3422,6 @@ def LCHuv_to_Luv_analysis():
     print('3d array input:')
     LCHuv = np.reshape(LCHuv, (2, 3, 3))
     print(LCHuv_to_Luv_vectorise(LCHuv))
-
-    # get_ipython().magic(u'timeit LCHuv_to_Luv_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit LCHuv_to_Luv_vectorise(DATA1)')
 
     print('\n')
 
@@ -3436,10 +3482,6 @@ def XYZ_to_UCS_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_UCS_vectorise(XYZ))
 
-    # get_ipython().magic(u'timeit XYZ_to_UCS_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_UCS_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -3492,10 +3534,6 @@ def UCS_to_XYZ_analysis():
     UVW = np.reshape(UVW, (2, 3, 3))
     print(UCS_to_XYZ_vectorise(UVW))
 
-    # get_ipython().magic(u'timeit UCS_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit UCS_to_XYZ_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -3545,10 +3583,6 @@ def UCS_to_uv_analysis():
     print('3d array input:')
     UVW = np.reshape(UVW, (2, 3, 3))
     print(UCS_to_uv_vectorise(UVW))
-
-    # get_ipython().magic(u'timeit UCS_to_uv_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit UCS_to_uv_vectorise(DATA1)')
 
     print('\n')
 
@@ -3600,10 +3634,6 @@ def UCS_uv_to_xy_analysis():
     print('3d array input:')
     uv = np.reshape(uv, (2, 3, 2))
     print(UCS_uv_to_xy_vectorise(uv))
-
-    # get_ipython().magic(u'timeit UCS_uv_to_xy_2d(DATA1[:, 0:2])')
-
-    # get_ipython().magic(u'timeit UCS_uv_to_xy_vectorise(DATA1[:, 0:2])')
 
     print('\n')
 
@@ -3681,10 +3711,6 @@ def XYZ_to_UVW_analysis():
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_UVW_vectorise(XYZ))
-
-    # get_ipython().magic(u'timeit XYZ_to_UVW_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_UVW_vectorise(DATA1)')
 
     print('\n')
 
@@ -3766,10 +3792,6 @@ def RGB_to_HSV_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_HSV_vectorise(RGB))
 
-    # get_ipython().magic(u'timeit RGB_to_HSV_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_HSV_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(RGB_to_HSV_2d(DATA1)),
         np.ravel(RGB_to_HSV_vectorise(DATA1)))
@@ -3839,10 +3861,6 @@ def RGB_to_HSV_analysis():
     print('3d array input:')
     HSV = np.reshape(HSV, (2, 3, 3))
     print(HSV_to_RGB_vectorise(HSV))
-
-    # get_ipython().magic(u'timeit HSV_to_RGB_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit HSV_to_RGB_vectorise(DATA1)')
 
     np.testing.assert_almost_equal(
         np.ravel(HSV_to_RGB_2d(DATA1)),
@@ -3922,10 +3940,6 @@ def RGB_to_HSL_analysis():
     print('3d array input:')
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_HSL_vectorise(RGB))
-
-    # get_ipython().magic(u'timeit RGB_to_HSL_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_HSL_vectorise(DATA1)')
 
     np.testing.assert_almost_equal(
         np.ravel(RGB_to_HSL_2d(DATA1)),
@@ -4017,10 +4031,6 @@ def HSL_to_RGB_analysis():
     HSL = np.reshape(HSL, (2, 3, 3))
     print(HSL_to_RGB_vectorise(HSL))
 
-    # get_ipython().magic(u'timeit HSL_to_RGB_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit HSL_to_RGB_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(HSL_to_RGB_2d(DATA1)),
         np.ravel(HSL_to_RGB_vectorise(DATA1)))
@@ -4073,10 +4083,6 @@ def RGB_to_CMY_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_CMY_vectorise(RGB))
 
-    # get_ipython().magic(u'timeit RGB_to_CMY_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_CMY_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -4124,10 +4130,6 @@ def CMY_to_RGB_analysis():
     print('3d array input:')
     CMY = np.reshape(CMY, (2, 3, 3))
     print(CMY_to_RGB_vectorise(CMY))
-
-    # get_ipython().magic(u'timeit CMY_to_RGB_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit CMY_to_RGB_vectorise(DATA1)')
 
     print('\n')
 
@@ -4193,10 +4195,6 @@ def CMY_to_CMYK_analysis():
     CMY = np.reshape(CMY, (2, 3, 3))
     print(CMY_to_CMYK_vectorise(CMY))
 
-    # get_ipython().magic(u'timeit CMY_to_CMYK_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit CMY_to_CMYK_vectorise(DATA1)')
-
     np.testing.assert_almost_equal(
         np.ravel(CMY_to_CMYK_2d(DATA1)),
         np.ravel(CMY_to_CMYK_vectorise(DATA1)))
@@ -4252,10 +4250,6 @@ def CMYK_to_CMY_analysis():
     print('3d array input:')
     CMYK = np.reshape(CMYK, (2, 3, 4))
     print(CMYK_to_CMY_vectorise(CMYK))
-
-    # get_ipython().magic(u'timeit CMYK_to_CMY_2d(np.resize(DATA1, (-1, 4)))')
-
-    # get_ipython().magic(u'timeit CMYK_to_CMY_vectorise(np.resize(DATA1, (-1, 4)))')
 
     print('\n')
 
@@ -4348,7 +4342,7 @@ def primaries_whitepoint_analysis():
     print('\n')
 
 
-primaries_whitepoint_analysis()
+# primaries_whitepoint_analysis()
 
 # #############################################################################
 # # ### colour.RGB_luminance
@@ -4402,10 +4396,6 @@ def RGB_luminance_analysis():
     print('3d array input:')
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_luminance_vectorise(RGB, P, W))
-
-    # get_ipython().magic(u'timeit RGB_luminance_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_luminance_vectorise(DATA1, P, W)')
 
     print('\n')
 
@@ -4467,10 +4457,6 @@ def XYZ_to_IPT_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_IPT_vectorise(XYZ))
 
-    # get_ipython().magic(u'timeit XYZ_to_IPT_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_IPT_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -4526,10 +4512,6 @@ def IPT_to_XYZ_analysis():
     IPT = np.reshape(IPT, (2, 3, 3))
     print(IPT_to_XYZ_vectorise(IPT))
 
-    # get_ipython().magic(u'timeit IPT_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit IPT_to_XYZ_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -4578,10 +4560,6 @@ def IPT_hue_angle_analysis():
     print('3d array input:')
     IPT = np.reshape(IPT, (2, 3, 3))
     print(IPT_hue_angle_vectorise(IPT))
-
-    # get_ipython().magic(u'timeit IPT_hue_angle_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit IPT_hue_angle_vectorise(DATA1)')
 
     print('\n')
 
@@ -4647,10 +4625,6 @@ def linear_to_cineon_analysis():
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_cineon_vectorise(linear))
 
-    # get_ipython().magic(u'timeit linear_to_cineon_2d(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_cineon_vectorise(DATA)')
-
     print('\n')
 
 
@@ -4703,11 +4677,6 @@ def cineon_to_linear_analysis():
     print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(cineon_to_linear_vectorise(log))
-
-
-    # get_ipython().magic(u'timeit cineon_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit cineon_to_linear_vectorise(DATA)')
 
     print('\n')
 
@@ -4763,10 +4732,6 @@ def linear_to_panalog_analysis():
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_panalog_vectorise(linear))
 
-    # get_ipython().magic(u'timeit linear_to_panalog_2d(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_panalog_vectorise(DATA)')
-
     print('\n')
 
 
@@ -4819,10 +4784,6 @@ def panalog_to_linear_analysis():
     print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(panalog_to_linear_vectorise(log))
-
-    # get_ipython().magic(u'timeit panalog_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit panalog_to_linear_vectorise(DATA)')
 
     print('\n')
 
@@ -4878,10 +4839,6 @@ def linear_to_red_log_analysis():
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_red_log_vectorise(linear))
 
-    # get_ipython().magic(u'timeit linear_to_red_log(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_red_log_vectorise(DATA)')
-
     print('\n')
 
 
@@ -4935,10 +4892,6 @@ def red_log_to_linear_analysis():
     log = np.reshape(log, (2, 3, 1))
     print(red_log_to_linear_vectorise(log))
 
-    # get_ipython().magic(u'timeit red_log_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit red_log_to_linear_vectorise(DATA)')
-
     print('\n')
 
 
@@ -4989,10 +4942,6 @@ def linear_to_viper_log_analysis():
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_viper_log_vectorise(linear))
 
-    # get_ipython().magic(u'timeit linear_to_viper_log_2d(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_viper_log_vectorise(DATA)')
-
     print('\n')
 
 
@@ -5042,10 +4991,6 @@ def viper_log_to_linear_analysis():
     print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(viper_log_to_linear_vectorise(log))
-
-    # get_ipython().magic(u'timeit viper_log_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit viper_log_to_linear_vectorise(DATA)')
 
     print('\n')
 
@@ -5101,10 +5046,6 @@ def linear_to_pivoted_log_analysis():
     print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_pivoted_log_vectorise(linear))
-
-    # get_ipython().magic(u'timeit linear_to_pivoted_log_2d(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_pivoted_log_vectorise(DATA)')
 
     print('\n')
 
@@ -5162,10 +5103,6 @@ def pivoted_log_to_linear_analysis():
     log = np.reshape(log, (2, 3, 1))
     print(pivoted_log_to_linear_vectorise(log))
 
-    # get_ipython().magic(u'timeit pivoted_log_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit pivoted_log_to_linear_vectorise(DATA)')
-
     print('\n')
 
 
@@ -5215,10 +5152,6 @@ def linear_to_c_log_analysis():
     print('3d array input:')
     linear = np.reshape(linear, (2, 3, 1))
     print(linear_to_c_log_vectorise(linear))
-
-    # get_ipython().magic(u'timeit linear_to_c_log_2d(DATA)')
-
-    # get_ipython().magic(u'timeit linear_to_c_log_vectorise(DATA)')
 
     print('\n')
 
@@ -5270,10 +5203,6 @@ def c_log_to_linear_analysis():
     print('3d array input:')
     log = np.reshape(log, (2, 3, 1))
     print(c_log_to_linear_vectorise(log))
-
-    # get_ipython().magic(u'timeit c_log_to_linear_2d(DATA)')
-
-    # get_ipython().magic(u'timeit c_log_to_linear_vectorise(DATA)')
 
     print('\n')
 
@@ -6236,10 +6165,6 @@ def XYZ_to_RGB_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_RGB_vectorise(XYZ, W_R, W_T, M, CAT))
 
-    # get_ipython().magic(u'timeit XYZ_to_RGB_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit XYZ_to_RGB_vectorise(DATA1, W_R, W_T, M, CAT)')
-
     print('\n')
 
 
@@ -6312,11 +6237,6 @@ def RGB_to_XYZ_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_XYZ_vectorise(RGB, W_R, W_T, M, CAT))
 
-
-    # get_ipython().magic(u'timeit RGB_to_XYZ_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_XYZ_vectorise(DATA1, W_R, W_T, M, CAT)')
-
     print('\n')
 
 
@@ -6383,10 +6303,6 @@ def RGB_to_RGB_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
 
-    # get_ipython().magic(u'timeit RGB_to_RGB_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_RGB_vectorise(DATA1, C, C, CAT)')
-
     print('\n')
 
 
@@ -6449,10 +6365,6 @@ def munsell_value_Priest1920_analysis():
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_Priest1920_vectorise(Y))
 
-    # get_ipython().magic(u'timeit munsell_value_Priest1920_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_Priest1920_vectorise(Y)')
-
     print('\n')
 
 
@@ -6504,10 +6416,6 @@ def munsell_value_Munsell1933_analysis():
     print('3d array input:')
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_Munsell1933_vectorise(Y))
-
-    # get_ipython().magic(u'timeit munsell_value_Munsell1933_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_Munsell1933_vectorise(Y)')
 
     print('\n')
 
@@ -6561,10 +6469,6 @@ def munsell_value_Moon1943_analysis():
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_Moon1943_vectorise(Y))
 
-    # get_ipython().magic(u'timeit munsell_value_Moon1943_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_Moon1943_vectorise(Y)')
-
     print('\n')
 
 
@@ -6617,10 +6521,6 @@ def munsell_value_Saunderson1944_analysis():
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_Saunderson1944_vectorise(Y))
 
-    # get_ipython().magic(u'timeit munsell_value_Saunderson1944_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_Saunderson1944_vectorise(Y)')
-
     print('\n')
 
 
@@ -6672,10 +6572,6 @@ def munsell_value_Ladd1955_analysis():
     print('3d array input:')
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_Ladd1955_vectorise(Y))
-
-    # get_ipython().magic(u'timeit munsell_value_Ladd1955_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_Ladd1955_vectorise(Y)')
 
     print('\n')
 
@@ -6738,10 +6634,6 @@ def munsell_value_McCamy1987_analysis():
     print('3d array input:')
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_McCamy1987_vectorise(Y))
-
-    # get_ipython().magic(u'timeit munsell_value_McCamy1987_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_McCamy1987_vectorise(Y)')
 
     Y = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(
@@ -6817,10 +6709,6 @@ def munsell_value_ASTMD153508_analysis():
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_ASTMD153508_vectorise(Y))
 
-    # get_ipython().magic(u'timeit munsell_value_ASTMD153508_2d(Y)')
-
-    # get_ipython().magic(u'timeit munsell_value_ASTMD153508_vectorise(Y)')
-
     print('\n')
 
 
@@ -6882,10 +6770,6 @@ def RGB_to_HEX_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_HEX_vectorise(RGB))
 
-    # get_ipython().magic(u'timeit RGB_to_HEX_2d(DATA1)')
-
-    # get_ipython().magic(u'timeit RGB_to_HEX_vectorise(DATA1)')
-
     print('\n')
 
 
@@ -6944,10 +6828,6 @@ def HEX_to_RGB_analysis():
     print(HEX_to_RGB_vectorise(RGB))
 
     # HEX1 = ['#aaddff'] * (1920 * 1080)
-
-    # get_ipython().magic(u'timeit HEX_to_RGB_2d(HEX1)')
-
-    # get_ipython().magic(u'timeit HEX_to_RGB_vectorise(HEX1)')
 
     print('\n')
 
@@ -7008,10 +6888,6 @@ def air_refraction_index_Penndorf1957_analysis():
     wl = np.reshape(wl, (2, 3, 1))
     print(air_refraction_index_Penndorf1957_vectorise(wl))
 
-    # get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit air_refraction_index_Penndorf1957_vectorise(DATA1[:, 0])')
-
     print('\n')
 
 
@@ -7063,10 +6939,6 @@ def air_refraction_index_Edlen1966_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(air_refraction_index_Edlen1966_vectorise(wl))
-
-    # get_ipython().magic(u'timeit air_refraction_index_Edlen1966_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit air_refraction_index_Edlen1966_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7120,10 +6992,6 @@ def air_refraction_index_Peck1972_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(air_refraction_index_Peck1972_vectorise(wl))
-
-    # get_ipython().magic(u'timeit air_refraction_index_Peck1972_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit air_refraction_index_Peck1972_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7182,10 +7050,6 @@ def air_refraction_index_Bodhaine1999_analysis():
     wl = np.reshape(wl, (2, 3, 1))
     print(air_refraction_index_Bodhaine1999_vectorise(wl))
 
-    # get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit air_refraction_index_Bodhaine1999_vectorise(DATA1[:, 0])')
-
     print('\n')
 
 
@@ -7236,10 +7100,6 @@ def N2_depolarisation_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(N2_depolarisation_vectorise(wl))
-
-    # get_ipython().magic(u'timeit N2_depolarisation_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit N2_depolarisation_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7292,10 +7152,6 @@ def O2_depolarisation_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(O2_depolarisation_vectorise(wl))
-
-    # get_ipython().magic(u'timeit O2_depolarisation_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit O2_depolarisation_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7440,10 +7296,6 @@ def F_air_Bates1984_analysis():
     wl = np.reshape(wl, (2, 3, 1))
     print(F_air_Bates1984_vectorise(wl))
 
-    # get_ipython().magic(u'timeit F_air_Bates1984_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit F_air_Bates1984_vectorise(DATA1[:, 0])')
-
     print('\n')
 
 
@@ -7502,10 +7354,6 @@ def F_air_Bodhaine1999_analysis():
     wl = np.reshape(wl, (2, 3, 1))
     print(F_air_Bodhaine1999_vectorise(wl))
 
-    # get_ipython().magic(u'timeit F_air_Bodhaine1999_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit F_air_Bodhaine1999_vectorise(DATA1[:, 0])')
-
     print('\n')
 
 
@@ -7560,10 +7408,6 @@ def molecular_density_analysis():
     t = np.reshape(t, (2, 3, 1))
     print(molecular_density_vectorise(t))
 
-    # get_ipython().magic(u'timeit molecular_density_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit molecular_density_vectorise(DATA1[:, 0])')
-
     print('\n')
 
 
@@ -7616,10 +7460,6 @@ def mean_molecular_weights_analysis():
     print('3d array input:')
     c = np.reshape(c, (2, 3, 1))
     print(mean_molecular_weights_vectorise(c))
-
-    # get_ipython().magic(u'timeit mean_molecular_weights_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit mean_molecular_weights_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7680,10 +7520,6 @@ def gravity_List1968_analysis():
     print('2d array input:')
     l = np.reshape([0] * 6, (2, 3, 1))
     print(gravity_List1968_vectorise(l, [0]))
-
-    # get_ipython().magic(u'timeit gravity_List1968_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit gravity_List1968_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7752,11 +7588,6 @@ def scattering_cross_section_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(scattering_cross_section_vectorise(wl))
-
-
-    # get_ipython().magic(u'timeit scattering_cross_section_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit scattering_cross_section_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7833,10 +7664,6 @@ def rayleigh_optical_depth_analysis():
     print('3d array input:')
     wl = np.reshape(wl, (2, 3, 1))
     print(rayleigh_optical_depth_vectorise(wl))
-
-    # get_ipython().magic(u'timeit rayleigh_optical_depth_2d(DATA1[:, 0])')
-
-    # get_ipython().magic(u'timeit rayleigh_optical_depth_vectorise(DATA1[:, 0])')
 
     print('\n')
 
@@ -7995,10 +7822,6 @@ def xy_to_CCT_McCamy1992_analysis():
     xy = np.reshape(xy, (2, 3, 2))
     print(xy_to_CCT_McCamy1992_vectorise(xy))
 
-    # get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_2d(DATA1[:, 0:2])')
-
-    # get_ipython().magic(u'timeit xy_to_CCT_McCamy1992_vectorise(DATA1[:, 0:2])')
-
     print('\n')
 
 
@@ -8065,10 +7888,6 @@ def xy_to_CCT_Hernandez1999_analysis():
     print('3d array input:')
     xy = np.reshape(xy, (2, 3, 2))
     print(xy_to_CCT_Hernandez1999_vectorise(xy))
-
-    # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])')
-
-    # get_ipython().magic(u'timeit xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])')
 
     np.testing.assert_almost_equal(
         np.ravel(xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])),
@@ -8162,10 +7981,6 @@ def CCT_to_xy_Kang2002_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_Kang2002_vectorise(CCT))
 
-    # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_2d(CCT)')
-
-    # get_ipython().magic(u'timeit CCT_to_xy_Kang2002_vectorise(CCT)')
-
     CCT = np.linspace(1667, 25000, 10000)
     np.testing.assert_almost_equal(
         np.ravel(CCT_to_xy_Kang2002_2d(CCT)),
@@ -8244,10 +8059,6 @@ def CCT_to_xy_CIE_D_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_CIE_D_vectorise(CCT))
 
-    # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_2d(CCT)')
-
-    # get_ipython().magic(u'timeit CCT_to_xy_CIE_D_vectorise(CCT)')
-
     CCT = np.linspace(4000, 25000, 10000)
     np.testing.assert_almost_equal(
         np.ravel(CCT_to_xy_CIE_D_2d(CCT)),
@@ -8267,8 +8078,6 @@ def CCT_to_xy_CIE_D_analysis():
 # #############################################################################
 # ### Image Operations
 # #############################################################################
-
-# get_ipython().magic(u'matplotlib inline')
 
 # import pylab
 # from OpenImageIO import FLOAT, ImageInput
