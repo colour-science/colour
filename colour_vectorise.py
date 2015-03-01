@@ -284,6 +284,144 @@ def chromatic_adaptation_CIE1994_analysis():
 
 # #############################################################################
 # #############################################################################
+# ## colour.adaptation.cmccat2000
+# #############################################################################
+# #############################################################################
+from colour.adaptation.cmccat2000 import *
+
+
+def CMCCAT2000_forward_vectorise(XYZ,
+                                 XYZ_w,
+                                 XYZ_wr,
+                                 L_A1,
+                                 L_A2,
+                                 surround=CMCCAT2000_VIEWING_CONDITIONS.get(
+                                     'Average')):
+    shape = as_shape(XYZ)
+    XYZ = as_array(XYZ, (-1, 3))
+    XYZ_w = np.resize(XYZ_w, XYZ.shape)
+    XYZ_wr = np.resize(XYZ_wr, XYZ.shape)
+    L_A1 = np.resize(L_A1, XYZ[:, 0].shape)
+    L_A2 = np.resize(L_A1, XYZ[:, 0].shape)
+
+    RGB = np.einsum('...i,...ji', XYZ, CMCCAT2000_CAT)
+    RGB_w = np.einsum('...i,...ji', XYZ_w, CMCCAT2000_CAT)
+    RGB_wr = np.einsum('...i,...ji', XYZ_wr, CMCCAT2000_CAT)
+
+    D = (surround.F *
+         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
+          0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
+
+    D = np.clip(D, 0, 1)
+    a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
+
+    RGB_c = RGB * (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
+    XYZ_c = np.einsum('...i,...ji', RGB_c, CMCCAT2000_INVERSE_CAT)
+
+    return np.reshape(XYZ_c, shape)
+
+
+def CMCCAT2000_forward_analysis():
+    message_box('CMCCAT2000_forward')
+
+    print('Reference:')
+    XYZ = np.array([22.48, 22.74, 8.54])
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+    print(CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('1d array input:')
+    print(CMCCAT2000_forward_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(CMCCAT2000_forward_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(CMCCAT2000_forward_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+
+# CMCCAT2000_forward_analysis()
+
+
+def CMCCAT2000_reverse_vectorise(XYZ_c,
+                                 XYZ_w,
+                                 XYZ_wr,
+                                 L_A1,
+                                 L_A2,
+                                 surround=CMCCAT2000_VIEWING_CONDITIONS.get(
+                                     'Average')):
+    shape = as_shape(XYZ_c)
+    XYZ_c = as_array(XYZ_c, (-1, 3))
+    XYZ_w = np.resize(XYZ_w, XYZ_c.shape)
+    XYZ_wr = np.resize(XYZ_wr, XYZ_c.shape)
+    L_A1 = np.resize(L_A1, XYZ_c[:, 0].shape)
+    L_A2 = np.resize(L_A1, XYZ_c[:, 0].shape)
+
+    RGB_c = np.einsum('...i,...ji', XYZ_c, CMCCAT2000_CAT)
+    RGB_w = np.einsum('...i,...ji', XYZ_w, CMCCAT2000_CAT)
+    RGB_wr = np.einsum('...i,...ji', XYZ_wr, CMCCAT2000_CAT)
+
+    D = (surround.F *
+         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
+          0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
+
+    D = np.clip(D, 0, 1)
+    a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
+
+    RGB = RGB_c / (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
+    XYZ = np.reshape(np.einsum('...i,...ji', RGB, CMCCAT2000_INVERSE_CAT),
+                     shape)
+
+    return XYZ
+
+
+def CMCCAT2000_reverse_analysis():
+    message_box('CMCCAT2000_reverse')
+
+    print('Reference:')
+    XYZ = np.array([22.48, 22.74, 8.54])
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+    print(CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('1d array input:')
+    print(CMCCAT2000_reverse_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(CMCCAT2000_reverse_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(CMCCAT2000_reverse_vectorise(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
+
+    print('\n')
+
+
+# CMCCAT2000_reverse_analysis()
+
+# #############################################################################
+# #############################################################################
 # ## colour.adaptation.vonkries
 # #############################################################################
 # #############################################################################
