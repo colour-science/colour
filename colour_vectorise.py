@@ -16,6 +16,13 @@ output value.
 - Various definitions accept multiple arguments like
 `lightness_1976_vectorise(Y, Y_n=100)`, in that case `Y_n` is resized to match
 `y` length.
+
+Helpers
+-------
+
+# (.*)_analysis\(\)$
+$1_analysis()
+
 """
 
 from __future__ import division, with_statement
@@ -215,11 +222,11 @@ def corresponding_colour_vectorise(
     shape = as_shape(RGB_1)
     RGB_1 = as_array(RGB_1, (-1, 3))
     xez_1 = np.resize(xez_1, RGB_1.shape)
-    xez_2 = np.resize(xez_2, xez_1.shape)
-    bRGB_o1 = np.resize(bRGB_o1, xez_1.shape)
-    bRGB_o2 = np.resize(bRGB_o2, xez_1.shape)
-    Y_o = np.resize(Y_o, xez_1[:, 0].shape)
-    K = np.resize(K, xez_1[:, 0].shape)
+    xez_2 = np.resize(xez_2, RGB_1.shape)
+    bRGB_o1 = np.resize(bRGB_o1, RGB_1.shape)
+    bRGB_o2 = np.resize(bRGB_o2, RGB_1.shape)
+    Y_o = np.resize(Y_o, RGB_1[:, 0].shape)
+    K = np.resize(K, RGB_1[:, 0].shape)
 
     R_1, G_1, B_1 = RGB_1[:, 0], RGB_1[:, 1], RGB_1[:, 2]
     xi_1, eta_1, zeta_1 = xez_1[:, 0], xez_1[:, 1], xez_1[:, 2]
@@ -847,7 +854,7 @@ from colour.constants import CIE_E, CIE_K
 
 def lightness_1976_vectorise(Y, Y_n=100):
     Y = as_array(Y)
-    Y_n = np.resize(as_array(Y_n), Y.shape)
+    Y_n = np.resize(Y_n, Y.shape)
 
     Lstar = Y / Y_n
 
@@ -1026,7 +1033,7 @@ def luminance_1976_2d(L):
 
 def luminance_1976_vectorise(Lstar, Y_n=100):
     Lstar = as_array(Lstar)
-    Y_n = np.resize(as_array(Y_n), Lstar.shape)
+    Y_n = np.resize(Y_n, Lstar.shape)
 
     Y = np.where(Lstar > CIE_K * CIE_E,
                  Y_n * ((Lstar + 16) / 116) ** 3,
@@ -1173,7 +1180,7 @@ def SpectralPowerDistribution__setitem__(self, wavelength, value):
             '"{0}" type is not supported for indexing!'.format(
                 type(wavelength)))
 
-    values = np.resize(as_array(value), wavelengths.shape)
+    values = np.resize(value, wavelengths.shape)
     for i in range(len(wavelengths)):
         # self.data ===> self.__data
         self.data.__setitem__(wavelengths[i], values[i])
@@ -1358,7 +1365,7 @@ def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
             '"{0}" type is not supported for indexing!'.format(
                 type(wavelength)))
 
-    value = np.resize(as_array(value), (wavelengths.shape[0], 3))
+    value = np.resize(value, (wavelengths.shape[0], 3))
     x, y, z = value[:, 0], value[:, 1], value[:, 2]
 
     self.x.__setitem__(wavelengths, x)
@@ -1917,7 +1924,7 @@ def whiteness_Berger1959_2d(XYZ, XYZ_0):
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
     shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
-    XYZ_0 = np.resize(as_array(XYZ_0), XYZ.shape)
+    XYZ_0 = np.resize(XYZ_0, XYZ.shape)
 
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
     X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
@@ -1971,7 +1978,7 @@ def whiteness_Taube1960_2d(XYZ, XYZ_0):
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
     shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
-    XYZ_0 = np.resize(as_array(XYZ_0), XYZ.shape)
+    XYZ_0 = np.resize(XYZ_0, XYZ.shape)
 
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
     X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
@@ -2123,7 +2130,7 @@ def whiteness_Ganz1979_vectorise(xy, Y):
     xy = as_array(xy, (-1, 2))
     x, y = xy[:, 0], xy[:, 1]
 
-    Y = np.resize(as_array(Y), x.shape)
+    Y = np.resize(Y, x.shape)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
@@ -2182,10 +2189,10 @@ def whiteness_CIE2004_vectorise(xy,
     xy = as_array(xy, (-1, 2))
     x, y = xy[:, 0], xy[:, 1]
 
-    Y = np.resize(as_array(Y), x.shape)
+    Y = np.resize(Y, x.shape)
 
     xy_n = as_array(xy_n, (-1, 2))
-    xy_n = np.resize(as_array(xy_n), xy.shape)
+    xy_n = np.resize(xy_n, xy.shape)
     x_n, y_n = xy_n[:, 0], xy_n[:, 1]
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
@@ -2609,7 +2616,7 @@ def XYZ_to_xyY_vectorise(XYZ,
                              'D50')):
     shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
-    illuminant = np.resize(as_array(illuminant, (-1, 2)), XYZ.shape)
+    illuminant = np.resize(illuminant, XYZ.shape)
 
     X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
 
@@ -2648,7 +2655,8 @@ def XYZ_to_xyY_analysis():
     print('\n')
 
     print('3d array input:')
-    XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ = np.reshape(np.tile([0.07049534, 0.1008, 0.09558313], (6, 1)),
+                     (2, 3, 3))
     print(XYZ_to_xyY_vectorise(XYZ))
 
     np.testing.assert_almost_equal(
@@ -7013,7 +7021,7 @@ def air_refraction_index_Bodhaine1999_vectorise(
         CO2_concentration=STANDARD_CO2_CONCENTRATION):
     shape = as_shape(wavelength)
     wl = as_array(wavelength)
-    CO2_c = np.resize(as_array(CO2_concentration), shape)
+    CO2_c = np.resize(CO2_concentration, shape)
 
     n = as_numeric(((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
                     (air_refraction_index_Peck1972(wl) - 1) + 1))
@@ -7317,7 +7325,7 @@ def F_air_Bodhaine1999_vectorise(wavelength,
     wl = as_array(wavelength)
     O2 = O2_depolarisation_vectorise(wl)
     N2 = N2_depolarisation_vectorise(wl)
-    CO2_c = np.resize(as_array(CO2_concentration), shape)
+    CO2_c = np.resize(CO2_concentration, shape)
 
     F_air = as_numeric((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
                        (78.084 + 20.946 + 0.934 + CO2_c))
@@ -7479,7 +7487,7 @@ def gravity_List1968_2d(C):
 def gravity_List1968_vectorise(latitude=DEFAULT_LATITUDE,
                                altitude=DEFAULT_ALTITUDE):
     latitude = as_array(latitude)
-    altitude = np.resize(as_array(altitude), latitude.shape)
+    altitude = np.resize(altitude, latitude.shape)
 
     cos2phi = np.cos(2 * np.radians(latitude))
 
@@ -7544,8 +7552,8 @@ def scattering_cross_section_vectorise(wavelength,
                                        F_air=F_air_Bodhaine1999):
     shape = as_shape(wavelength)
     wl = as_array(wavelength)
-    temperature = np.resize(as_array(temperature), shape)
-    CO2_c = np.resize(as_array(CO2_concentration), shape)
+    temperature = np.resize(temperature, shape)
+    CO2_c = np.resize(CO2_concentration, shape)
 
     wl_micrometers = wl * 10e3
 
@@ -7615,11 +7623,11 @@ def rayleigh_optical_depth_vectorise(wavelength,
                                      F_air=F_air_Bodhaine1999):
     shape = as_shape(wavelength)
     wavelength = as_array(wavelength)
-    CO2_c = np.resize(as_array(CO2_concentration), shape)
-    latitude = np.resize(as_array(latitude), shape)
-    altitude = np.resize(as_array(altitude), shape)
+    CO2_c = np.resize(CO2_concentration, shape)
+    latitude = np.resize(latitude, shape)
+    altitude = np.resize(altitude, shape)
     # Conversion from pascal to dyne/cm2.
-    P = np.resize(as_array(pressure * 10), shape)
+    P = np.resize(pressure * 10, shape)
 
     sigma = as_array(scattering_cross_section(wavelength,
                                               CO2_c,
