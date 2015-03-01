@@ -280,7 +280,7 @@ def chromatic_adaptation_CIE1994_analysis():
     print('\n')
 
 
-chromatic_adaptation_CIE1994_analysis()
+# chromatic_adaptation_CIE1994_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -885,13 +885,13 @@ def lightness_1976_analysis():
     print('\n')
 
     print('2d array input:')
-    Y = np.reshape(np.array(Y), (2, 3))
+    Y = np.reshape(Y, (2, 3))
     print(lightness_1976_vectorise(Y))
 
     print('\n')
 
     print('3d array input:')
-    Y = np.reshape(np.array(Y), (2, 3, 1))
+    Y = np.reshape(Y, (2, 3, 1))
     print(lightness_1976_vectorise(Y))
 
     print('\n')
@@ -899,8 +899,6 @@ def lightness_1976_analysis():
     Y = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(lightness_1976_2d(Y),
                                    lightness_1976_vectorise(Y))
-
-    print('\n')
 
 
 # lightness_1976_analysis()
@@ -1071,11 +1069,11 @@ def luminance_1976_analysis():
     Lstar = np.reshape(np.array(Lstar), (2, 3, 1))
     print(luminance_1976_vectorise(Lstar))
 
+    print('\n')
+
     Lstar = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(luminance_1976_2d(Lstar),
                                    luminance_1976_vectorise(Lstar))
-
-    print('\n')
 
 
 # luminance_1976_analysis()
@@ -1951,7 +1949,6 @@ def whiteness_Berger1959_analysis():
 
     print('2d array input:')
     XYZ = np.tile(XYZ, (6, 1))
-    XYZ_0 = np.tile(XYZ_0, (6, 1))
     print(whiteness_Berger1959_vectorise(XYZ, XYZ_0))
 
     print('\n')
@@ -2489,11 +2486,11 @@ def delta_E_CIE2000_analysis():
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(delta_E_CIE2000_2d(DATA1 * 360, DATA2 * 360)),
         np.ravel(delta_E_CIE2000_vectorise(DATA1 * 360, DATA2 * 360)))
-
-    print('\n')
 
 
 # delta_E_CIE2000_analysis()
@@ -2580,11 +2577,11 @@ def delta_E_CMC_analysis():
     Lab1 = np.reshape(Lab1, (2, 3, 3))
     print(delta_E_CMC_vectorise(Lab1, Lab2))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(delta_E_CMC_2d(DATA1 * 360, DATA2 * 360)),
         np.ravel(delta_E_CMC_vectorise(DATA1 * 360, DATA2 * 360)))
-
-    print('\n')
 
 
 # delta_E_CMC_analysis()
@@ -2659,11 +2656,11 @@ def XYZ_to_xyY_analysis():
                      (2, 3, 3))
     print(XYZ_to_xyY_vectorise(XYZ))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_xyY_2d(DATA1)),
         np.ravel(XYZ_to_xyY_vectorise(DATA1)))
-
-    print('\n')
 
 
 # XYZ_to_xyY_analysis()
@@ -2720,11 +2717,11 @@ def xyY_to_XYZ_analysis():
     xyY = np.reshape(xyY, (2, 3, 3))
     print(xyY_to_XYZ_vectorise(xyY))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(xyY_to_XYZ_2d(DATA1)),
         np.ravel(xyY_to_XYZ_vectorise(DATA1)))
-
-    print('\n')
 
 
 # xyY_to_XYZ_analysis()
@@ -2899,11 +2896,11 @@ def XYZ_to_Lab_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_Lab_vectorise(XYZ))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_Lab_2d(DATA1)),
         np.ravel(XYZ_to_Lab_vectorise(DATA1)))
-
-    print('\n')
 
 
 # XYZ_to_Lab_analysis()
@@ -2967,11 +2964,11 @@ def Lab_to_XYZ_analysis():
     Lab = np.reshape(Lab, (2, 3, 3))
     print(Lab_to_XYZ_vectorise(Lab))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(Lab_to_XYZ_2d(DATA1 * 360)),
         np.ravel(Lab_to_XYZ_vectorise(DATA1 * 360)))
-
-    print('\n')
 
 
 # Lab_to_XYZ_analysis()
@@ -3146,11 +3143,11 @@ def XYZ_to_Luv_analysis():
     XYZ = np.reshape(XYZ, (2, 3, 3))
     print(XYZ_to_Luv_vectorise(XYZ))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(XYZ_to_Luv_2d(DATA1)),
         np.ravel(XYZ_to_Luv_vectorise(DATA1)))
-
-    print('\n')
 
 
 # XYZ_to_Luv_analysis()
@@ -3219,11 +3216,11 @@ def Luv_to_XYZ_analysis():
     Luv = np.reshape(Luv, (2, 3, 3))
     print(Luv_to_XYZ_vectorise(Luv))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(Luv_to_XYZ_2d(DATA1)),
         np.ravel(Luv_to_XYZ_vectorise(DATA1)))
-
-    print('\n')
 
 
 # Luv_to_XYZ_analysis()
@@ -3800,11 +3797,11 @@ def RGB_to_HSV_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_HSV_vectorise(RGB))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(RGB_to_HSV_2d(DATA1)),
         np.ravel(RGB_to_HSV_vectorise(DATA1)))
-
-    print('\n')
 
 
 # RGB_to_HSV_analysis()
@@ -3870,11 +3867,11 @@ def RGB_to_HSV_analysis():
     HSV = np.reshape(HSV, (2, 3, 3))
     print(HSV_to_RGB_vectorise(HSV))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(HSV_to_RGB_2d(DATA1)),
         np.ravel(HSV_to_RGB_vectorise(DATA1)))
-
-    print('\n')
 
 
 # RGB_to_HSV_analysis()
@@ -3949,11 +3946,11 @@ def RGB_to_HSL_analysis():
     RGB = np.reshape(RGB, (2, 3, 3))
     print(RGB_to_HSL_vectorise(RGB))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(RGB_to_HSL_2d(DATA1)),
         np.ravel(RGB_to_HSL_vectorise(DATA1)))
-
-    print('\n')
 
 
 # RGB_to_HSL_analysis()
@@ -4039,11 +4036,11 @@ def HSL_to_RGB_analysis():
     HSL = np.reshape(HSL, (2, 3, 3))
     print(HSL_to_RGB_vectorise(HSL))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(HSL_to_RGB_2d(DATA1)),
         np.ravel(HSL_to_RGB_vectorise(DATA1)))
-
-    print('\n')
 
 
 # HSL_to_RGB_analysis()
@@ -4203,11 +4200,11 @@ def CMY_to_CMYK_analysis():
     CMY = np.reshape(CMY, (2, 3, 3))
     print(CMY_to_CMYK_vectorise(CMY))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(CMY_to_CMYK_2d(DATA1)),
         np.ravel(CMY_to_CMYK_vectorise(DATA1)))
-
-    print('\n')
 
 
 # CMY_to_CMYK_analysis()
@@ -5260,11 +5257,11 @@ def _aces_cc_transfer_function_analysis():
 
     print(_aces_cc_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_aces_cc_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_aces_cc_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _aces_cc_transfer_function_analysis()
@@ -5294,11 +5291,11 @@ def _aces_cc_inverse_transfer_function_analysis():
 
     print(_aces_cc_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_aces_cc_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_aces_cc_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _aces_cc_inverse_transfer_function_analysis()
@@ -5336,11 +5333,11 @@ def _aces_proxy_transfer_function_analysis():
 
     print(_aces_proxy_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_aces_proxy_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_aces_proxy_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _aces_proxy_transfer_function_analysis()
@@ -5453,11 +5450,11 @@ def _alexa_wide_gamut_rgb_transfer_function_analysis():
 
     print(_alexa_wide_gamut_rgb_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_alexa_wide_gamut_rgb_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_alexa_wide_gamut_rgb_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _alexa_wide_gamut_rgb_transfer_function_analysis()
@@ -5489,13 +5486,13 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function_analysis():
 
     print(_alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_alexa_wide_gamut_rgb_inverse_transfer_function(x) for x in
          np.ravel(DATA1)],
         np.ravel(
             _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _alexa_wide_gamut_rgb_inverse_transfer_function_analysis()
@@ -5733,11 +5730,11 @@ def _prophoto_rgb_transfer_function_analysis():
 
     print(_prophoto_rgb_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_prophoto_rgb_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_prophoto_rgb_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _prophoto_rgb_transfer_function_analysis()
@@ -5759,11 +5756,11 @@ def _prophoto_rgb_inverse_transfer_function_analysis():
 
     print(_prophoto_rgb_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_prophoto_rgb_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_prophoto_rgb_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _prophoto_rgb_inverse_transfer_function_analysis()
@@ -5789,11 +5786,11 @@ def _rec_709_transfer_function_analysis():
 
     print(_rec_709_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_rec_709_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_rec_709_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _rec_709_transfer_function_analysis()
@@ -5815,11 +5812,11 @@ def _rec_709_inverse_transfer_function_analysis():
 
     print(_rec_709_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_rec_709_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_rec_709_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _rec_709_inverse_transfer_function_analysis()
@@ -5847,11 +5844,11 @@ def _rec_2020_transfer_function_analysis():
 
     print(_rec_2020_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_rec_2020_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_rec_2020_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _rec_2020_transfer_function_analysis()
@@ -5876,11 +5873,11 @@ def _rec_2020_inverse_transfer_function_analysis():
 
     print(_rec_2020_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_rec_2020_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_rec_2020_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _rec_2020_inverse_transfer_function_analysis()
@@ -6007,11 +6004,11 @@ def _s_log3_transfer_function_analysis():
 
     print(_s_log3_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_s_log3_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_s_log3_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _s_log3_transfer_function_analysis()
@@ -6038,11 +6035,11 @@ def _s_log3_inverse_transfer_function_analysis():
 
     print(_s_log3_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_s_log3_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_s_log3_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _s_log3_inverse_transfer_function_analysis()
@@ -6068,11 +6065,11 @@ def _srgb_transfer_function_analysis():
 
     print(_srgb_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_srgb_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_srgb_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _srgb_transfer_function_analysis()
@@ -6094,11 +6091,11 @@ def _srgb_inverse_transfer_function_analysis():
 
     print(_srgb_inverse_transfer_function_vectorise(RGB_t))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         [_srgb_inverse_transfer_function(x) for x in np.ravel(DATA1)],
         np.ravel(_srgb_inverse_transfer_function_vectorise(DATA1)))
-
-    print('\n')
 
 
 # _srgb_inverse_transfer_function_analysis()
@@ -6643,12 +6640,12 @@ def munsell_value_McCamy1987_analysis():
     Y = np.reshape(Y, (2, 3, 1))
     print(munsell_value_McCamy1987_vectorise(Y))
 
+    print('\n')
+
     Y = np.linspace(0, 100, 10000)
     np.testing.assert_almost_equal(
         munsell_value_McCamy1987_2d(Y),
         munsell_value_McCamy1987_vectorise(Y))
-
-    print('\n')
 
 
 # munsell_value_McCamy1987_analysis()
@@ -7897,11 +7894,11 @@ def xy_to_CCT_Hernandez1999_analysis():
     xy = np.reshape(xy, (2, 3, 2))
     print(xy_to_CCT_Hernandez1999_vectorise(xy))
 
+    print('\n')
+
     np.testing.assert_almost_equal(
         np.ravel(xy_to_CCT_Hernandez1999_2d(DATA1[:, 0:2])),
         np.ravel(xy_to_CCT_Hernandez1999_vectorise(DATA1[:, 0:2])))
-
-    print('\n')
 
 
 # xy_to_CCT_Hernandez1999_analysis()
@@ -7989,12 +7986,12 @@ def CCT_to_xy_Kang2002_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_Kang2002_vectorise(CCT))
 
+    print('\n')
+
     CCT = np.linspace(1667, 25000, 10000)
     np.testing.assert_almost_equal(
         np.ravel(CCT_to_xy_Kang2002_2d(CCT)),
         np.ravel(CCT_to_xy_Kang2002_vectorise(CCT)))
-
-    print('\n')
 
 
 # CCT_to_xy_Kang2002_analysis()
@@ -8067,12 +8064,12 @@ def CCT_to_xy_CIE_D_analysis():
     CCT = np.reshape(CCT, (2, 3, 1))
     print(CCT_to_xy_CIE_D_vectorise(CCT))
 
+    print('\n')
+
     CCT = np.linspace(4000, 25000, 10000)
     np.testing.assert_almost_equal(
         np.ravel(CCT_to_xy_CIE_D_2d(CCT)),
         np.ravel(CCT_to_xy_CIE_D_vectorise(CCT)))
-
-    print('\n')
 
 
 # CCT_to_xy_CIE_D_analysis()
