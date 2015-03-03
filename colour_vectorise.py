@@ -139,11 +139,11 @@ def chromatic_adaptation_CIE1994_vectorise(XYZ_1,
 
 
 def XYZ_to_RGB_cie1994_vectorise(XYZ):
-    return np.einsum('...i,...ji', XYZ, CIE1994_XYZ_TO_RGB_MATRIX)
+    return np.einsum('...ij,...j->...i', CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_cie1994_vectorise(RGB):
-    return np.einsum('...i,...ji', RGB, CIE1994_RGB_TO_XYZ_MATRIX)
+    return np.einsum('...ij,...j->...i', CIE1994_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def intermediate_values_vectorise(xy_o):
@@ -302,11 +302,11 @@ def CMCCAT2000_forward_vectorise(XYZ,
     XYZ_w = np.resize(XYZ_w, XYZ.shape)
     XYZ_wr = np.resize(XYZ_wr, XYZ.shape)
     L_A1 = np.resize(L_A1, XYZ[:, 0].shape)
-    L_A2 = np.resize(L_A1, XYZ[:, 0].shape)
+    L_A2 = np.resize(L_A2, XYZ[:, 0].shape)
 
-    RGB = np.einsum('...i,...ji', XYZ, CMCCAT2000_CAT)
-    RGB_w = np.einsum('...i,...ji', XYZ_w, CMCCAT2000_CAT)
-    RGB_wr = np.einsum('...i,...ji', XYZ_wr, CMCCAT2000_CAT)
+    RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
+    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
@@ -316,7 +316,7 @@ def CMCCAT2000_forward_vectorise(XYZ,
     a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
 
     RGB_c = RGB * (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
-    XYZ_c = np.einsum('...i,...ji', RGB_c, CMCCAT2000_INVERSE_CAT)
+    XYZ_c = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB_c)
 
     return np.reshape(XYZ_c, shape)
 
@@ -352,7 +352,7 @@ def CMCCAT2000_forward_analysis():
     print('\n')
 
 
-# CMCCAT2000_forward_analysis()
+CMCCAT2000_forward_analysis()
 
 
 def CMCCAT2000_reverse_vectorise(XYZ_c,
@@ -367,11 +367,11 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
     XYZ_w = np.resize(XYZ_w, XYZ_c.shape)
     XYZ_wr = np.resize(XYZ_wr, XYZ_c.shape)
     L_A1 = np.resize(L_A1, XYZ_c[:, 0].shape)
-    L_A2 = np.resize(L_A1, XYZ_c[:, 0].shape)
+    L_A2 = np.resize(L_A2, XYZ_c[:, 0].shape)
 
-    RGB_c = np.einsum('...i,...ji', XYZ_c, CMCCAT2000_CAT)
-    RGB_w = np.einsum('...i,...ji', XYZ_w, CMCCAT2000_CAT)
-    RGB_wr = np.einsum('...i,...ji', XYZ_wr, CMCCAT2000_CAT)
+    RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
+    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
@@ -381,8 +381,9 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
     a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
 
     RGB = RGB_c / (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
-    XYZ = np.reshape(np.einsum('...i,...ji', RGB, CMCCAT2000_INVERSE_CAT),
-                     shape)
+    XYZ = np.reshape(
+        np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB),
+        shape)
 
     return XYZ
 
@@ -519,7 +520,7 @@ def chromatic_adaptation_VonKries_vectorise(XYZ,
 
     cat = chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr,
                                                          transform)
-    XYZ_a = np.reshape(np.einsum('...i,...ji', XYZ, cat), shape)
+    XYZ_a = np.reshape(np.einsum('...ij,...j->...i', cat, XYZ), shape)
 
     return XYZ_a
 
@@ -1635,8 +1636,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
                    [0.66697, 1.13240, 1.20063],
                    [0.66697, 1.13240, 1.20063]])
 
-    xyz = np.einsum('...i,...ji', rgb, M1)
-    xyz /= np.einsum('...i,...ji', rgb, M2)
+    xyz = np.einsum('...ij,...j->...i', M1, rgb)
+    xyz /= np.einsum('...ij,...j->...i', M2, rgb)
 
     x, y, z = xyz[:, 0], xyz[:, 1], xyz[:, 2]
 
@@ -1711,7 +1712,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
                   [0.139058, 0.837460, 0.073316],
                   [0.000000, 0.039553, 2.026200]])
 
-    xyz_bar = np.einsum('...i,...ji', rgb_bar, M)
+    xyz_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
     xyz_bar = (np.squeeze(xyz_bar)
                if shape == (1, ) else
                np.reshape(xyz_bar, shape + (3,)))
@@ -1775,7 +1776,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
                   [0.0192290085, 0.940908496, 0.113830196],
                   [0.0000000000, 0.0105107859, 0.991427669]])
 
-    lms_bar = np.einsum('...i,...ji', rgb_bar, M)
+    lms_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
     lms_bar[wavelength > 505, 2] = 0
 
     lms_bar = (np.squeeze(lms_bar)
@@ -1842,7 +1843,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
                   [0.68990272, 0.34832189, 0.00000000],
                   [0.00000000, 0.00000000, 1.93485343]])
 
-    xyz_bar = np.einsum('...i,...ji', lms_bar, M)
+    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
 
     xyz_bar = (np.squeeze(xyz_bar)
                if shape == (1, ) else
@@ -1907,7 +1908,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
                   [0.69283932, 0.34967567, 0.00000000],
                   [0.00000000, 0.00000000, 2.14687945]])
 
-    xyz_bar = np.einsum('...i,...ji', lms_bar, M)
+    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
 
     xyz_bar = (np.squeeze(xyz_bar)
                if shape == (1, ) else
@@ -4566,12 +4567,11 @@ def XYZ_to_IPT_vectorise(XYZ):
     shape = as_shape(XYZ)
     XYZ = as_array(XYZ, (-1, 3))
 
-    LMS = np.einsum('...i,...ji', XYZ, IPT_XYZ_TO_LMS_MATRIX)
+    LMS = np.einsum('...ij,...j->...i', IPT_XYZ_TO_LMS_MATRIX, XYZ)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = np.reshape(np.einsum('...i,...ji',
-                               LMS_prime,
-                               IPT_LMS_TO_IPT_MATRIX),
-                     shape)
+    IPT = np.reshape(
+        np.einsum('...ij,...j->...i', IPT_LMS_TO_IPT_MATRIX, LMS_prime),
+        shape)
 
     return IPT
 
@@ -4621,12 +4621,11 @@ def IPT_to_XYZ_vectorise(IPT):
     shape = as_shape(IPT)
     IPT = as_array(IPT, (-1, 3))
 
-    LMS = np.einsum('...i,...ji', IPT, IPT_IPT_TO_LMS_MATRIX)
+    LMS = np.einsum('...ij,...j->...i', IPT_IPT_TO_LMS_MATRIX, IPT)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = np.reshape(np.einsum('...i,...ji',
-                               LMS_prime,
-                               IPT_LMS_TO_XYZ_MATRIX),
-                     shape)
+    XYZ = np.reshape(
+        np.einsum('...ij,...j->...i', IPT_LMS_TO_XYZ_MATRIX, LMS_prime),
+        shape)
 
     return XYZ
 
@@ -6271,9 +6270,9 @@ def XYZ_to_RGB_vectorise(XYZ,
         xy_to_XYZ_vectorise(illuminant_RGB),
         transform=chromatic_adaptation_transform)
 
-    XYZ_a = np.einsum('...i,...ji', XYZ, M)
+    XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
 
-    RGB = np.einsum('...i,...ji', XYZ_a, XYZ_to_RGB_matrix)
+    RGB = np.einsum('...ij,...j->...i', XYZ_to_RGB_matrix, XYZ_a)
 
     if transfer_function is not None:
         RGB = transfer_function(RGB)
@@ -6342,14 +6341,14 @@ def RGB_to_XYZ_vectorise(RGB,
     if inverse_transfer_function is not None:
         RGB = inverse_transfer_function(RGB)
 
-    XYZ = np.einsum('...i,...ji', RGB, RGB_to_XYZ_matrix)
+    XYZ = np.einsum('...ij,...j->...i', RGB_to_XYZ_matrix, RGB)
 
     M = chromatic_adaptation_matrix_VonKries_vectorise(
         xy_to_XYZ_vectorise(illuminant_RGB),
         xy_to_XYZ_vectorise(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
 
-    XYZ_a = np.einsum('...i,...ji', XYZ, M)
+    XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
 
     XYZ_a = np.reshape(XYZ_a, shape)
 
@@ -6418,7 +6417,7 @@ def RGB_to_RGB_vectorise(RGB,
                   M,
                   output_colourspace.XYZ_to_RGB_matrix)
 
-    RGB = np.reshape(np.einsum('...i,...ji', RGB, M), shape)
+    RGB = np.reshape(np.einsum('...ij,...j->...i', M, RGB), shape)
 
     return RGB
 
