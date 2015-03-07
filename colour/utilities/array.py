@@ -431,10 +431,7 @@ def row_as_diagonal(a):
             [ 0.        ,  0.        ,  0.88027331]]])
     """
 
-    rd = np.zeros((a.shape[0], a.shape[1], a.shape[1]))
-    diagonal = np.arange(a.shape[1])
-    rd[:, diagonal, diagonal] = a
+    a = np.expand_dims(a, -2)
 
-    return rd
-
+    return np.eye(a.shape[-1]) * a
 

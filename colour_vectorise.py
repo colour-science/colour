@@ -79,6 +79,13 @@ def profile(method):
     return wrapper
 
 
+def zstack(a):
+    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
+
+
+def zsplit(a):
+    return [a[..., x] for x in range(a.shape[-1])]
+
 # #############################################################################
 # #############################################################################
 # ## colour.adaptation.cie1994
@@ -110,14 +117,6 @@ def chromatic_adaptation_CIE1994_vectorise(XYZ_1,
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
 
-    shape = as_shape(XYZ_1)
-    XYZ_1 = as_array(XYZ_1, (-1, 3))
-    xy_o1 = np.resize(xy_o1, XYZ_1[:, 0:2].shape)
-    xy_o2 = np.resize(xy_o2, XYZ_1[:, 0:2].shape)
-    Y_o = np.resize(Y_o, XYZ_1[:, 0].shape)
-    E_o1 = np.resize(E_o1, XYZ_1[:, 0].shape)
-    E_o2 = np.resize(E_o2, XYZ_1[:, 0].shape)
-
     RGB_1 = XYZ_to_RGB_cie1994_vectorise(XYZ_1)
 
     xez_1 = intermediate_values_vectorise(xy_o1)
@@ -133,7 +132,7 @@ def chromatic_adaptation_CIE1994_vectorise(XYZ_1,
 
     RGB_2 = corresponding_colour_vectorise(
         RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
-    XYZ_2 = np.reshape(RGB_to_XYZ_cie1994_vectorise(RGB_2), shape)
+    XYZ_2 = RGB_to_XYZ_cie1994_vectorise(RGB_2)
 
     return XYZ_2
 
@@ -147,27 +146,20 @@ def RGB_to_XYZ_cie1994_vectorise(RGB):
 
 
 def intermediate_values_vectorise(xy_o):
-    shape = as_shape(xy_o)
-    xy_o = as_array(xy_o, (-1, 2))
-    x_o, y_o = xy_o[:, 0], xy_o[:, 1]
+    x_o, y_o = zsplit(xy_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
     xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
 
-    xez = as_stack((xi, eta, zeta), shape=auto_axis(shape))
+    xez = zstack((xi, eta, zeta))
 
     return xez
 
 
 def effective_adapting_responses_vectorise(xez, Y_o, E_o):
     # TODO: Mention *xez* place change.
-    shape = as_shape(xez)
-    xez = as_array(xez, (-1, 3))
-    Y_o = np.resize(Y_o, xez[0].shape)
-    E_o = np.resize(E_o, xez[0].shape)
-
     RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
 
     return RGB_o
@@ -182,29 +174,24 @@ def beta_2_vectorise(x):
 
 
 def exponential_factors_vectorise(RGB_o):
-    shape = as_shape(RGB_o)
-    RGB_o = as_array(RGB_o, (-1, 3))
+    R_o, G_o, B_o = zsplit(RGB_o)
 
-    bR_o = beta_1_vectorise(RGB_o[:, 0])
-    bG_o = beta_1_vectorise(RGB_o[:, 1])
-    bB_o = beta_2_vectorise(RGB_o[:, 2])
+    bR_o = beta_1_vectorise(R_o)
+    bG_o = beta_1_vectorise(G_o)
+    bB_o = beta_2_vectorise(B_o)
 
-    return as_stack((bR_o, bG_o, bB_o), shape=shape)
+    bRGB_o = zstack((bR_o, bG_o, bB_o))
+
+    return bRGB_o
 
 
 def K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     # TODO: Mention *Y_o* place change.
-    shape = as_shape(xez_1)
-    xez_1 = as_array(xez_1, (-1, 3))
-    xez_2 = np.resize(xez_2, xez_1.shape)
-    bRGB_o1 = np.resize(bRGB_o1, xez_1.shape)
-    bRGB_o2 = np.resize(bRGB_o2, xez_1.shape)
-    Y_o = np.resize(Y_o, xez_1[:, 0].shape)
 
-    xi_1, eta_1, zeta_1 = xez_1[:, 0], xez_1[:, 1], xez_1[:, 2]
-    xi_2, eta_2, zeta_2 = xez_2[:, 0], xez_2[:, 1], xez_2[:, 2]
-    bR_o1, bG_o1, bB_o1 = bRGB_o1[:, 0], bRGB_o1[:, 1], bRGB_o1[:, 2]
-    bR_o2, bG_o2, bB_o2 = bRGB_o2[:, 0], bRGB_o2[:, 1], bRGB_o2[:, 2]
+    xi_1, eta_1, zeta_1 = zsplit(xez_1)
+    xi_2, eta_2, zeta_2 = zsplit(xez_2)
+    bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
+    bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
 
     K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /
          ((Y_o * xi_2 + n) / (20 * xi_2 + n)) ** ((2 / 3) * bR_o2))
@@ -212,27 +199,18 @@ def K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     K *= (((Y_o * eta_1 + n) / (20 * eta_1 + n)) ** ((1 / 3) * bG_o1) /
           ((Y_o * eta_2 + n) / (20 * eta_2 + n)) ** ((1 / 3) * bG_o2))
 
-    return as_numeric(np.reshape(K, auto_axis(shape)))
+    return K
 
 
 def corresponding_colour_vectorise(
         RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     # TODO: Mention *Y_o* place change.
 
-    shape = as_shape(RGB_1)
-    RGB_1 = as_array(RGB_1, (-1, 3))
-    xez_1 = np.resize(xez_1, RGB_1.shape)
-    xez_2 = np.resize(xez_2, RGB_1.shape)
-    bRGB_o1 = np.resize(bRGB_o1, RGB_1.shape)
-    bRGB_o2 = np.resize(bRGB_o2, RGB_1.shape)
-    Y_o = np.resize(Y_o, RGB_1[:, 0].shape)
-    K = np.resize(K, RGB_1[:, 0].shape)
-
-    R_1, G_1, B_1 = RGB_1[:, 0], RGB_1[:, 1], RGB_1[:, 2]
-    xi_1, eta_1, zeta_1 = xez_1[:, 0], xez_1[:, 1], xez_1[:, 2]
-    xi_2, eta_2, zeta_2 = xez_2[:, 0], xez_2[:, 1], xez_2[:, 2]
-    bR_o1, bG_o1, bB_o1 = bRGB_o1[:, 0], bRGB_o1[:, 1], bRGB_o1[:, 2]
-    bR_o2, bG_o2, bB_o2 = bRGB_o2[:, 0], bRGB_o2[:, 1], bRGB_o2[:, 2]
+    R_1, G_1, B_1 = zsplit(RGB_1)
+    xi_1, eta_1, zeta_1 = zsplit(xez_1)
+    xi_2, eta_2, zeta_2 = zsplit(xez_2)
+    bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
+    bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
 
     RGBc = lambda x1, x2, y1, y2, z: (
         (Y_o * x2 + n) * K ** (1 / y2) *
@@ -242,7 +220,9 @@ def corresponding_colour_vectorise(
     G_2 = RGBc(eta_1, eta_2, bG_o1, bG_o2, G_1)
     B_2 = RGBc(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
 
-    return as_stack((R_2, G_2, B_2), shape=shape)
+    RGB_2 = zstack((R_2, G_2, B_2))
+
+    return RGB_2
 
 
 def chromatic_adaptation_CIE1994_analysis():
@@ -250,8 +230,8 @@ def chromatic_adaptation_CIE1994_analysis():
 
     print('Reference:')
     XYZ_1 = np.array([28.0, 21.26, 5.27])
-    xy_o1 = (0.4476, 0.4074)
-    xy_o2 = (0.3127, 0.3290)
+    xy_o1 = np.array([0.4476, 0.4074])
+    xy_o2 = np.array([0.3127, 0.3290])
     Y_o = 20
     E_o1 = 1000
     E_o2 = 1000
@@ -297,13 +277,6 @@ def CMCCAT2000_forward_vectorise(XYZ,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    XYZ_w = np.resize(XYZ_w, XYZ.shape)
-    XYZ_wr = np.resize(XYZ_wr, XYZ.shape)
-    L_A1 = np.resize(L_A1, XYZ[:, 0].shape)
-    L_A2 = np.resize(L_A2, XYZ[:, 0].shape)
-
     RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
     RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
@@ -313,12 +286,13 @@ def CMCCAT2000_forward_vectorise(XYZ,
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = np.clip(D, 0, 1)
-    a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
+    a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = RGB * (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
+    RGB_c = (RGB *
+             (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
     XYZ_c = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB_c)
 
-    return np.reshape(XYZ_c, shape)
+    return XYZ_c
 
 
 def CMCCAT2000_forward_analysis():
@@ -352,7 +326,7 @@ def CMCCAT2000_forward_analysis():
     print('\n')
 
 
-CMCCAT2000_forward_analysis()
+# CMCCAT2000_forward_analysis()
 
 
 def CMCCAT2000_reverse_vectorise(XYZ_c,
@@ -362,13 +336,6 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
-    shape = as_shape(XYZ_c)
-    XYZ_c = as_array(XYZ_c, (-1, 3))
-    XYZ_w = np.resize(XYZ_w, XYZ_c.shape)
-    XYZ_wr = np.resize(XYZ_wr, XYZ_c.shape)
-    L_A1 = np.resize(L_A1, XYZ_c[:, 0].shape)
-    L_A2 = np.resize(L_A2, XYZ_c[:, 0].shape)
-
     RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
     RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
@@ -378,12 +345,11 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = np.clip(D, 0, 1)
-    a = D * XYZ_w[:, 1] / XYZ_wr[:, 1]
+    a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = RGB_c / (a[:, np.newaxis] * (RGB_wr / RGB_w) + 1 - D[:, np.newaxis])
-    XYZ = np.reshape(
-        np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB),
-        shape)
+    RGB = (RGB_c /
+           (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    XYZ = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB)
 
     return XYZ
 
@@ -448,14 +414,9 @@ def chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
             '"{0}" chromatic adaptation transform is not defined! Supported '
             'methods: "{1}".'.format(transform,
                                      CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
-    M = as_array(M, (3, 3))
 
-    shape = as_shape(XYZ_w)
-    XYZ_w = as_array(XYZ_w, (-1, 3))
-    XYZ_wr = as_array(XYZ_wr, (-1, 3))
-
-    rgb_w = np.dot(XYZ_w, np.transpose(M))
-    rgb_wr = np.dot(XYZ_wr, np.transpose(M))
+    rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
+    rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
 
     D = rgb_wr / rgb_w
 
@@ -463,8 +424,6 @@ def chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
 
     cat = np.einsum('...ij,...jk->...ik', np.linalg.inv(M), D)
     cat = np.einsum('...ij,...jk->...ik', cat, M)
-
-    cat = np.reshape(cat, shape + (3,))
 
     return cat
 
@@ -493,8 +452,8 @@ def chromatic_adaptation_matrix_VonKries_analysis():
 
     print('3d array input:')
     XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-    print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w,
-                                                         XYZ_wr))
+    XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+    print(chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr))
 
     print('\n')
 
@@ -515,12 +474,9 @@ def chromatic_adaptation_VonKries_vectorise(XYZ,
                                             XYZ_w,
                                             XYZ_wr,
                                             transform='CAT02'):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-
     cat = chromatic_adaptation_matrix_VonKries_vectorise(XYZ_w, XYZ_wr,
                                                          transform)
-    XYZ_a = np.reshape(np.einsum('...ij,...j->...i', cat, XYZ), shape)
+    XYZ_a = np.einsum('...ij,...j->...i', cat, XYZ)
 
     return XYZ_a
 
@@ -551,6 +507,8 @@ def chromatic_adaptation_VonKries_analysis():
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+    XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
     print(chromatic_adaptation_VonKries_vectorise(XYZ,
                                                   XYZ_w,
                                                   XYZ_wr))
@@ -578,17 +536,15 @@ def cartesian_to_spherical_2d(vectors):
 
 
 def cartesian_to_spherical_vectorise(vector):
-    shape = as_shape(vector)
-    vector = as_array(vector, (-1, 3))
+    x, y, z = zsplit(vector)
 
-    r = np.linalg.norm(vector, axis=1)
-    x, y, z = vector[:, 0], vector[:, 1], vector[:, 2]
-
-    theta = np.arctan2(z, np.linalg.norm(
-        np.dstack((x, y)).reshape((-1, 2)), axis=1))
+    r = np.linalg.norm(vector, axis=-1)
+    theta = np.arctan2(z, np.linalg.norm(zstack((x, y))))
     phi = np.arctan2(y, x)
 
-    return as_stack((r, theta, phi), shape=shape)
+    rtp = zstack((r, theta, phi))
+
+    return rtp
 
 
 def cartesian_to_spherical_analysis():
@@ -631,16 +587,15 @@ def spherical_to_cartesian_2d(vectors):
 
 
 def spherical_to_cartesian_vectorise(vector):
-    shape = as_shape(vector)
-    vector = as_array(vector, (-1, 3))
-
-    r, theta, phi = vector[:, 0], vector[:, 1], vector[:, 2]
+    r, theta, phi = zsplit(vector)
 
     x = r * np.cos(theta) * np.cos(phi)
     y = r * np.cos(theta) * np.sin(phi)
     z = r * np.sin(theta)
 
-    return as_stack((x, y, z), shape=shape)
+    xyz = zstack((x, y, z))
+
+    return xyz
 
 
 def spherical_to_cartesian_analysis():
@@ -670,7 +625,7 @@ def spherical_to_cartesian_analysis():
     print('\n')
 
 
-# spherical_to_cartesian_analysis()
+spherical_to_cartesian_analysis()
 
 # #############################################################################
 # # ### colour.cartesian_to_cylindrical
@@ -683,16 +638,12 @@ def cartesian_to_cylindrical_2d(vectors):
 
 
 def cartesian_to_cylindrical_vectorise(vector):
-    shape = as_shape(vector)
-    vector = as_array(vector, (-1, 3))
-
-    x, y, z = vector[:, 0], vector[:, 1], vector[:, 2]
+    x, y, z = zsplit(vector)
 
     theta = np.arctan2(y, x)
-    rho = np.linalg.norm(
-        np.dstack((x, y)).reshape((-1, 2)), axis=1)
+    rho = np.linalg.norm(zstack((x, y)), axis=-1)
 
-    return as_stack((z, theta, rho), shape=shape)
+    return zstack((z, theta, rho))
 
 
 def cartesian_to_cylindrical_analysis():
@@ -735,15 +686,12 @@ def cylindrical_to_cartesian_2d(vectors):
 
 
 def cylindrical_to_cartesian_vectorise(vector):
-    shape = as_shape(vector)
-    vector = as_array(vector, (-1, 3))
-
-    z, theta, rho = vector[:, 0], vector[:, 1], vector[:, 2]
+    z, theta, rho = zsplit(vector)
 
     x = rho * np.cos(theta)
     y = rho * np.sin(theta)
 
-    return as_stack((x, y, z), shape=shape)
+    return zstack((x, y, z))
 
 
 def cylindrical_to_cartesian_analysis():
