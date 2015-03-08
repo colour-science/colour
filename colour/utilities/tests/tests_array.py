@@ -16,11 +16,7 @@ else:
     import unittest
 
 from colour.utilities import (
-    as_array,
     as_numeric,
-    as_stack,
-    as_shape,
-    auto_axis,
     closest,
     normalise,
     steps,
@@ -34,36 +30,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestAsArray',
-           'TestAsNumeric',
-           'TestAsStack',
-           'TestAsShape',
-           'TestAutoAxis',
+__all__ = ['TestAsNumeric',
            'TestClosest',
            'TestNormalise',
            'TestSteps',
            'TestIsUniform',
            'TestRowAsDiagonal']
-
-
-class TestAsArray(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.as_array` definition unit tests
-    methods.
-    """
-
-    def test_as_array(self):
-        """
-        Tests :func:`colour.utilities.array.as_array` definition.
-        """
-
-        self.assertEqual(as_array(1), np.array([1]))
-        self.assertEqual(as_array([1]), np.array([1]))
-        self.assertEqual(as_array((1,)), np.array((1,)))
-        self.assertEqual(as_array(np.array([1])), np.array([1]))
-        self.assertTupleEqual(
-            as_array(np.array([1, 2, 3]), shape=(3, 1)).shape,
-            np.array([[1], [2], [3]]).shape)
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -81,81 +53,6 @@ class TestAsNumeric(unittest.TestCase):
         self.assertEqual(as_numeric(np.array([1])), 1)
         np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
                                        np.array([1, 2, 3]))
-
-
-class TestAsStack(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.as_stack` definition unit tests
-    methods.
-    """
-
-    def test_as_stack(self):
-        """
-        Tests :func:`colour.utilities.array.as_stack` definition.
-        """
-
-        x = np.array([1, 2, 3])
-        y = np.array([4, 5, 6])
-        np.testing.assert_almost_equal(as_stack((x, y)),
-                                       np.array([[[1, 4],
-                                                  [2, 5],
-                                                  [3, 6]]]))
-        np.testing.assert_almost_equal(as_stack((x, y)), as_stack((x, y), 'D'))
-        np.testing.assert_almost_equal(as_stack((x, y), 'Horizontal'),
-                                       np.array([1, 2, 3, 4, 5, 6]))
-        np.testing.assert_almost_equal(as_stack((x, y), 'Horizontal'),
-                                       as_stack((x, y), 'H'))
-        np.testing.assert_almost_equal(as_stack((x, y), 'Vertical'),
-                                       np.array([[1, 2, 3],
-                                                 [4, 5, 6]]))
-
-        np.testing.assert_almost_equal(as_stack((x, y)),
-                                       np.array([[[1, 4],
-                                                  [2, 5],
-                                                  [3, 6]]]))
-        np.testing.assert_almost_equal(as_stack((x, y), shape=(2, 3)),
-                                       np.array([[1, 4, 2],
-                                                 [5, 3, 6]]))
-
-
-class TestAsShape(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.as_shape` definition unit tests
-    methods.
-    """
-
-    def test_as_shape(self):
-        """
-        Tests :func:`colour.utilities.array.as_shape` definition.
-        """
-
-        self.assertTupleEqual(as_shape(np.array([1, 2, 3])), (3,))
-        self.assertTupleEqual(as_shape([[[1, 2, 3], [4, 5, 6]]]), (1, 2, 3))
-        self.assertTupleEqual(as_shape(1), ())
-        self.assertTupleEqual(as_shape('Nemo'), ())
-        self.assertTupleEqual(as_shape(None), ())
-
-
-class TestAutoAxis(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.auto_axis` definition unit tests
-    methods.
-    """
-
-    def test_auto_axis(self):
-        """
-        Tests :func:`colour.utilities.array.auto_axis` definition.
-        """
-
-        self.assertIsNone(auto_axis(None))
-        self.assertTupleEqual(auto_axis((3, 3)), (3, -1))
-        self.assertTupleEqual(auto_axis((3,)), (-1,))
-        self.assertTupleEqual(auto_axis((3, 3), 'L'), (3, -1))
-        self.assertTupleEqual(auto_axis((3,), 'L'), (-1,))
-        self.assertTupleEqual(auto_axis((3, 3), 'First'), (-1, 3))
-        self.assertTupleEqual(auto_axis((3,), 'First'), (-1,))
-        self.assertTupleEqual(auto_axis((3, 3), 'F'), (-1, 3))
-        self.assertTupleEqual(auto_axis((3,), 'F'), (-1,))
 
 
 class TestClosest(unittest.TestCase):

@@ -25,7 +25,6 @@ import numpy as np
 
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
-from colour.utilities import as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -148,7 +147,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__primaries = value
 
     @property
@@ -236,7 +235,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__RGB_to_XYZ_matrix = value
 
     @property
@@ -264,7 +263,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__XYZ_to_RGB_matrix = value
 
     @property

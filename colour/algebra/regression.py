@@ -19,8 +19,6 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_array
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -95,12 +93,12 @@ def linear_regression(y, x=None, additional_statistics=False):
     (array([ 0.0998002...,  0.0876257..., -4.8303807...]), array([ 2.1376249...]))
     """
 
-    y = as_array(y)
+    y = np.asarray(y)
 
     if x is None:
         x = np.arange(1, len(y) + 1)
     else:
-        x = as_array(x)
+        x = np.asarray(x)
         if len(x) != len(y):
             raise ValueError(
                 '"y" and "x" variables have incompatible dimensions!')

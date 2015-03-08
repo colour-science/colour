@@ -17,11 +17,7 @@ from .common import (
     is_numeric,
     is_integer)
 from .array import (
-    as_array,
     as_numeric,
-    as_stack,
-    as_shape,
-    auto_axis,
     closest,
     normalise,
     steps,
@@ -40,11 +36,7 @@ __all__ = ['handle_numpy_errors',
            'is_string',
            'is_numeric',
            'is_integer']
-__all__ += ['as_array',
-            'as_numeric',
-            'as_stack',
-            'as_shape',
-            'auto_axis',
+__all__ += ['as_numeric',
             'closest',
             'normalise',
             'steps',
@@ -52,3 +44,4 @@ __all__ += ['as_array',
             'row_as_diagonal']
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['message_box', 'warning']
+

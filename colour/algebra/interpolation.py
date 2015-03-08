@@ -18,11 +18,11 @@ import bisect
 import numpy as np
 
 from colour.utilities import (
-    as_array,
-    steps,
+    as_numeric,
     is_numeric,
     is_uniform,
     is_scipy_installed,
+    steps,
     warning)
 
 __author__ = 'Colour Developers'
@@ -112,13 +112,10 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
         self.__x = value
 
@@ -147,13 +144,10 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
         self.__y = value
 
@@ -173,11 +167,11 @@ class LinearInterpolator1d(object):
             Interpolated value(s).
         """
 
-        xi = self.__evaluate(as_array(x))
-        if is_numeric(x):
-            return float(xi)
-        else:
-            return xi
+        x = np.atleast_1d(x).astype(np.float_)
+
+        xi = as_numeric(self.__evaluate(x))
+
+        return xi
 
     def __evaluate(self, x):
         """
@@ -361,16 +355,13 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
             assert is_uniform(value), (
                 '"x" independent variable is not uniform!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
             value_steps = steps(value)[0]
 
@@ -408,16 +399,13 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
 
             assert len(value) >= 6, (
                 '"y" dependent variable values count must be in domain [6:]!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
             yp1 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[0],

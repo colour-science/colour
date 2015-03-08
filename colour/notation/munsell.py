@@ -840,9 +840,7 @@ def xyY_to_munsell_specification(xyY):
             munsell_specification_to_xyY(specification_current))
 
         z_current, theta_current, rho_current = cartesian_to_cylindrical(
-            (x_current - x_center,
-             y_current - y_center,
-             Y_center))
+            (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
         chroma_bounds = [chroma_current]
@@ -867,9 +865,7 @@ def xyY_to_munsell_specification(xyY):
                 munsell_specification_to_xyY(specification_inner))
 
             z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
-                (x_inner - x_center,
-                 y_inner - y_center,
-                 Y_center))
+                (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)
             chroma_bounds.append(chroma_inner)

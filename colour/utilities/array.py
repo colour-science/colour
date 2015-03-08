@@ -12,8 +12,6 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, is_iterable
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -21,54 +19,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['as_array',
-           'as_numeric',
-           'as_stack',
-           'as_shape',
-           'auto_axis',
+__all__ = ['as_numeric',
            'closest',
            'normalise',
            'steps',
            'is_uniform',
            'row_as_diagonal']
-
-
-def as_array(x, shape=None, data_type=np.float_):
-    """
-    Converts given :math:`x` variable to *ndarray*.
-
-    Parameters
-    ----------
-    x : object
-        Variable to convert.
-    shape : tuple, optional
-        *ndarray* shape.
-    data_type : dtype, optional
-        *ndarray* data type.
-
-    Returns
-    -------
-    ndarray
-        :math:`x` variable converted to *ndarray*.
-
-    See Also
-    --------
-    as_numeric, as_stack, as_shape, auto_axis
-
-    Examples
-    --------
-    >>> as_array(1)
-    array([ 1.])
-    """
-
-    array = (np.asarray(x, dtype=data_type)
-             if is_iterable(x) else
-             np.asarray((x,), dtype=data_type))
-
-    if shape is not None:
-        array = array.reshape(shape)
-
-    return array
 
 
 def as_numeric(x):
@@ -88,7 +44,7 @@ def as_numeric(x):
 
     See Also
     --------
-    as_array, as_stack, as_shape, auto_axis
+    as_stack, as_shape, auto_axis
 
     Examples
     --------
@@ -102,162 +58,6 @@ def as_numeric(x):
         return float(x)
     except TypeError as error:
         return x
-
-
-def as_stack(x, direction='Depth', shape=None):
-    """
-    Converts given :math:`x` variable to a stack with given direction. It is
-    possible to pass an arbitrary compatible shape for the final resulting
-    *ndarray* shape.
-
-    Parameters
-    ----------
-    x : object
-        Variable to convert.
-    direction : unicode, optional
-        {'Depth', 'D', 'Horizontal', 'H', 'Vertical', 'V'}
-        Stack direction.
-    shape : array_like, optional
-        Arbitrary compatible shape for the final resulting *ndarray*.
-
-    Returns
-    -------
-    ndarray
-        :math:`x` variable converted to a stack.
-
-    See Also
-    --------
-    as_array, as_numeric, as_shape, auto_axis
-
-    Examples
-    --------
-    Using various depth directions:
-
-    >>> x = np.array([1, 2, 3])
-    >>> y = np.array([4, 5, 6])
-    >>> as_stack((x, y))
-    array([[[1, 4],
-            [2, 5],
-            [3, 6]]])
-    >>> as_stack((x, y), 'Depth')
-    array([[[1, 4],
-            [2, 5],
-            [3, 6]]])
-    >>> as_stack((x, y), 'Horizontal')
-    array([1, 2, 3, 4, 5, 6])
-    >>> as_stack((x, y), 'Vertical')
-    array([[1, 2, 3],
-           [4, 5, 6]])
-
-    Altering the shape of the resulting *ndarray*:
-
-    >>> as_stack((x, y))
-    array([[[1, 4],
-            [2, 5],
-            [3, 6]]])
-    >>> as_stack((x, y), shape=(2, 3))
-    array([[1, 4, 2],
-           [5, 3, 6]])
-    """
-
-    methods = CaseInsensitiveMapping(
-        {'Depth': np.dstack,
-         'D': np.dstack,
-         'Horizontal': np.hstack,
-         'H': np.hstack,
-         'Vertical': np.vstack,
-         'V': np.vstack})
-
-    x = methods.get(direction)(x)
-
-    if shape is not None:
-        x = x.reshape(shape)
-
-    return x
-
-
-def as_shape(x):
-    """
-    Returns the shape of given :math:`x`. In the event where :math:`x` shape
-    cannot be retrieved *None* is returned.
-
-    Parameters
-    ----------
-    x : object
-        Variable to retrieve the shape of.
-
-    Returns
-    -------
-    tuple or None
-        Shape of :math:`x` variable if any.
-
-    See Also
-    --------
-    as_array, as_numeric, as_stack, auto_axis
-
-    Examples
-    --------
-    >>> as_shape(np.array([1, 2, 3]))
-    (3,)
-    >>> as_shape(1)
-    ()
-    >>> as_shape('Nemo')
-    ()
-    """
-
-    try:
-        return np.asarray(x).shape
-    except ValueError:
-        return None
-
-
-def auto_axis(shape, dimension='Last'):
-    """
-    Alters given shape by setting an auto-axis value (-1) to either the first
-    or last dimension.
-
-    Parameters
-    ----------
-    shape : array_like
-        Shape to set the auto-axis value on.
-    dimension : unicode, optional
-        {'Last', 'First', 'F', 'L'},
-        Shape to set the auto-axis value on.
-
-    Returns
-    -------
-    tuple
-
-    See Also
-    --------
-    as_array, as_numeric, as_stack, as_shape
-
-    Examples
-    --------
-    >>> auto_axis((3, 3))
-    (3, -1)
-    >>> auto_axis((3, ))
-    (-1,)
-    >>> auto_axis((3, 3), 'F')
-    (-1, 3)
-    """
-
-    if shape is None:
-        return None
-
-    methods = CaseInsensitiveMapping(
-        {'First': 0,
-         'F': 0,
-         'Last': -1,
-         'L': -1})
-
-    shape = list(shape)
-    if len(shape) != 0:
-        shape[methods[dimension]] = -1
-    else:
-        shape.append(-1)
-
-    return tuple(shape)
 
 
 def closest(y, x):
@@ -312,7 +112,8 @@ def normalise(x, factor=1, clip=True):
     array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 
-    x = as_array(x)
+    x = np.asarray(x)
+
     maximum = np.max(x)
     x *= (1 / maximum) * factor
     return np.clip(x, 0, factor) if clip else x

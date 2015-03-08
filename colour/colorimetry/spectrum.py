@@ -29,7 +29,6 @@ from colour.algebra import (
     SplineInterpolator,
     SpragueInterpolator)
 from colour.utilities import (
-    as_array,
     steps,
     is_iterable,
     is_numeric,
@@ -1003,7 +1002,7 @@ class SpectralPowerDistribution(object):
         if issubclass(type(x), SpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = as_array(x)
+            x = np.atleast_1d(x)
 
         return x
 
@@ -2577,7 +2576,7 @@ class TriSpectralPowerDistribution(object):
         if issubclass(type(x), TriSpectralPowerDistribution):
             x = x.values
         elif is_iterable(x):
-            x = as_array(x)
+            x = np.atleast_1d(x)
 
         return x
 

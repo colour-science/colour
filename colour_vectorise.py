@@ -5,17 +5,7 @@
 NOTE: This is a work in progress and will be injected into the API.
 
 Defines *Colour* vectorised prototype definitions. They are designed to be
-compatible with the existing API while accepting arrays with n-dimensions:
-
-- Passing a numeric to a definition previously returning a numeric will result
-in a numeric being returned.
-- Passing an array of numeric to that same definition will now return an array
-of numeric.
-- The shape of the main parameter or a compatible shape will be used for the
-output value.
-- Various definitions accept multiple arguments like
-`lightness_1976_vectorise(Y, Y_n=100)`, in that case `Y_n` is resized to match
-`y` length.
+compatible with the existing API while accepting arrays with n-dimensions.
 
 Helpers
 -------
@@ -27,16 +17,14 @@ $1_analysis()
 
 from __future__ import division, with_statement
 
+import functools
+import inspect
 import numpy as np
 import time
 from pprint import pprint
 
 from colour.utilities import (
-    as_array,
     as_numeric,
-    as_shape,
-    as_stack,
-    auto_axis,
     handle_numpy_errors,
     ignore_numpy_errors,
     is_iterable,
@@ -79,11 +67,30 @@ def profile(method):
     return wrapper
 
 
+def as_numeric(argument):
+    def decorator(function):
+        @functools.wraps(function)
+        def inner(*args, **kwargs):
+            x = args[inspect.getargspec(function).args.index(argument)]
+
+            value = function(*args, **kwargs)
+            return value.item() if is_numeric(x) else value
+
+        return inner
+
+    return decorator
+
+
 def zstack(a):
+    # Similar to *dstack* except that operation is always performed on
+    # last axis.
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
 def zsplit(a):
+    # Similar to *dsplit* except that operation is always performed on
+    # last axis.
+    a = np.asarray(a)
     return [a[..., x] for x in range(a.shape[-1])]
 
 # #############################################################################
@@ -160,6 +167,8 @@ def intermediate_values_vectorise(xy_o):
 
 def effective_adapting_responses_vectorise(xez, Y_o, E_o):
     # TODO: Mention *xez* place change.
+    xez, Y_o, E_o = np.asarray((xez, Y_o, E_o))
+
     RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
 
     return RGB_o
@@ -192,6 +201,7 @@ def K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     xi_2, eta_2, zeta_2 = zsplit(xez_2)
     bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
     bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
+    Y_o = np.asarray(Y_o)
 
     K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /
          ((Y_o * xi_2 + n) / (20 * xi_2 + n)) ** ((2 / 3) * bR_o2))
@@ -211,6 +221,7 @@ def corresponding_colour_vectorise(
     xi_2, eta_2, zeta_2 = zsplit(xez_2)
     bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
     bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
+    Y_o, K = np.asarray((Y_o, K))
 
     RGBc = lambda x1, x2, y1, y2, z: (
         (Y_o * x2 + n) * K ** (1 / y2) *
@@ -277,6 +288,8 @@ def CMCCAT2000_forward_vectorise(XYZ,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
+    L_A1, L_A2 = np.asarray((L_A1, L_A2))
+
     RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
     RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
@@ -336,6 +349,8 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
+    L_A1, L_A2 = np.asarray((L_A1, L_A2))
+
     RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
     RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
@@ -625,7 +640,7 @@ def spherical_to_cartesian_analysis():
     print('\n')
 
 
-spherical_to_cartesian_analysis()
+# spherical_to_cartesian_analysis()
 
 # #############################################################################
 # # ### colour.cartesian_to_cylindrical
@@ -725,94 +740,6 @@ def cylindrical_to_cartesian_analysis():
 
 # #############################################################################
 # #############################################################################
-# ## colour.colorimetry.blackbody
-# #############################################################################
-# #############################################################################
-
-# #############################################################################
-# # ### colour.planck_law
-# #############################################################################
-from colour.colorimetry.blackbody import *
-from colour.colorimetry.spectrum import *
-
-WAVELENGTHS = np.linspace(1, 15000, 100000) * 1e-9
-
-
-def planck_law_2d(wavelengths):
-    for wavelength in wavelengths:
-        planck_law(wavelength, 5500)
-
-
-@handle_numpy_errors(over='ignore')
-def planck_law_vectorise(wavelength, temperature, c1=C1, c2=C2, n=N):
-    shape = as_shape(wavelength)
-    l = as_array(wavelength)
-    t = np.resize(temperature, l.shape)
-
-    p = (((c1 * n ** -2 * l ** -5) / np.pi) *
-         (np.exp(c2 / (n * l * t)) - 1) ** -1)
-
-    return as_numeric(np.reshape(p, shape))
-
-
-def planck_law_analysis():
-    message_box('planck_law')
-
-    print('Reference:')
-    print(planck_law(500 * 1e-9, 5500))
-
-    print('\n')
-
-    print('Numeric input:')
-    print(planck_law_vectorise(500 * 1e-9, 5500))
-
-    print('\n')
-
-    print('1d array input:')
-    wl = [500 * 1e-9] * 6
-    print(planck_law_vectorise(wl, 5500))
-
-    print('\n')
-
-    print('2d array input:')
-    wl = np.reshape(wl, (2, 3))
-    print(planck_law_vectorise(wl, 5500))
-
-    print('\n')
-
-    print('3d array input:')
-    wl = np.reshape(wl, (2, 3, 1))
-    print(planck_law_vectorise(wl, 5500))
-
-    print('\n')
-
-
-# planck_law_analysis()
-
-
-def blackbody_spd_vectorise(temperature,
-                            shape=DEFAULT_SPECTRAL_SHAPE,
-                            c1=C1,
-                            c2=C2,
-                            n=N):
-    wavelengths = shape.range()
-    return SpectralPowerDistribution(
-        name='{0}K Blackbody'.format(temperature),
-        data=dict(
-            zip(wavelengths, planck_law_vectorise(
-                wavelengths * 1e-9, temperature, c1, c2, n))))
-
-
-def blackbody_spd_analysis():
-    message_box('blackbody_spd')
-
-    print(blackbody_spd_vectorise(5000).values)
-
-
-# blackbody_spd_analysis()
-
-# #############################################################################
-# #############################################################################
 # ## colour.colorimetry.lightness
 # #############################################################################
 # #############################################################################
@@ -831,11 +758,11 @@ def lightness_Glasser1958_2d(Y):
 
 
 def lightness_Glasser1958_vectorise(Y, **kwargs):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     L = 25.29 * (Y ** (1 / 3)) - 18.38
 
-    return as_numeric(L)
+    return L
 
 
 def lightness_Glasser1958_analysis():
@@ -848,6 +775,11 @@ def lightness_Glasser1958_analysis():
 
     print('Numeric input:')
     print(lightness_Glasser1958_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(lightness_Glasser1958_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -881,7 +813,7 @@ def lightness_Wyszecki1963_2d(Y):
 
 
 def lightness_Wyszecki1963_vectorise(Y, **kwargs):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     if np.any(Y < 1) or np.any(Y > 98):
         warning(('"W*" Lightness computation is only applicable for '
@@ -889,7 +821,7 @@ def lightness_Wyszecki1963_vectorise(Y, **kwargs):
 
     W = 25 * (Y ** (1 / 3)) - 17
 
-    return as_numeric(W)
+    return W
 
 
 def lightness_Wyszecki1963_analysis():
@@ -902,6 +834,11 @@ def lightness_Wyszecki1963_analysis():
 
     print('Numeric input:')
     print(lightness_Wyszecki1963_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(lightness_Wyszecki1963_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -940,8 +877,7 @@ from colour.constants import CIE_E, CIE_K
 
 
 def lightness_1976_vectorise(Y, Y_n=100):
-    Y = as_array(Y)
-    Y_n = np.resize(Y_n, Y.shape)
+    Y, Y_n = np.asarray((Y, Y_n))
 
     Lstar = Y / Y_n
 
@@ -949,7 +885,7 @@ def lightness_1976_vectorise(Y, Y_n=100):
                      CIE_K * Lstar,
                      116 * Lstar ** (1 / 3) - 16)
 
-    return as_numeric(Lstar)
+    return Lstar
 
 
 def lightness_1976_analysis():
@@ -962,6 +898,11 @@ def lightness_1976_analysis():
 
     print('Numeric input:')
     print(lightness_1976_vectorise(10.08, 100))
+
+    print('\n')
+
+    print('0d array input:')
+    print(lightness_1976_vectorise(np.array(10.08), np.array(100)))
 
     print('\n')
 
@@ -1010,12 +951,12 @@ def luminance_Newhall1943_2d(L):
 
 
 def luminance_Newhall1943_vectorise(V, **kwargs):
-    V = as_array(V)
+    V = np.asarray(V)
 
     R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 *
            (V ** 4) + 0.0008404 * (V ** 5))
 
-    return as_numeric(R_Y)
+    return R_Y
 
 
 def luminance_Newhall1943_analysis():
@@ -1028,6 +969,11 @@ def luminance_Newhall1943_analysis():
 
     print('Numeric input:')
     print(luminance_Newhall1943_vectorise(3.74629715382))
+
+    print('\n')
+
+    print('0d array input:')
+    print(luminance_Newhall1943_vectorise(np.array(3.74629715382)))
 
     print('\n')
 
@@ -1057,18 +1003,18 @@ def luminance_Newhall1943_analysis():
 # #############################################################################
 
 
-def luminance_ASTMD153508_2d(L):
-    for L_ in L:
-        luminance_ASTMD153508(L_)
-
-
 def luminance_ASTMD153508_vectorise(V, **kwargs):
-    V = as_array(V)
+    V = np.asarray(V)
 
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) - 0.020484 *
          (V ** 4) + 0.00081939 * (V ** 5))
 
-    return as_numeric(Y)
+    return Y
+
+
+def luminance_ASTMD153508_2d(L):
+    for L_ in L:
+        luminance_ASTMD153508(L_)
 
 
 def luminance_ASTMD153508_analysis():
@@ -1081,6 +1027,11 @@ def luminance_ASTMD153508_analysis():
 
     print('Numeric input:')
     print(luminance_ASTMD153508_vectorise(3.74629715382))
+
+    print('\n')
+
+    print('0d array input:')
+    print(luminance_ASTMD153508_vectorise(np.array(3.74629715382)))
 
     print('\n')
 
@@ -1117,14 +1068,13 @@ def luminance_1976_2d(L):
 
 
 def luminance_1976_vectorise(Lstar, Y_n=100):
-    Lstar = as_array(Lstar)
-    Y_n = np.resize(Y_n, Lstar.shape)
+    Lstar, Y_n = np.asarray((Lstar, Y_n))
 
     Y = np.where(Lstar > CIE_K * CIE_E,
                  Y_n * ((Lstar + 16) / 116) ** 3,
                  Y_n * (Lstar / CIE_K))
 
-    return as_numeric(Y)
+    return Y
 
 
 def luminance_1976_analysis():
@@ -1137,6 +1087,11 @@ def luminance_1976_analysis():
 
     print('Numeric input:')
     print(luminance_1976_vectorise(37.9856290977))
+
+    print('\n')
+
+    print('0d array input:')
+    print(luminance_1976_vectorise(np.array(37.9856290977)))
 
     print('\n')
 
@@ -1178,9 +1133,7 @@ from colour.colorimetry.spectrum import *
 
 
 def SpectralShape__contains__(self, wavelength):
-    wavelengths = self.range()
-    return all(wavelength in wavelengths
-               for wavelength in np.ravel(wavelength))
+    return np.all(np.in1d(np.ravel(wavelength), self.range()))
 
 
 SpectralShape.__contains__ = SpectralShape__contains__
@@ -1208,18 +1161,16 @@ def SpectralShape__contains__analysis():
 # # ### colour.SpectralPowerDistribution
 # #############################################################################
 
-
+@as_numeric('wavelength')
 def SpectralPowerDistribution__getitem__(self, wavelength):
     if type(wavelength) is slice:
-        return np.squeeze(self.values[wavelength])
+        return self.values[wavelength]
     else:
-        # self.data ===> self.__data
-        shape = as_shape(wavelength)
-        wavelength = np.ravel(wavelength)
+        wavelength = np.asarray(wavelength)
 
-        value = [self.data.__getitem__(x) for x in wavelength]
+        value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
 
-        return np.reshape(value, shape)
+        return np.reshape(value, wavelength.shape)
 
 
 SpectralPowerDistribution.__getitem__ = SpectralPowerDistribution__getitem__
@@ -1235,7 +1186,15 @@ def SpectralPowerDistribution__getitem__analysis():
 
     print('\n')
 
-    print(spd[(510, 520)])
+    print(spd[np.array(510)])
+
+    print('\n')
+
+    print(spd[np.array([510])])
+
+    print('\n')
+
+    print(spd[[510, 520]])
 
     print('\n')
 
@@ -1244,6 +1203,10 @@ def SpectralPowerDistribution__getitem__analysis():
     print('\n')
 
     print(spd[np.array([[510], [520]])])
+
+    print('\n')
+
+    print(spd[np.array([[[510, 520]], [[530, 540]]])])
 
     print('\n')
 
@@ -1256,8 +1219,9 @@ def SpectralPowerDistribution__getitem__analysis():
 
 
 def SpectralPowerDistribution__setitem__(self, wavelength, value):
+    # TODO: Mention implicit resize.
     if is_numeric(wavelength) or is_iterable(wavelength):
-        wavelengths = as_array(wavelength)
+        wavelengths = np.ravel(wavelength)
     elif type(wavelength) is slice:
         wavelengths = self.wavelengths[wavelength]
     else:
@@ -1284,12 +1248,12 @@ def SpectralPowerDistribution__setitem__analysis():
 
     print('\n')
 
-    spd[(520, 530)] = (69.59, 81.73)
+    spd[[520, 530]] = (69.59, 81.73)
     pprint(list(spd.items))
 
     print('\n')
 
-    spd[(540, 550)] = 88.19
+    spd[[540, 550]] = 88.19
     pprint(list(spd.items))
 
     print('\n')
@@ -1307,16 +1271,14 @@ def SpectralPowerDistribution__setitem__analysis():
 
 # SpectralPowerDistribution__setitem__analysis()
 
-
+@as_numeric('wavelength')
 def SpectralPowerDistribution_get(self, wavelength, default=None):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength)
+    wavelength = np.asarray(wavelength)
 
-    value = np.reshape([self.data.get(x, default)
-                        for x in np.ravel(wavelength)],
-                       shape)
+    value = [self.data.get(x, default) for x in np.ravel(wavelength)]
+    value = np.reshape(value, wavelength.shape)
 
-    return as_numeric(value)
+    return value
 
 
 SpectralPowerDistribution.get = SpectralPowerDistribution_get
@@ -1332,7 +1294,15 @@ def SpectralPowerDistribution_get_analysis():
 
     print('\n')
 
-    print(spd.get((510, 520)))
+    print(spd.get(np.array(510)))
+
+    print('\n')
+
+    print(spd.get(np.array([510])))
+
+    print('\n')
+
+    print(spd.get([510, 520]))
 
     print('\n')
 
@@ -1344,7 +1314,7 @@ def SpectralPowerDistribution_get_analysis():
 
     print('\n')
 
-    print(spd.get((510, 520, 521)))
+    print(spd.get([510, 520, 521]))
 
     print('\n')
 
@@ -1353,9 +1323,7 @@ def SpectralPowerDistribution_get_analysis():
 
 
 def SpectralPowerDistribution__contains__(self, wavelength):
-    wavelengths = self.wavelengths
-    return all(wavelength in wavelengths
-               for wavelength in np.ravel(wavelength))
+    return np.all(np.in1d(np.ravel(wavelength), self.wavelengths))
 
 
 SpectralPowerDistribution.__contains__ = SpectralPowerDistribution__contains__
@@ -1371,11 +1339,11 @@ def SpectralPowerDistribution__contains__analysis():
 
     print('\n')
 
-    print((510, 520) in spd)
+    print([510, 520] in spd)
 
     print('\n')
 
-    print((510, 520, 521) in spd)
+    print([510, 520, 521] in spd)
 
     print('\n')
 
@@ -1388,19 +1356,11 @@ def SpectralPowerDistribution__contains__analysis():
 
 
 def TriSpectralPowerDistribution__getitem__(self, wavelength):
-    value = as_stack((np.ravel(self.x[wavelength]),
-                      np.ravel(self.y[wavelength]),
-                      np.ravel(self.z[wavelength])))
+    value = zstack((np.asarray(self.x[wavelength]),
+                    np.asarray(self.y[wavelength]),
+                    np.asarray(self.z[wavelength])))
 
-    if type(wavelength) is slice:
-        return np.squeeze(value)
-    else:
-        shape = as_shape(wavelength)
-        value = (np.squeeze(value)
-                 if shape == (1, ) else
-                 np.reshape(value, shape + (3,)))
-
-        return value
+    return value
 
 
 TriSpectralPowerDistribution.__getitem__ = TriSpectralPowerDistribution__getitem__
@@ -1420,7 +1380,11 @@ def TriSpectralPowerDistribution__getitem__analysis():
 
     print('\n')
 
-    print(tri_spd[(510, 520)])
+    print(tri_spd[np.array(510)])
+
+    print('\n')
+
+    print(tri_spd[[510, 520]])
 
     print('\n')
 
@@ -1441,8 +1405,9 @@ def TriSpectralPowerDistribution__getitem__analysis():
 
 
 def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
+    # TODO: Mention implicit resize.
     if is_numeric(wavelength) or is_iterable(wavelength):
-        wavelengths = as_array(wavelength)
+        wavelengths = np.ravel(wavelength)
     elif type(wavelength) is slice:
         wavelengths = self.wavelengths[wavelength]
     else:
@@ -1451,11 +1416,10 @@ def TriSpectralPowerDistribution__setitem__(self, wavelength, value):
                 type(wavelength)))
 
     value = np.resize(value, (wavelengths.shape[0], 3))
-    x, y, z = value[:, 0], value[:, 1], value[:, 2]
 
-    self.x.__setitem__(wavelengths, x)
-    self.y.__setitem__(wavelengths, y)
-    self.z.__setitem__(wavelengths, z)
+    self.x.__setitem__(wavelengths, value[..., 0])
+    self.y.__setitem__(wavelengths, value[..., 1])
+    self.z.__setitem__(wavelengths, value[..., 2])
 
 
 TriSpectralPowerDistribution.__setitem__ = TriSpectralPowerDistribution__setitem__
@@ -1473,12 +1437,12 @@ def TriSpectralPowerDistribution__setitem__analysis():
 
     print('\n')
 
-    tri_spd[(520, 530)] = (69.59, 81.73)
+    tri_spd[[520, 530]] = (69.59, 81.73)
     pprint(list(tri_spd.items))
 
     print('\n')
 
-    tri_spd[(540, 550)] = ((49.67, 69.59, 81.73), (81.73, 69.59, 49.67))
+    tri_spd[[540, 550]] = ((49.67, 69.59, 81.73), (81.73, 69.59, 49.67))
     pprint(list(tri_spd.items))
 
     print('\n')
@@ -1498,17 +1462,14 @@ def TriSpectralPowerDistribution__setitem__analysis():
 
 
 def TriSpectralPowerDistribution_get(self, wavelength, default=None):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength)
+    wavelength = np.asarray(wavelength)
 
     value = np.array([(self.x.get(x, default),
                        self.y.get(x, default),
                        self.z.get(x, default))
                       for x in np.ravel(wavelength)])
 
-    value = (np.squeeze(value)
-             if shape == (1, ) else
-             np.reshape(value, shape + (3,)))
+    value = np.reshape(value, wavelength.shape + (3,))
 
     return value
 
@@ -1530,7 +1491,15 @@ def TriSpectralPowerDistribution_get_analysis():
 
     print('\n')
 
-    print(tri_spd.get((510, 520)))
+    print(tri_spd.get(np.array(510)))
+
+    print('\n')
+
+    print(tri_spd.get(np.array([510])))
+
+    print('\n')
+
+    print(tri_spd.get([510, 520]))
 
     print('\n')
 
@@ -1542,7 +1511,7 @@ def TriSpectralPowerDistribution_get_analysis():
 
     print('\n')
 
-    print(tri_spd.get((510, 520, 521)))
+    print(tri_spd.get([510, 520, 521]))
 
     print('\n')
 
@@ -1563,12 +1532,10 @@ from colour.colorimetry.transformations import *
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1,))
     cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
 
     try:
-        rgb_bar = np.reshape(cmfs[wavelength], (-1, 3))
+        rgb_bar = cmfs[wavelength]
     except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
@@ -1587,19 +1554,19 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
     xyz = np.einsum('...ij,...j->...i', M1, rgb)
     xyz /= np.einsum('...ij,...j->...i', M2, rgb)
 
-    x, y, z = xyz[:, 0], xyz[:, 1], xyz[:, 2]
+    x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
     V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
     V.align(cmfs.shape)
-    L = np.reshape(V[wavelength], (-1,))
+    L = V[wavelength]
 
     x_bar = x / y * L
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = (np.squeeze(as_stack((x_bar, y_bar, z_bar)))
-               if shape == (1, ) else
-               as_stack((x_bar, y_bar, z_bar), shape=shape + (3,)))
+    xyz_bar = zstack((np.asarray(x_bar),
+                      np.asarray(y_bar),
+                      np.asarray(z_bar)))
 
     return xyz_bar
 
@@ -1614,6 +1581,11 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
     print('Numeric input:')
     print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
+
+    print('\n')
+
+    print('0d array input:')
+    print(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(np.array(700)))
 
     print('\n')
 
@@ -1644,9 +1616,6 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
 
     try:
@@ -1661,9 +1630,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
                   [0.000000, 0.039553, 2.026200]])
 
     xyz_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
-    xyz_bar = (np.squeeze(xyz_bar)
-               if shape == (1, ) else
-               np.reshape(xyz_bar, shape + (3,)))
 
     return xyz_bar
 
@@ -1678,6 +1644,11 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
 
     print('Numeric input:')
     print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
+
+    print('\n')
+
+    print('0d array input:')
+    print(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(np.array(700)))
 
     print('\n')
 
@@ -1706,11 +1677,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
 # # ### colour.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 # #############################################################################
 
-
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
 
     try:
@@ -1725,11 +1692,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(wavelength):
                   [0.0000000000, 0.0105107859, 0.991427669]])
 
     lms_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
-    lms_bar[wavelength > 505, 2] = 0
-
-    lms_bar = (np.squeeze(lms_bar)
-               if shape == (1, ) else
-               np.reshape(lms_bar, shape + (3,)))
+    lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
 
     return lms_bar
 
@@ -1744,6 +1707,11 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_analysis():
 
     print('Numeric input:')
     print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(700))
+
+    print('\n')
+
+    print('0d array input:')
+    print(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs_vectorise(np.array(700)))
 
     print('\n')
 
@@ -1775,9 +1743,6 @@ from colour import LMS_CMFS
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
     cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
 
     try:
@@ -1793,10 +1758,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
 
     xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
 
-    xyz_bar = (np.squeeze(xyz_bar)
-               if shape == (1, ) else
-               np.reshape(xyz_bar, shape + (3,)))
-
     return xyz_bar
 
 
@@ -1810,6 +1771,11 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
     print('Numeric input:')
     print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(700))
+
+    print('\n')
+
+    print('0d array input:')
+    print(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(np.array(700)))
 
     print('\n')
 
@@ -1840,9 +1806,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs_analysis():
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
     cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
 
     try:
@@ -1858,10 +1821,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(wavelength):
 
     xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
 
-    xyz_bar = (np.squeeze(xyz_bar)
-               if shape == (1, ) else
-               np.reshape(xyz_bar, shape + (3,)))
-
     return xyz_bar
 
 
@@ -1875,6 +1834,11 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_analysis():
 
     print('Numeric input:')
     print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(700))
+
+    print('\n')
+
+    print('0d array input:')
+    print(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs_vectorise(np.array(700)))
 
     print('\n')
 
@@ -1925,9 +1889,6 @@ def wavelength_to_XYZ_2d(wavelengths):
 def wavelength_to_XYZ_vectorise(wavelength,
                                 cmfs=STANDARD_OBSERVERS_CMFS.get(
                                     'CIE 1931 2 Degree Standard Observer')):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength, (-1, 1))
-
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
                 np.max(wavelength) > cmfs_shape.end):
@@ -1944,15 +1905,12 @@ def wavelength_to_XYZ_vectorise(wavelength,
         interpolators = [interpolator(wavelengths, values[:, i])
                          for i in range(values.shape[-1])]
 
-        XYZ = as_stack([interpolator(wavelength)
-                        for interpolator in
-                        interpolators])
+        XYZ = np.dstack([interpolator(np.ravel(wavelength))
+                         for interpolator in interpolators])
     else:
         XYZ = cmfs.get(wavelength)
 
-    XYZ = (np.squeeze(XYZ)
-           if shape == (1, ) else
-           np.reshape(XYZ, shape + (3,)))
+    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
 
     return XYZ
 
@@ -1967,6 +1925,11 @@ def wavelength_to_XYZ_analysis():
 
     print('Numeric input:')
     print(wavelength_to_XYZ_vectorise(480))
+
+    print('\n')
+
+    print('0d array input:')
+    print(wavelength_to_XYZ_vectorise(np.array(480)))
 
     print('\n')
 
@@ -1986,8 +1949,106 @@ def wavelength_to_XYZ_analysis():
 
     print('\n')
 
+    print('3d array input:')
+    print(wavelength_to_XYZ_vectorise(
+        np.array([[[480] * 3], [[480] * 2 + [480.5]]])))
+
+    print('\n')
+
 
 # wavelength_to_XYZ_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.colorimetry.blackbody
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# # ### colour.planck_law
+# #############################################################################
+from colour.colorimetry.blackbody import *
+from colour.colorimetry.spectrum import *
+
+WAVELENGTHS = np.linspace(1, 15000, 100000) * 1e-9
+
+
+def planck_law_2d(wavelengths):
+    for wavelength in wavelengths:
+        planck_law(wavelength, 5500)
+
+
+@handle_numpy_errors(over='ignore')
+def planck_law_vectorise(wavelength, temperature, c1=C1, c2=C2, n=N):
+    l, t = np.asarray((wavelength, temperature))
+
+    p = (((c1 * n ** -2 * l ** -5) / np.pi) *
+         (np.exp(c2 / (n * l * t)) - 1) ** -1)
+
+    return p
+
+
+def planck_law_analysis():
+    message_box('planck_law')
+
+    print('Reference:')
+    print(planck_law(500 * 1e-9, 5500))
+
+    print('\n')
+
+    print('Numeric input:')
+    print(planck_law_vectorise(500 * 1e-9, 5500))
+
+    print('\n')
+
+    print('0d array input:')
+    print(planck_law_vectorise(np.array(500 * 1e-9), 5500))
+
+    print('\n')
+
+    print('1d array input:')
+    wl = [500 * 1e-9] * 6
+    print(planck_law_vectorise(wl, 5500))
+
+    print('\n')
+
+    print('2d array input:')
+    wl = np.reshape(wl, (2, 3))
+    print(planck_law_vectorise(wl, 5500))
+
+    print('\n')
+
+    print('3d array input:')
+    wl = np.reshape(wl, (2, 3, 1))
+    print(planck_law_vectorise(wl, 5500))
+
+    print('\n')
+
+
+# planck_law_analysis()
+
+
+def blackbody_spd_vectorise(temperature,
+                            shape=DEFAULT_SPECTRAL_SHAPE,
+                            c1=C1,
+                            c2=C2,
+                            n=N):
+    wavelengths = shape.range()
+    return SpectralPowerDistribution(
+        name='{0}K Blackbody'.format(temperature),
+        data=dict(
+            zip(wavelengths,
+                planck_law_vectorise(
+                    wavelengths * 1e-9, temperature, c1, c2, n))))
+
+
+def blackbody_spd_analysis():
+    message_box('blackbody_spd')
+
+    print(blackbody_spd_vectorise(5000).values)
+
+
+# blackbody_spd_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -2007,15 +2068,11 @@ def whiteness_Berger1959_2d(XYZ, XYZ_0):
 
 
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    XYZ_0 = np.resize(XYZ_0, XYZ.shape)
+    X, Y, Z = zsplit(XYZ)
+    X_0, Y_0, Z_0 = zsplit(XYZ_0)
 
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
-    X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
+    WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
-    WI = as_numeric(np.reshape(0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0),
-                               auto_axis(shape)))
     return WI
 
 
@@ -2060,14 +2117,11 @@ def whiteness_Taube1960_2d(XYZ, XYZ_0):
 
 
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    XYZ_0 = np.resize(XYZ_0, XYZ.shape)
+    X, Y, Z = zsplit(XYZ)
+    X_0, Y_0, Z_0 = zsplit(XYZ_0)
 
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
-    X_0, Y_0, Z_0 = XYZ_0[:, 0], XYZ_0[:, 1], XYZ_0[:, 2]
+    WI = 400 * (Z / Z_0) - 3 * Y
 
-    WI = as_numeric(np.reshape(400 * (Z / Z_0) - 3 * Y, auto_axis(shape)))
     return WI
 
 
@@ -2088,7 +2142,6 @@ def whiteness_Taube1960_analysis():
 
     print('2d array input:')
     XYZ = np.tile(XYZ, (6, 1))
-    XYZ_0 = np.tile(XYZ_0, (6, 1))
     print(whiteness_Taube1960_vectorise(XYZ, XYZ_0))
 
     print('\n')
@@ -2113,12 +2166,10 @@ def whiteness_Stensby1968_2d(Lab):
 
 
 def whiteness_Stensby1968_vectorise(Lab):
-    shape = as_shape(Lab)
-    Lab = as_array(Lab, (-1, 3))
+    L, a, b = zsplit(Lab)
 
-    L, a, b = Lab[:, 0], Lab[:, 1], Lab[:, 2]
+    WI = L - 3 * b + 3 * a
 
-    WI = as_numeric(np.reshape(L - 3 * b + 3 * a, auto_axis(shape)))
     return WI
 
 
@@ -2162,11 +2213,10 @@ def whiteness_ASTM313_2d(XYZ):
 
 
 def whiteness_ASTM313_vectorise(XYZ):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
+    X, Y, Z = zsplit(XYZ)
 
-    WI = as_numeric(np.reshape(3.388 * Z - 3 * Y, auto_axis(shape)))
+    WI = 3.388 * Z - 3 * Y
+
     return WI
 
 
@@ -2210,17 +2260,13 @@ def whiteness_Ganz1979_2d(xy, Y):
 
 
 def whiteness_Ganz1979_vectorise(xy, Y):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
-    x, y = xy[:, 0], xy[:, 1]
-
-    Y = np.resize(Y, x.shape)
+    x, y = zsplit(xy)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
-    WT = as_stack((W, T),
-                  shape=auto_axis(shape))
+    WT = zstack((W, T))
+
     return WT
 
 
@@ -2241,7 +2287,6 @@ def whiteness_Ganz1979_analysis():
 
     print('2d array input:')
     xy = np.tile(xy, (6, 1))
-    Y = np.tile(Y, (6, 1))
     print(whiteness_Ganz1979_vectorise(xy, Y))
 
     print('\n')
@@ -2269,21 +2314,15 @@ def whiteness_CIE2004_vectorise(xy,
                                 Y,
                                 xy_n,
                                 observer='CIE 1931 2 Degree Standard Observer'):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
-    x, y = xy[:, 0], xy[:, 1]
-
-    Y = np.resize(Y, x.shape)
-
-    xy_n = as_array(xy_n, (-1, 2))
-    xy_n = np.resize(xy_n, xy.shape)
-    x_n, y_n = xy_n[:, 0], xy_n[:, 1]
+    x, y = zsplit(xy)
+    Y = np.asarray(Y)
+    x_n, y_n = zsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
     T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
-    WT = as_stack((W, T),
-                  shape=auto_axis(shape))
+    WT = zstack((W, T))
+
     return WT
 
 
@@ -2305,7 +2344,6 @@ def whiteness_CIE2004_analysis():
 
     print('2d array input:')
     xy = np.tile(xy, (6, 1))
-    Y = np.tile(Y, (6, 1))
     xy_n = np.tile(xy_n, (6, 1))
     print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
@@ -2313,6 +2351,7 @@ def whiteness_CIE2004_analysis():
 
     print('3d array input:')
     xy = np.reshape(xy, (2, 3, 2))
+    xy_n = np.reshape(xy_n, (2, 3, 2))
     print(whiteness_CIE2004_vectorise(xy, Y, xy_n))
 
     print('\n')
@@ -2338,12 +2377,7 @@ def delta_E_CIE1976_2d(Lab1, Lab2):
 
 
 def delta_E_CIE1976_vectorise(Lab1, Lab2, **kwargs):
-    shape = as_shape(Lab1)
-    Lab1 = as_array(Lab1, (-1, 3))
-    Lab2 = as_array(Lab2, (-1, 3))
-
-    delta_E = np.linalg.norm(np.array(Lab1) - np.array(Lab2), axis=1)
-    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
+    delta_E = np.linalg.norm(np.asarray(Lab1) - np.asarray(Lab2), axis=-1)
 
     return delta_E
 
@@ -2391,19 +2425,14 @@ def delta_E_CIE1994_2d(Lab1, Lab2):
 
 
 def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
-    shape = as_shape(Lab1)
-
     k1 = 0.048 if textiles else 0.045
     k2 = 0.014 if textiles else 0.015
     kL = 2 if textiles else 1
     kC = 1
     kH = 1
 
-    Lab1 = as_array(Lab1, (-1, 3))
-    Lab2 = as_array(Lab2, (-1, 3))
-
-    L1, a1, b1 = Lab1[:, 0], Lab1[:, 1], Lab1[:, 2]
-    L2, a2, b2 = Lab2[:, 0], Lab2[:, 1], Lab2[:, 2]
+    L1, a1, b1 = zsplit(Lab1)
+    L2, a2, b2 = zsplit(Lab2)
 
     C1 = np.sqrt(a1 ** 2 + b1 ** 2)
     C2 = np.sqrt(a2 ** 2 + b2 ** 2)
@@ -2424,7 +2453,6 @@ def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
     H = (delta_H / (kH * sH)) ** 2
 
     delta_E = np.sqrt(L + C + H)
-    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
 
     return delta_E
 
@@ -2453,6 +2481,7 @@ def delta_E_CIE1994_analysis():
 
     print('3d array input:')
     Lab1 = np.reshape(Lab1, (2, 3, 3))
+    Lab2 = np.reshape(Lab2, (2, 3, 3))
     print(delta_E_CIE1994_vectorise(Lab1, Lab2))
 
     print('\n')
@@ -2477,12 +2506,8 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
     kC = 1
     kH = 1
 
-    shape = as_shape(Lab1)
-    Lab1 = as_array(Lab1, (-1, 3))
-    Lab2 = as_array(Lab2, (-1, 3))
-
-    L1, a1, b1 = Lab1[:, 0], Lab1[:, 1], Lab1[:, 2]
-    L2, a2, b2 = Lab2[:, 0], Lab2[:, 1], Lab2[:, 2]
+    L1, a1, b1 = zsplit(Lab1)
+    L2, a2, b2 = zsplit(Lab2)
 
     l_bar_prime = 0.5 * (L1 + L2)
 
@@ -2500,11 +2525,11 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
     c2_prime = np.sqrt(a2_prime * a2_prime + b2 * b2)
     c_bar_prime = 0.5 * (c1_prime + c2_prime)
 
-    h1_prime = np.rad2deg(np.arctan2(b1, a1_prime))
-    h1_prime[h1_prime < 0.0] += 360
+    h1_prime = np.asarray(np.rad2deg(np.arctan2(b1, a1_prime)))
+    h1_prime[np.asarray(h1_prime < 0.0)] += 360
 
-    h2_prime = np.rad2deg(np.arctan2(b2, a2_prime))
-    h2_prime[h2_prime < 0.0] += 360
+    h2_prime = np.asarray(np.rad2deg(np.arctan2(b2, a2_prime)))
+    h2_prime[np.asarray(h2_prime < 0.0)] += 360
 
     h_bar_prime = np.where(np.fabs(h1_prime - h2_prime) <= 180,
                            0.5 * (h1_prime + h2_prime),
@@ -2542,7 +2567,6 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
         (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
         (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
         (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
-    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
 
     return delta_E
 
@@ -2571,6 +2595,7 @@ def delta_E_CIE2000_analysis():
 
     print('3d array input:')
     Lab1 = np.reshape(Lab1, (2, 3, 3))
+    Lab2 = np.reshape(Lab2, (2, 3, 3))
     print(delta_E_CIE2000_vectorise(Lab1, Lab2))
 
     print('\n')
@@ -2595,12 +2620,8 @@ def delta_E_CMC_2d(Lab1, Lab2):
 
 
 def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
-    shape = as_shape(Lab1)
-    Lab1 = as_array(Lab1, (-1, 3))
-    Lab2 = as_array(Lab2, (-1, 3))
-
-    L1, a1, b1 = Lab1[:, 0], Lab1[:, 1], Lab1[:, 2]
-    L2, a2, b2 = Lab2[:, 0], Lab2[:, 1], Lab2[:, 2]
+    L1, a1, b1 = zsplit(Lab1)
+    L2, a2, b2 = zsplit(Lab2)
 
     c1 = np.sqrt(a1 * a1 + b1 * b1)
     c2 = np.sqrt(a2 * a2 + b2 * b2)
@@ -2633,7 +2654,6 @@ def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
     v3 = sh
 
     delta_E = np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
-    delta_E = as_numeric(np.reshape(delta_E, auto_axis(shape)))
 
     return delta_E
 
@@ -2662,6 +2682,7 @@ def delta_E_CMC_analysis():
 
     print('3d array input:')
     Lab1 = np.reshape(Lab1, (2, 3, 3))
+    Lab2 = np.reshape(Lab2, (2, 3, 3))
     print(delta_E_CMC_vectorise(Lab1, Lab2))
 
     print('\n')
@@ -2698,17 +2719,15 @@ def XYZ_to_xyY_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    illuminant = np.resize(illuminant, XYZ.shape)
+    # TODO: Mention implicit resize.
+    XYZ = np.asarray(XYZ)
+    X, Y, Z = zsplit(XYZ)
+    x_w, y_w = zsplit(illuminant)
 
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
-
-    xyY = as_stack(
-        np.where(XYZ == 0,
-                 np.dstack((illuminant[:, 0], illuminant[:, 1], Y)),
-                 np.dstack((X / (X + Y + Z), Y / (X + Y + Z), Y))),
-        shape=shape)
+    xyY = np.where(
+        XYZ == 0,
+        zstack((np.resize(x_w, X.shape), np.resize(y_w, Y.shape), Y)),
+        zstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
 
     return xyY
 
@@ -2766,16 +2785,11 @@ def xyY_to_XYZ_2d(xyY):
 
 @handle_numpy_errors(divide='ignore')
 def xyY_to_XYZ_vectorise(xyY):
-    shape = as_shape(xyY)
-    xyY = as_array(xyY, (-1, 3))
+    x, y, Y = zsplit(xyY)
 
-    x, y, Y = xyY[:, 0], xyY[:, 1], xyY[:, 2]
-
-    XYZ = as_stack(
-        np.where((y == 0)[:, np.newaxis],
-                 np.dstack((y, y, y)),
-                 np.dstack((x * Y / y, Y, (1 - x - y) * Y / y))),
-        shape=auto_axis(shape))
+    XYZ = np.where((y == 0)[..., np.newaxis],
+                   zstack((y, y, y)),
+                   zstack((x * Y / y, Y, (1 - x - y) * Y / y)))
 
     return XYZ
 
@@ -2824,13 +2838,9 @@ def xy_to_XYZ_2d(xy):
 
 
 def xy_to_XYZ_vectorise(xy):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
+    x, y = zsplit(xy)
 
-    xyY = as_stack((xy[:, 0],
-                    xy[:, 1],
-                    np.ones(xy.shape[0])),
-                   shape=auto_axis(shape))
+    xyY = zstack((x, y, np.ones(x.shape)))
     XYZ = xyY_to_XYZ_vectorise(xyY)
 
     return XYZ
@@ -2878,10 +2888,8 @@ def XYZ_to_xy_2d(XYZ):
 def XYZ_to_xy_vectorise(XYZ,
                         illuminant=ILLUMINANTS.get(
                             'CIE 1931 2 Degree Standard Observer').get('D50')):
-    shape = as_shape(XYZ)
-
-    xyY = as_array(XYZ_to_xyY_vectorise(XYZ, illuminant), (-1, 3))
-    xy = np.reshape(xyY[:, 0:2], auto_axis(shape))
+    xyY = XYZ_to_xyY_vectorise(XYZ, illuminant)
+    xy = xyY[..., 0:2]
 
     return xy
 
@@ -2938,9 +2946,8 @@ def XYZ_to_Lab_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    XYZ_r = np.resize(xy_to_XYZ_vectorise(illuminant), XYZ.shape)
+    XYZ = np.asarray(XYZ)
+    XYZ_r = xy_to_XYZ_vectorise(illuminant)
 
     XYZ_f = XYZ / XYZ_r
 
@@ -2948,13 +2955,13 @@ def XYZ_to_Lab_vectorise(XYZ,
                      np.power(XYZ_f, 1 / 3),
                      (CIE_K * XYZ_f + 16) / 116)
 
-    X_f, Y_f, Z_f = XYZ_f[:, 0], XYZ_f[:, 1], XYZ_f[:, 2]
+    X_f, Y_f, Z_f = zsplit(XYZ_f)
 
     L = 116 * Y_f - 16
     a = 500 * (X_f - Y_f)
     b = 200 * (Y_f - Z_f)
 
-    Lab = as_stack((L, a, b), shape=shape)
+    Lab = zstack((L, a, b))
 
     return Lab
 
@@ -3008,11 +3015,8 @@ def Lab_to_XYZ_vectorise(Lab,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(Lab)
-    Lab = as_array(Lab, (-1, 3))
-    XYZ_r = np.resize(xy_to_XYZ_vectorise(illuminant), Lab.shape)
-
-    L, a, b = Lab[:, 0], Lab[:, 1], Lab[:, 2]
+    L, a, b = zsplit(Lab)
+    XYZ_r = xy_to_XYZ_vectorise(illuminant)
 
     f_y = (L + 16) / 116
     f_x = a / 500 + f_y
@@ -3022,7 +3026,7 @@ def Lab_to_XYZ_vectorise(Lab,
     y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
     z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
 
-    XYZ = np.reshape(as_stack((x_r, y_r, z_r)) * XYZ_r, shape)
+    XYZ = zstack((x_r, y_r, z_r)) * XYZ_r
 
     return XYZ
 
@@ -3071,14 +3075,12 @@ def Lab_to_LCHab_2d(Lab):
 
 
 def Lab_to_LCHab_vectorise(Lab):
-    shape = as_shape(Lab)
-    Lab = as_array(Lab, (-1, 3))
-    L, a, b = Lab[:, 0], Lab[:, 1], Lab[:, 2]
+    L, a, b = zsplit(Lab)
 
-    H = 180 * np.arctan2(b, a) / np.pi
-    H[H < 0] += 360
+    H = np.asarray(180 * np.arctan2(b, a) / np.pi)
+    H[np.asarray(H < 0)] += 360
 
-    LCHab = as_stack((L, np.sqrt(a ** 2 + b ** 2), H), shape=shape)
+    LCHab = zstack((L, np.sqrt(a ** 2 + b ** 2), H))
 
     return LCHab
 
@@ -3123,14 +3125,11 @@ def LCHab_to_Lab_2d(LCHab):
 
 
 def LCHab_to_Lab_vectorise(LCHab):
-    shape = as_shape(LCHab)
-    LCHab = as_array(LCHab, (-1, 3))
-    L, C, H = LCHab[:, 0], LCHab[:, 1], LCHab[:, 2]
+    L, C, H = zsplit(LCHab)
 
-    return as_stack((L,
-                     C * np.cos(np.radians(H)),
-                     C * np.sin(np.radians(H))),
-                    shape=shape)
+    return zstack((L,
+                   C * np.cos(np.radians(H)),
+                   C * np.sin(np.radians(H))))
 
 
 def LCHab_to_Lab_analysis():
@@ -3185,12 +3184,8 @@ def XYZ_to_Luv_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    XYZ_r = np.resize(xy_to_XYZ_vectorise(illuminant), XYZ.shape)
-
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
-    X_r, Y_r, Z_r = XYZ_r[:, 0], XYZ_r[:, 1], XYZ_r[:, 2]
+    X, Y, Z = zsplit(XYZ)
+    X_r, Y_r, Z_r = zsplit(xy_to_XYZ_vectorise(illuminant))
 
     y_r = Y / Y_r
 
@@ -3201,7 +3196,7 @@ def XYZ_to_Luv_vectorise(XYZ,
     v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
                    (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
 
-    Luv = as_stack((L, u, v), shape=shape)
+    Luv = zstack((L, u, v))
 
     return Luv
 
@@ -3255,12 +3250,8 @@ def Luv_to_XYZ_vectorise(Luv,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(Luv)
-    Luv = as_array(Luv, (-1, 3))
-    XYZ_r = np.resize(xy_to_XYZ_vectorise(illuminant), Luv.shape)
-
-    L, u, v = Luv[:, 0], Luv[:, 1], Luv[:, 2]
-    X_r, Y_r, Z_r = XYZ_r[:, 0], XYZ_r[:, 1], XYZ_r[:, 2]
+    L, u, v = zsplit(Luv)
+    X_r, Y_r, Z_r = zsplit(xy_to_XYZ_vectorise(illuminant))
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
@@ -3274,7 +3265,7 @@ def Luv_to_XYZ_vectorise(Luv,
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    XYZ = as_stack((X, Y, Z), shape=shape)
+    XYZ = zstack((X, Y, Z))
 
     return XYZ
 
@@ -3325,13 +3316,10 @@ def Luv_to_uv_2d(Luv):
 def Luv_to_uv_vectorise(Luv,
                         illuminant=ILLUMINANTS.get(
                             'CIE 1931 2 Degree Standard Observer').get('D50')):
-    shape = as_shape(Luv)
-    XYZ = as_array(Luv_to_XYZ_vectorise(Luv, illuminant), (-1, 3))
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
+    X, Y, Z = zsplit(Luv_to_XYZ_vectorise(Luv, illuminant))
 
-    uv = as_stack((4 * X / (X + 15 * Y + 3 * Z),
-                   9 * Y / (X + 15 * Y + 3 * Z)),
-                  shape=auto_axis(shape))
+    uv = zstack((4 * X / (X + 15 * Y + 3 * Z),
+                 9 * Y / (X + 15 * Y + 3 * Z)))
 
     return uv
 
@@ -3376,13 +3364,11 @@ def Luv_uv_to_xy_2d(uv):
 
 
 def Luv_uv_to_xy_vectorise(uv):
-    shape = as_shape(uv)
-    uv = as_array(uv, (-1, 2))
-    u, v = uv[:, 0], uv[:, 1]
+    u, v = zsplit(uv)
 
-    xy = as_stack((9 * u / (6 * u - 16 * v + 12),
-                   4 * v / (6 * u - 16 * v + 12)),
-                  shape=shape)
+    xy = zstack((9 * u / (6 * u - 16 * v + 12),
+                 4 * v / (6 * u - 16 * v + 12)))
+
     return xy
 
 
@@ -3426,17 +3412,13 @@ def Luv_to_LCHuv_2d(Luv):
 
 
 def Luv_to_LCHuv_vectorise(Luv):
-    shape = as_shape(Luv)
-    Luv = as_array(Luv, (-1, 3))
-    L, u, v = Luv[:, 0], Luv[:, 1], Luv[:, 2]
+    L, u, v = zsplit(Luv)
 
-    H = 180 * np.arctan2(v, u) / np.pi
-    H[H < 0] += 360
+    H = np.asarray(180 * np.arctan2(v, u) / np.pi)
+    H[np.asarray(H < 0)] += 360
 
-    LCHuv = as_stack((L,
-                      np.sqrt(u ** 2 + v ** 2),
-                      H),
-                     shape=shape)
+    LCHuv = zstack((L, np.sqrt(u ** 2 + v ** 2), H))
+
     return LCHuv
 
 
@@ -3480,14 +3462,10 @@ def LCHuv_to_Luv_2d(LCHuv):
 
 
 def LCHuv_to_Luv_vectorise(LCHuv):
-    shape = as_shape(LCHuv)
-    LCHuv = as_array(LCHuv, (-1, 3))
-    L, C, H = LCHuv[:, 0], LCHuv[:, 1], LCHuv[:, 2]
+    L, C, H = zsplit(LCHuv)
 
-    Luv = as_stack((L,
-                    C * np.cos(np.radians(H)),
-                    C * np.sin(np.radians(H))),
-                   shape=shape)
+    Luv = zstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
+
     return Luv
 
 
@@ -3538,14 +3516,9 @@ def XYZ_to_UCS_2d(XYZ):
 
 
 def XYZ_to_UCS_vectorise(XYZ):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-    X, Y, Z = XYZ[:, 0], XYZ[:, 1], XYZ[:, 2]
+    X, Y, Z = zsplit(XYZ)
 
-    UVW = as_stack((2 / 3 * X,
-                    Y,
-                    1 / 2 * (-X + 3 * Y + Z)),
-                   shape=shape)
+    UVW = zstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
 
     return UVW
 
@@ -3590,14 +3563,9 @@ def UCS_to_XYZ_2d(UVW):
 
 
 def UCS_to_XYZ_vectorise(UVW):
-    shape = as_shape(UVW)
-    UVW = as_array(UVW, (-1, 3))
-    U, V, W = UVW[:, 0], UVW[:, 1], UVW[:, 2]
+    U, V, W = zsplit(UVW)
 
-    XYZ = as_stack((3 / 2 * U,
-                    V,
-                    3 / 2 * U - (3 * V) + (2 * W)),
-                   shape=shape)
+    XYZ = zstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
 
     return XYZ
 
@@ -3642,12 +3610,9 @@ def UCS_to_uv_2d(UVW):
 
 
 def UCS_to_uv_vectorise(UVW):
-    shape = as_shape(UVW)
-    UVW = as_array(UVW, (-1, 3))
-    U, V, W = UVW[:, 0], UVW[:, 1], UVW[:, 2]
+    U, V, W = zsplit(UVW)
 
-    uv = as_stack((U / (U + V + W), V / (U + V + W)),
-                  shape=auto_axis(shape))
+    uv = zstack((U / (U + V + W), V / (U + V + W)))
 
     return uv
 
@@ -3692,13 +3657,9 @@ def UCS_uv_to_xy_2d(uv):
 
 
 def UCS_uv_to_xy_vectorise(uv):
-    shape = as_shape(uv)
-    uv = as_array(uv, (-1, 2))
-    u, v = uv[:, 0], uv[:, 1]
+    u, v = zsplit(uv)
 
-    xy = as_stack((3 * u / (2 * u - 8 * v + 4),
-                   2 * v / (2 * u - 8 * v + 4)),
-                  shape=shape)
+    xy = zstack((3 * u / (2 * u - 8 * v + 4), 2 * v / (2 * u - 8 * v + 4)))
 
     return xy
 
@@ -3753,29 +3714,18 @@ def XYZ_to_UVW_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    shape = as_shape(XYZ)
-    xyY = as_array(XYZ_to_xyY_vectorise(XYZ, illuminant), (-1, 3))
-    x, y, Y = xyY[:, 0], xyY[:, 1], xyY[:, 2]
+    xyY = XYZ_to_xyY_vectorise(XYZ, illuminant)
+    x, y, Y = zsplit(xyY)
 
-    uv = as_array(UCS_to_uv_vectorise(
-        as_array(XYZ_to_UCS_vectorise(XYZ),
-                 (-1, 3))),
-                  (-1, 2))
-    u, v = uv[:, 0], uv[:, 1]
-
-    uv_0 = as_array(UCS_to_uv_vectorise(
-        as_array(XYZ_to_UCS_vectorise(
-            as_array(xy_to_XYZ_vectorise(illuminant),
-                     (-1, 3))),
-                 (-1, 3))),
-                    (-1, 2))
-    u_0, v_0 = uv_0[:, 0], uv_0[:, 1]
+    u, v = zsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(XYZ)))
+    u_0, v_0 = zsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(
+        xy_to_XYZ_vectorise(illuminant))))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)
     V = 13 * W * (v - v_0)
 
-    UVW = as_stack((U, V, W), shape=shape)
+    UVW = zstack((U, V, W))
 
     return UVW
 
@@ -3830,19 +3780,16 @@ def RGB_to_HSV_2d(RGB):
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
 def RGB_to_HSV_vectorise(RGB):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
-
     minimum = np.amin(RGB, -1)
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
 
     V = maximum
 
-    R, G, B = RGB[:, 0], RGB[:, 1], RGB[:, 2]
+    R, G, B = zsplit(RGB)
 
-    S = delta / maximum
-    S[delta == 0] = 0
+    S = np.asarray(delta / maximum)
+    S[np.asarray(delta == 0)] = 0
 
     delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
     delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
@@ -3851,11 +3798,11 @@ def RGB_to_HSV_vectorise(RGB):
     H = delta_B - delta_G
     H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
     H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
-    H[H < 0] += 1
-    H[H > 1] -= 1
-    H[delta == 0] = 0
+    H[np.asarray(H < 0)] += 1
+    H[np.asarray(H > 1)] -= 1
+    H[np.asarray(delta == 0)] = 0
 
-    HSV = as_stack((H, S, V), shape=shape)
+    HSV = zstack((H, S, V))
 
     return HSV
 
@@ -3904,28 +3851,24 @@ def HSV_to_RGB_2d(HSV):
 
 
 def HSV_to_RGB_vectorise(HSV):
-    shape = as_shape(HSV)
-    HSV = as_array(HSV, (-1, 3))
+    H, S, V = zsplit(HSV)
 
-    H, S, V = HSV[:, 0], HSV[:, 1], HSV[:, 2]
-
-    h = H * 6
-    h[h == 6] = 0
+    h = np.asarray(H * 6)
+    h[np.asarray(h == 6)] = 0
 
     i = np.floor(h)
     j = V * (1 - S)
     k = V * (1 - S * (h - i))
     l = V * (1 - S * (1 - (h - i)))
 
-    i = np.dstack((i, i, i)).astype(np.uint8)
-    RGB = as_stack(np.choose(i,
-                             (np.dstack((V, l, j)),
-                              np.dstack((k, V, j)),
-                              np.dstack((j, V, l)),
-                              np.dstack((j, k, V)),
-                              np.dstack((l, j, V)),
-                              np.dstack((V, j, k)))),
-                   shape=shape)
+    i = zstack((i, i, i)).astype(np.uint8)
+    RGB = np.choose(i,
+                    (zstack((V, l, j)),
+                     zstack((k, V, j)),
+                     zstack((j, V, l)),
+                     zstack((j, k, V)),
+                     zstack((l, j, V)),
+                     zstack((V, j, k))))
 
     return RGB
 
@@ -3977,21 +3920,18 @@ def RGB_to_HSL_2d(RGB):
 
 @handle_numpy_errors(divide='ignore', invalid='ignore')
 def RGB_to_HSL_vectorise(RGB):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
-
     minimum = np.amin(RGB, -1)
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
 
-    R, G, B = RGB[:, 0], RGB[:, 1], RGB[:, 2]
+    R, G, B = zsplit(RGB)
 
     L = (maximum + minimum) / 2
 
     S = np.where(L < 0.5,
                  delta / (maximum + minimum),
                  delta / (2 - maximum - minimum))
-    S[delta == 0] = 0
+    S[np.asarray(delta == 0)] = 0
 
     delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
     delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
@@ -4000,11 +3940,11 @@ def RGB_to_HSL_vectorise(RGB):
     H = delta_B - delta_G
     H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
     H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
-    H[H < 0] += 1
-    H[H > 1] -= 1
-    H[delta == 0] = 0
+    H[np.asarray(H < 0)] += 1
+    H[np.asarray(H > 1)] -= 1
+    H[np.asarray(delta == 0)] = 0
 
-    HSL = as_stack((H, S, L), shape=shape)
+    HSL = zstack((H, S, L))
 
     return HSL
 
@@ -4055,18 +3995,17 @@ def HSL_to_RGB_2d(HSL):
 
 
 def HSL_to_RGB_vectorise(HSL):
-    shape = as_shape(HSL)
-    HSL = as_array(HSL, (-1, 3))
-
-    H, S, L = HSL[:, 0], HSL[:, 1], HSL[:, 2]
+    H, S, L = zsplit(HSL)
 
     def H_to_RGB(vi, vj, vH):
         """
         Converts *hue* value to *RGB* colourspace.
         """
 
-        vH[vH < 0] += 1
-        vH[vH > 1] -= 1
+        vH = np.asarray(vH)
+
+        vH[np.asarray(vH < 0)] += 1
+        vH[np.asarray(vH > 1)] -= 1
 
         v = np.full(vi.shape, np.nan)
 
@@ -4094,7 +4033,7 @@ def HSL_to_RGB_vectorise(HSL):
     G = np.where(S == 1, L, G)
     B = np.where(S == 1, L, B)
 
-    RGB = as_stack((R, G, B), shape=shape)
+    RGB = zstack((R, G, B))
 
     return RGB
 
@@ -4143,10 +4082,7 @@ def RGB_to_CMY_2d(RGB):
 
 
 def RGB_to_CMY_vectorise(RGB):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB)
-
-    CMY = 1 - RGB
+    CMY = 1 - np.asarray(RGB)
 
     return CMY
 
@@ -4191,10 +4127,7 @@ def CMY_to_RGB_2d(CMY):
 
 
 def CMY_to_RGB_vectorise(CMY):
-    shape = as_shape(CMY)
-    CMY = as_array(CMY)
-
-    RGB = 1 - CMY
+    RGB = 1 - np.asarray(CMY)
 
     return RGB
 
@@ -4241,24 +4174,22 @@ def CMY_to_CMYK_2d(CMY):
 
 
 def CMY_to_CMYK_vectorise(CMY):
-    shape = as_shape(CMY)
-    CMY = as_array(CMY, (-1, 3))
-    C, M, Y = CMY[:, 0], CMY[:, 1], CMY[:, 2]
+    C, M, Y = zsplit(CMY)
 
     K = np.ones(C.shape)
     K = np.where(C < K, C, K)
     K = np.where(M < K, M, K)
     K = np.where(Y < K, Y, K)
 
-    C = (C - K) / (1 - K)
-    M = (M - K) / (1 - K)
-    Y = (Y - K) / (1 - K)
+    C = np.asarray((C - K) / (1 - K))
+    M = np.asarray((M - K) / (1 - K))
+    Y = np.asarray((Y - K) / (1 - K))
 
-    C[K == 1] = 0
-    M[K == 1] = 0
-    Y[K == 1] = 0
+    C[np.asarray(K == 1)] = 0
+    M[np.asarray(K == 1)] = 0
+    Y[np.asarray(K == 1)] = 0
 
-    CMYK = as_stack((C, M, Y, K), shape=auto_axis(shape))
+    CMYK = zstack((C, M, Y, K))
 
     return CMYK
 
@@ -4307,14 +4238,11 @@ def CMYK_to_CMY_2d(CMYK):
 
 
 def CMYK_to_CMY_vectorise(CMYK):
-    shape = as_shape(CMYK)
-    CMYK = as_array(CMYK, (-1, 4))
-    C, M, Y, K = CMYK[:, 0], CMYK[:, 1], CMYK[:, 2], CMYK[:, 3]
+    C, M, Y, K = zsplit(CMYK)
 
-    CMY = as_stack((C * (1 - K) + K,
-                    M * (1 - K) + K,
-                    Y * (1 - K) + K),
-                   shape=auto_axis(shape))
+    CMY = zstack((C * (1 - K) + K,
+                  M * (1 - K) + K,
+                  Y * (1 - K) + K))
 
     return CMY
 
@@ -4346,7 +4274,7 @@ def CMYK_to_CMY_analysis():
     print('\n')
 
 
-# CMYK_to_CMY_analysis()
+CMYK_to_CMY_analysis()
 
 # #############################################################################
 # #############################################################################
