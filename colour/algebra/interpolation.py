@@ -19,7 +19,6 @@ import numpy as np
 
 from colour.utilities import (
     as_numeric,
-    is_numeric,
     is_uniform,
     is_scipy_installed,
     steps,

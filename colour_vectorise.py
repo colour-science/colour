@@ -17,14 +17,11 @@ $1_analysis()
 
 from __future__ import division, with_statement
 
-import functools
-import inspect
 import numpy as np
 import time
 from pprint import pprint
 
 from colour.utilities import (
-    as_numeric,
     handle_numpy_errors,
     ignore_numpy_errors,
     is_iterable,
@@ -65,20 +62,6 @@ def profile(method):
         return method(*args, **kwargs)
 
     return wrapper
-
-
-def as_numeric(argument):
-    def decorator(function):
-        @functools.wraps(function)
-        def inner(*args, **kwargs):
-            x = args[inspect.getargspec(function).args.index(argument)]
-
-            value = function(*args, **kwargs)
-            return value.item() if is_numeric(x) else value
-
-        return inner
-
-    return decorator
 
 
 def zstack(a):
@@ -167,7 +150,9 @@ def intermediate_values_vectorise(xy_o):
 
 def effective_adapting_responses_vectorise(xez, Y_o, E_o):
     # TODO: Mention *xez* place change.
-    xez, Y_o, E_o = np.asarray((xez, Y_o, E_o))
+    xez = np.asarray(xez)
+    Y_o = np.asarray(Y_o)
+    E_o = np.asarray(E_o)
 
     RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
 
@@ -221,7 +206,8 @@ def corresponding_colour_vectorise(
     xi_2, eta_2, zeta_2 = zsplit(xez_2)
     bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
     bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
-    Y_o, K = np.asarray((Y_o, K))
+    Y_o = np.asarray(Y_o)
+    K = np.asarray(K)
 
     RGBc = lambda x1, x2, y1, y2, z: (
         (Y_o * x2 + n) * K ** (1 / y2) *
@@ -288,7 +274,8 @@ def CMCCAT2000_forward_vectorise(XYZ,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
-    L_A1, L_A2 = np.asarray((L_A1, L_A2))
+    L_A1 = np.asarray(L_A1)
+    L_A2 = np.asarray(L_A2)
 
     RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
@@ -349,7 +336,8 @@ def CMCCAT2000_reverse_vectorise(XYZ_c,
                                  L_A2,
                                  surround=CMCCAT2000_VIEWING_CONDITIONS.get(
                                      'Average')):
-    L_A1, L_A2 = np.asarray((L_A1, L_A2))
+    L_A1 = np.asarray(L_A1)
+    L_A2 = np.asarray(L_A2)
 
     RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
     RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
@@ -877,7 +865,8 @@ from colour.constants import CIE_E, CIE_K
 
 
 def lightness_1976_vectorise(Y, Y_n=100):
-    Y, Y_n = np.asarray((Y, Y_n))
+    Y = np.asarray(Y)
+    Y_n = np.asarray(Y_n)
 
     Lstar = Y / Y_n
 
@@ -1068,7 +1057,8 @@ def luminance_1976_2d(L):
 
 
 def luminance_1976_vectorise(Lstar, Y_n=100):
-    Lstar, Y_n = np.asarray((Lstar, Y_n))
+    Lstar = np.asarray(Lstar)
+    Y_n = np.asarray(Y_n)
 
     Y = np.where(Lstar > CIE_K * CIE_E,
                  Y_n * ((Lstar + 16) / 116) ** 3,
@@ -1161,7 +1151,6 @@ def SpectralShape__contains__analysis():
 # # ### colour.SpectralPowerDistribution
 # #############################################################################
 
-@as_numeric('wavelength')
 def SpectralPowerDistribution__getitem__(self, wavelength):
     if type(wavelength) is slice:
         return self.values[wavelength]
@@ -1169,8 +1158,9 @@ def SpectralPowerDistribution__getitem__(self, wavelength):
         wavelength = np.asarray(wavelength)
 
         value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
+        value = np.reshape(value, wavelength.shape)
 
-        return np.reshape(value, wavelength.shape)
+        return value
 
 
 SpectralPowerDistribution.__getitem__ = SpectralPowerDistribution__getitem__
@@ -1271,7 +1261,6 @@ def SpectralPowerDistribution__setitem__analysis():
 
 # SpectralPowerDistribution__setitem__analysis()
 
-@as_numeric('wavelength')
 def SpectralPowerDistribution_get(self, wavelength, default=None):
     wavelength = np.asarray(wavelength)
 
@@ -1464,10 +1453,10 @@ def TriSpectralPowerDistribution__setitem__analysis():
 def TriSpectralPowerDistribution_get(self, wavelength, default=None):
     wavelength = np.asarray(wavelength)
 
-    value = np.array([(self.x.get(x, default),
-                       self.y.get(x, default),
-                       self.z.get(x, default))
-                      for x in np.ravel(wavelength)])
+    value = np.asarray([(self.x.get(x, default),
+                         self.y.get(x, default),
+                         self.z.get(x, default))
+                        for x in np.ravel(wavelength)])
 
     value = np.reshape(value, wavelength.shape + (3,))
 
@@ -1980,7 +1969,8 @@ def planck_law_2d(wavelengths):
 
 @handle_numpy_errors(over='ignore')
 def planck_law_vectorise(wavelength, temperature, c1=C1, c2=C2, n=N):
-    l, t = np.asarray((wavelength, temperature))
+    l = np.asarray(wavelength)
+    t = np.asarray(temperature)
 
     p = (((c1 * n ** -2 * l ** -5) / np.pi) *
          (np.exp(c2 / (n * l * t)) - 1) ** -1)
@@ -4274,7 +4264,7 @@ def CMYK_to_CMY_analysis():
     print('\n')
 
 
-CMYK_to_CMY_analysis()
+# CMYK_to_CMY_analysis()
 
 # #############################################################################
 # #############################################################################
@@ -4288,18 +4278,18 @@ from colour.models.derivation import *
 
 
 def xy_to_z_vectorise(xy):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
+    x, y = zsplit(xy)
 
-    z = 1 - xy[:, 0] - xy[:, 1]
+    z = 1 - x - y
 
-    return as_numeric(np.reshape(z, auto_axis(shape)))
+    return z
 
 
 def normalised_primary_matrix_vectorise(primaries, whitepoint):
-    primaries = primaries.reshape((3, 2))
-    primaries = np.transpose(
-        np.hstack((primaries, xy_to_z_vectorise(primaries))))
+    primaries = np.reshape(primaries, (3, 2))
+
+    z = xy_to_z_vectorise(primaries)[..., np.newaxis]
+    primaries = np.transpose(np.hstack((primaries, z)))
 
     whitepoint = xy_to_XYZ(whitepoint)
 
@@ -4378,17 +4368,13 @@ def RGB_luminance_2d(RGB):
 
 
 def RGB_luminance_vectorise(RGB, primaries, whitepoint):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
+    R, G, B = zsplit(RGB)
 
-    X, Y, Z = np.ravel(normalised_primary_matrix(primaries,
-                                                 whitepoint))[3:6]
-
-    R, G, B = RGB[:, 0], RGB[:, 1], RGB[:, 2]
-
+    X, Y, Z = np.ravel(normalised_primary_matrix_vectorise(primaries,
+                                                           whitepoint))[3:6]
     L = X * R + Y * G + Z * B
 
-    return as_numeric(np.reshape(L, auto_axis(shape)))
+    return L
 
 
 def RGB_luminance_analysis():
@@ -4440,14 +4426,9 @@ def XYZ_to_IPT_2d(XYZ):
 
 
 def XYZ_to_IPT_vectorise(XYZ):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-
     LMS = np.einsum('...ij,...j->...i', IPT_XYZ_TO_LMS_MATRIX, XYZ)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = np.reshape(
-        np.einsum('...ij,...j->...i', IPT_LMS_TO_IPT_MATRIX, LMS_prime),
-        shape)
+    IPT = np.einsum('...ij,...j->...i', IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
     return IPT
 
@@ -4494,14 +4475,9 @@ def IPT_to_XYZ_2d(IPT):
 
 
 def IPT_to_XYZ_vectorise(IPT):
-    shape = as_shape(IPT)
-    IPT = as_array(IPT, (-1, 3))
-
     LMS = np.einsum('...ij,...j->...i', IPT_IPT_TO_LMS_MATRIX, IPT)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = np.reshape(
-        np.einsum('...ij,...j->...i', IPT_LMS_TO_XYZ_MATRIX, LMS_prime),
-        shape)
+    XYZ = np.einsum('...ij,...j->...i', IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
     return XYZ
 
@@ -4546,11 +4522,9 @@ def IPT_hue_angle_2d(IPT):
 
 
 def IPT_hue_angle_vectorise(IPT):
-    shape = as_shape(IPT)
-    IPT = as_array(IPT, (-1, 3))
+    I, P, T = zsplit(IPT)
 
-    hue = as_numeric(np.reshape(np.arctan2(IPT[:, 2], IPT[:, 1]),
-                                auto_axis(shape)))
+    hue = np.arctan2(T, P)
 
     return hue
 
@@ -4607,11 +4581,10 @@ def linear_to_cineon_2d(value):
 def linear_to_cineon_vectorise(value,
                                black_offset=10 ** ((95 - 685) / 300),
                                **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((685 +
-                        300 * np.log10(value * (
-                            1 - black_offset) + black_offset)) / 1023))
+    return ((685 + 300 *
+             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
 
 
 def linear_to_cineon_analysis():
@@ -4624,6 +4597,11 @@ def linear_to_cineon_analysis():
 
     print('Numeric input:')
     print(linear_to_cineon_vectorise(0.18))
+
+    print('\n')
+
+    print('0d array input:')
+    print(linear_to_cineon_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -4661,10 +4639,10 @@ def cineon_to_linear_2d(value):
 def cineon_to_linear_vectorise(value,
                                black_offset=10 ** ((95 - 685) / 300),
                                **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((10 ** ((1023 * value - 685) / 300) - black_offset) /
-                       (1 - black_offset)))
+    return ((10 ** ((1023 * value - 685) / 300) - black_offset) /
+            (1 - black_offset))
 
 
 def cineon_to_linear_analysis():
@@ -4677,6 +4655,11 @@ def cineon_to_linear_analysis():
 
     print('Numeric input:')
     print(cineon_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('0d array input:')
+    print(cineon_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -4714,11 +4697,10 @@ def linear_to_panalog_2d(value):
 def linear_to_panalog_vectorise(value,
                                 black_offset=10 ** ((64 - 681) / 444),
                                 **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((681 +
-                        444 * np.log10(value * (
-                            1 - black_offset) + black_offset)) / 1023))
+    return ((681 + 444 *
+             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
 
 
 def linear_to_panalog_analysis():
@@ -4731,6 +4713,11 @@ def linear_to_panalog_analysis():
 
     print('Numeric input:')
     print(linear_to_panalog_vectorise(0.18))
+
+    print('\n')
+
+    print('0d array input:')
+    print(linear_to_panalog_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -4768,10 +4755,10 @@ def panalog_to_linear_2d(value):
 def panalog_to_linear_vectorise(value,
                                 black_offset=10 ** ((64 - 681) / 444),
                                 **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((10 ** ((1023 * value - 681) / 444) - black_offset) /
-                       (1 - black_offset)))
+    return ((10 ** ((1023 * value - 681) / 444) - black_offset) /
+            (1 - black_offset))
 
 
 def panalog_to_linear_analysis():
@@ -4784,6 +4771,11 @@ def panalog_to_linear_analysis():
 
     print('Numeric input:')
     print(panalog_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('0d array input:')
+    print(panalog_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -4821,11 +4813,10 @@ def linear_to_red_log_2d(value):
 def linear_to_red_log_vectorise(value,
                                 black_offset=10 ** ((0 - 1023) / 511),
                                 **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((1023 +
-                        511 * np.log10(value * (
-                            1 - black_offset) + black_offset)) / 1023))
+    return ((1023 +
+             511 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
 
 
 def linear_to_red_log_analysis():
@@ -4838,6 +4829,11 @@ def linear_to_red_log_analysis():
 
     print('Numeric input:')
     print(linear_to_red_log_vectorise(0.18))
+
+    print('\n')
+
+    print('0d array input:')
+    print(linear_to_red_log_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -4875,10 +4871,11 @@ def red_log_to_linear_2d(value):
 def red_log_to_linear_vectorise(value,
                                 black_offset=10 ** ((0 - 1023) / 511),
                                 **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric((((10 ** ((1023 * value - 1023) / 511)) - black_offset) /
-                       (1 - black_offset)))
+    return (((10 **
+              ((1023 * value - 1023) / 511)) - black_offset) /
+            (1 - black_offset))
 
 
 def red_log_to_linear_analysis():
@@ -4891,6 +4888,11 @@ def red_log_to_linear_analysis():
 
     print('Numeric input:')
     print(red_log_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('1d array input:')
+    print(red_log_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -4926,9 +4928,9 @@ def linear_to_viper_log_2d(value):
 
 
 def linear_to_viper_log_vectorise(value, **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric((1023 + 500 * np.log10(value)) / 1023)
+    return (1023 + 500 * np.log10(value)) / 1023
 
 
 def linear_to_viper_log_analysis():
@@ -4941,6 +4943,11 @@ def linear_to_viper_log_analysis():
 
     print('Numeric input:')
     print(linear_to_viper_log_vectorise(0.18))
+
+    print('\n')
+
+    print('1d array input:')
+    print(linear_to_viper_log_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -4976,9 +4983,9 @@ def viper_log_to_linear_2d(value):
 
 
 def viper_log_to_linear_vectorise(value, **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(10 ** ((1023 * value - 1023) / 500))
+    return 10 ** ((1023 * value - 1023) / 500)
 
 
 def viper_log_to_linear_analysis():
@@ -4991,6 +4998,11 @@ def viper_log_to_linear_analysis():
 
     print('Numeric input:')
     print(viper_log_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('0d array input:')
+    print(viper_log_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -5030,10 +5042,10 @@ def linear_to_pivoted_log_vectorise(value,
                                     linear_reference=0.18,
                                     negative_gamma=0.6,
                                     density_per_code_value=0.002):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(((log_reference + np.log10(value / linear_reference) /
-                        (density_per_code_value / negative_gamma)) / 1023))
+    return ((log_reference + np.log10(value / linear_reference) /
+             (density_per_code_value / negative_gamma)) / 1023)
 
 
 def linear_to_pivoted_log_analysis():
@@ -5046,6 +5058,11 @@ def linear_to_pivoted_log_analysis():
 
     print('Numeric input:')
     print(linear_to_pivoted_log_vectorise(0.18))
+
+    print('\n')
+
+    print('0d array input:')
+    print(linear_to_pivoted_log_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -5085,11 +5102,11 @@ def pivoted_log_to_linear_vectorise(value,
                                     linear_reference=0.18,
                                     negative_gamma=0.6,
                                     density_per_code_value=0.002):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric((10 ** ((value * 1023 - log_reference) *
-                              (density_per_code_value / negative_gamma)) *
-                       linear_reference))
+    return (10 ** ((value * 1023 - log_reference) *
+                   (density_per_code_value / negative_gamma)) *
+            linear_reference)
 
 
 def pivoted_log_to_linear_analysis():
@@ -5102,6 +5119,11 @@ def pivoted_log_to_linear_analysis():
 
     print('Numeric input:')
     print(pivoted_log_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('0d array input:')
+    print(pivoted_log_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -5137,9 +5159,9 @@ def linear_to_c_log_2d(value):
 
 
 def linear_to_c_log_vectorise(value, **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(0.529136 * np.log10(10.1596 * value + 1) + 0.0730597)
+    return 0.529136 * np.log10(10.1596 * value + 1) + 0.0730597
 
 
 def linear_to_c_log_analysis():
@@ -5152,6 +5174,11 @@ def linear_to_c_log_analysis():
 
     print('Numeric input:')
     print(linear_to_c_log_vectorise(0.18))
+
+    print('\n')
+
+    print('0d array input:')
+    print(linear_to_c_log_vectorise(np.array(0.18)))
 
     print('\n')
 
@@ -5187,10 +5214,10 @@ def c_log_to_linear_2d(value):
 
 
 def c_log_to_linear_vectorise(value, **kwargs):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(-0.071622555735168 * (
-        1.3742747797867 - np.exp(1) ** (4.3515940948906 * value)))
+    return (-0.071622555735168 *
+            (1.3742747797867 - np.exp(1) ** (4.3515940948906 * value)))
 
 
 def c_log_to_linear_analysis():
@@ -5203,6 +5230,11 @@ def c_log_to_linear_analysis():
 
     print('Numeric input:')
     print(c_log_to_linear_vectorise(0.5))
+
+    print('\n')
+
+    print('0d array input:')
+    print(c_log_to_linear_vectorise(np.array(0.5)))
 
     print('\n')
 
@@ -5247,7 +5279,7 @@ RGB_t = np.tile(RGB, (6, 1)).reshape(2, 3, 3)
 
 
 def _aces_cc_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
     output = np.where(value < 0,
                       (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
@@ -5256,7 +5288,7 @@ def _aces_cc_transfer_function_vectorise(value):
                       (np.log2(value) + 9.72) / 17.52,
                       output)
 
-    return as_numeric(output)
+    return output
 
 
 def _aces_cc_transfer_function_analysis():
@@ -5281,7 +5313,7 @@ def _aces_cc_transfer_function_analysis():
 
 
 def _aces_cc_inverse_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
     output = np.where(value < (9.72 - 15) / 17.52,
                       (2 ** (value * 17.52 - 9.72) - 2 ** -16) * 2,
@@ -5290,7 +5322,7 @@ def _aces_cc_inverse_transfer_function_vectorise(value):
                       65504,
                       output)
 
-    return as_numeric(output)
+    return output
 
 
 def _aces_cc_inverse_transfer_function_analysis():
@@ -5319,7 +5351,7 @@ from colour.models.dataset.aces import (
 
 
 def _aces_proxy_transfer_function_vectorise(value, bit_depth='10 Bit'):
-    value = as_array(value)
+    value = np.asarray(value)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
@@ -5332,7 +5364,7 @@ def _aces_proxy_transfer_function_vectorise(value, bit_depth='10 Bit'):
                       float_2_cv((np.log2(value) + constants.mid_log_offset) *
                                  constants.steps_per_stop + constants.mid_CV_offset),
                       np.resize(CV_min, value.shape))
-    return as_numeric(output)
+    return output
 
 
 def _aces_proxy_transfer_function_analysis():
@@ -5357,12 +5389,12 @@ def _aces_proxy_transfer_function_analysis():
 
 
 def _aces_proxy_inverse_transfer_function_vectorise(value, bit_depth='10 Bit'):
-    value = as_array(value)
+    value = np.asarray(value)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
-    return as_numeric((2 ** (((value - constants.mid_CV_offset) /
-                              constants.steps_per_stop - constants.mid_log_offset))))
+    return (2 ** (((value - constants.mid_CV_offset) /
+                   constants.steps_per_stop - constants.mid_log_offset)))
 
 
 def _aces_proxy_inverse_transfer_function_analysis():
@@ -5390,7 +5422,9 @@ from colour.models.dataset.adobe_rgb_1998 import *
 def _adobe_rgb_1998_transfer_function_vectorise(value):
     # Also valid for:
     # _adobe_wide_gamut_rgb_transfer_function
-    return as_numeric(as_array(value) ** (1 / (563 / 256)))
+    value = np.asarray(value)
+
+    return value ** (1 / (563 / 256))
 
 
 def _adobe_rgb_1998_transfer_function_analysis():
@@ -5413,7 +5447,9 @@ def _adobe_rgb_1998_transfer_function_analysis():
 def _adobe_rgb_1998_inverse_transfer_function_vectorise(value):
     # Also valid for:
     # _adobe_wide_gamut_rgb_inverse_transfer_function
-    return as_numeric(as_array(value) ** (563 / 256))
+    value = np.asarray(value)
+
+    return value ** (563 / 256)
 
 
 def _adobe_rgb_1998_inverse_transfer_function_analysis():
@@ -5443,13 +5479,14 @@ def _alexa_wide_gamut_rgb_transfer_function_vectorise(
         firmware='SUP 3.x',
         method='Linear Scene Exposure Factor',
         EI=800):
-    value = as_array(value)
+    value = np.asarray(value)
 
     cut, a, b, c, d, e, f, _ = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
-    return as_numeric(
-        np.where(value > cut, c * np.log10(a * value + b) + d, e * value + f))
+    return np.where(value > cut,
+                    c * np.log10(a * value + b) + d,
+                    e * value + f)
 
 
 def _alexa_wide_gamut_rgb_transfer_function_analysis():
@@ -5478,14 +5515,14 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function_vectorise(
         firmware='SUP 3.x',
         method='Linear Scene Exposure Factor',
         EI=800):
-    value = as_array(value)
+    value = np.asarray(value)
 
     cut, a, b, c, d, e, f, _ = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return as_numeric(np.where(value > e * cut + f,
-                               (np.power(10., (value - d) / c) - b) / a,
-                               (value - f) / e))
+    return np.where(value > e * cut + f,
+                    (np.power(10., (value - d) / c) - b) / a,
+                    (value - f) / e)
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function_analysis():
@@ -5519,7 +5556,9 @@ from colour.models.dataset.apple_rgb import *
 def _apple_rgb_transfer_function_vectorise(value):
     # Also valid for:
     # _color_match_rgb_transfer_function
-    return as_numeric(as_array(value) ** (1 / 1.8))
+    value = np.asarray(value)
+
+    return value ** (1 / 1.8)
 
 
 def _apple_rgb_transfer_function_function_analysis():
@@ -5542,7 +5581,9 @@ def _apple_rgb_transfer_function_function_analysis():
 def _apple_rgb_inverse_transfer_function_vectorise(value):
     # Also valid for:
     # _color_match_rgb_inverse_transfer_function
-    return as_numeric(as_array(value) ** 1.8)
+    value = np.asarray(value)
+
+    return value ** 1.8
 
 
 def _apple_rgb_inverse_transfer_function_analysis():
@@ -5578,7 +5619,9 @@ def _best_rgb_transfer_function_vectorise(value):
     # _russell_rgb_transfer_function
     # _smpte_c_rgb_transfer_function
     # _xtreme_rgb_transfer_function
-    return as_numeric(as_array(value) ** (1 / 2.2))
+    value = np.asarray(value)
+
+    return value ** (1 / 2.2)
 
 
 def _best_rgb_transfer_function_analysis():
@@ -5609,7 +5652,9 @@ def _best_rgb_inverse_transfer_function_vectorise(value):
     # _russell_rgb_inverse_transfer_function
     # _smpte_c_rgb_inverse_transfer_function
     # _xtreme_rgb_inverse_transfer_function
-    return as_numeric(as_array(value) ** 2.2)
+    value = np.asarray(value)
+
+    return value ** 2.2
 
 
 def _best_rgb_inverse_transfer_function_analysis():
@@ -5635,7 +5680,9 @@ from colour.models.dataset.dci_p3 import *
 
 
 def _dci_p3_transfer_function_vectorise(value):
-    return as_numeric(4095 * (as_array(value) / 52.37) ** (1 / 2.6))
+    value = np.asarray(value)
+
+    return 4095 * (value / 52.37) ** (1 / 2.6)
 
 
 def _dci_p3_transfer_function_analysis():
@@ -5656,7 +5703,9 @@ def _dci_p3_transfer_function_analysis():
 
 
 def _dci_p3_inverse_transfer_function_vectorise(value):
-    return as_numeric(52.37 * (as_array(value) / 4095) ** 2.6)
+    value = np.asarray(value)
+
+    return 52.37 * (value / 4095) ** 2.6
 
 
 def _dci_p3_inverse_transfer_function_analysis():
@@ -5682,7 +5731,9 @@ from colour.models.dataset.pal_secam_rgb import *
 
 
 def _pal_secam_rgb_transfer_function_vectorise(value):
-    return as_numeric(as_array(value) ** (1 / 2.8))
+    value = np.asarray(value)
+
+    return value ** (1 / 2.8)
 
 
 def _pal_secam_rgb_transfer_function_analysis():
@@ -5703,7 +5754,9 @@ def _pal_secam_rgb_transfer_function_analysis():
 
 
 def _pal_secam_rgb_inverse_transfer_function_vectorise(value):
-    return as_numeric(as_array(value) ** 2.8)
+    value = np.asarray(value)
+
+    return value ** 2.8
 
 
 def _pal_secam_rgb_inverse_transfer_function_analysis():
@@ -5729,11 +5782,11 @@ from colour.models.dataset.prophoto_rgb import *
 
 
 def _prophoto_rgb_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(np.where(value < 0.001953,
-                               value * 16,
-                               value ** (1 / 1.8)))
+    return np.where(value < 0.001953,
+                    value * 16,
+                    value ** (1 / 1.8))
 
 
 def _prophoto_rgb_transfer_function_analysis():
@@ -5754,12 +5807,12 @@ def _prophoto_rgb_transfer_function_analysis():
 
 
 def _prophoto_rgb_inverse_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(
-        np.where(value < _prophoto_rgb_transfer_function_vectorise(0.001953),
-                 value / 16,
-                 value ** 1.8))
+    return np.where(
+        value < _prophoto_rgb_transfer_function_vectorise(0.001953),
+        value / 16,
+        value ** 1.8)
 
 
 def _prophoto_rgb_inverse_transfer_function_analysis():
@@ -5785,11 +5838,11 @@ from colour.models.dataset.rec_709 import *
 
 
 def _rec_709_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(np.where(value < 0.018,
-                               value * 4.5,
-                               1.099 * (value ** 0.45) - 0.099))
+    return np.where(value < 0.018,
+                    value * 4.5,
+                    1.099 * (value ** 0.45) - 0.099)
 
 
 def _rec_709_transfer_function_analysis():
@@ -5810,12 +5863,11 @@ def _rec_709_transfer_function_analysis():
 
 
 def _rec_709_inverse_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(
-        np.where(value < _rec_709_transfer_function_vectorise(0.018),
-                 value / 4.5,
-                 ((value + 0.099) / 1.099) ** (1 / 0.45)))
+    return np.where(value < _rec_709_transfer_function_vectorise(0.018),
+                    value / 4.5,
+                    ((value + 0.099) / 1.099) ** (1 / 0.45))
 
 
 def _rec_709_inverse_transfer_function_analysis():
@@ -5841,13 +5893,13 @@ from colour.models.dataset.rec_2020 import *
 
 
 def _rec_2020_transfer_function_vectorise(value, is_10_bits_system=True):
-    value = as_array(value)
+    value = np.asarray(value)
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return as_numeric(np.where(value < b,
-                               value * 4.5,
-                               a * (value ** 0.45) - (a - 1)))
+    return np.where(value < b,
+                    value * 4.5,
+                    a * (value ** 0.45) - (a - 1))
 
 
 def _rec_2020_transfer_function_analysis():
@@ -5869,14 +5921,13 @@ def _rec_2020_transfer_function_analysis():
 
 def _rec_2020_inverse_transfer_function_vectorise(value,
                                                   is_10_bits_system=True):
-    value = as_array(value)
+    value = np.asarray(value)
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return as_numeric(
-        np.where(value < _rec_2020_transfer_function_vectorise(b),
-                 value / 4.5,
-                 ((value + (a - 1)) / a) ** (1 / 0.45)))
+    return np.where(value < _rec_2020_transfer_function_vectorise(b),
+                    value / 4.5,
+                    ((value + (a - 1)) / a) ** (1 / 0.45))
 
 
 def _rec_2020_inverse_transfer_function_analysis():
@@ -5906,8 +5957,9 @@ from colour.models.dataset.s_gamut import *
 
 
 def _s_log_transfer_function_vectorise(value):
-    return as_numeric(
-        (0.432699 * np.log10(as_array(value) + 0.037584) + 0.616596) + 0.03)
+    value = np.asarray(value)
+
+    return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
 
 
 def _s_log_transfer_function_analysis():
@@ -5928,8 +5980,9 @@ def _s_log_transfer_function_analysis():
 
 
 def _s_log_inverse_transfer_function_vectorise(value):
-    return as_numeric(
-        10 ** (((as_array(value) - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+    value = np.asarray(value)
+
+    return 10 ** (((value - 0.616596 - 0.03) / 0.432699)) - 0.037584
 
 
 def _s_log_inverse_transfer_function_analysis():
@@ -5950,9 +6003,11 @@ def _s_log_inverse_transfer_function_analysis():
 
 
 def _s_log2_transfer_function_vectorise(value):
-    return as_numeric(((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
-                                         (np.log10(0.037584 + as_array(
-                                             value) / 0.9))))) / 1023))
+    value = np.asarray(value)
+
+    return ((4 * (16 + 219 *
+                  (0.616596 + 0.03 + 0.432699 *
+                   (np.log10(0.037584 + value / 0.9))))) / 1023)
 
 
 def _s_log2_transfer_function_analysis():
@@ -5973,9 +6028,10 @@ def _s_log2_transfer_function_analysis():
 
 
 def _s_log2_inverse_transfer_function_vectorise(value):
-    return as_numeric(
-        ((10 ** (((((as_array(value) * 1023 / 4 - 16) / 219) - 0.616596 - 0.03)
-                  / 0.432699)) - 0.037584) * 0.9))
+    value = np.asarray(value)
+
+    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
+                     0.432699)) - 0.037584) * 0.9)
 
 
 def _s_log2_inverse_transfer_function_analysis():
@@ -5996,14 +6052,12 @@ def _s_log2_inverse_transfer_function_analysis():
 
 
 def _s_log3_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(
-        np.where(value >= 0.01125000,
-                 (420 + np.log10((value + 0.01) / (
-                     0.18 + 0.01)) * 261.5) / 1023,
-                 (value * (
-                     171.2102946929 - 95) / 0.01125000 + 95) / 1023))
+    return np.where(value >= 0.01125000,
+                    (420 + np.log10((value + 0.01) /
+                                    (0.18 + 0.01)) * 261.5) / 1023,
+                    (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
 
 
 def _s_log3_transfer_function_analysis():
@@ -6028,13 +6082,12 @@ def _s_log3_transfer_function_analysis():
 
 
 def _s_log3_inverse_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(np.where(value >= 171.2102946929 / 1023,
-                               ((10 ** ((value * 1023 - 420) / 261.5)) * (
-                                   0.18 + 0.01) - 0.01),
-                               (value * 1023 - 95) * 0.01125000 / (
-                                   171.2102946929 - 95)))
+    return np.where(value >= 171.2102946929 / 1023,
+                    ((10 ** ((value * 1023 - 420) / 261.5)) *
+                     (0.18 + 0.01) - 0.01),
+                    (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
 
 
 def _s_log3_inverse_transfer_function_analysis():
@@ -6064,11 +6117,11 @@ from colour.models.dataset.srgb import *
 
 
 def _srgb_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(np.where(value <= 0.0031308,
-                               value * 12.92,
-                               1.055 * (value ** (1 / 2.4)) - 0.055))
+    return np.where(value <= 0.0031308,
+                    value * 12.92,
+                    1.055 * (value ** (1 / 2.4)) - 0.055)
 
 
 def _srgb_transfer_function_analysis():
@@ -6089,12 +6142,11 @@ def _srgb_transfer_function_analysis():
 
 
 def _srgb_inverse_transfer_function_vectorise(value):
-    value = as_array(value)
+    value = np.asarray(value)
 
-    return as_numeric(
-        np.where(value <= _srgb_transfer_function_vectorise(0.0031308),
-                 value / 12.92,
-                 ((value + 0.055) / 1.055) ** 2.4))
+    return np.where(value <= _srgb_transfer_function_vectorise(0.0031308),
+                    value / 12.92,
+                    ((value + 0.055) / 1.055) ** 2.4)
 
 
 def _srgb_inverse_transfer_function_analysis():
@@ -6138,9 +6190,6 @@ def XYZ_to_RGB_vectorise(XYZ,
                          XYZ_to_RGB_matrix,
                          chromatic_adaptation_transform='CAT02',
                          transfer_function=None):
-    shape = as_shape(XYZ)
-    XYZ = as_array(XYZ, (-1, 3))
-
     M = chromatic_adaptation_matrix_VonKries_vectorise(
         xy_to_XYZ_vectorise(illuminant_XYZ),
         xy_to_XYZ_vectorise(illuminant_RGB),
@@ -6152,8 +6201,6 @@ def XYZ_to_RGB_vectorise(XYZ,
 
     if transfer_function is not None:
         RGB = transfer_function(RGB)
-
-    RGB = np.reshape(RGB, shape)
 
     return RGB
 
@@ -6211,9 +6258,6 @@ def RGB_to_XYZ_vectorise(RGB,
                          RGB_to_XYZ_matrix,
                          chromatic_adaptation_transform='CAT02',
                          inverse_transfer_function=None):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
-
     if inverse_transfer_function is not None:
         RGB = inverse_transfer_function(RGB)
 
@@ -6225,8 +6269,6 @@ def RGB_to_XYZ_vectorise(RGB,
         transform=chromatic_adaptation_transform)
 
     XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
-
-    XYZ_a = np.reshape(XYZ_a, shape)
 
     return XYZ_a
 
@@ -6278,9 +6320,6 @@ def RGB_to_RGB_vectorise(RGB,
                          input_colourspace,
                          output_colourspace,
                          chromatic_adaptation_transform='CAT02'):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
-
     cat = chromatic_adaptation_matrix_VonKries_vectorise(
         xy_to_XYZ_vectorise(input_colourspace.whitepoint),
         xy_to_XYZ_vectorise(output_colourspace.whitepoint),
@@ -6293,7 +6332,7 @@ def RGB_to_RGB_vectorise(RGB,
                   M,
                   output_colourspace.XYZ_to_RGB_matrix)
 
-    RGB = np.reshape(np.einsum('...ij,...j->...i', M, RGB), shape)
+    RGB = np.einsum('...ij,...j->...i', M, RGB)
 
     return RGB
 
@@ -6346,12 +6385,12 @@ def munsell_value_Priest1920_2d(Y):
 
 
 def munsell_value_Priest1920_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     Y /= 100
     V = 10 * np.sqrt(Y)
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_Priest1920_analysis():
@@ -6364,6 +6403,11 @@ def munsell_value_Priest1920_analysis():
 
     print('Numeric input:')
     print(munsell_value_Priest1920_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_Priest1920_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6399,11 +6443,11 @@ def munsell_value_Munsell1933_2d(Y):
 
 
 def munsell_value_Munsell1933_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_Munsell1933_analysis():
@@ -6416,6 +6460,11 @@ def munsell_value_Munsell1933_analysis():
 
     print('Numeric input:')
     print(munsell_value_Munsell1933_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_Munsell1933_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6451,11 +6500,11 @@ def munsell_value_Moon1943_2d(Y):
 
 
 def munsell_value_Moon1943_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = 1.4 * Y ** 0.426
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_Moon1943_analysis():
@@ -6468,6 +6517,11 @@ def munsell_value_Moon1943_analysis():
 
     print('Numeric input:')
     print(munsell_value_Moon1943_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_Moon1943_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6503,11 +6557,11 @@ def munsell_value_Saunderson1944_2d(Y):
 
 
 def munsell_value_Saunderson1944_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = 2.357 * (Y ** 0.343) - 1.52
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_Saunderson1944_analysis():
@@ -6520,6 +6574,11 @@ def munsell_value_Saunderson1944_analysis():
 
     print('Numeric input:')
     print(munsell_value_Saunderson1944_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_Saunderson1944_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6555,11 +6614,11 @@ def munsell_value_Ladd1955_2d(Y):
 
 
 def munsell_value_Ladd1955_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = 2.468 * (Y ** (1 / 3)) - 1.636
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_Ladd1955_analysis():
@@ -6572,6 +6631,11 @@ def munsell_value_Ladd1955_analysis():
 
     print('Numeric input:')
     print(munsell_value_Ladd1955_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_Ladd1955_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6610,7 +6674,7 @@ def munsell_value_McCamy1987_2d(Y):
 
 @ignore_numpy_errors
 def munsell_value_McCamy1987_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = np.where(Y <= 0.9,
                  0.87445 * (Y ** 0.9967),
@@ -6621,7 +6685,7 @@ def munsell_value_McCamy1987_vectorise(Y):
                   (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
                   (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_McCamy1987_analysis():
@@ -6634,6 +6698,11 @@ def munsell_value_McCamy1987_analysis():
 
     print('Numeric input:')
     print(munsell_value_McCamy1987_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_McCamy1987_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6691,11 +6760,11 @@ def _munsell_value_ASTMD153508_interpolator():
 
 
 def munsell_value_ASTMD153508_vectorise(Y):
-    Y = as_array(Y)
+    Y = np.asarray(Y)
 
     V = _munsell_value_ASTMD153508_interpolator()(Y)
 
-    return as_numeric(V)
+    return V
 
 
 def munsell_value_ASTMD153508_analysis():
@@ -6708,6 +6777,11 @@ def munsell_value_ASTMD153508_analysis():
 
     print('Numeric input:')
     print(munsell_value_ASTMD153508_vectorise(10.08))
+
+    print('\n')
+
+    print('0d array input:')
+    print(munsell_value_ASTMD153508_vectorise(np.array(10.08)))
 
     print('\n')
 
@@ -6750,16 +6824,10 @@ def RGB_to_HEX_2d(RGB):
 
 
 def RGB_to_HEX_vectorise(RGB):
-    shape = as_shape(RGB)
-    RGB = as_array(RGB, (-1, 3))
-
     to_HEX = np.vectorize('{0:02x}'.format)
 
     HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
-    HEX = as_stack(np.array('#') + HEX[:, 0] + HEX[:, 1] + HEX[:, 2],
-                   shape=auto_axis(shape))
-
-    HEX = str(HEX[0]) if shape == (3,) else HEX
+    HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
     return HEX
 
@@ -6805,18 +6873,16 @@ def HEX_to_RGB_2d(HEX):
 
 
 def HEX_to_RGB_vectorise(HEX):
-    shape = as_shape(HEX)
-    HEX = as_array(HEX, (-1, 1), str)
     HEX = np.core.defchararray.lstrip(HEX, '#')
 
     def to_RGB(x):
         length = len(x)
         return [int(x[i:i + length // 3], 16)
-                for i in
-                range(0, length, length // 3)]
+                for i in range(0, length, length // 3)]
 
-    RGB = np.reshape(np.array([to_RGB(x[0]) for x in HEX]) / 255,
-                     auto_axis(shape))
+    toRGB = np.vectorize(to_RGB, otypes=[np.ndarray])
+
+    RGB = np.asarray(toRGB(HEX).tolist()) / 255
 
     return RGB
 
@@ -6825,25 +6891,25 @@ def HEX_to_RGB_analysis():
     message_box('HEX_to_RGB')
 
     print('Reference:')
-    RGB = '#aaddff'
-    print(HEX_to_RGB(RGB))
+    HEX = '#aaddff'
+    print(HEX_to_RGB(HEX))
+
+    print('\n')
+
+    print('Numeric input:')
+    print(HEX_to_RGB_vectorise(HEX))
 
     print('\n')
 
     print('1d array input:')
-    print(HEX_to_RGB_vectorise(RGB))
+    HEX = np.tile(HEX, (6,))
+    print(HEX_to_RGB_vectorise(HEX))
 
     print('\n')
 
     print('2d array input:')
-    RGB = np.tile(RGB, (6, 1))
-    print(HEX_to_RGB_vectorise(RGB))
-
-    print('\n')
-
-    print('3d array input:')
-    RGB = np.reshape(RGB, (2, 3, 1))
-    print(HEX_to_RGB_vectorise(RGB))
+    HEX = np.reshape(HEX, (2, 3))
+    print(HEX_to_RGB_vectorise(HEX))
 
     # HEX1 = ['#aaddff'] * (1920 * 1080)
 
@@ -6870,9 +6936,10 @@ def air_refraction_index_Penndorf1957_2d(wl):
 
 
 def air_refraction_index_Penndorf1957_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
+    wl = np.asarray(wavelength)
+
     n = 6432.8 + 2949810 / (146 - wl ** (-2)) + 25540 / (41 - wl ** (-2))
-    n = as_numeric(n / 1.0e8 + 1)
+    n = n / 1.0e8 + 1
 
     return n
 
@@ -6887,6 +6954,11 @@ def air_refraction_index_Penndorf1957_analysis():
 
     print('Numeric input:')
     print(air_refraction_index_Penndorf1957_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(air_refraction_index_Penndorf1957_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -6922,9 +6994,10 @@ def air_refraction_index_Edlen1966_2d(wl):
 
 
 def air_refraction_index_Edlen1966_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
+    wl = np.asarray(wavelength)
+
     n = 8342.13 + 2406030 / (130 - wl ** (-2)) + 15997 / (38.9 - wl ** (-2))
-    n = as_numeric(n / 1.0e8 + 1)
+    n = n / 1.0e8 + 1
 
     return n
 
@@ -6939,6 +7012,11 @@ def air_refraction_index_Edlen1966_analysis():
 
     print('Numeric input:')
     print(air_refraction_index_Edlen1966_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(air_refraction_index_Edlen1966_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -6974,10 +7052,11 @@ def air_refraction_index_Peck1972_2d(wl):
 
 
 def air_refraction_index_Peck1972_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
+    wl = np.asarray(wavelength)
+
     n = (8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 /
          (39.32957 - wl ** (-2)))
-    n = as_numeric(n / 1.0e8 + 1)
+    n = n / 1.0e8 + 1
 
     return n
 
@@ -6992,6 +7071,11 @@ def air_refraction_index_Peck1972_analysis():
 
     print('Numeric input:')
     print(air_refraction_index_Peck1972_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(air_refraction_index_Peck1972_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7029,12 +7113,11 @@ def air_refraction_index_Bodhaine1999_2d(wl):
 def air_refraction_index_Bodhaine1999_vectorise(
         wavelength,
         CO2_concentration=STANDARD_CO2_CONCENTRATION):
-    shape = as_shape(wavelength)
-    wl = as_array(wavelength)
-    CO2_c = np.resize(CO2_concentration, shape)
+    wl = np.asarray(wavelength)
+    CO2_c = np.asarray(CO2_concentration)
 
-    n = as_numeric(((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
-                    (air_refraction_index_Peck1972(wl) - 1) + 1))
+    n = ((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
+         (air_refraction_index_Peck1972(wl) - 1) + 1)
 
     return n
 
@@ -7049,6 +7132,11 @@ def air_refraction_index_Bodhaine1999_analysis():
 
     print('Numeric input:')
     print(air_refraction_index_Bodhaine1999_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(air_refraction_index_Bodhaine1999_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7084,8 +7172,9 @@ def N2_depolarisation_2d(wl):
 
 
 def N2_depolarisation_vectorise(wavelength):
-    wl = as_array(wavelength)
-    N2 = as_numeric(1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2))
+    wl = np.asarray(wavelength)
+
+    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2)
 
     return N2
 
@@ -7100,6 +7189,11 @@ def N2_depolarisation_analysis():
 
     print('Numeric input:')
     print(N2_depolarisation_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(N2_depolarisation_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7135,9 +7229,10 @@ def O2_depolarisation_2d(wl):
 
 
 def O2_depolarisation_vectorise(wavelength):
-    wl = as_array(wavelength)
-    O2 = as_numeric(1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) +
-                    1.448 * 1.0e-4 * (1 / wl ** 4))
+    wl = np.asarray(wavelength)
+
+    O2 = (1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) + 1.448 * 1.0e-4 *
+          (1 / wl ** 4))
 
     return O2
 
@@ -7152,6 +7247,11 @@ def O2_depolarisation_analysis():
 
     print('Numeric input:')
     print(O2_depolarisation_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(O2_depolarisation_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7182,9 +7282,9 @@ def O2_depolarisation_analysis():
 
 
 def F_air_Penndorf1957_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
+    wl = np.asarray(wavelength)
 
-    return as_numeric(np.resize(np.array([1.0608]), wl.shape))
+    return np.resize(np.array([1.0608]), wl.shape)
 
 
 def F_air_Penndorf1957_analysis():
@@ -7197,6 +7297,11 @@ def F_air_Penndorf1957_analysis():
 
     print('Numeric input:')
     print(F_air_Penndorf1957_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(F_air_Penndorf1957_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7225,9 +7330,9 @@ def F_air_Penndorf1957_analysis():
 
 
 def F_air_Young1981_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
+    wl = np.asarray(wavelength)
 
-    return as_numeric(np.resize(np.array([1.0480]), wl.shape))
+    return np.resize(np.array([1.0480]), wl.shape)
 
 
 def F_air_Young1981_analysis():
@@ -7240,6 +7345,11 @@ def F_air_Young1981_analysis():
 
     print('Numeric input:')
     print(F_air_Young1981_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(F_air_Young1981_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7273,14 +7383,13 @@ def F_air_Bates1984_2d(wl):
 
 
 def F_air_Bates1984_vectorise(wavelength, *args):
-    wl = as_array(wavelength)
-    O2 = O2_depolarisation_vectorise(wl)
-    N2 = N2_depolarisation_vectorise(wl)
+    O2 = O2_depolarisation_vectorise(wavelength)
+    N2 = N2_depolarisation_vectorise(wavelength)
     Ar = 1.00
     CO2 = 1.15
 
-    F_air = as_numeric((78.084 * N2 + 20.946 * O2 + CO2 + Ar) /
-                       (78.084 + 20.946 + Ar + CO2))
+    F_air = ((78.084 * N2 + 20.946 * O2 + CO2 + Ar) /
+             (78.084 + 20.946 + Ar + CO2))
 
     return F_air
 
@@ -7295,6 +7404,11 @@ def F_air_Bates1984_analysis():
 
     print('Numeric input:')
     print(F_air_Bates1984_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(F_air_Bates1984_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7331,14 +7445,12 @@ def F_air_Bodhaine1999_2d(wl):
 
 def F_air_Bodhaine1999_vectorise(wavelength,
                                  CO2_concentration=STANDARD_CO2_CONCENTRATION):
-    shape = as_shape(wavelength)
-    wl = as_array(wavelength)
-    O2 = O2_depolarisation_vectorise(wl)
-    N2 = N2_depolarisation_vectorise(wl)
-    CO2_c = np.resize(CO2_concentration, shape)
+    O2 = O2_depolarisation_vectorise(wavelength)
+    N2 = N2_depolarisation_vectorise(wavelength)
+    CO2_c = np.asarray(CO2_concentration)
 
-    F_air = as_numeric((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
-                       (78.084 + 20.946 + 0.934 + CO2_c))
+    F_air = ((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
+             (78.084 + 20.946 + 0.934 + CO2_c))
 
     return F_air
 
@@ -7353,6 +7465,11 @@ def F_air_Bodhaine1999_analysis():
 
     print('Numeric input:')
     print(F_air_Bodhaine1999_vectorise(0.555))
+
+    print('\n')
+
+    print('0d array input:')
+    print(F_air_Bodhaine1999_vectorise(np.array(0.555)))
 
     print('\n')
 
@@ -7391,8 +7508,9 @@ def molecular_density_2d(temperature):
 def molecular_density_vectorise(temperature=STANDARD_AIR_TEMPERATURE,
                                 avogadro_constant=AVOGADRO_CONSTANT):
     # Review doctests to use coherent temperature values.
-    T = as_array(temperature)
-    N_s = as_numeric((avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000))
+    T = np.asarray(temperature)
+
+    N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
 
     return N_s
 
@@ -7407,6 +7525,11 @@ def molecular_density_analysis():
 
     print('Numeric input:')
     print(molecular_density_vectorise(15))
+
+    print('\n')
+
+    print('0d array input:')
+    print(molecular_density_vectorise(np.array(15)))
 
     print('\n')
 
@@ -7443,9 +7566,9 @@ def mean_molecular_weights_2d(C):
 
 def mean_molecular_weights_vectorise(
         CO2_concentration=STANDARD_CO2_CONCENTRATION):
-    CO2_c = as_array(CO2_concentration) * 1.0e-6
+    CO2_c = np.asarray(CO2_concentration) * 1.0e-6
 
-    m_a = as_numeric(15.0556 * CO2_c + 28.9595)
+    m_a = 15.0556 * CO2_c + 28.9595
 
     return m_a
 
@@ -7460,6 +7583,11 @@ def mean_molecular_weights_analysis():
 
     print('Numeric input:')
     print(mean_molecular_weights_vectorise(300))
+
+    print('\n')
+
+    print('0d array input:')
+    print(mean_molecular_weights_vectorise(np.array(300)))
 
     print('\n')
 
@@ -7496,17 +7624,17 @@ def gravity_List1968_2d(C):
 
 def gravity_List1968_vectorise(latitude=DEFAULT_LATITUDE,
                                altitude=DEFAULT_ALTITUDE):
-    latitude = as_array(latitude)
-    altitude = np.resize(altitude, latitude.shape)
+    latitude = np.asarray(latitude)
+    altitude = np.asarray(altitude)
 
     cos2phi = np.cos(2 * np.radians(latitude))
 
     # Sea level acceleration of gravity.
     g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi ** 2)
 
-    g = as_numeric(g0 - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude +
-                   (7.254e-11 + 1.0e-13 * cos2phi) * altitude ** 2 -
-                   (1.517e-17 + 6e-20 * cos2phi) * altitude ** 3)
+    g = (g0 - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude +
+         (7.254e-11 + 1.0e-13 * cos2phi) * altitude ** 2 -
+         (1.517e-17 + 6e-20 * cos2phi) * altitude ** 3)
 
     return g
 
@@ -7560,20 +7688,19 @@ def scattering_cross_section_vectorise(wavelength,
                                        avogadro_constant=AVOGADRO_CONSTANT,
                                        n_s=air_refraction_index_Bodhaine1999,
                                        F_air=F_air_Bodhaine1999):
-    shape = as_shape(wavelength)
-    wl = as_array(wavelength)
-    temperature = np.resize(temperature, shape)
-    CO2_c = np.resize(CO2_concentration, shape)
+    wl = np.asarray(wavelength)
+    CO2_c = np.asarray(CO2_concentration)
+    temperature = np.asarray(temperature)
 
     wl_micrometers = wl * 10e3
 
-    n_s = as_array(n_s(wl_micrometers))
-    N_s = as_array(molecular_density(temperature, avogadro_constant))
-    F_air = as_array(F_air(wl_micrometers, CO2_c))
+    n_s = n_s(wl_micrometers)
+    N_s = molecular_density(temperature, avogadro_constant)
+    F_air = F_air(wl_micrometers, CO2_c)
 
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
-    sigma = as_numeric(sigma * F_air)
+    sigma *= F_air
 
     return sigma
 
@@ -7588,6 +7715,11 @@ def scattering_cross_section_analysis():
 
     print('Numeric input:')
     print(scattering_cross_section_vectorise(555 * 10e-8))
+
+    print('\n')
+
+    print('0d array input:')
+    print(scattering_cross_section_vectorise(np.array(555 * 10e-8)))
 
     print('\n')
 
@@ -7631,25 +7763,24 @@ def rayleigh_optical_depth_vectorise(wavelength,
                                      avogadro_constant=AVOGADRO_CONSTANT,
                                      n_s=air_refraction_index_Bodhaine1999,
                                      F_air=F_air_Bodhaine1999):
-    shape = as_shape(wavelength)
-    wavelength = as_array(wavelength)
-    CO2_c = np.resize(CO2_concentration, shape)
-    latitude = np.resize(latitude, shape)
-    altitude = np.resize(altitude, shape)
+    wavelength = np.asarray(wavelength)
+    CO2_c = np.asarray(CO2_concentration)
+    latitude = np.asarray(latitude)
+    altitude = np.asarray(altitude)
     # Conversion from pascal to dyne/cm2.
-    P = np.resize(pressure * 10, shape)
+    P = np.asarray(pressure * 10)
 
-    sigma = as_array(scattering_cross_section(wavelength,
-                                              CO2_c,
-                                              temperature,
-                                              avogadro_constant,
-                                              n_s,
-                                              F_air))
+    sigma = scattering_cross_section(wavelength,
+                                     CO2_c,
+                                     temperature,
+                                     avogadro_constant,
+                                     n_s,
+                                     F_air)
 
-    m_a = as_array(mean_molecular_weights(CO2_c))
-    g = as_array(gravity_List1968(latitude, altitude))
+    m_a = mean_molecular_weights(CO2_c)
+    g = gravity_List1968(latitude, altitude)
 
-    T_R = as_numeric(sigma * (P * avogadro_constant) / (m_a * g))
+    T_R = sigma * (P * avogadro_constant) / (m_a * g)
 
     return T_R
 
@@ -7664,6 +7795,11 @@ def rayleigh_optical_depth_analysis():
 
     print('Numeric input:')
     print(rayleigh_optical_depth_vectorise(555 * 10e-8))
+
+    print('\n')
+
+    print('0d array input:')
+    print(rayleigh_optical_depth_vectorise(np.array(555 * 10e-8)))
 
     print('\n')
 
@@ -7745,15 +7881,15 @@ from colour.quality.cqs import *
 
 
 def gamut_area_vectorise(Lab):
-    Lab = as_array(Lab)
+    Lab = np.asarray(Lab)
     Lab_s = np.roll(np.copy(Lab), -3)
 
-    L, a, b = Lab[:, 0], Lab[:, 1], Lab[:, 2]
-    L_s, a_s, b_s = Lab_s[:, 0], Lab_s[:, 1], Lab_s[:, 2]
+    L, a, b = zsplit(Lab)
+    L_s, a_s, b_s = zsplit(Lab_s)
 
-    A = np.sqrt(a ** 2 + b ** 2)
-    B = np.sqrt(a_s ** 2 + b_s ** 2)
-    C = np.sqrt((a_s - a) ** 2 + (b_s - b) ** 2)
+    A = np.linalg.norm(Lab[..., 1:3], axis=-1)
+    B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
+    C = np.linalg.norm(np.dstack((a_s - a, b_s - b)), axis=-1)
     t = (A + B + C) / 2
     S = np.sqrt(t * (t - A) * (t - B) * (t - C))
 
@@ -7778,6 +7914,8 @@ def gamut_area_vectorise_analysis():
            np.array([61.26281449, 40.87950839, 44.97606172]),
            np.array([41.62567821, 57.34129516, 27.4671817]),
            np.array([40.52565174, 48.87449192, 3.4512168])]
+
+    print(gamut_area(Lab))
 
     print(gamut_area_vectorise(Lab))
 
@@ -7804,14 +7942,10 @@ def xy_to_CCT_McCamy1992_2d(xy):
 
 
 def xy_to_CCT_McCamy1992_vectorise(xy):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
-    x, y = xy[:, 0], xy[:, 1]
+    x, y = zsplit(xy)
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = as_numeric(np.reshape(
-        -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33,
-        auto_axis(shape)))
+    CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
 
     return CCT
 
@@ -7858,9 +7992,7 @@ def xy_to_CCT_Hernandez1999_2d(xy):
 
 
 def xy_to_CCT_Hernandez1999_vectorise(xy):
-    shape = as_shape(xy)
-    xy = as_array(xy, (-1, 2))
-    x, y = xy[:, 0], xy[:, 1]
+    x, y = zsplit(xy)
 
     n = (x - 0.3366) / (y - 0.1735)
     CCT = (-949.86315 +
@@ -7872,13 +8004,10 @@ def xy_to_CCT_Hernandez1999_vectorise(xy):
                  (x - 0.3356) / (y - 0.1691),
                  n)
 
-    CCT = as_numeric(
-        np.where(CCT > 50000,
-                 36284.48953 +
-                 0.00228 * np.exp(-n / 0.07861) +
-                 5.4535e-36 * np.exp(-n / 0.01543),
-                 CCT))
-    CCT = as_numeric(np.reshape(CCT, auto_axis(shape)))
+    CCT = np.where(CCT > 50000,
+                   36284.48953 + 0.00228 * np.exp(-n / 0.07861) +
+                   5.4535e-36 * np.exp(-n / 0.01543),
+                   CCT)
 
     return CCT
 
@@ -7930,10 +8059,9 @@ def CCT_to_xy_Kang2002_2d(CCT):
 
 
 def CCT_to_xy_Kang2002_vectorise(CCT):
-    shape = as_shape(CCT)
-    CCT = as_array(CCT, (-1, 1))
+    CCT = np.asarray(CCT)
 
-    if np.any(CCT[np.logical_or(CCT < 1667, CCT > 25000)]):
+    if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '
                  '[1667, 25000], unpredictable results may occur!'))
 
@@ -7963,9 +8091,7 @@ def CCT_to_xy_Kang2002_vectorise(CCT):
                    3.75112997 * x -
                    0.37001483])
 
-    xy = (np.squeeze(as_stack((x, y)))
-          if shape == (1, ) else
-          as_stack((x, y), shape=shape + (2,)))
+    xy = zstack((x, y))
 
     return xy
 
@@ -7980,6 +8106,11 @@ def CCT_to_xy_Kang2002_analysis():
 
     print('Numeric input:')
     print(CCT_to_xy_Kang2002_vectorise(6504.38938305))
+
+    print('\n')
+
+    print('0d array input:')
+    print(CCT_to_xy_Kang2002_vectorise(np.array(6504.38938305)))
 
     print('\n')
 
@@ -8022,10 +8153,9 @@ def CCT_to_xy_CIE_D_2d(CCT):
 
 
 def CCT_to_xy_CIE_D_vectorise(CCT):
-    shape = as_shape(CCT)
-    CCT = as_array(CCT, (-1, 1))
+    CCT = np.asarray(CCT)
 
-    if np.any(CCT[np.logical_or(CCT < 4000, CCT > 25000)]):
+    if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '
                  '[4000, 25000], unpredictable results may occur!'))
 
@@ -8041,9 +8171,7 @@ def CCT_to_xy_CIE_D_vectorise(CCT):
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 
-    xy = (np.squeeze(as_stack((x, y)))
-          if shape == (1, ) else
-          as_stack((x, y), shape=shape + (2,)))
+    xy = zstack((x, y))
 
     return xy
 
@@ -8058,6 +8186,11 @@ def CCT_to_xy_CIE_D_analysis():
 
     print('Numeric input:')
     print(CCT_to_xy_CIE_D_vectorise(6504.38938305))
+
+    print('\n')
+
+    print('0d array input:')
+    print(CCT_to_xy_CIE_D_vectorise(np.array(6504.38938305)))
 
     print('\n')
 
@@ -8085,53 +8218,53 @@ def CCT_to_xy_CIE_D_analysis():
         np.ravel(CCT_to_xy_CIE_D_vectorise(CCT)))
 
 
-# CCT_to_xy_CIE_D_analysis()
+    # CCT_to_xy_CIE_D_analysis()
 
-# #############################################################################
-# #############################################################################
-# ### Ramblings
-# #############################################################################
-# #############################################################################
+    # #############################################################################
+    # #############################################################################
+    # ### Ramblings
+    # #############################################################################
+    # #############################################################################
 
-# #############################################################################
-# ### Image Operations
-# #############################################################################
+    # #############################################################################
+    # ### Image Operations
+    # #############################################################################
 
-# import pylab
-# from OpenImageIO import FLOAT, ImageInput
-#
-# import colour
-# from colour.plotting import *
-#
-#
-# def read_image_as_array(path, bit_depth=FLOAT):
-# image = ImageInput.open(path)
-# specification = image.spec()
-#
-# return np.array(image.read_image(bit_depth)).reshape((specification.height,
-# specification.width,
-# specification.nchannels))
-#
-#
-# colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
-#
-#
-# def image_plot(image,
-# transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
-# image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
-# pylab.imshow(image)
-#
-# settings = {'no_ticks': True,
-# 'bounding_box': [0, 1, 0, 1],
-# 'bbox_inches': 'tight',
-# 'pad_inches': 0}
-#
-# canvas(**{'figure_size': (16, 16)})
-# decorate(**settings)
-# display(**settings)
-#
-#
-# marcie = read_image_as_array(
-# '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
-#
-# image_plot(marcie)
+    # import pylab
+    # from OpenImageIO import FLOAT, ImageInput
+    #
+    # import colour
+    # from colour.plotting import *
+    #
+    #
+    # def read_image_as_array(path, bit_depth=FLOAT):
+    # image = ImageInput.open(path)
+    # specification = image.spec()
+    #
+    # return np.array(image.read_image(bit_depth)).reshape((specification.height,
+    # specification.width,
+    # specification.nchannels))
+    #
+    #
+    # colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
+    #
+    #
+    # def image_plot(image,
+    # transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
+    # image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
+    # pylab.imshow(image)
+    #
+    # settings = {'no_ticks': True,
+    # 'bounding_box': [0, 1, 0, 1],
+    # 'bbox_inches': 'tight',
+    # 'pad_inches': 0}
+    #
+    # canvas(**{'figure_size': (16, 16)})
+    # decorate(**settings)
+    # display(**settings)
+    #
+    #
+    # marcie = read_image_as_array(
+    # '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
+    #
+    # image_plot(marcie)
