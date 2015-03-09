@@ -64,13 +64,13 @@ def profile(method):
     return wrapper
 
 
-def zstack(a):
+def tstack(a):
     # Similar to *dstack* except that operation is always performed on
     # last axis.
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
-def zsplit(a):
+def tsplit(a):
     # Similar to *dsplit* except that operation is always performed on
     # last axis.
     a = np.asarray(a)
@@ -136,14 +136,14 @@ def RGB_to_XYZ_cie1994_vectorise(RGB):
 
 
 def intermediate_values_vectorise(xy_o):
-    x_o, y_o = zsplit(xy_o)
+    x_o, y_o = tsplit(xy_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
     xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
 
-    xez = zstack((xi, eta, zeta))
+    xez = tstack((xi, eta, zeta))
 
     return xez
 
@@ -168,13 +168,13 @@ def beta_2_vectorise(x):
 
 
 def exponential_factors_vectorise(RGB_o):
-    R_o, G_o, B_o = zsplit(RGB_o)
+    R_o, G_o, B_o = tsplit(RGB_o)
 
     bR_o = beta_1_vectorise(R_o)
     bG_o = beta_1_vectorise(G_o)
     bB_o = beta_2_vectorise(B_o)
 
-    bRGB_o = zstack((bR_o, bG_o, bB_o))
+    bRGB_o = tstack((bR_o, bG_o, bB_o))
 
     return bRGB_o
 
@@ -182,10 +182,10 @@ def exponential_factors_vectorise(RGB_o):
 def K_coefficient_vectorise(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     # TODO: Mention *Y_o* place change.
 
-    xi_1, eta_1, zeta_1 = zsplit(xez_1)
-    xi_2, eta_2, zeta_2 = zsplit(xez_2)
-    bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
-    bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
+    xi_1, eta_1, zeta_1 = tsplit(xez_1)
+    xi_2, eta_2, zeta_2 = tsplit(xez_2)
+    bR_o1, bG_o1, bB_o1 = tsplit(bRGB_o1)
+    bR_o2, bG_o2, bB_o2 = tsplit(bRGB_o2)
     Y_o = np.asarray(Y_o)
 
     K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /
@@ -201,11 +201,11 @@ def corresponding_colour_vectorise(
         RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     # TODO: Mention *Y_o* place change.
 
-    R_1, G_1, B_1 = zsplit(RGB_1)
-    xi_1, eta_1, zeta_1 = zsplit(xez_1)
-    xi_2, eta_2, zeta_2 = zsplit(xez_2)
-    bR_o1, bG_o1, bB_o1 = zsplit(bRGB_o1)
-    bR_o2, bG_o2, bB_o2 = zsplit(bRGB_o2)
+    R_1, G_1, B_1 = tsplit(RGB_1)
+    xi_1, eta_1, zeta_1 = tsplit(xez_1)
+    xi_2, eta_2, zeta_2 = tsplit(xez_2)
+    bR_o1, bG_o1, bB_o1 = tsplit(bRGB_o1)
+    bR_o2, bG_o2, bB_o2 = tsplit(bRGB_o2)
     Y_o = np.asarray(Y_o)
     K = np.asarray(K)
 
@@ -217,7 +217,7 @@ def corresponding_colour_vectorise(
     G_2 = RGBc(eta_1, eta_2, bG_o1, bG_o2, G_1)
     B_2 = RGBc(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
 
-    RGB_2 = zstack((R_2, G_2, B_2))
+    RGB_2 = tstack((R_2, G_2, B_2))
 
     return RGB_2
 
@@ -265,6 +265,16 @@ def chromatic_adaptation_CIE1994_analysis():
 # #############################################################################
 # #############################################################################
 from colour.adaptation.cmccat2000 import *
+
+
+def CMCCAT2000_forward_2d(XYZ):
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+
+    for i in range(len(XYZ)):
+        CMCCAT2000_forward(XYZ[i], XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
 
 
 def CMCCAT2000_forward_vectorise(XYZ,
@@ -539,13 +549,13 @@ def cartesian_to_spherical_2d(vectors):
 
 
 def cartesian_to_spherical_vectorise(vector):
-    x, y, z = zsplit(vector)
+    x, y, z = tsplit(vector)
 
     r = np.linalg.norm(vector, axis=-1)
-    theta = np.arctan2(z, np.linalg.norm(zstack((x, y))))
+    theta = np.arctan2(z, np.linalg.norm(tstack((x, y))))
     phi = np.arctan2(y, x)
 
-    rtp = zstack((r, theta, phi))
+    rtp = tstack((r, theta, phi))
 
     return rtp
 
@@ -590,13 +600,13 @@ def spherical_to_cartesian_2d(vectors):
 
 
 def spherical_to_cartesian_vectorise(vector):
-    r, theta, phi = zsplit(vector)
+    r, theta, phi = tsplit(vector)
 
     x = r * np.cos(theta) * np.cos(phi)
     y = r * np.cos(theta) * np.sin(phi)
     z = r * np.sin(theta)
 
-    xyz = zstack((x, y, z))
+    xyz = tstack((x, y, z))
 
     return xyz
 
@@ -641,12 +651,12 @@ def cartesian_to_cylindrical_2d(vectors):
 
 
 def cartesian_to_cylindrical_vectorise(vector):
-    x, y, z = zsplit(vector)
+    x, y, z = tsplit(vector)
 
     theta = np.arctan2(y, x)
-    rho = np.linalg.norm(zstack((x, y)), axis=-1)
+    rho = np.linalg.norm(tstack((x, y)), axis=-1)
 
-    return zstack((z, theta, rho))
+    return tstack((z, theta, rho))
 
 
 def cartesian_to_cylindrical_analysis():
@@ -689,12 +699,12 @@ def cylindrical_to_cartesian_2d(vectors):
 
 
 def cylindrical_to_cartesian_vectorise(vector):
-    z, theta, rho = zsplit(vector)
+    z, theta, rho = tsplit(vector)
 
     x = rho * np.cos(theta)
     y = rho * np.sin(theta)
 
-    return zstack((x, y, z))
+    return tstack((x, y, z))
 
 
 def cylindrical_to_cartesian_analysis():
@@ -1345,7 +1355,7 @@ def SpectralPowerDistribution__contains__analysis():
 
 
 def TriSpectralPowerDistribution__getitem__(self, wavelength):
-    value = zstack((np.asarray(self.x[wavelength]),
+    value = tstack((np.asarray(self.x[wavelength]),
                     np.asarray(self.y[wavelength]),
                     np.asarray(self.z[wavelength])))
 
@@ -1553,7 +1563,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs_vectorise(wavelength):
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = zstack((np.asarray(x_bar),
+    xyz_bar = tstack((np.asarray(x_bar),
                       np.asarray(y_bar),
                       np.asarray(z_bar)))
 
@@ -2058,8 +2068,8 @@ def whiteness_Berger1959_2d(XYZ, XYZ_0):
 
 
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
-    X, Y, Z = zsplit(XYZ)
-    X_0, Y_0, Z_0 = zsplit(XYZ_0)
+    X, Y, Z = tsplit(XYZ)
+    X_0, Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
@@ -2107,8 +2117,8 @@ def whiteness_Taube1960_2d(XYZ, XYZ_0):
 
 
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
-    X, Y, Z = zsplit(XYZ)
-    X_0, Y_0, Z_0 = zsplit(XYZ_0)
+    X, Y, Z = tsplit(XYZ)
+    X_0, Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
@@ -2156,7 +2166,7 @@ def whiteness_Stensby1968_2d(Lab):
 
 
 def whiteness_Stensby1968_vectorise(Lab):
-    L, a, b = zsplit(Lab)
+    L, a, b = tsplit(Lab)
 
     WI = L - 3 * b + 3 * a
 
@@ -2203,7 +2213,7 @@ def whiteness_ASTM313_2d(XYZ):
 
 
 def whiteness_ASTM313_vectorise(XYZ):
-    X, Y, Z = zsplit(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
     WI = 3.388 * Z - 3 * Y
 
@@ -2250,12 +2260,12 @@ def whiteness_Ganz1979_2d(xy, Y):
 
 
 def whiteness_Ganz1979_vectorise(xy, Y):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
-    WT = zstack((W, T))
+    WT = tstack((W, T))
 
     return WT
 
@@ -2304,14 +2314,14 @@ def whiteness_CIE2004_vectorise(xy,
                                 Y,
                                 xy_n,
                                 observer='CIE 1931 2 Degree Standard Observer'):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
     Y = np.asarray(Y)
-    x_n, y_n = zsplit(xy_n)
+    x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
     T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
-    WT = zstack((W, T))
+    WT = tstack((W, T))
 
     return WT
 
@@ -2421,8 +2431,8 @@ def delta_E_CIE1994_vectorise(Lab1, Lab2, textiles=True, **kwargs):
     kC = 1
     kH = 1
 
-    L1, a1, b1 = zsplit(Lab1)
-    L2, a2, b2 = zsplit(Lab2)
+    L1, a1, b1 = tsplit(Lab1)
+    L2, a2, b2 = tsplit(Lab2)
 
     C1 = np.sqrt(a1 ** 2 + b1 ** 2)
     C2 = np.sqrt(a2 ** 2 + b2 ** 2)
@@ -2496,8 +2506,8 @@ def delta_E_CIE2000_vectorise(Lab1, Lab2, **kwargs):
     kC = 1
     kH = 1
 
-    L1, a1, b1 = zsplit(Lab1)
-    L2, a2, b2 = zsplit(Lab2)
+    L1, a1, b1 = tsplit(Lab1)
+    L2, a2, b2 = tsplit(Lab2)
 
     l_bar_prime = 0.5 * (L1 + L2)
 
@@ -2610,8 +2620,8 @@ def delta_E_CMC_2d(Lab1, Lab2):
 
 
 def delta_E_CMC_vectorise(Lab1, Lab2, l=2, c=1):
-    L1, a1, b1 = zsplit(Lab1)
-    L2, a2, b2 = zsplit(Lab2)
+    L1, a1, b1 = tsplit(Lab1)
+    L2, a2, b2 = tsplit(Lab2)
 
     c1 = np.sqrt(a1 * a1 + b1 * b1)
     c2 = np.sqrt(a2 * a2 + b2 * b2)
@@ -2711,13 +2721,13 @@ def XYZ_to_xyY_vectorise(XYZ,
                              'D50')):
     # TODO: Mention implicit resize.
     XYZ = np.asarray(XYZ)
-    X, Y, Z = zsplit(XYZ)
-    x_w, y_w = zsplit(illuminant)
+    X, Y, Z = tsplit(XYZ)
+    x_w, y_w = tsplit(illuminant)
 
     xyY = np.where(
         XYZ == 0,
-        zstack((np.resize(x_w, X.shape), np.resize(y_w, Y.shape), Y)),
-        zstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
+        tstack((np.resize(x_w, X.shape), np.resize(y_w, Y.shape), Y)),
+        tstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
 
     return xyY
 
@@ -2775,11 +2785,11 @@ def xyY_to_XYZ_2d(xyY):
 
 @handle_numpy_errors(divide='ignore')
 def xyY_to_XYZ_vectorise(xyY):
-    x, y, Y = zsplit(xyY)
+    x, y, Y = tsplit(xyY)
 
     XYZ = np.where((y == 0)[..., np.newaxis],
-                   zstack((y, y, y)),
-                   zstack((x * Y / y, Y, (1 - x - y) * Y / y)))
+                   tstack((y, y, y)),
+                   tstack((x * Y / y, Y, (1 - x - y) * Y / y)))
 
     return XYZ
 
@@ -2828,9 +2838,9 @@ def xy_to_XYZ_2d(xy):
 
 
 def xy_to_XYZ_vectorise(xy):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
 
-    xyY = zstack((x, y, np.ones(x.shape)))
+    xyY = tstack((x, y, np.ones(x.shape)))
     XYZ = xyY_to_XYZ_vectorise(xyY)
 
     return XYZ
@@ -2945,13 +2955,13 @@ def XYZ_to_Lab_vectorise(XYZ,
                      np.power(XYZ_f, 1 / 3),
                      (CIE_K * XYZ_f + 16) / 116)
 
-    X_f, Y_f, Z_f = zsplit(XYZ_f)
+    X_f, Y_f, Z_f = tsplit(XYZ_f)
 
     L = 116 * Y_f - 16
     a = 500 * (X_f - Y_f)
     b = 200 * (Y_f - Z_f)
 
-    Lab = zstack((L, a, b))
+    Lab = tstack((L, a, b))
 
     return Lab
 
@@ -3005,7 +3015,7 @@ def Lab_to_XYZ_vectorise(Lab,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    L, a, b = zsplit(Lab)
+    L, a, b = tsplit(Lab)
     XYZ_r = xy_to_XYZ_vectorise(illuminant)
 
     f_y = (L + 16) / 116
@@ -3016,7 +3026,7 @@ def Lab_to_XYZ_vectorise(Lab,
     y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
     z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
 
-    XYZ = zstack((x_r, y_r, z_r)) * XYZ_r
+    XYZ = tstack((x_r, y_r, z_r)) * XYZ_r
 
     return XYZ
 
@@ -3065,12 +3075,12 @@ def Lab_to_LCHab_2d(Lab):
 
 
 def Lab_to_LCHab_vectorise(Lab):
-    L, a, b = zsplit(Lab)
+    L, a, b = tsplit(Lab)
 
     H = np.asarray(180 * np.arctan2(b, a) / np.pi)
     H[np.asarray(H < 0)] += 360
 
-    LCHab = zstack((L, np.sqrt(a ** 2 + b ** 2), H))
+    LCHab = tstack((L, np.sqrt(a ** 2 + b ** 2), H))
 
     return LCHab
 
@@ -3115,9 +3125,9 @@ def LCHab_to_Lab_2d(LCHab):
 
 
 def LCHab_to_Lab_vectorise(LCHab):
-    L, C, H = zsplit(LCHab)
+    L, C, H = tsplit(LCHab)
 
-    return zstack((L,
+    return tstack((L,
                    C * np.cos(np.radians(H)),
                    C * np.sin(np.radians(H))))
 
@@ -3174,8 +3184,8 @@ def XYZ_to_Luv_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    X, Y, Z = zsplit(XYZ)
-    X_r, Y_r, Z_r = zsplit(xy_to_XYZ_vectorise(illuminant))
+    X, Y, Z = tsplit(XYZ)
+    X_r, Y_r, Z_r = tsplit(xy_to_XYZ_vectorise(illuminant))
 
     y_r = Y / Y_r
 
@@ -3186,7 +3196,7 @@ def XYZ_to_Luv_vectorise(XYZ,
     v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
                    (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
 
-    Luv = zstack((L, u, v))
+    Luv = tstack((L, u, v))
 
     return Luv
 
@@ -3240,8 +3250,8 @@ def Luv_to_XYZ_vectorise(Luv,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    L, u, v = zsplit(Luv)
-    X_r, Y_r, Z_r = zsplit(xy_to_XYZ_vectorise(illuminant))
+    L, u, v = tsplit(Luv)
+    X_r, Y_r, Z_r = tsplit(xy_to_XYZ_vectorise(illuminant))
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
@@ -3255,7 +3265,7 @@ def Luv_to_XYZ_vectorise(Luv,
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    XYZ = zstack((X, Y, Z))
+    XYZ = tstack((X, Y, Z))
 
     return XYZ
 
@@ -3306,9 +3316,9 @@ def Luv_to_uv_2d(Luv):
 def Luv_to_uv_vectorise(Luv,
                         illuminant=ILLUMINANTS.get(
                             'CIE 1931 2 Degree Standard Observer').get('D50')):
-    X, Y, Z = zsplit(Luv_to_XYZ_vectorise(Luv, illuminant))
+    X, Y, Z = tsplit(Luv_to_XYZ_vectorise(Luv, illuminant))
 
-    uv = zstack((4 * X / (X + 15 * Y + 3 * Z),
+    uv = tstack((4 * X / (X + 15 * Y + 3 * Z),
                  9 * Y / (X + 15 * Y + 3 * Z)))
 
     return uv
@@ -3354,9 +3364,9 @@ def Luv_uv_to_xy_2d(uv):
 
 
 def Luv_uv_to_xy_vectorise(uv):
-    u, v = zsplit(uv)
+    u, v = tsplit(uv)
 
-    xy = zstack((9 * u / (6 * u - 16 * v + 12),
+    xy = tstack((9 * u / (6 * u - 16 * v + 12),
                  4 * v / (6 * u - 16 * v + 12)))
 
     return xy
@@ -3402,12 +3412,12 @@ def Luv_to_LCHuv_2d(Luv):
 
 
 def Luv_to_LCHuv_vectorise(Luv):
-    L, u, v = zsplit(Luv)
+    L, u, v = tsplit(Luv)
 
     H = np.asarray(180 * np.arctan2(v, u) / np.pi)
     H[np.asarray(H < 0)] += 360
 
-    LCHuv = zstack((L, np.sqrt(u ** 2 + v ** 2), H))
+    LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
 
     return LCHuv
 
@@ -3452,9 +3462,9 @@ def LCHuv_to_Luv_2d(LCHuv):
 
 
 def LCHuv_to_Luv_vectorise(LCHuv):
-    L, C, H = zsplit(LCHuv)
+    L, C, H = tsplit(LCHuv)
 
-    Luv = zstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
+    Luv = tstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
 
     return Luv
 
@@ -3506,9 +3516,9 @@ def XYZ_to_UCS_2d(XYZ):
 
 
 def XYZ_to_UCS_vectorise(XYZ):
-    X, Y, Z = zsplit(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
-    UVW = zstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
+    UVW = tstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
 
     return UVW
 
@@ -3553,9 +3563,9 @@ def UCS_to_XYZ_2d(UVW):
 
 
 def UCS_to_XYZ_vectorise(UVW):
-    U, V, W = zsplit(UVW)
+    U, V, W = tsplit(UVW)
 
-    XYZ = zstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
+    XYZ = tstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
 
     return XYZ
 
@@ -3600,9 +3610,9 @@ def UCS_to_uv_2d(UVW):
 
 
 def UCS_to_uv_vectorise(UVW):
-    U, V, W = zsplit(UVW)
+    U, V, W = tsplit(UVW)
 
-    uv = zstack((U / (U + V + W), V / (U + V + W)))
+    uv = tstack((U / (U + V + W), V / (U + V + W)))
 
     return uv
 
@@ -3647,9 +3657,9 @@ def UCS_uv_to_xy_2d(uv):
 
 
 def UCS_uv_to_xy_vectorise(uv):
-    u, v = zsplit(uv)
+    u, v = tsplit(uv)
 
-    xy = zstack((3 * u / (2 * u - 8 * v + 4), 2 * v / (2 * u - 8 * v + 4)))
+    xy = tstack((3 * u / (2 * u - 8 * v + 4), 2 * v / (2 * u - 8 * v + 4)))
 
     return xy
 
@@ -3705,17 +3715,17 @@ def XYZ_to_UVW_vectorise(XYZ,
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
     xyY = XYZ_to_xyY_vectorise(XYZ, illuminant)
-    x, y, Y = zsplit(xyY)
+    x, y, Y = tsplit(xyY)
 
-    u, v = zsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(XYZ)))
-    u_0, v_0 = zsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(
+    u, v = tsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(XYZ)))
+    u_0, v_0 = tsplit(UCS_to_uv_vectorise(XYZ_to_UCS_vectorise(
         xy_to_XYZ_vectorise(illuminant))))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)
     V = 13 * W * (v - v_0)
 
-    UVW = zstack((U, V, W))
+    UVW = tstack((U, V, W))
 
     return UVW
 
@@ -3776,7 +3786,7 @@ def RGB_to_HSV_vectorise(RGB):
 
     V = maximum
 
-    R, G, B = zsplit(RGB)
+    R, G, B = tsplit(RGB)
 
     S = np.asarray(delta / maximum)
     S[np.asarray(delta == 0)] = 0
@@ -3792,7 +3802,7 @@ def RGB_to_HSV_vectorise(RGB):
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
 
-    HSV = zstack((H, S, V))
+    HSV = tstack((H, S, V))
 
     return HSV
 
@@ -3841,7 +3851,7 @@ def HSV_to_RGB_2d(HSV):
 
 
 def HSV_to_RGB_vectorise(HSV):
-    H, S, V = zsplit(HSV)
+    H, S, V = tsplit(HSV)
 
     h = np.asarray(H * 6)
     h[np.asarray(h == 6)] = 0
@@ -3851,14 +3861,14 @@ def HSV_to_RGB_vectorise(HSV):
     k = V * (1 - S * (h - i))
     l = V * (1 - S * (1 - (h - i)))
 
-    i = zstack((i, i, i)).astype(np.uint8)
+    i = tstack((i, i, i)).astype(np.uint8)
     RGB = np.choose(i,
-                    (zstack((V, l, j)),
-                     zstack((k, V, j)),
-                     zstack((j, V, l)),
-                     zstack((j, k, V)),
-                     zstack((l, j, V)),
-                     zstack((V, j, k))))
+                    (tstack((V, l, j)),
+                     tstack((k, V, j)),
+                     tstack((j, V, l)),
+                     tstack((j, k, V)),
+                     tstack((l, j, V)),
+                     tstack((V, j, k))))
 
     return RGB
 
@@ -3914,7 +3924,7 @@ def RGB_to_HSL_vectorise(RGB):
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
 
-    R, G, B = zsplit(RGB)
+    R, G, B = tsplit(RGB)
 
     L = (maximum + minimum) / 2
 
@@ -3934,7 +3944,7 @@ def RGB_to_HSL_vectorise(RGB):
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
 
-    HSL = zstack((H, S, L))
+    HSL = tstack((H, S, L))
 
     return HSL
 
@@ -3985,7 +3995,7 @@ def HSL_to_RGB_2d(HSL):
 
 
 def HSL_to_RGB_vectorise(HSL):
-    H, S, L = zsplit(HSL)
+    H, S, L = tsplit(HSL)
 
     def H_to_RGB(vi, vj, vH):
         """
@@ -4023,7 +4033,7 @@ def HSL_to_RGB_vectorise(HSL):
     G = np.where(S == 1, L, G)
     B = np.where(S == 1, L, B)
 
-    RGB = zstack((R, G, B))
+    RGB = tstack((R, G, B))
 
     return RGB
 
@@ -4164,7 +4174,7 @@ def CMY_to_CMYK_2d(CMY):
 
 
 def CMY_to_CMYK_vectorise(CMY):
-    C, M, Y = zsplit(CMY)
+    C, M, Y = tsplit(CMY)
 
     K = np.ones(C.shape)
     K = np.where(C < K, C, K)
@@ -4179,7 +4189,7 @@ def CMY_to_CMYK_vectorise(CMY):
     M[np.asarray(K == 1)] = 0
     Y[np.asarray(K == 1)] = 0
 
-    CMYK = zstack((C, M, Y, K))
+    CMYK = tstack((C, M, Y, K))
 
     return CMYK
 
@@ -4228,9 +4238,9 @@ def CMYK_to_CMY_2d(CMYK):
 
 
 def CMYK_to_CMY_vectorise(CMYK):
-    C, M, Y, K = zsplit(CMYK)
+    C, M, Y, K = tsplit(CMYK)
 
-    CMY = zstack((C * (1 - K) + K,
+    CMY = tstack((C * (1 - K) + K,
                   M * (1 - K) + K,
                   Y * (1 - K) + K))
 
@@ -4278,7 +4288,7 @@ from colour.models.derivation import *
 
 
 def xy_to_z_vectorise(xy):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
 
     z = 1 - x - y
 
@@ -4368,7 +4378,7 @@ def RGB_luminance_2d(RGB):
 
 
 def RGB_luminance_vectorise(RGB, primaries, whitepoint):
-    R, G, B = zsplit(RGB)
+    R, G, B = tsplit(RGB)
 
     X, Y, Z = np.ravel(normalised_primary_matrix_vectorise(primaries,
                                                            whitepoint))[3:6]
@@ -4522,7 +4532,7 @@ def IPT_hue_angle_2d(IPT):
 
 
 def IPT_hue_angle_vectorise(IPT):
-    I, P, T = zsplit(IPT)
+    I, P, T = tsplit(IPT)
 
     hue = np.arctan2(T, P)
 
@@ -7884,8 +7894,8 @@ def gamut_area_vectorise(Lab):
     Lab = np.asarray(Lab)
     Lab_s = np.roll(np.copy(Lab), -3)
 
-    L, a, b = zsplit(Lab)
-    L_s, a_s, b_s = zsplit(Lab_s)
+    L, a, b = tsplit(Lab)
+    L_s, a_s, b_s = tsplit(Lab_s)
 
     A = np.linalg.norm(Lab[..., 1:3], axis=-1)
     B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
@@ -7942,7 +7952,7 @@ def xy_to_CCT_McCamy1992_2d(xy):
 
 
 def xy_to_CCT_McCamy1992_vectorise(xy):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
 
     n = (x - 0.3320) / (y - 0.1858)
     CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
@@ -7992,7 +8002,7 @@ def xy_to_CCT_Hernandez1999_2d(xy):
 
 
 def xy_to_CCT_Hernandez1999_vectorise(xy):
-    x, y = zsplit(xy)
+    x, y = tsplit(xy)
 
     n = (x - 0.3366) / (y - 0.1735)
     CCT = (-949.86315 +
@@ -8091,7 +8101,7 @@ def CCT_to_xy_Kang2002_vectorise(CCT):
                    3.75112997 * x -
                    0.37001483])
 
-    xy = zstack((x, y))
+    xy = tstack((x, y))
 
     return xy
 
@@ -8171,7 +8181,7 @@ def CCT_to_xy_CIE_D_vectorise(CCT):
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 
-    xy = zstack((x, y))
+    xy = tstack((x, y))
 
     return xy
 
