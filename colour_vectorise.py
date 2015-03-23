@@ -17,8 +17,9 @@ $1_analysis()
 
 from __future__ import division, with_statement
 
+import functools
 import numpy as np
-import time
+import timeit
 from pprint import pprint
 
 from colour.utilities import (
@@ -41,26 +42,6 @@ DATA_VGA2 = np.random.rand(320 * 200, 3)
 DATA_VGA3 = np.random.rand(320 * 200, 3)
 
 DATA1, DATA2, DATA3 = DATA_VGA1, DATA_VGA2, DATA_VGA3
-
-
-def profile(method):
-    iterations = 10
-
-    def wrapper(*args, **kwargs):
-        times = []
-        for i in range(iterations):
-            ts = time.time()
-            method(*args, **kwargs)
-            te = time.time()
-
-            times.append(te - ts)
-
-        message_box(
-            '{0}: {1} seconds'.format(method.__name__, np.average(times)))
-
-        return method(*args, **kwargs)
-
-    return wrapper
 
 
 def tstack(a):
@@ -258,6 +239,34 @@ def chromatic_adaptation_CIE1994_analysis():
 
 # chromatic_adaptation_CIE1994_analysis()
 
+
+def chromatic_adaptation_CIE1994_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    xy_o1 = np.array([0.4476, 0.4074])
+    xy_o2 = np.array([0.3127, 0.3290])
+    Y_o = 20
+    E_o1 = 1000
+    E_o2 = 1000
+
+    times = timeit.Timer(
+        functools.partial(chromatic_adaptation_CIE1994_2d,
+                          DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(chromatic_adaptation_CIE1994_vectorise,
+                          DATA_HD1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    ).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('chromatic_adaptation_CIE1994\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# chromatic_adaptation_CIE1994_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.adaptation.cmccat2000
@@ -273,7 +282,7 @@ def CMCCAT2000_forward_2d(XYZ):
     L_A2 = 200
 
     for i in range(len(XYZ)):
-        CMCCAT2000_forward(XYZ[i], XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+        CMCCAT2000_forward(XYZ[i], XYZ_w, XYZ_wr, L_A1, L_A2)
 
 
 def CMCCAT2000_forward_vectorise(XYZ,
@@ -338,6 +347,45 @@ def CMCCAT2000_forward_analysis():
 # CMCCAT2000_forward_analysis()
 
 
+def CMCCAT2000_forward_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+
+    times = timeit.Timer(
+        functools.partial(
+            CMCCAT2000_forward_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CMCCAT2000_forward_vectorise,
+            DATA_HD1, XYZ_w, XYZ_wr, L_A1, L_A2)
+    ).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CMCCAT2000_forward\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# CMCCAT2000_forward_profile()
+
+
+def CMCCAT2000_reverse_2d(XYZ):
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+
+    for i in range(len(XYZ)):
+        CMCCAT2000_reverse(XYZ[i], XYZ_w, XYZ_wr, L_A1, L_A2)
+
+
 def CMCCAT2000_reverse_vectorise(XYZ_c,
                                  XYZ_w,
                                  XYZ_wr,
@@ -399,6 +447,35 @@ def CMCCAT2000_reverse_analysis():
 
 # CMCCAT2000_reverse_analysis()
 
+
+def CMCCAT2000_reverse_profile(repeat_a=3, number_a=5, repeat_b=3,
+                               number_b=10):
+    XYZ_w = np.array([111.15, 100.00, 35.20])
+    XYZ_wr = np.array([94.81, 100.00, 107.30])
+    L_A1 = 200
+    L_A2 = 200
+
+    times = timeit.Timer(
+        functools.partial(
+            CMCCAT2000_reverse_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CMCCAT2000_reverse_vectorise,
+            DATA_HD1, XYZ_w, XYZ_wr, L_A1, L_A2)
+    ).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CMCCAT2000_reverse\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# CMCCAT2000_reverse_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.adaptation.fairchild1990
@@ -407,58 +484,24 @@ def CMCCAT2000_reverse_analysis():
 from colour.adaptation.fairchild1990 import *
 
 
+def chromatic_adaptation_Fairchild1990_2d(XYZ_1):
+    XYZ_n = np.array([111.15, 100.00, 35.20])
+    XYZ_r = np.array([94.81, 100.00, 107.30])
+    Y_n = 200
+
+    for i in range(len(XYZ_1)):
+        chromatic_adaptation_Fairchild1990(XYZ_1[i], XYZ_n, XYZ_r, Y_n)
+
+
 def chromatic_adaptation_Fairchild1990_vectorise(XYZ_1,
                                                  XYZ_n,
                                                  XYZ_r,
                                                  Y_n,
                                                  discount_illuminant=False):
-    """
-    Adapts given *CIE XYZ_1* colourspace stimulus from test viewing conditions
-    to reference viewing conditions using Fairchild (1990) chromatic
-    adaptation model.
-
-    Parameters
-    ----------
-    XYZ_1 : array_like, (3,)
-        *CIE XYZ_1* colourspace matrix of test sample / stimulus in domain
-        [0, 100].
-    XYZ_n : array_like, (3,)
-        Test viewing condition *CIE XYZ_n* colourspace whitepoint matrix.
-    XYZ_r : array_like, (3,)
-        Reference viewing condition *CIE XYZ_r* colourspace whitepoint matrix.
-    Y_n : numeric
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    discount_illuminant : bool, optional
-        Truth value indicating if the illuminant should be discounted.
-
-    Returns
-    -------
-    ndarray, (3,)
-        Adapted *CIE XYZ_2* colourspace test stimulus.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
-    Notes
-    -----
-    -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* colourspace matrices are
-        in domain [0, 100].
-    -   Output *CIE XYZ_2* colourspace matrix is in domain [0, 100].
-
-    Examples
-    --------
-    >>> XYZ_1 = np.array([19.53, 23.07, 24.97])
-    >>> XYZ_n = np.array([111.15, 100.00, 35.20])
-    >>> XYZ_r = np.array([94.81, 100.00, 107.30])
-    >>> Y_n = 200
-    >>> chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)  # noqa  # doctest: +ELLIPSIS
-    array([ 23.3252634...,  23.3245581...,  76.1159375...])
-    """
-
     XYZ_1 = np.asarray(XYZ_1)
     XYZ_n = np.asarray(XYZ_n)
     XYZ_r = np.asarray(XYZ_r)
+    Y_n = np.asarray(Y_n)
 
     LMS_1 = np.einsum('...ij,...j->...i',
                       FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
@@ -496,88 +539,21 @@ def chromatic_adaptation_Fairchild1990_vectorise(XYZ_1,
 
 
 def XYZ_to_RGB_fairchild1990_vectorise(XYZ):
-    """
-    Converts from *CIE XYZ* colourspace to cone responses.
-
-    Parameters
-    ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
-
-    Returns
-    -------
-    ndarray, (3,)
-        Cone responses.
-
-    Examples
-    --------
-    >>> XYZ = np.array([19.53, 23.07, 24.97])
-    >>> XYZ_to_RGB_fairchild1990(XYZ)  # doctest: +ELLIPSIS
-    array([ 22.1231935...,  23.6054224...,  22.9279534...])
-    """
-
     return np.einsum('...ij,...j->...i', FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_fairchild1990_vectorise(RGB):
-    """
-    Converts from cone responses to *CIE XYZ* colourspace.
-
-    Parameters
-    ----------
-    RGB : array_like, (3,)
-        Cone responses.
-
-    Returns
-    -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
-
-    Examples
-    --------
-    >>> RGB = np.array([22.1231935, 23.6054224, 22.9279534])
-    >>> RGB_to_XYZ_fairchild1990(RGB)  # doctest: +ELLIPSIS
-    array([ 19.53,  23.07,  24.97])
-    """
-
     return np.einsum('...ij,...j->...i', FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def degrees_of_adaptation_vectorise(LMS, Y_n, v=1 / 3,
                                     discount_illuminant=False):
-    """
-    Computes the degrees of adaptation :math:`p_L`, :math:`p_M` and
-    :math:`p_S`.
-
-    Parameters
-    ----------
-    LMS : array_like, (3,)
-        Cone responses.
-    Y_n : numeric
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    v : numeric, optional
-        Exponent :math:`v`.
-    discount_illuminant : bool, optional
-        Truth value indicating if the illuminant should be discounted.
-
-    Returns
-    -------
-    ndarray, (3,)
-        Degrees of adaptation :math:`p_L`, :math:`p_M` and :math:`p_S`.
-
-    Examples
-    --------
-    >>> LMS = np.array([20.0005206, 19.999783, 19.9988316])
-    >>> Y_n = 31.83
-    >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
-    array([ 0.9799324...,  0.9960035...,  1.0233041...])
-    >>> degrees_of_adaptation(LMS, Y_n, 1 / 3, True)
-    array([1, 1, 1])
-    """
-
     LMS = np.asarray(LMS)
     if discount_illuminant:
         return np.ones(LMS.shape)
+
+    Y_n = np.asarray(Y_n)
+    v = np.asarray(v)
 
     L, M, S = tsplit(LMS)
 
@@ -634,6 +610,33 @@ def chromatic_adaptation_Fairchild1990_analysis():
 
 
 # chromatic_adaptation_Fairchild1990_analysis()
+
+def chromatic_adaptation_Fairchild1990_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_n = np.array([111.15, 100.00, 35.20])
+    XYZ_r = np.array([94.81, 100.00, 107.30])
+    Y_n = 200
+
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_Fairchild1990_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_Fairchild1990_vectorise,
+            DATA_HD1, XYZ_n, XYZ_r, Y_n)
+    ).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('chromatic_adaptation_Fairchild1990\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# chromatic_adaptation_Fairchild1990_profile()
 
 # #############################################################################
 # #############################################################################
@@ -708,6 +711,29 @@ def chromatic_adaptation_matrix_VonKries_analysis():
 
 # chromatic_adaptation_matrix_VonKries_analysis()
 
+
+def chromatic_adaptation_matrix_VonKries_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_matrix_VonKries_2d,
+            DATA_HD1, DATA_HD2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_matrix_VonKries_vectorise,
+            DATA_HD1, DATA_HD2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('chromatic_adaptation_matrix_VonKries\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# chromatic_adaptation_matrix_VonKries_profile()
+
 # #############################################################################
 # # ### colour.chromatic_adaptation_VonKries
 # #############################################################################
@@ -765,6 +791,30 @@ def chromatic_adaptation_VonKries_analysis():
 
 
 # chromatic_adaptation_VonKries_analysis()
+
+
+def chromatic_adaptation_VonKries_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_VonKries_2d,
+            DATA_HD1, DATA_HD2, DATA_HD3)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            chromatic_adaptation_VonKries_vectorise,
+            DATA_HD1, DATA_HD2, DATA_HD3)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('chromatic_adaptation_VonKries\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# chromatic_adaptation_VonKries_profile()
+
 
 # #############################################################################
 # #############################################################################
@@ -824,6 +874,29 @@ def cartesian_to_spherical_analysis():
 
 # cartesian_to_spherical_analysis()
 
+
+def cartesian_to_spherical_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            cartesian_to_spherical_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            cartesian_to_spherical_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('cartesian_to_spherical\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# cartesian_to_spherical_profile()
+
 # #############################################################################
 # # ### colour.spherical_to_cartesian
 # #############################################################################
@@ -875,6 +948,29 @@ def spherical_to_cartesian_analysis():
 
 # spherical_to_cartesian_analysis()
 
+
+def spherical_to_cartesian_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            spherical_to_cartesian_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            spherical_to_cartesian_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('spherical_to_cartesian\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# spherical_to_cartesian_profile()
+
 # #############################################################################
 # # ### colour.cartesian_to_cylindrical
 # #############################################################################
@@ -922,6 +1018,29 @@ def cartesian_to_cylindrical_analysis():
 
 
 # cartesian_to_cylindrical_analysis()
+
+
+def cartesian_to_cylindrical_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            cartesian_to_cylindrical_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            cartesian_to_cylindrical_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('cartesian_to_cylindrical\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# cartesian_to_cylindrical_profile()
 
 # #############################################################################
 # # ### colour.cylindrical_to_cartesian
@@ -971,6 +1090,29 @@ def cylindrical_to_cartesian_analysis():
 
 # cylindrical_to_cartesian_analysis()
 
+
+def cylindrical_to_cartesian_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            cylindrical_to_cartesian_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            cylindrical_to_cartesian_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('cylindrical_to_cartesian\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# cylindrical_to_cartesian_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.colorimetry.lightness
@@ -982,7 +1124,7 @@ def cylindrical_to_cartesian_analysis():
 # #############################################################################
 from colour.colorimetry.lightness import *
 
-Y = np.linspace(0, 100, 1000000)
+D1 = np.linspace(0, 100, 1000000)
 
 
 def lightness_Glasser1958_2d(Y):
@@ -1036,6 +1178,29 @@ def lightness_Glasser1958_analysis():
 
 
 # lightness_Glasser1958_analysis()
+
+
+def lightness_Glasser1958_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            lightness_Glasser1958_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            lightness_Glasser1958_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('lightness_Glasser1958\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# lightness_Glasser1958_profile()
 
 # #############################################################################
 # # ### colour.lightness_Wyszecki1963
@@ -1095,6 +1260,29 @@ def lightness_Wyszecki1963_analysis():
 
 
 # lightness_Wyszecki1963_analysis()
+
+
+def lightness_Wyszecki1963_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            lightness_Wyszecki1963_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            lightness_Wyszecki1963_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('lightness_Wyszecki1963\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# lightness_Wyszecki1963_profile()
 
 # #############################################################################
 # # ### colour.lightness_1976
@@ -1165,6 +1353,29 @@ def lightness_1976_analysis():
 
 # lightness_1976_analysis()
 
+
+def lightness_1976_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            lightness_1976_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            lightness_1976_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('lightness_1976\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# lightness_1976_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.colorimetry.luminance
@@ -1232,9 +1443,37 @@ def luminance_Newhall1943_analysis():
 
 # luminance_Newhall1943_analysis()
 
+
+def luminance_Newhall1943_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            luminance_Newhall1943_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            luminance_Newhall1943_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('luminance_Newhall1943\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# luminance_Newhall1943_profile()
+
 # #############################################################################
 # # ### colour.luminance_ASTMD153508
 # #############################################################################
+
+
+def luminance_ASTMD153508_2d(L):
+    for L_ in L:
+        luminance_ASTMD153508(L_)
 
 
 def luminance_ASTMD153508_vectorise(V, **kwargs):
@@ -1244,11 +1483,6 @@ def luminance_ASTMD153508_vectorise(V, **kwargs):
          (V ** 4) + 0.00081939 * (V ** 5))
 
     return Y
-
-
-def luminance_ASTMD153508_2d(L):
-    for L_ in L:
-        luminance_ASTMD153508(L_)
 
 
 def luminance_ASTMD153508_analysis():
@@ -1289,6 +1523,30 @@ def luminance_ASTMD153508_analysis():
 
 
 # luminance_ASTMD153508_analysis()
+
+
+def luminance_ASTMD153508_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            luminance_ASTMD153508_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            luminance_ASTMD153508_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('luminance_ASTMD153508\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# luminance_ASTMD153508_profile()
+
 
 # #############################################################################
 # # ### colour.luminance_1976
@@ -1354,6 +1612,30 @@ def luminance_1976_analysis():
 
 
 # luminance_1976_analysis()
+
+
+def luminance_1976_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            luminance_1976_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            luminance_1976_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('luminance_1976\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# luminance_1976_profile()
+
 
 # #############################################################################
 # #############################################################################
@@ -2192,6 +2474,29 @@ def wavelength_to_XYZ_analysis():
 
 # wavelength_to_XYZ_analysis()
 
+
+def wavelength_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            wavelength_to_XYZ_2d,
+            WAVELENGTHS)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            wavelength_to_XYZ_vectorise,
+            WAVELENGTHS)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('wavelength_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(WAVELENGTHS), a, b))
+
+
+# wavelength_to_XYZ_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.colorimetry.blackbody
@@ -2263,6 +2568,30 @@ def planck_law_analysis():
 # planck_law_analysis()
 
 
+
+def planck_law_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            planck_law_2d,
+            WAVELENGTHS)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            planck_law_vectorise,
+            WAVELENGTHS, 5500)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('planck_law\t{0}\t{1}\t{2}'.format(
+        len(WAVELENGTHS), a, b))
+
+
+# planck_law_profile()
+
+
 def blackbody_spd_vectorise(temperature,
                             shape=DEFAULT_SPECTRAL_SHAPE,
                             c1=C1,
@@ -2285,6 +2614,7 @@ def blackbody_spd_analysis():
 
 # blackbody_spd_analysis()
 
+
 # #############################################################################
 # #############################################################################
 # ## colour.colorimetry.whiteness
@@ -2297,9 +2627,11 @@ def blackbody_spd_analysis():
 from colour.colorimetry.whiteness import *
 
 
-def whiteness_Berger1959_2d(XYZ, XYZ_0):
+def whiteness_Berger1959_2d(XYZ):
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+
     for i in range(len(XYZ)):
-        whiteness_Berger1959(XYZ[i], XYZ_0[i])
+        whiteness_Berger1959(XYZ[i], XYZ_0)
 
 
 def whiteness_Berger1959_vectorise(XYZ, XYZ_0):
@@ -2341,14 +2673,41 @@ def whiteness_Berger1959_analysis():
 
 # whiteness_Berger1959_analysis()
 
+
+def whiteness_Berger1959_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Berger1959_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Berger1959_vectorise,
+            DATA_HD1, XYZ_0)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_Berger1959\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# whiteness_Berger1959_profile()
+
 # #############################################################################
 # # ### colour.whiteness_Taube1960
 # #############################################################################
 
 
-def whiteness_Taube1960_2d(XYZ, XYZ_0):
+def whiteness_Taube1960_2d(XYZ):
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+
     for i in range(len(XYZ)):
-        whiteness_Taube1960(XYZ[i], XYZ_0[i])
+        whiteness_Taube1960(XYZ[i], XYZ_0)
 
 
 def whiteness_Taube1960_vectorise(XYZ, XYZ_0):
@@ -2389,6 +2748,31 @@ def whiteness_Taube1960_analysis():
 
 
 # whiteness_Taube1960_analysis()
+
+
+def whiteness_Taube1960_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Taube1960_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Taube1960_vectorise,
+            DATA_HD1, XYZ_0)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_Taube1960\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# whiteness_Taube1960_profile()
 
 # #############################################################################
 # # ### colour.whiteness_Stensby1968
@@ -2437,6 +2821,29 @@ def whiteness_Stensby1968_analysis():
 
 # whiteness_Stensby1968_analysis()
 
+
+def whiteness_Stensby1968_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Stensby1968_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Stensby1968_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_Stensby1968\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# whiteness_Stensby1968_profile()
+
 # #############################################################################
 # # ### colour.whiteness_ASTM313
 # #############################################################################
@@ -2484,18 +2891,43 @@ def whiteness_ASTM313_analysis():
 
 # whiteness_ASTM313_analysis()
 
+
+def whiteness_ASTM313_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_ASTM313_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_ASTM313_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_ASTM313\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# whiteness_ASTM313_profile()
+
 # #############################################################################
 # # ### colour.whiteness_Ganz1979
 # #############################################################################
 
 
-def whiteness_Ganz1979_2d(xy, Y):
+def whiteness_Ganz1979_2d(xy):
+    Y = 100
     for i in range(len(xy)):
-        whiteness_Ganz1979(xy[i], Y[i])
+        whiteness_Ganz1979(xy[i], Y)
 
 
 def whiteness_Ganz1979_vectorise(xy, Y):
     x, y = tsplit(xy)
+    Y = np.asarray(Y)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
@@ -2510,7 +2942,7 @@ def whiteness_Ganz1979_analysis():
 
     print('Reference:')
     xy = (0.3167, 0.3334)
-    Y = 100.
+    Y = 100
     print(whiteness_Ganz1979(xy, Y))
 
     print('\n')
@@ -2535,14 +2967,42 @@ def whiteness_Ganz1979_analysis():
 
 # whiteness_Ganz1979_analysis()
 
+
+def whiteness_Ganz1979_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    Y = 100
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Ganz1979_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_Ganz1979_vectorise,
+            DATA_HD1[..., 0:2], 100)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_Ganz1979\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# whiteness_Ganz1979_profile()
+
 # #############################################################################
 # # ### colour.whiteness_CIE2004
 # #############################################################################
 
 
-def whiteness_CIE2004_2d(xy, Y, xy_n):
+def whiteness_CIE2004_2d(xy):
+    Y = 100
+    xy_n = (0.3139, 0.3311)
+
     for i in range(len(xy)):
-        whiteness_CIE2004(xy[i], Y[i], xy_n[i])
+        whiteness_CIE2004(xy[i], Y, xy_n)
 
 
 def whiteness_CIE2004_vectorise(xy,
@@ -2566,7 +3026,7 @@ def whiteness_CIE2004_analysis():
 
     print('Reference:')
     xy = (0.3167, 0.3334)
-    Y = 100.
+    Y = 100
     xy_n = (0.3139, 0.3311)
     print(whiteness_CIE2004(xy, Y, xy_n))
 
@@ -2593,6 +3053,32 @@ def whiteness_CIE2004_analysis():
 
 
 # whiteness_CIE2004_analysis()
+
+
+def whiteness_CIE2004_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    Y = 100
+    xy_n = (0.3139, 0.3311)
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_CIE2004_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            whiteness_CIE2004_vectorise,
+            DATA_HD1[..., 0:2], Y, xy_n)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('whiteness_CIE2004\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# whiteness_CIE2004_profile()
 
 # #############################################################################
 # #############################################################################
@@ -2648,6 +3134,29 @@ def delta_E_CIE1976_analysis():
 
 
 # delta_E_CIE1976_analysis()
+
+
+def delta_E_CIE1976_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE1976_2d,
+            DATA_HD1, DATA_HD2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE1976_vectorise,
+            DATA_HD1, DATA_HD2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('delta_E_CIE1976\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# delta_E_CIE1976_profile()
 
 # #############################################################################
 # # ### colour.delta_E_CIE1994
@@ -2723,6 +3232,29 @@ def delta_E_CIE1994_analysis():
 
 
 # delta_E_CIE1994_analysis()
+
+
+def delta_E_CIE1994_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE1994_2d,
+            DATA_HD1, DATA_HD2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE1994_vectorise,
+            DATA_HD1, DATA_HD2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('delta_E_CIE1994\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# delta_E_CIE1994_profile()
 
 # #############################################################################
 # # ### colour.delta_E_CIE2000
@@ -2842,6 +3374,29 @@ def delta_E_CIE2000_analysis():
 
 # delta_E_CIE2000_analysis()
 
+
+def delta_E_CIE2000_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE2000_2d,
+            DATA_HD1, DATA_HD2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CIE2000_vectorise,
+            DATA_HD1, DATA_HD2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('delta_E_CIE2000\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# delta_E_CIE2000_profile(3, 3)
+
 # #############################################################################
 # # ### colour.delta_E_CMC
 # #############################################################################
@@ -2929,6 +3484,29 @@ def delta_E_CMC_analysis():
 
 # delta_E_CMC_analysis()
 
+
+def delta_E_CMC_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CMC_2d,
+            DATA_HD1, DATA_HD2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            delta_E_CMC_vectorise,
+            DATA_HD1, DATA_HD2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('delta_E_CMC\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# delta_E_CMC_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.models.cie_xyy
@@ -3006,6 +3584,29 @@ def XYZ_to_xyY_analysis():
 
 # XYZ_to_xyY_analysis()
 
+
+def XYZ_to_xyY_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_xyY_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_xyY_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_xyY\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_xyY_profile()
+
 # #############################################################################
 # # ### colour.xyY_to_XYZ
 # #############################################################################
@@ -3062,6 +3663,29 @@ def xyY_to_XYZ_analysis():
 
 # xyY_to_XYZ_analysis()
 
+
+def xyY_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            xyY_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            xyY_to_XYZ_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('xyY_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# xyY_to_XYZ_profile()
+
 # #############################################################################
 # # ### colour.xy_to_XYZ
 # #############################################################################
@@ -3110,6 +3734,30 @@ def xy_to_XYZ_analysis():
 
 # xy_to_XYZ_analysis()
 
+
+def xy_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_XYZ_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_XYZ_vectorise,
+            DATA_HD1[..., 0:2])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('xy_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# xy_to_XYZ_profile()
+
+
 # #############################################################################
 # # ### colour.XYZ_to_xy
 # #############################################################################
@@ -3157,6 +3805,29 @@ def XYZ_to_xy_analysis():
 
 
 # XYZ_to_xy_analysis()
+
+
+def XYZ_to_xy_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_xy_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_xy_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_xy\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_xy_profile()
 
 # #############################################################################
 # #############################################################################
@@ -3234,6 +3905,29 @@ def XYZ_to_Lab_analysis():
 
 # XYZ_to_Lab_analysis()
 
+
+def XYZ_to_Lab_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Lab_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Lab_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_Lab\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_Lab_profile()
+
 # #############################################################################
 # # ### colour.Lab_to_XYZ
 # #############################################################################
@@ -3299,6 +3993,29 @@ def Lab_to_XYZ_analysis():
 
 # Lab_to_XYZ_analysis()
 
+
+def Lab_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Lab_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Lab_to_XYZ_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Lab_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# Lab_to_XYZ_profile()
+
 # #############################################################################
 # # ### colour.Lab_to_LCHab
 # #############################################################################
@@ -3349,6 +4066,29 @@ def Lab_to_LCHab_analysis():
 
 # Lab_to_LCHab_analysis()
 
+
+def Lab_to_LCHab_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Lab_to_LCHab_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Lab_to_LCHab_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Lab_to_LCHab\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# Lab_to_LCHab_profile()
+
 # #############################################################################
 # # ### colour.LCHab_to_Lab
 # #############################################################################
@@ -3395,6 +4135,30 @@ def LCHab_to_Lab_analysis():
 
 
 # LCHab_to_Lab_analysis()
+
+
+def LCHab_to_Lab_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            LCHab_to_Lab_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            LCHab_to_Lab_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('LCHab_to_Lab\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# LCHab_to_Lab_profile()
+
 
 # #############################################################################
 # #############################################################################
@@ -3468,6 +4232,30 @@ def XYZ_to_Luv_analysis():
 
 
 # XYZ_to_Luv_analysis()
+
+
+
+def XYZ_to_Luv_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Luv_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Luv_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_Luv\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+XYZ_to_Luv_profile()
 
 # #############################################################################
 # # ### colour.Luv_to_XYZ
@@ -8464,52 +9252,3 @@ def CCT_to_xy_CIE_D_analysis():
 
 
     # CCT_to_xy_CIE_D_analysis()
-
-    # #############################################################################
-    # #############################################################################
-    # ### Ramblings
-    # #############################################################################
-    # #############################################################################
-
-    # #############################################################################
-    # ### Image Operations
-    # #############################################################################
-
-    # import pylab
-    # from OpenImageIO import FLOAT, ImageInput
-    #
-    # import colour
-    # from colour.plotting import *
-    #
-    #
-    # def read_image_as_array(path, bit_depth=FLOAT):
-    # image = ImageInput.open(path)
-    # specification = image.spec()
-    #
-    # return np.array(image.read_image(bit_depth)).reshape((specification.height,
-    # specification.width,
-    # specification.nchannels))
-    #
-    #
-    # colour.sRGB_COLOURSPACE.transfer_function = _srgb_transfer_function
-    #
-    #
-    # def image_plot(image,
-    # transfer_function=colour.sRGB_COLOURSPACE.transfer_function):
-    # image = np.clip(transfer_function(Lab_to_XYZ_vectorise(image)), 0, 1)
-    # pylab.imshow(image)
-    #
-    # settings = {'no_ticks': True,
-    # 'bounding_box': [0, 1, 0, 1],
-    # 'bbox_inches': 'tight',
-    # 'pad_inches': 0}
-    #
-    # canvas(**{'figure_size': (16, 16)})
-    # decorate(**settings)
-    # display(**settings)
-    #
-    #
-    # marcie = read_image_as_array(
-    # '/colour-science/colour-ramblings/resources/images/Digital_LAD_2048x1556.exr')
-    #
-    # image_plot(marcie)
