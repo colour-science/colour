@@ -4234,7 +4234,6 @@ def XYZ_to_Luv_analysis():
 # XYZ_to_Luv_analysis()
 
 
-
 def XYZ_to_Luv_profile(
         repeat_a=3, number_a=5, repeat_b=3, number_b=10):
     times = timeit.Timer(
@@ -4255,7 +4254,7 @@ def XYZ_to_Luv_profile(
         len(DATA_HD1), a, b))
 
 
-XYZ_to_Luv_profile()
+# XYZ_to_Luv_profile()
 
 # #############################################################################
 # # ### colour.Luv_to_XYZ
@@ -4326,6 +4325,29 @@ def Luv_to_XYZ_analysis():
 
 # Luv_to_XYZ_analysis()
 
+
+def Luv_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_XYZ_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Luv_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# Luv_to_XYZ_profile()
+
 # #############################################################################
 # # ### colour.Luv_to_uv
 # #############################################################################
@@ -4376,6 +4398,29 @@ def Luv_to_uv_analysis():
 
 # Luv_to_uv_analysis()
 
+
+def Luv_to_uv_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_uv_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_uv_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Luv_to_uv\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# Luv_to_uv_profile()
+
 # #############################################################################
 # # ### colour.Luv_uv_to_xy
 # #############################################################################
@@ -4423,6 +4468,29 @@ def Luv_uv_to_xy_analysis():
 
 
 # Luv_uv_to_xy_analysis()
+
+
+def Luv_uv_to_xy_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Luv_uv_to_xy_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Luv_uv_to_xy_vectorise,
+            DATA_HD1[..., 0:2])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Luv_uv_to_xy\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# Luv_uv_to_xy_profile()
 
 # #############################################################################
 # # ### colour.Luv_to_LCHuv
@@ -4474,6 +4542,29 @@ def Luv_to_LCHuv_analysis():
 
 # Luv_to_LCHuv_analysis()
 
+
+def Luv_to_LCHuv_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_LCHuv_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            Luv_to_LCHuv_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('Luv_to_LCHuv\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# Luv_to_LCHuv_profile()
+
 # #############################################################################
 # # ### colour.LCHuv_to_Luv
 # #############################################################################
@@ -4520,6 +4611,29 @@ def LCHuv_to_Luv_analysis():
 
 
 # LCHuv_to_Luv_analysis()
+
+
+def LCHuv_to_Luv_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            LCHuv_to_Luv_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            LCHuv_to_Luv_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('LCHuv_to_Luv\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# LCHuv_to_Luv_profile()
 
 # #############################################################################
 # #############################################################################
@@ -4575,6 +4689,29 @@ def XYZ_to_UCS_analysis():
 
 # XYZ_to_UCS_analysis()
 
+
+def XYZ_to_UCS_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_UCS_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_UCS_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_UCS\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_UCS_profile()
+
 # #############################################################################
 # # ### colour.UCS_to_XYZ
 # #############################################################################
@@ -4621,6 +4758,29 @@ def UCS_to_XYZ_analysis():
 
 
 # UCS_to_XYZ_analysis()
+
+
+def UCS_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            UCS_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            UCS_to_XYZ_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('UCS_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# UCS_to_XYZ_profile()
 
 # #############################################################################
 # # ### colour.UCS_to_uv
@@ -4669,6 +4829,29 @@ def UCS_to_uv_analysis():
 
 # UCS_to_uv_analysis()
 
+
+def UCS_to_uv_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            UCS_to_uv_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            UCS_to_uv_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('UCS_to_uv\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# UCS_to_uv_profile()
+
 # #############################################################################
 # # ### colour.UCS_uv_to_xy
 # #############################################################################
@@ -4715,6 +4898,29 @@ def UCS_uv_to_xy_analysis():
 
 
 # UCS_uv_to_xy_analysis()
+
+
+def UCS_uv_to_xy_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            UCS_uv_to_xy_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            UCS_uv_to_xy_vectorise,
+            DATA_HD1[..., 0:2])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('UCS_uv_to_xy\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# UCS_uv_to_xy_profile()
 
 # #############################################################################
 # #############################################################################
@@ -4781,6 +4987,29 @@ def XYZ_to_UVW_analysis():
 
 
 # XYZ_to_UVW_analysis()
+
+
+def XYZ_to_UVW_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_UVW_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_UVW_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_UVW\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_UVW_profile()
 
 # #############################################################################
 # #############################################################################
@@ -4863,6 +5092,29 @@ def RGB_to_HSV_analysis():
 
 # RGB_to_HSV_analysis()
 
+
+def RGB_to_HSV_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HSV_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HSV_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_HSV\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_HSV_profile()
+
 # #############################################################################
 # # ### colour.models.deprecated.HSV_to_RGB
 # #############################################################################
@@ -4896,8 +5148,8 @@ def HSV_to_RGB_vectorise(HSV):
     return RGB
 
 
-def RGB_to_HSV_analysis():
-    message_box('RGB_to_HSV')
+def HSV_to_RGB_analysis():
+    message_box('HSV_to_RGB')
 
     print('Reference:')
     HSV = np.array([0.27867383, 0.744, 0.98039216])
@@ -4927,7 +5179,30 @@ def RGB_to_HSV_analysis():
         np.ravel(HSV_to_RGB_vectorise(DATA1)))
 
 
-# RGB_to_HSV_analysis()
+# HSV_to_RGB_analysis()
+
+
+def HSV_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            HSV_to_RGB_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            HSV_to_RGB_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('HSV_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# HSV_to_RGB_profile()
 
 # #############################################################################
 # # ### colour.models.deprecated.RGB_to_HSL
@@ -5004,6 +5279,29 @@ def RGB_to_HSL_analysis():
 
 
 # RGB_to_HSL_analysis()
+
+
+def RGB_to_HSL_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HSL_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HSL_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_HSL\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_HSL_profile()
 
 # #############################################################################
 # # ### colour.models.deprecated.HSL_to_RGB
@@ -5094,6 +5392,29 @@ def HSL_to_RGB_analysis():
 
 # HSL_to_RGB_analysis()
 
+
+def HSL_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            HSL_to_RGB_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            HSL_to_RGB_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('HSL_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# HSL_to_RGB_profile()
+
 # #############################################################################
 # # ### colour.models.deprecated.RGB_to_CMY
 # #############################################################################
@@ -5139,6 +5460,29 @@ def RGB_to_CMY_analysis():
 
 # RGB_to_CMY_analysis()
 
+
+def RGB_to_CMY_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_CMY_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_CMY_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_CMY\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_CMY_profile()
+
 # #############################################################################
 # # ### colour.models.deprecated.CMY_to_RGB
 # #############################################################################
@@ -5183,6 +5527,29 @@ def CMY_to_RGB_analysis():
 
 
 # CMY_to_RGB_analysis()
+
+
+def CMY_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            CMY_to_RGB_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CMY_to_RGB_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CMY_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# CMY_to_RGB_profile()
 
 # #############################################################################
 # # ### colour.models.deprecated.CMY_to_CMYK
@@ -5250,6 +5617,29 @@ def CMY_to_CMYK_analysis():
 
 # CMY_to_CMYK_analysis()
 
+
+def CMY_to_CMYK_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            CMY_to_CMYK_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CMY_to_CMYK_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CMY_to_CMYK\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# CMY_to_CMYK_profile()
+
 # #############################################################################
 # # ### colour.models.deprecated.CMYK_to_CMY
 # #############################################################################
@@ -5298,6 +5688,33 @@ def CMYK_to_CMY_analysis():
 
 
 # CMYK_to_CMY_analysis()
+
+
+def CMYK_to_CMY_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    D1 = tstack((DATA_HD1[..., 0],
+                 DATA_HD1[..., 0],
+                 DATA_HD1[..., 0],
+                 DATA_HD1[..., 0]))
+    times = timeit.Timer(
+        functools.partial(
+            CMYK_to_CMY_2d,
+            D1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CMYK_to_CMY_vectorise,
+            D1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CMYK_to_CMY\t{0}\t{1}\t{2}'.format(
+        len(D1), a, b))
+
+
+# CMYK_to_CMY_profile()
 
 # #############################################################################
 # #############################################################################
@@ -5395,8 +5812,9 @@ def primaries_whitepoint_analysis():
 def RGB_luminance_2d(RGB):
     for i in range(len(RGB)):
         RGB_luminance(RGB[i],
-                      np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010,
-                                -0.07700]),
+                      np.array([0.73470, 0.26530,
+                                0.00000, 1.00000,
+                                0.00010, -0.07700]),
                       (0.32168, 0.33767))
 
 
@@ -5440,6 +5858,34 @@ def RGB_luminance_analysis():
 
 
 # RGB_luminance_analysis()
+
+
+def RGB_luminance_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    P = np.array([0.73470, 0.26530,
+                  0.00000, 1.00000,
+                  0.00010, -0.07700]),
+    W = (0.32168, 0.33767)
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_luminance_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_luminance_vectorise,
+            DATA_HD1, P, W)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_luminance\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_luminance_profile()
 
 # #############################################################################
 # #############################################################################
@@ -5495,6 +5941,29 @@ def XYZ_to_IPT_analysis():
 
 # XYZ_to_IPT_analysis()
 
+
+def XYZ_to_IPT_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_IPT_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_IPT_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_IPT\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_IPT_profile()
+
 # #############################################################################
 # #############################################################################
 # ### colour.IPT_to_XYZ
@@ -5544,6 +6013,29 @@ def IPT_to_XYZ_analysis():
 
 # IPT_to_XYZ_analysis()
 
+
+def IPT_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            IPT_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            IPT_to_XYZ_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('IPT_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# IPT_to_XYZ_profile()
+
 # #############################################################################
 # ### colour.IPT_hue_angle
 # #############################################################################
@@ -5590,6 +6082,29 @@ def IPT_hue_angle_analysis():
 
 
 # IPT_hue_angle_analysis()
+
+
+def IPT_hue_angle_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            IPT_hue_angle_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            IPT_hue_angle_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('IPT_hue_angle\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# IPT_hue_angle_profile()
 
 # #############################################################################
 # #############################################################################
@@ -5659,6 +6174,29 @@ def linear_to_cineon_analysis():
 
 # linear_to_cineon_analysis()
 
+
+def linear_to_cineon_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_cineon_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_cineon_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_cineon\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_cineon_profile()
+
 # #############################################################################
 # ### colour.cineon_to_linear
 # #############################################################################
@@ -5716,6 +6254,29 @@ def cineon_to_linear_analysis():
 
 
 # cineon_to_linear_analysis()
+
+
+def cineon_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            cineon_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            cineon_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('cineon_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# cineon_to_linear_profile()
 
 # #############################################################################
 # ### colour.linear_to_panalog
@@ -5775,6 +6336,29 @@ def linear_to_panalog_analysis():
 
 # linear_to_panalog_analysis()
 
+
+def linear_to_panalog_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_panalog_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_panalog_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_panalog\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_panalog_profile()
+
 # #############################################################################
 # ### colour.panalog_to_linear
 # #############################################################################
@@ -5833,6 +6417,29 @@ def panalog_to_linear_analysis():
 
 # panalog_to_linear_analysis()
 
+
+def panalog_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            panalog_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            panalog_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('panalog_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# panalog_to_linear_profile()
+
 # #############################################################################
 # ### colour.linear_to_red_log
 # #############################################################################
@@ -5890,6 +6497,29 @@ def linear_to_red_log_analysis():
 
 
 # linear_to_red_log_analysis()
+
+
+def linear_to_red_log_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_red_log_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_red_log_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_red_log\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_red_log_profile()
 
 # #############################################################################
 # ### colour.red_log_to_linear
@@ -5950,6 +6580,29 @@ def red_log_to_linear_analysis():
 
 # red_log_to_linear_analysis()
 
+
+def red_log_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            red_log_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            red_log_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('red_log_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# red_log_to_linear_profile()
+
 # #############################################################################
 # ### colour.linear_to_viper_log
 # #############################################################################
@@ -6005,6 +6658,29 @@ def linear_to_viper_log_analysis():
 
 # linear_to_viper_log_analysis()
 
+
+def linear_to_viper_log_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_viper_log_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_viper_log_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_viper_log\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_viper_log_profile()
+
 # #############################################################################
 # ### colour.viper_log_to_linear
 # #############################################################################
@@ -6059,6 +6735,29 @@ def viper_log_to_linear_analysis():
 
 
 # viper_log_to_linear_analysis()
+
+
+def viper_log_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            viper_log_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            viper_log_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('viper_log_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# viper_log_to_linear_profile()
 
 # #############################################################################
 # ### colour.linear_to_pivoted_log
@@ -6119,6 +6818,28 @@ def linear_to_pivoted_log_analysis():
 
 
 # linear_to_pivoted_log_analysis()
+
+def linear_to_pivoted_log_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_pivoted_log_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_pivoted_log_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_pivoted_log\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_pivoted_log_profile()
 
 # #############################################################################
 # ### colour.pivoted_log_to_linear
@@ -6181,6 +6902,29 @@ def pivoted_log_to_linear_analysis():
 
 # pivoted_log_to_linear_analysis()
 
+
+def pivoted_log_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            pivoted_log_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            pivoted_log_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('pivoted_log_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# pivoted_log_to_linear_profile()
+
 # #############################################################################
 # ### colour.linear_to_c_log
 # #############################################################################
@@ -6235,6 +6979,29 @@ def linear_to_c_log_analysis():
 
 
 # linear_to_c_log_analysis()
+
+
+def linear_to_c_log_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_c_log_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            linear_to_c_log_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('linear_to_c_log\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# linear_to_c_log_profile()
 
 # #############################################################################
 # ### colour.c_log_to_linear
@@ -6291,6 +7058,29 @@ def c_log_to_linear_analysis():
 
 
 # c_log_to_linear_analysis()
+
+
+def c_log_to_linear_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            c_log_to_linear_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            c_log_to_linear_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('c_log_to_linear\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# c_log_to_linear_profile()
 
 # #############################################################################
 # #############################################################################
@@ -7268,6 +8058,29 @@ def XYZ_to_RGB_analysis():
 
 # XYZ_to_RGB_analysis()
 
+
+def XYZ_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_RGB_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_RGB_vectorise,
+            DATA_HD1, W_R, W_T, M, CAT)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_RGB_profile(3, 3)
+
 # #############################################################################
 # # ### colour.RGB_to_XYZ
 # #############################################################################
@@ -7335,6 +8148,29 @@ def RGB_to_XYZ_analysis():
 
 # RGB_to_XYZ_analysis()
 
+
+def RGB_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_XYZ_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_XYZ_vectorise,
+            DATA_HD1, W_R, W_T, M, CAT)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_XYZ_profile(3, 3)
+
 # #############################################################################
 # ### colour.RGB_to_RGB
 # #############################################################################
@@ -7397,6 +8233,29 @@ def RGB_to_RGB_analysis():
 
 
 # RGB_to_RGB_analysis()
+
+
+def RGB_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_RGB_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_RGB_vectorise,
+            DATA_HD1, C, C, CAT)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_RGB_profile()
 
 # #############################################################################
 # #############################################################################
@@ -7465,6 +8324,29 @@ def munsell_value_Priest1920_analysis():
 
 # munsell_value_Priest1920_analysis()
 
+
+def munsell_value_Priest1920_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Priest1920_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Priest1920_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_Priest1920\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_Priest1920_profile()
+
 # #############################################################################
 # ### colour.munsell_value_Munsell1933
 # #############################################################################
@@ -7521,6 +8403,29 @@ def munsell_value_Munsell1933_analysis():
 
 
 # munsell_value_Munsell1933_analysis()
+
+
+def munsell_value_Munsell1933_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Munsell1933_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Munsell1933_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_Munsell1933\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_Munsell1933_profile()
 
 # #############################################################################
 # ### colour.munsell_value_Moon1943
@@ -7579,6 +8484,29 @@ def munsell_value_Moon1943_analysis():
 
 # munsell_value_Moon1943_analysis()
 
+
+def munsell_value_Moon1943_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Moon1943_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Moon1943_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_Moon1943\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_Moon1943_profile()
+
 # #############################################################################
 # ### colour.munsell_value_Saunderson1944
 # #############################################################################
@@ -7636,6 +8564,29 @@ def munsell_value_Saunderson1944_analysis():
 
 # munsell_value_Saunderson1944_analysis()
 
+
+def munsell_value_Saunderson1944_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Saunderson1944_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Saunderson1944_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_Saunderson1944\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_Saunderson1944_profile()
+
 # #############################################################################
 # ### colour.munsell_value_Ladd1955
 # #############################################################################
@@ -7692,6 +8643,29 @@ def munsell_value_Ladd1955_analysis():
 
 
 # munsell_value_Ladd1955_analysis()
+
+
+def munsell_value_Ladd1955_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Ladd1955_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_Ladd1955_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_Ladd1955\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_Ladd1955_profile()
 
 # #############################################################################
 # ### colour.munsell_value_McCamy1987
@@ -7764,6 +8738,28 @@ def munsell_value_McCamy1987_analysis():
 
 
 # munsell_value_McCamy1987_analysis()
+
+def munsell_value_McCamy1987_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_McCamy1987_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_McCamy1987_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_McCamy1987\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_McCamy1987_profile()
 
 # #############################################################################
 # ### colour.munsell_value_ASTMD153508
@@ -7839,6 +8835,29 @@ def munsell_value_ASTMD153508_analysis():
 
 # munsell_value_ASTMD153508_analysis()
 
+
+def munsell_value_ASTMD153508_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_ASTMD153508_2d,
+            Y)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            munsell_value_ASTMD153508_vectorise,
+            Y)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('munsell_value_ASTMD153508\t{0}\t{1}\t{2}'.format(
+        len(Y), a, b))
+
+
+# munsell_value_ASTMD153508_profile()
+
 # #############################################################################
 # #############################################################################
 # ### colour.notation.triplet
@@ -7893,6 +8912,29 @@ def RGB_to_HEX_analysis():
 
 
 # RGB_to_HEX_analysis()
+
+
+def RGB_to_HEX_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HEX_2d,
+            DATA_HD1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            RGB_to_HEX_vectorise,
+            DATA_HD1)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('RGB_to_HEX\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# RGB_to_HEX_profile()
 
 # #############################################################################
 # ### colour.notation.triplet.HEX_to_RGB
@@ -7950,6 +8992,30 @@ def HEX_to_RGB_analysis():
 
 
 # HEX_to_RGB_analysis()
+
+
+def HEX_to_RGB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    H = ['#aaddff'] * (1920 * 1080)
+    times = timeit.Timer(
+        functools.partial(
+            HEX_to_RGB_2d,
+            H)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            HEX_to_RGB_vectorise,
+            H)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('HEX_to_RGB\t{0}\t{1}\t{2}'.format(
+        len(H), a, b))
+
+
+# HEX_to_RGB_profile()
 
 # #############################################################################
 # #############################################################################
@@ -8016,6 +9082,29 @@ def air_refraction_index_Penndorf1957_analysis():
 
 # air_refraction_index_Penndorf1957_analysis()
 
+
+def air_refraction_index_Penndorf1957_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Penndorf1957_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Penndorf1957_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('air_refraction_index_Penndorf1957\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# air_refraction_index_Penndorf1957_profile()
+
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Edlen1966
 # #############################################################################
@@ -8073,6 +9162,29 @@ def air_refraction_index_Edlen1966_analysis():
 
 
 # air_refraction_index_Edlen1966_analysis()
+
+
+def air_refraction_index_Edlen1966_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Edlen1966_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Edlen1966_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('air_refraction_index_Edlen1966\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# air_refraction_index_Edlen1966_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Peck1972
@@ -8132,6 +9244,29 @@ def air_refraction_index_Peck1972_analysis():
 
 
 # air_refraction_index_Peck1972_analysis()
+
+
+def air_refraction_index_Peck1972_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Peck1972_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Peck1972_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('air_refraction_index_Peck1972\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# air_refraction_index_Peck1972_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999
@@ -8194,6 +9329,29 @@ def air_refraction_index_Bodhaine1999_analysis():
 
 # air_refraction_index_Bodhaine1999_analysis()
 
+
+def air_refraction_index_Bodhaine1999_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Bodhaine1999_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            air_refraction_index_Bodhaine1999_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('air_refraction_index_Bodhaine1999\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# air_refraction_index_Bodhaine1999_profile()
+
 # #############################################################################
 # ### colour.phenomenons.rayleigh.N2_depolarisation
 # #############################################################################
@@ -8250,6 +9408,29 @@ def N2_depolarisation_analysis():
 
 
 # N2_depolarisation_analysis()
+
+
+def N2_depolarisation_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            N2_depolarisation_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            N2_depolarisation_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('N2_depolarisation\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# N2_depolarisation_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.O2_depolarisation
@@ -8308,6 +9489,29 @@ def O2_depolarisation_analysis():
 
 
 # O2_depolarisation_analysis()
+
+
+def O2_depolarisation_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            O2_depolarisation_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            O2_depolarisation_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('O2_depolarisation\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# O2_depolarisation_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Penndorf1957
@@ -8466,6 +9670,29 @@ def F_air_Bates1984_analysis():
 
 # F_air_Bates1984_analysis()
 
+
+def F_air_Bates1984_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            F_air_Bates1984_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            F_air_Bates1984_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('F_air_Bates1984\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# F_air_Bates1984_profile()
+
 # #############################################################################
 # ### colour.phenomenons.rayleigh.F_air_Bodhaine1999
 # #############################################################################
@@ -8527,6 +9754,29 @@ def F_air_Bodhaine1999_analysis():
 
 # F_air_Bodhaine1999_analysis()
 
+
+def F_air_Bodhaine1999_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            F_air_Bodhaine1999_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            F_air_Bodhaine1999_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('F_air_Bodhaine1999\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# F_air_Bodhaine1999_profile()
+
 # #############################################################################
 # ### colour.phenomenons.rayleigh.molecular_density
 # #############################################################################
@@ -8587,6 +9837,29 @@ def molecular_density_analysis():
 
 # molecular_density_analysis()
 
+
+def molecular_density_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            molecular_density_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            molecular_density_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('molecular_density\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# molecular_density_profile()
+
 # #############################################################################
 # ### colour.phenomenons.rayleigh.mean_molecular_weights
 # #############################################################################
@@ -8644,6 +9917,29 @@ def mean_molecular_weights_analysis():
 
 
 # mean_molecular_weights_analysis()
+
+
+def mean_molecular_weights_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            mean_molecular_weights_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            mean_molecular_weights_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('mean_molecular_weights\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# mean_molecular_weights_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.gravity_List1968
@@ -8704,6 +10000,29 @@ def gravity_List1968_analysis():
 
 
 # gravity_List1968_analysis()
+
+
+def gravity_List1968_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            gravity_List1968_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            gravity_List1968_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('gravity_List1968\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# gravity_List1968_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.scattering_cross_section
@@ -8776,6 +10095,29 @@ def scattering_cross_section_analysis():
 
 
 # scattering_cross_section_analysis()
+
+
+def scattering_cross_section_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            scattering_cross_section_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            scattering_cross_section_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('scattering_cross_section\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# scattering_cross_section_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.rayleigh_optical_depth
@@ -8856,6 +10198,29 @@ def rayleigh_optical_depth_analysis():
 
 
 # rayleigh_optical_depth_analysis()
+
+
+def rayleigh_optical_depth_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            rayleigh_optical_depth_2d,
+            DATA_HD1[..., 0])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            rayleigh_optical_depth_vectorise,
+            DATA_HD1[..., 0])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('rayleigh_optical_depth\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0]), a, b))
+
+
+# rayleigh_optical_depth_profile()
 
 # #############################################################################
 # ### colour.phenomenons.rayleigh.rayleigh_scattering_spd
@@ -9012,6 +10377,29 @@ def xy_to_CCT_McCamy1992_analysis():
 
 # xy_to_CCT_McCamy1992_analysis()
 
+
+def xy_to_CCT_McCamy1992_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_CCT_McCamy1992_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_CCT_McCamy1992_vectorise,
+            DATA_HD1[..., 0:2])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('xy_to_CCT_McCamy1992\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# xy_to_CCT_McCamy1992_profile()
+
 # #############################################################################
 # ### colour.xy_to_CCT_Hernandez1999
 # #############################################################################
@@ -9077,6 +10465,29 @@ def xy_to_CCT_Hernandez1999_analysis():
 
 
 # xy_to_CCT_Hernandez1999_analysis()
+
+
+def xy_to_CCT_Hernandez1999_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_CCT_Hernandez1999_2d,
+            DATA_HD1[..., 0:2])).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            xy_to_CCT_Hernandez1999_vectorise,
+            DATA_HD1[..., 0:2])).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('xy_to_CCT_Hernandez1999\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1[..., 0:2]), a, b))
+
+
+# xy_to_CCT_Hernandez1999_profile()
 
 # #############################################################################
 # ### colour.CCT_to_xy_Kang2002
@@ -9173,6 +10584,29 @@ def CCT_to_xy_Kang2002_analysis():
 
 # CCT_to_xy_Kang2002_analysis()
 
+
+def CCT_to_xy_Kang2002_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            CCT_to_xy_Kang2002_2d,
+            CCT)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CCT_to_xy_Kang2002_vectorise,
+            CCT)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CCT_to_xy_Kang2002\t{0}\t{1}\t{2}'.format(
+        len(CCT), a, b))
+
+
+# CCT_to_xy_Kang2002_profile()
+
 # #############################################################################
 # ### colour.CCT_to_xy_CIE_D
 # #############################################################################
@@ -9251,4 +10685,27 @@ def CCT_to_xy_CIE_D_analysis():
         np.ravel(CCT_to_xy_CIE_D_vectorise(CCT)))
 
 
-    # CCT_to_xy_CIE_D_analysis()
+# CCT_to_xy_CIE_D_analysis()
+
+
+def CCT_to_xy_CIE_D_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            CCT_to_xy_CIE_D_2d,
+            CCT)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CCT_to_xy_CIE_D_vectorise,
+            CCT)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CCT_to_xy_CIE_D\t{0}\t{1}\t{2}'.format(
+        len(CCT), a, b))
+
+
+# CCT_to_xy_CIE_D_profile()
