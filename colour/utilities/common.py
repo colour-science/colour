@@ -5,7 +5,7 @@
 Common Utilities
 ================
 
-Defines common utilities objects that don"t fall in any specific category.
+Defines common utilities objects that don't fall in any specific category.
 """
 
 from __future__ import division, unicode_literals
