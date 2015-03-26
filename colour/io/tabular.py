@@ -274,10 +274,11 @@ def write_spds_to_csv_file(spds,
         If the given spectral power distributions have different shapes.
     """
 
-    shapes = [spd.shape for spd in spds.values()]
-    if not all(shape == shapes[0] for shape in shapes):
-        raise RuntimeError(('Cannot write spectral power distributions with '
-                            'different shapes to CSV file!'))
+    if len(spds) != 1:
+        shapes = [spd.shape for spd in spds.values()]
+        if not all(shape == shapes[0] for shape in shapes):
+            raise RuntimeError(('Cannot write spectral power distributions '
+                                'with different shapes to CSV file!'))
 
     wavelengths = tuple(spds.values())[0].wavelengths
     with open(path, 'w') as csv_file:
