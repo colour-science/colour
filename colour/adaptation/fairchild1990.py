@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
+from colour.utilities import tstack, tsplit, row_as_diagonal
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -72,21 +73,21 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     Parameters
     ----------
-    XYZ_1 : array_like, (3,)
+    XYZ_1 : array_like
         *CIE XYZ_1* colourspace matrix of test sample / stimulus in domain
         [0, 100].
-    XYZ_n : array_like, (3,)
+    XYZ_n : array_like
         Test viewing condition *CIE XYZ_n* colourspace whitepoint matrix.
-    XYZ_r : array_like, (3,)
+    XYZ_r : array_like
         Reference viewing condition *CIE XYZ_r* colourspace whitepoint matrix.
-    Y_n : numeric
+    Y_n : numeric or array_like
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     discount_illuminant : bool, optional
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Adapted *CIE XYZ_2* colourspace test stimulus.
 
     Warning
@@ -109,11 +110,20 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     array([ 23.3252634...,  23.3245581...,  76.1159375...])
     """
 
-    XYZ_1, XYZ_n, XYZ_r = np.ravel(XYZ_1), np.ravel(XYZ_n), np.ravel(XYZ_r)
+    XYZ_1 = np.asarray(XYZ_1)
+    XYZ_n = np.asarray(XYZ_n)
+    XYZ_r = np.asarray(XYZ_r)
+    Y_n = np.asarray(Y_n)
 
-    LMS_1 = np.dot(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_1)
-    LMS_n = np.dot(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_n)
-    LMS_r = np.dot(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_r)
+    LMS_1 = np.einsum('...ij,...j->...i',
+                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
+                      XYZ_1)
+    LMS_n = np.einsum('...ij,...j->...i',
+                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
+                      XYZ_n)
+    LMS_r = np.einsum('...ij,...j->...i',
+                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
+                      XYZ_r)
 
     p_LMS = degrees_of_adaptation(LMS_1,
                                   Y_n,
@@ -122,20 +132,20 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r
 
-    diagonal = lambda x: np.diagflat(x).reshape((3, 3))
-    A_1 = diagonal(a_LMS_1)
-    A_2 = diagonal(a_LMS_2)
+    A_1 = row_as_diagonal(a_LMS_1)
+    A_2 = row_as_diagonal(a_LMS_2)
 
-    LMSp_1 = np.dot(A_1, LMS_1)
+    LMSp_1 = np.einsum('...ij,...j->...i', A_1, LMS_1)
 
     c = 0.219 - 0.0784 * np.log10(Y_n)
-    C = np.array([[c, 0, 0], [0, c, 0], [0, 0, c]])
+    C = row_as_diagonal(tstack((c, c, c)))
 
-    LMS_a = np.dot(C, LMSp_1)
-    LMSp_2 = np.dot(np.linalg.inv(C), LMS_a)
+    LMS_a = np.einsum('...ij,...j->...i', C, LMSp_1)
+    LMSp_2 = np.einsum('...ij,...j->...i', np.linalg.inv(C), LMS_a)
 
-    LMS_c = np.dot(np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = np.dot(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
+    LMS_c = np.einsum('...ij,...j->...i', np.linalg.inv(A_2), LMSp_2)
+    XYZ_c = np.einsum('...ij,...j->...i',
+                      FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
 
     return XYZ_c
 
@@ -146,12 +156,12 @@ def XYZ_to_RGB_fairchild1990(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ : array_like
         *CIE XYZ* colourspace matrix.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Cone responses.
 
     Examples
@@ -161,7 +171,7 @@ def XYZ_to_RGB_fairchild1990(XYZ):
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
-    return np.dot(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
+    return np.einsum('...ij,...j->...i', FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_fairchild1990(RGB):
@@ -170,12 +180,12 @@ def RGB_to_XYZ_fairchild1990(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB : array_like
         Cone responses.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ* colourspace matrix.
 
     Examples
@@ -185,7 +195,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
     array([ 19.53,  23.07,  24.97])
     """
 
-    return np.dot(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
+    return np.einsum('...ij,...j->...i', FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
@@ -195,18 +205,18 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Parameters
     ----------
-    LMS : array_like, (3,)
+    LMS : array_like
         Cone responses.
-    Y_n : numeric
+    Y_n : numeric or array_like
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    v : numeric, optional
+    v : numeric or array_like, optional
         Exponent :math:`v`.
     discount_illuminant : bool, optional
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Degrees of adaptation :math:`p_L`, :math:`p_M` and :math:`p_S`.
 
     Examples
@@ -219,13 +229,19 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     array([1, 1, 1])
     """
 
+    LMS = np.asarray(LMS)
     if discount_illuminant:
-        return np.array([1, 1, 1])
+        return np.ones(LMS.shape)
 
-    L, M, S = np.ravel(LMS)
+    Y_n = np.asarray(Y_n)
+    v = np.asarray(v)
 
-    LMS_E = np.dot(VON_KRIES_CAT, np.array([1, 1, 1]))  # E illuminant.
-    L_E, M_E, S_E = np.ravel(LMS_E)
+    L, M, S = tsplit(LMS)
+
+    LMS_E = np.einsum('...ij,...j->...i',
+                      VON_KRIES_CAT,
+                      np.ones(LMS.shape))  # E illuminant.
+    L_E, M_E, S_E = tsplit(LMS_E)
 
     Ye_n = Y_n ** v
 
@@ -236,4 +252,6 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     p_M = f_P(f_E(M, M_E))
     p_S = f_P(f_E(S, S_E))
 
-    return np.array([p_L, p_M, p_S])
+    p_LMS = tstack((p_L, p_M, p_S))
+
+    return p_LMS
