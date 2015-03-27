@@ -226,7 +226,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
     array([ 0.9799324...,  0.9960035...,  1.0233041...])
     >>> degrees_of_adaptation(LMS, Y_n, 1 / 3, True)
-    array([1, 1, 1])
+    array([ 1.,  1.,  1.])
     """
 
     LMS = np.asarray(LMS)
