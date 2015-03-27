@@ -73,6 +73,46 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             np.array([40.55293261, 28.95161939, 4.09480293]),
             decimal=7)
 
+    def test_n_dimensions_chromatic_adaptation_CIE1994(self):
+        """
+        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        definition n-dimensions handling.
+        """
+
+        XYZ_1 = np.array([28.0, 21.26, 5.27])
+        xy_o1 = np.array([0.4476, 0.4074])
+        xy_o2 = np.array([0.3127, 0.3290])
+        Y_o = 20
+        E_o1 = 1000
+        E_o2 = 1000
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
+            np.array([24.03379521, 21.15621214, 17.64301199]),
+            decimal=7)
+
+        XYZ_1 = np.tile(XYZ_1, (6, 1))
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
+            np.array([[24.03379521, 21.15621214, 17.64301199],
+                      [24.03379521, 21.15621214, 17.64301199],
+                      [24.03379521, 21.15621214, 17.64301199],
+                      [24.03379521, 21.15621214, 17.64301199],
+                      [24.03379521, 21.15621214, 17.64301199],
+                      [24.03379521, 21.15621214, 17.64301199]]),
+            decimal=7)
+
+        XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
+            np.array([[[24.03379521, 21.15621214, 17.64301199],
+                       [24.03379521, 21.15621214, 17.64301199],
+                       [24.03379521, 21.15621214, 17.64301199]],
+                      [[24.03379521, 21.15621214, 17.64301199],
+                       [24.03379521, 21.15621214, 17.64301199],
+                       [24.03379521, 21.15621214, 17.64301199]]]),
+            decimal=7)
+
 
 if __name__ == '__main__':
     unittest.main()
