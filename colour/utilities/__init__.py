@@ -22,6 +22,7 @@ from .array import (
     normalise,
     steps,
     is_uniform,
+    in_array,
     tstack,
     tsplit,
     row_as_diagonal)
@@ -43,6 +44,7 @@ __all__ += ['as_numeric',
             'normalise',
             'steps',
             'is_uniform',
+            'in_array',
             'tstack',
             'tsplit',
             'row_as_diagonal']

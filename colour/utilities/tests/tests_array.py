@@ -21,6 +21,7 @@ from colour.utilities import (
     normalise,
     steps,
     is_uniform,
+    in_array,
     tstack,
     tsplit,
     row_as_diagonal)
@@ -37,6 +38,7 @@ __all__ = ['TestAsNumeric',
            'TestNormalise',
            'TestSteps',
            'TestIsUniform',
+           'TestInArray',
            'TestTstack',
            'TestTsplit',
            'TestRowAsDiagonal']
@@ -144,6 +146,57 @@ class TestIsUniform(unittest.TestCase):
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
         self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
+
+
+class TestInArray(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.in_array` definition unit tests
+    methods.
+    """
+
+    def test_in_array(self):
+        """
+        Tests :func:`colour.utilities.array.in_array` definition.
+        """
+
+        self.assertTrue(
+            np.array_equal(
+                in_array((0.5, 0.6),
+                         np.linspace(0, 10, 101)),
+                np.array([True, True])))
+
+        self.assertFalse(
+            np.array_equal(
+                in_array(np.array([0.5, 0.61]),
+                         np.linspace(0, 10, 101)),
+                np.array([True, True])))
+
+        self.assertTrue(
+            np.array_equal(
+                in_array(np.array([[0.5], [0.6]]),
+                         np.linspace(0, 10, 101)),
+                np.array([[True], [True]])))
+
+    def test_n_dimensions_in_array(self):
+        """
+        Tests :func:`colour.utilities.array.in_array` definition n-dimensions
+        support.
+        """
+
+        self.assertTupleEqual(
+            in_array((0.5, 0.6),
+                     np.linspace(0, 10, 101)).shape,
+            (2,))
+
+        self.assertTupleEqual(
+            in_array(np.array([[0.5, 0.6]]),
+                     np.linspace(0, 10, 101)).shape,
+            (1, 2))
+
+        self.assertTupleEqual(
+            in_array(np.array([[0.5], [0.6]]),
+                     np.linspace(0, 10, 101)).shape,
+            (2, 1))
 
 
 class TestTstack(unittest.TestCase):

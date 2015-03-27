@@ -18,7 +18,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['FLOATING_POINT_NUMBER_PATTERN',
-           'INTEGER_THRESHOLD']
+           'INTEGER_THRESHOLD',
+           'EPSILON']
 
 FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
 """
@@ -32,4 +33,12 @@ INTEGER_THRESHOLD = 0.001
 Integer threshold value.
 
 INTEGER_THRESHOLD : numeric
+"""
+
+EPSILON = 0.0000001
+"""
+Default epsilon value for tolerance and singularities avoidance in various
+computations.
+
+EPSILON : numeric
 """

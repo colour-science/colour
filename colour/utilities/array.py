@@ -12,6 +12,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import EPSILON
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -24,6 +26,7 @@ __all__ = ['as_numeric',
            'normalise',
            'steps',
            'is_uniform',
+           'in_array',
            'tstack',
            'tsplit',
            'row_as_diagonal']
@@ -184,6 +187,47 @@ def is_uniform(distribution):
     """
 
     return True if len(steps(distribution)) == 1 else False
+
+
+def in_array(a, b, tolerance=EPSILON):
+    """
+    Tests whether each element of an array is also present in a second array
+    within given tolerance.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to test the elements from.
+    b : array_like
+        The values against which to test each value of array *a*.
+
+    Returns
+    -------
+    ndarray
+        A boolean array with *a* shape describing whether an element of *a* is
+        present in *b* within given tolerance.
+
+    References
+    ----------
+    .. [1]  Yorke, R. (2014). Python: Change format of np.array or allow
+            tolerance in in1d function. Retrieved March 27, 2015, from
+            http://stackoverflow.com/a/23521245/931625
+
+    Examples
+    --------
+    >>> a = (0.5, 0.6)
+    >>> b = np.linspace(0, 10, 101)
+    >>> np.in1d(a, b)
+    array([ True, False], dtype=bool)
+    >>> in_array(a, b)
+    array([ True,  True], dtype=bool)
+    """
+
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    d = np.abs(np.ravel(a) - b[..., np.newaxis])
+    return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
 def tstack(a):
