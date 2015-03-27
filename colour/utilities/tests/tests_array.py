@@ -21,6 +21,8 @@ from colour.utilities import (
     normalise,
     steps,
     is_uniform,
+    tstack,
+    tsplit,
     row_as_diagonal)
 
 __author__ = 'Colour Developers'
@@ -35,6 +37,8 @@ __all__ = ['TestAsNumeric',
            'TestNormalise',
            'TestSteps',
            'TestIsUniform',
+           'TestTstack',
+           'TestTsplit',
            'TestRowAsDiagonal']
 
 
@@ -140,6 +144,102 @@ class TestIsUniform(unittest.TestCase):
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
         self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
+
+
+class TestTstack(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.tstack` definition unit tests
+    methods.
+    """
+
+    def test_tstack(self):
+        """
+        Tests :func:`colour.utilities.array.tstack` definition.
+        """
+
+        a = 0
+        np.testing.assert_almost_equal(
+            tstack((a, a, a)),
+            np.array([0, 0, 0]))
+        a = np.arange(0, 6)
+        np.testing.assert_almost_equal(
+            tstack((a, a, a)),
+            np.array([[0, 0, 0],
+                      [1, 1, 1],
+                      [2, 2, 2],
+                      [3, 3, 3],
+                      [4, 4, 4],
+                      [5, 5, 5]]))
+        a = np.reshape(a, (1, 6))
+        np.testing.assert_almost_equal(
+            tstack((a, a, a)),
+            np.array([[[0, 0, 0],
+                       [1, 1, 1],
+                       [2, 2, 2],
+                       [3, 3, 3],
+                       [4, 4, 4],
+                       [5, 5, 5]]]))
+        a = np.reshape(a, (1, 2, 3))
+        np.testing.assert_almost_equal(
+            tstack((a, a, a)),
+            np.array([[[[0, 0, 0],
+                        [1, 1, 1],
+                        [2, 2, 2]],
+                       [[3, 3, 3],
+                        [4, 4, 4],
+                        [5, 5, 5]]]]))
+
+
+class TestTsplit(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.tsplit` definition unit tests
+    methods.
+    """
+
+    def test_tsplit(self):
+        """
+        Tests :func:`colour.utilities.array.tsplit` definition.
+        """
+
+        a = np.array([0, 0, 0])
+        np.testing.assert_almost_equal(tsplit(a),
+                                       np.array([0, 0, 0]))
+        a = np.array([[0, 0, 0],
+                      [1, 1, 1],
+                      [2, 2, 2],
+                      [3, 3, 3],
+                      [4, 4, 4],
+                      [5, 5, 5]])
+        np.testing.assert_almost_equal(
+            tsplit(a),
+            np.array([[0, 1, 2, 3, 4, 5],
+                      [0, 1, 2, 3, 4, 5],
+                      [0, 1, 2, 3, 4, 5]]))
+        a = np.array([[[0, 0, 0],
+                       [1, 1, 1],
+                       [2, 2, 2],
+                       [3, 3, 3],
+                       [4, 4, 4],
+                       [5, 5, 5]]])
+        np.testing.assert_almost_equal(
+            tsplit(a),
+            np.array([[[0, 1, 2, 3, 4, 5]],
+                      [[0, 1, 2, 3, 4, 5]],
+                      [[0, 1, 2, 3, 4, 5]]]))
+        a = np.array([[[[0, 0, 0],
+                        [1, 1, 1],
+                        [2, 2, 2]],
+                       [[3, 3, 3],
+                        [4, 4, 4],
+                        [5, 5, 5]]]])
+        np.testing.assert_almost_equal(
+            tsplit(a),
+            np.array([[[[0, 1, 2],
+                        [3, 4, 5]]],
+                      [[[0, 1, 2],
+                        [3, 4, 5]]],
+                      [[[0, 1, 2],
+                        [3, 4, 5]]]]))
 
 
 class TestRowAsDiagonal(unittest.TestCase):

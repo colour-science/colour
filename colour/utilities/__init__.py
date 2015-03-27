@@ -22,6 +22,8 @@ from .array import (
     normalise,
     steps,
     is_uniform,
+    tstack,
+    tsplit,
     row_as_diagonal)
 from .verbose import message_box, warning
 
@@ -41,6 +43,8 @@ __all__ += ['as_numeric',
             'normalise',
             'steps',
             'is_uniform',
+            'tstack',
+            'tsplit',
             'row_as_diagonal']
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['message_box', 'warning']

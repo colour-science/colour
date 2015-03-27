@@ -24,6 +24,8 @@ __all__ = ['as_numeric',
            'normalise',
            'steps',
            'is_uniform',
+           'tstack',
+           'tsplit',
            'row_as_diagonal']
 
 
@@ -182,6 +184,110 @@ def is_uniform(distribution):
     """
 
     return True if len(steps(distribution)) == 1 else False
+
+
+def tstack(a):
+    """
+    Stacks arrays in sequence along the last axis (tail).
+
+    Rebuilds arrays divided by :func:`tsplit`.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform the stacking.
+
+    Returns
+    -------
+    ndarray
+
+    See Also
+    --------
+    tsplit
+
+    Examples
+    --------
+    >>> a = 0
+    >>> tstack((a, a, a))
+    array([0, 0, 0])
+    >>> a = np.arange(0, 6)
+    >>> tstack((a, a, a))
+    array([[0, 0, 0],
+           [1, 1, 1],
+           [2, 2, 2],
+           [3, 3, 3],
+           [4, 4, 4],
+           [5, 5, 5]])
+    >>> a = np.reshape(a, (1, 6))
+    >>> tstack((a, a, a))
+    array([[[0, 0, 0],
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+            [4, 4, 4],
+            [5, 5, 5]]])
+    >>> a = np.reshape(a, (1, 1, 6))
+    >>> tstack((a, a, a))
+    array([[[[0, 0, 0],
+             [1, 1, 1],
+             [2, 2, 2],
+             [3, 3, 3],
+             [4, 4, 4],
+             [5, 5, 5]]]])
+    """
+
+    a = np.asarray(a)
+    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
+
+
+def tsplit(a):
+    """
+    Splits arrays in sequence along the last axis (tail).
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform the splitting.
+
+    Returns
+    -------
+    ndarray
+
+    See Also
+    --------
+    tstack
+
+    Examples
+    --------
+    >>> a = np.array([0, 0, 0])
+    >>> tsplit(a)
+    array([0, 0, 0])
+    >>> a = np.array([[0, 0, 0],
+    ...               [1, 1, 1],
+    ...               [2, 2, 2],
+    ...               [3, 3, 3],
+    ...               [4, 4, 4],
+    ...               [5, 5, 5]])
+    >>> tsplit(a)
+    array([[0, 1, 2, 3, 4, 5],
+           [0, 1, 2, 3, 4, 5],
+           [0, 1, 2, 3, 4, 5]])
+    >>> a = np.array([[[0, 0, 0],
+    ...                [1, 1, 1],
+    ...                [2, 2, 2],
+    ...                [3, 3, 3],
+    ...                [4, 4, 4],
+    ...                [5, 5, 5]]])
+    >>> tsplit(a)
+    array([[[0, 1, 2, 3, 4, 5]],
+    <BLANKLINE>
+           [[0, 1, 2, 3, 4, 5]],
+    <BLANKLINE>
+           [[0, 1, 2, 3, 4, 5]]])
+    """
+
+    a = np.asarray(a)
+    return np.array([a[..., x] for x in range(a.shape[-1])])
 
 
 def row_as_diagonal(a):

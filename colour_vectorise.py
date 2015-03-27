@@ -28,6 +28,8 @@ from colour.utilities import (
     is_iterable,
     is_numeric,
     message_box,
+    tstack,
+    tsplit,
     row_as_diagonal,
     warning)
 
@@ -42,19 +44,6 @@ DATA_VGA2 = np.random.rand(320 * 200, 3)
 DATA_VGA3 = np.random.rand(320 * 200, 3)
 
 DATA1, DATA2, DATA3 = DATA_VGA1, DATA_VGA2, DATA_VGA3
-
-
-def tstack(a):
-    # Similar to *dstack* except that operation is always performed on
-    # last axis.
-    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
-
-
-def tsplit(a):
-    # Similar to *dsplit* except that operation is always performed on
-    # last axis.
-    a = np.asarray(a)
-    return [a[..., x] for x in range(a.shape[-1])]
 
 # #############################################################################
 # #############################################################################
