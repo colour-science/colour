@@ -826,7 +826,7 @@ def cartesian_to_spherical_vectorise(vector):
     x, y, z = tsplit(vector)
 
     r = np.linalg.norm(vector, axis=-1)
-    theta = np.arctan2(z, np.linalg.norm(tstack((x, y))))
+    theta = np.arctan2(z, np.linalg.norm(tstack((x, y)), axis=-1))
     phi = np.arctan2(y, x)
 
     rtp = tstack((r, theta, phi))
