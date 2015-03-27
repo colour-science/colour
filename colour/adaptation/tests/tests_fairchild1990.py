@@ -80,31 +80,25 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
         XYZ_r = np.array([94.81, 100.00, 107.30])
         Y_n = 200
 
+        XYZ_c = np.array([23.32526349, 23.32455819, 76.1159375])
+
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
-            np.array([23.32526349, 23.32455819, 76.1159375]),
+            XYZ_c,
             decimal=7)
 
         XYZ_1 = np.tile(XYZ_1, (6, 1))
+        XYZ_c = np.tile(XYZ_c, (6, 1))
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
-            np.array([[23.32526349, 23.32455819, 76.1159375],
-                      [23.32526349, 23.32455819, 76.1159375],
-                      [23.32526349, 23.32455819, 76.1159375],
-                      [23.32526349, 23.32455819, 76.1159375],
-                      [23.32526349, 23.32455819, 76.1159375],
-                      [23.32526349, 23.32455819, 76.1159375]]),
+            XYZ_c,
             decimal=7)
 
         XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+        XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
-            np.array([[[23.32526349, 23.32455819, 76.1159375],
-                       [23.32526349, 23.32455819, 76.1159375],
-                       [23.32526349, 23.32455819, 76.1159375]],
-                      [[23.32526349, 23.32455819, 76.1159375],
-                       [23.32526349, 23.32455819, 76.1159375],
-                       [23.32526349, 23.32455819, 76.1159375]]]),
+            XYZ_c,
             decimal=7)
 
 

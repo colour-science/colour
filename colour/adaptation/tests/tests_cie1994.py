@@ -86,31 +86,25 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         E_o1 = 1000
         E_o2 = 1000
 
+        XYZ_2 = np.array([24.03379521, 21.15621214, 17.64301199])
+
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
-            np.array([24.03379521, 21.15621214, 17.64301199]),
+            XYZ_2,
             decimal=7)
 
         XYZ_1 = np.tile(XYZ_1, (6, 1))
+        XYZ_2 = np.tile(XYZ_2, (6, 1))
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
-            np.array([[24.03379521, 21.15621214, 17.64301199],
-                      [24.03379521, 21.15621214, 17.64301199],
-                      [24.03379521, 21.15621214, 17.64301199],
-                      [24.03379521, 21.15621214, 17.64301199],
-                      [24.03379521, 21.15621214, 17.64301199],
-                      [24.03379521, 21.15621214, 17.64301199]]),
+            XYZ_2,
             decimal=7)
 
         XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+        XYZ_2 = np.reshape(XYZ_2, (2, 3, 3))
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
-            np.array([[[24.03379521, 21.15621214, 17.64301199],
-                       [24.03379521, 21.15621214, 17.64301199],
-                       [24.03379521, 21.15621214, 17.64301199]],
-                      [[24.03379521, 21.15621214, 17.64301199],
-                       [24.03379521, 21.15621214, 17.64301199],
-                       [24.03379521, 21.15621214, 17.64301199]]]),
+            XYZ_2,
             decimal=7)
 
 
