@@ -26,6 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
+from colour.utilities import row_as_diagonal
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -46,9 +47,9 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     Parameters
     ----------
-    XYZ_w : array_like, (3,)
+    XYZ_w : array_like
         Test viewing condition *CIE XYZ* colourspace matrix.
-    XYZ_wr : array_like, (3,)
+    XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* colourspace matrix.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -85,27 +86,23 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
     """
 
-    transform_matrix = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
+    M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
-    if transform_matrix is None:
+    if M is None:
         raise KeyError(
             '"{0}" chromatic adaptation transform is not defined! Supported '
-            'transforms: "{1}".'.format(
-                transform,
-                CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
+            'methods: "{1}".'.format(transform,
+                                     CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
 
-    XYZ_w, XYZ_wr = np.ravel(XYZ_w), np.ravel(XYZ_wr)
+    rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
+    rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
 
-    if (XYZ_w == XYZ_wr).all():
-        # Skip the chromatic adaptation computation if the two input matrices
-        # are the same, no adaptation is needed.
-        return np.identity(3)
+    D = rgb_wr / rgb_w
 
-    rgb_w = np.ravel(np.dot(transform_matrix, XYZ_w))
-    rgb_wr = np.ravel(np.dot(transform_matrix, XYZ_wr))
+    D = row_as_diagonal(D)
 
-    D = np.diagflat(np.divide(rgb_wr, rgb_w)).reshape((3, 3))
-    cat = np.dot(np.dot(np.linalg.inv(transform_matrix), D), transform_matrix)
+    cat = np.einsum('...ij,...jk->...ik', np.linalg.inv(M), D)
+    cat = np.einsum('...ij,...jk->...ik', cat, M)
 
     return cat
 
@@ -118,11 +115,11 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ : array_like
         *CIE XYZ* colourspace stimulus to adapt.
-    XYZ_w : array_like, (3,)
+    XYZ_w : array_like
         Test viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    XYZ_wr : array_like, (3,)
+    XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* colourspace whitepoint matrix.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -131,7 +128,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ_c* colourspace matrix of the stimulus corresponding colour.
 
     Examples
@@ -153,6 +150,6 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     """
 
     cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = np.dot(cat, XYZ)
+    XYZ_a = np.einsum('...ij,...j->...i', cat, XYZ)
 
     return XYZ_a

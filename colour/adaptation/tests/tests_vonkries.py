@@ -100,16 +100,78 @@ class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
                       [0., 0., 3.06023214]]),
             decimal=7)
 
+    def test_n_dimensions_chromatic_adaptation_matrix_VonKries(self):
+        """
+        Tests
+        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
+        definition n-dimensions support.
+        """
+
+        XYZ_w = np.array([1.09846607, 1., 0.3558228])
+        XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
+            np.array([[0.86876537, -0.14165393, 0.38719611],
+                      [-0.10300724, 1.05840142, 0.15386462],
+                      [0.00781674, 0.0267875, 2.96081771]]))
+
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
+            np.array([[[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]],
+                      [[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]],
+                      [[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]],
+                      [[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]],
+                      [[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]],
+                      [[0.86876537, -0.14165393, 0.38719611],
+                       [-0.10300724, 1.05840142, 0.15386462],
+                       [0.00781674, 0.0267875, 2.96081771]]]))
+
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
+            np.array([[[[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]],
+                       [[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]],
+                       [[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]]],
+                      [[[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]],
+                       [[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]],
+                       [[0.86876537, -0.14165393, 0.38719611],
+                        [-0.10300724, 1.05840142, 0.15386462],
+                        [0.00781674, 0.0267875, 2.96081771]]]]))
+
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.vonrkies.chromatic_adaptation_VonKries`
+    Defines :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
     definition unit tests methods.
     """
 
     def test_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonrkies.chromatic_adaptation_VonKries`
+        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
         definition.
         """
 
@@ -162,6 +224,34 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
                 np.array([0.95042855, 1., 1.08890037]),
                 transform='Von Kries'),
             np.array([0.08357823, 0.10214289, 0.29250657]),
+            decimal=7)
+
+    def test_n_dimensions_chromatic_adaptation_VonKries(self):
+        """
+        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        definition n-dimensions support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        XYZ_w = np.array([1.09846607, 1., 0.3558228])
+        XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
+            np.array([0.08397461, 0.11413219, 0.28625545]),
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
+            np.array([[0.08397461, 0.11413219, 0.28625545],
+                      [0.08397461, 0.11413219, 0.28625545],
+                      [0.08397461, 0.11413219, 0.28625545],
+                      [0.08397461, 0.11413219, 0.28625545],
+                      [0.08397461, 0.11413219, 0.28625545],
+                      [0.08397461, 0.11413219, 0.28625545]]),
             decimal=7)
 
 
