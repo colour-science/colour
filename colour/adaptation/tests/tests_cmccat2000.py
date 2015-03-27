@@ -81,9 +81,7 @@ class TestCMCCAT2000Forward(unittest.TestCase):
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-
         XYZ_c = np.array([19.52698326, 23.0683396, 24.97175229])
-
         np.testing.assert_almost_equal(
             CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
             XYZ_c,
@@ -157,9 +155,7 @@ class TestCMCCAT2000Reverse(unittest.TestCase):
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-
         XYZ_c = np.array([22.48, 22.74, 8.54])
-
         np.testing.assert_almost_equal(
             CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
             XYZ_c,

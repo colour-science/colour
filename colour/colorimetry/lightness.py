@@ -172,7 +172,7 @@ def lightness_1976(Y, Y_n=100):
     Examples
     --------
     >>> lightness_1976(10.08)  # doctest: +ELLIPSIS
-    37.9856290...
+    array(37.9856290...)
     """
 
     Y = np.asarray(Y)
@@ -232,11 +232,11 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Examples
     --------
     >>> lightness(10.08)  # doctest: +ELLIPSIS
-    37.9856290...
+    array(37.9856290...)
     >>> lightness(10.08, Y_n=100)  # doctest: +ELLIPSIS
-    37.9856290...
+    array(37.9856290...)
     >>> lightness(10.08, Y_n=95)  # doctest: +ELLIPSIS
-    38.9165987...
+    array(38.9165987...)
     >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS

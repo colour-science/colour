@@ -69,7 +69,6 @@ class TestCartesianToSpherical(unittest.TestCase):
 
         vector_i = np.array([3, 1, 6])
         vector_o = np.array([6.78232998, 1.08574654, 0.32175055])
-
         np.testing.assert_almost_equal(
             cartesian_to_spherical(vector_i),
             vector_o,
@@ -126,7 +125,6 @@ class TestSphericalToCartesian(unittest.TestCase):
 
         vector_i = np.array([6.78232998, 1.08574654, 0.32175055])
         vector_o = np.array([3, 1, 6])
-
         np.testing.assert_almost_equal(
             spherical_to_cartesian(vector_i),
             vector_o,
@@ -183,7 +181,6 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
         vector_i = np.array([3, 1, 6])
         vector_o = np.array([6., 0.32175055, 3.16227766])
-
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(vector_i),
             vector_o,
@@ -240,7 +237,6 @@ class TestCylindricalToCartesian(unittest.TestCase):
 
         vector_i = np.array([6., 0.32175055, 3.16227766])
         vector_o = np.array([3, 1, 6])
-
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(vector_i),
             vector_o,
