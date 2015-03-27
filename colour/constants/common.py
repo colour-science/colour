@@ -28,14 +28,14 @@ Floating point number regex matching pattern.
 FLOATING_POINT_NUMBER_PATTERN : unicode
 """
 
-INTEGER_THRESHOLD = 0.001
+INTEGER_THRESHOLD = 1e-3
 """
 Integer threshold value.
 
 INTEGER_THRESHOLD : numeric
 """
 
-EPSILON = 0.0000001
+EPSILON = 1e-15
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.

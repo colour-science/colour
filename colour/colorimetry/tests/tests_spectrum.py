@@ -1909,8 +1909,7 @@ class TestSpectralShape(unittest.TestCase):
         :attr:`colour.colorimetry.spectrum.SpectralShape.start` attribute.
         """
 
-        shape = SpectralShape(360, 830, 1)
-        self.assertEqual(shape.start, 360)
+        self.assertEqual(SpectralShape(360, 830, 1).start, 360)
         self.assertRaises(AssertionError, lambda: SpectralShape(360, 360, 1))
         self.assertRaises(AssertionError, lambda: SpectralShape(360, 0, 1))
 
@@ -1920,8 +1919,7 @@ class TestSpectralShape(unittest.TestCase):
         :attr:`colour.colorimetry.spectrum.SpectralShape.end` attribute.
         """
 
-        shape = SpectralShape(360, 830, 1)
-        self.assertEqual(shape.end, 830)
+        self.assertEqual(SpectralShape(360, 830, 1).end, 830)
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 830, 1))
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 0, 1))
 
@@ -1931,8 +1929,7 @@ class TestSpectralShape(unittest.TestCase):
         :attr:`colour.colorimetry.spectrum.SpectralShape.steps` attribute.
         """
 
-        shape = SpectralShape(360, 830, 1)
-        self.assertEqual(shape.steps, 1)
+        self.assertEqual(SpectralShape(360, 830, 1).steps, 1)
 
     def test__iter__(self):
         """
@@ -1951,9 +1948,11 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        shape = SpectralShape(360, 830, 0.1)
-        self.assertIn(360.1, shape)
-        self.assertNotIn(360.11, shape)
+        self.assertIn(360.1, SpectralShape(360, 830, 0.1))
+        self.assertNotIn(360.11, SpectralShape(360, 830, 0.1))
+
+        self.assertIn((0.5, 0.6), SpectralShape(0, 10, 0.1))
+        self.assertNotIn((0.5, 0.61), SpectralShape(0, 10, 0.1))
 
     def test__len__(self):
         """

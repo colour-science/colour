@@ -29,6 +29,7 @@ from colour.algebra import (
     SplineInterpolator,
     SpragueInterpolator)
 from colour.utilities import (
+    in_array,
     steps,
     is_iterable,
     is_numeric,
@@ -277,13 +278,19 @@ class SpectralShape(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric or array_like
             Wavelength :math:`\lambda`.
 
         Returns
         -------
         bool
             Is wavelength :math:`\lambda` in the spectral shape.
+
+        Warning
+        -------
+        The wavelength is tested to be contained in the spectral shape within
+        the tolerance defined by :attr:`colour.constants.common.EPSILON`
+        attribute value.
 
         Notes
         -----
@@ -293,11 +300,17 @@ class SpectralShape(object):
         --------
         >>> 0.5 in SpectralShape(0, 10, 0.1)
         True
+        >>> 0.6 in SpectralShape(0, 10, 0.1)
+        True
         >>> 0.51 in SpectralShape(0, 10, 0.1)
+        False
+        >>> (0.5, 0.6) in SpectralShape(0, 10, 0.1)
+        True
+        >>> (0.51, 0.6) in SpectralShape(0, 10, 0.1)
         False
         """
 
-        return wavelength in self.range()
+        return np.all(in_array(np.ravel(wavelength), self.range()))
 
     def __len__(self):
         """
