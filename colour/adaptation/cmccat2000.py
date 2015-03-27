@@ -66,7 +66,7 @@ class CMCCAT2000_InductionFactors(
 
     Parameters
     ----------
-    F : numeric
+    F : numeric or array_like
         :math:`F` surround condition.
     """
 
@@ -96,22 +96,22 @@ def CMCCAT2000_forward(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ : array_like
         *CIE XYZ* colourspace stimulus to adapt.
-    XYZ_w : array_like, (3,)
+    XYZ_w : array_like
         Test viewing condition *CIE XYZ* colourspace matrix.
-    XYZ_wr : array_like, (3,)
+    XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* colourspace matrix.
-    L_A1 : numeric
+    L_A1 : numeric or array_like
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric
+    L_A2 : numeric or array_like
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ_c* colourspace matrix of the stimulus corresponding colour.
 
     Warning
@@ -135,23 +135,25 @@ def CMCCAT2000_forward(XYZ,
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
 
-    XYZ, XYZ_w, XYZ_wr = np.ravel(XYZ), np.ravel(XYZ_w), np.ravel(XYZ_wr)
+    L_A1 = np.asarray(L_A1)
+    L_A2 = np.asarray(L_A2)
 
-    RGB = np.dot(CMCCAT2000_CAT, XYZ.reshape(3, 1))
-    RGB_w = np.dot(CMCCAT2000_CAT, XYZ_w.reshape(3, 1))
-    RGB_wr = np.dot(CMCCAT2000_CAT, XYZ_wr.reshape(3, 1))
+    RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
+    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
-    D = 0 if D < 0 else 1 if D > 1 else D
-    a = D * XYZ_w[1] / XYZ_wr[1]
+    D = np.clip(D, 0, 1)
+    a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = RGB * (a * (RGB_wr / RGB_w) + 1 - D)
-    XYZ_c = np.dot(CMCCAT2000_INVERSE_CAT, RGB_c)
+    RGB_c = (RGB *
+             (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    XYZ_c = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB_c)
 
-    return np.ravel(XYZ_c)
+    return XYZ_c
 
 
 def CMCCAT2000_reverse(XYZ_c,
@@ -168,22 +170,22 @@ def CMCCAT2000_reverse(XYZ_c,
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ : array_like
         *CIE XYZ* colourspace stimulus to adapt.
-    XYZ_w : array_like, (3,)
+    XYZ_w : array_like
         Test viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    XYZ_wr : array_like, (3,)
+    XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    L_A1 : numeric
+    L_A1 : numeric or array_like
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric
+    L_A2 : numeric or array_like
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ_c* stimulus colourspace matrix.
 
     Warning
@@ -207,23 +209,25 @@ def CMCCAT2000_reverse(XYZ_c,
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
 
-    XYZ_c, XYZ_w, XYZ_wr = np.ravel(XYZ_c), np.ravel(XYZ_w), np.ravel(XYZ_wr)
+    L_A1 = np.asarray(L_A1)
+    L_A2 = np.asarray(L_A2)
 
-    RGB_c = np.dot(CMCCAT2000_CAT, XYZ_c.reshape(3, 1))
-    RGB_w = np.dot(CMCCAT2000_CAT, XYZ_w.reshape(3, 1))
-    RGB_wr = np.dot(CMCCAT2000_CAT, XYZ_wr.reshape(3, 1))
+    RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
+    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
           0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
 
-    D = 0 if D < 0 else 1 if D > 1 else D
-    a = D * XYZ_w[1] / XYZ_wr[1]
+    D = np.clip(D, 0, 1)
+    a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = RGB_c / (a * (RGB_wr / RGB_w) + 1 - D)
-    XYZ = np.dot(CMCCAT2000_INVERSE_CAT, RGB)
+    RGB = (RGB_c /
+           (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    XYZ = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB)
 
-    return np.ravel(XYZ)
+    return XYZ
 
 
 def chromatic_adaptation_CMCCAT2000(
@@ -242,15 +246,15 @@ def chromatic_adaptation_CMCCAT2000(
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ : array_like
         *CIE XYZ* colourspace matrix to adapt.
-    XYZ_w : array_like, (3,)
+    XYZ_w : array_like
         Source viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    XYZ_wr : array_like, (3,)
+    XYZ_wr : array_like
         Target viewing condition *CIE XYZ* colourspace whitepoint matrix.
-    L_A1 : numeric
+    L_A1 : numeric or array_like
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric
+    L_A2 : numeric or array_like
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
@@ -260,7 +264,7 @@ def chromatic_adaptation_CMCCAT2000(
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Adapted *CIE XYZ* colourspace matrix.
 
     Warning

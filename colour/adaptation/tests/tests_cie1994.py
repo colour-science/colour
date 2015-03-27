@@ -76,7 +76,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
     def test_n_dimensions_chromatic_adaptation_CIE1994(self):
         """
         Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
-        definition n-dimensions handling.
+        definition n-dimensions support.
         """
 
         XYZ_1 = np.array([28.0, 21.26, 5.27])

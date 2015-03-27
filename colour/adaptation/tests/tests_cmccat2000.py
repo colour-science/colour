@@ -70,6 +70,45 @@ class TestCMCCAT2000Forward(unittest.TestCase):
             np.array([24.68548451, 19.08228483, 7.81570209]),
             decimal=7)
 
+    def test_n_dimensions_CMCCAT2000_forward(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_forward`
+        definition n-dimensions support.
+        """
+
+        XYZ = np.array([22.48, 22.74, 8.54])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+
+        np.testing.assert_almost_equal(
+            CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([19.52698326, 23.0683396, 24.97175229]),
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([[19.52698326, 23.0683396, 24.97175229],
+                      [19.52698326, 23.0683396, 24.97175229],
+                      [19.52698326, 23.0683396, 24.97175229],
+                      [19.52698326, 23.0683396, 24.97175229],
+                      [19.52698326, 23.0683396, 24.97175229],
+                      [19.52698326, 23.0683396, 24.97175229]]),
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([[[19.52698326, 23.0683396, 24.97175229],
+                       [19.52698326, 23.0683396, 24.97175229],
+                       [19.52698326, 23.0683396, 24.97175229]],
+                      [[19.52698326, 23.0683396, 24.97175229],
+                       [19.52698326, 23.0683396, 24.97175229],
+                       [19.52698326, 23.0683396, 24.97175229]]]),
+            decimal=7)
+
 
 class TestCMCCAT2000Reverse(unittest.TestCase):
     """
@@ -111,6 +150,45 @@ class TestCMCCAT2000Reverse(unittest.TestCase):
                 100,
                 100),
             np.array([0.25506814, 0.1915, 0.08849752]) * 100,
+            decimal=7)
+
+    def test_n_dimensions_CMCCAT2000_reverse(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_reverse`
+        definition n-dimensions support.
+        """
+
+        XYZ = np.array([19.52698326, 23.0683396, 24.97175229])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+
+        np.testing.assert_almost_equal(
+            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([22.48, 22.74, 8.54]),
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([[22.48, 22.74, 8.54],
+                      [22.48, 22.74, 8.54],
+                      [22.48, 22.74, 8.54],
+                      [22.48, 22.74, 8.54],
+                      [22.48, 22.74, 8.54],
+                      [22.48, 22.74, 8.54]]),
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            np.array([[[22.48, 22.74, 8.54],
+                       [22.48, 22.74, 8.54],
+                       [22.48, 22.74, 8.54]],
+                      [[22.48, 22.74, 8.54],
+                       [22.48, 22.74, 8.54],
+                       [22.48, 22.74, 8.54]]]),
             decimal=7)
 
 
