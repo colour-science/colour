@@ -30,6 +30,8 @@ References
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping, warning
 
@@ -54,7 +56,7 @@ def lightness_Glasser1958(Y, **kwargs):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -62,7 +64,7 @@ def lightness_Glasser1958(Y, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *Lightness* :math:`L`.
 
     Notes
@@ -82,6 +84,8 @@ def lightness_Glasser1958(Y, **kwargs):
     36.2505626...
     """
 
+    Y = np.asarray(Y)
+
     L = 25.29 * (Y ** (1 / 3)) - 18.38
 
     return L
@@ -95,7 +99,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -103,7 +107,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *Lightness* :math:`W`.
 
     Notes
@@ -122,7 +126,9 @@ def lightness_Wyszecki1963(Y, **kwargs):
     37.0041149...
     """
 
-    if not 1 < Y < 98:
+    Y = np.asarray(Y)
+
+    if np.any(Y < 1) or np.any(Y > 98):
         warning(('"W*" Lightness computation is only applicable for '
                  '1% < "Y" < 98%, unpredictable results may occur!'))
 
@@ -139,14 +145,14 @@ def lightness_1976(Y, Y_n=100):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
-    Y_n : numeric, optional
+    Y_n : numeric or array_like, optional
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *Lightness* :math:`L^*`.
 
     Notes
@@ -169,8 +175,14 @@ def lightness_1976(Y, Y_n=100):
     37.9856290...
     """
 
-    ratio = Y / Y_n
-    Lstar = CIE_K * ratio if ratio <= CIE_E else 116 * ratio ** (1 / 3) - 16
+    Y = np.asarray(Y)
+    Y_n = np.asarray(Y_n)
+
+    Lstar = Y / Y_n
+
+    Lstar = np.where(Lstar <= CIE_E,
+                     CIE_K * Lstar,
+                     116 * Lstar ** (1 / 3) - 16)
 
     return Lstar
 
@@ -198,7 +210,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
         {'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'},
@@ -208,7 +220,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *Lightness* :math:`L^*`.
 
     Notes
