@@ -208,6 +208,42 @@ class TestWavelength_to_XYZ(unittest.TestCase):
             np.array([0.44575583, 0.18184213, 0.]),
             decimal=7)
 
+    def test_n_dimensions_wavelength_to_XYZ(self):
+        """
+        Tests
+        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition
+        n-dimensions support.
+        """
+
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        wl = 480
+        XYZ = np.array([0.09564, 0.13902, 0.81295])
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs),
+            XYZ,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs),
+            XYZ,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs),
+            XYZ,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs),
+            XYZ,
+            decimal=7)
+
 
 if __name__ == '__main__':
     unittest.main()

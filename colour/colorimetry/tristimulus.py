@@ -17,10 +17,6 @@ See Also
 
 from __future__ import division, unicode_literals
 
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
@@ -116,7 +112,6 @@ def spectral_to_XYZ(spd,
     return XYZ
 
 
-@lru_cache(maxsize=8192)
 def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           'CIE 1931 2 Degree Standard Observer')):
@@ -132,14 +127,14 @@ def wavelength_to_XYZ(wavelength,
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE XYZ* colourspace matrix.
 
     Raises
@@ -162,11 +157,12 @@ def wavelength_to_XYZ(wavelength,
     array([ 0.09564  ,  0.13902  ,  0.812950...])
     """
 
-    shape = cmfs.shape
-    if wavelength < shape.start or wavelength > shape.end:
+    cmfs_shape = cmfs.shape
+    if (np.min(wavelength) < cmfs_shape.start or
+                np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
             '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, shape.start, shape.end))
+                wavelength, cmfs_shape.start, cmfs_shape.end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
@@ -177,7 +173,11 @@ def wavelength_to_XYZ(wavelength,
         interpolators = [interpolator(wavelengths, values[:, i])
                          for i in range(values.shape[-1])]
 
-        return np.array([interpolator_i(wavelength)
-                         for interpolator_i in interpolators])
+        XYZ = np.dstack([interpolator(np.ravel(wavelength))
+                         for interpolator in interpolators])
     else:
-        return np.array(cmfs.get(wavelength))
+        XYZ = cmfs.get(wavelength)
+
+    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
+
+    return XYZ
