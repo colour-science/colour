@@ -1976,8 +1976,9 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        self.assertNotEqual(SpectralShape(0, 10, 0.1),
-                            SpectralShape(1, 10, 0.1))
+        self.assertNotEqual(
+            SpectralShape(0, 10, 0.1),
+            SpectralShape(1, 10, 0.1))
 
     def test_range(self):
         """
@@ -2061,8 +2062,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         attribute.
         """
 
-        np.testing.assert_almost_equal(self.__spd.wavelengths,
-                                       sorted(SAMPLE_SPD_DATA))
+        np.testing.assert_almost_equal(
+            self.__spd.wavelengths,
+            sorted(SAMPLE_SPD_DATA))
 
     def test_values(self):
         """
@@ -2091,9 +2093,41 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        self.assertEqual(self.__spd[340], 0.)
-        self.assertEqual(self.__spd[620], 0.1511)
-        self.assertEqual(self.__spd[820], 0.)
+        self.assertEqual(self.__spd[400], 0.0641)
+
+        np.testing.assert_almost_equal(
+            self.__spd[(340, 620, 820)],
+            np.array([0, 0.1511, 0]))
+
+        np.testing.assert_almost_equal(
+            self.__spd[3:6],
+            np.array([0.0641, 0.0645, 0.0562]))
+
+    def test__setitem__(self):
+        """
+        Tests
+        :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__setitem__`  # noqa
+        method.
+        """
+
+        spd = SpectralPowerDistribution('Spd', {})
+        spd[510] = 49.6700
+        np.testing.assert_almost_equal(spd.values, np.array(49.6700))
+
+        spd[(520, 530)] = (69.59, 81.73)
+        np.testing.assert_almost_equal(
+            spd.values,
+            np.array([49.67, 69.59, 81.73]))
+
+        spd[(540, 550)] = 88.19
+        np.testing.assert_almost_equal(
+            spd.values,
+            np.array([49.67, 69.59, 81.73, 88.19, 88.19]))
+
+        spd[:] = 49.67
+        np.testing.assert_almost_equal(
+            spd.values,
+            np.array([49.67, 49.67, 49.67, 49.67, 49.67]))
 
     def test__iter__(self):
         """
@@ -2248,6 +2282,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__pow__`
         method.
         """
+
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal((spd ** 2).values, values ** 2)
@@ -2287,7 +2322,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         self.assertEqual(self.__spd.get(340), 0.)
         self.assertEqual(self.__spd.get(620), 0.1511)
         self.assertEqual(self.__spd.get(820), 0.)
-        self.assertEqual(self.__spd.get(900, -1), -1)
+        self.assertEqual(self.__spd.get(900, 0), 0)
+        np.testing.assert_almost_equal(self.__spd.get((340, 620, 820)),
+                                       np.array([0., 0.1511, 0.]))
 
     def test_is_uniform(self):
         """
@@ -2343,6 +2380,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         shape = SpectralShape(100, 900, 5)
         self.assertEqual(self.__spd.clone().align(shape).shape, shape)
+
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(self.__spd.clone().align(shape).shape, shape)
 
@@ -2516,14 +2554,66 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            self.__tri_spd[380],
-            np.array((0.001368, 3.9e-05, 0.00645)))
+            self.__tri_spd[400],
+            np.array([0.01431, 0.000396, 0.06785]))
+
         np.testing.assert_almost_equal(
-            self.__tri_spd[600],
-            np.array((1.0622, 0.631, 0.0008)))
+            self.__tri_spd[(380, 580, 780)],
+            np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
+                      [9.16300000e-01, 8.70000000e-01, 1.65000000e-03],
+                      [4.20000000e-05, 1.50000000e-05, 0.00000000e+00]]))
+
         np.testing.assert_almost_equal(
-            self.__tri_spd[700],
-            np.array((0.011359, 0.004102, 0.)))
+            self.__tri_spd[3:6],
+            np.array([[0.00765, 0.000217, 0.03621],
+                      [0.01431, 0.000396, 0.06785],
+                      [0.02319, 0.00064, 0.1102]]))
+
+    def test__setitem__(self):
+        """
+        Tests
+        :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__setitem__`  # noqa
+        method.
+        """
+
+        x_bar = {}
+        y_bar = {}
+        z_bar = {}
+        data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        tri_spd[510] = (49.67, 49.67, 49.67)
+        np.testing.assert_almost_equal(
+            tri_spd.values,
+            np.array([[49.67, 49.67, 49.67]]))
+
+        tri_spd[(520, 530)] = ((69.59, 69.59, 69.59),
+                               (81.73, 81.73, 81.73))
+        np.testing.assert_almost_equal(
+            tri_spd.values,
+            np.array([[49.67, 49.67, 49.67],
+                      [69.59, 69.59, 69.59],
+                      [81.73, 81.73, 81.73]]))
+
+        tri_spd[(540, 550)] = 88.19
+        np.testing.assert_almost_equal(
+            tri_spd.values,
+            np.array([[49.67, 49.67, 49.67],
+                      [69.59, 69.59, 69.59],
+                      [81.73, 81.73, 81.73],
+                      [88.19, 88.19, 88.19],
+                      [88.19, 88.19, 88.19]]))
+
+        tri_spd[:] = 49.67
+        print(repr(tri_spd.values))
+        np.testing.assert_almost_equal(
+            tri_spd.values,
+            np.array([[49.67, 49.67, 49.67],
+                      [49.67, 49.67, 49.67],
+                      [49.67, 49.67, 49.67],
+                      [49.67, 49.67, 49.67],
+                      [49.67, 49.67, 49.67]]))
+
 
     def test__iter__(self):
         """
@@ -2687,6 +2777,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests :func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`  # noqa
         method.
         """
+
         tri_spd = self.__tri_spd.clone()
         values = tri_spd.values
         np.testing.assert_almost_equal((tri_spd ** 2).values, values ** 2)
@@ -2726,15 +2817,24 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             self.__tri_spd.get(380),
             np.array((0.001368, 3.9e-05, 0.00645)))
+
         np.testing.assert_almost_equal(
             self.__tri_spd.get(600),
             np.array((1.0622, 0.631, 0.0008)))
+
         np.testing.assert_almost_equal(
             self.__tri_spd.get(700),
             np.array((0.011359, 0.004102, 0.)))
+
         np.testing.assert_almost_equal(
             self.__tri_spd.get(900, (0, 0, 0)),
             np.array((0, 0, 0)))
+
+        np.testing.assert_almost_equal(
+            self.__tri_spd.get((380, 600, 700)),
+            np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
+                      [1.06220000e+00, 6.31000000e-01, 8.00000000e-04],
+                      [1.13590000e-02, 4.10200000e-03, 0.00000000e+00]]))
 
     def test_is_uniform(self):
         """
@@ -2808,6 +2908,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         shape = SpectralShape(100, 900, 5)
         self.assertEqual(tri_spd.align(shape).shape, shape)
+
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(tri_spd.align(shape).shape, shape)
 

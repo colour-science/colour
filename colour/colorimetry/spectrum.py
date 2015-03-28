@@ -35,6 +35,7 @@ from colour.utilities import (
     is_numeric,
     is_uniform,
     is_string,
+    tstack,
     warning)
 
 __author__ = 'Colour Developers'
@@ -310,7 +311,7 @@ class SpectralShape(object):
         False
         """
 
-        return np.all(in_array(np.ravel(wavelength), self.range()))
+        return np.all(in_array(wavelength, self.range()))
 
     def __len__(self):
         """
@@ -794,12 +795,12 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength: numeric
+        wavelength: numeric, array_like or slice
             Wavelength :math:`\lambda` to retrieve the value.
 
         Returns
         -------
-        numeric
+        numeric or ndarray
             Wavelength :math:`\lambda` value.
 
         See Also
@@ -816,10 +817,22 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[510]  # doctest: +ELLIPSIS
-        49.67...
+        array(49.67...)
+        >>> spd[(510, 520)]
+        array([ 49.67,  69.59])
+        >>> spd[:]
+        array([ 49.67,  69.59,  81.73,  88.19])
         """
 
-        return self.__data.__getitem__(wavelength)
+        if type(wavelength) is slice:
+            return self.values[wavelength]
+        else:
+            wavelength = np.asarray(wavelength)
+
+            value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
+            value = np.reshape(value, wavelength.shape)
+
+            return value
 
     def __setitem__(self, wavelength, value):
         """
@@ -827,10 +840,14 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric, array_like or slice
             Wavelength :math:`\lambda` to set.
-        value : numeric
+        value : numeric or array_like
             Value for wavelength :math:`\lambda`.
+
+        Warning
+        -------
+        *value* parameter is resized to match *wavelength* parameter size.
 
         Notes
         -----
@@ -839,12 +856,32 @@ class SpectralPowerDistribution(object):
         Examples
         --------
         >>> spd = SpectralPowerDistribution('Spd', {})
-        >>> spd[510] = 49.6700
+        >>> spd[510] = 49.67
         >>> spd.values
         array([ 49.67])
+        >>> spd[(520, 530)] = (69.59, 81.73)
+        >>> spd.values
+        array([ 49.67,  69.59,  81.73])
+        >>> spd[(540, 550)] = 88.19
+        >>> spd.values
+        array([ 49.67,  69.59,  81.73,  88.19,  88.19])
+        >>> spd[:] = 49.67
+        >>> spd.values
+        array([ 49.67,  49.67,  49.67,  49.67,  49.67])
         """
 
-        self.__data.__setitem__(wavelength, value)
+        if is_numeric(wavelength) or is_iterable(wavelength):
+            wavelengths = np.ravel(wavelength)
+        elif type(wavelength) is slice:
+            wavelengths = self.wavelengths[wavelength]
+        else:
+            raise NotImplementedError(
+                '"{0}" type is not supported for indexing!'.format(
+                    type(wavelength)))
+
+        values = np.resize(value, wavelengths.shape)
+        for i in range(len(wavelengths)):
+            self.__data.__setitem__(wavelengths[i], values[i])
 
     def __iter__(self):
         """
@@ -880,7 +917,7 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric or array_like
             Wavelength :math:`\lambda`.
 
         Returns
@@ -898,9 +935,13 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> 510 in spd
         True
+        >>> (510, 520) in spd
+        True
+        >>> (510, 520, 521) in spd
+        False
         """
 
-        return wavelength in self.__data
+        return np.all(in_array(wavelength, self.wavelengths))
 
     def __len__(self):
         """
@@ -1322,14 +1363,14 @@ class SpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric or ndarray
             Wavelength :math:`\lambda` to retrieve the value.
         default : None or numeric, optional
             Wavelength :math:`\lambda` default value.
 
         Returns
         -------
-        numeric
+        numeric or ndarray
             Wavelength :math:`\lambda` value.
 
         See Also
@@ -1342,15 +1383,19 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd.get(510)  # doctest: +ELLIPSIS
-        49.67...
-        >>> spd.get(511)  # doctest: +SKIP
-        None
+        array(49.67...)
+        >>> spd.get(511)
+        array(None, dtype=object)
+        >>> spd.get((510, 520))
+        array([ 49.67,  69.59])
         """
 
-        try:
-            return self.__getitem__(wavelength)
-        except KeyError:
-            return default
+        wavelength = np.asarray(wavelength)
+
+        value = [self.data.get(x, default) for x in np.ravel(wavelength)]
+        value = np.reshape(value, wavelength.shape)
+
+        return value
 
     def is_uniform(self):
         """
@@ -1428,10 +1473,10 @@ class SpectralPowerDistribution(object):
         SpectralShape(400, 700, 10)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[400]  # doctest: +ELLIPSIS
-        49.67...
+        array(49.67...)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[700]  # doctest: +ELLIPSIS
-        88.1...
+        array(88.1...)
         """
 
         extrapolator = Extrapolator1d(
@@ -1527,7 +1572,7 @@ class SpectralPowerDistribution(object):
         >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
-        60.3121800...
+        array(60.3121800...)
 
         Non uniform data is using *Cubic Spline* interpolation by default:
 
@@ -1543,7 +1588,7 @@ class SpectralPowerDistribution(object):
         >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
-        21.4792222...
+        array(21.4792222...)
 
         Enforcing *Linear* interpolation:
 
@@ -1557,9 +1602,8 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
-        >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[515]  # doctest: +ELLIPSIS
-        59.63...
+        array(59.63...)
         """
 
         spd_shape = self.shape
@@ -2325,12 +2369,12 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength: numeric
+        wavelength: numeric, array_like or slice
             Wavelength :math:`\lambda` to retrieve the values.
 
         Returns
         -------
-        ndarray, (3,)
+        ndarray
             Wavelength :math:`\lambda` values.
 
         See Also
@@ -2351,11 +2395,21 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
+        >>> tri_spd[(510, 520)]
+        array([[ 49.67,  90.56,  12.43],
+               [ 69.59,  87.34,  23.15]])
+        >>> tri_spd[:]
+        array([[ 49.67,  90.56,  12.43],
+               [ 69.59,  87.34,  23.15],
+               [ 81.73,  45.76,  67.98],
+               [ 88.19,  23.45,  90.28]])
         """
 
-        return np.array((self.x[wavelength],
-                         self.y[wavelength],
-                         self.z[wavelength]))
+        value = tstack((np.asarray(self.x[wavelength]),
+                        np.asarray(self.y[wavelength]),
+                        np.asarray(self.z[wavelength])))
+
+        return value
 
     def __setitem__(self, wavelength, value):
         """
@@ -2363,10 +2417,14 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric, array_like or slice
             Wavelength :math:`\lambda` to set.
         value : array_like
             Value for wavelength :math:`\lambda`.
+
+        Warning
+        -------
+        *value* parameter is resized to match *wavelength* parameter size.
 
         Notes
         -----
@@ -2380,16 +2438,46 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd[510] = (49.6700, 49.6700, 49.6700)
+        >>> tri_spd[510] = (49.67, 49.67, 49.67)
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
+        >>> tri_spd[(520, 530)] = ((69.59, 69.59, 69.59),
+        ...                        (81.73, 81.73, 81.73))
+        >>> tri_spd.values
+        array([[ 49.67,  49.67,  49.67],
+               [ 69.59,  69.59,  69.59],
+               [ 81.73,  81.73,  81.73]])
+        >>> tri_spd[(540, 550)] = 88.19
+        >>> tri_spd.values
+        array([[ 49.67,  49.67,  49.67],
+               [ 69.59,  69.59,  69.59],
+               [ 81.73,  81.73,  81.73],
+               [ 88.19,  88.19,  88.19],
+               [ 88.19,  88.19,  88.19]])
+        >>> tri_spd[:] = 49.67
+        >>> tri_spd.values
+        array([[ 49.67,  49.67,  49.67],
+               [ 49.67,  49.67,  49.67],
+               [ 49.67,  49.67,  49.67],
+               [ 49.67,  49.67,  49.67],
+               [ 49.67,  49.67,  49.67]])
         """
 
-        x, y, z = np.ravel(value)
+        if is_numeric(wavelength) or is_iterable(wavelength):
+            wavelengths = np.ravel(wavelength)
+        elif type(wavelength) is slice:
+            wavelengths = self.wavelengths[wavelength]
+        else:
+            raise NotImplementedError(
+                '"{0}" type is not supported for indexing!'.format(
+                    type(wavelength)))
 
-        self.x.__setitem__(wavelength, x)
-        self.y.__setitem__(wavelength, y)
-        self.z.__setitem__(wavelength, z)
+        value = np.resize(value, (wavelengths.shape[0], 3))
+
+        self.x.__setitem__(wavelengths, value[..., 0])
+        self.y.__setitem__(wavelengths, value[..., 1])
+        self.z.__setitem__(wavelengths, value[..., 2])
+
 
     def __iter__(self):
         """
@@ -2428,7 +2516,7 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric or array_like
             Wavelength :math:`\lambda`.
 
         Returns
@@ -2451,7 +2539,10 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> 510 in tri_spd
         True
-
+        >>> (510, 520) in tri_spd
+        True
+        >>> (510, 520, 521) in tri_spd
+        False
         """
 
         return wavelength in self.x
@@ -2971,14 +3062,14 @@ class TriSpectralPowerDistribution(object):
 
         Parameters
         ----------
-        wavelength : numeric
+        wavelength : numeric or array_like
             Wavelength :math:`\lambda` to retrieve the values.
-        default : None or numeric, optional
+        default : None, numeric or array_like, optional
             Wavelength :math:`\lambda` default values.
 
         Returns
         -------
-        numeric
+        numeric or array_like
             Wavelength :math:`\lambda` values.
 
         See Also
@@ -2993,16 +3084,30 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd[510]
+        >>> tri_spd.get(510)
         array([ 49.67,  90.56,  12.43])
-        >>> tri_spd.get(511)  # doctest: +SKIP
-        None
+        >>> tri_spd.get((510, 520))
+        array([[ 49.67,  90.56,  12.43],
+               [ 69.59,  87.34,  23.15]])
+        >>> tri_spd.get(511)
+        array([array(None, dtype=object), array(None, dtype=object),
+               array(None, dtype=object)], dtype=object)
+        >>> tri_spd.get((510, 520))
+        array([[ 49.67,  90.56,  12.43],
+               [ 69.59,  87.34,  23.15]])
         """
 
-        try:
-            return self.__getitem__(wavelength)
-        except KeyError:
-            return default
+        wavelength = np.asarray(wavelength)
+
+        default = np.resize(default, 3)
+        value = np.asarray([(self.x.get(x, default[0]),
+                             self.y.get(x, default[1]),
+                             self.z.get(x, default[2]))
+                            for x in np.ravel(wavelength)])
+
+        value = np.reshape(value, wavelength.shape + (3,))
+
+        return value
 
     def is_uniform(self):
         """
@@ -3627,7 +3732,7 @@ def constant_spd(k,
     >>> spd.shape
     SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
-    100.0
+    array(100.0)
     """
 
     wavelengths = shape.range()
@@ -3667,7 +3772,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     >>> spd.shape
     SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
-    0.0
+    array(0.0)
     """
 
     return constant_spd(0, shape)
@@ -3703,7 +3808,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     >>> spd.shape
     SpectralShape(360.0, 830.0, 1.0)
     >>> spd[400]
-    1.0
+    array(1.0)
     """
 
     return constant_spd(1, shape)

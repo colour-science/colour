@@ -672,8 +672,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     True
     >>> spd.header.manufacturer
     'Unknown'
+    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> spd[501.7]  # doctest: +ELLIPSIS
-    0.095...
+    array(0.095...)
     """
 
     def __init__(self,
@@ -993,8 +994,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         True
         >>> spd.header.description
         'Rare earth fluorescent lamp'
+        >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[400]  # doctest: +ELLIPSIS
-        0.034...
+        array(0.034...)
         """
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
