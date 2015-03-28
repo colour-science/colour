@@ -25,6 +25,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -47,12 +48,12 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
     Raises
@@ -83,33 +84,42 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     """
 
     cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
-    r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
-        wavelength), cmfs.b_bar.get(wavelength)
-    if None in (r_bar, g_bar, b_bar):
+
+    try:
+        rgb_bar = cmfs[wavelength]
+    except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
-            wavelength, cmfs.name, cmfs.shape))
+            error.args[0], cmfs.name, cmfs.shape))
 
-    r = r_bar / (r_bar + g_bar + b_bar)
-    g = g_bar / (r_bar + g_bar + b_bar)
-    b = b_bar / (r_bar + g_bar + b_bar)
+    rgb = rgb_bar / np.sum(rgb_bar)
 
-    x = ((0.49000 * r + 0.31000 * g + 0.20000 * b) /
-         (0.66697 * r + 1.13240 * g + 1.20063 * b))
-    y = ((0.17697 * r + 0.81240 * g + 0.01063 * b) /
-         (0.66697 * r + 1.13240 * g + 1.20063 * b))
-    z = ((0.00000 * r + 0.01000 * g + 0.99000 * b) /
-         (0.66697 * r + 1.13240 * g + 1.20063 * b))
+    M1 = np.array([[0.49000, 0.31000, 0.20000],
+                   [0.17697, 0.81240, 0.01063],
+                   [0.00000, 0.01000, 0.99000]])
+
+    M2 = np.array([[0.66697, 1.13240, 1.20063],
+                   [0.66697, 1.13240, 1.20063],
+                   [0.66697, 1.13240, 1.20063]])
+
+    xyz = np.einsum('...ij,...j->...i', M1, rgb)
+    xyz /= np.einsum('...ij,...j->...i', M2, rgb)
+
+    x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
     V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
     V.align(cmfs.shape)
-    L = V.get(wavelength)
+    L = V[wavelength]
 
     x_bar = x / y * L
     y_bar = L
     z_bar = z / y * L
 
-    return np.array([x_bar, y_bar, z_bar])
+    xyz_bar = tstack((np.asarray(x_bar),
+                      np.asarray(y_bar),
+                      np.asarray(z_bar)))
+
+    return xyz_bar
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
@@ -120,12 +130,12 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
 
     Raises
@@ -156,18 +166,21 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     """
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
-    r_bar, g_bar, b_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
-        wavelength), cmfs.b_bar.get(wavelength)
-    if None in (r_bar, g_bar, b_bar):
+
+    try:
+        rgb_bar = cmfs[wavelength]
+    except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
-            wavelength, cmfs.name, cmfs.shape))
+            error.args[0], cmfs.name, cmfs.shape))
 
-    x_bar = 0.341080 * r_bar + 0.189145 * g_bar + 0.387529 * b_bar
-    y_bar = 0.139058 * r_bar + 0.837460 * g_bar + 0.073316 * b_bar
-    z_bar = 0.000000 * r_bar + 0.039553 * g_bar + 2.026200 * b_bar
+    M = np.array([[0.341080, 0.189145, 0.387529],
+                  [0.139058, 0.837460, 0.073316],
+                  [0.000000, 0.039553, 2.026200]])
 
-    return np.array([x_bar, y_bar, z_bar])
+    xyz_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
+
+    return xyz_bar
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
@@ -178,12 +191,12 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
         values.
 
@@ -211,19 +224,22 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     """
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
-    r_bar, g_bar, z_bar = cmfs.r_bar.get(wavelength), cmfs.g_bar.get(
-        wavelength), cmfs.b_bar.get(wavelength)
-    if None in (r_bar, g_bar, z_bar):
+
+    try:
+        rgb_bar = cmfs[wavelength]
+    except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
-            wavelength, cmfs.name, cmfs.shape))
+            error.args[0], cmfs.name, cmfs.shape))
 
-    l_bar = 0.192325269 * r_bar + 0.749548882 * g_bar + 0.0675726702 * z_bar
-    g_bar = 0.0192290085 * r_bar + 0.940908496 * g_bar + 0.113830196 * z_bar
-    z_bar = (0.0105107859 * g_bar + 0.991427669 * z_bar
-             if wavelength <= 505 else 0)
+    M = np.array([[0.1923252690, 0.749548882, 0.0675726702],
+                  [0.0192290085, 0.940908496, 0.113830196],
+                  [0.0000000000, 0.0105107859, 0.991427669]])
 
-    return np.array([l_bar, g_bar, z_bar])
+    lms_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
+    lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
+
+    return lms_bar
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -234,12 +250,12 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
 
     Raises
@@ -266,18 +282,21 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     """
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
-    l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
-        wavelength), cmfs.s_bar.get(wavelength)
-    if None in (l_bar, m_bar, s_bar):
+
+    try:
+        lms_bar = cmfs[wavelength]
+    except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
-            wavelength, cmfs.name, cmfs.shape))
+            error.args[0], cmfs.name, cmfs.shape))
 
-    x_bar = 1.94735469 * l_bar - 1.41445123 * m_bar + 0.36476327 * s_bar
-    y_bar = 0.68990272 * l_bar + 0.34832189 * m_bar
-    z_bar = 1.93485343 * s_bar
+    M = np.array([[1.94735469, -1.41445123, 0.36476327],
+                  [0.68990272, 0.34832189, 0.00000000],
+                  [0.00000000, 0.00000000, 1.93485343]])
 
-    return np.array([x_bar, y_bar, z_bar])
+    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
+
+    return xyz_bar
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
@@ -288,12 +307,12 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
 
     Raises
@@ -320,15 +339,18 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     """
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
-    l_bar, m_bar, s_bar = cmfs.l_bar.get(wavelength), cmfs.m_bar.get(
-        wavelength), cmfs.s_bar.get(wavelength)
-    if None in (l_bar, m_bar, s_bar):
+
+    try:
+        lms_bar = cmfs[wavelength]
+    except KeyError as error:
         raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
                         'matching functions with "{2}" shape!').format(
-            wavelength, cmfs.name, cmfs.shape))
+            error.args[0], cmfs.name, cmfs.shape))
 
-    x_bar = 1.93986443 * l_bar - 1.34664359 * m_bar + 0.43044935 * s_bar
-    y_bar = 0.69283932 * l_bar + 0.34967567 * m_bar
-    z_bar = 2.14687945 * s_bar
+    M = np.array([[1.93986443, -1.34664359, 0.43044935],
+                  [0.69283932, 0.34967567, 0.00000000],
+                  [0.00000000, 0.00000000, 2.14687945]])
 
-    return np.array([x_bar, y_bar, z_bar])
+    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
+
+    return xyz_bar

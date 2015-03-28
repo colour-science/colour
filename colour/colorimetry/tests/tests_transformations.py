@@ -66,6 +66,38 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.0025)
 
+    def test_n_dimensions_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
+        definition n-dimensions support.
+        """
+
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        wl = 700
+        XYZ = np.array([0.01135774, 0.004102, 0.])
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.tile(wl, 6)
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
@@ -96,6 +128,38 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs.get(700),
             atol=0.025)
+
+    def test_n_dimensions_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
+        definition n-dimensions support.
+        """
+
+        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        wl = 700
+        XYZ = np.array([9.64321500e-03, 3.75263179e-03, -4.10788300e-06])
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.tile(wl, 6)
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
 
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
@@ -128,6 +192,38 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.0025)
 
+    def test_n_dimensions_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
+        definition n-dimensions support.
+        """
+
+        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
+        wl = 700
+        LMS = np.array([0.00528607, 0.00032528, 0.])
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
+            LMS)
+
+        wl = np.tile(wl, 6)
+        LMS = np.tile(LMS, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
+            LMS)
+
+        wl = np.reshape(wl, (2, 3))
+        LMS = np.reshape(LMS, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
+            LMS)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        LMS = np.reshape(LMS, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
+            LMS)
+
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
@@ -159,6 +255,38 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.00015)
 
+    def test_n_dimensions_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
+        definition n-dimensions support.
+        """
+
+        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
+        wl = 700
+        XYZ = np.array([0.01096778, 0.00419594, 0.])
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.tile(wl, 6)
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
+            XYZ)
+
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
@@ -189,6 +317,38 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs.get(700),
             atol=0.00015)
+
+    def test_n_dimensions_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
+        definition n-dimensions support.
+        """
+
+        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
+        wl = 700
+        XYZ = np.array([0.00981623, 0.00377614, 0.])
+        np.testing.assert_almost_equal(
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.tile(wl, 6)
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
+        np.testing.assert_almost_equal(
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
+            XYZ)
 
 
 if __name__ == '__main__':
