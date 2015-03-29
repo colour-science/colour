@@ -61,6 +61,33 @@ class TestXYZ_to_xyY(unittest.TestCase):
             np.array([0.34567, 0.3585, 0.]),
             decimal=7)
 
+    def test_n_dimensions_XYZ_to_xyY(self):
+        """
+        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        xyY = np.array([0.26414772, 0.37770001, 0.1008])
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ),
+            xyY,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        xyY = np.tile(xyY, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ),
+            xyY,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        xyY = np.reshape(xyY, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ),
+            xyY,
+            decimal=7)
+
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
@@ -91,6 +118,33 @@ class TestxyY_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             xyY_to_XYZ(np.array([0.34567, 0.3585, 0.])),
             np.array([0, 0, 0]),
+            decimal=7)
+
+    def test_n_dimensions_xyY_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        xyY = np.array([0.26414772, 0.37770001, 0.1008])
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        np.testing.assert_almost_equal(
+            xyY_to_XYZ(xyY),
+            XYZ,
+            decimal=7)
+
+        xyY = np.tile(xyY, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            xyY_to_XYZ(xyY),
+            XYZ,
+            decimal=7)
+
+        xyY = np.reshape(xyY, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            xyY_to_XYZ(xyY),
+            XYZ,
             decimal=7)
 
 
@@ -125,6 +179,33 @@ class Testxy_to_XYZ(unittest.TestCase):
             np.array([0.96421199, 1., 0.82518828]),
             decimal=7)
 
+    def test_n_dimensions_xy_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        xy = (0.26414772236966133, 0.37770000704815188)
+        XYZ = np.array([0.69935853, 1., 0.94824534])
+        np.testing.assert_almost_equal(
+            xy_to_XYZ(xy),
+            XYZ,
+            decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            xy_to_XYZ(xy),
+            XYZ,
+            decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            xy_to_XYZ(xy),
+            XYZ,
+            decimal=7)
+
 
 class TestXYZ_to_xy(unittest.TestCase):
     """
@@ -155,6 +236,33 @@ class TestXYZ_to_xy(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_xy(np.array([0, 0, 0])),
             (0.34567, 0.3585),
+            decimal=7)
+
+    def test_n_dimensions_XYZ_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.69935853, 1., 0.94824534])
+        xy = (0.26414772236966133, 0.37770000704815188)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ),
+            xy,
+            decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ),
+            xy,
+            decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ),
+            xy,
             decimal=7)
 
 

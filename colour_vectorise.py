@@ -3521,14 +3521,16 @@ def XYZ_to_xyY_vectorise(XYZ,
                          illuminant=ILLUMINANTS.get(
                              'CIE 1931 2 Degree Standard Observer').get(
                              'D50')):
-    # TODO: Mention implicit resize.
     XYZ = np.asarray(XYZ)
     X, Y, Z = tsplit(XYZ)
-    x_w, y_w = tsplit(illuminant)
+    xy_w = np.asarray(illuminant)
+
+    XYZ_n = np.zeros(XYZ.shape)
+    XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
         XYZ == 0,
-        tstack((np.resize(x_w, X.shape), np.resize(y_w, Y.shape), Y)),
+        XYZ_n,
         tstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
 
     return xyY
