@@ -87,7 +87,7 @@ def XYZ_to_xyY(XYZ,
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
-        XYZ == 0,
+        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
         tstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
 
@@ -197,7 +197,7 @@ def XYZ_to_xy(XYZ,
     --------
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
     >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
-    (0.2641477..., 0.3777000...)
+    array([ 0.2641477...,  0.3777000...])
     """
 
     xyY = XYZ_to_xyY(XYZ, illuminant)
