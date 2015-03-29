@@ -137,17 +137,18 @@ def primaries_whitepoint(npm):
            [  0.0000000...e+00,   1.0000000...e+00],
            [  1.0000000...e-04,  -7.7000000...e-02]])
     >>> w # doctest: +ELLIPSIS
-    (0.3216800..., 0.3376700...)
+    array([ 0.32168,  0.33767])
     """
 
     npm = npm.reshape((3, 3))
 
-    I = np.hstack([np.identity(3), np.ones((3, 1))])
-    M = np.transpose(np.dot(npm, I))
+    primaries = XYZ_to_xy(
+        np.transpose(np.dot(npm, np.identity(3))))
+    whitepoint = np.squeeze(XYZ_to_xy(
+        np.transpose(np.dot(npm, np.ones((3, 1))))))
 
-    primaries = np.vstack(XYZ_to_xy(M[i, 0:3]) for i in range(3))
-    whitepoint = XYZ_to_xy(M[3, 0:3])
-
+    # TODO: Investigate if we return an ndarray here with pirmaries and
+    # whitepoint stacked together.
     return primaries, whitepoint
 
 

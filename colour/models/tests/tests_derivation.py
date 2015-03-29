@@ -115,28 +115,34 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         """
 
         p, w = primaries_whitepoint(
-            np.array(
-                [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
-                 [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
-                 [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]]))
-        np.testing.assert_almost_equal(p,
-                                       np.array([[0.73470, 0.26530],
-                                                 [0.00000, 1.00000],
-                                                 [0.00010, -0.07700]]),
-                                       decimal=7)
-        np.testing.assert_almost_equal(w, (0.32168, 0.33767), decimal=7)
+            np.array([[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+                      [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+                      [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]]))
+        np.testing.assert_almost_equal(
+            p,
+            np.array([[0.73470, 0.26530],
+                      [0.00000, 1.00000],
+                      [0.00010, -0.07700]]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            w,
+            np.array([0.32168, 0.33767]),
+            decimal=7)
 
         p, w = primaries_whitepoint(
-            np.array(
-                [[0.4123908, 0.35758434, 0.18048079],
-                 [0.21263901, 0.71516868, 0.07219232],
-                 [0.01933082, 0.11919478, 0.95053215]]))
-        np.testing.assert_almost_equal(p,
-                                       np.array([[0.640, 0.330],
-                                                 [0.300, 0.600],
-                                                 [0.150, 0.060]]),
-                                       decimal=7)
-        np.testing.assert_almost_equal(w, (0.3127, 0.3290), decimal=7)
+            np.array([[0.4123908, 0.35758434, 0.18048079],
+                      [0.21263901, 0.71516868, 0.07219232],
+                      [0.01933082, 0.11919478, 0.95053215]]))
+        np.testing.assert_almost_equal(
+            p,
+            np.array([[0.640, 0.330],
+                      [0.300, 0.600],
+                      [0.150, 0.060]]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            w,
+            np.array([0.3127, 0.3290]),
+            decimal=7)
 
 
 class TestRGBLuminanceEquation(unittest.TestCase):
@@ -160,7 +166,8 @@ class TestRGBLuminanceEquation(unittest.TestCase):
 
         self.assertTrue(re.match(
             # TODO: Simplify that monster.
-            'Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)',  # noqa
+            'Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)',
+            # noqa
             RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
