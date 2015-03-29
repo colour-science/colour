@@ -63,6 +63,36 @@ class TestDelta_E_CIE1976(unittest.TestCase):
             346.064891718,
             places=7)
 
+    def test_n_dimensions_delta_E_CIE1976(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976`
+        definition n-dimensions support.
+        """
+
+        Lab1 = np.array([100, 21.57210357, 272.2281935])
+        Lab2 = np.array([100, 426.67945353, 72.39590835])
+        delta_E = 451.71330197359117
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.tile(Lab1, (6, 1))
+        Lab2 = np.tile(Lab2, (6, 1))
+        delta_E = np.tile(delta_E, 6)
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.reshape(Lab1, (2, 3, 3))
+        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        delta_E = np.reshape(delta_E, (2, 3))
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
 
 class TestDelta_E_CIE1994(unittest.TestCase):
     """
@@ -120,6 +150,36 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             57.5354537067,
             places=7)
 
+    def test_n_dimensions_delta_E_CIE1994(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1994`
+        definition n-dimensions support.
+        """
+
+        Lab1 = np.array([100, 21.57210357, 272.2281935])
+        Lab2 = np.array([100, 426.67945353, 72.39590835])
+        delta_E = 88.335553057506502
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.tile(Lab1, (6, 1))
+        Lab2 = np.tile(Lab2, (6, 1))
+        delta_E = np.tile(delta_E, 6)
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.reshape(Lab1, (2, 3, 3))
+        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        delta_E = np.reshape(delta_E, (2, 3))
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
 
 class TestDelta_E_CIE2000(unittest.TestCase):
     """
@@ -152,6 +212,36 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100, 8.32281957, -73.58297716])),
             68.2309487895,
             places=7)
+
+    def test_n_dimensions_delta_E_CIE2000(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE2000`
+        definition n-dimensions support.
+        """
+
+        Lab1 = np.array([100, 21.57210357, 272.2281935])
+        Lab2 = np.array([100, 426.67945353, 72.39590835])
+        delta_E = 94.035649026659485
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.tile(Lab1, (6, 1))
+        Lab2 = np.tile(Lab2, (6, 1))
+        delta_E = np.tile(delta_E, 6)
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.reshape(Lab1, (2, 3, 3))
+        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        delta_E = np.reshape(delta_E, (2, 3))
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E,
+            decimal=7)
 
 
 class TestDelta_E_CMC(unittest.TestCase):
@@ -209,6 +299,36 @@ class TestDelta_E_CMC(unittest.TestCase):
                 l=1),
             121.718414791,
             places=7)
+
+    def test_n_dimensions_delta_E_CMC(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CMC`
+        definition n-dimensions support.
+        """
+
+        Lab1 = np.array([100, 21.57210357, 272.2281935])
+        Lab2 = np.array([100, 426.67945353, 72.39590835])
+        delta_E = 172.70477128656015
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.tile(Lab1, (6, 1))
+        Lab2 = np.tile(Lab2, (6, 1))
+        delta_E = np.tile(delta_E, 6)
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E,
+            decimal=7)
+
+        Lab1 = np.reshape(Lab1, (2, 3, 3))
+        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        delta_E = np.reshape(delta_E, (2, 3))
+        np.testing.assert_almost_equal(
+            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E,
+            decimal=7)
 
 
 if __name__ == '__main__':
