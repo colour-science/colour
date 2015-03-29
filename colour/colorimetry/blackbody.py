@@ -152,9 +152,10 @@ def blackbody_spd(temperature,
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 
+    wavelengths = shape.range()
     return SpectralPowerDistribution(
         name='{0}K Blackbody'.format(temperature),
         data=dict(
-            (wavelength, blackbody_spectral_radiance(
-                wavelength * 1e-9, temperature, c1, c2, n))
-            for wavelength in shape))
+            zip(wavelengths,
+                planck_law(
+                    wavelengths * 1e-9, temperature, c1, c2, n))))
