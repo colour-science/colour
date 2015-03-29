@@ -67,19 +67,20 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
                                        Y_n,
                                        discount_illuminant=False):
     """
-    Adapts given *CIE XYZ_1* colourspace stimulus from test viewing conditions
-    to reference viewing conditions using Fairchild (1990) chromatic
+    Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    conditions to reference viewing conditions using Fairchild (1990) chromatic
     adaptation model.
 
     Parameters
     ----------
     XYZ_1 : array_like
-        *CIE XYZ_1* colourspace matrix of test sample / stimulus in domain
+        *CIE XYZ_1* tristimulus values of test sample / stimulus in domain
         [0, 100].
     XYZ_n : array_like
-        Test viewing condition *CIE XYZ_n* colourspace whitepoint matrix.
+        Test viewing condition *CIE XYZ_n* tristimulus values of whitepoint.
     XYZ_r : array_like
-        Reference viewing condition *CIE XYZ_r* colourspace whitepoint matrix.
+        Reference viewing condition *CIE XYZ_r* tristimulus values of
+        whitepoint.
     Y_n : numeric or array_like
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     discount_illuminant : bool, optional
@@ -88,7 +89,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     Returns
     -------
     ndarray
-        Adapted *CIE XYZ_2* colourspace test stimulus.
+        Adapted *CIE XYZ_2* tristimulus values of stimulus.
 
     Warning
     -------
@@ -96,9 +97,9 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     Notes
     -----
-    -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* colourspace matrices are
+    -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* tristimulus values are
         in domain [0, 100].
-    -   Output *CIE XYZ_2* colourspace matrix is in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
 
     Examples
     --------
@@ -152,12 +153,12 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
 def XYZ_to_RGB_fairchild1990(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to cone responses.
+    Converts from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
@@ -176,7 +177,7 @@ def XYZ_to_RGB_fairchild1990(XYZ):
 
 def RGB_to_XYZ_fairchild1990(RGB):
     """
-    Converts from cone responses to *CIE XYZ* colourspace.
+    Converts from cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -186,7 +187,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
     Returns
     -------
     ndarray
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Examples
     --------

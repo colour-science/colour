@@ -58,14 +58,14 @@ __all__ = ['whiteness_Berger1959',
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using Berger (1959) method. [2]_
+    tristimulus values using Berger (1959) method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        *CIE XYZ* colourspace matrix of reference white.
+        *CIE XYZ* tristimulus values of reference white.
 
     Returns
     -------
@@ -74,7 +74,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* colourspace matrices are in domain
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
         white, and values smaller than 33.33 indicate a yellowish white.
@@ -102,14 +102,14 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using Taube (1960) method. [2]_
+    tristimulus values using Taube (1960) method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        *CIE XYZ* colourspace matrix of reference white.
+        *CIE XYZ* tristimulus values of reference white.
 
     Returns
     -------
@@ -118,7 +118,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* colourspace matrices are in domain
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white, and values smaller than 100 indicate a yellowish white.
@@ -142,12 +142,12 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace matrix using Stensby (1968) method. [2]_
+    colourspace array using Stensby (1968) method. [2]_
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace matrix of sample.
+        *CIE Lab* colourspace array of sample.
 
     Returns
     -------
@@ -156,7 +156,7 @@ def whiteness_Stensby1968(Lab):
 
     Notes
     -----
-    -   Input *CIE Lab* colourspace matrix are in domain [0, 100].
+    -   Input *CIE Lab* colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white, and values smaller than 100 indicate a yellowish white.
 
@@ -177,12 +177,12 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using ASTM 313 method. [2]_
+    tristimulus values using ASTM 313 method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
 
     Returns
     -------
@@ -191,7 +191,7 @@ def whiteness_ASTM313(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
     Warning
     -------

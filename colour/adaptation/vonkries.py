@@ -41,16 +41,15 @@ __all__ = ['chromatic_adaptation_matrix_VonKries',
 
 def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     """
-    Returns the *chromatic adaptation* matrix from test viewing conditions
-    *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
-    colourspace matrix.
+    Computes the *chromatic adaptation* matrix from test viewing conditions
+    to reference viewing conditions.
 
     Parameters
     ----------
     XYZ_w : array_like
-        Test viewing condition *CIE XYZ* colourspace matrix.
+        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
     XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* colourspace matrix.
+        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
@@ -58,7 +57,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     Returns
     -------
-    ndarray, (3, 3)
+    ndarray
         Chromatic adaptation matrix.
 
     Raises
@@ -109,18 +108,17 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
 def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     """
-    Adapts given *CIE XYZ* colourspace stimulus from test viewing conditions
-    *CIE XYZ_w* colourspace matrix to reference viewing conditions *CIE XYZ_wr*
-    colourspace matrix. [6]_
+    Adapts given stimulus from test viewing conditions to reference viewing
+    conditions. [6]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace stimulus to adapt.
+        *CIE XYZ* tristimulus values of stimulus to adapt.
     XYZ_w : array_like
-        Test viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
     XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* colourspace whitepoint matrix.
+        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
@@ -129,7 +127,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     Returns
     -------
     ndarray
-        *CIE XYZ_c* colourspace matrix of the stimulus corresponding colour.
+        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Examples
     --------

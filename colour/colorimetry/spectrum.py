@@ -61,11 +61,11 @@ class SpectralShape(object):
     Parameters
     ----------
     start : numeric, optional
-        Wavelengths :math:`\lambda_{i}`: range start in nm.
+        Wavelength :math:`\lambda_{i}` range start in nm.
     end : numeric, optional
-        Wavelengths :math:`\lambda_{i}`: range end in nm.
+        Wavelength :math:`\lambda_{i}` range end in nm.
     steps : numeric, optional
-        Wavelengths :math:`\lambda_{i}`: range steps.
+        Wavelength :math:`\lambda_{i}` range steps.
 
     Attributes
     ----------
@@ -274,8 +274,7 @@ class SpectralShape(object):
 
     def __contains__(self, wavelength):
         """
-        Returns if the spectral shape contains the given wavelength
-        :math:`\lambda`.
+        Returns if the spectral shape contains given wavelength :math:`\lambda`.
 
         Parameters
         ----------
@@ -285,12 +284,12 @@ class SpectralShape(object):
         Returns
         -------
         bool
-            Is wavelength :math:`\lambda` in the spectral shape.
+            Is wavelength :math:`\lambda` contained in the spectral shape.
 
         Warning
         -------
-        The wavelength is tested to be contained in the spectral shape within
-        the tolerance defined by :attr:`colour.constants.common.EPSILON`
+        *wavelength* argument is tested to be contained in the spectral shape
+        within the tolerance defined by :attr:`colour.constants.common.EPSILON`
         attribute value.
 
         Notes
@@ -315,13 +314,12 @@ class SpectralShape(object):
 
     def __len__(self):
         """
-        Returns the spectral shape wavelengths :math:`\lambda_n`
-        count.
+        Returns the spectral shape wavelength :math:`\lambda_n` count.
 
         Returns
         -------
         int
-            Spectral shape wavelengths :math:`\lambda_n` count.
+            Spectral shape wavelength :math:`\lambda_n` count.
 
         Notes
         -----
@@ -361,8 +359,8 @@ class SpectralShape(object):
         False
         """
 
-        return isinstance(shape, self.__class__) and np.array_equal(
-            self.range(), shape.range())
+        return (isinstance(shape, self.__class__) and
+                np.array_equal(self.range(), shape.range()))
 
     def __ne__(self, shape):
         """
@@ -912,8 +910,8 @@ class SpectralPowerDistribution(object):
 
     def __contains__(self, wavelength):
         """
-        Returns if the spectral power distribution contains the given
-        wavelength :math:`\lambda`.
+        Returns if the spectral power distribution contains given wavelength
+        :math:`\lambda`.
 
         Parameters
         ----------
@@ -923,7 +921,14 @@ class SpectralPowerDistribution(object):
         Returns
         -------
         bool
-            Is wavelength :math:`\lambda` in the spectral power distribution.
+            Is wavelength :math:`\lambda` contained in the spectral power
+            distribution.
+
+        Warning
+        -------
+        *wavelength* argument is tested to be contained in the spectral power
+        distribution within the tolerance defined by
+        :attr:`colour.constants.common.EPSILON` attribute value.
 
         Notes
         -----
@@ -1039,8 +1044,8 @@ class SpectralPowerDistribution(object):
         """
         Formats given :math:`x` variable operand to *numeric* or *ndarray*.
 
-        This method is a convenient method to prepare the given :math:`x`
-        variable for the arithmetic operations below.
+        This method is a convenient method to prepare given :math:`x` variable
+        for the arithmetic operations below.
 
         Parameters
         ----------
@@ -2511,7 +2516,7 @@ class TriSpectralPowerDistribution(object):
 
     def __contains__(self, wavelength):
         """
-        Returns if the tri-spectral power distribution contains the given
+        Returns if the tri-spectral power distribution contains given
         wavelength :math:`\lambda`.
 
         Parameters
@@ -2522,8 +2527,14 @@ class TriSpectralPowerDistribution(object):
         Returns
         -------
         bool
-            Is wavelength :math:`\lambda` in the tri-spectral power
+            Is wavelength :math:`\lambda` contained in the tri-spectral power
             distribution.
+
+        Warning
+        -------
+        *wavelength* argument is tested to be contained in the tri-spectral
+        power distribution within the tolerance defined by
+        :attr:`colour.constants.common.EPSILON` attribute value.
 
         Notes
         -----
@@ -2663,8 +2674,8 @@ class TriSpectralPowerDistribution(object):
         """
         Formats given :math:`x` variable operand to *numeric* or *ndarray*.
 
-        This method is a convenient method to prepare the given :math:`x`
-        variable for the arithmetic operations below.
+        This method is a convenient method to prepare given :math:`x` variable
+        for the arithmetic operations below.
 
         Parameters
         ----------

@@ -49,14 +49,14 @@ __all__ = ['delta_E_CIE1976',
 def delta_E_CIE1976(Lab1, Lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given
-    *CIE Lab* *array_like* colours using CIE 1976 recommendation.
+    *CIE Lab* colourspace arrays using CIE 1976 recommendation.
 
     Parameters
     ----------
     Lab1 : array_like
-        *CIE Lab* *array_like* colour 1.
+        *CIE Lab* colourspace array 1.
     Lab2 : array_like
-        *CIE Lab* *array_like* colour 2.
+        *CIE Lab* colourspace array 2.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
@@ -87,14 +87,14 @@ def delta_E_CIE1976(Lab1, Lab2, **kwargs):
 def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    *array_like* colours using CIE 1994 recommendation.
+    colourspace arrays using CIE 1994 recommendation.
 
     Parameters
     ----------
     Lab1 : array_like
-        *CIE Lab* *array_like* colour 1.
+        *CIE Lab* colourspace array 1.
     Lab2 : array_like
-        *CIE Lab* *array_like* colour 2.
+        *CIE Lab* colourspace array 2.
     textiles : bool, optional
         Application specific weights.
     \*\*kwargs : \*\*, optional
@@ -156,14 +156,14 @@ def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
 def delta_E_CIE2000(Lab1, Lab2, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    *array_like* colours using CIE 2000 recommendation.
+    colourspace arrays using CIE 2000 recommendation.
 
     Parameters
     ----------
     Lab1 : array_like
-        *CIE Lab* *array_like* colour 1.
+        *CIE Lab* colourspace array 1.
     Lab2 : array_like
-        *CIE Lab* *array_like* colour 2.
+        *CIE Lab* colourspace array 2.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
@@ -259,7 +259,7 @@ def delta_E_CIE2000(Lab1, Lab2, **kwargs):
 def delta_E_CMC(Lab1, Lab2, l=2, c=1):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    *array_like* colours using *Colour Measurement Committee* recommendation.
+    colourspace arrays using *Colour Measurement Committee* recommendation.
 
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
     allowing the users to weight the difference based on the ratio of l:c.
@@ -269,9 +269,9 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
     Parameters
     ----------
     Lab1 : array_like
-        *CIE Lab* *array_like* colour 1.
+        *CIE Lab* colourspace array 1.
     Lab2 : array_like
-        *CIE Lab* *array_like* colour 2.
+        *CIE Lab* colourspace array 2.
     l : numeric, optional
         Lightness weighting factor.
     c : numeric, optional
@@ -362,9 +362,9 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
     Parameters
     ----------
     Lab1 : array_like
-        *CIE Lab* *array_like* colour 1.
+        *CIE Lab* colourspace array 1.
     Lab2 : array_like
-        *CIE Lab* *array_like* colour 2.
+        *CIE Lab* colourspace array 2.
     method : unicode, optional
         {'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}
         Computation method.

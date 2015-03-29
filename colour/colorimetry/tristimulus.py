@@ -40,8 +40,8 @@ def spectral_to_XYZ(spd,
                         'CIE 1931 2 Degree Standard Observer'),
                     illuminant=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using
-    given colour matching functions and illuminant.
+    Converts given spectral power distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant.
 
     Parameters
     ----------
@@ -55,7 +55,7 @@ def spectral_to_XYZ(spd,
     Returns
     -------
     ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Warning
     -------
@@ -63,7 +63,7 @@ def spectral_to_XYZ(spd,
 
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
 
     References
     ----------
@@ -116,8 +116,8 @@ def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           'CIE 1931 2 Degree Standard Observer')):
     """
-    Converts given wavelength :math:`\lambda` to *CIE XYZ* colourspace using
-    given colour matching functions.
+    Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
+    using given colour matching functions.
 
     If the wavelength :math:`\lambda` is not available in the colour matching
     function, its value will be calculated using *CIE* recommendations:
@@ -135,19 +135,19 @@ def wavelength_to_XYZ(wavelength,
     Returns
     -------
     ndarray
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Raises
     ------
     ValueError
-        If wavelength :math:`\lambda` is not in the colour matching
+        If wavelength :math:`\lambda` is not contained in the colour matching
         functions domain.
 
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
-    -   If *scipy* is not unavailable the *Cubic Spline* method will
-        fallback to legacy *Linear* interpolation.
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
+        to legacy *Linear* interpolation.
 
     Examples
     --------

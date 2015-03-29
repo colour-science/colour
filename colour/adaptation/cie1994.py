@@ -50,7 +50,7 @@ __all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
 
 CIE1994_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-CIE 1994 colour appearance model *CIE XYZ* colourspace to cone
+CIE 1994 colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -58,8 +58,8 @@ CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 CIE1994_RGB_TO_XYZ_MATRIX = np.linalg.inv(CIE1994_XYZ_TO_RGB_MATRIX)
 """
-CIE 1994 colour appearance model cone responses to *CIE XYZ* colourspace
-matrix.
+CIE 1994 colour appearance model cone responses to *CIE XYZ* tristimulus
+values matrix.
 
 CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -73,14 +73,14 @@ def chromatic_adaptation_CIE1994(XYZ_1,
                                  E_o2,
                                  n=1):
     """
-    Adapts given *CIE XYZ_1* colourspace stimulus from test viewing conditions
-    to reference viewing conditions using CIE 1994 chromatic adaptation
-    model.
+    Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    conditions to reference viewing conditions using CIE 1994 chromatic
+    adaptation model.
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+        *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
     xy_o1 : array_like
         Chromaticity coordinates :math:`x_{o1}` and :math:`y_{o1}` of test
@@ -101,7 +101,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     Returns
     -------
     ndarray
-        Adapted *CIE XYZ_2* colourspace test stimulus.
+        Adapted *CIE XYZ_2* tristimulus values of test stimulus.
 
     Warning
     -------
@@ -109,8 +109,8 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     Notes
     -----
-    -   Input *CIE XYZ_1* colourspace matrix is in domain [0, 100].
-    -   Output *CIE XYZ_2* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
 
     Examples
     --------
@@ -150,12 +150,12 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
 def XYZ_to_RGB_cie1994(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to cone responses.
+    Converts from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
@@ -174,7 +174,7 @@ def XYZ_to_RGB_cie1994(XYZ):
 
 def RGB_to_XYZ_cie1994(RGB):
     """
-    Converts from cone responses to *CIE XYZ* colourspace.
+    Converts from cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -184,7 +184,7 @@ def RGB_to_XYZ_cie1994(RGB):
     Returns
     -------
     ndarray
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Examples
     --------
