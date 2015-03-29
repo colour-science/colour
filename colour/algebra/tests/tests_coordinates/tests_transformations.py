@@ -46,15 +46,16 @@ class TestCartesianToSpherical(unittest.TestCase):
         definition.
         """
 
-        vector = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
             cartesian_to_spherical((3, 1, 6)),
             np.array([6.78232998, 1.08574654, 0.32175055]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cartesian_to_spherical((-1, 9, 16)),
             np.array([18.38477631, 1.05578119, 1.68145355]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cartesian_to_spherical((6.3434, -0.9345, 18.5675)),
             np.array([19.64342307, 1.2382903, -0.1462664]),
@@ -107,10 +108,12 @@ class TestSphericalToCartesian(unittest.TestCase):
             spherical_to_cartesian((6.78232998, 1.08574654, 0.32175055)),
             np.array([3., 0.99999999, 6.]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             spherical_to_cartesian((18.38477631, 1.05578119, 1.68145355)),
             np.array([-1.00000003, 9.00000007, 15.99999996]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             spherical_to_cartesian((19.64342307, 1.2382903, -0.1462664)),
             np.array([6.34339996, -0.93449999, 18.56750001]),
@@ -163,10 +166,12 @@ class TestCartesianToCylindrical(unittest.TestCase):
             cartesian_to_cylindrical((3, 1, 6)),
             np.array([6., 0.32175055, 3.16227766]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical((-1, 9, 16)),
             np.array([16., 1.68145355, 9.05538514]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical((6.3434, -0.9345, 18.5675)),
             np.array([18.5675, -0.1462664, 6.41186508]),
@@ -219,10 +224,12 @@ class TestCylindricalToCartesian(unittest.TestCase):
             cylindrical_to_cartesian((6.78232998, 1.08574654, 0.32175055)),
             np.array([0.15001697, 0.28463718, 6.78232998]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian((18.38477631, 1.05578119, 1.68145355)),
             np.array([0.82819662, 1.46334425, 18.38477631]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian((19.64342307, 1.2382903, -0.1462664)),
             np.array([-0.04774323, -0.138255, 19.64342307]),

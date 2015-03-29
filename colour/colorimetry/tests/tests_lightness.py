@@ -48,10 +48,12 @@ class TestLightnessGlasser1958(unittest.TestCase):
             lightness_Glasser1958(10.08),
             36.2505626458,
             places=7)
+
         self.assertAlmostEqual(
             lightness_Glasser1958(56.76),
             78.8117999039,
             places=7)
+
         self.assertAlmostEqual(
             lightness_Glasser1958(98.32),
             98.3447052593,
@@ -108,10 +110,12 @@ class TestLightnessWyszecki1963(unittest.TestCase):
             lightness_Wyszecki1963(10.08),
             37.0041149128,
             places=7)
+
         self.assertAlmostEqual(
             lightness_Wyszecki1963(56.76),
             79.0773031869,
             places=7)
+
         self.assertAlmostEqual(
             lightness_Wyszecki1963(98.32),
             98.3862250488,
@@ -167,22 +171,27 @@ class TestLightness1976(unittest.TestCase):
             lightness_1976(10.08),
             37.9856290977,
             places=7)
+
         self.assertAlmostEqual(
             lightness_1976(56.76),
             80.0444155585,
             places=7)
+
         self.assertAlmostEqual(
             lightness_1976(98.32),
             99.3467279026,
             places=7)
+
         self.assertAlmostEqual(
             lightness_1976(10.08, 50),
             52.01763049195023,
             places=7)
+
         self.assertAlmostEqual(
             lightness_1976(10.08, 75),
             43.41887325541973,
             places=7)
+
         self.assertAlmostEqual(
             lightness_1976(10.08, 95),
             38.91659875709282,

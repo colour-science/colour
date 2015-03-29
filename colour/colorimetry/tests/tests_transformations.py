@@ -73,7 +73,6 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         definition n-dimensions support.
         """
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
         wl = 700
         XYZ = np.array([0.01135774, 0.004102, 0.])
         np.testing.assert_almost_equal(
@@ -136,7 +135,6 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         definition n-dimensions support.
         """
 
-        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
         wl = 700
         XYZ = np.array([9.64321500e-03, 3.75263179e-03, -4.10788300e-06])
         np.testing.assert_almost_equal(
@@ -199,7 +197,6 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
         definition n-dimensions support.
         """
 
-        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
         wl = 700
         LMS = np.array([0.00528607, 0.00032528, 0.])
         np.testing.assert_almost_equal(
@@ -262,7 +259,6 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         definition n-dimensions support.
         """
 
-        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
         wl = 700
         XYZ = np.array([0.01096778, 0.00419594, 0.])
         np.testing.assert_almost_equal(
@@ -325,7 +321,6 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         definition n-dimensions support.
         """
 
-        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
         wl = 700
         XYZ = np.array([0.00981623, 0.00377614, 0.])
         np.testing.assert_almost_equal(

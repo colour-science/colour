@@ -1950,7 +1950,6 @@ class TestSpectralShape(unittest.TestCase):
 
         self.assertIn(360.1, SpectralShape(360, 830, 0.1))
         self.assertNotIn(360.11, SpectralShape(360, 830, 0.1))
-
         self.assertIn((0.5, 0.6), SpectralShape(0, 10, 0.1))
         self.assertNotIn((0.5, 0.61), SpectralShape(0, 10, 0.1))
 
@@ -2323,8 +2322,10 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         self.assertEqual(self.__spd.get(620), 0.1511)
         self.assertEqual(self.__spd.get(820), 0.)
         self.assertEqual(self.__spd.get(900, 0), 0)
-        np.testing.assert_almost_equal(self.__spd.get((340, 620, 820)),
-                                       np.array([0., 0.1511, 0.]))
+
+        np.testing.assert_almost_equal(
+            self.__spd.get((340, 620, 820)),
+            np.array([0., 0.1511, 0.]))
 
     def test_is_uniform(self):
         """
@@ -2605,7 +2606,6 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                       [88.19, 88.19, 88.19]]))
 
         tri_spd[:] = 49.67
-        print(repr(tri_spd.values))
         np.testing.assert_almost_equal(
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67],
@@ -2866,7 +2866,6 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         self.assertEqual(tri_spd.x[10], 0)
         self.assertEqual(tri_spd.y[10], 0)
         self.assertEqual(tri_spd.z[10], 0)
-
         self.assertEqual(tri_spd.x[50], 1)
         self.assertEqual(tri_spd.y[50], 1)
         self.assertEqual(tri_spd.z[50], 1)
