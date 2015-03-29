@@ -4510,7 +4510,7 @@ BLACKBODY_SPD_DATA = np.array([
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
+        Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
     tests methods.
     """
 
@@ -4526,6 +4526,36 @@ class TestPlanckLaw(unittest.TestCase):
                     radiance,
                     rtol=0.00000001,
                     verbose=False)
+
+    def test_n_dimensions_planck_law(self):
+        """
+        Tests :func:`colour.colorimetry.blackbody.planck_law` definition
+        n-dimensions support.
+        """
+
+        wl = 500 * 1e-9
+        p = 20472701909806.578
+        np.testing.assert_almost_equal(
+            planck_law(wl, 5500),
+            p)
+
+        wl = np.tile(wl, 6)
+        p = np.tile(p, 6)
+        np.testing.assert_almost_equal(
+            planck_law(wl, 5500),
+            p)
+
+        wl = np.reshape(wl, (2, 3))
+        p = np.reshape(p, (2, 3))
+        np.testing.assert_almost_equal(
+            planck_law(wl, 5500),
+            p)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        p = np.reshape(p, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            planck_law(wl, 5500),
+            p)
 
 
 class TestBlackbodySpd(unittest.TestCase):
