@@ -71,6 +71,33 @@ class TestXYZ_to_UVW(unittest.TestCase):
             np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 
+    def test_n_dimensions_XYZ_to_UVW(self):
+        """
+        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313]) * 100
+        UVW = np.array([-28.0483277, -0.88052424, 37.00411491])
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ),
+            UVW,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        UVW = np.tile(UVW, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ),
+            UVW,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        UVW = np.reshape(UVW, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ),
+            UVW,
+            decimal=7)
+
 
 if __name__ == '__main__':
     unittest.main()
