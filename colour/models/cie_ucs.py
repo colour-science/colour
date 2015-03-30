@@ -30,6 +30,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import tstack, tsplit
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -45,22 +47,22 @@ __all__ = ['XYZ_to_UCS',
 
 def XYZ_to_UCS(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *CIE UCS* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE UCS* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE UCS* colourspace matrix.
+    ndarray
+        *CIE UCS* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
-    -   Output *CIE UCS* colourspace matrix is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE UCS* colourspace array is in domain [0, 1].
 
     Examples
     --------
@@ -69,31 +71,31 @@ def XYZ_to_UCS(XYZ):
     array([ 0.0469968...,  0.1008    ,  0.1637439...])
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
-    return np.array([2 / 3 * X,
-                     Y,
-                     1 / 2 * (-X + 3 * Y + Z)])
+    UVW = tstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
+
+    return UVW
 
 
 def UCS_to_XYZ(UVW):
     """
-    Converts from *CIE UCS* colourspace to *CIE XYZ* colourspace.
+    Converts from *CIE UCS* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    UVW : array_like, (3,)
-        *CIE UCS* colourspace matrix.
+    UVW : array_like
+        *CIE UCS* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *CIE UCS* colourspace array is in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     Examples
     --------
@@ -102,42 +104,45 @@ def UCS_to_XYZ(UVW):
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    U, V, W = np.ravel(UVW)
+    U, V, W = tsplit(UVW)
 
-    return np.array(
-        [3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)])
+    XYZ = tstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
+
+    return XYZ
 
 
 def UCS_to_uv(UVW):
     """
     Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace
-    matrix.
+    array.
 
     Parameters
     ----------
-    UVW : array_like, (3,)
-        *CIE UCS* colourspace matrix.
+    UVW : array_like
+        *CIE UCS* colourspace array.
 
     Returns
     -------
-    tuple
+    ndarray
         *uv* chromaticity coordinates.
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace matrix is in domain [0, 1].
+    -   Input *CIE UCS* colourspace array is in domain [0, 1].
     -   Output *uv* chromaticity coordinates are in domain [0, 1].
 
     Examples
     --------
     >>> UCS = np.array([0.04699689, 0.1008, 0.1637439])
     >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
-    (0.1508530..., 0.3235531...)
+    array([ 0.1508530...,  0.3235531...])
     """
 
-    U, V, W = np.ravel(UVW)
+    U, V, W = tsplit(UVW)
 
-    return U / (U + V + W), V / (U + V + W)
+    uv = tstack((U / (U + V + W), V / (U + V + W)))
+
+    return uv
 
 
 def UCS_uv_to_xy(uv):
@@ -152,7 +157,7 @@ def UCS_uv_to_xy(uv):
 
     Returns
     -------
-    tuple
+    ndarray
         *xy* chromaticity coordinates.
 
     Notes
@@ -164,8 +169,11 @@ def UCS_uv_to_xy(uv):
     --------
     >>> uv = (0.15085308732766581, 0.3235531372954405)
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    (0.2641477..., 0.3777000...)
+    array([ 0.2641477...,  0.3777000...])
     """
 
-    return (3 * uv[0] / (2 * uv[0] - 8 * uv[1] + 4),
-            2 * uv[1] / (2 * uv[0] - 8 * uv[1] + 4))
+    u, v = tsplit(uv)
+
+    xy = tstack((3 * u / (2 * u - 8 * v + 4), 2 * v / (2 * u - 8 * v + 4)))
+
+    return xy

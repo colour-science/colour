@@ -56,6 +56,33 @@ class TestXYZ_to_UCS(unittest.TestCase):
             np.array([0.17004543, 0.1915, 0.20396469]),
             decimal=7)
 
+    def test_n_dimensions_XYZ_to_UCS(self):
+        """
+        Tests :func:`colour.models.cie_ucs.XYZ_to_UCS` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        UCS = np.array([0.04699689, 0.1008, 0.1637439])
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS(XYZ),
+            UCS,
+            decimal=7)
+
+        UCS = np.tile(UCS, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS(XYZ),
+            UCS,
+            decimal=7)
+
+        UCS = np.reshape(UCS, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_UCS(XYZ),
+            UCS,
+            decimal=7)
+
 
 class TestUCS_to_XYZ(unittest.TestCase):
     """
@@ -83,6 +110,33 @@ class TestUCS_to_XYZ(unittest.TestCase):
             np.array([0.25506814, 0.1915, 0.08849752]),
             decimal=7)
 
+    def test_n_dimensions_UCS_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        UCS = np.array([0.04699689, 0.1008, 0.1637439])
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        np.testing.assert_almost_equal(
+            UCS_to_XYZ(UCS),
+            XYZ,
+            decimal=7)
+
+        UCS = np.tile(UCS, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            UCS_to_XYZ(UCS),
+            XYZ,
+            decimal=7)
+
+        UCS = np.reshape(UCS, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            UCS_to_XYZ(UCS),
+            XYZ,
+            decimal=7)
+
 
 class TestUCS_to_uv(unittest.TestCase):
     """
@@ -97,17 +151,44 @@ class TestUCS_to_uv(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             UCS_to_uv(np.array([0.04699689, 0.1008, 0.1637439])),
-            (0.15085309, 0.32355314),
+            np.array([0.15085309, 0.32355314]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             UCS_to_uv(np.array([0.31398473, 0.3495, 0.34526969])),
-            (0.31125983, 0.34646688),
+            np.array([0.31125983, 0.34646688]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             UCS_to_uv(np.array([0.17004543, 0.1915, 0.20396469])),
-            (0.30069388, 0.33863231),
+            np.array([0.30069388, 0.33863231]),
+            decimal=7)
+
+    def test_n_dimensions_UCS_to_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_uv` definition n-dimensions
+        support.
+        """
+
+        UCS = np.array([0.04699689, 0.1008, 0.1637439])
+        uv = np.array([0.15085309, 0.32355314])
+        np.testing.assert_almost_equal(
+            UCS_to_uv(UCS),
+            uv,
+            decimal=7)
+
+        UCS = np.tile(UCS, (6, 1))
+        uv = np.tile(uv, (6, 1))
+        np.testing.assert_almost_equal(
+            UCS_to_uv(UCS),
+            uv,
+            decimal=7)
+
+        UCS = np.reshape(UCS, (2, 3, 3))
+        uv = np.reshape(uv, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            UCS_to_uv(UCS),
+            uv,
             decimal=7)
 
 
@@ -123,18 +204,44 @@ class TestUCS_uv_to_xy(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UCS_uv_to_xy((0.15085309, 0.32355314)),
-            (0.26414771, 0.37770001),
+            UCS_uv_to_xy(np.array([0.15085309, 0.32355314])),
+            np.array([0.26414771, 0.37770001]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_uv_to_xy((0.31125983, 0.34646688)),
-            (0.50453169, 0.3744),
+            UCS_uv_to_xy(np.array([0.31125983, 0.34646688])),
+            np.array([0.50453169, 0.3744]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_uv_to_xy((0.30069388, 0.33863231)),
-            (0.47670437, 0.35789998),
+            UCS_uv_to_xy(np.array([0.30069388, 0.33863231])),
+            np.array([0.47670437, 0.35789998]),
+            decimal=7)
+
+    def test_UCS_uv_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition.
+        """
+
+        uv = np.array([0.15085309, 0.32355314])
+        xy = np.array([0.26414771, 0.37770001])
+        np.testing.assert_almost_equal(
+            UCS_uv_to_xy(uv),
+            xy,
+            decimal=7)
+
+        uv = np.tile(uv, (6, 1))
+        xy = np.tile(xy, (6, 1))
+        np.testing.assert_almost_equal(
+            UCS_uv_to_xy(uv),
+            xy,
+            decimal=7)
+
+        uv = np.reshape(uv, (2, 3, 2))
+        xy = np.reshape(xy, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            UCS_uv_to_xy(uv),
+            xy,
             decimal=7)
 
 
