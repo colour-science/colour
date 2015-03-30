@@ -74,6 +74,33 @@ class TestXYZ_to_Lab(unittest.TestCase):
             np.array([37.9856291, -25.55521883, -11.26139386]),
             decimal=7)
 
+    def test_n_dimensions_XYZ_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        Lab = np.tile(Lab, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        Lab = np.reshape(Lab, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
@@ -119,6 +146,33 @@ class TestLab_to_XYZ(unittest.TestCase):
             np.array([0.07049534, 0.1008, 0.09558313]),
             decimal=7)
 
+    def test_n_dimensions_Lab_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        Lab = np.tile(Lab, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        Lab = np.reshape(Lab, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ),
+            Lab,
+            decimal=7)
+
 
 class TestLab_to_LCHab(unittest.TestCase):
     """
@@ -146,6 +200,33 @@ class TestLab_to_LCHab(unittest.TestCase):
             np.array([50.86223896, 38.52678179, 31.7232794]),
             decimal=7)
 
+    def test_n_dimensions_Lab_to_LCHab(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition
+        n-dimensions support.
+        """
+
+        Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+        LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+        np.testing.assert_almost_equal(
+            Lab_to_LCHab(Lab),
+            LCHab,
+            decimal=7)
+
+        Lab = np.tile(Lab, (6, 1))
+        LCHab = np.tile(LCHab, (6, 1))
+        np.testing.assert_almost_equal(
+            Lab_to_LCHab(Lab),
+            LCHab,
+            decimal=7)
+
+        Lab = np.reshape(Lab, (2, 3, 3))
+        LCHab = np.reshape(LCHab, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            Lab_to_LCHab(Lab),
+            LCHab,
+            decimal=7)
+
 
 class TestLCHab_to_Lab(unittest.TestCase):
     """
@@ -171,6 +252,33 @@ class TestLCHab_to_Lab(unittest.TestCase):
         np.testing.assert_almost_equal(
             LCHab_to_Lab(np.array([50.86223896, 38.52678179, 31.7232794])),
             np.array([50.86223896, 32.77078577, 20.25804815]),
+            decimal=7)
+
+    def test_n_dimensions_LCHab_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition
+        n-dimensions support.
+        """
+
+        LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+        Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+        np.testing.assert_almost_equal(
+            LCHab_to_Lab(LCHab),
+            Lab,
+            decimal=7)
+
+        LCHab = np.tile(LCHab, (6, 1))
+        Lab = np.tile(Lab, (6, 1))
+        np.testing.assert_almost_equal(
+            LCHab_to_Lab(LCHab),
+            Lab,
+            decimal=7)
+
+        LCHab = np.reshape(LCHab, (2, 3, 3))
+        Lab = np.reshape(Lab, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            LCHab_to_Lab(LCHab),
+            Lab,
             decimal=7)
 
 
