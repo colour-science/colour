@@ -49,17 +49,17 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            xy_to_z((0.25, 0.25)),
+            xy_to_z(np.array([0.25, 0.25])),
             0.5,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xy_to_z((0.00010, -0.07700)),
+            xy_to_z(np.array([0.00010, -0.07700])),
             1.07690,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xy_to_z((0.00000, 1.00000)),
+            xy_to_z(np.array([0.00000, 1.00000])),
             0.00000,
             decimal=7)
 
@@ -82,7 +82,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767)),
+                np.array([0.32168, 0.33767])),
             np.array(
                 [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
                  [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
@@ -94,7 +94,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                 np.array([0.640, 0.330,
                           0.300, 0.600,
                           0.150, 0.060]),
-                (0.3127, 0.3290)),
+                np.array([0.3127, 0.3290])),
             np.array([[0.4123908, 0.35758434, 0.18048079],
                       [0.21263901, 0.71516868, 0.07219232],
                       [0.01933082, 0.11919478, 0.95053215]]),
@@ -162,17 +162,19 @@ class TestRGBLuminanceEquation(unittest.TestCase):
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767)), unicode)
+                np.array([0.32168, 0.33767])),
+            unicode)
 
         self.assertTrue(re.match(
             # TODO: Simplify that monster.
-            'Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)',
-            # noqa
+            ('Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
+             '\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
+             '\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)'),
             RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767))))
+                np.array([0.32168, 0.33767]))))
 
 
 class TestRGBLuminance(unittest.TestCase):
@@ -193,7 +195,7 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767)),
+                np.array([0.32168, 0.33767])),
             50.,
             places=7)
 
@@ -203,7 +205,7 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767)),
+                np.array([0.32168, 0.33767])),
             30.1701166701,
             places=7)
 
@@ -213,9 +215,37 @@ class TestRGBLuminance(unittest.TestCase):
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
-                (0.32168, 0.33767)),
+                np.array([0.32168, 0.33767])),
             12.1616018403,
             places=7)
+
+    def test_n_dimensions_RGB_luminance(self):
+        """
+        Tests:func:`colour.models.rgb.derivation.RGB_luminance` definition
+        n_dimensions support.
+        """
+
+        RGB = np.array([50, 50, 50]),
+        P = np.array([0.73470, 0.26530,
+                      0.00000, 1.00000,
+                      0.00010, -0.07700]),
+        W = np.array([0.32168, 0.33767])
+        Y = 50
+        np.testing.assert_almost_equal(
+            RGB_luminance(RGB, P, W),
+            Y)
+
+        RGB = np.tile(RGB, (6, 1))
+        Y = np.tile(Y, 6)
+        np.testing.assert_almost_equal(
+            RGB_luminance(RGB, P, W),
+            Y)
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            RGB_luminance(RGB, P, W),
+            Y)
 
 
 if __name__ == '__main__':
