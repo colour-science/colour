@@ -55,6 +55,33 @@ class TestXYZ_to_IPT(unittest.TestCase):
             np.array([0.46626813, 0.25471184, 0.19904068]),
             decimal=7)
 
+    def test_n_dimensions_XYZ_to_IPT(self):
+        """
+        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        IPT = np.array([0.36571124, -0.11114798, 0.01594746])
+        np.testing.assert_almost_equal(
+            XYZ_to_IPT(XYZ),
+            IPT,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        IPT = np.tile(IPT, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_IPT(XYZ),
+            IPT,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        IPT = np.reshape(IPT, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_IPT(XYZ),
+            IPT,
+            decimal=7)
+
 
 class TestIPT_to_XYZ(unittest.TestCase):
     """
@@ -82,6 +109,33 @@ class TestIPT_to_XYZ(unittest.TestCase):
             np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
+    def test_n_dimensions_IPT_to_XYZ(self):
+        """
+        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        IPT = np.array([0.36571124, -0.11114798, 0.01594746])
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        np.testing.assert_almost_equal(
+            IPT_to_XYZ(IPT),
+            XYZ,
+            decimal=7)
+
+        IPT = np.tile(IPT, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            IPT_to_XYZ(IPT),
+            XYZ,
+            decimal=7)
+
+        IPT = np.reshape(IPT, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            IPT_to_XYZ(IPT),
+            XYZ,
+            decimal=7)
+
 
 class TestIPTHueAngle(unittest.TestCase):
     """
@@ -107,4 +161,31 @@ class TestIPTHueAngle(unittest.TestCase):
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.25506814, 0.1915, 0.08849752])),
             0.4328937107187537,
+            decimal=7)
+
+    def test_n_dimensions_IPT_hue_angle(self):
+        """
+        Tests :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensions
+        support.
+        """
+
+        IPT = np.array([0.07049534, 0.1008, 0.09558313])
+        hue = 0.7588396531961388
+        np.testing.assert_almost_equal(
+            IPT_hue_angle(IPT),
+            hue,
+            decimal=7)
+
+        IPT = np.tile(IPT, (6, 1))
+        hue = np.tile(hue, 6)
+        np.testing.assert_almost_equal(
+            IPT_hue_angle(IPT),
+            hue,
+            decimal=7)
+
+        IPT = np.reshape(IPT, (2, 3, 3))
+        hue = np.reshape(hue, (2, 3))
+        np.testing.assert_almost_equal(
+            IPT_hue_angle(IPT),
+            hue,
             decimal=7)
