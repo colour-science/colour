@@ -504,7 +504,7 @@ def linear_to_aces_cc(value, **kwargs):
     Examples
     --------
     >>> linear_to_aces_cc(0.18)  # doctest: +ELLIPSIS
-    0.4135884...
+    array(0.4135884...)
     """
 
     return ACES_CC_TRANSFER_FUNCTION(value)
@@ -530,7 +530,7 @@ def aces_cc_to_linear(value, **kwargs):
     Examples
     --------
     >>> aces_cc_to_linear(0.41358840249244228)  # doctest: +ELLIPSIS
-    0.1800000...
+    array(0.1800000...)
     """
 
     return ACES_CC_INVERSE_TRANSFER_FUNCTION(value)
@@ -556,7 +556,7 @@ def linear_to_alexa_log_c(value, **kwargs):
     Examples
     --------
     >>> linear_to_alexa_log_c(0.18)  # doctest: +ELLIPSIS
-    0.3910068...
+    array(0.3910068...)
     """
 
     return ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION(value)
@@ -582,7 +582,7 @@ def alexa_log_c_to_linear(value, **kwargs):
     Examples
     --------
     >>> alexa_log_c_to_linear(0.39100683203408376)  # doctest: +ELLIPSIS
-    0.1800000...
+    array(0.1800000...)
     """
 
     return ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION(value)
@@ -764,7 +764,7 @@ def linear_to_s_log3(value, **kwargs):
     Examples
     --------
     >>> linear_to_s_log3(0.18)  # doctest: +ELLIPSIS
-    0.4105571...
+    array(0.4105571...)
     """
 
     return S_LOG3_TRANSFER_FUNCTION(value)
@@ -790,7 +790,7 @@ def s_log3_to_linear(value, **kwargs):
     Examples
     --------
     >>> s_log3_to_linear(0.41055718475073316)  # doctest: +ELLIPSIS
-    0.1...
+    array(0.1...)
     """
 
     return S_LOG3_INVERSE_TRANSFER_FUNCTION(value)
@@ -843,7 +843,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
     >>> linear_to_log(0.18)  # doctest: +ELLIPSIS
     0.4573196...
     >>> linear_to_log(0.18, method='ACEScc')  # doctest: +ELLIPSIS
-    0.4135884...
+    array(0.4135884...)
     >>> linear_to_log(0.18, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
     0.3910068...
     >>> linear_to_log(0.18, method='S-Log')  # doctest: +ELLIPSIS
@@ -900,7 +900,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
     >>> log_to_linear(0.45731961308541841)  # doctest: +ELLIPSIS
     0.18...
     >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
-    0.18...
+    array(0.18...)
     >>> log_to_linear(0.39100684261974583, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
     0.1...
     >>> log_to_linear(0.35998784642215442, method='S-Log')  # noqa # doctest: +ELLIPSIS
