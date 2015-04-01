@@ -108,9 +108,9 @@ def linear_to_cineon(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -118,7 +118,7 @@ def linear_to_cineon(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Cineon* value.
 
     Examples
@@ -127,8 +127,10 @@ def linear_to_cineon(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
     0.4573196...
     """
 
-    return ((685 +
-             300 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
+    value = np.asarray(value)
+
+    return ((685 + 300 *
+             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
 
 
 def cineon_to_linear(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
@@ -137,9 +139,9 @@ def cineon_to_linear(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Cineon* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -147,7 +149,7 @@ def cineon_to_linear(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -155,6 +157,8 @@ def cineon_to_linear(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
     >>> cineon_to_linear(0.45731961308541841)  # doctest: +ELLIPSIS
     0.18...
     """
+
+    value = np.asarray(value)
 
     return ((10 ** ((1023 * value - 685) / 300) - black_offset) /
             (1 - black_offset))
@@ -166,9 +170,9 @@ def linear_to_panalog(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -176,7 +180,7 @@ def linear_to_panalog(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Panalog* value.
 
     Examples
@@ -185,8 +189,10 @@ def linear_to_panalog(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
     0.3745767...
     """
 
-    return ((681 +
-             444 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
+    value = np.asarray(value)
+
+    return ((681 + 444 *
+             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
 
 
 def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
@@ -195,9 +201,9 @@ def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Panalog* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -205,7 +211,7 @@ def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -213,6 +219,8 @@ def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
     >>> panalog_to_linear(0.37457679138229816)  # doctest: +ELLIPSIS
     0.1...
     """
+
+    value = np.asarray(value)
 
     return ((10 ** ((1023 * value - 681) / 444) - black_offset) /
             (1 - black_offset))
@@ -224,9 +232,9 @@ def linear_to_red_log(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -234,7 +242,7 @@ def linear_to_red_log(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *REDLog* value.
 
     Examples
@@ -242,6 +250,8 @@ def linear_to_red_log(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
     >>> linear_to_red_log(0.18)  # doctest: +ELLIPSIS
     0.6376218...
     """
+
+    value = np.asarray(value)
 
     return ((1023 +
              511 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
@@ -253,9 +263,9 @@ def red_log_to_linear(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *REDLog* value.
-    black_offset : numeric
+    black_offset : numeric or array_like
         Black offset.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -263,7 +273,7 @@ def red_log_to_linear(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -272,7 +282,10 @@ def red_log_to_linear(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
     0.1...
     """
 
-    return (((10 ** ((1023 * value - 1023) / 511)) - black_offset) /
+    value = np.asarray(value)
+
+    return (((10 **
+              ((1023 * value - 1023) / 511)) - black_offset) /
             (1 - black_offset))
 
 
@@ -282,7 +295,7 @@ def linear_to_viper_log(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -290,7 +303,7 @@ def linear_to_viper_log(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *ViperLog* value.
 
     Examples
@@ -298,6 +311,8 @@ def linear_to_viper_log(value, **kwargs):
     >>> linear_to_viper_log(0.18)  # doctest: +ELLIPSIS
     0.6360080...
     """
+
+    value = np.asarray(value)
 
     return (1023 + 500 * np.log10(value)) / 1023
 
@@ -308,7 +323,7 @@ def viper_log_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *ViperLog* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -316,7 +331,7 @@ def viper_log_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -324,6 +339,8 @@ def viper_log_to_linear(value, **kwargs):
     >>> viper_log_to_linear(0.63600806701041346)  # doctest: +ELLIPSIS
     0.1799999...
     """
+
+    value = np.asarray(value)
 
     return 10 ** ((1023 * value - 1023) / 500)
 
@@ -338,20 +355,20 @@ def linear_to_pivoted_log(value,
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
-    log_reference : numeric
+    log_reference : numeric or array_like
         Log reference.
-    linear_reference : numeric
+    linear_reference : numeric or array_like
         Linear reference.
-    negative_gamma : numeric
+    negative_gamma : numeric or array_like
         Negative gamma.
-    density_per_code_value : numeric
+    density_per_code_value : numeric or array_like
         Density per code value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Josh Pines* style pivoted log value.
 
     Examples
@@ -359,6 +376,8 @@ def linear_to_pivoted_log(value,
     >>> linear_to_pivoted_log(0.18)  # doctest: +ELLIPSIS
     0.4349951...
     """
+
+    value = np.asarray(value)
 
     return ((log_reference + np.log10(value / linear_reference) /
              (density_per_code_value / negative_gamma)) / 1023)
@@ -374,20 +393,20 @@ def pivoted_log_to_linear(value,
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Josh Pines* style pivoted log value.
-    log_reference : numeric
+    log_reference : numeric or array_like
         Log reference.
-    linear_reference : numeric
+    linear_reference : numeric or array_like
         Linear reference.
-    negative_gamma : numeric
+    negative_gamma : numeric or array_like
         Negative gamma.
-    density_per_code_value : numeric
+    density_per_code_value : numeric or array_like
         Density per code value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -395,6 +414,8 @@ def pivoted_log_to_linear(value,
     >>> pivoted_log_to_linear(0.43499511241446726)  # doctest: +ELLIPSIS
     0.1...
     """
+
+    value = np.asarray(value)
 
     return (10 ** ((value * 1023 - log_reference) *
                    (density_per_code_value / negative_gamma)) *
@@ -407,7 +428,7 @@ def linear_to_c_log(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -415,7 +436,7 @@ def linear_to_c_log(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Canon Log* value.
 
     References
@@ -429,6 +450,8 @@ def linear_to_c_log(value, **kwargs):
     32.7953896...
     """
 
+    value = np.asarray(value)
+
     return 0.529136 * np.log10(10.1596 * value + 1) + 0.0730597
 
 
@@ -438,7 +461,7 @@ def c_log_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Canon Log* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -446,7 +469,7 @@ def c_log_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -455,8 +478,10 @@ def c_log_to_linear(value, **kwargs):
     0.19999999...
     """
 
-    return -0.071622555735168 * (
-        1.3742747797867 - np.exp(1) ** (4.3515940948906 * value))
+    value = np.asarray(value)
+
+    return (-0.071622555735168 *
+            (1.3742747797867 - np.exp(1) ** (4.3515940948906 * value)))
 
 
 def linear_to_aces_cc(value, **kwargs):
@@ -465,7 +490,7 @@ def linear_to_aces_cc(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -473,7 +498,7 @@ def linear_to_aces_cc(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *ACEScc* value.
 
     Examples
@@ -491,7 +516,7 @@ def aces_cc_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *ACEScc* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -499,7 +524,7 @@ def aces_cc_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -517,7 +542,7 @@ def linear_to_alexa_log_c(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -525,7 +550,7 @@ def linear_to_alexa_log_c(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *ALEXA Log C* value.
 
     Examples
@@ -543,7 +568,7 @@ def alexa_log_c_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *ALEXA Log C* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -551,7 +576,7 @@ def alexa_log_c_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -569,7 +594,7 @@ def linear_to_dci_p3_log(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -577,7 +602,7 @@ def linear_to_dci_p3_log(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *DCI-P3* value.
 
     Examples
@@ -595,7 +620,7 @@ def dci_p3_log_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *DCI-P3* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -603,7 +628,7 @@ def dci_p3_log_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -621,7 +646,7 @@ def linear_to_s_log(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -629,7 +654,7 @@ def linear_to_s_log(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *S-Log* value.
 
     Examples
@@ -647,7 +672,7 @@ def s_log_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *S-Log* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -655,7 +680,7 @@ def s_log_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -673,7 +698,7 @@ def linear_to_s_log2(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -681,7 +706,7 @@ def linear_to_s_log2(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *S-Log2* value.
 
     Examples
@@ -699,7 +724,7 @@ def s_log2_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *S-Log2* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -707,7 +732,7 @@ def s_log2_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -725,7 +750,7 @@ def linear_to_s_log3(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *Linear* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -733,7 +758,7 @@ def linear_to_s_log3(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *S-Log3* value.
 
     Examples
@@ -751,7 +776,7 @@ def s_log3_to_linear(value, **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         *S-Log3* value.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -759,7 +784,7 @@ def s_log3_to_linear(value, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Linear* value.
 
     Examples
@@ -799,7 +824,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
@@ -810,7 +835,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Log* value.
 
     Examples
@@ -856,7 +881,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     method : unicode, optional
         {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
@@ -867,7 +892,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Log* value.
 
     Examples
