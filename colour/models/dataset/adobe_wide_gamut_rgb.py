@@ -73,7 +73,7 @@ ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
     ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 """
-*Adobe Wide Gamut RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -81,7 +81,7 @@ ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Adobe Wide Gamut RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Adobe Wide Gamut RGB* colourspace matrix.
 
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
@@ -93,14 +93,16 @@ def _adobe_wide_gamut_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / (563 / 256))
 
@@ -112,14 +114,16 @@ def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (563 / 256)
 

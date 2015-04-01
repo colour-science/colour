@@ -71,14 +71,14 @@ MAX_RGB_WHITEPOINT : tuple
 MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,
                                                   MAX_RGB_WHITEPOINT)
 """
-*Max RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Max RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 MAX_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_MAX_RGB_MATRIX = np.linalg.inv(MAX_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Max RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Max RGB* colourspace matrix.
 
 XYZ_TO_MAX_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,14 +90,16 @@ def _max_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
@@ -109,14 +111,16 @@ def _max_rgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

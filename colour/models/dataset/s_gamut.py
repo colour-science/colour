@@ -91,14 +91,14 @@ S_GAMUT_WHITEPOINT : tuple
 S_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(S_GAMUT_PRIMARIES,
                                                   S_GAMUT_WHITEPOINT)
 """
-*S-Gamut* colourspace to *CIE XYZ* colourspace matrix.
+*S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_S_GAMUT_MATRIX = np.linalg.inv(S_GAMUT_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *S-Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
 
 XYZ_TO_S_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -110,14 +110,16 @@ def _s_log_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
 
@@ -128,14 +130,16 @@ def _s_log_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
 
@@ -162,14 +166,16 @@ def _s_log2_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
                               (np.log10(0.037584 + value / 0.9))))) / 1023)
@@ -181,14 +187,16 @@ def _s_log2_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03)
                      / 0.432699)) - 0.037584) * 0.9)
@@ -230,19 +238,21 @@ def _s_log3_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value >= 0.01125000:
-        return (420 + np.log10((value + 0.01) / (0.18 + 0.01)) * 261.5) / 1023
-    else:
-        return (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023
+    value = np.asarray(value)
+
+    return np.where(value >= 0.01125000,
+                    (420 + np.log10((value + 0.01) /
+                                    (0.18 + 0.01)) * 261.5) / 1023,
+                    (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
 
 
 def _s_log3_inverse_transfer_function(value):
@@ -251,19 +261,21 @@ def _s_log3_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value >= 171.2102946929 / 1023:
-        return (10 ** ((value * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01
-    else:
-        return (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)
+    value = np.asarray(value)
+
+    return np.where(value >= 171.2102946929 / 1023,
+                    ((10 ** ((value * 1023 - 420) / 261.5)) *
+                     (0.18 + 0.01) - 0.01),
+                    (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
 
 
 S_LOG3_TRANSFER_FUNCTION = _s_log3_transfer_function
@@ -323,14 +335,14 @@ S_GAMUT3_CINE_TO_XYZ_MATRIX = normalised_primary_matrix(
     S_GAMUT3_CINE_PRIMARIES,
     S_GAMUT3_CINE_WHITEPOINT)
 """
-*S-Gamut3.Cine* colourspace to *CIE XYZ* colourspace matrix.
+*S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT3_CINE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_S_GAMUT3_CINE_MATRIX = np.linalg.inv(S_GAMUT3_CINE_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *S-Gamut3.Cine* colourspace matrix.
+*CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
 
 XYZ_TO_S_GAMUT3_CINE_MATRIX : array_like, (3, 3)
 """

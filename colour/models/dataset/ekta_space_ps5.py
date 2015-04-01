@@ -71,14 +71,14 @@ EKTA_SPACE_PS_5_WHITEPOINT : tuple
 EKTA_SPACE_PS_5_TO_XYZ_MATRIX = normalised_primary_matrix(
     EKTA_SPACE_PS_5_PRIMARIES, EKTA_SPACE_PS_5_WHITEPOINT)
 """
-*Ekta Space PS 5* colourspace to *CIE XYZ* colourspace matrix.
+*Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix.
 
 EKTA_SPACE_PS_5_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Ekta Space PS 5* colourspace matrix.
+*CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix.
 
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 """
@@ -90,14 +90,16 @@ def _ekta_space_ps_5_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
@@ -109,14 +111,16 @@ def _ekta_space_ps_5_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

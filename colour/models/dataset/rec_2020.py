@@ -76,14 +76,14 @@ REC_2020_WHITEPOINT : tuple
 REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
                                                    REC_2020_WHITEPOINT)
 """
-*Rec. 2020* colourspace to *CIE XYZ* colourspace matrix.
+*Rec. 2020* colourspace to *CIE XYZ* tristimulus values matrix.
 
 REC_2020_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_REC_2020_MATRIX = np.linalg.inv(REC_2020_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Rec. 2020* colourspace matrix.
+*CIE XYZ* tristimulus values to *Rec. 2020* colourspace matrix.
 
 XYZ_TO_REC_2020_MATRIX : array_like, (3, 3)
 """
@@ -103,22 +103,24 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
+    value = np.asarray(value)
+
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return (value * 4.5
-            if value < b else
-            a * (value ** 0.45) - (a - 1))
+    return np.where(value < b,
+                    value * 4.5,
+                    a * (value ** 0.45) - (a - 1))
 
 
 def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
@@ -127,22 +129,24 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     is_10_bits_system : bool
         *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
+    value = np.asarray(value)
+
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return (value / 4.5
-            if value < _rec_2020_transfer_function(b) else
-            ((value + (a - 1)) / a) ** (1 / 0.45))
+    return np.where(value < _rec_2020_transfer_function(b),
+                    value / 4.5,
+                    ((value + (a - 1)) / a) ** (1 / 0.45))
 
 
 REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function

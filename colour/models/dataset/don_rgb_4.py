@@ -71,14 +71,14 @@ DON_RGB_4_WHITEPOINT : tuple
 DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
                                                     DON_RGB_4_WHITEPOINT)
 """
-*Don RGB 4* colourspace to *CIE XYZ* colourspace matrix.
+*Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 
 DON_RGB_4_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_DON_RGB_4_MATRIX = np.linalg.inv(DON_RGB_4_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Don RGB 4* colourspace matrix.
+*CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix.
 
 XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
 """
@@ -90,14 +90,16 @@ def _don_rgb_4_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
@@ -109,12 +111,12 @@ def _don_rgb_4_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 

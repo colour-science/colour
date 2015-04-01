@@ -71,14 +71,14 @@ CINEMA_GAMUT_WHITEPOINT : tuple
 CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,
                                                        CINEMA_GAMUT_WHITEPOINT)
 """
-*Cinema Gamut* colourspace to *CIE XYZ* colourspace matrix.
+*Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 CINEMA_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_CINEMA_GAMUT_MATRIX = np.linalg.inv(CINEMA_GAMUT_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Cinema Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *Cinema Gamut* colourspace matrix.
 
 XYZ_TO_CINEMA_GAMUT_MATRIX : array_like, (3, 3)
 """
@@ -90,12 +90,12 @@ def _cinema_gamut_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
@@ -109,12 +109,12 @@ def _cinema_gamut_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 

@@ -71,14 +71,14 @@ XTREME_RGB_WHITEPOINT : tuple
 XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(XTREME_RGB_PRIMARIES,
                                                      XTREME_RGB_WHITEPOINT)
 """
-*Xtreme RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 XTREME_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_XTREME_RGB_MATRIX = np.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Xtreme RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Xtreme RGB* colourspace matrix.
 
 XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,14 +90,16 @@ def _xtreme_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
@@ -109,14 +111,16 @@ def _xtreme_rgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

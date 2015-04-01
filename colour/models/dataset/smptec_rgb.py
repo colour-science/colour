@@ -71,14 +71,14 @@ SMPTE_C_RGB_WHITEPOINT : tuple
 SMPTE_C_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
 """
-*SMPTE-C RGB* colourspace to *CIE XYZ* colourspace matrix.
+*SMPTE-C RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 SMPTE_C_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_SMPTE_C_RGB_MATRIX = np.linalg.inv(SMPTE_C_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *SMPTE-C RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *SMPTE-C RGB* colourspace matrix.
 
 XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,14 +90,16 @@ def _smpte_c_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
@@ -109,14 +111,16 @@ def _smpte_c_rgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

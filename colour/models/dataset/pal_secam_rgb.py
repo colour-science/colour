@@ -72,14 +72,14 @@ PAL_SECAM_RGB_WHITEPOINT : tuple
 PAL_SECAM_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     PAL_SECAM_RGB_PRIMARIES, PAL_SECAM_RGB_WHITEPOINT)
 """
-*Pal/Secam RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Pal/Secam RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 PAL_SECAM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX = np.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Pal/Secam RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Pal/Secam RGB* colourspace matrix.
 
 XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 """
@@ -91,14 +91,16 @@ def _pal_secam_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.8)
 
@@ -110,14 +112,16 @@ def _pal_secam_rgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.8
 

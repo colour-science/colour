@@ -71,14 +71,14 @@ ECI_RGB_V2_WHITEPOINT : tuple
 ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
                                                      ECI_RGB_V2_WHITEPOINT)
 """
-*ECI RGB v2* colourspace to *CIE XYZ* colourspace matrix.
+*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ECI_RGB_V2_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ECI RGB v2* colourspace matrix.
+*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
 
 XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
@@ -90,12 +90,12 @@ def _eci_rgb_v2_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
@@ -109,12 +109,12 @@ def _eci_rgb_v2_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 

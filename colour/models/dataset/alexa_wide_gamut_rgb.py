@@ -172,7 +172,7 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
      [0.291954, 0.823841, -0.115795],
      [0.002798, -0.067034, 1.153294]])
 """
-*ALEXA Wide Gamut RGB* colourspace to *CIE XYZ* colourspace matrix.
+*ALEXA Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -180,7 +180,7 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
     ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ALEXA Wide Gamut RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *ALEXA Wide Gamut RGB* colourspace matrix.
 
 XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
@@ -196,7 +196,7 @@ def _alexa_wide_gamut_rgb_transfer_function(
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
@@ -209,14 +209,18 @@ def _alexa_wide_gamut_rgb_transfer_function(
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     cut, a, b, c, d, e, f, _ = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
-    return c * np.log10(a * value + b) + d if value > cut else e * value + f
+    return np.where(value > cut,
+                    c * np.log10(a * value + b) + d,
+                    e * value + f)
 
 
 def _alexa_wide_gamut_rgb_inverse_transfer_function(
@@ -229,7 +233,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     firmware : unicode, optional
         {'SUP 3.x', 'SUP 2.x'}
@@ -242,16 +246,18 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     cut, a, b, c, d, e, f, _ = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return ((10 ** ((value - d) / c) - b) / a
-            if value > e * cut + f else
-            (value - f) / e)
+    return np.where(value > e * cut + f,
+                    (np.power(10., (value - d) / c) - b) / a,
+                    (value - f) / e)
 
 
 ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = (

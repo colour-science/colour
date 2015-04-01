@@ -76,14 +76,14 @@ sRGB_TO_XYZ_MATRIX = np.array(
      [0.21263682, 0.71518298, 0.0721802],
      [0.01933062, 0.11919716, 0.95037259]])
 """
-*sRGB* colourspace to *CIE XYZ* colourspace matrix.
+*sRGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 sRGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *sRGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *sRGB* colourspace matrix.
 
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
@@ -95,17 +95,20 @@ def _srgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return (value * 12.92
-            if value <= 0.0031308 else 1.055 * (value ** (1 / 2.4)) - 0.055)
+    value = np.asarray(value)
+
+    return np.where(value <= 0.0031308,
+                    value * 12.92,
+                    1.055 * (value ** (1 / 2.4)) - 0.055)
 
 
 def _srgb_inverse_transfer_function(value):
@@ -115,18 +118,20 @@ def _srgb_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return (value / 12.92
-            if value <= _srgb_transfer_function(0.0031308) else
-            ((value + 0.055) / 1.055) ** 2.4)
+    value = np.asarray(value)
+
+    return np.where(value <= _srgb_transfer_function(0.0031308),
+                    value / 12.92,
+                    ((value + 0.055) / 1.055) ** 2.4)
 
 
 sRGB_TRANSFER_FUNCTION = _srgb_transfer_function
