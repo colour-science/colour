@@ -431,7 +431,7 @@ def munsell_value_McCamy1987(Y):
     Examples
     --------
     >>> munsell_value_McCamy1987(10.08)  # doctest: +ELLIPSIS
-    3.7347235...
+    array(3.7347235...)
     """
 
     Y = np.asarray(Y)
@@ -511,7 +511,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
         {'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
@@ -520,7 +520,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -543,7 +543,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     >>> munsell_value(10.08, method='Ladd 1955')  # doctest: +ELLIPSIS
     3.6952862...
     >>> munsell_value(10.08, method='McCamy 1987')  # doctest: +ELLIPSIS
-    3.7347235...
+    array(3.7347235...)
     """
 
     return MUNSELL_VALUE_METHODS.get(method)(Y)
