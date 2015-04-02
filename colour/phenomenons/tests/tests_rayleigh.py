@@ -563,11 +563,45 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
             1.000274856640486,
             places=10)
 
+    def test_n_dimensions_air_refraction_index_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
+        definition n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.0002853167951464
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
 
 class TestAirRefractionIndexEdlen1966(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+    Defines :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
     definition unit tests methods.
     """
 
@@ -593,18 +627,51 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
             1.0002748622188347,
             places=10)
 
+    def test_n_dimensions_air_refraction_index_Edlen1966(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+        definition n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.000285308809879
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
 
 class TestAirRefractionIndexPeck1972(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+    Defines :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
     definition unit tests methods.
     """
 
     def test_air_refraction_index_Peck1972(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        Tests :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
         definition.
         """
 
@@ -622,6 +689,41 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
             air_refraction_index_Peck1972(0.830),
             1.0002748591448039,
             places=10)
+
+    def test_n_dimensions_air_refraction_index_Peck1972(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        definition n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.0002853102850557
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
 
 
 class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
@@ -668,19 +770,51 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
             1.0002749066404641,
             places=10)
 
+    def test_n_dimensions_air_refraction_index_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
+        definition n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.0002853102850557
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
 
 class TestN2Depolarisation(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.N2_depolarisation`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition
+    unit tests methods.
     """
 
     def test_N2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.N2_depolarisation`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition.
         """
 
         self.assertAlmostEqual(
@@ -698,19 +832,50 @@ class TestN2Depolarisation(unittest.TestCase):
             1.034460153868486,
             places=7)
 
+    def test_n_dimensions_N2_depolarisation(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation`
+        definition n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.036445987654321
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
 
 class TestO2Depolarisation(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.O2_depolarisation`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
+    unit tests methods.
     """
 
     def test_O2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.O2_depolarisation`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition.
         """
 
         self.assertAlmostEqual(
@@ -728,53 +893,79 @@ class TestO2Depolarisation(unittest.TestCase):
             1.0983155612690134,
             places=7)
 
+    def test_n_dimensions_O2_depolarisation(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
+        n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.115307746532541
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
 
 class TestF_airPenndorf1957(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition
+    unit tests methods.
     """
 
     def test_F_air_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
         definition.
         """
 
-        self.assertEqual(F_air_Penndorf1957(), 1.0608)
+        self.assertEqual(F_air_Penndorf1957(0.360), 1.0608)
 
 
 class TestF_airYoung1981(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Young1981`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition
+    unit tests methods.
     """
 
     def test_F_air_Young1981(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Young1981`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition.
         """
 
-        self.assertEqual(F_air_Young1981(), 1.0480)
+        self.assertEqual(F_air_Young1981(0.360), 1.0480)
 
 
 class TestF_airBates1984(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition unit
+    tests methods.
     """
 
     def test_F_air_Bates1984(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition.
         """
 
         self.assertAlmostEqual(
@@ -792,18 +983,50 @@ class TestF_airBates1984(unittest.TestCase):
             1.0469470686005893,
             places=7)
 
+    def test_n_dimensions_F_air_Bates1984(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition
+        n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.051997277711708
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
 
 class TestF_airBodhaine1999(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
+    unit tests methods.
     """
 
     def test_F_air_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
         definition.
         """
 
@@ -837,19 +1060,50 @@ class TestF_airBodhaine1999(unittest.TestCase):
             1.13577082243141,
             places=7)
 
+    def test_n_dimensions_F_air_Bodhaine1999(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
+        n-dimensions support.
+        """
+
+        wl = 0.360
+        n = 1.125664021159081
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
 
 class TestMolecularDensity(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.molecular_density`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.molecular_density` definition
+    unit tests methods.
     """
 
     def test_molecular_density(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.molecular_density`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition.
         """
 
         self.assertAlmostEqual(
@@ -867,18 +1121,50 @@ class TestMolecularDensity(unittest.TestCase):
             1.8347246040868246e+19,
             places=24)
 
+    def test_n_dimensions_molecular_density(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition
+        n-dimensions support.
+        """
+
+        temperature = 200
+        N_s = 3.669449208173649e+19
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.tile(temperature, 6)
+        N_s = np.tile(N_s, 6)
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.reshape(temperature, (2, 3))
+        N_s = np.reshape(N_s, (2, 3))
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.reshape(temperature, (2, 3, 1))
+        N_s = np.reshape(N_s, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
 
 class TestMeanMolecularWeights(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+    Defines :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
     definition unit tests methods.
     """
 
     def test_mean_molecular_weights(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+        Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
         definition.
         """
 
@@ -897,19 +1183,50 @@ class TestMeanMolecularWeights(unittest.TestCase):
             28.968834471999998,
             places=7)
 
+    def test_n_dimensions_mean_molecular_weights(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+        definition n-dimensions support.
+        """
+
+        CO2_c = 300
+        m_a = 28.964016679999997
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.tile(CO2_c, 6)
+        m_a = np.tile(m_a, 6)
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.reshape(CO2_c, (2, 3))
+        m_a = np.reshape(m_a, (2, 3))
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.reshape(CO2_c, (2, 3, 1))
+        m_a = np.reshape(m_a, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
 
 class TestGravityList1968(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.gravity_List1968`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.gravity_List1968` definition
+    unit tests methods.
     """
 
     def test_gravity_List1968(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.gravity_List1968`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.gravity_List1968` definition.
         """
 
         self.assertAlmostEqual(
@@ -927,18 +1244,46 @@ class TestGravityList1968(unittest.TestCase):
             980.9524178426182,
             places=7)
 
+    def test_n_dimensions_gravity_List1968(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.gravity_List1968`
+        definition n-dimensions support.
+        """
+
+        g = 978.03560705760003
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.tile(g, 6)
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.reshape(g, (2, 3))
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.reshape(g, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
 
 class TestScatteringCrossSection(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+    Defines :func:`colour.phenomenons.rayleigh.scattering_cross_section`
     definition unit tests methods.
     """
 
     def test_scattering_cross_section(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+        Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
         definition.
         """
 
@@ -987,18 +1332,47 @@ class TestScatteringCrossSection(unittest.TestCase):
             8.98240574861602e-27,
             places=32)
 
+    def test_n_dimensions_scattering_cross_section(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+        definition n-dimensions support.
+        """
+
+        wl = 360 * 10e-8
+        sigma = 2.7812892348020306e-26
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.tile(sigma, 6)
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.reshape(sigma, (2, 3))
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.reshape(sigma, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
 
 class TestRayleighOpticalDepth(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+    Defines :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
     definition unit tests methods.
     """
 
     def test_rayleigh_optical_depth(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
         definition.
         """
 
@@ -1077,18 +1451,47 @@ class TestRayleighOpticalDepth(unittest.TestCase):
             0.10010846270542267,
             places=10)
 
+    def test_n_dimensions_rayleigh_optical_depth(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+        definition n-dimensions support.
+        """
+
+        wl = 360 * 10e-8
+        T_R = 0.5991013368480278
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.tile(T_R, 6)
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.reshape(T_R, (2, 3))
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.reshape(T_R, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
 
 class TestRayleighScatteringSpd(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
+    Defines :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
     definition unit tests methods.
     """
 
     def test_rayleigh_scattering_spd(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
         definition.
         """
 
