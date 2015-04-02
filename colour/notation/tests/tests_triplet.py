@@ -44,12 +44,32 @@ class TestRGB_to_HEX(unittest.TestCase):
         self.assertEqual(
             RGB_to_HEX(np.array([0.25, 0.60, 0.05])),
             '#3f990c')
+
         self.assertEqual(
             RGB_to_HEX(np.array([0, 0, 0])),
             '#000000')
+
         self.assertEqual(
             RGB_to_HEX(np.array([1, 1, 1])),
             '#ffffff')
+
+    def test_n_dimensions_RGB_to_HEX(self):
+        """
+        Tests :func:`colour.notation.triplet.RGB_to_HEX` definition
+        n-dimensions support.
+        """
+
+        RGB = np.array([0.25, 0.60, 0.05])
+        HEX = '#3f990c'
+        self.assertEqual(RGB_to_HEX(RGB), HEX)
+
+        RGB = np.tile(RGB, (6, 1))
+        HEX = np.tile(HEX, 6)
+        self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        HEX = np.reshape(HEX, (2, 3))
+        self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
 
 
 class TestHEX_to_RGB(unittest.TestCase):
@@ -67,14 +87,34 @@ class TestHEX_to_RGB(unittest.TestCase):
             HEX_to_RGB('#3f990c'),
             np.array([0.25, 0.60, 0.05]),
             decimal=2)
+
         np.testing.assert_almost_equal(
             HEX_to_RGB('#000000'),
             np.array([0., 0., 0.]),
             decimal=2)
+
         np.testing.assert_almost_equal(
             HEX_to_RGB('#ffffff'),
             np.array([1., 1., 1.]),
             decimal=2)
+
+    def test_n_dimensions_HEX_to_RGB(self):
+        """
+        Tests :func:`colour.notation.triplet.HEX_to_RGB` definition
+        n-dimensions support.
+        """
+
+        HEX = '#3f990c'
+        RGB = np.array([0.25, 0.60, 0.05])
+        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+
+        HEX = np.tile(HEX, 6)
+        RGB = np.tile(RGB, (6, 1))
+        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+
+        HEX = np.reshape(HEX, (2, 3))
+        RGB = np.reshape(RGB, (2, 3, 3))
+        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
 
 if __name__ == '__main__':
