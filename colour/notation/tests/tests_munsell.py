@@ -3995,12 +3995,54 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_Priest1920(10.08), 3.17490157328,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Priest1920(56.76), 7.53392328073,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Priest1920(98.32), 9.91564420499,
-                               places=7)
+        self.assertAlmostEqual(
+            munsell_value_Priest1920(10.08),
+            3.17490157328,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Priest1920(56.76),
+            7.53392328073,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Priest1920(98.32),
+            9.91564420499,
+            places=7)
+
+    def test_n_dimensions_munsell_value_Priest1920(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.17490157328
+        np.testing.assert_almost_equal(
+            munsell_value_Priest1920(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_Priest1920(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_Priest1920(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_Priest1920(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueMunsell1933(unittest.TestCase):
@@ -4015,12 +4057,54 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_Munsell1933(10.08), 3.79183555086,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Munsell1933(56.76), 8.27013181776,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Munsell1933(98.32), 9.95457710587,
-                               places=7)
+        self.assertAlmostEqual(
+            munsell_value_Munsell1933(10.08),
+            3.79183555086,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Munsell1933(56.76),
+            8.27013181776,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Munsell1933(98.32),
+            9.95457710587,
+            places=7)
+
+    def test_n_dimensions_munsell_value_Munsell1933(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.79183555086
+        np.testing.assert_almost_equal(
+            munsell_value_Munsell1933(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_Munsell1933(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_Munsell1933(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_Munsell1933(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueMoon1943(unittest.TestCase):
@@ -4035,12 +4119,54 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_Moon1943(10.08), 3.74629715382,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Moon1943(56.76), 7.8225814259,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Moon1943(98.32), 9.88538236116,
-                               places=7)
+        self.assertAlmostEqual(
+            munsell_value_Moon1943(10.08),
+            3.74629715382,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Moon1943(56.76),
+            7.8225814259,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Moon1943(98.32),
+            9.88538236116,
+            places=7)
+
+    def test_n_dimensions_munsell_value_Moon1943(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.74629715382
+        np.testing.assert_almost_equal(
+            munsell_value_Moon1943(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_Moon1943(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_Moon1943(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_Moon1943(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueSaunderson1944(unittest.TestCase):
@@ -4055,12 +4181,54 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_Saunderson1944(10.08),
-                               3.68650805994, places=7)
-        self.assertAlmostEqual(munsell_value_Saunderson1944(56.76),
-                               7.89881184275, places=7)
-        self.assertAlmostEqual(munsell_value_Saunderson1944(98.32),
-                               9.85197100995, places=7)
+        self.assertAlmostEqual(
+            munsell_value_Saunderson1944(10.08),
+            3.68650805994,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Saunderson1944(56.76),
+            7.89881184275,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Saunderson1944(98.32),
+            9.85197100995,
+            places=7)
+
+    def test_n_dimensions_munsell_value_Saunderson1944(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.68650805994
+        np.testing.assert_almost_equal(
+            munsell_value_Saunderson1944(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_Saunderson1944(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_Saunderson1944(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_Saunderson1944(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueLadd1955(unittest.TestCase):
@@ -4075,12 +4243,54 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_Ladd1955(10.08), 3.69528622419,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Ladd1955(56.76), 7.84875137062,
-                               places=7)
-        self.assertAlmostEqual(munsell_value_Ladd1955(98.32), 9.75492813681,
-                               places=7)
+        self.assertAlmostEqual(
+            munsell_value_Ladd1955(10.08),
+            3.69528622419,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Ladd1955(56.76),
+            7.84875137062,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_Ladd1955(98.32),
+            9.75492813681,
+            places=7)
+
+    def test_n_dimensions_munsell_value_Ladd1955(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.69528622419
+        np.testing.assert_almost_equal(
+            munsell_value_Ladd1955(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_Ladd1955(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_Ladd1955(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_Ladd1955(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueMcCamy1992(unittest.TestCase):
@@ -4095,12 +4305,54 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_McCamy1987(10.08),
-                               3.7347235258546316, places=7)
-        self.assertAlmostEqual(munsell_value_McCamy1987(56.76),
-                               7.951693123402992, places=7)
-        self.assertAlmostEqual(munsell_value_McCamy1987(98.32),
-                               9.935265378231314, places=7)
+        self.assertAlmostEqual(
+            munsell_value_McCamy1987(10.08),
+            3.7347235258546316,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_McCamy1987(56.76),
+            7.951693123402992,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_McCamy1987(98.32),
+            9.935265378231314,
+            places=7)
+
+    def test_n_dimensions_munsell_value_McCamy1987(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.7347235258546316
+        np.testing.assert_almost_equal(
+            munsell_value_McCamy1987(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_McCamy1987(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_McCamy1987(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_McCamy1987(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellValueASTMD153508(unittest.TestCase):
@@ -4115,12 +4367,54 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(munsell_value_ASTMD153508(10.08),
-                               3.7344764769311354, places=7)
-        self.assertAlmostEqual(munsell_value_ASTMD153508(56.76),
-                               7.94992421224809, places=7)
-        self.assertAlmostEqual(munsell_value_ASTMD153508(98.32),
-                               9.934372853115544, places=7)
+        self.assertAlmostEqual(
+            munsell_value_ASTMD153508(10.08),
+            3.7344764769311354,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_ASTMD153508(56.76),
+            7.94992421224809,
+            places=7)
+
+        self.assertAlmostEqual(
+            munsell_value_ASTMD153508(98.32),
+            9.934372853115544,
+            places=7)
+
+    def test_n_dimensions_munsell_value_ASTMD153508(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        definition n-dimensions support.
+        """
+
+        Y = 10.08
+        V = 3.7344764769311354
+        np.testing.assert_almost_equal(
+            munsell_value_ASTMD153508(Y),
+            V,
+            decimal=7)
+
+        V = [V] * 6
+        Y = [Y] * 6
+        np.testing.assert_almost_equal(
+            munsell_value_ASTMD153508(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            munsell_value_ASTMD153508(Y),
+            V,
+            decimal=7)
+
+        V = np.reshape(V, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            munsell_value_ASTMD153508(Y),
+            V,
+            decimal=7)
 
 
 class TestMunsellSpecification_to_xyY(unittest.TestCase):

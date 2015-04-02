@@ -8271,8 +8271,7 @@ def munsell_value_Priest1920_2d(Y):
 def munsell_value_Priest1920_vectorise(Y):
     Y = np.asarray(Y)
 
-    Y /= 100
-    V = 10 * np.sqrt(Y)
+    V = 10 * np.sqrt(Y / 100)
 
     return V
 

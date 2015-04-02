@@ -196,9 +196,9 @@ def _munsell_value_ASTMD153508_interpolator():
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator1d([luminance_ASTMD153508(x)
-                                  for x in munsell_values],
-                                 munsell_values))
+            LinearInterpolator1d(
+                luminance_ASTMD153508(munsell_values),
+                munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -238,12 +238,12 @@ def munsell_value_Priest1920(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -262,8 +262,9 @@ def munsell_value_Priest1920(Y):
     3.1749015...
     """
 
-    Y /= 100
-    V = 10 * np.sqrt(Y)
+    Y = np.asarray(Y)
+
+    V = 10 * np.sqrt(Y / 100)
 
     return V
 
@@ -275,12 +276,12 @@ def munsell_value_Munsell1933(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -293,6 +294,8 @@ def munsell_value_Munsell1933(Y):
     >>> munsell_value_Munsell1933(10.08)  # doctest: +ELLIPSIS
     3.7918355...
     """
+
+    Y = np.asarray(Y)
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
@@ -307,12 +310,12 @@ def munsell_value_Moon1943(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -325,6 +328,8 @@ def munsell_value_Moon1943(Y):
     >>> munsell_value_Moon1943(10.08)  # doctest: +ELLIPSIS
     3.7462971...
     """
+
+    Y = np.asarray(Y)
 
     V = 1.4 * Y ** 0.426
 
@@ -357,6 +362,8 @@ def munsell_value_Saunderson1944(Y):
     3.6865080...
     """
 
+    Y = np.asarray(Y)
+
     V = 2.357 * (Y ** 0.343) - 1.52
 
     return V
@@ -369,12 +376,12 @@ def munsell_value_Ladd1955(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -388,6 +395,8 @@ def munsell_value_Ladd1955(Y):
     3.6952862...
     """
 
+    Y = np.asarray(Y)
+
     V = 2.468 * (Y ** (1 / 3)) - 1.636
 
     return V
@@ -400,12 +409,12 @@ def munsell_value_McCamy1987(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -425,15 +434,17 @@ def munsell_value_McCamy1987(Y):
     3.7347235...
     """
 
-    if Y <= 0.9:
-        V = 0.87445 * (Y ** 0.9967)
-    else:
-        V = (2.49268 * (Y ** (1 / 3)) - 1.5614 -
-             (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
-             (0.0133 / (Y ** 2.3)) +
-             0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
-             (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
-             (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)))
+    Y = np.asarray(Y)
+
+    V = np.where(Y <= 0.9,
+                 0.87445 * (Y ** 0.9967),
+                 (2.49268 * (Y ** (1 / 3)) - 1.5614 -
+                  (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
+                  (0.0133 / (Y ** 2.3)) +
+                  0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
+                  (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
+                  (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
+
     return V
 
 
@@ -444,13 +455,13 @@ def munsell_value_ASTMD153508(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`
 
     Returns
     -------
-    numeric
-        *Munsell* value :math:`V`..
+    numeric or ndarray
+        *Munsell* value :math:`V`.
 
     Notes
     -----
@@ -462,6 +473,8 @@ def munsell_value_ASTMD153508(Y):
     >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
     3.7462971...
     """
+
+    Y = np.asarray(Y)
 
     V = _munsell_value_ASTMD153508_interpolator()(Y)
 
