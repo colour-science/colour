@@ -45,6 +45,7 @@ from colour.models import (
     xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -211,13 +212,13 @@ def colour_quality_scale(spd_test, additional_data=False):
         return Q_a
 
 
-def gamut_area(Labs):
+def gamut_area(Lab):
     """
     Returns the gamut area :math:`G` covered by given *CIE Lab* matrices.
 
     Parameters
     ----------
-    Labs : array_like
+    Lab : array_like
         *CIE Lab* colourspace matrices.
 
     Returns
@@ -227,7 +228,7 @@ def gamut_area(Labs):
 
     Examples
     --------
-    >>> Labs = [
+    >>> Lab = [
     ...     np.array([39.94996006, 34.59018231, -19.86046321]),
     ...     np.array([38.88395498, 21.44348519, -34.87805301]),
     ...     np.array([36.60576301, 7.06742454, -43.21461177]),
@@ -243,26 +244,23 @@ def gamut_area(Labs):
     ...     np.array([61.26281449, 40.87950839, 44.97606172]),
     ...     np.array([41.62567821, 57.34129516, 27.4671817]),
     ...     np.array([40.52565174, 48.87449192, 3.4512168])]
-    >>> gamut_area(Labs)  # doctest: +ELLIPSIS
+    >>> gamut_area(Lab)  # doctest: +ELLIPSIS
     8335.9482018...
     """
 
-    Labs_s = Labs[:]
-    Labs_s.append(Labs_s.pop(0))
+    Lab = np.asarray(Lab)
+    Lab_s = np.roll(np.copy(Lab), -3)
 
-    G = 0
-    for i, _ in enumerate(Labs):
-        L, a, b = Labs[i]
-        L_s, a_s, b_s = Labs_s[i]
+    L, a, b = tsplit(Lab)
+    L_s, a_s, b_s = tsplit(Lab_s)
 
-        A = np.sqrt(a ** 2 + b ** 2)
-        B = np.sqrt(a_s ** 2 + b_s ** 2)
-        C = np.sqrt((a_s - a) ** 2 + (b_s - b) ** 2)
-        t = (A + B + C) / 2
-        S = np.sqrt(t * (t - A) * (t - B) * (t - C))
-        G += S
+    A = np.linalg.norm(Lab[..., 1:3], axis=-1)
+    B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
+    C = np.linalg.norm(np.dstack((a_s - a, b_s - b)), axis=-1)
+    t = (A + B + C) / 2
+    S = np.sqrt(t * (t - A) * (t - B) * (t - C))
 
-    return G
+    return np.sum(S)
 
 
 def _vs_colorimetry_data(spd_test,
