@@ -310,9 +310,9 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     np.array([0.34567, 0.35850]),
                     np.array([0.31271, 0.32902]),
                     np.array(
-                        [3.24100326, -1.53739899, -0.49861587,
-                         -0.96922426, 1.87592999, 0.04155422,
-                         0.05563942, -0.2040112, 1.05714897]),
+                        [[3.24100326, -1.53739899, -0.49861587],
+                         [-0.96922426, 1.87592999, 0.04155422],
+                         [0.05563942, -0.2040112, 1.05714897]]),
                     'Bradford',
                     sRGB_TRANSFER_FUNCTION),
                 RGB,
@@ -325,11 +325,44 @@ class TestXYZ_to_RGB(unittest.TestCase):
                     np.array([0.34567, 0.35850]),
                     np.array([0.32168, 0.33767]),
                     np.array(
-                        [1.04981102e+00, 0.00000000e+00, -9.74845410e-05,
-                         -4.95903023e-01, 1.37331305e+00, 9.82400365e-02,
-                         0.00000000e+00, 0.00000000e+00, 9.91252022e-01])),
+                        [[1.04981102e+00, 0.00000000e+00, -9.74845410e-05],
+                         [-4.95903023e-01, 1.37331305e+00, 9.82400365e-02],
+                         [0.00000000e+00, 0.00000000e+00, 9.91252022e-01]])),
                 RGB,
                 decimal=7)
+
+    def test_n_dimensions_XYZ_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.XYZ_to_RGB` definition n-dimensions
+        support.
+        """
+
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        W_R = np.array([0.34567, 0.35850])
+        W_T = np.array([0.31271, 0.32902])
+        M = np.array([
+            [3.24100326, -1.53739899, -0.49861587],
+            [-0.96922426, 1.87592999, 0.04155422],
+            [0.05563942, -0.2040112, 1.05714897]])
+        RGB = np.array([0.01091381, 0.12719366, 0.11641136])
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(XYZ, W_R, W_T, M),
+            RGB,
+            decimal=7)
+
+        XYZ = np.tile(XYZ, (6, 1))
+        RGB = np.tile(RGB, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(XYZ, W_R, W_T, M),
+            RGB,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        RGB = np.reshape(RGB, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(XYZ, W_R, W_T, M),
+            RGB,
+            decimal=7)
 
 
 class TestRGB_to_XYZ(unittest.TestCase):
@@ -350,9 +383,9 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     np.array([0.31271, 0.32902]),
                     np.array([0.34567, 0.35850]),
                     np.array(
-                        [0.41238656, 0.35759149, 0.18045049,
-                         0.21263682, 0.71518298, 0.0721802,
-                         0.01933062, 0.11919716, 0.95037259]),
+                        [[0.41238656, 0.35759149, 0.18045049],
+                         [0.21263682, 0.71518298, 0.0721802],
+                         [0.01933062, 0.11919716, 0.95037259]]),
                     'Bradford',
                     sRGB_INVERSE_TRANSFER_FUNCTION),
                 np.array(XYZ),
@@ -365,11 +398,44 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     np.array([0.32168, 0.33767]),
                     np.array([0.34567, 0.35850]),
                     np.array(
-                        [9.52552396e-01, 0.00000000e+00, 9.36786317e-05,
-                         3.43966450e-01, 7.28166097e-01, -7.21325464e-02,
-                         0.00000000e+00, 0.00000000e+00, 1.00882518e+00])),
+                        [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
+                         [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+                         [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])),
                 np.array(XYZ),
                 decimal=7)
+
+    def test_n_dimensions_RGB_to_XYZ(self):
+        """
+        Tests :func:`colour.models.rgb.RGB_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        RGB = np.array([0.86969452, 1.00516431, 1.41715848])
+        W_R = np.array([0.31271, 0.32902])
+        W_T = np.array([0.34567, 0.35850])
+        M = np.array([
+            [0.41238656, 0.35759149, 0.18045049],
+            [0.21263682, 0.71518298, 0.0721802],
+            [0.01933062, 0.11919716, 0.95037259]])
+        XYZ = np.array([0.9679628, 0.99831871, 1.12577854])
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(RGB, W_R, W_T, M),
+            XYZ,
+            decimal=7)
+
+        RGB = np.tile(RGB, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(RGB, W_R, W_T, M),
+            XYZ,
+            decimal=7)
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(RGB, W_R, W_T, M),
+            XYZ,
+            decimal=7)
 
 
 class TestRGB_to_RGB(unittest.TestCase):
@@ -406,6 +472,35 @@ class TestRGB_to_RGB(unittest.TestCase):
                        sRGB_colourspace,
                        'Bradford'),
             np.array([0.33704409, 0.44133521, 0.21429761]),
+            decimal=7)
+
+    def test_n_dimensions_RGB_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.RGB_to_RGB` definition n-dimensions
+        support.
+        """
+
+        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
+        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+        RGB_i = np.array([0.35521588, 0.41, 0.24177934])
+        RGB_o = np.array([0.33658567, 0.44096335, 0.21509975])
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
+            RGB_o,
+            decimal=7)
+
+        RGB_i = np.tile(RGB_i, (6, 1))
+        RGB_o = np.tile(RGB_o, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
+            RGB_o,
+            decimal=7)
+
+        RGB_i = np.reshape(RGB_i, (2, 3, 3))
+        RGB_o = np.reshape(RGB_o, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
+            RGB_o,
             decimal=7)
 
 

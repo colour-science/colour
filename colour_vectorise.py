@@ -8165,15 +8165,16 @@ def RGB_to_XYZ_profile(
 # #############################################################################
 # ### colour.RGB_to_RGB
 # #############################################################################
-from colour import sRGB_COLOURSPACE
+from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
 
-C = sRGB_COLOURSPACE
-CAT = 'Bradford'
+C_I = sRGB_COLOURSPACE
+C_O = PROPHOTO_RGB_COLOURSPACE
+CAT = 'CAT02'
 
 
 def RGB_to_RGB_2d(RGB):
     for i in range(len(RGB)):
-        RGB_to_RGB(RGB[i], C, C, CAT)
+        RGB_to_RGB(RGB[i], C_I, C_O, CAT)
 
 
 def RGB_to_RGB_vectorise(RGB,
@@ -8186,11 +8187,11 @@ def RGB_to_RGB_vectorise(RGB,
         chromatic_adaptation_transform)
 
     M = np.einsum('...ij,...jk->...ik',
-                  input_colourspace.RGB_to_XYZ_matrix,
-                  cat)
+                  cat,
+                  input_colourspace.RGB_to_XYZ_matrix)
     M = np.einsum('...ij,...jk->...ik',
-                  M,
-                  output_colourspace.XYZ_to_RGB_matrix)
+                  output_colourspace.XYZ_to_RGB_matrix,
+                  M)
 
     RGB = np.einsum('...ij,...j->...i', M, RGB)
 
@@ -8202,23 +8203,23 @@ def RGB_to_RGB_analysis():
 
     print('Reference:')
     RGB = np.array([0.86969452, 1.00516431, 1.41715848])
-    print(RGB_to_RGB(RGB, C, C, CAT))
+    print(RGB_to_RGB(RGB, C_I, C_O, CAT))
 
     print('\n')
 
     print('1d array input:')
-    print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print(RGB_to_RGB_vectorise(RGB, C_I, C_O, CAT))
 
     print('\n')
 
     print('2d array input:')
     RGB = np.tile(RGB, (6, 1))
-    print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print(RGB_to_RGB_vectorise(RGB, C_I, C_O, CAT))
     print('\n')
 
     print('3d array input:')
     RGB = np.reshape(RGB, (2, 3, 3))
-    print(RGB_to_RGB_vectorise(RGB, C, C, CAT))
+    print(RGB_to_RGB_vectorise(RGB, C_I, C_O, CAT))
 
     print('\n')
 
@@ -8238,7 +8239,7 @@ def RGB_to_RGB_profile(
     times = timeit.Timer(
         functools.partial(
             RGB_to_RGB_vectorise,
-            DATA_HD1, C, C, CAT)).repeat(repeat_b, number_b)
+            DATA_HD1, C_I, C_O, CAT)).repeat(repeat_b, number_b)
 
     b = min(times) / number_b
 
