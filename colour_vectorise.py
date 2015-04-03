@@ -1104,6 +1104,152 @@ def cylindrical_to_cartesian_profile(
 
 # #############################################################################
 # #############################################################################
+# ## colour.appearance.atd95
+# #############################################################################
+# #############################################################################
+from colour.appearance.atd95 import *
+
+
+def XYZ_to_ATD95_2d(XYZ, XYZ_0, Y_0, k_1, k_2):
+    for i in range(len(XYZ)):
+        XYZ_to_ATD95(XYZ[i], XYZ_0, Y_0, k_1, k_2)
+
+
+def XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
+    XYZ = luminance_to_retinal_illuminance_vectorise(XYZ, Y_0)
+    XYZ_0 = luminance_to_retinal_illuminance_vectorise(XYZ_0, Y_0)
+
+    # Computing adaptation model.
+    LMS = XYZ_to_LMS_ATD95_vectorise(XYZ)
+    XYZ_a = k_1 * XYZ + k_2 * XYZ_0
+    LMS_a = XYZ_to_LMS_ATD95_vectorise(XYZ_a)
+
+    LMS_g = LMS * (sigma / (sigma + LMS_a))
+
+    # Computing opponent colour dimensions.
+    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(
+        opponent_colour_dimensions_vectorise(LMS_g))
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *brightness* :math:`Br`.
+    # -------------------------------------------------------------------------
+    Br = (A_1 ** 2 + T_1 ** 2 + D_1 ** 2) ** 0.5
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`C`.
+    # -------------------------------------------------------------------------
+    C = (T_2 ** 2 + D_2 ** 2) ** 0.5 / A_2
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* :math:`H`.
+    # -------------------------------------------------------------------------
+    H = T_2 / D_2
+
+    return tstack((H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2))
+
+
+def luminance_to_retinal_illuminance_vectorise(XYZ, Y_c):
+    return 18. * (Y_c * XYZ / 100.) ** 0.8
+
+
+def XYZ_to_LMS_ATD95_vectorise(XYZ):
+    X, Y, Z = tsplit(XYZ)
+
+    L = ((0.66 * (0.2435 * X + 0.8524 * Y - 0.0516 * Z)) ** 0.7) + 0.024
+    M = ((-0.3954 * X + 1.1642 * Y + 0.0837 * Z) ** 0.7) + 0.036
+    S = ((0.43 * (0.04 * Y + 0.6225 * Z)) ** 0.7) + 0.31
+
+    return tstack((L, M, S))
+
+
+def opponent_colour_dimensions_vectorise(LMS_g):
+    L_g, M_g, S_g = tsplit(LMS_g)
+
+    A_1i = 3.57 * L_g + 2.64 * M_g
+    T_1i = 7.18 * L_g - 6.21 * M_g
+    D_1i = -0.7 * L_g + 0.085 * M_g + S_g
+    A_2i = 0.09 * A_1i
+    T_2i = 0.43 * T_1i + 0.76 * D_1i
+    D_2i = D_1i
+
+    A_1 = final_response_vectorise(A_1i)
+    T_1 = final_response_vectorise(T_1i)
+    D_1 = final_response_vectorise(D_1i)
+    A_2 = final_response_vectorise(A_2i)
+    T_2 = final_response_vectorise(T_2i)
+    D_2 = final_response_vectorise(D_2i)
+
+    return tstack((A_1, T_1, D_1, A_2, T_2, D_2))
+
+
+def final_response_vectorise(value):
+    return value / (200 + abs(value))
+
+
+def XYZ_to_ATD95_analysis():
+    message_box('XYZ_to_ATD95')
+
+    XYZ = np.array([19.01, 20.00, 21.78])
+    XYZ_0 = np.array([95.05, 100.00, 108.88])
+    Y_0 = 318.31
+    k_1 = 0.0
+    k_2 = 50.0
+
+    print('Reference:')
+    print(XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
+
+    print('\n')
+
+
+# XYZ_to_ATD95_analysis()
+
+
+def XYZ_to_ATD95_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_0 = np.array([95.05, 100.00, 108.88])
+    Y_0 = 318.31
+    k_1 = 0.0
+    k_2 = 50.0
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_ATD95_2d,
+            DATA_HD1, XYZ_0, Y_0, k_1, k_2)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_ATD95_vectorise,
+            DATA_HD1, XYZ_0, Y_0, k_1, k_2)).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_ATD95\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_ATD95_profile()
+
+# #############################################################################
+# #############################################################################
 # ## colour.colorimetry.lightness
 # #############################################################################
 # #############################################################################
