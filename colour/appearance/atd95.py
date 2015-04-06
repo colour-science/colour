@@ -34,6 +34,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import namedtuple
+from colour.utilities.array import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -177,6 +178,8 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     ATD95_Specification(h=1.9089869..., C=1.2064060..., Q=0.1814003..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
     """
 
+    assert  XYZ.shape[-1] == 3
+
     XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
     XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0)
 
@@ -258,13 +261,13 @@ def XYZ_to_LMS_ATD95(XYZ):
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
     L = ((0.66 * (0.2435 * X + 0.8524 * Y - 0.0516 * Z)) ** 0.7) + 0.024
     M = ((-0.3954 * X + 1.1642 * Y + 0.0837 * Z) ** 0.7) + 0.036
     S = ((0.43 * (0.04 * Y + 0.6225 * Z)) ** 0.7) + 0.31
 
-    return np.array([L, M, S])
+    return tstack([L, M, S])
 
 
 def opponent_colour_dimensions(LMS_g):
@@ -295,7 +298,7 @@ def opponent_colour_dimensions(LMS_g):
      0.0107584...)
     """
 
-    L_g, M_g, S_g = LMS_g
+    L_g, M_g, S_g = tsplit(LMS_g)
 
     A_1i = 3.57 * L_g + 2.64 * M_g
     T_1i = 7.18 * L_g - 6.21 * M_g
