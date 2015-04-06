@@ -212,8 +212,7 @@ class ColourAppearanceModelTest(object):
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
 
-    @unittest.skip
-    def test_parallel_forward_examples(self):
+    def test_vectorised_forward_examples(self):
         """
         Tests the colour appearance model implementation with array-like input.
 

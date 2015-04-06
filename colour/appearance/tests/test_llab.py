@@ -6,6 +6,7 @@ Defines unit tests for :mod:`colour.appearance.llab` module.
 """
 
 from __future__ import division, unicode_literals
+from colour.utilities.array import tstack, numeric_as_array
 
 try:
     from unittest import mock
@@ -58,17 +59,19 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
             LLAB(l:c) colour appearance model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_0 = np.array([data['X_0'], data['Y_0'], data['Z_0']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_0 = tstack([data['X_0'], data['Y_0'], data['Z_0']])
+
+        induction_factors = LLAB_InductionFactors(1,
+                                                  numeric_as_array(data['F_S']),
+                                                  numeric_as_array(data['F_L']),
+                                                  numeric_as_array(data['F_C']))
 
         specification = XYZ_to_LLAB(XYZ,
                                     XYZ_0,
-                                    data['Y_b'],
-                                    data['L'],
-                                    LLAB_InductionFactors(1,
-                                                          data['F_S'],
-                                                          data['F_L'],
-                                                          data['F_C']))
+                                    numeric_as_array(data['Y_b']),
+                                    numeric_as_array(data['L']),
+                                    induction_factors)
         return specification
 
     @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',

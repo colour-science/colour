@@ -11,6 +11,7 @@ import numpy as np
 
 from colour.appearance import XYZ_to_RLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities.array import tstack, numeric_as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -53,12 +54,12 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
             RLAB colour appearance model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_n = np.array([data['X_n'], data['Y_n'], data['Z_n']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_n = tstack([data['X_n'], data['Y_n'], data['Z_n']])
 
         specification = XYZ_to_RLAB(XYZ,
                                     XYZ_n,
-                                    data['Y_n2'],
-                                    data['sigma'],
-                                    data['D'])
+                                    numeric_as_array(data['Y_n2']),
+                                    numeric_as_array(data['sigma']),
+                                    numeric_as_array(data['D']))
         return specification

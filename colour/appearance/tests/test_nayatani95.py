@@ -11,6 +11,7 @@ import numpy as np
 
 from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities.array import tstack, numeric_as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -54,12 +55,12 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
             Nayatani (1995) colour appearance model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_n = np.array([data['X_n'], data['Y_n'], data['Z_n']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_n = tstack([data['X_n'], data['Y_n'], data['Z_n']])
 
         specification = XYZ_to_Nayatani95(XYZ,
                                           XYZ_n,
-                                          data['Y_o'],
-                                          data['E_o'],
-                                          data['E_or'])
+                                          numeric_as_array(data['Y_o']),
+                                          numeric_as_array(data['E_o']),
+                                          numeric_as_array(data['E_or']))
         return specification

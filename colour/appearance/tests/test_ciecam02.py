@@ -14,6 +14,7 @@ from colour.appearance import (
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities.array import tstack, numeric_as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -58,16 +59,21 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             CIECAM02 colour appearance model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+
+        induction_factors = CIECAM02_InductionFactors(
+            numeric_as_array(data['F']),
+            numeric_as_array(data['c']),
+            numeric_as_array(data['N_c']),
+            )
 
         specification = XYZ_to_CIECAM02(XYZ,
                                         XYZ_w,
-                                        data['L_A'],
-                                        data['Y_b'],
-                                        CIECAM02_InductionFactors(data['F'],
-                                                                  data['c'],
-                                                                  data['N_c']))
+                                        numeric_as_array(data['L_A']),
+                                        numeric_as_array(data['Y_b']),
+                                        induction_factors
+                                        )
         return specification
 
 
