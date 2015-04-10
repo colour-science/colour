@@ -225,7 +225,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
     def test_opto_electronic_conversion_functions(self):
         """
-        Tests the opto-electronic conversion functions from the
+        Tests opto-electronic conversion functions from the
         :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models.
         """
 
@@ -238,26 +238,63 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
             samples_oecf = [colourspace.transfer_function(sample)
                             for sample in samples]
-            samples_invert_oecf = [
+            samples_inverse_oecf = [
                 colourspace.inverse_transfer_function(sample)
                 for sample in samples_oecf]
 
             np.testing.assert_almost_equal(samples,
-                                           samples_invert_oecf,
+                                           samples_inverse_oecf,
                                            decimal=7)
 
         for colourspace in aces_proxy_colourspaces:
             colourspace = RGB_COLOURSPACES.get(colourspace)
             samples_oecf = [colourspace.transfer_function(sample)
                             for sample in samples]
-            samples_invert_oecf = [
+            samples_inverse_oecf = [
                 colourspace.inverse_transfer_function(sample)
                 for sample in samples_oecf]
 
             np.testing.assert_allclose(samples,
-                                       samples_invert_oecf,
+                                       samples_inverse_oecf,
                                        rtol=0.01,
                                        atol=0.01)
+
+    def test_n_dimensions_opto_electronic_conversion_functions(self):
+        """
+        Tests opto-electronic conversion functions from the
+        :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models
+        n-dimensions support.
+        """
+
+        for colourspace in RGB_COLOURSPACES.values():
+            value_oecf = 0.5
+            value_inverse_oecf = colourspace.inverse_transfer_function(
+                colourspace.transfer_function(value_oecf))
+            np.testing.assert_almost_equal(
+                value_oecf,
+                value_inverse_oecf,
+                decimal=7)
+
+            value_oecf = np.tile(value_oecf, 6)
+            value_inverse_oecf = np.tile(value_inverse_oecf, 6)
+            np.testing.assert_almost_equal(
+                value_oecf,
+                value_inverse_oecf,
+                decimal=7)
+
+            value_oecf = np.reshape(value_oecf, (3, 2))
+            value_inverse_oecf = np.reshape(value_inverse_oecf, (3, 2))
+            np.testing.assert_almost_equal(
+                value_oecf,
+                value_inverse_oecf,
+                decimal=7)
+
+            value_oecf = np.reshape(value_oecf, (3, 2, 1))
+            value_inverse_oecf = np.reshape(value_inverse_oecf, (3, 2, 1))
+            np.testing.assert_almost_equal(
+                value_oecf,
+                value_inverse_oecf,
+                decimal=7)
 
     def test_pickle(self):
         """
