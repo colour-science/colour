@@ -1145,7 +1145,7 @@ def XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     # -------------------------------------------------------------------------
     H = T_2 / D_2
 
-    return tstack((H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2))
+    return ATD95_Specification(H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
 
 
 def luminance_to_retinal_illuminance_vectorise(XYZ, Y_c):
@@ -1247,6 +1247,109 @@ def XYZ_to_ATD95_profile(
 
 
 # XYZ_to_ATD95_profile()
+
+# #############################################################################
+# #############################################################################
+# ## colour.appearance.rlab
+# #############################################################################
+# #############################################################################
+from colour.appearance.hunt import *
+from colour.appearance.rlab import *
+
+
+def XYZ_to_rgb_vectorise(XYZ):
+    return np.einsum('...ij,...j->...i', XYZ_TO_HPE_MATRIX, XYZ)
+
+
+def XYZ_to_RLAB_vectorise(XYZ,
+                          XYZ_n,
+                          Y_n,
+                          sigma=RLAB_VIEWING_CONDITIONS.get('Average'),
+                          D=RLAB_D_FACTOR.get('Hard Copy Images')):
+    X, Y, Z = tsplit(XYZ)
+    Y_n = np.asarray(Y_n)
+
+    # Converting to cone responses.
+    LMS_n = XYZ_to_rgb_vectorise(XYZ_n)
+
+    # Computing the :math:`A` matrix.
+    LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
+    LMS_p_L = ((1 + (Y_n ** (1 / 3)) + LMS_l_E) /
+               (1 + (Y_n ** (1 / 3)) + (1 / LMS_l_E)))
+    LMS_a_L = (LMS_p_L + D * (1 - LMS_p_L)) / LMS_n
+
+    aR = row_as_diagonal(LMS_a_L)
+    # XYZ_ref = np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX), XYZ)
+    XYZ_ref = np.einsum('...ij,...j->...i',
+                        np.einsum('...ij,...jk->...ik',
+                                  np.einsum('...ij,...jk->...ik', R_MATRIX,
+                                            aR),
+                                  XYZ_TO_HPE_MATRIX),
+                        XYZ)
+
+    X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *Lightness* :math:`L^R`.
+    # -------------------------------------------------------------------------
+    LR = 100 * (Y_ref ** sigma)
+
+    # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
+    aR = 430 * ((X_ref ** sigma) - (Y_ref ** sigma))
+    bR = 170 * ((Y_ref ** sigma) - (Z_ref ** sigma))
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`h^R`.
+    # -------------------------------------------------------------------------
+    hR = np.degrees(np.arctan2(bR, aR)) % 360
+    # TODO: Implement hue composition computation.
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`C^R`.
+    # -------------------------------------------------------------------------
+    CR = np.sqrt((aR ** 2) + (bR ** 2))
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`s^R`.
+    # -------------------------------------------------------------------------
+    sR = CR / LR
+
+    return RLAB_Specification(LR, CR, hR, sR, None, aR, bR)
+
+
+def XYZ_to_RLAB_analysis():
+    message_box('XYZ_to_RLAB')
+
+    XYZ = np.array([19.01, 20, 21.78])
+    XYZ_n = np.array([109.85, 100, 35.58])
+    Y_n = 31.83
+    sigma = RLAB_VIEWING_CONDITIONS['Average']
+    D = RLAB_D_FACTOR['Hard Copy Images']
+
+    print('Reference:')
+    print(XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_RLAB_vectorise(XYZ, XYZ_n, Y_n, sigma, D))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_RLAB_vectorise(XYZ, XYZ_n, Y_n, sigma, D))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_RLAB_vectorise(XYZ, XYZ_n, Y_n, sigma, D))
+
+    print('\n')
+
+
+# XYZ_to_RLAB_analysis()
 
 # #############################################################################
 # #############################################################################
