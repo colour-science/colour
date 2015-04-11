@@ -1259,6 +1259,461 @@ def XYZ_to_ATD95_profile(
 from colour.appearance.hunt import *
 
 
+def XYZ_to_Hunt_vectorise(XYZ,
+                          XYZ_w,
+                          XYZ_b,
+                          L_A,
+                          surround=HUNT_VIEWING_CONDITIONS.get(
+                              'Normal Scenes'),
+                          L_AS=None,
+                          CCT_w=None,
+                          XYZ_p=None,
+                          p=None,
+                          S=None,
+                          S_W=None,
+                          helson_judd_effect=False,
+                          discount_illuminant=True):
+    X, Y, Z = tsplit(XYZ)
+    X_b, Y_b, Z_b = tsplit(XYZ_b)
+    X_w, Y_w, Z_w = tsplit(XYZ_w)
+
+    # Arguments handling.
+    if XYZ_p is not None:
+        X_p, Y_p, Z_p = tsplit(XYZ_p)
+    else:
+        X_p = X_b
+        Y_p = Y_b
+        Z_p = Y_b
+        warning('Unspecified proximal field "XYZ_p" argument, using '
+                'background "XYZ_b" as approximation!')
+
+    if surround.N_cb is None:
+        N_cb = 0.725 * (Y_w / Y_b) ** 0.2
+        warning('Unspecified "N_cb" argument, using approximation: '
+                '"{0}"'.format(N_cb))
+    if surround.N_bb is None:
+        N_bb = 0.725 * (Y_w / Y_b) ** 0.2
+        warning('Unspecified "N_bb" argument, using approximation: '
+                '"{0}"'.format(N_bb))
+
+    if L_AS is None and CCT_w is None:
+        raise ValueError('Either the scotopic luminance "L_AS" of the '
+                         'illuminant or its correlated colour temperature '
+                         '"CCT_w" must be specified!')
+    if L_AS is None:
+        L_AS = illuminant_scotopic_luminance_vectorise(L_A, CCT_w)
+        warning('Unspecified "L_AS" argument, using approximation from "CCT": '
+                '"{0}"'.format(L_AS))
+
+    if S is None != S_W is None:
+        raise ValueError('Either both stimulus scotopic response "S" and '
+                         'reference white scotopic response "S_w" arguments '
+                         'need to be specified or none of them!')
+    elif S is None and S_W is None:
+        S = Y
+        S_W = Y_w
+        warning('Unspecified stimulus scotopic response "S" and reference '
+                'white scotopic response "S_w" arguments, using '
+                'approximation: "{0}", "{1}"'.format(S, S_W))
+
+    if p is None:
+        warning('Unspecified simultaneous contrast / assimilation "p" '
+                'argument, model will not account for simultaneous chromatic '
+                'contrast!')
+
+    XYZ_p = tstack((X_p, Y_p, Z_p))
+
+    # Computing luminance level adaptation factor :math:`F_L`.
+    F_L = luminance_level_adaptation_factor_vectorise(L_A)
+
+    # Computing test sample chromatic adaptation.
+    rgb_a = chromatic_adaptation_vectorise(XYZ,
+                                           XYZ_w,
+                                           XYZ_b,
+                                           L_A,
+                                           F_L,
+                                           XYZ_p,
+                                           p,
+                                           helson_judd_effect,
+                                           discount_illuminant)
+
+    # Computing reference white chromatic adaptation.
+    rgb_aw = chromatic_adaptation_vectorise(XYZ_w,
+                                            XYZ_w,
+                                            XYZ_b,
+                                            L_A,
+                                            F_L,
+                                            XYZ_p,
+                                            p,
+                                            helson_judd_effect,
+                                            discount_illuminant)
+
+    # Computing opponent colour dimensions.
+    # Computing achromatic post adaptation signals.
+    A_a = achromatic_post_adaptation_signal_vectorise(rgb_a)
+    A_aw = achromatic_post_adaptation_signal_vectorise(rgb_aw)
+
+    # Computing colour difference signals.
+    C = colour_difference_signals_vectorise(rgb_a)
+    C_w = colour_difference_signals_vectorise(rgb_aw)
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`h_s`.
+    # -------------------------------------------------------------------------
+    h = hue_angle_vectorise(C)
+    hue_w = hue_angle_vectorise(C_w)
+    # TODO: Implement hue quadrature & composition computation.
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`s`.
+    # -------------------------------------------------------------------------
+    # Computing eccentricity factors.
+    e_s = eccentricity_factor_vectorise(h)
+
+    # Computing low luminance tritanopia factor :math:`F_t`.
+    F_t = low_luminance_tritanopia_factor_vectorise(L_A)
+
+    M_yb = yellowness_blueness_response_vectorise(C, e_s, surround.N_c, N_cb,
+                                                  F_t)
+    M_rg = redness_greenness_response_vectorise(C, e_s, surround.N_c, N_cb)
+    M_yb_w = yellowness_blueness_response_vectorise(C_w, e_s, surround.N_c,
+                                                    N_cb, F_t)
+    M_rg_w = redness_greenness_response_vectorise(C_w, e_s, surround.N_c, N_cb)
+
+    # Computing overall chromatic response.
+    M = overall_chromatic_response_vectorise(M_yb, M_rg)
+    M_w = overall_chromatic_response_vectorise(M_yb_w, M_rg_w)
+
+    s = saturation_correlate_vectorise(M, rgb_a)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *brightness* :math:`Q`.
+    # -------------------------------------------------------------------------
+    # Computing achromatic signal :math:`A`.
+    A = achromatic_signal_vectorise(L_AS, S, S_W, N_bb, A_a)
+    A_w = achromatic_signal_vectorise(L_AS, S_W, S_W, N_bb, A_aw)
+
+    Q = brightness_correlate_vectorise(A, A_w, M, surround.N_b)
+    brightness_w = brightness_correlate_vectorise(A_w, A_w, M_w, surround.N_b)
+    # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *Lightness* :math:`J`.
+    # -------------------------------------------------------------------------
+    J = lightness_correlate_vectorise(Y_b, Y_w, Q, brightness_w)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`C_{94}`.
+    # -------------------------------------------------------------------------
+    C_94 = chroma_correlate_vectorise(s,
+                                      Y_b,
+                                      Y_w,
+                                      Q,
+                                      brightness_w)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *colourfulness* :math:`M_{94}`.
+    # -------------------------------------------------------------------------
+    M_94 = colourfulness_correlate_vectorise(F_L, C_94)
+
+    return Hunt_Specification(J, C_94, h, s, Q, M_94, None, None)
+
+
+def luminance_level_adaptation_factor_vectorise(L_A):
+    L_A = np.asarray(L_A)
+
+    k = 1 / (5 * L_A + 1)
+    k4 = k ** 4
+    F_L = (0.2
+           * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * (5 * L_A) ** (1 / 3))
+
+    return F_L
+
+
+def illuminant_scotopic_luminance_vectorise(L_A, CCT):
+    L_A = np.asarray(L_A)
+    CCT = np.asarray(CCT)
+
+    CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
+
+    return CCT
+
+
+def XYZ_to_rgb_vectorise(XYZ):
+    return np.einsum('...ij,...j->...i', XYZ_TO_HPE_MATRIX, XYZ)
+
+
+def f_n_vectorise(x):
+    x = np.asarray(x)
+
+    x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
+
+    return x_m
+
+
+def chromatic_adaptation_vectorise(XYZ,
+                                   XYZ_w,
+                                   XYZ_b,
+                                   L_A,
+                                   F_L,
+                                   XYZ_p=None,
+                                   p=None,
+                                   helson_judd_effect=False,
+                                   discount_illuminant=True):
+    XYZ_w = np.asarray(XYZ_w)
+    XYZ_b = np.asarray(XYZ_b)
+    L_A = np.asarray(L_A)
+    F_L = np.asarray(F_L)
+
+    rgb = XYZ_to_rgb_vectorise(XYZ)
+    rgb_w = XYZ_to_rgb_vectorise(XYZ_w)
+    Y_w = XYZ_w[..., 1]
+    Y_b = XYZ_b[..., 1]
+
+    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)
+
+    # Computing chromatic adaptation factors.
+    if not discount_illuminant:
+        F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) /
+                 (1 + (L_A ** (1 / 3)) + (1 / h_rgb)))
+    else:
+        F_rgb = np.ones(h_rgb.shape)
+
+    # Computing Helson-Judd effect parameters.
+    if helson_judd_effect:
+        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) -
+                 f_n((Y_b / Y_w) * F_L * F_rgb))
+        # assert D_pyb[1] == 0
+    else:
+        D_rgb = np.zeros(F_rgb.shape)
+
+    # Computing cone bleach factors.
+    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A * (rgb_w / 100))
+
+    # Computing adjusted reference white signals.
+    if XYZ_p is not None and p is not None:
+        rgb_p = XYZ_to_rgb_vectorise(XYZ_p)
+        rgb_w = adjusted_reference_white_signals_vectorise(rgb_p, B_rgb, rgb_w,
+                                                           p)
+
+    # Computing adapted cone responses.
+    rgb_a = 1 + B_rgb * (f_n_vectorise(F_L * F_rgb * rgb / rgb_w) + D_rgb)
+
+    return rgb_a
+
+
+def adjusted_reference_white_signals_vectorise(rgb_p, rgb_b, rgb_w, p):
+    rgb_p = np.asarray(rgb_p)
+    rgb_b = np.asarray(rgb_b)
+    rgb_w = np.asarray(rgb_w)
+    p = np.asarray(p)
+
+    p_rgb = rgb_p / rgb_b
+    rgb_w = (rgb_w * (((1 - p) * p_rgb + (1 + p) / p_rgb) ** 0.5) /
+             (((1 + p) * p_rgb + (1 - p) / p_rgb) ** 0.5))
+
+    return rgb_w
+
+
+def achromatic_post_adaptation_signal_vectorise(rgb):
+    r, g, b = tsplit(rgb)
+
+    A = 2 * r + g + (1 / 20) * b - 3.05 + 1
+
+    return A
+
+
+def colour_difference_signals_vectorise(rgb):
+    r, g, b = tsplit(rgb)
+
+    C_1 = r - g
+    C_2 = g - b
+    C_3 = b - r
+
+    C = tstack((C_1, C_2, C_3))
+
+    return C
+
+
+def hue_angle_vectorise(C):
+    C_1, C_2, C_3 = tsplit(C)
+    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5,
+                            C_1 - (C_2 / 11)) / np.pi) % 360
+    return hue
+
+
+def eccentricity_factor_vectorise(hue):
+    hue = np.asarray(hue)
+
+    h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
+    e_s = HUE_DATA_FOR_HUE_QUADRATURE.get('e_s')
+
+    x = np.interp(hue, h_s, e_s)
+    x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)
+    x = np.where(hue > 237.53, 0.856 + 0.344 * (360 - hue) / (360 - 237.53), x)
+
+    return x
+
+
+def low_luminance_tritanopia_factor_vectorise(L_A):
+    L_A = np.asarray(L_A)
+
+    F_t = L_A / (L_A + 0.1)
+
+    return F_t
+
+
+def yellowness_blueness_response_vectorise(C, e_s, N_c, N_cb, F_t):
+    C_1, C_2, C_3 = tsplit(C)
+    e_s = np.asarray(e_s)
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
+    F_t = np.asarray(F_t)
+
+    M_yb = (100 * (0.5 * (C_2 - C_3) / 4.5) *
+            (e_s * (10 / 13) * N_c * N_cb * F_t))
+
+    return M_yb
+
+
+def redness_greenness_response_vectorise(C, e_s, N_c, N_cb):
+    C_1, C_2, C_3 = tsplit(C)
+    e_s = np.asarray(e_s)
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
+
+    M_rg = 100 * (C_1 - (C_2 / 11)) * (e_s * (10 / 13) * N_c * N_cb)
+
+    return M_rg
+
+
+def overall_chromatic_response_vectorise(M_yb, M_rg):
+    M_yb = np.asarray(M_yb)
+    M_rg = np.asarray(M_rg)
+
+    M = ((M_yb ** 2) + (M_rg ** 2)) ** 0.5
+
+    return M
+
+
+def saturation_correlate_vectorise(M, rgb_a):
+    M = np.asarray(M)
+    rgb_a = np.asarray(rgb_a)
+
+    s = 50 * M / np.sum(rgb_a, axis=-1)
+
+    return s
+
+
+def achromatic_signal_vectorise(L_AS, S, S_W, N_bb, A_a):
+    L_AS = np.asarray(L_AS)
+    S = np.asarray(S)
+    S_W = np.asarray(S_W)
+    N_bb = np.asarray(N_bb)
+    A_a = np.asarray(A_a)
+
+    j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
+
+    # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
+    F_LS = 3800 * (j ** 2) * (5 * L_AS / 2.26)
+    F_LS += 0.2 * ((1 - (j ** 2)) ** 0.4) * ((5 * L_AS / 2.26) ** (1 / 6))
+
+    # Computing cone bleach factors :math:`B_S`.
+    B_S = 0.5 / (1 + 0.3 * ((5 * L_AS / 2.26) * (S / S_W)) ** 0.3)
+    B_S += 0.5 / (1 + 5 * (5 * L_AS / 2.26))
+
+    # Computing adapted scotopic signal :math:`A_S`.
+    A_S = (f_n(F_LS * S / S_W) * 3.05 * B_S) + 0.3
+
+    # Computing achromatic signal :math:`A`.
+    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt((1 + (0.3 ** 2))))
+
+    return A
+
+
+def brightness_correlate_vectorise(A, A_w, M, N_b):
+    A = np.asarray(A)
+    A_w = np.asarray(A_w)
+    M = np.asarray(M)
+    N_b = np.asarray(N_b)
+
+    N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
+    N_2 = (7 * A_w * N_b ** 0.362) / 200
+
+    Q = ((7 * (A + (M / 100))) ** 0.6) * N_1 - N_2
+    return Q
+
+
+def lightness_correlate_vectorise(Y_b, Y_w, Q, Q_w):
+    Y_b = np.asarray(Y_b)
+    Y_w = np.asarray(Y_w)
+    Q = np.asarray(Q)
+    Q_w = np.asarray(Q_w)
+
+    Z = 1 + (Y_b / Y_w) ** 0.5
+    J = 100 * (Q / Q_w) ** Z
+
+    return J
+
+
+def chroma_correlate_vectorise(s, Y_b, Y_w, Q, Q_w):
+    s = np.asarray(s)
+    Y_b = np.asarray(Y_b)
+    Y_w = np.asarray(Y_w)
+    Q = np.asarray(Q)
+    Q_w = np.asarray(Q_w)
+
+    C_94 = (2.44 * (s ** 0.69) *
+            ((Q / Q_w) ** (Y_b / Y_w)) *
+            (1.64 - 0.29 ** (Y_b / Y_w)))
+
+    return C_94
+
+
+def colourfulness_correlate_vectorise(F_L, C_94):
+    F_L = np.asarray(F_L)
+    C_94 = np.asarray(C_94)
+
+    M_94 = F_L ** 0.15 * C_94
+
+    return M_94
+
+
+def XYZ_to_Hunt_analysis():
+    message_box('XYZ_to_Hunt')
+
+    XYZ = np.array([19.01, 20.00, 21.78])
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    XYZ_b = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+    CCT_w = 6504.0
+
+    print('Reference:')
+    print(XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
+
+    print('\n')
+
+
+XYZ_to_Hunt_analysis()
+
 # #############################################################################
 # #############################################################################
 # ## colour.appearance.llab
