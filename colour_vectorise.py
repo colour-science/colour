@@ -1261,6 +1261,220 @@ from colour.appearance.hunt import *
 
 # #############################################################################
 # #############################################################################
+# ## colour.appearance.llab
+# #############################################################################
+# #############################################################################
+from colour.appearance.llab import *
+
+
+def XYZ_to_LLAB_vectorise(
+        XYZ,
+        XYZ_0,
+        Y_b,
+        L,
+        surround=LLAB_VIEWING_CONDITIONS.get(
+            'Reference Samples & Images, Average Surround, Subtending < 4')):
+    X, Y, Z = tsplit(XYZ)
+    RGB = XYZ_to_RGB_LLAB_vectorise(XYZ)
+    RGB_0 = XYZ_to_RGB_LLAB_vectorise(XYZ_0)
+
+    # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
+    XYZ_0r = np.array([95.05, 100, 108.88])
+    RGB_0r = XYZ_to_RGB_LLAB_vectorise(XYZ_0r)
+
+    # Computing chromatic adaptation.
+    XYZ_r = chromatic_adaptation_vectorise(RGB, RGB_0, RGB_0r, Y, surround.D)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *Lightness* :math:`L_L`.
+    # -------------------------------------------------------------------------
+    # Computing opponent colour dimensions.
+    L_L, a, b = tsplit(opponent_colour_dimensions_vectorise(XYZ_r,
+                                                            Y_b,
+                                                            surround.F_S,
+                                                            surround.F_L))
+
+    # Computing perceptual correlates.
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`Ch_L`.
+    # -------------------------------------------------------------------------
+    Ch_L = chroma_correlate_vectorise(a, b)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *colourfulness* :math:`C_L`.
+    # -------------------------------------------------------------------------
+    C_L = colourfulness_correlate_vectorise(L, L_L, Ch_L, surround.F_C)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`s_L`.
+    # -------------------------------------------------------------------------
+    s_L = saturation_correlate_vectorise(Ch_L, L_L)
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`h_L`.
+    # -------------------------------------------------------------------------
+    h_L = hue_angle_vectorise(a, b)
+    h_Lr = np.radians(h_L)
+    # TODO: Implement hue composition computation.
+
+
+    # -------------------------------------------------------------------------
+    # Computing final opponent signals.
+    # -------------------------------------------------------------------------
+    A_L, B_L = tsplit(final_opponent_signals_vectorise(C_L, h_Lr))
+
+    return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
+
+
+def XYZ_to_RGB_LLAB_vectorise(XYZ):
+    X, Y, Z = tsplit(XYZ)
+
+    Y = tstack((Y, Y, Y))
+    XYZ_n = XYZ / Y
+
+    return np.einsum('...ij,...j->...i', LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
+
+
+def chromatic_adaptation_vectorise(RGB, RGB_0, RGB_0r, Y, D=1):
+    R, G, B = tsplit(RGB)
+    R_0, G_0, B_0 = tsplit(RGB_0)
+    R_0r, G_0r, B_0r = tsplit(RGB_0r)
+    Y = np.asarray(Y)
+
+    beta = (B_0 / B_0r) ** 0.0834
+
+    R_r = (D * (R_0r / R_0) + 1 - D) * R
+    G_r = (D * (G_0r / G_0) + 1 - D) * G
+    B_r = (D * (B_0r / (B_0 ** beta)) + 1 - D) * (abs(B) ** beta)
+
+    RGB_r = tstack((R_r, G_r, B_r))
+
+    Y = tstack((Y, Y, Y))
+
+    XYZ_r = np.einsum('...ij,...j->...i', LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
+
+    return XYZ_r
+
+
+def f_vectorise(x, F_S):
+    x = np.asarray(x)
+    F_S = np.asarray(F_S)
+
+    x_m = np.where(x > 0.008856,
+                   x ** (1 / F_S),
+                   ((((0.008856 ** (1 / F_S)) -
+                      (16 / 116)) / 0.008856) * x + (16 / 116)))
+    return x_m
+
+
+def opponent_colour_dimensions_vectorise(XYZ, Y_b, F_S, F_L):
+    X, Y, Z = tsplit(XYZ)
+    Y_b = np.asarray(Y_b)
+    F_S = np.asarray(F_S)
+    F_L = np.asarray(F_L)
+
+    # Account for background lightness contrast.
+    z = 1 + F_L * ((Y_b / 100) ** 0.5)
+
+    # Computing modified *CIE Lab* colourspace matrix.
+    L = 116 * (f_vectorise(Y / 100, F_S) ** z) - 16
+    a = 500 * (f_vectorise(X / 95.05, F_S) - f_vectorise(Y / 100, F_S))
+    b = 200 * (f_vectorise(Y / 100, F_S) - f_vectorise(Z / 108.88, F_S))
+
+    Lab = tstack((L, a, b))
+
+    return Lab
+
+
+def hue_angle_vectorise(a, b):
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    h_L = np.degrees(np.arctan2(b, a)) % 360
+
+    return h_L
+
+
+def chroma_correlate_vectorise(a, b):
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    c = (a ** 2 + b ** 2) ** 0.5
+    Ch_L = 25 * np.log(1 + 0.05 * c)
+
+    return Ch_L
+
+
+def colourfulness_correlate_vectorise(L, L_L, Ch_L, F_C):
+    L = np.asarray(L)
+    L_L = np.asarray(L_L)
+    Ch_L = np.asarray(Ch_L)
+    F_C = np.asarray(F_C)
+
+    S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
+    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
+    C_L = Ch_L * S_M * S_C * F_C
+
+    return C_L
+
+
+def saturation_correlate_vectorise(Ch_L, L_L):
+    Ch_L = np.asarray(Ch_L)
+    L_L = np.asarray(L_L)
+
+    S_L = Ch_L / L_L
+
+    return S_L
+
+
+def final_opponent_signals_vectorise(C_L, h_L):
+    C_L = np.asarray(C_L)
+    h_L = np.asarray(h_L)
+
+    A_L = C_L * np.cos(h_L)
+    B_L = C_L * np.sin(h_L)
+
+    AB_L = tstack((A_L, B_L))
+
+    return AB_L
+
+
+def XYZ_to_LLAB_analysis():
+    message_box('XYZ_to_LLAB')
+
+    XYZ = np.array([19.01, 20, 21.78])
+    XYZ_0 = np.array([95.05, 100, 108.88])
+    Y_b = 20.0
+    L = 318.31
+    surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+
+    print('Reference:')
+    print(XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
+
+    print('\n')
+
+
+# XYZ_to_LLAB_analysis()
+
+# #############################################################################
+# #############################################################################
 # ## colour.appearance.nayatani95
 # #############################################################################
 # #############################################################################
@@ -1588,7 +1802,7 @@ def XYZ_to_Nayatani95_analysis():
     print('\n')
 
 
-XYZ_to_Nayatani95_analysis()
+# XYZ_to_Nayatani95_analysis()
 
 # #############################################################################
 # #############################################################################
