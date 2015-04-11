@@ -1149,6 +1149,9 @@ def XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
 
 def luminance_to_retinal_illuminance_vectorise(XYZ, Y_c):
+    XYZ = np.asarray(XYZ)
+    Y_c = np.asarray(Y_c)
+
     return 18. * (Y_c * XYZ / 100.) ** 0.8
 
 
@@ -1250,10 +1253,348 @@ def XYZ_to_ATD95_profile(
 
 # #############################################################################
 # #############################################################################
-# ## colour.appearance.rlab
+# ## colour.appearance.hunt
 # #############################################################################
 # #############################################################################
 from colour.appearance.hunt import *
+
+
+# #############################################################################
+# #############################################################################
+# ## colour.appearance.nayatani95
+# #############################################################################
+# #############################################################################
+from colour.appearance.nayatani95 import *
+from colour.models import XYZ_to_xy
+
+
+def XYZ_to_Nayatani95_vectorise(XYZ,
+                                XYZ_n,
+                                Y_o,
+                                E_o,
+                                E_or,
+                                n=1):
+    if np.any(Y_o < 18) or np.any(Y_o > 100):
+        warning(('"Y_o" luminance factor must be in [18, 100] domain, '
+                 'unpredictable results may occur!'))
+
+    X, Y, Z = tsplit(XYZ)
+
+    # Computing adapting luminance :math:`L_o` and normalising luminance
+    # :math:`L_{or}` in in :math:`cd/m^2`.
+    # L_o = illuminance_to_luminance(E_o, Y_o)
+    L_or = illuminance_to_luminance_vectorise(E_or, Y_o)
+
+    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
+    xez = intermediate_values_vectorise(XYZ_to_xy(XYZ_n))
+    xi, eta, zeta = tsplit(xez)
+
+    # Computing adapting field cone responses.
+    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
+
+    # Computing stimulus cone responses.
+    RGB = XYZ_to_RGB_Nayatani95_vectorise(XYZ)
+    R, G, B = tsplit(RGB)
+
+    # Computing exponential factors of the chromatic adaptation.
+    bRGB_o = exponential_factors_vectorise(RGB_o)
+    bL_or = beta_1_vectorise(L_or)
+
+    # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`
+    eR = scaling_coefficient_vectorise(R, xi)
+    eG = scaling_coefficient_vectorise(G, eta)
+
+    # Computing opponent colour dimensions.
+    # Computing achromatic response :math:`Q`:
+    Q_response = achromatic_response_vectorise(RGB, bRGB_o, xez,
+                                               bL_or, eR, eG, n)
+
+    # Computing tritanopic response :math:`t`:
+    t_response = tritanopic_response_vectorise(RGB, bRGB_o, xez, n)
+
+    # Computing protanopic response :math:`p`:
+    p_response = protanopic_response_vectorise(RGB, bRGB_o, xez, n)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *brightness* :math:`B_r`.
+    # -------------------------------------------------------------------------
+    B_r = brightness_correlate_vectorise(bRGB_o, bL_or, Q_response)
+
+    # Computing *brightness* :math:`B_{rw}` of ideal white.
+    brightness_ideal_white = ideal_white_brightness_correlate_vectorise(bRGB_o,
+                                                                        xez,
+                                                                        bL_or,
+                                                                        n)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
+    # -------------------------------------------------------------------------
+    Lstar_P = (
+        achromatic_lightness_correlate_vectorise(Q_response))
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of normalised achromatic *Lightness*
+    # :math:`L_n^\star`.
+    # -------------------------------------------------------------------------
+    Lstar_N = (
+        normalised_achromatic_lightness_correlate_vectorise(B_r,
+                                                            brightness_ideal_white))
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`\\theta`.
+    # -------------------------------------------------------------------------
+    theta = hue_angle_vectorise(p_response, t_response)
+    # TODO: Implement hue quadrature & composition computation.
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`S`.
+    # -------------------------------------------------------------------------
+    S_RG, S_YB = saturation_components_vectorise(theta, bL_or,
+                                                 t_response,
+                                                 p_response)
+    S = saturation_correlate_vectorise(S_RG, S_YB)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`C`.
+    # -------------------------------------------------------------------------
+    C_RG, C_YB = chroma_components_vectorise(Lstar_P, S_RG, S_YB)
+    C = chroma_correlate_vectorise(Lstar_P, S)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *colourfulness* :math:`M`.
+    # -------------------------------------------------------------------------
+    # TODO: Investigate components usage.
+    # M_RG, M_YB = colourfulness_components(C_RG, C_YB,
+    # brightness_ideal_white)
+    M = colourfulness_correlate_vectorise(C, brightness_ideal_white)
+
+    return Nayatani95_Specification(Lstar_P,
+                                    C,
+                                    theta,
+                                    S,
+                                    B_r,
+                                    M,
+                                    None,
+                                    None,
+                                    Lstar_N)
+
+
+def illuminance_to_luminance_vectorise(E, Y_f):
+    E = np.asarray(E)
+    Y_f = np.asarray(Y_f)
+
+    return Y_f * E / (100 * np.pi)
+
+
+def XYZ_to_RGB_Nayatani95_vectorise(XYZ):
+    return np.einsum('...ij,...j->...i', NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
+
+
+def scaling_coefficient_vectorise(x, y):
+    return np.where(x >= (20 * y), 1.758, 1)
+
+
+def achromatic_response_vectorise(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
+    R, G, B = tsplit(RGB)
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    xi, eta, zeta = tsplit(xez)
+    bL_or = np.asarray(bL_or)
+    eR = np.asarray(eR)
+    eG = np.asarray(eG)
+
+    Q = (2 / 3) * bR_o * eR * np.log10((R + n) / (20 * xi + n))
+    Q += (1 / 3) * bG_o * eG * np.log10((G + n) / (20 * eta + n))
+    Q *= 41.69 / bL_or
+
+    return Q
+
+
+def tritanopic_response_vectorise(RGB, bRGB_o, xez, n=1):
+    R, G, B = tsplit(RGB)
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    xi, eta, zeta = tsplit(xez)
+
+    t = (1 / 1) * bR_o * np.log10((R + n) / (20 * xi + n))
+    t += - (12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
+    t += (1 / 11) * bB_o * np.log10((B + n) / (20 * zeta + n))
+
+    return t
+
+
+def protanopic_response_vectorise(RGB, bRGB_o, xez, n=1):
+    R, G, B = tsplit(RGB)
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    xi, eta, zeta = tsplit(xez)
+
+    p = (1 / 9) * bR_o * np.log10((R + n) / (20 * xi + n))
+    p += (1 / 9) * bG_o * np.log10((G + n) / (20 * eta + n))
+    p += - (2 / 9) * bB_o * np.log10((B + n) / (20 * zeta + n))
+
+    return p
+
+
+def brightness_correlate_vectorise(bRGB_o, bL_or, Q):
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    bL_or = np.asarray(bL_or)
+    Q = np.asarray(Q)
+
+    B_r = (50 / bL_or) * ((2 / 3) * bR_o + (1 / 3) * bG_o) + Q
+
+    return B_r
+
+
+def ideal_white_brightness_correlate_vectorise(bRGB_o, xez, bL_or, n=1):
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    xi, eta, zeta = tsplit(xez)
+    bL_or = np.asarray(bL_or)
+
+    B_rw = (2 / 3) * bR_o * 1.758 * np.log10((100 * xi + n) / (20 * xi + n))
+    B_rw += (1 / 3) * bG_o * 1.758 * np.log10((100 * eta + n) / (20 * eta + n))
+    B_rw *= 41.69 / bL_or
+    B_rw += (50 / bL_or) * (2 / 3) * bR_o
+    B_rw += (50 / bL_or) * (1 / 3) * bG_o
+
+    return B_rw
+
+
+def achromatic_lightness_correlate_vectorise(Q):
+    B_r = np.asarray(Q)
+
+    return Q + 50
+
+
+def normalised_achromatic_lightness_correlate_vectorise(B_r, B_rw):
+    B_r = np.asarray(B_r)
+    B_rw = np.asarray(B_rw)
+
+    return 100 * (B_r / B_rw)
+
+
+def hue_angle_vectorise(p, t):
+    p = np.asarray(p)
+    t = np.asarray(t)
+
+    h_L = np.degrees(np.arctan2(p, t)) % 360
+
+    return h_L
+
+
+def chromatic_strength_function_vectorise(theta):
+    h = np.asarray(E_s)
+
+    E_s = 0.9394
+    E_s += - 0.2478 * np.sin(1 * theta)
+    E_s += - 0.0743 * np.sin(2 * theta)
+    E_s += + 0.0666 * np.sin(3 * theta)
+    E_s += - 0.0186 * np.sin(4 * theta)
+    E_s += - 0.0055 * np.cos(1 * theta)
+    E_s += - 0.0521 * np.cos(2 * theta)
+    E_s += - 0.0573 * np.cos(3 * theta)
+    E_s += - 0.0061 * np.cos(4 * theta)
+
+    return E_s
+
+
+def saturation_components_vectorise(h, bL_or, t, p):
+    h = np.asarray(h)
+    bL_or = np.asarray(bL_or)
+    t = np.asarray(t)
+    p = np.asarray(p)
+
+    E_s = chromatic_strength_function(np.radians(h))
+    S_RG = (488.93 / bL_or) * E_s * t
+    S_YB = (488.93 / bL_or) * E_s * p
+
+    return S_RG, S_YB
+
+
+def saturation_correlate_vectorise(S_RG, S_YB):
+    S_RG = np.asarray(S_RG)
+    S_YB = np.asarray(S_YB)
+
+    S = np.sqrt((S_RG ** 2) + (S_YB ** 2))
+
+    return S
+
+
+def chroma_components_vectorise(Lstar_P, S_RG, S_YB):
+    Lstar_P = np.asarray(Lstar_P)
+    S_RG = np.asarray(S_RG)
+    S_YB = np.asarray(S_YB)
+
+    C_RG = ((Lstar_P / 50) ** 0.7) * S_RG
+    C_YB = ((Lstar_P / 50) ** 0.7) * S_YB
+
+    return C_RG, C_YB
+
+
+def chroma_correlate_vectorise(Lstar_P, S):
+    Lstar_P = np.asarray(Lstar_P)
+    S = np.asarray(S)
+
+    C = ((Lstar_P / 50) ** 0.7) * S
+
+    return C
+
+
+def colourfulness_components_vectorise(C_RG, C_YB, B_rw):
+    C_RG = np.asarray(C_RG)
+    C_YB = np.asarray(C_YB)
+    B_rw = np.asarray(B_rw)
+
+    M_RG = C_RG * B_rw / 100
+    M_YB = C_YB * B_rw / 100
+
+    return M_RG, M_YB
+
+
+def colourfulness_correlate_vectorise(C, B_rw):
+    C = np.asarray(C)
+    B_rw = np.asarray(B_rw)
+
+    M = C * B_rw / 100
+    return M
+
+
+def XYZ_to_Nayatani95_analysis():
+    message_box('XYZ_to_Nayatani95')
+
+    XYZ = np.array([19.01, 20, 21.78])
+    XYZ_n = np.array([95.05, 100, 108.88])
+    Y_o = 20.0
+    E_o = 5000.0
+    E_or = 1000.0
+
+    print('Reference:')
+    print(XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
+
+    print('\n')
+
+
+XYZ_to_Nayatani95_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.appearance.rlab
+# #############################################################################
+# #############################################################################
 from colour.appearance.rlab import *
 
 
