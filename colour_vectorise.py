@@ -1712,7 +1712,557 @@ def XYZ_to_Hunt_analysis():
     print('\n')
 
 
-XYZ_to_Hunt_analysis()
+# XYZ_to_Hunt_analysis()
+
+# #############################################################################
+# #############################################################################
+# ## colour.appearance.ciecam02
+# #############################################################################
+# #############################################################################
+from colour.appearance.ciecam02 import *
+
+
+def XYZ_to_CIECAM02_vectorise(XYZ,
+                              XYZ_w,
+                              L_A,
+                              Y_b,
+                              surround=CIECAM02_VIEWING_CONDITIONS.get(
+                                  'Average'),
+                              discount_illuminant=False):
+    X_w, Y_w, Z_w = tsplit(XYZ_w)
+    L_A = np.asarray(L_A)
+    Y_b = np.asarray(Y_b)
+
+    n, F_L, N_bb, N_cb, z = tsplit(
+        viewing_condition_dependent_parameters_vectorise(
+            Y_b,
+            Y_w,
+            L_A))
+
+    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
+    # sharpened *RGB* values.
+    RGB = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ)
+    RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
+
+    # Computing degree of adaptation :math:`D`.
+    D = degree_of_adaptation_vectorise(surround.F,
+                                       L_A) if not discount_illuminant else 1
+
+    # Computing full chromatic adaptation.
+    RGB_c = full_chromatic_adaptation_forward_vectorise(RGB, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w, Y_w, D)
+
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
+    RGB_p = RGB_to_rgb_vectorise(RGB_c)
+    RGB_pw = RGB_to_rgb_vectorise(RGB_wc)
+
+    # Applying forward post-adaptation non linear response compression.
+    RGB_a = post_adaptation_non_linear_response_compression_forward_vectorise(
+        RGB_p, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward_vectorise(
+        RGB_pw, F_L)
+
+    # Converting to preliminary cartesian coordinates.
+    a, b = tsplit(opponent_colour_dimensions_forward_vectorise(RGB_a))
+
+    # -------------------------------------------------------------------------
+    # Computing the *hue* angle :math:`h`.
+    h = hue_angle_vectorise(a, b)
+    # -------------------------------------------------------------------------
+    # Computing hue :math:`h` quadrature :math:`H`.
+    H = hue_quadrature_vectorise(h)
+    # TODO: Compute hue composition.
+
+    # Computing eccentricity factor *e_t*.
+    e_t = eccentricity_factor_vectorise(h)
+
+    # Computing achromatic responses for the stimulus and the whitepoint.
+    A = achromatic_response_forward_vectorise(RGB_a, N_bb)
+    A_w = achromatic_response_forward_vectorise(RGB_aw, N_bb)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *Lightness* :math:`J`.
+    # -------------------------------------------------------------------------
+    J = lightness_correlate_vectorise(A, A_w, surround.c, z)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *brightness* :math:`Q`.
+    # -------------------------------------------------------------------------
+    Q = brightness_correlate_vectorise(surround.c, J, A_w, F_L)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *chroma* :math:`C`.
+    # -------------------------------------------------------------------------
+    C = chroma_correlate_vectorise(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *colourfulness* :math:`M`.
+    # -------------------------------------------------------------------------
+    M = colourfulness_correlate_vectorise(C, F_L)
+
+    # -------------------------------------------------------------------------
+    # Computing the correlate of *saturation* :math:`s`.
+    # -------------------------------------------------------------------------
+    s = saturation_correlate_vectorise(M, Q)
+
+    return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
+
+
+def CIECAM02_to_XYZ_vectorise(J, C, h,
+                              XYZ_w,
+                              L_A,
+                              Y_b,
+                              surround=CIECAM02_VIEWING_CONDITIONS.get(
+                                  'Average'),
+                              discount_illuminant=False):
+    X_w, Y_w, Zw = tsplit(XYZ_w)
+
+    n, F_L, N_bb, N_cb, z = tsplit(
+        viewing_condition_dependent_parameters_vectorise(
+            Y_b, Y_w, L_A))
+    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
+    # sharpened *RGB* values.
+    RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
+
+    # Computing degree of adaptation :math:`D`.
+    D = degree_of_adaptation_vectorise(surround.F,
+                                       L_A) if not discount_illuminant else 1
+
+    # Computation full chromatic adaptation.
+    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w, Y_w, D)
+
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
+    RGB_pw = RGB_to_rgb_vectorise(RGB_wc)
+
+    # Applying post-adaptation non linear response compression.
+    RGB_aw = post_adaptation_non_linear_response_compression_forward_vectorise(
+        RGB_pw, F_L)
+
+    # Computing achromatic responses for the stimulus and the whitepoint.
+    A_w = achromatic_response_forward_vectorise(RGB_aw, N_bb)
+
+    # Computing temporary magnitude quantity :math:`t`.
+    t = temporary_magnitude_quantity_reverse_vectorise(C, J, n)
+
+    # Computing eccentricity factor *e_t*.
+    e_t = eccentricity_factor_vectorise(h)
+
+    # Computing achromatic response :math:`A` for the stimulus.
+    A = achromatic_response_reverse_vectorise(A_w, J, surround.c, z)
+
+    # Computing *P_1* to *P_3*.
+    P = P_vectorise(surround.N_c, N_cb, e_t, t, A, N_bb)
+    P_1, P_2, P_3 = tsplit(P)
+
+    # Computing opponent colour dimensions :math:`a` and :math:`b`.
+    a, b = tsplit(opponent_colour_dimensions_reverse_vectorise(P, h))
+
+    # Computing post-adaptation non linear response compression matrix.
+    RGB_a = post_adaptation_non_linear_response_compression_matrix_vectorise(
+        P_2, a,
+        b)
+
+    # Applying reverse post-adaptation non linear response compression.
+    RGB_p = post_adaptation_non_linear_response_compression_reverse_vectorise(
+        RGB_a,
+        F_L)
+
+    # Converting to *Hunt-Pointer-Estevez* colourspace.
+    RGB_c = rgb_to_RGB_vectorise(RGB_p)
+
+    # Applying reverse full chromatic adaptation.
+    RGB = full_chromatic_adaptation_reverse_vectorise(RGB_c, RGB_w, Y_w, D)
+
+    # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
+    # colourspace matrices.
+    XYZ = np.einsum('...ij,...j->...i', CAT02_INVERSE_CAT, RGB)
+
+    return XYZ
+
+
+def chromatic_induction_factors_vectorise(n):
+    n = np.asarray(n)
+
+    N_cbb = 0.725 * (1 / n) ** 0.2
+    N_cbb = tstack((N_cbb, N_cbb))
+
+    return N_cbb
+
+
+def base_exponential_non_linearity_vectorise(n):
+    n = np.asarray(n)
+
+    z = 1.48 + np.sqrt(n)
+
+    return z
+
+
+def viewing_condition_dependent_parameters_vectorise(Y_b, Y_w, L_A):
+    Y_b = np.asarray(Y_b)
+    Y_w = np.asarray(Y_w)
+
+    n = Y_b / Y_w
+
+    F_L = luminance_level_adaptation_factor_vectorise(L_A)
+    N_bb, N_cb = chromatic_induction_factors_vectorise(n)
+    z = base_exponential_non_linearity_vectorise(n)
+
+    return tstack((n, F_L, N_bb, N_cb, z))
+
+
+def degree_of_adaptation_vectorise(F, L_A):
+    F = np.asarray(F)
+    L_A = np.asarray(L_A)
+
+    D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
+
+    return D
+
+
+def full_chromatic_adaptation_forward_vectorise(RGB, RGB_w, Y_w, D):
+    R, G, B = tsplit(RGB)
+    R_w, G_w, B_w = tsplit(RGB_w)
+    Y_w = np.asarray(Y_w)
+    D = np.asarray(D)
+
+    equation = lambda x, y: ((Y_w * D / y) + 1 - D) * x
+
+    R_c = equation(R, R_w)
+    G_c = equation(G, G_w)
+    B_c = equation(B, B_w)
+
+    RGB_c = tstack((R_c, G_c, B_c))
+
+    return RGB_c
+
+
+def full_chromatic_adaptation_reverse_vectorise(RGB, RGB_w, Y_w, D):
+    R, G, B = tsplit(RGB)
+    R_w, G_w, B_w = tsplit(RGB_w)
+    Y_w = np.asarray(Y_w)
+    D = np.asarray(D)
+
+    equation = lambda x, y: x / (Y_w * (D / y) + 1 - D)
+
+    R_c = equation(R, R_w)
+    G_c = equation(G, G_w)
+    B_c = equation(B, B_w)
+
+    RGB_c = tstack((R_c, G_c, B_c))
+
+    return RGB_c
+
+
+def RGB_to_rgb_vectorise(RGB):
+    rgb = np.einsum('...ij,...j->...i',
+                    np.einsum('...ij,...jk->...ik', XYZ_TO_HPE_MATRIX,
+                              CAT02_INVERSE_CAT),
+                    RGB)
+
+    return rgb
+
+
+def rgb_to_RGB_vectorise(rgb):
+    RGB = np.einsum('...ij,...j->...i',
+                    np.einsum('...ij,...jk->...ik', CAT02_CAT,
+                              HPE_TO_XYZ_MATRIX),
+                    rgb)
+
+    return RGB
+
+
+def post_adaptation_non_linear_response_compression_forward_vectorise(RGB,
+                                                                      F_L):
+    RGB = np.asarray(RGB)
+    F_L = np.asarray(F_L)
+
+    # TODO: Check for negative values and their handling.
+    RGB_c = ((((400 * (F_L * RGB / 100) ** 0.42) /
+               (27.13 + (F_L * RGB / 100) ** 0.42))) + 0.1)
+    return RGB_c
+
+
+def post_adaptation_non_linear_response_compression_reverse_vectorise(RGB,
+                                                                      F_L):
+    RGB = np.asarray(RGB)
+    F_L = np.asarray(F_L)
+
+    RGB_p = ((np.sign(RGB - 0.1) *
+              (100 / F_L) * ((27.13 * np.abs(RGB - 0.1)) /
+                             (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+    return RGB_p
+
+
+def opponent_colour_dimensions_forward_vectorise(RGB):
+    R, G, B = tsplit(RGB)
+
+    a = R - 12 * G / 11 + B / 11
+    b = (R + G - 2 * B) / 9
+
+    ab = tstack((a, b))
+
+    return ab
+
+
+def opponent_colour_dimensions_reverse_vectorise(P, h):
+    P_1, P_2, P_3 = tsplit(P)
+    hr = np.radians(h)
+
+    sin_hr = np.sin(hr)
+    cos_hr = np.cos(hr)
+
+    P_4 = P_1 / sin_hr
+    P_5 = P_1 / cos_hr
+    n = P_2 * (2 + P_3) * (460 / 1403)
+
+    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
+                 (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
+                       (27 / 1403) + P_3 * (6300 / 1403))),
+                 0)
+    a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
+                 (n / (P_5 + (2 + P_3) * (220 / 1403) -
+                       ((27 / 1403) - P_3 * (6300 / 1403)) *
+                       (sin_hr / cos_hr))),
+                 0)
+    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b, a * (sin_hr / cos_hr))
+    a = np.where(np.abs(sin_hr) < np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+
+    ab = tstack((a, b))
+
+    return ab
+
+
+def hue_angle_vectorise(a, b):
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    h = np.degrees(np.arctan2(b, a)) % 360
+    return h
+
+
+def hue_quadrature_vectorise(h):
+    h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
+    e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
+    H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
+
+    h_p = np.select([h < h_i[0], True], [h + 360, h])
+    i = np.searchsorted(h_i, h_p, side='right') - 1
+    t = (h_p - h_i[i]) / e_i[i]
+    H = H_i[i] + ((100 * t) / (t + (h_i[i + 1] - h_p) / e_i[i + 1]))
+
+    return H
+
+
+def eccentricity_factor_vectorise(h):
+    h = np.asarray(h)
+
+    e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
+
+    return e_t
+
+
+def achromatic_response_forward_vectorise(RGB, N_bb):
+    R, G, B = tsplit(RGB)
+
+    A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
+    return A
+
+
+def achromatic_response_reverse_vectorise(A_w, J, c, z):
+    A_w = np.asarray(A_w)
+    J = np.asarray(J)
+    c = np.asarray(c)
+    z = np.asarray(z)
+
+    A = A_w * (J / 100) ** (1 / (c * z))
+
+    return A
+
+
+def lightness_correlate_vectorise(A, A_w, c, z):
+    A = np.asarray(A)
+    A_w = np.asarray(A_w)
+    c = np.asarray(c)
+    z = np.asarray(z)
+
+    J = 100 * (A / A_w) ** (c * z)
+
+    return J
+
+
+def brightness_correlate_vectorise(c, J, A_w, F_L):
+    c = np.asarray(c)
+    J = np.asarray(J)
+    A_w = np.asarray(A_w)
+    F_L = np.asarray(F_L)
+
+    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
+
+    return Q
+
+
+def temporary_magnitude_quantity_forward_vectorise(N_c, N_cb, e_t, a, b,
+                                                   RGB_a):
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
+    e_t = np.asarray(e_t)
+    a = np.asarray(a)
+    b = np.asarray(b)
+    Ra, Ga, Ba = tsplit(RGB_a)
+
+    t = ((50000 / 13) * N_c * N_cb) * (e_t * (a ** 2 + b ** 2) ** 0.5) / (
+        Ra + Ga + 21 * Ba / 20)
+
+    return t
+
+
+def temporary_magnitude_quantity_reverse_vectorise(C, J, n):
+    C = np.asarray(C)
+    J = np.asarray(J)
+    n = np.asarray(n)
+
+    t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
+
+    return t
+
+
+def chroma_correlate_vectorise(J, n, N_c, N_cb, e_t, a, b, RGB_a):
+    J = np.asarray(J)
+    n = np.asarray(n)
+
+    t = temporary_magnitude_quantity_forward_vectorise(N_c, N_cb, e_t, a, b,
+                                                       RGB_a)
+    C = t ** 0.9 * (J / 100) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
+
+    return C
+
+
+def colourfulness_correlate_vectorise(C, F_L):
+    C = np.asarray(C)
+    F_L = np.asarray(F_L)
+
+    M = C * F_L ** 0.25
+
+    return M
+
+
+def saturation_correlate_vectorise(M, Q):
+    M = np.asarray(M)
+    Q = np.asarray(Q)
+
+    s = 100 * (M / Q) ** 0.5
+
+    return s
+
+
+def P_vectorise(N_c, N_cb, e_t, t, A, N_bb):
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
+    e_t = np.asarray(e_t)
+    t = np.asarray(t)
+    A = np.asarray(A)
+    N_bb = np.asarray(N_bb)
+
+    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
+    P_2 = A / N_bb + 0.305
+    P_3 = np.ones(P_1.shape) * (21 / 20)
+
+    P = tstack((P_1, P_2, P_3))
+
+    return P
+
+
+def post_adaptation_non_linear_response_compression_matrix_vectorise(P_2, a,
+                                                                     b):
+    P_2 = np.asarray(P_2)
+    a = np.asarray(a)
+    b = np.asarray(b)
+
+    R_a = (460 * P_2 + 451 * a + 288 * b) / 1403
+    G_a = (460 * P_2 - 891 * a - 261 * b) / 1403
+    B_a = (460 * P_2 - 220 * a - 6300 * b) / 1403
+
+    RGB_a = tstack((R_a, G_a, B_a))
+
+    return RGB_a
+
+
+def XYZ_to_CIECAM02_analysis():
+    message_box('XYZ_to_CIECAM02')
+
+    XYZ = np.array([19.01, 20.00, 21.78])
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    Y_b = 20.0
+    surround = CIECAM02_VIEWING_CONDITIONS['Average']
+
+    print('Reference:')
+    print(XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround))
+
+    print('\n')
+
+    print('1d array input:')
+    print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
+
+    print('\n')
+
+    print('3d array input:')
+    XYZ = np.reshape(XYZ, (2, 3, 3))
+    print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
+
+    print('\n')
+
+
+# XYZ_to_CIECAM02_analysis()
+
+
+def CIECAM02_to_XYZ_analysis():
+    message_box('CIECAM02_to_XYZ')
+
+    J = 41.731091132513917
+    C = 0.1047077571711053
+    h = 219.0484326582719
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    Y_b = 20.0
+
+    print('Reference:')
+    print(CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b))
+
+    print('\n')
+
+    print('1d array input:')
+    J = [J] * 6
+    C = [C] * 6
+    h = [h] * 6
+    print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
+
+    print('\n')
+
+    print('2d array input:')
+    J = np.reshape(J, (2, 3))
+    C = np.reshape(C, (2, 3))
+    h = np.reshape(h, (2, 3))
+    print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
+
+    print('\n')
+
+    print('3d array input:')
+    J = np.reshape(J, (2, 3, 1))
+    C = np.reshape(C, (2, 3, 1))
+    h = np.reshape(h, (2, 3, 1))
+    print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
+
+    print('\n')
+
+
+# CIECAM02_to_XYZ_analysis()
 
 # #############################################################################
 # #############################################################################
