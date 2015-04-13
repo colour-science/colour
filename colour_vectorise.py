@@ -20,6 +20,7 @@ from __future__ import division, with_statement
 import functools
 import numpy as np
 import timeit
+import warnings
 from pprint import pprint
 
 from colour.utilities import (
@@ -44,6 +45,10 @@ DATA_VGA2 = np.random.rand(320 * 200, 3)
 DATA_VGA3 = np.random.rand(320 * 200, 3)
 
 DATA1, DATA2, DATA3 = DATA_VGA1, DATA_VGA2, DATA_VGA3
+
+# Warnings supression.
+np.seterr(all='ignore')
+warnings.filterwarnings('ignore')
 
 # #############################################################################
 # #############################################################################
@@ -1259,6 +1264,11 @@ def XYZ_to_ATD95_profile(
 from colour.appearance.hunt import *
 
 
+def XYZ_to_Hunt_2d(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w):
+    for i in range(len(XYZ)):
+        XYZ_to_Hunt(XYZ[i], XYZ_w, XYZ_b, L_A, surround, CCT_w)
+
+
 def XYZ_to_Hunt_vectorise(XYZ,
                           XYZ_w,
                           XYZ_b,
@@ -1714,12 +1724,53 @@ def XYZ_to_Hunt_analysis():
 
 # XYZ_to_Hunt_analysis()
 
+
+def XYZ_to_Hunt_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    XYZ_b = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+    CCT_w = 6504.0
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Hunt_2d,
+            DATA_HD1, XYZ_w, XYZ_b, L_A, surround, CCT_w)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Hunt_vectorise,
+            DATA_HD1, XYZ_w, XYZ_b, L_A, surround, CCT_w)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_Hunt\t{0}\t{1}\t{2}'.format(
+        len(DATA_HD1), a, b))
+
+
+# XYZ_to_Hunt_profile(number_a=3)
+
 # #############################################################################
 # #############################################################################
 # ## colour.appearance.ciecam02
 # #############################################################################
 # #############################################################################
 from colour.appearance.ciecam02 import *
+
+
+def XYZ_to_CIECAM02_2d(XYZ, XYZ_w, L_A, Y_b):
+    for i in range(len(XYZ)):
+        XYZ_to_CIECAM02(XYZ[i], XYZ_w, L_A, Y_b)
+
+
+def CIECAM02_to_XYZ_2d(J, C, h, XYZ_w, L_A, Y_b):
+    for i in range(len(J)):
+        CIECAM02_to_XYZ(J[i][0], C, h, XYZ_w, L_A, Y_b)
 
 
 def XYZ_to_CIECAM02_vectorise(XYZ,
@@ -1920,35 +1971,23 @@ def degree_of_adaptation_vectorise(F, L_A):
 
 
 def full_chromatic_adaptation_forward_vectorise(RGB, RGB_w, Y_w, D):
-    R, G, B = tsplit(RGB)
-    R_w, G_w, B_w = tsplit(RGB_w)
+    RGB = np.asarray(RGB)
+    RGB_w = np.asarray(RGB_w)
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    equation = lambda x, y: ((Y_w * D / y) + 1 - D) * x
-
-    R_c = equation(R, R_w)
-    G_c = equation(G, G_w)
-    B_c = equation(B, B_w)
-
-    RGB_c = tstack((R_c, G_c, B_c))
+    RGB_c = ((Y_w * D / RGB_w) + 1 - D) * RGB
 
     return RGB_c
 
 
 def full_chromatic_adaptation_reverse_vectorise(RGB, RGB_w, Y_w, D):
-    R, G, B = tsplit(RGB)
-    R_w, G_w, B_w = tsplit(RGB_w)
+    RGB = np.asarray(RGB)
+    RGB_w = np.asarray(RGB_w)
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    equation = lambda x, y: x / (Y_w * (D / y) + 1 - D)
-
-    R_c = equation(R, R_w)
-    G_c = equation(G, G_w)
-    B_c = equation(B, B_w)
-
-    RGB_c = tstack((R_c, G_c, B_c))
+    RGB_c = RGB / (Y_w * (D / RGB_w) + 1 - D)
 
     return RGB_c
 
@@ -2041,15 +2080,29 @@ def hue_angle_vectorise(a, b):
 
 
 def hue_quadrature_vectorise(h):
+    h = np.nan_to_num(h)
+
     h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
     e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
     H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
 
-    h_p = np.select([h < h_i[0], True], [h + 360, h])
-    i = np.searchsorted(h_i, h_p, side='right') - 1
-    t = (h_p - h_i[i]) / e_i[i]
-    H = H_i[i] + ((100 * t) / (t + (h_i[i + 1] - h_p) / e_i[i + 1]))
+    i = np.searchsorted(h_i, h, side='left') - 1
 
+    h_ii = h_i[i]
+    e_ii = e_i[i]
+    H_ii = H_i[i]
+    h_ii1 = h_i[i + 1]
+    e_ii1 = e_i[i + 1]
+
+    H = H_ii + ((100 * (h - h_ii) / e_ii) /
+                ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H = np.where(h < 20.14,
+                 385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
+                 H)
+    H = np.where(h >= 237.53,
+                 H_ii + ((85.9 * (h - h_ii) / e_ii) /
+                         ((h - h_ii) / e_ii + (360 - h) / 0.856)),
+                 H)
     return H
 
 
@@ -2222,6 +2275,35 @@ def XYZ_to_CIECAM02_analysis():
 # XYZ_to_CIECAM02_analysis()
 
 
+def XYZ_to_CIECAM02_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    Y_b = 20.0
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_CIECAM02_2d,
+            DATA_VGA1, XYZ_w, L_A, Y_b)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_CIECAM02_vectorise,
+            DATA_VGA1, XYZ_w, L_A, Y_b)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_CIECAM02\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+# XYZ_to_CIECAM02_profile()
+
+
 def CIECAM02_to_XYZ_analysis():
     message_box('CIECAM02_to_XYZ')
 
@@ -2264,12 +2346,49 @@ def CIECAM02_to_XYZ_analysis():
 
 # CIECAM02_to_XYZ_analysis()
 
+
+def CIECAM02_to_XYZ_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    C = 0.1047077571711053
+    h = 219.0484326582719
+    XYZ_w = np.array([95.05, 100.00, 108.88])
+    L_A = 318.31
+    Y_b = 20.0
+
+    times = timeit.Timer(
+        functools.partial(
+            CIECAM02_to_XYZ_2d,
+            DATA_VGA1, C, h, XYZ_w, L_A, Y_b)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            CIECAM02_to_XYZ_vectorise,
+            DATA_VGA1, C, h, XYZ_w, L_A, Y_b)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('CIECAM02_to_XYZ\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+# CIECAM02_to_XYZ_profile()
+
+
 # #############################################################################
 # #############################################################################
 # ## colour.appearance.llab
 # #############################################################################
 # #############################################################################
 from colour.appearance.llab import *
+
+
+def XYZ_to_LLAB_2d(XYZ, XYZ_0, Y_b, L, surround):
+    for i in range(len(XYZ)):
+        XYZ_to_LLAB(XYZ[i], XYZ_0, Y_b, L, surround)
 
 
 def XYZ_to_LLAB_vectorise(
@@ -2478,6 +2597,36 @@ def XYZ_to_LLAB_analysis():
 
 # XYZ_to_LLAB_analysis()
 
+
+def XYZ_to_LLAB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_0 = np.array([95.05, 100, 108.88])
+    Y_b = 20.0
+    L = 318.31
+    surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_LLAB_2d,
+            DATA_VGA1, XYZ_0, Y_b, L, surround)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_LLAB_vectorise,
+            DATA_VGA1, XYZ_0, Y_b, L, surround)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_LLAB\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+# XYZ_to_LLAB_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.appearance.nayatani95
@@ -2485,6 +2634,11 @@ def XYZ_to_LLAB_analysis():
 # #############################################################################
 from colour.appearance.nayatani95 import *
 from colour.models import XYZ_to_xy
+
+
+def XYZ_to_Nayatani95_2d(XYZ, XYZ_n, Y_o, E_o, E_or):
+    for i in range(len(XYZ)):
+        XYZ_to_Nayatani95(XYZ[i], XYZ_n, Y_o, E_o, E_or)
 
 
 def XYZ_to_Nayatani95_vectorise(XYZ,
@@ -2809,6 +2963,36 @@ def XYZ_to_Nayatani95_analysis():
 
 # XYZ_to_Nayatani95_analysis()
 
+
+def XYZ_to_Nayatani95_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_n = np.array([95.05, 100, 108.88])
+    Y_o = 20.0
+    E_o = 5000.0
+    E_or = 1000.0
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Nayatani95_2d,
+            DATA_VGA1, XYZ_n, Y_o, E_o, E_or)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_Nayatani95_vectorise,
+            DATA_VGA1, XYZ_n, Y_o, E_o, E_or)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_Nayatani95\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+# XYZ_to_Nayatani95_profile()
+
 # #############################################################################
 # #############################################################################
 # ## colour.appearance.rlab
@@ -2817,8 +3001,9 @@ def XYZ_to_Nayatani95_analysis():
 from colour.appearance.rlab import *
 
 
-def XYZ_to_rgb_vectorise(XYZ):
-    return np.einsum('...ij,...j->...i', XYZ_TO_HPE_MATRIX, XYZ)
+def XYZ_to_RLAB_2d(XYZ, XYZ_n, Y_n, sigma, D):
+    for i in range(len(XYZ)):
+        XYZ_to_RLAB(XYZ[i], XYZ_n, Y_n, sigma, D)
 
 
 def XYZ_to_RLAB_vectorise(XYZ,
@@ -2910,6 +3095,36 @@ def XYZ_to_RLAB_analysis():
 
 
 # XYZ_to_RLAB_analysis()
+
+
+def XYZ_to_RLAB_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    XYZ_n = np.array([109.85, 100, 35.58])
+    Y_n = 31.83
+    sigma = RLAB_VIEWING_CONDITIONS['Average']
+    D = RLAB_D_FACTOR['Hard Copy Images']
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_RLAB_2d,
+            DATA_VGA1, XYZ_n, Y_n, sigma, D)).repeat(
+        repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            XYZ_to_RLAB_vectorise,
+            DATA_VGA1, XYZ_n, Y_n, sigma, D)).repeat(
+        repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('XYZ_to_RLAB\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+XYZ_to_RLAB_profile()
 
 # #############################################################################
 # #############################################################################
