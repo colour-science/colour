@@ -464,12 +464,12 @@ def RGB_to_XYZ(RGB,
     if inverse_transfer_function is not None:
         RGB = inverse_transfer_function(RGB)
 
-    XYZ = np.einsum('...ij,...j->...i', RGB_to_XYZ_matrix, RGB)
-
     M = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(illuminant_RGB),
         xy_to_XYZ(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
+
+    XYZ = np.einsum('...ij,...j->...i', RGB_to_XYZ_matrix, RGB)
 
     XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
 
