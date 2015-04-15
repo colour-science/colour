@@ -796,17 +796,23 @@ def opponent_colour_dimensions_reverse(P, h):
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
 
+    a = np.zeros(hr.shape)
+    b = np.zeros(hr.shape)
+
     b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
                  (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
                        (27 / 1403) + P_3 * (6300 / 1403))),
-                 0)
+                 b)
+
+    a = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+
     a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
                  (n / (P_5 + (2 + P_3) * (220 / 1403) -
                        ((27 / 1403) - P_3 * (6300 / 1403)) *
                        (sin_hr / cos_hr))),
-                 0)
-    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b, a * (sin_hr / cos_hr))
-    a = np.where(np.abs(sin_hr) < np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+                 a)
+
+    b = np.where(np.abs(sin_hr) < np.abs(cos_hr), a * (sin_hr / cos_hr), b)
 
     ab = tstack((a, b))
 
