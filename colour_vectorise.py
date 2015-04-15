@@ -1871,6 +1871,7 @@ def CIECAM02_to_XYZ_vectorise(J, C, h,
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters_vectorise(
             Y_b, Y_w, L_A))
+
     # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
     # sharpened *RGB* values.
     RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
@@ -1908,6 +1909,7 @@ def CIECAM02_to_XYZ_vectorise(J, C, h,
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
     a, b = tsplit(opponent_colour_dimensions_reverse_vectorise(P, h))
 
+    print(a, b)
     # Computing post-adaptation non linear response compression matrix.
     RGB_a = post_adaptation_non_linear_response_compression_matrix_vectorise(
         P_2, a,
@@ -2054,17 +2056,22 @@ def opponent_colour_dimensions_reverse_vectorise(P, h):
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
 
-    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
-                 (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
-                       (27 / 1403) + P_3 * (6300 / 1403))),
-                 0)
-    a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
-                 (n / (P_5 + (2 + P_3) * (220 / 1403) -
-                       ((27 / 1403) - P_3 * (6300 / 1403)) *
-                       (sin_hr / cos_hr))),
-                 0)
-    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b, a * (sin_hr / cos_hr))
-    a = np.where(np.abs(sin_hr) < np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+    mask = np.abs(sin_hr) >= np.abs(cos_hr)
+
+    a = np.zeros(hr.shape)
+    b = np.zeros(hr.shape)
+
+    b[mask] = (n[mask] / (P_4[mask] + (2 + P_3[mask]) *
+                          (220 / 1403) * (cos_hr[mask] / sin_hr[mask]) -
+                          (27 / 1403) + P_3[mask] * (6300 / 1403)))
+
+    a[mask] = b[mask] * (cos_hr[mask] / sin_hr[mask])
+
+    b[~mask] = (n[~mask] / (P_5[~mask] + (2 + P_3[~mask]) * (220 / 1403) -
+                            ((27 / 1403) - P_3[~mask] * (6300 / 1403)) *
+                            (sin_hr[~mask] / cos_hr[~mask])))
+
+    a[~mask] = a[~mask] * (sin_hr[~mask] / cos_hr[~mask])
 
     ab = tstack((a, b))
 
@@ -2307,11 +2314,11 @@ def XYZ_to_CIECAM02_profile(
 def CIECAM02_to_XYZ_analysis():
     message_box('CIECAM02_to_XYZ')
 
-    J = 41.731091132513917
-    C = 0.1047077571711053
-    h = 219.0484326582719
-    XYZ_w = np.array([95.05, 100.00, 108.88])
-    L_A = 318.31
+    J = 42.53
+    C = 51.92
+    h = 248.9
+    XYZ_w = np.array([109.85, 100, 35.58])
+    L_A = 31.83
     Y_b = 20.0
 
     print('Reference:')
@@ -2344,7 +2351,7 @@ def CIECAM02_to_XYZ_analysis():
     print('\n')
 
 
-# CIECAM02_to_XYZ_analysis()
+CIECAM02_to_XYZ_analysis()
 
 
 def CIECAM02_to_XYZ_profile(
@@ -3124,7 +3131,7 @@ def XYZ_to_RLAB_profile(
         len(DATA_VGA1), a, b))
 
 
-XYZ_to_RLAB_profile()
+# XYZ_to_RLAB_profile()
 
 # #############################################################################
 # #############################################################################
