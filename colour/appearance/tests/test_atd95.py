@@ -12,6 +12,7 @@ import numpy as np
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.atd95 import XYZ_to_LMS_ATD95, final_response
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities.array import tstack, numeric_as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -58,14 +59,15 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
             ATD (1995) colour vision model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_0 = np.array([data['X_0'], data['Y_0'], data['Z_0']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_0 = tstack([data['X_0'], data['Y_0'], data['Z_0']])
 
         specification = XYZ_to_ATD95(XYZ,
                                      XYZ_0,
-                                     data['Y_02'],
-                                     data['K_1'], data['K_2'],
-                                     data['sigma'])
+                                     numeric_as_array(data['Y_02']),
+                                     numeric_as_array(data['K_1']),
+                                     numeric_as_array(data['K_2']),
+                                     numeric_as_array(data['sigma']))
         return specification
 
     def test_XYZ_to_LMS_ATD95(self):

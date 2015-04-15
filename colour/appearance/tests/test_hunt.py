@@ -11,6 +11,7 @@ import numpy as np
 
 from colour.appearance import Hunt_InductionFactors, XYZ_to_Hunt
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities.array import tstack, numeric_as_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -53,17 +54,17 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
             Hunt colour appearance model specification.
         """
 
-        XYZ = np.array([data['X'], data['Y'], data['Z']])
-        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
-        XYZ_b = np.array([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ_b = tstack([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_Hunt(XYZ,
                                     XYZ_w,
                                     XYZ_b,
-                                    data['L_A'],
+                                    numeric_as_array(data['L_A']),
                                     Hunt_InductionFactors(
-                                        data['N_c'],
-                                        data['N_b']),
-                                    CCT_w=data['T'])
+                                        numeric_as_array(data['N_c']),
+                                        numeric_as_array(data['N_b'])),
+                                    CCT_w=numeric_as_array(data['T']))
 
         return specification

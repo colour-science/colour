@@ -13,6 +13,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import EPSILON
+from colour.utilities.common import is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -386,3 +387,14 @@ def row_as_diagonal(a):
 
     return np.eye(a.shape[-1]) * a
 
+
+def numeric_as_array(x):
+    """
+    TODO: Comment.
+    :param x:
+    :return:
+    """
+    if is_numeric(x):
+        return x
+    else:
+        return x[..., np.newaxis]
