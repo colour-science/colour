@@ -33,7 +33,7 @@ from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_to_rgb
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, tsplit, row_as_diagonal
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -107,19 +107,19 @@ class RLAB_ReferenceSpecification(
 
     Parameters
     ----------
-    LR : numeric
+    LR : numeric or array_like
         Correlate of *Lightness* :math:`L^R`.
-    CR : numeric
+    CR : numeric or array_like
         Correlate of *achromatic chroma* :math:`C^R`.
-    hR : numeric
+    hR : numeric or array_like
         *Hue* angle :math:`h^R` in degrees.
-    sR : numeric
+    sR : numeric or array_like
         Correlate of *saturation* :math:`s^R`.
-    HR : numeric
+    HR : numeric or array_like
         *Hue* :math:`h` composition :math:`H^R`.
-    aR : numeric
+    aR : numeric or array_like
         Red–green chromatic response :math:`a^R`.
-    bR : numeric
+    bR : numeric or array_like
         Yellow–blue chromatic response :math:`b^R`.
     """
 
@@ -136,19 +136,19 @@ class RLAB_Specification(
 
     Parameters
     ----------
-    J : numeric
+    J : numeric or array_like
         Correlate of *Lightness* :math:`L^R`.
-    C : numeric
+    C : numeric or array_like
         Correlate of *achromatic chroma* :math:`C^R`.
-    h : numeric
+    h : numeric or array_like
         *Hue* angle :math:`h^R` in degrees.
-    s : numeric
+    s : numeric or array_like
         Correlate of *saturation* :math:`s^R`.
-    HC : numeric
+    HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
-    a : numeric
+    a : numeric or array_like
         Red–green chromatic response :math:`a^R`.
-    b : numeric
+    b : numeric or array_like
         Yellow–blue chromatic response :math:`b^R`.
     """
 
@@ -163,17 +163,17 @@ def XYZ_to_RLAB(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3, n)
-        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
-    XYZ_n : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_n : numeric
+    XYZ_n : array_like
+        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+    Y_n : numeric or array_like
         Absolute adapting luminance in :math:`cd/m^2`.
-    sigma : numeric, optional
+    sigma : numeric or array_like, optional
         Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
         for reference.
-    D : numeric, optional
+    D : numeric or array_like, optional
         *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
@@ -187,8 +187,8 @@ def XYZ_to_RLAB(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_n* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
 
     Examples
     --------
@@ -201,7 +201,8 @@ def XYZ_to_RLAB(XYZ,
     RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
+    Y_n = np.asarray(Y_n)
 
     # Converting to cone responses.
     LMS_n = XYZ_to_rgb(XYZ_n)
@@ -212,28 +213,15 @@ def XYZ_to_RLAB(XYZ,
                (1 + (Y_n ** (1 / 3)) + (1 / LMS_l_E)))
     LMS_a_L = (LMS_p_L + D * (1 - LMS_p_L)) / LMS_n
 
-    # Special handling here to allow *array_like* variable input.
-    if len(np.shape(X)) == 0:
-        # *numeric* case.
-        # Implementation as per reference.
-        aR = np.diag(LMS_a_L)
-        XYZ_ref = np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX), XYZ)
-    else:
-        # *array_like* case.
-        # Constructing huge multidimensional arrays might not be the best idea,
-        # we handle each input dimension separately.
+    aR = row_as_diagonal(LMS_a_L)
+    XYZ_ref = np.einsum('...ij,...j->...i',
+                        np.einsum('...ij,...jk->...ik',
+                                  np.einsum('...ij,...jk->...ik', R_MATRIX,
+                                            aR),
+                                  XYZ_TO_HPE_MATRIX),
+                        XYZ)
 
-        # First figure out how many values we have to deal with.
-        dimension = len(X)
-        # Then create the output array that will be filled layer by layer.
-        XYZ_ref = np.zeros((3, dimension))
-        for layer in range(dimension):
-            aR = np.diag(LMS_a_L[..., layer])
-            XYZ_ref[..., layer] = (
-                np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX),
-                       XYZ[..., layer]))
-
-    X_ref, Y_ref, Z_ref = XYZ_ref
+    X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L^R`.
