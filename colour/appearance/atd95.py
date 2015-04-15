@@ -275,13 +275,12 @@ def XYZ_to_LMS_ATD95(XYZ):
 
 def opponent_colour_dimensions(LMS_g):
     """
-    Returns opponent colour dimensions from given post adaptation cone signals
-    matrix.
+    Returns opponent colour dimensions from given post adaptation cone signals.
 
     Parameters
     ----------
     LMS_g : array_like
-        Post adaptation cone signals matrix.
+        Post adaptation cone signals.
 
     Returns
     -------
