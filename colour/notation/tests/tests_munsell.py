@@ -4518,8 +4518,10 @@ class TestParseMunsellColour(unittest.TestCase):
         """
 
         self.assertEqual(parse_munsell_colour('N5.2'), 5.2)
+
         self.assertTupleEqual(parse_munsell_colour('0YR 2.0/4.0'),
                               (0.0, 2.0, 4.0, 6))
+
         self.assertTupleEqual(parse_munsell_colour('4.2YR 8.1/5.3'),
                               (4.2, 8.1, 5.3, 6))
 
@@ -4537,7 +4539,9 @@ class TestIsGreyMunsellColour(unittest.TestCase):
         """
 
         self.assertTrue(is_grey_munsell_colour(5.2))
+
         self.assertFalse(is_grey_munsell_colour((0.0, 2.0, 4.0, 6)))
+
         self.assertFalse(is_grey_munsell_colour((4.2, 8.1, 5.3, 6)))
 
 
@@ -4556,12 +4560,15 @@ class TestNormalizeMunsellSpecification(unittest.TestCase):
         self.assertTupleEqual(
             normalize_munsell_specification((0.0, 2.0, 4.0, 6)),
             (10.0, 2.0, 4.0, 7))
+
         self.assertTupleEqual(
             normalize_munsell_specification((0.0, 2.0, 4.0, 8)),
             (10.0, 2.0, 4.0, 9))
+
         self.assertTupleEqual(
             normalize_munsell_specification((0, 2.0, 4.0, 10)),
             (10.0, 2.0, 4.0, 1))
+
         self.assertEqual(
             normalize_munsell_specification((0, 2.0, 0, 10)),
             2)
@@ -4584,12 +4591,15 @@ class TestMunsellColourToMunsellSpecification(unittest.TestCase):
         self.assertTupleEqual(
             munsell_colour_to_munsell_specification('0.0YR 2.0/4.0'),
             (10., 2.0, 4.0, 7))
+
         self.assertTupleEqual(
             munsell_colour_to_munsell_specification('0.0RP 2.0/4.0'),
             (10.0, 2.0, 4.0, 9))
+
         self.assertTupleEqual(
             munsell_colour_to_munsell_specification('10.0B 2.0/4.0'),
             (10.0, 2.0, 4.0, 1))
+
         self.assertEqual(munsell_colour_to_munsell_specification('N5.2'),
                          5.2)
         self.assertEqual(
@@ -4614,12 +4624,15 @@ class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
         self.assertEqual(
             munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7)),
             '10.0R 2.0/4.0')
+
         self.assertEqual(
             munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 9)),
             '10.0P 2.0/4.0')
+
         self.assertEqual(
             munsell_specification_to_munsell_colour((10.0, 2.0, 4.0, 1)),
             '10.0B 2.0/4.0')
+
         self.assertEqual(munsell_specification_to_munsell_colour(5.2),
                          'N5.2')
 
@@ -4638,8 +4651,10 @@ class Test_xyY_fromRenotation(unittest.TestCase):
 
         self.assertTupleEqual(xyY_from_renotation((2.5, 0.2, 2.0, 4)),
                               (0.713, 1.414, 0.237))
+
         self.assertTupleEqual(xyY_from_renotation((5.0, 0.2, 2.0, 4)),
                               (0.449, 1.145, 0.237))
+
         self.assertTupleEqual(xyY_from_renotation((7.5, 0.2, 2.0, 4)),
                               (0.262, 0.837, 0.237))
 
@@ -4657,7 +4672,9 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
         """
 
         self.assertTrue(is_specification_in_renotation((2.5, 0.2, 2.0, 4)))
+
         self.assertTrue(is_specification_in_renotation((5.0, 0.2, 2.0, 4)))
+
         self.assertFalse(is_specification_in_renotation((25.0, 0.2, 2.0, 4)))
 
 
@@ -4805,8 +4822,10 @@ class TestMaximumChromaFromRenotation(unittest.TestCase):
 
         self.assertEqual(maximum_chroma_from_renotation(2.5, 5, 5),
                          14.0)
+
         self.assertEqual(maximum_chroma_from_renotation(8.675, 1.225, 10),
                          48.0)
+
         self.assertEqual(maximum_chroma_from_renotation(6.875, 3.425, 1),
                          16.0)
 

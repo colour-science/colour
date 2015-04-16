@@ -56,7 +56,9 @@ class TestAsNumeric(unittest.TestCase):
         """
 
         self.assertEqual(as_numeric(1), 1)
+
         self.assertEqual(as_numeric(np.array([1])), 1)
+
         np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
                                        np.array([1, 2, 3]))
 
@@ -81,7 +83,9 @@ class TestClosest(unittest.TestCase):
              25.40026416])
 
         self.assertEqual(closest(y, 63.05), 62.70988028)
+
         self.assertEqual(closest(y, 24.90), 25.40026416)
+
         self.assertEqual(closest(y, 51.15), 46.84480573)
 
 
@@ -100,15 +104,18 @@ class TestNormalise(unittest.TestCase):
             normalise(np.array([0.1151847498, 0.1008, 0.0508937252])),
             np.array([1., 0.87511585, 0.4418443]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             normalise(np.array([0.1151847498, 0.1008, 0.0508937252]),
                       factor=10),
             np.array([10., 8.75115848, 4.418443]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             normalise(np.array([-0.1151847498, -0.1008, 0.0508937252])),
             np.array([0., 0., 1.]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             normalise(np.array([-0.1151847498, -0.1008, 0.0508937252]),
                       clip=False),
@@ -128,6 +135,7 @@ class TestSteps(unittest.TestCase):
         """
 
         self.assertTupleEqual(steps(range(0, 10, 2)), (2,))
+
         self.assertTupleEqual(
             tuple(sorted(steps([1, 2, 3, 4, 6, 6.5]))),
             (0.5, 1, 2))
@@ -145,6 +153,7 @@ class TestIsUniform(unittest.TestCase):
         """
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
+
         self.assertFalse(is_uniform([1, 2, 3, 4, 6]))
 
 
@@ -214,6 +223,7 @@ class TestTstack(unittest.TestCase):
         np.testing.assert_almost_equal(
             tstack((a, a, a)),
             np.array([0, 0, 0]))
+
         a = np.arange(0, 6)
         np.testing.assert_almost_equal(
             tstack((a, a, a)),
@@ -223,6 +233,7 @@ class TestTstack(unittest.TestCase):
                       [3, 3, 3],
                       [4, 4, 4],
                       [5, 5, 5]]))
+
         a = np.reshape(a, (1, 6))
         np.testing.assert_almost_equal(
             tstack((a, a, a)),
@@ -232,6 +243,7 @@ class TestTstack(unittest.TestCase):
                        [3, 3, 3],
                        [4, 4, 4],
                        [5, 5, 5]]]))
+
         a = np.reshape(a, (1, 2, 3))
         np.testing.assert_almost_equal(
             tstack((a, a, a)),
@@ -268,6 +280,7 @@ class TestTsplit(unittest.TestCase):
             np.array([[0, 1, 2, 3, 4, 5],
                       [0, 1, 2, 3, 4, 5],
                       [0, 1, 2, 3, 4, 5]]))
+
         a = np.array([[[0, 0, 0],
                        [1, 1, 1],
                        [2, 2, 2],
@@ -279,6 +292,7 @@ class TestTsplit(unittest.TestCase):
             np.array([[[0, 1, 2, 3, 4, 5]],
                       [[0, 1, 2, 3, 4, 5]],
                       [[0, 1, 2, 3, 4, 5]]]))
+
         a = np.array([[[[0, 0, 0],
                         [1, 1, 1],
                         [2, 2, 2]],

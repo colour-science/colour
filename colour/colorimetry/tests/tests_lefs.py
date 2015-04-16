@@ -450,6 +450,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
             mesopic_weighting_function(500, 0.2),
             0.7052200000000001,
             places=7)
+
         self.assertAlmostEqual(
             mesopic_weighting_function(500,
                                        0.2,
@@ -457,6 +458,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
                                        method='LRC'),
             0.9095099999999999,
             places=7)
+
         self.assertAlmostEqual(
             mesopic_weighting_function(700,
                                        10,

@@ -112,9 +112,10 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         patched version is used for unit tests.
         """
 
-        super(TestLLABColourAppearanceModel, self).test_n_dimensional_examples()
+        super(TestLLABColourAppearanceModel,
+              self).test_n_dimensional_examples()
 
-    def test_roundtrip_precision(self):
+    def test_colourspace_conversion_matrices_precision(self):
         """
         Tests for loss of precision in conversion between
         LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values and

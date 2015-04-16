@@ -61,4 +61,5 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
                                           data['Y_o'],
                                           data['E_o'],
                                           data['E_or'])
+
         return specification
