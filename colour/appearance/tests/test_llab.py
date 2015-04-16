@@ -59,19 +59,17 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
             LLAB(l:c) colour appearance model specification.
         """
 
-        XYZ = tstack([data['X'], data['Y'], data['Z']])
-        XYZ_0 = tstack([data['X_0'], data['Y_0'], data['Z_0']])
-
-        induction_factors = LLAB_InductionFactors(1,
-                                                  data['F_S'],
-                                                  data['F_L'],
-                                                  data['F_C'])
+        XYZ = tstack((data['X'], data['Y'], data['Z']))
+        XYZ_0 = tstack((data['X_0'], data['Y_0'], data['Z_0']))
 
         specification = XYZ_to_LLAB(XYZ,
                                     XYZ_0,
                                     data['Y_b'],
                                     data['L'],
-                                    induction_factors)
+                                    LLAB_InductionFactors(1,
+                                                          data['F_S'],
+                                                          data['F_L'],
+                                                          data['F_C']))
 
         return specification
 

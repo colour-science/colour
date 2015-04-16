@@ -274,7 +274,7 @@ def XYZ_to_LMS_ATD95(XYZ):
     M = ((-0.3954 * X + 1.1642 * Y + 0.0837 * Z) ** 0.7) + 0.036
     S = ((0.43 * (0.04 * Y + 0.6225 * Z)) ** 0.7) + 0.31
 
-    LMS = tstack([L, M, S])
+    LMS = tstack((L, M, S))
 
     return LMS
 
