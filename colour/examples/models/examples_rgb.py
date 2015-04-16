@@ -22,7 +22,8 @@ message_box('"ACES2065-1" colourspaces data.')
 colourspace = colour.RGB_COLOURSPACES['ACES2065-1']
 print('Name:\n"{0}"'.format(colourspace.name))
 print('\nPrimaries:\n{0}'.format(colourspace.primaries))
-print('\nNormalised primary matrix to "CIE XYZ":\n{0}'.format(
+print(('\nNormalised primary matrix to "CIE XYZ" '
+       'tristimulus values:\n{0}').format(
     colourspace.RGB_to_XYZ_matrix))
 print('\nNormalised primary matrix to "ACES2065-1":\n{0}'.format(
     colourspace.XYZ_to_RGB_matrix))

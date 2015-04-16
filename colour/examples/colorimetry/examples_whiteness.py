@@ -17,7 +17,7 @@ message_box('"Whiteness" Computations')
 XYZ = np.array([95., 100., 105.])
 XYZ_0 = np.array([94.80966767, 100., 107.30513595])
 message_box(('Computing "whiteness" using Berger (1959) method for '
-             'given sample and reference white "CIE XYZ" colourspace '
+             'given sample and reference white "CIE XYZ" tristimulus values '
              'matrices:\n'
              '\n\t{0}\n\t{1}'.format(XYZ, XYZ_0)))
 print(colour.whiteness_Berger1959(XYZ, XYZ_0))
@@ -26,7 +26,7 @@ print(colour.whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method='Berger 1959'))
 print('\n')
 
 message_box(('Computing "whiteness" using Taube (1960) method for '
-             'given sample and reference white "CIE XYZ" colourspace '
+             'given sample and reference white "CIE XYZ" tristimulus values '
              'matrices:\n'
              '\n\t{0}\n\t{1}'.format(XYZ, XYZ_0)))
 print(colour.whiteness_Taube1960(XYZ, XYZ_0))
@@ -44,7 +44,7 @@ print(colour.whiteness(Lab=Lab, method='Stensby 1968'))
 print('\n')
 
 message_box(('Computing "whiteness" using ASTM 313 method for '
-             'given sample "CIE XYZ" colourspace matrix:\n'
+             'given sample "CIE XYZ" tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.whiteness_ASTM313(XYZ))
 print(colour.whiteness(XYZ=XYZ, method='ASTM 313'))

@@ -330,7 +330,7 @@ def _CCT_factor(reference_data, XYZ_r):
     reference_data : VS_ColorimetryData
         Reference colorimetry data.
     XYZ_r : array_like
-        *CIE XYZ* colourspace matrix for reference.
+        *CIE XYZ* tristimulus values for reference.
 
     Returns
     -------

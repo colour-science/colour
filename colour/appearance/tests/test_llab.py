@@ -117,7 +117,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     def test_roundtrip_precision(self):
         """
         Tests for loss of precision in conversion between
-        LLAB(l:c) colour appearance model *CIE XYZ* colourspace matrix and
+        LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values and
         normalised cone responses matrix.
         """
 

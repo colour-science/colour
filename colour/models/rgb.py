@@ -55,9 +55,9 @@ class RGB_Colourspace(object):
     illuminant : unicode, optional
         *RGB* colourspace whitepoint name as illuminant.
     RGB_to_XYZ_matrix : array_like, optional
-        Transformation matrix from colourspace to *CIE XYZ* colourspace.
+        Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
-        Transformation matrix from *CIE XYZ* colourspace to colourspace.
+        Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
     transfer_function : object, optional
         *RGB* colourspace opto-electronic conversion function from linear to
         colourspace.

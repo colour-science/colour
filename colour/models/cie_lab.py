@@ -105,7 +105,7 @@ def Lab_to_XYZ(Lab,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
+    Converts from *CIE Lab* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

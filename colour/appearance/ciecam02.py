@@ -345,7 +345,7 @@ def CIECAM02_to_XYZ(J,
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
 
-    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
+    # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
     # sharpened *RGB* values.
     RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
 
@@ -398,7 +398,7 @@ def CIECAM02_to_XYZ(J,
         RGB_c, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
-    # colourspace matrices.
+    # tristimulus values.
     XYZ = np.einsum('...ij,...j->...i', CAT02_INVERSE_CAT, RGB)
 
     return XYZ

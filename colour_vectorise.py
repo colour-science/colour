@@ -1819,7 +1819,7 @@ def XYZ_to_CIECAM02_vectorise(XYZ,
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters_vectorise(Y_b, Y_w, L_A))
 
-    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
+    # Converting *CIE XYZ* tristimulus values matrices to CMCCAT2000 transform
     # sharpened *RGB* values.
     RGB = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ)
     RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
@@ -1907,7 +1907,7 @@ def CIECAM02_to_XYZ_vectorise(J,
         viewing_condition_dependent_parameters_vectorise(
             Y_b, Y_w, L_A))
 
-    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
+    # Converting *CIE XYZ* tristimulus values matrices to CMCCAT2000 transform
     # sharpened *RGB* values.
     RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
 
@@ -1963,7 +1963,7 @@ def CIECAM02_to_XYZ_vectorise(J,
                                                       D[..., np.newaxis])
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
-    # colourspace matrices.
+    # tristimulus values.
     XYZ = np.einsum('...ij,...j->...i', CAT02_INVERSE_CAT, RGB)
 
     return XYZ

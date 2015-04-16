@@ -36,8 +36,8 @@ _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
 
 def _XYZ_optimal_colour_stimuli(illuminant):
     """
-    Returns given illuminant optimal colour stimuli in *CIE XYZ* colourspace
-    and caches it if not existing.
+    Returns given illuminant optimal colour stimuli in *CIE XYZ* tristimulus
+    values and caches it if not existing.
 
     Parameters
     ----------

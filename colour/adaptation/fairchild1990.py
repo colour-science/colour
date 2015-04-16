@@ -46,7 +46,7 @@ __all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-Fairchild (1990) colour appearance model *CIE XYZ* colourspace to cone
+Fairchild (1990) colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -55,7 +55,7 @@ FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX = np.linalg.inv(VON_KRIES_CAT)
 """
 Fairchild (1990) colour appearance model cone responses to *CIE XYZ*
-colourspace to  matrix.
+tristimulus values matrix.
 
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """

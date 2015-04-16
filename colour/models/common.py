@@ -32,12 +32,12 @@ def XYZ_to_sRGB(XYZ,
                 chromatic_adaptation_transform='CAT02',
                 transfer_function=True):
     """
-    Converts from *CIE XYZ* colourspace to *sRGB* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_transform : unicode, optional
@@ -49,12 +49,12 @@ def XYZ_to_sRGB(XYZ,
 
     Returns
     -------
-    ndarray, (3,)
-        *sRGB* colour matrix.
+    ndarray
+        *sRGB* colour array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
 
     Examples
     --------
@@ -78,12 +78,12 @@ def sRGB_to_XYZ(RGB,
                 chromatic_adaptation_method='CAT02',
                 inverse_transfer_function=True):
     """
-    Converts from *sRGB* colourspace to *CIE XYZ* colourspace.
+    Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *sRGB* colourspace matrix.
+    RGB : array_like
+        *sRGB* colourspace array.
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
@@ -95,12 +95,12 @@ def sRGB_to_XYZ(RGB,
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colour matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
 
     Examples
     --------

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases *CIE XYZ* colourspace tristimulus values computations.
+Showcases *CIE XYZ* tristimulus values computations.
 """
 
 from __future__ import division, unicode_literals
@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 import colour
 from colour.utilities.verbose import message_box
 
-message_box('"CIE XYZ" Colourspace Tristimulus Values Computations')
+message_box('"CIE XYZ" Tristimulus Values Computations')
 
 sample_spd_data = {
     380: 0.048,
@@ -100,8 +100,8 @@ spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
 illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['A']
 
-message_box(('Computing *CIE XYZ* colourspace tristimulus values for sample '
-             'spectral power distribution and "CIE Standard Illuminant A".'))
+message_box(('Computing *CIE XYZ* tristimulus values for sample spectral power '
+             'distribution and "CIE Standard Illuminant A".'))
 print(colour.spectral_to_XYZ(spd, cmfs, illuminant))
 
 print('\n')
@@ -112,8 +112,8 @@ print(colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs)))
 
 print('\n')
 
-message_box(('Computing *CIE XYZ* colourspace tristimulus values for a single '
-             'given wavelength in nm.'))
+message_box(('Computing *CIE XYZ* tristimulus values for a single given '
+             'wavelength in nm.'))
 print(colour.wavelength_to_XYZ(
     546.1,
     colour.CMFS['CIE 1931 2 Degree Standard Observer']))
