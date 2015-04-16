@@ -3050,7 +3050,7 @@ def XYZ_to_Nayatani95_analysis():
     print('\n')
 
 
-XYZ_to_Nayatani95_analysis()
+# XYZ_to_Nayatani95_analysis()
 
 
 def XYZ_to_Nayatani95_profile(

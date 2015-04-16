@@ -122,6 +122,7 @@ def normalise(x, factor=1, clip=True):
 
     maximum = np.max(x)
     x *= (1 / maximum) * factor
+
     return np.clip(x, 0, factor) if clip else x
 
 
