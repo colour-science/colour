@@ -206,12 +206,12 @@ def CIE_1931_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         xy = np.array([x, y])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(xy - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 
@@ -385,12 +385,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(uv - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 
@@ -569,12 +569,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(uv - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 

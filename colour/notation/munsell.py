@@ -726,8 +726,8 @@ def xyY_to_munsell_specification(xyY):
     xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
     Xr, Yr, Zr = np.ravel(xyY_to_XYZ((xi, yi, Y)))
 
-    XYZ = np.array((X, Y, Z))
-    XYZr = np.array(((1 / Yr) * Xr, 1, (1 / Yr) * Zr))
+    XYZ = np.array([X, Y, Z])
+    XYZr = np.array([(1 / Yr) * Xr, 1, (1 / Yr) * Zr])
 
     Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
     LCHab = Lab_to_LCHab(Lab)
@@ -836,7 +836,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
-            np.array((x, y)) - np.array((x_current, y_current)))
+            np.array([x, y]) - np.array([x_current, y_current]))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -896,7 +896,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
-            np.array((x, y)) - np.array((x_current, y_current)))
+            np.array([x, y]) - np.array([x_current, y_current]))
         if difference < convergence_threshold:
             return tuple(specification_current)
 

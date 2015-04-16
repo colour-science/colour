@@ -2816,19 +2816,19 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self.__tri_spd.get(380),
-            np.array((0.001368, 3.9e-05, 0.00645)))
+            np.array([0.001368, 3.9e-05, 0.00645]))
 
         np.testing.assert_almost_equal(
             self.__tri_spd.get(600),
-            np.array((1.0622, 0.631, 0.0008)))
+            np.array([1.0622, 0.631, 0.0008]))
 
         np.testing.assert_almost_equal(
             self.__tri_spd.get(700),
-            np.array((0.011359, 0.004102, 0.)))
+            np.array([0.011359, 0.004102, 0.]))
 
         np.testing.assert_almost_equal(
             self.__tri_spd.get(900, (0, 0, 0)),
-            np.array((0, 0, 0)))
+            np.array([0, 0, 0]))
 
         np.testing.assert_almost_equal(
             self.__tri_spd.get((380, 600, 700)),

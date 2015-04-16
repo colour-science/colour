@@ -82,6 +82,6 @@ def random_triplet_generator(size,
             integer_size)))
 
     for _ in range(integer_size):
-        yield np.array((random_state.uniform(*limits[0]),
+        yield np.array([random_state.uniform(*limits[0]),
                         random_state.uniform(*limits[1]),
-                        random_state.uniform(*limits[2])))
+                        random_state.uniform(*limits[2])])
