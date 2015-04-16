@@ -1121,12 +1121,18 @@ def XYZ_to_ATD95_2d(XYZ, XYZ_0, Y_0, k_1, k_2):
 
 
 def XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
-    XYZ = luminance_to_retinal_illuminance_vectorise(XYZ, Y_0)
-    XYZ_0 = luminance_to_retinal_illuminance_vectorise(XYZ_0, Y_0)
+    Y_0 = np.asarray(Y_0)
+    k_1 = np.asarray(k_1)
+    k_2 = np.asarray(k_2)
+
+    XYZ = luminance_to_retinal_illuminance_vectorise(
+        XYZ, Y_0[..., np.newaxis])
+    XYZ_0 = luminance_to_retinal_illuminance_vectorise(
+        XYZ_0, Y_0[..., np.newaxis])
 
     # Computing adaptation model.
     LMS = XYZ_to_LMS_ATD95_vectorise(XYZ)
-    XYZ_a = k_1 * XYZ + k_2 * XYZ_0
+    XYZ_a = k_1[..., np.newaxis] * XYZ + k_2[..., np.newaxis] * XYZ_0
     LMS_a = XYZ_to_LMS_ATD95_vectorise(XYZ_a)
 
     LMS_g = LMS * (sigma / (sigma + LMS_a))
@@ -1213,14 +1219,27 @@ def XYZ_to_ATD95_analysis():
 
     print('\n')
 
-    print('2d array input:')
+    print('1.5d array input:')
     XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ_0 = np.tile(XYZ_0, (6, 1))
+    Y_0 = np.tile(Y_0, 6)
+    k_1 = np.tile(k_1, 6)
+    k_2 = np.tile(k_2, 6)
     print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
 
     print('\n')
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
+    Y_0 = np.reshape(Y_0, (2, 3))
+    k_1 = np.reshape(k_1, (2, 3))
+    k_2 = np.reshape(k_2, (2, 3))
     print(XYZ_to_ATD95_vectorise(XYZ, XYZ_0, Y_0, k_1, k_2))
 
     print('\n')
@@ -1480,7 +1499,7 @@ def chromatic_adaptation_vectorise(XYZ,
     Y_w = XYZ_w[..., 1]
     Y_b = XYZ_b[..., 1]
 
-    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)
+    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)[..., np.newaxis]
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
@@ -1498,7 +1517,7 @@ def chromatic_adaptation_vectorise(XYZ,
         D_rgb = np.zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A * (rgb_w / 100))
+    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -1507,7 +1526,8 @@ def chromatic_adaptation_vectorise(XYZ,
                                                            p)
 
     # Computing adapted cone responses.
-    rgb_a = 1 + B_rgb * (f_n_vectorise(F_L * F_rgb * rgb / rgb_w) + D_rgb)
+    rgb_a = 1 + B_rgb * (
+        f_n_vectorise(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 
@@ -1708,15 +1728,27 @@ def XYZ_to_Hunt_analysis():
     print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
 
     print('\n')
+    print('1.5d array input:')
+    XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
+
+    print('\n')
 
     print('2d array input:')
-    XYZ = np.tile(XYZ, (6, 1))
+    XYZ_w = np.tile(XYZ_w, (6, 1))
+    XYZ_b = np.tile(XYZ_b, (6, 1))
+    L_A = np.tile(L_A, 6)
+    CCT_w = np.tile(CCT_w, 6)
     print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
 
     print('\n')
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+    XYZ_b = np.reshape(XYZ_b, (2, 3, 3))
+    L_A = np.reshape(L_A, (2, 3))
+    CCT_w = np.reshape(CCT_w, (2, 3))
     print(XYZ_to_Hunt_vectorise(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w))
 
     print('\n')
@@ -1785,10 +1817,7 @@ def XYZ_to_CIECAM02_vectorise(XYZ,
     Y_b = np.asarray(Y_b)
 
     n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters_vectorise(
-            Y_b,
-            Y_w,
-            L_A))
+        viewing_condition_dependent_parameters_vectorise(Y_b, Y_w, L_A))
 
     # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
     # sharpened *RGB* values.
@@ -1800,8 +1829,12 @@ def XYZ_to_CIECAM02_vectorise(XYZ,
                                        L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
-    RGB_c = full_chromatic_adaptation_forward_vectorise(RGB, RGB_w, Y_w, D)
-    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w, Y_w, D)
+    RGB_c = full_chromatic_adaptation_forward_vectorise(RGB, RGB_w,
+                                                        Y_w[..., np.newaxis],
+                                                        D[..., np.newaxis])
+    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w,
+                                                         Y_w[..., np.newaxis],
+                                                         D[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_p = RGB_to_rgb_vectorise(RGB_c)
@@ -1809,9 +1842,9 @@ def XYZ_to_CIECAM02_vectorise(XYZ,
 
     # Applying forward post-adaptation non linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward_vectorise(
-        RGB_p, F_L)
+        RGB_p, F_L[..., np.newaxis])
     RGB_aw = post_adaptation_non_linear_response_compression_forward_vectorise(
-        RGB_pw, F_L)
+        RGB_pw, F_L[..., np.newaxis])
 
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward_vectorise(RGB_a))
@@ -1859,7 +1892,9 @@ def XYZ_to_CIECAM02_vectorise(XYZ,
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
-def CIECAM02_to_XYZ_vectorise(J, C, h,
+def CIECAM02_to_XYZ_vectorise(J,
+                              C,
+                              h,
                               XYZ_w,
                               L_A,
                               Y_b,
@@ -1881,14 +1916,16 @@ def CIECAM02_to_XYZ_vectorise(J, C, h,
                                        L_A) if not discount_illuminant else 1
 
     # Computation full chromatic adaptation.
-    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward_vectorise(RGB_w, RGB_w,
+                                                         Y_w[..., np.newaxis],
+                                                         D[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_pw = RGB_to_rgb_vectorise(RGB_wc)
 
     # Applying post-adaptation non linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward_vectorise(
-        RGB_pw, F_L)
+        RGB_pw, F_L[..., np.newaxis])
 
     # Computing achromatic responses for the stimulus and the whitepoint.
     A_w = achromatic_response_forward_vectorise(RGB_aw, N_bb)
@@ -1909,22 +1946,21 @@ def CIECAM02_to_XYZ_vectorise(J, C, h,
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
     a, b = tsplit(opponent_colour_dimensions_reverse_vectorise(P, h))
 
-    print(a, b)
     # Computing post-adaptation non linear response compression matrix.
     RGB_a = post_adaptation_non_linear_response_compression_matrix_vectorise(
-        P_2, a,
-        b)
+        P_2, a, b)
 
     # Applying reverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_reverse_vectorise(
-        RGB_a,
-        F_L)
+        RGB_a, F_L[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB_vectorise(RGB_p)
 
     # Applying reverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_reverse_vectorise(RGB_c, RGB_w, Y_w, D)
+    RGB = full_chromatic_adaptation_reverse_vectorise(RGB_c, RGB_w,
+                                                      Y_w[..., np.newaxis],
+                                                      D[..., np.newaxis])
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
     # colourspace matrices.
@@ -1957,7 +1993,7 @@ def viewing_condition_dependent_parameters_vectorise(Y_b, Y_w, L_A):
     n = Y_b / Y_w
 
     F_L = luminance_level_adaptation_factor_vectorise(L_A)
-    N_bb, N_cb = chromatic_induction_factors_vectorise(n)
+    N_bb, N_cb = tsplit(chromatic_induction_factors_vectorise(n))
     z = base_exponential_non_linearity_vectorise(n)
 
     return tstack((n, F_L, N_bb, N_cb, z))
@@ -2020,6 +2056,7 @@ def post_adaptation_non_linear_response_compression_forward_vectorise(RGB,
     # TODO: Check for negative values and their handling.
     RGB_c = ((((400 * (F_L * RGB / 100) ** 0.42) /
                (27.13 + (F_L * RGB / 100) ** 0.42))) + 0.1)
+
     return RGB_c
 
 
@@ -2031,6 +2068,7 @@ def post_adaptation_non_linear_response_compression_reverse_vectorise(RGB,
     RGB_p = ((np.sign(RGB - 0.1) *
               (100 / F_L) * ((27.13 * np.abs(RGB - 0.1)) /
                              (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+
     return RGB_p
 
 
@@ -2056,22 +2094,23 @@ def opponent_colour_dimensions_reverse_vectorise(P, h):
     P_5 = P_1 / cos_hr
     n = P_2 * (2 + P_3) * (460 / 1403)
 
-    mask = np.abs(sin_hr) >= np.abs(cos_hr)
-
     a = np.zeros(hr.shape)
     b = np.zeros(hr.shape)
 
-    b[mask] = (n[mask] / (P_4[mask] + (2 + P_3[mask]) *
-                          (220 / 1403) * (cos_hr[mask] / sin_hr[mask]) -
-                          (27 / 1403) + P_3[mask] * (6300 / 1403)))
+    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
+                 (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
+                       (27 / 1403) + P_3 * (6300 / 1403))),
+                 b)
 
-    a[mask] = b[mask] * (cos_hr[mask] / sin_hr[mask])
+    a = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b * (cos_hr / sin_hr), a)
 
-    b[~mask] = (n[~mask] / (P_5[~mask] + (2 + P_3[~mask]) * (220 / 1403) -
-                            ((27 / 1403) - P_3[~mask] * (6300 / 1403)) *
-                            (sin_hr[~mask] / cos_hr[~mask])))
+    a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
+                 (n / (P_5 + (2 + P_3) * (220 / 1403) -
+                       ((27 / 1403) - P_3 * (6300 / 1403)) *
+                       (sin_hr / cos_hr))),
+                 a)
 
-    a[~mask] = a[~mask] * (sin_hr[~mask] / cos_hr[~mask])
+    b = np.where(np.abs(sin_hr) < np.abs(cos_hr), a * (sin_hr / cos_hr), b)
 
     ab = tstack((a, b))
 
@@ -2125,6 +2164,7 @@ def achromatic_response_forward_vectorise(RGB, N_bb):
     R, G, B = tsplit(RGB)
 
     A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
+
     return A
 
 
@@ -2266,14 +2306,25 @@ def XYZ_to_CIECAM02_analysis():
 
     print('\n')
 
-    print('2d array input:')
+    print('1.5d array input:')
     XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ_w = np.tile(XYZ_w, (6, 1))
+    L_A = np.tile(L_A, 6)
+    Y_b = np.tile(Y_b, 6)
     print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
 
     print('\n')
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+    L_A = np.reshape(L_A, (2, 3))
+    Y_b = np.reshape(Y_b, (2, 3))
     print(XYZ_to_CIECAM02_vectorise(XYZ, XYZ_w, L_A, Y_b, surround))
 
     print('\n')
@@ -2326,10 +2377,18 @@ def CIECAM02_to_XYZ_analysis():
 
     print('\n')
 
+    print('Numeric input:')
+    print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
+
+    print('\n')
+
     print('1d array input:')
-    J = [J] * 6
-    C = [C] * 6
-    h = [h] * 6
+    J = np.tile(J, 6)
+    C = np.tile(C, 6)
+    h = np.tile(h, 6)
+    XYZ_w = np.tile(XYZ_w, (6, 1))
+    L_A = np.tile(L_A, 6)
+    Y_b = np.tile(Y_b, 6)
     print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
 
     print('\n')
@@ -2338,20 +2397,15 @@ def CIECAM02_to_XYZ_analysis():
     J = np.reshape(J, (2, 3))
     C = np.reshape(C, (2, 3))
     h = np.reshape(h, (2, 3))
-    print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
-
-    print('\n')
-
-    print('3d array input:')
-    J = np.reshape(J, (2, 3, 1))
-    C = np.reshape(C, (2, 3, 1))
-    h = np.reshape(h, (2, 3, 1))
+    XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+    L_A = np.reshape(L_A, (2, 3))
+    Y_b = np.reshape(Y_b, (2, 3))
     print(CIECAM02_to_XYZ_vectorise(J, C, h, XYZ_w, L_A, Y_b))
 
     print('\n')
 
 
-CIECAM02_to_XYZ_analysis()
+# CIECAM02_to_XYZ_analysis()
 
 
 def CIECAM02_to_XYZ_profile(
@@ -2589,14 +2643,25 @@ def XYZ_to_LLAB_analysis():
 
     print('\n')
 
-    print('2d array input:')
+    print('1.5d array input:')
     XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ_0 = np.tile(XYZ_0, (6, 1))
+    Y_b = np.tile(Y_b, 6)
+    L = np.tile(L, 6)
     print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
 
     print('\n')
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
+    Y_b = np.reshape(Y_b, (2, 3))
+    L = np.reshape(L, (2, 3))
     print(XYZ_to_LLAB_vectorise(XYZ, XYZ_0, Y_b, L, surround))
 
     print('\n')
@@ -2659,6 +2724,9 @@ def XYZ_to_Nayatani95_vectorise(XYZ,
                  'unpredictable results may occur!'))
 
     X, Y, Z = tsplit(XYZ)
+    Y_o = np.asarray(Y_o)
+    E_o = np.asarray(E_o)
+    E_or = np.asarray(E_or)
 
     # Computing adapting luminance :math:`L_o` and normalising luminance
     # :math:`L_{or}` in in :math:`cd/m^2`.
@@ -2670,7 +2738,8 @@ def XYZ_to_Nayatani95_vectorise(XYZ,
     xi, eta, zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
+    RGB_o = (((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) /
+              (100 * np.pi)) * xez)
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95_vectorise(XYZ)
@@ -2955,20 +3024,33 @@ def XYZ_to_Nayatani95_analysis():
 
     print('\n')
 
-    print('2d array input:')
+    print('1.5d array input:')
     XYZ = np.tile(XYZ, (6, 1))
+    print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
+
+    print('\n')
+
+    print('2d array input:')
+    XYZ_n = np.tile(XYZ_n, (6, 1))
+    Y_o = np.tile(Y_o, 6)
+    E_o = np.tile(E_o, 6)
+    E_or = np.tile(E_or, 6)
     print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
 
     print('\n')
 
     print('3d array input:')
     XYZ = np.reshape(XYZ, (2, 3, 3))
+    XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
+    Y_o = np.reshape(Y_o, (2, 3))
+    E_o = np.reshape(E_o, (2, 3))
+    E_or = np.reshape(E_or, (2, 3))
     print(XYZ_to_Nayatani95_vectorise(XYZ, XYZ_n, Y_o, E_o, E_or))
 
     print('\n')
 
 
-# XYZ_to_Nayatani95_analysis()
+XYZ_to_Nayatani95_analysis()
 
 
 def XYZ_to_Nayatani95_profile(
@@ -3018,17 +3100,18 @@ def XYZ_to_RLAB_vectorise(XYZ,
                           Y_n,
                           sigma=RLAB_VIEWING_CONDITIONS.get('Average'),
                           D=RLAB_D_FACTOR.get('Hard Copy Images')):
-    X, Y, Z = tsplit(XYZ)
     Y_n = np.asarray(Y_n)
+    D = np.asarray(D)
+    sigma = np.asarray(sigma)
 
     # Converting to cone responses.
     LMS_n = XYZ_to_rgb_vectorise(XYZ_n)
 
     # Computing the :math:`A` matrix.
     LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
-    LMS_p_L = ((1 + (Y_n ** (1 / 3)) + LMS_l_E) /
-               (1 + (Y_n ** (1 / 3)) + (1 / LMS_l_E)))
-    LMS_a_L = (LMS_p_L + D * (1 - LMS_p_L)) / LMS_n
+    LMS_p_L = ((1 + (Y_n[..., np.newaxis] ** (1 / 3)) + LMS_l_E) /
+               (1 + (Y_n[..., np.newaxis] ** (1 / 3)) + (1 / LMS_l_E)))
+    LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
     # XYZ_ref = np.dot(np.dot(np.dot(R_MATRIX, aR), XYZ_TO_HPE_MATRIX), XYZ)

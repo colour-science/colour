@@ -201,17 +201,18 @@ def XYZ_to_RLAB(XYZ,
     RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
-    X, Y, Z = tsplit(XYZ)
     Y_n = np.asarray(Y_n)
+    D = np.asarray(D)
+    sigma = np.asarray(sigma)
 
     # Converting to cone responses.
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.
     LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
-    LMS_p_L = ((1 + (Y_n ** (1 / 3)) + LMS_l_E) /
-               (1 + (Y_n ** (1 / 3)) + (1 / LMS_l_E)))
-    LMS_a_L = (LMS_p_L + D * (1 - LMS_p_L)) / LMS_n
+    LMS_p_L = ((1 + (Y_n[..., np.newaxis] ** (1 / 3)) + LMS_l_E) /
+               (1 + (Y_n[..., np.newaxis] ** (1 / 3)) + (1 / LMS_l_E)))
+    LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
     XYZ_ref = np.einsum('...ij,...j->...i',

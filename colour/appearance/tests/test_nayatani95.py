@@ -7,11 +7,9 @@ Defines unit tests for :mod:`colour.appearance.nayatani95` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack, numeric_as_array
+from colour.utilities.array import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -60,7 +58,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
 
         specification = XYZ_to_Nayatani95(XYZ,
                                           XYZ_n,
-                                          numeric_as_array(data['Y_o']),
-                                          numeric_as_array(data['E_o']),
-                                          numeric_as_array(data['E_or']))
+                                          data['Y_o'],
+                                          data['E_o'],
+                                          data['E_or'])
         return specification

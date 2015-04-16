@@ -7,11 +7,9 @@ Defines unit tests for :mod:`colour.appearance.hunt` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.appearance import Hunt_InductionFactors, XYZ_to_Hunt
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack, numeric_as_array
+from colour.utilities.array import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -61,10 +59,10 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         specification = XYZ_to_Hunt(XYZ,
                                     XYZ_w,
                                     XYZ_b,
-                                    numeric_as_array(data['L_A']),
+                                    data['L_A'],
                                     Hunt_InductionFactors(
-                                        numeric_as_array(data['N_c']),
-                                        numeric_as_array(data['N_b'])),
-                                    CCT_w=numeric_as_array(data['T']))
+                                        data['N_c'],
+                                        data['N_b']),
+                                    CCT_w=data['T'])
 
         return specification

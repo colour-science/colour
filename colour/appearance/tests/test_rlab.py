@@ -7,11 +7,9 @@ Defines unit tests for :mod:`colour.appearance.rlab` module.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.appearance import XYZ_to_RLAB
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack, numeric_as_array
+from colour.utilities.array import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -59,7 +57,8 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
         specification = XYZ_to_RLAB(XYZ,
                                     XYZ_n,
-                                    numeric_as_array(data['Y_n2']),
-                                    numeric_as_array(data['sigma']),
-                                    numeric_as_array(data['D']))
+                                    data['Y_n2'],
+                                    data['sigma'],
+                                    data['D'])
+
         return specification

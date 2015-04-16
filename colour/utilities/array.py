@@ -228,6 +228,7 @@ def in_array(a, b, tolerance=EPSILON):
     b = np.asarray(b)
 
     d = np.abs(np.ravel(a) - b[..., np.newaxis])
+
     return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
@@ -282,6 +283,7 @@ def tstack(a):
     """
 
     a = np.asarray(a)
+
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
@@ -332,6 +334,7 @@ def tsplit(a):
     """
 
     a = np.asarray(a)
+
     return np.array([a[..., x] for x in range(a.shape[-1])])
 
 
@@ -386,15 +389,3 @@ def row_as_diagonal(a):
     a = np.expand_dims(a, -2)
 
     return np.eye(a.shape[-1]) * a
-
-
-def numeric_as_array(x):
-    """
-    TODO: Comment.
-    :param x:
-    :return:
-    """
-    if is_numeric(x):
-        return x
-    else:
-        return x[..., np.newaxis]

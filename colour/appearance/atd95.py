@@ -178,18 +178,24 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     ATD95_Specification(h=1.9089869..., C=1.2064060..., Q=0.1814003..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
     """
 
-    XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
-    XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0)
+    Y_0 = np.asarray(Y_0)
+    k_1 = np.asarray(k_1)
+    k_2 = np.asarray(k_2)
+    sigma = np.asarray(sigma)
+
+    XYZ = luminance_to_retinal_illuminance(XYZ, Y_0[..., np.newaxis])
+    XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0[..., np.newaxis])
 
     # Computing adaptation model.
     LMS = XYZ_to_LMS_ATD95(XYZ)
-    XYZ_a = k_1 * XYZ + k_2 * XYZ_0
+    XYZ_a = k_1[..., np.newaxis] * XYZ + k_2[..., np.newaxis] * XYZ_0
     LMS_a = XYZ_to_LMS_ATD95(XYZ_a)
 
-    LMS_g = LMS * (sigma / (sigma + LMS_a))
+    LMS_g = LMS * (sigma[..., np.newaxis] / (sigma[..., np.newaxis] + LMS_a))
 
     # Computing opponent colour dimensions.
-    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
+    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(
+        opponent_colour_dimensions(LMS_g))
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Br`.

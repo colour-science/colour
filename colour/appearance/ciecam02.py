@@ -211,8 +211,8 @@ def XYZ_to_CIECAM02(XYZ,
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A))
 
     # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
     # sharpened *RGB* values.
@@ -224,8 +224,10 @@ def XYZ_to_CIECAM02(XYZ,
                              L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
-    RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    RGB_c = full_chromatic_adaptation_forward(
+        RGB, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
+    RGB_wc = full_chromatic_adaptation_forward(
+        RGB_w, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_p = RGB_to_rgb(RGB_c)
@@ -233,9 +235,9 @@ def XYZ_to_CIECAM02(XYZ,
 
     # Applying forward post-adaptation non linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(
-        RGB_p, F_L)
+        RGB_p, F_L[..., np.newaxis])
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L)
+        RGB_pw, F_L[..., np.newaxis])
 
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
@@ -283,7 +285,9 @@ def XYZ_to_CIECAM02(XYZ,
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
-def CIECAM02_to_XYZ(J, C, h,
+def CIECAM02_to_XYZ(J,
+                    C,
+                    h,
                     XYZ_w,
                     L_A,
                     Y_b,
@@ -338,25 +342,26 @@ def CIECAM02_to_XYZ(J, C, h,
 
     X_w, Y_w, Zw = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = tsplit(
-        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
-    # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
+    n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A))
+
+    # Converting *CIE XYZ* colourspace matrices to CMCCAT2000 transform
     # sharpened *RGB* values.
     RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F,
-                             L_A) if not discount_illuminant else 1
+    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
     # Computation full chromatic adaptation.
-    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward(
+        RGB_w, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_pw = RGB_to_rgb(RGB_wc)
 
     # Applying post-adaptation non linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L)
+        RGB_pw, F_L[..., np.newaxis])
 
     # Computing achromatic responses for the stimulus and the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -378,16 +383,19 @@ def CIECAM02_to_XYZ(J, C, h,
     a, b = tsplit(opponent_colour_dimensions_reverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    RGB_a = post_adaptation_non_linear_response_compression_matrix(
+        P_2, a, b)
 
     # Applying reverse post-adaptation non linear response compression.
-    RGB_p = post_adaptation_non_linear_response_compression_reverse(RGB_a, F_L)
+    RGB_p = post_adaptation_non_linear_response_compression_reverse(
+        RGB_a, F_L[..., np.newaxis])
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(RGB_p)
 
     # Applying reverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
+    RGB = full_chromatic_adaptation_reverse(
+        RGB_c, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
     # colourspace matrices.
@@ -481,7 +489,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     n = Y_b / Y_w
 
     F_L = luminance_level_adaptation_factor(L_A)
-    N_bb, N_cb = chromatic_induction_factors(n)
+    N_bb, N_cb = tsplit(chromatic_induction_factors(n))
     z = base_exponential_non_linearity(n)
 
     return tstack((n, F_L, N_bb, N_cb, z))
@@ -847,6 +855,7 @@ def hue_angle(a, b):
     b = np.asarray(b)
 
     h = np.degrees(np.arctan2(b, a)) % 360
+
     return h
 
 

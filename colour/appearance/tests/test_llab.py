@@ -6,7 +6,7 @@ Defines unit tests for :mod:`colour.appearance.llab` module.
 """
 
 from __future__ import division, unicode_literals
-from colour.utilities.array import tstack, numeric_as_array
+from colour.utilities.array import tstack
 
 try:
     from unittest import mock
@@ -63,15 +63,16 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_0 = tstack([data['X_0'], data['Y_0'], data['Z_0']])
 
         induction_factors = LLAB_InductionFactors(1,
-                                                  numeric_as_array(data['F_S']),
-                                                  numeric_as_array(data['F_L']),
-                                                  numeric_as_array(data['F_C']))
+                                                  data['F_S'],
+                                                  data['F_L'],
+                                                  data['F_C'])
 
         specification = XYZ_to_LLAB(XYZ,
                                     XYZ_0,
-                                    numeric_as_array(data['Y_b']),
-                                    numeric_as_array(data['L']),
+                                    data['Y_b'],
+                                    data['L'],
                                     induction_factors)
+
         return specification
 
     @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
@@ -91,7 +92,28 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
         patched version is used for unit tests.
         """
+
         super(TestLLABColourAppearanceModel, self).test_examples()
+
+    @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                          decimals=4))
+    def test_n_dimensions_examples(self):
+        """
+        Tests the colour appearance model implementation n-dimensions support.
+
+        Returns
+        -------
+        tuple
+
+        Notes
+        -----
+        Reference data was computed using a rounded
+        :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+        patched version is used for unit tests.
+        """
+
+        super(TestLLABColourAppearanceModel, self).test_n_dimensions_examples()
 
     def test_roundtrip_precision(self):
         """

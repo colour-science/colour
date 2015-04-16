@@ -207,14 +207,15 @@ class ColourAppearanceModelTest(object):
         -------
         tuple
         """
+
         for data in self.fixtures():
             for test in self.check_model_consistency(data,
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
 
-    def test_vectorised_forward_examples(self):
+    def test_n_dimensions_examples(self):
         """
-        Tests the colour appearance model implementation with array-like input.
+        Tests the colour appearance model implementation n-dimensions support.
 
         Returns
         -------
@@ -227,7 +228,7 @@ class ColourAppearanceModelTest(object):
                 data[key].append(value)
 
         for key in data:
-            data[key] = np.array(data[key])
+            data[key] = np.asarray(data[key])
 
         for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
             yield test

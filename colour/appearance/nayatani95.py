@@ -196,11 +196,9 @@ def XYZ_to_Nayatani95(XYZ,
     Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, HC=None, Lstar_N=50.0039154...)
     """
 
-    if np.any(Y_o < 18) or np.any(Y_o > 100):
-        warning(('"Y_o" luminance factor must be in [18, 100] domain, '
-                 'unpredictable results may occur!'))
-
-    X, Y, Z = tsplit(XYZ)
+    Y_o = np.asarray(Y_o)
+    E_o = np.asarray(E_o)
+    E_or = np.asarray(E_or)
 
     # Computing adapting luminance :math:`L_o` and normalising luminance
     # :math:`L_{or}` in in :math:`cd/m^2`.
@@ -212,7 +210,8 @@ def XYZ_to_Nayatani95(XYZ,
     xi, eta, zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
+    RGB_o = (((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) /
+              (100 * np.pi)) * xez)
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)
@@ -228,8 +227,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing opponent colour dimensions.
     # Computing achromatic response :math:`Q`:
-    Q_response = achromatic_response(RGB, bRGB_o, xez,
-                                     bL_or, eR, eG, n)
+    Q_response = achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)
 
     # Computing tritanopic response :math:`t`:
     t_response = tritanopic_response(RGB, bRGB_o, xez, n)
@@ -243,10 +241,8 @@ def XYZ_to_Nayatani95(XYZ,
     B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o,
-                                                              xez,
-                                                              bL_or,
-                                                              n)
+    brightness_ideal_white = ideal_white_brightness_correlate(
+        bRGB_o, xez, bL_or, n)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
@@ -258,8 +254,8 @@ def XYZ_to_Nayatani95(XYZ,
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\star`.
     # -------------------------------------------------------------------------
-    Lstar_N = normalised_achromatic_lightness_correlate(
-        B_r, brightness_ideal_white)
+    Lstar_N = (
+        normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white))
 
     # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`\\theta`.
@@ -270,21 +266,22 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`S`.
     # -------------------------------------------------------------------------
-    S_RG, S_YB = saturation_components(theta, bL_or, t_response, p_response)
+    S_RG, S_YB = tsplit(saturation_components(
+        theta, bL_or, t_response, p_response))
     S = saturation_correlate(S_RG, S_YB)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
     # -------------------------------------------------------------------------
-    C_RG, C_YB = chroma_components(Lstar_P, S_RG, S_YB)
+    C_RG, C_YB = tsplit(chroma_components(Lstar_P, S_RG, S_YB))
     C = chroma_correlate(Lstar_P, S)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
     # -------------------------------------------------------------------------
     # TODO: Investigate components usage.
-    # M_RG, M_YB = colourfulness_components(C_RG, C_YB,
-    # brightness_ideal_white)
+    # M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB,
+    # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
     return Nayatani95_Specification(Lstar_P,
@@ -819,7 +816,7 @@ def chroma_components(Lstar_P, S_RG, S_YB):
 
     Returns
     -------
-    numeric or ndarray
+    ndarray
         *Chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Examples
@@ -828,7 +825,7 @@ def chroma_components(Lstar_P, S_RG, S_YB):
     >>> S_RG = -0.0028852716381965863
     >>> S_YB = -0.013039632941332499
     >>> chroma_components(Lstar_P, S_RG, S_YB)  # doctest: +ELLIPSIS
-    (-0.0028852..., -0.0130396...)
+    array([-0.00288527, -0.01303961])
     """
 
     Lstar_P = np.asarray(Lstar_P)
@@ -838,7 +835,7 @@ def chroma_components(Lstar_P, S_RG, S_YB):
     C_RG = ((Lstar_P / 50) ** 0.7) * S_RG
     C_YB = ((Lstar_P / 50) ** 0.7) * S_YB
 
-    return C_RG, C_YB
+    return tstack((C_RG, C_YB))
 
 
 def chroma_correlate(Lstar_P, S):

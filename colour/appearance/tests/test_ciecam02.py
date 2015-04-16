@@ -14,7 +14,7 @@ from colour.appearance import (
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack, numeric_as_array
+from colour.utilities.array import tstack, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -59,21 +59,20 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             CIECAM02 colour appearance model specification.
         """
 
-        XYZ = tstack([data['X'], data['Y'], data['Z']])
-        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ = tstack((data['X'], data['Y'], data['Z']))
+        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
         induction_factors = CIECAM02_InductionFactors(
-            numeric_as_array(data['F']),
-            numeric_as_array(data['c']),
-            numeric_as_array(data['N_c']),
-            )
+            data['F'],
+            data['c'],
+            data['N_c'])
 
         specification = XYZ_to_CIECAM02(XYZ,
                                         XYZ_w,
-                                        numeric_as_array(data['L_A']),
-                                        numeric_as_array(data['Y_b']),
-                                        induction_factors
-                                        )
+                                        data['L_A'],
+                                        data['Y_b'],
+                                        induction_factors)
+
         return specification
 
 
@@ -89,7 +88,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                          'Y': 1,
                          'Z': 2}
 
-    def get_output_specification_from_data(self, data):
+    def output_specification_from_data(self, data):
         """
         Returns the CIECAM02 colour appearance model output specification
         from given data.
@@ -105,15 +104,19 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             CIECAM02 colour appearance model specification.
         """
 
-        XYZ_w = np.array([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
-        specification = CIECAM02_to_XYZ(data['J'], data['C'], data['h'],
+        specification = CIECAM02_to_XYZ(data['J'],
+                                        data['C'],
+                                        data['h'],
                                         XYZ_w,
                                         data['L_A'],
                                         data['Y_b'],
-                                        CIECAM02_InductionFactors(data['F'],
-                                                                  data['c'],
-                                                                  data['N_c']))
+                                        CIECAM02_InductionFactors(
+                                            data['F'],
+                                            data['c'],
+                                            data['N_c']))
+
         return specification
 
     def check_specification_attribute(self, case, data, attribute, expected):
@@ -130,14 +133,10 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             Tested attribute name.
         expected : float.
             Expected attribute value.
-
-        Returns
-        -------
-        None
         """
 
-        specification = self.get_output_specification_from_data(data)
-        value = specification[attribute]
+        specification = self.output_specification_from_data(data)
+        value = tsplit(specification)[attribute]
 
         error_message = (
             'Parameter "{0}" in test case "{1}" does not match target value.\n'
