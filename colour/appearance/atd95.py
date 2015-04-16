@@ -342,4 +342,4 @@ def final_response(value):
 
     value = np.asarray(value)
 
-    return value / (200 + np.absolute(value))
+    return value / (200 + np.abs(value))
