@@ -34,10 +34,6 @@ LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
 
-if sys.version_info[:2] <= (2, 7):
-    INSTALLATION_REQUIREMENTS += [
-        'backports.functools_lru_cache>=1.0.1']
-
 if sys.version_info[:2] <= (2, 6):
     INSTALLATION_REQUIREMENTS += [
         'ordereddict>=1.1',
