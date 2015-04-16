@@ -371,8 +371,8 @@ def XYZ_to_RGB(XYZ,
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-    >>> illuminant_XYZ = (0.34567, 0.35850)
-    >>> illuminant_RGB = (0.31271, 0.32902)
+    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
+    >>> illuminant_RGB = np.array([0.31271, 0.32902])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> XYZ_to_RGB_matrix = np.array([
     ...     [3.24100326, -1.53739899, -0.49861587],
@@ -445,8 +445,8 @@ def RGB_to_XYZ(RGB,
     Examples
     --------
     >>> RGB = np.array([0.01103604, 0.12734466, 0.11631037])
-    >>> illuminant_RGB = (0.31271, 0.32902)
-    >>> illuminant_XYZ = (0.34567, 0.35850)
+    >>> illuminant_RGB = np.array([0.31271, 0.32902])
+    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> RGB_to_XYZ_matrix = np.array([
     ...     [0.41238656, 0.35759149, 0.18045049],

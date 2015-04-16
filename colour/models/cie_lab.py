@@ -185,8 +185,8 @@ def Lab_to_LCHab(Lab):
 
     L, a, b = tsplit(Lab)
 
-    H = np.asarray(180 * np.arctan2(b, a) / np.pi)
-    H[np.asarray(H < 0)] += 360
+    H = np.array(180 * np.arctan2(b, a) / np.pi)
+    H[np.array(H < 0)] += 360
 
     LCHab = tstack((L, np.sqrt(a ** 2 + b ** 2), H))
 

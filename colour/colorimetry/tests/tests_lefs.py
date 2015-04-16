@@ -30,7 +30,7 @@ __all__ = ['MESOPIC_LEF_SPD_DATA',
            'TestMesopicWeightingFunction',
            'TestMesopicLuminousEfficiencyFunction']
 
-MESOPIC_LEF_SPD_DATA = np.array([
+MESOPIC_LEF_SPD_DATA = (
     0.000423996221042,
     0.000478105586021,
     0.000539901310829,
@@ -431,7 +431,7 @@ MESOPIC_LEF_SPD_DATA = np.array([
     9.29144016011e-06,
     8.67065568628e-06,
     8.0917805149e-06,
-    7.55189380944e-06])
+    7.55189380944e-06)
 
 
 class TestMesopicWeightingFunction(unittest.TestCase):

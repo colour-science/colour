@@ -879,8 +879,8 @@ def hue_quadrature(h):
     array(278.0607358...)
     """
 
-    # Using *np.nan_to_num* here instead of *np.asarray* to preventing
-    # potential index search issues with nans.
+    # Using *np.nan_to_num* here instead of *np.asarray* to prevent potential
+    # index search issues with nans.
     h = np.nan_to_num(h)
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
@@ -964,6 +964,7 @@ def achromatic_response_forward(RGB, N_bb):
     R, G, B = tsplit(RGB)
 
     A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
+
     return A
 
 

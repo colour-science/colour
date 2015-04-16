@@ -16,6 +16,7 @@ else:
     import unittest
 
 from colour.algebra import linear_regression
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -26,8 +27,9 @@ __status__ = 'Production'
 
 __all__ = ['Y', 'X1', 'X2', 'TestLinearRegression']
 
-Y = np.array([1, 2, 1, 3, 2, 3, 3, 4, 4, 3, 5, 3, 3, 2, 4, 5, 5, 5, 4, 3])
-X1 = np.array([
+Y = (1, 2, 1, 3, 2, 3, 3, 4, 4, 3, 5, 3, 3, 2, 4, 5, 5, 5, 4, 3)
+
+X1 = (
     40,
     45,
     38,
@@ -47,8 +49,9 @@ X1 = np.array([
     60,
     65,
     50,
-    58])
-X2 = np.array([
+    58)
+
+X2 = (
     25,
     20,
     30,
@@ -68,7 +71,7 @@ X2 = np.array([
     42,
     38,
     34,
-    38])
+    38)
 
 
 class TestLinearRegression(unittest.TestCase):
@@ -84,17 +87,17 @@ class TestLinearRegression(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             linear_regression(Y),
-            [0.1406015, 1.77368421],
+            np.array([0.1406015, 1.77368421]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             linear_regression(Y, X1),
-            [0.12777065, -3.38129694],
+            np.array([0.12777065, -3.38129694]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            linear_regression(Y, tuple(zip(X1, X2))),
-            [0.08640901, 0.08760164, -4.10358123],
+            linear_regression(Y, tstack((X1, X2))),
+            np.array([0.08640901, 0.08760164, -4.10358123]),
             decimal=7)
 
 

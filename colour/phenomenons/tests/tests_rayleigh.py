@@ -60,7 +60,7 @@ __all__ = ['RAYLEIGH_SCATTERING_SPD_DATA',
            'TestRayleighOpticalDepth',
            'TestRayleighScatteringSpd']
 
-RAYLEIGH_SCATTERING_SPD_DATA = np.array([
+RAYLEIGH_SCATTERING_SPD_DATA = (
     0.59910134,
     0.59217069,
     0.58534101,
@@ -531,7 +531,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.01994505,
     0.01984806,
     0.01975166,
-    0.01965585])
+    0.019655853)
 
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):

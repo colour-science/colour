@@ -623,7 +623,7 @@ def achromatic_lightness_correlate(Q):
     49.9998829...
     """
 
-    B_r = np.asarray(Q)
+    Q = np.asarray(Q)
 
     return Q + 50
 

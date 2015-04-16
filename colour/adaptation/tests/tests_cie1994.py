@@ -43,8 +43,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([28.0, 21.26, 5.27]),
-                xy_o1=(0.4476, 0.4074),
-                xy_o2=(0.3127, 0.3290),
+                xy_o1=np.array([0.4476, 0.4074]),
+                xy_o2=np.array([0.3127, 0.3290]),
                 Y_o=20,
                 E_o1=1000,
                 E_o2=1000),
@@ -54,8 +54,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([21.77, 19.18, 16.73]),
-                xy_o1=(0.3127, 0.3290),
-                xy_o2=(0.3127, 0.3290),
+                xy_o1=np.array([0.3127, 0.3290]),
+                xy_o2=np.array([0.3127, 0.3290]),
                 Y_o=50,
                 E_o1=100,
                 E_o2=1000),
@@ -65,8 +65,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([0.4709771, 0.3495, 0.11301649]) * 100,
-                xy_o1=(0.3127, 0.3290),
-                xy_o2=(0.4476, 0.4074),
+                xy_o1=np.array([0.3127, 0.3290]),
+                xy_o2=np.array([0.4476, 0.4074]),
                 Y_o=20,
                 E_o1=100,
                 E_o2=1000),

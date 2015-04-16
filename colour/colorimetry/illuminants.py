@@ -59,7 +59,9 @@ def D_illuminant_relative_spd(xy):
 
     Examples
     --------
-    >>> D_illuminant_relative_spd((0.34567, 0.35850))  # doctest: +ELLIPSIS
+    >>> import numpy as np
+    >>> xy = np.array([0.34567, 0.35850])
+    >>> D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 

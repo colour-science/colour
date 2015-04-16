@@ -248,7 +248,8 @@ def whiteness_Ganz1979(xy, Y):
 
     Examples
     --------
-    >>> whiteness_Ganz1979((0.3167, 0.3334), 100)  # doctest: +ELLIPSIS
+    >>> xy = np.array([0.3167, 0.3334])
+    >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
     array([ 85.6003766...,   0.6789003...])
     """
 
@@ -318,8 +319,9 @@ def whiteness_CIE2004(xy,
 
     Examples
     --------
-    >>> xy_n = (0.3139, 0.3311)
-    >>> whiteness_CIE2004((0.3167, 0.3334), 100, xy_n)  # doctest: +ELLIPSIS
+    >>> xy = np.array([0.3167, 0.3334])
+    >>> xy_n = np.array([0.3139, 0.3311])
+    >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
     """
 
@@ -376,9 +378,9 @@ def whiteness(method='CIE 2004', **kwargs):
 
     Examples
     --------
-    >>> xy = (0.3167, 0.3334)
+    >>> xy = np.array([0.3167, 0.3334])
     >>> Y = 100
-    >>> xy_n = (0.3139, 0.3311)
+    >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness(xy=xy, Y=Y, xy_n=xy_n)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
     >>> XYZ = np.array([95., 100., 105.])

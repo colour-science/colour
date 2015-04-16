@@ -287,7 +287,13 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
+    >>> y = np.array([5.9200,
+    ...               9.3700,
+    ...               10.8135,
+    ...               4.5100,
+    ...               69.5900,
+    ...               27.8007,
+    ...               86.0500])
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS

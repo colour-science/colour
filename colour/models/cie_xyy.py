@@ -156,7 +156,7 @@ def xy_to_XYZ(xy):
 
     Examples
     --------
-    >>> xy = (0.26414772236966133, 0.37770000704815188)
+    >>> xy = np.array([0.26414772236966133, 0.37770000704815188])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
     array([ 0.6993585...,  1.        ,  0.9482453...])
     """
@@ -185,7 +185,7 @@ def XYZ_to_xy(XYZ,
 
     Returns
     -------
-    tuple
+    ndarray
         *xy* chromaticity coordinates.
 
     Notes

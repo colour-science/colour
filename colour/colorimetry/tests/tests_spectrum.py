@@ -22,6 +22,7 @@ from colour.colorimetry.spectrum import (
     constant_spd,
     zeros_spd,
     ones_spd)
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -128,7 +129,7 @@ NON_UNIFORM_SAMPLE_SPD_DATA = {
     786.089: 8.850659,
     805.862: 8.850659}
 
-ZEROS_SAMPLE_SPD_DATA = np.array([
+ZEROS_SAMPLE_SPD_DATA = (
     0.,
     0.,
     0.,
@@ -609,9 +610,9 @@ ZEROS_SAMPLE_SPD_DATA = np.array([
     0.,
     0.,
     0.,
-    0.])
+    0.)
 
-INTERPOLATED_SAMPLE_SPD_DATA = np.array([
+INTERPOLATED_SAMPLE_SPD_DATA = (
     0.0,
     0.000230709627131,
     0.000384144814593,
@@ -1092,9 +1093,9 @@ INTERPOLATED_SAMPLE_SPD_DATA = np.array([
     0.0,
     0.0,
     0.0,
-    0.0])
+    0.0)
 
-INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = np.array([
+INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = (
     16.329778092653534,
     16.722912720487408,
     17.781520025709202,
@@ -1508,9 +1509,9 @@ INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA = np.array([
     2273460.2701788512,
     1864319.3141963617,
     1335386.2420238478,
-    677531.57450650295])
+    677531.57450650295)
 
-NORMALISED_SAMPLE_SPD_DATA = np.array([
+NORMALISED_SAMPLE_SPD_DATA = (
     0.0,
     0.0,
     0.0,
@@ -1535,7 +1536,7 @@ NORMALISED_SAMPLE_SPD_DATA = np.array([
     0.0,
     0.0,
     0.0,
-    0.0, ])
+    0.0)
 
 CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
     'x_bar': {
@@ -1910,7 +1911,9 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).start, 360)
+
         self.assertRaises(AssertionError, lambda: SpectralShape(360, 360, 1))
+
         self.assertRaises(AssertionError, lambda: SpectralShape(360, 0, 1))
 
     def test_end(self):
@@ -1920,7 +1923,9 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).end, 830)
+
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 830, 1))
+
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 0, 1))
 
     def test_steps(self):
@@ -1949,9 +1954,12 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         self.assertIn(360.1, SpectralShape(360, 830, 0.1))
+
         self.assertNotIn(360.11, SpectralShape(360, 830, 0.1))
-        self.assertIn((0.5, 0.6), SpectralShape(0, 10, 0.1))
-        self.assertNotIn((0.5, 0.61), SpectralShape(0, 10, 0.1))
+
+        self.assertIn(np.array([0.5, 0.6]), SpectralShape(0, 10, 0.1))
+
+        self.assertNotIn(np.array([0.5, 0.61]), SpectralShape(0, 10, 0.1))
 
     def test__len__(self):
         """
@@ -2095,7 +2103,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         self.assertEqual(self.__spd[400], 0.0641)
 
         np.testing.assert_almost_equal(
-            self.__spd[(340, 620, 820)],
+            self.__spd[np.array([340, 620, 820])],
             np.array([0, 0.1511, 0]))
 
         np.testing.assert_almost_equal(
@@ -2113,12 +2121,12 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         spd[510] = 49.6700
         np.testing.assert_almost_equal(spd.values, np.array(49.6700))
 
-        spd[(520, 530)] = (69.59, 81.73)
+        spd[np.array([520, 530])] = np.array([69.59, 81.73])
         np.testing.assert_almost_equal(
             spd.values,
             np.array([49.67, 69.59, 81.73]))
 
-        spd[(540, 550)] = 88.19
+        spd[np.array([540, 550])] = 88.19
         np.testing.assert_almost_equal(
             spd.values,
             np.array([49.67, 69.59, 81.73, 88.19, 88.19]))
@@ -2147,7 +2155,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         self.assertIn(340, self.__spd)
+
         self.assertIn(460, self.__spd)
+
         self.assertNotIn(461, self.__spd)
 
     def test__len__(self):
@@ -2319,12 +2329,15 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         self.assertEqual(self.__spd.get(340), 0.)
+
         self.assertEqual(self.__spd.get(620), 0.1511)
+
         self.assertEqual(self.__spd.get(820), 0.)
+
         self.assertEqual(self.__spd.get(900, 0), 0)
 
         np.testing.assert_almost_equal(
-            self.__spd.get((340, 620, 820)),
+            self.__spd.get(np.array([340, 620, 820])),
             np.array([0., 0.1511, 0.]))
 
     def test_is_uniform(self):
@@ -2335,6 +2348,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         """
 
         self.assertFalse(self.__non_uniform_sample_spd.is_uniform())
+
         self.assertTrue(self.__spd.is_uniform())
 
     def test_extrapolate(self):
@@ -2530,13 +2544,13 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self.__tri_spd.values,
-            np.array(tuple(zip(*(
+            tstack((
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
                     'x_bar').items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
                     'y_bar').items())],
                 [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    'z_bar').items())])))))
+                    'z_bar').items())])))
 
     def test_shape(self):
         """
@@ -2559,7 +2573,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             np.array([0.01431, 0.000396, 0.06785]))
 
         np.testing.assert_almost_equal(
-            self.__tri_spd[(380, 580, 780)],
+            self.__tri_spd[np.array([380, 580, 780])],
             np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
                       [9.16300000e-01, 8.70000000e-01, 1.65000000e-03],
                       [4.20000000e-05, 1.50000000e-05, 0.00000000e+00]]))
@@ -2583,20 +2597,20 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        tri_spd[510] = (49.67, 49.67, 49.67)
+        tri_spd[510] = np.array([49.67, 49.67, 49.67])
         np.testing.assert_almost_equal(
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67]]))
 
-        tri_spd[(520, 530)] = ((69.59, 69.59, 69.59),
-                               (81.73, 81.73, 81.73))
+        tri_spd[np.array([520, 530])] = np.array([(69.59, 69.59, 69.59),
+                                                  (81.73, 81.73, 81.73)])
         np.testing.assert_almost_equal(
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67],
                       [69.59, 69.59, 69.59],
                       [81.73, 81.73, 81.73]]))
 
-        tri_spd[(540, 550)] = 88.19
+        tri_spd[np.array([540, 550])] = 88.19
         np.testing.assert_almost_equal(
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67],
@@ -2613,7 +2627,6 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                       [49.67, 49.67, 49.67],
                       [49.67, 49.67, 49.67],
                       [49.67, 49.67, 49.67]]))
-
 
     def test__iter__(self):
         """
@@ -2634,7 +2647,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         """
 
         self.assertIn(380, self.__tri_spd)
+
         self.assertIn(460, self.__tri_spd)
+
         self.assertNotIn(461, self.__tri_spd)
 
     def test__len__(self):
@@ -2827,11 +2842,11 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             np.array([0.011359, 0.004102, 0.]))
 
         np.testing.assert_almost_equal(
-            self.__tri_spd.get(900, (0, 0, 0)),
+            self.__tri_spd.get(900, np.array([0, 0, 0])),
             np.array([0, 0, 0]))
 
         np.testing.assert_almost_equal(
-            self.__tri_spd.get((380, 600, 700)),
+            self.__tri_spd.get(np.array([380, 600, 700])),
             np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
                       [1.06220000e+00, 6.31000000e-01, 8.00000000e-04],
                       [1.13590000e-02, 4.10200000e-03, 0.00000000e+00]]))
@@ -2864,10 +2879,15 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         tri_spd.extrapolate(SpectralShape(10, 50))
 
         self.assertEqual(tri_spd.x[10], 0)
+
         self.assertEqual(tri_spd.y[10], 0)
+
         self.assertEqual(tri_spd.z[10], 0)
+
         self.assertEqual(tri_spd.x[50], 1)
+
         self.assertEqual(tri_spd.y[50], 1)
+
         self.assertEqual(tri_spd.z[50], 1)
 
     def test_interpolate(self):
@@ -2968,8 +2988,11 @@ class TestConstantSpd(unittest.TestCase):
         k = 3.1415
 
         spd = constant_spd(k)
+
         self.assertEqual(spd[360], k)
+
         self.assertEqual(spd[555], k)
+
         self.assertEqual(spd[830], k)
 
 
@@ -2986,8 +3009,11 @@ class TestZerosSpd(unittest.TestCase):
         """
 
         spd = zeros_spd()
+
         self.assertEqual(spd[360], 0.)
+
         self.assertEqual(spd[555], 0.)
+
         self.assertEqual(spd[830], 0.)
 
 
@@ -3004,8 +3030,11 @@ class TestOnes_spd(unittest.TestCase):
         """
 
         spd = ones_spd()
+
         self.assertEqual(spd[360], 1.)
+
         self.assertEqual(spd[555], 1.)
+
         self.assertEqual(spd[830], 1.)
 
 

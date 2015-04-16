@@ -134,11 +134,12 @@ class TestSteps(unittest.TestCase):
         Tests :func:`colour.utilities.array.steps` definition.
         """
 
-        self.assertTupleEqual(steps(range(0, 10, 2)), (2,))
+        np.testing.assert_almost_equal(steps(range(0, 10, 2)),
+                                       np.array([2]))
 
-        self.assertTupleEqual(
-            tuple(sorted(steps([1, 2, 3, 4, 6, 6.5]))),
-            (0.5, 1, 2))
+        np.testing.assert_almost_equal(
+            steps([1, 2, 3, 4, 6, 6.5]),
+            np.array([0.5, 1, 2]))
 
 
 class TestIsUniform(unittest.TestCase):
@@ -170,7 +171,7 @@ class TestInArray(unittest.TestCase):
 
         self.assertTrue(
             np.array_equal(
-                in_array((0.5, 0.6),
+                in_array(np.array([0.5, 0.6]),
                          np.linspace(0, 10, 101)),
                 np.array([True, True])))
 
@@ -192,20 +193,20 @@ class TestInArray(unittest.TestCase):
         support.
         """
 
-        self.assertTupleEqual(
-            in_array((0.5, 0.6),
+        np.testing.assert_almost_equal(
+            in_array(np.array([0.5, 0.6]),
                      np.linspace(0, 10, 101)).shape,
-            (2,))
+            np.array([2]))
 
-        self.assertTupleEqual(
+        np.testing.assert_almost_equal(
             in_array(np.array([[0.5, 0.6]]),
                      np.linspace(0, 10, 101)).shape,
-            (1, 2))
+            np.array([1, 2]))
 
-        self.assertTupleEqual(
+        np.testing.assert_almost_equal(
             in_array(np.array([[0.5], [0.6]]),
                      np.linspace(0, 10, 101)).shape,
-            (2, 1))
+            np.array([2, 1]))
 
 
 class TestTstack(unittest.TestCase):

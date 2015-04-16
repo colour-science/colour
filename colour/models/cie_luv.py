@@ -230,7 +230,7 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
-    >>> uv = (0.15085309882985695, 0.48532970854318019)
+    >>> uv = np.array([0.15085309882985695, 0.48532970854318019])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
     """
@@ -275,8 +275,8 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = tsplit(Luv)
 
-    H = np.asarray(180 * np.arctan2(v, u) / np.pi)
-    H[np.asarray(H < 0)] += 360
+    H = np.array(180 * np.arctan2(v, u) / np.pi)
+    H[np.array(H < 0)] += 360
 
     LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
 

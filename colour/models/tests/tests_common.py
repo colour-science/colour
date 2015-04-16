@@ -50,13 +50,13 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0, 0, 0]),
-                        (0.44757, 0.40745)),
+                        np.array([0.44757, 0.40745])),
             np.array([0., 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]),
-                        (0.31271, 0.32902)),
+                        np.array([0.31271, 0.32902])),
             np.array([0.48224885, 0.31651974, 0.22070513]),
             decimal=7)
 
@@ -96,13 +96,13 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0, 0, 0]),
-                        (0.44757, 0.40745)),
+                        np.array([0.44757, 0.40745])),
             np.array([0., 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.48224885, 0.31651974, 0.22070513]),
-                        (0.31271, 0.32902)),
+                        np.array([0.31271, 0.32902])),
             np.array([0.1180583421, 0.1034, 0.0515089229]),
             decimal=7)
 

@@ -229,7 +229,7 @@ class ColourAppearanceModelTest(object):
                 data[key].append(value)
 
         for key in data:
-            data[key] = np.asarray(data[key])
+            data[key] = np.array(data[key])
 
         for test in self.check_model_consistency(data, self.OUTPUT_ATTRIBUTES):
             yield test

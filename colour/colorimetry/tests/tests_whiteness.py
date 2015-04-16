@@ -295,17 +295,17 @@ class TestWhitenessGanz1979(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            whiteness_Ganz1979((0.3139, 0.3311), 100),
+            whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
             np.array([99.3317652, 1.7610829]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            whiteness_Ganz1979((0.3500, 0.3334), 100),
+            whiteness_Ganz1979(np.array([0.3500, 0.3334]), 100),
             np.array([23.385254, -32.6618256]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            whiteness_Ganz1979((0.3334, 0.3334), 100),
+            whiteness_Ganz1979(np.array([0.3334, 0.3334]), 100),
             np.array([54.3993992, -16.0415238]),
             decimal=7)
 
@@ -315,7 +315,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        xy = (0.3167, 0.3334)
+        xy = np.array([0.3167, 0.3334])
         Y = 100
         WT = np.array([85.6003766, 0.6789003])
         np.testing.assert_almost_equal(
@@ -353,17 +353,23 @@ class TestWhitenessCIE2004(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            whiteness_CIE2004((0.3139, 0.3311), 100, (0.3139, 0.3311)),
+            whiteness_CIE2004(np.array([0.3139, 0.3311]),
+                              100,
+                              np.array([0.3139, 0.3311])),
             np.array([100., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            whiteness_CIE2004((0.3500, 0.3334), 100, (0.3139, 0.3311)),
+            whiteness_CIE2004(np.array([0.3500, 0.3334]),
+                              100,
+                              np.array([0.3139, 0.3311])),
             np.array([67.21, -34.605]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            whiteness_CIE2004((0.3334, 0.3334), 100, (0.3139, 0.3311)),
+            whiteness_CIE2004(np.array([0.3334, 0.3334]),
+                              100,
+                              np.array([0.3139, 0.3311])),
             np.array([80.49, -18.005]),
             decimal=7)
 
@@ -373,9 +379,9 @@ class TestWhitenessCIE2004(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        xy = (0.3167, 0.3334)
+        xy = np.array([0.3167, 0.3334])
         Y = 100
-        xy_n = (0.3139, 0.3311)
+        xy_n = np.array([0.3139, 0.3311])
         WT = np.array([93.85, -1.305])
         np.testing.assert_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n),

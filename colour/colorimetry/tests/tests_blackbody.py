@@ -4034,7 +4034,7 @@ PLANCK_LAW_DATA = {
         9980: 82845781868.98933,
         9990: 82515161591.5363}}
 
-BLACKBODY_SPD_DATA = np.array([
+BLACKBODY_SPD_DATA = (
     6654278270641.8164,
     6709605279251.8242,
     6764825121520.0215,
@@ -4505,12 +4505,12 @@ BLACKBODY_SPD_DATA = np.array([
     9791291163110.5352,
     9774601515939.0684,
     9757915058392.6328,
-    9741232052709.1074])
+    9741232052709.1074)
 
 
 class TestPlanckLaw(unittest.TestCase):
     """
-        Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
+    Defines :func:`colour.colorimetry.blackbody.planck_law` definition units
     tests methods.
     """
 

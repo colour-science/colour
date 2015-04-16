@@ -55,19 +55,19 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
-                       (0.44757, 0.40745)),
+                       np.array([0.44757, 0.40745])),
             np.array([-50.56405108, -12.4960054, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
-                       (0.31271, 0.32902)),
+                       np.array([0.31271, 0.32902])),
             np.array([-22.59813763, 5.45115077, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.1008, 0.09558313]) * 100,
-                       (0.37208, 0.37529)),
+                       np.array([0.37208, 0.37529])),
             np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 

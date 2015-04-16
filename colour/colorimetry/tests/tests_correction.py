@@ -30,7 +30,7 @@ __all__ = ['SPD_DATA',
            'BANDPASS_CORRECTED_STEARNS_SPD_DATA',
            'TestBandpassCorrectionStearns1988']
 
-SPD_DATA = np.array([
+SPD_DATA = (
     9.3700,
     12.3200,
     12.4600,
@@ -46,9 +46,9 @@ SPD_DATA = np.array([
     69.5900,
     81.7300,
     88.1900,
-    86.0500])
+    86.0500)
 
-BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
+BANDPASS_CORRECTED_STEARNS_SPD_DATA = (
     9.12515,
     12.57355255,
     12.69542514,
@@ -64,7 +64,7 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = np.array([
     70.2175037,
     82.14935719,
     88.88373581,
-    85.87238])
+    85.87238)
 
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):

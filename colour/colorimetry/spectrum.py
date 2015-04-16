@@ -304,9 +304,9 @@ class SpectralShape(object):
         True
         >>> 0.51 in SpectralShape(0, 10, 0.1)
         False
-        >>> (0.5, 0.6) in SpectralShape(0, 10, 0.1)
+        >>> np.array([0.5, 0.6]) in SpectralShape(0, 10, 0.1)
         True
-        >>> (0.51, 0.6) in SpectralShape(0, 10, 0.1)
+        >>> np.array([0.51, 0.6]) in SpectralShape(0, 10, 0.1)
         False
         """
 
@@ -816,7 +816,7 @@ class SpectralPowerDistribution(object):
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[510]  # doctest: +ELLIPSIS
         array(49.67...)
-        >>> spd[(510, 520)]
+        >>> spd[np.array([510, 520])]
         array([ 49.67,  69.59])
         >>> spd[:]
         array([ 49.67,  69.59,  81.73,  88.19])
@@ -857,10 +857,10 @@ class SpectralPowerDistribution(object):
         >>> spd[510] = 49.67
         >>> spd.values
         array([ 49.67])
-        >>> spd[(520, 530)] = (69.59, 81.73)
+        >>> spd[np.array([520, 530])] = np.array([69.59, 81.73])
         >>> spd.values
         array([ 49.67,  69.59,  81.73])
-        >>> spd[(540, 550)] = 88.19
+        >>> spd[np.array([540, 550])] = 88.19
         >>> spd.values
         array([ 49.67,  69.59,  81.73,  88.19,  88.19])
         >>> spd[:] = 49.67
@@ -899,7 +899,8 @@ class SpectralPowerDistribution(object):
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
-        >>> for wavelength, value in spd: print((wavelength, value))  # noqa  # doctest: +ELLIPSIS
+        >>> for wavelength, value in spd:
+        ...     print((wavelength, value))  # doctest: +ELLIPSIS
         (510, 49.6...)
         (520, 69.5...)
         (530, 81.7...)
@@ -940,9 +941,9 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> 510 in spd
         True
-        >>> (510, 520) in spd
+        >>> np.array([510, 520]) in spd
         True
-        >>> (510, 520, 521) in spd
+        >>> np.array([510, 520, 521]) in spd
         False
         """
 
@@ -1391,7 +1392,7 @@ class SpectralPowerDistribution(object):
         array(49.67...)
         >>> spd.get(511)
         array(None, dtype=object)
-        >>> spd.get((510, 520))
+        >>> spd.get(np.array([510, 520]))
         array([ 49.67,  69.59])
         """
 
@@ -1770,8 +1771,8 @@ class SpectralPowerDistribution(object):
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 
-        self.__data = dict(
-            [(wavelength, self.get(wavelength, 0)) for wavelength in shape])
+        self.__data = dict([(wavelength, self.get(wavelength, 0))
+                            for wavelength in shape])
 
         return self
 
@@ -2400,7 +2401,7 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[510]
         array([ 49.67,  90.56,  12.43])
-        >>> tri_spd[(510, 520)]
+        >>> tri_spd[np.array([510, 520])]
         array([[ 49.67,  90.56,  12.43],
                [ 69.59,  87.34,  23.15]])
         >>> tri_spd[:]
@@ -2443,16 +2444,16 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd[510] = (49.67, 49.67, 49.67)
+        >>> tri_spd[510] = np.array([49.67, 49.67, 49.67])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
-        >>> tri_spd[(520, 530)] = ((69.59, 69.59, 69.59),
-        ...                        (81.73, 81.73, 81.73))
+        >>> tri_spd[np.array([520, 530])] = np.array([(69.59, 69.59, 69.59),
+        ...                                           (81.73, 81.73, 81.73)])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67],
                [ 69.59,  69.59,  69.59],
                [ 81.73,  81.73,  81.73]])
-        >>> tri_spd[(540, 550)] = 88.19
+        >>> tri_spd[np.array([540, 550])] = 88.19
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67],
                [ 69.59,  69.59,  69.59],
@@ -2505,7 +2506,8 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> for wavelength, value in tri_spd: print((wavelength, value))
+        >>> for wavelength, value in tri_spd:
+        ...     print((wavelength, value))
         (510, array([ 49.67,  90.56,  12.43]))
         (520, array([ 69.59,  87.34,  23.15]))
         (530, array([ 81.73,  45.76,  67.98]))
@@ -2550,9 +2552,9 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> 510 in tri_spd
         True
-        >>> (510, 520) in tri_spd
+        >>> np.array([510, 520]) in tri_spd
         True
-        >>> (510, 520, 521) in tri_spd
+        >>> np.array([510, 520, 521]) in tri_spd
         False
         """
 
@@ -3097,13 +3099,13 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.get(510)
         array([ 49.67,  90.56,  12.43])
-        >>> tri_spd.get((510, 520))
+        >>> tri_spd.get(np.array([510, 520]))
         array([[ 49.67,  90.56,  12.43],
                [ 69.59,  87.34,  23.15]])
         >>> tri_spd.get(511)
         array([array(None, dtype=object), array(None, dtype=object),
                array(None, dtype=object)], dtype=object)
-        >>> tri_spd.get((510, 520))
+        >>> tri_spd.get(np.array([510, 520]))
         array([[ 49.67,  90.56,  12.43],
                [ 69.59,  87.34,  23.15]])
         """
@@ -3111,7 +3113,7 @@ class TriSpectralPowerDistribution(object):
         wavelength = np.asarray(wavelength)
 
         default = np.resize(default, 3)
-        value = np.asarray([(self.x.get(x, default[0]),
+        value = np.array([(self.x.get(x, default[0]),
                              self.y.get(x, default[1]),
                              self.z.get(x, default[2]))
                             for x in np.ravel(wavelength)])
@@ -3148,7 +3150,7 @@ class TriSpectralPowerDistribution(object):
         Breaking the steps by introducing new wavelength :math:`\lambda`
         values:
 
-        >>> tri_spd[511] = (49.6700, 49.6700, 49.6700)
+        >>> tri_spd[511] = np.array([49.6700, 49.6700, 49.6700])
         >>> tri_spd.is_uniform()
         False
         """
@@ -3303,7 +3305,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd[511] = (31.41, 95.27, 15.06)
+        >>> tri_spd[511] = np.array([31.41, 95.27, 15.06])
         >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]

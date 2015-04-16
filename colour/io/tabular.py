@@ -182,8 +182,8 @@ def read_spds_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
-    >>> pprint(list(spds.items()))  # doctest: +ELLIPSIS
-    [('1',
+    >>> pprint(tuple(spds.items()))  # doctest: +ELLIPSIS
+    (('1',
       <...SpectralPowerDistribution object at 0x...>),
      ('2',
       <...SpectralPowerDistribution object at 0x...>),
@@ -230,7 +230,7 @@ def read_spds_from_csv_file(path,
      ('23',
       <...SpectralPowerDistribution object at 0x...>),
      ('24',
-      <...SpectralPowerDistribution object at 0x...>)]
+      <...SpectralPowerDistribution object at 0x...>))
     """
 
     data = read_spectral_data_from_csv_file(path,

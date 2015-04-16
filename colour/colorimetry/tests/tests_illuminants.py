@@ -98,7 +98,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sorted(D_illuminant_relative_spd(
-                (0.32168, 0.33767)).data.values()),
+                np.array([0.32168, 0.33767])).data.values()),
             sorted(D60_SPD_DATA.values()),
             decimal=7)
 

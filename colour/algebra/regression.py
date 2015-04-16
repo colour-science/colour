@@ -83,13 +83,14 @@ def linear_regression(y, x=None, additional_statistics=False):
     Multiple linear regression with the dependent :math:`y` variable and
     multiple independent :math:`x_i` variables:
 
+    >>> from colour.utilities import tstack
     >>> x2 = np.array([25, 20, 30, 30, 28, 30, 34, 36, 32, 34])
-    >>> linear_regression(y, tuple(zip(x1, x2)))  # doctest: +ELLIPSIS
+    >>> linear_regression(y, tstack((x1, x2)))  # doctest: +ELLIPSIS
     array([ 0.0998002...,  0.0876257..., -4.8303807...])
 
     Multiple linear regression with additional statistics:
 
-    >>> linear_regression(y, tuple(zip(x1, x2)), True)  # doctest: +ELLIPSIS
+    >>> linear_regression(y, tstack((x1, x2)), True)  # doctest: +ELLIPSIS
     (array([ 0.0998002...,  0.0876257..., -4.8303807...]), array([ 2.1376249...]))
     """
 

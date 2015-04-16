@@ -50,9 +50,11 @@ class TestBatch(unittest.TestCase):
         self.assertListEqual(
             list(batch(tuple(range(10)))),
             [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])
+
         self.assertListEqual(
             list(batch(tuple(range(10)), 5)),
             [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)])
+
         self.assertListEqual(
             list(batch(tuple(range(10)), 1)),
             [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,)])
@@ -70,11 +72,17 @@ class TestIsIterable(unittest.TestCase):
         """
 
         self.assertTrue(is_iterable(''))
+
         self.assertTrue(is_iterable(()))
+
         self.assertTrue(is_iterable([]))
+
         self.assertTrue(is_iterable(dict()))
+
         self.assertTrue(is_iterable(np.array([])))
+
         self.assertFalse(is_iterable(1))
+
         self.assertFalse(is_iterable(2))
 
 
@@ -90,10 +98,15 @@ class TestIsString(unittest.TestCase):
         """
 
         self.assertTrue(is_string(str('Hello World!')))
+
         self.assertTrue(is_string('Hello World!'))
+
         self.assertTrue(is_string(r'Hello World!'))
+
         self.assertFalse(is_string(1))
+
         self.assertFalse(is_string([1]))
+
         self.assertFalse(is_string({1: None}))
 
 
@@ -109,10 +122,15 @@ class TestIsNumeric(unittest.TestCase):
         """
 
         self.assertTrue(is_numeric(1))
+
         self.assertTrue(is_numeric(1))
+
         self.assertTrue(is_numeric(complex(1)))
+
         self.assertFalse(is_numeric((1,)))
+
         self.assertFalse(is_numeric([1]))
+
         self.assertFalse(is_numeric('1'))
 
 
@@ -128,7 +146,9 @@ class TestIsInteger(unittest.TestCase):
         """
 
         self.assertTrue(is_integer(1))
+
         self.assertTrue(is_integer(1.001))
+
         self.assertFalse(is_integer(1.01))
 
 

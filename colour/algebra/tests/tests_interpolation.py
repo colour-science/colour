@@ -31,7 +31,7 @@ __all__ = ['POINTS_DATA_A',
            'TestLinearInterpolator1d',
            'TestSpragueInterpolator']
 
-POINTS_DATA_A = np.array([
+POINTS_DATA_A = (
     9.3700,
     12.3200,
     12.4600,
@@ -47,9 +47,9 @@ POINTS_DATA_A = np.array([
     69.5900,
     81.7300,
     88.1900,
-    86.0500])
+    86.0500)
 
-LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
+LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     9.37,
     9.665,
     9.96,
@@ -200,9 +200,9 @@ LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     86.692,
     86.478,
     86.264,
-    86.05]
+    86.05)
 
-SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
+SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     9.37,
     9.72075073,
     10.06936191,
@@ -353,7 +353,7 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = [
     87.2273472,
     86.85002373,
     86.45733945,
-    86.05]
+    86.05)
 
 
 class TestLinearInterpolator1d(unittest.TestCase):

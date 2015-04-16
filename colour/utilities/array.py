@@ -137,7 +137,7 @@ def steps(distribution):
 
     Returns
     -------
-    tuple
+    ndarray
         Distribution steps.
 
     Examples
@@ -146,17 +146,17 @@ def steps(distribution):
 
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> steps(y)
-    (1,)
+    array([1])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> steps(y)
-    (1, 4)
+    array([1, 4])
     """
 
-    return tuple(set([distribution[i + 1] - distribution[i]
-                      for i in range(len(distribution) - 1)]))
+    return np.unique([distribution[i + 1] - distribution[i]
+                      for i in range(len(distribution) - 1)])
 
 
 def is_uniform(distribution):
@@ -217,7 +217,7 @@ def in_array(a, b, tolerance=EPSILON):
 
     Examples
     --------
-    >>> a = (0.5, 0.6)
+    >>> a = np.array([0.5, 0.6])
     >>> b = np.linspace(0, 10, 101)
     >>> np.in1d(a, b)
     array([ True, False], dtype=bool)

@@ -115,8 +115,8 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     Examples
     --------
     >>> XYZ_1 = np.array([28.0, 21.26, 5.27])
-    >>> xy_o1 = (0.4476, 0.4074)
-    >>> xy_o2 = (0.3127, 0.3290)
+    >>> xy_o1 = np.array([0.4476, 0.4074])
+    >>> xy_o2 = np.array([0.3127, 0.3290])
     >>> Y_o = 20
     >>> E_o1 = 1000
     >>> E_o2 = 1000
@@ -212,7 +212,7 @@ def intermediate_values(xy_o):
 
     Examples
     --------
-    >>> xy_o = (0.4476, 0.4074)
+    >>> xy_o = np.array([0.4476, 0.4074])
     >>> intermediate_values(xy_o)  # doctest: +ELLIPSIS
     array([ 1.1185719...,  0.9329553...,  0.3268087...])
     """
