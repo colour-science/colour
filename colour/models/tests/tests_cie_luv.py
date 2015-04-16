@@ -81,7 +81,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
             np.array([37.9856291, -34.23840374, -7.09461715]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_Luv(self):
+    def test_n_dimensional_XYZ_to_Luv(self):
         """
         Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensions
         support.
@@ -198,7 +198,7 @@ class TestLuv_to_uv(unittest.TestCase):
             np.array([0.1508531, 0.48532971]),
             decimal=7)
 
-    def test_n_dimensions_Luv_to_uv(self):
+    def test_n_dimensional_Luv_to_uv(self):
         """
         Tests :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensions
         support.
@@ -252,10 +252,10 @@ class TestLuv_to_LCHuv(unittest.TestCase):
             np.array([50.86223896, 61.93361932, 12.24941097]),
             decimal=7)
 
-    def test_n_dimensions_Luv_to_LCHuv(self):
+    def test_n_dimensional_Luv_to_LCHuv(self):
         """
         Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         Luv = np.array([37.9856291, -28.79229446, -1.3558195])
@@ -306,10 +306,10 @@ class TestLCHuv_to_Luv(unittest.TestCase):
             np.array([50.86223896, 60.52359443, 13.14030896]),
             decimal=7)
 
-    def test_n_dimensions_LCHuv_to_Luv(self):
+    def test_n_dimensional_LCHuv_to_Luv(self):
         """
         Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
@@ -360,10 +360,10 @@ class TestLuv_uv_to_xy(unittest.TestCase):
             np.array([0.47670437, 0.3579]),
             decimal=7)
 
-    def test_n_dimensions_Luv_uv_to_xy(self):
+    def test_n_dimensional_Luv_uv_to_xy(self):
         """
         Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         uv = np.array([0.1508531, 0.48532971])

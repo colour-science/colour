@@ -73,10 +73,10 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             np.array([40.55293261, 28.95161939, 4.09480293]),
             decimal=7)
 
-    def test_n_dimensions_chromatic_adaptation_CIE1994(self):
+    def test_n_dimensional_chromatic_adaptation_CIE1994(self):
         """
         Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ_1 = np.array([28.0, 21.26, 5.27])

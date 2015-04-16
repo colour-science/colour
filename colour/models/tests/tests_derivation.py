@@ -219,7 +219,7 @@ class TestRGBLuminance(unittest.TestCase):
             12.1616018403,
             places=7)
 
-    def test_n_dimensions_RGB_luminance(self):
+    def test_n_dimensional_RGB_luminance(self):
         """
         Tests:func:`colour.models.rgb.derivation.RGB_luminance` definition
         n_dimensions support.

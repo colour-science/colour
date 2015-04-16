@@ -74,7 +74,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
             np.array([37.9856291, -25.55521883, -11.26139386]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_Lab(self):
+    def test_n_dimensional_XYZ_to_Lab(self):
         """
         Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensions
         support.
@@ -146,7 +146,7 @@ class TestLab_to_XYZ(unittest.TestCase):
             np.array([0.07049534, 0.1008, 0.09558313]),
             decimal=7)
 
-    def test_n_dimensions_Lab_to_XYZ(self):
+    def test_n_dimensional_Lab_to_XYZ(self):
         """
         Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensions
         support.
@@ -200,10 +200,10 @@ class TestLab_to_LCHab(unittest.TestCase):
             np.array([50.86223896, 38.52678179, 31.7232794]),
             decimal=7)
 
-    def test_n_dimensions_Lab_to_LCHab(self):
+    def test_n_dimensional_Lab_to_LCHab(self):
         """
         Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         Lab = np.array([37.9856291, -23.62302887, -4.41417036])
@@ -254,10 +254,10 @@ class TestLCHab_to_Lab(unittest.TestCase):
             np.array([50.86223896, 32.77078577, 20.25804815]),
             decimal=7)
 
-    def test_n_dimensions_LCHab_to_Lab(self):
+    def test_n_dimensional_LCHab_to_Lab(self):
         """
         Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         LCHab = np.array([37.9856291, 24.03190365, 190.58415972])

@@ -4010,10 +4010,10 @@ class TestMunsellValuePriest1920(unittest.TestCase):
             9.91564420499,
             places=7)
 
-    def test_n_dimensions_munsell_value_Priest1920(self):
+    def test_n_dimensional_munsell_value_Priest1920(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4072,10 +4072,10 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
             9.95457710587,
             places=7)
 
-    def test_n_dimensions_munsell_value_Munsell1933(self):
+    def test_n_dimensional_munsell_value_Munsell1933(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4134,10 +4134,10 @@ class TestMunsellValueMoon1943(unittest.TestCase):
             9.88538236116,
             places=7)
 
-    def test_n_dimensions_munsell_value_Moon1943(self):
+    def test_n_dimensional_munsell_value_Moon1943(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4196,10 +4196,10 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
             9.85197100995,
             places=7)
 
-    def test_n_dimensions_munsell_value_Saunderson1944(self):
+    def test_n_dimensional_munsell_value_Saunderson1944(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4258,10 +4258,10 @@ class TestMunsellValueLadd1955(unittest.TestCase):
             9.75492813681,
             places=7)
 
-    def test_n_dimensions_munsell_value_Ladd1955(self):
+    def test_n_dimensional_munsell_value_Ladd1955(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4320,10 +4320,10 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
             9.935265378231314,
             places=7)
 
-    def test_n_dimensions_munsell_value_McCamy1987(self):
+    def test_n_dimensional_munsell_value_McCamy1987(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -4382,10 +4382,10 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
             9.934372853115544,
             places=7)
 
-    def test_n_dimensions_munsell_value_ASTMD153508(self):
+    def test_n_dimensional_munsell_value_ASTMD153508(self):
         """
         Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08

@@ -563,11 +563,11 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
             1.000274856640486,
             places=10)
 
-    def test_n_dimensions_air_refraction_index_Penndorf1957(self):
+    def test_n_dimensional_air_refraction_index_Penndorf1957(self):
         """
         Tests
         :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -627,11 +627,11 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
             1.0002748622188347,
             places=10)
 
-    def test_n_dimensions_air_refraction_index_Edlen1966(self):
+    def test_n_dimensional_air_refraction_index_Edlen1966(self):
         """
         Tests
         :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -690,11 +690,11 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
             1.0002748591448039,
             places=10)
 
-    def test_n_dimensions_air_refraction_index_Peck1972(self):
+    def test_n_dimensional_air_refraction_index_Peck1972(self):
         """
         Tests
         :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -770,11 +770,11 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
             1.0002749066404641,
             places=10)
 
-    def test_n_dimensions_air_refraction_index_Bodhaine1999(self):
+    def test_n_dimensional_air_refraction_index_Bodhaine1999(self):
         """
         Tests
         :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -832,10 +832,10 @@ class TestN2Depolarisation(unittest.TestCase):
             1.034460153868486,
             places=7)
 
-    def test_n_dimensions_N2_depolarisation(self):
+    def test_n_dimensional_N2_depolarisation(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -893,10 +893,10 @@ class TestO2Depolarisation(unittest.TestCase):
             1.0983155612690134,
             places=7)
 
-    def test_n_dimensions_O2_depolarisation(self):
+    def test_n_dimensional_O2_depolarisation(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -983,10 +983,10 @@ class TestF_airBates1984(unittest.TestCase):
             1.0469470686005893,
             places=7)
 
-    def test_n_dimensions_F_air_Bates1984(self):
+    def test_n_dimensional_F_air_Bates1984(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -1060,10 +1060,10 @@ class TestF_airBodhaine1999(unittest.TestCase):
             1.13577082243141,
             places=7)
 
-    def test_n_dimensions_F_air_Bodhaine1999(self):
+    def test_n_dimensional_F_air_Bodhaine1999(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -1121,10 +1121,10 @@ class TestMolecularDensity(unittest.TestCase):
             1.8347246040868246e+19,
             places=24)
 
-    def test_n_dimensions_molecular_density(self):
+    def test_n_dimensional_molecular_density(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         temperature = 200
@@ -1183,10 +1183,10 @@ class TestMeanMolecularWeights(unittest.TestCase):
             28.968834471999998,
             places=7)
 
-    def test_n_dimensions_mean_molecular_weights(self):
+    def test_n_dimensional_mean_molecular_weights(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         CO2_c = 300
@@ -1244,10 +1244,10 @@ class TestGravityList1968(unittest.TestCase):
             980.9524178426182,
             places=7)
 
-    def test_n_dimensions_gravity_List1968(self):
+    def test_n_dimensional_gravity_List1968(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.gravity_List1968`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         g = 978.03560705760003
@@ -1332,10 +1332,10 @@ class TestScatteringCrossSection(unittest.TestCase):
             8.98240574861602e-27,
             places=32)
 
-    def test_n_dimensions_scattering_cross_section(self):
+    def test_n_dimensional_scattering_cross_section(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 360 * 10e-8
@@ -1451,10 +1451,10 @@ class TestRayleighOpticalDepth(unittest.TestCase):
             0.10010846270542267,
             places=10)
 
-    def test_n_dimensions_rayleigh_optical_depth(self):
+    def test_n_dimensional_rayleigh_optical_depth(self):
         """
         Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 360 * 10e-8

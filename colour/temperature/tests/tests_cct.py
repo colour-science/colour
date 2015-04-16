@@ -345,10 +345,10 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
             19501.6195313,
             places=7)
 
-    def test_n_dimensions_xy_to_CCT_McCamy1992(self):
+    def test_n_dimensional_xy_to_CCT_McCamy1992(self):
         """
         Tests :func:`colour.temperature.cct.xy_to_CCT_McCamy1992` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         xy = np.array([0.31271, 0.32902])
@@ -400,10 +400,10 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
             64448.110925653324,
             places=7)
 
-    def test_n_dimensions_xy_to_CCT_Hernandez1999(self):
+    def test_n_dimensional_xy_to_CCT_Hernandez1999(self):
         """
         Tests :func:`colour.temperature.cct.xy_to_CCT_Hernandez1999` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         xy = np.array([0.31271, 0.32902])
@@ -454,10 +454,10 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
             np.array([0.2524729944384, 0.2522547912436536]),
             decimal=7)
 
-    def test_n_dimensions_CCT_to_xy_Kang2002(self):
+    def test_n_dimensional_CCT_to_xy_Kang2002(self):
         """
         Tests :func:`colour.temperature.cct.CCT_to_xy_Kang2002` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         CCT = 4000
@@ -508,10 +508,10 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
             np.array([0.2498536704, 0.25479946421094446]),
             decimal=7)
 
-    def test_n_dimensions_CCT_to_xy_CIE_D(self):
+    def test_n_dimensional_CCT_to_xy_CIE_D(self):
         """
         Tests :func:`colour.temperature.cct.CCT_to_xy_CIE_D` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         CCT = 4000

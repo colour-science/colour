@@ -55,7 +55,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
             np.array([0.46626813, 0.25471184, 0.19904068]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_IPT(self):
+    def test_n_dimensional_XYZ_to_IPT(self):
         """
         Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensions
         support.
@@ -109,7 +109,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
             np.array([1.0131677, 1., 2.11217686]),
             decimal=7)
 
-    def test_n_dimensions_IPT_to_XYZ(self):
+    def test_n_dimensional_IPT_to_XYZ(self):
         """
         Tests :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensions
         support.
@@ -163,7 +163,7 @@ class TestIPTHueAngle(unittest.TestCase):
             0.4328937107187537,
             decimal=7)
 
-    def test_n_dimensions_IPT_hue_angle(self):
+    def test_n_dimensional_IPT_hue_angle(self):
         """
         Tests :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensions
         support.

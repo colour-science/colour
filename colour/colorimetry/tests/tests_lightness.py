@@ -59,10 +59,10 @@ class TestLightnessGlasser1958(unittest.TestCase):
             98.3447052593,
             places=7)
 
-    def test_n_dimensions_lightness_Glasser1958(self):
+    def test_n_dimensional_lightness_Glasser1958(self):
         """
         Tests :func:`colour.colorimetry.lightness.lightness_Glasser1958`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -121,10 +121,10 @@ class TestLightnessWyszecki1963(unittest.TestCase):
             98.3862250488,
             places=7)
 
-    def test_n_dimensions_lightness_Wyszecki1963(self):
+    def test_n_dimensional_lightness_Wyszecki1963(self):
         """
         Tests :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08
@@ -197,10 +197,10 @@ class TestLightness1976(unittest.TestCase):
             38.91659875709282,
             places=7)
 
-    def test_n_dimensions_lightness_1976(self):
+    def test_n_dimensional_lightness_1976(self):
         """
         Tests :func:`colour.colorimetry.lightness.lightness_1976`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Y = 10.08

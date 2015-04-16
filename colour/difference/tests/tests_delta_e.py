@@ -63,10 +63,10 @@ class TestDelta_E_CIE1976(unittest.TestCase):
             346.064891718,
             places=7)
 
-    def test_n_dimensions_delta_E_CIE1976(self):
+    def test_n_dimensional_delta_E_CIE1976(self):
         """
         Tests :func:`colour.difference.delta_e.delta_E_CIE1976`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Lab1 = np.array([100, 21.57210357, 272.2281935])
@@ -150,10 +150,10 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             57.5354537067,
             places=7)
 
-    def test_n_dimensions_delta_E_CIE1994(self):
+    def test_n_dimensional_delta_E_CIE1994(self):
         """
         Tests :func:`colour.difference.delta_e.delta_E_CIE1994`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Lab1 = np.array([100, 21.57210357, 272.2281935])
@@ -213,10 +213,10 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             68.2309487895,
             places=7)
 
-    def test_n_dimensions_delta_E_CIE2000(self):
+    def test_n_dimensional_delta_E_CIE2000(self):
         """
         Tests :func:`colour.difference.delta_e.delta_E_CIE2000`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Lab1 = np.array([100, 21.57210357, 272.2281935])
@@ -300,10 +300,10 @@ class TestDelta_E_CMC(unittest.TestCase):
             121.718414791,
             places=7)
 
-    def test_n_dimensions_delta_E_CMC(self):
+    def test_n_dimensional_delta_E_CMC(self):
         """
         Tests :func:`colour.difference.delta_e.delta_E_CMC`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Lab1 = np.array([100, 21.57210357, 272.2281935])

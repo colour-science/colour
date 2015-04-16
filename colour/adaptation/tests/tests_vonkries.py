@@ -100,11 +100,11 @@ class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
                       [0., 0., 3.06023214]]),
             decimal=7)
 
-    def test_n_dimensions_chromatic_adaptation_matrix_VonKries(self):
+    def test_n_dimensional_chromatic_adaptation_matrix_VonKries(self):
         """
         Tests
         :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ_w = np.array([1.09846607, 1., 0.3558228])
@@ -197,10 +197,10 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             np.array([0.08357823, 0.10214289, 0.29250657]),
             decimal=7)
 
-    def test_n_dimensions_chromatic_adaptation_VonKries(self):
+    def test_n_dimensional_chromatic_adaptation_VonKries(self):
         """
         Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ = np.array([0.07049534, 0.1008, 0.09558313])

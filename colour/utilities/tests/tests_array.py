@@ -177,7 +177,7 @@ class TestInArray(unittest.TestCase):
                          np.linspace(0, 10, 101)),
                 np.array([[True], [True]])))
 
-    def test_n_dimensions_in_array(self):
+    def test_n_dimensional_in_array(self):
         """
         Tests :func:`colour.utilities.array.in_array` definition n-dimensions
         support.

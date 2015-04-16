@@ -66,11 +66,11 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.0025)
 
-    def test_n_dimensions_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+    def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
         Tests
         :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 700
@@ -128,11 +128,11 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.025)
 
-    def test_n_dimensions_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+    def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
         Tests
         :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 700
@@ -190,11 +190,11 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.0025)
 
-    def test_n_dimensions_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
+    def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
         Tests
         :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 700
@@ -252,11 +252,11 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.00015)
 
-    def test_n_dimensions_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+    def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
         Tests
         :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 700
@@ -314,11 +314,11 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
             cmfs.get(700),
             atol=0.00015)
 
-    def test_n_dimensions_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+    def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
         Tests
         :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         wl = 700

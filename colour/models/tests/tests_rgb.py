@@ -259,11 +259,11 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                        rtol=0.01,
                                        atol=0.01)
 
-    def test_n_dimensions_opto_electronic_conversion_functions(self):
+    def test_n_dimensional_opto_electronic_conversion_functions(self):
         """
         Tests opto-electronic conversion functions from the
         :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         for colourspace in RGB_COLOURSPACES.values():
@@ -368,7 +368,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                 RGB,
                 decimal=7)
 
-    def test_n_dimensions_XYZ_to_RGB(self):
+    def test_n_dimensional_XYZ_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.XYZ_to_RGB` definition n-dimensions
         support.
@@ -441,7 +441,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                 np.array(XYZ),
                 decimal=7)
 
-    def test_n_dimensions_RGB_to_XYZ(self):
+    def test_n_dimensional_RGB_to_XYZ(self):
         """
         Tests :func:`colour.models.rgb.RGB_to_XYZ` definition n-dimensions
         support.
@@ -511,7 +511,7 @@ class TestRGB_to_RGB(unittest.TestCase):
             np.array([0.33704409, 0.44133521, 0.21429761]),
             decimal=7)
 
-    def test_n_dimensions_RGB_to_RGB(self):
+    def test_n_dimensional_RGB_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.RGB_to_RGB` definition n-dimensions
         support.

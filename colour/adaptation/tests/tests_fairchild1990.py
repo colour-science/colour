@@ -68,11 +68,11 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
             np.array([24.79473034, 19.13024207, 7.75984317]),
             decimal=7)
 
-    def test_n_dimensions_chromatic_adaptation_Fairchild1990(self):
+    def test_n_dimensional_chromatic_adaptation_Fairchild1990(self):
         """
         Tests
         :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`  # noqa
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ_1 = np.array([19.53, 23.07, 24.97])

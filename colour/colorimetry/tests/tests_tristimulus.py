@@ -208,11 +208,11 @@ class TestWavelength_to_XYZ(unittest.TestCase):
             np.array([0.44575583, 0.18184213, 0.]),
             decimal=7)
 
-    def test_n_dimensions_wavelength_to_XYZ(self):
+    def test_n_dimensional_wavelength_to_XYZ(self):
         """
         Tests
         :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')

@@ -70,10 +70,10 @@ class TestCMCCAT2000Forward(unittest.TestCase):
             np.array([24.68548451, 19.08228483, 7.81570209]),
             decimal=7)
 
-    def test_n_dimensions_CMCCAT2000_forward(self):
+    def test_n_dimensional_CMCCAT2000_forward(self):
         """
         Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_forward`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ = np.array([22.48, 22.74, 8.54])
@@ -144,10 +144,10 @@ class TestCMCCAT2000Reverse(unittest.TestCase):
             np.array([0.25506814, 0.1915, 0.08849752]) * 100,
             decimal=7)
 
-    def test_n_dimensions_CMCCAT2000_reverse(self):
+    def test_n_dimensional_CMCCAT2000_reverse(self):
         """
         Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_reverse`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         XYZ = np.array([19.52698326, 23.0683396, 24.97175229])

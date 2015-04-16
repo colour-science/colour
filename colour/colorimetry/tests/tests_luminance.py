@@ -59,10 +59,10 @@ class TestLuminanceNewhall1943(unittest.TestCase):
             2.06998750444,
             places=7)
 
-    def test_n_dimensions_luminance_Newhall1943(self):
+    def test_n_dimensional_luminance_Newhall1943(self):
         """
         Tests :func:`colour.colorimetry.lightness.luminance_Newhall1943`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         V = 3.74629715382
@@ -121,10 +121,10 @@ class TestLuminanceASTMD153508(unittest.TestCase):
             2.01830631474,
             places=7)
 
-    def test_n_dimensions_luminance_ASTMD153508(self):
+    def test_n_dimensional_luminance_ASTMD153508(self):
         """
         Tests :func:`colour.colorimetry.lightness.luminance_ASTMD153508`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         V = 3.74629715382
@@ -197,10 +197,10 @@ class TestLuminance1976(unittest.TestCase):
             9.576000000024989,
             places=7)
 
-    def test_n_dimensions_luminance_1976(self):
+    def test_n_dimensional_luminance_1976(self):
         """
         Tests :func:`colour.colorimetry.lightness.luminance_1976`
-        definition n-dimensions support.
+        definition n-dimensional arrays support.
         """
 
         Lstar = 37.9856290977

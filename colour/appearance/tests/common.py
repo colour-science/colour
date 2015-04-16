@@ -213,9 +213,10 @@ class ColourAppearanceModelTest(object):
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
 
-    def test_n_dimensions_examples(self):
+    def test_n_dimensional_examples(self):
         """
-        Tests the colour appearance model implementation n-dimensions support.
+        Tests the colour appearance model implementation n-dimensional arrays
+        support.
 
         Returns
         -------

@@ -96,9 +96,10 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
                 np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
                           decimals=4))
-    def test_n_dimensions_examples(self):
+    def test_n_dimensional_examples(self):
         """
-        Tests the colour appearance model implementation n-dimensions support.
+        Tests the colour appearance model implementation n-dimensional arrays
+        support.
 
         Returns
         -------
@@ -111,7 +112,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         patched version is used for unit tests.
         """
 
-        super(TestLLABColourAppearanceModel, self).test_n_dimensions_examples()
+        super(TestLLABColourAppearanceModel, self).test_n_dimensional_examples()
 
     def test_roundtrip_precision(self):
         """

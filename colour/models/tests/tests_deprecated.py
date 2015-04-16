@@ -68,10 +68,10 @@ class TestRGB_to_HSV(unittest.TestCase):
             np.array([0., 0., 1.]),
             decimal=7)
 
-    def test_n_dimensions_RGB_to_HSV(self):
+    def test_n_dimensional_RGB_to_HSV(self):
         """
         Tests :func:`colour.models.deprecated.RGB_to_HSV` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         RGB = np.array([0.25, 0.60, 0.05])
@@ -122,10 +122,10 @@ class TestHSV_to_RGB(unittest.TestCase):
             np.array([1., 1., 1.]),
             decimal=7)
 
-    def test_n_dimensions_HSV_to_RGB(self):
+    def test_n_dimensional_HSV_to_RGB(self):
         """
         Tests :func:`colour.models.deprecated.HSV_to_RGB` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         HSV = np.array([0.27272727, 0.91666667, 0.6])
@@ -176,10 +176,10 @@ class TestRGB_to_HSL(unittest.TestCase):
             np.array([0., 0., 1.]),
             decimal=7)
 
-    def test_n_dimensions_RGB_to_HSL(self):
+    def test_n_dimensional_RGB_to_HSL(self):
         """
         Tests :func:`colour.models.deprecated.RGB_to_HSL` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         RGB = np.array([0.25, 0.60, 0.05])
@@ -230,10 +230,10 @@ class TestHSL_to_RGB(unittest.TestCase):
             np.array([1., 1., 1.]),
             decimal=7)
 
-    def test_n_dimensions_HSL_to_RGB(self):
+    def test_n_dimensional_HSL_to_RGB(self):
         """
         Tests :func:`colour.models.deprecated.HSL_to_RGB` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         HSL = np.array([0.27272727, 0.84615385, 0.325])
@@ -284,10 +284,10 @@ class TestRGB_to_CMY(unittest.TestCase):
             np.array([0., 0., 0.]),
             decimal=7)
 
-    def test_n_dimensions_RGB_to_CMY(self):
+    def test_n_dimensional_RGB_to_CMY(self):
         """
         Tests :func:`colour.models.deprecated.RGB_to_CMY` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         RGB = np.array([0.25, 0.60, 0.05])
@@ -338,10 +338,10 @@ class TestCMY_to_RGB(unittest.TestCase):
             np.array([1., 1., 1.]),
             decimal=7)
 
-    def test_n_dimensions_CMY_to_RGB(self):
+    def test_n_dimensional_CMY_to_RGB(self):
         """
         Tests :func:`colour.models.deprecated.CMY_to_RGB` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         CMY = np.array([0.75, 0.40, 0.95])
@@ -392,10 +392,10 @@ class TestCMY_to_CMYK(unittest.TestCase):
             np.array([0.15, 0., 0., 0.]),
             decimal=7)
 
-    def test_n_dimensions_CMY_to_CMYK(self):
+    def test_n_dimensional_CMY_to_CMYK(self):
         """
         Tests :func:`colour.models.deprecated.CMY_to_CMYK` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         CMY = np.array([0.75, 0.40, 0.95])
@@ -446,10 +446,10 @@ class TestCMYK_to_CMY(unittest.TestCase):
             np.array([0.15, 0., 0.]),
             decimal=7)
 
-    def test_n_dimensions_CMYK_to_CMY(self):
+    def test_n_dimensional_CMYK_to_CMY(self):
         """
         Tests :func:`colour.models.deprecated.CMYK_to_CMY` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         CMYK = np.array([0.58333333, 0, 0.91666667, 0.4])

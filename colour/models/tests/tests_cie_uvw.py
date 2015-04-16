@@ -71,7 +71,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
             np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_UVW(self):
+    def test_n_dimensional_XYZ_to_UVW(self):
         """
         Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensions
         support.

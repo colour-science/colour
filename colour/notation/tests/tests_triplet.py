@@ -53,10 +53,10 @@ class TestRGB_to_HEX(unittest.TestCase):
             RGB_to_HEX(np.array([1, 1, 1])),
             '#ffffff')
 
-    def test_n_dimensions_RGB_to_HEX(self):
+    def test_n_dimensional_RGB_to_HEX(self):
         """
         Tests :func:`colour.notation.triplet.RGB_to_HEX` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         RGB = np.array([0.25, 0.60, 0.05])
@@ -98,10 +98,10 @@ class TestHEX_to_RGB(unittest.TestCase):
             np.array([1., 1., 1.]),
             decimal=2)
 
-    def test_n_dimensions_HEX_to_RGB(self):
+    def test_n_dimensional_HEX_to_RGB(self):
         """
         Tests :func:`colour.notation.triplet.HEX_to_RGB` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         HEX = '#3f990c'

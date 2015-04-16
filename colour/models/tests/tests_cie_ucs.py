@@ -56,7 +56,7 @@ class TestXYZ_to_UCS(unittest.TestCase):
             np.array([0.17004543, 0.1915, 0.20396469]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_UCS(self):
+    def test_n_dimensional_XYZ_to_UCS(self):
         """
         Tests :func:`colour.models.cie_ucs.XYZ_to_UCS` definition n-dimensions
         support.
@@ -110,7 +110,7 @@ class TestUCS_to_XYZ(unittest.TestCase):
             np.array([0.25506814, 0.1915, 0.08849752]),
             decimal=7)
 
-    def test_n_dimensions_UCS_to_XYZ(self):
+    def test_n_dimensional_UCS_to_XYZ(self):
         """
         Tests :func:`colour.models.cie_ucs.UCS_to_XYZ` definition n-dimensions
         support.
@@ -164,7 +164,7 @@ class TestUCS_to_uv(unittest.TestCase):
             np.array([0.30069388, 0.33863231]),
             decimal=7)
 
-    def test_n_dimensions_UCS_to_uv(self):
+    def test_n_dimensional_UCS_to_uv(self):
         """
         Tests :func:`colour.models.cie_ucs.UCS_to_uv` definition n-dimensions
         support.

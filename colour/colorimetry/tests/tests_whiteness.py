@@ -71,7 +71,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
             33.300000000000011,
             places=7)
 
-    def test_n_dimensions_whiteness_Berger1959(self):
+    def test_n_dimensional_whiteness_Berger1959(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition n_dimensions support.
@@ -135,7 +135,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
             100.0,
             places=7)
 
-    def test_n_dimensions_whiteness_Taube1960(self):
+    def test_n_dimensional_whiteness_Taube1960(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition n_dimensions support.
@@ -196,7 +196,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
             1.0,
             places=7)
 
-    def test_n_dimensions_whiteness_Stensby1968(self):
+    def test_n_dimensional_whiteness_Stensby1968(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition n_dimensions support.
@@ -254,7 +254,7 @@ class TestWhitenessASTM313(unittest.TestCase):
             38.800000000000011,
             places=7)
 
-    def test_n_dimensions_whiteness_ASTM313(self):
+    def test_n_dimensional_whiteness_ASTM313(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
         definition n_dimensions support.
@@ -309,7 +309,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
             np.array([54.3993992, -16.0415238]),
             decimal=7)
 
-    def test_n_dimensions_whiteness_Ganz1979(self):
+    def test_n_dimensional_whiteness_Ganz1979(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition n_dimensions support.
@@ -367,7 +367,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
             np.array([80.49, -18.005]),
             decimal=7)
 
-    def test_n_dimensions_whiteness_CIE2004(self):
+    def test_n_dimensional_whiteness_CIE2004(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition n_dimensions support.

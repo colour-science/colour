@@ -75,7 +75,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
                       [0, 0, 0]]),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_xyY(self):
+    def test_n_dimensional_XYZ_to_xyY(self):
         """
         Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition n-dimensions
         support.
@@ -134,7 +134,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
             np.array([0, 0, 0]),
             decimal=7)
 
-    def test_n_dimensions_xyY_to_XYZ(self):
+    def test_n_dimensional_xyY_to_XYZ(self):
         """
         Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition n-dimensions
         support.
@@ -193,7 +193,7 @@ class Testxy_to_XYZ(unittest.TestCase):
             np.array([0.96421199, 1., 0.82518828]),
             decimal=7)
 
-    def test_n_dimensions_xy_to_XYZ(self):
+    def test_n_dimensional_xy_to_XYZ(self):
         """
         Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition n-dimensions
         support.
@@ -252,7 +252,7 @@ class TestXYZ_to_xy(unittest.TestCase):
             (0.34567, 0.3585),
             decimal=7)
 
-    def test_n_dimensions_XYZ_to_xy(self):
+    def test_n_dimensional_XYZ_to_xy(self):
         """
         Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition n-dimensions
         support.

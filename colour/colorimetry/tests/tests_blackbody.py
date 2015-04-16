@@ -4527,10 +4527,10 @@ class TestPlanckLaw(unittest.TestCase):
                     rtol=0.00000001,
                     verbose=False)
 
-    def test_n_dimensions_planck_law(self):
+    def test_n_dimensional_planck_law(self):
         """
         Tests :func:`colour.colorimetry.blackbody.planck_law` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         wl = 500 * 1e-9
