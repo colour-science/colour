@@ -19,8 +19,8 @@ primaries = np.array(
 whitepoint = (0.32168, 0.33767)
 message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              'colourspace transforming from "ACES2065-1" colourspace to '
-             '"CIE XYZ" tristimulus values using user defined primaries matrix '
-             'and whitepoint:\n'
+             '"CIE XYZ" tristimulus values using user defined primaries '
+             'matrix and whitepoint:\n'
              '\n\t{0}\n\t{1}\n\t{2}\n\n\t{3}'.format(primaries[0],
                                                      primaries[1],
                                                      primaries[2],

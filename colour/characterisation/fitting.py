@@ -111,9 +111,9 @@ def first_order_colour_fit(m1, m2):
     m1 = np.asarray(m1)
     m2 = np.asarray(m2)
 
-    x_coefficients = linear_regression(m1[..., 0], m2)
-    y_coefficients = linear_regression(m1[..., 1], m2)
-    z_coefficients = linear_regression(m1[..., 2], m2)
+    x_coefficients = linear_regression(m1[:, 0], m2)
+    y_coefficients = linear_regression(m1[:, 1], m2)
+    z_coefficients = linear_regression(m1[:, 2], m2)
 
     return np.array([x_coefficients[:3],
                      y_coefficients[:3],

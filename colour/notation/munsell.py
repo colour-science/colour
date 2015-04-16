@@ -562,14 +562,14 @@ def munsell_specification_to_xyY(specification):
     Returns
     -------
     ndarray, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Notes
     -----
     -   Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
     -   Input *Munsell* *Colorlab* specification value must be in domain
         [0, 10].
-    -   Output *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -641,11 +641,11 @@ def munsell_colour_to_xyY(munsell_colour):
     Returns
     -------
     ndarray, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in domain [0, 1].
 
     Examples
     --------
@@ -666,7 +666,7 @@ def xyY_to_munsell_specification(xyY):
     Parameters
     ----------
     xyY : array_like, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Returns
     -------
@@ -676,7 +676,7 @@ def xyY_to_munsell_specification(xyY):
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace matrix is not within MacAdam
+        If the given *CIE xyY* colourspace array is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -684,7 +684,7 @@ def xyY_to_munsell_specification(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -914,7 +914,7 @@ def xyY_to_munsell_colour(xyY,
     Parameters
     ----------
     xyY : array_like, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
     hue_decimals : int
         Hue formatting decimals.
     value_decimals : int
@@ -929,7 +929,7 @@ def xyY_to_munsell_colour(xyY,
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is in domain [0, 1].
 
     Examples
     --------
@@ -1853,7 +1853,7 @@ def LCHab_to_munsell_specification(LCHab):
     Parameters
     ----------
     LCHab : array_like, (3,)
-        *CIE LCHab* colourspace matrix.
+        *CIE LCHab* colourspace array.
 
     Returns
     -------

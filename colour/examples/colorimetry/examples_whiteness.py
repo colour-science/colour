@@ -36,7 +36,7 @@ print('\n')
 
 Lab = np.array([100., -2.46875131, -16.72486654])
 message_box(('Computing "whiteness" using Stensby (1968) method for '
-             'given sample "CIE Lab" colourspace matrix:\n'
+             'given sample "CIE Lab" colourspace array:\n'
              '\n\t{0}'.format(Lab)))
 print(colour.whiteness_Stensby1968(Lab))
 print(colour.whiteness(Lab=Lab, method='Stensby 1968'))
