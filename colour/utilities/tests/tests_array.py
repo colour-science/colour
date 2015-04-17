@@ -74,13 +74,12 @@ class TestClosest(unittest.TestCase):
         Tests :func:`colour.utilities.array.closest` definition.
         """
 
-        y = np.array(
-            [24.31357115,
-             63.62396289,
-             55.71528816,
-             62.70988028,
-             46.84480573,
-             25.40026416])
+        y = np.array([24.31357115,
+                      63.62396289,
+                      55.71528816,
+                      62.70988028,
+                      46.84480573,
+                      25.40026416])
 
         self.assertEqual(closest(y, 63.05), 62.70988028)
 

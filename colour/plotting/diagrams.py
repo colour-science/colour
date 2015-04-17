@@ -111,7 +111,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
+            if path.contains_path(matplotlib.path.Path(((i, j), (i, j)))):
                 x_dot.append(i)
                 y_dot.append(j)
 
@@ -124,7 +124,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     settings.update({
         'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -173,7 +173,7 @@ def CIE_1931_chromaticity_diagram_plot(
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
     labels = (
-        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700])
+        390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -215,8 +215,8 @@ def CIE_1931_chromaticity_diagram_plot(
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([x, x + normal[0] * 0.75],
-                   [y, y + normal[1] * 0.75],
+        pylab.plot((x, x + normal[0] * 0.75),
+                   (y, y + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(x + normal[0],
@@ -234,7 +234,7 @@ def CIE_1931_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.1, 0.9, -0.1, 0.9],
+        'bounding_box': (-0.1, 0.9, -0.1, 0.9),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -291,7 +291,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
+            if path.contains_path(matplotlib.path.Path(((i, j), (i, j)))):
                 x_dot.append(i)
                 y_dot.append(j)
 
@@ -304,7 +304,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     settings.update({
         'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -351,8 +351,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                          cmfs.name.replace(' ', '_'))))
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
-    labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
+    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
+              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -394,8 +394,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([u, u + normal[0] * 0.75],
-                   [v, v + normal[1] * 0.75],
+        pylab.plot((u, u + normal[0] * 0.75),
+                   (v, v + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
@@ -413,7 +413,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.075, 0.675, -0.15, 0.6],
+        'bounding_box': (-0.075, 0.675, -0.15, 0.6),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -471,7 +471,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     x_dot, y_dot, colours = [], [], []
     for i in np.arange(0, 1, spacing):
         for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
+            if path.contains_path(matplotlib.path.Path(((i, j), (i, j)))):
                 x_dot.append(i)
                 y_dot.append(j)
 
@@ -484,7 +484,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     settings.update({
         'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -531,8 +531,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                          cmfs.name.replace(' ', '_'))))
     pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
 
-    labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
+    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
+              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -578,8 +578,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([u, u + normal[0] * 0.75],
-                   [v, v + normal[1] * 0.75],
+        pylab.plot((u, u + normal[0] * 0.75),
+                   (v, v + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
@@ -597,7 +597,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.1, .7, -.1, .7],
+        'bounding_box': (-0.1, .7, -.1, .7),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)

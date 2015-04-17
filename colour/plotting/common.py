@@ -276,8 +276,8 @@ def boundaries(**kwargs):
         **{'bounding_box': None,
            'x_tighten': False,
            'y_tighten': False,
-           'limits': [0, 1, 0, 1],
-           'margins': [0, 0, 0, 0]})
+           'limits': (0, 1, 0, 1),
+           'margins': (0, 0, 0, 0)})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -405,8 +405,8 @@ def colour_parameters_plot(colour_parameters,
                if colour_parameters[i].y1 is None else
                colour_parameters[i + 1].y1)
 
-        x_polygon = [x0, x01, x01, x0]
-        y_polygon = [y0, y01, y11, y1]
+        x_polygon = (x0, x01, x01, x0)
+        y_polygon = (y0, y01, y11, y1)
         pylab.fill(x_polygon,
                    y_polygon,
                    color=colour_parameters[i].RGB,
@@ -429,19 +429,19 @@ def colour_parameters_plot(colour_parameters,
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])
     # y_limit_max0 = max(
-    #     [1 if x.y0 is None else x.y0 for x in colour_parameters])
+    # [1 if x.y0 is None else x.y0 for x in colour_parameters])
     # y_limit_min1 = min(
-    #     [0 if x.y1 is None else x.y1 for x in colour_parameters])
+    # [0 if x.y1 is None else x.y1 for x in colour_parameters])
     y_limit_max1 = max(
         [1 if x.y1 is None else x.y1 for x in colour_parameters])
 
     settings = {
         'x_label': 'Parameter',
         'y_label': 'Colour',
-        'limits': [min([0 if x.x is None else x.x for x in colour_parameters]),
+        'limits': (min([0 if x.x is None else x.x for x in colour_parameters]),
                    max([1 if x.x is None else x.x for x in colour_parameters]),
                    y_limit_min0,
-                   y_limit_max1]}
+                   y_limit_max1)}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -473,7 +473,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     True
     """
 
-    return multi_colour_plot([colour_parameter], **kwargs)
+    return multi_colour_plot((colour_parameter, ), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,
@@ -536,8 +536,8 @@ def multi_colour_plot(colour_parameters,
         y0 = offsetY
         y1 = offsetY + height
 
-        x_polygon = [x0, x1, x1, x0]
-        y_polygon = [y0, y0, y1, y1]
+        x_polygon = (x0, x1, x1, x0)
+        y_polygon = (y0, y0, y1, y1)
         pylab.fill(x_polygon, y_polygon, color=colour_parameters[i].RGB)
         if colour_parameter.name is not None and text_display:
             pylab.text(x0 + text_offset, y0 + text_offset,
@@ -553,7 +553,7 @@ def multi_colour_plot(colour_parameters,
         'x_tighten': True,
         'y_tighten': True,
         'no_ticks': True,
-        'limits': [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
+        'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
         'aspect': 'equal'}
     settings.update(kwargs)
 

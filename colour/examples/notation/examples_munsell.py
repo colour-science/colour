@@ -69,7 +69,7 @@ print(colour.munsell_value(Y, method='ASTM D1535-08'))
 
 print('\n')
 
-xyY = [0.38736945, 0.35751656, 0.59362]
+xyY = (0.38736945, 0.35751656, 0.59362)
 message_box(('Converting to "Munsell" colour from given "CIE xyY" '
              'colourspace values:\n'
              '\n\t{0}'.format(xyY)))

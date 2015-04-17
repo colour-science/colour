@@ -72,8 +72,8 @@ class TestLightnessGlasser1958(unittest.TestCase):
             L,
             decimal=7)
 
-        Y = [Y] * 6
-        L = [L] * 6
+        Y = np.tile(Y, 6)
+        L = np.tile(L, 6)
         np.testing.assert_almost_equal(
             lightness_Glasser1958(Y),
             L,
@@ -134,8 +134,8 @@ class TestLightnessWyszecki1963(unittest.TestCase):
             W,
             decimal=7)
 
-        Y = [Y] * 6
-        W = [W] * 6
+        Y = np.tile(Y, 6)
+        W = np.tile(W, 6)
         np.testing.assert_almost_equal(
             lightness_Wyszecki1963(Y),
             W,
@@ -210,8 +210,8 @@ class TestLightness1976(unittest.TestCase):
             Lstar,
             decimal=7)
 
-        Y = [Y] * 6
-        Lstar = [Lstar] * 6
+        Y = np.tile(Y, 6)
+        Lstar = np.tile(Lstar, 6)
         np.testing.assert_almost_equal(
             lightness_1976(Y),
             Lstar,

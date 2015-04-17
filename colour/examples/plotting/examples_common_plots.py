@@ -19,7 +19,7 @@ print('\n')
 
 message_box('Plotting multiple colours.')
 multi_colour_plot(
-    [colour_parameter('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
-     colour_parameter('Light Skin', RGB=(0.77875824, 0.5772645, 0.50453169))],
+    (colour_parameter('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
+     colour_parameter('Light Skin', RGB=(0.77875824, 0.5772645, 0.50453169))),
     spacing=0,
     text_size=32)

@@ -98,10 +98,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
 
-    for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
+    for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, cmfs=cmfs))
         x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 0.025, cmfs=cmfs))
-        pylab.plot([x0, x1], [y0, y1], color='black', linewidth=2)
+        pylab.plot((x0, x1), (y0, y1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
@@ -189,10 +189,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
 
-    for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
+    for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         u0, v0 = CCT_to_uv(i, -0.05)
         u1, v1 = CCT_to_uv(i, 0.05)
-        pylab.plot([u0, u1], [v0, v1], color='black', linewidth=2)
+        pylab.plot((u0, u1), (v0, v1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),

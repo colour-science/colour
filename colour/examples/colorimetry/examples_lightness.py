@@ -14,7 +14,7 @@ from colour.utilities.verbose import message_box
 
 message_box('"Lightness" Computations')
 
-xyY = [0.4316, 0.3777, 0.1008]
+xyY = (0.4316, 0.3777, 0.1008)
 message_box(('Computing "Lightness" "CIE Lab" reference value for given '
              '"CIE xyY" colourspace values:\n'
              '\n\t{0}'.format(xyY)))

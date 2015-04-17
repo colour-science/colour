@@ -124,8 +124,8 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     if not CIE_1931_chromaticity_diagram_plot(**settings):
         return
 
-    x_limit_min, x_limit_max = [-0.1], [0.9]
-    y_limit_min, y_limit_max = [-0.1], [0.9]
+    x_limit_min, x_limit_max = (-0.1, ), (0.9, )
+    y_limit_min, y_limit_max = (-0.1, ), (0.9, )
 
     cycle = colour_cycle('rainbow')
     for colourspace in colourspaces:
@@ -138,10 +138,8 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color=colour_p,
                        alpha=alpha_p,
                        linewidth=2)
-            pylab.plot([xy[-1][0],
-                        xy[0][0]],
-                       [xy[-1][1],
-                        xy[0][1]],
+            pylab.plot((xy[-1][0], xy[0][0]),
+                       (xy[-1][1], xy[0][1]),
                        color=colour_p,
                        alpha=alpha_p,
                        linewidth=2)
@@ -166,28 +164,28 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
             primaries = colourspace.primaries
             whitepoint = colourspace.whitepoint
 
-            pylab.plot([whitepoint[0], whitepoint[0]],
-                       [whitepoint[1], whitepoint[1]],
+            pylab.plot((whitepoint[0], whitepoint[0]),
+                       (whitepoint[1], whitepoint[1]),
                        color=(r, g, b),
                        label=colourspace.name,
                        linewidth=2)
-            pylab.plot([whitepoint[0], whitepoint[0]],
-                       [whitepoint[1], whitepoint[1]],
+            pylab.plot((whitepoint[0], whitepoint[0]),
+                       (whitepoint[1], whitepoint[1]),
                        'o',
                        color=(r, g, b),
                        linewidth=2)
-            pylab.plot([primaries[0, 0], primaries[1, 0]],
-                       [primaries[0, 1], primaries[1, 1]],
+            pylab.plot((primaries[0, 0], primaries[1, 0]),
+                       (primaries[0, 1], primaries[1, 1]),
                        'o-',
                        color=(r, g, b),
                        linewidth=2)
-            pylab.plot([primaries[1, 0], primaries[2, 0]],
-                       [primaries[1, 1], primaries[2, 1]],
+            pylab.plot((primaries[1, 0], primaries[2, 0]),
+                       (primaries[1, 1], primaries[2, 1]),
                        'o-',
                        color=(r, g, b),
                        linewidth=2)
-            pylab.plot([primaries[2, 0], primaries[0, 0]],
-                       [primaries[2, 1], primaries[0, 1]],
+            pylab.plot((primaries[2, 0], primaries[0, 0]),
+                       (primaries[2, 1], primaries[0, 1]),
                        'o-',
                        color=(r, g, b),
                        linewidth=2)
@@ -202,9 +200,9 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
         'legend_location': 'upper right',
         'x_tighten': True,
         'y_tighten': True,
-        'limits': [min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)],
-        'margins': [-0.05, 0.05, -0.05, 0.05],
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max)),
+        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
@@ -297,7 +295,7 @@ def multi_transfer_function_plot(colourspaces=None,
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 1, 0, 1],
+        'limits': (0, 1, 0, 1),
         'aspect': 'equal'})
     settings.update(kwargs)
 

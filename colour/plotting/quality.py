@@ -114,10 +114,10 @@ def colour_quality_bars_plot(specification, **kwargs):
         'grid_axis': 'y',
         'x_tighten': True,
         'y_tighten': True,
-        'limits': [-width,
+        'limits': (-width,
                    len(Q_as) + width * 2,
                    0 if positive else -110,
-                   110],
+                   110),
         'aspect': 1 / ((110 if positive else 220) /
                        (width + len(Q_as) + width * 2))})
     settings.update(kwargs)

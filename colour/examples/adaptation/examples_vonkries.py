@@ -40,7 +40,7 @@ print(colour.chromatic_adaptation_matrix_VonKries(
 
 print('\n')
 
-XYZ = [1.14176346, 1., 0.49815206]
+XYZ = (1.14176346, 1., 0.49815206)
 message_box(('Adapting given "CIE XYZ" tristimulus values from '
              '"CIE Standard Illuminant A" to '
              '"CIE Standard Illuminant D Series D65" using "Sharp" CAT.\n'

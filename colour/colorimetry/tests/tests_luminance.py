@@ -72,8 +72,8 @@ class TestLuminanceNewhall1943(unittest.TestCase):
             Y,
             decimal=7)
 
-        V = [V] * 6
-        Y = [Y] * 6
+        V = np.tile(V, 6)
+        Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
             luminance_Newhall1943(V),
             Y,
@@ -134,8 +134,8 @@ class TestLuminanceASTMD153508(unittest.TestCase):
             Y,
             decimal=7)
 
-        V = [V] * 6
-        Y = [Y] * 6
+        V = np.tile(V, 6)
+        Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
             luminance_ASTMD153508(V),
             Y,
@@ -210,8 +210,8 @@ class TestLuminance1976(unittest.TestCase):
             Y,
             decimal=7)
 
-        Lstar = [Lstar] * 6
-        Y = [Y] * 6
+        Lstar = np.tile(Lstar, 6)
+        Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
             luminance_1976(Lstar),
             Y,

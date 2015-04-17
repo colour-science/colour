@@ -2602,8 +2602,8 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67]]))
 
-        tri_spd[np.array([520, 530])] = np.array([(69.59, 69.59, 69.59),
-                                                  (81.73, 81.73, 81.73)])
+        tri_spd[np.array([520, 530])] = np.array([[69.59, 69.59, 69.59],
+                                                  [81.73, 81.73, 81.73]])
         np.testing.assert_almost_equal(
             tri_spd.values,
             np.array([[49.67, 49.67, 49.67],

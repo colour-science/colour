@@ -585,11 +585,11 @@ single_spd_plot(colour.SpectralPowerDistribution(
 print('\n')
 
 message_box('Plotting multiple spectral power distributions.')
-multi_spd_plot([colour.SpectralPowerDistribution(
+multi_spd_plot((colour.SpectralPowerDistribution(
     'Galvanized Steel Metal',
     galvanized_steel_metal_spd_data),
                 colour.SpectralPowerDistribution(
-                    'White Marble', white_marble_spd_data)])
+                    'White Marble', white_marble_spd_data)))
 
 print('\n')
 
@@ -806,7 +806,7 @@ bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
     bandpass_corrected_street_light_spd, method='Stearns 1988')
 
-multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
+multi_spd_plot((street_light_spd, bandpass_corrected_street_light_spd),
                title='Stearns Bandpass Correction')
 
 print('\n')
@@ -814,7 +814,7 @@ print('\n')
 message_box('Plotting a single "cone fundamentals" colour matching functions.')
 single_cmfs_plot('Stockman & Sharpe 2 Degree Cone Fundamentals',
                  y_label='Sensitivity',
-                 bounding_box=[390, 870, 0, 1.1])
+                 bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
@@ -822,7 +822,7 @@ message_box('Plotting multiple "cone fundamentals" colour matching functions.')
 multi_cmfs_plot(['Stockman & Sharpe 2 Degree Cone Fundamentals',
                  'Stockman & Sharpe 10 Degree Cone Fundamentals'],
                 y_label='Sensitivity',
-                bounding_box=[390, 870, 0, 1.1])
+                bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
@@ -831,9 +831,9 @@ pprint(sorted(colour.CMFS.keys()))
 single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
 single_cmfs_plot('CIE 1964 10 Degree Standard Observer')
 single_cmfs_plot('Stiles & Burch 1955 2 Degree RGB CMFs',
-                 bounding_box=[390, 830, -0.5, 3.5])
+                 bounding_box=(390, 830, -0.5, 3.5))
 single_cmfs_plot('Stiles & Burch 1959 10 Degree RGB CMFs',
-                 bounding_box=[390, 830, -0.5, 3.5])
+                 bounding_box=(390, 830, -0.5, 3.5))
 
 print('\n')
 
@@ -859,19 +859,19 @@ multi_spd_plot(colour.PHOTOPIC_LEFS.values(),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0, 0, 0, .1])
+               margins=(0, 0, 0, .1))
 
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
 multi_spd_plot(
-    [colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']],
+    (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
+     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     title='Photopic & Scotopic Luminous Efficiency Functions',
     y_label='Luminous Efficiency',
     legend_location='upper right',
     y_tighten=True,
-    margins=[0, 0, 0, .1])
+    margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -881,13 +881,13 @@ message_box(('Plotting a mesopic luminous efficiency function with given '
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
-multi_spd_plot([mesopic_luminous_efficiency_function,
+multi_spd_plot((mesopic_luminous_efficiency_function,
                 colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-                colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']],
+                colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0, 0, 0, .1])
+               margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -921,7 +921,7 @@ blackbody_spd = colour.blackbody_spd(
     ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
-multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
+multi_spd_plot((ASTM_G_173_spd, blackbody_spd),
                y_label='W / (sr m$^2$) / m',
                legend_location='upper right')
 
@@ -937,7 +937,7 @@ multi_spd_plot(blackbody_spds,
                use_spds_colours=True,
                normalise_spds_colours=True,
                legend_location='upper right',
-               bounding_box=[0, 1250, 0, 2.5e15])
+               bounding_box=(0, 1250, 0, 2.5e15))
 
 print('\n')
 

@@ -93,8 +93,8 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     --------
     >>> is_within_macadam_limits(np.array([0.3205, 0.4131, 0.51]), 'A')
     array(True, dtype=bool)
-    >>> a = np.array([(0.3205, 0.4131, 0.51),
-    ...               (0.0005, 0.0031, 0.001)])
+    >>> a = np.array([[0.3205, 0.4131, 0.51],
+    ...               [0.0005, 0.0031, 0.001]])
     >>> is_within_macadam_limits(a, 'A')
     array([ True, False], dtype=bool)
     """

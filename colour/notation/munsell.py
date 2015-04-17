@@ -623,8 +623,8 @@ def munsell_specification_to_xyY(specification):
     else:
         Y_minus = luminance_ASTMD153508(value_minus)
         Y_plus = luminance_ASTMD153508(value_plus)
-        x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
-        y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
+        x = LinearInterpolator1d((Y_minus, Y_plus), (x_minus, x_plus))(Y)
+        y = LinearInterpolator1d((Y_minus, Y_plus), (y_minus, y_plus))(Y)
 
     return np.array([x, y, Y / 100])
 
@@ -1305,8 +1305,8 @@ def hue_to_hue_angle(hue, code):
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
     return LinearInterpolator1d(
-        [0, 2, 3, 4, 5, 6, 8, 9, 10],
-        [0, 45, 70, 135, 160, 225, 255, 315, 360])(single_hue)
+        (0, 2, 3, 4, 5, 6, 8, 9, 10),
+        (0, 45, 70, 135, 160, 225, 255, 315, 360))(single_hue)
 
 
 def hue_angle_to_hue(hue_angle):
@@ -1339,8 +1339,8 @@ def hue_angle_to_hue(hue_angle):
     """
 
     single_hue = LinearInterpolator1d(
-        [0, 45, 70, 135, 160, 225, 255, 315, 360],
-        [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
+        (0, 45, 70, 135, 160, 225, 255, 315, 360),
+        (0, 2, 3, 4, 5, 6, 8, 9, 10))(hue_angle)
 
     if single_hue <= 0.5:
         code = 7
@@ -1825,15 +1825,15 @@ def xy_from_renotation_ovoid(specification):
             specification).lower()
 
         if interpolation_method == 'linear':
-            x = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                     [x_minus, x_plus])(hue_angle)
-            y = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                     [y_minus, y_plus])(hue_angle)
+            x = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                     (x_minus, x_plus))(hue_angle)
+            y = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                     (y_minus, y_plus))(hue_angle)
         elif interpolation_method == 'radial':
-            theta = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                         [theta_minus, theta_plus])(hue_angle)
-            rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                       [rho_minus, rho_plus])(hue_angle)
+            theta = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                         (theta_minus, theta_plus))(hue_angle)
+            rho = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                       (rho_minus, rho_plus))(hue_angle)
 
             x = rho * np.cos(np.radians(theta)) + x_grey
             y = rho * np.sin(np.radians(theta)) + y_grey
@@ -1902,7 +1902,7 @@ def LCHab_to_munsell_specification(LCHab):
     else:
         code = 8
 
-    hue = LinearInterpolator1d([0, 36], [0, 10])(Hab % 36)
+    hue = LinearInterpolator1d((0, 36), (0, 10))(Hab % 36)
     if hue == 0:
         hue = 10
 
@@ -1985,8 +1985,8 @@ def maximum_chroma_from_renotation(hue, value, code):
         L9 = luminance_ASTMD153508(9)
         L10 = luminance_ASTMD153508(10)
 
-        max_chroma = min(LinearInterpolator1d([L9, L10], [ma_limit_mcw, 0])(L),
-                         LinearInterpolator1d([L9, L10], [ma_limit_mccw, 0])(
+        max_chroma = min(LinearInterpolator1d((L9, L10), (ma_limit_mcw, 0))(L),
+                         LinearInterpolator1d((L9, L10), (ma_limit_mccw, 0))(
                              L))
     return max_chroma
 
@@ -2064,9 +2064,9 @@ def munsell_specification_to_xy(specification):
             x = x_minus
             y = y_minus
         else:
-            x = LinearInterpolator1d([chroma_minus, chroma_plus],
-                                     [x_minus, x_plus])(chroma)
-            y = LinearInterpolator1d([chroma_minus, chroma_plus],
-                                     [y_minus, y_plus])(chroma)
+            x = LinearInterpolator1d((chroma_minus, chroma_plus),
+                                     (x_minus, x_plus))(chroma)
+            y = LinearInterpolator1d((chroma_minus, chroma_plus),
+                                     (y_minus, y_plus))(chroma)
 
         return x, y

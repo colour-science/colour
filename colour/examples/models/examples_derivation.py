@@ -47,7 +47,7 @@ print(np.linalg.inv(colour.normalised_primary_matrix(
 
 print('\n')
 
-RGB = [56, 16, 100]
+RGB = (56, 16, 100)
 message_box(('Computing the normalised primary matrix for "RGB" luminance of '
              'given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))

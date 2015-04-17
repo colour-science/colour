@@ -2447,8 +2447,8 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd[510] = np.array([49.67, 49.67, 49.67])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
-        >>> tri_spd[np.array([520, 530])] = np.array([(69.59, 69.59, 69.59),
-        ...                                           (81.73, 81.73, 81.73)])
+        >>> tri_spd[np.array([520, 530])] = np.array([[69.59, 69.59, 69.59],
+        ...                                           [81.73, 81.73, 81.73]])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67],
                [ 69.59,  69.59,  69.59],

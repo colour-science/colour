@@ -10,7 +10,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Smits (1999) - Reflectance Recovery Computations')
 
-RGB = [0.35505307, 0.47995567, 0.61088035]
+RGB = (0.35505307, 0.47995567, 0.61088035)
 message_box(('Recovering reflectance using Smits (1999) method from '
              'given "RGB" colourspace array:\n'
              '\n\tRGB: {0}'.format(RGB)))

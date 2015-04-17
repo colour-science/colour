@@ -260,8 +260,8 @@ def multi_spd_plot(spds,
         'legend_location': 'upper left',
         'x_ticker': True,
         'y_ticker': True,
-        'limits': [min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)]}
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -297,7 +297,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         'title': '{0} - Colour Matching Functions'.format(cmfs.title)}
     settings.update(kwargs)
 
-    return multi_cmfs_plot([cmfs.name], **settings)
+    return multi_cmfs_plot((cmfs.name, ), **settings)
 
 
 def multi_cmfs_plot(cmfs=None, **kwargs):
@@ -332,9 +332,9 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 'CIE 1964 10 Degree Standard Observer')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (('x', [1, 0, 0]),
-                      ('y', [0, 1, 0]),
-                      ('z', [0, 0, 1])):
+    for axis, rgb in (('x', (1, 0, 0)),
+                      ('y', (0, 1, 0)),
+                      ('z', (0, 0, 1))):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
@@ -367,8 +367,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'y_ticker': True,
         'grid': True,
         'y_axis_line': True,
-        'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max)]}
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -531,7 +531,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
         'title': '{0} - Lightness Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_lightness_function_plot([function], **settings)
+    return multi_lightness_function_plot((function, ), **settings)
 
 
 def multi_lightness_function_plot(functions=None, **kwargs):
@@ -596,7 +596,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100],
+        'limits': (0, 100, 0, 100),
         'aspect': 'equal'})
     settings.update(kwargs)
 
