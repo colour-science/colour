@@ -12815,3 +12815,111 @@ def CCT_to_xy_CIE_D_profile(
 
 
 # CCT_to_xy_CIE_D_profile()
+
+# #############################################################################
+# #############################################################################
+# ### colour.volume.macadam_limits
+# #############################################################################
+# #############################################################################
+
+# #############################################################################
+# ### colour.is_within_macadam_limits
+# #############################################################################
+from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+from colour.volume.macadam_limits import *
+from colour.utilities import is_scipy_installed
+
+
+def is_within_macadam_limits_2d(xyY):
+    for i in range(len(xyY)):
+        is_within_macadam_limits(xyY[i], 'A')
+
+
+_XYZ_OPTIMAL_COLOUR_STIMULI_CACHE = {}
+_XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
+
+
+def _XYZ_optimal_colour_stimuli(illuminant):
+    optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
+
+    if optimal_colour_stimuli is None:
+        raise KeyError(
+            '"{0}" not found in factory optimal colour stimuli: "{1}".'.format(
+                illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+
+    cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
+    if cached_ocs is None:
+        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
+            np.array([np.ravel(xyY_to_XYZ(x) / 100)
+                      for x in optimal_colour_stimuli]))
+    return cached_ocs
+
+
+def is_within_macadam_limits_vectorise(xyY, illuminant, tolerance=None):
+    if is_scipy_installed(raise_exception=True):
+        from scipy.spatial import Delaunay
+
+        optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
+        triangulation = _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE.get(
+            illuminant)
+        if triangulation is None:
+            _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = \
+                triangulation = Delaunay(optimal_colour_stimuli)
+
+        simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
+        simplex = np.where(simplex >= 0, True, False)
+
+        return simplex
+
+
+def is_within_macadam_limits_analysis():
+    message_box('is_within_macadam_limits')
+
+    print('Reference:')
+    xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    print(is_within_macadam_limits(xyY, 'A'))
+
+    print('\n')
+
+    print('1d array input:')
+    print(is_within_macadam_limits_vectorise(xyY, 'A'))
+
+    print('\n')
+
+    print('2d array input:')
+    xyY = np.tile(xyY, (6, 1))
+    print(is_within_macadam_limits_vectorise(xyY, 'A'))
+
+    print('\n')
+
+    print('3d array input:')
+    xyY = np.reshape(xyY, (2, 3, 3))
+    print(is_within_macadam_limits_vectorise(xyY, 'A'))
+
+    print('\n')
+
+
+# is_within_macadam_limits_analysis()
+
+
+def is_within_macadam_limits_profile(
+        repeat_a=3, number_a=5, repeat_b=3, number_b=10):
+    times = timeit.Timer(
+        functools.partial(
+            is_within_macadam_limits_2d,
+            DATA_VGA1)).repeat(repeat_a, number_a)
+
+    a = min(times) / number_a
+
+    times = timeit.Timer(
+        functools.partial(
+            is_within_macadam_limits_vectorise,
+            DATA_VGA1, 'A')).repeat(repeat_b, number_b)
+
+    b = min(times) / number_b
+
+    print('is_within_macadam_limits\t{0}\t{1}\t{2}'.format(
+        len(DATA_VGA1), a, b))
+
+
+# is_within_macadam_limits_profile()
