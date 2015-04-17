@@ -225,9 +225,9 @@ def XYZ_to_CIECAM02(XYZ,
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(
-        RGB, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
+        RGB, RGB_w, Y_w, D)
     RGB_wc = full_chromatic_adaptation_forward(
-        RGB_w, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
+        RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_p = RGB_to_rgb(RGB_c)
@@ -235,9 +235,9 @@ def XYZ_to_CIECAM02(XYZ,
 
     # Applying forward post-adaptation non linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(
-        RGB_p, F_L[..., np.newaxis])
+        RGB_p, F_L)
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L[..., np.newaxis])
+        RGB_pw, F_L)
 
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
@@ -353,15 +353,14 @@ def CIECAM02_to_XYZ(J,
     D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
     # Computation full chromatic adaptation.
-    RGB_wc = full_chromatic_adaptation_forward(
-        RGB_w, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
+    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_pw = RGB_to_rgb(RGB_wc)
 
     # Applying post-adaptation non linear response compression.
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_pw, F_L[..., np.newaxis])
+        RGB_pw, F_L)
 
     # Computing achromatic responses for the stimulus and the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -388,14 +387,13 @@ def CIECAM02_to_XYZ(J,
 
     # Applying reverse post-adaptation non linear response compression.
     RGB_p = post_adaptation_non_linear_response_compression_reverse(
-        RGB_a, F_L[..., np.newaxis])
+        RGB_a, F_L)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(RGB_p)
 
     # Applying reverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_reverse(
-        RGB_c, RGB_w, Y_w[..., np.newaxis], D[..., np.newaxis])
+    RGB = full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
@@ -564,7 +562,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    RGB_c = ((Y_w * D / RGB_w) + 1 - D) * RGB
+    RGB_c = (((Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) +
+              1 - D[..., np.newaxis]) * RGB)
 
     return RGB_c
 
@@ -606,7 +605,8 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    RGB_c = RGB / (Y_w * (D / RGB_w) + 1 - D)
+    RGB_c = (RGB / (Y_w[..., np.newaxis] * (D[..., np.newaxis] / RGB_w) +
+                    1 - D[..., np.newaxis]))
 
     return RGB_c
 
@@ -673,13 +673,13 @@ def rgb_to_RGB(rgb):
 
 def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     """
-    Returns given CMCCAT2000 transform sharpened *RGB* arrayarrayarrayarrayarrayarray with post
+    Returns given CMCCAT2000 transform sharpened *RGB* array with post
     adaptation non linear response compression.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* arrayarrayarrayarrayarrayarray.
+        CMCCAT2000 transform sharpened *RGB* array.
 
     Returns
     -------
@@ -698,21 +698,21 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     F_L = np.asarray(F_L)
 
     # TODO: Check for negative values and their handling.
-    RGB_c = ((((400 * (F_L * RGB / 100) ** 0.42) /
-               (27.13 + (F_L * RGB / 100) ** 0.42))) + 0.1)
+    RGB_c = ((((400 * (F_L[..., np.newaxis] * RGB / 100) ** 0.42) /
+               (27.13 + (F_L[..., np.newaxis] * RGB / 100) ** 0.42))) + 0.1)
 
     return RGB_c
 
 
 def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     """
-    Returns given CMCCAT2000 transform sharpened *RGB* arrayarrayarrayarrayarray without post
+    Returns given CMCCAT2000 transform sharpened *RGB* array without post
     adaptation non linear response compression.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* arrayarrayarrayarrayarray.
+        CMCCAT2000 transform sharpened *RGB* array.
 
     Returns
     -------
@@ -731,8 +731,9 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     F_L = np.asarray(F_L)
 
     RGB_p = ((np.sign(RGB - 0.1) *
-              (100 / F_L) * ((27.13 * np.abs(RGB - 0.1)) /
-                             (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+              (100 / F_L[..., np.newaxis]) * ((27.13 * np.abs(RGB - 0.1)) /
+                                              (400 - np.abs(RGB - 0.1))) ** (
+                  1 / 0.42)))
 
     return RGB_p
 
@@ -740,7 +741,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
 def opponent_colour_dimensions_forward(RGB):
     """
     Returns opponent colour dimensions from given compressed CMCCAT2000
-    transform sharpened *RGB* arrayarrayarrayarray for forward CIECAM02 implementation
+    transform sharpened *RGB* array for forward CIECAM02 implementation
 
     Parameters
     ----------
@@ -938,7 +939,7 @@ def eccentricity_factor(h):
 def achromatic_response_forward(RGB, N_bb):
     """
     Returns the achromatic response :math:`A` from given compressed
-    CMCCAT2000 transform sharpened *RGB* arrayarrayarray and :math:`N_{bb}` chromatic
+    CMCCAT2000 transform sharpened *RGB* array and :math:`N_{bb}` chromatic
     induction factor for forward CIECAM02 implementation.
 
     Parameters

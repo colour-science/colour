@@ -92,7 +92,18 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
             XYZ_c,
             decimal=7)
 
+        XYZ_n = np.tile(XYZ_n, (6, 1))
+        XYZ_r = np.tile(XYZ_r, (6, 1))
+        Y_n = np.tile(Y_n, 6)
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),
+            XYZ_c,
+            decimal=7)
+
         XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+        XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
+        XYZ_r = np.reshape(XYZ_r, (2, 3, 3))
+        Y_n = np.reshape(Y_n, (2, 3))
         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
         np.testing.assert_almost_equal(
             chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n),

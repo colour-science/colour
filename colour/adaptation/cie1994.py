@@ -124,6 +124,10 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
+    Y_o = np.asarray(Y_o)
+    E_o1 = np.asarray(E_o1)
+    E_o2 = np.asarray(E_o2)
+
     if np.any(Y_o < 18) or np.any(Y_o > 100):
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
@@ -262,7 +266,8 @@ def effective_adapting_responses(xez, Y_o, E_o):
     Y_o = np.asarray(Y_o)
     E_o = np.asarray(E_o)
 
-    RGB_o = ((Y_o * E_o) / (100 * np.pi)) * xez
+    RGB_o = (((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) /
+              (100 * np.pi)) * xez)
 
     return RGB_o
 

@@ -7957,6 +7957,7 @@ def RGB_luminance_analysis():
 
     print('3d array input:')
     RGB = np.reshape(RGB, (2, 3, 3))
+    print(RGB)
     print(RGB_luminance_vectorise(RGB, P, W))
 
     print('\n')

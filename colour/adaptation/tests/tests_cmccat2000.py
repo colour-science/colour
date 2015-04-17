@@ -94,7 +94,20 @@ class TestCMCCAT2000Forward(unittest.TestCase):
             XYZ_c,
             decimal=7)
 
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        L_A1 = np.tile(L_A1, 6)
+        L_A2 = np.tile(L_A2, 6)
+        np.testing.assert_almost_equal(
+            CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            XYZ_c,
+            decimal=7)
+
         XYZ = np.reshape(XYZ, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+        L_A1 = np.reshape(L_A1, (2, 3))
+        L_A2 = np.reshape(L_A2, (2, 3))
         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
         np.testing.assert_almost_equal(
             CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
@@ -150,29 +163,42 @@ class TestCMCCAT2000Reverse(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        XYZ = np.array([19.52698326, 23.0683396, 24.97175229])
+        XYZ_c = np.array([19.52698326, 23.0683396, 24.97175229])
         XYZ_w = np.array([111.15, 100.00, 35.20])
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ_c = np.array([22.48, 22.74, 8.54])
+        XYZ = np.array([22.48, 22.74, 8.54])
         np.testing.assert_almost_equal(
-            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
-            XYZ_c,
+            CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            XYZ,
             decimal=7)
 
-        XYZ = np.tile(XYZ, (6, 1))
         XYZ_c = np.tile(XYZ_c, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
-            XYZ_c,
+            CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            XYZ,
             decimal=7)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
+        XYZ_w = np.tile(XYZ_w, (6, 1))
+        XYZ_wr = np.tile(XYZ_wr, (6, 1))
+        L_A1 = np.tile(L_A1, 6)
+        L_A2 = np.tile(L_A2, 6)
         np.testing.assert_almost_equal(
-            CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
-            XYZ_c,
+            CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            XYZ,
+            decimal=7)
+
+        XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
+        XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
+        XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
+        L_A1 = np.reshape(L_A1, (2, 3))
+        L_A2 = np.reshape(L_A2, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            XYZ,
             decimal=7)
 
 

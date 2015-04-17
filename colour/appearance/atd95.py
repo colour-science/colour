@@ -183,8 +183,8 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     k_2 = np.asarray(k_2)
     sigma = np.asarray(sigma)
 
-    XYZ = luminance_to_retinal_illuminance(XYZ, Y_0[..., np.newaxis])
-    XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0[..., np.newaxis])
+    XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
+    XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0)
 
     # Computing adaptation model.
     LMS = XYZ_to_LMS_ATD95(XYZ)
@@ -244,7 +244,7 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
     XYZ = np.asarray(XYZ)
     Y_c = np.asarray(Y_c)
 
-    return 18 * (Y_c * XYZ / 100.) ** 0.8
+    return 18 * (Y_c[..., np.newaxis] * XYZ / 100.) ** 0.8
 
 
 def XYZ_to_LMS_ATD95(XYZ):

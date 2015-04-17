@@ -98,7 +98,22 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             XYZ_2,
             decimal=7)
 
+        xy_o1 = np.tile(xy_o1, (6, 1))
+        xy_o2 = np.tile(xy_o2, (6, 1))
+        Y_o = np.tile(Y_o, 6)
+        E_o1 = np.tile(E_o1, 6)
+        E_o2 = np.tile(E_o2, 6)
+        np.testing.assert_almost_equal(
+            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
+            XYZ_2,
+            decimal=7)
+
         XYZ_1 = np.reshape(XYZ_1, (2, 3, 3))
+        xy_o1 = np.reshape(xy_o1, (2, 3, 2))
+        xy_o2 = np.reshape(xy_o2, (2, 3, 2))
+        Y_o = np.reshape(Y_o, (2, 3))
+        E_o1 = np.reshape(E_o1, (2, 3))
+        E_o2 = np.reshape(E_o2, (2, 3))
         XYZ_2 = np.reshape(XYZ_2, (2, 3, 3))
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),

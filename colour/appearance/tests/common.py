@@ -10,13 +10,6 @@ from __future__ import division, unicode_literals
 import csv
 import numpy as np
 import os
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
-
 from abc import abstractmethod
 from collections import defaultdict
 
