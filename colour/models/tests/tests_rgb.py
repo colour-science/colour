@@ -394,7 +394,16 @@ class TestXYZ_to_RGB(unittest.TestCase):
             RGB,
             decimal=7)
 
+        W_R = np.tile(W_R, (6, 1))
+        W_T = np.tile(W_T, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(XYZ, W_R, W_T, M),
+            RGB,
+            decimal=7)
+
         XYZ = np.reshape(XYZ, (2, 3, 3))
+        W_R = np.reshape(W_R, (2, 3, 2))
+        W_T = np.reshape(W_T, (2, 3, 2))
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_almost_equal(
             XYZ_to_RGB(XYZ, W_R, W_T, M),
@@ -467,7 +476,16 @@ class TestRGB_to_XYZ(unittest.TestCase):
             XYZ,
             decimal=7)
 
+        W_R = np.tile(W_R, (6, 1))
+        W_T = np.tile(W_T, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(RGB, W_R, W_T, M),
+            XYZ,
+            decimal=7)
+
         RGB = np.reshape(RGB, (2, 3, 3))
+        W_R = np.reshape(W_R, (2, 3, 2))
+        W_T = np.reshape(W_T, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
             RGB_to_XYZ(RGB, W_R, W_T, M),

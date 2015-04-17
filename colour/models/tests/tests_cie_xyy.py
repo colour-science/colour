@@ -82,23 +82,31 @@ class TestXYZ_to_xyY(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        illuminant = np.array([0.34567, 0.35850])
         xyY = np.array([0.26414772, 0.37770001, 0.1008])
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ),
+            XYZ_to_xyY(XYZ, illuminant),
             xyY,
             decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ),
+            XYZ_to_xyY(XYZ, illuminant),
+            xyY,
+            decimal=7)
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant),
             xyY,
             decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ),
+            XYZ_to_xyY(XYZ, illuminant),
             xyY,
             decimal=7)
 
@@ -259,23 +267,31 @@ class TestXYZ_to_xy(unittest.TestCase):
         """
 
         XYZ = np.array([0.69935853, 1., 0.94824534])
+        illuminant = np.array([0.34567, 0.35850])
         xy = np.array([0.26414772236966133, 0.37770000704815188])
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ),
+            XYZ_to_xy(XYZ, illuminant),
             xy,
             decimal=7)
 
-        xy = np.tile(xy, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
+        xy = np.tile(xy, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ),
+            XYZ_to_xy(XYZ, illuminant),
             xy,
             decimal=7)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ),
+            XYZ_to_xy(XYZ, illuminant),
+            xy,
+            decimal=7)
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.reshape(xy, (2, 3, 2))
+        xy = np.reshape(xy, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant),
             xy,
             decimal=7)
 

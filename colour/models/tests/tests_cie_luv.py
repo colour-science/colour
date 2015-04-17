@@ -88,23 +88,31 @@ class TestXYZ_to_Luv(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        illuminant = np.array([0.34567, 0.35850])
         Luv = np.array([37.9856291, -28.79229446, -1.3558195])
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(XYZ),
+            XYZ_to_Luv(XYZ, illuminant),
             Luv,
             decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         Luv = np.tile(Luv, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(XYZ),
+            XYZ_to_Luv(XYZ, illuminant),
+            Luv,
+            decimal=7)
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Luv(XYZ, illuminant),
             Luv,
             decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
         Luv = np.reshape(Luv, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_Luv(XYZ),
+            XYZ_to_Luv(XYZ, illuminant),
             Luv,
             decimal=7)
 
@@ -151,6 +159,41 @@ class TestLuv_to_XYZ(unittest.TestCase):
             Luv_to_XYZ(np.array([37.9856291, -34.23840374, -7.09461715]),
                        np.array([0.37208, 0.37529])),
             np.array([0.07049534, 0.1008, 0.09558313]),
+            decimal=7)
+
+    def test_n_dimensional_Luv_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensions
+        support.
+        """
+
+        Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+        illuminant = np.array([0.34567, 0.35850])
+        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant),
+            XYZ,
+            decimal=7)
+
+        Luv = np.tile(Luv, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant),
+            XYZ,
+            decimal=7)
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant),
+            XYZ,
+            decimal=7)
+
+        Luv = np.reshape(Luv, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant),
+            XYZ,
             decimal=7)
 
 
@@ -205,23 +248,31 @@ class TestLuv_to_uv(unittest.TestCase):
         """
 
         Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+        illuminant = np.array([0.34567, 0.35850])
         uv = np.array([0.1508531, 0.48532971])
         np.testing.assert_almost_equal(
-            Luv_to_uv(Luv),
+            Luv_to_uv(Luv, illuminant),
             uv,
             decimal=7)
 
         Luv = np.tile(Luv, (6, 1))
         uv = np.tile(uv, (6, 1))
         np.testing.assert_almost_equal(
-            Luv_to_uv(Luv),
+            Luv_to_uv(Luv, illuminant),
+            uv,
+            decimal=7)
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_almost_equal(
+            Luv_to_uv(Luv, illuminant),
             uv,
             decimal=7)
 
         Luv = np.reshape(Luv, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_almost_equal(
-            Luv_to_uv(Luv),
+            Luv_to_uv(Luv, illuminant),
             uv,
             decimal=7)
 

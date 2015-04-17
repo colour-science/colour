@@ -324,8 +324,13 @@ class TestWhitenessGanz1979(unittest.TestCase):
             decimal=7)
 
         xy = np.tile(xy, (6, 1))
-        Y = np.tile(Y, 6)
         WT = np.tile(WT, (6, 1))
+        np.testing.assert_almost_equal(
+            whiteness_Ganz1979(xy, Y),
+            WT,
+            decimal=7)
+
+        Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(xy, Y),
             WT,
@@ -389,9 +394,14 @@ class TestWhitenessCIE2004(unittest.TestCase):
             decimal=7)
 
         xy = np.tile(xy, (6, 1))
+        WT = np.tile(WT, (6, 1))
+        np.testing.assert_almost_equal(
+            whiteness_CIE2004(xy, Y, xy_n),
+            WT,
+            decimal=7)
+
         Y = np.tile(Y, 6)
         xy_n = np.tile(xy_n, (6, 1))
-        WT = np.tile(WT, (6, 1))
         np.testing.assert_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n),
             WT,

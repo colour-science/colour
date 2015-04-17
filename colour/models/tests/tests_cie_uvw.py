@@ -78,23 +78,31 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.1008, 0.09558313]) * 100
+        illuminant = np.array([0.34567, 0.35850])
         UVW = np.array([-28.0483277, -0.88052424, 37.00411491])
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ),
+            XYZ_to_UVW(XYZ, illuminant),
             UVW,
             decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ),
+            XYZ_to_UVW(XYZ, illuminant),
+            UVW,
+            decimal=7)
+
+        illuminant = np.tile(illuminant, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant),
             UVW,
             decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
+        illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ),
+            XYZ_to_UVW(XYZ, illuminant),
             UVW,
             decimal=7)
 
