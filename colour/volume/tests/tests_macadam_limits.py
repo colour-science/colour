@@ -51,6 +51,30 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         self.assertFalse(
             is_within_macadam_limits(np.array([0.0025, 0.0088, 0.034]), 'C'))
 
+    def test_n_dimensional_is_within_macadam_limits(self):
+        """
+        Tests :func:`colour.volume.macadam_limits.is_within_macadam_limits`
+        definition n-dimensional arrays support.
+        """
+
+        a = np.array([0.3205, 0.4131, 0.51])
+        b = np.array([True])
+        np.testing.assert_almost_equal(
+            is_within_macadam_limits(a, 'A'),
+            b)
+
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, 6)
+        np.testing.assert_almost_equal(
+            is_within_macadam_limits(a, 'A'),
+            b)
+
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3))
+        np.testing.assert_almost_equal(
+            is_within_macadam_limits(a, 'A'),
+            b)
+
 
 if __name__ == '__main__':
     unittest.main()

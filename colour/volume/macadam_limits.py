@@ -65,17 +65,19 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     return cached_ocs
 
 
-def is_within_macadam_limits(xyY, illuminant):
+def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     """
     Returns if given *CIE xyY* colourspace array is within MacAdam limits of
     given illuminant.
 
     Parameters
     ----------
-    xyY : array_like, (3,)
+    xyY : array_like
         *CIE xyY* colourspace array.
     illuminant : unicode
         Illuminant.
+    tolerance : numeric, optional
+        Tolerance allowed in the inside-triangle check.
 
     Returns
     -------
@@ -89,10 +91,12 @@ def is_within_macadam_limits(xyY, illuminant):
 
     Examples
     --------
-    >>> is_within_macadam_limits((0.3205, 0.4131, 0.51), 'A')
-    True
-    >>> is_within_macadam_limits((0.0005, 0.0031, 0.001), 'A')
-    False
+    >>> is_within_macadam_limits(np.array([0.3205, 0.4131, 0.51]), 'A')
+    array(True, dtype=bool)
+    >>> a = np.array([(0.3205, 0.4131, 0.51),
+    ...               (0.0005, 0.0031, 0.001)])
+    >>> is_within_macadam_limits(a, 'A')
+    array([ True, False], dtype=bool)
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -105,5 +109,7 @@ def is_within_macadam_limits(xyY, illuminant):
             _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = \
                 triangulation = Delaunay(optimal_colour_stimuli)
 
-        simplex = triangulation.find_simplex(np.ravel(xyY_to_XYZ(xyY)))
-        return True if simplex != -1 else False
+        simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
+        simplex = np.where(simplex >= 0, True, False)
+
+        return simplex
