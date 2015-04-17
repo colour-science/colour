@@ -182,7 +182,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
-    pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
+    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
     pylab.plot((xy[-1][0], xy[0][0]),
                (xy[-1][1], xy[0][1]),
                color='black',
@@ -361,7 +361,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, uv)))
 
-    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
     pylab.plot((uv[-1][0], uv[0][0]),
                (uv[-1][1], uv[0][1]),
                color='black',
@@ -545,7 +545,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, uv))
 
-    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
     pylab.plot((uv[-1][0], uv[0][0]),
                (uv[-1][1], uv[0][1]),
                color='black',

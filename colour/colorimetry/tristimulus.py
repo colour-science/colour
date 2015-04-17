@@ -170,7 +170,7 @@ def wavelength_to_XYZ(wavelength,
                         if cmfs.is_uniform() else
                         SplineInterpolator)
 
-        interpolators = [interpolator(wavelengths, values[:, i])
+        interpolators = [interpolator(wavelengths, values[..., i])
                          for i in range(values.shape[-1])]
 
         XYZ = np.dstack([interpolator(np.ravel(wavelength))

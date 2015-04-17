@@ -132,8 +132,8 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
         if colourspace == 'Pointer Gamut':
             xy = np.array(POINTER_GAMUT_BOUNDARIES)
             alpha_p, colour_p = 0.85, '0.95'
-            pylab.plot(xy[:, 0],
-                       xy[:, 1],
+            pylab.plot(xy[..., 0],
+                       xy[..., 1],
                        label='Pointer\'s Gamut',
                        color=colour_p,
                        alpha=alpha_p,
@@ -149,8 +149,8 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                 XYZ = Lab_to_XYZ(LCHab_to_Lab(LCHab), POINTER_GAMUT_ILLUMINANT)
                 xy.append(XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT))
             xy = np.array(xy)
-            pylab.scatter(xy[:, 0],
-                          xy[:, 1],
+            pylab.scatter(xy[..., 0],
+                          xy[..., 1],
                           alpha=alpha_p / 2,
                           color=colour_p,
                           marker='+')
@@ -190,10 +190,10 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[:, 0]))
-            y_limit_min.append(np.amin(primaries[:, 1]))
-            x_limit_max.append(np.amax(primaries[:, 0]))
-            y_limit_max.append(np.amax(primaries[:, 1]))
+            x_limit_min.append(np.amin(primaries[..., 0]))
+            y_limit_min.append(np.amin(primaries[..., 1]))
+            x_limit_max.append(np.amax(primaries[..., 0]))
+            y_limit_max.append(np.amax(primaries[..., 1]))
 
     settings.update({
         'legend': True,

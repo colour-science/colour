@@ -2769,7 +2769,8 @@ class TriSpectralPowerDistribution(object):
         values = self.values + self.__format_operand(x)
 
         for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(zip(self.wavelengths,
+                                              values[..., i]))
 
         return self
 
@@ -2916,7 +2917,8 @@ class TriSpectralPowerDistribution(object):
         values = self.values * self.__format_operand(x)
 
         for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(zip(self.wavelengths,
+                                              values[..., i]))
 
         return self
 
@@ -3065,7 +3067,8 @@ class TriSpectralPowerDistribution(object):
         values = self.values ** self.__format_operand(x)
 
         for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = dict(zip(self.wavelengths, values[:, i]))
+            self.__data[axis].data = dict(zip(self.wavelengths,
+                                              values[..., i]))
 
         return self
 
@@ -3114,9 +3117,9 @@ class TriSpectralPowerDistribution(object):
 
         default = np.resize(default, 3)
         value = np.array([(self.x.get(x, default[0]),
-                             self.y.get(x, default[1]),
-                             self.z.get(x, default[2]))
-                            for x in np.ravel(wavelength)])
+                           self.y.get(x, default[1]),
+                           self.z.get(x, default[2]))
+                          for x in np.ravel(wavelength)])
 
         value = np.reshape(value, wavelength.shape + (3,))
 
