@@ -136,6 +136,9 @@ def CMCCAT2000_forward(XYZ,
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
 
+    XYZ = np.asarray(XYZ)
+    XYZ_w = np.asarray(XYZ_w)
+    XYZ_wr = np.asarray(XYZ_wr)
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 
@@ -210,6 +213,9 @@ def CMCCAT2000_reverse(XYZ_c,
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
 
+    XYZ_c = np.asarray(XYZ_c)
+    XYZ_w = np.asarray(XYZ_w)
+    XYZ_wr = np.asarray(XYZ_wr)
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 

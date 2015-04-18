@@ -795,8 +795,7 @@ street_light_spd_data = {
     774: 9.2280000e-002,
     776: 9.0480000e-002,
     778: 9.0020000e-002,
-    780: 8.8190000e-002
-}
+    780: 8.8190000e-002}
 
 street_light_spd = colour.SpectralPowerDistribution('Street Light',
                                                     street_light_spd_data)

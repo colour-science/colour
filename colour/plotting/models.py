@@ -124,8 +124,8 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     if not CIE_1931_chromaticity_diagram_plot(**settings):
         return
 
-    x_limit_min, x_limit_max = (-0.1, ), (0.9, )
-    y_limit_min, y_limit_max = (-0.1, ), (0.9, )
+    x_limit_min, x_limit_max = [-0.1], [0.9]
+    y_limit_min, y_limit_max = [-0.1], [0.9]
 
     cycle = colour_cycle('rainbow')
     for colourspace in colourspaces:
@@ -190,10 +190,10 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]))
-            y_limit_min.append(np.amin(primaries[..., 1]))
-            x_limit_max.append(np.amax(primaries[..., 0]))
-            y_limit_max.append(np.amax(primaries[..., 1]))
+            x_limit_min.append(np.amin(primaries[:, 0]))
+            y_limit_min.append(np.amin(primaries[:, 1]))
+            x_limit_max.append(np.amax(primaries[:, 0]))
+            y_limit_max.append(np.amax(primaries[:, 1]))
 
     settings.update({
         'legend': True,

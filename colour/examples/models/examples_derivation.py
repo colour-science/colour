@@ -33,8 +33,8 @@ message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              'colourspace transforming from "ACES2065-1" colourspace to '
              '"CIE XYZ" tristimulus values using colour models dataset.'))
 print(colour.normalised_primary_matrix(
-    colour.ACES_RGB_COLOURSPACE.primaries,
-    colour.ACES_RGB_COLOURSPACE.whitepoint))
+    colour.ACES_2065_1_COLOURSPACE.primaries,
+    colour.ACES_2065_1_COLOURSPACE.whitepoint))
 
 print('\n')
 
@@ -42,8 +42,8 @@ message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              'colourspace transforming from "CIE XYZ" tristimulus values to '
              '"ACES2065-1" colourspace using colour models dataset.'))
 print(np.linalg.inv(colour.normalised_primary_matrix(
-    colour.ACES_RGB_COLOURSPACE.primaries,
-    colour.ACES_RGB_COLOURSPACE.whitepoint)))
+    colour.ACES_2065_1_COLOURSPACE.primaries,
+    colour.ACES_2065_1_COLOURSPACE.whitepoint)))
 
 print('\n')
 

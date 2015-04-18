@@ -7,15 +7,13 @@ Showcases *whiteness* computations.
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 import colour
 from colour.utilities.verbose import message_box
 
 message_box('"Whiteness" Computations')
 
-XYZ = np.array([95., 100., 105.])
-XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+XYZ = (95, 100, 105)
+XYZ_0 = (94.80966767, 100, 107.30513595)
 message_box(('Computing "whiteness" using Berger (1959) method for '
              'given sample and reference white "CIE XYZ" tristimulus values '
              'matrices:\n'
@@ -34,7 +32,7 @@ print(colour.whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method='Taube 1960'))
 
 print('\n')
 
-Lab = np.array([100., -2.46875131, -16.72486654])
+Lab = (100, -2.46875131, -16.72486654)
 message_box(('Computing "whiteness" using Stensby (1968) method for '
              'given sample "CIE Lab" colourspace array:\n'
              '\n\t{0}'.format(Lab)))

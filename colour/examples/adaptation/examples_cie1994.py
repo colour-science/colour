@@ -18,7 +18,7 @@ xy_o2 = (0.3127, 0.3290)
 Y_o = 20
 E_o1 = 1000
 E_o2 = 1000
-message_box(('Computing chromatic adaptation using CIE 1994 chromatic'
+message_box(('Computing chromatic adaptation using CIE 1994 chromatic '
              'adaptation model.\n'
              '\n\t"XYZ_1":\n\t\t{0}\n\t"xy_o1":\n\t\t{1}\n\t"xy_o2":\n\t\t{2}'
              '\n\t"Y_o":\n\t\t{3}\n\t"E_o1":\n\t\t{4}'

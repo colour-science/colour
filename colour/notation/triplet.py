@@ -52,6 +52,8 @@ def RGB_to_HEX(RGB):
     '#aaddff'
     """
 
+    RGB = np.asarray(RGB)
+
     to_HEX = np.vectorize('{0:02x}'.format)
 
     HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
