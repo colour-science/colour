@@ -40,16 +40,16 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         """
 
         self.assertTrue(
-            is_within_macadam_limits(np.array([0.3205, 0.4131, 0.51]), 'A'))
+            is_within_macadam_limits(np.array([0.3205, 0.4131, 0.5100]), 'A'))
 
         self.assertFalse(
-            is_within_macadam_limits(np.array([0.0005, 0.0031, 0.001]), 'A'))
+            is_within_macadam_limits(np.array([0.0005, 0.0031, 0.0010]), 'A'))
 
         self.assertTrue(
             is_within_macadam_limits(np.array([0.4325, 0.3788, 0.1034]), 'C'))
 
         self.assertFalse(
-            is_within_macadam_limits(np.array([0.0025, 0.0088, 0.034]), 'C'))
+            is_within_macadam_limits(np.array([0.0025, 0.0088, 0.0340]), 'C'))
 
     def test_n_dimensional_is_within_macadam_limits(self):
         """
@@ -57,7 +57,7 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        a = np.array([0.3205, 0.4131, 0.51])
+        a = np.array([0.3205, 0.4131, 0.5100])
         b = np.array([True])
         np.testing.assert_almost_equal(
             is_within_macadam_limits(a, 'A'),

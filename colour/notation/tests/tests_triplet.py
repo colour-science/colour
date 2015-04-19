@@ -42,15 +42,15 @@ class TestRGB_to_HEX(unittest.TestCase):
         """
 
         self.assertEqual(
-            RGB_to_HEX(np.array([0.25, 0.60, 0.05])),
+            RGB_to_HEX(np.array([0.25000000, 0.60000000, 0.05000000])),
             '#3f990c')
 
         self.assertEqual(
-            RGB_to_HEX(np.array([0, 0, 0])),
+            RGB_to_HEX(np.array([0.00000000, 0.00000000, 0.00000000])),
             '#000000')
 
         self.assertEqual(
-            RGB_to_HEX(np.array([1, 1, 1])),
+            RGB_to_HEX(np.array([1.00000000, 1.00000000, 1.00000000])),
             '#ffffff')
 
     def test_n_dimensional_RGB_to_HEX(self):
@@ -59,7 +59,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.25, 0.60, 0.05])
+        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
         HEX = '#3f990c'
         self.assertEqual(RGB_to_HEX(RGB), HEX)
 
@@ -85,7 +85,7 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             HEX_to_RGB('#3f990c'),
-            np.array([0.25, 0.60, 0.05]),
+            np.array([0.25000000, 0.60000000, 0.05000000]),
             decimal=2)
 
         np.testing.assert_almost_equal(
@@ -105,7 +105,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         HEX = '#3f990c'
-        RGB = np.array([0.25, 0.60, 0.05])
+        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
         np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
         HEX = np.tile(HEX, 6)

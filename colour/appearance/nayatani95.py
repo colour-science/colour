@@ -36,7 +36,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import tstack, tsplit, warning
+from colour.utilities import tstack, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -187,7 +187,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([95.05, 100, 108.88])
     >>> Y_o = 20.0
     >>> E_o = 5000.0
@@ -340,7 +340,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_RGB_Nayatani95(XYZ)  # doctest: +ELLIPSIS
     array([ 20.000520...,  19.999783...,  19.998831...])
     """
@@ -409,7 +409,7 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
 
     Examples
     --------
-    >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
+    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
@@ -458,7 +458,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
 
     Examples
     --------
-    >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
+    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
@@ -501,7 +501,7 @@ def protanopic_response(RGB, bRGB_o, xez, n):
 
     Examples
     --------
-    >>> RGB = np.array([20.0005206, 19.999783, 19.9988316])
+    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
     >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0

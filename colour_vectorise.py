@@ -200,7 +200,7 @@ def chromatic_adaptation_CIE1994_analysis():
     message_box('chromatic_adaptation_CIE1994')
 
     print('Reference:')
-    XYZ_1 = np.array([28.0, 21.26, 5.27])
+    XYZ_1 = np.array([28.00, 21.26, 5.27])
     xy_o1 = np.array([0.4476, 0.4074])
     xy_o2 = np.array([0.3127, 0.3290])
     Y_o = 20
@@ -677,8 +677,8 @@ def chromatic_adaptation_matrix_VonKries_analysis():
     message_box('chromatic_adaptation_matrix_VonKries')
 
     print('Reference:')
-    XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     print(chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
 
     print('\n')
@@ -753,9 +753,9 @@ def chromatic_adaptation_VonKries_analysis():
     message_box('chromatic_adaptation_VonKries')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-    XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     print(chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr))
 
     print('\n')
@@ -2411,7 +2411,7 @@ def CIECAM02_to_XYZ_analysis():
 def CIECAM02_to_XYZ_profile(
         repeat_a=3, number_a=5, repeat_b=3, number_b=10):
     C = 0.1047077571711053
-    h = 219.0484326582719
+    h = 219.04843265827190
     XYZ_w = np.array([95.05, 100.00, 108.88])
     L_A = 318.31
     Y_b = 20.0
@@ -2627,7 +2627,7 @@ def final_opponent_signals_vectorise(C_L, h_L):
 def XYZ_to_LLAB_analysis():
     message_box('XYZ_to_LLAB')
 
-    XYZ = np.array([19.01, 20, 21.78])
+    XYZ = np.array([19.01, 20.00, 21.78])
     XYZ_0 = np.array([95.05, 100, 108.88])
     Y_b = 20.0
     L = 318.31
@@ -3008,7 +3008,7 @@ def colourfulness_correlate_vectorise(C, B_rw):
 def XYZ_to_Nayatani95_analysis():
     message_box('XYZ_to_Nayatani95')
 
-    XYZ = np.array([19.01, 20, 21.78])
+    XYZ = np.array([19.01, 20.00, 21.78])
     XYZ_n = np.array([95.05, 100, 108.88])
     Y_o = 20.0
     E_o = 5000.0
@@ -3155,7 +3155,7 @@ def XYZ_to_RLAB_vectorise(XYZ,
 def XYZ_to_RLAB_analysis():
     message_box('XYZ_to_RLAB')
 
-    XYZ = np.array([19.01, 20, 21.78])
+    XYZ = np.array([19.01, 20.00, 21.78])
     XYZ_n = np.array([109.85, 100, 35.58])
     Y_n = 31.83
     sigma = RLAB_VIEWING_CONDITIONS['Average']
@@ -4731,7 +4731,7 @@ from colour.colorimetry.whiteness import *
 
 
 def whiteness_Berger1959_2d(XYZ):
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
 
     for i in range(len(XYZ)):
         whiteness_Berger1959(XYZ[i], XYZ_0)
@@ -4750,8 +4750,8 @@ def whiteness_Berger1959_analysis():
     message_box('whiteness_Berger1959')
 
     print('Reference:')
-    XYZ = np.array([95., 100., 105.])
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     print(whiteness_Berger1959(XYZ, XYZ_0))
 
     print('\n')
@@ -4779,7 +4779,7 @@ def whiteness_Berger1959_analysis():
 
 def whiteness_Berger1959_profile(
         repeat_a=3, number_a=5, repeat_b=3, number_b=10):
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
 
     times = timeit.Timer(
         functools.partial(
@@ -4807,7 +4807,7 @@ def whiteness_Berger1959_profile(
 
 
 def whiteness_Taube1960_2d(XYZ):
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
 
     for i in range(len(XYZ)):
         whiteness_Taube1960(XYZ[i], XYZ_0)
@@ -4826,8 +4826,8 @@ def whiteness_Taube1960_analysis():
     message_box('whiteness_Taube1960')
 
     print('Reference:')
-    XYZ = np.array([95., 100., 105.])
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     print(whiteness_Taube1960(XYZ, XYZ_0))
 
     print('\n')
@@ -4855,7 +4855,7 @@ def whiteness_Taube1960_analysis():
 
 def whiteness_Taube1960_profile(
         repeat_a=3, number_a=5, repeat_b=3, number_b=10):
-    XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
 
     times = timeit.Timer(
         functools.partial(
@@ -4969,7 +4969,7 @@ def whiteness_ASTM313_analysis():
     message_box('whiteness_ASTM313')
 
     print('Reference:')
-    XYZ = np.array([95., 100., 105.])
+    XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     print(whiteness_ASTM313(XYZ))
 
     print('\n')
@@ -5210,8 +5210,8 @@ def delta_E_CIE1976_analysis():
     message_box('delta_E_CIE1976')
 
     print('Reference:')
-    Lab1 = np.array([100, 21.57210357, 272.2281935])
-    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    Lab1 = np.array([100.00000000, 21.57210357, 272.2281935])
+    Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     print(delta_E_CIE1976(Lab1, Lab2))
 
     print('\n')
@@ -5308,8 +5308,8 @@ def delta_E_CIE1994_analysis():
     message_box('delta_E_CIE1994')
 
     print('Reference:')
-    Lab1 = np.array([100, 21.57210357, 272.2281935])
-    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    Lab1 = np.array([100.00000000, 21.57210357, 272.2281935])
+    Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     print(delta_E_CIE1994(Lab1, Lab2))
 
     print('\n')
@@ -5445,8 +5445,8 @@ def delta_E_CIE2000_analysis():
     message_box('delta_E_CIE2000')
 
     print('Reference:')
-    Lab1 = np.array([100, 21.57210357, 272.2281935])
-    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    Lab1 = np.array([100.00000000, 21.57210357, 272.2281935])
+    Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     print(delta_E_CIE2000(Lab1, Lab2))
 
     print('\n')
@@ -5555,8 +5555,8 @@ def delta_E_CMC_analysis():
     message_box('delta_E_CMC')
 
     print('Reference:')
-    Lab1 = np.array([100, 21.57210357, 272.2281935])
-    Lab2 = np.array([100, 426.67945353, 72.39590835])
+    Lab1 = np.array([100.00000000, 21.57210357, 272.2281935])
+    Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     print(delta_E_CMC(Lab1, Lab2))
 
     print('\n')
@@ -5654,7 +5654,7 @@ def XYZ_to_xyY_analysis():
     message_box('XYZ_to_xyY')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_xyY(XYZ))
 
     print('\n')
@@ -5676,7 +5676,7 @@ def XYZ_to_xyY_analysis():
     print('\n')
 
     print('3d array input:')
-    XYZ = np.reshape(np.tile([0.07049534, 0.1008, 0.09558313], (6, 1)),
+    XYZ = np.reshape(np.tile([0.07049534, 0.10080000, 0.09558313], (6, 1)),
                      (2, 3, 3))
     print(XYZ_to_xyY_vectorise(XYZ))
 
@@ -5739,7 +5739,7 @@ def xyY_to_XYZ_analysis():
     message_box('xyY_to_XYZ')
 
     print('Reference:')
-    xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    xyY = np.array([0.26414772, 0.37770001, 0.10080000])
     print(xyY_to_XYZ(xyY))
 
     print('\n')
@@ -5886,7 +5886,7 @@ def XYZ_to_xy_analysis():
     message_box('XYZ_to_xy')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_xy(XYZ))
 
     print('\n')
@@ -5981,7 +5981,7 @@ def XYZ_to_Lab_analysis():
     message_box('XYZ_to_Lab')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_Lab(XYZ))
 
     print('\n')
@@ -6069,7 +6069,7 @@ def Lab_to_XYZ_analysis():
     message_box('Lab_to_XYZ')
 
     print('Reference:')
-    Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     print(Lab_to_XYZ(Lab))
 
     print('\n')
@@ -6146,7 +6146,7 @@ def Lab_to_LCHab_analysis():
     message_box('Lab_to_LCHab')
 
     print('Reference:')
-    Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     print(Lab_to_LCHab(Lab))
 
     print('\n')
@@ -6216,7 +6216,7 @@ def LCHab_to_Lab_analysis():
     message_box('LCHab_to_Lab')
 
     print('Reference:')
-    LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+    LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
     print(LCHab_to_Lab(LCHab))
 
     print('\n')
@@ -6309,7 +6309,7 @@ def XYZ_to_Luv_analysis():
     message_box('XYZ_to_Luv')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_Luv(XYZ))
 
     print('\n')
@@ -6401,7 +6401,7 @@ def Luv_to_XYZ_analysis():
     message_box('Luv_to_XYZ')
 
     print('Reference:')
-    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     print(Luv_to_XYZ(Luv))
 
     print('\n')
@@ -6478,7 +6478,7 @@ def Luv_to_uv_analysis():
     message_box('Luv_to_uv')
 
     print('Reference:')
-    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     print(Luv_to_uv(Luv))
 
     print('\n')
@@ -6622,7 +6622,7 @@ def Luv_to_LCHuv_analysis():
     message_box('Luv_to_LCHuv')
 
     print('Reference:')
-    Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     print(Luv_to_LCHuv(Luv))
 
     print('\n')
@@ -6692,7 +6692,7 @@ def LCHuv_to_Luv_analysis():
     message_box('LCHuv_to_Luv')
 
     print('Reference:')
-    LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
+    LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
     print(LCHuv_to_Luv(LCHuv))
 
     print('\n')
@@ -6769,7 +6769,7 @@ def XYZ_to_UCS_analysis():
     message_box('XYZ_to_UCS')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_UCS(XYZ))
 
     print('\n')
@@ -6839,7 +6839,7 @@ def UCS_to_XYZ_analysis():
     message_box('UCS_to_XYZ')
 
     print('Reference:')
-    UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    UVW = np.array([0.04699689, 0.10080000, 0.1637439])
     print(UCS_to_XYZ(UVW))
 
     print('\n')
@@ -6909,7 +6909,7 @@ def UCS_to_uv_analysis():
     message_box('UCS_to_uv')
 
     print('Reference:')
-    UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    UVW = np.array([0.04699689, 0.10080000, 0.1637439])
     print(UCS_to_uv(UVW))
 
     print('\n')
@@ -7068,7 +7068,7 @@ def XYZ_to_UVW_analysis():
     message_box('XYZ_to_UVW')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     print(XYZ_to_UVW(XYZ))
 
     print('\n')
@@ -10138,7 +10138,7 @@ def XYZ_to_RGB_analysis():
     message_box('XYZ_to_RGB')
 
     print('Reference:')
-    XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
 
     print(XYZ_to_RGB(XYZ, W_R, W_T, M, CAT))
 
@@ -12876,7 +12876,7 @@ def is_within_macadam_limits_analysis():
     message_box('is_within_macadam_limits')
 
     print('Reference:')
-    xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    xyY = np.array([0.26414772, 0.37770001, 0.10080000])
     print(is_within_macadam_limits(xyY, 'A'))
 
     print('\n')

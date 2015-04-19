@@ -99,8 +99,6 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     p = (((c1 * n ** -2 * l ** -5) / np.pi) *
          (np.exp(c2 / (n * l * t)) - 1) ** -1)
 
-    p = np.nan_to_num(p)
-
     return p
 
 

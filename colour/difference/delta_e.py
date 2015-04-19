@@ -73,8 +73,8 @@ def delta_E_CIE1976(Lab1, Lab2, **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100, 21.57210357, 272.2281935])
-    >>> Lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CIE1976(Lab1, Lab2)  # doctest: +ELLIPSIS
     451.7133019...
     """
@@ -113,8 +113,8 @@ def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100, 21.57210357, 272.2281935])
-    >>> Lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CIE1994(Lab1, Lab2)  # doctest: +ELLIPSIS
     88.3355530...
     >>> delta_E_CIE1994(Lab1, Lab2, textiles=False)  # doctest: +ELLIPSIS
@@ -181,8 +181,8 @@ def delta_E_CIE2000(Lab1, Lab2, **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100, 21.57210357, 272.2281935])
-    >>> Lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CIE2000(Lab1, Lab2)  # doctest: +ELLIPSIS
     94.0356490...
     """
@@ -289,8 +289,8 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
 
     Examples
     --------
-    >>> Lab1 = np.array([100, 21.57210357, 272.2281935])
-    >>> Lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CMC(Lab1, Lab2)  # doctest: +ELLIPSIS
     172.7047712...
     """
@@ -378,8 +378,8 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100, 21.57210357, 272.2281935])
-    >>> Lab2 = np.array([100, 426.67945353, 72.39590835])
+    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E(Lab1, Lab2)  # doctest: +ELLIPSIS
     172.7047712...
     >>> delta_E(Lab1, Lab2, method='CIE 1976')  # doctest: +ELLIPSIS

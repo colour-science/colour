@@ -46,7 +46,7 @@ def RGB_to_HEX(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.66666667, 0.86666667, 1])
+    >>> RGB = np.array([0.66666667, 0.86666667, 1.00000000])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> RGB_to_HEX(RGB)  # doctest: +SKIP
     '#aaddff'

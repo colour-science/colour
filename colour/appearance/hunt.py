@@ -531,7 +531,7 @@ def XYZ_to_rgb(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_rgb(XYZ)  # doctest: +ELLIPSIS
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
@@ -692,9 +692,9 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 
     Examples
     --------
-    >>> rgb_p = np.array([98.0719355, 101.1375595, 100])
-    >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
-    >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
+    >>> rgb_p = np.array([98.07193550, 101.13755950, 100.00000000])
+    >>> rgb_b = np.array([0.99984505, 0.99983840, 0.99982674])
+    >>> rgb_w = np.array([97.37325710, 101.54968030, 108.88000000])
     >>> p = 0.1
     >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)  # noqa  # doctest: +ELLIPSIS
     array([ 88.0792742...,  91.8569553...,  98.4876543...])

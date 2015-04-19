@@ -235,7 +235,7 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> Y_0 = 318.31
     >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
     array([ 479.4445924...,  499.3174313...,  534.5631673...])
@@ -263,7 +263,7 @@ def XYZ_to_LMS_ATD95(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_LMS_ATD95(XYZ)  # doctest: +ELLIPSIS
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """

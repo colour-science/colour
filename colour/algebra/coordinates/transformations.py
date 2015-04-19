@@ -165,7 +165,7 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> vector = np.array([6, 0.32175055, 3.16227766])
+    >>> vector = np.array([6.00000000, 0.32175055, 3.16227766])
     >>> cylindrical_to_cartesian(vector)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """

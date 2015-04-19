@@ -114,7 +114,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     Examples
     --------
-    >>> XYZ_1 = np.array([28.0, 21.26, 5.27])
+    >>> XYZ_1 = np.array([28.00, 21.26, 5.27])
     >>> xy_o1 = np.array([0.4476, 0.4074])
     >>> xy_o2 = np.array([0.3127, 0.3290])
     >>> Y_o = 20
@@ -168,7 +168,7 @@ def XYZ_to_RGB_cie1994(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([28.0, 21.26, 5.27])
+    >>> XYZ = np.array([28.00, 21.26, 5.27])
     >>> XYZ_to_RGB_cie1994(XYZ)  # doctest: +ELLIPSIS
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
@@ -192,7 +192,7 @@ def RGB_to_XYZ_cie1994(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([25.8244273, 18.6791422, 4.8390194])
+    >>> RGB = np.array([25.82442730, 18.67914220, 4.83901940])
     >>> RGB_to_XYZ_cie1994(RGB)  # doctest: +ELLIPSIS
     array([ 28.  ,  21.26,   5.27])
     """
@@ -255,7 +255,7 @@ def effective_adapting_responses(xez, Y_o, E_o):
 
     Examples
     --------
-    >>> xez = np.array([1.11857195, 0.9329553, 0.32680879])
+    >>> xez = np.array([1.11857195, 0.93295530, 0.32680879])
     >>> E_o = 1000
     >>> Y_o = 20
     >>> effective_adapting_responses(xez, Y_o, E_o)  # doctest: +ELLIPSIS
@@ -387,7 +387,7 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
 
     Examples
     --------
-    >>> xez_1 = np.array([1.11857195, 0.9329553, 0.32680879])
+    >>> xez_1 = np.array([1.11857195, 0.93295530, 0.32680879])
     >>> xez_2 = np.array([1.00000372, 1.00000176, 0.99999461])
     >>> bRGB_o1 = np.array([3.74852518, 3.63920879, 2.78924811])
     >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
@@ -449,8 +449,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
 
     Examples
     --------
-    >>> RGB_1 = np.array([25.8244273, 18.6791422, 4.8390194])
-    >>> xez_1 = np.array([1.11857195, 0.9329553, 0.32680879])
+    >>> RGB_1 = np.array([25.82442730, 18.67914220, 4.83901940])
+    >>> xez_1 = np.array([1.11857195, 0.93295530, 0.32680879])
     >>> xez_2 = np.array([1.00000372, 1.00000176, 0.99999461])
     >>> bRGB_o1 = np.array([3.74852518, 3.63920879, 2.78924811])
     >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])

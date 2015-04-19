@@ -76,7 +76,7 @@ def XYZ_to_Lab(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """
@@ -132,7 +132,7 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -178,7 +178,7 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
     array([  37.9856291...,   24.0319036...,  190.5841597...])
     """
@@ -218,7 +218,7 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+    >>> LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """

@@ -12,7 +12,7 @@ from colour.utilities.verbose import message_box
 
 message_box('CIE 1994 Chromatic Adaptation Model Computations')
 
-XYZ_1 = (28.0, 21.26, 5.27)
+XYZ_1 = (28.00, 21.26, 5.27)
 xy_o1 = (0.4476, 0.4074)
 xy_o2 = (0.3127, 0.3290)
 Y_o = 20

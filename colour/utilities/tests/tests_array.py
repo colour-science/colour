@@ -100,23 +100,23 @@ class TestNormalise(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008, 0.0508937252])),
+            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252])),
             np.array([1., 0.87511585, 0.4418443]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008, 0.0508937252]),
+            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252]),
                       factor=10),
             np.array([10., 8.75115848, 4.418443]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008, 0.0508937252])),
+            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252])),
             np.array([0., 0., 1.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008, 0.0508937252]),
+            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252]),
                       clip=False),
             np.array([-2.26324069, -1.9805978, 1.]),
             decimal=7)
@@ -133,8 +133,7 @@ class TestSteps(unittest.TestCase):
         Tests :func:`colour.utilities.array.steps` definition.
         """
 
-        np.testing.assert_almost_equal(steps(range(0, 10, 2)),
-                                       np.array([2]))
+        np.testing.assert_almost_equal(steps(range(0, 10, 2)), np.array([2]))
 
         np.testing.assert_almost_equal(
             steps([1, 2, 3, 4, 6, 6.5]),
@@ -170,19 +169,19 @@ class TestInArray(unittest.TestCase):
 
         self.assertTrue(
             np.array_equal(
-                in_array(np.array([0.5, 0.6]),
+                in_array(np.array([0.50, 0.60]),
                          np.linspace(0, 10, 101)),
                 np.array([True, True])))
 
         self.assertFalse(
             np.array_equal(
-                in_array(np.array([0.5, 0.61]),
+                in_array(np.array([0.50, 0.61]),
                          np.linspace(0, 10, 101)),
                 np.array([True, True])))
 
         self.assertTrue(
             np.array_equal(
-                in_array(np.array([[0.5], [0.6]]),
+                in_array(np.array([[0.50], [0.60]]),
                          np.linspace(0, 10, 101)),
                 np.array([[True], [True]])))
 
@@ -193,17 +192,17 @@ class TestInArray(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            in_array(np.array([0.5, 0.6]),
+            in_array(np.array([0.50, 0.60]),
                      np.linspace(0, 10, 101)).shape,
             np.array([2]))
 
         np.testing.assert_almost_equal(
-            in_array(np.array([[0.5, 0.6]]),
+            in_array(np.array([[0.50, 0.60]]),
                      np.linspace(0, 10, 101)).shape,
             np.array([1, 2]))
 
         np.testing.assert_almost_equal(
-            in_array(np.array([[0.5], [0.6]]),
+            in_array(np.array([[0.50], [0.60]]),
                      np.linspace(0, 10, 101)).shape,
             np.array([2, 1]))
 

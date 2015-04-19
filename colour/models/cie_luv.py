@@ -80,7 +80,7 @@ def XYZ_to_Luv(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """
@@ -133,7 +133,7 @@ def Luv_to_XYZ(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -190,7 +190,7 @@ def Luv_to_uv(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.1508531...,  0.4853297...])
     """
@@ -268,7 +268,7 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
     array([  37.9856291...,   28.8241993...,  182.6960474...])
     """
@@ -308,7 +308,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
+    >>> LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """

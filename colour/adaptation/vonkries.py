@@ -67,8 +67,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     Examples
     --------
-    >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)  # noqa  # doctest: +ELLIPSIS
     array([[ 0.8687653..., -0.1416539...,  0.3871961...],
            [-0.1030072...,  1.0584014...,  0.1538646...],
@@ -76,8 +76,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     Using Bradford method:
 
-    >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> method = 'Bradford'
     >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
     array([[ 0.8446794..., -0.1179355...,  0.3948940...],
@@ -131,17 +131,17 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-    >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
     array([ 0.0839746...,  0.1141321...,  0.2862554...])
 
     Using Bradford method:
 
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-    >>> XYZ_w = np.array([1.09846607, 1., 0.3558228])
-    >>> XYZ_wr = np.array([0.95042855, 1., 1.08890037])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> method = 'Bradford'
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
     array([ 0.0854032...,  0.1140122...,  0.2972149...])

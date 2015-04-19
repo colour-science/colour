@@ -66,7 +66,7 @@ def XYZ_to_UCS(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0469968...,  0.1008    ,  0.1637439...])
     """
@@ -99,7 +99,7 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
-    >>> UVW = np.array([0.04699689, 0.1008, 0.1637439])
+    >>> UVW = np.array([0.04699689, 0.10080000, 0.16374390])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -133,7 +133,7 @@ def UCS_to_uv(UVW):
 
     Examples
     --------
-    >>> UCS = np.array([0.04699689, 0.1008, 0.1637439])
+    >>> UCS = np.array([0.04699689, 0.10080000, 0.16374390])
     >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
     array([ 0.1508530...,  0.3235531...])
     """

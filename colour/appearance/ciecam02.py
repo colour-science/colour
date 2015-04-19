@@ -332,7 +332,7 @@ def CIECAM02_to_XYZ(J,
     --------
     >>> J = 41.731091132513917
     >>> C = 0.1047077571711053
-    >>> h = 219.0484326582719
+    >>> h = 219.04843265827190
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -658,7 +658,7 @@ def rgb_to_RGB(rgb):
 
     Examples
     --------
-    >>> rgb = np.array([19.99693975, 20.00186123, 20.0135053])
+    >>> rgb = np.array([19.99693975, 20.00186123, 20.01350530])
     >>> rgb_to_RGB(rgb)  # doctest: +ELLIPSIS
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
@@ -688,7 +688,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
 
     Examples
     --------
-    >>> RGB = np.array([19.99693975, 20.00186123, 20.0135053])
+    >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
     >>> F_L = 1.16754446415
     >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
@@ -721,7 +721,7 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
 
     Examples
     --------
-    >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
     >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
@@ -755,7 +755,7 @@ def opponent_colour_dimensions_forward(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> opponent_colour_dimensions_forward(RGB)  # doctest: +ELLIPSIS
     array([-0.0006241..., -0.0005062...])
     """
@@ -956,7 +956,7 @@ def achromatic_response_forward(RGB, N_bb):
 
     Examples
     --------
-    >>> RGB = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> N_bb = 1.0003040045593807
     >>> achromatic_response_forward(RGB, N_bb)  # doctest: +ELLIPSIS
     23.9394809...
@@ -1124,7 +1124,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> e_t = 1.1740054728519145
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
     0.1497462...
     """
@@ -1216,7 +1216,7 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> e_t = 1.17400547285
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> RGB_a = np.array([7.9463202, 7.94711528, 7.94899595])
+    >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
     0.1047077...
     """

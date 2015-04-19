@@ -49,18 +49,18 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.25, 0.25])),
+            xy_to_z(np.array([0.2500, 0.2500])),
             0.5,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.00010, -0.07700])),
-            1.07690,
+            xy_to_z(np.array([0.0001, -0.0770])),
+            1.0769,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.00000, 1.00000])),
-            0.00000,
+            xy_to_z(np.array([0.0000, 1.0000])),
+            0.0,
             decimal=7)
 
 
@@ -95,7 +95,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                           0.300, 0.600,
                           0.150, 0.060]),
                 np.array([0.3127, 0.3290])),
-            np.array([[0.4123908, 0.35758434, 0.18048079],
+            np.array([[0.41239080, 0.35758434, 0.18048079],
                       [0.21263901, 0.71516868, 0.07219232],
                       [0.01933082, 0.11919478, 0.95053215]]),
             decimal=7)
@@ -130,7 +130,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             decimal=7)
 
         p, w = primaries_whitepoint(
-            np.array([[0.4123908, 0.35758434, 0.18048079],
+            np.array([[0.41239080, 0.35758434, 0.18048079],
                       [0.21263901, 0.71516868, 0.07219232],
                       [0.01933082, 0.11919478, 0.95053215]]))
         np.testing.assert_almost_equal(
@@ -191,7 +191,7 @@ class TestRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([50, 50, 50]),
+                np.array([50.0, 50.0, 50.0]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
@@ -201,7 +201,7 @@ class TestRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([74.6, 16.1, 100]),
+                np.array([74.6, 16.1, 100.0]),
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
@@ -225,7 +225,7 @@ class TestRGBLuminance(unittest.TestCase):
         n_dimensions support.
         """
 
-        RGB = np.array([50, 50, 50]),
+        RGB = np.array([50.0, 50.0, 50.0]),
         P = np.array([0.73470, 0.26530,
                       0.00000, 1.00000,
                       0.00010, -0.07700]),

@@ -58,7 +58,7 @@ class TestCartesianToSpherical(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             cartesian_to_spherical(np.array([6.3434, -0.9345, 18.5675])),
-            np.array([19.64342307, 1.2382903, -0.1462664]),
+            np.array([19.64342307, 1.23829030, -0.14626640]),
             decimal=7)
 
     def test_n_dimensional_cartesian_to_spherical(self):
@@ -118,7 +118,7 @@ class TestSphericalToCartesian(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spherical_to_cartesian(
-                np.array([19.64342307, 1.2382903, -0.1462664])),
+                np.array([19.64342307, 1.23829030, -0.14626640])),
             np.array([6.34339996, -0.93449999, 18.56750001]),
             decimal=7)
 
@@ -167,12 +167,12 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([3, 1, 6])),
-            np.array([6., 0.32175055, 3.16227766]),
+            np.array([6.00000000, 0.32175055, 3.16227766]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([-1, 9, 16])),
-            np.array([16., 1.68145355, 9.05538514]),
+            np.array([16.00000000, 1.68145355, 9.05538514]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -188,7 +188,7 @@ class TestCartesianToCylindrical(unittest.TestCase):
         """
 
         vector_i = np.array([3, 1, 6])
-        vector_o = np.array([6., 0.32175055, 3.16227766])
+        vector_o = np.array([6.00000000, 0.32175055, 3.16227766])
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(vector_i),
             vector_o,
@@ -237,7 +237,7 @@ class TestCylindricalToCartesian(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(
-                np.array([19.64342307, 1.2382903, -0.1462664])),
+                np.array([19.64342307, 1.23829030, -0.14626640])),
             np.array([-0.04774323, -0.138255, 19.64342307]),
             decimal=7)
 
@@ -248,7 +248,7 @@ class TestCylindricalToCartesian(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        vector_i = np.array([6., 0.32175055, 3.16227766])
+        vector_i = np.array([6.00000000, 0.32175055, 3.16227766])
         vector_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(vector_i),

@@ -250,7 +250,7 @@ def XYZ_to_LLAB(
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_0 = np.array([95.05, 100, 108.88])
     >>> Y_b = 20.0
     >>> L = 318.31
@@ -324,7 +324,7 @@ def XYZ_to_RGB_LLAB(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_RGB_LLAB(XYZ)  # doctest: +ELLIPSIS
     array([ 0.9414279...,  1.0404012...,  1.0897088...])
     """
@@ -363,7 +363,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     Examples
     --------
-    >>> RGB = np.array([0.94142795, 1.0404012, 1.08970885])
+    >>> RGB = np.array([0.94142795, 1.04040120, 1.08970885])
     >>> RGB_0 = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> Y = 20.0

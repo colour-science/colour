@@ -12,8 +12,8 @@ from colour.utilities.verbose import message_box
 
 message_box('"Whiteness" Computations')
 
-XYZ = (95, 100, 105)
-XYZ_0 = (94.80966767, 100, 107.30513595)
+XYZ = (95.00000000, 100.00000000, 105.00000000)
+XYZ_0 = (94.80966767, 100.00000000, 107.30513595)
 message_box(('Computing "whiteness" using Berger (1959) method for '
              'given sample and reference white "CIE XYZ" tristimulus values '
              'matrices:\n'
@@ -32,7 +32,7 @@ print(colour.whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method='Taube 1960'))
 
 print('\n')
 
-Lab = (100, -2.46875131, -16.72486654)
+Lab = (100.00000000, -2.46875131, -16.72486654)
 message_box(('Computing "whiteness" using Stensby (1968) method for '
              'given sample "CIE Lab" colourspace array:\n'
              '\n\t{0}'.format(Lab)))

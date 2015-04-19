@@ -94,7 +94,7 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_RGB_smits1999(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0214496...,  0.1315460...,  0.0928760...])
     """

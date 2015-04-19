@@ -16,7 +16,7 @@ message_box('Overall "Colour" Examples')
 
 message_box('N-Dimensional Arrays Support')
 
-XYZ = (0.07049534, 0.1008, 0.09558313)
+XYZ = (0.07049534, 0.10080000, 0.09558313)
 illuminant = (0.34567, 0.35850)
 message_box('Using 1d "array_like" parameter:\n'
             '\n{0}'.format(XYZ))
@@ -67,7 +67,7 @@ print('\n')
 message_box(('Definitions mixing "array_like" and "numeric" parameters '
              'expect the "numeric" parameters to have a dimension less than '
              'the "array_like" parameters.'))
-XYZ_1 = (28.0, 21.26, 5.27)
+XYZ_1 = (28.00, 21.26, 5.27)
 xy_o1 = (0.4476, 0.4074)
 xy_o2 = (0.3127, 0.3290)
 Y_o = 20

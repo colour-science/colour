@@ -299,7 +299,7 @@ def chromatic_adaptation_CMCCAT2000(
 
     Using the CMCCAT2000 reverse model:
 
-    >>> XYZ = np.array([19.52698326, 23.0683396, 24.97175229])
+    >>> XYZ = np.array([19.52698326, 23.06833960, 24.97175229])
     >>> XYZ_w = np.array([111.15, 100.00, 35.20])
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200

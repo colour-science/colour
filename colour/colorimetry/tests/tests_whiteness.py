@@ -52,22 +52,22 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
         self.assertAlmostEqual(
             whiteness_Berger1959(
-                np.array([95., 100., 105.]),
-                np.array([94.80966767, 100., 107.30513595])),
+                np.array([95.00000000, 100.00000000, 105.00000000]),
+                np.array([94.80966767, 100.00000000, 107.30513595])),
             30.36380178871724,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Berger1959(
-                np.array([105., 100., 95.]),
-                np.array([94.80966767, 100., 107.30513595])),
+                np.array([105.00000000, 100.00000000, 95.00000000]),
+                np.array([94.80966767, 100.00000000, 107.30513595])),
             5.5304692806739411,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Berger1959(
-                np.array([100., 100., 100.]),
-                np.array([100, 100., 100.])),
+                np.array([100.00000000, 100.00000000, 100.00000000]),
+                np.array([100.00000000, 100.00000000, 100.00000000])),
             33.300000000000011,
             places=7)
 
@@ -77,8 +77,8 @@ class TestWhitenessBerger1959(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        XYZ = np.array([95., 100., 105.])
-        XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
         W = 30.36380178871724
         np.testing.assert_almost_equal(
             whiteness_Berger1959(XYZ, XYZ_0),
@@ -116,22 +116,22 @@ class TestWhitenessTaube1960(unittest.TestCase):
 
         self.assertAlmostEqual(
             whiteness_Taube1960(
-                np.array([95., 100., 105.]),
-                np.array([94.80966767, 100., 107.30513595])),
+                np.array([95.00000000, 100.00000000, 105.00000000]),
+                np.array([94.80966767, 100.00000000, 107.30513595])),
             91.407173833416152,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Taube1960(
-                np.array([105., 100., 95.]),
-                np.array([94.80966767, 100., 107.30513595])),
+                np.array([105.00000000, 100.00000000, 95.00000000]),
+                np.array([94.80966767, 100.00000000, 107.30513595])),
             54.130300134995593,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Taube1960(
-                np.array([100., 100., 100.]),
-                np.array([100, 100., 100.])),
+                np.array([100.00000000, 100.00000000, 100.00000000]),
+                np.array([100.00000000, 100.00000000, 100.00000000])),
             100.0,
             places=7)
 
@@ -141,8 +141,8 @@ class TestWhitenessTaube1960(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        XYZ = np.array([95., 100., 105.])
-        XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
         WI = 91.407173833416152
         np.testing.assert_almost_equal(
             whiteness_Taube1960(XYZ, XYZ_0),
@@ -180,19 +180,19 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
         self.assertAlmostEqual(
             whiteness_Stensby1968(
-                np.array([100., -2.46875131, -16.72486654])),
+                np.array([100.00000000, -2.46875131, -16.72486654])),
             142.76834569000002,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Stensby1968(
-                np.array([100., 14.40943727, -9.61394885])),
+                np.array([100.00000000, 14.40943727, -9.61394885])),
             172.07015836000002,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Stensby1968(
-                np.array([1., 1., 1.])),
+                np.array([1.00000000, 1.00000000, 1.00000000])),
             1.0,
             places=7)
 
@@ -202,7 +202,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        Lab = np.array([100., -2.46875131, -16.72486654])
+        Lab = np.array([100.00000000, -2.46875131, -16.72486654])
         WI = 142.76834569000002
         np.testing.assert_almost_equal(
             whiteness_Stensby1968(Lab),
@@ -238,19 +238,19 @@ class TestWhitenessASTM313(unittest.TestCase):
 
         self.assertAlmostEqual(
             whiteness_ASTM313(
-                np.array([95., 100., 105.])),
+                np.array([95.00000000, 100.00000000, 105.00000000])),
             55.740000000000009,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_ASTM313(
-                np.array([105., 100., 95.])),
+                np.array([105.00000000, 100.00000000, 95.00000000])),
             21.860000000000014,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_ASTM313(
-                np.array([100., 100., 100.])),
+                np.array([100.00000000, 100.00000000, 100.00000000])),
             38.800000000000011,
             places=7)
 
@@ -260,7 +260,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         definition n_dimensions support.
         """
 
-        XYZ = np.array([95., 100., 105.])
+        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         WI = 55.740000000000009
         np.testing.assert_almost_equal(
             whiteness_ASTM313(XYZ),
@@ -317,7 +317,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         xy = np.array([0.3167, 0.3334])
         Y = 100
-        WT = np.array([85.6003766, 0.6789003])
+        WT = np.array([85.60037660, 0.67890030])
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(xy, Y),
             WT,

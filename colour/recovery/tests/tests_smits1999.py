@@ -56,7 +56,7 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             RGB_to_spectral_Smits1999(
-                np.array([0.77875824, 0.5772645, 0.50453169])).values,
+                np.array([0.77875824, 0.57726450, 0.50453169])).values,
             np.array([0.52493013,
                       0.51490862,
                       0.51239457,

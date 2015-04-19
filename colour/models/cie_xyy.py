@@ -74,7 +74,7 @@ def XYZ_to_xyY(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...,  0.1008    ])
     """
@@ -120,7 +120,7 @@ def xyY_to_XYZ(xyY):
 
     Examples
     --------
-    >>> xyY = np.array([0.26414772, 0.37770001, 0.1008])
+    >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
     >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -195,7 +195,7 @@ def XYZ_to_xy(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
     """

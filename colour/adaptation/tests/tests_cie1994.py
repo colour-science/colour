@@ -42,7 +42,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
-                XYZ_1=np.array([28.0, 21.26, 5.27]),
+                XYZ_1=np.array([28.00, 21.26, 5.27]),
                 xy_o1=np.array([0.4476, 0.4074]),
                 xy_o2=np.array([0.3127, 0.3290]),
                 Y_o=20,
@@ -64,7 +64,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
-                XYZ_1=np.array([0.4709771, 0.3495, 0.11301649]) * 100,
+                XYZ_1=np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
                 xy_o1=np.array([0.3127, 0.3290]),
                 xy_o2=np.array([0.4476, 0.4074]),
                 Y_o=20,
@@ -79,7 +79,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        XYZ_1 = np.array([28.0, 21.26, 5.27])
+        XYZ_1 = np.array([28.00, 21.26, 5.27])
         xy_o1 = np.array([0.4476, 0.4074])
         xy_o2 = np.array([0.3127, 0.3290])
         Y_o = 20

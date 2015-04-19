@@ -13,7 +13,6 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import EPSILON
-from colour.utilities.common import is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -84,7 +83,12 @@ def closest(y, x):
 
     Examples
     --------
-    >>> y = np.array([24.31357115, 63.62396289, 55.71528816, 62.70988028, 46.84480573, 25.40026416])  # noqa
+    >>> y = np.array([24.31357115,
+    ...               63.62396289,
+    ...               55.71528816,
+    ...               62.70988028,
+    ...               46.84480573,
+    ...               25.40026416])
     >>> closest(y, 63)
     62.70988028
     """
@@ -217,7 +221,7 @@ def in_array(a, b, tolerance=EPSILON):
 
     Examples
     --------
-    >>> a = np.array([0.5, 0.6])
+    >>> a = np.array([0.50, 0.60])
     >>> b = np.linspace(0, 10, 101)
     >>> np.in1d(a, b)
     array([ True, False], dtype=bool)

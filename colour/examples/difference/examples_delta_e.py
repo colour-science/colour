@@ -10,8 +10,8 @@ from colour.utilities.verbose import message_box
 
 message_box('"Delta E" Computations')
 
-Lab1 = (100, 21.57210357, 272.2281935)
-Lab2 = (100, 426.67945353, 72.39590835)
+Lab1 = (100.00000000, 21.57210357, 272.22819350)
+Lab2 = (100.00000000, 426.67945353, 72.39590835)
 message_box(('Computing "Delta E" with CIE 1976 method from given *CIE Lab* '
              'colourspace matrices:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))

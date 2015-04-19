@@ -74,7 +74,7 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         """
 
         wl = 700
-        XYZ = np.array([0.01135774, 0.004102, 0.])
+        XYZ = np.array([0.01135774, 0.00410200, 0.00000000])
         np.testing.assert_almost_equal(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ)
@@ -198,7 +198,7 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
         """
 
         wl = 700
-        LMS = np.array([0.00528607, 0.00032528, 0.])
+        LMS = np.array([0.00528607, 0.00032528, 0.00000000])
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
             LMS)
@@ -260,7 +260,7 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
         """
 
         wl = 700
-        XYZ = np.array([0.01096778, 0.00419594, 0.])
+        XYZ = np.array([0.01096778, 0.00419594, 0.00000000])
         np.testing.assert_almost_equal(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ)
@@ -322,7 +322,7 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         """
 
         wl = 700
-        XYZ = np.array([0.00981623, 0.00377614, 0.])
+        XYZ = np.array([0.00981623, 0.00377614, 0.00000000])
         np.testing.assert_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ)

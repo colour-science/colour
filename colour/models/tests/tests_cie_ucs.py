@@ -42,18 +42,18 @@ class TestXYZ_to_UCS(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_UCS(np.array([0.07049534, 0.1008, 0.09558313])),
-            np.array([0.04699689, 0.1008, 0.1637439]),
+            XYZ_to_UCS(np.array([0.07049534, 0.10080000, 0.09558313])),
+            np.array([0.04699689, 0.10080000, 0.1637439]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UCS(np.array([0.4709771, 0.3495, 0.11301649])),
-            np.array([0.31398473, 0.3495, 0.34526969]),
+            XYZ_to_UCS(np.array([0.47097710, 0.34950000, 0.11301649])),
+            np.array([0.31398473, 0.34950000, 0.34526969]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UCS(np.array([0.25506814, 0.1915, 0.08849752])),
-            np.array([0.17004543, 0.1915, 0.20396469]),
+            XYZ_to_UCS(np.array([0.25506814, 0.19150000, 0.08849752])),
+            np.array([0.17004543, 0.19150000, 0.20396469]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_UCS(self):
@@ -62,8 +62,8 @@ class TestXYZ_to_UCS(unittest.TestCase):
         support.
         """
 
-        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-        UCS = np.array([0.04699689, 0.1008, 0.1637439])
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        UCS = np.array([0.04699689, 0.10080000, 0.16374390])
         np.testing.assert_almost_equal(
             XYZ_to_UCS(XYZ),
             UCS,
@@ -96,18 +96,18 @@ class TestUCS_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UCS_to_XYZ(np.array([0.04699689, 0.1008, 0.1637439])),
-            np.array([0.07049534, 0.1008, 0.09558313]),
+            UCS_to_XYZ(np.array([0.04699689, 0.10080000, 0.16374390])),
+            np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_XYZ(np.array([0.31398473, 0.3495, 0.34526969])),
-            np.array([0.4709771, 0.3495, 0.11301649]),
+            UCS_to_XYZ(np.array([0.31398473, 0.34950000, 0.34526969])),
+            np.array([0.47097710, 0.34950000, 0.11301649]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_XYZ(np.array([0.17004543, 0.1915, 0.20396469])),
-            np.array([0.25506814, 0.1915, 0.08849752]),
+            UCS_to_XYZ(np.array([0.17004543, 0.19150000, 0.20396469])),
+            np.array([0.25506814, 0.19150000, 0.08849752]),
             decimal=7)
 
     def test_n_dimensional_UCS_to_XYZ(self):
@@ -116,8 +116,8 @@ class TestUCS_to_XYZ(unittest.TestCase):
         support.
         """
 
-        UCS = np.array([0.04699689, 0.1008, 0.1637439])
-        XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+        UCS = np.array([0.04699689, 0.10080000, 0.16374390])
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
             UCS_to_XYZ(UCS),
             XYZ,
@@ -150,17 +150,17 @@ class TestUCS_to_uv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UCS_to_uv(np.array([0.04699689, 0.1008, 0.1637439])),
+            UCS_to_uv(np.array([0.04699689, 0.10080000, 0.16374390])),
             np.array([0.15085309, 0.32355314]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_uv(np.array([0.31398473, 0.3495, 0.34526969])),
+            UCS_to_uv(np.array([0.31398473, 0.34950000, 0.34526969])),
             np.array([0.31125983, 0.34646688]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UCS_to_uv(np.array([0.17004543, 0.1915, 0.20396469])),
+            UCS_to_uv(np.array([0.17004543, 0.19150000, 0.20396469])),
             np.array([0.30069388, 0.33863231]),
             decimal=7)
 
@@ -170,7 +170,7 @@ class TestUCS_to_uv(unittest.TestCase):
         support.
         """
 
-        UCS = np.array([0.04699689, 0.1008, 0.1637439])
+        UCS = np.array([0.04699689, 0.10080000, 0.16374390])
         uv = np.array([0.15085309, 0.32355314])
         np.testing.assert_almost_equal(
             UCS_to_uv(UCS),
@@ -210,7 +210,7 @@ class TestUCS_uv_to_xy(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             UCS_uv_to_xy(np.array([0.31125983, 0.34646688])),
-            np.array([0.50453169, 0.3744]),
+            np.array([0.50453169, 0.37440000]),
             decimal=7)
 
         np.testing.assert_almost_equal(

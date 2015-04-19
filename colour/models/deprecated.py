@@ -144,7 +144,7 @@ def HSV_to_RGB(HSV):
 
     Examples
     --------
-    >>> HSV = np.array([0.27867384, 0.744, 0.98039216])
+    >>> HSV = np.array([0.27867384, 0.74400000, 0.98039216])
     >>> HSV_to_RGB(HSV)  # doctest: +ELLIPSIS
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
@@ -454,7 +454,7 @@ def CMYK_to_CMY(CMYK):
 
     Examples
     --------
-    >>> CMYK = np.array([0.5, 0, 0.744, 0.01960784])
+    >>> CMYK = np.array([0.50000000, 0.00000000, 0.74400000, 0.01960784])
     >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """

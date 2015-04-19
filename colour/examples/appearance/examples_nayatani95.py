@@ -11,7 +11,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Nayatani (1995) Colour Appearance Model Computations')
 
-XYZ = (19.01, 20, 21.78)
+XYZ = (19.01, 20.00, 21.78)
 XYZ_n = (95.05, 100, 108.88)
 Y_o = 20.0
 E_o = 5000.0

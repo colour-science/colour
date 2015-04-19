@@ -191,7 +191,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([22.1231935, 23.6054224, 22.9279534])
+    >>> RGB = np.array([22.12319350, 23.60542240, 22.92795340])
     >>> RGB_to_XYZ_fairchild1990(RGB)  # doctest: +ELLIPSIS
     array([ 19.53,  23.07,  24.97])
     """
@@ -222,7 +222,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Examples
     --------
-    >>> LMS = np.array([20.0005206, 19.999783, 19.9988316])
+    >>> LMS = np.array([20.00052060, 19.99978300, 19.99883160])
     >>> Y_n = 31.83
     >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
     array([ 0.9799324...,  0.9960035...,  1.0233041...])

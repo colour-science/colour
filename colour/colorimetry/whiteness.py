@@ -85,8 +85,8 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     30.3638017...
     """
@@ -125,8 +125,8 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     91.4071738...
     """
@@ -162,7 +162,7 @@ def whiteness_Stensby1968(Lab):
 
     Examples
     --------
-    >>> Lab = np.array([100., -2.46875131, -16.72486654])
+    >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
     """
@@ -199,7 +199,7 @@ def whiteness_ASTM313(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTM313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
@@ -383,8 +383,8 @@ def whiteness(method='CIE 2004', **kwargs):
     >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness(xy=xy, Y=Y, xy_n=xy_n)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> method = 'Taube 1960'
     >>> whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method=method)  # doctest: +ELLIPSIS
     91.4071738...

@@ -44,7 +44,7 @@ print(np.dot(colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
 
 print('\n')
 
-RGB = (0.35521588, 0.41, 0.24177934)
+RGB = (0.35521588, 0.41000000, 0.24177934)
 message_box(('Converting from "sRGB" colourspace to "ProPhoto RGB" '
              'colourspace given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))

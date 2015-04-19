@@ -694,7 +694,7 @@ def xyY_to_munsell_specification(xyY):
 
     Examples
     --------
-    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
+    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
     (4.1742530..., 8.0999999..., 5.3044360..., 6)
     """
@@ -933,7 +933,7 @@ def xyY_to_munsell_colour(xyY,
 
     Examples
     --------
-    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
+    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> xyY_to_munsell_colour(xyY)  # doctest: +SKIP
     '4.2YR 8.1/5.3'

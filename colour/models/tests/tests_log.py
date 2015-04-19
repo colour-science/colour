@@ -85,7 +85,7 @@ class TestLinearToCineon(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_cineon(0),
+            linear_to_cineon(0.00),
             0.092864125122189639,
             places=7)
 
@@ -95,7 +95,7 @@ class TestLinearToCineon(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_cineon(1),
+            linear_to_cineon(1.00),
             0.66959921798631472,
             places=7)
 
@@ -113,7 +113,7 @@ class TestCineonToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             cineon_to_linear(0.092864125122189639),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -123,7 +123,7 @@ class TestCineonToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             cineon_to_linear(0.66959921798631472),
-            1,
+            1., 
             places=7)
 
 
@@ -139,7 +139,7 @@ class TestLinearToPanalog(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_panalog(0),
+            linear_to_panalog(0.00),
             0.062561094819159335,
             places=7)
 
@@ -149,7 +149,7 @@ class TestLinearToPanalog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_panalog(1),
+            linear_to_panalog(1.00),
             0.66568914956011727,
             places=7)
 
@@ -167,7 +167,7 @@ class TestPanalogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             panalog_to_linear(0.062561094819159335),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -177,7 +177,7 @@ class TestPanalogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             panalog_to_linear(0.66568914956011727),
-            1,
+            1., 
             places=7)
 
 
@@ -193,8 +193,8 @@ class TestLinearToRedLog(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_red_log(0),
-            0,
+            linear_to_red_log(0.00),
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -203,8 +203,8 @@ class TestLinearToRedLog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_red_log(1),
-            1,
+            linear_to_red_log(1.00),
+            1., 
             places=7)
 
 
@@ -220,8 +220,8 @@ class TestRedLogToLinear(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            red_log_to_linear(0),
-            0,
+            red_log_to_linear(0.00),
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -230,8 +230,8 @@ class TestRedLogToLinear(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            red_log_to_linear(1),
-            1,
+            red_log_to_linear(1.00),
+            1., 
             places=7)
 
 
@@ -257,8 +257,8 @@ class TestLinearToViperLog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_viper_log(1),
-            1,
+            linear_to_viper_log(1.00),
+            1., 
             places=7)
 
 
@@ -284,8 +284,8 @@ class TestViperLogToLinear(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            viper_log_to_linear(1),
-            1,
+            viper_log_to_linear(1.00),
+            1., 
             places=7)
 
 
@@ -311,7 +311,7 @@ class TestLinearToPivotedLog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_pivoted_log(1),
+            linear_to_pivoted_log(1.00),
             0.6533902722082191,
             places=7)
 
@@ -339,7 +339,7 @@ class TestPivotedLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             pivoted_log_to_linear(0.6533902722082191),
-            1,
+            1., 
             places=7)
 
 
@@ -355,7 +355,7 @@ class TestLinearToCLog(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_c_log(0),
+            linear_to_c_log(0.00),
             0.073059700000000005,
             places=7)
 
@@ -365,7 +365,7 @@ class TestLinearToCLog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_c_log(1),
+            linear_to_c_log(1.00),
             0.62740830453765284,
             places=7)
 
@@ -383,7 +383,7 @@ class TestCLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             c_log_to_linear(0.073059700000000005),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -393,7 +393,7 @@ class TestCLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             c_log_to_linear(0.62740830453765284),
-            1,
+            1., 
             places=7)
 
 
@@ -409,7 +409,7 @@ class TestLinearToAcesCc(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_aces_cc(0),
+            linear_to_aces_cc(0.00),
             -0.35844748858447484,
             places=7)
 
@@ -419,7 +419,7 @@ class TestLinearToAcesCc(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_aces_cc(1),
+            linear_to_aces_cc(1.00),
             0.5547945205479452,
             places=7)
 
@@ -436,7 +436,7 @@ class TestAcesCcToLinear(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            aces_cc_to_linear(0),
+            aces_cc_to_linear(0.00),
             0.0011857371917920374,
             places=7)
 
@@ -447,7 +447,7 @@ class TestAcesCcToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             aces_cc_to_linear(0.5547945205479452),
-            1,
+            1., 
             places=7)
 
 
@@ -463,7 +463,7 @@ class TestLinearToAlexaLogC(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_alexa_log_c(0),
+            linear_to_alexa_log_c(0.00),
             0.092809,
             places=7)
 
@@ -473,7 +473,7 @@ class TestLinearToAlexaLogC(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_alexa_log_c(1),
+            linear_to_alexa_log_c(1.00),
             0.57063155812041733,
             places=7)
 
@@ -491,7 +491,7 @@ class TestAlexaLogCToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             alexa_log_c_to_linear(0.092809),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -501,7 +501,7 @@ class TestAlexaLogCToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             alexa_log_c_to_linear(0.57063155812041733),
-            1,
+            1., 
             places=7)
 
 
@@ -517,7 +517,7 @@ class TestLinearToDciP3Log(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_dci_p3_log(0),
+            linear_to_dci_p3_log(0.00),
             0.0,
             places=7)
 
@@ -527,7 +527,7 @@ class TestLinearToDciP3Log(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_dci_p3_log(1),
+            linear_to_dci_p3_log(1.00),
             893.4459834052784,
             places=7)
 
@@ -545,7 +545,7 @@ class TestDciP3LogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             dci_p3_log_to_linear(0.0),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -555,7 +555,7 @@ class TestDciP3LogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             dci_p3_log_to_linear(893.4459834052784),
-            1,
+            1., 
             places=7)
 
 
@@ -571,7 +571,7 @@ class TestLinearToSLog(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_s_log(0),
+            linear_to_s_log(0.00),
             0.030001222851889303,
             places=7)
 
@@ -581,7 +581,7 @@ class TestLinearToSLog(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_s_log(1),
+            linear_to_s_log(1.00),
             0.65352925122530825,
             places=7)
 
@@ -599,7 +599,7 @@ class TestSLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log_to_linear(0.030001222851889303),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -609,7 +609,7 @@ class TestSLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log_to_linear(0.65352925122530825),
-            1,
+            1., 
             places=7)
 
 
@@ -625,7 +625,7 @@ class TestLinearToSLog2(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_s_log2(0),
+            linear_to_s_log2(0.00),
             0.088251291513445795,
             places=7)
 
@@ -635,7 +635,7 @@ class TestLinearToSLog2(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_s_log2(1),
+            linear_to_s_log2(1.00),
             0.63855168462253165,
             places=7)
 
@@ -653,7 +653,7 @@ class TestSLog2ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log2_to_linear(0.088251291513445795),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -663,7 +663,7 @@ class TestSLog2ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log2_to_linear(0.63855168462253165),
-            1,
+            1., 
             places=7)
 
 
@@ -679,7 +679,7 @@ class TestLinearToSLog3(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            linear_to_s_log3(0),
+            linear_to_s_log3(0.00),
             0.09286412512218964,
             places=7)
 
@@ -689,7 +689,7 @@ class TestLinearToSLog3(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            linear_to_s_log3(1),
+            linear_to_s_log3(1.00),
             0.59602734369012345,
             places=7)
 
@@ -707,7 +707,7 @@ class TestSLog3ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log3_to_linear(0.09286412512218964),
-            0,
+            0.,
             places=7)
 
         self.assertAlmostEqual(
@@ -717,5 +717,5 @@ class TestSLog3ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log3_to_linear(0.59602734369012345),
-            1,
+            1., 
             places=7)

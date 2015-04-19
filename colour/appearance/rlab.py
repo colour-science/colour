@@ -192,7 +192,7 @@ def XYZ_to_RLAB(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
     >>> sigma = RLAB_VIEWING_CONDITIONS['Average']

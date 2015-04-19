@@ -65,8 +65,7 @@ __all__ = ['ColourChecker_Specification',
 ColourChecker_Specification = namedtuple('ColourChecker_Specification',
                                          ('index', 'name', 'x', 'y', 'Y'))
 
-ColourChecker = namedtuple('ColourChecker',
-                           ('name', 'data', 'illuminant'))
+ColourChecker = namedtuple('ColourChecker', ('name', 'data', 'illuminant'))
 
 BABELCOLOR_AVERAGE_DATA = (
     (1, 'dark skin', 0.4325, 0.3788, 0.1034),

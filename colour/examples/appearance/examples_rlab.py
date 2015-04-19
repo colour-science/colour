@@ -11,7 +11,7 @@ from colour.utilities.verbose import message_box
 
 message_box('RLAB Colour Appearance Model Computations')
 
-XYZ = (19.01, 20, 21.78)
+XYZ = (19.01, 20.00, 21.78)
 XYZ_n = (109.85, 100, 35.58)
 Y_n = 31.83
 sigma = colour.RLAB_VIEWING_CONDITIONS['Average']
