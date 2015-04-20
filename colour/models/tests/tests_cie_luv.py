@@ -316,15 +316,15 @@ class TestLuv_to_LCHuv(unittest.TestCase):
             LCHuv,
             decimal=7)
 
-        LCHuv = np.tile(LCHuv, (6, 1))
         Luv = np.tile(Luv, (6, 1))
+        LCHuv = np.tile(LCHuv, (6, 1))
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(Luv),
             LCHuv,
             decimal=7)
 
-        LCHuv = np.reshape(LCHuv, (2, 3, 3))
         Luv = np.reshape(Luv, (2, 3, 3))
+        LCHuv = np.reshape(LCHuv, (2, 3, 3))
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(Luv),
             LCHuv,
@@ -424,15 +424,15 @@ class TestLuv_uv_to_xy(unittest.TestCase):
             xy,
             decimal=7)
 
-        xy = np.tile(xy, (6, 1))
         uv = np.tile(uv, (6, 1))
+        xy = np.tile(xy, (6, 1))
         np.testing.assert_almost_equal(
             Luv_uv_to_xy(uv),
             xy,
             decimal=7)
 
-        xy = np.reshape(xy, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
+        xy = np.reshape(xy, (2, 3, 2))
         np.testing.assert_almost_equal(
             Luv_uv_to_xy(uv),
             xy,

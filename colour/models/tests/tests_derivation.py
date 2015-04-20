@@ -63,6 +63,33 @@ class Testxy_to_z(unittest.TestCase):
             0.0,
             decimal=7)
 
+    def test_n_dimensions_xy_to_z(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.xy_to_z` definition
+        n-dimensions support.
+        """
+
+        xy = np.array([0.25, 0.25])
+        z = 0.5
+        np.testing.assert_almost_equal(
+            xy_to_z(xy),
+            z,
+            decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        z = np.tile(z, 6, )
+        np.testing.assert_almost_equal(
+            xy_to_z(xy),
+            z,
+            decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        z = np.reshape(z, (2, 3))
+        np.testing.assert_almost_equal(
+            xy_to_z(xy),
+            z,
+            decimal=7)
+
 
 class TestNormalisedPrimaryMatrix(unittest.TestCase):
     """
