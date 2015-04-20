@@ -115,7 +115,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +ELLIPSIS
+    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -248,7 +248,7 @@ def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +ELLIPSIS
+    >>> colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -383,7 +383,7 @@ def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +ELLIPSIS
+    >>> colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
