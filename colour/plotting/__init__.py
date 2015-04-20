@@ -50,6 +50,8 @@ from .corresponding import corresponding_chromaticities_prediction_plot
 from .models import (
     get_RGB_colourspace,
     colourspaces_CIE_1931_chromaticity_diagram_plot,
+    colourspaces_CIE_1960_UCS_chromaticity_diagram_plot,
+    colourspaces_CIE_1976_UCS_chromaticity_diagram_plot,
     single_transfer_function_plot,
     multi_transfer_function_plot)
 from .notation import (
@@ -111,6 +113,8 @@ __all__ += [
 __all__ += [
     'get_RGB_colourspace',
     'colourspaces_CIE_1931_chromaticity_diagram_plot',
+    'colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
+    'colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']
 __all__ += [

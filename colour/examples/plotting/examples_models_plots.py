@@ -21,6 +21,22 @@ colourspaces_CIE_1931_chromaticity_diagram_plot(
 
 print('\n')
 
+message_box(('Plotting "RGB" colourspaces in '
+             '"CIE 1960 UCS Chromaticity Diagram".'))
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
+colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
+
+print('\n')
+
+message_box(('Plotting "RGB" colourspaces in '
+             '"CIE 1976 UCS Chromaticity Diagram".'))
+pprint(sorted(colour.RGB_COLOURSPACES.keys()))
+colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
+
+print('\n')
+
 message_box(('Plotting a single custom "RGB" colourspace in '
              '"CIE 1931 Chromaticity Diagram".'))
 colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
