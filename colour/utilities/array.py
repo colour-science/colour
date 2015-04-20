@@ -96,7 +96,7 @@ def closest(y, x):
     return y[(np.abs(np.array(y) - x)).argmin()]
 
 
-def normalise(x, factor=1, clip=True):
+def normalise(x, axis=None, factor=1, clip=True):
     """
     Normalises given *array_like* :math:`x` variable values and optionally clip
     them between.
@@ -105,8 +105,10 @@ def normalise(x, factor=1, clip=True):
     ----------
     x : array_like
         :math:`x` variable to normalise.
+    axis : numeric, optional
+        Normalization axis.
     factor : numeric, optional
-        Normalization factor
+        Normalization factor.
     clip : bool, optional
         Clip values between in domain [0, 'factor'].
 
@@ -124,8 +126,8 @@ def normalise(x, factor=1, clip=True):
 
     x = np.asarray(x)
 
-    maximum = np.max(x)
-    x *= (1 / maximum) * factor
+    maximum = np.max(x, axis=axis)
+    x *= (1 / maximum[..., np.newaxis]) * factor
 
     return np.clip(x, 0, factor) if clip else x
 
