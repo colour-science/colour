@@ -21,7 +21,6 @@ import numpy as np
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
     SpectralPowerDistribution)
-from colour.utilities import handle_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -42,7 +41,6 @@ C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
 N = 1
 
 
-@handle_numpy_errors(over='ignore')
 def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
