@@ -122,7 +122,7 @@ class TestNormalise(unittest.TestCase):
                       [0.69935853, 1., 0.94824534],
                       [0.45084753, 1., 0.82851503]]),
             decimal=7)
-        
+
         np.testing.assert_almost_equal(
             normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252]),
                       factor=10),
