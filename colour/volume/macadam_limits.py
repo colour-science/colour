@@ -60,8 +60,7 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
     if cached_ocs is None:
         _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
-            np.array([np.ravel(xyY_to_XYZ(x) / 100)
-                      for x in optimal_colour_stimuli]))
+            xyY_to_XYZ(optimal_colour_stimuli) / 100)
     return cached_ocs
 
 
