@@ -24,18 +24,18 @@ from __future__ import division, unicode_literals
 from collections import namedtuple
 
 from colour.adaptation import (
-    chromatic_adaptation_VonKries,
     chromatic_adaptation_CIE1994,
     chromatic_adaptation_CMCCAT2000,
-    chromatic_adaptation_Fairchild1990)
+    chromatic_adaptation_Fairchild1990,
+    chromatic_adaptation_VonKries)
 from colour.corresponding import (
     BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
 from colour.models import (
-    XYZ_to_xy,
-    XYZ_to_Luv,
     Luv_to_uv,
     Luv_uv_to_xy,
+    XYZ_to_Luv,
+    XYZ_to_xy,
     xy_to_XYZ)
 from colour.utilities import CaseInsensitiveMapping
 
@@ -47,10 +47,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['CorrespondingChromaticitiesPrediction',
-           'corresponding_chromaticities_prediction_VonKries',
            'corresponding_chromaticities_prediction_CIE1994',
            'corresponding_chromaticities_prediction_CMCCAT2000',
            'corresponding_chromaticities_prediction_Fairchild1990',
+           'corresponding_chromaticities_prediction_VonKries',
            'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS']
 
 
@@ -71,68 +71,6 @@ class CorrespondingChromaticitiesPrediction(
     uvp_p : array_like, (2,)
         Chromaticity coordinates :math:`uv_p^p` of predicted colour.
     """
-
-
-def corresponding_chromaticities_prediction_VonKries(experiment=1,
-                                                     transform='CAT02'):
-    """
-    Returns the corresponding chromaticities prediction for Von Kries
-    chromatic adaptation model using given transform.
-
-    Parameters
-    ----------
-    experiment : integer, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
-    transform : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
-        Chromatic adaptation transform.
-
-    Returns
-    -------
-    tuple
-        Corresponding chromaticities prediction.
-
-    Examples
-    --------
-    >>> from pprint import pprint
-    >>> pr = corresponding_chromaticities_prediction_VonKries(2, 'Bradford')
-    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
-    >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.20820148430638033, 0.47229226819364528)),
-     ((0.449, 0.511), (0.44891022948064191, 0.50716028901449561)),
-     ((0.263, 0.505), (0.26435459360846608, 0.49596314494922683)),
-     ((0.322, 0.545), (0.33487309037107632, 0.54712207251983425)),
-     ((0.316, 0.537), (0.32487581236911361, 0.53905899356457776)),
-     ((0.265, 0.553), (0.27331050571632376, 0.55550280647813977)),
-     ((0.221, 0.538), (0.22714800102072819, 0.53313179748041983)),
-     ((0.135, 0.532), (0.14427303768336433, 0.52268044497913713)),
-     ((0.145, 0.472), (0.14987451889726533, 0.45507852741116867)),
-     ((0.163, 0.331), (0.15649757464732098, 0.31487959772753954)),
-     ((0.176, 0.431), (0.17605936460371163, 0.41037722722471409)),
-     ((0.244, 0.349), (0.22598059059292835, 0.34652914678030416))]
-    """
-
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
-
-    illuminants = experiment_results.pop(0)
-    XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
-    XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
-    xy_wr = XYZ_to_xy(XYZ_wr)
-
-    prediction = []
-    for result in experiment_results:
-        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
-        XYZ_2 = chromatic_adaptation_VonKries(XYZ_1, XYZ_w, XYZ_wr, transform)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
-        prediction.append(CorrespondingChromaticitiesPrediction(
-            result.name,
-            result.uvp_t,
-            result.uvp_m,
-            uvp))
-
-    return tuple(prediction)
 
 
 def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
@@ -322,17 +260,79 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
     return tuple(prediction)
 
 
+def corresponding_chromaticities_prediction_VonKries(experiment=1,
+                                                     transform='CAT02'):
+    """
+    Returns the corresponding chromaticities prediction for Von Kries
+    chromatic adaptation model using given transform.
+
+    Parameters
+    ----------
+    experiment : integer, optional
+        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+        Breneman (1987) experiment number.
+    transform : unicode, optional
+        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
+        Chromatic adaptation transform.
+
+    Returns
+    -------
+    tuple
+        Corresponding chromaticities prediction.
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction_VonKries(2, 'Bradford')
+    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.20820148430638033, 0.47229226819364528)),
+     ((0.449, 0.511), (0.44891022948064191, 0.50716028901449561)),
+     ((0.263, 0.505), (0.26435459360846608, 0.49596314494922683)),
+     ((0.322, 0.545), (0.33487309037107632, 0.54712207251983425)),
+     ((0.316, 0.537), (0.32487581236911361, 0.53905899356457776)),
+     ((0.265, 0.553), (0.27331050571632376, 0.55550280647813977)),
+     ((0.221, 0.538), (0.22714800102072819, 0.53313179748041983)),
+     ((0.135, 0.532), (0.14427303768336433, 0.52268044497913713)),
+     ((0.145, 0.472), (0.14987451889726533, 0.45507852741116867)),
+     ((0.163, 0.331), (0.15649757464732098, 0.31487959772753954)),
+     ((0.176, 0.431), (0.17605936460371163, 0.41037722722471409)),
+     ((0.244, 0.349), (0.22598059059292835, 0.34652914678030416))]
+    """
+
+    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+
+    illuminants = experiment_results.pop(0)
+    XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
+    XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
+    xy_wr = XYZ_to_xy(XYZ_wr)
+
+    prediction = []
+    for result in experiment_results:
+        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
+        XYZ_2 = chromatic_adaptation_VonKries(XYZ_1, XYZ_w, XYZ_wr, transform)
+        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
+        prediction.append(CorrespondingChromaticitiesPrediction(
+            result.name,
+            result.uvp_t,
+            result.uvp_m,
+            uvp))
+
+    return tuple(prediction)
+
+
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
-    {'Von Kries': corresponding_chromaticities_prediction_VonKries,
-     'CIE 1994': corresponding_chromaticities_prediction_CIE1994,
+    {'CIE 1994': corresponding_chromaticities_prediction_CIE1994,
      'CMCCAT2000': corresponding_chromaticities_prediction_CMCCAT2000,
-     'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990})
+     'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990,
+     'Von Kries': corresponding_chromaticities_prediction_VonKries})
 
 """
 Aggregated corresponding chromaticities prediction models.
 
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
-    {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
+    {'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}
 
 Aliases:
 

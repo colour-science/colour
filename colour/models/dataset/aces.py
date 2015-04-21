@@ -53,9 +53,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.utilities import Structure
 from colour.models import RGB_Colourspace, normalised_primary_matrix
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, Structure
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

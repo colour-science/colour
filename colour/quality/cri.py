@@ -26,12 +26,12 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.colorimetry import (
     D_illuminant_relative_spd,
+    STANDARD_OBSERVERS_CMFS,
     blackbody_spd,
     spectral_to_XYZ)
-from colour.quality.dataset.tcs import TCS_SPDS, TCS_INDEXES_TO_NAMES
+from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SPDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 

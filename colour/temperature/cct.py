@@ -54,7 +54,7 @@ from colour.colorimetry import (
     blackbody_spd,
     spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import CaseInsensitiveMapping, tstack, tsplit, warning
+from colour.utilities import CaseInsensitiveMapping, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

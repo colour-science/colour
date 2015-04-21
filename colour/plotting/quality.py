@@ -22,9 +22,9 @@ from colour.quality import (
     colour_rendering_index)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
+    boundaries,
     canvas,
     decorate,
-    boundaries,
     display)
 from colour.utilities import normalise
 

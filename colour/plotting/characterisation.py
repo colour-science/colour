@@ -19,13 +19,13 @@ import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
-from colour.models import xyY_to_XYZ, XYZ_to_sRGB
+from colour.models import XYZ_to_sRGB, xyY_to_XYZ
 from colour.plotting import (
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_parameter,
+    decorate,
+    display,
     multi_colour_plot)
 
 __author__ = 'Colour Developers'

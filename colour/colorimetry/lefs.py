@@ -24,10 +24,10 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry import (
-    SpectralShape,
-    SpectralPowerDistribution,
     PHOTOPIC_LEFS,
-    SCOTOPIC_LEFS)
+    SCOTOPIC_LEFS,
+    SpectralPowerDistribution,
+    SpectralShape)
 from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
 from colour.utilities import closest
 

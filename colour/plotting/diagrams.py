@@ -29,24 +29,24 @@ import pylab
 
 from colour.colorimetry import ILLUMINANTS, spectral_to_XYZ
 from colour.models import (
-    UCS_uv_to_xy,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    UCS_to_uv,
-    xy_to_XYZ,
-    XYZ_to_Luv,
     Luv_to_uv,
     Luv_uv_to_xy,
-    XYZ_to_sRGB)
+    UCS_to_uv,
+    UCS_uv_to_xy,
+    XYZ_to_Luv,
+    XYZ_to_UCS,
+    XYZ_to_sRGB,
+    XYZ_to_xy,
+    xy_to_XYZ)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
     PLOTTING_RESOURCES_DIRECTORY,
+    boundaries,
     canvas,
     decorate,
-    boundaries,
     display,
     get_cmfs)
-from colour.utilities import is_scipy_installed, normalise, tstack, tsplit
+from colour.utilities import is_scipy_installed, normalise, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

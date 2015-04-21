@@ -26,7 +26,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import tstack, tsplit
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

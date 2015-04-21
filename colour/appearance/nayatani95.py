@@ -36,7 +36,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import tstack, tsplit
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

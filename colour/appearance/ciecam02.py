@@ -39,10 +39,11 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CAT02_CAT
-from colour.appearance.hunt import (XYZ_TO_HPE_MATRIX,
-                                    HPE_TO_XYZ_MATRIX,
-                                    luminance_level_adaptation_factor)
-from colour.utilities import CaseInsensitiveMapping, tstack, tsplit
+from colour.appearance.hunt import (
+    HPE_TO_XYZ_MATRIX,
+    XYZ_TO_HPE_MATRIX,
+    luminance_level_adaptation_factor)
+from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

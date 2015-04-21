@@ -14,9 +14,10 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.colorimetry import LMS_ConeFundamentals
-from colour.colorimetry import RGB_ColourMatchingFunctions
-from colour.colorimetry import XYZ_ColourMatchingFunctions
+from colour.colorimetry import (
+    LMS_ConeFundamentals,
+    RGB_ColourMatchingFunctions,
+    XYZ_ColourMatchingFunctions)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

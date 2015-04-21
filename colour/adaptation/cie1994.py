@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import tstack, tsplit, warning
+from colour.utilities import tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

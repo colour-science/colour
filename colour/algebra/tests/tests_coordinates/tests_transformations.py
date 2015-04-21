@@ -16,8 +16,11 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import cartesian_to_spherical, spherical_to_cartesian
-from colour.algebra import cartesian_to_cylindrical, cylindrical_to_cartesian
+from colour.algebra import (
+    cartesian_to_spherical,
+    spherical_to_cartesian,
+    cartesian_to_cylindrical,
+    cylindrical_to_cartesian)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

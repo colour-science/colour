@@ -15,8 +15,7 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.algebra import Extrapolator1d
-from colour.algebra import LinearInterpolator1d
+from colour.algebra import Extrapolator1d, LinearInterpolator1d
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

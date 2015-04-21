@@ -19,18 +19,18 @@ from colour.colorimetry import spectral_to_XYZ
 from colour.models import XYZ_to_sRGB
 from colour.phenomenons import rayleigh_scattering_spd
 from colour.phenomenons.rayleigh import (
-    STANDARD_CO2_CONCENTRATION,
-    STANDARD_AIR_TEMPERATURE,
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    DEFAULT_ALTITUDE,
     DEFAULT_LATITUDE,
-    DEFAULT_ALTITUDE)
+    STANDARD_AIR_TEMPERATURE,
+    STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (
     ASTM_G_173_ETR,
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_parameter,
+    decorate,
+    display,
     get_cmfs,
     single_colour_plot,
     single_spd_plot)

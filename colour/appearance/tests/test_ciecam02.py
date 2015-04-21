@@ -14,7 +14,7 @@ from colour.appearance import (
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack, tsplit
+from colour.utilities.array import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

@@ -20,9 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
-from colour.colorimetry import (
-    STANDARD_OBSERVERS_CMFS,
-    ones_spd)
+from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

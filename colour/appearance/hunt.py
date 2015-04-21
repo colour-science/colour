@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import CaseInsensitiveMapping, tstack, tsplit, warning
+from colour.utilities import CaseInsensitiveMapping, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

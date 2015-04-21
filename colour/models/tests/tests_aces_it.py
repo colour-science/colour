@@ -16,9 +16,7 @@ else:
     import unittest
 
 from colour.characterisation import COLOURCHECKERS_SPDS
-from colour.colorimetry import (
-    constant_spd,
-    ones_spd)
+from colour.colorimetry import constant_spd, ones_spd
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
 
 __author__ = 'Colour Developers'

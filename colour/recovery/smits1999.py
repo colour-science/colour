@@ -26,8 +26,8 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS, zeros_spd
 from colour.models import (
     XYZ_to_RGB,
-    sRGB_COLOURSPACE,
-    normalised_primary_matrix)
+    normalised_primary_matrix,
+    sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'

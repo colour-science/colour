@@ -32,18 +32,18 @@ from colour.colorimetry import (
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHTNESS_METHODS,
     SpectralShape,
+    blackbody_spd,
     spectral_to_XYZ,
-    wavelength_to_XYZ,
-    blackbody_spd)
+    wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_parameter,
     colour_parameters_plot,
+    decorate,
+    display,
     single_colour_plot)
 from colour.utilities import normalise
 

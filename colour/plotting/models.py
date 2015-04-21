@@ -21,13 +21,13 @@ import pylab
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models import (
-    POINTER_GAMUT_DATA,
-    POINTER_GAMUT_ILLUMINANT,
-    POINTER_GAMUT_BOUNDARIES,
-    RGB_COLOURSPACES,
     LCHab_to_Lab,
     Lab_to_XYZ,
     Luv_to_uv,
+    POINTER_GAMUT_BOUNDARIES,
+    POINTER_GAMUT_DATA,
+    POINTER_GAMUT_ILLUMINANT,
+    RGB_COLOURSPACES,
     UCS_to_uv,
     XYZ_to_Luv,
     XYZ_to_UCS,
@@ -38,11 +38,11 @@ from colour.plotting import (
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
     DEFAULT_FIGURE_WIDTH,
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_cycle,
+    decorate,
+    display,
     get_cmfs)
 
 __author__ = 'Colour Developers'

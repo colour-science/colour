@@ -29,19 +29,19 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.colorimetry import (
-    ILLUMINANTS,
     D_illuminant_relative_spd,
+    ILLUMINANTS,
+    STANDARD_OBSERVERS_CMFS,
     blackbody_spd,
     spectral_to_XYZ)
-from colour.quality.dataset.vs import VS_SPDS, VS_INDEXES_TO_NAMES
+from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SPDS
 from colour.models import (
+    Lab_to_LCHab,
     UCS_to_uv,
+    XYZ_to_Lab,
     XYZ_to_UCS,
     XYZ_to_xy,
-    XYZ_to_Lab,
-    Lab_to_LCHab,
     xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries

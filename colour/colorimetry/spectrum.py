@@ -30,11 +30,11 @@ from colour.algebra import (
     SpragueInterpolator)
 from colour.utilities import (
     in_array,
-    steps,
     is_iterable,
     is_numeric,
-    is_uniform,
     is_string,
+    is_uniform,
+    steps,
     tstack,
     warning)
 

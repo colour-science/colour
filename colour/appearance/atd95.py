@@ -34,6 +34,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import namedtuple
+
 from colour.utilities.array import tsplit, tstack
 
 __author__ = 'Colour Developers'

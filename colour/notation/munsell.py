@@ -65,8 +65,8 @@ from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CaseInsensitiveMapping,
     Lookup,
-    is_numeric,
-    is_integer)
+    is_integer,
+    is_numeric)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

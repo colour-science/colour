@@ -64,9 +64,10 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import LMS_ConeFundamentals
-from colour.colorimetry import RGB_ColourMatchingFunctions
-from colour.colorimetry import XYZ_ColourMatchingFunctions
+from colour.colorimetry import (
+    LMS_ConeFundamentals,
+    RGB_ColourMatchingFunctions,
+    XYZ_ColourMatchingFunctions)
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -83,7 +84,6 @@ __all__ = ['LMS_CMFS_DATA',
            'STANDARD_OBSERVERS_CMFS_DATA',
            'STANDARD_OBSERVERS_CMFS',
            'CMFS']
-
 
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has
 # been set to zero.

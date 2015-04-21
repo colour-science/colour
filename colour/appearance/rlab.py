@@ -31,8 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.appearance.hunt import XYZ_to_rgb
-from colour.appearance.hunt import XYZ_TO_HPE_MATRIX
+from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
 from colour.utilities import CaseInsensitiveMapping, tsplit, row_as_diagonal
 
 __author__ = 'Colour Developers'

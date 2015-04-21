@@ -17,8 +17,9 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import D_ILLUMINANTS_S_SPDS
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import (
+    D_ILLUMINANTS_S_SPDS,
+    SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

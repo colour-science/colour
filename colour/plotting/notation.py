@@ -19,9 +19,9 @@ import pylab
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
+    boundaries,
     canvas,
     decorate,
-    boundaries,
     display)
 
 __author__ = 'Colour Developers'
