@@ -28,6 +28,7 @@ __all__ = ['handle_numpy_errors',
            'print_numpy_errors',
            'warn_numpy_errors',
            'batch',
+           'is_openimageio_installed',
            'is_scipy_installed',
            'is_iterable',
            'is_string',
@@ -107,6 +108,37 @@ def batch(iterable, k=3):
         yield iterable[i:i + k]
 
 
+def is_openimageio_installed(raise_exception=False):
+    """
+    Returns if *OpenImageIO* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *OpenImageIO* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *OpenImageIO* installed.
+
+    Raises
+    ------
+    ImportError
+        If *OpenImageIO* is not installed.
+    """
+
+    try:
+        import OpenImageIO
+
+        return True
+    except ImportError as error:
+        if raise_exception:
+            raise ImportError(('"OpenImageIO" related Api features '
+                               'are not available: "{0}".').format(error))
+        return False
+
+
 def is_scipy_installed(raise_exception=False):
     """
     Returns if *scipy* is installed and available.
@@ -137,7 +169,7 @@ def is_scipy_installed(raise_exception=False):
     except ImportError as error:
         if raise_exception:
             raise ImportError(('"scipy" or specific "scipy" Api features '
-                               'are not available: "{1}".').format(error))
+                               'are not available: "{0}".').format(error))
         return False
 
 

@@ -16,6 +16,7 @@ Defines the common plotting objects:
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
 -   :func:`multi_colour_plot`
+-   :func:`image_plot`
 """
 
 from __future__ import division
@@ -59,7 +60,8 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
-           'multi_colour_plot']
+           'multi_colour_plot',
+           'image_plot']
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -558,6 +560,45 @@ def multi_colour_plot(colour_parameters,
     settings.update(kwargs)
 
     boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
+
+
+def image_plot(image, **kwargs):
+    """
+    Plots given image.
+
+    Parameters
+    ----------
+    image : array_like
+        Image to plot.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> import os
+    >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
+    >>> image = read_image_as_array(path)  # doctest: +SKIP
+    >>> image_plot(image)  # doctest: +SKIP
+    True
+    """
+
+    pylab.imshow(np.clip(image, 0, 1))
+
+    settings = {'no_ticks': True,
+                'bounding_box': (0, 1, 0, 1),
+                'bbox_inches': 'tight',
+                'pad_inches': 0}
+    settings.update(kwargs)
+
+    canvas(**settings)
     decorate(**settings)
 
     return display(**settings)

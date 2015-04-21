@@ -2,6 +2,7 @@ include COPYING
 include LICENSE
 include *.rst
 graft colour/examples
+graft colour/io
 graft colour/plotting
 graft docs/_build
 graft utilities

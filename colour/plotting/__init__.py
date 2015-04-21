@@ -23,7 +23,8 @@ from .common import (
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
-    multi_colour_plot)
+    multi_colour_plot,
+    image_plot)
 from .colorimetry import (
     get_cmfs,
     get_illuminant,
@@ -84,7 +85,8 @@ __all__ += [
     'colour_parameter',
     'colour_parameters_plot',
     'single_colour_plot',
-    'multi_colour_plot']
+    'multi_colour_plot',
+    'image_plot']
 __all__ += [
     'get_cmfs',
     'get_illuminant',
