@@ -91,7 +91,7 @@ XYZ_TO_REC_2020_MATRIX : array_like, (3, 3)
 REC_2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
                                beta=lambda x: 0.018 if x else 0.0181)
 """
-*CIE XYZ* constants.
+*Rec. 2020* colourspace constants.
 
 REC_2020_CONSTANTS : Structure
 """
