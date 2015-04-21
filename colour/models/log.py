@@ -31,6 +31,8 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 -   :attr:`s_log2_to_linear`
 -   :attr:`linear_to_s_log3`
 -   :attr:`s_log3_to_linear`
+-   :attr:`linear_to_v_log`
+-   :attr:`v_log_to_linear`
 
 See Also
 --------
@@ -63,6 +65,9 @@ from colour.models.dataset.s_gamut import (
     S_LOG_INVERSE_TRANSFER_FUNCTION,
     S_LOG2_INVERSE_TRANSFER_FUNCTION,
     S_LOG3_INVERSE_TRANSFER_FUNCTION)
+from colour.models.dataset.v_gamut import (
+    V_GAMUT_TRANSFER_FUNCTION,
+    V_GAMUT_INVERSE_TRANSFER_FUNCTION)
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -96,6 +101,8 @@ __all__ = ['linear_to_cineon',
            's_log2_to_linear',
            'linear_to_s_log3',
            's_log3_to_linear',
+           'linear_to_v_log',
+           'v_log_to_linear',
            'LINEAR_TO_LOG_METHODS',
            'LOG_TO_LINEAR_METHODS',
            'linear_to_log',
@@ -796,6 +803,58 @@ def s_log3_to_linear(value, **kwargs):
     return S_LOG3_INVERSE_TRANSFER_FUNCTION(value)
 
 
+def linear_to_v_log(value, **kwargs):
+    """
+    Defines the *linear* to *V-Log* conversion function.
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        *Linear* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric or ndarray
+        *V-Log* value.
+
+    Examples
+    --------
+    >>> linear_to_v_log(0.18)  # doctest: +ELLIPSIS
+    array(0.4233114...)
+    """
+
+    return V_GAMUT_TRANSFER_FUNCTION(value)
+
+
+def v_log_to_linear(value, **kwargs):
+    """
+    Defines the *V-Log* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        *V-Log* value.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric or ndarray
+        *Linear* value.
+
+    Examples
+    --------
+    >>> v_log_to_linear(0.42331144876013616)  # doctest: +ELLIPSIS
+    array(0.1...)
+    """
+
+    return V_GAMUT_INVERSE_TRANSFER_FUNCTION(value)
+
+
 LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
     {'Cineon': linear_to_cineon,
      'Panalog': linear_to_panalog,
@@ -808,13 +867,14 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
      'DCI-P3': linear_to_dci_p3_log,
      'S-Log': linear_to_s_log,
      'S-Log2': linear_to_s_log2,
-     'S-Log3': linear_to_s_log3})
+     'S-Log3': linear_to_s_log3,
+     'V-Log': linear_to_v_log})
 """
 Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'}
+    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc'
+    'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
 """
 
 
@@ -827,8 +887,8 @@ def linear_to_log(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'},
+        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -865,13 +925,14 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
      'DCI-P3': dci_p3_log_to_linear,
      'S-Log': s_log_to_linear,
      'S-Log2': s_log2_to_linear,
-     'S-Log3': s_log3_to_linear})
+     'S-Log3': s_log3_to_linear,
+     'V-Log': v_log_to_linear})
 """
 Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-    'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'}
+    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+    'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
 """
 
 
@@ -884,8 +945,8 @@ def log_to_linear(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log',
-        'ACEScc', 'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3'},
+        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

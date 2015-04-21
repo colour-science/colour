@@ -34,6 +34,7 @@ from .s_gamut import (S_GAMUT_COLOURSPACE,
                       S_GAMUT3_CINE_COLOURSPACE)
 from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from .srgb import sRGB_COLOURSPACE
+from .v_gamut import V_GAMUT_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
 
 from .pointer_gamut import (
@@ -74,6 +75,7 @@ RGB_COLOURSPACES = CaseInsensitiveMapping(
      S_GAMUT3_CINE_COLOURSPACE.name: S_GAMUT3_CINE_COLOURSPACE,
      SMPTE_C_RGB_COLOURSPACE.name: SMPTE_C_RGB_COLOURSPACE,
      sRGB_COLOURSPACE.name: sRGB_COLOURSPACE,
+     V_GAMUT_COLOURSPACE.name: V_GAMUT_COLOURSPACE,
      XTREME_RGB_COLOURSPACE.name: XTREME_RGB_COLOURSPACE})
 """
 Aggregated *RGB* colourspaces.
@@ -125,6 +127,7 @@ __all__ += ['ACES_2065_1_COLOURSPACE',
             'S_GAMUT3_CINE_COLOURSPACE',
             'SMPTE_C_RGB_COLOURSPACE',
             'sRGB_COLOURSPACE',
+            'V_GAMUT_COLOURSPACE',
             'XTREME_RGB_COLOURSPACE']
 __all__ += ['POINTER_GAMUT_ILLUMINANT',
             'POINTER_GAMUT_DATA',

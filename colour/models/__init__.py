@@ -53,7 +53,9 @@ from .log import (
     linear_to_s_log2,
     s_log2_to_linear,
     linear_to_s_log3,
-    s_log3_to_linear)
+    s_log3_to_linear,
+    linear_to_v_log,
+    v_log_to_linear)
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
@@ -104,7 +106,9 @@ __all__ += ['linear_to_cineon',
             'linear_to_s_log2',
             's_log2_to_linear',
             'linear_to_s_log3',
-            's_log3_to_linear']
+            's_log3_to_linear',
+            'linear_to_v_log',
+            'v_log_to_linear']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB']
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']

@@ -38,7 +38,9 @@ from colour.models import (
     linear_to_s_log2,
     s_log2_to_linear,
     linear_to_s_log3,
-    s_log3_to_linear)
+    s_log3_to_linear,
+    linear_to_v_log,
+    v_log_to_linear)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -70,7 +72,9 @@ __all__ = ['TestLinearToCineon',
            'TestLinearToSLog2',
            'TestSLog2ToLinear',
            'TestLinearToSLog3',
-           'TestSLog3ToLinear']
+           'TestSLog3ToLinear',
+           'TestLinearToVLog',
+           'TestVLogToLinear']
 
 
 class TestLinearToCineon(unittest.TestCase):
@@ -123,7 +127,7 @@ class TestCineonToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             cineon_to_linear(0.66959921798631472),
-            1., 
+            1.,
             places=7)
 
 
@@ -177,7 +181,7 @@ class TestPanalogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             panalog_to_linear(0.66568914956011727),
-            1., 
+            1.,
             places=7)
 
 
@@ -204,7 +208,7 @@ class TestLinearToRedLog(unittest.TestCase):
 
         self.assertAlmostEqual(
             linear_to_red_log(1.00),
-            1., 
+            1.,
             places=7)
 
 
@@ -231,7 +235,7 @@ class TestRedLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             red_log_to_linear(1.00),
-            1., 
+            1.,
             places=7)
 
 
@@ -258,7 +262,7 @@ class TestLinearToViperLog(unittest.TestCase):
 
         self.assertAlmostEqual(
             linear_to_viper_log(1.00),
-            1., 
+            1.,
             places=7)
 
 
@@ -285,7 +289,7 @@ class TestViperLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             viper_log_to_linear(1.00),
-            1., 
+            1.,
             places=7)
 
 
@@ -339,7 +343,7 @@ class TestPivotedLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             pivoted_log_to_linear(0.6533902722082191),
-            1., 
+            1.,
             places=7)
 
 
@@ -393,7 +397,7 @@ class TestCLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             c_log_to_linear(0.62740830453765284),
-            1., 
+            1.,
             places=7)
 
 
@@ -447,7 +451,7 @@ class TestAcesCcToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             aces_cc_to_linear(0.5547945205479452),
-            1., 
+            1.,
             places=7)
 
 
@@ -501,7 +505,7 @@ class TestAlexaLogCToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             alexa_log_c_to_linear(0.57063155812041733),
-            1., 
+            1.,
             places=7)
 
 
@@ -555,7 +559,7 @@ class TestDciP3LogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             dci_p3_log_to_linear(893.4459834052784),
-            1., 
+            1.,
             places=7)
 
 
@@ -609,7 +613,7 @@ class TestSLogToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log_to_linear(0.65352925122530825),
-            1., 
+            1.,
             places=7)
 
 
@@ -663,7 +667,7 @@ class TestSLog2ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log2_to_linear(0.63855168462253165),
-            1., 
+            1.,
             places=7)
 
 
@@ -717,5 +721,59 @@ class TestSLog3ToLinear(unittest.TestCase):
 
         self.assertAlmostEqual(
             s_log3_to_linear(0.59602734369012345),
-            1., 
+            1.,
+            places=7)
+
+
+class TestLinearToVLog(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.linear_to_v_log` definition unit tests
+    methods.
+    """
+
+    def test_linear_to_v_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_v_log` definition.
+        """
+
+        self.assertAlmostEqual(
+            linear_to_v_log(0.00),
+            0.125,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_v_log(0.18),
+            0.42331144876013616,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_v_log(1.00),
+            0.5991177001581459,
+            places=7)
+
+
+class TestVLogToLinear(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.v_log_to_linear` definition unit tests
+    methods.
+    """
+
+    def test_v_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.v_log_to_linear` definition.
+        """
+
+        self.assertAlmostEqual(
+            v_log_to_linear(0.125),
+            0.,
+            places=7)
+
+        self.assertAlmostEqual(
+            v_log_to_linear(0.42331144876013616),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            v_log_to_linear(0.5991177001581459),
+            1.,
             places=7)
