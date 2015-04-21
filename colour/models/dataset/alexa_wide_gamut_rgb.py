@@ -256,7 +256,7 @@ def _alexa_wide_gamut_rgb_inverse_transfer_function(
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
     return np.where(value > e * cut + f,
-                    (np.power(10., (value - d) / c) - b) / a,
+                    (np.power(10, (value - d) / c) - b) / a,
                     (value - f) / e)
 
 
