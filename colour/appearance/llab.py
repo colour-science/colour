@@ -251,7 +251,7 @@ def XYZ_to_LLAB(
     Examples
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_0 = np.array([95.05, 100, 108.88])
+    >>> XYZ_0 = np.array([95.05, 100.00, 108.88])
     >>> Y_b = 20.0
     >>> L = 318.31
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
@@ -264,7 +264,7 @@ def XYZ_to_LLAB(
     RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
 
     # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
-    XYZ_0r = np.array([95.05, 100, 108.88])
+    XYZ_0r = np.array([95.05, 100.00, 108.88])
     RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
 
     # Computing chromatic adaptation.

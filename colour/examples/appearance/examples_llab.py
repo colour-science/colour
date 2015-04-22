@@ -12,7 +12,7 @@ from colour.utilities.verbose import message_box
 message_box('LLAB(l:c) Colour Appearance Model Computations')
 
 XYZ = (19.01, 20.00, 21.78)
-XYZ_0 = (95.05, 100, 108.88)
+XYZ_0 = (95.05, 100.00, 108.88)
 Y_b = 20.0
 L = 318.31
 surround = colour.LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
