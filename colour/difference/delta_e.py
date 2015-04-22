@@ -305,10 +305,10 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
     h1 = np.where(c1 < 0.000001, 0, np.rad2deg(np.arctan2(b1, a1)))
 
     while np.any(h1 < 0):
-        h1[h1 < 0] += 360
+        h1[np.asarray(h1 < 0)] += 360
 
     while np.any(h1 >= 360):
-        h1[h1 >= 360] -= 360
+        h1[np.asarray(h1 >= 360)] -= 360
 
     t = np.where(np.logical_and(h1 >= 164, h1 <= 345),
                  0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h1 + 168))),

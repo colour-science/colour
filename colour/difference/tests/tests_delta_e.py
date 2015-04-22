@@ -15,7 +15,12 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-import colour.difference.delta_e
+from colour.difference import (
+    delta_E_CIE1976,
+    delta_E_CIE1994,
+    delta_E_CIE2000,
+    delta_E_CMC)
+
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -43,21 +48,21 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1976(
+            delta_E_CIE1976(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
             451.713301974,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1976(
+            delta_E_CIE1976(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
             52.6498611564,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1976(
+            delta_E_CIE1976(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
             346.064891718,
@@ -73,7 +78,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 451.71330197359117
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E_CIE1976(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -81,7 +86,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Lab2 = np.tile(Lab2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E_CIE1976(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -89,7 +94,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Lab2 = np.reshape(Lab2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1976(Lab1, Lab2),
+            delta_E_CIE1976(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -106,28 +111,28 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
             88.3355530575,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
             10.61265789,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
             60.3686872611,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 textiles=False),
@@ -135,7 +140,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 textiles=False),
@@ -143,7 +148,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE1994(
+            delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 textiles=False),
@@ -160,7 +165,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 88.335553057506502
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -168,7 +173,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab2 = np.tile(Lab2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -176,7 +181,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab2 = np.reshape(Lab2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -193,21 +198,21 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE2000(
+            delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
             94.0356490267,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE2000(
+            delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
             14.8790641937,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CIE2000(
+            delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
             68.2309487895,
@@ -223,7 +228,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 94.035649026659485
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -231,7 +236,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab2 = np.tile(Lab2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -239,7 +244,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab2 = np.reshape(Lab2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -256,28 +261,28 @@ class TestDelta_E_CMC(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
             172.704771287,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
             20.5973271674,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
             121.718414791,
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 l=1),
@@ -285,7 +290,7 @@ class TestDelta_E_CMC(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 l=1),
@@ -293,7 +298,7 @@ class TestDelta_E_CMC(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour.difference.delta_e.delta_E_CMC(
+            delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 l=1),
@@ -310,7 +315,7 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 172.70477128656015
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -318,7 +323,7 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab2 = np.tile(Lab2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab1, Lab2),
             delta_E,
             decimal=7)
 
@@ -326,7 +331,7 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab2 = np.reshape(Lab2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            colour.difference.delta_e.delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab1, Lab2),
             delta_E,
             decimal=7)
 
