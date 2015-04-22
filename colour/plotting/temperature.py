@@ -21,9 +21,9 @@ from colour.colorimetry import (
     CMFS,
     ILLUMINANTS)
 from colour.models import (
-    UCS_to_uv,
     UCS_uv_to_xy,
     XYZ_to_UCS,
+    UCS_to_uv,
     xy_to_XYZ)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (

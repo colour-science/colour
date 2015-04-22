@@ -41,6 +41,7 @@ from .colorimetry import (
     blackbody_colours_plot)
 from .characterisation import colour_checker_plot
 from .diagrams import (
+    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
@@ -104,6 +105,7 @@ __all__ += [
 __all__ += [
     'colour_checker_plot']
 __all__ += [
+    'CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT',
     'CIE_1931_chromaticity_diagram_plot',
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot',

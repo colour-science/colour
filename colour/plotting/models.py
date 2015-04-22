@@ -19,7 +19,6 @@ from __future__ import division
 import numpy as np
 import pylab
 
-from colour.colorimetry import ILLUMINANTS
 from colour.models import (
     LCHab_to_Lab,
     Lab_to_XYZ,
@@ -34,6 +33,7 @@ from colour.models import (
     XYZ_to_xy,
     xy_to_XYZ)
 from colour.plotting import (
+    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
@@ -141,7 +141,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
 
-    cycle = colour_cycle('rainbow')
+    cycle = colour_cycle('rainbow', count=len(colourspaces))
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             xy = np.asarray(POINTER_GAMUT_BOUNDARIES)
@@ -274,7 +274,7 @@ def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.075], [0.675]
     y_limit_min, y_limit_max = [-0.150], [0.600]
 
-    cycle = colour_cycle('rainbow')
+    cycle = colour_cycle('rainbow', count=len(colourspaces))
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(POINTER_GAMUT_BOUNDARIES)))
@@ -397,8 +397,7 @@ def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('D50')
+    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
     settings = {
         'title': '{0} - {1} - CIE 1976 UCS Chromaticity Diagram'.format(
@@ -412,7 +411,7 @@ def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
 
-    cycle = colour_cycle('rainbow')
+    cycle = colour_cycle('rainbow', count=len(colourspaces))
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             uv = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(

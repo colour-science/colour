@@ -41,9 +41,9 @@ from colour.models import (
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
     PLOTTING_RESOURCES_DIRECTORY,
-    boundaries,
     canvas,
     decorate,
+    boundaries,
     display,
     get_cmfs)
 from colour.utilities import is_scipy_installed, normalise, tsplit, tstack
@@ -64,6 +64,9 @@ __all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
            'spds_CIE_1931_chromaticity_diagram_plot',
            'spds_CIE_1960_UCS_chromaticity_diagram_plot',
            'spds_CIE_1976_UCS_chromaticity_diagram_plot']
+
+CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('D65')
 
 
 def CIE_1931_chromaticity_diagram_colours_plot(
@@ -106,10 +109,9 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('E')
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
-        triangulation = Delaunay(XYZ_to_xy(cmfs.values),
+        triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
                                  qhull_options='QJ')
         xx, yy = np.meshgrid(np.linspace(0, 1, samples),
                              np.linspace(0, 1, samples))
@@ -171,6 +173,8 @@ def CIE_1931_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
+    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
                      'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
@@ -183,7 +187,7 @@ def CIE_1931_chromaticity_diagram_plot(
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    xy = XYZ_to_xy(cmfs.values)
+    xy = XYZ_to_xy(cmfs.values, illuminant)
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
@@ -290,8 +294,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('E')
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
         triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
                                  qhull_options='QJ')
@@ -473,11 +476,10 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50')
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
         triangulation = Delaunay(
-            Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant)),
+            Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
             qhull_options='QJ Qf')
         xx, yy = np.meshgrid(np.linspace(0, 1, samples),
                              np.linspace(0, 1, samples))
@@ -538,6 +540,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
+    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
                      'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.format(
@@ -549,9 +553,6 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
-
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('D50')
 
     uv = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
 
