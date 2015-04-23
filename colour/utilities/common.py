@@ -12,6 +12,7 @@ from __future__ import division, unicode_literals
 
 import functools
 import numpy as np
+import warnings
 
 from colour.constants import INTEGER_THRESHOLD
 
@@ -27,6 +28,7 @@ __all__ = ['handle_numpy_errors',
            'raise_numpy_errors',
            'print_numpy_errors',
            'warn_numpy_errors',
+           'ignore_python_warnings',
            'batch',
            'is_openimageio_installed',
            'is_scipy_installed',
@@ -80,6 +82,36 @@ ignore_numpy_errors = handle_numpy_errors(all='ignore')
 raise_numpy_errors = handle_numpy_errors(all='raise')
 print_numpy_errors = handle_numpy_errors(all='print')
 warn_numpy_errors = handle_numpy_errors(all='warn')
+
+
+def ignore_python_warnings(object):
+    """
+    Decorator for ignoring *Python* warnings.
+
+    Parameters
+    ----------
+    object : object
+        Object to decorate.
+
+    Returns
+    -------
+    object
+
+    Examples
+    --------
+    >>> @ignore_python_warnings
+    ... def f(): warnings.warn('This is an ignored warning!')
+    >>> f()
+    """
+
+    @functools.wraps(object)
+    def wrapped(*args, **kwargs):
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            return object(*args, **kwargs)
+
+    return wrapped
 
 
 def batch(iterable, k=3):
