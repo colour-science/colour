@@ -45,6 +45,7 @@ from colour.notation import (
     munsell_value_Ladd1955,
     munsell_value_McCamy1987,
     munsell_value_ASTMD153508)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -4050,6 +4051,16 @@ class TestMunsellValuePriest1920(unittest.TestCase):
             V,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_munsell_value_Priest1920(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        definition nan support.
+        """
+
+        munsell_value_Priest1920(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestMunsellValueMunsell1933(unittest.TestCase):
     """
@@ -4111,6 +4122,16 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
             munsell_value_Munsell1933(Y),
             V,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_munsell_value_Munsell1933(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        definition nan support.
+        """
+
+        munsell_value_Munsell1933(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueMoon1943(unittest.TestCase):
@@ -4174,6 +4195,16 @@ class TestMunsellValueMoon1943(unittest.TestCase):
             V,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_munsell_value_Moon1943(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        definition nan support.
+        """
+
+        munsell_value_Moon1943(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestMunsellValueSaunderson1944(unittest.TestCase):
     """
@@ -4235,6 +4266,16 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
             munsell_value_Saunderson1944(Y),
             V,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_munsell_value_Saunderson1944(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        definition nan support.
+        """
+
+        munsell_value_Saunderson1944(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellValueLadd1955(unittest.TestCase):
@@ -4298,6 +4339,16 @@ class TestMunsellValueLadd1955(unittest.TestCase):
             V,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_munsell_value_Ladd1955(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        definition nan support.
+        """
+
+        munsell_value_Ladd1955(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestMunsellValueMcCamy1992(unittest.TestCase):
     """
@@ -4360,6 +4411,16 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
             V,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_munsell_value_McCamy1987(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        definition nan support.
+        """
+
+        munsell_value_McCamy1987(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestMunsellValueASTMD153508(unittest.TestCase):
     """
@@ -4421,6 +4482,16 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
             munsell_value_ASTMD153508(Y),
             V,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_munsell_value_ASTMD153508(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        definition nan support.
+        """
+
+        munsell_value_ASTMD153508(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMunsellSpecification_to_xyY(unittest.TestCase):

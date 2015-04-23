@@ -19,6 +19,7 @@ from colour.colorimetry import (
     lightness_Glasser1958,
     lightness_Wyszecki1963,
     lightness_1976)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -93,6 +94,16 @@ class TestLightnessGlasser1958(unittest.TestCase):
             L,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_lightness_Glasser1958(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Glasser1958`
+        definition nan support.
+        """
+
+        lightness_Glasser1958(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestLightnessWyszecki1963(unittest.TestCase):
     """
@@ -154,6 +165,16 @@ class TestLightnessWyszecki1963(unittest.TestCase):
             lightness_Wyszecki1963(Y),
             W,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_lightness_Wyszecki1963(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
+        definition nan support.
+        """
+
+        lightness_Wyszecki1963(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLightness1976(unittest.TestCase):
@@ -230,6 +251,16 @@ class TestLightness1976(unittest.TestCase):
             lightness_1976(Y),
             Lstar,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_lightness_1976(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_1976`
+        definition nan support.
+        """
+
+        lightness_1976(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

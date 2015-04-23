@@ -14,6 +14,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.colorimetry import (
     whiteness_Berger1959,
@@ -22,6 +23,7 @@ from colour.colorimetry import (
     whiteness_ASTM313,
     whiteness_Ganz1979,
     whiteness_CIE2004)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -74,7 +76,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
     def test_n_dimensional_whiteness_Berger1959(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -100,6 +102,20 @@ class TestWhitenessBerger1959(unittest.TestCase):
             whiteness_Berger1959(XYZ, XYZ_0),
             W,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_Berger1959(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_0 = np.array(case)
+            whiteness_Berger1959(XYZ, XYZ_0)
 
 
 class TestWhitenessTaube1960(unittest.TestCase):
@@ -138,7 +154,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
     def test_n_dimensional_whiteness_Taube1960(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -164,6 +180,20 @@ class TestWhitenessTaube1960(unittest.TestCase):
             whiteness_Taube1960(XYZ, XYZ_0),
             WI,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_Berger1959(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_0 = np.array(case)
+            whiteness_Berger1959(XYZ, XYZ_0)
 
 
 class TestWhitenessStensby1968(unittest.TestCase):
@@ -199,7 +229,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
     def test_n_dimensional_whiteness_Stensby1968(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         Lab = np.array([100.00000000, -2.46875131, -16.72486654])
@@ -222,6 +252,19 @@ class TestWhitenessStensby1968(unittest.TestCase):
             whiteness_Stensby1968(Lab),
             WI,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_Stensby1968(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab = np.array(case)
+            whiteness_Stensby1968(Lab)
 
 
 class TestWhitenessASTM313(unittest.TestCase):
@@ -257,7 +300,7 @@ class TestWhitenessASTM313(unittest.TestCase):
     def test_n_dimensional_whiteness_ASTM313(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -280,6 +323,19 @@ class TestWhitenessASTM313(unittest.TestCase):
             whiteness_ASTM313(XYZ),
             WI,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_ASTM313(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            whiteness_ASTM313(XYZ)
 
 
 class TestWhitenessGanz1979(unittest.TestCase):
@@ -312,7 +368,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
     def test_n_dimensional_whiteness_Ganz1979(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         xy = np.array([0.3167, 0.3334])
@@ -343,6 +399,20 @@ class TestWhitenessGanz1979(unittest.TestCase):
             whiteness_Ganz1979(xy, Y),
             WT,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_Ganz1979(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            xy = np.array(case[0:2])
+            Y = np.array(case[0])
+            whiteness_Ganz1979(xy, Y)
 
 
 class TestWhitenessCIE2004(unittest.TestCase):
@@ -381,7 +451,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
     def test_n_dimensional_whiteness_CIE2004(self):
         """
         Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
-        definition n_dimensions support.
+        definition n_dimensional arrays support.
         """
 
         xy = np.array([0.3167, 0.3334])
@@ -415,6 +485,21 @@ class TestWhitenessCIE2004(unittest.TestCase):
             whiteness_CIE2004(xy, Y, xy_n),
             WT,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_whiteness_CIE2004(self):
+        """
+        Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            xy = np.array(case[0:2])
+            Y = np.array(case[0])
+            xy_n = np.array(case[0:2])
+            whiteness_CIE2004(xy, Y, xy_n)
 
 
 if __name__ == '__main__':

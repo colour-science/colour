@@ -7,9 +7,12 @@ Defines unit tests for :mod:`colour.appearance.atd95` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+from itertools import permutations
+
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack
+from colour.utilities import ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -67,3 +70,20 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
                                      data['sigma'])
 
         return specification
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_ATD95(self):
+        """
+        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_0 = np.array(case)
+            Y_0 = np.array(case[0])
+            k_1 = np.array(case[0])
+            k_2 = np.array(case[0])
+            XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)

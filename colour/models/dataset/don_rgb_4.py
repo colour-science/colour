@@ -120,6 +120,8 @@ def _don_rgb_4_inverse_transfer_function(value):
         Companded value.
     """
 
+    value = np.asarray(value)
+
     return value ** 2.2
 
 

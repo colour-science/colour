@@ -7,9 +7,12 @@ Defines unit tests for :mod:`colour.appearance.hunt` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+from itertools import permutations
+
 from colour.appearance import Hunt_InductionFactors, XYZ_to_Hunt
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities.array import tstack
+from colour.utilities import ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -66,3 +69,21 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
                                     CCT_w=data['T'])
 
         return specification
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_Hunt(self):
+        """
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_w = np.array(case)
+            XYZ_b = np.array(case)
+            L_A = case[0]
+            surround = Hunt_InductionFactors(case[0], case[0])
+            CCT_w = case[0]
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)

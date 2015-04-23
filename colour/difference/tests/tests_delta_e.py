@@ -14,6 +14,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.difference import (
     delta_E_CIE1976,
@@ -21,6 +22,7 @@ from colour.difference import (
     delta_E_CIE2000,
     delta_E_CMC)
 
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -37,14 +39,13 @@ __all__ = ['TestDelta_E_CIE1976',
 
 class TestDelta_E_CIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE1976`
-    definition unit tests methods.
+    Defines :func:`colour.difference.delta_e.delta_E_CIE1976` definition unit
+    tests methods.
     """
 
     def test_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976`
-        definition.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition.
         """
 
         self.assertAlmostEqual(
@@ -70,8 +71,8 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition
+        n-dimensional arrays support.
         """
 
         Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
@@ -98,11 +99,25 @@ class TestDelta_E_CIE1976(unittest.TestCase):
             delta_E,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_delta_E_CIE1976(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab1 = np.array(case)
+            Lab2 = np.array(case)
+            delta_E_CIE1976(Lab1, Lab2)
+
 
 class TestDelta_E_CIE1994(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE1994` definition
-    unit tests methods.
+    Defines :func:`colour.difference.delta_e.delta_E_CIE1994` definition unit
+    tests methods.
     """
 
     def test_delta_E_CIE1994(self):
@@ -157,8 +172,8 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1994`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition
+        n-dimensional arrays support.
         """
 
         Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
@@ -185,11 +200,25 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             delta_E,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_delta_E_CIE1994(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab1 = np.array(case)
+            Lab2 = np.array(case)
+            delta_E_CIE1994(Lab1, Lab2)
+
 
 class TestDelta_E_CIE2000(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE2000` definition
-    unit tests methods.
+    Defines :func:`colour.difference.delta_e.delta_E_CIE2000` definition unit
+    tests methods.
     """
 
     def test_delta_E_CIE2000(self):
@@ -220,8 +249,8 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition
+        n-dimensional arrays support.
         """
 
         Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
@@ -247,6 +276,20 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             delta_E_CIE2000(Lab1, Lab2),
             delta_E,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_delta_E_CIE2000(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab1 = np.array(case)
+            Lab2 = np.array(case)
+            delta_E_CIE2000(Lab1, Lab2)
 
 
 class TestDelta_E_CMC(unittest.TestCase):
@@ -307,8 +350,8 @@ class TestDelta_E_CMC(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CMC(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CMC`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition
+        n-dimensional arrays support.
         """
 
         Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
@@ -334,6 +377,20 @@ class TestDelta_E_CMC(unittest.TestCase):
             delta_E_CMC(Lab1, Lab2),
             delta_E,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_delta_E_CMC(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab1 = np.array(case)
+            Lab2 = np.array(case)
+            delta_E_CMC(Lab1, Lab2)
 
 
 if __name__ == '__main__':

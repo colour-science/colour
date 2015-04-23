@@ -160,13 +160,15 @@ def HSV_to_RGB(HSV):
     l = V * (1 - S * (1 - (h - i)))
 
     i = tstack((i, i, i)).astype(np.uint8)
+
     RGB = np.choose(i,
                     (tstack((V, l, j)),
                      tstack((k, V, j)),
                      tstack((j, V, l)),
                      tstack((j, k, V)),
                      tstack((l, j, V)),
-                     tstack((V, j, k))))
+                     tstack((V, j, k))),
+                    mode='clip')
 
     return RGB
 
@@ -466,4 +468,3 @@ def CMYK_to_CMY(CMYK):
                   Y * (1 - K) + K))
 
     return CMY
-

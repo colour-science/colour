@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.adaptation import chromatic_adaptation_Fairchild1990
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -110,6 +112,28 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
             XYZ_c,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_chromatic_adaptation_Fairchild1990(self):
+        """
+        Tests
+        :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ_1 = np.array(case)
+            XYZ_n = np.array(case)
+            XYZ_r = np.array(case)
+            Y_n = case[0]
+            try:
+                chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
+            except np.linalg.linalg.LinAlgError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
 
 if __name__ == '__main__':
     unittest.main()

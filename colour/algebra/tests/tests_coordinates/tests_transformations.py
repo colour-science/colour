@@ -15,12 +15,14 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.algebra import (
     cartesian_to_spherical,
     spherical_to_cartesian,
     cartesian_to_cylindrical,
     cylindrical_to_cartesian)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -92,6 +94,20 @@ class TestCartesianToSpherical(unittest.TestCase):
             vector_o,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_cartesian_to_spherical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cartesian_to_spherical(vector_i)
+
 
 class TestSphericalToCartesian(unittest.TestCase):
     """
@@ -153,6 +169,20 @@ class TestSphericalToCartesian(unittest.TestCase):
             vector_o,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_spherical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            spherical_to_cartesian(vector_i)
+
 
 class TestCartesianToCylindrical(unittest.TestCase):
     """
@@ -210,6 +240,20 @@ class TestCartesianToCylindrical(unittest.TestCase):
             cartesian_to_cylindrical(vector_i),
             vector_o,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cartesian_to_cylindrical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cartesian_to_cylindrical(vector_i)
 
 
 class TestCylindricalToCartesian(unittest.TestCase):
@@ -271,6 +315,20 @@ class TestCylindricalToCartesian(unittest.TestCase):
             cylindrical_to_cartesian(vector_i),
             vector_o,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cylindrical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cylindrical_to_cartesian(vector_i)
 
 
 if __name__ == '__main__':

@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.algebra import Extrapolator1d, LinearInterpolator1d
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -94,6 +96,20 @@ class TestExtrapolator1d(unittest.TestCase):
         np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
                                        (1., 1., 0., 0.))
         self.assertEqual(extrapolator(9), 0.)
+
+    @ignore_numpy_errors
+    def test_nan__call__(self):
+        """
+        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__`
+        method nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            extrapolator = Extrapolator1d(
+                LinearInterpolator1d(np.array(case), np.array(case)))
+            extrapolator(case[0])
 
 
 if __name__ == '__main__':

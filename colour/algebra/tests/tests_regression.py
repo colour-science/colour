@@ -14,9 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.algebra import linear_regression
-from colour.utilities import tstack
+from colour.utilities import ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -99,6 +100,17 @@ class TestLinearRegression(unittest.TestCase):
             linear_regression(Y, tstack((X1, X2))),
             np.array([0.08640901, 0.08760164, -4.10358123]),
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_linear_regression(self):
+        """
+        Tests :func:`colour.algebra.regression.linear_regression` definition
+        nan support.
+        """
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            linear_regression(case)
 
 
 if __name__ == '__main__':

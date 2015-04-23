@@ -881,15 +881,15 @@ def hue_quadrature(h):
     array(278.0607358...)
     """
 
-    # Using *np.nan_to_num* here instead of *np.asarray* to prevent potential
-    # index search issues with nans.
-    h = np.nan_to_num(h)
+    h = np.asarray(h)
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
     e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
     H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
 
-    i = np.searchsorted(h_i, h, side='left') - 1
+    # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
+    h[np.asarray(np.isnan(h))] = 0
+    i = np.asarray(np.searchsorted(h_i, h, side='left') - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]

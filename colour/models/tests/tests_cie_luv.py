@@ -14,6 +14,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import (
     XYZ_to_Luv,
@@ -22,6 +23,7 @@ from colour.models import (
     Luv_uv_to_xy,
     Luv_to_LCHuv,
     LCHuv_to_Luv)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -116,6 +118,19 @@ class TestXYZ_to_Luv(unittest.TestCase):
             Luv,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_Luv(self):
+        """
+        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            illuminant = np.array(case[0:2])
+            XYZ_to_Luv(XYZ, illuminant)
+
 
 class TestLuv_to_XYZ(unittest.TestCase):
     """
@@ -195,6 +210,19 @@ class TestLuv_to_XYZ(unittest.TestCase):
             Luv_to_XYZ(Luv, illuminant),
             XYZ,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_Luv_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Luv = np.array(case)
+            illuminant = np.array(case[0:2])
+            Luv_to_XYZ(Luv, illuminant)
 
 
 class TestLuv_to_uv(unittest.TestCase):
@@ -276,6 +304,19 @@ class TestLuv_to_uv(unittest.TestCase):
             uv,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_Luv_to_uv(self):
+        """
+        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Luv = np.array(case)
+            illuminant = np.array(case[0:2])
+            Luv_to_uv(Luv, illuminant)
+
 
 class TestLuv_to_LCHuv(unittest.TestCase):
     """
@@ -329,6 +370,18 @@ class TestLuv_to_LCHuv(unittest.TestCase):
             Luv_to_LCHuv(Luv),
             LCHuv,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_Luv_to_LCHuv(self):
+        """
+        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Luv = np.array(case)
+            Luv_to_LCHuv(Luv)
 
 
 class TestLCHuv_to_Luv(unittest.TestCase):
@@ -384,6 +437,18 @@ class TestLCHuv_to_Luv(unittest.TestCase):
             Luv,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_LCHuv_to_Luv(self):
+        """
+        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            LCHuv = np.array(case)
+            LCHuv_to_Luv(LCHuv)
+
 
 class TestLuv_uv_to_xy(unittest.TestCase):
     """
@@ -437,6 +502,18 @@ class TestLuv_uv_to_xy(unittest.TestCase):
             Luv_uv_to_xy(uv),
             xy,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_Luv_uv_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            uv = np.array(case)
+            Luv_uv_to_xy(uv)
 
 
 if __name__ == '__main__':

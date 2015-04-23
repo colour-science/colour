@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.volume import is_within_macadam_limits
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -74,6 +76,18 @@ class TestIsWithinMacadamLimits(unittest.TestCase):
         np.testing.assert_almost_equal(
             is_within_macadam_limits(a, 'A'),
             b)
+
+    @ignore_numpy_errors
+    def test_nan_is_within_macadam_limits(self):
+        """
+        Tests :func:`colour.volume.macadam_limits.is_within_macadam_limits`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            is_within_macadam_limits(case, 'A')
 
 
 if __name__ == '__main__':

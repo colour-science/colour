@@ -19,6 +19,7 @@ from colour.colorimetry.luminance import (
     luminance_Newhall1943,
     luminance_1976,
     luminance_ASTMD153508)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -93,6 +94,16 @@ class TestLuminanceNewhall1943(unittest.TestCase):
             Y,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_luminance_Newhall1943(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        definition nan support.
+        """
+
+        luminance_Newhall1943(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestLuminanceASTMD153508(unittest.TestCase):
     """
@@ -154,6 +165,16 @@ class TestLuminanceASTMD153508(unittest.TestCase):
             luminance_ASTMD153508(V),
             Y,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_luminance_ASTMD153508(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        definition nan support.
+        """
+
+        luminance_ASTMD153508(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLuminance1976(unittest.TestCase):
@@ -230,6 +251,16 @@ class TestLuminance1976(unittest.TestCase):
             luminance_1976(Lstar),
             Y,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_luminance_1976(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_1976`
+        definition nan support.
+        """
+
+        luminance_1976(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

@@ -14,10 +14,12 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.notation.triplet import (
     RGB_to_HEX,
     HEX_to_RGB)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -70,6 +72,19 @@ class TestRGB_to_HEX(unittest.TestCase):
         RGB = np.reshape(RGB, (2, 3, 3))
         HEX = np.reshape(HEX, (2, 3))
         self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
+
+    @ignore_numpy_errors
+    def test_nan_RGB_to_HEX(self):
+        """
+        Tests :func:`colour.notation.triplet.RGB_to_HEX` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_HEX(RGB)
 
 
 class TestHEX_to_RGB(unittest.TestCase):

@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -82,6 +84,18 @@ class TestXYZ_to_IPT(unittest.TestCase):
             IPT,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_IPT(self):
+        """
+        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_to_IPT(XYZ)
+
 
 class TestIPT_to_XYZ(unittest.TestCase):
     """
@@ -136,6 +150,18 @@ class TestIPT_to_XYZ(unittest.TestCase):
             XYZ,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_IPT_to_XYZ(self):
+        """
+        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            IPT = np.array(case)
+            IPT_to_XYZ(IPT)
+
 
 class TestIPTHueAngle(unittest.TestCase):
     """
@@ -189,3 +215,19 @@ class TestIPTHueAngle(unittest.TestCase):
             IPT_hue_angle(IPT),
             hue,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_IPT_hue_angle(self):
+        """
+        Tests :func:`colour.models.ipt.IPT_hue_angle` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            IPT = np.array(case)
+            IPT_hue_angle(IPT)
+
+
+if __name__ == '__main__':
+    unittest.main()

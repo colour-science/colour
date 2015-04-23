@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -83,6 +85,18 @@ class TestXYZ_to_UCS(unittest.TestCase):
             UCS,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_UCS(self):
+        """
+        Tests :func:`colour.models.cie_ucs.XYZ_to_UCS` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_to_UCS(XYZ)
+
 
 class TestUCS_to_XYZ(unittest.TestCase):
     """
@@ -136,6 +150,18 @@ class TestUCS_to_XYZ(unittest.TestCase):
             UCS_to_XYZ(UCS),
             XYZ,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_UCS_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            UCS = np.array(case)
+            UCS_to_XYZ(UCS)
 
 
 class TestUCS_to_uv(unittest.TestCase):
@@ -191,6 +217,18 @@ class TestUCS_to_uv(unittest.TestCase):
             uv,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_UCS_to_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_uv` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            UCS = np.array(case)
+            UCS_to_uv(UCS)
+
 
 class TestUCS_uv_to_xy(unittest.TestCase):
     """
@@ -243,6 +281,18 @@ class TestUCS_uv_to_xy(unittest.TestCase):
             UCS_uv_to_xy(uv),
             xy,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_UCS_uv_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            uv = np.array(case)
+            UCS_uv_to_xy(uv)
 
 
 if __name__ == '__main__':

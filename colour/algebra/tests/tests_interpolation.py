@@ -14,9 +14,12 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
-from colour.algebra import LinearInterpolator1d
-from colour.algebra import SpragueInterpolator
+from colour.algebra import (
+    LinearInterpolator1d,
+    SpragueInterpolator)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -407,6 +410,27 @@ class TestLinearInterpolator1d(unittest.TestCase):
                 np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
             LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
+    @ignore_numpy_errors
+    def test_nan__call__(self):
+        """
+        Tests
+        :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
+        method nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            try:
+                linear_interpolator = LinearInterpolator1d(
+                    np.array(case), np.array(case))
+                linear_interpolator(case[0])
+            except ValueError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
+
 
 class TestSpragueInterpolator(unittest.TestCase):
     """
@@ -456,6 +480,27 @@ class TestSpragueInterpolator(unittest.TestCase):
             sprague_interpolator(
                 np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
+
+    @ignore_numpy_errors
+    def test_nan__call__(self):
+        """
+        Tests
+        :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        method nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            try:
+                sprague_interpolator = SpragueInterpolator(
+                    np.array(case), np.array(case))
+                sprague_interpolator(case[0])
+            except AssertionError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
 
 
 if __name__ == '__main__':

@@ -14,10 +14,12 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.adaptation import (
     chromatic_adaptation_matrix_VonKries,
     chromatic_adaptation_VonKries)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -133,6 +135,21 @@ class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
             M,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_chromatic_adaptation_matrix_VonKries(self):
+        """
+        Tests
+        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ_w = np.array(case)
+            XYZ_wr = np.array(case)
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
+
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
     """
@@ -229,6 +246,21 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
             XYZ_a,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_chromatic_adaptation_VonKries(self):
+        """
+        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_w = np.array(case)
+            XYZ_wr = np.array(case)
+            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
 
 
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models.deprecated import (
     RGB_to_HSV,
@@ -24,6 +25,7 @@ from colour.models.deprecated import (
     CMY_to_RGB,
     CMY_to_CMYK,
     CMYK_to_CMY)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -95,6 +97,19 @@ class TestRGB_to_HSV(unittest.TestCase):
             HSV,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_to_HSV(self):
+        """
+        Tests :func:`colour.models.deprecated.RGB_to_HSV` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_HSV(RGB)
+
 
 class TestHSV_to_RGB(unittest.TestCase):
     """
@@ -148,6 +163,19 @@ class TestHSV_to_RGB(unittest.TestCase):
             HSV_to_RGB(HSV),
             RGB,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_HSV_to_RGB(self):
+        """
+        Tests :func:`colour.models.deprecated.HSV_to_RGB` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            HSV = np.array(case)
+            HSV_to_RGB(HSV)
 
 
 class TestRGB_to_HSL(unittest.TestCase):
@@ -203,6 +231,19 @@ class TestRGB_to_HSL(unittest.TestCase):
             HSL,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_to_HSL(self):
+        """
+        Tests :func:`colour.models.deprecated.RGB_to_HSL` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_HSL(RGB)
+
 
 class TestHSL_to_RGB(unittest.TestCase):
     """
@@ -256,6 +297,19 @@ class TestHSL_to_RGB(unittest.TestCase):
             HSL_to_RGB(HSL),
             RGB,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_HSL_to_RGB(self):
+        """
+        Tests :func:`colour.models.deprecated.HSL_to_RGB` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            HSL = np.array(case)
+            HSL_to_RGB(HSL)
 
 
 class TestRGB_to_CMY(unittest.TestCase):
@@ -311,6 +365,19 @@ class TestRGB_to_CMY(unittest.TestCase):
             CMY,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_to_CMY(self):
+        """
+        Tests :func:`colour.models.deprecated.RGB_to_CMY` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_CMY(RGB)
+
 
 class TestCMY_to_RGB(unittest.TestCase):
     """
@@ -365,6 +432,19 @@ class TestCMY_to_RGB(unittest.TestCase):
             RGB,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_CMY_to_RGB(self):
+        """
+        Tests :func:`colour.models.deprecated.CMY_to_RGB` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            CMY = np.array(case)
+            CMY_to_RGB(CMY)
+
 
 class TestCMY_to_CMYK(unittest.TestCase):
     """
@@ -418,6 +498,19 @@ class TestCMY_to_CMYK(unittest.TestCase):
             CMY_to_CMYK(CMY),
             CMYK,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_CMY_to_CMYK(self):
+        """
+        Tests :func:`colour.models.deprecated.CMY_to_CMYK` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            CMY = np.array(case)
+            CMY_to_CMYK(CMY)
 
 
 class TestCMYK_to_CMY(unittest.TestCase):
@@ -484,6 +577,19 @@ class TestCMYK_to_CMY(unittest.TestCase):
             CMYK_to_CMY(CMYK),
             CMY,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_CMYK_to_CMY(self):
+        """
+        Tests :func:`colour.models.deprecated.CMYK_to_CMY` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=4))
+        for case in cases:
+            CMYK = np.array(case)
+            CMYK_to_CMY(CMYK)
 
 
 if __name__ == '__main__':

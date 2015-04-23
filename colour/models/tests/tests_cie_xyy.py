@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import XYZ_to_xyY, xyY_to_XYZ, xy_to_XYZ, XYZ_to_xy
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -110,6 +112,19 @@ class TestXYZ_to_xyY(unittest.TestCase):
             xyY,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_xyY(self):
+        """
+        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            illuminant = np.array(case[0:2])
+            XYZ_to_xyY(XYZ, illuminant)
+
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
@@ -169,6 +184,18 @@ class TestxyY_to_XYZ(unittest.TestCase):
             XYZ,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_xyY_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            xyY = np.array(case)
+            xyY_to_XYZ(xyY)
+
 
 class Testxy_to_XYZ(unittest.TestCase):
     """
@@ -227,6 +254,18 @@ class Testxy_to_XYZ(unittest.TestCase):
             xy_to_XYZ(xy),
             XYZ,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xy_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy = np.array(case)
+            xy_to_XYZ(xy)
 
 
 class TestXYZ_to_xy(unittest.TestCase):
@@ -294,6 +333,19 @@ class TestXYZ_to_xy(unittest.TestCase):
             XYZ_to_xy(XYZ, illuminant),
             xy,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            illuminant = np.array(case[0:2])
+            XYZ_to_xy(XYZ, illuminant)
 
 
 if __name__ == '__main__':

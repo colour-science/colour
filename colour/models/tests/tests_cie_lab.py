@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -109,6 +111,19 @@ class TestXYZ_to_Lab(unittest.TestCase):
             Lab,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            illuminant = np.array(case[0:2])
+            XYZ_to_Lab(XYZ, illuminant)
+
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
@@ -189,6 +204,19 @@ class TestLab_to_XYZ(unittest.TestCase):
             XYZ,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_Lab_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab = np.array(case)
+            illuminant = np.array(case[0:2])
+            Lab_to_XYZ(Lab, illuminant)
+
 
 class TestLab_to_LCHab(unittest.TestCase):
     """
@@ -243,6 +271,19 @@ class TestLab_to_LCHab(unittest.TestCase):
             LCHab,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_Lab_to_LCHab(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Lab = np.array(case)
+            Lab_to_LCHab(Lab)
+
 
 class TestLCHab_to_Lab(unittest.TestCase):
     """
@@ -296,6 +337,19 @@ class TestLCHab_to_Lab(unittest.TestCase):
             LCHab_to_Lab(LCHab),
             Lab,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_LCHab_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            LCHab = np.array(case)
+            LCHab_to_Lab(LCHab)
 
 
 if __name__ == '__main__':

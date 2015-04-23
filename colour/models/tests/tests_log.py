@@ -42,6 +42,7 @@ from colour.models import (
     s_log3_to_linear,
     linear_to_v_log,
     v_log_to_linear)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -138,6 +139,16 @@ class TestLinearToCineon(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_cineon(self):
+        """
+        Tests :func:`colour.models.log.linear_to_cineon` definition nan
+        support.
+        """
+
+        linear_to_cineon(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestCineonToLinear(unittest.TestCase):
     """
@@ -198,6 +209,16 @@ class TestCineonToLinear(unittest.TestCase):
             cineon_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cineon_to_linear(self):
+        """
+        Tests :func:`colour.models.log.cineon_to_linear` definition nan
+        support.
+        """
+
+        cineon_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToPanalog(unittest.TestCase):
@@ -260,6 +281,16 @@ class TestLinearToPanalog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_panalog(self):
+        """
+        Tests :func:`colour.models.log.linear_to_panalog` definition nan
+        support.
+        """
+
+        linear_to_panalog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestPanalogToLinear(unittest.TestCase):
     """
@@ -320,6 +351,16 @@ class TestPanalogToLinear(unittest.TestCase):
             panalog_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_panalog_to_linear(self):
+        """
+        Tests :func:`colour.models.log.panalog_to_linear` definition nan
+        support.
+        """
+
+        panalog_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToRedLog(unittest.TestCase):
@@ -382,6 +423,16 @@ class TestLinearToRedLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_red_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_red_log` definition nan
+        support.
+        """
+
+        linear_to_red_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestRedLogToLinear(unittest.TestCase):
     """
@@ -442,6 +493,16 @@ class TestRedLogToLinear(unittest.TestCase):
             red_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_red_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.red_log_to_linear` definition nan
+        support.
+        """
+
+        red_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToViperLog(unittest.TestCase):
@@ -504,6 +565,16 @@ class TestLinearToViperLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_viper_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_viper_log` definition nan
+        support.
+        """
+
+        linear_to_viper_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestViperLogToLinear(unittest.TestCase):
     """
@@ -564,6 +635,16 @@ class TestViperLogToLinear(unittest.TestCase):
             viper_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_viper_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.viper_log_to_linear` definition nan
+        support.
+        """
+
+        viper_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToPivotedLog(unittest.TestCase):
@@ -626,6 +707,16 @@ class TestLinearToPivotedLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_pivoted_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_pivoted_log` definition nan
+        support.
+        """
+
+        linear_to_pivoted_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestPivotedLogToLinear(unittest.TestCase):
     """
@@ -686,6 +777,16 @@ class TestPivotedLogToLinear(unittest.TestCase):
             pivoted_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_pivoted_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.pivoted_log_to_linear` definition nan
+        support.
+        """
+
+        pivoted_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToCLog(unittest.TestCase):
@@ -748,6 +849,16 @@ class TestLinearToCLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_c_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_c_log` definition nan
+        support.
+        """
+
+        linear_to_c_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestCLogToLinear(unittest.TestCase):
     """
@@ -808,6 +919,16 @@ class TestCLogToLinear(unittest.TestCase):
             c_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_c_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.c_log_to_linear` definition nan
+        support.
+        """
+
+        c_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToAcesCc(unittest.TestCase):
@@ -870,6 +991,16 @@ class TestLinearToAcesCc(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_aces_cc(self):
+        """
+        Tests :func:`colour.models.log.linear_to_aces_cc` definition nan
+        support.
+        """
+
+        linear_to_aces_cc(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAcesCcToLinear(unittest.TestCase):
     """
@@ -930,6 +1061,16 @@ class TestAcesCcToLinear(unittest.TestCase):
             aces_cc_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_aces_cc_to_linear(self):
+        """
+        Tests :func:`colour.models.log.aces_cc_to_linear` definition nan
+        support.
+        """
+
+        aces_cc_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToAlexaLogC(unittest.TestCase):
@@ -992,6 +1133,16 @@ class TestLinearToAlexaLogC(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_alexa_log_c(self):
+        """
+        Tests :func:`colour.models.log.linear_to_alexa_log_c` definition nan
+        support.
+        """
+
+        linear_to_alexa_log_c(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAlexaLogCToLinear(unittest.TestCase):
     """
@@ -1052,6 +1203,16 @@ class TestAlexaLogCToLinear(unittest.TestCase):
             alexa_log_c_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_alexa_log_c_to_linear(self):
+        """
+        Tests :func:`colour.models.log.alexa_log_c_to_linear` definition nan
+        support.
+        """
+
+        alexa_log_c_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToDciP3Log(unittest.TestCase):
@@ -1114,6 +1275,16 @@ class TestLinearToDciP3Log(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_dci_p3_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_dci_p3_log` definition nan
+        support.
+        """
+
+        linear_to_dci_p3_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestDciP3LogToLinear(unittest.TestCase):
     """
@@ -1174,6 +1345,16 @@ class TestDciP3LogToLinear(unittest.TestCase):
             dci_p3_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_dci_p3_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.dci_p3_log_to_linear` definition nan
+        support.
+        """
+
+        dci_p3_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToSLog(unittest.TestCase):
@@ -1236,6 +1417,16 @@ class TestLinearToSLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_s_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log` definition nan
+        support.
+        """
+
+        linear_to_s_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestSLogToLinear(unittest.TestCase):
     """
@@ -1296,6 +1487,16 @@ class TestSLogToLinear(unittest.TestCase):
             s_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_s_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log_to_linear` definition nan
+        support.
+        """
+
+        s_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToSLog2(unittest.TestCase):
@@ -1358,6 +1559,16 @@ class TestLinearToSLog2(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_s_log2(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log2` definition nan
+        support.
+        """
+
+        linear_to_s_log2(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestSLog2ToLinear(unittest.TestCase):
     """
@@ -1418,6 +1629,16 @@ class TestSLog2ToLinear(unittest.TestCase):
             s_log2_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_s_log2_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log2_to_linear` definition nan
+        support.
+        """
+
+        s_log2_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToSLog3(unittest.TestCase):
@@ -1480,6 +1701,16 @@ class TestLinearToSLog3(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_s_log3(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log3` definition nan
+        support.
+        """
+
+        linear_to_s_log3(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestSLog3ToLinear(unittest.TestCase):
     """
@@ -1540,6 +1771,16 @@ class TestSLog3ToLinear(unittest.TestCase):
             s_log3_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_s_log3_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log3_to_linear` definition nan
+        support.
+        """
+
+        s_log3_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLinearToVLog(unittest.TestCase):
@@ -1602,6 +1843,16 @@ class TestLinearToVLog(unittest.TestCase):
             log,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_linear_to_v_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_v_log` definition nan
+        support.
+        """
+
+        linear_to_v_log(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestVLogToLinear(unittest.TestCase):
     """
@@ -1662,6 +1913,16 @@ class TestVLogToLinear(unittest.TestCase):
             v_log_to_linear(log),
             linear,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_v_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.v_log_to_linear` definition nan
+        support.
+        """
+
+        v_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

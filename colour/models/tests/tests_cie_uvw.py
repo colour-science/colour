@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import XYZ_to_UVW
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -105,6 +107,19 @@ class TestXYZ_to_UVW(unittest.TestCase):
             XYZ_to_UVW(XYZ, illuminant),
             UVW,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_UVW(self):
+        """
+        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            illuminant = np.array(case[0:2])
+            XYZ_to_UVW(XYZ, illuminant)
 
 
 if __name__ == '__main__':

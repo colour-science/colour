@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.characterisation.fitting import first_order_colour_fit
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -97,6 +99,25 @@ class TestFirstOrderColourFit(unittest.TestCase):
                       [-0.09989111, 1.50122142, -0.18564796],
                       [0.22483693, -0.07672362, 1.04960133]]),
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_first_order_colour_fit(self):
+        """
+        Tests :func:`colour.characterisation.fitting.first_order_colour_fit`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            try:
+                first_order_colour_fit(np.vstack((M1, case)),
+                                       np.vstack((M2, case)))
+            except ValueError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
 
 
 if __name__ == '__main__':

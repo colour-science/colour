@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.adaptation.cmccat2000 import CMCCAT2000_forward, CMCCAT2000_reverse
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -114,6 +116,23 @@ class TestCMCCAT2000Forward(unittest.TestCase):
             XYZ_c,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_CMCCAT2000_forward(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_forward`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_w = np.array(case)
+            XYZ_wr = np.array(case)
+            L_A1 = case[0]
+            L_A2 = case[0]
+            CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+
 
 class TestCMCCAT2000Reverse(unittest.TestCase):
     """
@@ -200,6 +219,23 @@ class TestCMCCAT2000Reverse(unittest.TestCase):
             CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
             XYZ,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_CMCCAT2000_reverse(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.CMCCAT2000_reverse`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ_c = np.array(case)
+            XYZ_w = np.array(case)
+            XYZ_wr = np.array(case)
+            L_A1 = case[0]
+            L_A2 = case[0]
+            CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
 
 
 if __name__ == '__main__':

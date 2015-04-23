@@ -8,14 +8,17 @@ Defines unit tests for :mod:`colour.appearance.llab` module.
 from __future__ import division, unicode_literals
 from colour.utilities.array import tstack
 
+import numpy as np
+
 try:
     from unittest import mock
 except ImportError:
     import mock
-import numpy as np
+from itertools import permutations
 
 from colour.appearance import LLAB_InductionFactors, XYZ_to_LLAB, llab
 from colour.appearance.tests.common import ColourAppearanceModelTest
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -128,3 +131,20 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
             result = llab.LLAB_RGB_TO_XYZ_MATRIX.dot(result)
             result = llab.LLAB_XYZ_TO_RGB_MATRIX.dot(result)
         np.testing.assert_almost_equal(start, result, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_LLAB(self):
+        """
+        Tests :func:`colour.appearance.llab.XYZ_to_LLAB` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_0 = np.array(case)
+            Y_b = case[0]
+            L = case[0]
+            surround = LLAB_InductionFactors(1, case[0], case[0], case[0])
+            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)

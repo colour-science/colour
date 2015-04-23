@@ -14,8 +14,10 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.adaptation import chromatic_adaptation_CIE1994
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -119,6 +121,24 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
             XYZ_2,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_chromatic_adaptation_CIE1994(self):
+        """
+        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ_1 = np.array(case)
+            xy_o1 = np.array(case[0:2])
+            xy_o2 = np.array(case[0:2])
+            Y_o = case[0]
+            E_o1 = case[0]
+            E_o2 = case[0]
+            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
 
 
 if __name__ == '__main__':

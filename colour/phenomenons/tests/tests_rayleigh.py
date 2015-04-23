@@ -15,6 +15,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.phenomenons.rayleigh import (
     air_refraction_index_Penndorf1957,
@@ -34,6 +35,7 @@ from colour.phenomenons import (
     scattering_cross_section,
     rayleigh_optical_depth,
     rayleigh_scattering_spd)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -598,6 +600,17 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
             n,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
+        definition nan support.
+        """
+
+        air_refraction_index_Penndorf1957(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAirRefractionIndexEdlen1966(unittest.TestCase):
     """
@@ -662,6 +675,17 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
             n,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Edlen1966(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+        definition nan support.
+        """
+
+        air_refraction_index_Edlen1966(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAirRefractionIndexPeck1972(unittest.TestCase):
     """
@@ -724,6 +748,17 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
             air_refraction_index_Peck1972(wl),
             n,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Peck1972(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        definition nan support.
+        """
+
+        air_refraction_index_Peck1972(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
@@ -805,6 +840,21 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
             n,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            air_refraction_index_Bodhaine1999(wavelength, CO2_concentration)
+
 
 class TestN2Depolarisation(unittest.TestCase):
     """
@@ -865,6 +915,17 @@ class TestN2Depolarisation(unittest.TestCase):
             N2_depolarisation(wl),
             n,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_N2_depolarisation(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition nan
+        support.
+        """
+
+        N2_depolarisation(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestO2Depolarisation(unittest.TestCase):
@@ -927,6 +988,17 @@ class TestO2Depolarisation(unittest.TestCase):
             n,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_O2_depolarisation(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition nan
+        support.
+        """
+
+        O2_depolarisation(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestF_airPenndorf1957(unittest.TestCase):
     """
@@ -942,6 +1014,51 @@ class TestF_airPenndorf1957(unittest.TestCase):
 
         self.assertEqual(F_air_Penndorf1957(0.360), 1.0608)
 
+    def test_n_dimensional_F_air_Penndorf1957(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0608
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition nan
+        support.
+        """
+
+        F_air_Penndorf1957(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestF_airYoung1981(unittest.TestCase):
     """
@@ -955,6 +1072,51 @@ class TestF_airYoung1981(unittest.TestCase):
         """
 
         self.assertEqual(F_air_Young1981(0.360), 1.0480)
+
+    def test_n_dimensional_F_air_Young1981(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0480
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Young1981(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition nan
+        support.
+        """
+
+        F_air_Young1981(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airBates1984(unittest.TestCase):
@@ -1016,6 +1178,17 @@ class TestF_airBates1984(unittest.TestCase):
             F_air_Bates1984(wl),
             n,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Bates1984(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition nan
+        support.
+        """
+
+        F_air_Bates1984(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airBodhaine1999(unittest.TestCase):
@@ -1094,6 +1267,21 @@ class TestF_airBodhaine1999(unittest.TestCase):
             n,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_F_air_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            F_air_Bodhaine1999(wavelength, CO2_concentration)
+
 
 class TestMolecularDensity(unittest.TestCase):
     """
@@ -1154,6 +1342,17 @@ class TestMolecularDensity(unittest.TestCase):
             molecular_density(temperature),
             N_s,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_molecular_density(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.molecular_density` definition nan
+        support.
+        """
+
+        molecular_density(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMeanMolecularWeights(unittest.TestCase):
@@ -1217,6 +1416,17 @@ class TestMeanMolecularWeights(unittest.TestCase):
             m_a,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_mean_molecular_weights(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.mean_molecular_weights` definition
+        nan support.
+        """
+
+        mean_molecular_weights(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestGravityList1968(unittest.TestCase):
     """
@@ -1273,6 +1483,21 @@ class TestGravityList1968(unittest.TestCase):
             gravity_List1968(),
             g,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_gravity_List1968(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.gravity_List1968` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            latitude = case
+            altitude = case
+            gravity_List1968(latitude, altitude)
 
 
 class TestScatteringCrossSection(unittest.TestCase):
@@ -1362,6 +1587,23 @@ class TestScatteringCrossSection(unittest.TestCase):
             scattering_cross_section(wl),
             sigma,
             decimal=32)
+
+    @ignore_numpy_errors
+    def test_nan_scattering_cross_section(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.scattering_cross_section` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            temperature = case
+            scattering_cross_section(
+                wavelength, CO2_concentration, temperature)
 
 
 class TestRayleighOpticalDepth(unittest.TestCase):
@@ -1481,6 +1723,25 @@ class TestRayleighOpticalDepth(unittest.TestCase):
             rayleigh_optical_depth(wl),
             T_R,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_rayleigh_optical_depth(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            temperature = case
+            latitude = case
+            altitude = case
+            rayleigh_optical_depth(
+                wavelength, CO2_concentration, temperature, latitude, altitude)
 
 
 class TestRayleighScatteringSpd(unittest.TestCase):

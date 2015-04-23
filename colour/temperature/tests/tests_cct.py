@@ -15,15 +15,22 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
-from colour.temperature import CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968
-from colour.temperature import uv_to_CCT_Ohno2013, uv_to_CCT_Robertson1968
-from colour.temperature import CCT_to_xy_Kang2002, CCT_to_xy_CIE_D
-from colour.temperature import xy_to_CCT_McCamy1992, xy_to_CCT_Hernandez1999
+from colour.temperature import (
+    CCT_to_uv_Ohno2013,
+    CCT_to_uv_Robertson1968,
+    uv_to_CCT_Ohno2013,
+    uv_to_CCT_Robertson1968,
+    CCT_to_xy_Kang2002,
+    CCT_to_xy_CIE_D,
+    xy_to_CCT_McCamy1992,
+    xy_to_CCT_Hernandez1999)
 from colour.temperature.cct import (
     planckian_table,
     planckian_table_minimal_distance_index)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -360,6 +367,18 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
             CCT,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_xy_to_CCT_McCamy1992(self):
+        """
+        Tests :func:`colour.temperature.cct.xy_to_CCT_McCamy1992` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy_to_CCT_McCamy1992(case)
+
 
 class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
     """
@@ -415,6 +434,18 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
             CCT,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_xy_to_CCT_Hernandez1999(self):
+        """
+        Tests :func:`colour.temperature.cct.xy_to_CCT_Hernandez1999` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy_to_CCT_Hernandez1999(case)
+
 
 class TestCCT_to_xy_Kang2002(unittest.TestCase):
     """
@@ -469,6 +500,18 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
             xy,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_CCT_to_xy_Kang2002(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_xy_Kang2002` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            CCT_to_xy_Kang2002(case)
+
 
 class TestCCT_to_xy_CIE_D(unittest.TestCase):
     """
@@ -522,6 +565,18 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
             CCT_to_xy_CIE_D(CCT),
             xy,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_CCT_to_xy_CIE_D(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_xy_CIE_D` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            CCT_to_xy_CIE_D(case)
 
 
 if __name__ == '__main__':

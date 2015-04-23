@@ -15,6 +15,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import (
     RGB_COLOURSPACES,
@@ -26,6 +27,7 @@ from colour.models import (
 from colour.models.dataset.srgb import (
     _srgb_transfer_function,
     _srgb_inverse_transfer_function)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -296,6 +298,20 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                 value_inverse_oecf,
                 decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_opto_electronic_conversion_functions(self):
+        """
+        Tests opto-electronic conversion functions from the
+        :attr:`colour.models.RGB_COLOURSPACES` attribute colourspace models
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        for colourspace in RGB_COLOURSPACES.values():
+            for case in cases:
+                colourspace.transfer_function(case)
+                colourspace.inverse_transfer_function(case)
+
     def test_pickle(self):
         """
         Tests the ability of colourspace models to be pickled.
@@ -408,6 +424,21 @@ class TestXYZ_to_RGB(unittest.TestCase):
             RGB,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.XYZ_to_RGB` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            W_R = np.array(case[0:2])
+            W_T = np.array(case[0:2])
+            M = np.vstack((case, case, case)).reshape((3, 3))
+            XYZ_to_RGB(XYZ, W_R, W_T, M)
+
 
 class TestRGB_to_XYZ(unittest.TestCase):
     """
@@ -490,6 +521,21 @@ class TestRGB_to_XYZ(unittest.TestCase):
             XYZ,
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_to_XYZ(self):
+        """
+        Tests :func:`colour.models.rgb.RGB_to_XYZ` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            W_R = np.array(case[0:2])
+            W_T = np.array(case[0:2])
+            M = np.vstack((case, case, case)).reshape((3, 3))
+            RGB_to_XYZ(RGB, W_R, W_T, M)
+
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
@@ -555,6 +601,21 @@ class TestRGB_to_RGB(unittest.TestCase):
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_RGB_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.RGB_to_RGB` definition nan support.
+        """
+
+        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
+        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_RGB(RGB, aces_2065_1_colourspace, sRGB_colourspace)
 
 
 if __name__ == '__main__':

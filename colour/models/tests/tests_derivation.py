@@ -15,6 +15,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.models import (
     normalised_primary_matrix,
@@ -22,6 +23,7 @@ from colour.models import (
     RGB_luminance_equation,
     RGB_luminance)
 from colour.models.derivation import xy_to_z
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -63,10 +65,10 @@ class Testxy_to_z(unittest.TestCase):
             0.0,
             decimal=7)
 
-    def test_n_dimensions_xy_to_z(self):
+    def test_n_dimensional_xy_to_z(self):
         """
         Tests :func:`colour.models.rgb.derivation.xy_to_z` definition
-        n-dimensions support.
+        n-dimensional arrays support.
         """
 
         xy = np.array([0.25, 0.25])
@@ -89,6 +91,18 @@ class Testxy_to_z(unittest.TestCase):
             xy_to_z(xy),
             z,
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xy_to_z(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.xy_to_z` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy_to_z(case)
 
 
 class TestNormalisedPrimaryMatrix(unittest.TestCase):
@@ -127,6 +141,26 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                       [0.01933082, 0.11919478, 0.95053215]]),
             decimal=7)
 
+    @ignore_numpy_errors
+    def test_nan_normalised_primary_matrix(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            P = np.array(np.vstack((case, case, case)))
+            W = np.array(case)
+            try:
+                normalised_primary_matrix(P, W)
+            except np.linalg.linalg.LinAlgError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
+
 
 class TestPrimariesWhitepoint(unittest.TestCase):
     """
@@ -141,35 +175,48 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         definition.
         """
 
-        p, w = primaries_whitepoint(
+        P, W = primaries_whitepoint(
             np.array([[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
                       [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
                       [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]]))
         np.testing.assert_almost_equal(
-            p,
+            P,
             np.array([[0.73470, 0.26530],
                       [0.00000, 1.00000],
                       [0.00010, -0.07700]]),
             decimal=7)
         np.testing.assert_almost_equal(
-            w,
+            W,
             np.array([0.32168, 0.33767]),
             decimal=7)
 
-        p, w = primaries_whitepoint(
+        P, W = primaries_whitepoint(
             np.array([[0.41239080, 0.35758434, 0.18048079],
                       [0.21263901, 0.71516868, 0.07219232],
                       [0.01933082, 0.11919478, 0.95053215]]))
         np.testing.assert_almost_equal(
-            p,
+            P,
             np.array([[0.640, 0.330],
                       [0.300, 0.600],
                       [0.150, 0.060]]),
             decimal=7)
         np.testing.assert_almost_equal(
-            w,
+            W,
             np.array([0.3127, 0.3290]),
             decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_primaries_whitepoint(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            M = np.array(np.vstack((case, case, case)))
+            primaries_whitepoint(M)
 
 
 class TestRGBLuminanceEquation(unittest.TestCase):
@@ -249,7 +296,7 @@ class TestRGBLuminance(unittest.TestCase):
     def test_n_dimensional_RGB_luminance(self):
         """
         Tests:func:`colour.models.rgb.derivation.RGB_luminance` definition
-        n_dimensions support.
+        n_dimensional arrays support.
         """
 
         RGB = np.array([50.0, 50.0, 50.0]),
@@ -273,6 +320,27 @@ class TestRGBLuminance(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_luminance(RGB, P, W),
             Y)
+
+    @ignore_numpy_errors
+    def test_nan_RGB_luminance(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.RGB_luminance`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            P = np.array(np.vstack((case[0:2], case[0:2], case[0:2])))
+            W = np.array(case[0:2])
+            try:
+                RGB_luminance(RGB, P, W)
+            except np.linalg.linalg.LinAlgError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
 
 
 if __name__ == '__main__':
