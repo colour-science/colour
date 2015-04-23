@@ -7,6 +7,7 @@ Defines unit tests for :mod:`colour.models.log` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import sys
 
 if sys.version_info[:2] <= (2, 6):
@@ -103,6 +104,40 @@ class TestLinearToCineon(unittest.TestCase):
             0.66959921798631472,
             places=7)
 
+    def test_n_dimensional_linear_to_cineon(self):
+        """
+        Tests :func:`colour.models.log.linear_to_cineon` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.45731961308541841
+        np.testing.assert_almost_equal(
+            linear_to_cineon(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_cineon(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_cineon(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_cineon(linear),
+            log,
+            decimal=7)
+
 
 class TestCineonToLinear(unittest.TestCase):
     """
@@ -129,6 +164,40 @@ class TestCineonToLinear(unittest.TestCase):
             cineon_to_linear(0.66959921798631472),
             1.,
             places=7)
+
+    def test_n_dimensional_cineon_to_linear(self):
+        """
+        Tests :func:`colour.models.log.cineon_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.45731961308541841
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            cineon_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            cineon_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            cineon_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            cineon_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToPanalog(unittest.TestCase):
@@ -157,6 +226,40 @@ class TestLinearToPanalog(unittest.TestCase):
             0.66568914956011727,
             places=7)
 
+    def test_n_dimensional_linear_to_panalog(self):
+        """
+        Tests :func:`colour.models.log.linear_to_panalog` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.37457679138229816
+        np.testing.assert_almost_equal(
+            linear_to_panalog(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_panalog(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_panalog(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_panalog(linear),
+            log,
+            decimal=7)
+
 
 class TestPanalogToLinear(unittest.TestCase):
     """
@@ -183,6 +286,40 @@ class TestPanalogToLinear(unittest.TestCase):
             panalog_to_linear(0.66568914956011727),
             1.,
             places=7)
+
+    def test_n_dimensional_panalog_to_linear(self):
+        """
+        Tests :func:`colour.models.log.panalog_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.37457679138229816
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            panalog_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            panalog_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            panalog_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            panalog_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToRedLog(unittest.TestCase):
@@ -211,6 +348,40 @@ class TestLinearToRedLog(unittest.TestCase):
             1.,
             places=7)
 
+    def test_n_dimensional_linear_to_red_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_red_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.63762184598817484
+        np.testing.assert_almost_equal(
+            linear_to_red_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_red_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_red_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_red_log(linear),
+            log,
+            decimal=7)
+
 
 class TestRedLogToLinear(unittest.TestCase):
     """
@@ -237,6 +408,40 @@ class TestRedLogToLinear(unittest.TestCase):
             red_log_to_linear(1.00),
             1.,
             places=7)
+
+    def test_n_dimensional_red_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.red_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.63762184598817484
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            red_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            red_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            red_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            red_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToViperLog(unittest.TestCase):
@@ -265,6 +470,40 @@ class TestLinearToViperLog(unittest.TestCase):
             1.,
             places=7)
 
+    def test_n_dimensional_linear_to_viper_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_viper_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.63600806701041346
+        np.testing.assert_almost_equal(
+            linear_to_viper_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_viper_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_viper_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_viper_log(linear),
+            log,
+            decimal=7)
+
 
 class TestViperLogToLinear(unittest.TestCase):
     """
@@ -291,6 +530,40 @@ class TestViperLogToLinear(unittest.TestCase):
             viper_log_to_linear(1.00),
             1.,
             places=7)
+
+    def test_n_dimensional_viper_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.viper_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.63600806701041346
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            viper_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            viper_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            viper_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            viper_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToPivotedLog(unittest.TestCase):
@@ -319,6 +592,40 @@ class TestLinearToPivotedLog(unittest.TestCase):
             0.6533902722082191,
             places=7)
 
+    def test_n_dimensional_linear_to_pivoted_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_pivoted_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.43499511241446726
+        np.testing.assert_almost_equal(
+            linear_to_pivoted_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_pivoted_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_pivoted_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_pivoted_log(linear),
+            log,
+            decimal=7)
+
 
 class TestPivotedLogToLinear(unittest.TestCase):
     """
@@ -345,6 +652,40 @@ class TestPivotedLogToLinear(unittest.TestCase):
             pivoted_log_to_linear(0.6533902722082191),
             1.,
             places=7)
+
+    def test_n_dimensional_pivoted_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.pivoted_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.43499511241446726
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            pivoted_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            pivoted_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            pivoted_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            pivoted_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToCLog(unittest.TestCase):
@@ -373,6 +714,40 @@ class TestLinearToCLog(unittest.TestCase):
             0.62740830453765284,
             places=7)
 
+    def test_n_dimensional_linear_to_c_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_c_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.31201285555039493
+        np.testing.assert_almost_equal(
+            linear_to_c_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_c_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_c_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_c_log(linear),
+            log,
+            decimal=7)
+
 
 class TestCLogToLinear(unittest.TestCase):
     """
@@ -399,6 +774,40 @@ class TestCLogToLinear(unittest.TestCase):
             c_log_to_linear(0.62740830453765284),
             1.,
             places=7)
+
+    def test_n_dimensional_c_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.c_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.31201285555039493
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            c_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            c_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            c_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            c_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToAcesCc(unittest.TestCase):
@@ -427,6 +836,40 @@ class TestLinearToAcesCc(unittest.TestCase):
             0.5547945205479452,
             places=7)
 
+    def test_n_dimensional_linear_to_aces_cc(self):
+        """
+        Tests :func:`colour.models.log.linear_to_aces_cc` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.41358840249244228
+        np.testing.assert_almost_equal(
+            linear_to_aces_cc(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_aces_cc(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_aces_cc(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_aces_cc(linear),
+            log,
+            decimal=7)
+
 
 class TestAcesCcToLinear(unittest.TestCase):
     """
@@ -453,6 +896,40 @@ class TestAcesCcToLinear(unittest.TestCase):
             aces_cc_to_linear(0.5547945205479452),
             1.,
             places=7)
+
+    def test_n_dimensional_aces_cc_to_linear(self):
+        """
+        Tests :func:`colour.models.log.aces_cc_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.41358840249244228
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            aces_cc_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            aces_cc_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            aces_cc_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            aces_cc_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToAlexaLogC(unittest.TestCase):
@@ -481,6 +958,40 @@ class TestLinearToAlexaLogC(unittest.TestCase):
             0.57063155812041733,
             places=7)
 
+    def test_n_dimensional_linear_to_alexa_log_c(self):
+        """
+        Tests :func:`colour.models.log.linear_to_alexa_log_c` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.39100683203408376
+        np.testing.assert_almost_equal(
+            linear_to_alexa_log_c(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_alexa_log_c(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_alexa_log_c(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_alexa_log_c(linear),
+            log,
+            decimal=7)
+
 
 class TestAlexaLogCToLinear(unittest.TestCase):
     """
@@ -507,6 +1018,40 @@ class TestAlexaLogCToLinear(unittest.TestCase):
             alexa_log_c_to_linear(0.57063155812041733),
             1.,
             places=7)
+
+    def test_n_dimensional_alexa_log_c_to_linear(self):
+        """
+        Tests :func:`colour.models.log.alexa_log_c_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.39100683203408376
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            alexa_log_c_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            alexa_log_c_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            alexa_log_c_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            alexa_log_c_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToDciP3Log(unittest.TestCase):
@@ -535,6 +1080,40 @@ class TestLinearToDciP3Log(unittest.TestCase):
             893.4459834052784,
             places=7)
 
+    def test_n_dimensional_linear_to_dci_p3_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_dci_p3_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 461.99220597484737
+        np.testing.assert_almost_equal(
+            linear_to_dci_p3_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_dci_p3_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_dci_p3_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_dci_p3_log(linear),
+            log,
+            decimal=7)
+
 
 class TestDciP3LogToLinear(unittest.TestCase):
     """
@@ -561,6 +1140,40 @@ class TestDciP3LogToLinear(unittest.TestCase):
             dci_p3_log_to_linear(893.4459834052784),
             1.,
             places=7)
+
+    def test_n_dimensional_dci_p3_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.dci_p3_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 461.99220597484737
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            dci_p3_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            dci_p3_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            dci_p3_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            dci_p3_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToSLog(unittest.TestCase):
@@ -589,6 +1202,40 @@ class TestLinearToSLog(unittest.TestCase):
             0.65352925122530825,
             places=7)
 
+    def test_n_dimensional_linear_to_s_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.35998784642215442
+        np.testing.assert_almost_equal(
+            linear_to_s_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_s_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_s_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_s_log(linear),
+            log,
+            decimal=7)
+
 
 class TestSLogToLinear(unittest.TestCase):
     """
@@ -615,6 +1262,40 @@ class TestSLogToLinear(unittest.TestCase):
             s_log_to_linear(0.65352925122530825),
             1.,
             places=7)
+
+    def test_n_dimensional_s_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.35998784642215442
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            s_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            s_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            s_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            s_log_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToSLog2(unittest.TestCase):
@@ -643,6 +1324,40 @@ class TestLinearToSLog2(unittest.TestCase):
             0.63855168462253165,
             places=7)
 
+    def test_n_dimensional_linear_to_s_log2(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log2` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.38497081592867027
+        np.testing.assert_almost_equal(
+            linear_to_s_log2(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_s_log2(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_s_log2(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_s_log2(linear),
+            log,
+            decimal=7)
+
 
 class TestSLog2ToLinear(unittest.TestCase):
     """
@@ -669,6 +1384,40 @@ class TestSLog2ToLinear(unittest.TestCase):
             s_log2_to_linear(0.63855168462253165),
             1.,
             places=7)
+
+    def test_n_dimensional_s_log2_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log2_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.38497081592867027
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            s_log2_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            s_log2_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            s_log2_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            s_log2_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToSLog3(unittest.TestCase):
@@ -697,6 +1446,40 @@ class TestLinearToSLog3(unittest.TestCase):
             0.59602734369012345,
             places=7)
 
+    def test_n_dimensional_linear_to_s_log3(self):
+        """
+        Tests :func:`colour.models.log.linear_to_s_log3` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.41055718475073316
+        np.testing.assert_almost_equal(
+            linear_to_s_log3(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_s_log3(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_s_log3(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_s_log3(linear),
+            log,
+            decimal=7)
+
 
 class TestSLog3ToLinear(unittest.TestCase):
     """
@@ -723,6 +1506,40 @@ class TestSLog3ToLinear(unittest.TestCase):
             s_log3_to_linear(0.59602734369012345),
             1.,
             places=7)
+
+    def test_n_dimensional_s_log3_to_linear(self):
+        """
+        Tests :func:`colour.models.log.s_log3_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.41055718475073316
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            s_log3_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            s_log3_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            s_log3_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            s_log3_to_linear(log),
+            linear,
+            decimal=7)
 
 
 class TestLinearToVLog(unittest.TestCase):
@@ -751,6 +1568,40 @@ class TestLinearToVLog(unittest.TestCase):
             0.5991177001581459,
             places=7)
 
+    def test_n_dimensional_linear_to_v_log(self):
+        """
+        Tests :func:`colour.models.log.linear_to_v_log` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.42331144876013616
+        np.testing.assert_almost_equal(
+            linear_to_v_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_v_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_v_log(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_v_log(linear),
+            log,
+            decimal=7)
+
 
 class TestVLogToLinear(unittest.TestCase):
     """
@@ -777,3 +1628,41 @@ class TestVLogToLinear(unittest.TestCase):
             v_log_to_linear(0.5991177001581459),
             1.,
             places=7)
+
+    def test_n_dimensional_v_log_to_linear(self):
+        """
+        Tests :func:`colour.models.log.v_log_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.42331144876013616
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            v_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            v_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            v_log_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            v_log_to_linear(log),
+            linear,
+            decimal=7)
+
+
+if __name__ == '__main__':
+    unittest.main()
