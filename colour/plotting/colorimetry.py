@@ -159,14 +159,10 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     shape = cmfs.shape
     spd = spd.clone().interpolate(shape, 'Linear')
     wavelengths = spd.wavelengths
+    values = spd.values
 
-    colours = []
-    y1 = []
-
-    for wavelength, value in spd:
-        XYZ = wavelength_to_XYZ(wavelength, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
-        y1.append(value)
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
+    y1 = values
 
     colours = normalise(colours)
 
@@ -485,12 +481,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wavelengths = cmfs.shape.range()
 
-    colours = []
-    for i in wavelengths:
-        XYZ = wavelength_to_XYZ(i, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
-
-    colours = np.array([np.ravel(x) for x in colours])
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
     colours *= 1 / np.max(colours)
     colours = np.clip(colours, 0, 1)
 

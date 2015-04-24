@@ -19,6 +19,7 @@ from __future__ import division
 import numpy as np
 import pylab
 
+from colour.constants import EPSILON
 from colour.models import (
     LCHab_to_Lab,
     Lab_to_XYZ,
@@ -306,8 +307,14 @@ def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
             r, g, b, a = next(cycle)
 
-            primaries = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(
-                colourspace.primaries)))
+            # RGB colourspaces such as *ACES2065-1* have primaries with
+            # chromaticity coordinates set to 0 thus we prevent nan from being
+            # yield by zero division in later colour transformations.
+            primaries = np.where(colourspace.primaries == 0,
+                                 EPSILON,
+                                 colourspace.primaries)
+
+            primaries = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(primaries)))
             whitepoint = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(
                 colourspace.whitepoint)))
 
@@ -444,8 +451,15 @@ def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
             r, g, b, a = next(cycle)
 
+            # RGB colourspaces such as *ACES2065-1* have primaries with
+            # chromaticity coordinates set to 0 thus we prevent nan from being
+            # yield by zero division in later colour transformations.
+            primaries = np.where(colourspace.primaries == 0,
+                                 EPSILON,
+                                 colourspace.primaries)
+
             primaries = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
-                colourspace.primaries), illuminant), illuminant)
+                primaries), illuminant), illuminant)
             whitepoint = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
                 colourspace.whitepoint), illuminant), illuminant)
 
