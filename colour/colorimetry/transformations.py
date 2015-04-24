@@ -98,7 +98,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
     V.align(cmfs.shape)
-    L = V[wavelength]
+    L = V.get(wavelength)
 
     x_bar = x / y * L
     y_bar = L

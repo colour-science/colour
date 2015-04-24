@@ -820,8 +820,6 @@ class SpectralPowerDistribution(object):
         array([ 49.67,  69.59])
         >>> spd[:]
         array([ 49.67,  69.59,  81.73,  88.19])
-        >>> spd[500]
-        array(nan)
         """
 
         if type(wavelength) is slice:
@@ -829,7 +827,7 @@ class SpectralPowerDistribution(object):
         else:
             wavelength = np.asarray(wavelength)
 
-            value = [self.data.get(x, np.nan) for x in np.ravel(wavelength)]
+            value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
             value = np.reshape(value, wavelength.shape)
 
             return value
@@ -2411,8 +2409,6 @@ class TriSpectralPowerDistribution(object):
                [ 69.59,  87.34,  23.15],
                [ 81.73,  45.76,  67.98],
                [ 88.19,  23.45,  90.28]])
-        >>> tri_spd[500]
-        array([ nan,  nan,  nan])
         """
 
         value = tstack((np.asarray(self.x[wavelength]),
