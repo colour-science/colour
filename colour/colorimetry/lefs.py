@@ -56,7 +56,7 @@ def mesopic_weighting_function(wavelength,
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` to calculate the mesopic weighting function
         factor.
     Lp : numeric
@@ -74,27 +74,14 @@ def mesopic_weighting_function(wavelength,
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Mesopic weighting function factor.
-
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in either luminous
-        efficiency function.
 
     Examples
     --------
     >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
     0.7052200...
     """
-
-    for function in (photopic_lef, scotopic_lef):
-        if function.get(wavelength) is None:
-            raise KeyError(
-                ('"{0} nm" wavelength not available in "{1}" '
-                 'luminous efficiency function with "{2}" shape!').format(
-                    wavelength, function.name, function.shape))
 
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
     index = mesopic_x_luminance_values.index(
@@ -153,15 +140,16 @@ def mesopic_luminous_efficiency_function(
         min(photopic_lef_shape.end, scotopic_lef_shape.end),
         max(photopic_lef_shape.steps, scotopic_lef_shape.steps))
 
-    spd_data = dict((i,
-                     mesopic_weighting_function(
-                         i,
-                         Lp,
-                         source,
-                         method,
-                         photopic_lef,
-                         scotopic_lef))
-                    for i in shape)
+    wavelengths = shape.range()
+
+    spd_data = dict(zip(wavelengths,
+                        mesopic_weighting_function(
+                            wavelengths,
+                            Lp,
+                            source,
+                            method,
+                            photopic_lef,
+                            scotopic_lef)))
 
     spd = SpectralPowerDistribution(
         '{0} Lp Mesopic Luminous Efficiency Function'.format(Lp),

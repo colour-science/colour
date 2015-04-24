@@ -18,6 +18,7 @@ else:
 from colour.colorimetry import (
     mesopic_weighting_function,
     mesopic_luminous_efficiency_function)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -466,6 +467,46 @@ class TestMesopicWeightingFunction(unittest.TestCase):
                                        method='LRC'),
             0.004102,
             places=7)
+
+    def test_n_dimensional_planck_law(self):
+        """
+        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function` 
+        definition n-dimensional arrays support.
+        """
+
+        wl = 500
+        Vm = 0.7052200000000001
+        np.testing.assert_almost_equal(
+            mesopic_weighting_function(wl, 0.2),
+            Vm)
+
+        wl = np.tile(wl, 6)
+        Vm = np.tile(Vm, 6)
+        np.testing.assert_almost_equal(
+            mesopic_weighting_function(wl, 0.2),
+            Vm)
+
+        wl = np.reshape(wl, (2, 3))
+        Vm = np.reshape(Vm, (2, 3))
+        np.testing.assert_almost_equal(
+            mesopic_weighting_function(wl, 0.2),
+            Vm)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        Vm = np.reshape(Vm, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            mesopic_weighting_function(wl, 0.2),
+            Vm)
+
+    @ignore_numpy_errors
+    def test_nan_mesopic_weighting_function(self):
+        """
+        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+        definition nan support.
+        """
+
+        mesopic_weighting_function(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 0.2),
 
 
 class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
