@@ -584,8 +584,9 @@ def image_plot(image, **kwargs):
     Examples
     --------
     >>> import os
+    >>> from colour import read_image
     >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
-    >>> image = read_image_as_array(path)  # doctest: +SKIP
+    >>> image = read_image(path)  # doctest: +SKIP
     >>> image_plot(image)  # doctest: +SKIP
     True
     """

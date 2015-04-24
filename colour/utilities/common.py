@@ -61,7 +61,8 @@ def handle_numpy_errors(**kwargs):
     --------
     >>> import numpy
     >>> @handle_numpy_errors(all='ignore')
-    ... def f(): 1 / numpy.zeros(3)
+    ... def f():
+    ...     1 / numpy.zeros(3)
     >>> f()
     """
 
@@ -100,7 +101,8 @@ def ignore_python_warnings(object):
     Examples
     --------
     >>> @ignore_python_warnings
-    ... def f(): warnings.warn('This is an ignored warning!')
+    ... def f():
+    ...     warnings.warn('This is an ignored warning!')
     >>> f()
     """
 

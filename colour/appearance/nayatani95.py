@@ -273,7 +273,7 @@ def XYZ_to_Nayatani95(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
     # -------------------------------------------------------------------------
-    C_RG, C_YB = tsplit(chroma_components(Lstar_P, S_RG, S_YB))
+    # C_RG, C_YB = tsplit(chroma_components(Lstar_P, S_RG, S_YB))
     C = chroma_correlate(Lstar_P, S)
 
     # -------------------------------------------------------------------------

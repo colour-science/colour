@@ -778,7 +778,7 @@ def opponent_colour_dimensions_reverse(P, h):
 
     Parameters
     ----------
-    p : array_like
+    P : array_like
         Points :math:`P`.
     h : numeric or array_like
         Hue :math:`h` in degrees.

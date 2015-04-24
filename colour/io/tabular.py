@@ -133,7 +133,7 @@ def read_spectral_data_from_csv_file(path,
         wavelength = reader.fieldnames[0]
         fields = reader.fieldnames[1:]
 
-        data = OrderedDict(zip(fields, ({} for x in range(len(fields)))))
+        data = OrderedDict(zip(fields, ({} for _ in range(len(fields)))))
         for line in reader:
             for field in fields:
                 try:
