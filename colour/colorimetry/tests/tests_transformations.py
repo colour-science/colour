@@ -22,6 +22,7 @@ from colour.colorimetry import (
     RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs,
     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -98,6 +99,17 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
+        definition nan support.
+        """
+
+        RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
@@ -159,6 +171,17 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ)
+
+    @ignore_numpy_errors
+    def test_nan_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
+        definition nan support.
+        """
+
+        RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
@@ -222,6 +245,17 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
             LMS)
 
+    @ignore_numpy_errors
+    def test_nan_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
+        definition nan support.
+        """
+
+        RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
@@ -284,6 +318,17 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ)
 
+    @ignore_numpy_errors
+    def test_nan_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
+        definition nan support.
+        """
+
+        LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
@@ -345,6 +390,17 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
         np.testing.assert_almost_equal(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ)
+
+    @ignore_numpy_errors
+    def test_nan_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
+        """
+        Tests
+        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
+        definition nan support.
+        """
+
+        LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

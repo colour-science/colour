@@ -2110,6 +2110,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             self.__spd[3:6],
             np.array([0.0641, 0.0645, 0.0562]))
 
+        np.testing.assert_array_equal(self.__spd[400.1], np.nan)
+
     def test__setitem__(self):
         """
         Tests
@@ -2339,6 +2341,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             self.__spd.get(np.array([340, 620, 820])),
             np.array([0., 0.1511, 0.]))
+
+        np.testing.assert_array_equal(self.__spd[400.1], np.nan)
 
     def test_is_uniform(self):
         """
@@ -2583,6 +2587,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             np.array([[0.00765, 0.000217, 0.03621],
                       [0.01431, 0.000396, 0.06785],
                       [0.02319, 0.00064, 0.1102]]))
+
+        np.testing.assert_array_equal(self.__tri_spd[400.1],
+                                      np.array([np.nan, np.nan, np.nan]))
 
     def test__setitem__(self):
         """
@@ -2850,6 +2857,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
                       [1.06220000e+00, 6.31000000e-01, 8.00000000e-04],
                       [1.13590000e-02, 4.10200000e-03, 0.00000000e+00]]))
+
+        np.testing.assert_array_equal(self.__tri_spd[400.1],
+                                      np.array([np.nan, np.nan, np.nan]))
 
     def test_is_uniform(self):
         """

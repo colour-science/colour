@@ -56,12 +56,6 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     ndarray
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in the colour matching
-        functions.
-
     See Also
     --------
     :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
@@ -85,12 +79,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
 
-    try:
-        rgb_bar = cmfs[wavelength]
-    except KeyError as error:
-        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
-                        'matching functions with "{2}" shape!').format(
-            error.args[0], cmfs.name, cmfs.shape))
+    rgb_bar = cmfs.get(wavelength)
 
     rgb = rgb_bar / np.sum(rgb_bar)
 
@@ -136,12 +125,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     ndarray
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
 
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in the colour matching
-        functions.
-
     See Also
     --------
     :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
@@ -165,12 +148,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
 
-    try:
-        rgb_bar = cmfs[wavelength]
-    except KeyError as error:
-        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
-                        'matching functions with "{2}" shape!').format(
-            error.args[0], cmfs.name, cmfs.shape))
+    rgb_bar = cmfs.get(wavelength)
 
     M = np.array([[0.341080, 0.189145, 0.387529],
                   [0.139058, 0.837460, 0.073316],
@@ -198,12 +176,6 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
         *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
         values.
 
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in the colour matching
-        functions.
-
     Notes
     -----
     -   Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already
@@ -223,12 +195,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
 
-    try:
-        rgb_bar = cmfs[wavelength]
-    except KeyError as error:
-        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
-                        'matching functions with "{2}" shape!').format(
-            error.args[0], cmfs.name, cmfs.shape))
+    rgb_bar = cmfs.get(wavelength)
 
     M = np.array([[0.1923252690, 0.749548882, 0.0675726702],
                   [0.0192290085, 0.940908496, 0.113830196],
@@ -256,12 +223,6 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     ndarray
         *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
 
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in the colour matching
-        functions.
-
     Notes
     -----
     -   Data for the *CIE 2012 2 Degree Standard Observer* already exists,
@@ -281,12 +242,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
 
-    try:
-        lms_bar = cmfs[wavelength]
-    except KeyError as error:
-        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
-                        'matching functions with "{2}" shape!').format(
-            error.args[0], cmfs.name, cmfs.shape))
+    lms_bar = cmfs.get(wavelength)
 
     M = np.array([[1.94735469, -1.41445123, 0.36476327],
                   [0.68990272, 0.34832189, 0.00000000],
@@ -313,12 +269,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     ndarray
         *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
 
-    Raises
-    ------
-    KeyError
-        If wavelength :math:`\lambda` is not available in the colour matching
-        functions.
-
     Notes
     -----
     -   Data for the *CIE 2012 10 Degree Standard Observer* already exists,
@@ -338,12 +288,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
 
-    try:
-        lms_bar = cmfs[wavelength]
-    except KeyError as error:
-        raise KeyError(('"{0} nm" wavelength not available in "{1}" colour '
-                        'matching functions with "{2}" shape!').format(
-            error.args[0], cmfs.name, cmfs.shape))
+    lms_bar = cmfs.get(wavelength)
 
     M = np.array([[1.93986443, -1.34664359, 0.43044935],
                   [0.69283932, 0.34967567, 0.00000000],

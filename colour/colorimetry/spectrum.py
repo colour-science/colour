@@ -820,6 +820,8 @@ class SpectralPowerDistribution(object):
         array([ 49.67,  69.59])
         >>> spd[:]
         array([ 49.67,  69.59,  81.73,  88.19])
+        >>> spd[500]
+        array(nan)
         """
 
         if type(wavelength) is slice:
@@ -827,7 +829,7 @@ class SpectralPowerDistribution(object):
         else:
             wavelength = np.asarray(wavelength)
 
-            value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
+            value = [self.data.get(x, np.nan) for x in np.ravel(wavelength)]
             value = np.reshape(value, wavelength.shape)
 
             return value
@@ -1363,7 +1365,7 @@ class SpectralPowerDistribution(object):
 
         return self
 
-    def get(self, wavelength, default=None):
+    def get(self, wavelength, default=np.nan):
         """
         Returns the value for given wavelength :math:`\lambda`.
 
@@ -1371,7 +1373,7 @@ class SpectralPowerDistribution(object):
         ----------
         wavelength : numeric or ndarray
             Wavelength :math:`\lambda` to retrieve the value.
-        default : None or numeric, optional
+        default : nan or numeric, optional
             Wavelength :math:`\lambda` default value.
 
         Returns
@@ -1391,7 +1393,7 @@ class SpectralPowerDistribution(object):
         >>> spd.get(510)  # doctest: +ELLIPSIS
         array(49.67...)
         >>> spd.get(511)
-        array(None, dtype=object)
+        array(nan)
         >>> spd.get(np.array([510, 520]))
         array([ 49.67,  69.59])
         """
@@ -2409,6 +2411,8 @@ class TriSpectralPowerDistribution(object):
                [ 69.59,  87.34,  23.15],
                [ 81.73,  45.76,  67.98],
                [ 88.19,  23.45,  90.28]])
+        >>> tri_spd[500]
+        array([ nan,  nan,  nan])
         """
 
         value = tstack((np.asarray(self.x[wavelength]),
@@ -3072,7 +3076,7 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def get(self, wavelength, default=None):
+    def get(self, wavelength, default=np.nan):
         """
         Returns the values for given wavelength :math:`\lambda`.
 
@@ -3080,7 +3084,7 @@ class TriSpectralPowerDistribution(object):
         ----------
         wavelength : numeric or array_like
             Wavelength :math:`\lambda` to retrieve the values.
-        default : None, numeric or array_like, optional
+        default : nan, numeric or array_like, optional
             Wavelength :math:`\lambda` default values.
 
         Returns
@@ -3106,8 +3110,7 @@ class TriSpectralPowerDistribution(object):
         array([[ 49.67,  90.56,  12.43],
                [ 69.59,  87.34,  23.15]])
         >>> tri_spd.get(511)
-        array([array(None, dtype=object), array(None, dtype=object),
-               array(None, dtype=object)], dtype=object)
+        array([ nan,  nan,  nan])
         >>> tri_spd.get(np.array([510, 520]))
         array([[ 49.67,  90.56,  12.43],
                [ 69.59,  87.34,  23.15]])
