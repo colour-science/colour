@@ -470,7 +470,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
     def test_n_dimensional_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function` 
+        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition n-dimensional arrays support.
         """
 

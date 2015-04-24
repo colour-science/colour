@@ -374,7 +374,8 @@ class TestLuv_to_LCHuv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_to_LCHuv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan support.
+        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -440,7 +441,8 @@ class TestLCHuv_to_Luv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_LCHuv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan support.
+        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -506,7 +508,8 @@ class TestLuv_uv_to_xy(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan support.
+        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

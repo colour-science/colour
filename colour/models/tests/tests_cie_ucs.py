@@ -256,9 +256,10 @@ class TestUCS_uv_to_xy(unittest.TestCase):
             np.array([0.47670437, 0.35789998]),
             decimal=7)
 
-    def test_UCS_uv_to_xy(self):
+    def test_n_dimensional_UCS_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition.
+        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition
+        n-dimensional arrays support.
         """
 
         uv = np.array([0.15085309, 0.32355314])
@@ -285,7 +286,8 @@ class TestUCS_uv_to_xy(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_UCS_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition nan support.
+        Tests :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

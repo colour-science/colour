@@ -1385,4 +1385,3 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     RGB_a = tstack((R_a, G_a, B_a))
 
     return RGB_a
-

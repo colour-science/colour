@@ -274,7 +274,8 @@ class SpectralShape(object):
 
     def __contains__(self, wavelength):
         """
-        Returns if the spectral shape contains given wavelength :math:`\lambda`.
+        Returns if the spectral shape contains given wavelength
+        :math:`\lambda`.
 
         Parameters
         ----------
@@ -2484,7 +2485,6 @@ class TriSpectralPowerDistribution(object):
         self.y.__setitem__(wavelengths, value[..., 1])
         self.z.__setitem__(wavelengths, value[..., 2])
 
-
     def __iter__(self):
         """
         Returns a generator for the tri-spectral power distribution data.
@@ -3012,8 +3012,10 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__add__, TriSpectralPowerDistribution.__sub__,
-        TriSpectralPowerDistribution.__mul__, TriSpectralPowerDistribution.__div__
+        TriSpectralPowerDistribution.__add__,
+        TriSpectralPowerDistribution.__sub__,
+        TriSpectralPowerDistribution.__mul__,
+        TriSpectralPowerDistribution.__div__
 
         Notes
         -----
@@ -3051,7 +3053,8 @@ class TriSpectralPowerDistribution(object):
                [ 1.8274719...,  3.4683895...,  9.5278547...],
                [ 1.2108815...,  2.2646943...,  2.2583585...]])
 
-        Exponentiation by a :class:`TriSpectralPowerDistribution` class variable:
+        Exponentiation by a :class:`TriSpectralPowerDistribution`
+        class variable:
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)

@@ -61,7 +61,7 @@ def as_numeric(x):
 
     try:
         return float(x)
-    except TypeError as error:
+    except TypeError:
         return x
 
 

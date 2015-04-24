@@ -54,4 +54,3 @@ __all__ += ['as_numeric',
             'row_as_diagonal']
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['message_box', 'warning']
-

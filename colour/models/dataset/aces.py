@@ -369,7 +369,8 @@ def _aces_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     output = np.where(value > 2 ** -9.72,
                       float_2_cv((np.log2(value) + constants.mid_log_offset) *
-                                 constants.steps_per_stop + constants.mid_CV_offset),
+                                 constants.steps_per_stop +
+                                 constants.mid_CV_offset),
                       np.resize(CV_min, value.shape))
     return output
 

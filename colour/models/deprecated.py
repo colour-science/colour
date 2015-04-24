@@ -91,7 +91,6 @@ def RGB_to_HSV(RGB):
     array([ 0.2786738...,  0.744     ,  0.98039216])
     """
 
-    minimum = np.amin(RGB, -1)
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
 

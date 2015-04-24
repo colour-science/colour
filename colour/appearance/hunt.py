@@ -402,7 +402,7 @@ def XYZ_to_Hunt(XYZ,
     # Computing the *hue* angle :math:`h_s`.
     # -------------------------------------------------------------------------
     h = hue_angle(C)
-    hue_w = hue_angle(C_w)
+    # hue_w = hue_angle(C_w)
     # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------

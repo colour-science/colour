@@ -135,5 +135,6 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
 
                 warning(traceback.format_exc())
 
+
 if __name__ == '__main__':
     unittest.main()
