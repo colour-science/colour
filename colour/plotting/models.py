@@ -7,9 +7,9 @@ Colour Models Plotting
 
 Defines the colour models plotting objects:
 
--   :func:`colourspaces_CIE_1931_chromaticity_diagram_plot`
--   :func:`colourspaces_CIE_1960_UCS_chromaticity_diagram_plot`
--   :func:`colourspaces_CIE_1976_UCS_chromaticity_diagram_plot`
+-   :func:`RGB_colourspaces_CIE_1931_chromaticity_diagram_plot`
+-   :func:`RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot`
 -   :func:`single_transfer_function_plot`
 -   :func:`multi_transfer_function_plot`
 """
@@ -54,9 +54,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['get_RGB_colourspace',
-           'colourspaces_CIE_1931_chromaticity_diagram_plot',
-           'colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
-           'colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
+           'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
+           'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
+           'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
            'single_transfer_function_plot',
            'multi_transfer_function_plot']
 
@@ -92,7 +92,7 @@ def get_RGB_colourspace(colourspace):
     return colourspace
 
 
-def colourspaces_CIE_1931_chromaticity_diagram_plot(
+def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
@@ -116,7 +116,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -225,7 +225,7 @@ def colourspaces_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
+def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
@@ -249,7 +249,7 @@ def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -366,7 +366,7 @@ def colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
+def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
@@ -390,7 +390,7 @@ def colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> csps = ['sRGB', 'ACES2065-1']
-    >>> colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
 
