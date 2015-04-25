@@ -656,8 +656,10 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1931_chromaticity_diagram_plot(standalone=False,
-                                       **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1931_chromaticity_diagram_plot(standalone=False, **kwargs)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -677,7 +679,18 @@ def spds_CIE_1931_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.9, -0.1, 0.9),
+        'margins': (-0.05, 0.05, -0.05, 0.05),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
 
 
 def spds_CIE_1960_UCS_chromaticity_diagram_plot(
@@ -715,8 +728,10 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False,
-                                           **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False, **settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -736,7 +751,18 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.075, 0.675, -0.150, 0.600),
+        'margins': (-0.05, 0.05, -0.05, 0.05),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
 
 
 def spds_CIE_1976_UCS_chromaticity_diagram_plot(
@@ -774,8 +800,10 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False,
-                                           **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False, **settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -795,4 +823,15 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.7, -0.1, 0.7),
+        'margins': (-0.05, 0.05, -0.05, 0.05),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
