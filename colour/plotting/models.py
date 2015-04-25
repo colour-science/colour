@@ -542,7 +542,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB = np.random((10, 10, 3))
+    >>> RGB = np.random.random((10, 10, 3))
     >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
     True
     """
@@ -598,7 +598,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB = np.random((10, 10, 3))
+    >>> RGB = np.random.random((10, 10, 3))
     >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
     True
     """
@@ -653,7 +653,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB = np.random((10, 10, 3))
+    >>> RGB = np.random.random((10, 10, 3))
     >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
     True
     """
