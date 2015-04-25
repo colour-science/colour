@@ -131,7 +131,6 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.9, -0.1, 0.9),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
@@ -229,8 +228,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
-        'limits': (-0.075, 0.675, -0.150, 0.600),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
+        'limits': (-0.1, 0.7, -0.2, 0.6),
         'standalone': True})
     settings.update(kwargs)
 

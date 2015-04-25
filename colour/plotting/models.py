@@ -223,7 +223,6 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         'y_tighten': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max)),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
@@ -280,8 +279,8 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
         return
 
-    x_limit_min, x_limit_max = [-0.075], [0.675]
-    y_limit_min, y_limit_max = [-0.150], [0.600]
+    x_limit_min, x_limit_max = [-0.1], [0.7]
+    y_limit_min, y_limit_max = [-0.2], [0.6]
 
     cycle = colour_cycle('rainbow', count=len(colourspaces))
     for colourspace in colourspaces:
@@ -364,7 +363,6 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         'y_tighten': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max)),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
@@ -509,7 +507,6 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         'y_tighten': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max)),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 

@@ -236,6 +236,11 @@ def CIE_1931_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
+
     settings.update({
         'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
@@ -417,6 +422,11 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                    ha='left' if normal[0] >= 0 else 'right',
                    va='center',
                    fontdict={'size': 'small'})
+
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
 
     settings.update({
         'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
@@ -603,6 +613,11 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
+
     settings.update({
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
@@ -683,7 +698,6 @@ def spds_CIE_1931_chromaticity_diagram_plot(
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.9, -0.1, 0.9),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
@@ -754,8 +768,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
-        'limits': (-0.075, 0.675, -0.150, 0.600),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
+        'limits': (-0.1, 0.7, -0.2, 0.6),
         'standalone': True})
     settings.update(kwargs)
 
@@ -827,7 +840,6 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.7, -0.1, 0.7),
-        'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
 
