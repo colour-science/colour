@@ -57,7 +57,7 @@ Notes
 -   The original *CIE* value for :math:`\kappa` is :math:`\kappa=903.3`,
     Lindbloom (2003) has shown that this value is causing a discontinuity
     at the junction point of the two functions grafted together to create the
-    *Lightness* :math:`L^*` function. [2]_
+    *Lightness* :math:`L^*` function. [1]_
 
     That discontinuity can be avoided by using the rational representation as
     follows: :math:`k=24389\ /\ 27`.
@@ -73,11 +73,11 @@ K_M : numeric
 Notes
 -----
 -   To be adequate for all practical applications the :math:`K_m` value has
-    been rounded from the original 683.002 value. [3]_
+    been rounded from the original 683.002 value. [2]_
 
 References
 ----------
-.. [3]  Wyszecki, G., & Stiles, W. S. (2000). Standard Photometric Observers.
+.. [2]  Wyszecki, G., & Stiles, W. S. (2000). Standard Photometric Observers.
         In Color Science: Concepts and Methods, Quantitative Data and Formulae
         (pp. 256–259,395). Wiley. ISBN:978-0471399186
 
@@ -93,5 +93,5 @@ KP_M : numeric
 Notes
 -----
 -   To be adequate for all practical applications the :math:`K^{\prime}_m`
-    value has been rounded from the original 1700.06 value. [3]_
+    value has been rounded from the original 1700.06 value. [2]_
 """

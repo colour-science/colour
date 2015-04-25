@@ -80,7 +80,7 @@ IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 
 def XYZ_to_IPT(XYZ):
     """
-    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace. [1]_
+    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
     Parameters
     ----------
@@ -113,7 +113,7 @@ def XYZ_to_IPT(XYZ):
 
 def IPT_to_XYZ(IPT):
     """
-    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values. [1]_
+    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -141,7 +141,7 @@ def IPT_to_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace. [1]_
+    Computes the hue angle from *IPT* colourspace.
 
     Parameters
     ----------

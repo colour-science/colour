@@ -109,7 +109,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     """
     Adapts given stimulus from test viewing conditions to reference viewing
-    conditions. [6]_
+    conditions.
 
     Parameters
     ----------
