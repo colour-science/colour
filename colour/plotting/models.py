@@ -10,6 +10,9 @@ Defines the colour models plotting objects:
 -   :func:`RGB_colourspaces_CIE_1931_chromaticity_diagram_plot`
 -   :func:`RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot`
 -   :func:`RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot`
+-   :func:`RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot`
+-   :func:`RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot`
 -   :func:`single_transfer_function_plot`
 -   :func:`multi_transfer_function_plot`
 """
