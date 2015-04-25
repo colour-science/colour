@@ -17,7 +17,7 @@ message_box('Colour Models Plots')
 message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998', 'Pointer Gamut'])
 
 print('\n')
 
@@ -25,7 +25,7 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998', 'Pointer Gamut'])
 
 print('\n')
 
@@ -33,7 +33,36 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998'])
+    ['sRGB', 'ACES2065-1', 'Adobe RGB 1998', 'Pointer Gamut'])
+
+print('\n')
+
+RGB = np.random.random((32, 32, 3))
+
+message_box('Plotting "RGB" chromaticity coordinates in '
+            '"CIE 1931 Chromaticity Diagram".')
+RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
+    RGB,
+    colour.sRGB_COLOURSPACE,
+    colourspaces=['ACEScg', 'sRGB', 'Pointer Gamut'])
+
+print('\n')
+
+message_box('Plotting "RGB" chromaticity coordinates in '
+            '"CIE 1960 UCS Chromaticity Diagram".')
+RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
+    RGB,
+    colour.sRGB_COLOURSPACE,
+    colourspaces=['ACEScg', 'sRGB', 'Pointer Gamut'])
+
+print('\n')
+
+message_box('Plotting "RGB" chromaticity coordinates in '
+            '"CIE 1976 UCS Chromaticity Diagram".')
+RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
+    RGB,
+    colour.sRGB_COLOURSPACE,
+    colourspaces=['ACEScg', 'sRGB', 'Pointer Gamut'])
 
 print('\n')
 

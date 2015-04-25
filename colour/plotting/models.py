@@ -28,6 +28,7 @@ from colour.models import (
     POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT,
     RGB_COLOURSPACES,
+    RGB_to_XYZ,
     UCS_to_uv,
     XYZ_to_Luv,
     XYZ_to_UCS,
@@ -53,12 +54,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_RGB_colourspace',
-           'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
-           'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
-           'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
-           'single_transfer_function_plot',
-           'multi_transfer_function_plot']
+__all__ = [
+    'get_RGB_colourspace',
+    'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
+    'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
+    'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
+    'single_transfer_function_plot',
+    'multi_transfer_function_plot']
 
 
 def get_RGB_colourspace(colourspace):
@@ -504,6 +509,174 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         'margins': (-0.05, 0.05, -0.05, 0.05),
         'standalone': True})
     settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
+
+
+def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
+        RGB,
+        colourspace,
+        **kwargs):
+    """
+    Plots given *RGB* colourspace array in *CIE 1931 Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    RGB : array_like
+        *RGB* colourspace array.
+    colourspace : RGB_Colourspace
+        *RGB* colourspace of the *RGB* array.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> RGB = np.random((10, 10, 3))
+    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    True
+    """
+
+    settings = {}
+    settings.update(kwargs)
+
+    settings['colourspaces'] = (
+        [colourspace.name] + settings.get('colourspaces', []))
+    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
+        standalone=False, **settings)
+
+    alpha_p, colour_p = 0.85, 'black'
+
+    xy = XYZ_to_xy(RGB_to_XYZ(RGB,
+                              colourspace.whitepoint,
+                              colourspace.whitepoint,
+                              colourspace.RGB_to_XYZ_matrix),
+                   colourspace.whitepoint)
+
+    pylab.scatter(xy[..., 0],
+                  xy[..., 1],
+                  alpha=alpha_p / 2,
+                  color=colour_p,
+                  marker='+')
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
+
+
+def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
+        RGB,
+        colourspace,
+        **kwargs):
+    """
+    Plots given *RGB* colourspace array in *CIE 1960 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    RGB : array_like
+        *RGB* colourspace array.
+    colourspace : RGB_Colourspace
+        *RGB* colourspace of the *RGB* array.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> RGB = np.random((10, 10, 3))
+    >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    True
+    """
+
+    settings = {}
+    settings.update(kwargs)
+
+    settings['colourspaces'] = (
+        [colourspace.name] + settings.get('colourspaces', []))
+    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
+        standalone=False, **settings)
+
+    alpha_p, colour_p = 0.85, 'black'
+
+    uv = UCS_to_uv(XYZ_to_UCS(RGB_to_XYZ(RGB,
+                                         colourspace.whitepoint,
+                                         colourspace.whitepoint,
+                                         colourspace.RGB_to_XYZ_matrix)))
+
+    pylab.scatter(uv[..., 0],
+                  uv[..., 1],
+                  alpha=alpha_p / 2,
+                  color=colour_p,
+                  marker='+')
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
+
+
+def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
+        RGB,
+        colourspace,
+        **kwargs):
+    """
+    Plots given *RGB* colourspace array in *CIE 1976 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    RGB : array_like
+        *RGB* colourspace array.
+    colourspace : RGB_Colourspace
+        *RGB* colourspace of the *RGB* array.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> RGB = np.random((10, 10, 3))
+    >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    True
+    """
+
+    settings = {}
+    settings.update(kwargs)
+
+    settings['colourspaces'] = (
+        [colourspace.name] + settings.get('colourspaces', []))
+    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
+        standalone=False, **settings)
+
+    alpha_p, colour_p = 0.85, 'black'
+
+    uv = Luv_to_uv(XYZ_to_Luv(RGB_to_XYZ(RGB,
+                                         colourspace.whitepoint,
+                                         colourspace.whitepoint,
+                                         colourspace.RGB_to_XYZ_matrix),
+                              colourspace.whitepoint),
+                   colourspace.whitepoint)
+
+    pylab.scatter(uv[..., 0],
+                  uv[..., 1],
+                  alpha=alpha_p / 2,
+                  color=colour_p,
+                  marker='+')
 
     boundaries(**settings)
     decorate(**settings)
