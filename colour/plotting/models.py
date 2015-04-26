@@ -211,10 +211,10 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]))
-            y_limit_min.append(np.amin(primaries[..., 1]))
-            x_limit_max.append(np.amax(primaries[..., 0]))
-            y_limit_max.append(np.amax(primaries[..., 1]))
+            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
     settings.update({
         'legend': True,
@@ -351,10 +351,10 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]))
-            y_limit_min.append(np.amin(primaries[..., 1]))
-            x_limit_max.append(np.amax(primaries[..., 0]))
-            y_limit_max.append(np.amax(primaries[..., 1]))
+            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
     settings.update({
         'legend': True,
@@ -495,10 +495,10 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]))
-            y_limit_min.append(np.amin(primaries[..., 1]))
-            x_limit_max.append(np.amax(primaries[..., 0]))
-            y_limit_max.append(np.amax(primaries[..., 1]))
+            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
     settings.update({
         'legend': True,
