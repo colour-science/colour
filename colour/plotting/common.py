@@ -565,7 +565,12 @@ def multi_colour_plot(colour_parameters,
     return display(**settings)
 
 
-def image_plot(image, **kwargs):
+def image_plot(image,
+               label=None,
+               label_size=15,
+               label_colour=None,
+               label_alpha=0.85,
+               **kwargs):
     """
     Plots given image.
 
@@ -573,6 +578,14 @@ def image_plot(image, **kwargs):
     ----------
     image : array_like
         Image to plot.
+    label: unicode, optional
+        Image label.
+    label_size: int, optional
+        Image label font size.
+    label_colour: array_like or unicode, optional
+        Image label colour.
+    label_alpha: numeric, optional
+        Image label alpha.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -591,7 +604,18 @@ def image_plot(image, **kwargs):
     True
     """
 
+    image = np.asarray(image)
+
     pylab.imshow(np.clip(image, 0, 1))
+
+    height, width, _ = image.shape
+
+    pylab.text(0 + label_size,
+               height - label_size,
+               label,
+               color=label_colour if label_colour is not None else (1, 1, 1),
+               alpha=label_alpha,
+               fontsize=label_size)
 
     settings = {'no_ticks': True,
                 'bounding_box': (0, 1, 0, 1),
