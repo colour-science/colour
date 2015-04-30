@@ -64,9 +64,9 @@ __all__ = ['S_GAMUT_PRIMARIES',
            'S_GAMUT3_CINE_COLOURSPACE']
 
 S_GAMUT_PRIMARIES = np.array(
-    [[0.73, 0.28],
-     [0.14, 0.855],
-     [0.10, -0.05]])
+    [[0.730, 0.280],
+     [0.140, 0.855],
+     [0.100, -0.050]])
 """
 *S-Gamut* colourspace primaries.
 
