@@ -58,7 +58,7 @@ from colour.models.dataset.alexa_wide_gamut_rgb import (
 from colour.models.dataset.dci_p3 import (
     DCI_P3_TRANSFER_FUNCTION,
     DCI_P3_INVERSE_TRANSFER_FUNCTION)
-from colour.models.dataset.s_gamut import (
+from colour.models.dataset.sony import (
     S_LOG_TRANSFER_FUNCTION,
     S_LOG2_TRANSFER_FUNCTION,
     S_LOG3_TRANSFER_FUNCTION,

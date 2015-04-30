@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Sony S-Gamut Colourspace
-========================
+Sony Colourspaces
+=================
 
 Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 
