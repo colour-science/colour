@@ -11,8 +11,6 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 -   :attr:`cineon_to_linear`
 -   :attr:`linear_to_panalog`
 -   :attr:`panalog_to_linear`
--   :attr:`linear_to_red_log`
--   :attr:`red_log_to_linear`
 -   :attr:`linear_to_viper_log`
 -   :attr:`viper_log_to_linear`
 -   :attr:`linear_to_pivoted_log`
@@ -25,6 +23,8 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 -   :attr:`alexa_log_c_to_linear`
 -   :attr:`linear_to_dci_p3_log`
 -   :attr:`dci_p3_log_to_linear`
+-   :attr:`linear_to_red_log_film`
+-   :attr:`red_log_film_to_linear`
 -   :attr:`linear_to_s_log`
 -   :attr:`s_log_to_linear`
 -   :attr:`linear_to_s_log2`
@@ -58,6 +58,9 @@ from colour.models.dataset.alexa_wide_gamut_rgb import (
 from colour.models.dataset.dci_p3 import (
     DCI_P3_TRANSFER_FUNCTION,
     DCI_P3_INVERSE_TRANSFER_FUNCTION)
+from colour.models.dataset.red import (
+    RED_LOG_FILM_TRANSFER_FUNCTION,
+    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.sony import (
     S_LOG_TRANSFER_FUNCTION,
     S_LOG2_TRANSFER_FUNCTION,
@@ -81,8 +84,6 @@ __all__ = ['linear_to_cineon',
            'cineon_to_linear',
            'linear_to_panalog',
            'panalog_to_linear',
-           'linear_to_red_log',
-           'red_log_to_linear',
            'linear_to_viper_log',
            'viper_log_to_linear',
            'linear_to_pivoted_log',
@@ -95,6 +96,8 @@ __all__ = ['linear_to_cineon',
            'alexa_log_c_to_linear',
            'linear_to_dci_p3_log',
            'dci_p3_log_to_linear',
+           'linear_to_red_log_film',
+           'red_log_film_to_linear',
            'linear_to_s_log',
            's_log_to_linear',
            'linear_to_s_log2',
@@ -230,69 +233,6 @@ def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
     value = np.asarray(value)
 
     return ((10 ** ((1023 * value - 681) / 444) - black_offset) /
-            (1 - black_offset))
-
-
-def linear_to_red_log(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
-    """
-    Defines the *linear* to *REDLog* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        *Linear* value.
-    black_offset : numeric or array_like
-        Black offset.
-    \*\*kwargs : \*\*, optional
-        Unused parameter provided for signature compatibility with other
-        *linear* / *log* conversion objects.
-
-    Returns
-    -------
-    numeric or ndarray
-        *REDLog* value.
-
-    Examples
-    --------
-    >>> linear_to_red_log(0.18)  # doctest: +ELLIPSIS
-    0.6376218...
-    """
-
-    value = np.asarray(value)
-
-    return ((1023 +
-             511 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
-
-
-def red_log_to_linear(value, black_offset=10 ** ((0 - 1023) / 511), **kwargs):
-    """
-    Defines the *REDLog* to *linear* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        *REDLog* value.
-    black_offset : numeric or array_like
-        Black offset.
-    \*\*kwargs : \*\*, optional
-        Unused parameter provided for signature compatibility with other
-        *linear* / *log* conversion objects.
-
-    Returns
-    -------
-    numeric or ndarray
-        *Linear* value.
-
-    Examples
-    --------
-    >>> red_log_to_linear(0.63762184598817484)  # doctest: +ELLIPSIS
-    0.1...
-    """
-
-    value = np.asarray(value)
-
-    return (((10 **
-              ((1023 * value - 1023) / 511)) - black_offset) /
             (1 - black_offset))
 
 
@@ -647,6 +587,66 @@ def dci_p3_log_to_linear(value, **kwargs):
     return DCI_P3_INVERSE_TRANSFER_FUNCTION(value)
 
 
+def linear_to_red_log_film(value,
+                           black_offset=10 ** ((0 - 1023) / 511),
+                           **kwargs):
+    """
+    Defines the *linear* to *REDLogFilm* conversion function.
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        *Linear* value.
+    black_offset : numeric or array_like
+        Black offset.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric or ndarray
+        *REDLogFilm* value.
+
+    Examples
+    --------
+    >>> linear_to_red_log_film(0.18)  # doctest: +ELLIPSIS
+    0.6376218...
+    """
+
+    return RED_LOG_FILM_TRANSFER_FUNCTION(value)
+
+
+def red_log_film_to_linear(value,
+                           black_offset=10 ** ((0 - 1023) / 511),
+                           **kwargs):
+    """
+    Defines the *REDLogFilm* to *linear* conversion function.
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        *REDLogFilm* value.
+    black_offset : numeric or array_like
+        Black offset.
+    \*\*kwargs : \*\*, optional
+        Unused parameter provided for signature compatibility with other
+        *linear* / *log* conversion objects.
+
+    Returns
+    -------
+    numeric or ndarray
+        *Linear* value.
+
+    Examples
+    --------
+    >>> red_log_film_to_linear(0.63762184598817484)  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    return RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION(value)
+
+
 def linear_to_s_log(value, **kwargs):
     """
     Defines the *linear* to *S-Log* conversion function.
@@ -873,8 +873,8 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
 Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc'
-    'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
+     'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
 """
 
 
@@ -887,8 +887,9 @@ def linear_to_log(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
-        'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'},
+        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        'ALEXA Log C', 'REDLogFilm', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3',
+        'V-Log'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -916,13 +917,13 @@ def linear_to_log(value, method='Cineon', **kwargs):
 LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
     {'Cineon': cineon_to_linear,
      'Panalog': panalog_to_linear,
-     'REDLog': red_log_to_linear,
      'ViperLog': viper_log_to_linear,
      'PLog': pivoted_log_to_linear,
      'C-Log': c_log_to_linear,
      'ACEScc': aces_cc_to_linear,
      'ALEXA Log C': alexa_log_c_to_linear,
      'DCI-P3': dci_p3_log_to_linear,
+     'REDLogFilm': red_log_film_to_linear,
      'S-Log': s_log_to_linear,
      'S-Log2': s_log2_to_linear,
      'S-Log3': s_log3_to_linear,
@@ -931,8 +932,8 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
 Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
-    'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
+    'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
 """
 
 
@@ -945,8 +946,9 @@ def log_to_linear(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'REDLog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
-        'ALEXA Log C', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'},
+        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+        'V-Log'},
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

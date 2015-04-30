@@ -20,8 +20,6 @@ from colour.models import (
     cineon_to_linear,
     linear_to_panalog,
     panalog_to_linear,
-    linear_to_red_log,
-    red_log_to_linear,
     linear_to_viper_log,
     viper_log_to_linear,
     linear_to_pivoted_log,
@@ -34,6 +32,8 @@ from colour.models import (
     alexa_log_c_to_linear,
     linear_to_dci_p3_log,
     dci_p3_log_to_linear,
+    linear_to_red_log_film,
+    red_log_film_to_linear,
     linear_to_s_log,
     s_log_to_linear,
     linear_to_s_log2,
@@ -55,8 +55,8 @@ __all__ = ['TestLinearToCineon',
            'TestCineonToLinear',
            'TestLinearToPanalog',
            'TestPanalogToLinear',
-           'TestLinearToRedLog',
-           'TestRedLogToLinear',
+           'TestLinearToRedLogFilm',
+           'TestRedLogFilmToLinear',
            'TestLinearToViperLog',
            'TestViperLogToLinear',
            'TestLinearToPivotedLog',
@@ -360,148 +360,6 @@ class TestPanalogToLinear(unittest.TestCase):
         """
 
         panalog_to_linear(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestLinearToRedLog(unittest.TestCase):
-    """
-    Defines :func:`colour.models.log.linear_to_red_log` definition unit tests
-    methods.
-    """
-
-    def test_linear_to_red_log(self):
-        """
-        Tests :func:`colour.models.log.linear_to_red_log` definition.
-        """
-
-        self.assertAlmostEqual(
-            linear_to_red_log(0.00),
-            0.,
-            places=7)
-
-        self.assertAlmostEqual(
-            linear_to_red_log(0.18),
-            0.63762184598817484,
-            places=7)
-
-        self.assertAlmostEqual(
-            linear_to_red_log(1.00),
-            1.,
-            places=7)
-
-    def test_n_dimensional_linear_to_red_log(self):
-        """
-        Tests :func:`colour.models.log.linear_to_red_log` definition
-        n-dimensional arrays support.
-        """
-
-        linear = 0.18
-        log = 0.63762184598817484
-        np.testing.assert_almost_equal(
-            linear_to_red_log(linear),
-            log,
-            decimal=7)
-
-        linear = np.tile(linear, 6)
-        log = np.tile(log, 6)
-        np.testing.assert_almost_equal(
-            linear_to_red_log(linear),
-            log,
-            decimal=7)
-
-        linear = np.reshape(linear, (2, 3))
-        log = np.reshape(log, (2, 3))
-        np.testing.assert_almost_equal(
-            linear_to_red_log(linear),
-            log,
-            decimal=7)
-
-        linear = np.reshape(linear, (2, 3, 1))
-        log = np.reshape(log, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            linear_to_red_log(linear),
-            log,
-            decimal=7)
-
-    @ignore_numpy_errors
-    def test_nan_linear_to_red_log(self):
-        """
-        Tests :func:`colour.models.log.linear_to_red_log` definition nan
-        support.
-        """
-
-        linear_to_red_log(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestRedLogToLinear(unittest.TestCase):
-    """
-    Defines :func:`colour.models.log.red_log_to_linear` definition unit tests
-    methods.
-    """
-
-    def test_red_log_to_linear(self):
-        """
-        Tests :func:`colour.models.log.red_log_to_linear` definition.
-        """
-
-        self.assertAlmostEqual(
-            red_log_to_linear(0.00),
-            0.,
-            places=7)
-
-        self.assertAlmostEqual(
-            red_log_to_linear(0.63762184598817484),
-            0.18,
-            places=7)
-
-        self.assertAlmostEqual(
-            red_log_to_linear(1.00),
-            1.,
-            places=7)
-
-    def test_n_dimensional_red_log_to_linear(self):
-        """
-        Tests :func:`colour.models.log.red_log_to_linear` definition
-        n-dimensional arrays support.
-        """
-
-        log = 0.63762184598817484
-        linear = 0.18
-        np.testing.assert_almost_equal(
-            red_log_to_linear(log),
-            linear,
-            decimal=7)
-
-        log = np.tile(log, 6)
-        linear = np.tile(linear, 6)
-        np.testing.assert_almost_equal(
-            red_log_to_linear(log),
-            linear,
-            decimal=7)
-
-        log = np.reshape(log, (2, 3))
-        linear = np.reshape(linear, (2, 3))
-        np.testing.assert_almost_equal(
-            red_log_to_linear(log),
-            linear,
-            decimal=7)
-
-        log = np.reshape(log, (2, 3, 1))
-        linear = np.reshape(linear, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            red_log_to_linear(log),
-            linear,
-            decimal=7)
-
-    @ignore_numpy_errors
-    def test_nan_red_log_to_linear(self):
-        """
-        Tests :func:`colour.models.log.red_log_to_linear` definition nan
-        support.
-        """
-
-        red_log_to_linear(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
@@ -1354,6 +1212,148 @@ class TestDciP3LogToLinear(unittest.TestCase):
         """
 
         dci_p3_log_to_linear(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLinearToRedLogFilm(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.linear_to_red_log_film` definition unit tests
+    methods.
+    """
+
+    def test_linear_to_red_log_film(self):
+        """
+        Tests :func:`colour.models.log.linear_to_red_log_film` definition.
+        """
+
+        self.assertAlmostEqual(
+            linear_to_red_log_film(0.00),
+            0.,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_red_log_film(0.18),
+            0.63762184598817484,
+            places=7)
+
+        self.assertAlmostEqual(
+            linear_to_red_log_film(1.00),
+            1.,
+            places=7)
+
+    def test_n_dimensional_linear_to_red_log_film(self):
+        """
+        Tests :func:`colour.models.log.linear_to_red_log_film` definition
+        n-dimensional arrays support.
+        """
+
+        linear = 0.18
+        log = 0.63762184598817484
+        np.testing.assert_almost_equal(
+            linear_to_red_log_film(linear),
+            log,
+            decimal=7)
+
+        linear = np.tile(linear, 6)
+        log = np.tile(log, 6)
+        np.testing.assert_almost_equal(
+            linear_to_red_log_film(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3))
+        log = np.reshape(log, (2, 3))
+        np.testing.assert_almost_equal(
+            linear_to_red_log_film(linear),
+            log,
+            decimal=7)
+
+        linear = np.reshape(linear, (2, 3, 1))
+        log = np.reshape(log, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            linear_to_red_log_film(linear),
+            log,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_linear_to_red_log_film(self):
+        """
+        Tests :func:`colour.models.log.linear_to_red_log_film` definition nan
+        support.
+        """
+
+        linear_to_red_log_film(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestRedLogFilmToLinear(unittest.TestCase):
+    """
+    Defines :func:`colour.models.log.red_log_film_to_linear` definition unit tests
+    methods.
+    """
+
+    def test_red_log_film_to_linear(self):
+        """
+        Tests :func:`colour.models.log.red_log_film_to_linear` definition.
+        """
+
+        self.assertAlmostEqual(
+            red_log_film_to_linear(0.00),
+            0.,
+            places=7)
+
+        self.assertAlmostEqual(
+            red_log_film_to_linear(0.63762184598817484),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            red_log_film_to_linear(1.00),
+            1.,
+            places=7)
+
+    def test_n_dimensional_red_log_film_to_linear(self):
+        """
+        Tests :func:`colour.models.log.red_log_film_to_linear` definition
+        n-dimensional arrays support.
+        """
+
+        log = 0.63762184598817484
+        linear = 0.18
+        np.testing.assert_almost_equal(
+            red_log_film_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.tile(log, 6)
+        linear = np.tile(linear, 6)
+        np.testing.assert_almost_equal(
+            red_log_film_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3))
+        linear = np.reshape(linear, (2, 3))
+        np.testing.assert_almost_equal(
+            red_log_film_to_linear(log),
+            linear,
+            decimal=7)
+
+        log = np.reshape(log, (2, 3, 1))
+        linear = np.reshape(linear, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            red_log_film_to_linear(log),
+            linear,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_red_log_film_to_linear(self):
+        """
+        Tests :func:`colour.models.log.red_log_film_to_linear` definition nan
+        support.
+        """
+
+        red_log_film_to_linear(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
