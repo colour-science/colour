@@ -41,8 +41,8 @@ __all__ = ['V_GAMUT_PRIMARIES',
            'V_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_V_GAMUT_MATRIX',
            'V_LOG_CONSTANTS',
-           'V_GAMUT_TRANSFER_FUNCTION',
-           'V_GAMUT_INVERSE_TRANSFER_FUNCTION',
+           'V_LOG_TRANSFER_FUNCTION',
+           'V_LOG_INVERSE_TRANSFER_FUNCTION',
            'V_GAMUT_COLOURSPACE']
 
 V_GAMUT_PRIMARIES = np.array(
@@ -100,9 +100,9 @@ V_LOG_CONSTANTS : Structure
 """
 
 
-def _v_gamut_rgb_transfer_function(value):
+def _linear_to_v_log(value):
     """
-    Defines the *V-Log* transfer function.
+    Defines the *linear* to *V-Log* conversion function.
 
     Parameters
     ----------
@@ -128,9 +128,9 @@ def _v_gamut_rgb_transfer_function(value):
     return value
 
 
-def _v_gamut_rgb_inverse_transfer_function(value):
+def _v_log_to_linear(value):
     """
-    Defines the *V-Log* inverse transfer function.
+    Defines the *V-Log* to *linear* conversion function.
 
     Parameters
     ----------
@@ -157,18 +157,18 @@ def _v_gamut_rgb_inverse_transfer_function(value):
     return value
 
 
-V_GAMUT_TRANSFER_FUNCTION = _v_gamut_rgb_transfer_function
+V_LOG_TRANSFER_FUNCTION = _linear_to_v_log
 """
-Transfer function from linear to *V-Gamut* colourspace.
+Transfer function from linear to *V-Log*.
 
-V_GAMUT_TRANSFER_FUNCTION : object
+V_LOG_TRANSFER_FUNCTION : object
 """
 
-V_GAMUT_INVERSE_TRANSFER_FUNCTION = _v_gamut_rgb_inverse_transfer_function
+V_LOG_INVERSE_TRANSFER_FUNCTION = _v_log_to_linear
 """
-Inverse transfer function from *V-Gamut* colourspace to linear.
+Inverse transfer function from *V-Log* to linear.
 
-V_GAMUT_INVERSE_TRANSFER_FUNCTION : object
+V_LOG_INVERSE_TRANSFER_FUNCTION : object
 """
 
 V_GAMUT_COLOURSPACE = RGB_Colourspace(
@@ -178,8 +178,8 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     V_GAMUT_ILLUMINANT,
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
-    V_GAMUT_TRANSFER_FUNCTION,
-    V_GAMUT_INVERSE_TRANSFER_FUNCTION)
+    V_LOG_TRANSFER_FUNCTION,
+    V_LOG_INVERSE_TRANSFER_FUNCTION)
 """
 *V-Gamut* colourspace.
 

@@ -53,8 +53,8 @@ from colour.models.dataset.aces import (
     ACES_CC_TRANSFER_FUNCTION,
     ACES_CC_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.alexa_wide_gamut_rgb import (
-    ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-    ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+    ALEXA_LOG_C_TRANSFER_FUNCTION,
+    ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.dci_p3 import (
     DCI_P3_TRANSFER_FUNCTION,
     DCI_P3_INVERSE_TRANSFER_FUNCTION)
@@ -66,8 +66,8 @@ from colour.models.dataset.sony import (
     S_LOG2_INVERSE_TRANSFER_FUNCTION,
     S_LOG3_INVERSE_TRANSFER_FUNCTION)
 from colour.models.dataset.v_gamut import (
-    V_GAMUT_TRANSFER_FUNCTION,
-    V_GAMUT_INVERSE_TRANSFER_FUNCTION)
+    V_LOG_TRANSFER_FUNCTION,
+    V_LOG_INVERSE_TRANSFER_FUNCTION)
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -566,7 +566,7 @@ def linear_to_alexa_log_c(value, **kwargs):
     array(0.3910068...)
     """
 
-    return ALEXA_WIDE_GAMUT_RGB_TRANSFER_FUNCTION(value)
+    return ALEXA_LOG_C_TRANSFER_FUNCTION(value)
 
 
 def alexa_log_c_to_linear(value, **kwargs):
@@ -592,7 +592,7 @@ def alexa_log_c_to_linear(value, **kwargs):
     array(0.1800000...)
     """
 
-    return ALEXA_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION(value)
+    return ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION(value)
 
 
 def linear_to_dci_p3_log(value, **kwargs):
@@ -826,7 +826,7 @@ def linear_to_v_log(value, **kwargs):
     array(0.4233114...)
     """
 
-    return V_GAMUT_TRANSFER_FUNCTION(value)
+    return V_LOG_TRANSFER_FUNCTION(value)
 
 
 def v_log_to_linear(value, **kwargs):
@@ -852,19 +852,19 @@ def v_log_to_linear(value, **kwargs):
     array(0.1...)
     """
 
-    return V_GAMUT_INVERSE_TRANSFER_FUNCTION(value)
+    return V_LOG_INVERSE_TRANSFER_FUNCTION(value)
 
 
 LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
     {'Cineon': linear_to_cineon,
      'Panalog': linear_to_panalog,
-     'REDLog': linear_to_red_log,
      'ViperLog': linear_to_viper_log,
      'PLog': linear_to_pivoted_log,
      'C-Log': linear_to_c_log,
      'ACEScc': linear_to_aces_cc,
      'ALEXA Log C': linear_to_alexa_log_c,
      'DCI-P3': linear_to_dci_p3_log,
+     'REDLogFilm': linear_to_red_log_film,
      'S-Log': linear_to_s_log,
      'S-Log2': linear_to_s_log2,
      'S-Log3': linear_to_s_log3,
