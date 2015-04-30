@@ -104,8 +104,7 @@ def _eci_rgb_v2_transfer_function(value):
 
 def _eci_rgb_v2_inverse_transfer_function(value):
     """
-    Defines the *ECI RGB v2* colourspace inverse transfer
-    function.
+    Defines the *ECI RGB v2* colourspace inverse transfer function.
 
     Parameters
     ----------

@@ -106,8 +106,7 @@ def _apple_rgb_transfer_function(value):
 
 def _apple_rgb_inverse_transfer_function(value):
     """
-    Defines the *Apple RGB* colourspace inverse transfer
-    function.
+    Defines the *Apple RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

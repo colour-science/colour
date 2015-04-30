@@ -107,8 +107,7 @@ def _color_match_rgb_transfer_function(value):
 
 def _color_match_rgb_inverse_transfer_function(value):
     """
-    Defines the *ColorMatch RGB* colourspace inverse transfer
-    function.
+    Defines the *ColorMatch RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

@@ -106,8 +106,7 @@ def _ekta_space_ps_5_transfer_function(value):
 
 def _ekta_space_ps_5_inverse_transfer_function(value):
     """
-    Defines the *Ekta Space PS 5* colourspace inverse transfer
-    function.
+    Defines the *Ekta Space PS 5* colourspace inverse transfer function.
 
     Parameters
     ----------

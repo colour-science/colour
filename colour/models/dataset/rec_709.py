@@ -113,8 +113,7 @@ def _rec_709_transfer_function(value):
 
 def _rec_709_inverse_transfer_function(value):
     """
-    Defines the *Rec. 709* colourspace inverse transfer
-    function.
+    Defines the *Rec. 709* colourspace inverse transfer function.
 
     Parameters
     ----------

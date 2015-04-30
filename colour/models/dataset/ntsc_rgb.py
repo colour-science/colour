@@ -107,8 +107,7 @@ def _ntsc_rgb_transfer_function(value):
 
 def _ntsc_rgb_inverse_transfer_function(value):
     """
-    Defines the *NTSC RGB* colourspace inverse transfer
-    function.
+    Defines the *NTSC RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

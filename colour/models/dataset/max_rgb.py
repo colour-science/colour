@@ -106,8 +106,7 @@ def _max_rgb_transfer_function(value):
 
 def _max_rgb_inverse_transfer_function(value):
     """
-    Defines the *Max RGB* colourspace inverse transfer
-    function.
+    Defines the *Max RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

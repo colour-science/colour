@@ -106,8 +106,7 @@ def _don_rgb_4_transfer_function(value):
 
 def _don_rgb_4_inverse_transfer_function(value):
     """
-    Defines the *Don RGB 4* colourspace inverse transfer
-    function.
+    Defines the *Don RGB 4* colourspace inverse transfer function.
 
     Parameters
     ----------

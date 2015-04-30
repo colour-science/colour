@@ -104,8 +104,7 @@ def _cinema_gamut_transfer_function(value):
 
 def _cinema_gamut_inverse_transfer_function(value):
     """
-    Defines the *Cinema Gamut* colourspace inverse transfer
-    function.
+    Defines the *Cinema Gamut* colourspace inverse transfer function.
 
     Parameters
     ----------

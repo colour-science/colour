@@ -113,8 +113,7 @@ def _srgb_transfer_function(value):
 
 def _srgb_inverse_transfer_function(value):
     """
-    Defines the *sRGB* colourspace inverse transfer
-    function.
+    Defines the *sRGB* colourspace inverse transfer function.
 
     Parameters
     ----------

@@ -106,8 +106,7 @@ def _best_rgb_transfer_function(value):
 
 def _best_rgb_inverse_transfer_function(value):
     """
-    Defines the *Best RGB* colourspace inverse transfer
-    function.
+    Defines the *Best RGB* colourspace inverse transfer function.
 
     Parameters
     ----------

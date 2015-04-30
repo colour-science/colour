@@ -107,8 +107,7 @@ def _pal_secam_rgb_transfer_function(value):
 
 def _pal_secam_rgb_inverse_transfer_function(value):
     """
-    Defines the *Pal/Secam RGB* colourspace inverse transfer
-    function.
+    Defines the *Pal/Secam RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
