@@ -29,24 +29,24 @@ __all__ = ['first_order_colour_fit']
 
 def first_order_colour_fit(m1, m2):
     """
-    Performs a first order colour fit from given :math:`m1` colour matrix to
-    :math:`m2` colour matrix. The resulting colour matrix is calculated using
-    multiple linear regression.
+    Performs a first order colour fit from given :math:`m1` colour array to
+    :math:`m2` colour array. The resulting colour fitting matrix is computed
+    using multiple linear regression.
 
-    The purpose of that object is for example matching of two *ColorChecker*
-    colour rendition charts together.
+    The purpose of that object is for example the matching of two
+    *ColorChecker* colour rendition charts together.
 
     Parameters
     ----------
     m1 : array_like, (3, n)
-        Test matrix :math:`m1` to fit onto matrix :math:`m2`.
+        Test array :math:`m1` to fit onto array :math:`m2`.
     m2 : array_like, (3, n)
-        Reference matrix the matrix :math:`m1` will be colour fitted against.
+        Reference array the array :math:`m1` will be colour fitted against.
 
     Returns
     -------
     ndarray, (3, 3)
-        Fitting colour matrix.
+        Colour fitting matrix.
 
     Examples
     --------
