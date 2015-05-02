@@ -17,8 +17,6 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import linear_regression
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -31,8 +29,8 @@ __all__ = ['first_order_colour_fit']
 
 def first_order_colour_fit(m1, m2):
     """
-    Performs a first order colour fit from given :math:`m2` colour matrix to
-    :math:`m1` colour matrix. The resulting colour matrix is calculated using
+    Performs a first order colour fit from given :math:`m1` colour matrix to
+    :math:`m2` colour matrix. The resulting colour matrix is calculated using
     multiple linear regression.
 
     The purpose of that object is for example matching of two *ColorChecker*
@@ -41,9 +39,9 @@ def first_order_colour_fit(m1, m2):
     Parameters
     ----------
     m1 : array_like, (3, n)
-        Reference matrix the matrix :math:`m2` will be colour fitted against.
+        Test matrix :math:`m1` to fit onto matrix :math:`m2`.
     m2 : array_like, (3, n)
-        Matrix to fit.
+        Reference matrix the matrix :math:`m1` will be colour fitted against.
 
     Returns
     -------
@@ -103,18 +101,9 @@ def first_order_colour_fit(m1, m2):
     ...     [0.10283975, 0.10424680, 0.10384975],
     ...     [0.04742204, 0.04772203, 0.04914226]])
     >>> first_order_colour_fit(m1, m2)  # doctest: +ELLIPSIS
-    array([[ 1.4043128...,  0.0112806..., -0.2029710...],
-           [-0.0998911...,  1.5012214..., -0.1856479...],
-           [ 0.2248369..., -0.0767236...,  1.0496013...]])
+    array([[ 0.6982266...,  0.0307162...,  0.1621042...],
+           [ 0.0689349...,  0.6757961...,  0.1643038...],
+           [-0.0631495...,  0.0921247...,  0.9713415...]])
     """
 
-    m1 = np.asarray(m1)
-    m2 = np.asarray(m2)
-
-    x_coefficients = linear_regression(m1[..., 0], m2)
-    y_coefficients = linear_regression(m1[..., 1], m2)
-    z_coefficients = linear_regression(m1[..., 2], m2)
-
-    return np.array([x_coefficients[:3],
-                     y_coefficients[:3],
-                     z_coefficients[:3]]).reshape((3, 3))
+    return np.transpose(np.linalg.lstsq(m1, m2)[0])

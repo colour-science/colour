@@ -95,9 +95,9 @@ class TestFirstOrderColourFit(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             first_order_colour_fit(M1, M2),
-            np.array([[1.40431285, 0.01128059, -0.20297103],
-                      [-0.09989111, 1.50122142, -0.18564796],
-                      [0.22483693, -0.07672362, 1.04960133]]),
+            np.array([[0.69822661, 0.03071629, 0.16210422],
+                      [0.06893499, 0.67579611, 0.16430385],
+                      [-0.06314955, 0.0921247, 0.97134152]]),
             decimal=7)
 
     @ignore_numpy_errors
