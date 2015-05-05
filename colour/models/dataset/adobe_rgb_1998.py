@@ -73,14 +73,14 @@ ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(
      [0.29734449, 0.62737611, 0.0752794],
      [0.02703132, 0.07069027, 0.99117879]])
 """
-*Adobe RGB 1998* colourspace to *CIE XYZ* colourspace matrix.
+*Adobe RGB 1998* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Adobe RGB 1998* colourspace matrix.
+*CIE XYZ* tristimulus values to *Adobe RGB 1998* colourspace matrix.
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
@@ -92,14 +92,16 @@ def _adobe_rgb_1998_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / (563 / 256))
 
@@ -110,14 +112,16 @@ def _adobe_rgb_1998_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (563 / 256)
 

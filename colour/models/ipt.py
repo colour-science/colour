@@ -24,6 +24,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import dot_vector, tsplit
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -44,14 +46,16 @@ IPT_XYZ_TO_LMS_MATRIX = np.array([
     [-0.2280, 1.1500, 0.0612],
     [0.0000, 0.0000, 0.9184]])
 """
-*CIE XYZ* colourspace to *IPT* colourspace normalised cone responses matrix.
+*CIE XYZ* tristimulus values to *IPT* colourspace normalised cone responses
+matrix.
 
 IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
 IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
 """
-*IPT* colourspace normalised cone responses to *CIE XYZ* colourspace matrix.
+*IPT* colourspace normalised cone responses to *CIE XYZ* tristimulus values
+matrix.
 
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -76,21 +80,21 @@ IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 
 def XYZ_to_IPT(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *IPT* colourspace. [1]_
+    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray, (3,)
-        *IPT* colourspace matrix.
+    ndarray
+        *IPT* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix needs to be adapted for
+    -   Input *CIE XYZ* tristimulus values needs to be adapted for
         *CIE Standard Illuminant D Series* *D65*.
 
     Examples
@@ -100,26 +104,26 @@ def XYZ_to_IPT(XYZ):
     array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
 
-    LMS = np.dot(IPT_XYZ_TO_LMS_MATRIX, XYZ)
+    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = np.dot(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
     return IPT
 
 
 def IPT_to_XYZ(IPT):
     """
-    Converts from *IPT* colourspace to *CIE XYZ* colourspace. [1]_
+    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    IPT : array_like, (3,)
-        *IPT* colourspace matrix.
+    IPT : array_like
+        *IPT* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Examples
     --------
@@ -128,31 +132,36 @@ def IPT_to_XYZ(IPT):
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
-    LMS = np.dot(IPT_IPT_TO_LMS_MATRIX, IPT)
+    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = np.dot(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
     return XYZ
 
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace. [1]_
+    Computes the hue angle from *IPT* colourspace.
 
     Parameters
     ----------
-    IPT : array_like, (3,)
-        *IPT* colourspace matrix.
+    IPT : array_like
+        *IPT* colourspace array.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Hue angle.
 
     Examples
     --------
-    >>> IPT_hue_angle(([0.96907232, 1, 1.12179215]))  # doctest: +ELLIPSIS
+    >>> IPT = np.array([0.96907232, 1, 1.12179215])
+    >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
     0.8427358...
     """
 
-    return np.arctan2(IPT[2], IPT[1])
+    I, P, T = tsplit(IPT)
+
+    hue = np.arctan2(T, P)
+
+    return hue

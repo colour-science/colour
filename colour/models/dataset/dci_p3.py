@@ -98,14 +98,14 @@ DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
     DCI_P3_PRIMARIES,
     DCI_P3_WHITEPOINT)
 """
-*DCI-P3* colourspace to *CIE XYZ* colourspace matrix.
+*DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
 DCI_P3_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_DCI_P3_MATRIX = np.linalg.inv(DCI_P3_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *DCI-P3* colourspace matrix.
+*CIE XYZ* tristimulus values to *DCI-P3* colourspace matrix.
 
 XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
@@ -114,14 +114,14 @@ DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
     DCI_P3_P_PRIMARIES,
     DCI_P3_WHITEPOINT)
 """
-*DCI-P3+* colourspace to *CIE XYZ* colourspace matrix.
+*DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 
 DCI_P3_P_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_DCI_P3_P_MATRIX = np.linalg.inv(DCI_P3_P_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *DCI-P3+* colourspace matrix.
+*CIE XYZ* tristimulus values to *DCI-P3+* colourspace matrix.
 
 XYZ_TO_DCI_P3_P_MATRIX : array_like, (3, 3)
 """
@@ -133,14 +133,16 @@ def _dci_p3_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return 4095 * (value / 52.37) ** (1 / 2.6)
 
@@ -151,14 +153,16 @@ def _dci_p3_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return 52.37 * (value / 4095) ** 2.6
 

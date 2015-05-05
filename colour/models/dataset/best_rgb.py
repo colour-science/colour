@@ -44,9 +44,9 @@ __all__ = ['BEST_RGB_PRIMARIES',
            'BEST_RGB_COLOURSPACE']
 
 BEST_RGB_PRIMARIES = np.array(
-    [[0.73519163763066209, 0.26480836236933797],
-     [0.2153361344537815, 0.77415966386554624],
-     [0.13012295081967212, 0.034836065573770496]])
+    [[0.735191637630662090, 0.264808362369337970],
+     [0.215336134453781500, 0.774159663865546240],
+     [0.130122950819672120, 0.034836065573770496]])
 """
 *Best RGB* colourspace primaries.
 
@@ -71,14 +71,14 @@ BEST_RGB_WHITEPOINT : tuple
 BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,
                                                    BEST_RGB_WHITEPOINT)
 """
-*Best RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 BEST_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_BEST_RGB_MATRIX = np.linalg.inv(BEST_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Best RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Best RGB* colourspace matrix.
 
 XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,33 +90,36 @@ def _best_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
 
 def _best_rgb_inverse_transfer_function(value):
     """
-    Defines the *Best RGB* colourspace inverse transfer
-    function.
+    Defines the *Best RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

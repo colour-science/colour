@@ -172,7 +172,7 @@ def RGB_colourspace_limits(colourspace,
 
     limits = []
     for i in np.arange(3):
-        limits.append((np.min(Lab[:, i]), np.max(Lab[:, i])))
+        limits.append((np.min(Lab[..., i]), np.max(Lab[..., i])))
 
     return np.array(limits)
 

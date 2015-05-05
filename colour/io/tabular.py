@@ -133,7 +133,7 @@ def read_spectral_data_from_csv_file(path,
         wavelength = reader.fieldnames[0]
         fields = reader.fieldnames[1:]
 
-        data = OrderedDict(zip(fields, ({} for x in range(len(fields)))))
+        data = OrderedDict(zip(fields, ({} for _ in range(len(fields)))))
         for line in reader:
             for field in fields:
                 try:
@@ -182,8 +182,8 @@ def read_spds_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
-    >>> pprint(list(spds.items()))  # doctest: +ELLIPSIS
-    [('1',
+    >>> pprint(tuple(spds.items()))  # doctest: +ELLIPSIS
+    (('1',
       <...SpectralPowerDistribution object at 0x...>),
      ('2',
       <...SpectralPowerDistribution object at 0x...>),
@@ -230,7 +230,7 @@ def read_spds_from_csv_file(path,
      ('23',
       <...SpectralPowerDistribution object at 0x...>),
      ('24',
-      <...SpectralPowerDistribution object at 0x...>)]
+      <...SpectralPowerDistribution object at 0x...>))
     """
 
     data = read_spectral_data_from_csv_file(path,
@@ -274,10 +274,11 @@ def write_spds_to_csv_file(spds,
         If the given spectral power distributions have different shapes.
     """
 
-    shapes = [spd.shape for spd in spds.values()]
-    if not all(shape == shapes[0] for shape in shapes):
-        raise RuntimeError(('Cannot write spectral power distributions with '
-                            'different shapes to CSV file!'))
+    if len(spds) != 1:
+        shapes = [spd.shape for spd in spds.values()]
+        if not all(shape == shapes[0] for shape in shapes):
+            raise RuntimeError(('Cannot write spectral power distributions '
+                                'with different shapes to CSV file!'))
 
     wavelengths = tuple(spds.values())[0].wavelengths
     with open(path, 'w') as csv_file:

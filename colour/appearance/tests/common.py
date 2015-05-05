@@ -10,13 +10,6 @@ from __future__ import division, unicode_literals
 import csv
 import numpy as np
 import os
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
-
 from abc import abstractmethod
 from collections import defaultdict
 
@@ -207,15 +200,16 @@ class ColourAppearanceModelTest(object):
         -------
         tuple
         """
+
         for data in self.fixtures():
             for test in self.check_model_consistency(data,
                                                      self.OUTPUT_ATTRIBUTES):
                 yield test
 
-    @unittest.skip
-    def test_parallel_forward_examples(self):
+    def test_n_dimensional_examples(self):
         """
-        Tests the colour appearance model implementation with array-like input.
+        Tests the colour appearance model implementation n-dimensional arrays
+        support.
 
         Returns
         -------

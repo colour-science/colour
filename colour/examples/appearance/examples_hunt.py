@@ -5,17 +5,15 @@
 Showcases Hunt colour appearance model computations.
 """
 
-import numpy as np
-
 import colour
 from colour.appearance.hunt import Hunt_ReferenceSpecification
 from colour.utilities.verbose import message_box
 
 message_box('Hunt Colour Appearance Model Computations')
 
-XYZ = np.array([19.01, 20.00, 21.78])
-XYZ_w = np.array([95.05, 100.00, 108.88])
-XYZ_b = np.array([95.05, 100.00, 108.88])
+XYZ = (19.01, 20.00, 21.78)
+XYZ_w = (95.05, 100.00, 108.88)
+XYZ_b = (95.05, 100.00, 108.88)
 L_A = 318.31
 surround = colour.HUNT_VIEWING_CONDITIONS['Normal Scenes']
 CCT_w = 6504.0

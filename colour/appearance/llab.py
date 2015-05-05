@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -71,13 +71,13 @@ class LLAB_InductionFactors(
 
     Parameters
     ----------
-    D : numeric
+    D : numeric or array_like
          *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
-    F_S : numeric
+    F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
-    F_L : numeric
+    F_L : numeric or array_like
         *Lightness* induction factor :math:`F_L`.
-    F_C : numeric
+    F_C : numeric or array_like
         *Chroma* induction factor :math:`F_C`.
     """
 
@@ -134,7 +134,7 @@ LLAB_XYZ_TO_RGB_MATRIX = np.array(
      [-0.7502, 1.7135, 0.0367],
      [0.0389, -0.0685, 1.0296]])
 """
-LLAB(l:c) colour appearance model *CIE XYZ* colourspace matrix to normalised
+LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
 
 LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -143,7 +143,7 @@ LLAB_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 LLAB_RGB_TO_XYZ_MATRIX = np.linalg.inv(LLAB_XYZ_TO_RGB_MATRIX)
 """
 LLAB(l:c) colour appearance model normalised cone responses to *CIE XYZ*
-colourspace matrix.
+tristimulus values matrix.
 
 LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -160,21 +160,21 @@ class LLAB_ReferenceSpecification(
 
     Parameters
     ----------
-    L_L : numeric
+    L_L : numeric or array_like
         Correlate of *Lightness* :math:`L_L`.
-    Ch_L : numeric
+    Ch_L : numeric or array_like
         Correlate of *chroma* :math:`Ch_L`.
-    h_L : numeric
+    h_L : numeric or array_like
         *Hue* angle :math:`h_L` in degrees.
-    s_L : numeric
+    s_L : numeric or array_like
         Correlate of *saturation* :math:`s_L`.
-    C_L : numeric
+    C_L : numeric or array_like
         Correlate of *colourfulness* :math:`C_L`.
-    HC : numeric
+    HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
-    A_L : numeric
+    A_L : numeric or array_like
         Opponent signal :math:`A_L`.
-    B_L : numeric
+    B_L : numeric or array_like
         Opponent signal :math:`B_L`.
     """
 
@@ -191,21 +191,21 @@ class LLAB_Specification(
 
     Parameters
     ----------
-    J : numeric
+    J : numeric or array_like
         Correlate of *Lightness* :math:`L_L`.
-    C : numeric
+    C : numeric or array_like
         Correlate of *chroma* :math:`Ch_L`.
-    h : numeric
+    h : numeric or array_like
         *Hue* angle :math:`h_L` in degrees.
-    s : numeric
+    s : numeric or array_like
         Correlate of *saturation* :math:`s_L`.
-    M : numeric
+    M : numeric or array_like
         Correlate of *colourfulness* :math:`C_L`.
-    HC : numeric
+    HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
-    a : numeric
+    a : numeric or array_like
         Opponent signal :math:`A_L`.
-    b : numeric
+    b : numeric or array_like
         Opponent signal :math:`B_L`.
     """
 
@@ -222,14 +222,14 @@ def XYZ_to_LLAB(
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
-    XYZ_0 : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_b : numeric
+    XYZ_0 : array_like
+        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+    Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
-    L : numeric
+    L : numeric or array_like
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
     surround : LLAB_InductionFactors, optional
          Surround viewing conditions induction factors.
@@ -245,26 +245,26 @@ def XYZ_to_LLAB(
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_0* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
-    >>> XYZ_0 = np.array([95.05, 100, 108.88])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
+    >>> XYZ_0 = np.array([95.05, 100.00, 108.88])
     >>> Y_b = 20.0
     >>> L = 318.31
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0, s=0.0002395..., M=0.0190185..., HC=None, a=-3.4936555..., b=-0.0190185...)
+    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
     RGB = XYZ_to_RGB_LLAB(XYZ)
     RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
 
     # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
-    XYZ_0r = np.array([95.05, 100, 108.88])
+    XYZ_0r = np.array([95.05, 100.00, 108.88])
     RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
 
     # Computing chromatic adaptation.
@@ -274,10 +274,8 @@ def XYZ_to_LLAB(
     # Computing the correlate of *Lightness* :math:`L_L`.
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
-    L_L, a, b = opponent_colour_dimensions(XYZ_r,
-                                           Y_b,
-                                           surround.F_S,
-                                           surround.F_L)
+    L_L, a, b = tsplit(opponent_colour_dimensions(
+        XYZ_r, Y_b, surround.F_S, surround.F_L))
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
@@ -305,62 +303,67 @@ def XYZ_to_LLAB(
     # -------------------------------------------------------------------------
     # Computing final opponent signals.
     # -------------------------------------------------------------------------
-    A_L, B_L = final_opponent_signals(C_L, h_Lr)
+    A_L, B_L = tsplit(final_opponent_signals(C_L, h_Lr))
 
     return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to normalised cone responses.
+    Converts from *CIE XYZ* tristimulus values to normalised cone responses.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Normalised cone responses.
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_RGB_LLAB(XYZ)  # doctest: +ELLIPSIS
     array([ 0.9414279...,  1.0404012...,  1.0897088...])
     """
 
-    return LLAB_XYZ_TO_RGB_MATRIX.dot(XYZ / XYZ[1])
+    X, Y, Z = tsplit(XYZ)
+
+    Y = tstack((Y, Y, Y))
+    XYZ_n = XYZ / Y
+
+    return dot_vector(LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
 
 
 def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     """
     Applies chromatic adaptation to given *RGB* normalised cone responses
-    matrix.
+    array.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* normalised cone responses matrix of test sample / stimulus.
-    RGB_0 : array_like, (3,)
-        *RGB* normalised cone responses matrix of reference white.
-    RGB_0r : array_like, (3,)
-        *RGB* normalised cone responses matrix of reference illuminant
+    RGB : array_like
+        *RGB* normalised cone responses array of test sample / stimulus.
+    RGB_0 : array_like
+        *RGB* normalised cone responses array of reference white.
+    RGB_0r : array_like
+        *RGB* normalised cone responses array of reference illuminant
         *CIE Standard Illuminant D Series* *D65*.
-    Y : numeric
+    Y : numeric or array_like
         Tristimulus values :math:`Y` of the stimulus.
-    D : numeric, optional
+    D : numeric or array_like, optional
          *Discounting-the-Illuminant* factor in domain [0, 1].
 
     Returns
     -------
-    ndarray, (3,)
-        Adapted *CIE XYZ* colourspace matrix.
+    ndarray
+        Adapted *CIE XYZ* tristimulus values.
 
     Examples
     --------
-    >>> RGB = np.array([0.94142795, 1.0404012, 1.08970885])
+    >>> RGB = np.array([0.94142795, 1.04040120, 1.08970885])
     >>> RGB_0 = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
     >>> Y = 20.0
@@ -368,9 +371,10 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     array([ 19.01,  20.  ,  21.78])
     """
 
-    R, G, B = np.ravel(RGB)
-    R_0, G_0, B_0 = np.ravel(RGB_0)
-    R_0r, G_0r, B_0r = np.ravel(RGB_0r)
+    R, G, B = tsplit(RGB)
+    R_0, G_0, B_0 = tsplit(RGB_0)
+    R_0r, G_0r, B_0r = tsplit(RGB_0r)
+    Y = np.asarray(Y)
 
     beta = (B_0 / B_0r) ** 0.0834
 
@@ -378,11 +382,13 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     G_r = (D * (G_0r / G_0) + 1 - D) * G
     B_r = (D * (B_0r / (B_0 ** beta)) + 1 - D) * (abs(B) ** beta)
 
-    RGB_r = np.array([R_r, G_r, B_r])
+    RGB_r = tstack((R_r, G_r, B_r))
 
-    X_r, Y_r, Z_r = np.dot(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
+    Y = tstack((Y, Y, Y))
 
-    return np.array([X_r, Y_r, Z_r])
+    XYZ_r = dot_vector(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
+
+    return XYZ_r
 
 
 def f(x, F_S):
@@ -393,9 +399,9 @@ def f(x, F_S):
 
     Parameters
     ----------
-    x : numeric or array_like
+    x : numeric or array_like or array_like
         Visual response variable :math:`x`.
-    F_S : numeric
+    F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
 
     Returns
@@ -410,35 +416,39 @@ def f(x, F_S):
     array(0.5848125...)
     """
 
+    x = np.asarray(x)
+    F_S = np.asarray(F_S)
+
     x_m = np.where(x > 0.008856,
                    x ** (1 / F_S),
                    ((((0.008856 ** (1 / F_S)) -
                       (16 / 116)) / 0.008856) * x + (16 / 116)))
+
     return x_m
 
 
 def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     """
-    Returns opponent colour dimensions from given adapted *CIE XYZ* colourspace
-    matrix.
+    Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
+    values.
 
     The opponent colour dimensions are based on a modified *CIE Lab*
     colourspace formulae.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        Adapted *CIE XYZ* colourspace matrix.
-    Y_b : numeric
+    XYZ : array_like
+        Adapted *CIE XYZ* tristimulus values.
+    Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : numeric
+    F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
-    F_L : numeric
+    F_L : numeric or array_like
         Lightness induction factor :math:`F_L`.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         Opponent colour dimensions.
 
     Examples
@@ -451,17 +461,22 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     array([  3.7368047...e+01,  -4.4986443...e-03,  -5.2604647...e-03])
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
+    Y_b = np.asarray(Y_b)
+    F_S = np.asarray(F_S)
+    F_L = np.asarray(F_L)
 
     # Account for background lightness contrast.
     z = 1 + F_L * ((Y_b / 100) ** 0.5)
 
-    # Computing modified *CIE Lab* colourspace matrix.
+    # Computing modified *CIE Lab* colourspace array.
     L = 116 * (f(Y / 100, F_S) ** z) - 16
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
-    return np.array([L, a, b])
+    Lab = tstack((L, a, b))
+
+    return Lab
 
 
 def hue_angle(a, b):
@@ -470,14 +485,14 @@ def hue_angle(a, b):
 
     Parameters
     ----------
-    a : numeric
+    a : numeric or array_like
         Opponent colour dimension :math:`a`.
-    b : numeric
+    b : numeric or array_like
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Hue* angle :math:`h_L` in degrees.
 
     Examples
@@ -486,7 +501,11 @@ def hue_angle(a, b):
     229.4635727...
     """
 
+    a = np.asarray(a)
+    b = np.asarray(b)
+
     h_L = np.degrees(np.arctan2(b, a)) % 360
+
     return h_L
 
 
@@ -496,14 +515,14 @@ def chroma_correlate(a, b):
 
     Parameters
     ----------
-    a : numeric
+    a : numeric or array_like
         Opponent colour dimension :math:`a`.
-    b : numeric
+    b : numeric or array_like
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Correlate of *chroma* :math:`Ch_L`.
 
     Examples
@@ -514,8 +533,12 @@ def chroma_correlate(a, b):
     0.0086506...
     """
 
+    a = np.asarray(a)
+    b = np.asarray(b)
+
     c = (a ** 2 + b ** 2) ** 0.5
     Ch_L = 25 * np.log(1 + 0.05 * c)
+
     return Ch_L
 
 
@@ -525,18 +548,18 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
 
     Parameters
     ----------
-    L : numeric
+    L : numeric or array_like
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    L_L : numeric
+    L_L : numeric or array_like
         Correlate of *Lightness* :math:`L_L`.
-    Ch_L : numeric
+    Ch_L : numeric or array_like
         Correlate of *chroma* :math:`Ch_L`.
-    F_C : numeric
+    F_C : numeric or array_like
         Chroma induction factor :math:`F_C`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Correlate of *colourfulness* :math:`C_L`.
 
     Examples
@@ -548,6 +571,11 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     >>> colourfulness_correlate(L, L_L, Ch_L, F_C)  # doctest: +ELLIPSIS
     0.0183832...
     """
+
+    L = np.asarray(L)
+    L_L = np.asarray(L_L)
+    Ch_L = np.asarray(Ch_L)
+    F_C = np.asarray(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
     S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
@@ -562,14 +590,14 @@ def saturation_correlate(Ch_L, L_L):
 
     Parameters
     ----------
-    Ch_L : numeric
+    Ch_L : numeric or array_like
         Correlate of *chroma* :math:`Ch_L`.
-    L_L : numeric
+    L_L : numeric or array_like
         Correlate of *Lightness* :math:`L_L`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Correlate of *saturation* :math:`S_L`.
 
     Examples
@@ -579,6 +607,9 @@ def saturation_correlate(Ch_L, L_L):
     >>> saturation_correlate(Ch_L, L_L)  # doctest: +ELLIPSIS
     0.0002314...
     """
+
+    Ch_L = np.asarray(Ch_L)
+    L_L = np.asarray(L_L)
 
     S_L = Ch_L / L_L
 
@@ -591,14 +622,14 @@ def final_opponent_signals(C_L, h_L):
 
     Parameters
     ----------
-    C_L : numeric
+    C_L : numeric or array_like
         Correlate of *colourfulness* :math:`C_L`.
-    h_L : numeric
+    h_L : numeric or array_like
         Correlate of *hue* :math:`h_L` in radians.
 
     Returns
     -------
-    tuple
+    ndarray
         Final opponent signals :math:`A_L` and :math:`B_L`.
 
     Examples
@@ -606,10 +637,15 @@ def final_opponent_signals(C_L, h_L):
     >>> C_L = 0.0183832899143
     >>> h_L = 4.004894857014253
     >>> final_opponent_signals(C_L, h_L)  # doctest: +ELLIPSIS
-    (-0.0119478..., -0.0139711...)
+    array([-0.0119478..., -0.0139711...])
     """
+
+    C_L = np.asarray(C_L)
+    h_L = np.asarray(h_L)
 
     A_L = C_L * np.cos(h_L)
     B_L = C_L * np.sin(h_L)
 
-    return A_L, B_L
+    AB_L = tstack((A_L, B_L))
+
+    return AB_L

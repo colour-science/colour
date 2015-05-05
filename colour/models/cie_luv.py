@@ -32,6 +32,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_XYZ
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -52,23 +53,23 @@ def XYZ_to_Luv(XYZ,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE XYZ* colourspace to *CIE Luv* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE Luv* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE Luv* colourspace matrix.
+    ndarray
+        *CIE Luv* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
     -   Output :math:`L^*` is in domain [0, 100].
 
@@ -79,48 +80,51 @@ def XYZ_to_Luv(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """
 
-    X, Y, Z = np.ravel(XYZ)
-    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
+    X, Y, Z = tsplit(XYZ)
+    X_r, Y_r, Z_r = tsplit(xy_to_XYZ(illuminant))
 
-    yr = Y / Yr
+    y_r = Y / Y_r
 
-    L = 116 * yr ** (1 / 3) - 16 if yr > CIE_E else CIE_K * yr
+    L = np.where(y_r > CIE_E, 116 * y_r ** (1 / 3) - 16, CIE_K * y_r)
+
     u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
-                   (4 * Xr / (Xr + 15 * Yr + 3 * Zr))))
+                   (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))
     v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
-                   (9 * Yr / (Xr + 15 * Yr + 3 * Zr))))
+                   (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
 
-    return np.array([L, u, v])
+    Luv = tstack((L, u, v))
+
+    return Luv
 
 
 def Luv_to_XYZ(Luv,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE Luv* colourspace to *CIE XYZ* colourspace.
+    Converts from *CIE Luv* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Luv : array_like, (3,)
-        *CIE Luv* colourspace matrix.
+    Luv : array_like
+        *CIE Luv* colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     References
     ----------
@@ -129,27 +133,29 @@ def Luv_to_XYZ(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L, u, v = np.ravel(Luv)
-    Xr, Yr, Zr = np.ravel(xy_to_XYZ(illuminant))
+    L, u, v = tsplit(Luv)
+    X_r, Y_r, Z_r = tsplit(xy_to_XYZ(illuminant))
 
-    Y = ((L + 16) / 116) ** 3 if L > CIE_E * CIE_K else L / CIE_K
+    Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
     a = 1 / 3 * ((52 * L / (u + 13 * L *
-                            (4 * Xr / (Xr + 15 * Yr + 3 * Zr)))) - 1)
+                            (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r)))) - 1)
     b = -5 * Y
     c = -1 / 3.0
     d = Y * (39 * L / (v + 13 * L *
-                       (9 * Yr / (Xr + 15 * Yr + 3 * Zr))) - 5)
+                       (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))) - 5)
 
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    return np.array([X, Y, Z])
+    XYZ = tstack((X, Y, Z))
+
+    return XYZ
 
 
 def Luv_to_uv(Luv,
@@ -157,18 +163,18 @@ def Luv_to_uv(Luv,
                   'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
-    colourspace matrix.
+    colourspace array.
 
     Parameters
     ----------
-    Luv : array_like, (3,)
-        *CIE Luv* colourspace matrix.
+    Luv : array_like
+        *CIE Luv* colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    tuple
+    ndarray
         :math:`uv^p` chromaticity coordinates.
 
     Notes
@@ -184,14 +190,17 @@ def Luv_to_uv(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
-    (0.1508530..., 0.4853297...)
+    array([ 0.1508531...,  0.4853297...])
     """
 
-    X, Y, Z = np.ravel(Luv_to_XYZ(Luv, illuminant))
+    X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
-    return 4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)
+    uv = tstack((4 * X / (X + 15 * Y + 3 * Z),
+                 9 * Y / (X + 15 * Y + 3 * Z)))
+
+    return uv
 
 
 def Luv_uv_to_xy(uv):
@@ -206,7 +215,7 @@ def Luv_uv_to_xy(uv):
 
     Returns
     -------
-    tuple
+    ndarray
         *xy* chromaticity coordinates.
 
     Notes
@@ -221,13 +230,17 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
-    >>> uv = (0.15085309882985695, 0.48532970854318019)
+    >>> uv = np.array([0.15085309882985695, 0.48532970854318019])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    (0.2641477..., 0.3777000...)
+    array([ 0.2641477...,  0.3777000...])
     """
 
-    return (9 * uv[0] / (6 * uv[0] - 16 * uv[1] + 12), 4 * uv[1] /
-            (6 * uv[0] - 16 * uv[1] + 12))
+    u, v = tsplit(uv)
+
+    xy = tstack((9 * u / (6 * u - 16 * v + 12),
+                 4 * v / (6 * u - 16 * v + 12)))
+
+    return xy
 
 
 def Luv_to_LCHuv(Luv):
@@ -236,13 +249,13 @@ def Luv_to_LCHuv(Luv):
 
     Parameters
     ----------
-    Luv : array_like, (3,)
-        *CIE Luv* colourspace matrix.
+    Luv : array_like
+        *CIE Luv* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE LCHuv* colourspace matrix.
+    ndarray
+        *CIE LCHuv* colourspace array.
 
     Notes
     -----
@@ -255,18 +268,19 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.79229446, -1.3558195])
+    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
     array([  37.9856291...,   28.8241993...,  182.6960474...])
     """
 
-    L, u, v = np.ravel(Luv)
+    L, u, v = tsplit(Luv)
 
-    H = 180 * np.arctan2(v, u) / np.pi
-    if H < 0:
-        H += 360
+    H = np.array(180 * np.arctan2(v, u) / np.pi)
+    H[np.array(H < 0)] += 360
 
-    return np.array([L, np.sqrt(u ** 2 + v ** 2), H])
+    LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
+
+    return LCHuv
 
 
 def LCHuv_to_Luv(LCHuv):
@@ -275,13 +289,13 @@ def LCHuv_to_Luv(LCHuv):
 
     Parameters
     ----------
-    LCHuv : array_like, (3,)
-        *CIE LCHuv* colourspace matrix.
+    LCHuv : array_like
+        *CIE LCHuv* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE Luv* colourspace matrix.
+    ndarray
+        *CIE Luv* colourspace array.
 
     Notes
     -----
@@ -294,13 +308,13 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> LCHuv = np.array([37.9856291, 28.82419933, 182.69604747])
+    >>> LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     """
 
-    L, C, H = np.ravel(LCHuv)
+    L, C, H = tsplit(LCHuv)
 
-    return np.array([L,
-                     C * np.cos(np.radians(H)),
-                     C * np.sin(np.radians(H))])
+    Luv = tstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
+
+    return Luv

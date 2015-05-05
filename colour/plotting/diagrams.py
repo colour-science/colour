@@ -23,21 +23,21 @@ import os
 import matplotlib
 import matplotlib.image
 import matplotlib.path
+import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.colorimetry import ILLUMINANTS, spectral_to_XYZ
 from colour.models import (
-    UCS_uv_to_xy,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    UCS_to_uv,
-    xy_to_XYZ,
-    XYZ_to_Luv,
     Luv_to_uv,
     Luv_uv_to_xy,
-    XYZ_to_sRGB)
+    UCS_to_uv,
+    UCS_uv_to_xy,
+    XYZ_to_Luv,
+    XYZ_to_UCS,
+    XYZ_to_sRGB,
+    XYZ_to_xy,
+    xy_to_XYZ)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
     PLOTTING_RESOURCES_DIRECTORY,
@@ -46,6 +46,7 @@ from colour.plotting import (
     boundaries,
     display,
     get_cmfs)
+from colour.utilities import is_scipy_installed, normalise, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -64,10 +65,13 @@ __all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
            'spds_CIE_1960_UCS_chromaticity_diagram_plot',
            'spds_CIE_1976_UCS_chromaticity_diagram_plot']
 
+CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('D65')
+
 
 def CIE_1931_chromaticity_diagram_colours_plot(
-        surface=1.25,
-        spacing=0.00075,
+        surface=1,
+        samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
@@ -77,8 +81,8 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     ----------
     surface : numeric, optional
         Generated markers surface.
-    spacing : numeric, optional
-        Spacing between markers.
+    samples : numeric, optional
+        Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     \*\*kwargs : \*\*
@@ -95,44 +99,47 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     True
     """
 
-    settings = {'figure_size': (32, 32)}
-    settings.update(kwargs)
+    if is_scipy_installed(raise_exception=True):
+        from scipy.spatial import Delaunay
 
-    canvas(**settings)
+        settings = {'figure_size': (64, 64)}
+        settings.update(kwargs)
 
-    cmfs = get_cmfs(cmfs)
+        canvas(**settings)
 
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('E')
+        cmfs = get_cmfs(cmfs)
 
-    XYZs = [value for key, value in cmfs]
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
-    path = matplotlib.path.Path([XYZ_to_xy(x) for x in XYZs])
-    x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0, 1, spacing):
-        for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-                x_dot.append(i)
-                y_dot.append(j)
+        triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
+                                 qhull_options='QJ')
+        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                             np.linspace(0, 1, samples))
+        xy = tstack((xx, yy))
+        xy = xy[triangulation.find_simplex(xy) > 0]
 
-                XYZ = xy_to_XYZ((i, j))
-                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
+        XYZ = xy_to_XYZ(xy)
 
-                colours.append(RGB)
+        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    pylab.scatter(x_dot, y_dot, color=colours, s=surface)
+        x_dot, y_dot = tsplit(xy)
 
-    settings.update({
-        'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
-    settings.update(kwargs)
+        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-    boundaries(**settings)
-    decorate(**settings)
+        settings.update({
+            'no_ticks': True,
+            'bounding_box': (0, 1, 0, 1),
+            'bbox_inches': 'tight',
+            'pad_inches': 0})
+        settings.update(kwargs)
 
-    return display(**settings)
+        ax = matplotlib.pyplot.gca()
+        matplotlib.pyplot.setp(ax, frame_on=False)
+
+        boundaries(**settings)
+        decorate(**settings)
+
+        return display(**settings)
 
 
 def CIE_1931_chromaticity_diagram_plot(
@@ -166,23 +173,25 @@ def CIE_1931_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
+    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1931_Chromaticity_Diagram_{0}_Large.png'.format(
+                     'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
                          cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
+    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
     labels = (
-        [390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700])
+        390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    xy = np.array([XYZ_to_xy(XYZ) for XYZ in cmfs.values])
+    xy = XYZ_to_xy(cmfs.values, illuminant)
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
-    pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
+    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
     pylab.plot((xy[-1][0], xy[0][0]),
                (xy[-1][1], xy[0][1]),
                color='black',
@@ -206,17 +215,17 @@ def CIE_1931_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         xy = np.array([x, y])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(xy - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([x, x + normal[0] * 0.75],
-                   [y, y + normal[1] * 0.75],
+        pylab.plot((x, x + normal[0] * 0.75),
+                   (y, y + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(x + normal[0],
@@ -227,6 +236,11 @@ def CIE_1931_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
+
     settings.update({
         'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
@@ -234,7 +248,7 @@ def CIE_1931_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.1, 0.9, -0.1, 0.9],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -246,8 +260,8 @@ def CIE_1931_chromaticity_diagram_plot(
 
 
 def CIE_1960_UCS_chromaticity_diagram_colours_plot(
-        surface=1.25,
-        spacing=0.00075,
+        surface=1,
+        samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
@@ -257,8 +271,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     ----------
     surface : numeric, optional
         Generated markers surface.
-    spacing : numeric, optional
-        Spacing between markers.
+    samples : numeric, optional
+        Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     \*\*kwargs : \*\*
@@ -275,44 +289,47 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
-    settings = {'figure_size': (32, 32)}
-    settings.update(kwargs)
+    if is_scipy_installed(raise_exception=True):
+        from scipy.spatial import Delaunay
 
-    canvas(**settings)
+        settings = {'figure_size': (64, 64)}
+        settings.update(kwargs)
 
-    cmfs = get_cmfs(cmfs)
+        canvas(**settings)
 
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('E')
+        cmfs = get_cmfs(cmfs)
 
-    uv = np.array([UCS_to_uv(XYZ_to_UCS(XYZ)) for XYZ in cmfs.values])
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
-    path = matplotlib.path.Path(uv)
-    x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0, 1, spacing):
-        for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-                x_dot.append(i)
-                y_dot.append(j)
+        triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
+                                 qhull_options='QJ')
+        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                             np.linspace(0, 1, samples))
+        xy = tstack((xx, yy))
+        xy = xy[triangulation.find_simplex(xy) > 0]
 
-                XYZ = xy_to_XYZ(UCS_uv_to_xy((i, j)))
-                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
+        XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
 
-                colours.append(RGB)
+        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    pylab.scatter(x_dot, y_dot, color=colours, s=surface)
+        x_dot, y_dot = tsplit(xy)
 
-    settings.update({
-        'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
-    settings.update(kwargs)
+        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-    boundaries(**settings)
-    decorate(**settings)
+        settings.update({
+            'no_ticks': True,
+            'bounding_box': (0, 1, 0, 1),
+            'bbox_inches': 'tight',
+            'pad_inches': 0})
+        settings.update(kwargs)
 
-    return display(**settings)
+        ax = matplotlib.pyplot.gca()
+        matplotlib.pyplot.setp(ax, frame_on=False)
+
+        boundaries(**settings)
+        decorate(**settings)
+
+        return display(**settings)
 
 
 def CIE_1960_UCS_chromaticity_diagram_plot(
@@ -347,21 +364,21 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1960_UCS_Chromaticity_Diagram_{0}_Large.png'.format(
+                     'CIE_1960_UCS_Chromaticity_Diagram_{0}.png'.format(
                          cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
+    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
+    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
+              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    uv = np.array([UCS_to_uv(XYZ_to_UCS(XYZ)) for XYZ in cmfs.values])
+    uv = UCS_to_uv(XYZ_to_UCS(cmfs.values))
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, uv)))
 
-    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
     pylab.plot((uv[-1][0], uv[0][0]),
                (uv[-1][1], uv[0][1]),
                color='black',
@@ -385,17 +402,17 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(uv - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([u, u + normal[0] * 0.75],
-                   [v, v + normal[1] * 0.75],
+        pylab.plot((u, u + normal[0] * 0.75),
+                   (v, v + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
@@ -406,6 +423,11 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
+
     settings.update({
         'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u',
@@ -413,7 +435,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.075, 0.675, -0.15, 0.6],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -425,8 +447,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def CIE_1976_UCS_chromaticity_diagram_colours_plot(
-        surface=1.25,
-        spacing=0.00075,
+        surface=1,
+        samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
@@ -436,8 +458,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     ----------
     surface : numeric, optional
         Generated markers surface.
-    spacing : numeric, optional
-        Spacing between markers.
+    samples : numeric, optional
+        Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     \*\*kwargs : \*\*
@@ -454,45 +476,48 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     True
     """
 
-    settings = {'figure_size': (32, 32)}
-    settings.update(kwargs)
+    if is_scipy_installed(raise_exception=True):
+        from scipy.spatial import Delaunay
 
-    canvas(**settings)
+        settings = {'figure_size': (64, 64)}
+        settings.update(kwargs)
 
-    cmfs = get_cmfs(cmfs)
+        canvas(**settings)
 
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('D50')
+        cmfs = get_cmfs(cmfs)
 
-    uv = np.array([Luv_to_uv(XYZ_to_Luv(XYZ, illuminant))
-                   for XYZ in cmfs.values])
+        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
-    path = matplotlib.path.Path(uv)
-    x_dot, y_dot, colours = [], [], []
-    for i in np.arange(0, 1, spacing):
-        for j in np.arange(0, 1, spacing):
-            if path.contains_path(matplotlib.path.Path([[i, j], [i, j]])):
-                x_dot.append(i)
-                y_dot.append(j)
+        triangulation = Delaunay(
+            Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
+            qhull_options='QJ Qf')
+        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                             np.linspace(0, 1, samples))
+        xy = tstack((xx, yy))
+        xy = xy[triangulation.find_simplex(xy) > 0]
 
-                XYZ = xy_to_XYZ(Luv_uv_to_xy((i, j)))
-                RGB = normalise(XYZ_to_sRGB(XYZ, illuminant))
+        XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
 
-                colours.append(RGB)
+        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    pylab.scatter(x_dot, y_dot, color=colours, s=surface)
+        x_dot, y_dot = tsplit(xy)
 
-    settings.update({
-        'no_ticks': True,
-        'bounding_box': [0, 1, 0, 1],
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
-    settings.update(kwargs)
+        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-    boundaries(**settings)
-    decorate(**settings)
+        settings.update({
+            'no_ticks': True,
+            'bounding_box': (0, 1, 0, 1),
+            'bbox_inches': 'tight',
+            'pad_inches': 0})
+        settings.update(kwargs)
 
-    return display(**settings)
+        ax = matplotlib.pyplot.gca()
+        matplotlib.pyplot.setp(ax, frame_on=False)
+
+        boundaries(**settings)
+        decorate(**settings)
+
+        return display(**settings)
 
 
 def CIE_1976_UCS_chromaticity_diagram_plot(
@@ -525,27 +550,25 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
+    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1976_UCS_Chromaticity_Diagram_{0}_Large.png'.format(
+                     'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.format(
                          cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation='nearest', extent=(0, 1, 0, 1))
+    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = [420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680]
+    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
+              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    illuminant = ILLUMINANTS.get(
-        'CIE 1931 2 Degree Standard Observer').get('D50')
-
-    uv = np.array([Luv_to_uv(XYZ_to_Luv(XYZ, illuminant))
-                   for XYZ in cmfs.values])
+    uv = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, uv))
 
-    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
     pylab.plot((uv[-1][0], uv[0][0]),
                (uv[-1][1], uv[0][1]),
                color='black',
@@ -569,17 +592,17 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         norme = lambda x: x / np.linalg.norm(x)
 
         uv = np.array([u, v])
-        direction = np.array((-dy, dx))
+        direction = np.array([-dy, dx])
 
-        normal = (np.array((-dy, dx))
+        normal = (np.array([-dy, dx])
                   if np.dot(norme(uv - equal_energy),
                             norme(direction)) > 0 else
-                  np.array((dy, -dx)))
+                  np.array([dy, -dx]))
         normal = norme(normal)
         normal /= 25
 
-        pylab.plot([u, u + normal[0] * 0.75],
-                   [v, v + normal[1] * 0.75],
+        pylab.plot((u, u + normal[0] * 0.75),
+                   (v, v + normal[1] * 0.75),
                    color='black',
                    linewidth=1.5)
         pylab.text(u + normal[0],
@@ -590,6 +613,11 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                    va='center',
                    fontdict={'size': 'small'})
 
+    ticks = np.arange(-10, 10, 0.1)
+
+    pylab.xticks(ticks)
+    pylab.yticks(ticks)
+
     settings.update({
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
@@ -597,7 +625,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [-0.1, .7, -.1, .7],
+        'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
         'pad_inches': 0})
     settings.update(kwargs)
@@ -643,8 +671,10 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1931_chromaticity_diagram_plot(standalone=False,
-                                       **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1931_chromaticity_diagram_plot(standalone=False, **kwargs)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -664,7 +694,17 @@ def spds_CIE_1931_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.9, -0.1, 0.9),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
 
 
 def spds_CIE_1960_UCS_chromaticity_diagram_plot(
@@ -702,8 +742,10 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False,
-                                           **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False, **settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -723,7 +765,17 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.7, -0.2, 0.6),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
 
 
 def spds_CIE_1976_UCS_chromaticity_diagram_plot(
@@ -761,8 +813,10 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     True
     """
 
-    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False,
-                                           **kwargs)
+    settings = {}
+    settings.update(kwargs)
+
+    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False, **settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -782,4 +836,14 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
 
-    display(standalone=True)
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.7, -0.1, 0.7),
+        'standalone': True})
+    settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)

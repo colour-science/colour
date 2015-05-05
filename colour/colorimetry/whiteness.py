@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -58,23 +58,23 @@ __all__ = ['whiteness_Berger1959',
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using Berger (1959) method. [2]_
+    tristimulus values using Berger (1959) method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        *CIE XYZ* colourspace matrix of reference white.
+        *CIE XYZ* tristimulus values of reference white.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* colourspace matrices are in domain
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
         white, and values smaller than 33.33 indicate a yellowish white.
@@ -85,14 +85,14 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     30.3638017...
     """
 
-    X, Y, Z = np.ravel(XYZ)
-    X_0, Y_0, Z_0 = np.ravel(XYZ_0)
+    X, Y, Z = tsplit(XYZ)
+    X_0, Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
@@ -102,37 +102,37 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using Taube (1960) method. [2]_
+    tristimulus values using Taube (1960) method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        *CIE XYZ* colourspace matrix of reference white.
+        *CIE XYZ* tristimulus values of reference white.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* colourspace matrices are in domain
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white, and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     91.4071738...
     """
 
-    X, Y, Z = np.ravel(XYZ)
-    X_0, Y_0, Z_0 = np.ravel(XYZ_0)
+    X, Y, Z = tsplit(XYZ)
+    X_0, Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
@@ -142,32 +142,32 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace matrix using Stensby (1968) method. [2]_
+    colourspace array using Stensby (1968) method. [2]_
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace matrix of sample.
+        *CIE Lab* colourspace array of sample.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-    -   Input *CIE Lab* colourspace matrix are in domain [0, 100].
+    -   Input *CIE Lab* colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white, and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------
-    >>> Lab = np.array([100., -2.46875131, -16.72486654])
+    >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
     """
 
-    L, a, b = np.ravel(Lab)
+    L, a, b = tsplit(Lab)
 
     WI = L - 3 * b + 3 * a
 
@@ -177,21 +177,21 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    colourspace matrix using ASTM 313 method. [2]_
+    tristimulus values using ASTM 313 method. [2]_
 
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* colourspace matrix of sample.
+        *CIE XYZ* tristimulus values of sample.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
     Warning
     -------
@@ -199,12 +199,12 @@ def whiteness_ASTM313(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([95., 100., 105.])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTM313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
     WI = 3.388 * Z - 3 * Y
 
@@ -219,14 +219,14 @@ def whiteness_Ganz1979(xy, Y):
 
     Parameters
     ----------
-    xy : tuple
+    xy : array_like
         Chromaticity coordinates *xy* of sample.
-    Y : numeric
+    Y : numeric or array_like
         Tristimulus :math:`Y` value of sample.
 
     Returns
     -------
-    tuple
+    ndarray
         *Whiteness* :math:`W` and *tint* :math:`T`.
 
     Notes
@@ -248,16 +248,20 @@ def whiteness_Ganz1979(xy, Y):
 
     Examples
     --------
-    >>> whiteness_Ganz1979((0.3167, 0.3334), 100.)  # doctest: +ELLIPSIS
-    (85.6003766..., 0.6789002...)
+    >>> xy = np.array([0.3167, 0.3334])
+    >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
+    array([ 85.6003766...,   0.6789003...])
     """
 
-    x, y = np.ravel(xy)
+    x, y = tsplit(xy)
+    Y = np.asarray(Y)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
-    return W, T
+    WT = tstack((W, T))
+
+    return WT
 
 
 def whiteness_CIE2004(xy,
@@ -271,11 +275,11 @@ def whiteness_CIE2004(xy,
 
     Parameters
     ----------
-    xy : tuple
+    xy : array_like
         Chromaticity coordinates *xy* of sample.
-    Y : numeric
+    Y : numeric or array_like
         Tristimulus :math:`Y` value of sample.
-    xy_n : tuple
+    xy_n : array_like
         Chromaticity coordinates *xy_n* of perfect diffuser.
     observer : unicode, optional
         {'CIE 1931 2 Degree Standard Observer',
@@ -285,7 +289,7 @@ def whiteness_CIE2004(xy,
 
     Returns
     -------
-    tuple
+    ndarray
         *Whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T` or
         :math:`T_{10}` of given sample.
 
@@ -315,18 +319,22 @@ def whiteness_CIE2004(xy,
 
     Examples
     --------
-    >>> xy_n = (0.3139, 0.3311)
-    >>> whiteness_CIE2004((0.3167, 0.3334), 100., xy_n)  # doctest: +ELLIPSIS
-    (93.8500000..., -1.3049999...)
+    >>> xy = np.array([0.3167, 0.3334])
+    >>> xy_n = np.array([0.3139, 0.3311])
+    >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
+    array([ 93.85...,  -1.305...])
     """
 
-    x, y = np.ravel(xy)
-    x_n, y_n = np.ravel(xy_n)
+    x, y = tsplit(xy)
+    Y = np.asarray(Y)
+    x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
     T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
-    return W, T
+    WT = tstack((W, T))
+
+    return WT
 
 
 WHITENESS_METHODS = CaseInsensitiveMapping(
@@ -365,18 +373,18 @@ def whiteness(method='CIE 2004', **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *whiteness* :math:`W`.
 
     Examples
     --------
-    >>> xy = (0.3167, 0.3334)
+    >>> xy = np.array([0.3167, 0.3334])
     >>> Y = 100
-    >>> xy_n = (0.3139, 0.3311)
+    >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness(xy=xy, Y=Y, xy_n=xy_n)  # doctest: +ELLIPSIS
-    (93.8500000..., -1.3049999...)
-    >>> XYZ = np.array([95., 100., 105.])
-    >>> XYZ_0 = np.array([94.80966767, 100., 107.30513595])
+    array([ 93.85...,  -1.305...])
+    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> method = 'Taube 1960'
     >>> whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method=method)  # doctest: +ELLIPSIS
     91.4071738...

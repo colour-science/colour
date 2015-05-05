@@ -23,9 +23,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import as_array
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.utilities import dot_matrix, dot_vector
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -56,9 +56,9 @@ class RGB_Colourspace(object):
     illuminant : unicode, optional
         *RGB* colourspace whitepoint name as illuminant.
     RGB_to_XYZ_matrix : array_like, optional
-        Transformation matrix from colourspace to *CIE XYZ* colourspace.
+        Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
-        Transformation matrix from *CIE XYZ* colourspace to colourspace.
+        Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
     transfer_function : object, optional
         *RGB* colourspace opto-electronic conversion function from linear to
         colourspace.
@@ -148,7 +148,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__primaries = value
 
     @property
@@ -236,7 +236,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__RGB_to_XYZ_matrix = value
 
     @property
@@ -264,7 +264,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.asarray(value)
         self.__XYZ_to_RGB_matrix = value
 
     @property
@@ -335,19 +335,18 @@ def XYZ_to_RGB(XYZ,
                chromatic_adaptation_transform='CAT02',
                transfer_function=None):
     """
-    Converts from *CIE XYZ* colourspace to *RGB* colourspace using given
-    *CIE XYZ* colourspace matrix, *illuminants*, *chromatic adaptation* method,
-    *normalised primary matrix* and *transfer function*.
+    Converts from *CIE XYZ* tristimulus values to given *RGB* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values
     illuminant_XYZ : array_like
-        *CIE XYZ* colourspace *illuminant* *xy* chromaticity coordinates.
+        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
+        coordinates.
     illuminant_RGB : array_like
         *RGB* colourspace *illuminant* *xy* chromaticity coordinates.
-    XYZ_to_RGB_matrix : array_like, (3, 3)
+    XYZ_to_RGB_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -358,28 +357,28 @@ def XYZ_to_RGB(XYZ,
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant_XYZ* *xy* chromaticity coordinates are in domain
         [0, 1].
     -   Input *illuminant_RGB* *xy* chromaticity coordinates are in domain
         [0, 1].
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
+    -   Output *RGB* colourspace array is in domain [0, 1].
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
-    >>> illuminant_XYZ = (0.34567, 0.35850)
-    >>> illuminant_RGB = (0.31271, 0.32902)
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
+    >>> illuminant_RGB = np.array([0.31271, 0.32902])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> XYZ_to_RGB_matrix = np.array([
     ...     [3.24100326, -1.53739899, -0.49861587],
     ...     [-0.96922426, 1.87592999, 0.04155422],
-    ...     [0.05563942, -0.2040112, 1.05714897]])
+    ...     [0.05563942, -0.20401120, 1.05714897]])
     >>> XYZ_to_RGB(
     ...     XYZ,
     ...     illuminant_XYZ,
@@ -389,22 +388,17 @@ def XYZ_to_RGB(XYZ,
     array([ 0.0110360...,  0.1273446...,  0.1163103...])
     """
 
-    XYZ = np.ravel(XYZ)
-
-    cat = chromatic_adaptation_matrix_VonKries(
+    M = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(illuminant_XYZ),
         xy_to_XYZ(illuminant_RGB),
         transform=chromatic_adaptation_transform)
 
-    XYZ_a = np.dot(cat, XYZ)
+    XYZ_a = dot_vector(M, XYZ)
 
-    RGB = np.dot(XYZ_to_RGB_matrix.reshape((3, 3)),
-                 XYZ_a.reshape((3, 1)))
-
-    RGB = np.ravel(RGB)
+    RGB = dot_vector(XYZ_to_RGB_matrix, XYZ_a)
 
     if transfer_function is not None:
-        RGB = np.array([transfer_function(x) for x in RGB])
+        RGB = transfer_function(RGB)
 
     return RGB
 
@@ -416,19 +410,17 @@ def RGB_to_XYZ(RGB,
                chromatic_adaptation_transform='CAT02',
                inverse_transfer_function=None):
     """
-    Converts from *RGB* colourspace to *CIE XYZ* colourspace using given
-    *RGB* colourspace matrix, *illuminants*, *chromatic adaptation* method,
-    *normalised primary matrix* and *transfer function*.
+    Converts from given *RGB* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
     illuminant_RGB : array_like
         *RGB* colourspace *illuminant* chromaticity coordinates.
     illuminant_XYZ : array_like
-        *CIE XYZ* colourspace *illuminant* chromaticity coordinates.
-    RGB_to_XYZ_matrix : array_like, (3, 3)
+        *CIE XYZ* tristimulus values *illuminant* chromaticity coordinates.
+    RGB_to_XYZ_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
@@ -439,27 +431,27 @@ def RGB_to_XYZ(RGB,
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
     -   Input *illuminant_RGB* *xy* chromaticity coordinates are in domain
         [0, 1].
     -   Input *illuminant_XYZ* *xy* chromaticity coordinates are in domain
         [0, 1].
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     Examples
     --------
     >>> RGB = np.array([0.01103604, 0.12734466, 0.11631037])
-    >>> illuminant_RGB = (0.31271, 0.32902)
-    >>> illuminant_XYZ = (0.34567, 0.35850)
+    >>> illuminant_RGB = np.array([0.31271, 0.32902])
+    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> RGB_to_XYZ_matrix = np.array([
     ...     [0.41238656, 0.35759149, 0.18045049],
-    ...     [0.21263682, 0.71518298, 0.0721802],
+    ...     [0.21263682, 0.71518298, 0.07218020],
     ...     [0.01933062, 0.11919716, 0.95037259]])
     >>> RGB_to_XYZ(
     ...     RGB,
@@ -470,21 +462,19 @@ def RGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    RGB = np.ravel(RGB)
-
     if inverse_transfer_function is not None:
-        RGB = np.array([inverse_transfer_function(x) for x in RGB])
+        RGB = inverse_transfer_function(RGB)
 
-    XYZ = np.dot(RGB_to_XYZ_matrix.reshape((3, 3)), RGB.reshape((3, 1)))
-
-    cat = chromatic_adaptation_matrix_VonKries(
+    M = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(illuminant_RGB),
         xy_to_XYZ(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
 
-    XYZ_a = np.dot(cat, XYZ.reshape((3, 1)))
+    XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
-    return np.ravel(XYZ_a)
+    XYZ_a = dot_vector(M, XYZ)
+
+    return XYZ_a
 
 
 def RGB_to_RGB(RGB,
@@ -497,8 +487,8 @@ def RGB_to_RGB(RGB,
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
     input_colourspace : RGB_Colourspace
         *RGB* input colourspace.
     output_colourspace : RGB_Colourspace
@@ -508,12 +498,12 @@ def RGB_to_RGB(RGB,
         'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
         *Chromatic adaptation* transform.
 
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   *RGB* colourspace matrices are in domain [0, 1].
+    -   *RGB* colourspace arrays are in domain [0, 1].
 
     Examples
     --------
@@ -526,14 +516,14 @@ def RGB_to_RGB(RGB,
     array([ 0.0643338...,  0.1157362...,  0.1157614...])
     """
 
-    RGB = np.ravel(RGB)
-
     cat = chromatic_adaptation_matrix_VonKries(
         xy_to_XYZ(input_colourspace.whitepoint),
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_transform)
 
-    M = np.dot(output_colourspace.XYZ_to_RGB_matrix,
-               np.dot(cat, input_colourspace.RGB_to_XYZ_matrix))
+    M = dot_matrix(cat, input_colourspace.RGB_to_XYZ_matrix)
+    M = dot_matrix(output_colourspace.XYZ_to_RGB_matrix, M)
 
-    return np.dot(M, RGB)
+    RGB = dot_vector(M, RGB)
+
+    return RGB

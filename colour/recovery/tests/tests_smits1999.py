@@ -41,7 +41,7 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             RGB_to_spectral_Smits1999(
-                [0.45293517, 0.31732158, 0.26414773]).values,
+                np.array([0.45293517, 0.31732158, 0.26414773])).values,
             np.array([0.27787714,
                       0.27113183,
                       0.26990663,
@@ -53,9 +53,10 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
                       0.45328084,
                       0.45410503]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             RGB_to_spectral_Smits1999(
-                np.array([0.77875824, 0.5772645, 0.50453169])).values,
+                np.array([0.77875824, 0.57726450, 0.50453169])).values,
             np.array([0.52493013,
                       0.51490862,
                       0.51239457,
@@ -67,6 +68,7 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
                       0.77946941,
                       0.78059677]),
             decimal=7)
+
         np.testing.assert_almost_equal(
             RGB_to_spectral_Smits1999(
                 np.array([0.35505307, 0.47995567, 0.61088035])).values,

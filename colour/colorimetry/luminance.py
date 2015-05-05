@@ -25,6 +25,8 @@ See Also
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping
 
@@ -50,7 +52,7 @@ def luminance_Newhall1943(V, **kwargs):
 
     Parameters
     ----------
-    V : numeric
+    V : numeric or array_like
         *Munsell* value :math:`V`.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -58,7 +60,7 @@ def luminance_Newhall1943(V, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *luminance* :math:`R_Y`.
 
     Notes
@@ -78,8 +80,10 @@ def luminance_Newhall1943(V, **kwargs):
     10.4089874...
     """
 
-    R_Y = 1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 * (
-        V ** 4) + 0.0008404 * (V ** 5)
+    V = np.asarray(V)
+
+    R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 *
+           (V ** 4) + 0.0008404 * (V ** 5))
 
     return R_Y
 
@@ -91,7 +95,7 @@ def luminance_ASTMD153508(V, **kwargs):
 
     Parameters
     ----------
-    V : numeric
+    V : numeric or array_like
         *Munsell* value :math:`V`.
     \*\*kwargs : \*\*, optional
         Unused parameter provided for signature compatibility with other
@@ -99,7 +103,7 @@ def luminance_ASTMD153508(V, **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *luminance* :math:`Y`.
 
     Notes
@@ -118,6 +122,8 @@ def luminance_ASTMD153508(V, **kwargs):
     10.1488096...
     """
 
+    V = np.asarray(V)
+
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) - 0.020484 *
          (V ** 4) + 0.00081939 * (V ** 5))
 
@@ -131,14 +137,14 @@ def luminance_1976(Lstar, Y_n=100):
 
     Parameters
     ----------
-    L : numeric
+    L : numeric or array_like
         *Lightness* :math:`L^*`
-    Yn : numeric
+    Yn : numeric or array_like
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *luminance* :math:`Y`.
 
     Notes
@@ -159,14 +165,17 @@ def luminance_1976(Lstar, Y_n=100):
     Examples
     --------
     >>> luminance_1976(37.9856290977)  # doctest: +ELLIPSIS
-    10.0800000...
+    array(10.0800000...)
     >>> luminance_1976(37.9856290977, 95)  # doctest: +ELLIPSIS
-    9.5760000...
+    array(9.5760000...)
     """
 
-    Y = (Y_n * ((Lstar + 16) / 116) ** 3
-         if Lstar > CIE_K * CIE_E else
-         Y_n * (Lstar / CIE_K))
+    Lstar = np.asarray(Lstar)
+    Y_n = np.asarray(Y_n)
+
+    Y = np.where(Lstar > CIE_K * CIE_E,
+                 Y_n * ((Lstar + 16) / 116) ** 3,
+                 Y_n * (Lstar / CIE_K))
 
     return Y
 
@@ -199,7 +208,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     Parameters
     ----------
-    LV : numeric
+    LV : numeric or array_like
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
         {'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}
@@ -209,7 +218,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     Returns
     -------
-    numeric
+    numeric or array_like
         *luminance* :math:`Y`.
 
     Notes
@@ -221,11 +230,11 @@ def luminance(LV, method='CIE 1976', **kwargs):
     Examples
     --------
     >>> luminance(37.9856290977)  # doctest: +ELLIPSIS
-    10.0800000...
+    array(10.0800000...)
     >>> luminance(37.9856290977, Y_n=100)  # doctest: +ELLIPSIS
-    10.0800000...
+    array(10.0800000...)
     >>> luminance(37.9856290977, Y_n=95)  # doctest: +ELLIPSIS
-    9.5760000...
+    array(9.5760000...)
     >>> luminance(3.74629715382, method='Newhall 1943')  # doctest: +ELLIPSIS
     10.4089874...
     >>> luminance(3.74629715382, method='ASTM D1535-08')  # doctest: +ELLIPSIS

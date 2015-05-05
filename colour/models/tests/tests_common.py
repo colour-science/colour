@@ -39,35 +39,35 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.07049534, 0.1008, 0.09558313])),
+            XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313])),
             np.array([0.17501358, 0.38818795, 0.32161955]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.4709771, 0.3495, 0.11301649])),
-            np.array([0.96984378, 0.4888342, 0.3022906]),
+            XYZ_to_sRGB(np.array([0.47097710, 0.34950000, 0.11301649])),
+            np.array([0.96984378, 0.48883420, 0.30229060]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0, 0, 0]),
-                        (0.44757, 0.40745)),
+            XYZ_to_sRGB(np.array([0.00000000, 0.00000000, 0.00000000]),
+                        np.array([0.44757, 0.40745])),
             np.array([0., 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.1180583421, 0.1034, 0.0515089229]),
-                        (0.31271, 0.32902)),
+            XYZ_to_sRGB(np.array([0.1180583421, 0.10340000, 0.0515089229]),
+                        np.array([0.31271, 0.32902])),
             np.array([0.48224885, 0.31651974, 0.22070513]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.07049534, 0.1008, 0.09558313]),
+            XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313]),
                         chromatic_adaptation_transform='Bradford'),
             np.array([0.17501358, 0.38818795, 0.32161955]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(np.array([0.07049534, 0.1008, 0.09558313]),
+            XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313]),
                         transfer_function=False),
             np.array([0.02584654, 0.12473983, 0.0844036]),
             decimal=7)
@@ -86,36 +86,36 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.17501358, 0.38818795, 0.32161955])),
-            np.array([0.07049534, 0.1008, 0.09558313]),
+            np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sRGB_to_XYZ(np.array([0.96984378, 0.4888342, 0.3022906])),
-            np.array([0.4709771, 0.3495, 0.11301649]),
+            sRGB_to_XYZ(np.array([0.96984378, 0.48883420, 0.30229060])),
+            np.array([0.47097710, 0.34950000, 0.11301649]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sRGB_to_XYZ(np.array([0, 0, 0]),
-                        (0.44757, 0.40745)),
+            sRGB_to_XYZ(np.array([0.00000000, 0.00000000, 0.00000000]),
+                        np.array([0.44757, 0.40745])),
             np.array([0., 0., 0.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.48224885, 0.31651974, 0.22070513]),
-                        (0.31271, 0.32902)),
-            np.array([0.1180583421, 0.1034, 0.0515089229]),
+                        np.array([0.31271, 0.32902])),
+            np.array([0.1180583421, 0.10340000, 0.0515089229]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.17501358, 0.38818795, 0.32161955]),
                         chromatic_adaptation_method='Bradford'),
-            np.array([0.07049534, 0.1008, 0.09558313]),
+            np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            sRGB_to_XYZ(np.array([0.02584654, 0.12473983, 0.0844036]),
+            sRGB_to_XYZ(np.array([0.02584654, 0.12473983, 0.08440360]),
                         inverse_transfer_function=False),
-            np.array([0.07049534, 0.1008, 0.09558313]),
+            np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
 

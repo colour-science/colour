@@ -30,7 +30,12 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import CaseInsensitiveMapping, warning
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    dot_vector,
+    tsplit,
+    tstack,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -77,15 +82,15 @@ class Hunt_InductionFactors(
 
     Parameters
     ----------
-    N_c : numeric
+    N_c : numeric or array_like
         Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric
+    N_b : numeric or array_like
         *Brightness* surround induction factor :math:`N_b`.
-    N_cb : numeric, optional
+    N_cb : numeric or array_like, optional
         Chromatic background induction factor :math:`N_{cb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
-    N_bb : numeric, optional
+    N_bb : numeric or array_like, optional
         *Brightness* background induction factor :math:`N_{bb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
@@ -150,7 +155,7 @@ XYZ_TO_HPE_MATRIX = np.array(
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
 """
-Hunt colour appearance model *CIE XYZ* colourspace matrix to
+Hunt colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
 XYZ_TO_HPE_MATRIX : array_like, (3, 3)
@@ -159,7 +164,7 @@ XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
 """
 Hunt colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
-colourspace to *CIE XYZ* colourspace matrix matrix.
+colourspace to *CIE XYZ* tristimulus values matrix.
 
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -176,21 +181,21 @@ class Hunt_ReferenceSpecification(
 
     Parameters
     ----------
-    J : numeric
+    J : numeric or array_like
         Correlate of *Lightness* :math:`J`.
-    C_94 : numeric
+    C_94 : numeric or array_like
         Correlate of *chroma* :math:`C_94`.
-    h_S : numeric
+    h_S : numeric or array_like
         *Hue* angle :math:`h_S` in degrees.
-    s : numeric
+    s : numeric or array_like
         Correlate of *saturation* :math:`s`.
-    Q : numeric
+    Q : numeric or array_like
         Correlate of *brightness* :math:`Q`.
-    M_94 : numeric
+    M_94 : numeric or array_like
         Correlate of *colourfulness* :math:`M_94`.
-    H : numeric
+    H : numeric or array_like
         *Hue* :math:`h` quadrature :math:`H`.
-    H_C : numeric
+    H_C : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
     """
 
@@ -207,21 +212,21 @@ class Hunt_Specification(
 
     Parameters
     ----------
-    J : numeric
+    J : numeric or array_like
         Correlate of *Lightness* :math:`J`.
-    C : numeric
+    C : numeric or array_like
         Correlate of *chroma* :math:`C_94`.
-    h : numeric
+    h : numeric or array_like
         *Hue* angle :math:`h_S` in degrees.
-    s : numeric
+    s : numeric or array_like
         Correlate of *saturation* :math:`s`.
-    Q : numeric
+    Q : numeric or array_like
         Correlate of *brightness* :math:`Q`.
-    M : numeric
+    M : numeric or array_like
         Correlate of *colourfulness* :math:`M_94`.
-    H : numeric
+    H : numeric or array_like
         *Hue* :math:`h` quadrature :math:`H`.
-    HC : numeric
+    HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
     """
 
@@ -244,34 +249,34 @@ def XYZ_to_Hunt(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
-    XYZ_w : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    XYZ_b : array_like, (3,)
-        *CIE XYZ* colourspace matrix of background in domain [0, 100].
-    L_A : numeric
+    XYZ_w : array_like
+        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+    XYZ_b : array_like
+        *CIE XYZ* tristimulus values of background in domain [0, 100].
+    L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     surround : Hunt_InductionFactors, optional
          Surround viewing conditions induction factors.
-    L_AS : numeric, optional
+    L_AS : numeric or array_like, optional
         Scotopic luminance :math:`L_{AS}` of the illuminant, approximated if
         not specified.
-    CCT_w : numeric, optional
+    CCT_w : numeric or array_like, optional
         Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
-    XYZ_p : array_like, (3,), optional
-        *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
+    XYZ_p : array_like, optional
+        *CIE XYZ* tristimulus values of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
-    p : numeric, optional
+    p : numeric or array_like, optional
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
-    S : numeric, optional
+    S : numeric or array_like, optional
         Scotopic response :math:`S` to the stimulus, approximated using
         tristimulus values :math:`Y` of the stimulus if not specified.
-    S_w : numeric, optional
+    S_w : numeric or array_like, optional
         Scotopic response :math:`S_w` for the reference white, approximated
         using the tristimulus values :math:`Y_w` of the reference white if not
         specified.
@@ -287,10 +292,10 @@ def XYZ_to_Hunt(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_b* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_w* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_p* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_b* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_p* tristimulus values are in domain [0, 100].
 
     Returns
     -------
@@ -314,13 +319,13 @@ def XYZ_to_Hunt(XYZ,
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
-    X, Y, Z = np.ravel(XYZ)
-    X_b, Y_b, Z_b = np.ravel(XYZ_b)
-    X_w, Y_w, Z_w = np.ravel(XYZ_w)
+    X, Y, Z = tsplit(XYZ)
+    X_b, Y_b, Z_b = tsplit(XYZ_b)
+    X_w, Y_w, Z_w = tsplit(XYZ_w)
 
     # Arguments handling.
     if XYZ_p is not None:
-        X_p, Y_p, Z_p = np.ravel(XYZ_p)
+        X_p, Y_p, Z_p = tsplit(XYZ_p)
     else:
         X_p = X_b
         Y_p = Y_b
@@ -362,7 +367,7 @@ def XYZ_to_Hunt(XYZ,
                 'argument, model will not account for simultaneous chromatic '
                 'contrast!')
 
-    XYZ_p = np.array([X_p, Y_p, Z_p])
+    XYZ_p = tstack((X_p, Y_p, Z_p))
 
     # Computing luminance level adaptation factor :math:`F_L`.
     F_L = luminance_level_adaptation_factor(L_A)
@@ -402,7 +407,7 @@ def XYZ_to_Hunt(XYZ,
     # Computing the *hue* angle :math:`h_s`.
     # -------------------------------------------------------------------------
     h = hue_angle(C)
-    hue_w = hue_angle(C_w)
+    # hue_w = hue_angle(C_w)
     # TODO: Implement hue quadrature & composition computation.
 
     # -------------------------------------------------------------------------
@@ -444,11 +449,7 @@ def XYZ_to_Hunt(XYZ,
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C_{94}`.
     # -------------------------------------------------------------------------
-    C_94 = chroma_correlate(s,
-                            Y_b,
-                            Y_w,
-                            Q,
-                            brightness_w)
+    C_94 = chroma_correlate(s, Y_b, Y_w, Q, brightness_w)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M_{94}`.
@@ -464,12 +465,12 @@ def luminance_level_adaptation_factor(L_A):
 
     Parameters
     ----------
-    L_A : numeric
+    L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Luminance* level adaptation factor :math:`F_L`
 
     Examples
@@ -478,10 +479,12 @@ def luminance_level_adaptation_factor(L_A):
     1.1675444...
     """
 
+    L_A = np.asarray(L_A)
+
     k = 1 / (5 * L_A + 1)
     k4 = k ** 4
-    F_L = (0.2
-           * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * (5 * L_A) ** (1 / 3))
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * (5 * L_A) ** (1 / 3)
+
     return F_L
 
 
@@ -492,14 +495,14 @@ def illuminant_scotopic_luminance(L_A, CCT):
 
     Parameters
     ----------
-    L_A : numeric
+    L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    CCT : numeric
+    CCT : numeric or array_like
         Correlated color temperature :math:`T_{cp}` of the illuminant.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Approximate scotopic luminance :math:`L_{AS}`.
 
     Examples
@@ -508,33 +511,37 @@ def illuminant_scotopic_luminance(L_A, CCT):
     769.9376286...
     """
 
+    L_A = np.asarray(L_A)
+    CCT = np.asarray(CCT)
+
     CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
+
     return CCT
 
 
 def XYZ_to_rgb(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *Hunt-Pointer-Estevez*
+    Converts from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
     :math:`\\rho\gamma\\beta` colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray, (3,)
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
+    ndarray
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace.
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20, 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_rgb(XYZ)  # doctest: +ELLIPSIS
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return np.dot(XYZ_TO_HPE_MATRIX, XYZ)
+    return dot_vector(XYZ_TO_HPE_MATRIX, XYZ)
 
 
 def f_n(x):
@@ -544,7 +551,7 @@ def f_n(x):
 
     Parameters
     ----------
-    x : numeric or array_like
+    x : numeric or array_like or array_like
         Visual response variable :math:`x`.
 
     Returns
@@ -560,7 +567,10 @@ def f_n(x):
     array([ 5.8968592...,  5.8969521...,  5.8975927...])
     """
 
+    x = np.asarray(x)
+
     x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
+
     return x_m
 
 
@@ -574,24 +584,24 @@ def chromatic_adaptation(XYZ,
                          helson_judd_effect=False,
                          discount_illuminant=True):
     """
-    Applies chromatic adaptation to given *CIE XYZ* colourspace matrix.
+    Applies chromatic adaptation to given *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix of test sample in domain [0, 100].
-    XYZ_b : array_like, (3,)
-        *CIE XYZ* colourspace matrix of background in domain [0, 100].
-    XYZ_w : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    L_A : numeric
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of test sample in domain [0, 100].
+    XYZ_b : array_like
+        *CIE XYZ* tristimulus values of background in domain [0, 100].
+    XYZ_w : array_like
+        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+    L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-    F_L : numeric
+    F_L : numeric or array_like
         Luminance adaptation factor :math:`F_L`.
-    XYZ_p : array_like, (3,), optional
-        *CIE XYZ* colourspace matrix of proximal field in domain [0, 100],
+    XYZ_p : array_like, optional
+        *CIE XYZ* tristimulus values of proximal field in domain [0, 100],
         assumed to be equal to background if not specified.
-    p : numeric, optional
+    p : numeric or array_like, optional
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
@@ -603,8 +613,8 @@ def chromatic_adaptation(XYZ,
 
     Returns
     -------
-    ndarray, (3,)
-        Adapted *CIE XYZ* colourspace matrix.
+    ndarray
+        Adapted *CIE XYZ* tristimulus values.
 
     Examples
     --------
@@ -617,38 +627,44 @@ def chromatic_adaptation(XYZ,
     array([ 6.8959454...,  6.8959991...,  6.8965708...])
     """
 
+    XYZ_w = np.asarray(XYZ_w)
+    XYZ_b = np.asarray(XYZ_b)
+    L_A = np.asarray(L_A)
+    F_L = np.asarray(F_L)
+
     rgb = XYZ_to_rgb(XYZ)
     rgb_w = XYZ_to_rgb(XYZ_w)
-    Y_w = XYZ_w[1]
-    Y_b = XYZ_b[1]
+    Y_w = XYZ_w[..., 1]
+    Y_b = XYZ_b[..., 1]
 
-    h_rgb = 3 * rgb_w / (rgb_w.sum())
+    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)[..., np.newaxis]
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
         F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) /
                  (1 + (L_A ** (1 / 3)) + (1 / h_rgb)))
     else:
-        F_rgb = np.ones(np.shape(h_rgb))
+        F_rgb = np.ones(h_rgb.shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
-        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[1]) -
+        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) -
                  f_n((Y_b / Y_w) * F_L * F_rgb))
-        # assert D_pyb[1] == 0
     else:
-        D_rgb = np.zeros(np.shape(F_rgb))
+        D_rgb = np.zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A * (rgb_w / 100))
+    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
         rgb_p = XYZ_to_rgb(XYZ_p)
-        rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
+        rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w,
+                                                 p)
 
     # Computing adapted cone responses.
-    rgb_a = 1 + B_rgb * (f_n(F_L * F_rgb * rgb / rgb_w) + D_rgb)
+    rgb_a = 1
+    rgb_a += B_rgb * (f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 
@@ -659,35 +675,40 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 
     Parameters
     ----------
-    rgb_p :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
-        the proximal field.
-    rgb_b :  array_like, (3,)
-        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` matrix of
-        the background.
-    rgb_w :  array_like, (3,)
-        Cone signals matrix *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` of
-        the reference white.
-    p : numeric
+    rgb_p :  array_like
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        colourspace array of the proximal field.
+    rgb_b :  array_like
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        colourspace array of the background.
+    rgb_w :  array_like
+        Cone signals array *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        colourspace array of the reference white.
+    p : numeric or array_like
         Simultaneous contrast / assimilation factor :math:`p` with value in
         domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
         when assimilation occurs.
 
     Returns
     -------
-    ndarray:
+    ndarray
         Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
-        matrix of the reference white.
+        colourspace array of the reference white.
 
     Examples
     --------
-    >>> rgb_p = np.array([98.0719355, 101.1375595, 100])
-    >>> rgb_b = np.array([0.99984505, 0.9998384, 0.99982674])
-    >>> rgb_w = np.array([97.3732571, 101.5496803, 108.88])
+    >>> rgb_p = np.array([98.07193550, 101.13755950, 100.00000000])
+    >>> rgb_b = np.array([0.99984505, 0.99983840, 0.99982674])
+    >>> rgb_w = np.array([97.37325710, 101.54968030, 108.88000000])
     >>> p = 0.1
     >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)  # noqa  # doctest: +ELLIPSIS
     array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
+
+    rgb_p = np.asarray(rgb_p)
+    rgb_b = np.asarray(rgb_b)
+    rgb_w = np.asarray(rgb_w)
+    p = np.asarray(p)
 
     p_rgb = rgb_p / rgb_b
     rgb_w = (rgb_w * (((1 - p) * p_rgb + (1 + p) / p_rgb) ** 0.5) /
@@ -699,16 +720,16 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 def achromatic_post_adaptation_signal(rgb):
     """
     Returns the achromatic post adaptation signal :math:`A` from given
-    *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
+    *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
 
     Parameters
     ----------
-    rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
+    rgb : array_like
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Achromatic post adaptation signal :math:`A`.
 
     Examples
@@ -718,7 +739,7 @@ def achromatic_post_adaptation_signal(rgb):
     18.9827186...
     """
 
-    r, g, b = np.ravel(rgb)
+    r, g, b = tsplit(rgb)
 
     A = 2 * r + g + (1 / 20) * b - 3.05 + 1
 
@@ -729,32 +750,34 @@ def colour_difference_signals(rgb):
     """
     Returns the colour difference signals :math:`C_1`, :math:`C_2` and
     :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
-    colourspace matrix.
+    colourspace array.
 
     Parameters
     ----------
-    rgb : array_like, (3,)
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
+    rgb : array_like
+        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
 
     Returns
     -------
-    tuple
+    ndarray
         Colour difference signals :math:`C_1`, :math:`C_2` and :math:`C_3`.
 
     Examples
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
     >>> colour_difference_signals(rgb)  # doctest: +ELLIPSIS
-    (-5.3659999...e-05, -0.0005717..., 0.0006253...)
+    array([ -5.3660000...e-05,  -5.7170000...e-04,   6.2536000...e-04])
     """
 
-    r, g, b = np.ravel(rgb)
+    r, g, b = tsplit(rgb)
 
     C_1 = r - g
     C_2 = g - b
     C_3 = b - r
 
-    return C_1, C_2, C_3
+    C = tstack((C_1, C_2, C_3))
+
+    return C
 
 
 def hue_angle(C):
@@ -769,19 +792,20 @@ def hue_angle(C):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Hue* angle :math:`h`.
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05,
-    ...      -0.00057169938364687312,
-    ...      0.00062535803946683899)
+    >>> C = np.array([-5.3658655819965873e-05,
+    ...               -0.00057169938364687312,
+    ...               0.00062535803946683899])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
 
-    C_1, C_2, C_3 = np.ravel(C)
+    C_1, C_2, C_3 = tsplit(C)
+
     hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5,
                             C_1 - (C_2 / 11)) / np.pi) % 360
     return hue
@@ -793,19 +817,21 @@ def eccentricity_factor(hue):
 
     Parameters
     ----------
-    numeric
+    hue : numeric or array_like
         Hue angle :math:`h`.
 
     Returns
     -------
-    float
+    numeric or ndarray
         Eccentricity factor :math:`e_s`.
 
     Examples
     --------
     >>> eccentricity_factor(269.273759)  # doctest: +ELLIPSIS
-    1.1108365...
+    array(1.1108365...)
     """
+
+    hue = np.asarray(hue)
 
     h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
     e_s = HUE_DATA_FOR_HUE_QUADRATURE.get('e_s')
@@ -813,7 +839,8 @@ def eccentricity_factor(hue):
     x = np.interp(hue, h_s, e_s)
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)
     x = np.where(hue > 237.53, 0.856 + 0.344 * (360 - hue) / (360 - 237.53), x)
-    return float(x)
+
+    return x
 
 
 def low_luminance_tritanopia_factor(L_A):
@@ -823,12 +850,12 @@ def low_luminance_tritanopia_factor(L_A):
 
     Parameters
     ----------
-    L_A : numeric
+    L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Low luminance tritanopia factor :math:`F_t`.
 
     Examples
@@ -837,7 +864,10 @@ def low_luminance_tritanopia_factor(L_A):
     0.9996859...
     """
 
+    L_A = np.asarray(L_A)
+
     F_t = L_A / (L_A + 0.1)
+
     return F_t
 
 
@@ -849,34 +879,38 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     ----------
     C : array_like
         Colour difference signals :math:`C`.
-    e_s : numeric
+    e_s : numeric or array_like
         Eccentricity factor :math:`e_s`.
-    N_c : numeric
+    N_c : numeric or array_like
          Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric
+    N_b : numeric or array_like
          Brightness surround induction factor :math:`N_b`.
-    F_t : numeric
+    F_t : numeric or array_like
         Low luminance tritanopia factor :math:`F_t`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Yellowness / blueness response :math:`M_{yb}`.
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05,
-    ...      -0.00057169938364687312,
-    ...      0.00062535803946683899)
+    >>> C = np.array([-5.3658655819965873e-05,
+    ...               -0.00057169938364687312,
+    ...               0.00062535803946683899])
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
-    >>> F_t =0.99968593951195
+    >>> F_t = 0.99968593951195
     >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)  # noqa  # doctest: +ELLIPSIS
     -0.0082372...
     """
 
-    C_1, C_2, C_3 = C
+    C_1, C_2, C_3 = tsplit(C)
+    e_s = np.asarray(e_s)
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
+    F_t = np.asarray(F_t)
 
     M_yb = (100 * (0.5 * (C_2 - C_3) / 4.5) *
             (e_s * (10 / 13) * N_c * N_cb * F_t))
@@ -892,23 +926,23 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     ----------
     C : array_like
         Colour difference signals :math:`C`.
-    e_s : numeric
+    e_s : numeric or array_like
         Eccentricity factor :math:`e_s`.
-    N_c : numeric
+    N_c : numeric or array_like
          Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric
+    N_b : numeric or array_like
          Brightness surround induction factor :math:`N_b`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Redness / greenness response :math:`M_{rg}`.
 
     Examples
     --------
-    >>> C = (-5.3658655819965873e-05,
-    ...      -0.00057169938364687312,
-    ...      0.00062535803946683899)
+    >>> C = np.array([-5.3658655819965873e-05,
+    ...               -0.00057169938364687312,
+    ...               0.00062535803946683899])
     >>> e_s = 1.1108365048626296
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
@@ -916,7 +950,10 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     -0.0001044...
     """
 
-    C_1, C_2, C_3 = C
+    C_1, C_2, C_3 = tsplit(C)
+    e_s = np.asarray(e_s)
+    N_c = np.asarray(N_c)
+    N_cb = np.asarray(N_cb)
 
     M_rg = 100 * (C_1 - (C_2 / 11)) * (e_s * (10 / 13) * N_c * N_cb)
 
@@ -929,14 +966,14 @@ def overall_chromatic_response(M_yb, M_rg):
 
     Parameters
     ----------
-    M_yb : numeric
+    M_yb : numeric or array_like
          Yellowness / blueness response :math:`M_{yb}`.
-    M_rg : numeric
+    M_rg : numeric or array_like
          Redness / greenness response :math:`M_{rg}`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Overall chromatic response :math:`M`.
 
     Examples
@@ -946,6 +983,9 @@ def overall_chromatic_response(M_yb, M_rg):
     >>> overall_chromatic_response(M_yb, M_rg)  # doctest: +ELLIPSIS
     0.0082378...
     """
+
+    M_yb = np.asarray(M_yb)
+    M_rg = np.asarray(M_rg)
 
     M = ((M_yb ** 2) + (M_rg ** 2)) ** 0.5
 
@@ -958,15 +998,15 @@ def saturation_correlate(M, rgb_a):
 
     Parameters
     ----------
-    M : numeric
+    M : numeric or array_like
          Overall chromatic response :math:`M`.
-    rgb_a : array_like, (3,)
+    rgb_a : array_like
         Adapted *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
-        matrix.
+        array.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Saturation* correlate :math:`s`.
 
     Examples
@@ -977,7 +1017,10 @@ def saturation_correlate(M, rgb_a):
     0.0199093...
     """
 
-    s = 50 * M / np.ravel(rgb_a).sum()
+    M = np.asarray(M)
+    rgb_a = np.asarray(rgb_a)
+
+    s = 50 * M / np.sum(rgb_a, axis=-1)
 
     return s
 
@@ -988,20 +1031,20 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
 
     Parameters
     ----------
-    L_AS : numeric
+    L_AS : numeric or array_like
         Scotopic luminance :math:`L_{AS}` of the illuminant.
-    S : numeric
+    S : numeric or array_like
         Scotopic response :math:`S` to the stimulus.
-    S_w : numeric
+    S_w : numeric or array_like
         Scotopic response :math:`S_w` for the reference white.
-    N_bb : numeric
+    N_bb : numeric or array_like
         Brightness background induction factor :math:`N_{bb}`.
-    A_a: numeric
+    A_a: numeric or array_like
         Achromatic post adaptation signal of the stimulus :math:`A_a`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Achromatic signal :math:`A`.
 
     Examples
@@ -1014,6 +1057,12 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a)  # doctest: +ELLIPSIS
     15.5068546...
     """
+
+    L_AS = np.asarray(L_AS)
+    S = np.asarray(S)
+    S_W = np.asarray(S_W)
+    N_bb = np.asarray(N_bb)
+    A_a = np.asarray(A_a)
 
     j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
 
@@ -1040,18 +1089,18 @@ def brightness_correlate(A, A_w, M, N_b):
 
     Parameters
     ----------
-    A : numeric
+    A : numeric or array_like
          Achromatic signal :math:`A`.
-    A_a: numeric
+    A_a: numeric or array_like
         Achromatic post adaptation signal of the reference white :math:`A_w`.
-    M : numeric
+    M : numeric or array_like
         Overall chromatic response :math:`M`.
-    N_b : numeric
+    N_b : numeric or array_like
          Brightness surround induction factor :math:`N_b`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Brightness* correlate :math:`Q`.
 
     Examples
@@ -1063,6 +1112,11 @@ def brightness_correlate(A, A_w, M, N_b):
     >>> brightness_correlate(A, A_w, M, N_b)  # doctest: +ELLIPSIS
     22.2097654...
     """
+
+    A = np.asarray(A)
+    A_w = np.asarray(A_w)
+    M = np.asarray(M)
+    N_b = np.asarray(N_b)
 
     N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
     N_2 = (7 * A_w * N_b ** 0.362) / 200
@@ -1077,18 +1131,18 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
 
     Parameters
     ----------
-    Y_b : numeric
+    Y_b : numeric or array_like
          Tristimulus values :math:`Y_b` the background.
-    Y_w : numeric
+    Y_w : numeric or array_like
          Tristimulus values :math:`Y_b` the reference white.
-    Q : numeric
+    Q : numeric or array_like
         *Brightness* correlate :math:`Q` of the stimulus.
-    Q_w : numeric
+    Q_w : numeric or array_like
         *Brightness* correlate :math:`Q` of the reference white.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Lightness* correlate :math:`J`.
 
     Examples
@@ -1100,6 +1154,11 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
     >>> lightness_correlate(Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
     30.0462678...
     """
+
+    Y_b = np.asarray(Y_b)
+    Y_w = np.asarray(Y_w)
+    Q = np.asarray(Q)
+    Q_w = np.asarray(Q_w)
 
     Z = 1 + (Y_b / Y_w) ** 0.5
     J = 100 * (Q / Q_w) ** Z
@@ -1113,20 +1172,20 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
 
     Parameters
     ----------
-    s : numeric
+    s : numeric or array_like
         *Saturation* correlate :math:`s`.
-    Y_b : numeric
+    Y_b : numeric or array_like
          Tristimulus values :math:`Y_b` the background.
-    Y_w : numeric
+    Y_w : numeric or array_like
          Tristimulus values :math:`Y_b` the reference white.
-    Q : numeric
+    Q : numeric or array_like
         *Brightness* correlate :math:`Q` of the stimulus.
-    Q_w : numeric
+    Q_w : numeric or array_like
         *Brightness* correlate :math:`Q` of the reference white.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Chroma* correlate :math:`C_94`.
 
     Examples
@@ -1139,6 +1198,12 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
     0.1210508...
     """
+
+    s = np.asarray(s)
+    Y_b = np.asarray(Y_b)
+    Y_w = np.asarray(Y_w)
+    Q = np.asarray(Q)
+    Q_w = np.asarray(Q_w)
 
     C_94 = (2.44 * (s ** 0.69) *
             ((Q / Q_w) ** (Y_b / Y_w)) *
@@ -1153,7 +1218,7 @@ def colourfulness_correlate(F_L, C_94):
 
     Parameters
     ----------
-    F_L : numeric
+    F_L : numeric or array_like
         Luminance adaptation factor :math:`F_L`.
     numeric
         *Chroma* correlate :math:`C_94`.
@@ -1170,6 +1235,9 @@ def colourfulness_correlate(F_L, C_94):
     >>> colourfulness_correlate(F_L, C_94)  # doctest: +ELLIPSIS
     0.1238964...
     """
+
+    F_L = np.asarray(F_L)
+    C_94 = np.asarray(C_94)
 
     M_94 = F_L ** 0.15 * C_94
 

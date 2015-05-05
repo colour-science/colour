@@ -53,9 +53,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.utilities import Structure
 from colour.models import RGB_Colourspace, normalised_primary_matrix
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, Structure
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -127,28 +126,28 @@ AP0_TO_XYZ_MATRIX = np.array(
      [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
      [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
 """
-*ACES Primaries 0* to *CIE XYZ* colourspace matrix.
+*ACES Primaries 0* to *CIE XYZ* tristimulus values matrix.
 
 AP0_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_AP0_MATRIX = np.linalg.inv(AP0_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ACES Primaries 0* matrix.
+*CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 
 XYZ_TO_AP0_MATRIX : array_like, (3, 3)
 """
 
 AP1_TO_XYZ_MATRIX = normalised_primary_matrix(AP1, ACES_WHITEPOINT)
 """
-*ACES Primaries 1* to *CIE XYZ* colourspace matrix.
+*ACES Primaries 1* to *CIE XYZ* tristimulus values matrix.
 
 AP1_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_AP1_MATRIX = np.linalg.inv(AP1_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ACES Primaries 1* matrix.
+*CIE XYZ* tristimulus values to *ACES Primaries 1* matrix.
 
 XYZ_TO_AP1_MATRIX : array_like, (3, 3)
 """
@@ -160,12 +159,12 @@ def _aces_2065_1_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
@@ -178,12 +177,12 @@ def _aces_2065_1_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
@@ -227,21 +226,25 @@ def _aces_cc_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value < 0:
-        return (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52
-    elif value < 2 ** -15:
-        return (np.log2(2 ** -16 + value * 0.5) + 9.72) / 17.52
-    else:
-        return (np.log2(value) + 9.72) / 17.52
+    value = np.asarray(value)
+
+    output = np.where(value < 0,
+                      (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
+                      (np.log2(2 ** -16 + value * 0.5) + 9.72) / 17.52)
+    output = np.where(value >= 2 ** -15,
+                      (np.log2(value) + 9.72) / 17.52,
+                      output)
+
+    return output
 
 
 def _aces_cc_inverse_transfer_function(value):
@@ -250,21 +253,25 @@ def _aces_cc_inverse_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value < (9.72 - 15) / 17.52:
-        return (2 ** (value * 17.52 - 9.72) - 2 ** -16) * 2
-    elif (9.72 - 15) / 17.52 < value < (np.log2(65504) + 9.72) / 17.52:
-        return 2 ** (value * 17.52 - 9.72)
-    else:
-        return 65504
+    value = np.asarray(value)
+
+    output = np.where(value < (9.72 - 15) / 17.52,
+                      (2 ** (value * 17.52 - 9.72) - 2 ** -16) * 2,
+                      2 ** (value * 17.52 - 9.72))
+    output = np.where(value >= (np.log2(65504) + 9.72) / 17.52,
+                      65504,
+                      output)
+
+    return output
 
 
 ACES_CC_TRANSFER_FUNCTION = _aces_cc_transfer_function
@@ -339,7 +346,7 @@ def _aces_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     bit_depth : unicode, optional
         {'10 Bit', '12 Bit'}
@@ -347,19 +354,25 @@ def _aces_proxy_transfer_function(value, bit_depth='10 Bit'):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
+    value = np.asarray(value)
+
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
-    float_2_cv = lambda x: max(constants.CV_min,
-                               min(constants.CV_max, round(x)))
-    if value > 2 ** -9.72:
-        return float_2_cv((np.log2(value) + constants.mid_log_offset) *
-                          constants.steps_per_stop + constants.mid_CV_offset)
-    else:
-        return constants.CV_min
+    CV_min = np.resize(constants.CV_min, value.shape)
+    CV_max = np.resize(constants.CV_max, value.shape)
+
+    float_2_cv = lambda x: np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
+
+    output = np.where(value > 2 ** -9.72,
+                      float_2_cv((np.log2(value) + constants.mid_log_offset) *
+                                 constants.steps_per_stop +
+                                 constants.mid_CV_offset),
+                      np.resize(CV_min, value.shape))
+    return output
 
 
 def _aces_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
@@ -368,7 +381,7 @@ def _aces_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
     bit_depth : unicode, optional
         {'10 Bit', '12 Bit'}
@@ -376,9 +389,11 @@ def _aces_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 

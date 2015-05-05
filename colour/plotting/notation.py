@@ -19,9 +19,9 @@ import pylab
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
+    boundaries,
     canvas,
     decorate,
-    boundaries,
     display)
 
 __author__ = 'Colour Developers'
@@ -62,7 +62,7 @@ def single_munsell_value_function_plot(function='ASTM D1535-08',
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_munsell_value_function_plot([function], **settings)
+    return multi_munsell_value_function_plot((function, ), **settings)
 
 
 def multi_munsell_value_function_plot(
@@ -129,7 +129,7 @@ def multi_munsell_value_function_plot(
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'bounding_box': [0, 100, 0, 10],
+        'bounding_box': (0, 100, 0, 10),
         'aspect': 10})
     settings.update(kwargs)
 

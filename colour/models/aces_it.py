@@ -73,11 +73,11 @@ def spectral_to_aces_relative_exposure_values(
     Returns
     -------
     ndarray, (3,)
-        *ACES2065-1* colourspace relative exposure values matrix.
+        *ACES2065-1* colourspace relative exposure values array.
 
     Notes
     -----
-    -   Output *ACES2065-1* colourspace relative exposure values matrix is in
+    -   Output *ACES2065-1* colourspace relative exposure values array is in
         domain [0, 1].
 
     See Also

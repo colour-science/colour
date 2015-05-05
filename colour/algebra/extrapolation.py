@@ -14,7 +14,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import is_numeric, as_array
+from colour.utilities import as_numeric, is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -261,12 +261,11 @@ class Extrapolator1d(object):
             Extrapolated points value(s).
         """
 
-        xe = self.__evaluate(as_array(x))
+        x = np.atleast_1d(x).astype(np.float_)
 
-        if is_numeric(x):
-            return float(xe)
-        else:
-            return xe
+        xe = as_numeric(self.__evaluate(x))
+
+        return xe
 
     def __evaluate(self, x):
         """

@@ -41,6 +41,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import tsplit, tstack
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -64,18 +66,18 @@ def RGB_to_HSV(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *HSV* matrix.
+    ndarray
+        *HSV* array.
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
-    -   Output *HSV* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
+    -   Output *HSV* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -89,38 +91,30 @@ def RGB_to_HSV(RGB):
     array([ 0.2786738...,  0.744     ,  0.98039216])
     """
 
-    R, G, B = np.ravel(RGB)
-
-    minimum = min(R, G, B)
-    maximum = max(R, G, B)
-    delta = maximum - minimum
+    maximum = np.amax(RGB, -1)
+    delta = np.ptp(RGB, -1)
 
     V = maximum
 
-    if delta == 0:
-        H = 0
-        S = 0
-    else:
+    R, G, B = tsplit(RGB)
 
-        S = delta / maximum
+    S = np.asarray(delta / maximum)
+    S[np.asarray(delta == 0)] = 0
 
-        delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
-        delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
-        delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
+    delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
+    delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
+    delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
 
-        if R == maximum:
-            H = delta_B - delta_G
-        elif G == maximum:
-            H = (1 / 3) + delta_R - delta_B
-        elif B == maximum:
-            H = (2 / 3) + delta_G - delta_R
+    H = delta_B - delta_G
+    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H[np.asarray(H < 0)] += 1
+    H[np.asarray(H > 1)] -= 1
+    H[np.asarray(delta == 0)] = 0
 
-        if H < 0:
-            H += 1
-        if H > 1:
-            H -= 1
+    HSV = tstack((H, S, V))
 
-    return np.array([H, S, V])
+    return HSV
 
 
 def HSV_to_RGB(HSV):
@@ -129,18 +123,18 @@ def HSV_to_RGB(HSV):
 
     Parameters
     ----------
-    HSV : array_like, (3,)
-        *HSV* colourspace matrix.
+    HSV : array_like
+        *HSV* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   Input *HSV* colourspace matrix is in domain [0, 1].
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *HSV* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -149,52 +143,33 @@ def HSV_to_RGB(HSV):
 
     Examples
     --------
-    >>> HSV = np.array([0.27867384, 0.744, 0.98039216])
+    >>> HSV = np.array([0.27867384, 0.74400000, 0.98039216])
     >>> HSV_to_RGB(HSV)  # doctest: +ELLIPSIS
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, V = np.ravel(HSV)
+    H, S, V = tsplit(HSV)
 
-    if S == 0:
-        R = V
-        G = V
-        B = V
-    else:
-        h = H * 6
-        if h == 6:
-            h = 0
+    h = np.asarray(H * 6)
+    h[np.asarray(h == 6)] = 0
 
-        i = np.floor(h)
-        j = V * (1 - S)
-        k = V * (1 - S * (h - i))
-        l = V * (1 - S * (1 - (h - i)))
-        if i == 0:
-            R = V
-            G = l
-            B = j
-        elif i == 1:
-            R = k
-            G = V
-            B = j
-        elif i == 2:
-            R = j
-            G = V
-            B = l
-        elif i == 3:
-            R = j
-            G = k
-            B = V
-        elif i == 4:
-            R = l
-            G = j
-            B = V
-        elif i == 5:
-            R = V
-            G = j
-            B = k
+    i = np.floor(h)
+    j = V * (1 - S)
+    k = V * (1 - S * (h - i))
+    l = V * (1 - S * (1 - (h - i)))
 
-    return np.array([R, G, B])
+    i = tstack((i, i, i)).astype(np.uint8)
+
+    RGB = np.choose(i,
+                    (tstack((V, l, j)),
+                     tstack((k, V, j)),
+                     tstack((j, V, l)),
+                     tstack((j, k, V)),
+                     tstack((l, j, V)),
+                     tstack((V, j, k))),
+                    mode='clip')
+
+    return RGB
 
 
 def RGB_to_HSL(RGB):
@@ -203,18 +178,18 @@ def RGB_to_HSL(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *HSL* matrix.
+    ndarray
+        *HSL* array.
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
-    -   Output *HSL* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
+    -   Output *HSL* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -228,39 +203,33 @@ def RGB_to_HSL(RGB):
     array([ 0.2786738...,  0.9489796...,  0.6156862...])
     """
 
-    R, G, B = np.ravel(RGB)
+    minimum = np.amin(RGB, -1)
+    maximum = np.amax(RGB, -1)
+    delta = np.ptp(RGB, -1)
 
-    minimum = min(R, G, B)
-    maximum = max(R, G, B)
-    delta = maximum - minimum
+    R, G, B = tsplit(RGB)
 
     L = (maximum + minimum) / 2
 
-    if delta == 0:
-        H = 0
-        S = 0
-    else:
+    S = np.where(L < 0.5,
+                 delta / (maximum + minimum),
+                 delta / (2 - maximum - minimum))
+    S[np.asarray(delta == 0)] = 0
 
-        S = delta / (maximum + minimum) if L < 0.5 else delta / (
-            2 - maximum - minimum)
+    delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
+    delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
+    delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
 
-        delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
-        delta_G = (((maximum - G) / 6) + (delta / 2)) / delta
-        delta_B = (((maximum - B) / 6) + (delta / 2)) / delta
+    H = delta_B - delta_G
+    H = np.where(G == maximum, (1 / 3) + delta_R - delta_B, H)
+    H = np.where(B == maximum, (2 / 3) + delta_G - delta_R, H)
+    H[np.asarray(H < 0)] += 1
+    H[np.asarray(H > 1)] -= 1
+    H[np.asarray(delta == 0)] = 0
 
-        if R == maximum:
-            H = delta_B - delta_G
-        elif G == maximum:
-            H = (1 / 3) + delta_R - delta_B
-        elif B == maximum:
-            H = (2 / 3) + delta_G - delta_R
+    HSL = tstack((H, S, L))
 
-        if H < 0:
-            H += 1
-        if H > 1:
-            H -= 1
-
-    return np.array([H, S, L])
+    return HSL
 
 
 def HSL_to_RGB(HSL):
@@ -269,18 +238,18 @@ def HSL_to_RGB(HSL):
 
     Parameters
     ----------
-    HSL : array_like, (3,)
-        *HSL* colourspace matrix.
+    HSL : array_like
+        *HSL* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   Input *HSL* colourspace matrix is in domain [0, 1].
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *HSL* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -294,38 +263,47 @@ def HSL_to_RGB(HSL):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, L = np.ravel(HSL)
+    H, S, L = tsplit(HSL)
 
-    if S == 1:
-        R = L
-        G = L
-        B = L
-    else:
-        def H_to_RGB(vi, vj, vH):
-            """
-            Converts *hue* value to *RGB* colourspace.
-            """
+    def H_to_RGB(vi, vj, vH):
+        """
+        Converts *hue* value to *RGB* colourspace.
+        """
 
-            if vH < 0:
-                vH += 1
-            if vH > 1:
-                vH -= 1
-            if 6 * vH < 1:
-                return vi + (vj - vi) * 6 * vH
-            if 2 * vH < 1:
-                return vj
-            if 3 * vH < 2:
-                return vi + (vj - vi) * ((2 / 3) - vH) * 6
-            return vi
+        vH = np.asarray(vH)
 
-        j = L * (1 + S) if L < 0.5 else (L + S) - (S * L)
-        i = 2 * L - j
+        vH[np.asarray(vH < 0)] += 1
+        vH[np.asarray(vH > 1)] -= 1
 
-        R = H_to_RGB(i, j, H + (1 / 3))
-        G = H_to_RGB(i, j, H)
-        B = H_to_RGB(i, j, H - (1 / 3))
+        v = np.full(vi.shape, np.nan)
 
-    return np.array([R, G, B])
+        v = np.where(np.logical_and(6 * vH < 1, np.isnan(v)),
+                     vi + (vj - vi) * 6 * vH,
+                     v)
+        v = np.where(np.logical_and(2 * vH < 1, np.isnan(v)),
+                     vj,
+                     v)
+        v = np.where(np.logical_and(3 * vH < 2, np.isnan(v)),
+                     vi + (vj - vi) * ((2 / 3) - vH) * 6,
+                     v)
+        v = np.where(np.isnan(v), vi, v)
+
+        return v
+
+    j = np.where(L < 0.5, L * (1 + S), (L + S) - (S * L))
+    i = 2 * L - j
+
+    R = H_to_RGB(i, j, H + (1 / 3))
+    G = H_to_RGB(i, j, H)
+    B = H_to_RGB(i, j, H - (1 / 3))
+
+    R = np.where(S == 1, L, R)
+    G = np.where(S == 1, L, G)
+    B = np.where(S == 1, L, B)
+
+    RGB = tstack((R, G, B))
+
+    return RGB
 
 
 def RGB_to_CMY(RGB):
@@ -334,18 +312,18 @@ def RGB_to_CMY(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CMY* matrix.
+    ndarray
+        *CMY* array.
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
-    -   Output *CMY* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
+    -   Output *CMY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -359,8 +337,9 @@ def RGB_to_CMY(RGB):
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    R, G, B = np.ravel(RGB)
-    return np.array([1 - R, 1 - G, 1 - B])
+    CMY = 1 - np.asarray(RGB)
+
+    return CMY
 
 
 def CMY_to_RGB(CMY):
@@ -369,18 +348,18 @@ def CMY_to_RGB(CMY):
 
     Parameters
     ----------
-    CMY : array_like, (3,)
-        *CMY* colourspace matrix.
+    CMY : array_like
+        *CMY* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   Input *CMY* colourspace matrix is in domain [0, 1].
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *CMY* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -394,8 +373,9 @@ def CMY_to_RGB(CMY):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    C, M, Y = np.ravel(CMY)
-    return np.array([1 - C, 1 - M, 1 - Y])
+    RGB = 1 - np.asarray(CMY)
+
+    return RGB
 
 
 def CMY_to_CMYK(CMY):
@@ -404,18 +384,18 @@ def CMY_to_CMYK(CMY):
 
     Parameters
     ----------
-    CMY : array_like, (3,)
-        *CMY* colourspace matrix.
+    CMY : array_like
+        *CMY* colourspace array.
 
     Returns
     -------
-    ndarray, (4,)
-        *CMYK* matrix.
+    ndarray
+        *CMYK* array.
 
     Notes
     -----
-    -   Input *CMY* colourspace matrix is in domain [0, 1].
-    -   Output*CMYK* colourspace matrix is in domain [0, 1].
+    -   Input *CMY* colourspace array is in domain [0, 1].
+    -   Output*CMYK* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -429,26 +409,24 @@ def CMY_to_CMYK(CMY):
     array([ 0.5       ,  0.        ,  0.744     ,  0.0196078...])
     """
 
-    C, M, Y = np.ravel(CMY)
+    C, M, Y = tsplit(CMY)
 
-    K = 1
+    K = np.ones(C.shape)
+    K = np.where(C < K, C, K)
+    K = np.where(M < K, M, K)
+    K = np.where(Y < K, Y, K)
 
-    if C < K:
-        K = C
-    if M < K:
-        K = M
-    if Y < K:
-        K = Y
-    if K == 1:
-        C = 0
-        M = 0
-        Y = 0
-    else:
-        C = (C - K) / (1 - K)
-        M = (M - K) / (1 - K)
-        Y = (Y - K) / (1 - K)
+    C = np.asarray((C - K) / (1 - K))
+    M = np.asarray((M - K) / (1 - K))
+    Y = np.asarray((Y - K) / (1 - K))
 
-    return np.array([C, M, Y, K])
+    C[np.asarray(K == 1)] = 0
+    M[np.asarray(K == 1)] = 0
+    Y[np.asarray(K == 1)] = 0
+
+    CMYK = tstack((C, M, Y, K))
+
+    return CMYK
 
 
 def CMYK_to_CMY(CMYK):
@@ -457,18 +435,18 @@ def CMYK_to_CMY(CMYK):
 
     Parameters
     ----------
-    CMYK : array_like, (4,)
-        *CMYK* colourspace matrix.
+    CMYK : array_like
+        *CMYK* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CMY* matrix.
+    ndarray
+        *CMY* array.
 
     Notes
     -----
-    -   Input *CMYK* colourspace matrix is in domain [0, 1].
-    -   Output *CMY* colourspace matrix is in domain [0, 1].
+    -   Input *CMYK* colourspace array is in domain [0, 1].
+    -   Output *CMY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -477,12 +455,15 @@ def CMYK_to_CMY(CMYK):
 
     Examples
     --------
-    >>> CMYK = np.array([0.5, 0, 0.744, 0.01960784])
+    >>> CMYK = np.array([0.50000000, 0.00000000, 0.74400000, 0.01960784])
     >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    C, M, Y, K = np.ravel(CMYK)
+    C, M, Y, K = tsplit(CMYK)
 
-    return np.array(
-        [C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
+    CMY = tstack((C * (1 - K) + K,
+                  M * (1 - K) + K,
+                  Y * (1 - K) + K))
+
+    return CMY

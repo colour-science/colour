@@ -23,7 +23,8 @@ from .common import (
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
-    multi_colour_plot)
+    multi_colour_plot,
+    image_plot)
 from .colorimetry import (
     get_cmfs,
     get_illuminant,
@@ -40,6 +41,7 @@ from .colorimetry import (
     blackbody_colours_plot)
 from .characterisation import colour_checker_plot
 from .diagrams import (
+    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
@@ -49,7 +51,12 @@ from .diagrams import (
 from .corresponding import corresponding_chromaticities_prediction_plot
 from .models import (
     get_RGB_colourspace,
-    colourspaces_CIE_1931_chromaticity_diagram_plot,
+    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot,
+    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot,
+    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot,
+    RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot,
+    RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot,
+    RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot,
     single_transfer_function_plot,
     multi_transfer_function_plot)
 from .notation import (
@@ -82,7 +89,8 @@ __all__ += [
     'colour_parameter',
     'colour_parameters_plot',
     'single_colour_plot',
-    'multi_colour_plot']
+    'multi_colour_plot',
+    'image_plot']
 __all__ += [
     'get_cmfs',
     'get_illuminant',
@@ -100,6 +108,7 @@ __all__ += [
 __all__ += [
     'colour_checker_plot']
 __all__ += [
+    'CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT',
     'CIE_1931_chromaticity_diagram_plot',
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot',
@@ -110,7 +119,12 @@ __all__ += [
     'corresponding_chromaticities_prediction_plot']
 __all__ += [
     'get_RGB_colourspace',
-    'colourspaces_CIE_1931_chromaticity_diagram_plot',
+    'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
+    'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
+    'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
+    'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']
 __all__ += [

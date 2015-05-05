@@ -25,8 +25,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry.dataset import ILLUMINANTS
-from colour.models import normalised_primary_matrix
-from colour.models import RGB_Colourspace
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -72,14 +71,14 @@ RUSSELL_RGB_WHITEPOINT : tuple
 RUSSELL_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     RUSSELL_RGB_PRIMARIES, RUSSELL_RGB_WHITEPOINT)
 """
-*Russell RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 RUSSELL_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_RUSSELL_RGB_MATRIX = np.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Russell RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Russell RGB* colourspace matrix.
 
 XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
 """
@@ -91,33 +90,36 @@ def _russell_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
 
 def _russell_rgb_inverse_transfer_function(value):
     """
-    Defines the *Russell RGB* colourspace inverse transfer
-    function.
+    Defines the *Russell RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

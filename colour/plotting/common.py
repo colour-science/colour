@@ -16,6 +16,7 @@ Defines the common plotting objects:
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
 -   :func:`multi_colour_plot`
+-   :func:`image_plot`
 """
 
 from __future__ import division
@@ -59,7 +60,8 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
-           'multi_colour_plot']
+           'multi_colour_plot',
+           'image_plot']
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -276,8 +278,8 @@ def boundaries(**kwargs):
         **{'bounding_box': None,
            'x_tighten': False,
            'y_tighten': False,
-           'limits': [0, 1, 0, 1],
-           'margins': [0, 0, 0, 0]})
+           'limits': (0, 1, 0, 1),
+           'margins': (0, 0, 0, 0)})
     settings.update(kwargs)
 
     if settings.bounding_box is None:
@@ -405,8 +407,8 @@ def colour_parameters_plot(colour_parameters,
                if colour_parameters[i].y1 is None else
                colour_parameters[i + 1].y1)
 
-        x_polygon = [x0, x01, x01, x0]
-        y_polygon = [y0, y01, y11, y1]
+        x_polygon = (x0, x01, x01, x0)
+        y_polygon = (y0, y01, y11, y1)
         pylab.fill(x_polygon,
                    y_polygon,
                    color=colour_parameters[i].RGB,
@@ -429,19 +431,19 @@ def colour_parameters_plot(colour_parameters,
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])
     # y_limit_max0 = max(
-    #     [1 if x.y0 is None else x.y0 for x in colour_parameters])
+    # [1 if x.y0 is None else x.y0 for x in colour_parameters])
     # y_limit_min1 = min(
-    #     [0 if x.y1 is None else x.y1 for x in colour_parameters])
+    # [0 if x.y1 is None else x.y1 for x in colour_parameters])
     y_limit_max1 = max(
         [1 if x.y1 is None else x.y1 for x in colour_parameters])
 
     settings = {
         'x_label': 'Parameter',
         'y_label': 'Colour',
-        'limits': [min([0 if x.x is None else x.x for x in colour_parameters]),
+        'limits': (min([0 if x.x is None else x.x for x in colour_parameters]),
                    max([1 if x.x is None else x.x for x in colour_parameters]),
                    y_limit_min0,
-                   y_limit_max1]}
+                   y_limit_max1)}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -473,7 +475,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     True
     """
 
-    return multi_colour_plot([colour_parameter], **kwargs)
+    return multi_colour_plot((colour_parameter, ), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,
@@ -517,7 +519,7 @@ def multi_colour_plot(colour_parameters,
     Examples
     --------
     >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.5772645,  0.50453169))
+    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
     True
     """
@@ -536,8 +538,8 @@ def multi_colour_plot(colour_parameters,
         y0 = offsetY
         y1 = offsetY + height
 
-        x_polygon = [x0, x1, x1, x0]
-        y_polygon = [y0, y0, y1, y1]
+        x_polygon = (x0, x1, x1, x0)
+        y_polygon = (y0, y0, y1, y1)
         pylab.fill(x_polygon, y_polygon, color=colour_parameters[i].RGB)
         if colour_parameter.name is not None and text_display:
             pylab.text(x0 + text_offset, y0 + text_offset,
@@ -553,11 +555,75 @@ def multi_colour_plot(colour_parameters,
         'x_tighten': True,
         'y_tighten': True,
         'no_ticks': True,
-        'limits': [x_limit_min, x_limit_max, y_limit_min, y_limit_max],
+        'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
         'aspect': 'equal'}
     settings.update(kwargs)
 
     boundaries(**settings)
+    decorate(**settings)
+
+    return display(**settings)
+
+
+def image_plot(image,
+               label=None,
+               label_size=15,
+               label_colour=None,
+               label_alpha=0.85,
+               **kwargs):
+    """
+    Plots given image.
+
+    Parameters
+    ----------
+    image : array_like
+        Image to plot.
+    label: unicode, optional
+        Image label.
+    label_size: int, optional
+        Image label font size.
+    label_colour: array_like or unicode, optional
+        Image label colour.
+    label_alpha: numeric, optional
+        Image label alpha.
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> import os
+    >>> from colour import read_image
+    >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
+    >>> image = read_image(path)  # doctest: +SKIP
+    >>> image_plot(image)  # doctest: +SKIP
+    True
+    """
+
+    image = np.asarray(image)
+
+    pylab.imshow(np.clip(image, 0, 1))
+
+    height, width, _ = image.shape
+
+    pylab.text(0 + label_size,
+               height - label_size,
+               label,
+               color=label_colour if label_colour is not None else (1, 1, 1),
+               alpha=label_alpha,
+               fontsize=label_size)
+
+    settings = {'no_ticks': True,
+                'bounding_box': (0, 1, 0, 1),
+                'bbox_inches': 'tight',
+                'pad_inches': 0}
+    settings.update(kwargs)
+
+    canvas(**settings)
     decorate(**settings)
 
     return display(**settings)

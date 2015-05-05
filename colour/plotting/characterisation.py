@@ -19,13 +19,13 @@ import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
-from colour.models import xyY_to_XYZ, XYZ_to_sRGB
+from colour.models import XYZ_to_sRGB, xyY_to_XYZ
 from colour.plotting import (
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_parameter,
+    decorate,
+    display,
     multi_colour_plot)
 
 __author__ = 'Colour Developers'
@@ -77,7 +77,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     _, data, illuminant = colour_checker
     colour_parameters = []
-    for index, label, x, y, Y in data:
+    for _, label, x, y, Y in data:
         XYZ = xyY_to_XYZ((x, y, Y))
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
@@ -99,7 +99,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         'spacing': spacing,
         'across': across,
         'text_size': 8,
-        'margins': [-0.125, 0.125, -0.5, 0.125]}
+        'margins': (-0.125, 0.125, -0.5, 0.125)}
     settings.update(kwargs)
 
     multi_colour_plot(colour_parameters, **settings)

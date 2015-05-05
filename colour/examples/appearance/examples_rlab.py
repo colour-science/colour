@@ -5,16 +5,14 @@
 Showcases RLAB colour appearance model computations.
 """
 
-import numpy as np
-
 import colour
 from colour.appearance.rlab import RLAB_ReferenceSpecification
 from colour.utilities.verbose import message_box
 
 message_box('RLAB Colour Appearance Model Computations')
 
-XYZ = np.array([19.01, 20, 21.78])
-XYZ_n = np.array([109.85, 100, 35.58])
+XYZ = (19.01, 20.00, 21.78)
+XYZ_n = (109.85, 100, 35.58)
 Y_n = 31.83
 sigma = colour.RLAB_VIEWING_CONDITIONS['Average']
 D = colour.RLAB_D_FACTOR['Hard Copy Images']

@@ -71,14 +71,14 @@ APPLE_RGB_WHITEPOINT : tuple
 APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(APPLE_RGB_PRIMARIES,
                                                     APPLE_RGB_WHITEPOINT)
 """
-*Apple RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 APPLE_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_APPLE_RGB_MATRIX = np.linalg.inv(APPLE_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Apple RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Apple RGB* colourspace matrix.
 
 XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,33 +90,36 @@ def _apple_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 1.8)
 
 
 def _apple_rgb_inverse_transfer_function(value):
     """
-    Defines the *Apple RGB* colourspace inverse transfer
-    function.
+    Defines the *Apple RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 1.8
 
