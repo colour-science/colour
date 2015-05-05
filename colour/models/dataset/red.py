@@ -7,6 +7,7 @@ RED Colourspaces
 
 Defines the *RED* colourspaces:
 
+-   :attr:`RED_COLOR_COLOURSPACE`
 -   :attr:`RED_COLOR_2_COLOURSPACE`
 -   :attr:`RED_COLOR_3_COLOURSPACE`
 -   :attr:`RED_COLOR_4_COLOURSPACE`
@@ -74,44 +75,44 @@ __all__ = ['RED_COLOR_2_PRIMARIES',
            'XYZ_TO_DRAGON_COLOR_2_MATRIX',
            'DRAGON_COLOR_2_COLOURSPACE']
 
-RED_COLOR_2_PRIMARIES = np.array(
-    [[0.8786825104761286, 0.3249640074099105],
-     [0.3008887143674324, 0.6790547557905675],
-     [0.0953986946056151, -0.0293793268343266]])
+RED_COLOR_PRIMARIES = np.array(
+    [[0.6997470012907312, 0.3290469303126368],
+     [0.3042640390235472, 0.6236411451291149],
+     [0.1349139612964870, 0.0347174412813451]])
 """
-*REDcolor2* colourspace primaries.
+*REDcolor* colourspace primaries.
 
-RED_COLOR_2_PRIMARIES : ndarray, (3, 2)
-"""
-
-RED_COLOR_2_ILLUMINANT = 'D65'
-"""
-*REDcolor2* colourspace whitepoint name as illuminant.
-
-RED_COLOR_2_ILLUMINANT : unicode
+RED_COLOR_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_2_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RED_COLOR_2_ILLUMINANT)
+RED_COLOR_ILLUMINANT = 'D65'
 """
-*REDcolor2* colourspace whitepoint.
+*REDcolor* colourspace whitepoint name as illuminant.
 
-RED_COLOR_2_WHITEPOINT : tuple
-"""
-
-RED_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
-    RED_COLOR_2_PRIMARIES, RED_COLOR_2_WHITEPOINT)
-"""
-*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix.
-
-RED_COLOR_2_XYZ_MATRIX : array_like, (3, 3)
+RED_COLOR_ILLUMINANT : unicode
 """
 
-XYZ_TO_RED_COLOR_2_MATRIX = np.linalg.inv(RED_COLOR_2_TO_XYZ_MATRIX)
+RED_COLOR_WHITEPOINT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get(RED_COLOR_ILLUMINANT)
 """
-*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix.
+*REDcolor* colourspace whitepoint.
 
-XYZ_TO_RED_COLOR_2_MATRIX : array_like, (3, 3)
+RED_COLOR_WHITEPOINT : tuple
+"""
+
+RED_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
+    RED_COLOR_PRIMARIES, RED_COLOR_WHITEPOINT)
+"""
+*REDcolor* colourspace to *CIE XYZ* tristimulus values matrix.
+
+RED_COLOR_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_RED_COLOR_MATRIX = np.linalg.inv(RED_COLOR_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* tristimulus values to *REDcolor* colourspace matrix.
+
+XYZ_TO_RED_COLOR_MATRIX : array_like, (3, 3)
 """
 
 
@@ -180,6 +181,60 @@ Inverse transfer function from *REDLogFilm* to linear.
 RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION : object
 """
 
+RED_COLOR_COLOURSPACE = RGB_Colourspace(
+    'REDcolor',
+    RED_COLOR_PRIMARIES,
+    RED_COLOR_WHITEPOINT,
+    RED_COLOR_ILLUMINANT,
+    RED_COLOR_TO_XYZ_MATRIX,
+    XYZ_TO_RED_COLOR_MATRIX,
+    RED_LOG_FILM_TRANSFER_FUNCTION,
+    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+"""
+*REDcolor* colourspace.
+
+RED_COLOR_COLOURSPACE : RGB_Colourspace
+"""
+
+RED_COLOR_2_PRIMARIES = np.array(
+    [[0.8786825104761286, 0.3249640074099105],
+     [0.3008887143674324, 0.6790547557905675],
+     [0.0953986946056151, -0.0293793268343266]])
+"""
+*REDcolor2* colourspace primaries.
+
+RED_COLOR_2_PRIMARIES : ndarray, (3, 2)
+"""
+
+RED_COLOR_2_ILLUMINANT = RED_COLOR_ILLUMINANT
+"""
+*REDcolor2* colourspace whitepoint name as illuminant.
+
+RED_COLOR_2_ILLUMINANT : unicode
+"""
+
+RED_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
+"""
+*REDcolor2* colourspace whitepoint.
+
+RED_COLOR_2_WHITEPOINT : tuple
+"""
+
+RED_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
+    RED_COLOR_2_PRIMARIES, RED_COLOR_2_WHITEPOINT)
+"""
+*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix.
+
+RED_COLOR_2_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_RED_COLOR_2_MATRIX = np.linalg.inv(RED_COLOR_2_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix.
+
+XYZ_TO_RED_COLOR_2_MATRIX : array_like, (3, 3)
+"""
+
 RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     'REDcolor2',
     RED_COLOR_2_PRIMARIES,
@@ -205,14 +260,14 @@ RED_COLOR_3_PRIMARIES = np.array(
 RED_COLOR_3_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_3_ILLUMINANT = RED_COLOR_2_ILLUMINANT
+RED_COLOR_3_ILLUMINANT = RED_COLOR_ILLUMINANT
 """
 *REDcolor3* colourspace whitepoint name as illuminant.
 
 RED_COLOR_3_ILLUMINANT : unicode
 """
 
-RED_COLOR_3_WHITEPOINT = RED_COLOR_2_WHITEPOINT
+RED_COLOR_3_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor3* colourspace whitepoint.
 
@@ -259,14 +314,14 @@ RED_COLOR_4_PRIMARIES = np.array(
 RED_COLOR_4_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_4_ILLUMINANT = RED_COLOR_2_ILLUMINANT
+RED_COLOR_4_ILLUMINANT = RED_COLOR_ILLUMINANT
 """
 *REDcolor4* colourspace whitepoint name as illuminant.
 
 RED_COLOR_4_ILLUMINANT : unicode
 """
 
-RED_COLOR_4_WHITEPOINT = RED_COLOR_2_WHITEPOINT
+RED_COLOR_4_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor4* colourspace whitepoint.
 
@@ -313,14 +368,14 @@ DRAGON_COLOR_PRIMARIES = np.array(
 DRAGON_COLOR_PRIMARIES : ndarray, (3, 2)
 """
 
-DRAGON_COLOR_ILLUMINANT = RED_COLOR_2_ILLUMINANT
+DRAGON_COLOR_ILLUMINANT = RED_COLOR_ILLUMINANT
 """
 *DRAGONcolor* colourspace whitepoint name as illuminant.
 
 DRAGON_COLOR_ILLUMINANT : unicode
 """
 
-DRAGON_COLOR_WHITEPOINT = RED_COLOR_2_WHITEPOINT
+DRAGON_COLOR_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor* colourspace whitepoint.
 
@@ -367,14 +422,14 @@ DRAGON_COLOR_2_PRIMARIES = np.array(
 DRAGON_COLOR_2_PRIMARIES : ndarray, (3, 2)
 """
 
-DRAGON_COLOR_2_ILLUMINANT = RED_COLOR_2_ILLUMINANT
+DRAGON_COLOR_2_ILLUMINANT = RED_COLOR_ILLUMINANT
 """
 *DRAGONcolor2* colourspace whitepoint name as illuminant.
 
 DRAGON_COLOR_2_ILLUMINANT : unicode
 """
 
-DRAGON_COLOR_2_WHITEPOINT = RED_COLOR_2_WHITEPOINT
+DRAGON_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor2* colourspace whitepoint.
 
