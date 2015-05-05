@@ -136,16 +136,14 @@ ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
 
 
-def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
+def colour_cycle(**kwargs):
     """
     Returns a colour cycle iterator using given colour map.
 
-    Parameters
+   Parameters
     ----------
-    colour_map : unicode, optional
-        Matplotlib colour map.
-    count : int, optional
-        Cycle length.
+    \*\*kwargs : \*\*
+        Keywords arguments.
 
     Returns
     -------
@@ -153,11 +151,17 @@ def colour_cycle(colour_map='hsv', count=len(DEFAULT_COLOUR_CYCLE)):
         Colour cycle iterator.
     """
 
-    if colour_map is None:
+    settings = Structure(
+        **{'colour_cycle_map': 'hsv',
+           'colour_cycle_count': len(DEFAULT_COLOUR_CYCLE)})
+    settings.update(kwargs)
+
+    if settings.colour_cycle_map is None:
         cycle = DEFAULT_COLOUR_CYCLE
     else:
         cycle = getattr(matplotlib.pyplot.cm,
-                        colour_map)(np.linspace(0, 1, count))
+                        settings.colour_cycle_map)(
+            np.linspace(0, 1, settings.colour_cycle_count))
 
     return itertools.cycle(cycle)
 
