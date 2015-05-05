@@ -25,7 +25,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
-from colour.utilities import tstack
+from colour.utilities import dot_vector, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -91,8 +91,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
                    [0.66697, 1.13240, 1.20063],
                    [0.66697, 1.13240, 1.20063]])
 
-    xyz = np.einsum('...ij,...j->...i', M1, rgb)
-    xyz /= np.einsum('...ij,...j->...i', M2, rgb)
+    xyz = dot_vector(M1, rgb)
+    xyz /= dot_vector(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
@@ -154,7 +154,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
                   [0.139058, 0.837460, 0.073316],
                   [0.000000, 0.039553, 2.026200]])
 
-    xyz_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
+    xyz_bar = dot_vector(M, rgb_bar)
 
     return xyz_bar
 
@@ -201,7 +201,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
                   [0.0192290085, 0.940908496, 0.113830196],
                   [0.0000000000, 0.0105107859, 0.991427669]])
 
-    lms_bar = np.einsum('...ij,...j->...i', M, rgb_bar)
+    lms_bar = dot_vector(M, rgb_bar)
     lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
 
     return lms_bar
@@ -248,7 +248,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
                   [0.68990272, 0.34832189, 0.00000000],
                   [0.00000000, 0.00000000, 1.93485343]])
 
-    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
+    xyz_bar = dot_vector(M, lms_bar)
 
     return xyz_bar
 
@@ -294,6 +294,6 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
                   [0.69283932, 0.34967567, 0.00000000],
                   [0.00000000, 0.00000000, 2.14687945]])
 
-    xyz_bar = np.einsum('...ij,...j->...i', M, lms_bar)
+    xyz_bar = dot_vector(M, lms_bar)
 
     return xyz_bar

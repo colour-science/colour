@@ -32,7 +32,12 @@ import numpy as np
 from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
-from colour.utilities import CaseInsensitiveMapping, tsplit, row_as_diagonal
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    dot_matrix,
+    dot_vector,
+    tsplit,
+    row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -214,12 +219,8 @@ def XYZ_to_RLAB(XYZ,
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
-    XYZ_ref = np.einsum('...ij,...j->...i',
-                        np.einsum('...ij,...jk->...ik',
-                                  np.einsum('...ij,...jk->...ik', R_MATRIX,
-                                            aR),
-                                  XYZ_TO_HPE_MATRIX),
-                        XYZ)
+    M = dot_matrix(dot_matrix(R_MATRIX, aR), XYZ_TO_HPE_MATRIX)
+    XYZ_ref = dot_vector(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 

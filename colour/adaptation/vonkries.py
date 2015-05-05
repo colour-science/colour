@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import row_as_diagonal
+from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -100,8 +100,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     D = row_as_diagonal(D)
 
-    cat = np.einsum('...ij,...jk->...ik', np.linalg.inv(M), D)
-    cat = np.einsum('...ij,...jk->...ik', cat, M)
+    cat = dot_matrix(np.linalg.inv(M), D)
+    cat = dot_matrix(cat, M)
 
     return cat
 
@@ -148,6 +148,6 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     """
 
     cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = np.einsum('...ij,...j->...i', cat, XYZ)
+    XYZ_a = dot_vector(cat, XYZ)
 
     return XYZ_a

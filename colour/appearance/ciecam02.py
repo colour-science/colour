@@ -43,7 +43,12 @@ from colour.appearance.hunt import (
     HPE_TO_XYZ_MATRIX,
     XYZ_TO_HPE_MATRIX,
     luminance_level_adaptation_factor)
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    dot_matrix,
+    dot_vector,
+    tsplit,
+    tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -217,8 +222,8 @@ def XYZ_to_CIECAM02(XYZ,
 
     # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
     # sharpened *RGB* values.
-    RGB = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ)
-    RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
+    RGB = dot_vector(CAT02_CAT, XYZ)
+    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = degree_of_adaptation(surround.F,
@@ -348,7 +353,7 @@ def CIECAM02_to_XYZ(J,
 
     # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
     # sharpened *RGB* values.
-    RGB_w = np.einsum('...ij,...j->...i', CAT02_CAT, XYZ_w)
+    RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
     D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
@@ -398,7 +403,7 @@ def CIECAM02_to_XYZ(J,
 
     # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
-    XYZ = np.einsum('...ij,...j->...i', CAT02_INVERSE_CAT, RGB)
+    XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
 
     return XYZ
 
@@ -634,10 +639,7 @@ def RGB_to_rgb(RGB):
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = np.einsum('...ij,...j->...i',
-                    np.einsum('...ij,...jk->...ik', XYZ_TO_HPE_MATRIX,
-                              CAT02_INVERSE_CAT),
-                    RGB)
+    rgb = dot_vector(dot_matrix(XYZ_TO_HPE_MATRIX, CAT02_INVERSE_CAT), RGB)
 
     return rgb
 
@@ -664,10 +666,7 @@ def rgb_to_RGB(rgb):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.einsum('...ij,...j->...i',
-                    np.einsum('...ij,...jk->...ik', CAT02_CAT,
-                              HPE_TO_XYZ_MATRIX),
-                    rgb)
+    RGB = dot_vector(dot_matrix(CAT02_CAT, HPE_TO_XYZ_MATRIX), rgb)
 
     return RGB
 

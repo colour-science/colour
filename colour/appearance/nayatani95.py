@@ -36,7 +36,7 @@ from colour.adaptation.cie1994 import (
     exponential_factors,
     intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import tsplit, tstack
+from colour.utilities import dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -345,7 +345,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     array([ 20.000520...,  19.999783...,  19.998831...])
     """
 
-    return np.einsum('...ij,...j->...i', NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
+    return dot_vector(NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def scaling_coefficient(x, y):

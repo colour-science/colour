@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -334,7 +334,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     Y = tstack((Y, Y, Y))
     XYZ_n = XYZ / Y
 
-    return np.einsum('...ij,...j->...i', LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
+    return dot_vector(LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
 
 
 def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
@@ -386,7 +386,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
     Y = tstack((Y, Y, Y))
 
-    XYZ_r = np.einsum('...ij,...j->...i', LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
+    XYZ_r = dot_vector(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
 
     return XYZ_r
 

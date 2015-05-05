@@ -34,7 +34,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CMCCAT2000_CAT
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, dot_vector
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -142,9 +142,9 @@ def CMCCAT2000_forward(XYZ,
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 
-    RGB = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ)
-    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
-    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
+    RGB = dot_vector(CMCCAT2000_CAT, XYZ)
+    RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = dot_vector(CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
@@ -155,7 +155,7 @@ def CMCCAT2000_forward(XYZ,
 
     RGB_c = (RGB *
              (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
-    XYZ_c = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB_c)
+    XYZ_c = dot_vector(CMCCAT2000_INVERSE_CAT, RGB_c)
 
     return XYZ_c
 
@@ -219,9 +219,9 @@ def CMCCAT2000_reverse(XYZ_c,
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 
-    RGB_c = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_c)
-    RGB_w = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_w)
-    RGB_wr = np.einsum('...ij,...j->...i', CMCCAT2000_CAT, XYZ_wr)
+    RGB_c = dot_vector(CMCCAT2000_CAT, XYZ_c)
+    RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)
+    RGB_wr = dot_vector(CMCCAT2000_CAT, XYZ_wr)
 
     D = (surround.F *
          (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
@@ -232,7 +232,7 @@ def CMCCAT2000_reverse(XYZ_c,
 
     RGB = (RGB_c /
            (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
-    XYZ = np.einsum('...ij,...j->...i', CMCCAT2000_INVERSE_CAT, RGB)
+    XYZ = dot_vector(CMCCAT2000_INVERSE_CAT, RGB)
 
     return XYZ
 

@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import row_as_diagonal, tsplit, tstack
+from colour.utilities import dot_vector, row_as_diagonal, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -116,15 +116,9 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     XYZ_r = np.asarray(XYZ_r)
     Y_n = np.asarray(Y_n)
 
-    LMS_1 = np.einsum('...ij,...j->...i',
-                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
-                      XYZ_1)
-    LMS_n = np.einsum('...ij,...j->...i',
-                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
-                      XYZ_n)
-    LMS_r = np.einsum('...ij,...j->...i',
-                      FAIRCHILD1990_XYZ_TO_RGB_MATRIX,
-                      XYZ_r)
+    LMS_1 = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_1)
+    LMS_n = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_n)
+    LMS_r = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_r)
 
     p_LMS = degrees_of_adaptation(LMS_1,
                                   Y_n,
@@ -136,17 +130,16 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     A_1 = row_as_diagonal(a_LMS_1)
     A_2 = row_as_diagonal(a_LMS_2)
 
-    LMSp_1 = np.einsum('...ij,...j->...i', A_1, LMS_1)
+    LMSp_1 = dot_vector(A_1, LMS_1)
 
     c = 0.219 - 0.0784 * np.log10(Y_n)
     C = row_as_diagonal(tstack((c, c, c)))
 
-    LMS_a = np.einsum('...ij,...j->...i', C, LMSp_1)
-    LMSp_2 = np.einsum('...ij,...j->...i', np.linalg.inv(C), LMS_a)
+    LMS_a = dot_vector(C, LMSp_1)
+    LMSp_2 = dot_vector(np.linalg.inv(C), LMS_a)
 
-    LMS_c = np.einsum('...ij,...j->...i', np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = np.einsum('...ij,...j->...i',
-                      FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
+    LMS_c = dot_vector(np.linalg.inv(A_2), LMSp_2)
+    XYZ_c = dot_vector(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
 
     return XYZ_c
 
@@ -172,7 +165,7 @@ def XYZ_to_RGB_fairchild1990(XYZ):
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
-    return np.einsum('...ij,...j->...i', FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
+    return dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_fairchild1990(RGB):
@@ -196,7 +189,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
     array([ 19.53,  23.07,  24.97])
     """
 
-    return np.einsum('...ij,...j->...i', FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
+    return dot_vector(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
@@ -239,9 +232,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     L, M, S = tsplit(LMS)
 
-    LMS_E = np.einsum('...ij,...j->...i',
-                      VON_KRIES_CAT,
-                      np.ones(LMS.shape))  # E illuminant.
+    LMS_E = dot_vector(VON_KRIES_CAT, np.ones(LMS.shape))  # E illuminant.
     L_E, M_E, S_E = tsplit(LMS_E)
 
     Ye_n = Y_n ** v

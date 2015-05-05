@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit
+from colour.utilities import dot_vector, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -104,9 +104,9 @@ def XYZ_to_IPT(XYZ):
     array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
 
-    LMS = np.einsum('...ij,...j->...i', IPT_XYZ_TO_LMS_MATRIX, XYZ)
+    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = np.einsum('...ij,...j->...i', IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
     return IPT
 
@@ -132,9 +132,9 @@ def IPT_to_XYZ(IPT):
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
-    LMS = np.einsum('...ij,...j->...i', IPT_IPT_TO_LMS_MATRIX, IPT)
+    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = np.einsum('...ij,...j->...i', IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
     return XYZ
 

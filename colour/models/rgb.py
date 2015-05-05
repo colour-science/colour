@@ -25,6 +25,7 @@ import numpy as np
 
 from colour.models import xy_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
+from colour.utilities import dot_matrix, dot_vector
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -392,9 +393,9 @@ def XYZ_to_RGB(XYZ,
         xy_to_XYZ(illuminant_RGB),
         transform=chromatic_adaptation_transform)
 
-    XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
+    XYZ_a = dot_vector(M, XYZ)
 
-    RGB = np.einsum('...ij,...j->...i', XYZ_to_RGB_matrix, XYZ_a)
+    RGB = dot_vector(XYZ_to_RGB_matrix, XYZ_a)
 
     if transfer_function is not None:
         RGB = transfer_function(RGB)
@@ -469,9 +470,9 @@ def RGB_to_XYZ(RGB,
         xy_to_XYZ(illuminant_XYZ),
         transform=chromatic_adaptation_transform)
 
-    XYZ = np.einsum('...ij,...j->...i', RGB_to_XYZ_matrix, RGB)
+    XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
-    XYZ_a = np.einsum('...ij,...j->...i', M, XYZ)
+    XYZ_a = dot_vector(M, XYZ)
 
     return XYZ_a
 
@@ -520,13 +521,9 @@ def RGB_to_RGB(RGB,
         xy_to_XYZ(output_colourspace.whitepoint),
         chromatic_adaptation_transform)
 
-    M = np.einsum('...ij,...jk->...ik',
-                  cat,
-                  input_colourspace.RGB_to_XYZ_matrix)
-    M = np.einsum('...ij,...jk->...ik',
-                  output_colourspace.XYZ_to_RGB_matrix,
-                  M)
+    M = dot_matrix(cat, input_colourspace.RGB_to_XYZ_matrix)
+    M = dot_matrix(output_colourspace.XYZ_to_RGB_matrix, M)
 
-    RGB = np.einsum('...ij,...j->...i', M, RGB)
+    RGB = dot_vector(M, RGB)
 
     return RGB

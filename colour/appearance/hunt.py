@@ -30,7 +30,12 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack, warning
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    dot_vector,
+    tsplit,
+    tstack,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -536,7 +541,7 @@ def XYZ_to_rgb(XYZ):
     array([ 19.4743367...,  20.3101217...,  21.78     ])
     """
 
-    return np.einsum('...ij,...j->...i', XYZ_TO_HPE_MATRIX, XYZ)
+    return dot_vector(XYZ_TO_HPE_MATRIX, XYZ)
 
 
 def f_n(x):

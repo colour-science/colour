@@ -24,7 +24,9 @@ from colour.utilities import (
     in_array,
     tstack,
     tsplit,
-    row_as_diagonal)
+    row_as_diagonal,
+    dot_vector,
+    dot_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -41,7 +43,9 @@ __all__ = ['TestAsNumeric',
            'TestInArray',
            'TestTstack',
            'TestTsplit',
-           'TestRowAsDiagonal']
+           'TestRowAsDiagonal',
+           'TestDotVector',
+           'TestDotMatrix']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -359,6 +363,77 @@ class TestRowAsDiagonal(unittest.TestCase):
                       [[0.92985142, 0., 0.],
                        [0., 0.22263399, 0.],
                        [0., 0., 0.88027331]]]))
+
+
+class TestDotVector(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.dot_vector` definition unit tests
+    methods.
+    """
+
+    def test_dot_vector(self):
+        """
+        Tests :func:`colour.utilities.array.dot_vector` definition.
+        """
+
+        m = np.array([[0.7328, 0.4296, -0.1624],
+                      [-0.7036, 1.6975, 0.0061],
+                      [0.0030, 0.0136, 0.9834]])
+        m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
+
+        v = np.array([0.07049534, 0.10080000, 0.09558313])
+        v = np.tile(v, (6, 1))
+
+        np.testing.assert_almost_equal(
+            dot_vector(m, v),
+            np.array([[0.07943996, 0.12209054, 0.09557882],
+                      [0.07943996, 0.12209054, 0.09557882],
+                      [0.07943996, 0.12209054, 0.09557882],
+                      [0.07943996, 0.12209054, 0.09557882],
+                      [0.07943996, 0.12209054, 0.09557882],
+                      [0.07943996, 0.12209054, 0.09557882]]),
+            decimal=7)
+
+
+class TestDotMatrix(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.dot_matrix` definition unit tests
+    methods.
+    """
+
+    def test_dot_matrix(self):
+        """
+        Tests :func:`colour.utilities.array.dot_matrix` definition.
+        """
+
+        a = np.array([[0.7328, 0.4296, -0.1624],
+                      [-0.7036, 1.6975, 0.0061],
+                      [0.0030, 0.0136, 0.9834]])
+        a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
+
+        b = a
+
+        np.testing.assert_almost_equal(
+            dot_matrix(a, b),
+            np.array([[[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]],
+                      [[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]],
+                      [[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]],
+                      [[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]],
+                      [[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]],
+                      [[0.23424208, 1.04184824, -0.27609032],
+                       [-1.70994078, 2.57932265, 0.13061813],
+                       [-0.00442036, 0.03774904, 0.96667132]]]),
+            decimal=7)
 
 
 if __name__ == '__main__':

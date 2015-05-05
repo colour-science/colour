@@ -29,7 +29,9 @@ __all__ = ['as_numeric',
            'in_array',
            'tstack',
            'tsplit',
-           'row_as_diagonal']
+           'row_as_diagonal',
+           'dot_vector',
+           'dot_matrix']
 
 
 def as_numeric(x):
@@ -396,3 +398,106 @@ def row_as_diagonal(a):
     a = np.expand_dims(a, -2)
 
     return np.eye(a.shape[-1]) * a
+
+
+def dot_vector(m, v):
+    """
+    Convenient wrapper around :func:`np.einsum` with the following subscripts:
+    *'...ij,...j->...i'*.
+
+    It performs the dot product of two arrays where *m* parameter is expected
+    to be an array of 3x3 matrices and parameter *v* an array of vectors.
+
+    Parameters
+    ----------
+    m : array_like
+        Array of 3x3 matrices.
+    v : array_like
+        Array of vectors.
+
+    Returns
+    -------
+    ndarray
+
+    See Also
+    --------
+    dot_matrix
+
+    Examples
+    --------
+    >>> m = np.array([[0.7328, 0.4296, -0.1624],
+    ...               [-0.7036, 1.6975, 0.0061],
+    ...               [0.0030, 0.0136, 0.9834]])
+    >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
+    >>> v = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> v = np.tile(v, (6, 1))
+    >>> dot_vector(m, v)  # doctest: +ELLIPSIS
+    array([[ 0.0794399...,  0.1220905...,  0.0955788...],
+           [ 0.0794399...,  0.1220905...,  0.0955788...],
+           [ 0.0794399...,  0.1220905...,  0.0955788...],
+           [ 0.0794399...,  0.1220905...,  0.0955788...],
+           [ 0.0794399...,  0.1220905...,  0.0955788...],
+           [ 0.0794399...,  0.1220905...,  0.0955788...]])
+    """
+
+    return np.einsum('...ij,...j->...i', m, v)
+
+
+def dot_matrix(a, b):
+    """
+    Convenient wrapper around :func:`np.einsum` with the following subscripts:
+    *'...ij,...jk->...ik'*.
+
+    It performs the dot product of two arrays where *a* parameter is expected
+    to be an array of 3x3 matrices and parameter *b* another array of of 3x3
+    matrices.
+
+    Parameters
+    ----------
+    a : array_like
+        Array of 3x3 matrices.
+    b : array_like
+        Array of 3x3 matrices.
+
+    Returns
+    -------
+    ndarray
+
+    See Also
+    --------
+    dot_matrix
+
+    Examples
+    --------
+    >>> a = np.array([[0.7328, 0.4296, -0.1624],
+    ...               [-0.7036, 1.6975, 0.0061],
+    ...               [0.0030, 0.0136, 0.9834]])
+    >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
+    >>> b = a
+    >>> dot_matrix(a, b)  # doctest: +ELLIPSIS
+    array([[[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]],
+    <BLANKLINE>
+           [[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]],
+    <BLANKLINE>
+           [[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]],
+    <BLANKLINE>
+           [[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]],
+    <BLANKLINE>
+           [[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]],
+    <BLANKLINE>
+           [[ 0.2342420...,  1.0418482..., -0.2760903...],
+            [-1.7099407...,  2.5793226...,  0.1306181...],
+            [-0.0044203...,  0.0377490...,  0.9666713...]]])
+    """
+
+    return np.einsum('...ij,...jk->...ik', a, b)

@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import tsplit, tstack, warning
+from colour.utilities import dot_vector, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -173,7 +173,7 @@ def XYZ_to_RGB_cie1994(XYZ):
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
-    return np.einsum('...ij,...j->...i', CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
+    return dot_vector(CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
 
 
 def RGB_to_XYZ_cie1994(RGB):
@@ -197,7 +197,7 @@ def RGB_to_XYZ_cie1994(RGB):
     array([ 28.  ,  21.26,   5.27])
     """
 
-    return np.einsum('...ij,...j->...i', CIE1994_RGB_TO_XYZ_MATRIX, RGB)
+    return dot_vector(CIE1994_RGB_TO_XYZ_MATRIX, RGB)
 
 
 def intermediate_values(xy_o):
