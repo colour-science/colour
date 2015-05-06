@@ -4,7 +4,7 @@ Colour - TODO
 TODO
 ----
 
-- colour (16 items in 10 files)
+- colour (17 items in 11 files)
 
 	- algebra (1 item in 1 file)
 
@@ -43,13 +43,17 @@ TODO
 
 			- (1559, 11) # TODO: Provide support for fractional steps like 0.1, etc...
 
-	- models (1 item in 1 file)
+	- models (2 item in 2 file)
 
 		- tests (1 item in 1 file)
 
 			- tests_derivation.py
 
 				- (123, 15) # TODO: Simplify that monster.
+
+		- derivation.py
+
+			- (153, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
 
 	- notation (5 items in 2 files)
 
