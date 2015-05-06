@@ -50,21 +50,21 @@ print(colour.log_to_linear(log, method='Panalog'))
 print('\n')
 
 message_box(('Converting "linear" to "log" using '
-             '"REDLog" method for '
+             '"REDLogFilm" method for '
              'given "linear" value:\n'
              '\n\t{0}'.format(linear)))
-print(colour.linear_to_red_log(linear))
-print(colour.linear_to_log(linear, method='REDLog'))
+print(colour.linear_to_red_log_film(linear))
+print(colour.linear_to_log(linear, method='REDLogFilm'))
 
 print('\n')
 
 log = 0.637621845988
 message_box(('Converting "log" to "linear" using '
-             '"REDLog" method for '
+             '"REDLogFilm" method for '
              'given "log" value:\n'
              '\n\t{0}'.format(log)))
-print(colour.red_log_to_linear(log))
-print(colour.log_to_linear(log, method='REDLog'))
+print(colour.red_log_film_to_linear(log))
+print(colour.log_to_linear(log, method='REDLogFilm'))
 
 print('\n')
 
