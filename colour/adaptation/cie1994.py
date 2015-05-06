@@ -396,10 +396,10 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     1.0
     """
 
-    xi_1, eta_1, zeta_1 = tsplit(xez_1)
-    xi_2, eta_2, zeta_2 = tsplit(xez_2)
-    bR_o1, bG_o1, bB_o1 = tsplit(bRGB_o1)
-    bR_o2, bG_o2, bB_o2 = tsplit(bRGB_o2)
+    xi_1, eta_1, _zeta_1 = tsplit(xez_1)
+    xi_2, eta_2, _zeta_2 = tsplit(xez_2)
+    bR_o1, bG_o1, _bB_o1 = tsplit(bRGB_o1)
+    bR_o2, bG_o2, _bB_o2 = tsplit(bRGB_o2)
     Y_o = np.asarray(Y_o)
 
     K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /

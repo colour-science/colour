@@ -160,7 +160,7 @@ def IPT_hue_angle(IPT):
     0.8427358...
     """
 
-    I, P, T = tsplit(IPT)
+    _I, P, T = tsplit(IPT)
 
     hue = np.arctan2(T, P)
 

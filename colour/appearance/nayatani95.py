@@ -207,7 +207,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
     xez = intermediate_values(XYZ_to_xy(XYZ_n))
-    xi, eta, zeta = tsplit(xez)
+    xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
     RGB_o = (((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) /
@@ -215,7 +215,7 @@ def XYZ_to_Nayatani95(XYZ,
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)
-    R, G, B = tsplit(RGB)
+    R, G, _B = tsplit(RGB)
 
     # Computing exponential factors of the chromatic adaptation.
     bRGB_o = exponential_factors(RGB_o)
@@ -420,9 +420,9 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     -0.0001169...
     """
 
-    R, G, B = tsplit(RGB)
-    bR_o, bG_o, bB_o = tsplit(bRGB_o)
-    xi, eta, zeta = tsplit(xez)
+    R, G, _B = tsplit(RGB)
+    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
+    xi, eta, _zeta = tsplit(xez)
     bL_or = np.asarray(bL_or)
     eR = np.asarray(eR)
     eG = np.asarray(eG)
@@ -548,7 +548,7 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     62.6266734...
     """
 
-    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
     bL_or = np.asarray(bL_or)
     Q = np.asarray(Q)
 
@@ -589,8 +589,8 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
     125.2435392...
     """
 
-    bR_o, bG_o, bB_o = tsplit(bRGB_o)
-    xi, eta, zeta = tsplit(xez)
+    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
+    xi, eta, _zeta = tsplit(xez)
     bL_or = np.asarray(bL_or)
 
     B_rw = (2 / 3) * bR_o * 1.758 * np.log10((100 * xi + n) / (20 * xi + n))

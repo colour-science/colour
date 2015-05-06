@@ -92,7 +92,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
     """
 
     X, Y, Z = tsplit(XYZ)
-    X_0, Y_0, Z_0 = tsplit(XYZ_0)
+    X_0, _Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
@@ -131,8 +131,8 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     91.4071738...
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_0, Y_0, Z_0 = tsplit(XYZ_0)
+    _X, Y, Z = tsplit(XYZ)
+    _X_0, Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
@@ -204,7 +204,7 @@ def whiteness_ASTM313(XYZ):
     55.7400000...
     """
 
-    X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(XYZ)
 
     WI = 3.388 * Z - 3 * Y
 

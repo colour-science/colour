@@ -612,7 +612,7 @@ def image_plot(image,
 
     pylab.imshow(np.clip(image, 0, 1))
 
-    height, width, _ = image.shape
+    height, _width, _channels = image.shape
 
     pylab.text(0 + label_size,
                height - label_size,

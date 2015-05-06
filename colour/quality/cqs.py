@@ -150,7 +150,7 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, _ = uv_to_CCT_Ohno2013(uv)
+    CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
 
     if CCT < 5000:
         spd_reference = blackbody_spd(CCT, shape)
@@ -251,8 +251,8 @@ def gamut_area(Lab):
     Lab = np.asarray(Lab)
     Lab_s = np.roll(np.copy(Lab), -3)
 
-    L, a, b = tsplit(Lab)
-    L_s, a_s, b_s = tsplit(Lab_s)
+    _L, a, b = tsplit(Lab)
+    _L_s, a_s, b_s = tsplit(Lab_s)
 
     A = np.linalg.norm(Lab[..., 1:3], axis=-1)
     B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
@@ -298,7 +298,7 @@ def _vs_colorimetry_data(spd_test,
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
-    for key, value in sorted(VS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
         spd_vs = spds_vs.get(value)
         XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
         XYZ_vs /= 100
@@ -310,13 +310,13 @@ def _vs_colorimetry_data(spd_test,
                                                    transform='CMCCAT2000')
 
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
-        _, chroma_vs, _ = Lab_to_LCHab(Lab_vs)
+        _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
         vs_data.append(
             VS_ColorimetryData(spd_vs.name,
                                XYZ_vs,
                                Lab_vs,
-                               chroma_vs))
+                               C_vs))
     return vs_data
 
 
@@ -343,7 +343,7 @@ def _CCT_factor(reference_data, XYZ_r):
 
     Labs = []
     for vs_colorimetry_data in reference_data:
-        _, XYZ, _, _ = vs_colorimetry_data
+        _name, XYZ, _Lab, _C = vs_colorimetry_data
         XYZ_a = chromatic_adaptation_VonKries(XYZ,
                                               XYZ_r,
                                               XYZ_w,

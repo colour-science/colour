@@ -614,7 +614,7 @@ def linear_to_red_log_film(value,
     0.6376218...
     """
 
-    return RED_LOG_FILM_TRANSFER_FUNCTION(value)
+    return RED_LOG_FILM_TRANSFER_FUNCTION(value, black_offset)
 
 
 def red_log_film_to_linear(value,
@@ -644,7 +644,7 @@ def red_log_film_to_linear(value,
     0.1...
     """
 
-    return RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION(value)
+    return RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION(value, black_offset)
 
 
 def linear_to_s_log(value, **kwargs):

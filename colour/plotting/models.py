@@ -185,7 +185,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             primaries = colourspace.primaries
             whitepoint = colourspace.whitepoint
@@ -322,7 +322,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -470,7 +470,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -761,7 +761,7 @@ def multi_transfer_function_plot(colourspaces=None,
         colourspaces = ['sRGB', 'Rec. 709']
 
     samples = np.linspace(0, 1, 1000)
-    for i, colourspace in enumerate(colourspaces):
+    for colourspace in colourspaces:
         colourspace = get_RGB_colourspace(colourspace)
 
         RGBs = np.array([colourspace.inverse_transfer_function(x)
