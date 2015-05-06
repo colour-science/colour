@@ -11,8 +11,8 @@
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://waffle.io/colour-science/colour
     :alt: 'Stories in Ready'
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.14602.png
-    :target: http://dx.doi.org/10.5281/zenodo.14602
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.17370.png
+    :target: http://dx.doi.org/10.5281/zenodo.17370
 
 Colour Science for Python
 =========================
