@@ -17,7 +17,8 @@ from .cmccat2000 import (
     chromatic_adaptation_CMCCAT2000)
 from .cie1994 import chromatic_adaptation_CIE1994
 
-__all__ = dataset.__all__
+__all__ = []
+__all__ += dataset.__all__
 __all__ += ['chromatic_adaptation_matrix_VonKries',
             'chromatic_adaptation_VonKries']
 __all__ += ['chromatic_adaptation_Fairchild1990']
