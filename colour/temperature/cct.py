@@ -307,7 +307,7 @@ def uv_to_CCT_Ohno2013(uv,
         iterations = 1
 
     # Planckian table creation through cascade expansion.
-    for i in range(iterations):
+    for _i in range(iterations):
         table = planckian_table(uv, cmfs, start, end, count)
         index = planckian_table_minimal_distance_index(table)
         if index == 0:
@@ -324,7 +324,7 @@ def uv_to_CCT_Ohno2013(uv,
         start = table[index - 1].Ti
         end = table[index + 1].Ti
 
-    ux, vx = uv
+    _ux, vx = uv
 
     Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
     Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di

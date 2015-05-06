@@ -150,7 +150,12 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
 
-    cycle = colour_cycle('rainbow', count=len(colourspaces))
+    settings = {'colour_cycle_map': 'rainbow',
+                'colour_cycle_count': len(colourspaces)}
+    settings.update(kwargs)
+
+    cycle = colour_cycle(**settings)
+
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             xy = np.asarray(POINTER_GAMUT_BOUNDARIES)
@@ -180,7 +185,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             primaries = colourspace.primaries
             whitepoint = colourspace.whitepoint
@@ -211,8 +216,8 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
             x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
             y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
@@ -282,7 +287,12 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
 
-    cycle = colour_cycle('rainbow', count=len(colourspaces))
+    settings = {'colour_cycle_map': 'rainbow',
+                'colour_cycle_count': len(colourspaces)}
+    settings.update(kwargs)
+
+    cycle = colour_cycle(**settings)
+
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(POINTER_GAMUT_BOUNDARIES)))
@@ -312,7 +322,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -351,8 +361,8 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
             x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
             y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
@@ -424,7 +434,12 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
 
-    cycle = colour_cycle('rainbow', count=len(colourspaces))
+    settings = {'colour_cycle_map': 'rainbow',
+                'colour_cycle_count': len(colourspaces)}
+    settings.update(kwargs)
+
+    cycle = colour_cycle(**settings)
+
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
             uv = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
@@ -455,7 +470,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
             colourspace, name = get_RGB_colourspace(
                 colourspace), colourspace
 
-            r, g, b, a = next(cycle)
+            r, g, b, _a = next(cycle)
 
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -495,8 +510,8 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                        color=(r, g, b),
                        linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) + 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
             x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
             y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
 
@@ -746,7 +761,7 @@ def multi_transfer_function_plot(colourspaces=None,
         colourspaces = ['sRGB', 'Rec. 709']
 
     samples = np.linspace(0, 1, 1000)
-    for i, colourspace in enumerate(colourspaces):
+    for colourspace in colourspaces:
         colourspace = get_RGB_colourspace(colourspace)
 
         RGBs = np.array([colourspace.inverse_transfer_function(x)

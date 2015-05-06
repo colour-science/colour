@@ -75,9 +75,9 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
              'factory colour checkers: "{1}".').format(
                 name, sorted(COLOURCHECKERS.keys())))
 
-    _, data, illuminant = colour_checker
+    _name, data, illuminant = colour_checker
     colour_parameters = []
-    for _, label, x, y, Y in data:
+    for _index, label, x, y, Y in data:
         XYZ = xyY_to_XYZ((x, y, Y))
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 

@@ -106,7 +106,7 @@ def multi_munsell_value_function_plot(
                      'McCamy 1987')
 
     samples = np.linspace(0, 100, 1000)
-    for i, function in enumerate(functions):
+    for function in functions:
         function, name = MUNSELL_VALUE_METHODS.get(function), function
         if function is None:
             raise KeyError(

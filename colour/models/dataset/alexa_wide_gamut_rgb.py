@@ -215,7 +215,7 @@ def _linear_to_alexa_log_c(
 
     value = np.asarray(value)
 
-    cut, a, b, c, d, e, f, _ = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
+    cut, a, b, c, d, e, f, _e_cut_f = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
     return np.where(value > cut,
@@ -252,7 +252,7 @@ def _alexa_log_c_to_linear(
 
     value = np.asarray(value)
 
-    cut, a, b, c, d, e, f, _ = (
+    cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
     return np.where(value > e * cut + f,

@@ -319,9 +319,9 @@ def XYZ_to_Hunt(XYZ,
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_b, Y_b, Z_b = tsplit(XYZ_b)
-    X_w, Y_w, Z_w = tsplit(XYZ_w)
+    _X, Y, Z = tsplit(XYZ)
+    X_b, Y_b, _Z_b = tsplit(XYZ_b)
+    _X_w, Y_w, Z_w = tsplit(XYZ_w)
 
     # Arguments handling.
     if XYZ_p is not None:
@@ -906,7 +906,7 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     -0.0082372...
     """
 
-    C_1, C_2, C_3 = tsplit(C)
+    _C_1, C_2, C_3 = tsplit(C)
     e_s = np.asarray(e_s)
     N_c = np.asarray(N_c)
     N_cb = np.asarray(N_cb)
@@ -950,7 +950,7 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     -0.0001044...
     """
 
-    C_1, C_2, C_3 = tsplit(C)
+    C_1, C_2, _C_3 = tsplit(C)
     e_s = np.asarray(e_s)
     N_c = np.asarray(N_c)
     N_cb = np.asarray(N_cb)

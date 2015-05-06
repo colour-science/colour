@@ -22,8 +22,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import ILLUMINANTS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import tsplit, tstack
@@ -68,13 +66,14 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
     xyY = XYZ_to_xyY(XYZ, illuminant)
-    x, y, Y = tsplit(xyY)
+    _x, y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
     u_0, v_0 = tsplit(UCS_to_uv(XYZ_to_UCS(

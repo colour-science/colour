@@ -564,7 +564,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         functions = ('CIE 1976', 'Wyszecki 1963')
 
     samples = np.linspace(0, 100, 1000)
-    for i, function in enumerate(functions):
+    for function in functions:
         function, name = LIGHTNESS_METHODS.get(function), function
         if function is None:
             raise KeyError(

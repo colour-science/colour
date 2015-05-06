@@ -57,7 +57,7 @@ if sys.version_info[:2] <= (3, 2):
         'mock>=1.0.1']
 
 setup(name='colour-science',
-      version='0.3.4',
+      version='0.3.5',
       author=__author__,
       author_email=__email__,
       include_package_data=True,

@@ -117,7 +117,7 @@ def colour_rendering_index(spd_test, additional_data=False):
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, D_uv = uv_to_CCT_Robertson1968(uv)
+    CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
 
     if CCT < 5000:
         spd_reference = blackbody_spd(CCT, shape)
@@ -190,7 +190,7 @@ def _tcs_colorimetry_data(spd_t,
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
-    for key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
         spd_tcs = spds_tcs.get(value)
         XYZ_tcs = spectral_to_XYZ(spd_tcs, cmfs, spd_t)
         xyY_tcs = np.ravel(XYZ_to_xyY(XYZ_tcs))

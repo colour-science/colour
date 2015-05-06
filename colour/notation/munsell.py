@@ -714,9 +714,9 @@ def xyY_to_munsell_specification(xyY):
 
     x_center, y_center, Y_center = np.ravel(
         munsell_specification_to_xyY(value))
-    z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
-                                                                y - y_center,
-                                                                Y_center))
+    _z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
+                                                                 y - y_center,
+                                                                 Y_center))
     theta_input = np.degrees(theta_input)
 
     grey_threshold = 0.001
@@ -732,7 +732,7 @@ def xyY_to_munsell_specification(xyY):
 
     Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
     LCHab = Lab_to_LCHab(Lab)
-    hue_initial, value_initial, chroma_initial, code_initial = (
+    hue_initial, _value_initial, chroma_initial, code_initial = (
         LCHab_to_munsell_specification(LCHab))
     specification_current = [hue_initial,
                              value,
@@ -746,7 +746,7 @@ def xyY_to_munsell_specification(xyY):
     while iterations <= iterations_maximum:
         iterations += 1
 
-        hue_current, value_current, chroma_current, code_current = (
+        hue_current, _value_current, chroma_current, code_current = (
             specification_current)
         hue_angle_current = hue_to_hue_angle(hue_current, code_current)
 
@@ -756,10 +756,10 @@ def xyY_to_munsell_specification(xyY):
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = cartesian_to_cylindrical(
+        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
             (x_current - x_center,
              y_current - y_center,
              Y_center))
@@ -792,7 +792,7 @@ def xyY_to_munsell_specification(xyY):
                 hue_angle_difference_inner -= 360
 
             hue_inner, code_inner = hue_angle_to_hue(hue_angle_inner)
-            x_inner, y_inner, Y_inner = np.ravel(
+            x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY((hue_inner,
                                               value,
                                               chroma_current,
@@ -802,7 +802,7 @@ def xyY_to_munsell_specification(xyY):
                 extrapolate = True
 
             if extrapolate is False:
-                z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
+                _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
                     (x_inner - x_center,
                      y_inner - y_center,
                      Y_center))
@@ -1783,7 +1783,7 @@ def xy_from_renotation_ovoid(specification):
                     abs(hue - 7.5) < threshold or
                     abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
-            x, y, Y = xyY_from_renotation((hue, value, chroma, code))
+            x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
             return x, y
 
         hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -1795,13 +1795,13 @@ def xy_from_renotation_ovoid(specification):
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(
             specification_minus)
-        z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
+        _z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
         theta_minus = np.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
-        z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
+        _z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
         theta_plus = np.degrees(theta_plus)
 

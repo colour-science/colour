@@ -259,7 +259,7 @@ def XYZ_to_LLAB(
     LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
     """
 
-    X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(XYZ)
     RGB = XYZ_to_RGB_LLAB(XYZ)
     RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
 
@@ -329,7 +329,7 @@ def XYZ_to_RGB_LLAB(XYZ):
     array([ 0.9414279...,  1.0404012...,  1.0897088...])
     """
 
-    X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(XYZ)
 
     Y = tstack((Y, Y, Y))
     XYZ_n = XYZ / Y
