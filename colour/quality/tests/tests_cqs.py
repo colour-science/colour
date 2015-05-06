@@ -15,8 +15,9 @@ else:
     import unittest
 
 from colour.quality import colour_quality_scale
-from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS
-from colour.colorimetry import LIGHT_SOURCES_RELATIVE_SPDS
+from colour.colorimetry import (
+    ILLUMINANTS_RELATIVE_SPDS,
+    LIGHT_SOURCES_RELATIVE_SPDS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

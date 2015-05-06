@@ -73,14 +73,14 @@ PROPHOTO_RGB_TO_XYZ_MATRIX = np.array(
      [2.88037454e-01, 7.11876883e-01, 8.56626476e-05],
      [0.00000000e+00, 0.00000000e+00, 8.25188285e-01]])
 """
-*ProPhoto RGB* colourspace to *CIE XYZ* colourspace matrix.
+*ProPhoto RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 PROPHOTO_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_PROPHOTO_RGB_MATRIX = np.linalg.inv(PROPHOTO_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ProPhoto RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *ProPhoto RGB* colourspace matrix.
 
 XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
@@ -92,37 +92,43 @@ def _prophoto_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return value * 16 if value < 0.001953 else value ** (1 / 1.8)
+    value = np.asarray(value)
+
+    return np.where(value < 0.001953,
+                    value * 16,
+                    value ** (1 / 1.8))
 
 
 def _prophoto_rgb_inverse_transfer_function(value):
     """
-    Defines the *ProPhoto RGB* colourspace inverse transfer
-    function.
+    Defines the *ProPhoto RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return (value / 16
-            if value < _prophoto_rgb_transfer_function(0.001953) else
-            value ** 1.8)
+    value = np.asarray(value)
+
+    return np.where(
+        value < _prophoto_rgb_transfer_function(0.001953),
+        value / 16,
+        value ** 1.8)
 
 
 PROPHOTO_RGB_TRANSFER_FUNCTION = _prophoto_rgb_transfer_function

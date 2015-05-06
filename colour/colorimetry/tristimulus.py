@@ -17,16 +17,10 @@ See Also
 
 from __future__ import division, unicode_literals
 
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
 import numpy as np
 
 from colour.algebra import SplineInterpolator, SpragueInterpolator
-from colour.colorimetry import (
-    STANDARD_OBSERVERS_CMFS,
-    ones_spd)
+from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -44,8 +38,8 @@ def spectral_to_XYZ(spd,
                         'CIE 1931 2 Degree Standard Observer'),
                     illuminant=None):
     """
-    Converts given spectral power distribution to *CIE XYZ* colourspace using
-    given colour matching functions and illuminant.
+    Converts given spectral power distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant.
 
     Parameters
     ----------
@@ -59,7 +53,7 @@ def spectral_to_XYZ(spd,
     Returns
     -------
     ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+        *CIE XYZ* tristimulus values.
 
     Warning
     -------
@@ -67,7 +61,7 @@ def spectral_to_XYZ(spd,
 
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
 
     References
     ----------
@@ -116,13 +110,12 @@ def spectral_to_XYZ(spd,
     return XYZ
 
 
-@lru_cache(maxsize=8192)
 def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
                           'CIE 1931 2 Degree Standard Observer')):
     """
-    Converts given wavelength :math:`\lambda` to *CIE XYZ* colourspace using
-    given colour matching functions.
+    Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
+    using given colour matching functions.
 
     If the wavelength :math:`\lambda` is not available in the colour matching
     function, its value will be calculated using *CIE* recommendations:
@@ -132,27 +125,27 @@ def wavelength_to_XYZ(wavelength,
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength :math:`\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Raises
     ------
     ValueError
-        If wavelength :math:`\lambda` is not in the colour matching
+        If wavelength :math:`\lambda` is not contained in the colour matching
         functions domain.
 
     Notes
     -----
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
-    -   If *scipy* is not unavailable the *Cubic Spline* method will
-        fallback to legacy *Linear* interpolation.
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
+        to legacy *Linear* interpolation.
 
     Examples
     --------
@@ -162,11 +155,12 @@ def wavelength_to_XYZ(wavelength,
     array([ 0.09564  ,  0.13902  ,  0.812950...])
     """
 
-    shape = cmfs.shape
-    if wavelength < shape.start or wavelength > shape.end:
+    cmfs_shape = cmfs.shape
+    if (np.min(wavelength) < cmfs_shape.start or
+                np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
             '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, shape.start, shape.end))
+                wavelength, cmfs_shape.start, cmfs_shape.end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
@@ -174,10 +168,14 @@ def wavelength_to_XYZ(wavelength,
                         if cmfs.is_uniform() else
                         SplineInterpolator)
 
-        interpolators = [interpolator(wavelengths, values[:, i])
+        interpolators = [interpolator(wavelengths, values[..., i])
                          for i in range(values.shape[-1])]
 
-        return np.array([interpolator_i(wavelength)
-                         for interpolator_i in interpolators])
+        XYZ = np.dstack([interpolator(np.ravel(wavelength))
+                         for interpolator in interpolators])
     else:
-        return np.array(cmfs.get(wavelength))
+        XYZ = cmfs.get(wavelength)
+
+    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
+
+    return XYZ

@@ -44,9 +44,9 @@ __all__ = ['ECI_RGB_V2_PRIMARIES',
            'ECI_RGB_V2_COLOURSPACE']
 
 ECI_RGB_V2_PRIMARIES = np.array(
-    [[0.67010309278350522, 0.32989690721649484],
-     [0.20990566037735847, 0.70990566037735836],
-     [0.14006179196704427, 0.080329557157569509]])
+    [[0.670103092783505220, 0.329896907216494840],
+     [0.209905660377358470, 0.709905660377358360],
+     [0.140061791967044270, 0.080329557157569509]])
 """
 *ECI RGB v2* colourspace primaries.
 
@@ -71,14 +71,14 @@ ECI_RGB_V2_WHITEPOINT : tuple
 ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
                                                      ECI_RGB_V2_WHITEPOINT)
 """
-*ECI RGB v2* colourspace to *CIE XYZ* colourspace matrix.
+*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ECI_RGB_V2_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_ECI_RGB_V2_MATRIX = np.linalg.inv(ECI_RGB_V2_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ECI RGB v2* colourspace matrix.
+*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
 
 XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
@@ -90,12 +90,12 @@ def _eci_rgb_v2_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
@@ -104,17 +104,16 @@ def _eci_rgb_v2_transfer_function(value):
 
 def _eci_rgb_v2_inverse_transfer_function(value):
     """
-    Defines the *ECI RGB v2* colourspace inverse transfer
-    function.
+    Defines the *ECI RGB v2* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 

@@ -79,6 +79,7 @@ from .temperature import *  # noqa
 from . import temperature
 from .volume import *  # noqa
 from . import volume
+from .utilities import *  # noqa
 from . import utilities
 
 __author__ = 'Colour Developers'
@@ -110,7 +111,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '4'
+__change_version__ = '5'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

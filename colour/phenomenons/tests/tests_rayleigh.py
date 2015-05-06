@@ -15,6 +15,7 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
 from colour.phenomenons.rayleigh import (
     air_refraction_index_Penndorf1957,
@@ -34,6 +35,7 @@ from colour.phenomenons import (
     scattering_cross_section,
     rayleigh_optical_depth,
     rayleigh_scattering_spd)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -60,7 +62,7 @@ __all__ = ['RAYLEIGH_SCATTERING_SPD_DATA',
            'TestRayleighOpticalDepth',
            'TestRayleighScatteringSpd']
 
-RAYLEIGH_SCATTERING_SPD_DATA = np.array([
+RAYLEIGH_SCATTERING_SPD_DATA = (
     0.59910134,
     0.59217069,
     0.58534101,
@@ -73,30 +75,30 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.54021531,
     0.53413228,
     0.52813547,
-    0.5222234,
+    0.52222340,
     0.51639461,
     0.51064769,
     0.50498125,
     0.49939393,
-    0.4938844,
+    0.49388440,
     0.48845134,
     0.48309347,
     0.47780954,
     0.47259832,
     0.46745859,
     0.46238917,
-    0.4573889,
+    0.45738890,
     0.45245664,
     0.44759127,
-    0.4427917,
+    0.44279170,
     0.43805685,
     0.43338567,
     0.42877712,
-    0.4242302,
-    0.4197439,
+    0.42423020,
+    0.41974390,
     0.41531726,
-    0.4109493,
-    0.4066391,
+    0.41094930,
+    0.40663910,
     0.40238573,
     0.39818829,
     0.39404589,
@@ -106,13 +108,13 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.37800949,
     0.37412954,
     0.37029964,
-    0.366519,
+    0.36651900,
     0.36278687,
-    0.3591025,
+    0.35910250,
     0.35546514,
     0.35187408,
-    0.3483286,
-    0.344828,
+    0.34832860,
+    0.34482800,
     0.34137161,
     0.33795874,
     0.33458873,
@@ -150,7 +152,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.24597138,
     0.24371107,
     0.24147683,
-    0.2392683,
+    0.23926830,
     0.23708511,
     0.23492692,
     0.23279339,
@@ -165,7 +167,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.21464674,
     0.21274195,
     0.21085836,
-    0.2089957,
+    0.20899570,
     0.20715367,
     0.20533201,
     0.20353045,
@@ -174,7 +176,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.19824368,
     0.19651987,
     0.19481486,
-    0.1931284,
+    0.19312840,
     0.19146025,
     0.18981018,
     0.18817794,
@@ -183,7 +185,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.18338593,
     0.18182275,
     0.18027628,
-    0.1787463,
+    0.17874630,
     0.17723261,
     0.17573499,
     0.17425324,
@@ -199,7 +201,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.16026543,
     0.15894551,
     0.15763923,
-    0.1563464,
+    0.15634640,
     0.15506686,
     0.15380046,
     0.15254701,
@@ -219,7 +221,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.13627476,
     0.13519785,
     0.13413161,
-    0.1330759,
+    0.13307590,
     0.13203061,
     0.13099561,
     0.12997078,
@@ -250,7 +252,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.10733013,
     0.10653191,
     0.10574113,
-    0.1049577,
+    0.10495770,
     0.10418154,
     0.10341257,
     0.10265072,
@@ -271,10 +273,10 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.09202464,
     0.09136645,
     0.09071416,
-    0.0900677,
+    0.09006770,
     0.08942701,
     0.08879203,
-    0.0881627,
+    0.08816270,
     0.08753895,
     0.08692073,
     0.08630797,
@@ -284,7 +286,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.08391049,
     0.08332421,
     0.08274307,
-    0.082167,
+    0.08216700,
     0.08159596,
     0.08102988,
     0.08046872,
@@ -302,7 +304,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.07410033,
     0.07359865,
     0.07310122,
-    0.072608,
+    0.07260800,
     0.07211894,
     0.07163402,
     0.07115317,
@@ -314,17 +316,17 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.06835154,
     0.06789814,
     0.06744851,
-    0.0670026,
+    0.06700260,
     0.06656038,
     0.06612182,
     0.06568688,
     0.06525551,
-    0.0648277,
+    0.06482770,
     0.06440339,
     0.06398256,
     0.06356518,
-    0.0631512,
-    0.0627406,
+    0.06315120,
+    0.06274060,
     0.06233333,
     0.06192938,
     0.06152871,
@@ -334,7 +336,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.05995814,
     0.05957338,
     0.05919171,
-    0.0588131,
+    0.05881310,
     0.05843752,
     0.05806494,
     0.05769534,
@@ -346,9 +348,9 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.05553858,
     0.05518901,
     0.05484219,
-    0.0544981,
+    0.05449810,
     0.05415671,
-    0.053818,
+    0.05381800,
     0.05348194,
     0.05314851,
     0.05281768,
@@ -356,7 +358,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.05216372,
     0.05184055,
     0.05151988,
-    0.0512017,
+    0.05120170,
     0.05088598,
     0.05057269,
     0.05026182,
@@ -367,10 +369,10 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.04874288,
     0.04844603,
     0.04815144,
-    0.0478591,
+    0.04785910,
     0.04756897,
     0.04728105,
-    0.0469953,
+    0.04699530,
     0.04671172,
     0.04643028,
     0.04615096,
@@ -387,7 +389,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.04321315,
     0.04295785,
     0.04270444,
-    0.0424529,
+    0.04245290,
     0.04220321,
     0.04195537,
     0.04170934,
@@ -428,14 +430,14 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.03413104,
     0.03394104,
     0.03375237,
-    0.033565,
+    0.03356500,
     0.03337894,
     0.03319417,
     0.03301068,
     0.03282846,
     0.03264749,
     0.03246778,
-    0.0322893,
+    0.03228930,
     0.03211204,
     0.03193601,
     0.03176118,
@@ -453,8 +455,8 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.02975389,
     0.02959389,
     0.02943496,
-    0.0292771,
-    0.0291203,
+    0.02927710,
+    0.02912030,
     0.02896455,
     0.02880984,
     0.02865616,
@@ -465,7 +467,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.02790301,
     0.02775536,
     0.02760869,
-    0.027463,
+    0.02746300,
     0.02731826,
     0.02717448,
     0.02703164,
@@ -474,13 +476,13 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.02660874,
     0.02646962,
     0.02633141,
-    0.0261941,
+    0.02619410,
     0.02605768,
     0.02592215,
     0.02578751,
     0.02565374,
     0.02552084,
-    0.0253888,
+    0.02538880,
     0.02525761,
     0.02512727,
     0.02499778,
@@ -489,15 +491,15 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.02461427,
     0.02448807,
     0.02436268,
-    0.0242381,
+    0.02423810,
     0.02411431,
     0.02399131,
-    0.0238691,
+    0.02386910,
     0.02374767,
     0.02362701,
     0.02350711,
     0.02338798,
-    0.0232696,
+    0.02326960,
     0.02315197,
     0.02303509,
     0.02291894,
@@ -523,15 +525,15 @@ RAYLEIGH_SCATTERING_SPD_DATA = np.array([
     0.02074273,
     0.02064086,
     0.02053962,
-    0.020439,
+    0.02043900,
     0.02033899,
-    0.0202396,
+    0.02023960,
     0.02014082,
     0.02004263,
     0.01994505,
     0.01984806,
     0.01975166,
-    0.01965585])
+    0.019655853)
 
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
@@ -563,11 +565,56 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
             1.000274856640486,
             places=10)
 
+    def test_n_dimensional_air_refraction_index_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0002853167951464
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
+        definition nan support.
+        """
+
+        air_refraction_index_Penndorf1957(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAirRefractionIndexEdlen1966(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+    Defines :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
     definition unit tests methods.
     """
 
@@ -593,18 +640,62 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
             1.0002748622188347,
             places=10)
 
+    def test_n_dimensional_air_refraction_index_Edlen1966(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.000285308809879
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Edlen1966(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Edlen1966(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
+        definition nan support.
+        """
+
+        air_refraction_index_Edlen1966(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestAirRefractionIndexPeck1972(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+    Defines :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
     definition unit tests methods.
     """
 
     def test_air_refraction_index_Peck1972(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        Tests :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
         definition.
         """
 
@@ -622,6 +713,52 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
             air_refraction_index_Peck1972(0.830),
             1.0002748591448039,
             places=10)
+
+    def test_n_dimensional_air_refraction_index_Peck1972(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0002853102850557
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Peck1972(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Peck1972(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        definition nan support.
+        """
+
+        air_refraction_index_Peck1972(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
@@ -668,19 +805,66 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
             1.0002749066404641,
             places=10)
 
+    def test_n_dimensional_air_refraction_index_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0002853102850557
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            air_refraction_index_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_air_refraction_index_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            air_refraction_index_Bodhaine1999(wavelength, CO2_concentration)
+
 
 class TestN2Depolarisation(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.N2_depolarisation`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition
+    unit tests methods.
     """
 
     def test_N2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.N2_depolarisation`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition.
         """
 
         self.assertAlmostEqual(
@@ -698,19 +882,61 @@ class TestN2Depolarisation(unittest.TestCase):
             1.034460153868486,
             places=7)
 
+    def test_n_dimensional_N2_depolarisation(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.036445987654321
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            N2_depolarisation(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_N2_depolarisation(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition nan
+        support.
+        """
+
+        N2_depolarisation(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestO2Depolarisation(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.O2_depolarisation`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
+    unit tests methods.
     """
 
     def test_O2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.O2_depolarisation`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition.
         """
 
         self.assertAlmostEqual(
@@ -728,53 +954,180 @@ class TestO2Depolarisation(unittest.TestCase):
             1.0983155612690134,
             places=7)
 
+    def test_n_dimensional_O2_depolarisation(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.115307746532541
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            O2_depolarisation(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_O2_depolarisation(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition nan
+        support.
+        """
+
+        O2_depolarisation(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestF_airPenndorf1957(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition
+    unit tests methods.
     """
 
     def test_F_air_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957`
         definition.
         """
 
-        self.assertEqual(F_air_Penndorf1957(), 1.0608)
+        self.assertEqual(F_air_Penndorf1957(0.360), 1.0608)
+
+    def test_n_dimensional_F_air_Penndorf1957(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0608
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Penndorf1957(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Penndorf1957(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition nan
+        support.
+        """
+
+        F_air_Penndorf1957(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airYoung1981(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Young1981`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition
+    unit tests methods.
     """
 
     def test_F_air_Young1981(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Young1981`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition.
         """
 
-        self.assertEqual(F_air_Young1981(), 1.0480)
+        self.assertEqual(F_air_Young1981(0.360), 1.0480)
+
+    def test_n_dimensional_F_air_Young1981(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.0480
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Young1981(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Young1981(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition nan
+        support.
+        """
+
+        F_air_Young1981(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airBates1984(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition unit
+    tests methods.
     """
 
     def test_F_air_Bates1984(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bates1984`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition.
         """
 
         self.assertAlmostEqual(
@@ -792,18 +1145,61 @@ class TestF_airBates1984(unittest.TestCase):
             1.0469470686005893,
             places=7)
 
+    def test_n_dimensional_F_air_Bates1984(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.051997277711708
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Bates1984(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Bates1984(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition nan
+        support.
+        """
+
+        F_air_Bates1984(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestF_airBodhaine1999(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
+    unit tests methods.
     """
 
     def test_F_air_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999`
         definition.
         """
 
@@ -837,19 +1233,65 @@ class TestF_airBodhaine1999(unittest.TestCase):
             1.13577082243141,
             places=7)
 
+    def test_n_dimensional_F_air_Bodhaine1999(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 0.360
+        n = 1.125664021159081
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.tile(wl, 6)
+        n = np.tile(n, 6)
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3))
+        n = np.reshape(n, (2, 3))
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        n = np.reshape(n, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            F_air_Bodhaine1999(wl),
+            n,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_F_air_Bodhaine1999(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            F_air_Bodhaine1999(wavelength, CO2_concentration)
+
 
 class TestMolecularDensity(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.molecular_density`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.molecular_density` definition
+    unit tests methods.
     """
 
     def test_molecular_density(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.molecular_density`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition.
         """
 
         self.assertAlmostEqual(
@@ -867,18 +1309,61 @@ class TestMolecularDensity(unittest.TestCase):
             1.8347246040868246e+19,
             places=24)
 
+    def test_n_dimensional_molecular_density(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition
+        n-dimensional arrays support.
+        """
+
+        temperature = 200
+        N_s = 3.669449208173649e+19
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.tile(temperature, 6)
+        N_s = np.tile(N_s, 6)
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.reshape(temperature, (2, 3))
+        N_s = np.reshape(N_s, (2, 3))
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+        temperature = np.reshape(temperature, (2, 3, 1))
+        N_s = np.reshape(N_s, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            molecular_density(temperature),
+            N_s,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_molecular_density(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.molecular_density` definition nan
+        support.
+        """
+
+        molecular_density(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestMeanMolecularWeights(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+    Defines :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
     definition unit tests methods.
     """
 
     def test_mean_molecular_weights(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+        Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
         definition.
         """
 
@@ -897,19 +1382,61 @@ class TestMeanMolecularWeights(unittest.TestCase):
             28.968834471999998,
             places=7)
 
+    def test_n_dimensional_mean_molecular_weights(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+        definition n-dimensional arrays support.
+        """
+
+        CO2_c = 300
+        m_a = 28.964016679999997
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.tile(CO2_c, 6)
+        m_a = np.tile(m_a, 6)
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.reshape(CO2_c, (2, 3))
+        m_a = np.reshape(m_a, (2, 3))
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+        CO2_c = np.reshape(CO2_c, (2, 3, 1))
+        m_a = np.reshape(m_a, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_mean_molecular_weights(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.mean_molecular_weights` definition
+        nan support.
+        """
+
+        mean_molecular_weights(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
 
 class TestGravityList1968(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.gravity_List1968`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.gravity_List1968` definition
+    unit tests methods.
     """
 
     def test_gravity_List1968(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.gravity_List1968`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.gravity_List1968` definition.
         """
 
         self.assertAlmostEqual(
@@ -927,18 +1454,61 @@ class TestGravityList1968(unittest.TestCase):
             980.9524178426182,
             places=7)
 
+    def test_n_dimensional_gravity_List1968(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.gravity_List1968`
+        definition n-dimensional arrays support.
+        """
+
+        g = 978.03560705760003
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.tile(g, 6)
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.reshape(g, (2, 3))
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+        g = np.reshape(g, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            gravity_List1968(),
+            g,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_gravity_List1968(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.gravity_List1968` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            latitude = case
+            altitude = case
+            gravity_List1968(latitude, altitude)
+
 
 class TestScatteringCrossSection(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+    Defines :func:`colour.phenomenons.rayleigh.scattering_cross_section`
     definition unit tests methods.
     """
 
     def test_scattering_cross_section(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+        Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
         definition.
         """
 
@@ -987,18 +1557,64 @@ class TestScatteringCrossSection(unittest.TestCase):
             8.98240574861602e-27,
             places=32)
 
+    def test_n_dimensional_scattering_cross_section(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 360 * 10e-8
+        sigma = 2.7812892348020306e-26
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.tile(sigma, 6)
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.reshape(sigma, (2, 3))
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+        sigma = np.reshape(sigma, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            scattering_cross_section(wl),
+            sigma,
+            decimal=32)
+
+    @ignore_numpy_errors
+    def test_nan_scattering_cross_section(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.scattering_cross_section` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            temperature = case
+            scattering_cross_section(
+                wavelength, CO2_concentration, temperature)
+
 
 class TestRayleighOpticalDepth(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+    Defines :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
     definition unit tests methods.
     """
 
     def test_rayleigh_optical_depth(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
         definition.
         """
 
@@ -1077,18 +1693,66 @@ class TestRayleighOpticalDepth(unittest.TestCase):
             0.10010846270542267,
             places=10)
 
+    def test_n_dimensional_rayleigh_optical_depth(self):
+        """
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+        definition n-dimensional arrays support.
+        """
+
+        wl = 360 * 10e-8
+        T_R = 0.5991013368480278
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.tile(T_R, 6)
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.reshape(T_R, (2, 3))
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+        T_R = np.reshape(T_R, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            rayleigh_optical_depth(wl),
+            T_R,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_rayleigh_optical_depth(self):
+        """
+        Tests
+        :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=1))
+        for case in cases:
+            wavelength = case
+            CO2_concentration = case
+            temperature = case
+            latitude = case
+            altitude = case
+            rayleigh_optical_depth(
+                wavelength, CO2_concentration, temperature, latitude, altitude)
+
 
 class TestRayleighScatteringSpd(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
+    Defines :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
     definition unit tests methods.
     """
 
     def test_rayleigh_scattering_spd(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_scattering_spd`
         definition.
         """
 

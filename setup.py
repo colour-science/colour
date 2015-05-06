@@ -34,10 +34,6 @@ LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
 
-if sys.version_info[:2] <= (2, 7):
-    INSTALLATION_REQUIREMENTS += [
-        'backports.functools_lru_cache>=1.0.1']
-
 if sys.version_info[:2] <= (2, 6):
     INSTALLATION_REQUIREMENTS += [
         'ordereddict>=1.1',
@@ -61,7 +57,7 @@ if sys.version_info[:2] <= (3, 2):
         'mock>=1.0.1']
 
 setup(name='colour-science',
-      version='0.3.4',
+      version='0.3.5',
       author=__author__,
       author_email=__email__,
       include_package_data=True,

@@ -26,8 +26,8 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS, zeros_spd
 from colour.models import (
     XYZ_to_RGB,
-    sRGB_COLOURSPACE,
-    normalised_primary_matrix)
+    normalised_primary_matrix,
+    sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
@@ -62,7 +62,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
     normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
 """
 Current Smits (1999) method implementation *RGB* colourspace to
-*CIE XYZ* colourspace matrix.
+*CIE XYZ* tristimulus values matrix.
 
 SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
@@ -70,14 +70,14 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     """
-    Convenient object to convert from *CIE XYZ* colourspace to *RGB*
+    Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
     colourspace in conditions required by the current Smits (1999) method
     implementation.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
     chromatic_adaptation_method : unicode, optional
         {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
         'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
@@ -85,16 +85,16 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colour matrix.
+    ndarray
+        *RGB* colour array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_RGB_smits1999(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0214496...,  0.1315460...,  0.0928760...])
     """
@@ -109,13 +109,13 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 
 def RGB_to_spectral_Smits1999(RGB):
     """
-    Recovers the spectral power distribution of given *RGB* colourspace matrix
+    Recovers the spectral power distribution of given *RGB* colourspace array
     using Smits (1999) method.
 
     Parameters
     ----------
     RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+        *RGB* colourspace array.
 
     Returns
     -------

@@ -25,6 +25,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import tsplit, tstack
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -63,13 +65,15 @@ def cartesian_to_spherical(vector):
     array([ 6.7823299...,  1.0857465...,  0.3217505...])
     """
 
-    r = np.linalg.norm(vector)
-    x, y, z = np.ravel(vector)
+    x, y, z = tsplit(vector)
 
-    theta = np.arctan2(z, np.linalg.norm((x, y)))
+    r = np.linalg.norm(vector, axis=-1)
+    theta = np.arctan2(z, np.linalg.norm(tstack((x, y)), axis=-1))
     phi = np.arctan2(y, x)
 
-    return np.array((r, theta, phi))
+    rtp = tstack((r, theta, phi))
+
+    return rtp
 
 
 def spherical_to_cartesian(vector):
@@ -97,13 +101,15 @@ def spherical_to_cartesian(vector):
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    r, theta, phi = np.ravel(vector)
+    r, theta, phi = tsplit(vector)
 
     x = r * np.cos(theta) * np.cos(phi)
     y = r * np.cos(theta) * np.sin(phi)
     z = r * np.sin(theta)
 
-    return np.array((x, y, z))
+    xyz = tstack((x, y, z))
+
+    return xyz
 
 
 def cartesian_to_cylindrical(vector):
@@ -131,12 +137,12 @@ def cartesian_to_cylindrical(vector):
     array([ 6.        ,  0.3217505...,  3.1622776...])
     """
 
-    x, y, z = np.ravel(vector)
+    x, y, z = tsplit(vector)
 
     theta = np.arctan2(y, x)
-    rho = np.linalg.norm((x, y))
+    rho = np.linalg.norm(tstack((x, y)), axis=-1)
 
-    return np.array((z, theta, rho))
+    return tstack((z, theta, rho))
 
 
 def cylindrical_to_cartesian(vector):
@@ -159,14 +165,14 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> vector = np.array([6, 0.32175055, 3.16227766])
+    >>> vector = np.array([6.00000000, 0.32175055, 3.16227766])
     >>> cylindrical_to_cartesian(vector)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    z, theta, rho = np.ravel(vector)
+    z, theta, rho = tsplit(vector)
 
     x = rho * np.cos(theta)
     y = rho * np.sin(theta)
 
-    return np.array((x, y, z))
+    return tstack((x, y, z))

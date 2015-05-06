@@ -26,7 +26,7 @@ print(colour.chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
 
 print('\n')
 
-XYZ_c = (19.52698326, 23.0683396, 24.97175229)
+XYZ_c = (19.52698326, 23.06833960, 24.97175229)
 message_box(('Computing chromatic adaptation using CMCCAT200 reverse '
              'chromatic adaptation model.\n'
              '\n\t"XYZ_c":\n\t\t{0}\n\t"XYZ_w":\n\t\t{1}\n\t"XYZ_wr":\n\t\t{2}'

@@ -54,17 +54,19 @@ except ImportError:
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
-    cartesian_to_cylindrical,
-    is_numeric,
-    is_integer)
-from colour.algebra.common import (
+    cartesian_to_cylindrical)
+from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
+from colour.constants import (
     INTEGER_THRESHOLD,
     FLOATING_POINT_NUMBER_PATTERN)
-from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import CaseInsensitiveMapping, Lookup
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    Lookup,
+    is_integer,
+    is_numeric)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -114,7 +116,9 @@ __all__ = ['MUNSELL_GRAY_PATTERN',
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
 MUNSELL_COLOUR_PATTERN = (
-    '(?P<hue>{0})\s*(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(  # noqa
+    '(?P<hue>{0})\s*'
+    '(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*'
+    '(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
         FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'
@@ -193,9 +197,9 @@ def _munsell_value_ASTMD153508_interpolator():
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
-            LinearInterpolator1d([luminance_ASTMD153508(x)
-                                  for x in munsell_values],
-                                 munsell_values))
+            LinearInterpolator1d(
+                luminance_ASTMD153508(munsell_values),
+                munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -235,12 +239,12 @@ def munsell_value_Priest1920(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -259,8 +263,9 @@ def munsell_value_Priest1920(Y):
     3.1749015...
     """
 
-    Y /= 100
-    V = 10 * np.sqrt(Y)
+    Y = np.asarray(Y)
+
+    V = 10 * np.sqrt(Y / 100)
 
     return V
 
@@ -272,12 +277,12 @@ def munsell_value_Munsell1933(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -290,6 +295,8 @@ def munsell_value_Munsell1933(Y):
     >>> munsell_value_Munsell1933(10.08)  # doctest: +ELLIPSIS
     3.7918355...
     """
+
+    Y = np.asarray(Y)
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
@@ -304,12 +311,12 @@ def munsell_value_Moon1943(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -322,6 +329,8 @@ def munsell_value_Moon1943(Y):
     >>> munsell_value_Moon1943(10.08)  # doctest: +ELLIPSIS
     3.7462971...
     """
+
+    Y = np.asarray(Y)
 
     V = 1.4 * Y ** 0.426
 
@@ -354,6 +363,8 @@ def munsell_value_Saunderson1944(Y):
     3.6865080...
     """
 
+    Y = np.asarray(Y)
+
     V = 2.357 * (Y ** 0.343) - 1.52
 
     return V
@@ -366,12 +377,12 @@ def munsell_value_Ladd1955(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -385,6 +396,8 @@ def munsell_value_Ladd1955(Y):
     3.6952862...
     """
 
+    Y = np.asarray(Y)
+
     V = 2.468 * (Y ** (1 / 3)) - 1.636
 
     return V
@@ -397,12 +410,12 @@ def munsell_value_McCamy1987(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -419,18 +432,20 @@ def munsell_value_McCamy1987(Y):
     Examples
     --------
     >>> munsell_value_McCamy1987(10.08)  # doctest: +ELLIPSIS
-    3.7347235...
+    array(3.7347235...)
     """
 
-    if Y <= 0.9:
-        V = 0.87445 * (Y ** 0.9967)
-    else:
-        V = (2.49268 * (Y ** (1 / 3)) - 1.5614 -
-             (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
-             (0.0133 / (Y ** 2.3)) +
-             0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
-             (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
-             (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)))
+    Y = np.asarray(Y)
+
+    V = np.where(Y <= 0.9,
+                 0.87445 * (Y ** 0.9967),
+                 (2.49268 * (Y ** (1 / 3)) - 1.5614 -
+                  (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
+                  (0.0133 / (Y ** 2.3)) +
+                  0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
+                  (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
+                  (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
+
     return V
 
 
@@ -441,13 +456,13 @@ def munsell_value_ASTMD153508(Y):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`
 
     Returns
     -------
-    numeric
-        *Munsell* value :math:`V`..
+    numeric or ndarray
+        *Munsell* value :math:`V`.
 
     Notes
     -----
@@ -459,6 +474,8 @@ def munsell_value_ASTMD153508(Y):
     >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
     3.7462971...
     """
+
+    Y = np.asarray(Y)
 
     V = _munsell_value_ASTMD153508_interpolator()(Y)
 
@@ -495,7 +512,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Parameters
     ----------
-    Y : numeric
+    Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
         {'ASTM D1535-08', 'Priest 1920', 'Munsell 1933', 'Moon 1943',
@@ -504,7 +521,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         *Munsell* value :math:`V`.
 
     Notes
@@ -527,7 +544,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     >>> munsell_value(10.08, method='Ladd 1955')  # doctest: +ELLIPSIS
     3.6952862...
     >>> munsell_value(10.08, method='McCamy 1987')  # doctest: +ELLIPSIS
-    3.7347235...
+    array(3.7347235...)
     """
 
     return MUNSELL_VALUE_METHODS.get(method)(Y)
@@ -546,14 +563,14 @@ def munsell_specification_to_xyY(specification):
     Returns
     -------
     ndarray, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Notes
     -----
     -   Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
     -   Input *Munsell* *Colorlab* specification value must be in domain
         [0, 10].
-    -   Output *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -607,8 +624,8 @@ def munsell_specification_to_xyY(specification):
     else:
         Y_minus = luminance_ASTMD153508(value_minus)
         Y_plus = luminance_ASTMD153508(value_plus)
-        x = LinearInterpolator1d([Y_minus, Y_plus], [x_minus, x_plus])(Y)
-        y = LinearInterpolator1d([Y_minus, Y_plus], [y_minus, y_plus])(Y)
+        x = LinearInterpolator1d((Y_minus, Y_plus), (x_minus, x_plus))(Y)
+        y = LinearInterpolator1d((Y_minus, Y_plus), (y_minus, y_plus))(Y)
 
     return np.array([x, y, Y / 100])
 
@@ -625,11 +642,11 @@ def munsell_colour_to_xyY(munsell_colour):
     Returns
     -------
     ndarray, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in domain [0, 1].
 
     Examples
     --------
@@ -650,7 +667,7 @@ def xyY_to_munsell_specification(xyY):
     Parameters
     ----------
     xyY : array_like, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
 
     Returns
     -------
@@ -660,7 +677,7 @@ def xyY_to_munsell_specification(xyY):
     Raises
     ------
     ValueError
-        If the given *CIE xyY* colourspace matrix is not within MacAdam
+        If the given *CIE xyY* colourspace array is not within MacAdam
         limits.
     RuntimeError
         If the maximum iterations count has been reached without converging to
@@ -668,7 +685,7 @@ def xyY_to_munsell_specification(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is in domain [0, 1].
 
     References
     ----------
@@ -678,7 +695,7 @@ def xyY_to_munsell_specification(xyY):
 
     Examples
     --------
-    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
+    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
     (4.1742530..., 8.0999999..., 5.3044360..., 6)
     """
@@ -697,9 +714,9 @@ def xyY_to_munsell_specification(xyY):
 
     x_center, y_center, Y_center = np.ravel(
         munsell_specification_to_xyY(value))
-    z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
-                                                                y - y_center,
-                                                                Y_center))
+    _z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
+                                                                 y - y_center,
+                                                                 Y_center))
     theta_input = np.degrees(theta_input)
 
     grey_threshold = 0.001
@@ -710,12 +727,12 @@ def xyY_to_munsell_specification(xyY):
     xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
     Xr, Yr, Zr = np.ravel(xyY_to_XYZ((xi, yi, Y)))
 
-    XYZ = np.array((X, Y, Z))
-    XYZr = np.array(((1 / Yr) * Xr, 1, (1 / Yr) * Zr))
+    XYZ = np.array([X, Y, Z])
+    XYZr = np.array([(1 / Yr) * Xr, 1, (1 / Yr) * Zr])
 
     Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
     LCHab = Lab_to_LCHab(Lab)
-    hue_initial, value_initial, chroma_initial, code_initial = (
+    hue_initial, _value_initial, chroma_initial, code_initial = (
         LCHab_to_munsell_specification(LCHab))
     specification_current = [hue_initial,
                              value,
@@ -729,7 +746,7 @@ def xyY_to_munsell_specification(xyY):
     while iterations <= iterations_maximum:
         iterations += 1
 
-        hue_current, value_current, chroma_current, code_current = (
+        hue_current, _value_current, chroma_current, code_current = (
             specification_current)
         hue_angle_current = hue_to_hue_angle(hue_current, code_current)
 
@@ -739,10 +756,10 @@ def xyY_to_munsell_specification(xyY):
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = cartesian_to_cylindrical(
+        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
             (x_current - x_center,
              y_current - y_center,
              Y_center))
@@ -775,7 +792,7 @@ def xyY_to_munsell_specification(xyY):
                 hue_angle_difference_inner -= 360
 
             hue_inner, code_inner = hue_angle_to_hue(hue_angle_inner)
-            x_inner, y_inner, Y_inner = np.ravel(
+            x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY((hue_inner,
                                               value,
                                               chroma_current,
@@ -785,7 +802,7 @@ def xyY_to_munsell_specification(xyY):
                 extrapolate = True
 
             if extrapolate is False:
-                z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
+                _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
                     (x_inner - x_center,
                      y_inner - y_center,
                      Y_center))
@@ -820,7 +837,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
-            np.array((x, y)) - np.array((x_current, y_current)))
+            np.array([x, y]) - np.array([x_current, y_current]))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -837,9 +854,7 @@ def xyY_to_munsell_specification(xyY):
             munsell_specification_to_xyY(specification_current))
 
         z_current, theta_current, rho_current = cartesian_to_cylindrical(
-            (x_current - x_center,
-             y_current - y_center,
-             Y_center))
+            (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
         chroma_bounds = [chroma_current]
@@ -864,9 +879,7 @@ def xyY_to_munsell_specification(xyY):
                 munsell_specification_to_xyY(specification_inner))
 
             z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
-                (x_inner - x_center,
-                 y_inner - y_center,
-                 Y_center))
+                (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)
             chroma_bounds.append(chroma_inner)
@@ -884,7 +897,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
-            np.array((x, y)) - np.array((x_current, y_current)))
+            np.array([x, y]) - np.array([x_current, y_current]))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -902,7 +915,7 @@ def xyY_to_munsell_colour(xyY,
     Parameters
     ----------
     xyY : array_like, (3,)
-        *CIE xyY* colourspace matrix.
+        *CIE xyY* colourspace array.
     hue_decimals : int
         Hue formatting decimals.
     value_decimals : int
@@ -917,11 +930,11 @@ def xyY_to_munsell_colour(xyY,
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace matrix is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is in domain [0, 1].
 
     Examples
     --------
-    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362])
+    >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> xyY_to_munsell_colour(xyY)  # doctest: +SKIP
     '4.2YR 8.1/5.3'
@@ -1293,8 +1306,8 @@ def hue_to_hue_angle(hue, code):
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
     return LinearInterpolator1d(
-        [0, 2, 3, 4, 5, 6, 8, 9, 10],
-        [0, 45, 70, 135, 160, 225, 255, 315, 360])(single_hue)
+        (0, 2, 3, 4, 5, 6, 8, 9, 10),
+        (0, 45, 70, 135, 160, 225, 255, 315, 360))(single_hue)
 
 
 def hue_angle_to_hue(hue_angle):
@@ -1327,8 +1340,8 @@ def hue_angle_to_hue(hue_angle):
     """
 
     single_hue = LinearInterpolator1d(
-        [0, 45, 70, 135, 160, 225, 255, 315, 360],
-        [0, 2, 3, 4, 5, 6, 8, 9, 10])(hue_angle)
+        (0, 45, 70, 135, 160, 225, 255, 315, 360),
+        (0, 2, 3, 4, 5, 6, 8, 9, 10))(hue_angle)
 
     if single_hue <= 0.5:
         code = 7
@@ -1770,7 +1783,7 @@ def xy_from_renotation_ovoid(specification):
                     abs(hue - 7.5) < threshold or
                     abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
-            x, y, Y = xyY_from_renotation((hue, value, chroma, code))
+            x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
             return x, y
 
         hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
@@ -1782,13 +1795,13 @@ def xy_from_renotation_ovoid(specification):
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(
             specification_minus)
-        z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
+        _z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
         theta_minus = np.degrees(theta_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
-        z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
+        _z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
         theta_plus = np.degrees(theta_plus)
 
@@ -1813,15 +1826,15 @@ def xy_from_renotation_ovoid(specification):
             specification).lower()
 
         if interpolation_method == 'linear':
-            x = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                     [x_minus, x_plus])(hue_angle)
-            y = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                     [y_minus, y_plus])(hue_angle)
+            x = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                     (x_minus, x_plus))(hue_angle)
+            y = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                     (y_minus, y_plus))(hue_angle)
         elif interpolation_method == 'radial':
-            theta = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                         [theta_minus, theta_plus])(hue_angle)
-            rho = LinearInterpolator1d([lower_hue_angle, upper_hue_angle],
-                                       [rho_minus, rho_plus])(hue_angle)
+            theta = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                         (theta_minus, theta_plus))(hue_angle)
+            rho = LinearInterpolator1d((lower_hue_angle, upper_hue_angle),
+                                       (rho_minus, rho_plus))(hue_angle)
 
             x = rho * np.cos(np.radians(theta)) + x_grey
             y = rho * np.sin(np.radians(theta)) + y_grey
@@ -1841,7 +1854,7 @@ def LCHab_to_munsell_specification(LCHab):
     Parameters
     ----------
     LCHab : array_like, (3,)
-        *CIE LCHab* colourspace matrix.
+        *CIE LCHab* colourspace array.
 
     Returns
     -------
@@ -1890,7 +1903,7 @@ def LCHab_to_munsell_specification(LCHab):
     else:
         code = 8
 
-    hue = LinearInterpolator1d([0, 36], [0, 10])(Hab % 36)
+    hue = LinearInterpolator1d((0, 36), (0, 10))(Hab % 36)
     if hue == 0:
         hue = 10
 
@@ -1973,8 +1986,8 @@ def maximum_chroma_from_renotation(hue, value, code):
         L9 = luminance_ASTMD153508(9)
         L10 = luminance_ASTMD153508(10)
 
-        max_chroma = min(LinearInterpolator1d([L9, L10], [ma_limit_mcw, 0])(L),
-                         LinearInterpolator1d([L9, L10], [ma_limit_mccw, 0])(
+        max_chroma = min(LinearInterpolator1d((L9, L10), (ma_limit_mcw, 0))(L),
+                         LinearInterpolator1d((L9, L10), (ma_limit_mccw, 0))(
                              L))
     return max_chroma
 
@@ -2052,9 +2065,9 @@ def munsell_specification_to_xy(specification):
             x = x_minus
             y = y_minus
         else:
-            x = LinearInterpolator1d([chroma_minus, chroma_plus],
-                                     [x_minus, x_plus])(chroma)
-            y = LinearInterpolator1d([chroma_minus, chroma_plus],
-                                     [y_minus, y_plus])(chroma)
+            x = LinearInterpolator1d((chroma_minus, chroma_plus),
+                                     (x_minus, x_plus))(chroma)
+            y = LinearInterpolator1d((chroma_minus, chroma_plus),
+                                     (y_minus, y_plus))(chroma)
 
         return x, y

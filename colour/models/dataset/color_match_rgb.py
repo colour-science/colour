@@ -72,14 +72,14 @@ COLOR_MATCH_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
     COLOR_MATCH_RGB_PRIMARIES,
     COLOR_MATCH_RGB_WHITEPOINT)
 """
-*ColorMatch RGB* colourspace to *CIE XYZ* colourspace matrix.
+*ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_COLOR_MATCH_RGB_MATRIX = np.linalg.inv(COLOR_MATCH_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *ColorMatch RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *ColorMatch RGB* colourspace matrix.
 
 XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
 """
@@ -91,33 +91,36 @@ def _color_match_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 1.8)
 
 
 def _color_match_rgb_inverse_transfer_function(value):
     """
-    Defines the *ColorMatch RGB* colourspace inverse transfer
-    function.
+    Defines the *ColorMatch RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 1.8
 

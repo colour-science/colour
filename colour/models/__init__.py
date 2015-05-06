@@ -11,6 +11,7 @@ from .cie_xyy import (
 from .rgb import RGB_Colourspace
 from .derivation import (
     normalised_primary_matrix,
+    primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
 from .dataset import *  # noqa
@@ -33,8 +34,8 @@ from .log import (
     cineon_to_linear,
     linear_to_panalog,
     panalog_to_linear,
-    linear_to_red_log,
-    red_log_to_linear,
+    linear_to_red_log_film,
+    red_log_film_to_linear,
     linear_to_viper_log,
     viper_log_to_linear,
     linear_to_pivoted_log,
@@ -52,7 +53,9 @@ from .log import (
     linear_to_s_log2,
     s_log2_to_linear,
     linear_to_s_log3,
-    s_log3_to_linear)
+    s_log3_to_linear,
+    linear_to_v_log,
+    v_log_to_linear)
 from .rgb import XYZ_to_RGB, RGB_to_XYZ
 from .rgb import RGB_to_RGB
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
@@ -64,6 +67,7 @@ __all__ = ['XYZ_to_xyY',
            'XYZ_to_xy']
 __all__ += ['RGB_Colourspace']
 __all__ += ['normalised_primary_matrix',
+            'primaries_whitepoint',
             'RGB_luminance_equation',
             'RGB_luminance']
 __all__ += dataset.__all__
@@ -83,8 +87,8 @@ __all__ += ['linear_to_cineon',
             'cineon_to_linear',
             'linear_to_panalog',
             'panalog_to_linear',
-            'linear_to_red_log',
-            'red_log_to_linear',
+            'linear_to_red_log_film',
+            'red_log_film_to_linear',
             'linear_to_viper_log',
             'viper_log_to_linear',
             'linear_to_pivoted_log',
@@ -102,7 +106,9 @@ __all__ += ['linear_to_cineon',
             'linear_to_s_log2',
             's_log2_to_linear',
             'linear_to_s_log3',
-            's_log3_to_linear']
+            's_log3_to_linear',
+            'linear_to_v_log',
+            'v_log_to_linear']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB']
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']

@@ -16,17 +16,17 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.models import XYZ_to_sRGB
 from colour.quality import (
     colour_quality_scale,
     colour_rendering_index)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
+    boundaries,
     canvas,
     decorate,
-    boundaries,
     display)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -114,10 +114,10 @@ def colour_quality_bars_plot(specification, **kwargs):
         'grid_axis': 'y',
         'x_tighten': True,
         'y_tighten': True,
-        'limits': [-width,
+        'limits': (-width,
                    len(Q_as) + width * 2,
                    0 if positive else -110,
-                   110],
+                   110),
         'aspect': 1 / ((110 if positive else 220) /
                        (width + len(Q_as) + width * 2))})
     settings.update(kwargs)

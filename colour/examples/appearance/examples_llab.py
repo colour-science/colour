@@ -5,16 +5,14 @@
 Showcases LLAB(l:c) colour appearance model computations.
 """
 
-import numpy as np
-
 import colour
 from colour.appearance.llab import LLAB_ReferenceSpecification
 from colour.utilities.verbose import message_box
 
 message_box('LLAB(l:c) Colour Appearance Model Computations')
 
-XYZ = np.array([19.01, 20, 21.78])
-XYZ_0 = np.array([95.05, 100, 108.88])
+XYZ = (19.01, 20.00, 21.78)
+XYZ_0 = (95.05, 100.00, 108.88)
 Y_b = 20.0
 L = 318.31
 surround = colour.LLAB_VIEWING_CONDITIONS['ref_average_4_minus']

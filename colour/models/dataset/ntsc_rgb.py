@@ -26,8 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import normalised_primary_matrix
-from colour.models import RGB_Colourspace
+from colour.models import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -73,14 +72,14 @@ NTSC_RGB_WHITEPOINT : tuple
 NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,
                                                    NTSC_RGB_WHITEPOINT)
 """
-*NTSC RGB* colourspace to *CIE XYZ* colourspace matrix.
+*NTSC RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 NTSC_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_NTSC_RGB_MATRIX = np.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *NTSC RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *NTSC RGB* colourspace matrix.
 
 XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 """
@@ -92,33 +91,36 @@ def _ntsc_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
 
 def _ntsc_rgb_inverse_transfer_function(value):
     """
-    Defines the *NTSC RGB* colourspace inverse transfer
-    function.
+    Defines the *NTSC RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

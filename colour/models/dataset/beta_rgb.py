@@ -71,14 +71,14 @@ BETA_RGB_WHITEPOINT : tuple
 BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BETA_RGB_PRIMARIES,
                                                    BETA_RGB_WHITEPOINT)
 """
-*Beta RGB* colourspace to *CIE XYZ* colourspace matrix.
+*Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 BETA_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_BETA_RGB_MATRIX = np.linalg.inv(BETA_RGB_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Beta RGB* colourspace matrix.
+*CIE XYZ* tristimulus values to *Beta RGB* colourspace matrix.
 
 XYZ_TO_BETA_RGB_MATRIX : array_like, (3, 3)
 """
@@ -90,33 +90,36 @@ def _beta_rgb_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
 
 def _beta_rgb_inverse_transfer_function(value):
     """
-    Defines the *Beta RGB* colourspace inverse transfer
-    function.
+    Defines the *Beta RGB* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

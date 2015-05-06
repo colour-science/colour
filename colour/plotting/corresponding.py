@@ -17,7 +17,9 @@ from colour.corresponding import CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS
 from colour.plotting import (
     CIE_1976_UCS_chromaticity_diagram_plot,
     DEFAULT_FIGURE_WIDTH,
+    boundaries,
     canvas,
+    decorate,
     display)
 
 __author__ = 'Colour Developers'
@@ -105,11 +107,11 @@ def corresponding_chromaticities_prediction_plot(
 
     settings.update({
         'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
-                   'Experiment {2}\nCIE 1960 UCS Chromaticity Diagram').format(
+                   'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
             name, transform, experiment)
                   if name.lower() in ('von kries', 'vonkries') else
                   ('Corresponding Chromaticities Prediction\n{0} - '
-                   'Experiment {1}\nCIE 1960 UCS Chromaticity Diagram').format(
+                   'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
                       name, experiment)),
         'standalone': False})
     settings.update(kwargs)
@@ -132,6 +134,13 @@ def corresponding_chromaticities_prediction_plot(
         pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')
         pylab.plot(uvp_m[0], uvp_m[1], '^', color='white')
         pylab.plot(uvp_p[0], uvp_p[1], '^', color='black')
-    settings.update({'standalone': True})
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.7, -0.1, 0.7),
+        'standalone': True})
+
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

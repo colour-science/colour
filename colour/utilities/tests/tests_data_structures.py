@@ -43,16 +43,21 @@ class TestStructure(unittest.TestCase):
         structure = Structure(John='Doe', Jane='Doe')
         self.assertIn('John', structure)
         self.assertTrue(hasattr(structure, 'John'))
+
         setattr(structure, 'John', 'Nemo')
         self.assertEqual(structure['John'], 'Nemo')
+
         structure['John'] = 'Vador'
         self.assertEqual(structure['John'], 'Vador')
+
         del structure['John']
         self.assertNotIn('John', structure)
         self.assertFalse(hasattr(structure, 'John'))
+
         structure.John = 'Doe'
         self.assertIn('John', structure)
         self.assertTrue(hasattr(structure, 'John'))
+
         del structure.John
         self.assertNotIn('John', structure)
         self.assertFalse(hasattr(structure, 'John'))
@@ -60,6 +65,7 @@ class TestStructure(unittest.TestCase):
         structure = Structure(John=None, Jane=None)
         self.assertIsNone(structure.John)
         self.assertIsNone(structure['John'])
+
         structure.update(**{'John': 'Doe', 'Jane': 'Doe'})
         self.assertEqual(structure.John, 'Doe')
         self.assertEqual(structure['John'], 'Doe')
@@ -138,8 +144,11 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
 
         self.assertEqual(mapping['John'], 'Doe')
+
         self.assertEqual(mapping['john'], 'Doe')
+
         self.assertEqual(mapping['Jane'], 'Doe')
+
         self.assertEqual(mapping['jane'], 'Doe')
 
     def test__delitem__(self):
@@ -153,6 +162,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
         del (mapping['john'])
         self.assertNotIn('John', mapping)
+
         del (mapping['Jane'])
         self.assertNotIn('jane', mapping)
         self.assertEqual(len(mapping), 0)
@@ -167,8 +177,11 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
 
         self.assertIn('John', mapping)
+
         self.assertIn('john', mapping)
+
         self.assertIn('Jane', mapping)
+
         self.assertIn('jane', mapping)
 
     def test__iter__(self):
@@ -190,6 +203,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         """
 
         self.assertEqual(len(CaseInsensitiveMapping()), 0)
+
         self.assertEqual(len(CaseInsensitiveMapping(John='Doe', Jane='Doe')),
                          2)
 
@@ -205,6 +219,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         mapping3 = CaseInsensitiveMapping(john='Doe', jane='Doe')
 
         self.assertEqual(mapping1, mapping2)
+
         self.assertEqual(mapping2, mapping3)
 
     def test__ne__(self):
@@ -228,7 +243,9 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
         mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
         mapping2 = mapping1.copy()
+
         self.assertEqual(mapping1, mapping2)
+
         self.assertNotEqual(id(mapping1), id(mapping2))
 
     def test_lower_items(self):
@@ -239,6 +256,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+
         self.assertListEqual(sorted([item for item in mapping.lower_items()]),
                              [('jane', 'Doe'), ('john', 'Doe')])
 

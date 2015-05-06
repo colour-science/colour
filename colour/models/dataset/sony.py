@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Sony S-Gamut Colourspace
-========================
+Sony Colourspaces
+=================
 
 Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 
@@ -64,9 +64,9 @@ __all__ = ['S_GAMUT_PRIMARIES',
            'S_GAMUT3_CINE_COLOURSPACE']
 
 S_GAMUT_PRIMARIES = np.array(
-    [[0.73, 0.28],
-     [0.14, 0.855],
-     [0.10, -0.05]])
+    [[0.730, 0.280],
+     [0.140, 0.855],
+     [0.100, -0.050]])
 """
 *S-Gamut* colourspace primaries.
 
@@ -91,119 +91,126 @@ S_GAMUT_WHITEPOINT : tuple
 S_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(S_GAMUT_PRIMARIES,
                                                   S_GAMUT_WHITEPOINT)
 """
-*S-Gamut* colourspace to *CIE XYZ* colourspace matrix.
+*S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_S_GAMUT_MATRIX = np.linalg.inv(S_GAMUT_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *S-Gamut* colourspace matrix.
+*CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
 
 XYZ_TO_S_GAMUT_MATRIX : array_like, (3, 3)
 """
 
 
-def _s_log_transfer_function(value):
+def _linear_to_s_log(value):
     """
-    Defines *S-Log* colourspace transfer function [1]_.
+    Defines the *linear* to *S-Log* conversion function. [1]_
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
 
 
-def _s_log_inverse_transfer_function(value):
+def _s_log_to_linear(value):
     """
-    Defines *S-Log* colourspace inverse transfer function [1]_.
+    Defines the *S-Log* to *linear* conversion function. [1]_
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
 
 
-S_LOG_TRANSFER_FUNCTION = _s_log_transfer_function
+S_LOG_TRANSFER_FUNCTION = _linear_to_s_log
 """
-Transfer function from linear to *S-Log* colourspace.
+Transfer function from linear to *S-Log*.
 
 S_LOG_TRANSFER_FUNCTION : object
 """
 
-S_LOG_INVERSE_TRANSFER_FUNCTION = (
-    _s_log_inverse_transfer_function)
+S_LOG_INVERSE_TRANSFER_FUNCTION = _s_log_to_linear
 """
-Inverse transfer function from *S-Log* colourspace to linear.
+Inverse transfer function from *S-Log* to linear.
 
 S_LOG_INVERSE_TRANSFER_FUNCTION : object
 """
 
 
-def _s_log2_transfer_function(value):
+def _linear_to_s_log2(value):
     """
-    Defines the *S-Log2* colourspace transfer function.
+    Defines the *linear* to *S-Log2* conversion function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
                               (np.log10(0.037584 + value / 0.9))))) / 1023)
 
 
-def _s_log2_inverse_transfer_function(value):
+def _s_log2_to_linear(value):
     """
-    Defines the *S-Log2* colourspace inverse transfer function.
+    Defines the *S-Log2* to *linear* conversion function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03)
                      / 0.432699)) - 0.037584) * 0.9)
 
 
-S_LOG2_TRANSFER_FUNCTION = _s_log2_transfer_function
+S_LOG2_TRANSFER_FUNCTION = _linear_to_s_log2
 """
-Transfer function from linear to *S-Log2* colourspace.
+Transfer function from linear to *S-Log2*.
 
 S_LOG2_TRANSFER_FUNCTION : object
 """
 
-S_LOG2_INVERSE_TRANSFER_FUNCTION = _s_log2_inverse_transfer_function
+S_LOG2_INVERSE_TRANSFER_FUNCTION = _s_log2_to_linear
 """
-Inverse transfer function from *S-Log2* colourspace to linear.
+Inverse transfer function from *S-Log2* to linear.
 
 S_LOG2_INVERSE_TRANSFER_FUNCTION : object
 """
@@ -224,58 +231,62 @@ S_GAMUT_COLOURSPACE : RGB_Colourspace
 """
 
 
-def _s_log3_transfer_function(value):
+def _linear_to_s_log3(value):
     """
-    Defines the *S-Log3* colourspace transfer function.
+    Defines the *linear* to *S-Log3* conversion function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value >= 0.01125000:
-        return (420 + np.log10((value + 0.01) / (0.18 + 0.01)) * 261.5) / 1023
-    else:
-        return (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023
+    value = np.asarray(value)
+
+    return np.where(value >= 0.01125000,
+                    (420 + np.log10((value + 0.01) /
+                                    (0.18 + 0.01)) * 261.5) / 1023,
+                    (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
 
 
-def _s_log3_inverse_transfer_function(value):
+def _s_log3_to_linear(value):
     """
-    Defines the *S-Log3* colourspace inverse transfer function.
+    Defines the *S-Log3* to *linear* conversion function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    if value >= 171.2102946929 / 1023:
-        return (10 ** ((value * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01
-    else:
-        return (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)
+    value = np.asarray(value)
+
+    return np.where(value >= 171.2102946929 / 1023,
+                    ((10 ** ((value * 1023 - 420) / 261.5)) *
+                     (0.18 + 0.01) - 0.01),
+                    (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
 
 
-S_LOG3_TRANSFER_FUNCTION = _s_log3_transfer_function
+S_LOG3_TRANSFER_FUNCTION = _linear_to_s_log3
 """
-Transfer function from linear to *S-Log3* colourspace.
+Transfer function from linear to *S-Log3*.
 
 S_LOG3_TRANSFER_FUNCTION : object
 """
 
-S_LOG3_INVERSE_TRANSFER_FUNCTION = _s_log3_inverse_transfer_function
+S_LOG3_INVERSE_TRANSFER_FUNCTION = _s_log3_to_linear
 """
-Inverse transfer function from *S-Log3* colourspace to linear.
+Inverse transfer function from *S-Log3* to linear.
 
 S_LOG3_INVERSE_TRANSFER_FUNCTION : object
 """
@@ -323,14 +334,14 @@ S_GAMUT3_CINE_TO_XYZ_MATRIX = normalised_primary_matrix(
     S_GAMUT3_CINE_PRIMARIES,
     S_GAMUT3_CINE_WHITEPOINT)
 """
-*S-Gamut3.Cine* colourspace to *CIE XYZ* colourspace matrix.
+*S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT3_CINE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_S_GAMUT3_CINE_MATRIX = np.linalg.inv(S_GAMUT3_CINE_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *S-Gamut3.Cine* colourspace matrix.
+*CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
 
 XYZ_TO_S_GAMUT3_CINE_MATRIX : array_like, (3, 3)
 """

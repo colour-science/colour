@@ -17,8 +17,12 @@ from __future__ import division, unicode_literals
 import bisect
 import numpy as np
 
-from colour.algebra import steps, is_numeric, is_uniform, as_array
-from colour.utilities import is_scipy_installed, warning
+from colour.utilities import (
+    as_numeric,
+    is_scipy_installed,
+    is_uniform,
+    steps,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -61,7 +65,13 @@ class LinearInterpolator1d(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
+    >>> y = np.array([5.9200,
+    ...               9.3700,
+    ...               10.8135,
+    ...               4.5100,
+    ...               69.5900,
+    ...               27.8007,
+    ...               86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator1d(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
@@ -107,13 +117,10 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
         self.__x = value
 
@@ -142,13 +149,10 @@ class LinearInterpolator1d(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
         self.__y = value
 
@@ -168,11 +172,11 @@ class LinearInterpolator1d(object):
             Interpolated value(s).
         """
 
-        xi = self.__evaluate(as_array(x))
-        if is_numeric(x):
-            return float(xi)
-        else:
-            return xi
+        x = np.atleast_1d(x).astype(np.float_)
+
+        xi = as_numeric(self.__evaluate(x))
+
+        return xi
 
     def __evaluate(self, x):
         """
@@ -289,7 +293,13 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])  # noqa
+    >>> y = np.array([5.9200,
+    ...               9.3700,
+    ...               10.8135,
+    ...               4.5100,
+    ...               69.5900,
+    ...               27.8007,
+    ...               86.0500])
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -356,16 +366,13 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
             assert is_uniform(value), (
                 '"x" independent variable is not uniform!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
             value_steps = steps(value)[0]
 
@@ -403,16 +410,13 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = as_array(value)
+            value = np.atleast_1d(value).astype(np.float_)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
 
             assert len(value) >= 6, (
                 '"y" dependent variable values count must be in domain [6:]!')
-
-            if not issubclass(value.dtype.type, np.inexact):
-                value = value.astype(np.float_)
 
             yp1 = np.ravel((np.dot(
                 self.SPRAGUE_C_COEFFICIENTS[0],

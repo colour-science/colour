@@ -16,13 +16,7 @@ See Also
 
 from __future__ import division, unicode_literals
 
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
-
 import numpy as np
-import warnings
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
@@ -47,7 +41,6 @@ C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
 N = 1
 
 
-@lru_cache(maxsize=8192)
 def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
@@ -66,21 +59,21 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Parameters
     ----------
-    wavelength : numeric
+    wavelength : numeric or array_like
         Wavelength in meters.
-    temperature : numeric
+    temperature : numeric or array_like
         Temperature :math:`T[K]` in kelvin degrees.
-    c1 : numeric, optional
+    c1 : numeric or array_like, optional
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA), and is
         :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
-    c2 : numeric, optional
+    c2 : numeric or array_like, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
         :math:`c2=1,4388x10.2\ m/K`.
-    n : numeric, optional
+    n : numeric or array_like, optional
         Medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
@@ -88,7 +81,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Radiance in *watts per steradian per square metre*.
 
     Examples
@@ -98,16 +91,13 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     20472701909806.5...
     """
 
-    t = temperature
-    l = wavelength
+    l = np.asarray(wavelength)
+    t = np.asarray(temperature)
 
-    try:
-        with warnings.catch_warnings():
-            warnings.simplefilter('error')
-            return (((c1 * n ** -2 * l ** -5) / np.pi) *
-                    (np.exp(c2 / (n * l * t)) - 1) ** -1)
-    except (OverflowError, RuntimeWarning):
-        return 0.0
+    p = (((c1 * n ** -2 * l ** -5) / np.pi) *
+         (np.exp(c2 / (n * l * t)) - 1) ** -1)
+
+    return p
 
 
 blackbody_spectral_radiance = planck_law
@@ -158,9 +148,10 @@ def blackbody_spd(temperature,
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 
+    wavelengths = shape.range()
     return SpectralPowerDistribution(
         name='{0}K Blackbody'.format(temperature),
         data=dict(
-            (wavelength, blackbody_spectral_radiance(
-                wavelength * 1e-9, temperature, c1, c2, n))
-            for wavelength in shape))
+            zip(wavelengths,
+                planck_law(
+                    wavelengths * 1e-9, temperature, c1, c2, n))))

@@ -47,7 +47,7 @@ sample_spd_data = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
-    395: 0.06,
+    395: 0.060,
     400: 0.065,
     405: 0.068,
     410: 0.068,
@@ -72,7 +72,7 @@ sample_spd_data = {
     505: 0.062,
     510: 0.065,
     515: 0.067,
-    520: 0.07,
+    520: 0.070,
     525: 0.072,
     530: 0.074,
     535: 0.075,
@@ -82,7 +82,7 @@ sample_spd_data = {
     555: 0.082,
     560: 0.087,
     565: 0.092,
-    570: 0.1,
+    570: 0.100,
     575: 0.107,
     580: 0.115,
     585: 0.122,
@@ -91,13 +91,13 @@ sample_spd_data = {
     600: 0.138,
     605: 0.142,
     610: 0.146,
-    615: 0.15,
+    615: 0.150,
     620: 0.154,
     625: 0.158,
     630: 0.163,
     635: 0.167,
     640: 0.173,
-    645: 0.18,
+    645: 0.180,
     650: 0.188,
     655: 0.196,
     660: 0.204,
@@ -117,9 +117,9 @@ sample_spd_data = {
     730: 0.372,
     735: 0.392,
     740: 0.409,
-    745: 0.42,
+    745: 0.420,
     750: 0.436,
-    755: 0.45,
+    755: 0.450,
     760: 0.462,
     765: 0.465,
     770: 0.448,
@@ -133,7 +133,7 @@ galvanized_steel_metal_spd_data = {
     364: 2.26,
     366: 2.28,
     368: 2.29,
-    370: 2.3,
+    370: 2.30,
     372: 2.31,
     374: 2.32,
     376: 2.32,
@@ -164,8 +164,8 @@ galvanized_steel_metal_spd_data = {
     426: 2.38,
     428: 2.39,
     430: 2.39,
-    432: 2.4,
-    434: 2.4,
+    432: 2.40,
+    434: 2.40,
     436: 2.41,
     438: 2.41,
     440: 2.41,
@@ -178,9 +178,9 @@ galvanized_steel_metal_spd_data = {
     454: 2.41,
     456: 2.41,
     458: 2.41,
-    460: 2.4,
-    462: 2.4,
-    464: 2.4,
+    460: 2.40,
+    462: 2.40,
+    464: 2.40,
     466: 2.39,
     468: 2.39,
     470: 2.39,
@@ -191,8 +191,8 @@ galvanized_steel_metal_spd_data = {
     480: 2.38,
     482: 2.38,
     484: 2.39,
-    486: 2.4,
-    488: 2.4,
+    486: 2.40,
+    488: 2.40,
     490: 2.42,
     492: 2.43,
     494: 2.44,
@@ -204,16 +204,16 @@ galvanized_steel_metal_spd_data = {
     506: 2.54,
     508: 2.56,
     510: 2.58,
-    512: 2.6,
+    512: 2.60,
     514: 2.62,
     516: 2.65,
     518: 2.67,
-    520: 2.7,
+    520: 2.70,
     522: 2.74,
     524: 2.77,
     526: 2.81,
     528: 2.86,
-    530: 2.9,
+    530: 2.90,
     532: 2.95,
     534: 3.01,
     536: 3.07,
@@ -231,7 +231,7 @@ galvanized_steel_metal_spd_data = {
     560: 4.32,
     562: 4.48,
     564: 4.64,
-    566: 4.8,
+    566: 4.80,
     568: 4.97,
     570: 5.14,
     572: 5.32,
@@ -252,7 +252,7 @@ galvanized_steel_metal_spd_data = {
     602: 7.55,
     604: 7.64,
     606: 7.72,
-    608: 7.8,
+    608: 7.80,
     610: 7.86,
     612: 7.92,
     614: 7.97,
@@ -267,19 +267,19 @@ galvanized_steel_metal_spd_data = {
     632: 8.18,
     634: 8.19,
     636: 8.19,
-    638: 8.2,
-    640: 8.2,
-    642: 8.2,
-    644: 8.2,
-    646: 8.2,
-    648: 8.2,
-    650: 8.2,
-    652: 8.2,
+    638: 8.20,
+    640: 8.20,
+    642: 8.20,
+    644: 8.20,
+    646: 8.20,
+    648: 8.20,
+    650: 8.20,
+    652: 8.20,
     654: 8.19,
-    656: 8.2,
-    658: 8.2,
-    660: 8.2,
-    662: 8.2,
+    656: 8.20,
+    658: 8.20,
+    660: 8.20,
+    662: 8.20,
     664: 8.21,
     666: 8.22,
     668: 8.23,
@@ -292,7 +292,7 @@ galvanized_steel_metal_spd_data = {
     682: 8.33,
     684: 8.35,
     686: 8.38,
-    688: 8.4,
+    688: 8.40,
     690: 8.43,
     692: 8.46,
     694: 8.49,
@@ -301,7 +301,7 @@ galvanized_steel_metal_spd_data = {
     700: 8.59,
     702: 8.63,
     704: 8.67,
-    706: 8.7,
+    706: 8.70,
     708: 8.74,
     710: 8.78,
     712: 8.83,
@@ -313,7 +313,7 @@ galvanized_steel_metal_spd_data = {
     724: 9.08,
     726: 9.12,
     728: 9.16,
-    730: 9.2,
+    730: 9.20,
     732: 9.24,
     734: 9.28,
     736: 9.32,
@@ -341,7 +341,7 @@ galvanized_steel_metal_spd_data = {
     780: 9.59,
     782: 9.56,
     784: 9.54,
-    786: 9.5,
+    786: 9.50,
     788: 9.47,
     790: 9.43,
     792: 9.39,
@@ -359,7 +359,7 @@ white_marble_spd_data = {
     366: 42.97,
     368: 43.71,
     370: 44.49,
-    372: 45.3,
+    372: 45.30,
     374: 46.15,
     376: 47.03,
     378: 48.07,
@@ -380,7 +380,7 @@ white_marble_spd_data = {
     408: 59.71,
     410: 60.22,
     412: 60.72,
-    414: 61.2,
+    414: 61.20,
     416: 61.68,
     418: 62.15,
     420: 62.62,
@@ -402,14 +402,14 @@ white_marble_spd_data = {
     452: 69.35,
     454: 69.59,
     456: 69.81,
-    458: 70,
+    458: 70.00,
     460: 70.19,
     462: 70.37,
     464: 70.53,
     466: 70.71,
     468: 70.87,
     470: 71.04,
-    472: 71.2,
+    472: 71.20,
     474: 71.38,
     476: 71.56,
     478: 71.74,
@@ -417,29 +417,29 @@ white_marble_spd_data = {
     482: 72.16,
     484: 72.37,
     486: 72.57,
-    488: 72.8,
+    488: 72.80,
     490: 73.04,
     492: 73.28,
     494: 73.52,
     496: 73.77,
     498: 74.01,
     500: 74.26,
-    502: 74.5,
+    502: 74.50,
     504: 74.75,
-    506: 75,
+    506: 75.00,
     508: 75.26,
-    510: 75.5,
+    510: 75.50,
     512: 75.72,
     514: 75.96,
     516: 76.18,
-    518: 76.4,
+    518: 76.40,
     520: 76.62,
     522: 76.83,
     524: 77.04,
     526: 77.24,
     528: 77.43,
     530: 77.61,
-    532: 77.8,
+    532: 77.80,
     534: 77.97,
     536: 78.14,
     538: 78.31,
@@ -454,7 +454,7 @@ white_marble_spd_data = {
     556: 79.56,
     558: 79.69,
     560: 79.81,
-    562: 79.9,
+    562: 79.90,
     564: 79.99,
     566: 80.08,
     568: 80.16,
@@ -471,18 +471,18 @@ white_marble_spd_data = {
     590: 80.88,
     592: 80.92,
     594: 80.95,
-    596: 81,
+    596: 81.00,
     598: 81.06,
     600: 81.09,
     602: 81.13,
     604: 81.17,
-    606: 81.2,
+    606: 81.20,
     608: 81.24,
     610: 81.27,
     612: 81.3,
     614: 81.34,
     616: 81.37,
-    618: 81.4,
+    618: 81.40,
     620: 81.43,
     622: 81.47,
     624: 81.51,
@@ -506,47 +506,47 @@ white_marble_spd_data = {
     660: 82.25,
     662: 82.28,
     664: 82.34,
-    666: 82.4,
+    666: 82.40,
     668: 82.44,
     670: 82.48,
     672: 82.53,
-    674: 82.6,
+    674: 82.60,
     676: 82.64,
     678: 82.67,
-    680: 82.7,
+    680: 82.70,
     682: 82.72,
     684: 82.74,
     686: 82.78,
-    688: 82.8,
+    688: 82.80,
     690: 82.85,
     692: 82.89,
     694: 82.93,
     696: 82.96,
     698: 83.02,
     700: 83.05,
-    702: 83.1,
+    702: 83.10,
     704: 83.14,
     706: 83.15,
-    708: 83.2,
+    708: 83.20,
     710: 83.25,
     712: 83.29,
     714: 83.31,
     716: 83.35,
     718: 83.38,
-    720: 83.4,
+    720: 83.40,
     722: 83.44,
     724: 83.48,
     726: 83.51,
     728: 83.53,
     730: 83.56,
-    732: 83.6,
+    732: 83.60,
     734: 83.63,
     736: 83.66,
     738: 83.68,
-    740: 83.7,
+    740: 83.70,
     742: 83.73,
     744: 83.77,
-    746: 83.8,
+    746: 83.80,
     748: 83.81,
     750: 83.83,
     752: 83.87,
@@ -559,7 +559,7 @@ white_marble_spd_data = {
     766: 84.02,
     768: 84.04,
     770: 84.07,
-    772: 84.1,
+    772: 84.10,
     774: 84.11,
     776: 84.16,
     778: 84.18,
@@ -585,11 +585,11 @@ single_spd_plot(colour.SpectralPowerDistribution(
 print('\n')
 
 message_box('Plotting multiple spectral power distributions.')
-multi_spd_plot([colour.SpectralPowerDistribution(
+multi_spd_plot((colour.SpectralPowerDistribution(
     'Galvanized Steel Metal',
     galvanized_steel_metal_spd_data),
                 colour.SpectralPowerDistribution(
-                    'White Marble', white_marble_spd_data)])
+                    'White Marble', white_marble_spd_data)))
 
 print('\n')
 
@@ -795,8 +795,7 @@ street_light_spd_data = {
     774: 9.2280000e-002,
     776: 9.0480000e-002,
     778: 9.0020000e-002,
-    780: 8.8190000e-002
-}
+    780: 8.8190000e-002}
 
 street_light_spd = colour.SpectralPowerDistribution('Street Light',
                                                     street_light_spd_data)
@@ -806,7 +805,7 @@ bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
     bandpass_corrected_street_light_spd, method='Stearns 1988')
 
-multi_spd_plot([street_light_spd, bandpass_corrected_street_light_spd],
+multi_spd_plot((street_light_spd, bandpass_corrected_street_light_spd),
                title='Stearns Bandpass Correction')
 
 print('\n')
@@ -814,7 +813,7 @@ print('\n')
 message_box('Plotting a single "cone fundamentals" colour matching functions.')
 single_cmfs_plot('Stockman & Sharpe 2 Degree Cone Fundamentals',
                  y_label='Sensitivity',
-                 bounding_box=[390, 870, 0, 1.1])
+                 bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
@@ -822,7 +821,7 @@ message_box('Plotting multiple "cone fundamentals" colour matching functions.')
 multi_cmfs_plot(['Stockman & Sharpe 2 Degree Cone Fundamentals',
                  'Stockman & Sharpe 10 Degree Cone Fundamentals'],
                 y_label='Sensitivity',
-                bounding_box=[390, 870, 0, 1.1])
+                bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
@@ -831,9 +830,9 @@ pprint(sorted(colour.CMFS.keys()))
 single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
 single_cmfs_plot('CIE 1964 10 Degree Standard Observer')
 single_cmfs_plot('Stiles & Burch 1955 2 Degree RGB CMFs',
-                 bounding_box=[390, 830, -0.5, 3.5])
+                 bounding_box=(390, 830, -0.5, 3.5))
 single_cmfs_plot('Stiles & Burch 1959 10 Degree RGB CMFs',
-                 bounding_box=[390, 830, -0.5, 3.5])
+                 bounding_box=(390, 830, -0.5, 3.5))
 
 print('\n')
 
@@ -859,19 +858,19 @@ multi_spd_plot(colour.PHOTOPIC_LEFS.values(),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0, 0, 0, .1])
+               margins=(0, 0, 0, .1))
 
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
 multi_spd_plot(
-    [colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
-     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']],
+    (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
+     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     title='Photopic & Scotopic Luminous Efficiency Functions',
     y_label='Luminous Efficiency',
     legend_location='upper right',
     y_tighten=True,
-    margins=[0, 0, 0, .1])
+    margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -881,13 +880,13 @@ message_box(('Plotting a mesopic luminous efficiency function with given '
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
-multi_spd_plot([mesopic_luminous_efficiency_function,
+multi_spd_plot((mesopic_luminous_efficiency_function,
                 colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-                colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']],
+                colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
                y_label='Luminous Efficiency',
                legend_location='upper right',
                y_tighten=True,
-               margins=[0, 0, 0, .1])
+               margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -921,7 +920,7 @@ blackbody_spd = colour.blackbody_spd(
     ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
-multi_spd_plot([ASTM_G_173_spd, blackbody_spd],
+multi_spd_plot((ASTM_G_173_spd, blackbody_spd),
                y_label='W / (sr m$^2$) / m',
                legend_location='upper right')
 
@@ -937,7 +936,7 @@ multi_spd_plot(blackbody_spds,
                use_spds_colours=True,
                normalise_spds_colours=True,
                legend_location='upper right',
-               bounding_box=[0, 1250, 0, 2.5e15])
+               bounding_box=(0, 1250, 0, 2.5e15))
 
 print('\n')
 

@@ -30,6 +30,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_XYZ
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -48,23 +49,23 @@ def XYZ_to_Lab(XYZ,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE XYZ* colourspace to *CIE Lab* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE Lab* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE Lab* colourspace matrix.
+    ndarray
+        *CIE Lab* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* is in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
     -   Output *Lightness* :math:`L^*` is in domain [0, 100].
 
@@ -75,52 +76,54 @@ def XYZ_to_Lab(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """
 
-    X, Y, Z = np.ravel(XYZ)
-    X_r, Y_r, Z_r = np.ravel(xy_to_XYZ(illuminant))
+    XYZ = np.asarray(XYZ)
+    XYZ_r = xy_to_XYZ(illuminant)
 
-    x_r = X / X_r
-    y_r = Y / Y_r
-    z_r = Z / Z_r
+    XYZ_f = XYZ / XYZ_r
 
-    f_x = x_r ** (1 / 3) if x_r > CIE_E else (CIE_K * x_r + 16) / 116
-    f_y = y_r ** (1 / 3) if y_r > CIE_E else (CIE_K * y_r + 16) / 116
-    f_z = z_r ** (1 / 3) if z_r > CIE_E else (CIE_K * z_r + 16) / 116
+    XYZ_f = np.where(XYZ_f > CIE_E,
+                     np.power(XYZ_f, 1 / 3),
+                     (CIE_K * XYZ_f + 16) / 116)
 
-    L = 116 * f_y - 16
-    a = 500 * (f_x - f_y)
-    b = 200 * (f_y - f_z)
+    X_f, Y_f, Z_f = tsplit(XYZ_f)
 
-    return np.array([L, a, b])
+    L = 116 * Y_f - 16
+    a = 500 * (X_f - Y_f)
+    b = 200 * (Y_f - Z_f)
+
+    Lab = tstack((L, a, b))
+
+    return Lab
 
 
 def Lab_to_XYZ(Lab,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE Lab* colourspace to *CIE XYZ* colourspace.
+    Converts from *CIE Lab* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Lab : array_like, (3,)
-        *CIE Lab* colourspace matrix.
+    Lab : array_like
+        *CIE Lab* colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE XYZ* colourspace matrix.
+    ndarray
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
     -   Input *Lightness* :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
-    -   Output *CIE XYZ* colourspace matrix is in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     References
     ----------
@@ -129,27 +132,25 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L, a, b = np.ravel(Lab)
-    X_r, Y_r, Z_r = np.ravel(xy_to_XYZ(illuminant))
+    L, a, b = tsplit(Lab)
+    XYZ_r = xy_to_XYZ(illuminant)
 
     f_y = (L + 16) / 116
     f_x = a / 500 + f_y
     f_z = f_y - b / 200
 
-    x_r = f_x ** 3 if f_x ** 3 > CIE_E else (116 * f_x - 16) / CIE_K
-    y_r = ((L + 16) / 116) ** 3 if L > CIE_K * CIE_E else L / CIE_K
-    z_r = f_z ** 3 if f_z ** 3 > CIE_E else (116 * f_z - 16) / CIE_K
+    x_r = np.where(f_x ** 3 > CIE_E, f_x ** 3, (116 * f_x - 16) / CIE_K)
+    y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
+    z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
 
-    X = x_r * X_r
-    Y = y_r * Y_r
-    Z = z_r * Z_r
+    XYZ = tstack((x_r, y_r, z_r)) * XYZ_r
 
-    return np.array([X, Y, Z])
+    return XYZ
 
 
 def Lab_to_LCHab(Lab):
@@ -158,13 +159,13 @@ def Lab_to_LCHab(Lab):
 
     Parameters
     ----------
-    Lab : array_like, (3,)
-        *CIE Lab* colourspace matrix.
+    Lab : array_like
+        *CIE Lab* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE LCHab* colourspace matrix.
+    ndarray
+        *CIE LCHab* colourspace array.
 
     Notes
     -----
@@ -177,18 +178,19 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> Lab = np.array([37.9856291, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
     array([  37.9856291...,   24.0319036...,  190.5841597...])
     """
 
-    L, a, b = np.ravel(Lab)
+    L, a, b = tsplit(Lab)
 
-    H = 180 * np.arctan2(b, a) / np.pi
-    if H < 0:
-        H += 360
+    H = np.array(180 * np.arctan2(b, a) / np.pi)
+    H[np.array(H < 0)] += 360
 
-    return np.array([L, np.sqrt(a ** 2 + b ** 2), H])
+    LCHab = tstack((L, np.sqrt(a ** 2 + b ** 2), H))
+
+    return LCHab
 
 
 def LCHab_to_Lab(LCHab):
@@ -197,13 +199,13 @@ def LCHab_to_Lab(LCHab):
 
     Parameters
     ----------
-    LCHab : array_like, (3,)
-        *CIE LCHab* colourspace matrix.
+    LCHab : array_like
+        *CIE LCHab* colourspace array.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE Lab* colourspace matrix.
+    ndarray
+        *CIE Lab* colourspace array.
 
     Notes
     -----
@@ -216,13 +218,15 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+    >>> LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
     array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     """
 
-    L, C, H = np.ravel(LCHab)
+    L, C, H = tsplit(LCHab)
 
-    return np.array([L,
-                     C * np.cos(np.radians(H)),
-                     C * np.sin(np.radians(H))])
+    Lab = tstack((L,
+                  C * np.cos(np.radians(H)),
+                  C * np.sin(np.radians(H))))
+
+    return Lab

@@ -76,14 +76,14 @@ REC_709_TO_XYZ_MATRIX = np.array(
      [0.21263682, 0.71518298, 0.0721802],
      [0.01933062, 0.11919716, 0.95037259]])
 """
-*Rec. 709* colourspace to *CIE XYZ* colourspace matrix.
+*Rec. 709* colourspace to *CIE XYZ* tristimulus values matrix.
 
 REC_709_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_REC_709_MATRIX = np.linalg.inv(REC_709_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Rec. 709* colourspace matrix.
+*CIE XYZ* tristimulus values to *Rec. 709* colourspace matrix.
 
 XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 """
@@ -95,37 +95,42 @@ def _rec_709_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return value * 4.5 if value < 0.018 else 1.099 * (value ** 0.45) - 0.099
+    value = np.asarray(value)
+
+    return np.where(value < 0.018,
+                    value * 4.5,
+                    1.099 * (value ** 0.45) - 0.099)
 
 
 def _rec_709_inverse_transfer_function(value):
     """
-    Defines the *Rec. 709* colourspace inverse transfer
-    function.
+    Defines the *Rec. 709* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
 
-    return (value / 4.5
-            if value < _rec_709_transfer_function(0.018) else
-            ((value + 0.099) / 1.099) ** (1 / 0.45))
+    value = np.asarray(value)
+
+    return np.where(value < _rec_709_transfer_function(0.018),
+                    value / 4.5,
+                    ((value + 0.099) / 1.099) ** (1 / 0.45))
 
 
 REC_709_TRANSFER_FUNCTION = _rec_709_transfer_function

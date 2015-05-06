@@ -17,8 +17,9 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import D_ILLUMINANTS_S_SPDS
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import (
+    D_ILLUMINANTS_S_SPDS,
+    SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -59,7 +60,9 @@ def D_illuminant_relative_spd(xy):
 
     Examples
     --------
-    >>> D_illuminant_relative_spd((0.34567, 0.35850))  # doctest: +ELLIPSIS
+    >>> import numpy as np
+    >>> xy = np.array([0.34567, 0.35850])
+    >>> D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """
 

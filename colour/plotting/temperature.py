@@ -29,6 +29,8 @@ from colour.temperature import CCT_to_uv
 from colour.plotting import (
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
+    boundaries,
+    decorate,
     display)
 
 __author__ = 'Colour Developers'
@@ -96,12 +98,12 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     xy = np.array([UCS_uv_to_xy(CCT_to_uv(x, 0, cmfs=cmfs))
                    for x in np.arange(start, end + 250, 250)])
 
-    pylab.plot(xy[:, 0], xy[:, 1], color='black', linewidth=2)
+    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
 
-    for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
+    for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, cmfs=cmfs))
         x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 0.025, cmfs=cmfs))
-        pylab.plot([x0, x1], [y0, y1], color='black', linewidth=2)
+        pylab.plot((x0, x1), (y0, y1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
@@ -125,8 +127,15 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))
 
-    settings.update({'standalone': True})
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.9, -0.1, 0.9),
+        'standalone': True})
     settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)
 
@@ -187,12 +196,12 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     uv = np.array([CCT_to_uv(x, 0, cmfs=cmfs)
                    for x in np.arange(start, end + 250, 250)])
 
-    pylab.plot(uv[:, 0], uv[:, 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
 
-    for i in [1667, 2000, 2500, 3000, 4000, 6000, 10000]:
+    for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         u0, v0 = CCT_to_uv(i, -0.05)
         u1, v1 = CCT_to_uv(i, 0.05)
-        pylab.plot([u0, u1], [v0, v1], color='black', linewidth=2)
+        pylab.plot((u0, u1), (v0, v1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),
@@ -216,7 +225,14 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))
 
-    settings.update({'standalone': True})
+    settings.update({
+        'x_tighten': True,
+        'y_tighten': True,
+        'limits': (-0.1, 0.7, -0.2, 0.6),
+        'standalone': True})
     settings.update(kwargs)
+
+    boundaries(**settings)
+    decorate(**settings)
 
     return display(**settings)

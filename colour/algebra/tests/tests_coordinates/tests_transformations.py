@@ -15,9 +15,14 @@ if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
     import unittest
+from itertools import permutations
 
-from colour.algebra import cartesian_to_spherical, spherical_to_cartesian
-from colour.algebra import cartesian_to_cylindrical, cylindrical_to_cartesian
+from colour.algebra import (
+    cartesian_to_spherical,
+    spherical_to_cartesian,
+    cartesian_to_cylindrical,
+    cylindrical_to_cartesian)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -47,17 +52,61 @@ class TestCartesianToSpherical(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            cartesian_to_spherical((3, 1, 6)),
+            cartesian_to_spherical(np.array([3, 1, 6])),
             np.array([6.78232998, 1.08574654, 0.32175055]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cartesian_to_spherical((-1, 9, 16)),
+            cartesian_to_spherical(np.array([-1, 9, 16])),
             np.array([18.38477631, 1.05578119, 1.68145355]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cartesian_to_spherical((6.3434, -0.9345, 18.5675)),
-            np.array([19.64342307, 1.2382903, -0.1462664]),
+            cartesian_to_spherical(np.array([6.3434, -0.9345, 18.5675])),
+            np.array([19.64342307, 1.23829030, -0.14626640]),
             decimal=7)
+
+    def test_n_dimensional_cartesian_to_spherical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
+        definition n-dimensional arrays support.
+        """
+
+        vector_i = np.array([3, 1, 6])
+        vector_o = np.array([6.78232998, 1.08574654, 0.32175055])
+        np.testing.assert_almost_equal(
+            cartesian_to_spherical(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.tile(vector_i, (6, 1))
+        vector_o = np.tile(vector_o, (6, 1))
+        np.testing.assert_almost_equal(
+            cartesian_to_spherical(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.reshape(vector_i, (2, 3, 3))
+        vector_o = np.reshape(vector_o, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            cartesian_to_spherical(vector_i),
+            vector_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cartesian_to_spherical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cartesian_to_spherical(vector_i)
 
 
 class TestSphericalToCartesian(unittest.TestCase):
@@ -75,17 +124,64 @@ class TestSphericalToCartesian(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            spherical_to_cartesian((6.78232998, 1.08574654, 0.32175055)),
+            spherical_to_cartesian(
+                np.array([6.78232998, 1.08574654, 0.32175055])),
             np.array([3., 0.99999999, 6.]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            spherical_to_cartesian((18.38477631, 1.05578119, 1.68145355)),
+            spherical_to_cartesian(
+                np.array([18.38477631, 1.05578119, 1.68145355])),
             np.array([-1.00000003, 9.00000007, 15.99999996]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            spherical_to_cartesian((19.64342307, 1.2382903, -0.1462664)),
+            spherical_to_cartesian(
+                np.array([19.64342307, 1.23829030, -0.14626640])),
             np.array([6.34339996, -0.93449999, 18.56750001]),
             decimal=7)
+
+    def test_n_dimensional_spherical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
+        definition n-dimensional arrays support.
+        """
+
+        vector_i = np.array([6.78232998, 1.08574654, 0.32175055])
+        vector_o = np.array([3, 1, 6])
+        np.testing.assert_almost_equal(
+            spherical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.tile(vector_i, (6, 1))
+        vector_o = np.tile(vector_o, (6, 1))
+        np.testing.assert_almost_equal(
+            spherical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.reshape(vector_i, (2, 3, 3))
+        vector_o = np.reshape(vector_o, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            spherical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_spherical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            spherical_to_cartesian(vector_i)
 
 
 class TestCartesianToCylindrical(unittest.TestCase):
@@ -103,17 +199,61 @@ class TestCartesianToCylindrical(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical((3, 1, 6)),
-            np.array([6., 0.32175055, 3.16227766]),
+            cartesian_to_cylindrical(np.array([3, 1, 6])),
+            np.array([6.00000000, 0.32175055, 3.16227766]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical((-1, 9, 16)),
-            np.array([16., 1.68145355, 9.05538514]),
+            cartesian_to_cylindrical(np.array([-1, 9, 16])),
+            np.array([16.00000000, 1.68145355, 9.05538514]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical((6.3434, -0.9345, 18.5675)),
+            cartesian_to_cylindrical(np.array([6.3434, -0.9345, 18.5675])),
             np.array([18.5675, -0.1462664, 6.41186508]),
             decimal=7)
+
+    def test_n_dimensional_cartesian_to_cylindrical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
+        definition n-dimensional arrays support.
+        """
+
+        vector_i = np.array([3, 1, 6])
+        vector_o = np.array([6.00000000, 0.32175055, 3.16227766])
+        np.testing.assert_almost_equal(
+            cartesian_to_cylindrical(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.tile(vector_i, (6, 1))
+        vector_o = np.tile(vector_o, (6, 1))
+        np.testing.assert_almost_equal(
+            cartesian_to_cylindrical(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.reshape(vector_i, (2, 3, 3))
+        vector_o = np.reshape(vector_o, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            cartesian_to_cylindrical(vector_i),
+            vector_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cartesian_to_cylindrical(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cartesian_to_cylindrical(vector_i)
 
 
 class TestCylindricalToCartesian(unittest.TestCase):
@@ -131,17 +271,64 @@ class TestCylindricalToCartesian(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian((6.78232998, 1.08574654, 0.32175055)),
+            cylindrical_to_cartesian(
+                np.array([6.78232998, 1.08574654, 0.32175055])),
             np.array([0.15001697, 0.28463718, 6.78232998]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian((18.38477631, 1.05578119, 1.68145355)),
+            cylindrical_to_cartesian(
+                np.array([18.38477631, 1.05578119, 1.68145355])),
             np.array([0.82819662, 1.46334425, 18.38477631]),
             decimal=7)
+
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian((19.64342307, 1.2382903, -0.1462664)),
+            cylindrical_to_cartesian(
+                np.array([19.64342307, 1.23829030, -0.14626640])),
             np.array([-0.04774323, -0.138255, 19.64342307]),
             decimal=7)
+
+    def test_n_dimensional_cylindrical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
+        definition n-dimensional arrays support.
+        """
+
+        vector_i = np.array([6.00000000, 0.32175055, 3.16227766])
+        vector_o = np.array([3, 1, 6])
+        np.testing.assert_almost_equal(
+            cylindrical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.tile(vector_i, (6, 1))
+        vector_o = np.tile(vector_o, (6, 1))
+        np.testing.assert_almost_equal(
+            cylindrical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+        vector_i = np.reshape(vector_i, (2, 3, 3))
+        vector_o = np.reshape(vector_o, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            cylindrical_to_cartesian(vector_i),
+            vector_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cylindrical_to_cartesian(self):
+        """
+        Tests
+        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            vector_i = np.array(case)
+            cylindrical_to_cartesian(vector_i)
 
 
 if __name__ == '__main__':

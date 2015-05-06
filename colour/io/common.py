@@ -5,7 +5,7 @@
 Input / Output Common Utilities
 ===============================
 
-Defines input / output common utilities objects that don"t fall in any specific
+Defines input / output common utilities objects that don't fall in any specific
 category.
 """
 

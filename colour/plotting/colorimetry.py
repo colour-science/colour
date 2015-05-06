@@ -26,26 +26,26 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.algebra import normalise
 from colour.colorimetry import (
     CMFS,
     DEFAULT_SPECTRAL_SHAPE,
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHTNESS_METHODS,
     SpectralShape,
+    blackbody_spd,
     spectral_to_XYZ,
-    wavelength_to_XYZ,
-    blackbody_spd)
+    wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
-    canvas,
-    decorate,
     boundaries,
-    display,
+    canvas,
     colour_parameter,
     colour_parameters_plot,
+    decorate,
+    display,
     single_colour_plot)
+from colour.utilities import normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -159,14 +159,10 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     shape = cmfs.shape
     spd = spd.clone().interpolate(shape, 'Linear')
     wavelengths = spd.wavelengths
+    values = spd.values
 
-    colours = []
-    y1 = []
-
-    for wavelength, value in spd:
-        XYZ = wavelength_to_XYZ(wavelength, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
-        y1.append(value)
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
+    y1 = values
 
     colours = normalise(colours)
 
@@ -260,8 +256,8 @@ def multi_spd_plot(spds,
         'legend_location': 'upper left',
         'x_ticker': True,
         'y_ticker': True,
-        'limits': [min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)]}
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -297,7 +293,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         'title': '{0} - Colour Matching Functions'.format(cmfs.title)}
     settings.update(kwargs)
 
-    return multi_cmfs_plot([cmfs.name], **settings)
+    return multi_cmfs_plot((cmfs.name, ), **settings)
 
 
 def multi_cmfs_plot(cmfs=None, **kwargs):
@@ -332,9 +328,9 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 'CIE 1964 10 Degree Standard Observer')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (('x', [1, 0, 0]),
-                      ('y', [0, 1, 0]),
-                      ('z', [0, 0, 1])):
+    for axis, rgb in (('x', (1, 0, 0)),
+                      ('y', (0, 1, 0)),
+                      ('z', (0, 0, 1))):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
@@ -367,8 +363,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'y_ticker': True,
         'grid': True,
         'y_axis_line': True,
-        'limits': [min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max)]}
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -485,12 +481,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wavelengths = cmfs.shape.range()
 
-    colours = []
-    for i in wavelengths:
-        XYZ = wavelength_to_XYZ(i, cmfs)
-        colours.append(XYZ_to_sRGB(XYZ))
-
-    colours = np.array([np.ravel(x) for x in colours])
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
     colours *= 1 / np.max(colours)
     colours = np.clip(colours, 0, 1)
 
@@ -531,7 +522,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
         'title': '{0} - Lightness Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_lightness_function_plot([function], **settings)
+    return multi_lightness_function_plot((function, ), **settings)
 
 
 def multi_lightness_function_plot(functions=None, **kwargs):
@@ -573,7 +564,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         functions = ('CIE 1976', 'Wyszecki 1963')
 
     samples = np.linspace(0, 100, 1000)
-    for i, function in enumerate(functions):
+    for function in functions:
         function, name = LIGHTNESS_METHODS.get(function), function
         if function is None:
             raise KeyError(
@@ -596,7 +587,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_ticker': True,
         'y_ticker': True,
         'grid': True,
-        'limits': [0, 100, 0, 100],
+        'limits': (0, 100, 0, 100),
         'aspect': 'equal'})
     settings.update(kwargs)
 

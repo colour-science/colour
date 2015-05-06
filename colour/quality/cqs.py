@@ -29,22 +29,23 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.colorimetry import (
-    ILLUMINANTS,
     D_illuminant_relative_spd,
+    ILLUMINANTS,
+    STANDARD_OBSERVERS_CMFS,
     blackbody_spd,
     spectral_to_XYZ)
-from colour.quality.dataset.vs import VS_SPDS, VS_INDEXES_TO_NAMES
+from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SPDS
 from colour.models import (
+    Lab_to_LCHab,
     UCS_to_uv,
+    XYZ_to_Lab,
     XYZ_to_UCS,
     XYZ_to_xy,
-    XYZ_to_Lab,
-    Lab_to_LCHab,
     xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -149,7 +150,7 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, _ = uv_to_CCT_Ohno2013(uv)
+    CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
 
     if CCT < 5000:
         spd_reference = blackbody_spd(CCT, shape)
@@ -211,13 +212,13 @@ def colour_quality_scale(spd_test, additional_data=False):
         return Q_a
 
 
-def gamut_area(Labs):
+def gamut_area(Lab):
     """
     Returns the gamut area :math:`G` covered by given *CIE Lab* matrices.
 
     Parameters
     ----------
-    Labs : array_like
+    Lab : array_like
         *CIE Lab* colourspace matrices.
 
     Returns
@@ -227,42 +228,39 @@ def gamut_area(Labs):
 
     Examples
     --------
-    >>> Labs = [
+    >>> Lab = [
     ...     np.array([39.94996006, 34.59018231, -19.86046321]),
     ...     np.array([38.88395498, 21.44348519, -34.87805301]),
     ...     np.array([36.60576301, 7.06742454, -43.21461177]),
     ...     np.array([46.60142558, -15.90481586, -34.64616865]),
-    ...     np.array([56.50196523, -29.5465555, -20.50177194]),
+    ...     np.array([56.50196523, -29.54655550, -20.50177194]),
     ...     np.array([55.73912101, -43.39520959, -5.08956953]),
-    ...     np.array([56.2077687, -53.68997662, 20.2113441]),
+    ...     np.array([56.20776870, -53.68997662, 20.21134410]),
     ...     np.array([66.16683122, -38.64600327, 42.77396631]),
-    ...     np.array([76.7295211, -23.9214821, 61.04740432]),
+    ...     np.array([76.72952110, -23.92148210, 61.04740432]),
     ...     np.array([82.85370708, -3.98679065, 75.43320144]),
     ...     np.array([69.26458861, 13.11066359, 68.83858372]),
     ...     np.array([69.63154351, 28.24532497, 59.45609803]),
     ...     np.array([61.26281449, 40.87950839, 44.97606172]),
-    ...     np.array([41.62567821, 57.34129516, 27.4671817]),
-    ...     np.array([40.52565174, 48.87449192, 3.4512168])]
-    >>> gamut_area(Labs)  # doctest: +ELLIPSIS
+    ...     np.array([41.62567821, 57.34129516, 27.46718170]),
+    ...     np.array([40.52565174, 48.87449192, 3.45121680])]
+    >>> gamut_area(Lab)  # doctest: +ELLIPSIS
     8335.9482018...
     """
 
-    Labs_s = Labs[:]
-    Labs_s.append(Labs_s.pop(0))
+    Lab = np.asarray(Lab)
+    Lab_s = np.roll(np.copy(Lab), -3)
 
-    G = 0
-    for i, _ in enumerate(Labs):
-        L, a, b = Labs[i]
-        L_s, a_s, b_s = Labs_s[i]
+    _L, a, b = tsplit(Lab)
+    _L_s, a_s, b_s = tsplit(Lab_s)
 
-        A = np.sqrt(a ** 2 + b ** 2)
-        B = np.sqrt(a_s ** 2 + b_s ** 2)
-        C = np.sqrt((a_s - a) ** 2 + (b_s - b) ** 2)
-        t = (A + B + C) / 2
-        S = np.sqrt(t * (t - A) * (t - B) * (t - C))
-        G += S
+    A = np.linalg.norm(Lab[..., 1:3], axis=-1)
+    B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
+    C = np.linalg.norm(np.dstack((a_s - a, b_s - b)), axis=-1)
+    t = (A + B + C) / 2
+    S = np.sqrt(t * (t - A) * (t - B) * (t - C))
 
-    return G
+    return np.sum(S)
 
 
 def _vs_colorimetry_data(spd_test,
@@ -300,7 +298,7 @@ def _vs_colorimetry_data(spd_test,
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []
-    for key, value in sorted(VS_INDEXES_TO_NAMES.items()):
+    for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
         spd_vs = spds_vs.get(value)
         XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
         XYZ_vs /= 100
@@ -312,13 +310,13 @@ def _vs_colorimetry_data(spd_test,
                                                    transform='CMCCAT2000')
 
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
-        _, chroma_vs, _ = Lab_to_LCHab(Lab_vs)
+        _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
         vs_data.append(
             VS_ColorimetryData(spd_vs.name,
                                XYZ_vs,
                                Lab_vs,
-                               chroma_vs))
+                               C_vs))
     return vs_data
 
 
@@ -332,7 +330,7 @@ def _CCT_factor(reference_data, XYZ_r):
     reference_data : VS_ColorimetryData
         Reference colorimetry data.
     XYZ_r : array_like
-        *CIE XYZ* colourspace matrix for reference.
+        *CIE XYZ* tristimulus values for reference.
 
     Returns
     -------
@@ -345,7 +343,7 @@ def _CCT_factor(reference_data, XYZ_r):
 
     Labs = []
     for vs_colorimetry_data in reference_data:
-        _, XYZ, _, _ = vs_colorimetry_data
+        _name, XYZ, _Lab, _C = vs_colorimetry_data
         XYZ_a = chromatic_adaptation_VonKries(XYZ,
                                               XYZ_r,
                                               XYZ_w,

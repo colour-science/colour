@@ -35,6 +35,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.utilities.array import tsplit, tstack
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
@@ -62,27 +64,27 @@ class ATD95_ReferenceSpecification(
 
     Parameters
     ----------
-    H : numeric
+    H : numeric or array_like
         *Hue* angle :math:`H` in degrees.
-    C : numeric
+    C : numeric or array_like
         Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
         of a similarly illuminated white.
-    Br : numeric
+    Br : numeric or array_like
         Correlate of *brightness* :math:`Br`.
-    A_1 : numeric
+    A_1 : numeric or array_like
         First stage :math:`A_1` response.
-    T_1 : numeric
+    T_1 : numeric or array_like
         First stage :math:`T_1` response.
-    D_1 : numeric
+    D_1 : numeric or array_like
         First stage :math:`D_1` response.
-    A_2 : numeric
+    A_2 : numeric or array_like
         Second stage :math:`A_2` response.
-    T_2 : numeric
+    T_2 : numeric or array_like
         Second stage :math:`A_2` response.
-    D_2 : numeric
+    D_2 : numeric or array_like
         Second stage :math:`D_2` response.
     """
 
@@ -103,27 +105,27 @@ class ATD95_Specification(
 
     Parameters
     ----------
-    h : numeric
+    h : numeric or array_like
         *Hue* angle :math:`H` in degrees.
-    C : numeric
+    C : numeric or array_like
         Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
         of a similarly illuminated white.
-    Q : numeric
+    Q : numeric or array_like
         Correlate of *brightness* :math:`Br`.
-    A_1 : numeric
+    A_1 : numeric or array_like
         First stage :math:`A_1` response.
-    T_1 : numeric
+    T_1 : numeric or array_like
         First stage :math:`T_1` response.
-    D_1 : numeric
+    D_1 : numeric or array_like
         First stage :math:`D_1` response.
-    A_2 : numeric
+    A_2 : numeric or array_like
         Second stage :math:`A_2` response.
-    T_2 : numeric
+    T_2 : numeric or array_like
         Second stage :math:`A_2` response.
-    D_2 : numeric
+    D_2 : numeric or array_like
         Second stage :math:`D_2` response.
     """
 
@@ -134,18 +136,18 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix of test sample / stimulus in domain
+    XYZ : array_like
+        *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
-    XYZ_0 : array_like, (3,)
-        *CIE XYZ* colourspace matrix of reference white in domain [0, 100].
-    Y_0 : numeric
+    XYZ_0 : array_like
+        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+    Y_0 : numeric or array_like
         Absolute adapting field luminance in :math:`cd/m^2`.
-    k_1 : numeric
+    k_1 : numeric or array_like
         Application specific weight :math:`k_1`.
-    k_2 : numeric
+    k_2 : numeric or array_like
         Application specific weight :math:`k_2`.
-    sigma : numeric, optional
+    sigma : numeric or array_like, optional
         Constant :math:`\sigma` varied to predict different types of data.
 
     Returns
@@ -159,8 +161,8 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    -   Input *CIE XYZ_0* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
     -   For unrelated colors, there is only self-adaptation, and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and
@@ -177,18 +179,24 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     ATD95_Specification(h=1.9089869..., C=1.2064060..., Q=0.1814003..., A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., T_2=0.0205377..., D_2=0.0107584...)
     """
 
+    Y_0 = np.asarray(Y_0)
+    k_1 = np.asarray(k_1)
+    k_2 = np.asarray(k_2)
+    sigma = np.asarray(sigma)
+
     XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
     XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0)
 
     # Computing adaptation model.
     LMS = XYZ_to_LMS_ATD95(XYZ)
-    XYZ_a = k_1 * XYZ + k_2 * XYZ_0
+    XYZ_a = k_1[..., np.newaxis] * XYZ + k_2[..., np.newaxis] * XYZ_0
     LMS_a = XYZ_to_LMS_ATD95(XYZ_a)
 
-    LMS_g = LMS * (sigma / (sigma + LMS_a))
+    LMS_g = LMS * (sigma[..., np.newaxis] / (sigma[..., np.newaxis] + LMS_a))
 
     # Computing opponent colour dimensions.
-    A_1, T_1, D_1, A_2, T_2, D_2 = opponent_colour_dimensions(LMS_g)
+    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(
+        opponent_colour_dimensions(LMS_g))
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Br`.
@@ -215,87 +223,86 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
-    Y_c : numeric
+    Y_c : numeric or array_like
         Absolute adapting field luminance in :math:`cd/m^2`.
 
     Returns
     -------
     ndarray
-        Converted *CIE XYZ* colourspace matrix in trolands.
+        Converted *CIE XYZ* tristimulus values in trolands.
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> Y_0 = 318.31
     >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
     array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
-    return 18. * (Y_c * XYZ / 100.) ** 0.8
+    XYZ = np.asarray(XYZ)
+    Y_c = np.asarray(Y_c)
+
+    return 18 * (Y_c[..., np.newaxis] * XYZ / 100.) ** 0.8
 
 
 def XYZ_to_LMS_ATD95(XYZ):
     """
-    Converts from *CIE XYZ* colourspace to *LMS* cone responses.
+    Converts from *CIE XYZ* tristimulus values to *LMS* cone responses.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray, (3,)
+    ndarray
         *LMS* cone responses.
 
     Examples
     --------
-    >>> XYZ = np.array([19.01, 20., 21.78])
+    >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_LMS_ATD95(XYZ)  # doctest: +ELLIPSIS
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    X, Y, Z = np.ravel(XYZ)
+    X, Y, Z = tsplit(XYZ)
 
     L = ((0.66 * (0.2435 * X + 0.8524 * Y - 0.0516 * Z)) ** 0.7) + 0.024
     M = ((-0.3954 * X + 1.1642 * Y + 0.0837 * Z) ** 0.7) + 0.036
     S = ((0.43 * (0.04 * Y + 0.6225 * Z)) ** 0.7) + 0.31
 
-    return np.array([L, M, S])
+    LMS = tstack((L, M, S))
+
+    return LMS
 
 
 def opponent_colour_dimensions(LMS_g):
     """
-    Returns opponent colour dimensions from given post adaptation cone signals
-    matrix.
+    Returns opponent colour dimensions from given post adaptation cone signals.
 
     Parameters
     ----------
-    LMS_g : array_like, (3,)
-        Post adaptation cone signals matrix.
+    LMS_g : array_like
+        Post adaptation cone signals.
 
     Returns
     -------
-    tuple
+    ndarray
         Opponent colour dimensions.
 
     Examples
     --------
-    >>> from pprint import pprint
     >>> LMS_g = np.array([6.95457922, 7.08945043, 6.44069316])
-    >>> pprint(opponent_colour_dimensions(LMS_g))  # doctest: +ELLIPSIS
-    (0.1787931...,
-     0.0286942...,
-     0.0107584...,
-     0.0192182...,
-     0.0205377...,
-     0.0107584...)
+    >>> opponent_colour_dimensions(LMS_g)  # doctest: +ELLIPSIS
+    array([ 0.1787931...,  0.0286942...,  0.0107584...,  0.0192182...,  0.0205377...,
+            0.0107584...])
     """
 
-    L_g, M_g, S_g = LMS_g
+    L_g, M_g, S_g = tsplit(LMS_g)
 
     A_1i = 3.57 * L_g + 2.64 * M_g
     T_1i = 7.18 * L_g - 6.21 * M_g
@@ -311,7 +318,7 @@ def opponent_colour_dimensions(LMS_g):
     T_2 = final_response(T_2i)
     D_2 = final_response(D_2i)
 
-    return A_1, T_1, D_1, A_2, T_2, D_2
+    return tstack((A_1, T_1, D_1, A_2, T_2, D_2))
 
 
 def final_response(value):
@@ -320,12 +327,12 @@ def final_response(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
          Opponent colour dimension.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Final response of opponent colour dimension.
 
     Examples
@@ -334,4 +341,6 @@ def final_response(value):
     0.1787931...
     """
 
-    return value / (200 + abs(value))
+    value = np.asarray(value)
+
+    return value / (200 + np.abs(value))

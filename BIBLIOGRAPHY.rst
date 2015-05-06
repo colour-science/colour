@@ -19,6 +19,7 @@ Bibliography
 - Brill, M. H., & Süsstrunk, S. (2008). Repairing gamut problems in CIECAM02: A progress report. Color Research & Application, 33(5), 424–426. doi:10.1002/col.20432
 - Broadbent, A. D. (2009). Calculation from the original experimental data of the CIE 1931 RGB standard observer spectral chromaticity co-ordinates and color matching functions. Retrieved June 12, 2014, from http://www.cis.rit.edu/mcsl/research/1931.php
 - Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015, from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500
+- Castro, S. (2014). Numpy: Fastest way of computing diagonal for each row of a 2d array. Retrieved August 22, 2014, from http://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/26517247#26517247
 - Centore, P. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research & Application, 37(6), 455–464. doi:10.1002/col.20715
 - Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 - Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
@@ -92,6 +93,7 @@ Bibliography
 - International Telecommunication Union. (2002). Parameter values for the HDTV standards for production and international programme exchange BT Series Broadcasting service. In Recommendation ITU-R BT.709-5 (Vol. 5, pp. 1–32). Retrieved from http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf
 - International Telecommunication Union. (2014). Parameter values for ultra-high definition television systems for production and international programme exchange. In Recommendation ITU-R BT.2020 (Vol. 1, pp. 1–8). Retrieved from http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf
 - Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002). Design of advanced color: Temperature control system for HDTV applications. Journal of the Korean …, 41(6), 865–871. Retrieved from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+- Kienzle, P., Patel, N., & Krycka, J. (2011). refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30, 2015, from http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/numpyerrors.html
 - Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002). CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research & …, 27(1), 49–58. doi:10.1002/col.10005
 - Li, C., Perales, E., Luo, M. R., & Martínez-verdú, F. (2007). The Problem with CAT02 and Its Correction, (July), 1–10.
 - Lindbloom, B. (2003). A Continuity Study of the CIE L Function. Retrieved February 24, 2014, from http://brucelindbloom.com/LContinuity.html
@@ -115,6 +117,7 @@ Bibliography
 - Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour Management – Colour Appearance and Gamut Mapping. In Conference: 5th International Conference on High Technology: Imaging Science and Technology – Evolution & Promise (pp. 136–147). Retrieved from http://www.researchgate.net/publication/236348295_Two_Unsolved_Issues_in_Colour_Management__Colour_Appearance_and_Gamut_Mapping
 - Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour model. Color Research & Application, 21(6), 412–429. doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
 - MacAdam, D. L. (1935). Maximum Visual Efficiency of Colored Materials. J. Opt. Soc. Am., 25(11), 361–367. doi:10.1364/JOSA.25.000361
+- Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20, 2015, from http://colour-science.org/blog_red_colourspaces_derivation.php
 - Mansencal, T. (n.d.). Lookup. Retrieved from https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
 - Mansencal, T. (n.d.). Structure. Retrieved from https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
 - Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., & Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and Imaging Conference, 2002(1), 23–27. Retrieved from http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006
@@ -125,6 +128,7 @@ Bibliography
 - Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv. LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
 - Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 - Ohta, N. (1997). The basis of color reproduction engineering.
+- Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 - Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 - Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
 - Renewable Resource Data Center. (2003). Reference Solar Spectral Irradiance: ASTM G-173. Retrieved August 23, 2014, from http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
@@ -143,6 +147,7 @@ Bibliography
 - The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component Names. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
 - The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding System. Retrieved February 24, 2014, from http://www.oscars.org/science-technology/council/projects/aces.html
 - Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved from http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf
+- Trieu, T. (2015). Private Discussion with Mansencal, T.
 - Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp. 83–86). ISBN:978-0-470-66569-5
 - Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80). ISBN:978-0-470-66569-5
 - Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for Spectral Bandpass. In Computational Colour Science Using MATLAB (2nd ed., p. 38). ISBN:978-0-470-66569-5
@@ -165,9 +170,7 @@ Bibliography
 - Wikipedia. (n.d.). Luminosity function. Retrieved October 20, 2014, from https://en.wikipedia.org/wiki/Luminosity_function#Details
 - Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 - Wikipedia. (n.d.). Rayleigh scattering. Retrieved September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
-- Wikipedia. (n.d.). Regression analysis. Retrieved May 24, 2014, from http://en.wikipedia.org/wiki/Regression_analysis
 - Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
-- Wikipedia. (n.d.). Simple linear regression. Retrieved May 24, 2014, from http://en.wikipedia.org/wiki/Simple_linear_regression
 - Wikipedia. (n.d.). Surfaces. Retrieved September 10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
 - Wikipedia. (n.d.). The forward transformation. Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 - Wikipedia. (n.d.). The reverse transformation. Retrieved from http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
@@ -186,7 +189,8 @@ Bibliography
 - Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley. ISBN:978-0471399186
 - Wyszecki, G., & Stiles, W. S. (2000). Table II(3.7). In Color Science: Concepts and Methods, Quantitative Data and Formulae (pp. 778–779). Wiley. ISBN:978-0471399186
 - Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964 Standard Observer. In Color Science: Concepts and Methods, Quantitative Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
-- X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color Calculations Guide. Retrieved from http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf  
+- X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color Calculations Guide. Retrieved from http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf
+- Yorke, R. (2014). Python: Change format of np.array or allow tolerance in in1d function. Retrieved March 27, 2015, from http://stackoverflow.com/a/23521245/931625
 
 About
 -----

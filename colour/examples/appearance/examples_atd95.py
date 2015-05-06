@@ -5,16 +5,14 @@
 Showcases ATD (1995) colour appearance model computations.
 """
 
-import numpy as np
-
 import colour
 from colour.appearance.atd95 import ATD95_ReferenceSpecification
 from colour.utilities.verbose import message_box
 
 message_box('ATD (1995) Colour Appearance Model Computations')
 
-XYZ = np.array([19.01, 20.00, 21.78])
-XYZ_0 = np.array([95.05, 100.00, 108.88])
+XYZ = (19.01, 20.00, 21.78)
+XYZ_0 = (95.05, 100.00, 108.88)
 Y_0 = 318.31
 k_1 = 0.0
 k_2 = 50.0

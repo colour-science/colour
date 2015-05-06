@@ -44,9 +44,9 @@ __all__ = ['DON_RGB_4_PRIMARIES',
            'DON_RGB_4_COLOURSPACE']
 
 DON_RGB_4_PRIMARIES = np.array(
-    [[0.69612068965517238, 0.29956896551724138],
-     [0.21468298109010012, 0.7652947719688542],
-     [0.12993762993762992, 0.035343035343035345]])
+    [[0.696120689655172380, 0.299568965517241380],
+     [0.214682981090100120, 0.765294771968854200],
+     [0.129937629937629920, 0.035343035343035345]])
 """
 *Don RGB 4* colourspace primaries.
 
@@ -71,14 +71,14 @@ DON_RGB_4_WHITEPOINT : tuple
 DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
                                                     DON_RGB_4_WHITEPOINT)
 """
-*Don RGB 4* colourspace to *CIE XYZ* colourspace matrix.
+*Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 
 DON_RGB_4_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_DON_RGB_4_MATRIX = np.linalg.inv(DON_RGB_4_TO_XYZ_MATRIX)
 """
-*CIE XYZ* colourspace to *Don RGB 4* colourspace matrix.
+*CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix.
 
 XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
 """
@@ -90,33 +90,36 @@ def _don_rgb_4_transfer_function(value):
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** (1 / 2.2)
 
 
 def _don_rgb_4_inverse_transfer_function(value):
     """
-    Defines the *Don RGB 4* colourspace inverse transfer
-    function.
+    Defines the *Don RGB 4* colourspace inverse transfer function.
 
     Parameters
     ----------
-    value : numeric
+    value : numeric or array_like
         Value.
 
     Returns
     -------
-    numeric
+    numeric or ndarray
         Companded value.
     """
+
+    value = np.asarray(value)
 
     return value ** 2.2
 

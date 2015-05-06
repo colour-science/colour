@@ -32,8 +32,8 @@ def RGB_to_HEX(RGB):
 
     Parameters
     ----------
-    RGB : array_like, (3,)
-        *RGB* colourspace matrix.
+    RGB : array_like
+        *RGB* colourspace array.
 
     Returns
     -------
@@ -42,19 +42,24 @@ def RGB_to_HEX(RGB):
 
     Notes
     -----
-    -   Input *RGB* colourspace matrix is in domain [0, 1].
+    -   Input *RGB* colourspace array is in domain [0, 1].
 
     Examples
     --------
-    >>> RGB = np.array([0.66666667, 0.86666667, 1])
+    >>> RGB = np.array([0.66666667, 0.86666667, 1.00000000])
     >>> # Doctests skip for Python 2.x compatibility.
     >>> RGB_to_HEX(RGB)  # doctest: +SKIP
     '#aaddff'
     """
 
-    RGB = np.ravel(RGB)
-    R, G, B = map(int, RGB * 255)
-    return '#{0:02x}{1:02x}{2:02x}'.format(R, G, B)
+    RGB = np.asarray(RGB)
+
+    to_HEX = np.vectorize('{0:02x}'.format)
+
+    HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
+    HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
+
+    return HEX
 
 
 def HEX_to_RGB(HEX):
@@ -63,17 +68,17 @@ def HEX_to_RGB(HEX):
 
     Parameters
     ----------
-    HEX : unicode
+    HEX : unicode or array_like
         Hexadecimal triplet representation.
 
     Returns
     -------
-    ndarray, (3,)
-        *RGB* colourspace matrix.
+    ndarray
+        *RGB* colourspace array.
 
     Notes
     -----
-    -   Output *RGB* colourspace matrix is in domain [0, 1].
+    -   Output *RGB* colourspace array is in domain [0, 1].
 
     Examples
     --------
@@ -82,7 +87,15 @@ def HEX_to_RGB(HEX):
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """
 
-    HEX = HEX.lstrip('#')
-    length = len(HEX)
-    return np.array([int(HEX[i:i + length // 3], 16) for i in
-                     range(0, length, length // 3)]) / 255
+    HEX = np.core.defchararray.lstrip(HEX, '#')
+
+    def to_RGB(x):
+        length = len(x)
+        return [int(x[i:i + length // 3], 16)
+                for i in range(0, length, length // 3)]
+
+    toRGB = np.vectorize(to_RGB, otypes=[np.ndarray])
+
+    RGB = np.asarray(toRGB(HEX).tolist()) / 255
+
+    return RGB

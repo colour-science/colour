@@ -22,10 +22,9 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import ILLUMINANTS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_XYZ
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -41,24 +40,25 @@ def XYZ_to_UVW(XYZ,
                illuminant=ILLUMINANTS.get(
                    'CIE 1931 2 Degree Standard Observer').get('D50')):
     """
-    Converts from *CIE XYZ* colourspace to *CIE 1964 U\*V\*W\** colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\*V\*W\**
+    colourspace.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
-        *CIE XYZ* colourspace matrix.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3,)
-        *CIE 1964 U\*V\*W\** colourspace matrix.
+    ndarray
+        *CIE 1964 U\*V\*W\** colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* colourspace matrix is in domain [0, 100].
-    -   Output *CIE UVW* colourspace matrix is in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE UVW* colourspace array is in domain [0, 100].
 
     Warning
     -------
@@ -66,17 +66,23 @@ def XYZ_to_UVW(XYZ,
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.1008, 0.09558313]) * 100
+    >>> import numpy as np
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
-    x, y, Y = np.ravel(XYZ_to_xyY(XYZ, illuminant))
-    u, v = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ)))
-    u0, v0 = np.ravel(UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(illuminant))))
+    xyY = XYZ_to_xyY(XYZ, illuminant)
+    _x, y, Y = tsplit(xyY)
+
+    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
+    u_0, v_0 = tsplit(UCS_to_uv(XYZ_to_UCS(
+        xy_to_XYZ(illuminant))))
 
     W = 25 * Y ** (1 / 3) - 17
-    U = 13 * W * (u - u0)
-    V = 13 * W * (v - v0)
+    U = 13 * W * (u - u_0)
+    V = 13 * W * (v - v_0)
 
-    return np.array([U, V, W])
+    UVW = tstack((U, V, W))
+
+    return UVW
