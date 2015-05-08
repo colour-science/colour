@@ -49,6 +49,10 @@ from .diagrams import (
     spds_CIE_1960_UCS_chromaticity_diagram_plot,
     spds_CIE_1976_UCS_chromaticity_diagram_plot)
 from .corresponding import corresponding_chromaticities_prediction_plot
+from .geometry import (
+    quad,
+    grid,
+    cube)
 from .models import (
     get_RGB_colourspace,
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot,
@@ -117,6 +121,10 @@ __all__ += [
     'spds_CIE_1976_UCS_chromaticity_diagram_plot']
 __all__ += [
     'corresponding_chromaticities_prediction_plot']
+__all__ += [
+    'quad',
+    'grid',
+    'cube']
 __all__ += [
     'get_RGB_colourspace',
     'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
