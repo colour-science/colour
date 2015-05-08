@@ -123,7 +123,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
+    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
@@ -134,7 +134,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -182,8 +182,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -260,7 +259,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
+    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
@@ -271,7 +270,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -319,8 +318,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -405,7 +403,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
+    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
     True
     """
@@ -416,7 +414,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -467,8 +465,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -699,7 +696,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_transfer_function_plot(colourspace='sRGB', **kwargs):
+def single_transfer_function_plot(colourspace='Rec. 709', **kwargs):
     """
     Plots given colourspace transfer function.
 
@@ -748,7 +745,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Examples
     --------
-    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709'])  # doctest: +SKIP
+    >>> multi_transfer_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
     True
     """
 
@@ -758,7 +755,7 @@ def multi_transfer_function_plot(colourspaces=None,
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ['sRGB', 'Rec. 709']
+        colourspaces = ('Rec. 709', 'sRGB')
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
