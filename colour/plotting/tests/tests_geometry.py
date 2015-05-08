@@ -304,8 +304,6 @@ class TestCube(unittest.TestCase):
                        [0, 1, 0]]]),
             decimal=7)
 
-        np.set_printoptions(formatter={'float': '{: 0.8f}'.format})
-
         np.testing.assert_almost_equal(
             cube(origin=np.array([0.2, 0.4, 0.6]),
                  width=0.2,
