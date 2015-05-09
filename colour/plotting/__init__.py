@@ -20,6 +20,7 @@ from .common import (
     decorate,
     boundaries,
     display,
+    equal_axes3d,
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
@@ -72,6 +73,7 @@ from .quality import (colour_quality_scale_bars_plot,
 from .temperature import (
     planckian_locus_CIE_1931_chromaticity_diagram_plot,
     planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot)
+from .volume import RGB_colourspaces_gamut_plot
 
 __all__ = []
 __all__ += dataset.__all__
@@ -90,6 +92,7 @@ __all__ += [
     'decorate',
     'boundaries',
     'display',
+    'equal_axes3d',
     'colour_parameter',
     'colour_parameters_plot',
     'single_colour_plot',
@@ -144,3 +147,4 @@ __all__ += ['colour_quality_scale_bars_plot',
 __all__ += [
     'planckian_locus_CIE_1931_chromaticity_diagram_plot',
     'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
+__all__ += ['RGB_colourspaces_gamut_plot']

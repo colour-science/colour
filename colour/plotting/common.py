@@ -57,6 +57,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'decorate',
            'boundaries',
            'display',
+           'equal_axes3d',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
@@ -328,6 +329,35 @@ def display(**kwargs):
         else:
             pylab.show()
         pylab.close()
+
+    return True
+
+
+def equal_axes3d(axes):
+    """
+    Sets equal aspect ratio to given 3d axes.
+
+    Parameters
+    ----------
+    axes : object
+        Axis to set the equal aspect ratio.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    axes.set_aspect('equal')
+    extents = np.array([getattr(axes, 'get_{}lim'.format(axis))()
+                        for axis in 'xyz'])
+
+    centers = np.mean(extents, axis=1)
+    extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
+
+    for center, axis in zip(centers, 'xyz'):
+        getattr(axes, 'set_{}lim'.format(axis))(center - extent / 2,
+                                                center + extent / 2)
 
     return True
 
