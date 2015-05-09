@@ -109,7 +109,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -123,8 +123,8 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(c)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -245,7 +245,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -259,8 +259,8 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(c)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -389,7 +389,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -403,8 +403,8 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(c)  # noqa  # doctest: +SKIP
     True
     """
 
@@ -731,7 +731,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         Colourspaces transfer functions to plot.
     inverse : bool
         Plot inverse transfer functions.

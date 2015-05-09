@@ -647,7 +647,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -718,7 +718,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -789,7 +789,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
