@@ -19,7 +19,7 @@ print('\n')
 message_box(('Comparing "Rec. 709" and "ACEScg" RGB colourspaces volume '
              'in "CIE Lab" colourspace.'))
 RGB_colourspaces_gamut_plot(('Rec. 709', 'ACEScg'),
-                            connection_colourspace='CIE Lab',
+                            reference_colourspace='CIE Lab',
                             style={
                                 'face_colours': (None, (0.25, 0.25, 0.25)),
                                 'edge_colours': (None, (0.25, 0.25, 0.25)),

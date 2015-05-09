@@ -226,6 +226,7 @@ def RGB_colourspaces_gamut_plot(colourspaces=None,
 
     illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
 
+    points = np.zeros((4, 3))
     if spectral_locus:
         cmfs = get_cmfs(cmfs)
         XYZ = cmfs.values
@@ -247,6 +248,8 @@ def RGB_colourspaces_gamut_plot(colourspaces=None,
         if reference_colourspace == 'IPT':
             I, P, T = tsplit(XYZ_to_IPT(XYZ))
             points = tstack((P, T, I))
+
+        points[np.isnan(points)] = 0
 
         c = ((0.0, 0.0, 0.0, 0.5)
              if spectral_locus_colour is None else
@@ -323,6 +326,11 @@ def RGB_colourspaces_gamut_plot(colourspaces=None,
     axes.set_xlabel(labels[0])
     axes.set_ylabel(labels[1])
     axes.set_zlabel(labels[2])
+
+    for i, axis in enumerate('xyz'):
+        min_a = np.min(np.vstack((quads[..., i], points[..., i])))
+        max_a = np.max(np.vstack((quads[..., i], points[..., i])))
+        getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
     equal_aspect and equal_axes3d(axes)
 
