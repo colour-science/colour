@@ -519,7 +519,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         RGB_f = np.vstack((RGB_gf, RGB_f))
         RGB_e = np.vstack((RGB_ge, RGB_e))
 
-    collection = Poly3DCollection(quads, zsort='max')
+    collection = Poly3DCollection(quads)
     collection.set_facecolors(RGB_f)
     collection.set_edgecolors(RGB_e)
 
