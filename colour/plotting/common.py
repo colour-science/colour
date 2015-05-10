@@ -9,6 +9,7 @@ Defines the common plotting objects:
 
 -   :func:`colour_cycle`
 -   :func:`canvas`
+-   :func:`camera`
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
@@ -33,6 +34,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
+from colour.colorimetry import ILLUMINANTS
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -50,6 +52,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_FONT_SIZE',
            'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
+           'DEFAULT_PLOTTING_ILLUMINANT',
            'ColourParameter',
            'ColourParameter',
            'colour_cycle',
@@ -133,6 +136,9 @@ pylab.rcParams.update(DEFAULT_PARAMETERS)
 
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 
+DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('D65')
+
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
 
@@ -169,7 +175,7 @@ def colour_cycle(**kwargs):
 
 def canvas(**kwargs):
     """
-    Sets the figure size and aspect.
+    Sets the figure size.
 
     Parameters
     ----------
@@ -193,6 +199,36 @@ def canvas(**kwargs):
         figure.set_size_inches(settings.figure_size)
 
     return figure
+
+
+def camera(**kwargs):
+    """
+    Sets the camera settings.
+
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    settings = Structure(
+        **{'camera_aspect': 'equal',
+           'elevation': None,
+           'azimuth': None})
+    settings.update(kwargs)
+
+    axes = matplotlib.pyplot.gca()
+    if settings.camera_aspect == 'equal':
+        equal_axes3d(axes)
+
+    axes.view_init(elev=settings.elevation, azim=settings.azimuth)
+
+    return True
 
 
 def decorate(**kwargs):
@@ -228,9 +264,11 @@ def decorate(**kwargs):
            'grid_axis': 'both',
            'x_axis_line': False,
            'y_axis_line': False,
-           'aspect': None})
+           'aspect': None,
+           'no_axes3d': False})
     settings.update(kwargs)
 
+    axes = matplotlib.pyplot.gca()
     if settings.title:
         pylab.title(settings.title)
     if settings.x_label:
@@ -240,18 +278,18 @@ def decorate(**kwargs):
     if settings.legend:
         pylab.legend(loc=settings.legend_location)
     if settings.x_ticker:
-        matplotlib.pyplot.gca().xaxis.set_minor_locator(
+        axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
     if settings.y_ticker:
-        matplotlib.pyplot.gca().yaxis.set_minor_locator(
+        axes.yaxis.set_minor_locator(
             settings.y_ticker_locator)
     if settings.no_ticks:
-        matplotlib.pyplot.gca().set_xticks([])
-        matplotlib.pyplot.gca().set_yticks([])
+        axes.set_xticks([])
+        axes.set_yticks([])
     if settings.no_x_ticks:
-        matplotlib.pyplot.gca().set_xticks([])
+        axes.set_xticks([])
     if settings.no_y_ticks:
-        matplotlib.pyplot.gca().set_yticks([])
+        axes.set_yticks([])
     if settings.grid:
         pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
@@ -260,6 +298,8 @@ def decorate(**kwargs):
         pylab.axhline(color='black', linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
+    if settings.no_axes3d:
+        axes.set_axis_off()
 
     return True
 

@@ -38,11 +38,11 @@ from colour.models import (
     XYZ_to_xy,
     xy_to_XYZ)
 from colour.plotting import (
-    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
     DEFAULT_FIGURE_WIDTH,
+    DEFAULT_PLOTTING_ILLUMINANT,
     boundaries,
     canvas,
     colour_cycle,
@@ -416,7 +416,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     settings = {
         'title': '{0} - {1} - CIE 1976 UCS Chromaticity Diagram'.format(
@@ -556,12 +556,12 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-        standalone=False, **settings)
+    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -614,12 +614,12 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-        standalone=False, **settings)
+    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -671,12 +671,12 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-        standalone=False, **settings)
+    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 

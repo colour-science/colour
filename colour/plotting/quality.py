@@ -152,16 +152,20 @@ def colour_rendering_index_bars_plot(spd, **kwargs):
     True
     """
 
-    if colour_quality_bars_plot(
-            colour_rendering_index(
-                    spd,
-                    additional_data=True),
-            standalone=False):
-        settings = {
-            'title': 'Colour Rendering Index - {0}'.format(spd.title)}
+    settings = {}
+    settings.update(kwargs)
+    settings.update({'standalone': False})
 
-        decorate(**settings)
-        return display(**settings)
+    colour_quality_bars_plot(
+        colour_rendering_index(spd, additional_data=True),
+        **settings)
+
+    settings = {'title': 'Colour Rendering Index - {0}'.format(spd.title)}
+    settings.update(kwargs)
+
+    decorate(**settings)
+
+    return display(**settings)
 
 
 def colour_quality_scale_bars_plot(spd, **kwargs):
@@ -188,12 +192,16 @@ def colour_quality_scale_bars_plot(spd, **kwargs):
     True
     """
 
+    settings = {}
+    settings.update(kwargs)
+    settings.update({'standalone': False})
+
     colour_quality_bars_plot(
         colour_quality_scale(spd, additional_data=True),
-        standalone=False)
+        **settings)
 
-    settings = {
-        'title': 'Colour Quality Scale - {0}'.format(spd.title)}
+    settings = {'title': 'Colour Quality Scale - {0}'.format(spd.title)}
+    settings.update(kwargs)
 
     decorate(**settings)
 
