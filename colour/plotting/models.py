@@ -144,8 +144,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1931_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1931_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
@@ -280,8 +279,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
@@ -426,8 +424,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1976_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
@@ -562,6 +559,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
+
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         standalone=False, **settings)
 
@@ -619,6 +617,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
+
     RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         standalone=False, **settings)
 
@@ -675,6 +674,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
+
     RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         standalone=False, **settings)
 
