@@ -14,12 +14,15 @@ from .common import (
     DEFAULT_FONT_SIZE,
     DEFAULT_PARAMETERS,
     DEFAULT_COLOUR_CYCLE,
+    DEFAULT_PLOTTING_ILLUMINANT,
     ColourParameter,
     colour_cycle,
     canvas,
+    camera,
     decorate,
     boundaries,
     display,
+    equal_axes3d,
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
@@ -41,7 +44,6 @@ from .colorimetry import (
     blackbody_colours_plot)
 from .characterisation import colour_checker_plot
 from .diagrams import (
-    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
@@ -49,6 +51,10 @@ from .diagrams import (
     spds_CIE_1960_UCS_chromaticity_diagram_plot,
     spds_CIE_1976_UCS_chromaticity_diagram_plot)
 from .corresponding import corresponding_chromaticities_prediction_plot
+from .geometry import (
+    quad,
+    grid,
+    cube)
 from .models import (
     get_RGB_colourspace,
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot,
@@ -68,6 +74,7 @@ from .quality import (colour_quality_scale_bars_plot,
 from .temperature import (
     planckian_locus_CIE_1931_chromaticity_diagram_plot,
     planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot)
+from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 
 __all__ = []
 __all__ += dataset.__all__
@@ -80,12 +87,15 @@ __all__ += [
     'DEFAULT_FONT_SIZE',
     'DEFAULT_PARAMETERS',
     'DEFAULT_COLOUR_CYCLE',
+    'DEFAULT_PLOTTING_ILLUMINANT',
     'ColourParameter',
     'colour_cycle',
     'canvas',
+    'camera',
     'decorate',
     'boundaries',
     'display',
+    'equal_axes3d',
     'colour_parameter',
     'colour_parameters_plot',
     'single_colour_plot',
@@ -108,7 +118,6 @@ __all__ += [
 __all__ += [
     'colour_checker_plot']
 __all__ += [
-    'CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT',
     'CIE_1931_chromaticity_diagram_plot',
     'CIE_1960_UCS_chromaticity_diagram_plot',
     'CIE_1976_UCS_chromaticity_diagram_plot',
@@ -117,6 +126,10 @@ __all__ += [
     'spds_CIE_1976_UCS_chromaticity_diagram_plot']
 __all__ += [
     'corresponding_chromaticities_prediction_plot']
+__all__ += [
+    'quad',
+    'grid',
+    'cube']
 __all__ += [
     'get_RGB_colourspace',
     'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
@@ -136,3 +149,4 @@ __all__ += ['colour_quality_scale_bars_plot',
 __all__ += [
     'planckian_locus_CIE_1931_chromaticity_diagram_plot',
     'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']
+__all__ += ['RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot']

@@ -175,6 +175,7 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         'y_ticker': True}
 
     settings.update(kwargs)
+
     return colour_parameters_plot(
         [colour_parameter(x=x[0], y1=x[1], RGB=x[2])
          for x in tuple(zip(wavelengths, y1, colours))],

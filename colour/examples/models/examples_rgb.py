@@ -34,20 +34,21 @@ print('\nInverse transfer function from colourspace to linear:\n{0}'.format(
 
 print('\n')
 
-message_box('Computing "ACES2065-1" colourspace to "sRGB" colourspace matrix.')
+message_box(('Computing "ACES2065-1" colourspace to "Rec. 709" colourspace '
+             'matrix.'))
 cat = colour.chromatic_adaptation_matrix_VonKries(
     colour.xy_to_XYZ(colour.RGB_COLOURSPACES['ACES2065-1'].whitepoint),
-    colour.xy_to_XYZ(colour.RGB_COLOURSPACES['sRGB'].whitepoint))
-print(np.dot(colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
+    colour.xy_to_XYZ(colour.RGB_COLOURSPACES['Rec. 709'].whitepoint))
+print(np.dot(colour.RGB_COLOURSPACES['Rec. 709'].XYZ_to_RGB_matrix,
              np.dot(cat,
                     colour.RGB_COLOURSPACES['ACES2065-1'].RGB_to_XYZ_matrix)))
 
 print('\n')
 
 RGB = (0.35521588, 0.41000000, 0.24177934)
-message_box(('Converting from "sRGB" colourspace to "ProPhoto RGB" '
-             'colourspace given "RGB" values:\n'
+message_box(('Converting from "Rec. 709" colourspace to "ACEScg" colourspace '
+             'given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))
 print(colour.RGB_to_RGB(RGB,
-                        colour.RGB_COLOURSPACES['sRGB'],
-                        colour.RGB_COLOURSPACES['ProPhoto RGB']))
+                        colour.RGB_COLOURSPACES['Rec. 709'],
+                        colour.RGB_COLOURSPACES['ACEScg']))

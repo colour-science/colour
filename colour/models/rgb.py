@@ -340,7 +340,7 @@ def XYZ_to_RGB(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values
+        *CIE XYZ* tristimulus values.
     illuminant_XYZ : array_like
         *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
         coordinates.

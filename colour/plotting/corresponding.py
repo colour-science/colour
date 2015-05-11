@@ -62,6 +62,7 @@ def get_corresponding_chromaticities_prediction_model(model):
         raise KeyError(
             ('"{0}" not found in factory corresponding chromaticities '
              'prediction models: "{1}".').format(name, models))
+
     return model
 
 
@@ -116,8 +117,7 @@ def corresponding_chromaticities_prediction_plot(
         'standalone': False})
     settings.update(kwargs)
 
-    if not CIE_1976_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     results = model(experiment, transform=transform)
 
