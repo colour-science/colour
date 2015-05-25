@@ -81,7 +81,7 @@ def quad(plane='xy', origin=None, width=1, height=1, depth=0):
                     (depth, u + width, v + height),
                     (depth, u, v + height))
     else:
-        raise ValueError('"{0}" is not a supported plane!.'.format(plane))
+        raise ValueError('"{0}" is not a supported plane!'.format(plane))
 
     return np.array(vertices)
 

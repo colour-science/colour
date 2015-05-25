@@ -44,14 +44,24 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['COLOURSPACE_TO_LABELS',
+__all__ = ['REFERENCE_COLOURSPACES',
+           'REFERENCE_COLOURSPACES_TO_LABELS',
            'nadir_grid',
            'XYZ_to_reference_colourspace',
            'RGB_identity_cube',
            'RGB_colourspaces_gamuts_plot',
            'RGB_scatter_plot']
 
-COLOURSPACE_TO_LABELS = {
+REFERENCE_COLOURSPACES = (
+    'CIE XYZ',
+    'CIE xyY',
+    'CIE Lab',
+    'CIE Luv',
+    'CIE UCS',
+    'CIE UVW',
+    'IPT')
+
+REFERENCE_COLOURSPACES_TO_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('a', 'b', '$L^*$'),
@@ -60,9 +70,9 @@ COLOURSPACE_TO_LABELS = {
     'CIE UVW': ('U', 'V', 'W'),
     'IPT': ('P', 'T', 'I')}
 """
-Colourspace to labels mapping.
+Reference colourspaces to labels mapping.
 
-COLOURSPACE_TO_LABELS : dict
+REFERENCE_COLOURSPACES_TO_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
     'IPT'}**
 """
@@ -255,6 +265,7 @@ def XYZ_to_reference_colourspace(XYZ,
         Reference colourspace values.
     """
 
+    value = None
     if reference_colourspace == 'CIE XYZ':
         value = XYZ
     if reference_colourspace == 'CIE xyY':
@@ -272,6 +283,12 @@ def XYZ_to_reference_colourspace(XYZ,
     if reference_colourspace == 'IPT':
         I, P, T = tsplit(XYZ_to_IPT(XYZ))
         value = tstack((P, T, I))
+
+    if value is None:
+        raise ValueError(
+            ('"{0}" not found in reference colourspace models: '
+             '"{1}".').format(reference_colourspace,
+                              ', '.join(REFERENCE_COLOURSPACES)))
 
     return value
 
@@ -507,7 +524,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             max_a = np.max(np.vstack((quads[..., i], points[..., i])))
             getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
-    labels = COLOURSPACE_TO_LABELS[reference_colourspace]
+    labels = REFERENCE_COLOURSPACES_TO_LABELS[reference_colourspace]
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
