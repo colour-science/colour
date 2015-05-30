@@ -237,7 +237,7 @@ class TestRGBLuminanceEquation(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            unicode)
+            unicode)  # noqa
 
         self.assertTrue(re.match(
             # TODO: Simplify that monster.

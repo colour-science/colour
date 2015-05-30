@@ -210,7 +210,9 @@ def XYZ_to_CIECAM02(XYZ,
     >>> Y_b = 20.0
     >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=array(278.0607358...), HC=None)
+    CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., \
+s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=array(278.0607358...), \
+HC=None)
     """
 
     _X_w, Y_w, Z_w = tsplit(XYZ_w)

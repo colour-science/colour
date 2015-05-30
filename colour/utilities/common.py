@@ -163,7 +163,7 @@ def is_openimageio_installed(raise_exception=False):
     """
 
     try:
-        import OpenImageIO
+        import OpenImageIO  # noqa
 
         return True
     except ImportError as error:
@@ -195,9 +195,9 @@ def is_scipy_installed(raise_exception=False):
 
     try:
         # Importing *scipy* Api features used in *Colour*.
-        import scipy.interpolate
-        import scipy.ndimage
-        import scipy.spatial
+        import scipy.interpolate  # noqa
+        import scipy.ndimage  # noqa
+        import scipy.spatial  # noqa
 
         return True
     except ImportError as error:
@@ -259,7 +259,7 @@ def is_string(data):
     False
     """
 
-    return True if isinstance(data, basestring) else False
+    return True if isinstance(data, basestring) else False  # noqa
 
 
 def is_numeric(x):

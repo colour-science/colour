@@ -94,8 +94,8 @@ def get_RGB_colourspace(colourspace):
     if colourspace is None:
         raise KeyError(
             ('"{0}" colourspace not found in factory RGB colourspaces: '
-             '"{1}".').format(name, ', '.join(
-                sorted(RGB_COLOURSPACES.keys()))))
+             '"{1}".').format(
+                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
 
     return colourspace
 

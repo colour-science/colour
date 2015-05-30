@@ -55,7 +55,7 @@ from .appearance import *  # noqa
 from . import appearance
 from .colorimetry import *  # noqa
 from . import colorimetry
-from .constants import *
+from .constants import *  # noqa
 from . import constants
 from .difference import *  # noqa
 from . import difference
@@ -80,7 +80,7 @@ from . import temperature
 from .volume import *  # noqa
 from . import volume
 from .utilities import *  # noqa
-from . import utilities
+from . import utilities  # noqa
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'

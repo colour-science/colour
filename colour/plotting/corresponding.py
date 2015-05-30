@@ -110,10 +110,10 @@ def corresponding_chromaticities_prediction_plot(
         'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
                    'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
             name, transform, experiment)
-                  if name.lower() in ('von kries', 'vonkries') else
-                  ('Corresponding Chromaticities Prediction\n{0} - '
-                   'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
-                      name, experiment)),
+            if name.lower() in ('von kries', 'vonkries') else
+            ('Corresponding Chromaticities Prediction\n{0} - '
+                'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
+                    name, experiment)),
         'standalone': False})
     settings.update(kwargs)
 

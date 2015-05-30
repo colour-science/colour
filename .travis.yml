@@ -49,7 +49,7 @@ install:
   - pip install backports.functools_lru_cache
 
 script:
-  - flake8 --exit-zero colour
+  - flake8 colour
   - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS,+NORMALIZE_WHITESPACE --with-coverage --cover-package=colour -exclude-dir=
 
 after_success:

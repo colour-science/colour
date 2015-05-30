@@ -25,8 +25,7 @@ __status__ = 'Production'
 
 __all__ = ['quad',
            'grid',
-           'cube',
-           'RGB_identity_cube']
+           'cube']
 
 
 def quad(plane='xy', origin=None, width=1, height=1, depth=0):

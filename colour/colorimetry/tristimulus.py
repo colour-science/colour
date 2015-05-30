@@ -157,7 +157,7 @@ def wavelength_to_XYZ(wavelength,
 
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
-                np.max(wavelength) > cmfs_shape.end):
+            np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
             '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
                 wavelength, cmfs_shape.start, cmfs_shape.end))
@@ -171,8 +171,7 @@ def wavelength_to_XYZ(wavelength,
         interpolators = [interpolator(wavelengths, values[..., i])
                          for i in range(values.shape[-1])]
 
-        XYZ = np.dstack([interpolator(np.ravel(wavelength))
-                         for interpolator in interpolators])
+        XYZ = np.dstack([i(np.ravel(wavelength)) for i in interpolators])
     else:
         XYZ = cmfs.get(wavelength)
 
