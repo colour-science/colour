@@ -542,7 +542,7 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('name', value))
         self.__name = value
@@ -605,7 +605,7 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('title', value))
         self.__title = value
@@ -1720,7 +1720,7 @@ class SpectralPowerDistribution(object):
                 86.8506741...,  86.26     ...,  85.5911699...,  84.8503430...,
                 84.0434801...,  83.1771110...,  82.2583874...,  81.2951360...,
                 80.2959122...,  79.2700525...,  78.2277286...,  77.18     ...,
-                77.18     ...,  77.18     ...,  77.18     ...,  77.18     ...,  77.18      ])
+                77.18     ...,  77.18     ...,  77.18     ...,  77.18     ...])
         """
 
         self.interpolate(shape)
@@ -1952,7 +1952,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('name', value))
         self.__name = value
@@ -2077,7 +2077,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('title', value))
         self.__title = value

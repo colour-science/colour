@@ -118,7 +118,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('name', value))
         self.__name = value
@@ -206,7 +206,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('illuminant', value))
         self.__illuminant = value

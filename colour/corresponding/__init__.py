@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .prediction import (
     corresponding_chromaticities_prediction_CIE1994,

@@ -124,9 +124,9 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 
 ILLUMINANTS = CaseInsensitiveMapping(
     {'CIE 1931 2 Degree Standard Observer':
-         ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+        ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
      'CIE 1964 10 Degree Standard Observer':
-         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
+        ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
 """
 Aggregated *CIE* illuminants chromaticity coordinates.
 

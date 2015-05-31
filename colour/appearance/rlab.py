@@ -202,7 +202,8 @@ def XYZ_to_RLAB(XYZ,
     >>> sigma = RLAB_VIEWING_CONDITIONS['Average']
     >>> D = RLAB_D_FACTOR['Hard Copy Images']
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
-    RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
+    RLAB_Specification(J=49.8347069..., C=54.8700585..., h=286.4860208..., \
+s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
     Y_n = np.asarray(Y_n)

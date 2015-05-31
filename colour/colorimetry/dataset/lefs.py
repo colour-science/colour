@@ -2347,10 +2347,10 @@ PHOTOPIC_LEFS_DATA = {
 
 PHOTOPIC_LEFS = CaseInsensitiveMapping(
     {'CIE 1924 Photopic Standard Observer':
-         SpectralPowerDistribution(
-             'CIE 1924 Photopic Standard Observer',
-             PHOTOPIC_LEFS_DATA.get(
-                 'CIE 1924 Photopic Standard Observer')),
+        SpectralPowerDistribution(
+            'CIE 1924 Photopic Standard Observer',
+            PHOTOPIC_LEFS_DATA.get(
+                'CIE 1924 Photopic Standard Observer')),
      'Judd Modified CIE 1951 Photopic Standard Observer':
          SpectralPowerDistribution(
              'Judd Modified CIE 1951 Photopic Standard Observer',

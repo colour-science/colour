@@ -76,9 +76,11 @@ setup(name='colour-science',
       classifiers=['Development Status :: 3 - Alpha',
                    'Environment :: Console',
                    'Intended Audience :: Developers',
+                   'Intended Audience :: Science/Research',
+                   'License :: OSI Approved',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python :: 2.6',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.4',
-                   'Topic :: Utilities'])
+                   'Topic :: Scientific/Engineering'])

@@ -1638,22 +1638,22 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 1
             elif chroma == 10:
                 if (30 < ASTM_hue < 42.5 or
-                                5 < ASTM_hue < 25 or
-                                60 < ASTM_hue < 82.5):
+                        5 < ASTM_hue < 25 or
+                        60 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma == 12:
                 if (30 < ASTM_hue < 42.5 or
-                                7.5 < ASTM_hue < 27.5 or
-                                80 < ASTM_hue < 82.5):
+                        7.5 < ASTM_hue < 27.5 or
+                        80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
                 if (32.5 < ASTM_hue < 40 or
-                                7.5 < ASTM_hue < 15 or
-                                80 < ASTM_hue < 82.5):
+                        7.5 < ASTM_hue < 15 or
+                        80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -1661,19 +1661,19 @@ def interpolation_method_from_renotation_ovoid(specification):
                 interpolation_method = 1
         elif value == 8:
             if (chroma == 2 or
-                        chroma == 4 or
-                        chroma == 6 or
-                        chroma == 8 or
-                        chroma == 10 or
-                        chroma == 12):
+                    chroma == 4 or
+                    chroma == 6 or
+                    chroma == 8 or
+                    chroma == 10 or
+                    chroma == 12):
                 if 5 < ASTM_hue < 40 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
                 if (32.5 < ASTM_hue < 40 or
-                                5 < ASTM_hue < 15 or
-                                60 < ASTM_hue < 85):
+                        5 < ASTM_hue < 15 or
+                        60 < ASTM_hue < 85):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -1686,10 +1686,10 @@ def interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif (chroma == 6 or
-                          chroma == 8 or
-                          chroma == 10 or
-                          chroma == 12 or
-                          chroma == 14):
+                  chroma == 8 or
+                  chroma == 10 or
+                  chroma == 12 or
+                  chroma == 14):
                 if 5 < ASTM_hue < 42.5:
                     interpolation_method = 2
                 else:
@@ -1778,10 +1778,10 @@ def xy_from_renotation_ovoid(specification):
         # given threshold.
         threshold = 0.001
         if (abs(hue) < threshold or
-                    abs(hue - 2.5) < threshold or
-                    abs(hue - 5) < threshold or
-                    abs(hue - 7.5) < threshold or
-                    abs(hue - 10) < threshold):
+                abs(hue - 2.5) < threshold or
+                abs(hue - 5) < threshold or
+                abs(hue - 7.5) < threshold or
+                abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
             x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
             return x, y

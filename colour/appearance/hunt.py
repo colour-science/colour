@@ -316,7 +316,8 @@ def XYZ_to_Hunt(XYZ,
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
-    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
+    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
+s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
     _X, Y, Z = tsplit(XYZ)

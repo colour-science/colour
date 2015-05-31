@@ -193,7 +193,9 @@ def XYZ_to_Nayatani95(XYZ,
     >>> E_o = 5000.0
     >>> E_or = 1000.0
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
-    Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, HC=None, Lstar_N=50.0039154...)
+    Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., \
+h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, \
+HC=None, Lstar_N=50.0039154...)
     """
 
     Y_o = np.asarray(Y_o)

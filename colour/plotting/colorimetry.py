@@ -335,7 +335,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
-            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]
+            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]  # noqa
             wavelengths, values = tuple(
                 zip(*[(key, value) for key, value in getattr(cmfs_i, axis)]))
 
@@ -354,7 +354,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 
     settings = {
         'title': '{0} - Colour Matching Functions'.format(', '.join(
-            [get_cmfs(cmfs_i).title for cmfs_i in cmfs])),
+            [get_cmfs(c).title for c in cmfs])),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
