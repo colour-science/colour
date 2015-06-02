@@ -4,7 +4,7 @@ Contributors
 Development & Technical Support
 -------------------------------
 
--   **Thomas Mansencal**, *Visual Effects Artist*
+-   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
 
     Project coordination, overall development.
 
