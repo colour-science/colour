@@ -18,7 +18,7 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from colour import (
+from colour.models import (
     Lab_to_LCHab,
     Luv_to_LCHuv,
     Luv_to_uv,
@@ -30,10 +30,7 @@ from colour import (
     XYZ_to_UCS,
     XYZ_to_UVW,
     XYZ_to_xy,
-    XYZ_to_xyY,
-    tsplit,
-    tstack,
-    xy_to_XYZ)
+    XYZ_to_xyY)
 from colour.plotting import (
     DEFAULT_PLOTTING_ILLUMINANT,
     camera,
