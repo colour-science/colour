@@ -18,13 +18,18 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from colour import (
+from colour.models import (
+    Lab_to_LCHab,
+    Luv_to_LCHuv,
+    Luv_to_uv,
+    UCS_to_uv,
     RGB_to_XYZ,
     XYZ_to_IPT,
     XYZ_to_Lab,
     XYZ_to_Luv,
     XYZ_to_UCS,
     XYZ_to_UVW,
+    XYZ_to_xy,
     XYZ_to_xyY)
 from colour.plotting import (
     DEFAULT_PLOTTING_ILLUMINANT,
@@ -254,8 +259,8 @@ def XYZ_to_reference_colourspace(XYZ,
         *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
         coordinates.
     reference_colourspace : unicode
-        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE Luv', 'CIE Luv uv',
+        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT'}**
 
         Reference colourspace to convert the *CIE XYZ* tristimulus values to.
 
@@ -263,6 +268,34 @@ def XYZ_to_reference_colourspace(XYZ,
     -------
     ndarray
         Reference colourspace values.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> W = np.array([0.34567, 0.35850])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE XYZ')  # doctest: +ELLIPSIS
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xyY')  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...,  0.1008    ])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xy')  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Lab')  # doctest: +ELLIPSIS
+    array([-23.6230288...,  -4.4141703...,  37.9856291...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHab')  # doctest: +ELLIPSIS
+    array([  24.0319036...,  190.5841597...,   37.9856291...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv')  # doctest: +ELLIPSIS
+    array([-28.7922944...,  -1.3558195...,  37.9856291...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv uv')  # noqa  # doctest: +ELLIPSIS
+    array([ 0.1508531...,  0.4853297...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHuv') # doctest: +ELLIPSIS
+    array([  28.82419932,  182.69604747,   37.9856291 ])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UCS uv')  # noqa  # doctest: +ELLIPSIS
+    array([ 0.1508531...,  0.32355314...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UVW')  # doctest: +ELLIPSIS
+    array([-28.0483277...,  -0.8805242...,  37.0041149...])
+    >>> XYZ_to_reference_colourspace(XYZ, W, 'IPT')  # doctest: +ELLIPSIS
+    array([-0.1111479...,  0.0159474...,  0.3657112...])
     """
 
     value = None
@@ -270,14 +303,28 @@ def XYZ_to_reference_colourspace(XYZ,
         value = XYZ
     if reference_colourspace == 'CIE xyY':
         value = XYZ_to_xyY(XYZ, illuminant)
+    if reference_colourspace == 'CIE xy':  # Used for Chromaticity Diagram.
+        value = XYZ_to_xy(XYZ, illuminant)
     if reference_colourspace == 'CIE Lab':
         L, a, b = tsplit(XYZ_to_Lab(XYZ, illuminant))
         value = tstack((a, b, L))
+    if reference_colourspace == 'CIE LCHab':
+        L, CH, ab = tsplit(Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant)))
+        value = tstack((CH, ab, L))
     if reference_colourspace == 'CIE Luv':
         L, u, v = tsplit(XYZ_to_Luv(XYZ, illuminant))
         value = tstack((u, v, L))
+    if reference_colourspace == 'CIE Luv uv':  # Used for Chromaticity Diagram.
+        u, v = tsplit(Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant))
+        value = tstack((u, v))
+    if reference_colourspace == 'CIE LCHuv':
+        L, CH, uv = tsplit(Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant)))
+        value = tstack((CH, uv, L))
     if reference_colourspace == 'CIE UCS':
         value = XYZ_to_UCS(XYZ)
+    if reference_colourspace == 'CIE UCS uv':  # Used for Chromaticity Diagram.
+        u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
+        value = tstack((u, v))
     if reference_colourspace == 'CIE UVW':
         value = XYZ_to_UVW(XYZ * 100, illuminant)
     if reference_colourspace == 'IPT':
@@ -289,7 +336,6 @@ def XYZ_to_reference_colourspace(XYZ,
             ('"{0}" not found in reference colourspace models: '
              '"{1}".').format(reference_colourspace,
                               ', '.join(REFERENCE_COLOURSPACES)))
-
     return value
 
 
