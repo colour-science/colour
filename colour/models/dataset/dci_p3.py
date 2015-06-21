@@ -74,16 +74,17 @@ DCI_P3_P_PRIMARIES = np.array(
 DCI_P3_P_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_ILLUMINANT = 'D63'
+DCI_P3_ILLUMINANT = 'DCI-P3'
 """
 *DCI-P3* colourspace whitepoint name as illuminant.
 
 DCI_P3_ILLUMINANT : unicode
 
-Notes
------
-*CIE Illuminant D Series* *D63* illuminant is used for *DCI-P3* whitepoint at
-48 :math:`cd/m^2`.
+Warning
+-------
+DCI-P3 illuminant has no associated spectral power distribution. DCI has no
+official reference spectral measurement for this whitepoint. The closest
+matching spectral power distribution is Kinoton 75P projector.
 """
 
 DCI_P3_WHITEPOINT = ILLUMINANTS.get(
