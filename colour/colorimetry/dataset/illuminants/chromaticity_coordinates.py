@@ -14,17 +14,27 @@ The following *CIE* illuminants are available:
 -   CIE Standard Illuminant A
 -   CIE Illuminant B
 -   CIE Illuminant C
--   CIE Illuminant D Series (D50, D55, D60, D63, D65, D75)
+-   CIE Illuminant D Series (D50, D55, D60, D65, D75)
 -   CIE Illuminant E
 -   Illuminants F Series (F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9,
     FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2, FL3.3, FL3.4,
     FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
 
+The following other illuminants are available:
+
+- DCI-P3 (*CIE 1931 2 Degree Standard Observer* only) [2]_
+
 See Also
 --------
 `Illuminants IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+
+Warning
+-------
+DCI-P3 illuminant has no associated spectral power distribution. DCI has no
+official reference spectral measurement for this whitepoint. The closest
+matching spectral power distribution is Kinoton 75P projector.
 
 Notes
 -----
@@ -32,8 +42,6 @@ Notes
     reference [1]_ have been calculated using their relative spectral power
     distributions and the
     :func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
--   *CIE Illuminant D Series* *D63* illuminant is used for *DCI-P3* whitepoint
-    at 48 :math:`cd/m^2`.
 
 References
 ----------
@@ -69,7 +77,6 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
          'D50': (0.34567, 0.35850),
          'D55': (0.33242, 0.34743),
          'D60': (0.32168, 0.33767),
-         'D63': (0.31400, 0.35100),
          'D65': (0.31271, 0.32902),
          'D75': (0.29902, 0.31485),
          'E': (1 / 3, 1 / 3),
@@ -99,7 +106,6 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
          'D50': (0.34773, 0.35952),
          'D55': (0.33411, 0.34877),
          'D60': (0.32299152277736748, 0.33912831290965012),
-         'D63': (0.31767527574760079, 0.35264437978242030),
          'D65': (0.31382, 0.33100),
          'D75': (0.29968, 0.31740),
          'E': (1. / 3., 1. / 3.),
@@ -187,3 +193,6 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update(
      'HP3': (0.43556008048844208, 0.39880115305546204),
      'HP4': (0.38519374626557140, 0.36827565930394440),
      'HP5': (0.38031641910835223, 0.36661712091281040)})
+
+ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
+    'DCI-P3': (0.31400, 0.35100)})
