@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
-from colour.models import xy_to_XYZ
+from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -60,7 +60,8 @@ def XYZ_to_Luv(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -70,7 +71,8 @@ def XYZ_to_Luv(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`L^*` is in domain [0, 100].
 
     References
@@ -86,7 +88,7 @@ def XYZ_to_Luv(XYZ,
     """
 
     X, Y, Z = tsplit(XYZ)
-    X_r, Y_r, Z_r = tsplit(xy_to_XYZ(illuminant))
+    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     y_r = Y / Y_r
 
@@ -113,7 +115,8 @@ def Luv_to_XYZ(Luv,
     Luv : array_like
         *CIE Luv* colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -123,7 +126,8 @@ def Luv_to_XYZ(Luv,
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
-    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     References
@@ -139,7 +143,7 @@ def Luv_to_XYZ(Luv,
     """
 
     L, u, v = tsplit(Luv)
-    X_r, Y_r, Z_r = tsplit(xy_to_XYZ(illuminant))
+    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
@@ -170,7 +174,8 @@ def Luv_to_uv(Luv,
     Luv : array_like
         *CIE Luv* colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -180,6 +185,8 @@ def Luv_to_uv(Luv,
     Notes
     -----
     -   Input :math:`L^*` is in domain [0, 100].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
 
     References
