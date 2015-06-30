@@ -76,6 +76,12 @@ class TestXYZ_to_Lab(unittest.TestCase):
             np.array([37.98562910, -25.55521883, -11.26139386]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
+                       np.array([0.37208, 0.37529, 0.10080])),
+            np.array([100., -54.91100935, -24.19758201]),
+            decimal=7)
+
     def test_n_dimensional_XYZ_to_Lab(self):
         """
         Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensions
@@ -167,6 +173,12 @@ class TestLab_to_XYZ(unittest.TestCase):
             Lab_to_XYZ(np.array([37.98562910, -25.55521883, -11.26139386]),
                        np.array([0.37208, 0.37529])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(np.array([37.98562910, -25.55521883, -11.26139386]),
+                       np.array([0.37208, 0.37529, 0.10080])),
+            np.array([0.00710593, 0.01016064, 0.00963478]),
             decimal=7)
 
     def test_n_dimensional_Lab_to_XYZ(self):

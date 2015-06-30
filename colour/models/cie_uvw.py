@@ -28,7 +28,8 @@ from colour.models import (
     XYZ_to_UCS,
     XYZ_to_xyY,
     xy_to_xyY,
-    xyY_to_XYZ)
+    xyY_to_XYZ,
+    xyY_to_xy)
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -80,7 +81,7 @@ def XYZ_to_UVW(XYZ,
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
-    xyY = XYZ_to_xyY(XYZ, illuminant)
+    xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))
     _x, y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
