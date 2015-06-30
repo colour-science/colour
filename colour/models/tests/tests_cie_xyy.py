@@ -16,7 +16,13 @@ else:
     import unittest
 from itertools import permutations
 
-from colour.models import XYZ_to_xyY, xyY_to_XYZ, xy_to_XYZ, XYZ_to_xy
+from colour.models import (
+    XYZ_to_xyY,
+    xyY_to_XYZ,
+    xy_to_xyY,
+    xyY_to_xy,
+    xy_to_XYZ,
+    XYZ_to_xy)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -28,6 +34,8 @@ __status__ = 'Production'
 
 __all__ = ['TestXYZ_to_xyY',
            'TestxyY_to_XYZ',
+           'Testxy_to_xyY',
+           'TestxyY_to_xy',
            'Testxy_to_XYZ',
            'TestXYZ_to_xy']
 
@@ -266,6 +274,148 @@ class Testxy_to_XYZ(unittest.TestCase):
         for case in cases:
             xy = np.array(case)
             xy_to_XYZ(xy)
+
+
+class Testxy_to_xyY(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cie_xyy.xy_to_xyY` definition unit tests
+    methods.
+    """
+
+    def test_xy_to_xyY(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            xy_to_xyY(np.array([0.26414772, 0.37770001])),
+            np.array([0.26414772, 0.37770001, 1.]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_xyY(np.array([0.50453169, 0.37440000])),
+            np.array([0.50453169, 0.3744, 1.]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_xyY(np.array([0.47670437, 0.35790000])),
+            np.array([0.47670437, 0.3579, 1.]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_xyY(np.array([0.34567, 0.35850, 0.10080])),
+            np.array([0.34567, 0.3585, 0.1008]),
+            decimal=7)
+
+    def test_n_dimensional_xy_to_xyY(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition n-dimensions
+        support.
+        """
+
+        xy = np.array([0.26414772236966133, 0.37770000704815188])
+        XYZ = np.array([0.26414772, 0.37770001, 1.])
+        np.testing.assert_almost_equal(
+            xy_to_xyY(xy),
+            XYZ,
+            decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            xy_to_xyY(xy),
+            XYZ,
+            decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            xy_to_xyY(xy),
+            XYZ,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xy_to_xyY(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy = np.array(case)
+            xy_to_xyY(xy)
+
+
+class TestxyY_to_xy(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cie_xyy.xyY_to_xy` definition unit tests
+    methods.
+    """
+
+    def test_xyY_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            xyY_to_xy(np.array([0.26414772, 0.37770001, 1.00000000])),
+            np.array([0.26414772, 0.37770001]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xyY_to_xy(np.array([0.50453169, 0.37440000, 1.00000000])),
+            np.array([0.50453169, 0.3744]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xyY_to_xy(np.array([0.47670437, 0.35790000, 1.00000000])),
+            np.array([0.47670437, 0.3579]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xyY_to_xy(np.array([0.34567, 0.35850])),
+            np.array([0.34567, 0.3585]),
+            decimal=7)
+
+    def test_n_dimensional_xyY_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition n-dimensions
+        support.
+        """
+
+        xyY = np.array([0.26414772, 0.37770001, 1.])
+        xy = np.array([0.26414772236966133, 0.37770000704815188])
+        np.testing.assert_almost_equal(
+            xyY_to_xy(xyY),
+            xy,
+            decimal=7)
+
+        xyY = np.tile(xyY, (6, 1))
+        xy = np.tile(xy, (6, 1))
+        np.testing.assert_almost_equal(
+            xyY_to_xy(xyY),
+            xy,
+            decimal=7)
+
+        xyY = np.reshape(xyY, (2, 3, 3))
+        xy = np.reshape(xy, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            xyY_to_xy(xyY),
+            xy,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xyY_to_xy(self):
+        """
+        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xyY = np.array(case)
+            xyY_to_xy(xyY)
 
 
 class TestXYZ_to_xy(unittest.TestCase):
