@@ -90,12 +90,11 @@ def spectral_to_XYZ(spd,
         if illuminant.shape != cmfs.shape:
             illuminant = illuminant.clone().zeros(shape)
 
-    illuminant = illuminant.values
     spd = spd.values
-
     x_bar, y_bar, z_bar = (cmfs.x_bar.values,
                            cmfs.y_bar.values,
                            cmfs.z_bar.values)
+    illuminant = illuminant.values
 
     x_products = spd * x_bar * illuminant
     y_products = spd * y_bar * illuminant
