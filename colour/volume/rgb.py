@@ -119,19 +119,16 @@ def sample_RGB_colourspace_volume_MonteCarlo(
                     if random_state is not None else
                     np.random.RandomState())
 
-    within = 0
-    for Lab in random_generator(samples, limits, random_state):
-        RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
-                         illuminant_Lab,
-                         colourspace.whitepoint,
-                         colourspace.XYZ_to_RGB_matrix,
-                         chromatic_adaptation_transform=(
-                             chromatic_adaptation_method))
-
-        if np.min(RGB) >= 0 and np.max(RGB) <= 1:
-            within += 1
-
-    return within
+    Lab = np.asarray(list(random_generator(samples, limits, random_state)))
+    RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
+                     illuminant_Lab,
+                     colourspace.whitepoint,
+                     colourspace.XYZ_to_RGB_matrix,
+                     chromatic_adaptation_transform=(
+                         chromatic_adaptation_method))
+    RGB_w = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                               np.max(RGB, axis=-1) <= 1)]
+    return len(RGB_w)
 
 
 def RGB_colourspace_limits(colourspace,
