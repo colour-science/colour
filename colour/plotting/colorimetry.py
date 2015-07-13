@@ -483,8 +483,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     wavelengths = cmfs.shape.range()
 
     colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
-    colours *= 1 / np.max(colours)
-    colours = np.clip(colours, 0, 1)
+    colours = normalise(colours)
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
