@@ -15,8 +15,6 @@ See Also
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.models import (
     Lab_to_XYZ,
     LCHab_to_Lab,
@@ -58,6 +56,7 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
 
     Examples
     --------
+    >>> import numpy as np
     >>> is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100]))
     array(True, dtype=bool)
     >>> a = np.array([[0.3205, 0.4131, 0.5100],

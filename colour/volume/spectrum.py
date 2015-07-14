@@ -15,8 +15,6 @@ See Also
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.volume import is_within_mesh_volume
 
@@ -59,6 +57,7 @@ def is_within_visible_spectrum(XYZ,
 
     Examples
     --------
+    >>> import numpy as np
     >>> is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.51]))
     array(True, dtype=bool)
     >>> a = np.array([[0.3205, 0.4131, 0.51],

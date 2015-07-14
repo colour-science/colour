@@ -19,6 +19,7 @@ from .rgb import (
 __all__ = []
 __all__ += dataset.__all__
 __all__ += ['is_within_macadam_limits']
+__all__ += ['is_within_mesh_volume']
 __all__ += ['is_within_pointer_gamut']
 __all__ += ['is_within_visible_spectrum']
 __all__ += ['RGB_colourspace_limits',
