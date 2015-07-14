@@ -5,7 +5,7 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Defines objects related to Pointer's Gamut volume computations
+Defines objects related to Pointer's Gamut volume computations.
 
 See Also
 --------
@@ -22,7 +22,7 @@ from colour.models import (
     LCHab_to_Lab,
     POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT)
-from colour.utilities import is_scipy_installed
+from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -32,8 +32,6 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['is_within_pointer_gamut']
-
-_XYZ_POINTER_GAMUT_TRIANGULATION_CACHE = None
 
 
 def is_within_pointer_gamut(XYZ, tolerance=None):
@@ -60,26 +58,15 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
 
     Examples
     --------
-    >>> is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.51]))
+    >>> is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100]))
     array(True, dtype=bool)
-    >>> a = np.array([[0.3205, 0.4131, 0.51],
-    ...               [0.0005, 0.0031, 0.001]])
+    >>> a = np.array([[0.3205, 0.4131, 0.5100],
+    ...               [0.0005, 0.0031, 0.0010]])
     >>> is_within_pointer_gamut(a)
     array([ True, False], dtype=bool)
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    XYZ_p = Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
+                       POINTER_GAMUT_ILLUMINANT)
 
-        global _XYZ_POINTER_GAMUT_TRIANGULATION_CACHE
-
-        triangulation = _XYZ_POINTER_GAMUT_TRIANGULATION_CACHE
-        if triangulation is None:
-            _XYZ_POINTER_GAMUT_TRIANGULATION_CACHE = triangulation = (
-                Delaunay(Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
-                                    POINTER_GAMUT_ILLUMINANT)))
-
-        simplex = triangulation.find_simplex(XYZ, tol=tolerance)
-        simplex = np.where(simplex >= 0, True, False)
-
-        return simplex
+    return is_within_mesh_volume(XYZ, XYZ_p, tolerance)
