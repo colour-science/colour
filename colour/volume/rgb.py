@@ -10,6 +10,7 @@ Defines various RGB colourspace volume computation objects:
 -   :func:`RGB_colourspace_limits`
 -   :func:`RGB_colourspace_volume_MonteCarlo`
 -   :func:`RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
+-   :func:`RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
 
 See Also
 --------
@@ -25,9 +26,13 @@ import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
-from colour.models import Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB
+from colour.models import (
+    Lab_to_XYZ,
+    RGB_to_XYZ,
+    XYZ_to_Lab,
+    XYZ_to_RGB)
 from colour.utilities import is_scipy_installed
-from colour.volume import is_within_pointer_gamut
+from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -39,7 +44,8 @@ __status__ = 'Production'
 __all__ = ['sample_RGB_colourspace_volume_MonteCarlo',
            'RGB_colourspace_limits',
            'RGB_colourspace_volume_MonteCarlo',
-           'RGB_colourspace_pointer_gamut_coverage_MonteCarlo']
+           'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
+           'RGB_colourspace_visible_spectrum_coverage_MonteCarlo']
 
 
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
@@ -262,6 +268,71 @@ def RGB_colourspace_volume_MonteCarlo(
     return Lab_volume * np.sum(results) / (process_samples * cpu_count)
 
 
+def RGB_colourspace_volume_coverage_MonteCarlo(
+        colourspace,
+        coverage_sampler,
+        samples=10e6,
+        random_generator=random_triplet_generator,
+        random_state=None):
+    """
+    Returns given *RGB* colourspace percentage coverage of an arbitrary volume.
+
+    Parameters
+    ----------
+    colourspace : RGB_Colourspace
+        *RGB* colourspace to compute the volume coverage percentage.
+    coverage_sampler : object
+        Python object responsible for checking the volume coverage.
+    samples : numeric, optional
+        Samples count.
+    random_generator : generator, optional
+        Random triplet generator providing the random samples.
+    random_state : RandomState, optional
+        Mersenne Twister pseudo-random number generator to use in the random
+        number generator.
+
+    Returns
+    -------
+    float
+        Percentage coverage of volume.
+
+    Notes
+    -----
+    -   This definition requires *scipy* to be installed.
+
+    Examples
+    --------
+    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> prng = np.random.RandomState(2)
+    >>> RGB_colourspace_volume_coverage_MonteCarlo(
+    ...     sRGB,
+    ...     is_within_pointer_gamut,
+    ...     10e3,
+    ...     random_state=prng)  # doctest: +ELLIPSIS
+    83...
+    """
+
+    if is_scipy_installed(raise_exception=True):
+        random_state = (random_state
+                        if random_state is not None else
+                        np.random.RandomState())
+
+        # TODO: Investigate for generator yielding directly a ndarray.
+        XYZ = np.asarray(list(random_generator(
+            samples, random_state=random_state)))
+        XYZ_vs = XYZ[coverage_sampler(XYZ)]
+
+        RGB = XYZ_to_RGB(XYZ_vs,
+                         colourspace.whitepoint,
+                         colourspace.whitepoint,
+                         colourspace.XYZ_to_RGB_matrix)
+
+        RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                                   np.max(RGB, axis=-1) <= 1)]
+
+        return 100 * RGB_c.size / XYZ_vs.size
+
+
 def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
         colourspace,
         samples=10e6,
@@ -278,8 +349,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     samples : numeric, optional
         Samples count.
     random_generator : generator, optional
-        Random triplet generator providing the random samples within the *Lab*
-        colourspace volume.
+        Random triplet generator providing the random samples.
     random_state : RandomState, optional
         Mersenne Twister pseudo-random number generator to use in the random
         number generator.
@@ -297,25 +367,65 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
+    ...     sRGB,
+    ...     10e3,
+    ...     random_state=prng)  # doctest: +ELLIPSIS
     83...
     """
 
-    if is_scipy_installed(raise_exception=True):
-        random_state = (random_state
-                        if random_state is not None else
-                        np.random.RandomState())
+    return RGB_colourspace_volume_coverage_MonteCarlo(
+        colourspace,
+        is_within_pointer_gamut,
+        samples,
+        random_generator,
+        random_state)
 
-        XYZ = np.asarray(list(random_generator(
-            samples, random_state=random_state)))
-        XYZ_p = XYZ[is_within_pointer_gamut(XYZ)]
 
-        RGB = XYZ_to_RGB(XYZ_p,
-                         colourspace.whitepoint,
-                         colourspace.whitepoint,
-                         colourspace.XYZ_to_RGB_matrix)
+def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
+        colourspace,
+        samples=10e6,
+        random_generator=random_triplet_generator,
+        random_state=None):
+    """
+    Returns given *RGB* colourspace percentage coverage of visible spectrum
+    volume using *Monte Carlo* method.
 
-        RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
-                                   np.max(RGB, axis=-1) <= 1)]
+    Parameters
+    ----------
+    colourspace : RGB_Colourspace
+        *RGB* colourspace to compute the visible spectrum coverage percentage.
+    samples : numeric, optional
+        Samples count.
+    random_generator : generator, optional
+        Random triplet generator providing the random samples.
+    random_state : RandomState, optional
+        Mersenne Twister pseudo-random number generator to use in the random
+        number generator.
 
-        return 100 * RGB_c.size / XYZ_p.size
+    Returns
+    -------
+    float
+        Percentage coverage of visible spectrum volume.
+
+    Notes
+    -----
+    -   This definition requires *scipy* to be installed.
+
+    Examples
+    --------
+    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> prng = np.random.RandomState(2)
+    >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
+    ...     sRGB,
+    ...     10e3,
+    ...     random_state=prng)  # doctest: +ELLIPSIS
+    36...
+    """
+
+    return RGB_colourspace_volume_coverage_MonteCarlo(
+        colourspace,
+        is_within_visible_spectrum,
+        samples,
+        random_generator,
+        random_state)
