@@ -7,8 +7,9 @@ RGB Colourspace Volume Computation
 
 Defines various RGB colourspace volume computation objects:
 
--   :func:`RGB_colourspace_volume_MonteCarlo`
 -   :func:`RGB_colourspace_limits`
+-   :func:`RGB_colourspace_volume_MonteCarlo`
+-   :func:`RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
 
 See Also
 --------
@@ -25,6 +26,8 @@ import numpy as np
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
 from colour.models import Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB
+from colour.utilities import is_scipy_installed
+from colour.volume import is_within_pointer_gamut
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -35,7 +38,8 @@ __status__ = 'Production'
 
 __all__ = ['sample_RGB_colourspace_volume_MonteCarlo',
            'RGB_colourspace_limits',
-           'RGB_colourspace_volume_MonteCarlo']
+           'RGB_colourspace_volume_MonteCarlo',
+           'RGB_colourspace_pointer_gamut_coverage_MonteCarlo']
 
 
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
@@ -119,19 +123,16 @@ def sample_RGB_colourspace_volume_MonteCarlo(
                     if random_state is not None else
                     np.random.RandomState())
 
-    within = 0
-    for Lab in random_generator(samples, limits, random_state):
-        RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
-                         illuminant_Lab,
-                         colourspace.whitepoint,
-                         colourspace.XYZ_to_RGB_matrix,
-                         chromatic_adaptation_transform=(
-                             chromatic_adaptation_method))
-
-        if np.min(RGB) >= 0 and np.max(RGB) <= 1:
-            within += 1
-
-    return within
+    Lab = np.asarray(list(random_generator(samples, limits, random_state)))
+    RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
+                     illuminant_Lab,
+                     colourspace.whitepoint,
+                     colourspace.XYZ_to_RGB_matrix,
+                     chromatic_adaptation_transform=(
+                         chromatic_adaptation_method))
+    RGB_w = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                               np.max(RGB, axis=-1) <= 1)]
+    return len(RGB_w)
 
 
 def RGB_colourspace_limits(colourspace,
@@ -259,3 +260,62 @@ def RGB_colourspace_volume_MonteCarlo(
     Lab_volume = np.product([np.sum(np.abs(x)) for x in limits])
 
     return Lab_volume * np.sum(results) / (process_samples * cpu_count)
+
+
+def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
+        colourspace,
+        samples=10e6,
+        random_generator=random_triplet_generator,
+        random_state=None):
+    """
+    Returns given *RGB* colourspace percentage coverage of Pointer's Gamut
+    volume using *Monte Carlo* method.
+
+    Parameters
+    ----------
+    colourspace : RGB_Colourspace
+        *RGB* colourspace to compute the Pointer's Gamut coverage percentage.
+    samples : numeric, optional
+        Samples count.
+    random_generator : generator, optional
+        Random triplet generator providing the random samples within the *Lab*
+        colourspace volume.
+    random_state : RandomState, optional
+        Mersenne Twister pseudo-random number generator to use in the random
+        number generator.
+
+    Returns
+    -------
+    float
+        Percentage coverage of Pointer's Gamut volume.
+
+    Notes
+    -----
+    -   This definition requires *scipy* to be installed.
+
+    Examples
+    --------
+    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> prng = np.random.RandomState(2)
+    >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    83...
+    """
+
+    if is_scipy_installed(raise_exception=True):
+        random_state = (random_state
+                        if random_state is not None else
+                        np.random.RandomState())
+
+        XYZ = np.asarray(list(random_generator(
+            samples, random_state=random_state)))
+        XYZ_p = XYZ[is_within_pointer_gamut(XYZ)]
+
+        RGB = XYZ_to_RGB(XYZ_p,
+                         colourspace.whitepoint,
+                         colourspace.whitepoint,
+                         colourspace.XYZ_to_RGB_matrix)
+
+        RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                                   np.max(RGB, axis=-1) <= 1)]
+
+        return 100 * RGB_c.size / XYZ_p.size
