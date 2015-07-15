@@ -307,6 +307,11 @@ class Testxy_to_xyY(unittest.TestCase):
             np.array([0.34567, 0.3585, 0.1008]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            xy_to_xyY(np.array([0.34567, 0.35850]), 100),
+            np.array([0.34567, 0.3585, 100.]),
+            decimal=7)
+
     def test_n_dimensional_xy_to_xyY(self):
         """
         Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition n-dimensions

@@ -138,9 +138,10 @@ def xyY_to_XYZ(xyY):
     return XYZ
 
 
-def xy_to_xyY(xy):
+def xy_to_xyY(xy, Y=1):
     """
-    Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace.
+    Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
+    extending the array last dimension with :math:`Y` Luminance.
 
     `xy` argument with last dimension being equal to 3 will be assumed to be a
     *CIE xyY* colourspace array argument and will be returned directly by the
@@ -150,6 +151,9 @@ def xy_to_xyY(xy):
     ----------
     xy : array_like
         *xy* chromaticity coordinates or *CIE xyY* colourspace array.
+    Y : numeric, optional
+        Optional :math:`Y` Luminance value used to construct the *CIE xyY*
+        colourspace array, otherwise the :math:`Y` Luminance will be set to 1.
 
     Returns
     -------
@@ -171,12 +175,15 @@ def xy_to_xyY(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.26414772236966133, 0.37770000704815188])
+    >>> xy = np.array([0.26414772, 0.37770001])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...,  1.        ])
     >>> xy = np.array([0.26414772, 0.37770001, 0.10080000])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...,  0.1008...])
+    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy_to_xyY(xy, 100)  # doctest: +ELLIPSIS
+    array([   0.2641477...,    0.3777000...,  100.        ])
     """
 
     xy = np.asarray(xy)
@@ -189,7 +196,7 @@ def xy_to_xyY(xy):
 
     x, y = tsplit(xy)
 
-    xyY = tstack((x, y, np.ones(x.shape)))
+    xyY = tstack((x, y, np.full(x.shape, Y)))
 
     return xyY
 
