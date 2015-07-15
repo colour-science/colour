@@ -35,6 +35,7 @@ import numpy as np
 import pylab
 
 from colour.colorimetry import ILLUMINANTS
+from colour.models import RGB_COLOURSPACES
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -53,6 +54,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
            'DEFAULT_PLOTTING_ILLUMINANT',
+           'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
            'ColourParameter',
            'colour_cycle',
@@ -138,6 +140,8 @@ DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 
 DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('D65')
+
+DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].transfer_function
 
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))

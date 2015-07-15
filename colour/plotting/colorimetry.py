@@ -37,6 +37,7 @@ from colour.colorimetry import (
     wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
+    DEFAULT_PLOTTING_OECF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
@@ -127,7 +128,10 @@ def get_illuminant(illuminant):
     return illuminant
 
 
-def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+def single_spd_plot(spd,
+                    cmfs='CIE 1931 2 Degree Standard Observer',
+                    out_of_gamut_clipping=True,
+                    **kwargs):
     """
     Plots given spectral power distribution.
 
@@ -135,6 +139,10 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     ----------
     spd : SpectralPowerDistribution
         Spectral power distribution to plot.
+    out_of_gamut_clipping : bool, optional
+        Out of gamut colours will be clipped if *True* otherwise, the colours
+        will be offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
     \*\*kwargs : \*\*
@@ -161,10 +169,14 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     wavelengths = spd.wavelengths
     values = spd.values
 
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
     y1 = values
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs),
+                          transfer_function=False)
 
-    colours = normalise(colours)
+    if not out_of_gamut_clipping:
+        colours += np.abs(np.min(colours))
+
+    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
 
     settings = {
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
@@ -454,6 +466,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
 
 def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+                          out_of_gamut_clipping=True,
                           **kwargs):
     """
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
@@ -463,6 +476,10 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
+    out_of_gamut_clipping : bool, optional
+        Out of gamut colours will be clipped if *True* otherwise, the colours
+        will be offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -482,9 +499,13 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wavelengths = cmfs.shape.range()
 
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
-    colours *= 1 / np.max(colours)
-    colours = np.clip(colours, 0, 1)
+    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs),
+                          transfer_function=False)
+
+    if not out_of_gamut_clipping:
+        colours += np.abs(np.min(colours))
+
+    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
