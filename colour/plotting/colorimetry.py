@@ -22,7 +22,7 @@ Defines the colorimetry plotting objects:
 References
 ----------
 .. [1]  Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from
-        http://www.invisiblelightimages.com/
+        http://www.repairfaq.org/sam/repspec/
 """
 
 from __future__ import division
