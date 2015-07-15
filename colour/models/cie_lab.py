@@ -29,7 +29,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
-from colour.models import xy_to_XYZ
+from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -56,7 +56,8 @@ def XYZ_to_Lab(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -66,7 +67,8 @@ def XYZ_to_Lab(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *Lightness* :math:`L^*` is in domain [0, 100].
 
     References
@@ -82,7 +84,7 @@ def XYZ_to_Lab(XYZ,
     """
 
     XYZ = np.asarray(XYZ)
-    XYZ_r = xy_to_XYZ(illuminant)
+    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
 
     XYZ_f = XYZ / XYZ_r
 
@@ -112,7 +114,8 @@ def Lab_to_XYZ(Lab,
     Lab : array_like
         *CIE Lab* colourspace array.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -122,7 +125,8 @@ def Lab_to_XYZ(Lab,
     Notes
     -----
     -   Input *Lightness* :math:`L^*` is in domain [0, 100].
-    -   Input *illuminant* chromaticity coordinates are in domain [0, 1].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     References
@@ -138,7 +142,7 @@ def Lab_to_XYZ(Lab,
     """
 
     L, a, b = tsplit(Lab)
-    XYZ_r = xy_to_XYZ(illuminant)
+    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
 
     f_y = (L + 16) / 116
     f_x = a / 500 + f_y

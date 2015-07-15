@@ -383,6 +383,17 @@ class TestXYZ_to_RGB(unittest.TestCase):
                 RGB,
                 decimal=7)
 
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        W_R = np.array([0.34567, 0.35850])
+        W_T = np.array([0.31271, 0.32902, 0.10080])
+        M = np.array([[3.24100326, -1.53739899, -0.49861587],
+                      [-0.96922426, 1.87592999, 0.04155422],
+                      [0.05563942, -0.20401120, 1.05714897]])
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(XYZ, W_R, W_T, M),
+            np.array([0.00110011, 0.01282112, 0.01173427]),
+            decimal=7)
+
     def test_n_dimensional_XYZ_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.XYZ_to_RGB` definition n-dimensions
@@ -478,6 +489,18 @@ class TestRGB_to_XYZ(unittest.TestCase):
                          [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])),
                 np.array(XYZ),
                 decimal=7)
+
+        RGB = np.array([0.86969452, 1.00516431, 1.41715848])
+        W_R = np.array([0.31271, 0.32902])
+        W_T = np.array([0.34567, 0.35850, 0.10080])
+        M = np.array([
+            [0.41238656, 0.35759149, 0.18045049],
+            [0.21263682, 0.71518298, 0.07218020],
+            [0.01933062, 0.11919716, 0.95037259]])
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(RGB, W_R, W_T, M),
+            np.array([0.09757065, 0.10063053, 0.11347848]),
+            decimal=7)
 
     def test_n_dimensional_RGB_to_XYZ(self):
         """

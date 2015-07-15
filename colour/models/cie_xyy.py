@@ -9,6 +9,8 @@ Defines the *CIE xyY* colourspace transformations:
 
 -   :func:`XYZ_to_xyY`
 -   :func:`xyY_to_XYZ`
+-   :func:`xy_to_xyY`
+-   :func:`xyY_to_xy`
 -   :func:`xy_to_XYZ`
 -   :func:`XYZ_to_xy`
 
@@ -39,6 +41,8 @@ __status__ = 'Production'
 
 __all__ = ['XYZ_to_xyY',
            'xyY_to_XYZ',
+           'xy_to_xyY',
+           'xyY_to_xy',
            'xy_to_XYZ',
            'XYZ_to_xy']
 
@@ -134,6 +138,119 @@ def xyY_to_XYZ(xyY):
     return XYZ
 
 
+def xy_to_xyY(xy, Y=1):
+    """
+    Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
+    extending the array last dimension with :math:`Y` Luminance.
+
+    `xy` argument with last dimension being equal to 3 will be assumed to be a
+    *CIE xyY* colourspace array argument and will be returned directly by the
+    definition.
+
+    Parameters
+    ----------
+    xy : array_like
+        *xy* chromaticity coordinates or *CIE xyY* colourspace array.
+    Y : numeric, optional
+        Optional :math:`Y` Luminance value used to construct the *CIE xyY*
+        colourspace array, otherwise the :math:`Y` Luminance will be set to 1.
+
+    Returns
+    -------
+    ndarray
+        *CIE xyY* colourspace array.
+
+    See Also
+    --------
+    xyY_to_xy
+
+    Notes
+    -----
+    -   This definition is a convenient object provided to implement support of
+        illuminant argument *luminance* value in various :mod:`colour.models`
+        package objects such as :def:`colour.models.Lab_to_XYZ` or
+        :def:`colour.models.Luv_to_XYZ`.
+    -   Input *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+
+    Examples
+    --------
+    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...,  1.        ])
+    >>> xy = np.array([0.26414772, 0.37770001, 0.10080000])
+    >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...,  0.1008...])
+    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy_to_xyY(xy, 100)  # doctest: +ELLIPSIS
+    array([   0.2641477...,    0.3777000...,  100.        ])
+    """
+
+    xy = np.asarray(xy)
+
+    shape = xy.shape
+    # Assuming `xy` is actually a *CIE xyY* colourspace array argument and
+    # returning it directly.
+    if shape[-1] == 3:
+        return xy
+
+    x, y = tsplit(xy)
+
+    xyY = tstack((x, y, np.full(x.shape, Y)))
+
+    return xyY
+
+
+def xyY_to_xy(xyY):
+    """
+    Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
+
+    `xyY` argument with last dimension being equal to 2 will be assumed to be a
+    *xy* chromaticity coordinates argument and will be returned directly by the
+    definition.
+
+    Parameters
+    ----------
+    xyY : array_like
+        *CIE xyY* colourspace array or *xy* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        *xy* chromaticity coordinates.
+
+    See Also
+    --------
+    xy_to_xyY
+
+    Notes
+    -----
+    -   Input *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+
+    Examples
+    --------
+    >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
+    >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...])
+    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xyY_to_xy(xy)  # doctest: +ELLIPSIS
+    array([ 0.2641477...,  0.3777000...])
+    """
+
+    xyY = np.asarray(xyY)
+
+    shape = xyY.shape
+    # Assuming `xyY` is actually a *xy* chromaticity coordinates argument and
+    # returning it directly.
+    if shape[-1] == 2:
+        return xyY
+
+    xy = xyY[..., 0:2]
+
+    return xy
+
+
 def xy_to_XYZ(xy):
     """
     Returns the *CIE XYZ* tristimulus values from given *xy* chromaticity
@@ -161,10 +278,7 @@ def xy_to_XYZ(xy):
     array([ 0.6993585...,  1.        ,  0.9482453...])
     """
 
-    x, y = tsplit(xy)
-
-    xyY = tstack((x, y, np.ones(x.shape)))
-    XYZ = xyY_to_XYZ(xyY)
+    XYZ = xyY_to_XYZ(xy_to_xyY(xy))
 
     return XYZ
 
@@ -200,7 +314,6 @@ def XYZ_to_xy(XYZ,
     array([ 0.2641477...,  0.3777000...])
     """
 
-    xyY = XYZ_to_xyY(XYZ, illuminant)
-    xy = xyY[..., 0:2]
+    xy = xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
 
     return xy

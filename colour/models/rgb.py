@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import xy_to_XYZ
+from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import dot_matrix, dot_vector
 
@@ -342,10 +342,11 @@ def XYZ_to_RGB(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
-        coordinates.
+        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity coordinates
+        or *CIE xyY* colourspace array.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* *xy* chromaticity coordinates.
+        *RGB* colourspace *illuminant* *xy* chromaticity coordinates or
+        *CIE xyY* colourspace array.
     XYZ_to_RGB_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
@@ -363,10 +364,10 @@ def XYZ_to_RGB(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Input *illuminant_XYZ* *xy* chromaticity coordinates are in domain
-        [0, 1].
-    -   Input *illuminant_RGB* *xy* chromaticity coordinates are in domain
-        [0, 1].
+    -   Input *illuminant_XYZ* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
+    -   Input *illuminant_RGB* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *RGB* colourspace array is in domain [0, 1].
 
     Examples
@@ -389,8 +390,8 @@ def XYZ_to_RGB(XYZ,
     """
 
     M = chromatic_adaptation_matrix_VonKries(
-        xy_to_XYZ(illuminant_XYZ),
-        xy_to_XYZ(illuminant_RGB),
+        xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
+        xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
         transform=chromatic_adaptation_transform)
 
     XYZ_a = dot_vector(M, XYZ)
@@ -417,9 +418,11 @@ def RGB_to_XYZ(RGB,
     RGB : array_like
         *RGB* colourspace array.
     illuminant_RGB : array_like
-        *RGB* colourspace *illuminant* chromaticity coordinates.
+        *RGB* colourspace *illuminant* chromaticity coordinates or *CIE xyY*
+        colourspace array.
     illuminant_XYZ : array_like
-        *CIE XYZ* tristimulus values *illuminant* chromaticity coordinates.
+        *CIE XYZ* tristimulus values *illuminant* chromaticity coordinates or
+        *CIE xyY* colourspace array.
     RGB_to_XYZ_matrix : array_like
         *Normalised primary matrix*.
     chromatic_adaptation_transform : unicode, optional
@@ -437,10 +440,10 @@ def RGB_to_XYZ(RGB,
     Notes
     -----
     -   Input *RGB* colourspace array is in domain [0, 1].
-    -   Input *illuminant_RGB* *xy* chromaticity coordinates are in domain
-        [0, 1].
-    -   Input *illuminant_XYZ* *xy* chromaticity coordinates are in domain
-        [0, 1].
+    -   Input *illuminant_RGB* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
+    -   Input *illuminant_XYZ* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
 
     Examples
@@ -466,8 +469,8 @@ def RGB_to_XYZ(RGB,
         RGB = inverse_transfer_function(RGB)
 
     M = chromatic_adaptation_matrix_VonKries(
-        xy_to_XYZ(illuminant_RGB),
-        xy_to_XYZ(illuminant_XYZ),
+        xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
+        xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
         transform=chromatic_adaptation_transform)
 
     XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
