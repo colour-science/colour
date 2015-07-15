@@ -29,6 +29,7 @@ import pylab
 from colour.colorimetry import (
     CMFS,
     DEFAULT_SPECTRAL_SHAPE,
+    ILLUMINANTS,
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHTNESS_METHODS,
     SpectralShape,
@@ -170,8 +171,10 @@ def single_spd_plot(spd,
     values = spd.values
 
     y1 = values
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs),
-                          transfer_function=False)
+    colours = XYZ_to_sRGB(
+        wavelength_to_XYZ(wavelengths, cmfs),
+        ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
+        transfer_function=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -499,8 +502,10 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wavelengths = cmfs.shape.range()
 
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs),
-                          transfer_function=False)
+    colours = XYZ_to_sRGB(
+        wavelength_to_XYZ(wavelengths, cmfs),
+        ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
+        transfer_function=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
