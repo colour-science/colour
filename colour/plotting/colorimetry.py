@@ -18,6 +18,11 @@ Defines the colorimetry plotting objects:
 -   :func:`multi_lightness_function_plot`
 -   :func:`blackbody_spectral_radiance_plot`
 -   :func:`blackbody_colours_plot`
+
+References
+----------
+.. [1]  Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from
+        http://www.repairfaq.org/sam/repspec/
 """
 
 from __future__ import division
@@ -143,7 +148,7 @@ def single_spd_plot(spd,
     out_of_gamut_clipping : bool, optional
         Out of gamut colours will be clipped if *True* otherwise, the colours
         will be offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother.
+        gray background, less saturated and smoother. [1]_
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
     \*\*kwargs : \*\*
@@ -482,7 +487,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     out_of_gamut_clipping : bool, optional
         Out of gamut colours will be clipped if *True* otherwise, the colours
         will be offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother.
+        gray background, less saturated and smoother. [1]_
     \*\*kwargs : \*\*
         Keywords arguments.
 
