@@ -1743,6 +1743,11 @@ class SpectralPowerDistribution(object):
         SpectralPowerDistribution
             Zeros filled spectral power distribution.
 
+        Raises
+        ------
+        RuntimeError
+            If the spectral power distribution cannot be zeros filled.
+
         Examples
         --------
         >>> data = {
@@ -1772,10 +1777,20 @@ class SpectralPowerDistribution(object):
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 
-        self.__data = dict([(wavelength, self.get(wavelength, 0))
-                            for wavelength in shape])
+        data = dict([(wavelength, self.get(wavelength, 0))
+                     for wavelength in shape])
 
-        return self
+        values_s = max(self.shape.start, shape.start)
+        values_e = min(self.shape.end, shape.end)
+        values = [self[wavelength] for wavelength in self.wavelengths
+                  if values_s <= wavelength <= values_e]
+        if not np.all(in_array(values, list(data.values()))):
+            raise RuntimeError(('"{0}" cannot be zeros filled using "{1}" '
+                                'shape!').format(self, shape))
+        else:
+            self.__data = data
+
+            return self
 
     def normalise(self, factor=1):
         """

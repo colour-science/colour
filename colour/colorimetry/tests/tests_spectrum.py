@@ -2412,6 +2412,10 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             self.__spd.clone().zeros(SpectralShape(steps=1)).values,
             ZEROS_SAMPLE_SPD_DATA)
 
+        self.assertRaises(RuntimeError,
+                          lambda: self.__non_uniform_sample_spd.clone().zeros(
+                              SpectralShape(360, 830, 1)))
+
     def test_normalise(self):
         """
         Tests
