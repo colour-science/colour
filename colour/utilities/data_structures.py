@@ -387,6 +387,7 @@ class CaseInsensitiveMapping(MutableMapping):
             item = CaseInsensitiveMapping(item)
         else:
             return NotImplemented
+
         return dict(self.lower_items()) == dict(item.lower_items())
 
     def __ne__(self, item):
