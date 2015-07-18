@@ -1773,7 +1773,7 @@ class SpectralPowerDistribution(object):
 
         spd_shape = self.shape
         boundaries = zip((shape.start, shape.end, shape.steps),
-                         (spd_shape.start, spd_shape.end, spd_shape.end))
+                         (spd_shape.start, spd_shape.end, spd_shape.steps))
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 
