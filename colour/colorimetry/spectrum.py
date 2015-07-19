@@ -31,7 +31,6 @@ from colour.algebra import (
     SpragueInterpolator)
 from colour.utilities import (
     ArbitraryPrecisionMapping,
-    in_array,
     is_iterable,
     is_numeric,
     is_string,
@@ -170,7 +169,8 @@ class SpectralShape(object):
 
     Examples
     --------
-    >>> SpectralShape(360, 830, 1)
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> SpectralShape(360, 830, 1)  # doctest: +SKIP
     SpectralShape(360, 830, 1)
     """
 
@@ -213,6 +213,9 @@ class SpectralShape(object):
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" type is not "numeric"!'.format(
                     'start', value))
+
+            value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
+
             if self.__end is not None:
                 assert value < self.__end, (
                     '"{0}" attribute value must be strictly less than '
@@ -252,6 +255,9 @@ class SpectralShape(object):
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" type is not "numeric"!'.format(
                     'end', value))
+
+            value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
+
             if self.__start is not None:
                 assert value > self.__start, (
                     '"{0}" attribute value must be strictly greater than '
@@ -291,6 +297,8 @@ class SpectralShape(object):
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" type is not "numeric"!'.format(
                     'steps', value))
+
+            value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
 
         # Invalidating the *range* cache.
         if value != self.__steps:
@@ -397,7 +405,7 @@ class SpectralShape(object):
         False
         """
 
-        return np.all(in_array(wavelength, self.range()))
+        return np.all(np.in1d(wavelength, self.range()))
 
     def __len__(self):
         """
@@ -516,10 +524,9 @@ class SpectralShape(object):
         if self.__range is None:
             samples = round(
                 (self.__steps + self.__end - self.__start) / self.__steps)
-            self.__range, current_steps = np.linspace(self.__start,
-                                                      self.__end,
-                                                      samples,
-                                                      retstep=True)
+            range, current_steps = np.linspace(
+                self.__start, self.__end, samples, retstep=True)
+            self.__range = np.around(range, DEFAULT_WAVELENGTH_DECIMALS)
 
             if current_steps != self.__steps:
                 self.__steps = current_steps
@@ -635,7 +642,7 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('name', value))
         self.__name = value
@@ -698,7 +705,7 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('title', value))
         self.__title = value
@@ -1041,7 +1048,7 @@ class SpectralPowerDistribution(object):
         False
         """
 
-        return np.all(in_array(wavelength, self.wavelengths))
+        return np.all(np.in1d(wavelength, self.wavelengths))
 
     def __len__(self):
         """
@@ -1880,7 +1887,7 @@ class SpectralPowerDistribution(object):
         values_e = min(self.shape.end, shape.end)
         values = [self[wavelength] for wavelength in self.wavelengths
                   if values_s <= wavelength <= values_e]
-        if not np.all(in_array(values, list(data.values()))):
+        if not np.all(np.in1d(values, list(data.values()))):
             raise RuntimeError(('"{0}" cannot be zeros filled using "{1}" '
                                 'shape!').format(self, shape))
         else:
@@ -2065,7 +2072,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('name', value))
         self.__name = value
@@ -2190,7 +2197,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('title', value))
         self.__title = value
