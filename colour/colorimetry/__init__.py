@@ -4,10 +4,12 @@
 from __future__ import absolute_import
 
 from .spectrum import (
+    DEFAULT_WAVELENGTH_DECIMALS,
+    SpectralMapping,
     SpectralShape,
-    DEFAULT_SPECTRAL_SHAPE,
     SpectralPowerDistribution,
     TriSpectralPowerDistribution,
+    DEFAULT_SPECTRAL_SHAPE,
     constant_spd,
     zeros_spd,
     ones_spd)
@@ -59,10 +61,12 @@ from .whiteness import (
     whiteness_Ganz1979,
     whiteness_CIE2004)
 
-__all__ = ['SpectralShape',
-           'DEFAULT_SPECTRAL_SHAPE',
+__all__ = ['DEFAULT_WAVELENGTH_DECIMALS',
+           'SpectralMapping',
+           'SpectralShape',
            'SpectralPowerDistribution',
            'TriSpectralPowerDistribution',
+           'DEFAULT_SPECTRAL_SHAPE',
            'constant_spd',
            'zeros_spd',
            'ones_spd']
