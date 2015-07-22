@@ -163,6 +163,8 @@ def steps(distribution):
     array([1, 4])
     """
 
+    distribution = sorted(distribution)
+
     return np.unique([distribution[i + 1] - distribution[i]
                       for i in range(len(distribution) - 1)])
 

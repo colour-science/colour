@@ -16,6 +16,7 @@ else:
     import unittest
 
 from colour.colorimetry.spectrum import (
+    SpectralMapping,
     SpectralShape,
     SpectralPowerDistribution,
     TriSpectralPowerDistribution,
@@ -1870,6 +1871,44 @@ CMFS_DATA = {
     780: (4.20e-05, 1.50e-05, 0.000000)}
 
 
+class TestSpectralMapping(unittest.TestCase):
+    """
+    Defines :class:`colour.colorimetry.spectrum.SpectralMapping` class unit
+    tests methods.
+
+    Notes
+    -----
+    -   This class unit tests are entirely covered by
+        :class:`colour.utilities.tests.tests_data_structures.TestArbitraryPrecisionMapping`  # noqa
+        class.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('key_decimals',)
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(SpectralMapping))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__setitem__',
+                            '__getitem__',
+                            '__delitem__',
+                            '__contains__',
+                            '__iter__',
+                            '__len__')
+
+        for method in required_methods:
+            self.assertIn(method, dir(SpectralMapping))
+
+
 class TestSpectralShape(unittest.TestCase):
     """
     Defines :class:`colour.colorimetry.spectrum.SpectralShape` class unit tests
@@ -2011,7 +2050,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 
         self.__spd = SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)
 
-        self.__non_uniform_sample_spd = SpectralPowerDistribution(
+        self.__non_uniform_spd = SpectralPowerDistribution(
             'Non Uniform Sample',
             NON_UNIFORM_SAMPLE_SPD_DATA)
 
@@ -2072,6 +2111,13 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         np.testing.assert_almost_equal(
             self.__spd.wavelengths,
             sorted(SAMPLE_SPD_DATA))
+
+        spd = self.__spd.clone().interpolate(SpectralShape(steps=0.1))
+        non_uniform_spd = self.__non_uniform_spd.clone().interpolate(
+            SpectralShape(steps=0.1))
+
+        self.assertTrue(
+            np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
 
     def test_values(self):
         """
@@ -2349,7 +2395,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         method.
         """
 
-        self.assertFalse(self.__non_uniform_sample_spd.is_uniform())
+        self.assertFalse(self.__non_uniform_spd.is_uniform())
 
         self.assertTrue(self.__spd.is_uniform())
 
@@ -2382,7 +2428,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_allclose(
-            self.__non_uniform_sample_spd.clone().interpolate(
+            self.__non_uniform_spd.clone().interpolate(
                 SpectralShape(steps=1)).values,
             INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
             rtol=0.0000001,
@@ -2413,7 +2459,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             ZEROS_SAMPLE_SPD_DATA)
 
         self.assertRaises(RuntimeError,
-                          lambda: self.__non_uniform_sample_spd.clone().zeros(
+                          lambda: self.__non_uniform_spd.clone().zeros(
                               SpectralShape(360, 830, 1)))
 
     def test_normalise(self):

@@ -7,14 +7,20 @@ Data Structures
 
 Defines various data structures classes:
 
+-   :class:`ArbitraryPrecisionMapping`: A mutable mapping / *dict* like object
+    where numeric keys are stored with an arbitrary precision.
 -   :class:`Structure`: An object similar to C/C++ structured type.
 -   :class:`Lookup`: A *dict* sub-class acting as a lookup to retrieve keys by
     values.
+-   :class:`CaseInsensitiveMapping`: A case insensitive mapping allowing values
+    retrieving from keys while ignoring the key case.
 """
 
 from __future__ import division, unicode_literals
 
 from collections import Mapping, MutableMapping
+
+from colour.utilities import is_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -23,9 +29,228 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['Structure',
+__all__ = ['ArbitraryPrecisionMapping',
+           'Structure',
            'Lookup',
            'CaseInsensitiveMapping']
+
+
+class ArbitraryPrecisionMapping(MutableMapping):
+    """
+    Implements a mutable mapping / *dict* like object where numeric keys are
+    stored with an arbitrary precision.
+
+    Parameters
+    ----------
+    data : dict, optional
+        *dict* of data to store into the mapping at initialisation.
+    key_decimals : int, optional
+        Decimals count the keys will be rounded at
+    \*\*kwargs : dict
+        Key / Value pairs to store into the mapping at initialisation.
+
+    Attributes
+    ----------
+    key_decimals
+
+    Methods
+    -------
+    __setitem__
+    __getitem__
+    __delitem__
+    __contains__
+    __iter__
+    __len__
+
+    Examples
+    --------
+    >>> data1 = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+    >>> apm1 = ArbitraryPrecisionMapping(data1, key_decimals=10)
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> tuple(apm1.keys())  # doctest: +SKIP
+    (0.1999999998, 0.2)
+    >>> apm2 = ArbitraryPrecisionMapping(data1, key_decimals=7)
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> tuple(apm2.keys())  # doctest: +SKIP
+    (0.2,)
+    """
+
+    def __init__(self, data=None, key_decimals=0, **kwargs):
+        self.__data = dict()
+        self.__key_decimals = None
+        self.key_decimals = key_decimals
+
+        if data is None:
+            data = {}
+
+        self.update(data, **kwargs)
+
+    @property
+    def key_decimals(self):
+        """
+        Property for **self.__key_decimals** private attribute.
+
+        Returns
+        -------
+        unicode
+            self.__key_decimals.
+        """
+
+        return self.__key_decimals
+
+    @key_decimals.setter
+    def key_decimals(self, value):
+        """
+        Setter for **self.__key_decimals** private attribute.
+
+        Parameters
+        ----------
+        value : unicode
+            Attribute value.
+        """
+
+        if value is not None:
+            assert type(value) is int, (
+                '"{0}" attribute: "{1}" type is not "int"!').format(
+                'key_decimals', value)
+        self.__key_decimals = value
+
+    def __round(self, item):
+        """
+        Rounds given item if numeric.
+
+        Parameters
+        ----------
+        item : object
+            Attribute.
+
+        Parameters
+        ----------
+        item : object
+            Attribute.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
+        """
+
+        if is_numeric(item):
+            return round(item, self.__key_decimals)
+        else:
+            return item
+
+    def __setitem__(self, item, value):
+        """
+        Sets given item (rounded if numeric) with given value.
+
+        Parameters
+        ----------
+        item : object
+            Attribute.
+        value : object
+            Value.
+
+        Returns
+        -------
+        object
+            Item value (rounded if numeric).
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
+        """
+
+        self.__data[self.__round(item)] = value
+
+    def __getitem__(self, item):
+        """
+        Returns the value of given item (rounded if numeric).
+
+        Parameters
+        ----------
+        item : unicode
+            Item (rounded if numeric) name.
+
+        Returns
+        -------
+        object
+            Item value.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__getitem__` method.
+        """
+
+        return self.__data[self.__round(item)]
+
+    def __delitem__(self, item):
+        """
+        Deletes the item (rounded if numeric) with given value.
+
+        Parameters
+        ----------
+        item : unicode
+            Item (rounded if numeric) name.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__delitem__` method.
+        """
+
+        del self.__data[self.__round(item)]
+
+    def __contains__(self, item):
+        """
+        Returns if the mapping contains given item (rounded if numeric).
+
+        Parameters
+        ----------
+        item : unicode
+            Item (rounded if numeric) name.
+
+        Returns
+        -------
+        bool
+            Is item in mapping.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__contains__` method.
+        """
+
+        return self.__round(item) in self.__data
+
+    def __iter__(self):
+        """
+        Iterates over the items (rounded if numeric) names in the mapping.
+
+        Returns
+        -------
+        generator
+            Item names.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__iter__` method.
+        """
+
+        return iter(self.__data)
+
+    def __len__(self):
+        """
+        Returns the items count.
+
+        Returns
+        -------
+        int
+            Items count.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`MutableMapping.__iter__` method.
+        """
+
+        return len(self.__data)
 
 
 class Structure(dict):
@@ -38,6 +263,13 @@ class Structure(dict):
         Arguments.
     \*\*kwargs : dict
         Key / Value pairs.
+
+    Methods
+    -------
+    __getattr__
+    __setattr__
+    __delattr__
+    update
 
     References
     ----------
@@ -155,6 +387,11 @@ class Lookup(dict):
     """
     Extends *dict* type to provide a lookup by value(s).
 
+    Methods
+    -------
+    first_key_from_value
+    keys_from_value
+
     References
     ----------
     .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
@@ -220,10 +457,23 @@ class CaseInsensitiveMapping(MutableMapping):
     \*\*kwargs : dict
         Key / Value pairs to store into the mapping at initialisation.
 
+    Methods
+    -------
+    __setitem__
+    __getitem__
+    __delitem__
+    __contains__
+    __iter__
+    __len__
+    __eq__
+    __ne__
+    __repr__
+    copy
+    lower_items
+
     Warning
     -------
     The keys are expected to be unicode or string-like objects.
-
 
     References
     ----------
@@ -282,7 +532,7 @@ class CaseInsensitiveMapping(MutableMapping):
         Returns
         -------
         object
-            Item value
+            Item value.
 
         Notes
         -----
@@ -387,6 +637,7 @@ class CaseInsensitiveMapping(MutableMapping):
             item = CaseInsensitiveMapping(item)
         else:
             return NotImplemented
+
         return dict(self.lower_items()) == dict(item.lower_items())
 
     def __ne__(self, item):
