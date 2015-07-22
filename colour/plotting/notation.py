@@ -35,8 +35,9 @@ __all__ = ['single_munsell_value_function_plot',
            'multi_munsell_value_function_plot']
 
 
-def single_munsell_value_function_plot(function='ASTM D1535-08',
-                                       **kwargs):
+def single_munsell_value_function_plot(
+        function='ASTM D1535-08',
+        **kwargs):
     """
     Plots given *Lightness* function.
 

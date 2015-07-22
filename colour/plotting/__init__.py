@@ -14,6 +14,7 @@ from .common import (
     DEFAULT_FONT_SIZE,
     DEFAULT_PARAMETERS,
     DEFAULT_COLOUR_CYCLE,
+    DEFAULT_HATCH_PATTERNS,
     DEFAULT_PLOTTING_ILLUMINANT,
     DEFAULT_PLOTTING_OECF,
     ColourParameter,
@@ -23,6 +24,7 @@ from .common import (
     decorate,
     boundaries,
     display,
+    label_above_bars,
     equal_axes3d,
     colour_parameter,
     colour_parameters_plot,
@@ -70,8 +72,11 @@ from .notation import (
     single_munsell_value_function_plot,
     multi_munsell_value_function_plot)
 from .phenomenon import single_rayleigh_scattering_spd_plot, the_blue_sky_plot
-from .quality import (colour_quality_scale_bars_plot,
-                      colour_rendering_index_bars_plot)
+from .quality import (
+    single_spd_colour_rendering_index_bars_plot,
+    multi_spd_colour_rendering_index_bars_plot,
+    single_spd_colour_quality_scale_bars_plot,
+    multi_spd_colour_quality_scale_bars_plot)
 from .temperature import (
     planckian_locus_CIE_1931_chromaticity_diagram_plot,
     planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot)
@@ -88,6 +93,7 @@ __all__ += [
     'DEFAULT_FONT_SIZE',
     'DEFAULT_PARAMETERS',
     'DEFAULT_COLOUR_CYCLE',
+    'DEFAULT_HATCH_PATTERNS',
     'DEFAULT_PLOTTING_ILLUMINANT',
     'DEFAULT_PLOTTING_OECF',
     'ColourParameter',
@@ -97,6 +103,7 @@ __all__ += [
     'decorate',
     'boundaries',
     'display',
+    'label_above_bars',
     'equal_axes3d',
     'colour_parameter',
     'colour_parameters_plot',
@@ -146,8 +153,11 @@ __all__ += [
     'single_munsell_value_function_plot',
     'multi_munsell_value_function_plot']
 __all__ += ['single_rayleigh_scattering_spd_plot', 'the_blue_sky_plot']
-__all__ += ['colour_quality_scale_bars_plot',
-            'colour_rendering_index_bars_plot']
+__all__ += [
+    'single_spd_colour_rendering_index_bars_plot',
+    'multi_spd_colour_rendering_index_bars_plot',
+    'single_spd_colour_quality_scale_bars_plot',
+    'multi_spd_colour_quality_scale_bars_plot']
 __all__ += [
     'planckian_locus_CIE_1931_chromaticity_diagram_plot',
     'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot']

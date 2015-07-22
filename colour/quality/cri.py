@@ -66,12 +66,14 @@ class TCS_ColourQualityScaleData(
 class CRI_Specification(
     namedtuple(
         'CRI_Specification',
-        ('Q_a', 'Q_as', 'colorimetry_data'))):
+        ('name', 'Q_a', 'Q_as', 'colorimetry_data'))):
     """
     Defines the *colour rendering index* colour quality specification.
 
     Parameters
     ----------
+    name : unicode
+        Name of the test spectral power distribution.
     Q_a : numeric
         *Colour rendering index* :math:`Q_a`.
     Q_as : dict
@@ -126,27 +128,28 @@ def colour_rendering_index(spd_test, additional_data=False):
         spd_reference = D_illuminant_relative_spd(xy)
         spd_reference.align(shape)
 
-    test_tcs_colorimetry_data = _tcs_colorimetry_data(
+    test_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_test,
         spd_reference,
         tcs_spds,
         cmfs,
         chromatic_adaptation=True)
 
-    reference_tcs_colorimetry_data = _tcs_colorimetry_data(
+    reference_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_reference,
         spd_reference,
         tcs_spds,
         cmfs)
 
-    Q_as = _colour_rendering_indexes(
+    Q_as = colour_rendering_indexes(
         test_tcs_colorimetry_data, reference_tcs_colorimetry_data)
 
     Q_a = np.average([v.Q_a for k, v in Q_as.items()
                       if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:
-        return CRI_Specification(Q_a,
+        return CRI_Specification(spd_test.name,
+                                 Q_a,
                                  Q_as,
                                  (test_tcs_colorimetry_data,
                                   reference_tcs_colorimetry_data))
@@ -154,11 +157,11 @@ def colour_rendering_index(spd_test, additional_data=False):
         return Q_a
 
 
-def _tcs_colorimetry_data(spd_t,
-                          spd_r,
-                          spds_tcs,
-                          cmfs,
-                          chromatic_adaptation=False):
+def tcs_colorimetry_data(spd_t,
+                         spd_r,
+                         spds_tcs,
+                         cmfs,
+                         chromatic_adaptation=False):
     """
     Returns the *test colour samples* colorimetry data.
 
@@ -225,7 +228,7 @@ def _tcs_colorimetry_data(spd_t,
     return tcs_data
 
 
-def _colour_rendering_indexes(test_data, reference_data):
+def colour_rendering_indexes(test_data, reference_data):
     """
     Returns the *test colour samples* rendering indexes :math:`Q_a`.
 

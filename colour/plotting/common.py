@@ -13,6 +13,8 @@ Defines the common plotting objects:
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
+-   :func:`label_above_bars`
+-   :func:`equal_axes3d`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
@@ -53,6 +55,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_FONT_SIZE',
            'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
+           'DEFAULT_HATCH_PATTERNS',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
@@ -62,6 +65,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'decorate',
            'boundaries',
            'display',
+           'label_above_bars',
            'equal_axes3d',
            'colour_parameter',
            'colour_parameters_plot',
@@ -126,8 +130,7 @@ DEFAULT_PARAMETERS = {
     'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE
-}
+    'ytick.labelsize': DEFAULT_FONT_SIZE}
 """
 Default plotting parameters.
 
@@ -137,11 +140,35 @@ DEFAULT_PARAMETERS : dict
 pylab.rcParams.update(DEFAULT_PARAMETERS)
 
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
+"""
+Default colour cycle for plots.
+
+DEFAULT_COLOUR_CYCLE : tuple
+{'r', 'g', 'b', 'c', 'm', 'y', 'k'}
+"""
+
+DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
+"""
+Default hatch patterns for bar plots.
+
+DEFAULT_HATCH_PATTERNS : tuple
+{'\\\\', 'o', 'x', '.', '*', '//'}
+"""
 
 DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('D65')
+"""
+Default plotting illuminant: *CIE Illuminant D Series* *D65*.
+
+DEFAULT_PLOTTING_ILLUMINANT : tuple
+"""
 
 DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].transfer_function
+"""
+Default plotting OECF / transfer function: *sRGB*.
+
+DEFAULT_PLOTTING_OECF : object
+"""
 
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
@@ -377,6 +404,49 @@ def display(**kwargs):
     return True
 
 
+def label_above_bars(axis, bars, rotation='vertical'):
+    """
+    Add labels above given axis bars plot.
+
+    Parameters
+    ----------
+    axes : object
+        Axis to draw the text labels onto.
+    bars : object
+        Bars to used to set the labels value and position.
+    rotation : unicode, optional
+        {'horizontal', 'vertical'}
+        Labels orientation.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    for bar in bars:
+        y = bar.get_y()
+        height = bar.get_height()
+        sign = 1 if np.sign(y) in (0, 1) else -1
+        if rotation == 'horizontal':
+            offset_x = 0
+            offset_y = 0.5
+            offset_y *= 15 if sign < 0 else 1
+        else:
+            offset_x = 0.1
+            offset_y = 2.5
+            offset_y *= 7.5 if sign < 0 else 1
+        ha = 'center'
+        va = 'bottom'
+        axis.text(offset_x + bar.get_x() + bar.get_width() / 2,
+                  height * sign + (offset_y * sign),
+                  '{0:.1f}'.format(height * sign),
+                  ha=ha, va=va,
+                  rotation=rotation)
+
+    return True
+
+
 def equal_axes3d(axes):
     """
     Sets equal aspect ratio to given 3d axes.
@@ -553,7 +623,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     True
     """
 
-    return multi_colour_plot((colour_parameter, ), **kwargs)
+    return multi_colour_plot((colour_parameter,), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,
