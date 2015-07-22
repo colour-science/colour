@@ -115,3 +115,10 @@ __change_version__ = '5'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))
+
+if sys.version_info[0] == 2 and sys.version_info[1] == 6:
+    import warnings
+
+    warnings.warn(
+        '"{0} {1}" is the last API version to support "Python 2.6.x".'.format(
+            __application_name__, '0.3.6'), DeprecationWarning)
