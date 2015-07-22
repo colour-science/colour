@@ -76,9 +76,9 @@ class SpectralMapping(ArbitraryPrecisionMapping):
     data : dict or SpectralMapping, optional
         Spectral data in a *dict* or *SpectralMapping* as follows:
         {wavelength :math:`\lambda_{i}`: value,
-        wavelength :math:`\lambda_{i+1}`,
+        wavelength :math:`\lambda_{i+1}`: value,
         ...,
-        wavelength :math:`\lambda_{i+n}`}
+        wavelength :math:`\lambda_{i+n}`: value}
     wavelength_decimals : int, optional
         Decimals count the keys will be rounded at.
     \*\*kwargs : dict
@@ -550,9 +550,9 @@ class SpectralPowerDistribution(object):
         Spectral power distribution data in a *dict* or
         *SpectralMapping* as follows:
         {wavelength :math:`\lambda_{i}`: value,
-        wavelength :math:`\lambda_{i+1}`,
+        wavelength :math:`\lambda_{i+1}`: value,
         ...,
-        wavelength :math:`\lambda_{i+n}`}
+        wavelength :math:`\lambda_{i+n}`: value}
     title : unicode, optional
         Spectral power distribution title for figures.
 
