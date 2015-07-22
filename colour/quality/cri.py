@@ -44,7 +44,10 @@ __status__ = 'Production'
 
 __all__ = ['TCS_ColorimetryData',
            'TCS_ColourQualityScaleData',
-           'colour_rendering_index']
+           'CRI_Specification',
+           'colour_rendering_index',
+           'tcs_colorimetry_data',
+           'colour_rendering_indexes']
 
 
 class TCS_ColorimetryData(namedtuple('TCS_ColorimetryData',

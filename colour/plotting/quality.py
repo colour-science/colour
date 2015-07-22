@@ -81,7 +81,7 @@ def colour_quality_bars_plot(specifications,
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
-    >>> colour_quality_bars_plot([cqs_i, cqs_l])
+    >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
     True
     """
 
