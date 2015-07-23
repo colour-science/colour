@@ -32,7 +32,8 @@ from colour.plotting import (
     canvas,
     decorate,
     display,
-    label_above_bars)
+    label_rectangles)
+from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -49,8 +50,9 @@ __all__ = ['colour_quality_bars_plot',
 
 
 def colour_quality_bars_plot(specifications,
-                             hatching=True,
-                             hatching_repeat=3,
+                             labels=True,
+                             hatching=None,
+                             hatching_repeat=1,
                              **kwargs):
     """
     Plots the colour quality data of given illuminants or light sources colour
@@ -60,7 +62,9 @@ def colour_quality_bars_plot(specifications,
     ----------
     specifications : array_like
         Array of illuminants or light sources colour quality specifications.
-    hatching : bool, optional
+    labels : bool, optional
+        Add labels above bars.
+    hatching : bool or None, optional
         Use hatching for the bars.
     hatching_repeat : int, optional
         Hatching pattern repeat.
@@ -90,14 +94,12 @@ def colour_quality_bars_plot(specifications,
 
     canvas(**settings)
 
-    axis = matplotlib.pyplot.gca()
-
-    negative = False
     bar_width = 0.5
     y_ticks_steps = 10
     count_s, count_Q_as = len(specifications), 0
     patterns = cycle(DEFAULT_HATCH_PATTERNS)
-
+    if hatching is None:
+        hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
         Q_a, Q_as, colorimetry_data = (specification.Q_a,
                                        specification.Q_as,
@@ -112,43 +114,48 @@ def colour_quality_bars_plot(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        if not np.sign(min(y)) in (0, 1):
-            negative = True
+        if np.sign(np.min(y)) < 0:
+            warning(
+                ('"{0}" spectral distribution has negative "Q_a" value(s), '
+                 'using absolute value(s) '
+                 'for plotting purpose!'.format(specification.name)))
+
+            y = np.abs(y)
 
         bars = pylab.bar(x,
                          y,
                          color=colours,
                          width=bar_width,
                          hatch=(next(patterns) * hatching_repeat
-                                if hatching else
-                                None),
+                                if hatching else None),
                          label=specification.name)
 
-        label_above_bars(axis,
-                         bars,
-                         rotation='horizontal' if count_s == 1 else 'vertical')
+        labels and label_rectangles(
+            bars,
+            rotation='horizontal' if count_s == 1 else 'vertical',
+            offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,
+                    0.025),
+            text_size=-2 / 3 * count_s + 10)
 
-        pylab.xticks(x + bar_width / 2,
-                     ['Qa'] + ['Q{0}'.format(index + 1)
-                               for index in range(0, count_Q_as + 1, 1)])
+    pylab.axhline(y=100, color='black', linestyle='--')
 
-    pylab.yticks(range(0 if not negative else -100,
-                       100 + y_ticks_steps,
-                       y_ticks_steps))
+    pylab.xticks((np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
+                            dtype=np.float) *
+                  bar_width + (count_s * bar_width / 2)),
+                 ['Qa'] + ['Q{0}'.format(index + 1)
+                           for index in range(0, count_Q_as + 1, 1)])
+    pylab.yticks(range(0, 100 + y_ticks_steps, y_ticks_steps))
 
     settings.update({
         'title': 'Colour Quality',
-        'legend': True,
-        'grid': True,
-        'grid_axis': 'y',
+        'legend': hatching,
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-bar_width,
                    ((count_Q_as + 1) * (count_s + 1)) / 2,
-                   0 if not negative else -120,
+                   0,
                    120),
-        'aspect': 1 / ((110 if not negative else 220) /
-                       (bar_width + len(Q_as) + bar_width * 2))})
+        'aspect': 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))})
     settings.update(kwargs)
 
     boundaries(**settings)

@@ -13,7 +13,7 @@ Defines the common plotting objects:
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
--   :func:`label_above_bars`
+-   :func:`label_rectangles`
 -   :func:`equal_axes3d`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
@@ -65,7 +65,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'decorate',
            'boundaries',
            'display',
-           'label_above_bars',
+           'label_rectangles',
            'equal_axes3d',
            'colour_parameter',
            'colour_parameters_plot',
@@ -404,19 +404,24 @@ def display(**kwargs):
     return True
 
 
-def label_above_bars(axis, bars, rotation='vertical'):
+def label_rectangles(rectangles,
+                     rotation='vertical',
+                     text_size=10,
+                     offset=None):
     """
-    Add labels above given axis bars plot.
+    Add labels above given rectangles.
 
     Parameters
     ----------
-    axes : object
-        Axis to draw the text labels onto.
-    bars : object
-        Bars to used to set the labels value and position.
+    rectangles : object
+        Rectangles to used to set the labels value and position.
     rotation : unicode, optional
         {'horizontal', 'vertical'}
         Labels orientation.
+    text_size : numeric, optional
+        Labels text size.
+    offset : array_like, optional
+        Labels offset as percentages of the largest rectangle dimensions.
 
     Returns
     -------
@@ -424,25 +429,26 @@ def label_above_bars(axis, bars, rotation='vertical'):
         Definition success.
     """
 
-    for bar in bars:
-        y = bar.get_y()
-        height = bar.get_height()
-        sign = 1 if np.sign(y) in (0, 1) else -1
-        if rotation == 'horizontal':
-            offset_x = 0
-            offset_y = 0.5
-            offset_y *= 15 if sign < 0 else 1
-        else:
-            offset_x = 0.1
-            offset_y = 2.5
-            offset_y *= 7.5 if sign < 0 else 1
+    if offset is None:
+        offset = (0.0, 0.025)
+
+    x_m, y_m = 0, 0
+    for rectangle in rectangles:
+        x_m = max(x_m, rectangle.get_width())
+        y_m = max(y_m, rectangle.get_height())
+
+    for rectangle in rectangles:
+        x = rectangle.get_x()
+        height = rectangle.get_height()
+        width = rectangle.get_width()
         ha = 'center'
         va = 'bottom'
-        axis.text(offset_x + bar.get_x() + bar.get_width() / 2,
-                  height * sign + (offset_y * sign),
-                  '{0:.1f}'.format(height * sign),
-                  ha=ha, va=va,
-                  rotation=rotation)
+        pylab.text(x + width / 2 + offset[0] * width,
+                   height + offset[1] * y_m,
+                   '{0:.1f}'.format(height),
+                   ha=ha, va=va,
+                   rotation=rotation,
+                   fontsize=text_size)
 
     return True
 
