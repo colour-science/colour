@@ -15,7 +15,6 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot
 import numpy as np
 import pylab
 from itertools import cycle
@@ -135,7 +134,7 @@ def colour_quality_bars_plot(specifications,
             rotation='horizontal' if count_s == 1 else 'vertical',
             offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,
                     0.025),
-            text_size=-2 / 3 * count_s + 10)
+            text_size=-5 / 7 * count_s + 12.5)
 
     pylab.axhline(y=100, color='black', linestyle='--')
 
