@@ -282,6 +282,7 @@ def decorate(**kwargs):
            'x_label': None,
            'y_label': None,
            'legend': False,
+           'legend_columns': 1,
            'legend_location': 'upper right',
            'x_ticker': False,
            'y_ticker': False,
@@ -307,7 +308,8 @@ def decorate(**kwargs):
     if settings.y_label:
         pylab.ylabel(settings.y_label)
     if settings.legend:
-        pylab.legend(loc=settings.legend_location)
+        pylab.legend(loc=settings.legend_location,
+                     ncol=settings.legend_columns)
     if settings.x_ticker:
         axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
@@ -448,7 +450,8 @@ def label_rectangles(rectangles,
                    '{0:.1f}'.format(height),
                    ha=ha, va=va,
                    rotation=rotation,
-                   fontsize=text_size)
+                   fontsize=text_size,
+                   clip_on=True)
 
     return True
 
