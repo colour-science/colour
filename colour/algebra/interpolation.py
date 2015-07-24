@@ -8,6 +8,7 @@ Interpolation
 Defines classes for interpolating variables.
 
 -   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
+-   :class:`SplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation.
 """
