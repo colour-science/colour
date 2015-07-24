@@ -13,6 +13,8 @@ Defines the common plotting objects:
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
+-   :func:`label_rectangles`
+-   :func:`equal_axes3d`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
@@ -53,6 +55,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_FONT_SIZE',
            'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
+           'DEFAULT_HATCH_PATTERNS',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
@@ -62,6 +65,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'decorate',
            'boundaries',
            'display',
+           'label_rectangles',
            'equal_axes3d',
            'colour_parameter',
            'colour_parameters_plot',
@@ -126,8 +130,7 @@ DEFAULT_PARAMETERS = {
     'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE
-}
+    'ytick.labelsize': DEFAULT_FONT_SIZE}
 """
 Default plotting parameters.
 
@@ -137,11 +140,35 @@ DEFAULT_PARAMETERS : dict
 pylab.rcParams.update(DEFAULT_PARAMETERS)
 
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
+"""
+Default colour cycle for plots.
+
+DEFAULT_COLOUR_CYCLE : tuple
+{'r', 'g', 'b', 'c', 'm', 'y', 'k'}
+"""
+
+DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
+"""
+Default hatch patterns for bar plots.
+
+DEFAULT_HATCH_PATTERNS : tuple
+{'\\\\', 'o', 'x', '.', '*', '//'}
+"""
 
 DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('D65')
+"""
+Default plotting illuminant: *CIE Illuminant D Series* *D65*.
+
+DEFAULT_PLOTTING_ILLUMINANT : tuple
+"""
 
 DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].transfer_function
+"""
+Default plotting OECF / transfer function: *sRGB*.
+
+DEFAULT_PLOTTING_OECF : object
+"""
 
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
@@ -255,6 +282,7 @@ def decorate(**kwargs):
            'x_label': None,
            'y_label': None,
            'legend': False,
+           'legend_columns': 1,
            'legend_location': 'upper right',
            'x_ticker': False,
            'y_ticker': False,
@@ -280,7 +308,8 @@ def decorate(**kwargs):
     if settings.y_label:
         pylab.ylabel(settings.y_label)
     if settings.legend:
-        pylab.legend(loc=settings.legend_location)
+        pylab.legend(loc=settings.legend_location,
+                     ncol=settings.legend_columns)
     if settings.x_ticker:
         axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
@@ -373,6 +402,56 @@ def display(**kwargs):
         else:
             pylab.show()
         pylab.close()
+
+    return True
+
+
+def label_rectangles(rectangles,
+                     rotation='vertical',
+                     text_size=10,
+                     offset=None):
+    """
+    Add labels above given rectangles.
+
+    Parameters
+    ----------
+    rectangles : object
+        Rectangles to used to set the labels value and position.
+    rotation : unicode, optional
+        {'horizontal', 'vertical'}
+        Labels orientation.
+    text_size : numeric, optional
+        Labels text size.
+    offset : array_like, optional
+        Labels offset as percentages of the largest rectangle dimensions.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    if offset is None:
+        offset = (0.0, 0.025)
+
+    x_m, y_m = 0, 0
+    for rectangle in rectangles:
+        x_m = max(x_m, rectangle.get_width())
+        y_m = max(y_m, rectangle.get_height())
+
+    for rectangle in rectangles:
+        x = rectangle.get_x()
+        height = rectangle.get_height()
+        width = rectangle.get_width()
+        ha = 'center'
+        va = 'bottom'
+        pylab.text(x + width / 2 + offset[0] * width,
+                   height + offset[1] * y_m,
+                   '{0:.1f}'.format(height),
+                   ha=ha, va=va,
+                   rotation=rotation,
+                   fontsize=text_size,
+                   clip_on=True)
 
     return True
 
@@ -553,7 +632,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     True
     """
 
-    return multi_colour_plot((colour_parameter, ), **kwargs)
+    return multi_colour_plot((colour_parameter,), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,

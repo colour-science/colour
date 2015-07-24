@@ -59,7 +59,12 @@ __all__ = ['D65_GAMUT_AREA',
            'VS_ColourQualityScaleData',
            'CQS_Specification',
            'colour_quality_scale',
-           'gamut_area']
+           'gamut_area',
+           'vs_colorimetry_data',
+           'CCT_factor',
+           'scale_conversion',
+           'delta_E_RMS',
+           'colour_quality_scales']
 
 D65_GAMUT_AREA = 8210
 
@@ -83,12 +88,21 @@ class VS_ColourQualityScaleData(
 class CQS_Specification(
     namedtuple(
         'CQS_Specification',
-        ('Q_a', 'Q_f', 'Q_p', 'Q_g', 'Q_d', 'Q_as', 'colorimetry_data'))):
+        ('name',
+         'Q_a',
+         'Q_f',
+         'Q_p',
+         'Q_g',
+         'Q_d',
+         'Q_as',
+         'colorimetry_data'))):
     """
     Defines the *CQS* colour quality specification.
 
     Parameters
     ----------
+    name : unicode
+        Name of the test spectral power distribution.
     Q_a : numeric
         Colour quality scale :math:`Q_a`.
     Q_f : numeric
@@ -159,14 +173,14 @@ def colour_quality_scale(spd_test, additional_data=False):
         spd_reference = D_illuminant_relative_spd(xy)
         spd_reference.align(shape)
 
-    test_vs_colorimetry_data = _vs_colorimetry_data(
+    test_vs_colorimetry_data = vs_colorimetry_data(
         spd_test,
         spd_reference,
         vs_spds,
         cmfs,
         chromatic_adaptation=True)
 
-    reference_vs_colorimetry_data = _vs_colorimetry_data(
+    reference_vs_colorimetry_data = vs_colorimetry_data(
         spd_reference,
         spd_reference,
         vs_spds,
@@ -174,16 +188,16 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
-    CCT_factor = _CCT_factor(reference_vs_colorimetry_data, XYZ_r)
+    CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
 
-    Q_as = _colour_quality_scales(
-        test_vs_colorimetry_data, reference_vs_colorimetry_data, CCT_factor)
+    Q_as = colour_quality_scales(
+        test_vs_colorimetry_data, reference_vs_colorimetry_data, CCT_f)
 
-    D_E_RMS = _delta_E_RMS(Q_as, 'D_E_ab')
-    D_Ep_RMS = _delta_E_RMS(Q_as, 'D_Ep_ab')
+    D_E_RMS = delta_E_RMS(Q_as, 'D_E_ab')
+    D_Ep_RMS = delta_E_RMS(Q_as, 'D_Ep_ab')
 
-    Q_a = _scale_conversion(D_Ep_RMS, CCT_factor)
-    Q_f = _scale_conversion(D_E_RMS, CCT_factor, 2.928)
+    Q_a = scale_conversion(D_Ep_RMS, CCT_f)
+    Q_f = scale_conversion(D_E_RMS, CCT_f, 2.928)
 
     p_delta_C = np.average(
         [sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
@@ -197,10 +211,11 @@ def colour_quality_scale(spd_test, additional_data=False):
                       for vs_CQS_data in reference_vs_colorimetry_data])
 
     Q_g = G_t / D65_GAMUT_AREA * 100
-    Q_d = G_t / G_r * CCT_factor * 100
+    Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(Q_a,
+        return CQS_Specification(spd_test.name,
+                                 Q_a,
                                  Q_f,
                                  Q_p,
                                  Q_g,
@@ -263,11 +278,11 @@ def gamut_area(Lab):
     return np.sum(S)
 
 
-def _vs_colorimetry_data(spd_test,
-                         spd_reference,
-                         spds_vs,
-                         cmfs,
-                         chromatic_adaptation=False):
+def vs_colorimetry_data(spd_test,
+                        spd_reference,
+                        spds_vs,
+                        cmfs,
+                        chromatic_adaptation=False):
     """
     Returns the *VS test colour samples* colorimetry data.
 
@@ -320,7 +335,7 @@ def _vs_colorimetry_data(spd_test,
     return vs_data
 
 
-def _CCT_factor(reference_data, XYZ_r):
+def CCT_factor(reference_data, XYZ_r):
     """
     Returns the correlated colour temperature factor penalizing lamps with
     extremely low correlated colour temperatures.
@@ -358,7 +373,7 @@ def _CCT_factor(reference_data, XYZ_r):
     return CCT_factor
 
 
-def _scale_conversion(D_E_ab, CCT_factor, scaling_factor=3.104):
+def scale_conversion(D_E_ab, CCT_factor, scaling_factor=3.104):
     """
     Returns the correlated colour temperature factor penalizing lamps with
     extremely low correlated colour temperatures.
@@ -384,7 +399,7 @@ def _scale_conversion(D_E_ab, CCT_factor, scaling_factor=3.104):
     return Q_a
 
 
-def _delta_E_RMS(cqs_data, attribute):
+def delta_E_RMS(cqs_data, attribute):
     """
     Computes the root-mean-square average for given *CQS* data.
 
@@ -408,7 +423,7 @@ def _delta_E_RMS(cqs_data, attribute):
                            cqs_data.values()]))
 
 
-def _colour_quality_scales(test_data, reference_data, CCT_factor):
+def colour_quality_scales(test_data, reference_data, CCT_factor):
     """
     Returns the *VS test colour samples* rendering scales.
 
@@ -439,7 +454,7 @@ def _colour_quality_scales(test_data, reference_data, CCT_factor):
         else:
             D_Ep_ab = D_E_ab
 
-        Q_a = _scale_conversion(D_Ep_ab, CCT_factor)
+        Q_a = scale_conversion(D_Ep_ab, CCT_factor)
 
         colour_quality_scales[i + 1] = VS_ColourQualityScaleData(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab)
