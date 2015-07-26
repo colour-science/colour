@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import SplineInterpolator, SpragueInterpolator
+from colour.algebra import CubicSplineInterpolator, SpragueInterpolator
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
 
 __author__ = 'Colour Developers'
@@ -165,7 +165,7 @@ def wavelength_to_XYZ(wavelength,
         wavelengths, values, = cmfs.wavelengths, cmfs.values
         interpolator = (SpragueInterpolator
                         if cmfs.is_uniform() else
-                        SplineInterpolator)
+                        CubicSplineInterpolator)
 
         interpolators = [interpolator(wavelengths, values[..., i])
                          for i in range(values.shape[-1])]

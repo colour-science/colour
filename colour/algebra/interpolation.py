@@ -8,7 +8,7 @@ Interpolation
 Defines classes for interpolating variables.
 
 -   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
--   :class:`SplineInterpolator`: 1-D function cubic spline interpolation.
+-   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation.
 """
@@ -33,7 +33,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['LinearInterpolator1d',
-           'SplineInterpolator',
+           'CubicSplineInterpolator',
            'SpragueInterpolator']
 
 
@@ -228,7 +228,7 @@ class LinearInterpolator1d(object):
 if is_scipy_installed():
     from scipy.interpolate import interp1d
 
-    class SplineInterpolator(interp1d):
+    class CubicSplineInterpolator(interp1d):
         """
         Interpolates a 1-D function using cubic spline interpolation.
 
@@ -241,13 +241,13 @@ if is_scipy_installed():
             # TODO: Implements proper wrapper to ensure return values
             # consistency and avoid having to cast to numeric in
             # :meth:`SpectralPowerDistribution.interpolate` method.
-            super(SplineInterpolator, self).__init__(
+            super(CubicSplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
 else:
     warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
              '"LinearInterpolator1d" instead!'))
 
-    SplineInterpolator = LinearInterpolator1d
+    CubicSplineInterpolator = LinearInterpolator1d
 
 
 class SpragueInterpolator(object):

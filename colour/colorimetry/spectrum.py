@@ -27,7 +27,7 @@ import numpy as np
 from colour.algebra import (
     Extrapolator1d,
     LinearInterpolator1d,
-    SplineInterpolator,
+    CubicSplineInterpolator,
     SpragueInterpolator)
 from colour.utilities import (
     ArbitraryPrecisionMapping,
@@ -1734,7 +1734,7 @@ class SpectralPowerDistribution(object):
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
             else:
-                interpolator = SplineInterpolator(wavelengths, values)
+                interpolator = CubicSplineInterpolator(wavelengths, values)
         elif method == 'sprague':
             if is_uniform:
                 interpolator = SpragueInterpolator(wavelengths, values)
@@ -1744,7 +1744,7 @@ class SpectralPowerDistribution(object):
                      'interpolating functions having a uniformly spaced '
                      'independent variable!'))
         elif method == 'cubic spline':
-            interpolator = SplineInterpolator(wavelengths, values)
+            interpolator = CubicSplineInterpolator(wavelengths, values)
         elif method == 'linear':
             interpolator = LinearInterpolator1d(wavelengths, values)
         else:
