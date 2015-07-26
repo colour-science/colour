@@ -256,8 +256,6 @@ def multi_spd_plot(spds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        matplotlib.pyplot.rc("axes", color_cycle=["r", "g", "b", "y"])
-
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
