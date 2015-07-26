@@ -7,7 +7,7 @@ Interpolation
 
 Defines classes for interpolating variables.
 
--   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
+-   :class:`LinearInterpolator`: 1-D function linear interpolation.
 -   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation.
@@ -32,12 +32,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LinearInterpolator1d',
+__all__ = ['LinearInterpolator',
            'CubicSplineInterpolator',
            'SpragueInterpolator']
 
 
-class LinearInterpolator1d(object):
+class LinearInterpolator(object):
     """
     Linearly interpolates a 1-D function.
 
@@ -74,7 +74,7 @@ class LinearInterpolator1d(object):
     ...               27.8007,
     ...               86.0500])
     >>> x = np.arange(len(y))
-    >>> f = LinearInterpolator1d(x, y)
+    >>> f = LinearInterpolator(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> f(0.5)  # doctest: +ELLIPSIS
     7.64...
@@ -245,9 +245,9 @@ if is_scipy_installed():
                 kind='cubic', *args, **kwargs)
 else:
     warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
-             '"LinearInterpolator1d" instead!'))
+             '"LinearInterpolator" instead!'))
 
-    CubicSplineInterpolator = LinearInterpolator1d
+    CubicSplineInterpolator = LinearInterpolator
 
 
 class SpragueInterpolator(object):
@@ -273,7 +273,7 @@ class SpragueInterpolator(object):
 
     See Also
     --------
-    LinearInterpolator1d
+    LinearInterpolator
 
     Notes
     -----

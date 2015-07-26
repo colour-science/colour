@@ -26,7 +26,7 @@ import numpy as np
 
 from colour.algebra import (
     Extrapolator1d,
-    LinearInterpolator1d,
+    LinearInterpolator,
     CubicSplineInterpolator,
     SpragueInterpolator)
 from colour.utilities import (
@@ -1587,7 +1587,7 @@ class SpectralPowerDistribution(object):
         """
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(self.wavelengths,
+            LinearInterpolator(self.wavelengths,
                                  self.values),
             method=method,
             left=left,
@@ -1746,7 +1746,7 @@ class SpectralPowerDistribution(object):
         elif method == 'cubic spline':
             interpolator = CubicSplineInterpolator(wavelengths, values)
         elif method == 'linear':
-            interpolator = LinearInterpolator1d(wavelengths, values)
+            interpolator = LinearInterpolator(wavelengths, values)
         else:
             raise ValueError(
                 'Undefined "{0}" interpolator!'.format(method))
