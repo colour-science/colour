@@ -1587,11 +1587,8 @@ class SpectralPowerDistribution(object):
         """
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator(self.wavelengths,
-                                 self.values),
-            method=method,
-            left=left,
-            right=right)
+            LinearInterpolator(self.wavelengths, self.values),
+            method=method, left=left, right=right)
 
         spd_shape = self.shape
         for i in np.arange(spd_shape.start,

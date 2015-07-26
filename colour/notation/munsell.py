@@ -1827,14 +1827,14 @@ def xy_from_renotation_ovoid(specification):
 
         if interpolation_method == 'linear':
             x = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                     (x_minus, x_plus))(hue_angle)
+                                   (x_minus, x_plus))(hue_angle)
             y = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                     (y_minus, y_plus))(hue_angle)
+                                   (y_minus, y_plus))(hue_angle)
         elif interpolation_method == 'radial':
             theta = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                         (theta_minus, theta_plus))(hue_angle)
+                                       (theta_minus, theta_plus))(hue_angle)
             rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                       (rho_minus, rho_plus))(hue_angle)
+                                     (rho_minus, rho_plus))(hue_angle)
 
             x = rho * np.cos(np.radians(theta)) + x_grey
             y = rho * np.sin(np.radians(theta)) + y_grey
@@ -2066,8 +2066,8 @@ def munsell_specification_to_xy(specification):
             y = y_minus
         else:
             x = LinearInterpolator((chroma_minus, chroma_plus),
-                                     (x_minus, x_plus))(chroma)
+                                   (x_minus, x_plus))(chroma)
             y = LinearInterpolator((chroma_minus, chroma_plus),
-                                     (y_minus, y_plus))(chroma)
+                                   (y_minus, y_plus))(chroma)
 
         return x, y
