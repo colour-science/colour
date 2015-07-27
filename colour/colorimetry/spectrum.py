@@ -26,9 +26,10 @@ import numpy as np
 
 from colour.algebra import (
     Extrapolator1d,
-    LinearInterpolator1d,
-    SplineInterpolator,
-    SpragueInterpolator)
+    LinearInterpolator,
+    SpragueInterpolator,
+    CubicSplineInterpolator,
+    PchipInterpolator)
 from colour.utilities import (
     ArbitraryPrecisionMapping,
     is_iterable,
@@ -1587,11 +1588,8 @@ class SpectralPowerDistribution(object):
         """
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(self.wavelengths,
-                                 self.values),
-            method=method,
-            left=left,
-            right=right)
+            LinearInterpolator(self.wavelengths, self.values),
+            method=method, left=left, right=right)
 
         spd_shape = self.shape
         for i in np.arange(spd_shape.start,
@@ -1618,7 +1616,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Sprague', 'Cubic Spline', 'Linear'},
+            {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
             Enforce given interpolation method.
 
         Returns
@@ -1651,9 +1649,11 @@ class SpectralPowerDistribution(object):
         -------
         -   If *scipy* is not unavailable the *Cubic Spline* method will
             fallback to legacy *Linear* interpolation.
+        -   *Cubic Spline* interpolator requires at least 3 wavelengths
+            :math:`\lambda_n` for interpolation.
         -   *Linear* interpolator requires at least 2 wavelengths
             :math:`\lambda_n` for interpolation.
-        -   *Cubic Spline* interpolator requires at least 3 wavelengths
+        -   *Pchip* interpolator requires at least 2 wavelengths
             :math:`\lambda_n` for interpolation.
         -   Sprague (1880) interpolator requires at least 6 wavelengths
             :math:`\lambda_n` for interpolation.
@@ -1683,13 +1683,6 @@ class SpectralPowerDistribution(object):
 
         Non uniform data is using *Cubic Spline* interpolation by default:
 
-        >>> data = {
-        ...     510: 49.67,
-        ...     520: 69.59,
-        ...     530: 81.73,
-        ...     540: 88.19,
-        ...     550: 86.26,
-        ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd[511] = 31.41
         >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
@@ -1699,18 +1692,23 @@ class SpectralPowerDistribution(object):
 
         Enforcing *Linear* interpolation:
 
-        >>> data = {
-        ...     510: 49.67,
-        ...     520: 69.59,
-        ...     530: 81.73,
-        ...     540: 88.19,
-        ...     550: 86.26,
-        ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
+        >>> spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1),
+        ...     method='Linear')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(59.63...)
+
+        Enforcing *Pchip* interpolation:
+
+        >>> spd = SpectralPowerDistribution('Spd', data)
+        >>> spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1),
+        ...     method='Pchip')
+        <...SpectralPowerDistribution object at 0x...>
+        >>> spd[515]  # doctest: +ELLIPSIS
+        array(58.8173260...)
         """
 
         spd_shape = self.shape
@@ -1732,25 +1730,28 @@ class SpectralPowerDistribution(object):
 
         if method is None:
             if is_uniform:
-                interpolator = SpragueInterpolator(wavelengths, values)
+                interpolator = SpragueInterpolator
             else:
-                interpolator = SplineInterpolator(wavelengths, values)
+                interpolator = CubicSplineInterpolator
+        elif method == 'cubic spline':
+            interpolator = CubicSplineInterpolator
+        elif method == 'linear':
+            interpolator = LinearInterpolator
+        elif method == 'pchip':
+            interpolator = PchipInterpolator
         elif method == 'sprague':
             if is_uniform:
-                interpolator = SpragueInterpolator(wavelengths, values)
+                interpolator = SpragueInterpolator
             else:
                 raise RuntimeError(
                     ('"Sprague" interpolator can only be used for '
                      'interpolating functions having a uniformly spaced '
                      'independent variable!'))
-        elif method == 'cubic spline':
-            interpolator = SplineInterpolator(wavelengths, values)
-        elif method == 'linear':
-            interpolator = LinearInterpolator1d(wavelengths, values)
         else:
             raise ValueError(
                 'Undefined "{0}" interpolator!'.format(method))
 
+        interpolator = interpolator(wavelengths, values)
         self.__data = SpectralMapping(
             [(wavelength, float(interpolator(wavelength)))
              for wavelength in shape])
@@ -3351,7 +3352,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Sprague', 'Cubic Spline', 'Linear'},
+            {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
             Enforce given interpolation method.
 
         Returns
@@ -3403,71 +3404,43 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd[515]
-        array([ 60.30332087,  93.27163315,  13.86051361])
+        >>> tri_spd[515]  # doctest: +ELLIPSIS
+        array([ 60.3033208...,  93.2716331...,  13.8605136...])
 
         Non uniform data is using *Cubic Spline* interpolation by default:
 
-        >>> x_bar = {
-        ...     510: 49.67,
-        ...     520: 69.59,
-        ...     530: 81.73,
-        ...     540: 88.19,
-        ...     550: 89.76,
-        ...     560: 90.28}
-        >>> y_bar = {
-        ...     510: 90.56,
-        ...     520: 87.34,
-        ...     530: 45.76,
-        ...     540: 23.45,
-        ...     550: 15.34,
-        ...     560: 10.11}
-        >>> z_bar = {
-        ...     510: 12.43,
-        ...     520: 23.15,
-        ...     530: 67.98,
-        ...     540: 90.28,
-        ...     550: 91.61,
-        ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[511] = np.array([31.41, 95.27, 15.06])
         >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
         <...TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd[515]
-        array([  21.47104053,  100.64300155,   18.8165196 ])
+        >>> tri_spd[515]  # doctest: +ELLIPSIS
+        array([  21.4710405...,  100.6430015...,   18.8165196...])
 
         Enforcing *Linear* interpolation:
 
-        >>> x_bar = {
-        ...     510: 49.67,
-        ...     520: 69.59,
-        ...     530: 81.73,
-        ...     540: 88.19,
-        ...     550: 89.76,
-        ...     560: 90.28}
-        >>> y_bar = {
-        ...     510: 90.56,
-        ...     520: 87.34,
-        ...     530: 45.76,
-        ...     540: 23.45,
-        ...     550: 15.34,
-        ...     560: 10.11}
-        >>> z_bar = {
-        ...     510: 12.43,
-        ...     520: 23.15,
-        ...     530: 67.98,
-        ...     540: 90.28,
-        ...     550: 91.61,
-        ...     560: 98.24}
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1),
+        ...     method='Linear')
         <...TriSpectralPowerDistribution object at 0x...>
-        >>> tri_spd[515]
-        array([ 59.63,  88.95,  17.79])
+        >>> tri_spd[515]  # doctest: +ELLIPSIS
+        array([ 59.63...,  88.95...,  17.79...])
+
+        Enforcing *Pchip* interpolation:
+
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1),
+        ...     method='Pchip')
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd[515]  # doctest: +ELLIPSIS
+        array([ 58.8173260...,  89.4355596...,  16.4545683...])
         """
 
         for i in self.__mapping.keys():

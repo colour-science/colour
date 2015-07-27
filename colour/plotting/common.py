@@ -53,9 +53,9 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_FIGURE_HEIGHT',
            'DEFAULT_FIGURE_SIZE',
            'DEFAULT_FONT_SIZE',
-           'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
            'DEFAULT_HATCH_PATTERNS',
+           'DEFAULT_PARAMETERS',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
@@ -123,22 +123,6 @@ DEFAULT_FONT_SIZE : numeric
 if 'Qt4Agg' in matplotlib.get_backend():
     DEFAULT_FONT_SIZE = 10
 
-DEFAULT_PARAMETERS = {
-    'figure.figsize': DEFAULT_FIGURE_SIZE,
-    'font.size': DEFAULT_FONT_SIZE,
-    'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
-    'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
-    'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
-    'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE}
-"""
-Default plotting parameters.
-
-DEFAULT_PARAMETERS : dict
-"""
-
-pylab.rcParams.update(DEFAULT_PARAMETERS)
-
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 """
 Default colour cycle for plots.
@@ -154,6 +138,23 @@ Default hatch patterns for bar plots.
 DEFAULT_HATCH_PATTERNS : tuple
 {'\\\\', 'o', 'x', '.', '*', '//'}
 """
+
+DEFAULT_PARAMETERS = {
+    'figure.figsize': DEFAULT_FIGURE_SIZE,
+    'font.size': DEFAULT_FONT_SIZE,
+    'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
+    'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
+    'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
+    'xtick.labelsize': DEFAULT_FONT_SIZE,
+    'ytick.labelsize': DEFAULT_FONT_SIZE,
+    'axes.color_cycle': DEFAULT_COLOUR_CYCLE}
+"""
+Default plotting parameters.
+
+DEFAULT_PARAMETERS : dict
+"""
+
+pylab.rcParams.update(DEFAULT_PARAMETERS)
 
 DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('D65')

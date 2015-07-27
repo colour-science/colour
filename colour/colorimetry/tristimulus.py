@@ -19,8 +19,13 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import SplineInterpolator, SpragueInterpolator
+from colour.algebra import (
+    CubicSplineInterpolator,
+    LinearInterpolator,
+    PchipInterpolator,
+    SpragueInterpolator)
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
+from colour.utilities import is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -111,7 +116,8 @@ def spectral_to_XYZ(spd,
 
 def wavelength_to_XYZ(wavelength,
                       cmfs=STANDARD_OBSERVERS_CMFS.get(
-                          'CIE 1931 2 Degree Standard Observer')):
+                          'CIE 1931 2 Degree Standard Observer'),
+                      method=None):
     """
     Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
@@ -128,6 +134,9 @@ def wavelength_to_XYZ(wavelength,
         Wavelength :math:`\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
+    method : unicode, optional
+        {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
+        Enforce given interpolation method.
 
     Returns
     -------
@@ -136,22 +145,60 @@ def wavelength_to_XYZ(wavelength,
 
     Raises
     ------
+    RuntimeError
+        If Sprague (1880) interpolation method is forced with a
+        non-uniformly spaced independent variable.
     ValueError
-        If wavelength :math:`\lambda` is not contained in the colour matching
-        functions domain.
+        If the interpolation method is not defined or if wavelength
+        :math:`\lambda` is not contained in the colour matching functions
+        domain.
 
     Notes
     -----
     -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
     -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
         to legacy *Linear* interpolation.
+    -   Sprague (1880) interpolator cannot be used for interpolating
+        functions having a non-uniformly spaced independent variable.
+
+    Warning
+    -------
+    -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
+        to legacy *Linear* interpolation.
+    -   *Cubic Spline* interpolator requires at least 3 wavelengths
+        :math:`\lambda_n` for interpolation.
+    -   *Linear* interpolator requires at least 2 wavelengths :math:`\lambda_n`
+        for interpolation.
+    -   *Pchip* interpolator requires at least 2 wavelengths :math:`\lambda_n`
+        for interpolation.
+    -   Sprague (1880) interpolator requires at least 6 wavelengths
+        :math:`\lambda_n` for interpolation.
 
     Examples
     --------
+    Uniform data is using Sprague (1880) interpolation by default:
+
     >>> from colour import CMFS
     >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
-    >>> wavelength_to_XYZ(480)  # doctest: +ELLIPSIS
+    >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
     array([ 0.09564  ,  0.13902  ,  0.812950...])
+    >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
+    array([ 0.0914287...,  0.1418350...,  0.7915726...])
+
+    Enforcing *Cubic Spline* interpolation:
+
+    >>> wavelength_to_XYZ(480.5, cmfs, 'Cubic Spline')  # doctest: +ELLIPSIS
+    array([ 0.0914288...,  0.1418351...,  0.7915729...])
+
+    Enforcing *Linear* interpolation:
+
+    >>> wavelength_to_XYZ(480.5, cmfs, 'Linear')  # doctest: +ELLIPSIS
+    array([ 0.0914697...,  0.1418482...,  0.7917337...])
+
+    Enforcing *Pchip* interpolation:
+
+    >>> wavelength_to_XYZ(480.5, cmfs, 'Pchip')  # doctest: +ELLIPSIS
+    array([ 0.0914280...,  0.1418341...,  0.7915711...])
     """
 
     cmfs_shape = cmfs.shape
@@ -163,9 +210,34 @@ def wavelength_to_XYZ(wavelength,
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
-        interpolator = (SpragueInterpolator
-                        if cmfs.is_uniform() else
-                        SplineInterpolator)
+
+        if is_string(method):
+            method = method.lower()
+
+        is_uniform = cmfs.is_uniform()
+
+        if method is None:
+            if is_uniform:
+                interpolator = SpragueInterpolator
+            else:
+                interpolator = CubicSplineInterpolator
+        elif method == 'cubic spline':
+            interpolator = CubicSplineInterpolator
+        elif method == 'linear':
+            interpolator = LinearInterpolator
+        elif method == 'pchip':
+            interpolator = PchipInterpolator
+        elif method == 'sprague':
+            if is_uniform:
+                interpolator = SpragueInterpolator
+            else:
+                raise RuntimeError(
+                    ('"Sprague" interpolator can only be used for '
+                     'interpolating functions having a uniformly spaced '
+                     'independent variable!'))
+        else:
+            raise ValueError(
+                'Undefined "{0}" interpolator!'.format(method))
 
         interpolators = [interpolator(wavelengths, values[..., i])
                          for i in range(values.shape[-1])]

@@ -16,7 +16,7 @@ else:
     import unittest
 from itertools import permutations
 
-from colour.algebra import Extrapolator1d, LinearInterpolator1d
+from colour.algebra import Extrapolator1d, LinearInterpolator
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -62,14 +62,14 @@ class TestExtrapolator1d(unittest.TestCase):
         """
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(
+            LinearInterpolator(
                 np.array([5, 6, 7]),
                 np.array([5, 6, 7])))
         np.testing.assert_almost_equal(extrapolator((4, 8)), (4., 8.))
         self.assertEqual(extrapolator(4), 4.)
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(
+            LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
             method='Constant')
@@ -78,7 +78,7 @@ class TestExtrapolator1d(unittest.TestCase):
         self.assertEqual(extrapolator(0.1), 1.)
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(
+            LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
             method='Constant',
@@ -88,7 +88,7 @@ class TestExtrapolator1d(unittest.TestCase):
         self.assertEqual(extrapolator(0.1), 0.)
 
         extrapolator = Extrapolator1d(
-            LinearInterpolator1d(
+            LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
             method='Constant',
@@ -108,7 +108,7 @@ class TestExtrapolator1d(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             extrapolator = Extrapolator1d(
-                LinearInterpolator1d(np.array(case), np.array(case)))
+                LinearInterpolator(np.array(case), np.array(case)))
             extrapolator(case[0])
 
 

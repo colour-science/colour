@@ -2434,6 +2434,20 @@ class TestSpectralPowerDistribution(unittest.TestCase):
             rtol=0.0000001,
             atol=0.0000001)
 
+        np.testing.assert_almost_equal(
+            self.__spd.clone().interpolate(
+                SpectralShape(steps=1),
+                method='Linear')[410],
+            np.array(0.0643),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            self.__spd.clone().interpolate(
+                SpectralShape(steps=1),
+                method='Pchip')[410],
+            np.array(0.06439937984496125),
+            decimal=7)
+
     def test_align(self):
         """
         Tests
@@ -2970,6 +2984,20 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                 INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
                 rtol=0.0000001,
                 atol=0.0000001)
+
+        np.testing.assert_almost_equal(
+            self.__tri_spd.clone().interpolate(
+                SpectralShape(steps=1),
+                method='Linear')[411],
+            np.array([0.050334, 0.001404, 0.24018]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            self.__tri_spd.clone().interpolate(
+                SpectralShape(steps=1),
+                method='Pchip')[411],
+            np.array([0.04895501, 0.00136229, 0.23349933]),
+            decimal=7)
 
     def test_align(self):
         """

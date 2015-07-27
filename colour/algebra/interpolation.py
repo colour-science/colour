@@ -7,9 +7,11 @@ Interpolation
 
 Defines classes for interpolating variables.
 
--   :class:`LinearInterpolator1d`: 1-D function linear interpolation.
--   :class:`SplineInterpolator`: 1-D function cubic spline interpolation.
+-   :class:`LinearInterpolator`: 1-D function linear interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
+    interpolation.
+-   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
+-   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
     interpolation.
 """
 
@@ -32,12 +34,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LinearInterpolator1d',
-           'SplineInterpolator',
-           'SpragueInterpolator']
+__all__ = ['LinearInterpolator',
+           'SpragueInterpolator',
+           'CubicSplineInterpolator',
+           'PchipInterpolator']
 
 
-class LinearInterpolator1d(object):
+class LinearInterpolator(object):
     """
     Linearly interpolates a 1-D function.
 
@@ -74,7 +77,7 @@ class LinearInterpolator1d(object):
     ...               27.8007,
     ...               86.0500])
     >>> x = np.arange(len(y))
-    >>> f = LinearInterpolator1d(x, y)
+    >>> f = LinearInterpolator(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> f(0.5)  # doctest: +ELLIPSIS
     7.64...
@@ -225,31 +228,6 @@ class LinearInterpolator1d(object):
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
-if is_scipy_installed():
-    from scipy.interpolate import interp1d
-
-    class SplineInterpolator(interp1d):
-        """
-        Interpolates a 1-D function using cubic spline interpolation.
-
-        Notes
-        -----
-        This class is a wrapper around *scipy.interpolate.interp1d* class.
-        """
-
-        def __init__(self, *args, **kwargs):
-            # TODO: Implements proper wrapper to ensure return values
-            # consistency and avoid having to cast to numeric in
-            # :meth:`SpectralPowerDistribution.interpolate` method.
-            super(SplineInterpolator, self).__init__(
-                kind='cubic', *args, **kwargs)
-else:
-    warning(('"scipy.interpolate.interp1d" interpolator is unavailable, using '
-             '"LinearInterpolator1d" instead!'))
-
-    SplineInterpolator = LinearInterpolator1d
-
-
 class SpragueInterpolator(object):
     """
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
@@ -273,7 +251,7 @@ class SpragueInterpolator(object):
 
     See Also
     --------
-    LinearInterpolator1d
+    LinearInterpolator
 
     Notes
     -----
@@ -523,3 +501,29 @@ class SpragueInterpolator(object):
 
         if above_interpolation_range.any():
             raise ValueError('"{0}" is above interpolation range.'.format(x))
+
+
+if is_scipy_installed():
+    from scipy.interpolate import PchipInterpolator, interp1d
+
+    class CubicSplineInterpolator(interp1d):
+        """
+        Interpolates a 1-D function using cubic spline interpolation.
+
+        Notes
+        -----
+        This class is a wrapper around *scipy.interpolate.interp1d* class.
+        """
+
+        def __init__(self, *args, **kwargs):
+            # TODO: Implements proper wrapper to ensure return values
+            # consistency and avoid having to cast to numeric in
+            # :meth:`SpectralPowerDistribution.interpolate` method.
+            super(CubicSplineInterpolator, self).__init__(
+                kind='cubic', *args, **kwargs)
+else:
+    warning(('"scipy.interpolate.PchipInterpolator" and '
+             '"scipy.interpolate.interp1d" interpolators are not available, '
+             'using "LinearInterpolator" instead!'))
+
+    PchipInterpolator = CubicSplineInterpolator = LinearInterpolator

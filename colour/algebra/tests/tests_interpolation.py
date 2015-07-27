@@ -17,7 +17,7 @@ else:
 from itertools import permutations
 
 from colour.algebra import (
-    LinearInterpolator1d,
+    LinearInterpolator,
     SpragueInterpolator)
 from colour.utilities import ignore_numpy_errors
 
@@ -362,7 +362,7 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
 class TestLinearInterpolator1d(unittest.TestCase):
     """
     Defines
-    :func:`colour.algebra.interpolation.LinearInterpolator1d` class units
+    :func:`colour.algebra.interpolation.LinearInterpolator` class units
     tests methods.
     """
 
@@ -375,7 +375,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
                                'y')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(LinearInterpolator1d))
+            self.assertIn(attribute, dir(LinearInterpolator))
 
     def test_required_methods(self):
         """
@@ -385,18 +385,18 @@ class TestLinearInterpolator1d(unittest.TestCase):
         required_methods = ()
 
         for method in required_methods:
-            self.assertIn(method, dir(LinearInterpolator1d))
+            self.assertIn(method, dir(LinearInterpolator))
 
     def test___call__(self):
         """
         Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
+        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
 
         steps = 0.1
         x = np.arange(len(POINTS_DATA_A))
-        linear_interpolator = LinearInterpolator1d(x, POINTS_DATA_A)
+        linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
                 np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
@@ -414,7 +414,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
     def test_nan__call__(self):
         """
         Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator1d.__call__`
+        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method nan support.
         """
 
@@ -422,7 +422,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             try:
-                linear_interpolator = LinearInterpolator1d(
+                linear_interpolator = LinearInterpolator(
                     np.array(case), np.array(case))
                 linear_interpolator(case[0])
             except ValueError:
