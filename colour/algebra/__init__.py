@@ -7,8 +7,9 @@ from .coordinates import *  # noqa
 from . import coordinates
 from .extrapolation import Extrapolator1d
 from .interpolation import (LinearInterpolator,
+                            SpragueInterpolator,
                             CubicSplineInterpolator,
-                            SpragueInterpolator)
+                            PchipInterpolator)
 from .matrix import is_identity
 from .random import random_triplet_generator
 
@@ -16,7 +17,8 @@ __all__ = []
 __all__ += coordinates.__all__
 __all__ += ['Extrapolator1d']
 __all__ += ['LinearInterpolator',
+            'SpragueInterpolator',
             'CubicSplineInterpolator',
-            'SpragueInterpolator']
+            'PchipInterpolator']
 __all__ += ['is_identity']
 __all__ += ['random_triplet_generator']

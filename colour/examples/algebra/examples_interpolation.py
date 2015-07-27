@@ -16,7 +16,7 @@ from colour.utilities.verbose import message_box
 message_box('Interpolation Computations')
 
 message_box(('Comparing Sprague (1880) and "Cubic Spline" recommended '
-             'interpolation methods.'))
+             'interpolation methods to "Pchip" method.'))
 
 uniform_spd_data = {
     340: 0.0000,
@@ -78,11 +78,16 @@ base_spd = colour.SpectralPowerDistribution(
 uniform_interpolated_spd = colour.SpectralPowerDistribution(
     'Uniform - Sprague Interpolation',
     uniform_spd_data)
+uniform_pchip_interpolated_spd = colour.SpectralPowerDistribution(
+    'Uniform - Pchip Interpolation',
+    uniform_spd_data)
 non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
     'Non Uniform - Cubic Spline Interpolation',
     non_uniform_spd_data)
 
 uniform_interpolated_spd.interpolate(colour.SpectralShape(steps=1))
+uniform_pchip_interpolated_spd.interpolate(colour.SpectralShape(steps=1),
+                                           method='Pchip')
 non_uniform_interpolated_spd.interpolate(colour.SpectralShape(steps=1))
 
 shape = base_spd.shape
@@ -96,6 +101,10 @@ pylab.plot(base_spd.wavelengths,
 pylab.plot(uniform_interpolated_spd.wavelengths,
            uniform_interpolated_spd.values,
            label=uniform_interpolated_spd.name,
+           linewidth=2)
+pylab.plot(uniform_pchip_interpolated_spd.wavelengths,
+           uniform_pchip_interpolated_spd.values,
+           label=uniform_pchip_interpolated_spd.name,
            linewidth=2)
 pylab.plot(non_uniform_interpolated_spd.wavelengths,
            non_uniform_interpolated_spd.values,
