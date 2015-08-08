@@ -422,7 +422,7 @@ def label_rectangles(rectangles,
     rectangles : object
         Rectangles to used to set the labels value and position.
     rotation : unicode, optional
-        {'horizontal', 'vertical'}
+        **{'horizontal', 'vertical'}**,
         Labels orientation.
     text_size : numeric, optional
         Labels text size.

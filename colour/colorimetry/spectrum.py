@@ -1549,7 +1549,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -1618,7 +1618,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Sprague', 'Cubic Spline', 'Linear'},
+            **{None, 'Sprague', 'Cubic Spline', 'Linear'}**,
             Enforce given interpolation method.
 
         Returns
@@ -1772,7 +1772,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3301,7 +3301,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3352,7 +3352,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Sprague', 'Cubic Spline', 'Linear'},
+            **{None, 'Sprague', 'Cubic Spline', 'Linear'}**,
             Enforce given interpolation method.
 
         Returns
@@ -3491,7 +3491,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.

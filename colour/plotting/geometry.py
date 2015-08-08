@@ -36,7 +36,7 @@ def quad(plane='xy', origin=None, width=1, height=1, depth=0):
     Parameters
     ----------
     plane : array_like, optional
-        {'xy', 'xz', 'yz'}
+        **{'xy', 'xz', 'yz'}**,
         Construction plane of the quad.
     origin: array_like, optional
         Quad origin on the construction plane.
@@ -98,7 +98,7 @@ def grid(plane='xy',
     Parameters
     ----------
     plane : array_like, optional
-        {'xy', 'xz', 'yz'}
+        **{'xy', 'xz', 'yz'}**,
         Construction plane of the grid.
     origin: array_like, optional
         Grid origin on the construction plane.
@@ -169,7 +169,7 @@ def cube(plane=None,
     Parameters
     ----------
     plane : array_like, optional
-        Any combination of {'+x', '-x', '+y', '-y', '+z', '-z'}
+        Any combination of **{'+x', '-x', '+y', '-y', '+z', '-z'}**,
         Included grids in the cube construction.
     origin: array_like, optional
         Cube origin.

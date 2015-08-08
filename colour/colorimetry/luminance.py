@@ -188,7 +188,7 @@ LUMINANCE_METHODS = CaseInsensitiveMapping(
 Supported *luminance* computations methods.
 
 LUMINANCE_METHODS : CaseInsensitiveMapping
-    {'Newhall 1943', 'ASTM D1535-08', 'CIE 1976'}
+    **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976'}**
 
 Aliases:
 
@@ -211,7 +211,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     LV : numeric or array_like
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
-        {'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}
+        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

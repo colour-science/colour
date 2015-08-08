@@ -271,7 +271,7 @@ def chromatic_adaptation_CMCCAT2000(
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
     method : unicode, optional
-        {'Forward', 'Reverse'}
+        **{'Forward', 'Reverse'}**,
         Chromatic adaptation method.
 
     Returns

@@ -873,8 +873,9 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
 Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
-     'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+    'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'V-Log'}**
 """
 
 
@@ -887,9 +888,9 @@ def linear_to_log(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ALEXA Log C', 'REDLogFilm', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3',
-        'V-Log'},
+        'V-Log'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -933,8 +934,9 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
 Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
-    'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+    'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'V-Log'}**
 """
 
 
@@ -947,9 +949,9 @@ def log_to_linear(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-        'V-Log'},
+        'V-Log'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

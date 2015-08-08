@@ -603,16 +603,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     header : IES_TM2714_Header, optional
         IES TM-27-14 spectral power distribution header.
     spectral_quantity : unicode, optional
-        {'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
+        **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',
-        'relative', 'other'}
+        'relative', 'other'}**,
         Quantity of measurement for each element of the spectral data.
     reflection_geometry : unicode, optional
-        {'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
-        '0:45a', '45x:0', '0:45x', 'other'}
+        **{'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
+        '0:45a', '45x:0', '0:45x', 'other'}**,
         Spectral reflectance factors geometric conditions.
     transmission_geometry : unicode, optional
-        {'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}
+        **{'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}**,
         Spectral transmittance factors geometric conditions.
     bandwidth_FWHM : numeric, optional
         Spectroradiometer full-width half-maximum bandwidth in nanometers.

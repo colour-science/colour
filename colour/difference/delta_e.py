@@ -342,7 +342,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping(
 Supported *Delta E* computations methods.
 
 DELTA_E_METHODS : CaseInsensitiveMapping
-    {'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}
+    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
 
 Aliases:
 
@@ -366,7 +366,7 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
     Lab2 : array_like
         *CIE Lab* colourspace array 2.
     method : unicode, optional
-        {'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}
+        **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

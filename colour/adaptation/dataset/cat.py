@@ -200,6 +200,6 @@ CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping(
 Supported chromatic adaptation transforms.
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
-    {'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'CMCCAT97', 'CMCCAT2000',
-    'Fairchild, 'CAT02', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'}
+    **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
+    'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'}**
 """

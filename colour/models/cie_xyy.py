@@ -168,8 +168,8 @@ def xy_to_xyY(xy, Y=1):
     -----
     -   This definition is a convenient object provided to implement support of
         illuminant argument *luminance* value in various :mod:`colour.models`
-        package objects such as :def:`colour.models.Lab_to_XYZ` or
-        :def:`colour.models.Luv_to_XYZ`.
+        package objects such as :func:`colour.models.Lab_to_XYZ` or
+        :func:`colour.models.Luv_to_XYZ`.
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE xyY* colourspace array is in domain [0, 1].
 

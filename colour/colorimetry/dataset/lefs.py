@@ -2383,12 +2383,12 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping(
 Photopic luminous efficiency functions.
 
 PHOTOPIC_LEFS : CaseInsensitiveMapping
-    {'CIE 1924 Photopic Standard Observer',
+    **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
     'CIE 1964 Photopic 10 Degree Standard Observer',
     'CIE 2008 2 Degree Physiologically Relevant LEF',
-    'CIE 2008 10 Degree Physiologically Relevant LEF'}
+    'CIE 2008 10 Degree Physiologically Relevant LEF'}**
 
 Aliases:
 
@@ -2812,7 +2812,7 @@ SCOTOPIC_LEFS = CaseInsensitiveMapping(
 Scotopic luminous efficiency functions.
 
 SCOTOPIC_LEFS : CaseInsensitiveMapping
-    {'CIE 1951 Scotopic Standard Observer',}
+    **{'CIE 1951 Scotopic Standard Observer', }**
 
 Aliases:
 
@@ -2826,13 +2826,13 @@ LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
 Aggregated luminous efficiency functions.
 
 LEFS : CaseInsensitiveMapping
-    {'CIE 1924 Photopic Standard Observer',
+    **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
     'CIE 1964 Photopic 10 Degree Standard Observer',
     'CIE 2008 2 Degree Physiologically Relevant LEF',
     'CIE 2008 10 Degree Physiologically Relevant LEF',
-    'CIE 1951 Scotopic Standard Observer'}
+    'CIE 1951 Scotopic Standard Observer'}**
 """
 LEFS.update(SCOTOPIC_LEFS)
 
