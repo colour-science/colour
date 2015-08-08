@@ -36,7 +36,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CMFS, ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import Structure
 
@@ -59,14 +59,17 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
-           'ColourParameter',
            'colour_cycle',
            'canvas',
+           'camera',
            'decorate',
            'boundaries',
            'display',
            'label_rectangles',
            'equal_axes3d',
+           'get_RGB_colourspace',
+           'get_cmfs',
+           'get_illuminant',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
@@ -179,7 +182,7 @@ def colour_cycle(**kwargs):
     """
     Returns a colour cycle iterator using given colour map.
 
-   Parameters
+    Parameters
     ----------
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -484,6 +487,95 @@ def equal_axes3d(axes):
                                                 center + extent / 2)
 
     return True
+
+
+def get_RGB_colourspace(colourspace):
+    """
+    Returns the *RGB* colourspace with given name.
+
+    Parameters
+    ----------
+    colourspace : unicode
+        *RGB* colourspace name.
+
+    Returns
+    -------
+    RGB_Colourspace
+        *RGB* colourspace.
+
+    Raises
+    ------
+    KeyError
+        If the given *RGB* colourspace is not found in the factory *RGB*
+        colourspaces.
+    """
+
+    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
+    if colourspace is None:
+        raise KeyError(
+            ('"{0}" colourspace not found in factory RGB colourspaces: '
+             '"{1}".').format(
+                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
+
+    return colourspace
+
+
+def get_cmfs(cmfs):
+    """
+    Returns the colour matching functions with given name.
+
+    Parameters
+    ----------
+    cmfs : unicode
+        Colour matching functions name.
+
+    Returns
+    -------
+    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
+        Colour matching functions.
+
+    Raises
+    ------
+    KeyError
+        If the given colour matching functions is not found in the factory
+        colour matching functions.
+    """
+
+    cmfs, name = CMFS.get(cmfs), cmfs
+    if cmfs is None:
+        raise KeyError(
+            ('"{0}" not found in factory colour matching functions: '
+             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
+    return cmfs
+
+
+def get_illuminant(illuminant):
+    """
+    Returns the illuminant with given name.
+
+    Parameters
+    ----------
+    illuminant : unicode
+        Illuminant name.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Illuminant.
+
+    Raises
+    ------
+    KeyError
+        If the given illuminant is not found in the factory illuminants.
+    """
+
+    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    if illuminant is None:
+        raise KeyError(
+            '"{0}" not found in factory illuminants: "{1}".'.format(
+                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
+
+    return illuminant
 
 
 def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):

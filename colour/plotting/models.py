@@ -30,7 +30,6 @@ from colour.models import (
     POINTER_GAMUT_BOUNDARIES,
     POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT,
-    RGB_COLOURSPACES,
     RGB_to_XYZ,
     UCS_to_uv,
     XYZ_to_Luv,
@@ -48,6 +47,7 @@ from colour.plotting import (
     colour_cycle,
     decorate,
     display,
+    get_RGB_colourspace,
     get_cmfs)
 
 __author__ = 'Colour Developers'
@@ -58,7 +58,6 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'get_RGB_colourspace',
     'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
@@ -67,37 +66,6 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']
-
-
-def get_RGB_colourspace(colourspace):
-    """
-    Returns the *RGB* colourspace with given name.
-
-    Parameters
-    ----------
-    colourspace : unicode
-        *RGB* colourspace name.
-
-    Returns
-    -------
-    RGB_Colourspace
-        *RGB* colourspace.
-
-    Raises
-    ------
-    KeyError
-        If the given *RGB* colourspace is not found in the factory *RGB*
-        colourspaces.
-    """
-
-    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
-    if colourspace is None:
-        raise KeyError(
-            ('"{0}" colourspace not found in factory RGB colourspaces: '
-             '"{1}".').format(
-                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
-
-    return colourspace
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(

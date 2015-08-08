@@ -26,14 +26,15 @@ from .common import (
     display,
     label_rectangles,
     equal_axes3d,
+    get_RGB_colourspace,
+    get_cmfs,
+    get_illuminant,
     colour_parameter,
     colour_parameters_plot,
     single_colour_plot,
     multi_colour_plot,
     image_plot)
 from .colorimetry import (
-    get_cmfs,
-    get_illuminant,
     single_spd_plot,
     multi_spd_plot,
     single_cmfs_plot,
@@ -59,7 +60,6 @@ from .geometry import (
     grid,
     cube)
 from .models import (
-    get_RGB_colourspace,
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot,
     RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot,
     RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot,
@@ -105,14 +105,15 @@ __all__ += [
     'display',
     'label_rectangles',
     'equal_axes3d',
+    'get_RGB_colourspace',
+    'get_cmfs',
+    'get_illuminant',
     'colour_parameter',
     'colour_parameters_plot',
     'single_colour_plot',
     'multi_colour_plot',
     'image_plot']
 __all__ += [
-    'get_cmfs',
-    'get_illuminant',
     'single_spd_plot',
     'multi_spd_plot',
     'single_cmfs_plot',
@@ -140,7 +141,6 @@ __all__ += [
     'grid',
     'cube']
 __all__ += [
-    'get_RGB_colourspace',
     'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
