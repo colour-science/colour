@@ -190,7 +190,8 @@ def planckian_table(uv, cmfs, start, end, count):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> uv = np.array([0.1978, 0.3122])
-    >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))  # noqa  # doctest: +ELLIPSIS
+    >>> pprint(planckian_table(  # doctest: +ELLIPSIS
+    ...     uv, cmfs, 1000, 1010, 10))
     [PlanckianTable_Tuvdi(Ti=1000.0, ui=0.4480108..., vi=0.3546249..., di=0.2537821...),
      PlanckianTable_Tuvdi(Ti=1001.1111111..., ui=0.4477508..., vi=0.3546475..., di=0.2535294...),
      PlanckianTable_Tuvdi(Ti=1002.2222222..., ui=0.4474910..., vi=0.3546700..., di=0.2532771...),

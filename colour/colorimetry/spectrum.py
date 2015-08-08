@@ -1707,7 +1707,8 @@ class SpectralPowerDistribution(object):
         ...     550: 86.26,
         ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
+        >>> spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1), method='Linear')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(59.63...)
@@ -3464,7 +3465,8 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd.interpolate(SpectralShape(steps=1), method='Linear')  # noqa  # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(steps=1), method='Linear')
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]
         array([ 59.63,  88.95,  17.79])

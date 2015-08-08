@@ -538,12 +538,18 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)  # noqa
-    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)  # noqa
-    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)  # noqa
-    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)  # noqa
-    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])  # noqa  # doctest: +SKIP
+    >>> cp1 = colour_parameter(
+    ...     x=390, RGB=[0.03009021, 0, 0.12300545])
+    >>> cp2 = colour_parameter(
+    ...     x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
+    >>> cp3 = colour_parameter(
+    ...     x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
+    >>> cp4 = colour_parameter(
+    ...     x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
+    >>> cp5 = colour_parameter(
+    ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
+    >>> colour_parameters_plot(
+    ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
     True
     """
 
@@ -756,7 +762,10 @@ def image_plot(image,
     --------
     >>> import os
     >>> from colour import read_image
-    >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
+    >>> path = os.path.join(
+    ...     'resources',
+    ...     ('CIE_1931_Chromaticity_Diagram'
+    ...     '_CIE_1931_2_Degree_Standard_Observer.png'))
     >>> image = read_image(path)  # doctest: +SKIP
     >>> image_plot(image)  # doctest: +SKIP
     True

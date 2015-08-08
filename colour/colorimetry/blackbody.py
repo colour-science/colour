@@ -143,7 +143,8 @@ def blackbody_spd(temperature,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')  # noqa
+    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(
+    ...     'CIE 1931 2 Degree Standard Observer')
     >>> blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS
     <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
     """

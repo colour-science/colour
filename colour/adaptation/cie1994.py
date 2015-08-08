@@ -120,7 +120,8 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     >>> Y_o = 20
     >>> E_o1 = 1000
     >>> E_o2 = 1000
-    >>> chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_CIE1994(  # doctest: +ELLIPSIS
+    ...     XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
@@ -456,7 +457,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
     >>> Y_o = 20
     >>> K = 1.0
-    >>> corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)  # noqa  # doctest: +ELLIPSIS
+    >>> corresponding_colour(  # doctest: +ELLIPSIS
+    ...     RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)
     array([ 23.1636901...,  20.0211948...,  16.2001664...])
     """
 

@@ -63,7 +63,8 @@ def random_triplet_generator(size,
     --------
     >>> from pprint import pprint
     >>> prng = np.random.RandomState(4)
-    >>> pprint(tuple(random_triplet_generator(10, random_state=prng)))  # noqa  # doctest: +ELLIPSIS
+    >>> pprint(  # doctest: +ELLIPSIS
+    ...     tuple(random_triplet_generator(10, random_state=prng)))
     (array([ 0.9670298...,  0.5472322...,  0.9726843...]),
      array([ 0.7148159...,  0.6977288...,  0.2160895...]),
      array([ 0.9762744...,  0.0062302...,  0.2529823...]),

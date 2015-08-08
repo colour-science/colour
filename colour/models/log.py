@@ -905,7 +905,8 @@ def linear_to_log(value, method='Cineon', **kwargs):
     0.4573196...
     >>> linear_to_log(0.18, method='ACEScc')  # doctest: +ELLIPSIS
     array(0.4135884...)
-    >>> linear_to_log(0.18, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
+    >>> linear_to_log(  # doctest: +ELLIPSIS
+    ...     0.18, method='PLog', log_reference=400)
     0.3910068...
     >>> linear_to_log(0.18, method='S-Log')  # doctest: +ELLIPSIS
     0.3599878...
@@ -964,9 +965,11 @@ def log_to_linear(value, method='Cineon', **kwargs):
     0.18...
     >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
     array(0.18...)
-    >>> log_to_linear(0.39100684261974583, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(  # doctest: +ELLIPSIS
+    ...     0.39100684261974583, method='PLog', log_reference=400)
     0.1...
-    >>> log_to_linear(0.35998784642215442, method='S-Log')  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(  # doctest: +ELLIPSIS
+    ...     0.35998784642215442, method='S-Log')
     0.1799999...
     """
 

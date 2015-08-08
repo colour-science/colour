@@ -274,27 +274,38 @@ def XYZ_to_reference_colourspace(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> W = np.array([0.34567, 0.35850])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE XYZ')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE XYZ')
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xyY')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE xyY')
     array([ 0.2641477...,  0.3777000...,  0.1008    ])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xy')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE xy')
     array([ 0.2641477...,  0.3777000...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Lab')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Lab')
     array([-23.6230288...,  -4.4141703...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHab')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE LCHab')
     array([  24.0319036...,  190.5841597...,   37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Luv')
     array([-28.7922944...,  -1.3558195...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv uv')  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Luv uv')
     array([ 0.1508531...,  0.4853297...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHuv') # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE LCHuv')
     array([  28.82419932,  182.69604747,   37.9856291 ])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UCS uv')  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UCS uv')
     array([ 0.1508531...,  0.32355314...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UVW')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UVW')
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'IPT')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'IPT')
     array([-0.1111479...,  0.0159474...,  0.3657112...])
     """
 

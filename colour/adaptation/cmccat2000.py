@@ -132,7 +132,8 @@ def CMCCAT2000_forward(XYZ,
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)  # noqa  # doctest: +ELLIPSIS
+    >>> CMCCAT2000_forward(  # doctest: +ELLIPSIS
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
 
@@ -209,7 +210,8 @@ def CMCCAT2000_reverse(XYZ_c,
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> CMCCAT2000_reverse(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)  # noqa  # doctest: +ELLIPSIS
+    >>> CMCCAT2000_reverse(  # doctest: +ELLIPSIS
+    ...     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
 
@@ -294,7 +296,8 @@ def chromatic_adaptation_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Forward')  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_CMCCAT2000(  # doctest: +ELLIPSIS
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Forward')
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
     Using the CMCCAT2000 reverse model:
@@ -304,7 +307,8 @@ def chromatic_adaptation_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse')  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_CMCCAT2000(  # doctest: +ELLIPSIS
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse')
     array([ 22.48,  22.74,   8.54])
     """
 

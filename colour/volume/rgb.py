@@ -163,7 +163,7 @@ def RGB_colourspace_limits(colourspace,
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
-    >>> RGB_colourspace_limits(sRGB)  # noqa  # doctest: +ELLIPSIS
+    >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
     array([[   0...        ,  100...        ],
            [ -79.2263741...,   94.6657491...],
            [-114.7846271...,   96.7135199...]])
@@ -243,7 +243,8 @@ def RGB_colourspace_volume_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> processes = 1
-    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng, processes=processes)  # noqa  # doctest: +ELLIPSIS
+    >>> RGB_colourspace_volume_MonteCarlo(  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng, processes=processes)
     859...
     """
 
@@ -304,11 +305,11 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_volume_coverage_MonteCarlo(
+    >>> RGB_colourspace_volume_coverage_MonteCarlo(  # doctest: +ELLIPSIS
     ...     sRGB,
     ...     is_within_pointer_gamut,
     ...     10e3,
-    ...     random_state=prng)  # doctest: +ELLIPSIS
+    ...     random_state=prng)
     83...
     """
 
