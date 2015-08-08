@@ -209,12 +209,14 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
                        size='x-small')
 
     for illuminant in illuminants:
-        uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
-        if uv is None:
+        xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
+        if xy is None:
             raise KeyError(
                 ('Illuminant "{0}" not found in factory illuminants: '
                  '"{1}".').format(illuminant,
                                   sorted(ILLUMINANTS.get(cmfs.name).keys())))
+
+        uv = xy_to_uv(xy)
 
         pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 
