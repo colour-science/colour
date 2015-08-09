@@ -85,7 +85,7 @@ REFERENCE_COLOURSPACES_TO_LABELS : dict
 
 def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     """
-    Returns a grid on 'xy' plane made of quad geometric elements and its
+    Returns a grid on *xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
     given axes accordingly to the extended grid settings.
 
@@ -103,8 +103,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**
-
+        'ticks_and_label_location'}**,
         Arguments for the nadir grid such as ``{'grid_face_colours':
         (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
         'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':
@@ -260,8 +259,7 @@ def XYZ_to_reference_colourspace(XYZ,
         coordinates.
     reference_colourspace : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE Luv', 'CIE Luv uv',
-        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT'}**
-
+        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT'}**,
         Reference colourspace to convert the *CIE XYZ* tristimulus values to.
 
     Returns
@@ -274,27 +272,38 @@ def XYZ_to_reference_colourspace(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> W = np.array([0.34567, 0.35850])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE XYZ')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE XYZ')
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xyY')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE xyY')
     array([ 0.2641477...,  0.3777000...,  0.1008    ])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE xy')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE xy')
     array([ 0.2641477...,  0.3777000...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Lab')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Lab')
     array([-23.6230288...,  -4.4141703...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHab')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE LCHab')
     array([  24.0319036...,  190.5841597...,   37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Luv')
     array([-28.7922944...,  -1.3558195...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE Luv uv')  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE Luv uv')
     array([ 0.1508531...,  0.4853297...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE LCHuv') # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE LCHuv')
     array([  28.82419932,  182.69604747,   37.9856291 ])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UCS uv')  # noqa  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UCS uv')
     array([ 0.1508531...,  0.32355314...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'CIE UVW')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'CIE UVW')
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
-    >>> XYZ_to_reference_colourspace(XYZ, W, 'IPT')  # doctest: +ELLIPSIS
+    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'IPT')
     array([-0.1111479...,  0.0159474...,  0.3657112...])
     """
 
@@ -350,8 +359,7 @@ def RGB_identity_cube(plane=None,
     Parameters
     ----------
     plane : array_like, optional
-        Any combination of **{'+x', '-x', '+y', '-y', '+z', '-z'}**
-
+        Any combination of **{'+x', '-x', '+y', '-y', '+z', '-z'}**,
         Included grids in the cube construction.
     width_segments: int, optional
         Cube segments, quad counts along the width.
@@ -437,8 +445,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         *RGB* colourspaces to plot the gamuts.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**
-
+        'IPT'}**,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
@@ -453,8 +460,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
     \*\*kwargs : \*\*
-        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**
-
+        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
         'edge_colours': (None, (0.5, 0.5, 1.0)), 'edge_alpha': (0.5, 1.0),
@@ -463,8 +469,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**
-
+        'ticks_and_label_location'}**,
         Arguments for the nadir grid such as ``{'grid_face_colours':
         (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
         'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':
@@ -630,8 +635,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspace of the *RGB* array.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**
-
+        'IPT'}**,
         Reference colourspace for colour conversion.
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.
@@ -650,8 +654,7 @@ def RGB_scatter_plot(RGB,
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
     \*\*kwargs : \*\*
-        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**
-
+        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
         'edge_colours': (None, (0.5, 0.5, 1.0)), 'edge_alpha': (0.5, 1.0),
@@ -660,8 +663,7 @@ def RGB_scatter_plot(RGB,
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**
-
+        'ticks_and_label_location'}**,
         Arguments for the nadir grid such as ``{'grid_face_colours':
         (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
         'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':

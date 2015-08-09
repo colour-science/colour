@@ -124,7 +124,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference CIECAM02 colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    {'Average', 'Dim', 'Dark'}
+    **{'Average', 'Dim', 'Dark'}**
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
@@ -485,7 +485,8 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)  # noqa  # doctest: +ELLIPSIS
+    >>> viewing_condition_dependent_parameters(  # doctest: +ELLIPSIS
+    ...     20.0, 100.0, 318.31)
     array([ 0.2...,  1.1675444...,  1.000304...,  1.000304...,  1.9272136...])
     """
 
@@ -561,7 +562,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)  # noqa  # doctest: +ELLIPSIS
+    >>> full_chromatic_adaptation_forward(  # doctest: +ELLIPSIS
+    ...     RGB, RGB_w, Y_w, D)
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
@@ -692,7 +694,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_forward(
+    ...     RGB, F_L)  # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
@@ -725,7 +728,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     --------
     >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L)  # noqa  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_reverse(
+    ...     RGB, F_L)  # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
@@ -1127,7 +1131,8 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
+    >>> temporary_magnitude_quantity_forward(  # doctest: +ELLIPSIS
+    ...     N_c, N_cb, e_t, a, b, RGB_a)
     0.1497462...
     """
 
@@ -1219,7 +1224,8 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)  # noqa  # doctest: +ELLIPSIS
+    >>> chroma_correlate(  # doctest: +ELLIPSIS
+    ...     J, n, N_c, N_cb, e_t, a, b, RGB_a)
     0.1047077...
     """
 
@@ -1371,7 +1377,8 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)  # noqa  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_matrix(
+    ...     P_2, a, b)  # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 

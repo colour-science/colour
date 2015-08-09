@@ -78,7 +78,7 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping(
 *ALEXA Log C* curve *Ei, Black, Clipping Level* data.
 
 ALEXA_LOG_C_CURVE_BCL_DATA : CaseInsensitiveMapping
-    {'SUP 3.x', 'SUP 2.x'}
+    **{'SUP 3.x', 'SUP 2.x'}**
 """
 
 # @formatter:off
@@ -138,7 +138,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping(
 factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
 
 ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
-    {'SUP 3.x', 'SUP 2.x'}
+    **{'SUP 3.x', 'SUP 2.x'}**
 """
 # @formatter:on
 
@@ -199,10 +199,10 @@ def _linear_to_alexa_log_c(
     value : numeric or array_like
         Value.
     firmware : unicode, optional
-        {'SUP 3.x', 'SUP 2.x'}
+        **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     method : unicode, optional
-        {'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}
+        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
     EI : int,  optional
         Ei.
@@ -236,10 +236,10 @@ def _alexa_log_c_to_linear(
     value : numeric or array_like
         Value.
     firmware : unicode, optional
-        {'SUP 3.x', 'SUP 2.x'}
+        **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     method : unicode,  optional
-        {'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}
+        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
     EI : int,  optional
         Ei.

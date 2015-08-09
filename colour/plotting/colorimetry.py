@@ -32,7 +32,6 @@ import numpy as np
 import pylab
 
 from colour.colorimetry import (
-    CMFS,
     DEFAULT_SPECTRAL_SHAPE,
     ILLUMINANTS,
     ILLUMINANTS_RELATIVE_SPDS,
@@ -51,6 +50,8 @@ from colour.plotting import (
     colour_parameters_plot,
     decorate,
     display,
+    get_cmfs,
+    get_illuminant,
     single_colour_plot)
 from colour.utilities import normalise
 
@@ -61,9 +62,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_cmfs',
-           'get_illuminant',
-           'single_spd_plot',
+__all__ = ['single_spd_plot',
            'multi_spd_plot',
            'single_cmfs_plot',
            'multi_cmfs_plot',
@@ -74,64 +73,6 @@ __all__ = ['get_cmfs',
            'multi_lightness_function_plot',
            'blackbody_spectral_radiance_plot',
            'blackbody_colours_plot']
-
-
-def get_cmfs(cmfs):
-    """
-    Returns the colour matching functions with given name.
-
-    Parameters
-    ----------
-    cmfs : unicode
-        Colour matching functions name.
-
-    Returns
-    -------
-    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
-        Colour matching functions.
-
-    Raises
-    ------
-    KeyError
-        If the given colour matching functions is not found in the factory
-        colour matching functions.
-    """
-
-    cmfs, name = CMFS.get(cmfs), cmfs
-    if cmfs is None:
-        raise KeyError(
-            ('"{0}" not found in factory colour matching functions: '
-             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
-    return cmfs
-
-
-def get_illuminant(illuminant):
-    """
-    Returns the illuminant with given name.
-
-    Parameters
-    ----------
-    illuminant : unicode
-        Illuminant name.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Illuminant.
-
-    Raises
-    ------
-    KeyError
-        If the given illuminant is not found in the factory illuminants.
-    """
-
-    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
-    if illuminant is None:
-        raise KeyError(
-            '"{0}" not found in factory illuminants: "{1}".'.format(
-                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
-
-    return illuminant
 
 
 def single_spd_plot(spd,
@@ -190,9 +131,7 @@ def single_spd_plot(spd,
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'x_tighten': True,
-        'x_ticker': True,
-        'y_ticker': True}
+        'x_tighten': True}
 
     settings.update(kwargs)
 
@@ -273,8 +212,6 @@ def multi_spd_plot(spds,
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
@@ -378,8 +315,6 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper right',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'y_axis_line': True,
         'limits': (min(x_limit_min), max(x_limit_max),
@@ -614,8 +549,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'limits': (0, 100, 0, 100),
         'aspect': 'equal'})
@@ -743,7 +676,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'x_label': 'Temperature K',
         'y_label': '',
         'x_tighten': True,
-        'x_ticker': True,
         'y_ticker': False}
     settings.update(kwargs)
 

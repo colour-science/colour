@@ -36,7 +36,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.colorimetry import ILLUMINANTS
+from colour.colorimetry import CMFS, ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import Structure
 
@@ -59,14 +59,17 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
-           'ColourParameter',
            'colour_cycle',
            'canvas',
+           'camera',
            'decorate',
            'boundaries',
            'display',
            'label_rectangles',
            'equal_axes3d',
+           'get_RGB_colourspace',
+           'get_cmfs',
+           'get_illuminant',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
@@ -179,10 +182,12 @@ def colour_cycle(**kwargs):
     """
     Returns a colour cycle iterator using given colour map.
 
-   Parameters
+    Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'colour_cycle_map', 'colour_cycle_count'}**
+        Keywords arguments such as ``{'colour_cycle_map': unicode
+        (Matplotlib colormap name), 'colour_cycle_count': int}``
 
     Returns
     -------
@@ -212,7 +217,9 @@ def canvas(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'figure_size', }**
+        Keywords arguments such as ``{'figure_size': array_like
+        (width, height), }``
 
     Returns
     -------
@@ -240,7 +247,9 @@ def camera(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'camera_aspect', 'elevation', 'azimuth'}**
+        Keywords arguments such as ``{'camera_aspect': unicode
+        (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
 
     Returns
     -------
@@ -270,7 +279,18 @@ def decorate(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
+        'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
+        'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
+        'y_axis_line', 'aspect', 'no_axes3d'}**
+        Keywords arguments such as ``{'title': unicode (figure title),
+        'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
+        'legend': bool, 'legend_columns': int, 'legend_location': unicode
+        (Matplotlib legend location), 'x_ticker': bool, 'y_ticker': bool,
+        'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
+        'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
+        'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
+        'no_axes3d': bool}``
 
     Returns
     -------
@@ -285,13 +305,10 @@ def decorate(**kwargs):
            'legend': False,
            'legend_columns': 1,
            'legend_location': 'upper right',
-           'x_ticker': False,
-           'y_ticker': False,
+           'x_ticker': True,
+           'y_ticker': True,
            'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
            'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-           'no_ticks': False,
-           'no_x_ticks': False,
-           'no_y_ticks': False,
            'grid': False,
            'grid_which': 'both',
            'grid_axis': 'both',
@@ -314,15 +331,12 @@ def decorate(**kwargs):
     if settings.x_ticker:
         axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
+    else:
+        axes.set_xticks([])
     if settings.y_ticker:
         axes.yaxis.set_minor_locator(
             settings.y_ticker_locator)
-    if settings.no_ticks:
-        axes.set_xticks([])
-        axes.set_yticks([])
-    if settings.no_x_ticks:
-        axes.set_xticks([])
-    if settings.no_y_ticks:
+    else:
         axes.set_yticks([])
     if settings.grid:
         pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
@@ -345,7 +359,11 @@ def boundaries(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
+        Keywords arguments such as ``{'bounding_box': array_like
+        (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
+        'limits': array_like (x min, x max, y min, y max), 'limits': array_like
+        (x min, x max, y min, y max)}``
 
     Returns
     -------
@@ -384,7 +402,9 @@ def display(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'standalone', 'filename'}**
+        Keywords arguments such as ``{'standalone': bool (figure is shown),
+        'filename': unicode (figure is saved as `filename`)}``
 
     Returns
     -------
@@ -419,7 +439,7 @@ def label_rectangles(rectangles,
     rectangles : object
         Rectangles to used to set the labels value and position.
     rotation : unicode, optional
-        {'horizontal', 'vertical'}
+        **{'horizontal', 'vertical'}**,
         Labels orientation.
     text_size : numeric, optional
         Labels text size.
@@ -486,6 +506,95 @@ def equal_axes3d(axes):
     return True
 
 
+def get_RGB_colourspace(colourspace):
+    """
+    Returns the *RGB* colourspace with given name.
+
+    Parameters
+    ----------
+    colourspace : unicode
+        *RGB* colourspace name.
+
+    Returns
+    -------
+    RGB_Colourspace
+        *RGB* colourspace.
+
+    Raises
+    ------
+    KeyError
+        If the given *RGB* colourspace is not found in the factory *RGB*
+        colourspaces.
+    """
+
+    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
+    if colourspace is None:
+        raise KeyError(
+            ('"{0}" colourspace not found in factory RGB colourspaces: '
+             '"{1}".').format(
+                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
+
+    return colourspace
+
+
+def get_cmfs(cmfs):
+    """
+    Returns the colour matching functions with given name.
+
+    Parameters
+    ----------
+    cmfs : unicode
+        Colour matching functions name.
+
+    Returns
+    -------
+    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
+        Colour matching functions.
+
+    Raises
+    ------
+    KeyError
+        If the given colour matching functions is not found in the factory
+        colour matching functions.
+    """
+
+    cmfs, name = CMFS.get(cmfs), cmfs
+    if cmfs is None:
+        raise KeyError(
+            ('"{0}" not found in factory colour matching functions: '
+             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
+    return cmfs
+
+
+def get_illuminant(illuminant):
+    """
+    Returns the illuminant with given name.
+
+    Parameters
+    ----------
+    illuminant : unicode
+        Illuminant name.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Illuminant.
+
+    Raises
+    ------
+    KeyError
+        If the given illuminant is not found in the factory illuminants.
+    """
+
+    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    if illuminant is None:
+        raise KeyError(
+            '"{0}" not found in factory illuminants: "{1}".'.format(
+                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
+
+    return illuminant
+
+
 def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
     """
     Defines a factory for
@@ -538,12 +647,18 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)  # noqa
-    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)  # noqa
-    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)  # noqa
-    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)  # noqa
-    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])  # noqa  # doctest: +SKIP
+    >>> cp1 = colour_parameter(
+    ...     x=390, RGB=[0.03009021, 0, 0.12300545])
+    >>> cp2 = colour_parameter(
+    ...     x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
+    >>> cp3 = colour_parameter(
+    ...     x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
+    >>> cp4 = colour_parameter(
+    ...     x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
+    >>> cp5 = colour_parameter(
+    ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
+    >>> colour_parameters_plot(
+    ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
     True
     """
 
@@ -712,7 +827,8 @@ def multi_colour_plot(colour_parameters,
     settings = {
         'x_tighten': True,
         'y_tighten': True,
-        'no_ticks': True,
+        'x_ticker': False,
+        'y_ticker': False,
         'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
         'aspect': 'equal'}
     settings.update(kwargs)
@@ -756,7 +872,10 @@ def image_plot(image,
     --------
     >>> import os
     >>> from colour import read_image
-    >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
+    >>> path = os.path.join(
+    ...     'resources',
+    ...     ('CIE_1931_Chromaticity_Diagram'
+    ...     '_CIE_1931_2_Degree_Standard_Observer.png'))
     >>> image = read_image(path)  # doctest: +SKIP
     >>> image_plot(image)  # doctest: +SKIP
     True
@@ -775,7 +894,8 @@ def image_plot(image,
                alpha=label_alpha,
                fontsize=label_size)
 
-    settings = {'no_ticks': True,
+    settings = {'x_ticker': False,
+                'y_ticker': False,
                 'bounding_box': (0, 1, 0, 1),
                 'bbox_inches': 'tight',
                 'pad_inches': 0}

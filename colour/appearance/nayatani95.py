@@ -418,7 +418,8 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)  # noqa  # doctest: +ELLIPSIS
+    >>> achromatic_response(  # doctest: +ELLIPSIS
+    ...     RGB, bRGB_o, xez, bL_or, eR, eG, n)
     -0.0001169...
     """
 
@@ -587,7 +588,8 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.6810214956040888
     >>> n = 1.0
-    >>> ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)  # noqa  # doctest: +ELLIPSIS
+    >>> ideal_white_brightness_correlate(  # doctest: +ELLIPSIS
+    ...     bRGB_o, xez, bL_or, n)
     125.2435392...
     """
 
@@ -650,7 +652,8 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     --------
     >>> B_r = 62.626673467230766
     >>> B_rw = 125.24353925846037
-    >>> normalised_achromatic_lightness_correlate(B_r, B_rw)  # noqa  # doctest: +ELLIPSIS
+    >>> normalised_achromatic_lightness_correlate(  # doctest: +ELLIPSIS
+    ...     B_r, B_rw)
     50.0039154...
     """
 

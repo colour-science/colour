@@ -1550,7 +1550,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -1616,7 +1616,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
+            **{None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'}**,
             Enforce given interpolation method.
 
         Returns
@@ -1694,8 +1694,7 @@ class SpectralPowerDistribution(object):
 
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1),
-        ...     method='Linear')
+        ...     SpectralShape(steps=1), method='Linear')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(59.63...)
@@ -1704,8 +1703,7 @@ class SpectralPowerDistribution(object):
 
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1),
-        ...     method='Pchip')
+        ...     SpectralShape(steps=1), method='Pchip')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(58.8173260...)
@@ -1772,7 +1770,7 @@ class SpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3301,7 +3299,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for extrapolation.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.
@@ -3352,7 +3350,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape, optional
             Spectral shape used for interpolation.
         method : unicode, optional
-            {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
+            **{None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'}**,
             Enforce given interpolation method.
 
         Returns
@@ -3424,8 +3422,7 @@ class TriSpectralPowerDistribution(object):
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1),
-        ...     method='Linear')
+        ...     SpectralShape(steps=1), method='Linear')
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([ 59.63...,  88.95...,  17.79...])
@@ -3436,8 +3433,7 @@ class TriSpectralPowerDistribution(object):
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1),
-        ...     method='Pchip')
+        ...     SpectralShape(steps=1), method='Pchip')
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([ 58.8173260...,  89.4355596...,  16.4545683...])
@@ -3462,7 +3458,7 @@ class TriSpectralPowerDistribution(object):
         shape : SpectralShape
             Spectral shape used for alignment.
         method : unicode, optional
-            {'Constant', 'Linear'},
+            **{'Constant', 'Linear'}**,
             Extrapolation method.
         left : numeric, optional
             Value to return for low extrapolation range.

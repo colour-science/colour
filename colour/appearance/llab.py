@@ -97,11 +97,11 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference LLAB(l:c) colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    {'Reference Samples & Images, Average Surround, Subtending > 4',
+    **{'Reference Samples & Images, Average Surround, Subtending > 4',
     'Reference Samples & Images, Average Surround, Subtending < 4',
     'Television & VDU Displays, Dim Surround',
     'Cut Sheet Transparency, Dim Surround':,
-    '35mm Projection Transparency, Dark Surround'}
+    '35mm Projection Transparency, Dark Surround'}**
 
 Aliases:
 

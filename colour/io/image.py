@@ -64,7 +64,7 @@ def read_image(path, bit_depth='float32'):
     path : unicode
         Image path.
     bit_depth : unicode, optional
-        {'float32', 'uint8', 'uint16', 'float16'}
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
         Image bit_depth.
 
     Returns
@@ -104,7 +104,7 @@ def write_image(image, path, bit_depth='float32'):
     path : unicode
         Image path.
     bit_depth : unicode, optional
-        {'float32', 'uint8', 'uint16', 'float16'}
+        **{'float32', 'uint8', 'uint16', 'float16'}**,
         Image bit_depth.
 
     Returns

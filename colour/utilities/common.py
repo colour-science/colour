@@ -68,11 +68,11 @@ def handle_numpy_errors(**kwargs):
 
     context = np.errstate(**kwargs)
 
-    def wrapper(object):
-        @functools.wraps(object)
+    def wrapper(function):
+        @functools.wraps(function)
         def wrapped(*args, **kwargs):
             with context:
-                return object(*args, **kwargs)
+                return function(*args, **kwargs)
 
         return wrapped
 
@@ -85,13 +85,13 @@ print_numpy_errors = handle_numpy_errors(all='print')
 warn_numpy_errors = handle_numpy_errors(all='warn')
 
 
-def ignore_python_warnings(object):
+def ignore_python_warnings(function):
     """
     Decorator for ignoring *Python* warnings.
 
     Parameters
     ----------
-    object : object
+    function : object
         Object to decorate.
 
     Returns
@@ -106,12 +106,12 @@ def ignore_python_warnings(object):
     >>> f()
     """
 
-    @functools.wraps(object)
+    @functools.wraps(function)
     def wrapped(*args, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
 
-            return object(*args, **kwargs)
+            return function(*args, **kwargs)
 
     return wrapped
 

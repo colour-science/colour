@@ -79,9 +79,9 @@ def delta_E_CIE1976(Lab1, Lab2, **kwargs):
     451.7133019...
     """
 
-    delta_E = np.linalg.norm(np.asarray(Lab1) - np.asarray(Lab2), axis=-1)
+    d_E = np.linalg.norm(np.asarray(Lab1) - np.asarray(Lab2), axis=-1)
 
-    return delta_E
+    return d_E
 
 
 def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
@@ -148,9 +148,9 @@ def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
     C = (delta_C / (kC * sC)) ** 2
     H = (delta_H / (kH * sH)) ** 2
 
-    delta_E = np.sqrt(L + C + H)
+    d_E = np.sqrt(L + C + H)
 
-    return delta_E
+    return d_E
 
 
 def delta_E_CIE2000(Lab1, Lab2, **kwargs):
@@ -247,13 +247,13 @@ def delta_E_CIE2000(Lab1, Lab2, **kwargs):
     rC = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
     rT = -2 * rC * np.sin(np.deg2rad(2 * delta_theta))
 
-    delta_E = np.sqrt(
+    d_E = np.sqrt(
         (delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
         (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
         (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
         (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
 
-    return delta_E
+    return d_E
 
 
 def delta_E_CMC(Lab1, Lab2, l=2, c=1):
@@ -328,9 +328,9 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
     v2 = delta_C / (c * sc)
     v3 = sh
 
-    delta_E = np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
+    d_E = np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
 
-    return delta_E
+    return d_E
 
 
 DELTA_E_METHODS = CaseInsensitiveMapping(
@@ -342,7 +342,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping(
 Supported *Delta E* computations methods.
 
 DELTA_E_METHODS : CaseInsensitiveMapping
-    {'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}
+    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
 
 Aliases:
 
@@ -366,7 +366,7 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
     Lab2 : array_like
         *CIE Lab* colourspace array 2.
     method : unicode, optional
-        {'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}
+        **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -386,7 +386,8 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
     451.7133019...
     >>> delta_E(Lab1, Lab2, method='CIE 1994')  # doctest: +ELLIPSIS
     88.3355530...
-    >>> delta_E(Lab1, Lab2, method='CIE 1994', textiles=False)  # noqa  # doctest: +ELLIPSIS
+    >>> delta_E(  # doctest: +ELLIPSIS
+    ...     Lab1, Lab2, method='CIE 1994', textiles=False)
     83.7792255...
     >>> delta_E(Lab1, Lab2, method='CIE 2000')  # doctest: +ELLIPSIS
     94.0356490...

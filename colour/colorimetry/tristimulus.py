@@ -76,7 +76,8 @@ def spectral_to_XYZ(spd,
 
     Examples
     --------
-    >>> from colour import CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution  # noqa
+    >>> from colour import (
+    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
     >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
     >>> data = {380: 0.0600, 390: 0.0600}
     >>> spd = SpectralPowerDistribution('Custom', data)

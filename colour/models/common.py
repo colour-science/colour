@@ -41,8 +41,9 @@ def XYZ_to_sRGB(XYZ,
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_transform : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         *Chromatic adaptation* transform.
     transfer_function : bool, optional
         Apply *sRGB* *transfer function*.
@@ -87,8 +88,9 @@ def sRGB_to_XYZ(RGB,
     illuminant : array_like, optional
         Source illuminant chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         *Chromatic adaptation* method.
     inverse_transfer_function : bool, optional
         Apply *sRGB* *inverse transfer function*.

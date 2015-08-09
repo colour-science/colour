@@ -190,17 +190,28 @@ def planckian_table(uv, cmfs, start, end, count):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> uv = np.array([0.1978, 0.3122])
-    >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))  # noqa  # doctest: +ELLIPSIS
-    [PlanckianTable_Tuvdi(Ti=1000.0, ui=0.4480108..., vi=0.3546249..., di=0.2537821...),
-     PlanckianTable_Tuvdi(Ti=1001.1111111..., ui=0.4477508..., vi=0.3546475..., di=0.2535294...),
-     PlanckianTable_Tuvdi(Ti=1002.2222222..., ui=0.4474910..., vi=0.3546700..., di=0.2532771...),
-     PlanckianTable_Tuvdi(Ti=1003.3333333..., ui=0.4472316..., vi=0.3546924..., di=0.2530251...),
-     PlanckianTable_Tuvdi(Ti=1004.4444444..., ui=0.4469724..., vi=0.3547148..., di=0.2527734...),
-     PlanckianTable_Tuvdi(Ti=1005.5555555..., ui=0.4467136..., vi=0.3547372..., di=0.2525220...),
-     PlanckianTable_Tuvdi(Ti=1006.6666666..., ui=0.4464550..., vi=0.3547595..., di=0.2522710...),
-     PlanckianTable_Tuvdi(Ti=1007.7777777..., ui=0.4461968..., vi=0.3547817..., di=0.2520202...),
-     PlanckianTable_Tuvdi(Ti=1008.8888888..., ui=0.4459389..., vi=0.3548040..., di=0.2517697...),
-     PlanckianTable_Tuvdi(Ti=1010.0, ui=0.4456812..., vi=0.3548261..., di=0.2515196...)]
+    >>> pprint(planckian_table(  # doctest: +ELLIPSIS
+    ...     uv, cmfs, 1000, 1010, 10))
+    [PlanckianTable_Tuvdi(\
+Ti=1000.0, ui=0.4480108..., vi=0.3546249..., di=0.2537821...),
+     PlanckianTable_Tuvdi(\
+Ti=1001.1111111..., ui=0.4477508..., vi=0.3546475..., di=0.2535294...),
+     PlanckianTable_Tuvdi(\
+Ti=1002.2222222..., ui=0.4474910..., vi=0.3546700..., di=0.2532771...),
+     PlanckianTable_Tuvdi(\
+Ti=1003.3333333..., ui=0.4472316..., vi=0.3546924..., di=0.2530251...),
+     PlanckianTable_Tuvdi(\
+Ti=1004.4444444..., ui=0.4469724..., vi=0.3547148..., di=0.2527734...),
+     PlanckianTable_Tuvdi(\
+Ti=1005.5555555..., ui=0.4467136..., vi=0.3547372..., di=0.2525220...),
+     PlanckianTable_Tuvdi(\
+Ti=1006.6666666..., ui=0.4464550..., vi=0.3547595..., di=0.2522710...),
+     PlanckianTable_Tuvdi(\
+Ti=1007.7777777..., ui=0.4461968..., vi=0.3547817..., di=0.2520202...),
+     PlanckianTable_Tuvdi(\
+Ti=1008.8888888..., ui=0.4459389..., vi=0.3548040..., di=0.2517697...),
+     PlanckianTable_Tuvdi(\
+Ti=1010.0, ui=0.4456812..., vi=0.3548261..., di=0.2515196...)]
     """
 
     ux, vx = uv
@@ -595,7 +606,7 @@ Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
 UV_TO_CCT_METHODS : CaseInsensitiveMapping
-    {'Ohno 2013', 'Robertson 1968'}
+    **{'Ohno 2013', 'Robertson 1968'}**
 
 Aliases:
 
@@ -617,7 +628,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     uv : array_like
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     method : unicode, optional
-        {'Ohno 2013', 'Robertson 1968'}
+        **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -663,7 +674,7 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
 
 CCT_TO_UV_METHODS : CaseInsensitiveMapping
-    {'Ohno 2013', 'Robertson 1968'}
+    **{'Ohno 2013', 'Robertson 1968'}**
 
 Aliases:
 
@@ -687,7 +698,7 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     D_uv : numeric
         :math:`\Delta_{uv}`.
     method : unicode, optional
-    {'Ohno 2013', 'Robertson 1968'}
+        **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -948,7 +959,7 @@ Supported *CIE XYZ* tristimulus values *xy* chromaticity coordinates to
 correlated colour temperature :math:`T_{cp}` computation methods.
 
 XY_TO_CCT_METHODS : CaseInsensitiveMapping
-    {'McCamy 1992', 'Hernandez 1999'}
+    **{'McCamy 1992', 'Hernandez 1999'}**
 
 Aliases:
 
@@ -970,7 +981,7 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     xy : array_like
         *xy* chromaticity coordinates.
     method : unicode, optional
-        {'McCamy 1992', 'Hernandez 1999'}
+        **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -992,7 +1003,7 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
 values *xy* chromaticity coordinates computation methods.
 
 CCT_TO_XY_METHODS : CaseInsensitiveMapping
-    {'Kang 2002', 'CIE Illuminant D Series'}
+    **{'Kang 2002', 'CIE Illuminant D Series'}**
 
 Aliases:
 
@@ -1013,7 +1024,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     CCT : numeric or array_like
         Correlated colour temperature :math:`T_{cp}`.
     method : unicode, optional
-        {'Kang 2002', 'CIE Illuminant D Series'}
+        **{'Kang 2002', 'CIE Illuminant D Series'}**,
         Computation method.
 
     Returns

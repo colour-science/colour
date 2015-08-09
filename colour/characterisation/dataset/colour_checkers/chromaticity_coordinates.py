@@ -208,7 +208,7 @@ COLOURCHECKERS = CaseInsensitiveMapping(
 Aggregated *ColourCheckers* chromaticity coordinates.
 
 COLOURCHECKERS : CaseInsensitiveMapping
-    {'BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976'}
+    **{'BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976'}**
 
 Aliases:
 

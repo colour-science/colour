@@ -51,8 +51,9 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -69,7 +70,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     --------
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix_VonKries(  # doctest: +ELLIPSIS
+    ...     XYZ_w, XYZ_wr)
     array([[ 0.8687653..., -0.1416539...,  0.3871961...],
            [-0.1030072...,  1.0584014...,  0.1538646...],
            [ 0.0078167...,  0.0267875...,  2.9608177...]])
@@ -79,7 +81,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_matrix_VonKries(  # doctest: +ELLIPSIS
+    ...     XYZ_w, XYZ_wr, method)
     array([[ 0.8446794..., -0.1179355...,  0.3948940...],
            [-0.1366408...,  1.1041236...,  0.1291981...],
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
@@ -120,8 +123,9 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_wr : array_like
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -143,7 +147,8 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, method)  # noqa  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_VonKries(  # doctest: +ELLIPSIS
+    ...     XYZ, XYZ_w, XYZ_wr, method)
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 
