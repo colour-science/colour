@@ -127,8 +127,6 @@ def multi_munsell_value_function_plot(
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 100, 0, 10),
         'aspect': 10})

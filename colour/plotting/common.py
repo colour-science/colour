@@ -185,7 +185,9 @@ def colour_cycle(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'colour_cycle_map', 'colour_cycle_count'}**
+        Keywords arguments such as ``{'colour_cycle_map': unicode
+        (Matplotlib colormap name), 'colour_cycle_count': int}``
 
     Returns
     -------
@@ -215,7 +217,9 @@ def canvas(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'figure_size', }**
+        Keywords arguments such as ``{'figure_size': array_like
+        (width, height), }``
 
     Returns
     -------
@@ -243,7 +247,9 @@ def camera(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'camera_aspect', 'elevation', 'azimuth'}**
+        Keywords arguments such as ``{'camera_aspect': unicode
+        (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
 
     Returns
     -------
@@ -273,7 +279,18 @@ def decorate(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
+        'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
+        'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
+        'y_axis_line', 'aspect', 'no_axes3d'}**
+        Keywords arguments such as ``{'title': unicode (figure title),
+        'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
+        'legend': bool, 'legend_columns': int, 'legend_location': unicode
+        (Matplotlib legend location), 'x_ticker': bool, 'y_ticker': bool,
+        'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
+        'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
+        'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
+        'no_axes3d': bool}``
 
     Returns
     -------
@@ -288,13 +305,10 @@ def decorate(**kwargs):
            'legend': False,
            'legend_columns': 1,
            'legend_location': 'upper right',
-           'x_ticker': False,
-           'y_ticker': False,
+           'x_ticker': True,
+           'y_ticker': True,
            'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
            'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-           'no_ticks': False,
-           'no_x_ticks': False,
-           'no_y_ticks': False,
            'grid': False,
            'grid_which': 'both',
            'grid_axis': 'both',
@@ -317,15 +331,12 @@ def decorate(**kwargs):
     if settings.x_ticker:
         axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
+    else:
+        axes.set_xticks([])
     if settings.y_ticker:
         axes.yaxis.set_minor_locator(
             settings.y_ticker_locator)
-    if settings.no_ticks:
-        axes.set_xticks([])
-        axes.set_yticks([])
-    if settings.no_x_ticks:
-        axes.set_xticks([])
-    if settings.no_y_ticks:
+    else:
         axes.set_yticks([])
     if settings.grid:
         pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
@@ -348,7 +359,11 @@ def boundaries(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
+        Keywords arguments such as ``{'bounding_box': array_like
+        (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
+        'limits': array_like (x min, x max, y min, y max), 'limits': array_like
+        (x min, x max, y min, y max)}``
 
     Returns
     -------
@@ -387,7 +402,9 @@ def display(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'standalone', 'filename'}**
+        Keywords arguments such as ``{'standalone': bool (figure is shown),
+        'filename': unicode (figure is saved as `filename`)}``
 
     Returns
     -------
@@ -810,7 +827,8 @@ def multi_colour_plot(colour_parameters,
     settings = {
         'x_tighten': True,
         'y_tighten': True,
-        'no_ticks': True,
+        'x_ticker': False,
+        'y_ticker': False,
         'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
         'aspect': 'equal'}
     settings.update(kwargs)
@@ -876,7 +894,8 @@ def image_plot(image,
                alpha=label_alpha,
                fontsize=label_size)
 
-    settings = {'no_ticks': True,
+    settings = {'x_ticker': False,
+                'y_ticker': False,
                 'bounding_box': (0, 1, 0, 1),
                 'bbox_inches': 'tight',
                 'pad_inches': 0}

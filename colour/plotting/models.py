@@ -549,6 +549,8 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
                   color=colour_p,
                   marker='+')
 
+    settings.update({'standalone': True})
+
     boundaries(**settings)
     decorate(**settings)
 
@@ -606,6 +608,8 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
                   alpha=alpha_p / 2,
                   color=colour_p,
                   marker='+')
+
+    settings.update({'standalone': True})
 
     boundaries(**settings)
     decorate(**settings)
@@ -666,6 +670,8 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
                   alpha=alpha_p / 2,
                   color=colour_p,
                   marker='+')
+
+    settings.update({'standalone': True})
 
     boundaries(**settings)
     decorate(**settings)
@@ -753,8 +759,6 @@ def multi_transfer_function_plot(colourspaces=None,
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'limits': (0, 1, 0, 1),
         'aspect': 'equal'})

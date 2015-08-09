@@ -125,7 +125,8 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -243,8 +244,6 @@ def CIE_1931_chromaticity_diagram_plot(
         'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
         'y_label': 'CIE y',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
@@ -315,7 +314,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -430,8 +430,6 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u',
         'y_label': 'CIE v',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
@@ -503,7 +501,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -620,8 +619,6 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',

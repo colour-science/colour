@@ -131,9 +131,7 @@ def single_spd_plot(spd,
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'x_tighten': True,
-        'x_ticker': True,
-        'y_ticker': True}
+        'x_tighten': True}
 
     settings.update(kwargs)
 
@@ -214,8 +212,6 @@ def multi_spd_plot(spds,
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
@@ -319,8 +315,6 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper right',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'y_axis_line': True,
         'limits': (min(x_limit_min), max(x_limit_max),
@@ -555,8 +549,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'limits': (0, 100, 0, 100),
         'aspect': 'equal'})
@@ -684,7 +676,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'x_label': 'Temperature K',
         'y_label': '',
         'x_tighten': True,
-        'x_ticker': True,
         'y_ticker': False}
     settings.update(kwargs)
 
