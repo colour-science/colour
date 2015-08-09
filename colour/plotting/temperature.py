@@ -71,7 +71,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> ils = ['A', 'B', 'C']
-    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
+    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(
+    ...     ils)  # doctest: +SKIP
     True
     """
 
@@ -91,8 +92,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1931_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1931_chromaticity_diagram_plot(**settings)
 
     start, end = 1667, 100000
     xy = np.array([UCS_uv_to_xy(CCT_to_uv(x, 0, cmfs=cmfs))
@@ -167,7 +167,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> ils = ['A', 'C', 'E']
-    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(ils)  # noqa  # doctest: +SKIP
+    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
+    ...     ils)  # doctest: +SKIP
     True
     """
 
@@ -187,8 +188,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     xy_to_uv = lambda x: UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
 
@@ -209,12 +209,14 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
                        size='x-small')
 
     for illuminant in illuminants:
-        uv = xy_to_uv(ILLUMINANTS.get(cmfs.name).get(illuminant))
-        if uv is None:
+        xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
+        if xy is None:
             raise KeyError(
                 ('Illuminant "{0}" not found in factory illuminants: '
                  '"{1}".').format(illuminant,
                                   sorted(ILLUMINANTS.get(cmfs.name).keys())))
+
+        uv = xy_to_uv(xy)
 
         pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 

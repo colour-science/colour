@@ -30,7 +30,6 @@ from colour.models import (
     POINTER_GAMUT_BOUNDARIES,
     POINTER_GAMUT_DATA,
     POINTER_GAMUT_ILLUMINANT,
-    RGB_COLOURSPACES,
     RGB_to_XYZ,
     UCS_to_uv,
     XYZ_to_Luv,
@@ -38,16 +37,17 @@ from colour.models import (
     XYZ_to_xy,
     xy_to_XYZ)
 from colour.plotting import (
-    CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT,
     CIE_1931_chromaticity_diagram_plot,
     CIE_1960_UCS_chromaticity_diagram_plot,
     CIE_1976_UCS_chromaticity_diagram_plot,
     DEFAULT_FIGURE_WIDTH,
+    DEFAULT_PLOTTING_ILLUMINANT,
     boundaries,
     canvas,
     colour_cycle,
     decorate,
     display,
+    get_RGB_colourspace,
     get_cmfs)
 
 __author__ = 'Colour Developers'
@@ -58,7 +58,6 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'get_RGB_colourspace',
     'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
@@ -67,37 +66,6 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
     'single_transfer_function_plot',
     'multi_transfer_function_plot']
-
-
-def get_RGB_colourspace(colourspace):
-    """
-    Returns the *RGB* colourspace with given name.
-
-    Parameters
-    ----------
-    colourspace : unicode
-        *RGB* colourspace name.
-
-    Returns
-    -------
-    RGB_Colourspace
-        *RGB* colourspace.
-
-    Raises
-    ------
-    KeyError
-        If the given *RGB* colourspace is not found in the factory *RGB*
-        colourspaces.
-    """
-
-    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
-    if colourspace is None:
-        raise KeyError(
-            ('"{0}" colourspace not found in factory colourspaces: '
-             '"{1}".').format(name, ', '.join(
-                sorted(RGB_COLOURSPACES.keys()))))
-
-    return colourspace
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
@@ -109,7 +77,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -123,8 +91,9 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
-    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
+    ...     c)  # doctest: +SKIP
     True
     """
 
@@ -134,7 +103,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -144,8 +113,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1931_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1931_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
@@ -182,8 +150,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -246,7 +213,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -260,8 +227,9 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
-    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
+    ...     c)  # doctest: +SKIP
     True
     """
 
@@ -271,7 +239,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -281,8 +249,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1960_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
@@ -319,8 +286,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -391,7 +357,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -405,8 +371,9 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> csps = ['sRGB', 'ACES2065-1']
-    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(csps)  # noqa  # doctest: +SKIP
+    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
+    ...     c)  # doctest: +SKIP
     True
     """
 
@@ -416,11 +383,11 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('sRGB', 'ACES2065-1', 'Pointer Gamut')
+        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     settings = {
         'title': '{0} - {1} - CIE 1976 UCS Chromaticity Diagram'.format(
@@ -428,8 +395,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         'standalone': False}
     settings.update(kwargs)
 
-    if not CIE_1976_UCS_chromaticity_diagram_plot(**settings):
-        return
+    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
@@ -467,8 +433,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                           marker='+')
 
         else:
-            colourspace, name = get_RGB_colourspace(
-                colourspace), colourspace
+            colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
@@ -555,17 +520,20 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    >>> c = 'Rec. 709'
+    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
+    ...     RGB, c)  # doctest: +SKIP
     True
     """
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
-    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-        standalone=False, **settings)
+
+    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -580,6 +548,8 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
                   alpha=alpha_p / 2,
                   color=colour_p,
                   marker='+')
+
+    settings.update({'standalone': True})
 
     boundaries(**settings)
     decorate(**settings)
@@ -611,17 +581,20 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    >>> c = 'Rec. 709'
+    >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
+    ...     RGB, c)  # doctest: +SKIP
     True
     """
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
-    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-        standalone=False, **settings)
+
+    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -635,6 +608,8 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
                   alpha=alpha_p / 2,
                   color=colour_p,
                   marker='+')
+
+    settings.update({'standalone': True})
 
     boundaries(**settings)
     decorate(**settings)
@@ -666,17 +641,20 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(RGB)  # noqa  # doctest: +SKIP
+    >>> c = 'Rec. 709'
+    >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
+    ...     RGB, c)  # doctest: +SKIP
     True
     """
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
     settings['colourspaces'] = (
         [colourspace.name] + settings.get('colourspaces', []))
-    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-        standalone=False, **settings)
+
+    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -693,13 +671,15 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
                   color=colour_p,
                   marker='+')
 
+    settings.update({'standalone': True})
+
     boundaries(**settings)
     decorate(**settings)
 
     return display(**settings)
 
 
-def single_transfer_function_plot(colourspace='sRGB', **kwargs):
+def single_transfer_function_plot(colourspace='Rec. 709', **kwargs):
     """
     Plots given colourspace transfer function.
 
@@ -734,7 +714,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Parameters
     ----------
-    colourspaces : list, optional
+    colourspaces : array_like, optional
         Colourspaces transfer functions to plot.
     inverse : bool
         Plot inverse transfer functions.
@@ -748,7 +728,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Examples
     --------
-    >>> multi_transfer_function_plot(['sRGB', 'Rec. 709'])  # doctest: +SKIP
+    >>> multi_transfer_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
     True
     """
 
@@ -758,7 +738,7 @@ def multi_transfer_function_plot(colourspaces=None,
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ['sRGB', 'Rec. 709']
+        colourspaces = ('Rec. 709', 'sRGB')
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
@@ -779,8 +759,6 @@ def multi_transfer_function_plot(colourspaces=None,
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'limits': (0, 1, 0, 1),
         'aspect': 'equal'})

@@ -226,7 +226,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
                                               'Fluorescent.spdx'))
 
         self.assertTrue(spd.read())
-        self.assertDictEqual(spd.data, FLUORESCENT_FILE_SPECTRAL_DATA)
+        self.assertDictEqual(dict(spd.data), FLUORESCENT_FILE_SPECTRAL_DATA)
 
         for test, read in ((FLUORESCENT_FILE_HEADER, spd.header),
                            (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, spd)):

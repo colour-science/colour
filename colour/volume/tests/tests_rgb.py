@@ -3,6 +3,18 @@
 
 """
 Defines unit tests for :mod:`colour.volume.rgb` module.
+
+Notes
+-----
+The MonteCarlo sampling based unit tests are assuming that
+:func:`np.random.RandomState` definition will return the same sequence no
+matter which *OS* or *Python* version is used. There is however no formal
+promise about the *prng* sequence reproducibility of either *Python or *Numpy*
+implementations:
+
+Laurent. (2012). Reproducibility of python pseudo-random numbers across systems
+and versions? Retrieved January 20, 2015, from
+http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
 """
 
 from __future__ import division, unicode_literals
@@ -21,7 +33,11 @@ from colour.models import (
     REC_709_COLOURSPACE)
 from colour.volume import (
     RGB_colourspace_limits,
-    RGB_colourspace_volume_MonteCarlo)
+    RGB_colourspace_volume_MonteCarlo,
+    RGB_colourspace_volume_coverage_MonteCarlo,
+    RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
+    RGB_colourspace_visible_spectrum_coverage_MonteCarlo,
+    is_within_pointer_gamut)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
@@ -31,7 +47,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestRGB_colourspaceLimits',
-           'TestRGB_colourspaceVolumeMonteCarlo']
+           'TestRGB_colourspaceVolumeMonteCarlo',
+           'TestRGB_colourspace_volume_coverage_MonteCarlo',
+           'TestRGB_colourspacePointerGamutCoverageMonteCarlo',
+           'TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo']
 
 
 class TestRGB_colourspaceLimits(unittest.TestCase):
@@ -77,16 +96,6 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
         """
         Tests :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
         definition.
-
-        Notes
-        -----
-        The test is assuming that :func:`np.random.RandomState` definition will
-        return the same sequence no matter which *OS* or *Python* version is
-        used. There is however no formal promise about the *prng* sequence
-        reproducibility of either *Python or *Numpy* implementations: Laurent.
-        (2012). Reproducibility of python pseudo-random numbers across systems
-        and versions? Retrieved January 20, 2015, from
-        http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
         """
 
         self.assertEquals(
@@ -96,6 +105,76 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
                 random_state=np.random.RandomState(2),
                 processes=1),
             859500.0)
+
+
+class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
+    """
+    Defines
+    :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`
+    definition unit tests methods.
+    """
+
+    def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
+        """
+        Tests
+        :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`  # noqa
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            RGB_colourspace_volume_coverage_MonteCarlo(
+                REC_709_COLOURSPACE,
+                is_within_pointer_gamut,
+                10e3,
+                random_state=np.random.RandomState(2)),
+            83.02013422818791,
+            decimal=7)
+
+
+class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
+    """
+    Defines
+    :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
+    definition unit tests methods.
+    """
+
+    def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
+        """
+        Tests
+        :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`  # noqa
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
+                REC_709_COLOURSPACE,
+                10e3,
+                random_state=np.random.RandomState(2)),
+            83.02013422818791,
+            decimal=7)
+
+
+class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
+    """
+    Defines
+    :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
+    definition unit tests methods.
+    """
+
+    def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):
+        """
+        Tests
+        :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
+                REC_709_COLOURSPACE,
+                10e3,
+                random_state=np.random.RandomState(2)),
+            36.48383937316356,
+            decimal=7)
 
 
 if __name__ == '__main__':

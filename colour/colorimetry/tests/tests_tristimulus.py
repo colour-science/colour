@@ -208,6 +208,30 @@ class TestWavelength_to_XYZ(unittest.TestCase):
             np.array([0.44575583, 0.18184213, 0.]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(
+                480.5,
+                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                'Cubic Spline'),
+            np.array([0.07773422, 0.18148028, 0.7337162]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(
+                480.5,
+                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                'Linear'),
+            np.array([0.07779856, 0.18149335, 0.7340129]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(
+                480.5,
+                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                'Pchip'),
+            np.array([0.07773515, 0.18148048, 0.73372294]),
+            decimal=7)
+
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
         Tests

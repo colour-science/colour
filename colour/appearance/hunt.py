@@ -120,11 +120,11 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference Hunt colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    {'Small Areas, Uniform Background & Surrounds',
+    **{'Small Areas, Uniform Background & Surrounds',
     'Normal Scenes',
     'Television & CRT, Dim Surrounds',
     'Large Transparencies On Light Boxes',
-    'Projected Transparencies, Dark Surrounds'}
+    'Projected Transparencies, Dark Surrounds'}**
 
 Aliases:
 
@@ -315,8 +315,10 @@ def XYZ_to_Hunt(XYZ,
     >>> L_A = 318.31
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)  # noqa  # doctest: +ELLIPSIS
-    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
+    >>> XYZ_to_Hunt(  # doctest: +ELLIPSIS
+    ...     XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+    Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
+s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
     _X, Y, Z = tsplit(XYZ)
@@ -701,7 +703,8 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.99983840, 0.99982674])
     >>> rgb_w = np.array([97.37325710, 101.54968030, 108.88000000])
     >>> p = 0.1
-    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)  # noqa  # doctest: +ELLIPSIS
+    >>> adjusted_reference_white_signals(  # doctest: +ELLIPSIS
+    ...     rgb_p, rgb_b, rgb_w, p)
     array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
@@ -902,7 +905,8 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     >>> N_c = 1.0
     >>> N_cb = 0.72499999999999998
     >>> F_t = 0.99968593951195
-    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)  # noqa  # doctest: +ELLIPSIS
+    >>> yellowness_blueness_response(  # doctest: +ELLIPSIS
+    ...     C, e_s, N_c, N_cb, F_t)
     -0.0082372...
     """
 

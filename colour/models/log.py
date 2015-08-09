@@ -873,8 +873,9 @@ LINEAR_TO_LOG_METHODS = CaseInsensitiveMapping(
 Supported *linear* to *log* computations methods.
 
 LINEAR_TO_LOG_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
-     'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+    'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'V-Log'}**
 """
 
 
@@ -887,9 +888,9 @@ def linear_to_log(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ALEXA Log C', 'REDLogFilm', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3',
-        'V-Log'},
+        'V-Log'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -905,7 +906,8 @@ def linear_to_log(value, method='Cineon', **kwargs):
     0.4573196...
     >>> linear_to_log(0.18, method='ACEScc')  # doctest: +ELLIPSIS
     array(0.4135884...)
-    >>> linear_to_log(0.18, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
+    >>> linear_to_log(  # doctest: +ELLIPSIS
+    ...     0.18, method='PLog', log_reference=400)
     0.3910068...
     >>> linear_to_log(0.18, method='S-Log')  # doctest: +ELLIPSIS
     0.3599878...
@@ -932,8 +934,9 @@ LOG_TO_LINEAR_METHODS = CaseInsensitiveMapping(
 Supported *log* to *linear* computations methods.
 
 LOG_TO_LINEAR_METHODS : CaseInsensitiveMapping
-    {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ALEXA Log C',
-    'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+    'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
+    'V-Log'}**
 """
 
 
@@ -946,9 +949,9 @@ def log_to_linear(value, method='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     method : unicode, optional
-        {'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-        'V-Log'},
+        'V-Log'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.
@@ -964,9 +967,11 @@ def log_to_linear(value, method='Cineon', **kwargs):
     0.18...
     >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
     array(0.18...)
-    >>> log_to_linear(0.39100684261974583, method='PLog', log_reference=400)  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(  # doctest: +ELLIPSIS
+    ...     0.39100684261974583, method='PLog', log_reference=400)
     0.1...
-    >>> log_to_linear(0.35998784642215442, method='S-Log')  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(  # doctest: +ELLIPSIS
+    ...     0.35998784642215442, method='S-Log')
     0.1799999...
     """
 

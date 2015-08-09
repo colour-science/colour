@@ -161,7 +161,7 @@ class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
 
 
 class TestCorrespondingChromaticitiesPredictionFairchild1990(
-    unittest.TestCase):
+    unittest.TestCase):  # noqa
     """
     Defines
     :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_Fairchild1990`  # noqa

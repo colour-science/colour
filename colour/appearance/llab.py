@@ -97,11 +97,11 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
 Reference LLAB(l:c) colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
-    {'Reference Samples & Images, Average Surround, Subtending > 4',
+    **{'Reference Samples & Images, Average Surround, Subtending > 4',
     'Reference Samples & Images, Average Surround, Subtending < 4',
     'Television & VDU Displays, Dim Surround',
     'Cut Sheet Transparency, Dim Surround':,
-    '35mm Projection Transparency, Dark Surround'}
+    '35mm Projection Transparency, Dark Surround'}**
 
 Aliases:
 
@@ -256,7 +256,8 @@ def XYZ_to_LLAB(
     >>> L = 318.31
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
+    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., \
+s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
     """
 
     _X, Y, Z = tsplit(XYZ)

@@ -55,7 +55,7 @@ from .appearance import *  # noqa
 from . import appearance
 from .colorimetry import *  # noqa
 from . import colorimetry
-from .constants import *
+from .constants import *  # noqa
 from . import constants
 from .difference import *  # noqa
 from . import difference
@@ -80,7 +80,7 @@ from . import temperature
 from .volume import *  # noqa
 from . import volume
 from .utilities import *  # noqa
-from . import utilities
+from . import utilities  # noqa
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -111,7 +111,14 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '5'
+__change_version__ = '6'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))
+
+if sys.version_info[0] == 2 and sys.version_info[1] == 6:
+    import warnings
+
+    warnings.warn(
+        '"{0} {1}" is the last API version to support "Python 2.6.x".'.format(
+            __application_name__, '0.3.6'), DeprecationWarning)

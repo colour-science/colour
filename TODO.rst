@@ -4,71 +4,77 @@ Colour - TODO
 TODO
 ----
 
-- colour (17 items in 11 files)
+- colour (18 items in 12 files)
 
-	- algebra (1 item in 1 file)
+    - algebra (1 item in 1 file)
 
-		- interpolation.py
+        - interpolation.py
 
-			- (236, 15) # TODO: Implements proper wrapper to ensure return values consistency and avoid having to cast to numeric in :meth:`SpectralPowerDistribution.interpolate` method.
+            - (236, 15) # TODO: Implements proper wrapper to ensure return values consistency and avoid having to cast to numeric in :meth:`SpectralPowerDistribution.interpolate` method.
 
-	- appearance (8 items in 5 files)
+    - appearance (8 items in 5 files)
 
-		- ciecam02.py
+        - ciecam02.py
 
-			- (257, 7) # TODO: Compute hue composition.
-			- (684, 7) # TODO: Check for negative values and their handling.
+            - (257, 7) # TODO: Compute hue composition.
+            - (684, 7) # TODO: Check for negative values and their handling.
 
-		- hunt.py
+        - hunt.py
 
-			- (406, 7) # TODO: Implement hue quadrature & composition computation.
-			- (438, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+            - (406, 7) # TODO: Implement hue quadrature & composition computation.
+            - (438, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
-		- llab.py
+        - llab.py
 
-			- (303, 7) # TODO: Implement hue composition computation.
+            - (303, 7) # TODO: Implement hue composition computation.
 
-		- nayatani95.py
+        - nayatani95.py
 
-			- (267, 7) # TODO: Implement hue quadrature & composition computation.
-			- (286, 7) # TODO: Investigate components usage.
+            - (267, 7) # TODO: Implement hue quadrature & composition computation.
+            - (286, 7) # TODO: Investigate components usage.
 
-		- rlab.py
+        - rlab.py
 
-			- (252, 7) # TODO: Implement hue composition computation.
+            - (252, 7) # TODO: Implement hue composition computation.
 
-	- colorimetry (1 item in 1 file)
+    - colorimetry (1 item in 1 file)
 
-		- spectrum.py
+        - spectrum.py
 
-			- (1559, 11) # TODO: Provide support for fractional steps like 0.1, etc...
+            - (1559, 11) # TODO: Provide support for fractional steps like 0.1, etc...
 
-	- models (2 item in 2 file)
+    - models (2 item in 2 file)
 
-		- tests (1 item in 1 file)
+        - tests (1 item in 1 file)
 
-			- tests_derivation.py
+            - tests_derivation.py
 
-				- (123, 15) # TODO: Simplify that monster.
+                - (123, 15) # TODO: Simplify that monster.
 
-		- derivation.py
+        - derivation.py
 
-			- (153, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+            - (153, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
 
-	- notation (5 items in 2 files)
+    - notation (5 items in 2 files)
 
-		- tests (3 items in 1 file)
+        - tests (3 items in 1 file)
 
-			- tests_munsell.py
+            - tests_munsell.py
 
-				- (98, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
-				- (4162, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
-				- (4208, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+                - (98, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
+                - (4162, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+                - (4208, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
 
-		- munsell.py
+        - munsell.py
 
-			- (828, 11) # TODO: Consider refactoring implementation.
-			- (1172, 11) # TODO: Should raise KeyError, need to check the tests.
+            - (828, 11) # TODO: Consider refactoring implementation.
+            - (1172, 11) # TODO: Should raise KeyError, need to check the tests.
+
+    - volume (1 item in 1 file)
+        
+        -  rgb.py
+            
+            - (323, 11) # TODO: Investigate for generator yielding directly a ndarray.
 
 About
 -----

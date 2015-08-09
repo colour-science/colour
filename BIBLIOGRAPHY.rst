@@ -83,6 +83,7 @@ Bibliography
 - Hettinger, R. (n.d.). Python hashable dicts. Retrieved August 08, 2014, from http://stackoverflow.com/a/16162138/931625
 - Hewlett-Packard Development Company. (2009). Understanding the HP DreamColor LP2480zx DCI-P3 Emulation Color Space. Retrieved from http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 - Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from http://www.josephholmes.com/Ekta_Space.zip
+- Houston, J. (2015). Private Discussion with Mansencal, T.
 - Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.). Wiley. ISBN:978-0-470-02425-6
 - HutchColor. (n.d.). BestRGB (4 K). Retrieved from http://www.hutchcolor.com/profiles/BestRGB.zip
 - HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from http://www.hutchcolor.com/profiles/DonRGB4.zip
@@ -133,6 +134,7 @@ Bibliography
 - Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
 - Renewable Resource Data Center. (2003). Reference Solar Spectral Irradiance: ASTM G-173. Retrieved August 23, 2014, from http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 - sastanin. (n.d.). How to make scipy.interpolate give an extrapolated result beyond the input range? Retrieved August 08, 2014, from http://stackoverflow.com/a/2745496/931625
+- Sharma, G., Wu, W., & Dalal, E. N. (2005). The CIEDE2000 color‐difference formula: Implementation notes, supplementary test data, and mathematical observations. Color Research & Application, 30(1), 21–30. doi:10.1002/col.20070
 - Smith, A. R. (1978). Color Gamut Transform Pairs. In Proceedings of the 5th Annual Conference on Computer Graphics and Interactive Techniques (pp. 12–19). New York, NY, USA: ACM. doi:10.1145/800248.807361
 - Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances. Journal of Graphics Tools, 4(4), 11–22. doi:10.1080/10867651.1999.10487511
 - SMPTE. (1993). Derivation of Basic Television Color Equations. In RP 177:1993 (Vol. RP 177:199). doi:10.5594/S9781614821915
@@ -140,6 +142,7 @@ Bibliography
 - Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
 - Sony Corporation. (n.d.). Technical Summary for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from http://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 - Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py
+- Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from http://www.repairfaq.org/sam/repspec/
 - Stearns, E. I., & Stearns, R. E. (1988). An example of a method for correcting radiance data for Bandpass error. Color Research & Application, 13(4), 257–259. doi:10.1002/col.5080130410
 - The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an Integer Log Encoding of ACES Image Data. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
 - The Academy of Motion Picture Arts and Sciences, Science and Technology Council, & Academy Color Encoding System (ACES) Project Subcommittee. (2014). Specification S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within Color Grading Systems. Retrieved from https://github.com/ampas/aces-dev/tree/master/documents

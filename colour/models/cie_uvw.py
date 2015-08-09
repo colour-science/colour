@@ -23,7 +23,13 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_XYZ
+from colour.models import (
+    UCS_to_uv,
+    XYZ_to_UCS,
+    XYZ_to_xyY,
+    xy_to_xyY,
+    xyY_to_XYZ,
+    xyY_to_xy)
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -48,7 +54,8 @@ def XYZ_to_UVW(XYZ,
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
 
     Returns
     -------
@@ -58,6 +65,8 @@ def XYZ_to_UVW(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE UVW* colourspace array is in domain [0, 100].
 
     Warning
@@ -72,12 +81,12 @@ def XYZ_to_UVW(XYZ,
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
     """
 
-    xyY = XYZ_to_xyY(XYZ, illuminant)
+    xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))
     _x, y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
     u_0, v_0 = tsplit(UCS_to_uv(XYZ_to_UCS(
-        xy_to_XYZ(illuminant))))
+        xyY_to_XYZ(xy_to_xyY(illuminant)))))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)

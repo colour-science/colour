@@ -282,8 +282,8 @@ def whiteness_CIE2004(xy,
     xy_n : array_like
         Chromaticity coordinates *xy_n* of perfect diffuser.
     observer : unicode, optional
-        {'CIE 1931 2 Degree Standard Observer',
-        'CIE 1964 10 Degree Standard Observer'}
+        **{'CIE 1931 2 Degree Standard Observer',
+        'CIE 1964 10 Degree Standard Observer'}**,
         *CIE Standard Observer* used for computations, *tint* :math:`T` or
         :math:`T_{10}` value is dependent on viewing field angular subtense.
 
@@ -348,8 +348,8 @@ WHITENESS_METHODS = CaseInsensitiveMapping(
 Supported *whiteness* computations methods.
 
 WHITENESS_METHODS : CaseInsensitiveMapping
-    {'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
-    'Ganz 1979', 'CIE 2004'}
+    **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
+    'Ganz 1979', 'CIE 2004'}**
 
 Aliases:
 
@@ -365,8 +365,8 @@ def whiteness(method='CIE 2004', **kwargs):
     Parameters
     ----------
     method : unicode, optional
-        {'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
-        'Ganz 1979', 'CIE 2004'}
+        **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
+        'Ganz 1979', 'CIE 2004'}**,
         Computation method.
     \*\*kwargs : \*\*
         Keywords arguments.

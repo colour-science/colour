@@ -1217,8 +1217,8 @@ class TestDciP3LogToLinear(unittest.TestCase):
 
 class TestLinearToRedLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.linear_to_red_log_film` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.linear_to_red_log_film` definition unit
+    tests methods.
     """
 
     def test_linear_to_red_log_film(self):
@@ -1288,8 +1288,8 @@ class TestLinearToRedLogFilm(unittest.TestCase):
 
 class TestRedLogFilmToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.log.red_log_film_to_linear` definition unit tests
-    methods.
+    Defines :func:`colour.models.log.red_log_film_to_linear` definition unit
+    tests methods.
     """
 
     def test_red_log_film_to_linear(self):

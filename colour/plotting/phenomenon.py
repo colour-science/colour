@@ -100,6 +100,7 @@ def single_rayleigh_scattering_spd_plot(
                                   pressure,
                                   latitude,
                                   altitude)
+
     return single_spd_plot(spd, **settings)
 
 
@@ -172,4 +173,5 @@ def the_blue_sky_plot(
 
     boundaries(**settings)
     decorate(**settings)
+
     return display(**settings)

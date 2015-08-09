@@ -27,7 +27,7 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
-from colour.colorimetry import ILLUMINANTS, spectral_to_XYZ
+from colour.colorimetry import spectral_to_XYZ
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
@@ -40,6 +40,7 @@ from colour.models import (
     xy_to_XYZ)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH,
+    DEFAULT_PLOTTING_ILLUMINANT,
     PLOTTING_RESOURCES_DIRECTORY,
     canvas,
     decorate,
@@ -64,9 +65,6 @@ __all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
            'spds_CIE_1931_chromaticity_diagram_plot',
            'spds_CIE_1960_UCS_chromaticity_diagram_plot',
            'spds_CIE_1976_UCS_chromaticity_diagram_plot']
-
-CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D65')
 
 
 def CIE_1931_chromaticity_diagram_colours_plot(
@@ -109,7 +107,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+        illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
         triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
                                  qhull_options='QJ')
@@ -127,7 +125,8 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -173,7 +172,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -245,8 +244,6 @@ def CIE_1931_chromaticity_diagram_plot(
         'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE x',
         'y_label': 'CIE y',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
@@ -299,7 +296,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+        illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
         triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
                                  qhull_options='QJ')
@@ -317,7 +314,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -432,8 +430,6 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u',
         'y_label': 'CIE v',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
@@ -486,7 +482,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
         cmfs = get_cmfs(cmfs)
 
-        illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+        illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
         triangulation = Delaunay(
             Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
@@ -505,7 +501,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
         settings.update({
-            'no_ticks': True,
+            'x_ticker': False,
+            'y_ticker': False,
             'bounding_box': (0, 1, 0, 1),
             'bbox_inches': 'tight',
             'pad_inches': 0})
@@ -550,7 +547,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = CHROMATICITY_DIAGRAM_DEFAULT_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     image = matplotlib.image.imread(
         os.path.join(PLOTTING_RESOURCES_DIRECTORY,
@@ -622,8 +619,6 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'bounding_box': (0, 1, 0, 1),
         'bbox_inches': 'tight',
@@ -647,7 +642,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -673,8 +668,9 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
-    CIE_1931_chromaticity_diagram_plot(standalone=False, **kwargs)
+    CIE_1931_chromaticity_diagram_plot(**settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -718,7 +714,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -744,8 +740,9 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
-    CIE_1960_UCS_chromaticity_diagram_plot(standalone=False, **settings)
+    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape
@@ -789,7 +786,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Parameters
     ----------
-    spds : list, optional
+    spds : array_like, optional
         Spectral power distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
@@ -815,8 +812,9 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
+    settings.update({'standalone': False})
 
-    CIE_1976_UCS_chromaticity_diagram_plot(standalone=False, **settings)
+    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     cmfs = get_cmfs(cmfs)
     cmfs_shape = cmfs.shape

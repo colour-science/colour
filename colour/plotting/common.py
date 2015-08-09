@@ -9,9 +9,12 @@ Defines the common plotting objects:
 
 -   :func:`colour_cycle`
 -   :func:`canvas`
+-   :func:`camera`
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
+-   :func:`label_rectangles`
+-   :func:`equal_axes3d`
 -   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
@@ -33,6 +36,8 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
+from colour.colorimetry import CMFS, ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS
+from colour.models import RGB_COLOURSPACES
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -48,15 +53,23 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_FIGURE_HEIGHT',
            'DEFAULT_FIGURE_SIZE',
            'DEFAULT_FONT_SIZE',
-           'DEFAULT_PARAMETERS',
            'DEFAULT_COLOUR_CYCLE',
-           'ColourParameter',
+           'DEFAULT_HATCH_PATTERNS',
+           'DEFAULT_PARAMETERS',
+           'DEFAULT_PLOTTING_ILLUMINANT',
+           'DEFAULT_PLOTTING_OECF',
            'ColourParameter',
            'colour_cycle',
            'canvas',
+           'camera',
            'decorate',
            'boundaries',
            'display',
+           'label_rectangles',
+           'equal_axes3d',
+           'get_RGB_colourspace',
+           'get_cmfs',
+           'get_illuminant',
            'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
@@ -113,6 +126,22 @@ DEFAULT_FONT_SIZE : numeric
 if 'Qt4Agg' in matplotlib.get_backend():
     DEFAULT_FONT_SIZE = 10
 
+DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
+"""
+Default colour cycle for plots.
+
+DEFAULT_COLOUR_CYCLE : tuple
+{'r', 'g', 'b', 'c', 'm', 'y', 'k'}
+"""
+
+DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
+"""
+Default hatch patterns for bar plots.
+
+DEFAULT_HATCH_PATTERNS : tuple
+{'\\\\', 'o', 'x', '.', '*', '//'}
+"""
+
 DEFAULT_PARAMETERS = {
     'figure.figsize': DEFAULT_FIGURE_SIZE,
     'font.size': DEFAULT_FONT_SIZE,
@@ -120,8 +149,8 @@ DEFAULT_PARAMETERS = {
     'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE
-}
+    'ytick.labelsize': DEFAULT_FONT_SIZE,
+    'axes.color_cycle': DEFAULT_COLOUR_CYCLE}
 """
 Default plotting parameters.
 
@@ -130,7 +159,20 @@ DEFAULT_PARAMETERS : dict
 
 pylab.rcParams.update(DEFAULT_PARAMETERS)
 
-DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
+DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get('D65')
+"""
+Default plotting illuminant: *CIE Illuminant D Series* *D65*.
+
+DEFAULT_PLOTTING_ILLUMINANT : tuple
+"""
+
+DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].transfer_function
+"""
+Default plotting OECF / transfer function: *sRGB*.
+
+DEFAULT_PLOTTING_OECF : object
+"""
 
 ColourParameter = namedtuple('ColourParameter',
                              ('name', 'RGB', 'x', 'y0', 'y1'))
@@ -140,10 +182,12 @@ def colour_cycle(**kwargs):
     """
     Returns a colour cycle iterator using given colour map.
 
-   Parameters
+    Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'colour_cycle_map', 'colour_cycle_count'}**
+        Keywords arguments such as ``{'colour_cycle_map': unicode
+        (Matplotlib colormap name), 'colour_cycle_count': int}``
 
     Returns
     -------
@@ -168,12 +212,14 @@ def colour_cycle(**kwargs):
 
 def canvas(**kwargs):
     """
-    Sets the figure size and aspect.
+    Sets the figure size.
 
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'figure_size', }**
+        Keywords arguments such as ``{'figure_size': array_like
+        (width, height), }``
 
     Returns
     -------
@@ -194,6 +240,38 @@ def canvas(**kwargs):
     return figure
 
 
+def camera(**kwargs):
+    """
+    Sets the camera settings.
+
+    Parameters
+    ----------
+    \*\*kwargs : \*\*
+        **{'camera_aspect', 'elevation', 'azimuth'}**
+        Keywords arguments such as ``{'camera_aspect': unicode
+        (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    settings = Structure(
+        **{'camera_aspect': 'equal',
+           'elevation': None,
+           'azimuth': None})
+    settings.update(kwargs)
+
+    axes = matplotlib.pyplot.gca()
+    if settings.camera_aspect == 'equal':
+        equal_axes3d(axes)
+
+    axes.view_init(elev=settings.elevation, azim=settings.azimuth)
+
+    return True
+
+
 def decorate(**kwargs):
     """
     Sets the figure decorations.
@@ -201,7 +279,18 @@ def decorate(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
+        'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
+        'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
+        'y_axis_line', 'aspect', 'no_axes3d'}**
+        Keywords arguments such as ``{'title': unicode (figure title),
+        'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
+        'legend': bool, 'legend_columns': int, 'legend_location': unicode
+        (Matplotlib legend location), 'x_ticker': bool, 'y_ticker': bool,
+        'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
+        'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
+        'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
+        'no_axes3d': bool}``
 
     Returns
     -------
@@ -214,22 +303,22 @@ def decorate(**kwargs):
            'x_label': None,
            'y_label': None,
            'legend': False,
+           'legend_columns': 1,
            'legend_location': 'upper right',
-           'x_ticker': False,
-           'y_ticker': False,
+           'x_ticker': True,
+           'y_ticker': True,
            'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
            'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-           'no_ticks': False,
-           'no_x_ticks': False,
-           'no_y_ticks': False,
            'grid': False,
            'grid_which': 'both',
            'grid_axis': 'both',
            'x_axis_line': False,
            'y_axis_line': False,
-           'aspect': None})
+           'aspect': None,
+           'no_axes3d': False})
     settings.update(kwargs)
 
+    axes = matplotlib.pyplot.gca()
     if settings.title:
         pylab.title(settings.title)
     if settings.x_label:
@@ -237,20 +326,18 @@ def decorate(**kwargs):
     if settings.y_label:
         pylab.ylabel(settings.y_label)
     if settings.legend:
-        pylab.legend(loc=settings.legend_location)
+        pylab.legend(loc=settings.legend_location,
+                     ncol=settings.legend_columns)
     if settings.x_ticker:
-        matplotlib.pyplot.gca().xaxis.set_minor_locator(
+        axes.xaxis.set_minor_locator(
             settings.x_ticker_locator)
+    else:
+        axes.set_xticks([])
     if settings.y_ticker:
-        matplotlib.pyplot.gca().yaxis.set_minor_locator(
+        axes.yaxis.set_minor_locator(
             settings.y_ticker_locator)
-    if settings.no_ticks:
-        matplotlib.pyplot.gca().set_xticks([])
-        matplotlib.pyplot.gca().set_yticks([])
-    if settings.no_x_ticks:
-        matplotlib.pyplot.gca().set_xticks([])
-    if settings.no_y_ticks:
-        matplotlib.pyplot.gca().set_yticks([])
+    else:
+        axes.set_yticks([])
     if settings.grid:
         pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
@@ -259,6 +346,8 @@ def decorate(**kwargs):
         pylab.axhline(color='black', linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
+    if settings.no_axes3d:
+        axes.set_axis_off()
 
     return True
 
@@ -270,7 +359,11 @@ def boundaries(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
+        Keywords arguments such as ``{'bounding_box': array_like
+        (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
+        'limits': array_like (x min, x max, y min, y max), 'limits': array_like
+        (x min, x max, y min, y max)}``
 
     Returns
     -------
@@ -309,7 +402,9 @@ def display(**kwargs):
     Parameters
     ----------
     \*\*kwargs : \*\*
-        Keywords arguments.
+        **{'standalone', 'filename'}**
+        Keywords arguments such as ``{'standalone': bool (figure is shown),
+        'filename': unicode (figure is saved as `filename`)}``
 
     Returns
     -------
@@ -330,6 +425,174 @@ def display(**kwargs):
         pylab.close()
 
     return True
+
+
+def label_rectangles(rectangles,
+                     rotation='vertical',
+                     text_size=10,
+                     offset=None):
+    """
+    Add labels above given rectangles.
+
+    Parameters
+    ----------
+    rectangles : object
+        Rectangles to used to set the labels value and position.
+    rotation : unicode, optional
+        **{'horizontal', 'vertical'}**,
+        Labels orientation.
+    text_size : numeric, optional
+        Labels text size.
+    offset : array_like, optional
+        Labels offset as percentages of the largest rectangle dimensions.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    if offset is None:
+        offset = (0.0, 0.025)
+
+    x_m, y_m = 0, 0
+    for rectangle in rectangles:
+        x_m = max(x_m, rectangle.get_width())
+        y_m = max(y_m, rectangle.get_height())
+
+    for rectangle in rectangles:
+        x = rectangle.get_x()
+        height = rectangle.get_height()
+        width = rectangle.get_width()
+        ha = 'center'
+        va = 'bottom'
+        pylab.text(x + width / 2 + offset[0] * width,
+                   height + offset[1] * y_m,
+                   '{0:.1f}'.format(height),
+                   ha=ha, va=va,
+                   rotation=rotation,
+                   fontsize=text_size,
+                   clip_on=True)
+
+    return True
+
+
+def equal_axes3d(axes):
+    """
+    Sets equal aspect ratio to given 3d axes.
+
+    Parameters
+    ----------
+    axes : object
+        Axis to set the equal aspect ratio.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    axes.set_aspect('equal')
+    extents = np.array([getattr(axes, 'get_{}lim'.format(axis))()
+                        for axis in 'xyz'])
+
+    centers = np.mean(extents, axis=1)
+    extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
+
+    for center, axis in zip(centers, 'xyz'):
+        getattr(axes, 'set_{}lim'.format(axis))(center - extent / 2,
+                                                center + extent / 2)
+
+    return True
+
+
+def get_RGB_colourspace(colourspace):
+    """
+    Returns the *RGB* colourspace with given name.
+
+    Parameters
+    ----------
+    colourspace : unicode
+        *RGB* colourspace name.
+
+    Returns
+    -------
+    RGB_Colourspace
+        *RGB* colourspace.
+
+    Raises
+    ------
+    KeyError
+        If the given *RGB* colourspace is not found in the factory *RGB*
+        colourspaces.
+    """
+
+    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
+    if colourspace is None:
+        raise KeyError(
+            ('"{0}" colourspace not found in factory RGB colourspaces: '
+             '"{1}".').format(
+                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
+
+    return colourspace
+
+
+def get_cmfs(cmfs):
+    """
+    Returns the colour matching functions with given name.
+
+    Parameters
+    ----------
+    cmfs : unicode
+        Colour matching functions name.
+
+    Returns
+    -------
+    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
+        Colour matching functions.
+
+    Raises
+    ------
+    KeyError
+        If the given colour matching functions is not found in the factory
+        colour matching functions.
+    """
+
+    cmfs, name = CMFS.get(cmfs), cmfs
+    if cmfs is None:
+        raise KeyError(
+            ('"{0}" not found in factory colour matching functions: '
+             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
+    return cmfs
+
+
+def get_illuminant(illuminant):
+    """
+    Returns the illuminant with given name.
+
+    Parameters
+    ----------
+    illuminant : unicode
+        Illuminant name.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Illuminant.
+
+    Raises
+    ------
+    KeyError
+        If the given illuminant is not found in the factory illuminants.
+    """
+
+    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    if illuminant is None:
+        raise KeyError(
+            '"{0}" not found in factory illuminants: "{1}".'.format(
+                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
+
+    return illuminant
 
 
 def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
@@ -384,12 +647,18 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)  # noqa
-    >>> cp3 = colour_parameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)  # noqa
-    >>> cp4 = colour_parameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)  # noqa
-    >>> cp5 = colour_parameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)  # noqa
-    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])  # noqa  # doctest: +SKIP
+    >>> cp1 = colour_parameter(
+    ...     x=390, RGB=[0.03009021, 0, 0.12300545])
+    >>> cp2 = colour_parameter(
+    ...     x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
+    >>> cp3 = colour_parameter(
+    ...     x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
+    >>> cp4 = colour_parameter(
+    ...     x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
+    >>> cp5 = colour_parameter(
+    ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
+    >>> colour_parameters_plot(
+    ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
     True
     """
 
@@ -479,7 +748,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     True
     """
 
-    return multi_colour_plot((colour_parameter, ), **kwargs)
+    return multi_colour_plot((colour_parameter,), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,
@@ -558,7 +827,8 @@ def multi_colour_plot(colour_parameters,
     settings = {
         'x_tighten': True,
         'y_tighten': True,
-        'no_ticks': True,
+        'x_ticker': False,
+        'y_ticker': False,
         'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
         'aspect': 'equal'}
     settings.update(kwargs)
@@ -602,7 +872,10 @@ def image_plot(image,
     --------
     >>> import os
     >>> from colour import read_image
-    >>> path = os.path.join('resources', 'CIE_1931_Chromaticity_Diagram_CIE_1931_2_Degree_Standard_Observer.png')  # noqa
+    >>> path = os.path.join(
+    ...     'resources',
+    ...     ('CIE_1931_Chromaticity_Diagram'
+    ...     '_CIE_1931_2_Degree_Standard_Observer.png'))
     >>> image = read_image(path)  # doctest: +SKIP
     >>> image_plot(image)  # doctest: +SKIP
     True
@@ -621,7 +894,8 @@ def image_plot(image,
                alpha=label_alpha,
                fontsize=label_size)
 
-    settings = {'no_ticks': True,
+    settings = {'x_ticker': False,
+                'y_ticker': False,
                 'bounding_box': (0, 1, 0, 1),
                 'bbox_inches': 'tight',
                 'pad_inches': 0}

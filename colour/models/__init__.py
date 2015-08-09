@@ -6,6 +6,8 @@ from __future__ import absolute_import
 from .cie_xyy import (
     XYZ_to_xyY,
     xyY_to_XYZ,
+    xy_to_xyY,
+    xyY_to_xy,
     xy_to_XYZ,
     XYZ_to_xy)
 from .rgb import RGB_Colourspace
@@ -63,6 +65,8 @@ from .aces_it import spectral_to_aces_relative_exposure_values
 
 __all__ = ['XYZ_to_xyY',
            'xyY_to_XYZ',
+           'xy_to_xyY',
+           'xyY_to_xy',
            'xy_to_XYZ',
            'XYZ_to_xy']
 __all__ += ['RGB_Colourspace']

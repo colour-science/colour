@@ -588,8 +588,7 @@ message_box('Plotting multiple spectral power distributions.')
 multi_spd_plot((colour.SpectralPowerDistribution(
     'Galvanized Steel Metal',
     galvanized_steel_metal_spd_data),
-                colour.SpectralPowerDistribution(
-                    'White Marble', white_marble_spd_data)))
+    colour.SpectralPowerDistribution('White Marble', white_marble_spd_data)))
 
 print('\n')
 

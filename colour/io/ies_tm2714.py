@@ -79,7 +79,7 @@ class IES_TM2714_ElementSpecification(
                 required=False,
                 read_conversion=format,
                 write_conversion=(
-                        lambda x: format(x) if x is not None else 'N/A')):
+                    lambda x: format(x) if x is not None else 'N/A')):
         """
         Returns a new instance of the :class:`IES_TM2714_Element` class.
         """
@@ -282,7 +282,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('manufacturer', value))
         self.__manufacturer = value
@@ -312,7 +312,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('catalog_number', value))
         self.__catalog_number = value
@@ -342,7 +342,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('description', value))
         self.__description = value
@@ -372,7 +372,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('document_creator', value))
         self.__document_creator = value
@@ -402,7 +402,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('unique_identifier', value))
         self.__unique_identifier = value
@@ -432,7 +432,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('measurement_equipment', value))
         self.__measurement_equipment = value
@@ -462,7 +462,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('laboratory', value))
         self.__laboratory = value
@@ -492,7 +492,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('report_number', value))
         self.__report_number = value
@@ -522,7 +522,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('report_date', value))
         self.__report_date = value
@@ -552,7 +552,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('document_creation_date',
                                                value))
@@ -583,7 +583,7 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('comments',
                                                value))
@@ -603,16 +603,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     header : IES_TM2714_Header, optional
         IES TM-27-14 spectral power distribution header.
     spectral_quantity : unicode, optional
-        {'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
+        **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',
-        'relative', 'other'}
+        'relative', 'other'}**,
         Quantity of measurement for each element of the spectral data.
     reflection_geometry : unicode, optional
-        {'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
-        '0:45a', '45x:0', '0:45x', 'other'}
+        **{'di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0', '45c:0',
+        '0:45a', '45x:0', '0:45x', 'other'}**,
         Spectral reflectance factors geometric conditions.
     transmission_geometry : unicode, optional
-        {'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}
+        **{'0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other'}**,
         Spectral transmittance factors geometric conditions.
     bandwidth_FWHM : numeric, optional
         Spectroradiometer full-width half-maximum bandwidth in nanometers.
@@ -789,7 +789,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('path', value))
         self.__path = value
@@ -849,7 +849,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('spectral_quantity', value))
         self.__spectral_quantity = value
@@ -879,7 +879,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('reflection_geometry', value))
         self.__reflection_geometry = value
@@ -909,7 +909,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('transmission_geometry', value))
         self.__transmission_geometry = value

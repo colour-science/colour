@@ -40,7 +40,7 @@ __status__ = 'Production'
 __all__ = ['SMITS1999_PRIMARIES',
            'SMITS1999_WHITEPOINT',
            'SMITS1999_XYZ_TO_RGB_MATRIX',
-           'XYZ_to_RGB_smits1999',
+           'XYZ_to_RGB_Smits1999',
            'RGB_to_spectral_Smits1999']
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
@@ -68,7 +68,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
+def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
     colourspace in conditions required by the current Smits (1999) method
@@ -79,8 +79,9 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     chromatic_adaptation_method : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         *Chromatic adaptation* method.
 
     Returns
@@ -95,7 +96,7 @@ def XYZ_to_RGB_smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> XYZ_to_RGB_smits1999(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_RGB_Smits1999(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0214496...,  0.1315460...,  0.0928760...])
     """
 

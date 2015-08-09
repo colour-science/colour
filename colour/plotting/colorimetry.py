@@ -18,6 +18,11 @@ Defines the colorimetry plotting objects:
 -   :func:`multi_lightness_function_plot`
 -   :func:`blackbody_spectral_radiance_plot`
 -   :func:`blackbody_colours_plot`
+
+References
+----------
+.. [1]  Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from
+        http://www.repairfaq.org/sam/repspec/
 """
 
 from __future__ import division
@@ -27,8 +32,8 @@ import numpy as np
 import pylab
 
 from colour.colorimetry import (
-    CMFS,
     DEFAULT_SPECTRAL_SHAPE,
+    ILLUMINANTS,
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHTNESS_METHODS,
     SpectralShape,
@@ -37,6 +42,7 @@ from colour.colorimetry import (
     wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
+    DEFAULT_PLOTTING_OECF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
@@ -44,6 +50,8 @@ from colour.plotting import (
     colour_parameters_plot,
     decorate,
     display,
+    get_cmfs,
+    get_illuminant,
     single_colour_plot)
 from colour.utilities import normalise
 
@@ -54,9 +62,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_cmfs',
-           'get_illuminant',
-           'single_spd_plot',
+__all__ = ['single_spd_plot',
            'multi_spd_plot',
            'single_cmfs_plot',
            'multi_cmfs_plot',
@@ -69,65 +75,10 @@ __all__ = ['get_cmfs',
            'blackbody_colours_plot']
 
 
-def get_cmfs(cmfs):
-    """
-    Returns the colour matching functions with given name.
-
-    Parameters
-    ----------
-    cmfs : unicode
-        Colour matching functions name.
-
-    Returns
-    -------
-    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
-        Colour matching functions.
-
-    Raises
-    ------
-    KeyError
-        If the given colour matching functions is not found in the factory
-        colour matching functions.
-    """
-
-    cmfs, name = CMFS.get(cmfs), cmfs
-    if cmfs is None:
-        raise KeyError(
-            ('"{0}" not found in factory colour matching functions: '
-             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
-    return cmfs
-
-
-def get_illuminant(illuminant):
-    """
-    Returns the illuminant with given name.
-
-    Parameters
-    ----------
-    illuminant : unicode
-        Illuminant name.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Illuminant.
-
-    Raises
-    ------
-    KeyError
-        If the given illuminant is not found in the factory illuminants.
-    """
-
-    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
-    if illuminant is None:
-        raise KeyError(
-            '"{0}" not found in factory illuminants: "{1}".'.format(
-                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
-
-    return illuminant
-
-
-def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+def single_spd_plot(spd,
+                    cmfs='CIE 1931 2 Degree Standard Observer',
+                    out_of_gamut_clipping=True,
+                    **kwargs):
     """
     Plots given spectral power distribution.
 
@@ -135,6 +86,10 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     ----------
     spd : SpectralPowerDistribution
         Spectral power distribution to plot.
+    out_of_gamut_clipping : bool, optional
+        Out of gamut colours will be clipped if *True* otherwise, the colours
+        will be offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother. [1]_
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
     \*\*kwargs : \*\*
@@ -161,20 +116,25 @@ def single_spd_plot(spd, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     wavelengths = spd.wavelengths
     values = spd.values
 
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
     y1 = values
+    colours = XYZ_to_sRGB(
+        wavelength_to_XYZ(wavelengths, cmfs),
+        ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
+        transfer_function=False)
 
-    colours = normalise(colours)
+    if not out_of_gamut_clipping:
+        colours += np.abs(np.min(colours))
+
+    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
 
     settings = {
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'x_tighten': True,
-        'x_ticker': True,
-        'y_ticker': True}
+        'x_tighten': True}
 
     settings.update(kwargs)
+
     return colour_parameters_plot(
         [colour_parameter(x=x[0], y1=x[1], RGB=x[2])
          for x in tuple(zip(wavelengths, y1, colours))],
@@ -235,8 +195,6 @@ def multi_spd_plot(spds,
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        matplotlib.pyplot.rc("axes", color_cycle=["r", "g", "b", "y"])
-
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
@@ -254,8 +212,6 @@ def multi_spd_plot(spds,
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'limits': (min(x_limit_min), max(x_limit_max),
                    min(y_limit_min), max(y_limit_max))}
     settings.update(kwargs)
@@ -334,7 +290,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
-            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]
+            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]  # noqa
             wavelengths, values = tuple(
                 zip(*[(key, value) for key, value in getattr(cmfs_i, axis)]))
 
@@ -353,14 +309,12 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 
     settings = {
         'title': '{0} - Colour Matching Functions'.format(', '.join(
-            [get_cmfs(cmfs_i).title for cmfs_i in cmfs])),
+            [get_cmfs(c).title for c in cmfs])),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper right',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'y_axis_line': True,
         'limits': (min(x_limit_min), max(x_limit_max),
@@ -453,6 +407,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
 
 def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+                          out_of_gamut_clipping=True,
                           **kwargs):
     """
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
@@ -462,6 +417,10 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
+    out_of_gamut_clipping : bool, optional
+        Out of gamut colours will be clipped if *True* otherwise, the colours
+        will be offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother. [1]_
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -481,9 +440,15 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     wavelengths = cmfs.shape.range()
 
-    colours = XYZ_to_sRGB(wavelength_to_XYZ(wavelengths, cmfs))
-    colours *= 1 / np.max(colours)
-    colours = np.clip(colours, 0, 1)
+    colours = XYZ_to_sRGB(
+        wavelength_to_XYZ(wavelengths, cmfs),
+        ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
+        transfer_function=False)
+
+    if not out_of_gamut_clipping:
+        colours += np.abs(np.min(colours))
+
+    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
@@ -584,8 +549,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'x_ticker': True,
-        'y_ticker': True,
         'grid': True,
         'limits': (0, 100, 0, 100),
         'aspect': 'equal'})
@@ -713,7 +676,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'x_label': 'Temperature K',
         'y_label': '',
         'x_tighten': True,
-        'x_ticker': True,
         'y_ticker': False}
     settings.update(kwargs)
 

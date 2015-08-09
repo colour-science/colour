@@ -3,7 +3,6 @@
 
 from __future__ import absolute_import
 
-from .data_structures import Lookup, Structure, CaseInsensitiveMapping
 from .common import (
     handle_numpy_errors,
     ignore_numpy_errors,
@@ -30,6 +29,11 @@ from .array import (
     row_as_diagonal,
     dot_vector,
     dot_matrix)
+from .data_structures import (
+    ArbitraryPrecisionMapping,
+    Lookup,
+    Structure,
+    CaseInsensitiveMapping)
 from .verbose import message_box, warning
 
 __all__ = ['handle_numpy_errors',
@@ -56,5 +60,8 @@ __all__ += ['as_numeric',
             'row_as_diagonal',
             'dot_vector',
             'dot_matrix']
-__all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
+__all__ += ['ArbitraryPrecisionMapping',
+            'Lookup',
+            'Structure',
+            'CaseInsensitiveMapping']
 __all__ += ['message_box', 'warning']

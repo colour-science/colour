@@ -272,8 +272,9 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
     transform : unicode, optional
-        {'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-        'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco', 'Bianco PC'},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
         Chromatic adaptation transform.
 
     Returns
@@ -332,7 +333,7 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
 Aggregated corresponding chromaticities prediction models.
 
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
-    {'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}
+    **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
 
 Aliases:
 

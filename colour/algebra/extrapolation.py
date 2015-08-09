@@ -49,7 +49,7 @@ class Extrapolator1d(object):
     interpolator : object
         Interpolator object.
     method : unicode, optional
-        {'Linear', 'Constant'},
+        **{'Linear', 'Constant'}**,
         Extrapolation method.
     left : numeric, optional
         Value to return for x < xi[0].
@@ -74,10 +74,10 @@ class Extrapolator1d(object):
     --------
     Extrapolating a single numeric variable:
 
-    >>> from colour.algebra import LinearInterpolator1d
+    >>> from colour.algebra import LinearInterpolator
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator1d(interpolator)
     >>> extrapolator(1)
     -1.0
@@ -91,7 +91,7 @@ class Extrapolator1d(object):
 
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator1d(interpolator, method='Constant')
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 1.,  1.,  3.,  3.])
@@ -100,7 +100,7 @@ class Extrapolator1d(object):
 
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator1d(x, y)
+    >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator1d(interpolator, method='Constant', left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  3.,  3.])
@@ -178,7 +178,7 @@ class Extrapolator1d(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (
+            assert type(value) in (str, unicode), (  # noqa
                 ('"{0}" attribute: "{1}" type is not '
                  '"str" or "unicode"!').format('method', value))
 

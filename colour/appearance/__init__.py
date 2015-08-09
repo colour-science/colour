@@ -15,7 +15,7 @@ from .ciecam02 import (
     CIECAM02_Specification,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
-from .llab import (
+from .llab import (  # noqa
     LLAB_InductionFactors,
     LLAB_VIEWING_CONDITIONS,
     LLAB_Specification,

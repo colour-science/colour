@@ -28,7 +28,7 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+import numpy as np  # noqa
 
 from colour.utilities import tsplit, tstack
 

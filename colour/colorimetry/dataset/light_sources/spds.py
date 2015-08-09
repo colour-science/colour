@@ -37,6 +37,8 @@ The following light sources are available:
     F40/CWX (Broadband FL), F40/DX (Broadband FL), F40/DXTP (Delux FL),
     F40/N (Natural FL), H38HT-100 (Mercury), H38JA-100/DX (Mercury DX),
     MHC100/U/MP /3K, MHC100/U/MP /4K, SDW-T 100W/LV (Super HPS)
+-   Projectors and Xenon Arc Lamps:
+    Kinoton 75P
 
 See Also
 --------
@@ -64,6 +66,8 @@ __all__ = ['LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA',
            'LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS',
            'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA',
            'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS',
+           'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA',
+           'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS',
            'LIGHT_SOURCES_RELATIVE_SPDS']
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
@@ -772,8 +776,8 @@ References
         http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
-    {'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}
+    **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
+    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
@@ -1649,8 +1653,8 @@ References
         http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS : CaseInsensitiveMapping
-    {'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}
+    **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
+    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
@@ -2950,11 +2954,11 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping(
 LED light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS : CaseInsensitiveMapping
-    {'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
+    **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
     '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
     '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
     'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
-    'Phosphor LED YAG'}
+    'Phosphor LED YAG'}**
 """
 
 LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
@@ -4857,7 +4861,7 @@ Philips light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet. [2]_
 
 LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS : CaseInsensitiveMapping
-    {'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
+    **{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
     'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
     'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
     'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
@@ -4865,7 +4869,227 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS : CaseInsensitiveMapping
     'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
     'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
     'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
-    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}
+    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
+"""
+
+LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA = {
+    'Kinoton 75P': {
+        380: 0.0001099667,
+        382: 0.0001415667,
+        384: 0.0001502000,
+        386: 0.0001820333,
+        388: 0.0002130000,
+        390: 0.0002264333,
+        392: 0.0002610333,
+        394: 0.0002977667,
+        396: 0.0003158000,
+        398: 0.0003516333,
+        400: 0.0003842000,
+        402: 0.0004214667,
+        404: 0.0004589667,
+        406: 0.0004743333,
+        408: 0.0005143333,
+        410: 0.0005471000,
+        412: 0.0005694000,
+        414: 0.0006006667,
+        416: 0.0006101333,
+        418: 0.0006262000,
+        420: 0.0006303000,
+        422: 0.0006324000,
+        424: 0.0006372000,
+        426: 0.0006432333,
+        428: 0.0006552333,
+        430: 0.0006685000,
+        432: 0.0006829000,
+        434: 0.0007057000,
+        436: 0.0007282333,
+        438: 0.0007535000,
+        440: 0.0007768333,
+        442: 0.0007926667,
+        444: 0.0008036000,
+        446: 0.0008167667,
+        448: 0.0008391667,
+        450: 0.0008682000,
+        452: 0.0008882667,
+        454: 0.0008960667,
+        456: 0.0009014000,
+        458: 0.0009249000,
+        460: 0.0009560000,
+        462: 0.0009927333,
+        464: 0.0010310000,
+        466: 0.0010756667,
+        468: 0.0010990000,
+        470: 0.0010960000,
+        472: 0.0010720000,
+        474: 0.0010250000,
+        476: 0.0009706667,
+        478: 0.0009375667,
+        480: 0.0009348667,
+        482: 0.0009473000,
+        484: 0.0009481333,
+        486: 0.0009340333,
+        488: 0.0009180333,
+        490: 0.0009142667,
+        492: 0.0009275667,
+        494: 0.0009310667,
+        496: 0.0009122333,
+        498: 0.0008893333,
+        500: 0.0008777000,
+        502: 0.0008709667,
+        504: 0.0008638333,
+        506: 0.0008584000,
+        508: 0.0008545333,
+        510: 0.0008510333,
+        512: 0.0008437667,
+        514: 0.0008437333,
+        516: 0.0008436333,
+        518: 0.0008430333,
+        520: 0.0008405333,
+        522: 0.0008382667,
+        524: 0.0008350000,
+        526: 0.0008345333,
+        528: 0.0008347667,
+        530: 0.0008347667,
+        532: 0.0008335667,
+        534: 0.0008290667,
+        536: 0.0008292333,
+        538: 0.0008275333,
+        540: 0.0008289333,
+        542: 0.0008274667,
+        544: 0.0008255000,
+        546: 0.0008229333,
+        548: 0.0008193000,
+        550: 0.0008157000,
+        552: 0.0008138333,
+        554: 0.0008105333,
+        556: 0.0008075000,
+        558: 0.0008061333,
+        560: 0.0008041667,
+        562: 0.0008034667,
+        564: 0.0008011667,
+        566: 0.0008037000,
+        568: 0.0008075333,
+        570: 0.0008117333,
+        572: 0.0008128333,
+        574: 0.0008156000,
+        576: 0.0008133667,
+        578: 0.0008118000,
+        580: 0.0008118333,
+        582: 0.0008119333,
+        584: 0.0008097667,
+        586: 0.0008057667,
+        588: 0.0007986000,
+        590: 0.0007880333,
+        592: 0.0007774000,
+        594: 0.0007663333,
+        596: 0.0007544000,
+        598: 0.0007458333,
+        600: 0.0007348000,
+        602: 0.0007290333,
+        604: 0.0007261333,
+        606: 0.0007256667,
+        608: 0.0007239000,
+        610: 0.0007261000,
+        612: 0.0007292000,
+        614: 0.0007344333,
+        616: 0.0007383333,
+        618: 0.0007405667,
+        620: 0.0007402333,
+        622: 0.0007394667,
+        624: 0.0007335000,
+        626: 0.0007229333,
+        628: 0.0007108000,
+        630: 0.0007003333,
+        632: 0.0006851333,
+        634: 0.0006688333,
+        636: 0.0006519000,
+        638: 0.0006337000,
+        640: 0.0006173333,
+        642: 0.0006045667,
+        644: 0.0005969667,
+        646: 0.0005912667,
+        648: 0.0005901333,
+        650: 0.0005860333,
+        652: 0.0005784000,
+        654: 0.0005725000,
+        656: 0.0005705333,
+        658: 0.0005735000,
+        660: 0.0005761000,
+        662: 0.0005782667,
+        664: 0.0005781667,
+        666: 0.0005739333,
+        668: 0.0005628667,
+        670: 0.0005410333,
+        672: 0.0005082667,
+        674: 0.0004721000,
+        676: 0.0004296000,
+        678: 0.0003840000,
+        680: 0.0003384000,
+        682: 0.0002957667,
+        684: 0.0002562333,
+        686: 0.0002145333,
+        688: 0.0001758333,
+        690: 0.0001455000,
+        692: 0.0001167667,
+        694: 0.0000939000,
+        696: 0.0000765000,
+        698: 0.0000623000,
+        700: 0.0000493000,
+        702: 0.0000434000,
+        704: 0.0000367000,
+        706: 0.0000319000,
+        708: 0.0000283000,
+        710: 0.0000250900,
+        712: 0.0000231000,
+        714: 0.0000222300,
+        716: 0.0000200000,
+        718: 0.0000173000,
+        720: 0.0000149000,
+        722: 0.0000138000,
+        724: 0.0000132000,
+        726: 0.0000150800,
+        728: 0.0000135000,
+        730: 0.0000129000,
+        732: 0.0000113550,
+        734: 0.0000121750,
+        736: 0.0000113000,
+        738: 0.0000134000,
+        740: 0.0000115000,
+        742: 0.0000104000,
+        744: 0.0000142000,
+        746: 0.0000104000,
+        748: 0.0000103870,
+        750: 0.0000119600,
+        752: 0.0000105000,
+        754: 0.0000074100,
+        756: 0.0000123800,
+        758: 0.0000158000,
+        760: 0.0000087300,
+        762: 0.0000097560,
+        764: 0.0000129300,
+        766: 0.0000165000,
+        768: 0.0000151000,
+        770: 0.0000150000,
+        772: 0.0000136790,
+        774: 0.0000183800,
+        776: 0.0000155000,
+        778: 0.0000097800,
+        780: 0.0000141000}}
+
+LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS = CaseInsensitiveMapping(
+    {'Kinoton 75P': SpectralPowerDistribution(
+        'Kinoton 75P',
+        LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA.get(
+            'Kinoton 75P'))})
+"""
+Projectors and Xenon Arc Lamps.
+
+References
+----------
+.. [3]  Houston, J. (2015). Private Discussion with Mansencal, T.
+
+LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS : CaseInsensitiveMapping
+    **{'Kinoton 75P', }**
 """
 
 LIGHT_SOURCES_RELATIVE_SPDS = CaseInsensitiveMapping(
@@ -4882,3 +5106,5 @@ LIGHT_SOURCES_RELATIVE_SPDS.update(
     LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS)
 LIGHT_SOURCES_RELATIVE_SPDS.update(
     LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS)
+LIGHT_SOURCES_RELATIVE_SPDS.update(
+    LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS)

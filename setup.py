@@ -49,15 +49,14 @@ DOCS_REQUIREMENTS = ['sphinx>=1.2.2',
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',
-                      'mock>=1.0.1',
                       'nose>=1.3.4']
 
 if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += [
-        'mock>=1.0.1']
+        'mock==1.0.1']
 
 setup(name='colour-science',
-      version='0.3.5',
+      version='0.3.6',
       author=__author__,
       author_email=__email__,
       include_package_data=True,
@@ -76,9 +75,11 @@ setup(name='colour-science',
       classifiers=['Development Status :: 3 - Alpha',
                    'Environment :: Console',
                    'Intended Audience :: Developers',
+                   'Intended Audience :: Science/Research',
+                   'License :: OSI Approved',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python :: 2.6',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.4',
-                   'Topic :: Utilities'])
+                   'Topic :: Scientific/Engineering'])

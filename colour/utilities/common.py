@@ -68,11 +68,11 @@ def handle_numpy_errors(**kwargs):
 
     context = np.errstate(**kwargs)
 
-    def wrapper(object):
-        @functools.wraps(object)
+    def wrapper(function):
+        @functools.wraps(function)
         def wrapped(*args, **kwargs):
             with context:
-                return object(*args, **kwargs)
+                return function(*args, **kwargs)
 
         return wrapped
 
@@ -85,13 +85,13 @@ print_numpy_errors = handle_numpy_errors(all='print')
 warn_numpy_errors = handle_numpy_errors(all='warn')
 
 
-def ignore_python_warnings(object):
+def ignore_python_warnings(function):
     """
     Decorator for ignoring *Python* warnings.
 
     Parameters
     ----------
-    object : object
+    function : object
         Object to decorate.
 
     Returns
@@ -106,12 +106,12 @@ def ignore_python_warnings(object):
     >>> f()
     """
 
-    @functools.wraps(object)
+    @functools.wraps(function)
     def wrapped(*args, **kwargs):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
 
-            return object(*args, **kwargs)
+            return function(*args, **kwargs)
 
     return wrapped
 
@@ -163,7 +163,7 @@ def is_openimageio_installed(raise_exception=False):
     """
 
     try:
-        import OpenImageIO
+        import OpenImageIO  # noqa
 
         return True
     except ImportError as error:
@@ -195,9 +195,9 @@ def is_scipy_installed(raise_exception=False):
 
     try:
         # Importing *scipy* Api features used in *Colour*.
-        import scipy.interpolate
-        import scipy.ndimage
-        import scipy.spatial
+        import scipy.interpolate  # noqa
+        import scipy.ndimage  # noqa
+        import scipy.spatial  # noqa
 
         return True
     except ImportError as error:
@@ -259,7 +259,7 @@ def is_string(data):
     False
     """
 
-    return True if isinstance(data, basestring) else False
+    return True if isinstance(data, basestring) else False  # noqa
 
 
 def is_numeric(x):

@@ -15,7 +15,11 @@ if sys.version_info[:2] <= (2, 6):
 else:
     import unittest
 
-from colour.utilities import Structure, Lookup, CaseInsensitiveMapping
+from colour.utilities import (
+    ArbitraryPrecisionMapping,
+    Structure,
+    Lookup,
+    CaseInsensitiveMapping)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
@@ -24,9 +28,156 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestStructure',
+__all__ = ['TestArbitraryPrecisionMapping',
+           'TestStructure',
            'TestLookup',
            'TestCaseInsensitiveMapping']
+
+
+class TestArbitraryPrecisionMapping(unittest.TestCase):
+    """
+    Defines
+    :class:`colour.utilities.data_structures.ArbitraryPrecisionMapping` class
+    units tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('key_decimals',)
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(ArbitraryPrecisionMapping))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__setitem__',
+                            '__getitem__',
+                            '__delitem__',
+                            '__contains__',
+                            '__iter__',
+                            '__len__')
+
+        for method in required_methods:
+            self.assertIn(method, dir(ArbitraryPrecisionMapping))
+
+    def test__setitem__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__setitem__`  # noqa
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        self.assertEqual(mapping, data)
+
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        self.assertListEqual(list(mapping.keys()), [0.2])
+
+    def test__getitem__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__getitem__`  # noqa
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        self.assertEqual(mapping[0.2], 'John')
+
+        self.assertEqual(mapping[0.1999999998], 'Nemo')
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'Nemo'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        self.assertEqual(mapping[0.2], 'Nemo')
+
+    def test__delitem__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__delitem__`  # noqa
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        del mapping[0.2]
+
+        self.assertNotIn(0.2, mapping)
+
+        del mapping[0.1999999998]
+
+        self.assertNotIn(0.1999999998, mapping)
+
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        del mapping[0.2]
+
+        self.assertEqual(mapping, {})
+
+    def test__contains__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__contains__`  # noqa
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        self.assertIn(0.2, mapping)
+
+        self.assertIn(0.1999999998, mapping)
+
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        self.assertIn(0.2, mapping)
+
+        self.assertNotIn(0.1999999, mapping)
+
+    def test__iter__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__iter__`  # noqa
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        self.assertListEqual(sorted([item for item in mapping]),
+                             [0.1999999998, 0.2])
+
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        self.assertListEqual(sorted([item for item in mapping]),
+                             [0.2])
+
+    def test__len__(self):
+        """
+        Tests
+        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__len__`
+        method.
+        """
+
+        data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
+
+        self.assertEqual(len(mapping), 2)
+
+        mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
+
+        self.assertEqual(len(mapping), 1)
 
 
 class TestStructure(unittest.TestCase):
@@ -34,6 +185,19 @@ class TestStructure(unittest.TestCase):
     Defines :class:`colour.utilities.data_structures.Structure` class units
     tests methods.
     """
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__getattr__',
+                            '__setattr__',
+                            '__delattr__',
+                            'update')
+
+        for method in required_methods:
+            self.assertIn(method, dir(Structure))
 
     def test_Structure(self):
         """
@@ -93,6 +257,17 @@ class TestLookup(unittest.TestCase):
     methods.
     """
 
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('first_key_from_value',
+                            'keys_from_value')
+
+        for method in required_methods:
+            self.assertIn(method, dir(Lookup))
+
     def test_first_key_from_value(self):
         """
         Tests
@@ -120,6 +295,26 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     Defines :class:`colour.utilities.data_structures.CaseInsensitiveMapping`
     class unit tests methods.
     """
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('__setitem__',
+                            '__getitem__',
+                            '__delitem__',
+                            '__contains__',
+                            '__iter__',
+                            '__len__',
+                            '__eq__',
+                            '__ne__',
+                            '__repr__',
+                            'copy',
+                            'lower_items')
+
+        for method in required_methods:
+            self.assertIn(method, dir(CaseInsensitiveMapping))
 
     def test__setitem__(self):
         """

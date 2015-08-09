@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from .dataset import *
+from .dataset import *  # noqa
 from . import dataset
 from .vonkries import (
     chromatic_adaptation_matrix_VonKries,
