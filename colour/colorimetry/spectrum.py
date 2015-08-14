@@ -1738,13 +1738,12 @@ class SpectralPowerDistribution(object):
         elif method == 'pchip':
             interpolator = PchipInterpolator
         elif method == 'sprague':
-            if is_uniform:
-                interpolator = SpragueInterpolator
-            else:
-                raise RuntimeError(
-                    ('"Sprague" interpolator can only be used for '
-                     'interpolating functions having a uniformly spaced '
-                     'independent variable!'))
+            if not is_uniform:
+                warning(('"Sprague" interpolator should only be used for '
+                         'interpolating functions having a uniformly spaced '
+                         'independent variable!'))
+
+            interpolator = SpragueInterpolator
         else:
             raise ValueError(
                 'Undefined "{0}" interpolator!'.format(method))

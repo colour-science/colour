@@ -17,13 +17,11 @@ Defines classes for interpolating variables.
 
 from __future__ import division, unicode_literals
 
-import bisect
 import numpy as np
 
 from colour.utilities import (
     as_numeric,
     is_scipy_installed,
-    is_uniform,
     steps,
     warning)
 
@@ -350,9 +348,6 @@ class SpragueInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-            assert is_uniform(value), (
-                '"x" independent variable is not uniform!')
-
             value_steps = steps(value)[0]
 
             xp1 = value[0] - value_steps * 2
@@ -429,10 +424,7 @@ class SpragueInterpolator(object):
             Interpolated value(s).
         """
 
-        try:
-            return np.array([self.__evaluate(element) for element in x])
-        except TypeError:
-            return self.__evaluate(x)
+        return self.__evaluate(x)
 
     def __evaluate(self, x):
         """
@@ -449,13 +441,15 @@ class SpragueInterpolator(object):
             Interpolated point values.
         """
 
+        x = np.asarray(x)
+
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
 
         if x in self.__x:
             return self.__y[np.where(self.__x == x)][0]
 
-        i = bisect.bisect(self.__xp, x) - 1
+        i = np.searchsorted(self.__xp, x) - 1
         X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])
 
         r = self.__yp
