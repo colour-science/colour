@@ -446,9 +446,6 @@ class SpragueInterpolator(object):
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
 
-        if x in self.__x:
-            return self.__y[np.where(self.__x == x)][0]
-
         i = np.searchsorted(self.__xp, x) - 1
         X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])
 
