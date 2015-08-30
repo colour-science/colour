@@ -513,7 +513,6 @@ if is_scipy_installed():
             super(CubicSplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
 
-
     class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         """
         Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
