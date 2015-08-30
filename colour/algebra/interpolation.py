@@ -498,9 +498,10 @@ class SpragueInterpolator(object):
 
 
 if is_scipy_installed():
-    from scipy.interpolate import PchipInterpolator, interp1d
+    import scipy.interpolate
 
-    class CubicSplineInterpolator(interp1d):
+
+    class CubicSplineInterpolator(scipy.interpolate.interp1d):
         """
         Interpolates a 1-D function using cubic spline interpolation.
 
@@ -510,11 +511,80 @@ if is_scipy_installed():
         """
 
         def __init__(self, *args, **kwargs):
-            # TODO: Implements proper wrapper to ensure return values
-            # consistency and avoid having to cast to numeric in
-            # :meth:`SpectralPowerDistribution.interpolate` method.
             super(CubicSplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
+
+
+    class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+        """
+        Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+        Polynomial interpolation.
+
+        Notes
+        -----
+        This class is a wrapper around *scipy.interpolate.PchipInterpolator*
+        class.
+        """
+
+        def __init__(self, x=None, y=None, *args, **kwargs):
+            super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
+
+            self.__x = x
+            self.__y = y
+
+        @property
+        def x(self):
+            """
+            Property for **self.__x** private attribute.
+
+            Returns
+            -------
+            array_like
+                self.__x
+            """
+
+            return self.__x
+
+        @x.setter
+        def x(self, value):
+            """
+            Setter for **self.__x** private attribute.
+
+            Parameters
+            ----------
+            value : array_like
+                Attribute value.
+            """
+
+            raise AttributeError('"{0}" attribute is read only!'.format('x'))
+
+        @property
+        def y(self):
+            """
+            Property for **self.__y** private attribute.
+
+            Returns
+            -------
+            array_like
+                self.__y
+            """
+
+            return self.__y
+
+        @y.setter
+        def y(self, value):
+            """
+            Setter for **self.__y** private attribute.
+
+            Parameters
+            ----------
+            value : array_like
+                Attribute value.
+            """
+
+            raise AttributeError('"{0}" attribute is read only!'.format('y'))
+
+
 else:
     warning(('"scipy.interpolate.PchipInterpolator" and '
              '"scipy.interpolate.interp1d" interpolators are not available, '
