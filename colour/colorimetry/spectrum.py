@@ -25,7 +25,7 @@ import itertools
 import numpy as np
 
 from colour.algebra import (
-    Extrapolator1d,
+    Extrapolator,
     LinearInterpolator,
     SpragueInterpolator,
     CubicSplineInterpolator,
@@ -1587,7 +1587,7 @@ class SpectralPowerDistribution(object):
         array(88.1...)
         """
 
-        extrapolator = Extrapolator1d(
+        extrapolator = Extrapolator(
             LinearInterpolator(self.wavelengths, self.values),
             method=method, left=left, right=right)
 

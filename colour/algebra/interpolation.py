@@ -500,7 +500,6 @@ class SpragueInterpolator(object):
 if is_scipy_installed():
     import scipy.interpolate
 
-
     class CubicSplineInterpolator(scipy.interpolate.interp1d):
         """
         Interpolates a 1-D function using cubic spline interpolation.

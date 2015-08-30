@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 from .coordinates import *  # noqa
 from . import coordinates
-from .extrapolation import Extrapolator1d
+from .extrapolation import Extrapolator
 from .interpolation import (LinearInterpolator,
                             SpragueInterpolator,
                             CubicSplineInterpolator,
@@ -15,7 +15,7 @@ from .random import random_triplet_generator
 
 __all__ = []
 __all__ += coordinates.__all__
-__all__ += ['Extrapolator1d']
+__all__ += ['Extrapolator']
 __all__ += ['LinearInterpolator',
             'SpragueInterpolator',
             'CubicSplineInterpolator',

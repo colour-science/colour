@@ -7,7 +7,7 @@ Extrapolation
 
 Defines classes for extrapolating variables:
 
--   :class:`Extrapolator1d`: 1-D function extrapolation.
+-   :class:`Extrapolator`: 1-D function extrapolation.
 """
 
 from __future__ import division, unicode_literals
@@ -23,16 +23,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['Extrapolator1d']
+__all__ = ['Extrapolator']
 
 
-class Extrapolator1d(object):
+class Extrapolator(object):
     """
     Extrapolates the 1-D function of given interpolator.
 
-    The Extrapolator1d acts as a wrapper around a given *Colour* or *scipy*
-    interpolator class instance with compatible signature. Two extrapolation
-    methods are available:
+    The :class:`Extrapolator` class acts as a wrapper around a given *Colour*
+    or *scipy* interpolator class instance with compatible signature.
+    Two extrapolation methods are available:
 
     -   *Linear*: Linearly extrapolates given points using the slope defined by
         the interpolator boundaries (xi[0], xi[1]) if x < xi[0] and
@@ -78,7 +78,7 @@ class Extrapolator1d(object):
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator1d(interpolator)
+    >>> extrapolator = Extrapolator(interpolator)
     >>> extrapolator(1)
     -1.0
 
@@ -92,7 +92,7 @@ class Extrapolator1d(object):
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator1d(interpolator, method='Constant')
+    >>> extrapolator = Extrapolator(interpolator, method='Constant')
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 1.,  1.,  3.,  3.])
 
@@ -101,7 +101,7 @@ class Extrapolator1d(object):
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator1d(interpolator, method='Constant', left=0)
+    >>> extrapolator = Extrapolator(interpolator, method='Constant', left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  3.,  3.])
     """
@@ -248,12 +248,12 @@ class Extrapolator1d(object):
 
     def __call__(self, x):
         """
-        Evaluates the Extrapolator1d at given point(s).
+        Evaluates the Extrapolator at given point(s).
 
         Parameters
         ----------
         x : numeric or array_like
-            Point(s) to evaluate the Extrapolator1d at.
+            Point(s) to evaluate the Extrapolator at.
 
         Returns
         -------
@@ -274,7 +274,7 @@ class Extrapolator1d(object):
         Parameters
         ----------
         x : ndarray
-            Points to evaluate the Extrapolator1d at.
+            Points to evaluate the Extrapolator at.
 
         Returns
         -------

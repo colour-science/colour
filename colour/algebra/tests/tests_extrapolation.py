@@ -16,7 +16,7 @@ else:
     import unittest
 from itertools import permutations
 
-from colour.algebra import Extrapolator1d, LinearInterpolator
+from colour.algebra import Extrapolator, LinearInterpolator
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,12 +26,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestExtrapolator1d']
+__all__ = ['TestExtrapolator']
 
 
-class TestExtrapolator1d(unittest.TestCase):
+class TestExtrapolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.extrapolation.Extrapolator1d` class units
+    Defines :func:`colour.algebra.extrapolation.Extrapolator` class units
     tests methods.
     """
 
@@ -43,7 +43,7 @@ class TestExtrapolator1d(unittest.TestCase):
         required_attributes = ('interpolator',)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(Extrapolator1d))
+            self.assertIn(attribute, dir(Extrapolator))
 
     def test_required_methods(self):
         """
@@ -53,22 +53,22 @@ class TestExtrapolator1d(unittest.TestCase):
         required_methods = ()
 
         for method in required_methods:
-            self.assertIn(method, dir(Extrapolator1d))
+            self.assertIn(method, dir(Extrapolator))
 
     def test___call__(self):
         """
-        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__`
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
         """
 
-        extrapolator = Extrapolator1d(
+        extrapolator = Extrapolator(
             LinearInterpolator(
                 np.array([5, 6, 7]),
                 np.array([5, 6, 7])))
         np.testing.assert_almost_equal(extrapolator((4, 8)), (4., 8.))
         self.assertEqual(extrapolator(4), 4.)
 
-        extrapolator = Extrapolator1d(
+        extrapolator = Extrapolator(
             LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
@@ -77,7 +77,7 @@ class TestExtrapolator1d(unittest.TestCase):
                                        (1., 1., 3., 3.))
         self.assertEqual(extrapolator(0.1), 1.)
 
-        extrapolator = Extrapolator1d(
+        extrapolator = Extrapolator(
             LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
@@ -87,7 +87,7 @@ class TestExtrapolator1d(unittest.TestCase):
                                        (0., 0., 3., 3.))
         self.assertEqual(extrapolator(0.1), 0.)
 
-        extrapolator = Extrapolator1d(
+        extrapolator = Extrapolator(
             LinearInterpolator(
                 np.array([3, 4, 5]),
                 np.array([1, 2, 3])),
@@ -100,14 +100,14 @@ class TestExtrapolator1d(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :func:`colour.algebra.extrapolation.Extrapolator1d.__call__`
+        Tests :func:`colour.algebra.extrapolation.Extrapolator.__call__`
         method nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            extrapolator = Extrapolator1d(
+            extrapolator = Extrapolator(
                 LinearInterpolator(np.array(case), np.array(case)))
             extrapolator(case[0])
 
