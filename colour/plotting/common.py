@@ -844,6 +844,7 @@ def image_plot(image,
                label_size=15,
                label_colour=None,
                label_alpha=0.85,
+               interpolation='nearest',
                **kwargs):
     """
     Plots given image.
@@ -860,6 +861,11 @@ def image_plot(image,
         Image label colour.
     label_alpha: numeric, optional
         Image label alpha.
+    interpolation: unicode, optional
+        **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
+        'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
+        'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'}**
+        Image display interpolation.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -883,7 +889,7 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    pylab.imshow(np.clip(image, 0, 1))
+    pylab.imshow(np.clip(image, 0, 1), interpolation=interpolation)
 
     height, _width, _channels = image.shape
 
