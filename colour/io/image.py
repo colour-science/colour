@@ -72,6 +72,10 @@ def read_image(path, bit_depth='float32'):
     ndarray
         Image as a ndarray.
 
+    Notes
+    -----
+    -   For convenience, single channel images are squeezed to 2d arrays.
+
     Examples
     --------
     >>> import os
@@ -87,10 +91,11 @@ def read_image(path, bit_depth='float32'):
         image = ImageInput.open(path)
         specification = image.spec()
 
-        return np.array(image.read_image(bit_depth)).reshape(
-            (specification.height,
-             specification.width,
-             specification.nchannels))
+        shape = (specification.height,
+                 specification.width,
+                 specification.nchannels)
+
+        return np.squeeze(np.array(image.read_image(bit_depth)).reshape(shape))
 
 
 def write_image(image, path, bit_depth='float32'):
