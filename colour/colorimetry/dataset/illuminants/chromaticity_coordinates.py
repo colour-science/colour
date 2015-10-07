@@ -90,6 +90,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
          'F8': (0.34588, 0.35875),
          'F9': (0.37417, 0.37281),
          'F10': (0.34609, 0.35986),
+         'F11': (0.38052, 0.37713),
          'F12': (0.43695, 0.40441)}))
 """
 *CIE* illuminant chromaticity coordinates for
