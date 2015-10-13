@@ -891,7 +891,7 @@ def image_plot(image,
 
     pylab.imshow(np.clip(image, 0, 1), interpolation=interpolation)
 
-    height, _width, _channels = image.shape
+    height = image.shape[0]
 
     pylab.text(0 + label_size,
                height - label_size,
