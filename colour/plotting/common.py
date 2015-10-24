@@ -29,6 +29,7 @@ import os
 from collections import namedtuple
 
 import matplotlib
+import matplotlib.cm
 import matplotlib.image
 import matplotlib.path
 import matplotlib.pyplot
@@ -845,6 +846,7 @@ def image_plot(image,
                label_colour=None,
                label_alpha=0.85,
                interpolation='nearest',
+               colour_map=matplotlib.cm.Greys_r,
                **kwargs):
     """
     Plots given image.
@@ -866,6 +868,8 @@ def image_plot(image,
         'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
         'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'}**
         Image display interpolation.
+    colour_map: unicode, optional
+        Colour map used to display single channel images.
     \*\*kwargs : \*\*
         Keywords arguments.
 
@@ -889,7 +893,9 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    pylab.imshow(np.clip(image, 0, 1), interpolation=interpolation)
+    pylab.imshow(np.clip(image, 0, 1),
+                 interpolation=interpolation,
+                 cmap=colour_map)
 
     height = image.shape[0]
 
