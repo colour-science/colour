@@ -19,7 +19,6 @@ from __future__ import division, unicode_literals
 
 import os
 import re
-import sys
 from collections import namedtuple
 from xml.etree import ElementTree
 from xml.dom import minidom
