@@ -161,7 +161,9 @@ class SpectralShape(object):
 
     Methods
     -------
+    __str__
     __repr__
+    __iter__
     __contains__
     __len__
     __eq__

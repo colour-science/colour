@@ -1932,7 +1932,9 @@ class TestSpectralShape(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__repr__',
+        required_methods = ('__init__',
+                            '__str__',
+                            '__repr__',
                             '__iter__',
                             '__contains__',
                             '__len__',
