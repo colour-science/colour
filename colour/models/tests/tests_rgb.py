@@ -9,12 +9,7 @@ from __future__ import division, unicode_literals
 
 import pickle
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.models import (

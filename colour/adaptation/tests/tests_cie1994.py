@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.adaptation.cie1994` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.adaptation import chromatic_adaptation_CIE1994

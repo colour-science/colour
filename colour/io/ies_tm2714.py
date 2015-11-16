@@ -1008,14 +1008,8 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
-        # *Element.iter* does not exist in *Python 2.6* and text must be
-        # stripped.
-        if sys.version_info[:2] <= (2, 6):
-            iterator = root.getiterator
-            text_conversion = lambda x: x.strip()
-        else:
-            iterator = root.iter
-            text_conversion = lambda x: x
+        iterator = root.iter
+        text_conversion = lambda x: x
 
         for object in (self.header, self):
             mapping = object.mapping

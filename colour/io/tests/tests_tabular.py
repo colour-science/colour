@@ -9,12 +9,7 @@ from __future__ import division, unicode_literals
 
 import os
 import shutil
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 import tempfile
 
 from colour.colorimetry import SpectralPowerDistribution

@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.io.xrite` module.
 from __future__ import division, unicode_literals
 
 import os
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.colorimetry import SpectralPowerDistribution
 from colour.io import read_spds_from_xrite_file
