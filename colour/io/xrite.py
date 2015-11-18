@@ -13,11 +13,8 @@ Defines input object for *X-Rite* spectral data files:
 from __future__ import division, unicode_literals
 
 import codecs
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
 import re
+from collections import OrderedDict
 
 from colour.colorimetry import SpectralPowerDistribution
 

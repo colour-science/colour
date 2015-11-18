@@ -45,11 +45,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import re
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 from colour.algebra import (
     Extrapolator,
