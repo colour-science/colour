@@ -15,7 +15,6 @@ Defines the common plotting objects:
 -   :func:`display`
 -   :func:`label_rectangles`
 -   :func:`equal_axes3d`
--   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
 -   :func:`multi_colour_plot`
@@ -71,7 +70,6 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'get_RGB_colourspace',
            'get_cmfs',
            'get_illuminant',
-           'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
            'multi_colour_plot',
@@ -175,8 +173,35 @@ Default plotting OECF / transfer function: *sRGB*.
 DEFAULT_PLOTTING_OECF : object
 """
 
-ColourParameter = namedtuple('ColourParameter',
-                             ('name', 'RGB', 'x', 'y0', 'y1'))
+
+class ColourParameter(
+    namedtuple('ColourParameter',
+               ('name', 'RGB', 'x', 'y0', 'y1'))):
+    """
+    Defines a data structure for plotting a colour polygon in various spectral
+    figures.
+
+    Parameters
+    ----------
+    name : unicode, optional
+        Colour name.
+    RGB : array_like, optional
+        RGB Colour.
+    x : numeric, optional
+        X data.
+    y0 : numeric, optional
+        Y0 data.
+    y1 : numeric, optional
+        Y1 data.
+    """
+
+    def __new__(cls, name=None, RGB=None, x=None, y0=None, y1=None):
+        """
+        Returns a new instance of the :class:`ColourParameter` class.
+        """
+
+        return super(ColourParameter, cls).__new__(
+            cls, name, RGB, x, y0, y1)
 
 
 def colour_cycle(**kwargs):
@@ -596,39 +621,12 @@ def get_illuminant(illuminant):
     return illuminant
 
 
-def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
-    """
-    Defines a factory for
-    :attr:`colour.plotting.plots.COLOUR_PARAMETER` attribute.
-
-    Parameters
-    ----------
-    name : unicode, optional
-        Colour name.
-    RGB : array_like, optional
-        RGB Colour.
-    x : numeric, optional
-        X data.
-    y0 : numeric, optional
-        Y0 data.
-    y1 : numeric, optional
-        Y1 data.
-
-    Returns
-    -------
-    ColourParameter
-        ColourParameter.
-    """
-
-    return ColourParameter(name, RGB, x, y0, y1)
-
-
 def colour_parameters_plot(colour_parameters,
                            y0_plot=True,
                            y1_plot=True,
                            **kwargs):
     """
-    Plots given colour colour_parameters.
+    Plots given colour colour parameters.
 
     Parameters
     ----------
@@ -648,15 +646,15 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(
+    >>> cp1 = ColourParameter(
     ...     x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(
+    >>> cp2 = ColourParameter(
     ...     x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
-    >>> cp3 = colour_parameter(
+    >>> cp3 = ColourParameter(
     ...     x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
-    >>> cp4 = colour_parameter(
+    >>> cp4 = ColourParameter(
     ...     x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
-    >>> cp5 = colour_parameter(
+    >>> cp5 = ColourParameter(
     ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
     >>> colour_parameters_plot(
     ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
@@ -745,7 +743,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> single_colour_plot(colour_parameter(RGB))  # doctest: +SKIP
+    >>> single_colour_plot(ColourParameter(RGB))  # doctest: +SKIP
     True
     """
 

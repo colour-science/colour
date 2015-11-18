@@ -231,14 +231,14 @@ Ti=1010.0, ui=0.4456812..., vi=0.3548261..., di=0.2515196...)]
     return table
 
 
-def planckian_table_minimal_distance_index(planckian_table):
+def planckian_table_minimal_distance_index(planckian_table_):
     """
     Returns the shortest distance index in given planckian table using
     Ohno (2013) method.
 
     Parameters
     ----------
-    planckian_table : list
+    planckian_table_ : list
         Planckian table.
 
     Returns
@@ -257,7 +257,7 @@ def planckian_table_minimal_distance_index(planckian_table):
     9
     """
 
-    distances = [x.di for x in planckian_table]
+    distances = [x.di for x in planckian_table_]
     return distances.index(min(distances))
 
 

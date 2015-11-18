@@ -1723,13 +1723,13 @@ class SpectralPowerDistribution(object):
         shape.end = min(shape.end, np.floor(spd_shape.end))
 
         wavelengths, values = self.wavelengths, self.values
-        is_uniform = self.is_uniform()
+        uniform = self.is_uniform()
 
         if is_string(method):
             method = method.lower()
 
         if method is None:
-            if is_uniform:
+            if uniform:
                 interpolator = SpragueInterpolator
             else:
                 interpolator = CubicSplineInterpolator
@@ -1740,7 +1740,7 @@ class SpectralPowerDistribution(object):
         elif method == 'pchip':
             interpolator = PchipInterpolator
         elif method == 'sprague':
-            if not is_uniform:
+            if not uniform:
                 warning(('"Sprague" interpolator should only be used for '
                          'interpolating functions having a uniformly spaced '
                          'independent variable!'))

@@ -21,9 +21,9 @@ from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
 from colour.models import XYZ_to_sRGB, xyY_to_XYZ
 from colour.plotting import (
+    ColourParameter,
     boundaries,
     canvas,
-    colour_parameter,
     decorate,
     display,
     multi_colour_plot)
@@ -82,7 +82,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
-            colour_parameter(label.title(),
+            ColourParameter(label.title(),
                              np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'

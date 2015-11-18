@@ -430,7 +430,7 @@ def RGB_identity_cube(plane=None,
 def RGB_colourspaces_gamuts_plot(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
-                                 grid=True,
+                                 display_grid=True,
                                  grid_segments=10,
                                  spectral_locus=False,
                                  spectral_locus_colour=None,
@@ -449,7 +449,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -579,7 +579,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
-    if grid:
+    if display_grid:
         if reference_colourspace == 'CIE Lab':
             limits = np.array([[-450, 450], [-450, 450]])
         elif reference_colourspace == 'CIE Luv':
@@ -617,7 +617,7 @@ def RGB_scatter_plot(RGB,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
                      segments=8,
-                     grid=True,
+                     display_grid=True,
                      grid_segments=10,
                      spectral_locus=False,
                      spectral_locus_colour=None,
@@ -641,7 +641,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspaces to plot the gamuts.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -703,7 +703,7 @@ def RGB_scatter_plot(RGB,
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,
-        grid=grid,
+        display_grid=display_grid,
         grid_segments=grid_segments,
         spectral_locus=spectral_locus,
         spectral_locus_colour=spectral_locus_colour,

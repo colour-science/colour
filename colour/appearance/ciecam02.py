@@ -776,15 +776,15 @@ def opponent_colour_dimensions_forward(RGB):
     return ab
 
 
-def opponent_colour_dimensions_reverse(P, h):
+def opponent_colour_dimensions_reverse(P_n, h):
     """
-    Returns opponent colour dimensions from given points :math:`P` and hue
+    Returns opponent colour dimensions from given points :math:`P_n` and hue
     :math:`h` in degrees for reverse CIECAM02 implementation.
 
     Parameters
     ----------
-    P : array_like
-        Points :math:`P`.
+    P_n : array_like
+        Points :math:`P_n`.
     h : numeric or array_like
         Hue :math:`h` in degrees.
 
@@ -795,13 +795,13 @@ def opponent_colour_dimensions_reverse(P, h):
 
     Examples
     --------
-    >>> p = np.array([30162.890815335879, 24.237205467134817, 1.05])
+    >>> P_n = np.array([30162.890815335879, 24.237205467134817, 1.05])
     >>> h = -140.9515673417281
-    >>> opponent_colour_dimensions_reverse(p, h)  # doctest: +ELLIPSIS
+    >>> opponent_colour_dimensions_reverse(P_n, h)  # doctest: +ELLIPSIS
     array([-0.0006241..., -0.0005062...])
     """
 
-    P_1, P_2, P_3 = tsplit(P)
+    P_1, P_2, P_3 = tsplit(P_n)
     hr = np.radians(h)
 
     sin_hr = np.sin(hr)
@@ -1349,9 +1349,9 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
-    P = tstack((P_1, P_2, P_3))
+    P_n = tstack((P_1, P_2, P_3))
 
-    return P
+    return P_n
 
 
 def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):

@@ -42,11 +42,11 @@ from colour.colorimetry import (
     wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
+    ColourParameter,
     DEFAULT_PLOTTING_OECF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
-    colour_parameter,
     colour_parameters_plot,
     decorate,
     display,
@@ -136,7 +136,7 @@ def single_spd_plot(spd,
     settings.update(kwargs)
 
     return colour_parameters_plot(
-        [colour_parameter(x=x[0], y1=x[1], RGB=x[2])
+        [ColourParameter(x=x[0], y1=x[1], RGB=x[2])
          for x in tuple(zip(wavelengths, y1, colours))],
         **settings)
 
@@ -456,7 +456,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         'x_tighten': True}
     settings.update(kwargs)
 
-    return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
+    return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
                                    for x in tuple(zip(wavelengths, colours))],
                                   **settings)
 
@@ -620,7 +620,7 @@ def blackbody_spectral_radiance_plot(
                 'aspect': None,
                 'standalone': False}
 
-    single_colour_plot(colour_parameter(name='', RGB=RGB), **settings)
+    single_colour_plot(ColourParameter(name='', RGB=RGB), **settings)
 
     settings = {
         'standalone': True}
@@ -679,6 +679,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'y_ticker': False}
     settings.update(kwargs)
 
-    return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
+    return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
                                    for x in tuple(zip(temperatures, colours))],
                                   **settings)

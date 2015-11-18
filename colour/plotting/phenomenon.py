@@ -26,9 +26,9 @@ from colour.phenomenons.rayleigh import (
     STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (
     ASTM_G_173_ETR,
+    ColourParameter,
     boundaries,
     canvas,
-    colour_parameter,
     decorate,
     display,
     get_cmfs,
@@ -165,7 +165,7 @@ def the_blue_sky_plot(
         'standalone': False}
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(colour_parameter('', normalise(blue_sky_color)),
+    single_colour_plot(ColourParameter('', normalise(blue_sky_color)),
                        **settings)
 
     settings = {'standalone': True}

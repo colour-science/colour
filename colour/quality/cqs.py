@@ -357,8 +357,8 @@ def CCT_factor(reference_data, XYZ_r):
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []
-    for vs_colorimetry_data in reference_data:
-        _name, XYZ, _Lab, _C = vs_colorimetry_data
+    for vs_colorimetry_data_ in reference_data:
+        _name, XYZ, _Lab, _C = vs_colorimetry_data_
         XYZ_a = chromatic_adaptation_VonKries(XYZ,
                                               XYZ_r,
                                               XYZ_w,
@@ -368,33 +368,32 @@ def CCT_factor(reference_data, XYZ_r):
         Labs.append(Lab)
 
     G_r = gamut_area(Labs) / D65_GAMUT_AREA
-    CCT_factor = 1 if G_r > 1 else G_r
+    CCT_f = 1 if G_r > 1 else G_r
 
-    return CCT_factor
+    return CCT_f
 
 
-def scale_conversion(D_E_ab, CCT_factor, scaling_factor=3.104):
+def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the correlated colour temperature factor penalizing lamps with
-    extremely low correlated colour temperatures.
+    Returns the colour quality scale for given :math:`|Delta E_{ab}` value and
+    given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
-    reference_data : VS_ColorimetryData
-        Reference colorimetry data.
-    spd_reference : SpectralPowerDistribution
-        Reference spectral power distribution.
-    cmfs : XYZ_ColourMatchingFunctions
-        Standard observer colour matching functions.
+    D_E_ab : numeric
+        :math:`|Delta E_{ab}` value.
+    CCT_f : numeric
+        Correlated colour temperature penalizing factor.
+    scaling_f : numeric, optional
+        Scaling factor constant.
 
     Returns
     -------
     numeric
-        Correlated colour temperature factor.
+        Colour quality scale.
     """
 
-    Q_a = (10 * np.log(np.exp((100 - scaling_factor * D_E_ab) / 10) + 1) *
-           CCT_factor)
+    Q_a = 10 * np.log(np.exp((100 - scaling_f * D_E_ab) / 10) + 1) * CCT_f
 
     return Q_a
 
@@ -423,7 +422,7 @@ def delta_E_RMS(cqs_data, attribute):
                            cqs_data.values()]))
 
 
-def colour_quality_scales(test_data, reference_data, CCT_factor):
+def colour_quality_scales(test_data, reference_data, CCT_f):
     """
     Returns the *VS test colour samples* rendering scales.
 
@@ -433,7 +432,7 @@ def colour_quality_scales(test_data, reference_data, CCT_factor):
         Test data.
     reference_data : list
         Reference data.
-    CCT_factor : numeric
+    CCT_f : numeric
         Factor penalizing lamps with extremely low correlated colour
         temperatures.
 
@@ -443,7 +442,7 @@ def colour_quality_scales(test_data, reference_data, CCT_factor):
         *VS Test colour samples* colour rendering scales.
     """
 
-    colour_quality_scales = {}
+    Q_as = {}
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
         D_E_ab = np.sqrt(
@@ -454,8 +453,8 @@ def colour_quality_scales(test_data, reference_data, CCT_factor):
         else:
             D_Ep_ab = D_E_ab
 
-        Q_a = scale_conversion(D_Ep_ab, CCT_factor)
+        Q_a = scale_conversion(D_Ep_ab, CCT_f)
 
-        colour_quality_scales[i + 1] = VS_ColourQualityScaleData(
+        Q_as[i + 1] = VS_ColourQualityScaleData(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab)
-    return colour_quality_scales
+    return Q_as
