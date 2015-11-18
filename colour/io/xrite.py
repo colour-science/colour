@@ -12,12 +12,12 @@ Defines input object for *X-Rite* spectral data files:
 
 from __future__ import division, unicode_literals
 
+import codecs
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
 import re
-from codecs import open
 
 from colour.colorimetry import SpectralPowerDistribution
 
@@ -69,7 +69,7 @@ def read_spds_from_xrite_file(path):
     ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10']
     """
 
-    with open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
+    with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split('\n')
 
         xrite_spds = OrderedDict()

@@ -527,9 +527,9 @@ class SpectralShape(object):
         if self.__range is None:
             samples = round(
                 (self.__steps + self.__end - self.__start) / self.__steps)
-            range, current_steps = np.linspace(
+            range_, current_steps = np.linspace(
                 self.__start, self.__end, samples, retstep=True)
-            self.__range = np.around(range, DEFAULT_WAVELENGTH_DECIMALS)
+            self.__range = np.around(range_, DEFAULT_WAVELENGTH_DECIMALS)
 
             if current_steps != self.__steps:
                 self.__steps = current_steps
