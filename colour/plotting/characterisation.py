@@ -82,8 +82,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
-            ColourParameter(label.title(),
-                             np.clip(np.ravel(RGB), 0, 1)))
+            ColourParameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'
     matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
