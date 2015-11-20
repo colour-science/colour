@@ -14,7 +14,8 @@ Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------

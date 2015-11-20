@@ -10,7 +10,8 @@ Defines objects to compute corresponding chromaticities prediction.
 See Also
 --------
 `Corresponding Chromaticities Prediction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/corresponding/prediction.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
 ----------

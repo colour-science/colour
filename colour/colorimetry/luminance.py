@@ -20,7 +20,8 @@ The following methods are available:
 See Also
 --------
 `Luminance IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/luminance.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/luminance.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

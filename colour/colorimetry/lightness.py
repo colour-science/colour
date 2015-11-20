@@ -20,7 +20,8 @@ The following methods are available:
 See Also
 --------
 `Lightness IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lightness.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
 References
 ----------

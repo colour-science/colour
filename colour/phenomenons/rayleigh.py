@@ -14,7 +14,8 @@ Implements rayleigh scattering / optical depth in the atmosphere computation:
 See Also
 --------
 `Rayleigh Optical Depth - Scattering in the Atmosphere IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/phenomenons/rayleigh.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/phenomenons/rayleigh.ipynb>`_
 
 References
 ----------

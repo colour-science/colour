@@ -37,7 +37,8 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 See Also
 --------
 `Log Conversion IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/log.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/log.ipynb>`_
 
 References
 ----------
@@ -965,7 +966,8 @@ def log_to_linear(value, method='Cineon', **kwargs):
     --------
     >>> log_to_linear(0.45731961308541841)  # doctest: +ELLIPSIS
     0.18...
-    >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(0.41358840249244228,
+    ...     method='ACEScc')  # doctest: +ELLIPSIS
     array(0.18...)
     >>> log_to_linear(  # doctest: +ELLIPSIS
     ...     0.39100684261974583, method='PLog', log_reference=400)

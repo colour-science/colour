@@ -10,9 +10,11 @@ Defines objects for tristimulus values computation from spectral data.
 See Also
 --------
 `Colour Matching Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/cmfs.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 `Spectrum IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/spectrum.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

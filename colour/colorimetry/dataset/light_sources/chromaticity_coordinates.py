@@ -37,7 +37,8 @@ The following light sources are available:
 See Also
 --------
 `Light Sources IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/light_sources.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/light_sources.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

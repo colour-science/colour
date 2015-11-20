@@ -395,5 +395,6 @@ def __autodoc_process_docstring(app,
     for i, line in enumerate(lines):
         lines[i] = line.replace('# noqa', '')
 
+
 def setup(app):
     app.connect('autodoc-process-docstring', __autodoc_process_docstring)

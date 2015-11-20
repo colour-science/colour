@@ -13,7 +13,8 @@ Defines *colour quality scale* computation objects:
 See Also
 --------
 `Colour Quality Scale IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/quality/cqs.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------

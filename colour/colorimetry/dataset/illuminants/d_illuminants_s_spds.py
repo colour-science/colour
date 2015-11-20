@@ -12,7 +12,8 @@ power distributions involved in the computation of
 See Also
 --------
 `Illuminants IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
 ----------

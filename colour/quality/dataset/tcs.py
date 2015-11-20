@@ -16,7 +16,8 @@ follows::
 See Also
 --------
 `Colour Rendering Index IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/quality/cri.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/quality/cri.ipynb>`_
 
 References
 ----------
