@@ -140,7 +140,7 @@ ILLUMINANTS = CaseInsensitiveMapping(
 Aggregated *CIE* illuminants chromaticity coordinates.
 
 ILLUMINANTS : CaseInsensitiveMapping
-   **{'CIE 1931 2 Degree Standard Observer',
+    **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:

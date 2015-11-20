@@ -22,7 +22,7 @@ References
 .. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
         Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
         and interchange applications. Retrieved from
-        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/
+        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
 slog_manual.pdf
 .. [2]  Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from
         http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
