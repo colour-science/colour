@@ -630,7 +630,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -700,7 +700,7 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -983,7 +983,7 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     method : unicode, optional
         **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

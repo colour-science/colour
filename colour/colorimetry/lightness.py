@@ -58,7 +58,7 @@ def lightness_Glasser1958(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \*\*kwargs : \*\*, optional
+    **kwargs : **, optional
         Unused parameter provided for signature compatibility with other
         *Lightness* computation objects.
 
@@ -101,7 +101,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \*\*kwargs : \*\*, optional
+    **kwargs : **, optional
         Unused parameter provided for signature compatibility with other
         *Lightness* computation objects.
 
@@ -215,7 +215,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

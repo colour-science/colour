@@ -92,7 +92,7 @@ def single_spd_plot(spd,
         gray background, less saturated and smoother. [1]_
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -159,7 +159,7 @@ def multi_spd_plot(spds,
         Use spectral power distributions colours.
     normalise_spds_colours : bool
         Should spectral power distributions colours normalised.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -230,7 +230,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     ----------
     cmfs : unicode, optional
         Colour matching functions to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -260,7 +260,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     ----------
     cmfs : array_like, optional
         Colour matching functions to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -340,7 +340,7 @@ def single_illuminant_relative_spd_plot(
         Factory illuminant to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -375,7 +375,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -421,7 +421,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         Out of gamut colours will be clipped if *True* otherwise, the colours
         will be offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother. [1]_
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -469,7 +469,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     ----------
     function : unicode, optional
         *Lightness* function to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -498,7 +498,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     ----------
     functions : array_like, optional
         *Lightness* functions to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -576,7 +576,7 @@ def blackbody_spectral_radiance_plot(
         Standard observer colour matching functions.
     blackbody : unicode, optional
         Blackbody name.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -643,7 +643,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         Spectral shape to use as plot boundaries.
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

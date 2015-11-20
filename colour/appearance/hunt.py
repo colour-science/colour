@@ -241,7 +241,7 @@ def XYZ_to_Hunt(XYZ,
                 XYZ_p=None,
                 p=None,
                 S=None,
-                S_W=None,
+                S_w=None,
                 helson_judd_effect=False,
                 discount_illuminant=True):
     """
@@ -353,16 +353,16 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         warning('Unspecified "L_AS" argument, using approximation from "CCT": '
                 '"{0}"'.format(L_AS))
 
-    if S is None != S_W is None:
+    if S is None != S_w is None:
         raise ValueError('Either both stimulus scotopic response "S" and '
                          'reference white scotopic response "S_w" arguments '
                          'need to be specified or none of them!')
-    elif S is None and S_W is None:
+    elif S is None and S_w is None:
         S = Y
-        S_W = Y_w
+        S_w = Y_w
         warning('Unspecified stimulus scotopic response "S" and reference '
                 'white scotopic response "S_w" arguments, using '
-                'approximation: "{0}", "{1}"'.format(S, S_W))
+                'approximation: "{0}", "{1}"'.format(S, S_w))
 
     if p is None:
         warning('Unspecified simultaneous contrast / assimilation "p" '
@@ -436,8 +436,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # Computing the correlate of *brightness* :math:`Q`.
     # -------------------------------------------------------------------------
     # Computing achromatic signal :math:`A`.
-    A = achromatic_signal(L_AS, S, S_W, N_bb, A_a)
-    A_w = achromatic_signal(L_AS, S_W, S_W, N_bb, A_aw)
+    A = achromatic_signal(L_AS, S, S_w, N_bb, A_a)
+    A_w = achromatic_signal(L_AS, S_w, S_w, N_bb, A_aw)
 
     Q = brightness_correlate(A, A_w, M, surround.N_b)
     brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
@@ -886,8 +886,8 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
         Eccentricity factor :math:`e_s`.
     N_c : numeric or array_like
          Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric or array_like
-         Brightness surround induction factor :math:`N_b`.
+    N_cb : numeric or array_like
+         Chromatic background induction factor :math:`N_{cb}`.
     F_t : numeric or array_like
         Low luminance tritanopia factor :math:`F_t`.
 
@@ -934,8 +934,8 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
         Eccentricity factor :math:`e_s`.
     N_c : numeric or array_like
          Chromatic surround induction factor :math:`N_c`.
-    N_b : numeric or array_like
-         Brightness surround induction factor :math:`N_b`.
+    N_cb : numeric or array_like
+         Chromatic background induction factor :math:`N_{cb}`.
 
     Returns
     -------
@@ -1029,7 +1029,7 @@ def saturation_correlate(M, rgb_a):
     return s
 
 
-def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
+def achromatic_signal(L_AS, S, S_w, N_bb, A_a):
     """
     Returns the achromatic signal :math:`A`.
 
@@ -1055,16 +1055,16 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     --------
     >>> L_AS = 769.9376286541402
     >>> S = 20.0
-    >>> S_W = 100.0
+    >>> S_w = 100.0
     >>> N_bb = 0.72499999999999998
     >>> A_a = 18.982718664838487
-    >>> achromatic_signal(L_AS, S, S_W, N_bb, A_a)  # doctest: +ELLIPSIS
+    >>> achromatic_signal(L_AS, S, S_w, N_bb, A_a)  # doctest: +ELLIPSIS
     15.5068546...
     """
 
     L_AS = np.asarray(L_AS)
     S = np.asarray(S)
-    S_W = np.asarray(S_W)
+    S_w = np.asarray(S_w)
     N_bb = np.asarray(N_bb)
     A_a = np.asarray(A_a)
 
@@ -1075,11 +1075,11 @@ def achromatic_signal(L_AS, S, S_W, N_bb, A_a):
     F_LS += 0.2 * ((1 - (j ** 2)) ** 0.4) * ((5 * L_AS / 2.26) ** (1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
-    B_S = 0.5 / (1 + 0.3 * ((5 * L_AS / 2.26) * (S / S_W)) ** 0.3)
+    B_S = 0.5 / (1 + 0.3 * ((5 * L_AS / 2.26) * (S / S_w)) ** 0.3)
     B_S += 0.5 / (1 + 5 * (5 * L_AS / 2.26))
 
     # Computing adapted scotopic signal :math:`A_S`.
-    A_S = (f_n(F_LS * S / S_W) * 3.05 * B_S) + 0.3
+    A_S = (f_n(F_LS * S / S_w) * 3.05 * B_S) + 0.3
 
     # Computing achromatic signal :math:`A`.
     A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt((1 + (0.3 ** 2))))
@@ -1095,7 +1095,7 @@ def brightness_correlate(A, A_w, M, N_b):
     ----------
     A : numeric or array_like
          Achromatic signal :math:`A`.
-    A_a: numeric or array_like
+    A_w: numeric or array_like
         Achromatic post adaptation signal of the reference white :math:`A_w`.
     M : numeric or array_like
         Overall chromatic response :math:`M`.
@@ -1224,7 +1224,7 @@ def colourfulness_correlate(F_L, C_94):
     ----------
     F_L : numeric or array_like
         Luminance adaptation factor :math:`F_L`.
-    numeric
+    C_94 : numeric
         *Chroma* correlate :math:`C_94`.
 
     Returns

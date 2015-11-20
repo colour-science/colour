@@ -54,7 +54,7 @@ def luminance_Newhall1943(V, **kwargs):
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \*\*kwargs : \*\*, optional
+    **kwargs : **, optional
         Unused parameter provided for signature compatibility with other
         *luminance* computation objects.
 
@@ -97,7 +97,7 @@ def luminance_ASTMD153508(V, **kwargs):
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \*\*kwargs : \*\*, optional
+    **kwargs : **, optional
         Unused parameter provided for signature compatibility with other
         *luminance* computation objects.
 
@@ -137,9 +137,9 @@ def luminance_1976(Lstar, Y_n=100):
 
     Parameters
     ----------
-    L : numeric or array_like
+    Lstar : numeric or array_like
         *Lightness* :math:`L^*`
-    Yn : numeric or array_like
+    Y_n : numeric or array_like
         White reference *luminance* :math:`Y_n`.
 
     Returns
@@ -213,7 +213,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

@@ -174,7 +174,7 @@ def CMCCAT2000_reverse(XYZ_c,
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ_c : array_like
         *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_w : array_like
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.

@@ -210,7 +210,7 @@ def colour_cycle(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'colour_cycle_map', 'colour_cycle_count'}**
         Keywords arguments such as ``{'colour_cycle_map': unicode
         (Matplotlib colormap name), 'colour_cycle_count': int}``
@@ -242,7 +242,7 @@ def canvas(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'figure_size', }**
         Keywords arguments such as ``{'figure_size': array_like
         (width, height), }``
@@ -272,7 +272,7 @@ def camera(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'camera_aspect', 'elevation', 'azimuth'}**
         Keywords arguments such as ``{'camera_aspect': unicode
         (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
@@ -304,7 +304,7 @@ def decorate(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
         'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
         'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
@@ -384,7 +384,7 @@ def boundaries(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
         Keywords arguments such as ``{'bounding_box': array_like
         (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
@@ -427,7 +427,7 @@ def display(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         **{'standalone', 'filename'}**
         Keywords arguments such as ``{'standalone': bool (figure is shown),
         'filename': unicode (figure is saved as `filename`)}``
@@ -636,7 +636,7 @@ def colour_parameters_plot(colour_parameters,
         Plot y0 line.
     y1_plot : bool, optional
         Plot y1 line.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -732,7 +732,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     ----------
     colour_parameter : ColourParameter
         ColourParameter.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -780,7 +780,7 @@ def multi_colour_plot(colour_parameters,
         Colour text size.
     text_offset : numeric, optional
         Colour text offset.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -868,7 +868,7 @@ def image_plot(image,
         Image display interpolation.
     colour_map: unicode, optional
         Colour map used to display single channel images.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

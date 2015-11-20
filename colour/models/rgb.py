@@ -504,6 +504,8 @@ def RGB_to_RGB(RGB,
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
 
+    Returns
+    -------
     ndarray
         *RGB* colourspace array.
 

@@ -259,7 +259,7 @@ class Structure(dict):
 
     Parameters
     ----------
-    \*args : \*
+    *args : *
         Arguments.
     \*\*kwargs : dict
         Key / Value pairs.
@@ -369,9 +369,9 @@ class Structure(dict):
 
         Parameters
         ----------
-        \*args : \*
+        *args : *
             Arguments.
-        \*\*kwargs : \*\*
+        **kwargs : **
             Keywords arguments.
 
         Notes

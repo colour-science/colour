@@ -212,6 +212,8 @@ def in_array(a, b, tolerance=EPSILON):
         Array to test the elements from.
     b : array_like
         The values against which to test each value of array *a*.
+    tolerance : numeric, optional
+        Tolerance value.
 
     Returns
     -------

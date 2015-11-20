@@ -309,8 +309,12 @@ def CIECAM02_to_XYZ(J,
 
     Parameters
     ----------
-    CIECAM02_Specification : CIECAM02_Specification
-        CIECAM02 specification.
+    J : numeric or array_like
+        Correlate of *Lightness* :math:`J`.
+    C : numeric or array_like
+        Correlate of *chroma* :math:`C`.
+    h : numeric or array_like
+        *Hue* angle :math:`h` in degrees.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
@@ -684,6 +688,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     ----------
     RGB : array_like
         CMCCAT2000 transform sharpened *RGB* array.
+    F_L : array_like
+        *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
@@ -718,6 +724,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     ----------
     RGB : array_like
         CMCCAT2000 transform sharpened *RGB* array.
+    F_L : array_like
+        *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------

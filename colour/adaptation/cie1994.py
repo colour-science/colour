@@ -79,7 +79,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ_1 : array_like
         *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
     xy_o1 : array_like

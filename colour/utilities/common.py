@@ -44,7 +44,7 @@ def handle_numpy_errors(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

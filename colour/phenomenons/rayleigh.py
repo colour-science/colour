@@ -110,7 +110,7 @@ def air_refraction_index_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns
@@ -147,7 +147,7 @@ def air_refraction_index_Edlen1966(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns
@@ -185,7 +185,7 @@ def air_refraction_index_Peck1972(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns
@@ -320,7 +320,7 @@ def F_air_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns
@@ -358,7 +358,7 @@ def F_air_Young1981(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns

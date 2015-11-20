@@ -81,7 +81,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -217,7 +217,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -361,7 +361,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -509,7 +509,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -570,7 +570,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -630,7 +630,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -687,7 +687,7 @@ def single_transfer_function_plot(colourspace='Rec. 709', **kwargs):
     ----------
     colourspace : unicode, optional
         *RGB* Colourspace transfer function to plot.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
@@ -718,7 +718,7 @@ def multi_transfer_function_plot(colourspaces=None,
         Colourspaces transfer functions to plot.
     inverse : bool
         Plot inverse transfer functions.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns

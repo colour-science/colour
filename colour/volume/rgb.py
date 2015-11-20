@@ -56,7 +56,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    \*args : \*
+    *args : *
         Arguments.
 
     Returns
@@ -153,7 +153,7 @@ def RGB_colourspace_limits(colourspace,
     ----------
     colourspace : RGB_Colourspace
         *RGB* colourspace to compute the volume of.
-    illuminant_Lab : array_like, optional
+    illuminant : array_like, optional
         *Lab* colourspace *illuminant* chromaticity coordinates.
 
     Returns

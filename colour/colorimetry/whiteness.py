@@ -368,7 +368,7 @@ def whiteness(method='CIE 2004', **kwargs):
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
         'Ganz 1979', 'CIE 2004'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    **kwargs : **
         Keywords arguments.
 
     Returns
