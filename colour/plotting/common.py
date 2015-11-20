@@ -790,8 +790,8 @@ def multi_colour_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.57726450, 0.50453169))
+    >>> cp1 = ColourParameter(RGB=(0.45293517, 0.31732158, 0.26414773))
+    >>> cp2 = ColourParameter(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
     True
     """
