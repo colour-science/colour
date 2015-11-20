@@ -178,8 +178,8 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_wavelength_to_XYZ(self):
         """
-        Tests
-        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition.
+        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ`
+        definition.
         """
 
         np.testing.assert_almost_equal(
@@ -229,9 +229,8 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
-        Tests
-        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition
-        n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ`
+        definition n-dimensional arrays support.
         """
 
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')

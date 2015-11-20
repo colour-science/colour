@@ -184,16 +184,14 @@ class TestPlanckianTable(unittest.TestCase):
 
 class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
-    Defines
-    :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
-    definition unit tests methods.
+    Defines :func:`colour.temperature.cct.\
+planckian_table_minimal_distance_index` definition unit tests methods.
     """
 
     def test_planckian_table_minimal_distance_index(self):
         """
-        Tests
-        :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
-        definition.
+        Tests :func:`colour.temperature.cct.\
+planckian_table_minimal_distance_index` definition.
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(

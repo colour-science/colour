@@ -34,16 +34,14 @@ __all__ = ['TestCartesianToSpherical',
 
 class TestCartesianToSpherical(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`
-    definition unit tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_spherical` definition unit tests methods.
     """
 
     def test_cartesian_to_spherical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
-        definition.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_spherical` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -63,9 +61,8 @@ class TestCartesianToSpherical(unittest.TestCase):
 
     def test_n_dimensional_cartesian_to_spherical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_spherical` definition n-dimensional arrays support.
         """
 
         vector_i = np.array([3, 1, 6])
@@ -92,9 +89,8 @@ class TestCartesianToSpherical(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_cartesian_to_spherical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_spherical`  # noqa
-        definition nan support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_spherical` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -106,16 +102,14 @@ class TestCartesianToSpherical(unittest.TestCase):
 
 class TestSphericalToCartesian(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`
-    definition unit tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.\
+spherical_to_cartesian` definition unit tests methods.
     """
 
     def test_spherical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
-        definition.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+spherical_to_cartesian` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -138,9 +132,8 @@ class TestSphericalToCartesian(unittest.TestCase):
 
     def test_n_dimensional_spherical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+spherical_to_cartesian` definition n-dimensional arrays support.
         """
 
         vector_i = np.array([6.78232998, 1.08574654, 0.32175055])
@@ -167,9 +160,8 @@ class TestSphericalToCartesian(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_spherical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.spherical_to_cartesian`  # noqa
-        definition nan support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+spherical_to_cartesian` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -181,16 +173,14 @@ class TestSphericalToCartesian(unittest.TestCase):
 
 class TestCartesianToCylindrical(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`
-    definition unit tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_cylindrical` definition unit tests methods.
     """
 
     def test_cartesian_to_cylindrical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
-        definition.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_cylindrical` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -210,9 +200,8 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
     def test_n_dimensional_cartesian_to_cylindrical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_cylindrical` definition n-dimensional arrays support.
         """
 
         vector_i = np.array([3, 1, 6])
@@ -239,9 +228,8 @@ class TestCartesianToCylindrical(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_cartesian_to_cylindrical(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cartesian_to_cylindrical`  # noqa
-        definition nan support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_cylindrical` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -253,16 +241,14 @@ class TestCartesianToCylindrical(unittest.TestCase):
 
 class TestCylindricalToCartesian(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.algebra.coordinates.transformations.\
+cylindrical_to_cartesian` definition unit tests methods.
     """
 
     def test_cylindrical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
-        definition.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cylindrical_to_cartesian` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -285,9 +271,8 @@ class TestCylindricalToCartesian(unittest.TestCase):
 
     def test_n_dimensional_cylindrical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cylindrical_to_cartesian` definition n-dimensional arrays support.
         """
 
         vector_i = np.array([6.00000000, 0.32175055, 3.16227766])
@@ -314,9 +299,8 @@ class TestCylindricalToCartesian(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_cylindrical_to_cartesian(self):
         """
-        Tests
-        :func:`colour.algebra.coordinates.transformations.cylindrical_to_cartesian`  # noqa
-        definition nan support.
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cylindrical_to_cartesian` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

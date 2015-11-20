@@ -108,8 +108,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
     def test_normalised_primary_matrix(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
         """
 
@@ -165,8 +164,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
 
     def test_primaries_whitepoint(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition.
         """
 

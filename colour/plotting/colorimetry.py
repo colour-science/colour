@@ -290,7 +290,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
-            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]  # noqa
+            rgb = [reduce(lambda y, _: y * 0.5, range(i), x)  # noqa
+                   for x in rgb]
             wavelengths, values = tuple(
                 zip(*[(key, value) for key, value in getattr(cmfs_i, axis)]))
 

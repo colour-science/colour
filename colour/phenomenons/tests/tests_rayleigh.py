@@ -532,16 +532,14 @@ RAYLEIGH_SCATTERING_SPD_DATA = (
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Penndorf1957` definition unit tests methods.
     """
 
     def test_air_refraction_index_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Penndorf1957` definition.
         """
 
         self.assertAlmostEqual(
@@ -561,9 +559,8 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
 
     def test_n_dimensional_air_refraction_index_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -597,9 +594,8 @@ class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Penndorf1957`
-        definition nan support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Penndorf1957` definition nan support.
         """
 
         air_refraction_index_Penndorf1957(
@@ -614,9 +610,8 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
 
     def test_air_refraction_index_Edlen1966(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
-        definition.
+        Tests :func:`colour.phenomenons.\
+rayleigh.air_refraction_index_Edlen1966` definition.
         """
 
         self.assertAlmostEqual(
@@ -636,9 +631,8 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
 
     def test_n_dimensional_air_refraction_index_Edlen1966(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Edlen1966` definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -672,9 +666,8 @@ class TestAirRefractionIndexEdlen1966(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Edlen1966(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Edlen1966`
-        definition nan support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Edlen1966` definition nan support.
         """
 
         air_refraction_index_Edlen1966(
@@ -710,8 +703,7 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
 
     def test_n_dimensional_air_refraction_index_Peck1972(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        Tests :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
         definition n-dimensional arrays support.
         """
 
@@ -746,8 +738,7 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Peck1972(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
+        Tests :func:`colour.phenomenons.rayleigh.air_refraction_index_Peck1972`
         definition nan support.
         """
 
@@ -757,16 +748,14 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
 
 class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
     """
-    Defines
-    :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
-    definition unit tests methods.
+    Defines :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Bodhaine1999` definition unit tests methods.
     """
 
     def test_air_refraction_index_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
-        definition.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Bodhaine1999` definition.
         """
 
         self.assertAlmostEqual(
@@ -801,9 +790,8 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
 
     def test_n_dimensional_air_refraction_index_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
         """
 
         wl = 0.360
@@ -837,9 +825,8 @@ class TestAirRefractionIndexBodhaine1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.air_refraction_index_Bodhaine1999`
-        definition nan support.
+        Tests :func:`colour.phenomenons.rayleigh.\
+air_refraction_index_Bodhaine1999` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -913,9 +900,8 @@ class TestN2Depolarisation(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_N2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.N2_depolarisation` definition
+        nan support.
         """
 
         N2_depolarisation(
@@ -985,9 +971,8 @@ class TestO2Depolarisation(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_O2_depolarisation(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.O2_depolarisation` definition
+        nan support.
         """
 
         O2_depolarisation(
@@ -1045,9 +1030,8 @@ class TestF_airPenndorf1957(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_F_air_Penndorf1957(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Penndorf1957` definition
+        nan support.
         """
 
         F_air_Penndorf1957(
@@ -1104,9 +1088,8 @@ class TestF_airYoung1981(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_F_air_Young1981(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Young1981` definition
+        nan support.
         """
 
         F_air_Young1981(
@@ -1176,9 +1159,8 @@ class TestF_airBates1984(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_F_air_Bates1984(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bates1984` definition
+        nan support.
         """
 
         F_air_Bates1984(
@@ -1264,9 +1246,8 @@ class TestF_airBodhaine1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_F_air_Bodhaine1999(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.F_air_Bodhaine1999` definition
+        nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -1340,9 +1321,8 @@ class TestMolecularDensity(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_molecular_density(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.molecular_density` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.molecular_density` definition
+        nan support.
         """
 
         molecular_density(
@@ -1413,9 +1393,8 @@ class TestMeanMolecularWeights(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_mean_molecular_weights(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.mean_molecular_weights` definition
-        nan support.
+        Tests :func:`colour.phenomenons.rayleigh.mean_molecular_weights`
+        definition nan support.
         """
 
         mean_molecular_weights(
@@ -1481,9 +1460,8 @@ class TestGravityList1968(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_gravity_List1968(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.gravity_List1968` definition nan
-        support.
+        Tests :func:`colour.phenomenons.rayleigh.gravity_List1968` definition
+        nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -1585,9 +1563,8 @@ class TestScatteringCrossSection(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_scattering_cross_section(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.scattering_cross_section` definition
-        nan support.
+        Tests :func:`colour.phenomenons.rayleigh.scattering_cross_section`
+        definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -1721,9 +1698,8 @@ class TestRayleighOpticalDepth(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_rayleigh_optical_depth(self):
         """
-        Tests
-        :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth` definition
-        nan support.
+        Tests :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth`
+        definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

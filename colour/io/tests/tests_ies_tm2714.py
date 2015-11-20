@@ -207,8 +207,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
 
     def test_read(self, spd=None):
         """
-        Tests
-        :attr:`colour.io.iestm2714.IES_TM2714_Spd.read` method.
+        Tests :attr:`colour.io.iestm2714.IES_TM2714_Spd.read` method.
 
         Parameters
         ----------
@@ -234,8 +233,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests
-        :attr:`colour.io.iestm2714.IES_TM2714_Spd.write` method.
+        Tests :attr:`colour.io.iestm2714.IES_TM2714_Spd.write` method.
         """
 
         spd_r = IES_TM2714_Spd(

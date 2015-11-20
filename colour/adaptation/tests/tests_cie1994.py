@@ -26,9 +26,8 @@ __all__ = ['TestChromaticAdaptationCIE1994']
 
 class TestChromaticAdaptationCIE1994(unittest.TestCase):
     """
-    Defines
-    :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994` definition
-    unit tests methods.
+    Defines :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+    definition unit tests methods.
     """
 
     def test_chromatic_adaptation_CIE1994(self):

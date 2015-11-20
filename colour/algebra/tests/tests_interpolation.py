@@ -358,8 +358,7 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
 
 class TestLinearInterpolator(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.interpolation.LinearInterpolator` class units
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
     tests methods.
     """
 
@@ -386,8 +385,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
 
@@ -410,8 +408,7 @@ class TestLinearInterpolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method nan support.
         """
 
@@ -481,8 +478,7 @@ class TestSpragueInterpolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method nan support.
         """
 

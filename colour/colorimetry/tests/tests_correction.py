@@ -64,16 +64,14 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = (
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.correction.\
+bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
     def test_bandpass_correction_Stearns1988(self):
         """
-        Tests
-        :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
-        definition.
+        Tests :func:`colour.colorimetry.correction.\
+bandpass_correction_Stearns1988` definition.
         """
 
         spd = SpectralPowerDistribution(

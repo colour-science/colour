@@ -31,9 +31,8 @@ __all__ = ['TestArbitraryPrecisionMapping',
 
 class TestArbitraryPrecisionMapping(unittest.TestCase):
     """
-    Defines
-    :class:`colour.utilities.data_structures.ArbitraryPrecisionMapping` class
-    units tests methods.
+    Defines :class:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping` class units tests methods.
     """
 
     def test_required_attributes(self):
@@ -63,9 +62,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__setitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__setitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__setitem__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -79,9 +77,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__getitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__getitem__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -98,9 +95,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__delitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__delitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__delitem__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -122,9 +118,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__contains__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__contains__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -142,9 +137,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__iter__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__iter__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -160,9 +154,8 @@ class TestArbitraryPrecisionMapping(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.ArbitraryPrecisionMapping.__len__`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+ArbitraryPrecisionMapping.__len__` method.
         """
 
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
@@ -265,9 +258,8 @@ class TestLookup(unittest.TestCase):
 
     def test_first_key_from_value(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.Lookup.first_key_from_value`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+Lookup.first_key_from_value` method.
         """
 
         lookup = Lookup(first_name='Doe', last_name='John', gender='male')
@@ -275,8 +267,7 @@ class TestLookup(unittest.TestCase):
 
     def test_keys_from_value(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.Lookup.keys_from_value`
+        Tests :meth:`colour.utilities.data_structures.Lookup.keys_from_value`
         method.
         """
 
@@ -313,9 +304,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__setitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__setitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__setitem__` method.
         """
 
         mapping = CaseInsensitiveMapping()
@@ -326,9 +316,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__getitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__getitem__` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -343,9 +332,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__delitem__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__delitem__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__delitem__` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -359,9 +347,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__contains__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__contains__` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -376,9 +363,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__iter__`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__iter__` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -387,9 +373,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__len__`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__len__` method.
         """
 
         self.assertEqual(len(CaseInsensitiveMapping()), 0)
@@ -399,9 +384,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__eq__`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__eq__` method.
         """
 
         mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -414,9 +398,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.__ne__`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.__ne__` method.
         """
 
         mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -426,9 +409,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test_copy(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.copy`
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.copy` method.
         """
 
         mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
@@ -440,9 +422,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
 
     def test_lower_items(self):
         """
-        Tests
-        :meth:`colour.utilities.data_structures.CaseInsensitiveMapping.lower_items`  # noqa
-        method.
+        Tests :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.lower_items` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')

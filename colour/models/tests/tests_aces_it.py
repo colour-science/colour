@@ -26,16 +26,14 @@ __all__ = ['TestSpectralToAcesRelativeExposureValues']
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
-    Defines
-    :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.models.aces_it.\
+spectral_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
-        Tests
-        :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
-        definition.
+        Tests :func:`colour.models.aces_it.
+spectral_to_aces_relative_exposure_values` definition.
         """
 
         shape = ACES_RICD.shape

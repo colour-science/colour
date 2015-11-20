@@ -26,16 +26,14 @@ __all__ = ['TestChromaticAdaptationFairchild1990']
 
 class TestChromaticAdaptationFairchild1990(unittest.TestCase):
     """
-    Defines
-    :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`
-    definition unit tests methods.
+    Defines :func:`colour.adaptation.fairchild1990.\
+chromatic_adaptation_Fairchild1990` definition unit tests methods.
     """
 
     def test_chromatic_adaptation_Fairchild1990(self):
         """
-        Tests
-        :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`  # noqa
-        definition.
+        Tests :func:`colour.adaptation.fairchild1990.\
+chromatic_adaptation_Fairchild1990` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -67,9 +65,8 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
 
     def test_n_dimensional_chromatic_adaptation_Fairchild1990(self):
         """
-        Tests
-        :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.adaptation.fairchild1990.\
+chromatic_adaptation_Fairchild1990` definition n-dimensional arrays support.
         """
 
         XYZ_1 = np.array([19.53, 23.07, 24.97])
@@ -110,9 +107,8 @@ class TestChromaticAdaptationFairchild1990(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_Fairchild1990(self):
         """
-        Tests
-        :func:`colour.adaptation.fairchild1990.chromatic_adaptation_Fairchild1990`  # noqa
-        definition nan support.
+        Tests :func:`colour.adaptation.fairchild1990.\
+chromatic_adaptation_Fairchild1990` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

@@ -28,15 +28,13 @@ __all__ = ['TestLuminousFlux',
 
 class TestLuminousFlux(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.photometry.luminous_flux` definition unit tests
-    methods.
+    Defines :func:`colour.colorimetry.photometry.luminous_flux` definition unit
+    tests methods.
     """
 
     def test_luminous_flux(self):
         """
-        Tests
-        :func:`colour.colorimetry.photometry.luminous_flux` definition.
+        Tests :func:`colour.colorimetry.photometry.luminous_flux` definition.
         """
 
         self.assertAlmostEqual(
@@ -60,15 +58,14 @@ class TestLuminousFlux(unittest.TestCase):
 
 class TestLuminousEfficacy(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.photometry.luminous_efficacy` definition unit
-    tests methods.
+    Defines :func:`colour.colorimetry.photometry.luminous_efficacy` definition
+    unit tests methods.
     """
 
     def test_luminous_efficacy(self):
         """
-        Tests
-        :func:`colour.colorimetry.photometry.luminous_efficacy` definition.
+        Tests :func:`colour.colorimetry.photometry.luminous_efficacy`
+        definition.
         """
 
         self.assertAlmostEqual(

@@ -107,16 +107,14 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
     """
 
     def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -131,16 +129,15 @@ class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
+    methods.
     """
 
     def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -154,16 +151,15 @@ class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
+    methods.
     """
 
     def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(

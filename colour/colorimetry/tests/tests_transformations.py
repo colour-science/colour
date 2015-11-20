@@ -35,16 +35,14 @@ __all__ = ['TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
 
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.transformations.\
+RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
     """
 
     def test_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
@@ -65,9 +63,9 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
     def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
+        support.
         """
 
         wl = 700
@@ -97,9 +95,8 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition nan support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition nan support.
         """
 
         RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
@@ -108,16 +105,14 @@ class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
         cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
@@ -138,9 +133,9 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
+        support.
         """
 
         wl = 700
@@ -170,9 +165,8 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition nan support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition nan support.
         """
 
         RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
@@ -181,16 +175,14 @@ class TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 
 class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition unit tests methods.
     """
 
     def test_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
-        definition.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
         """
 
         cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
@@ -211,9 +203,9 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
+        support.
         """
 
         wl = 700
@@ -243,9 +235,8 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`  # noqa
-        definition nan support.
+        Tests :func:`colour.colorimetry.transformations.\
+RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition nan support.
         """
 
         RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
@@ -254,16 +245,14 @@ class TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs(unittest.TestCase):
 
 class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.transformations.\
+LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
     """
 
     def test_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
         cmfs = CMFS.get('CIE 2012 2 Degree Standard Observer')
@@ -284,9 +273,9 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
     def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
+        support.
         """
 
         wl = 700
@@ -316,9 +305,8 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`  # noqa
-        definition nan support.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition nan support.
         """
 
         LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
@@ -327,16 +315,14 @@ class TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
 
 class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.transformations.\
+LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
     """
 
     def test_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
         cmfs = CMFS.get('CIE 2012 10 Degree Standard Observer')
@@ -357,9 +343,9 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
 
     def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
+        support.
         """
 
         wl = 700
@@ -389,9 +375,8 @@ class TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
         """
-        Tests
-        :func:`colour.colorimetry.transformations.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`  # noqa
-        definition nan support.
+        Tests :func:`colour.colorimetry.transformations.\
+LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition nan support.
         """
 
         LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(

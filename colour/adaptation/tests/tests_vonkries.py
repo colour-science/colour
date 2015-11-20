@@ -29,16 +29,14 @@ __all__ = ['TestChromaticAdaptationMatrixVonKries',
 
 class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
     """
-    Defines
-    :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
-    definition unit tests methods.
+    Defines :func:`colour.adaptation.vonkries.\
+chromatic_adaptation_matrix_VonKries` definition unit tests methods.
     """
 
     def test_chromatic_adaptation_matrix_VonKries(self):
         """
-        Tests
-        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
-        definition.
+        Tests :func:`colour.adaptation.vonkries.\
+chromatic_adaptation_matrix_VonKries` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -99,9 +97,8 @@ class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
 
     def test_n_dimensional_chromatic_adaptation_matrix_VonKries(self):
         """
-        Tests
-        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.adaptation.vonkries.\
+chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
         """
 
         XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
@@ -133,9 +130,8 @@ class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_matrix_VonKries(self):
         """
-        Tests
-        :func:`colour.adaptation.vonkries.chromatic_adaptation_matrix_VonKries`
-        definition nan support.
+        Tests :func:`colour.adaptation.vonkries.\
+chromatic_adaptation_matrix_VonKries` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
