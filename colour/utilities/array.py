@@ -368,7 +368,9 @@ def row_as_diagonal(a):
     ----------
     .. [1]  Castro, S. (2014). Numpy: Fastest way of computing diagonal for
             each row of a 2d array. Retrieved August 22, 2014, from
-            http://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/26517247#26517247  # noqa
+            http://stackoverflow.com/questions/26511401/\
+numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
+26517247#26517247
 
     Examples
     --------

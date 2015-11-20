@@ -19,7 +19,8 @@ References
 ----------
 .. [1]  Wikipedia. (n.d.). Construction of the CIE XYZ color space from the
         Wright–Guild data. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data  # noqa
+        http://en.wikipedia.org/wiki/CIE_1931_color_space#\
+Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 """
 
 from __future__ import division, unicode_literals

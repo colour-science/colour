@@ -54,7 +54,8 @@ class TestRandomTripletGenerator(unittest.TestCase):
         reproducibility of either *Python or *Numpy* implementations: Laurent.
         (2012). Reproducibility of python pseudo-random numbers across systems
         and versions? Retrieved January 20, 2015, from
-        http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
+        http://stackoverflow.com/questions/8786084/\
+reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         """
 
         prng = np.random.RandomState(4)

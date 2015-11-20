@@ -31,7 +31,8 @@ References
 .. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
         Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
         Imaging Conference, 2002(1), 23–27. Retrieved from
-        http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006  # noqa
+        http://www.ingentaconnect.com/content/ist/cic\
+/2002/00002002/00000001/art00006
 """
 
 from __future__ import division, unicode_literals

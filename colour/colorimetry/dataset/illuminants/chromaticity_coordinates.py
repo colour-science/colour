@@ -47,11 +47,12 @@ Notes
 References
 ----------
 .. [1]  Wikipedia. (n.d.). White points of standard illuminants. Retrieved
-        February 24, 2014, from
-        http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants  # noqa
+        February 24, 2014, from http://en.wikipedia.org/wiki/\
+Standard_illuminant#White_points_of_standard_illuminants
 .. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
         Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
+        http://www.dcimovies.com/archives/spec_v1_1/\
+DCI_DCinema_System_Spec_v1_1.pdf
 """
 
 from __future__ import division, unicode_literals

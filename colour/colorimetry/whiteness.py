@@ -26,7 +26,8 @@ References
         http://en.wikipedia.org/wiki/Whiteness
 .. [2]  X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color
         Calculations Guide. Retrieved from
-        http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf  # noqa
+        http://www.xrite.com/documents/literature/en/\
+09_Color_Calculations_en.pdf
 .. [3]  Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness
         Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts
         and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley.

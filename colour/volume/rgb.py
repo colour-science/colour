@@ -116,14 +116,16 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     There is however no formal promise about the *prng* sequence
     reproducibility of either *Python or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
+    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
+questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
+across-systems-and-versions
 
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    >>> sample_RGB_colourspace_volume_MonteCarlo(
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     9...
     """
 
@@ -237,9 +239,9 @@ def RGB_colourspace_volume_MonteCarlo(
     There is however no formal promise about the *prng* sequence
     reproducibility of either *Python or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
-
+    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
+questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
+across-systems-and-versions
 
     Examples
     --------

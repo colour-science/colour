@@ -43,7 +43,8 @@ blob/master/notebooks/models/log.ipynb>`_
 References
 ----------
 .. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py  # noqa
+        https://github.com/imageworks/OpenColorIO-Configs/\
+blob/master/nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals
@@ -390,7 +391,8 @@ def linear_to_c_log(value, **kwargs):
     References
     ----------
     .. [2]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved
-            from http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa
+            from http://downloads.canon.com/CDLC/\
+Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 
     Examples
     --------

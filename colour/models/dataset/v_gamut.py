@@ -18,7 +18,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 .. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-        http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf  # noqa
+        http://pro-av.panasonic.net/en/varicam/common/pdf/\
+VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals

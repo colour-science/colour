@@ -56,8 +56,9 @@ def random_triplet_generator(size,
     There is however no formal promise about the *prng* sequence
     reproducibility of either *Python or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
+    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
+questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
+across-systems-and-versions
 
     Examples
     --------

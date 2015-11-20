@@ -18,7 +18,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 .. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500  # noqa
+        from http://www.usa.canon.com/cusa/professional/standard_display/\
+cinema-firmware-c500
 """
 
 from __future__ import division, unicode_literals

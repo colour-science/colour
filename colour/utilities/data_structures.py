@@ -274,7 +274,8 @@ class Structure(dict):
     References
     ----------
     .. [1]  Mansencal, T. (n.d.). Structure. Retrieved from
-            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+            https://github.com/KelSolaar/Foundations/\
+blob/develop/foundations/data_structures.py
 
     Examples
     --------
@@ -395,7 +396,8 @@ class Lookup(dict):
     References
     ----------
     .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
-            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+            https://github.com/KelSolaar/Foundations/\
+blob/develop/foundations/data_structures.py
 
     Examples
     --------
@@ -478,7 +480,8 @@ class CaseInsensitiveMapping(MutableMapping):
     References
     ----------
     .. [3]  Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
-            https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37  # noqa
+            https://github.com/kennethreitz/requests/\
+blob/v1.2.3/requests/structures.py#L37
 
     Examples
     --------
