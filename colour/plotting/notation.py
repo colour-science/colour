@@ -45,7 +45,7 @@ def single_munsell_value_function_plot(
     ----------
     function : unicode, optional
         *Munsell* value function to plot.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -76,7 +76,7 @@ def multi_munsell_value_function_plot(
     ----------
     functions : array_like, optional
         *Munsell* value functions to plot.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

@@ -46,7 +46,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         *dict* of data to store into the mapping at initialisation.
     key_decimals : int, optional
         Decimals count the keys will be rounded at
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Attributes
@@ -259,9 +259,9 @@ class Structure(dict):
 
     Parameters
     ----------
-    *args : *
+    \*args : list, optional
         Arguments.
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs.
 
     Methods
@@ -369,9 +369,9 @@ class Structure(dict):
 
         Parameters
         ----------
-        *args : *
+        \*args : list, optional
             Arguments.
-        **kwargs : **
+        \**kwargs : dict, optional
             Keywords arguments.
 
         Notes
@@ -454,7 +454,7 @@ class CaseInsensitiveMapping(MutableMapping):
     ----------
     data : dict
         *dict* of data to store into the mapping at initialisation.
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Methods

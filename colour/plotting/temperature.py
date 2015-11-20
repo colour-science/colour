@@ -55,7 +55,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -151,7 +151,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

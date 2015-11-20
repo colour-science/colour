@@ -71,7 +71,7 @@ def single_rayleigh_scattering_spd_plot(
         Altitude of the site in meters.
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -114,7 +114,7 @@ def the_blue_sky_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

@@ -106,9 +106,9 @@ def warning(*args, **kwargs):
 
     Parameters
     ----------
-    *args : *
+    \*args : list, optional
         Arguments.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

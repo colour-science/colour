@@ -46,7 +46,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     ----------
     colour_checker : unicode, optional
         Color checker name.
-    **kwargs : **
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

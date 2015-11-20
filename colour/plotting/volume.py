@@ -99,7 +99,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         Axis labels.
     axes : matplotlib.axes.Axes, optional
         Axes to add the grid.
-    **kwargs : **
+    \**kwargs : dict, optional
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
@@ -459,7 +459,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Spectral locus line colour.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    **kwargs : **
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
@@ -653,7 +653,7 @@ def RGB_scatter_plot(RGB,
         Scatter points size.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    **kwargs : **
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),

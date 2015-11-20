@@ -82,7 +82,7 @@ class SpectralMapping(ArbitraryPrecisionMapping):
         wavelength :math:`\lambda_{i+n}`: value}
     wavelength_decimals : int, optional
         Decimals count the keys will be rounded at.
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Attributes
